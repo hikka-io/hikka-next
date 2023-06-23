@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/*body {*/
+/*    background: linear-gradient(rgba(22, 8, 32, 1) 10%, rgba(0, 0, 0, 1)10%);*/
+/*}*/
+
+.btn-outline {
+  border-color: rgba(160, 160, 160, 0.54);
+}
+
+.w-45 {
+  width: 11.5rem
+}
+
+.card {
+  border-radius: initial;
+}
+
 /*:root {*/
 /*  --foreground-rgb: 0, 0, 0;*/
 /*  --background-start-rgb: 214, 219, 220;*/

@@ -1,37 +1,33 @@
-import Image from "next/image";
-import {IoSearch} from "react-icons/io5";
+import NavBar from "@/app/components/NavBar";
+import Card from "@/app/components/Card";
 
 export default function Home() {
   return (
-      <div className="container mx-auto mt-10">
-          <div className="navbar bg-base-100">
-              <div className="flex-1">
-                  <Image src="/logo.svg" alt="Hikka" width={115} height={34} />
-              </div>
-              <div className="flex-none">
-                  <div>
-                      <IoSearch />
-                  </div>
-                  <div className="dropdown dropdown-end">
-                      <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                          <div className="w-10">
-                              <Image src="/pfp-temp.png" alt="pfp" width={44} height={43} />
-                          </div>
-                      </label>
-                      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                          <li>
-                              <a className="justify-between">
-                                  Profile
-                                  <span className="badge">New</span>
-                              </a>
-                          </li>
-                          <li><a>Settings</a></li>
-                          <li><a>Logout</a></li>
-                      </ul>
-                  </div>
-              </div>
+    <div className="container mx-auto mt-10">
+      <NavBar />
+      <section className="mt-24 flex max-w-none justify-center md:max-w-4xl">
+        {/*<section className="grid grid-cols-[max-content_1fr]">*/}
+        <div>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Пошук</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Ввведіть назву аніме"
+              className="input-bordered input input-lg w-full max-w-full bg-dark-grey	"
+            />
           </div>
-      </div>
-
-  )
+          <section className="gridcols-2 mt-11 grid place-content-center gap-2 md:grid-cols-3 md:gap-10 lg:grid-cols-4">
+            {Array.from({ length: 14 }, () => (
+              <Card key={0} />
+            ))}
+          </section>
+        </div>
+        {/*<div>*/}
+        {/*  <GenreSelect />*/}
+        {/*</div>*/}
+      </section>
+    </div>
+  );
 }

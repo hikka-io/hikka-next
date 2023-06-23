@@ -1,5 +1,5 @@
 {
-  "name": "untitled",
+  "name": "hikka",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,6 +21,7 @@
     "next": "13.4.6",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.9.0",

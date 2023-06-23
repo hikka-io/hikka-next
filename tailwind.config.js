@@ -1,21 +1,43 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  // theme: {
-  //   extend: {
-  //     backgroundImage: {
-  //       'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-  //       'gradient-conic':
-  //         'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-  //     },
-  //   },
-  // },
-  plugins: [require('daisyui')],
-  daisyui: {
-    themes: ["synthwave"],
+  theme: {
+    extend: {
+      colors: {
+        "dark-grey": "rgba(110, 110, 110, 0.3)",
+      },
+    },
   },
-}
+  plugins: [require("daisyui")],
+  daisyui: {
+    // base: false,
+    themes: [
+      {
+        mytheme: {
+          primary: "#e779c1",
+
+          secondary: "#58c7f3",
+
+          accent: "#f3cc30",
+
+          neutral: "#221551",
+
+          "base-100": "rgba(22, 8, 32, 1)",
+          // "base-100": `rgba(22, 8, 32, 1), rgba(0, 0, 0, 1)`,
+
+          info: "#53c0f3",
+
+          success: "#71ead2",
+
+          warning: "#f3cc30",
+
+          error: "#e24056",
+        },
+      },
+    ],
+  },
+};
