@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Component = () => {
   return (
-    <header className="navbar bg-base-100 px-10 md:px-0">
+    <nav className="navbar bg-base-100 px-10 md:px-0">
       <div className="navbar-start">
         <Link href="#">
           <Image src="/logo.svg" alt="Hikka" width={115} height={34} />
@@ -21,9 +21,6 @@ const Component = () => {
         </a>
       </div>
       <div className="navbar-end">
-        {/*<div>*/}
-        {/*    <IoSearch />*/}
-        {/*</div>*/}
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="w-10">
@@ -43,7 +40,7 @@ const Component = () => {
           </ul>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
