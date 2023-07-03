@@ -19,7 +19,7 @@ const Component = () => {
       </div>
       <div className="form-control mt-9">
         <label className="label cursor-pointer">
-          <input type="checkbox" checked="checked" className="checkbox" />
+          <input type="checkbox" checked={true} className="checkbox" />
           <span className="label-text ">Перекладено українською</span>
         </label>
       </div>
