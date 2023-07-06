@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Component = () => {
   return (
-    <nav className="navbar bg-base-100 px-10 md:px-0">
+    <nav className="navbar bg-inherit px-10 md:px-0">
       <div className="navbar-start">
         <Link href="#">
           <Image src="/logo.svg" alt="Hikka" width={115} height={34} />

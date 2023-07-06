@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/*body {*/
-/*    background: linear-gradient(rgba(22, 8, 32, 1) 10%, rgba(0, 0, 0, 1)10%);*/
-/*}*/
+body {
+  background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
+
+}
 
 .container {
-  width: 1300px;
+  max-width: 1300px;
 }
 
 .btn {
@@ -26,4 +27,8 @@
 
 .card {
   border-radius: initial;
+}
+
+.MuiSlider-markActive {
+  background: white;
 }

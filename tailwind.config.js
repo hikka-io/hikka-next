@@ -9,12 +9,14 @@ module.exports = {
     extend: {
       colors: {
         "dark-grey": "rgba(110, 110, 110, 0.3)",
+        "stone-900": "rgba(41, 41, 41, 1)",
+        "text-color": "rgba(173, 173, 173, 1)",
       },
     },
   },
   plugins: [require("daisyui")],
   daisyui: {
-    // base: false,
+    base: false,
     themes: [
       {
         mytheme: {
