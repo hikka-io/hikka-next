@@ -19,6 +19,7 @@ const Component: FC<Props> = ({ defaultValue, min, max, label, marks }) => {
   const Marks = () => {
     if (marks == "years") {
       return [
+        { value: 1980 },
         { value: 1985 },
         { value: 1990 },
         { value: 1995 },
@@ -27,6 +28,7 @@ const Component: FC<Props> = ({ defaultValue, min, max, label, marks }) => {
         { value: 2010 },
         { value: 2015 },
         { value: 2020 },
+        { value: 2023 },
       ];
     }
     if (marks) return true;
