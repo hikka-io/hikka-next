@@ -1,6 +1,8 @@
 "use client";
 
 import Slider from "@/app/components/Slider";
+import Select from "@mui/base/Select";
+import Option from "@mui/base/Option";
 
 const Component = () => {
   return (
@@ -10,17 +12,18 @@ const Component = () => {
           <label className="label">
             <span className="label-text text-secondary">Жанр</span>
           </label>
-          <select className="font-w select-bordered select select-lg h-16 w-full max-w-xs bg-dark-grey font-normal text-text-color">
-            <option disabled selected>
-              Виберіть жанр
-            </option>
-            <option>Action</option>
-            <option>Hentai</option>
-          </select>
+          <Select
+            defaultValue={1}
+            className="font-w select-bordered select select-lg h-16 w-full max-w-xs items-center bg-dark-grey font-normal text-text-color"
+          >
+            <Option value={1}>Виберіть жанр</Option>
+            <Option value={2}>Action</Option>
+            <Option value={3}>Hentai</Option>
+          </Select>
         </div>
         <div className="form-control mt-9">
           <label className="label cursor-pointer">
-            <input type="checkbox" checked={true} className="checkbox" />
+            <input type="checkbox" className="checkbox" />
             <span className="label-text ">Перекладено українською</span>
           </label>
         </div>

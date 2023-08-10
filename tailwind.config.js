@@ -14,9 +14,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@headlessui/tailwindcss")],
   daisyui: {
-    base: false,
+    // base: false,
     themes: [
       {
         mytheme: {

@@ -1,4 +1,5 @@
 import "./globals.css";
+import Providers from "@/utils/provider";
 import { Inter } from "next/font/google";
 import NavBar from "@/app/components/NavBar";
 
@@ -18,10 +19,12 @@ export default function RootLayout({
     <html data-theme="synthwave" lang="en">
       <body className={inter.className}>
         <div className="container mx-auto mt-10">
-          <header>
-            <NavBar />
-          </header>
-          <main>{children}</main>
+          <Providers>
+            <header>
+              <NavBar />
+            </header>
+            <main>{children}</main>
+          </Providers>
         </div>
       </body>
     </html>

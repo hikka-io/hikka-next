@@ -10,10 +10,14 @@ const Component = () => {
         </Link>
       </div>
       <div className="navbar-center hidden md:flex">
-        <a href="#" role="button" className="btn-outline btn-md btn mx-4 px-5">
+        <a href="#" role="button" className="btn-ghost btn-md btn mx-4 px-5">
           Манга
         </a>
-        <a href="#" role="button" className="btn-ghost btn-md btn mx-4 px-5 ">
+        <a
+          href="#"
+          role="button"
+          className=" btn-outline btn-md btn mx-4 px-5 "
+        >
           Аніме
         </a>
         <a href="#" role="button" className="btn-ghost btn-md btn  mx-4 px-5 ">
