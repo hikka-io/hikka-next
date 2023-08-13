@@ -5,31 +5,22 @@ import Card from "@/app/components/Card";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import getAnimeCatalog from "@/utils/api/getAnimeCatalog";
-// import useDebounce from "@/utils/hooks/useDebounce";
-import { useEffect, useState } from "react";
+import useDebounce from "@/utils/hooks/useDebounce";
 
 const Component = () => {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
-
-  const [filterSearch, setFilterSearch] = useState(search);
-
-  useEffect(() => {
-    if (filterSearch == null || filterSearch.length <= 3) {
-      return setFilterSearch(null);
-    }
-    return setFilterSearch(search);
-  }, [search, filterSearch]);
-
-  // console.log(filterSearch.length);
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["list", filterSearch],
-    queryFn: () => getAnimeCatalog({ query: filterSearch }),
+  const search = useDebounce({
+    value:
+      searchParams.has("search") && searchParams.get("search")!.length > 3
+        ? searchParams.get("search")
+        : null,
+    delay: 300,
   });
 
-  // useDebounce({ value: checkSearch(), delay: 300 })
-  // onCompleted: checkSearch
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["list", search],
+    queryFn: () => getAnimeCatalog({ query: search }),
+  });
 
   return (
     <>
