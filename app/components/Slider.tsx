@@ -31,7 +31,7 @@ const Component: FC<Props> = ({ defaultValue, min, max, label, marks }) => {
         { value: 2023 },
       ];
     }
-    if (marks) return true;
+    return marks;
   };
 
   const SliderValueLabel: FC<ValueProps> = ({ children }) => {

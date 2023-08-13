@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-// import useDebounce from "@/utils/hooks/useDebounce";
+// import getAnimeCatalog from "@/utils/api/getAnimeCatalog";
 
 const Component = () => {
   const [search, setSearch] = useState("");
