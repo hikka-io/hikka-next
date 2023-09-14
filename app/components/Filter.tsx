@@ -1,8 +1,7 @@
 "use client";
 
 import Slider from "@/app/components/Slider";
-import Select from "@mui/base/Select";
-import Option from "@mui/base/Option";
+import { Option, Select } from "@mui/base";
 
 const Component = () => {
   return (
@@ -118,13 +117,13 @@ const Component = () => {
             />
           </div>
           <div className="mt-9">
-            <Slider
-              min={1}
-              max={10}
-              label="Оцінка"
-              defaultValue={[5, 10]}
-              marks={true}
-            />
+            {/*<Slider
+                            min={1}
+                            max={10}
+                            label="Оцінка"
+                            defaultValue={[5, 10]}
+                            marks={true}
+                        />*/}
           </div>
         </div>
       </div>
