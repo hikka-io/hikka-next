@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface Params {
-  value: string | null;
+  value: string | undefined;
   delay: number;
 }
 
