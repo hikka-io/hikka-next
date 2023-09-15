@@ -1,9 +1,11 @@
-interface AnimeCatalogRequest {
+import config from '@/utils/api/config';
+
+interface Request {
     query?: string;
     sort?: string[];
-    page?: number;
-    years?: [number, number];
-    score?: [number, number];
+    page?: string[];
+    years?: string[];
+    score?: string[];
     media_type?: string[];
     rating?: string[];
     status?: string[];
@@ -14,13 +16,14 @@ interface AnimeCatalogRequest {
     genres?: string[];
 }
 
-export default async function getAnimeCatalog(params: AnimeCatalogRequest) {
-    const res = await fetch('https://testapi.hikka.io/anime/', {
+export default async function req(
+    params: Request,
+): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
+    const res = await fetch(config.baseAPI + '/anime/', {
         method: 'post',
-        headers: {
-            'Content-type': 'application/json',
-        },
         body: JSON.stringify(params),
+        ...config.config,
     });
-    return res.json();
+
+    return await res.json();
 }
