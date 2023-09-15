@@ -1,10 +1,11 @@
 export {};
 
 declare global {
-    declare namespace Hikka {
-        type Filter<T> = {
-            title: string;
-            slug: T;
+    namespace Hikka {
+        type Pagination = {
+            total: number;
+            pages: number;
+            page: number;
         };
 
         type User = {
@@ -21,24 +22,24 @@ declare global {
         type Status = 'airing' | 'finished' | 'not_yet';
 
         type Anime = {
-            reference: string;
+            media_type: string;
+            title_ua: string;
             title_en: string;
-            slug: string;
-            title_jp: string;
+            title_ja: string;
+            episodes_released: number;
+            episodes_total: number;
+            poster: string;
             status: string;
-            source: string;
-            title: string;
-            release: string;
-            rating: string;
-            image: string;
-            episodes: number;
-            year: number;
             scored_by: number;
             score: number;
-            season: string;
-            producers: string[];
-            studios: string[];
-            genres: string[];
+            slug: string;
+        };
+
+        type Genre = {
+            name_en: string;
+            name_ua: string;
+            slug: string;
+            type: string;
         };
     }
 }
