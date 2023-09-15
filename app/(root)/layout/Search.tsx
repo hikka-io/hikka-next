@@ -1,15 +1,18 @@
+'use client'
+
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Input from "@/app/components/Input";
 
 const Component = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
 
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(searchParams.get('search'));
 
     const createQueryString = useCallback(
-        (name: string, value: string) => {
+        (name: string, value: string | null) => {
             const params = new URLSearchParams(searchParams);
 
             if (value) {
@@ -34,12 +37,11 @@ const Component = () => {
             <label className="label">
                 <span className="label-text text-secondary">Пошук</span>
             </label>
-            <input
+            <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 type="text"
                 placeholder="Ввведіть назву аніме"
-                className="input-bordered input input-lg max-w-full bg-dark-grey w-full"
             />
         </div>
     );

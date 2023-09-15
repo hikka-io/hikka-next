@@ -5,8 +5,15 @@ import Select from '@/app/components/Select';
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
+import { useQuery } from '@tanstack/react-query';
+import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
 
-const types: Hikka.Filter<Hikka.Release>[] = [
+type Filter<T> = {
+    title: string;
+    slug: T;
+};
+
+const types: Filter<Hikka.Release>[] = [
     {
         title: 'Серіал',
         slug: 'tv',
@@ -33,7 +40,7 @@ const types: Hikka.Filter<Hikka.Release>[] = [
     },
 ];
 
-const statuses: Hikka.Filter<Hikka.Status>[] = [
+const statuses: Filter<Hikka.Status>[] = [
     {
         title: 'Онґоінґ',
         slug: 'airing',
@@ -48,7 +55,7 @@ const statuses: Hikka.Filter<Hikka.Status>[] = [
     },
 ];
 
-const seasons: Hikka.Filter<Hikka.Season>[] = [
+const seasons: Filter<Hikka.Season>[] = [
     {
         title: 'Осінь',
         slug: 'fall',
@@ -67,7 +74,7 @@ const seasons: Hikka.Filter<Hikka.Season>[] = [
     },
 ];
 
-const ageRatings: Hikka.Filter<Hikka.AgeRating>[] = [
+const ageRatings: Filter<Hikka.AgeRating>[] = [
     {
         title: 'G',
         slug: 'g',
@@ -94,18 +101,47 @@ const ageRatings: Hikka.Filter<Hikka.AgeRating>[] = [
     },
 ];
 
+const years: [number, number] = [1980, new Date().getFullYear()];
+
 const Component = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
 
-    const [selectedStatuses, setSelectedStatuses] = useState<string[]>(searchParams.getAll('statuses'));
-    const [selectedTypes, setSelectedTypes] = useState<string[]>(searchParams.getAll('types'));
-    const [selectedSeasons, setSelectedSeasons] = useState<string[]>(searchParams.getAll('seasons'));
-    const [selectedAgeRatings, setSelectedAgeRatings] = useState<string[]>(searchParams.getAll('ratings'));
+    const { data: genres } = useQuery({
+        queryKey: ['animeGenres'],
+        queryFn: () => getAnimeGenres(),
+    });
+
+    const [selectedStatuses, setSelectedStatuses] = useState<string[]>(
+        searchParams.getAll('statuses'),
+    );
+    const [selectedTypes, setSelectedTypes] = useState<string[]>(
+        searchParams.getAll('types'),
+    );
+    const [selectedSeasons, setSelectedSeasons] = useState<string[]>(
+        searchParams.getAll('seasons'),
+    );
+    const [selectedAgeRatings, setSelectedAgeRatings] = useState<string[]>(
+        searchParams.getAll('ratings'),
+    );
+    const [selectedYears, setSelectedYears] = useState<string[]>(
+        searchParams.getAll('years'),
+    );
+    const [selectedGenres, setSelectedGenres] = useState<string[]>(
+        searchParams.getAll('genres'),
+    );
+    const [selectingYears, setSelectingYears] = useState<string[]>(
+        searchParams.getAll('years').length > 0
+            ? searchParams.getAll('years')
+            : years.map((y) => String(y)),
+    );
+    const [selectedUA, setSelectedUA] = useState<boolean>(
+        Boolean(searchParams.get('lang')),
+    );
 
     const createQueryString = useCallback(
-        (name: string, value: string | string[]) => {
+        (name: string, value: string | string[] | boolean) => {
             const params = new URLSearchParams(searchParams);
 
             if (value) {
@@ -113,7 +149,7 @@ const Component = () => {
                     params.delete(name);
                     value.forEach((v) => params.append(name, String(v)));
                 } else {
-                    params.set(name, value);
+                    params.set(name, String(value));
                 }
             } else {
                 params.delete(name);
@@ -160,6 +196,24 @@ const Component = () => {
         router.replace(`${pathname}?${query}`);
     }, [selectedStatuses]);
 
+    useEffect(() => {
+        const query = createQueryString('years', selectedYears);
+
+        router.replace(`${pathname}?${query}`);
+    }, [selectedYears]);
+
+    useEffect(() => {
+        const query = createQueryString('lang', selectedUA ? 'ua' : '');
+
+        router.replace(`${pathname}?${query}`);
+    }, [selectedUA]);
+
+    useEffect(() => {
+        const query = createQueryString('genres', selectedGenres);
+
+        router.replace(`${pathname}?${query}`);
+    }, [selectedGenres]);
+
     return (
         <div className="flex justify-center">
             <div>
@@ -167,14 +221,34 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text text-secondary">Жанр</span>
                     </label>
-                    <Select defaultValue={1}>
-                        <Select.Option value={2}>Action</Select.Option>
-                        <Select.Option value={3}>Hentai</Select.Option>
-                    </Select>
+                    {genres?.length && genres.length > 0 && (
+                        <Select
+                            placeholder="Виберіть жанр/жанри"
+                            multiple
+                            value={selectedGenres}
+                            onChange={(e, value) =>
+                                setSelectedGenres(value as string[])
+                            }
+                        >
+                            {genres?.map((genre) => (
+                                <Select.Option
+                                    key={genre.slug}
+                                    value={genre.slug}
+                                >
+                                    {genre.name_en}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    )}
                 </div>
                 <div className="form-control mt-9">
                     <label className="label cursor-pointer">
-                        <input type="checkbox" className="checkbox" />
+                        <input
+                            type="checkbox"
+                            className="checkbox"
+                            checked={selectedUA}
+                            onChange={() => setSelectedUA((prev) => !prev)}
+                        />
                         <span className="label-text ">
                             Перекладено українською
                         </span>
@@ -288,21 +362,20 @@ const Component = () => {
                     </div>
                     <div className="mt-9">
                         <Slider
-                            min={1980}
-                            max={2023}
-                            label="Рік"
-                            defaultValue={[1999, 2023]}
-                            marks="years"
+                            onChangeCommitted={(e, value) =>
+                                setSelectedYears(
+                                    (value as number[]).map(String),
+                                )
+                            }
+                            onChange={(e, value) =>
+                                setSelectingYears(
+                                    (value as number[]).map(String),
+                                )
+                            }
+                            min={years[0]}
+                            max={years[1]}
+                            value={selectingYears.map((y) => Number(y))}
                         />
-                    </div>
-                    <div className="mt-9">
-                        {/*<Slider
-                            min={1}
-                            max={10}
-                            label="Оцінка"
-                            defaultValue={[5, 10]}
-                            marks={true}
-                        />*/}
                     </div>
                 </div>
             </div>

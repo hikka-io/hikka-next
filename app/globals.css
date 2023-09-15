@@ -4,31 +4,13 @@
 
 body {
   background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
-
 }
 
-.container {
-  max-width: 1300px;
+.btn-outline, .badge-outline {
+  @apply border-zinc-700;
 }
 
 .btn {
   font-weight: 500;
-  text-transform: inherit;
-  color: white;
-}
-
-.btn-outline {
-  border-color: rgba(160, 160, 160, 0.54);
-}
-
-.w-45 {
-  width: 11.5rem
-}
-
-.card {
-  border-radius: initial;
-}
-
-.MuiSlider-markActive {
-  background: white;
+  text-transform: capitalize;
 }
