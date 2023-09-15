@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {ReactNode, useEffect, useState} from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
     Option as BaseOption,
     OptionOwnerState,
@@ -82,7 +82,7 @@ function renderValue(
         return (
             <div className="w-full h-full items-center inline-flex gap-2 flex-wrap">
                 {option.map((op) => (
-                    <span className="badge" key={op.value}>
+                    <span className="badge badge-outline" key={op.value}>
                         {op.label}
                     </span>
                 ))}
@@ -95,60 +95,63 @@ function renderValue(
 
 const Select = ({ children, placeholder, multiple, ...props }: Props) => {
     const [open, setOpen] = useState(false);
-    const elementRef = React.useRef<HTMLUListElement>(null)
+    const baseRef = React.useRef<HTMLButtonElement>(null);
+    const elementRef = React.useRef<HTMLUListElement>(null);
 
     const close = () => {
-        setOpen(false)
-    }
+        setOpen(false);
+    };
 
     const handleOffClick = (event: any) => {
         if (elementRef.current) {
             if (elementRef.current!.contains(event.target)) {
-                return
+                return;
             }
 
-            close()
+            close();
         }
-    }
+    };
 
     useEffect(() => {
         if (open) {
-            document.addEventListener('click', handleOffClick, false)
-            document.addEventListener('touchstart', handleOffClick, false)
+            document.addEventListener('click', handleOffClick, false);
+            document.addEventListener('touchstart', handleOffClick, false);
         }
 
         return () => {
-            document.removeEventListener('click', handleOffClick, false)
-            document.removeEventListener('touchstart', handleOffClick, false)
-        }
-    }, [open])
+            document.removeEventListener('click', handleOffClick, false);
+            document.removeEventListener('touchstart', handleOffClick, false);
+        };
+    }, [open]);
 
     return (
-            <BaseSelect
-                slotProps={{
-                    root: ({ focusVisible, open }) => ({
-                        className: `relative h-16 overflow-hidden after:absolute after:right-3 after:z-0 text-sm box-border w-full px-3 pr-6 py-2 rounded-lg text-left bg-transparent border border-solid border-neutral transition duration-100 hover:bg-secondary-focus outline-0 shadow shadow-slate-900 ${
-                            focusVisible ? 'shadow-outline-purple' : ''
-                        } after:top-[calc(50%-10px)] ${
-                            open
-                                ? 'after:content-["▴"] border-secondary hover:border-secondary'
-                                : 'after:content-["▾"] hover:border-white'
-                        }`,
-                        onClick: () => setOpen((prev) => !prev),
-                    }),
-                    listbox: {
-                        ref: elementRef,
-                        className: `text-sm p-1.5 my-3 w-40 rounded-xl overflow-auto outline-0 bg-transparent-black backdrop-blur border border-solid border-slate-700 text-slate-300 shadow shadow-slate-900`,
-                        onClick: () => !multiple && close()
-                    },
-                    popper: { className: `z-[100]`, open },
-                }}
-                renderValue={(option) => renderValue(option, placeholder)}
-                multiple={multiple}
-                {...props}
-            >
-                <div className="rounded-lg overflow-hidden">{children}</div>
-            </BaseSelect>
+        <BaseSelect
+            ref={baseRef}
+            slotProps={{
+                root: ({ focusVisible, open }) => ({
+                    className: `relative min-h-12 overflow-hidden after:absolute after:right-3 after:z-0 box-border w-full px-3 pr-6 py-3 rounded-lg text-left bg-secondary/30 hover:bg-secondary-focus/60 transition duration-100 outline-0 shadow shadow-slate-900 ${
+                        focusVisible ? 'shadow-outline-purple' : ''
+                    } after:top-[calc(50%-10px)] ${
+                        open
+                            ? 'after:content-["▴"]'
+                            : 'after:content-["▾"]'
+                    }`,
+                    onClick: () => setOpen((prev) => !prev),
+                }),
+                listbox: {
+                    ref: elementRef,
+                    style: { width: baseRef.current?.clientWidth },
+                    className: `rounded-lg overflow-auto outline-0 bg-base-100 max-h-96`,
+                    onClick: () => !multiple && close(),
+                },
+                popper: { className: `z-[100]`, open },
+            }}
+            renderValue={(option) => renderValue(option, placeholder)}
+            multiple={multiple}
+            {...props}
+        >
+            <div className="rounded-lg overflow-hidden">{children}</div>
+        </BaseSelect>
     );
 };
 

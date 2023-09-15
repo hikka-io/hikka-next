@@ -1,88 +1,83 @@
 'use client';
 
 import * as React from 'react';
-import { FC, ReactNode } from 'react';
-import { Slider } from '@mui/base';
+import { Slider, SliderProps } from '@mui/base';
+import clsx from 'clsx';
 
-interface Props {
-    min: number;
-    max: number;
-    defaultValue: [number, number];
-    label: string;
-    marks: 'years' | boolean;
-    children?: ReactNode;
+interface Props extends SliderProps {
 }
 
-interface ValueProps {
-    children?: ReactNode;
-}
+const resolveSlotProps = (fn: any, args: any) =>
+    typeof fn === 'function' ? fn(args) : fn;
 
-const Component: FC<Props> = ({ defaultValue, min, max, label, marks }) => {
-    const Marks = () => {
-        if (marks == 'years') {
-            return [
-                { value: 1980 },
-                { value: 1985 },
-                { value: 1990 },
-                { value: 1995 },
-                { value: 2000 },
-                { value: 2005 },
-                { value: 2010 },
-                { value: 2015 },
-                { value: 2020 },
-                { value: 2023 },
-            ];
-        }
-        return marks;
-    };
-
-    const SliderValueLabel: FC<ValueProps> = ({ children }) => {
-        return (
-            <span className="label absolute bottom-3.5">
-                <output className="value">{children}</output>
-            </span>
-        );
-    };
-
+const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
     return (
-        <div className="w-72">
-            <div className="pb-7">
-                <label className=" text-secondary">{label}</label>
-            </div>
+        <Slider
+            ref={ref}
+            {...props}
+            slotProps={{
+                ...props.slotProps,
+                root: (ownerState) => {
+                    const resolvedSlotProps = resolveSlotProps(
+                        props.slotProps?.root,
+                        ownerState,
+                    );
+                    return {
+                        ...resolvedSlotProps,
+                        className: clsx(
+                            `h-1.5 w-full py-4 inline-block relative touch-none ${
+                                ownerState.disabled
+                                    ? 'opacity-50 cursor-default pointer-events-none text-slate-300 dark:text-slate-600'
+                                    : 'hover:opacity-100 cursor-pointer text-purple-500 dark:text-purple-400'
+                            }`,
+                            resolvedSlotProps?.className,
+                        ),
+                    };
+                },
+                rail: (ownerState) => {
+                    const resolvedSlotProps = resolveSlotProps(
+                        props.slotProps?.rail,
+                        ownerState,
+                    );
+                    return {
+                        ...resolvedSlotProps,
+                        className: clsx(
+                            'block absolute w-full h-1 rounded-sm bg-current opacity-40',
+                            resolvedSlotProps?.className,
+                        ),
+                    };
+                },
+                track: (ownerState) => {
+                    const resolvedSlotProps = resolveSlotProps(
+                        props.slotProps?.track,
+                        ownerState,
+                    );
 
-            <Slider
-                defaultValue={defaultValue}
-                min={min}
-                max={max}
-                disableSwap
-                marks={Marks()}
-                slots={{ valueLabel: SliderValueLabel }}
-                slotProps={{
-                    root: ({ disabled }) => ({
-                        className: `h-1.5 w-full py-4 inline-block relative touch-none ${
-                            disabled
-                                ? 'opacity-50 cursor-default pointer-events-none text-white dark:text-slate-600'
-                                : 'hover:opacity-100 cursor-pointer text-white'
-                        }`,
-                    }),
-                    rail: {
-                        className:
-                            'block absolute w-full h-1 rounded-sm bg-stone-900 opacity-40',
-                    },
-                    thumb: {
-                        className:
-                            'ring-stone-400 ring-2 w-4 h-4 -mt-1 -ml-2 flex items-center justify-center bg-white rounded-full shadow absolute',
-                    },
-                    track: {
-                        className: 'bg-white block absolute h-1 rounded-sm',
-                    },
-                    mark: {
-                        className: 'absolute w-0.5 h-1 bg-neutral-600',
-                    },
-                }}
-            />
-        </div>
+                    return {
+                        ...resolvedSlotProps,
+                        className: clsx(
+                            'block absolute h-1 rounded-sm bg-current',
+                            resolvedSlotProps?.className,
+                        ),
+                    };
+                },
+                thumb: (ownerState, { active, focused }) => {
+                    const resolvedSlotProps = resolveSlotProps(
+                        props.slotProps?.thumb,
+                        ownerState,
+                    );
+                    return {
+                        ...resolvedSlotProps,
+                        className: clsx(
+                            `absolute w-4 h-4 -ml-1.5 -mt-1.5 box-border rounded-full outline-0 border-3 border-solid border-current bg-white hover:shadow-outline-purple`,
+                            focused || active && 'shadow-outline-purple',
+                            resolvedSlotProps?.className,
+                        ),
+                    };
+                },
+            }}
+        />
     );
-};
+});
 
 export default Component;
