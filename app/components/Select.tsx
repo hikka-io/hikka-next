@@ -25,11 +25,11 @@ const getOptionColorClasses = ({
         classes += 'text-slate-700';
     } else {
         if (selected) {
-            classes += ' bg-slate-900 hover:bg-slate-700';
+            classes += ' bg-secondary/60 hover:bg-secondary';
         } else if (highlighted) {
-            classes += ' bg-slate-800 text-slate-300 hover:bg-slate-800';
+            classes += ' bg-secondary hover:bg-secondary/90';
         } else {
-            classes += ' hover:bg-slate-800';
+            classes += ' hover:bg-secondary/90';
         }
     }
     return classes;
@@ -141,7 +141,7 @@ const Select = ({ children, placeholder, multiple, ...props }: Props) => {
                 listbox: {
                     ref: elementRef,
                     style: { width: baseRef.current?.clientWidth },
-                    className: `rounded-lg overflow-auto outline-0 bg-base-100 max-h-96`,
+                    className: `rounded-lg overflow-auto outline-0 bg-black/50 backdrop-blur max-h-96`,
                     onClick: () => !multiple && close(),
                 },
                 popper: { className: `z-[100]`, open },

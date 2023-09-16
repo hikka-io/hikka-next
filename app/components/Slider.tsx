@@ -4,8 +4,7 @@ import * as React from 'react';
 import { Slider, SliderProps } from '@mui/base';
 import clsx from 'clsx';
 
-interface Props extends SliderProps {
-}
+interface Props extends SliderProps {}
 
 const resolveSlotProps = (fn: any, args: any) =>
     typeof fn === 'function' ? fn(args) : fn;
@@ -42,7 +41,7 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                     return {
                         ...resolvedSlotProps,
                         className: clsx(
-                            'block absolute w-full h-1 rounded-sm bg-current opacity-40',
+                            'block absolute w-full h-1 rounded-sm bg-white opacity-40',
                             resolvedSlotProps?.className,
                         ),
                     };
@@ -56,7 +55,7 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                     return {
                         ...resolvedSlotProps,
                         className: clsx(
-                            'block absolute h-1 rounded-sm bg-current',
+                            'block absolute h-1 rounded-sm bg-white',
                             resolvedSlotProps?.className,
                         ),
                     };
@@ -70,8 +69,16 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                         ...resolvedSlotProps,
                         className: clsx(
                             `absolute w-4 h-4 -ml-1.5 -mt-1.5 box-border rounded-full outline-0 border-3 border-solid border-current bg-white hover:shadow-outline-purple`,
-                            focused || active && 'shadow-outline-purple',
+                            focused || (active && 'shadow-outline-purple'),
                             resolvedSlotProps?.className,
+                        ),
+                    };
+                },
+                mark: (ownerState) => {
+                    // console.log(ownerState)
+                    return {
+                        className: clsx(
+                            'absolute w-2 h-2 rounded-full bg-zinc-400 top-[calc(50%-0.125rem)] -translate-x-1/2',
                         ),
                     };
                 },
