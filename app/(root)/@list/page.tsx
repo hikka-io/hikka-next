@@ -1,4 +1,4 @@
-import List from './layout/List';
+import List from "./layout/List";
 
 const Component = () => {
     return <List />;

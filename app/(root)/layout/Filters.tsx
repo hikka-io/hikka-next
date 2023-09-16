@@ -7,6 +7,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
+import AiClearOutlined from '@/app/components/icons/AiClearOutlined';
+import AiCloseOutlined from '@/app/components/icons/AiCloseOutlined';
 
 type Filter<T> = {
     title: string;
@@ -172,6 +174,20 @@ const Component = () => {
         return newData;
     };
 
+    const clearFilters = () => {
+        router.push(`${pathname}`);
+
+        setTimeout(() => {
+            setSelectedGenres([]);
+            setSelectedYears([]);
+            setSelectedAgeRatings([]);
+            setSelectedSeasons([]);
+            setSelectedTypes([]);
+            setSelectedStatuses([]);
+            setSelectedUA(false);
+        }, 200)
+    };
+
     useEffect(() => {
         const query = createQueryString('seasons', selectedSeasons);
 
@@ -215,169 +231,180 @@ const Component = () => {
     }, [selectedGenres]);
 
     return (
-        <div className="flex justify-center">
-            <div>
-                <div>
-                    <label className="label">
-                        <span className="label-text text-secondary">Жанр</span>
-                    </label>
-                    {genres?.length && genres.length > 0 && (
-                        <Select
-                            placeholder="Виберіть жанр/жанри"
-                            multiple
-                            value={selectedGenres}
-                            onChange={(e, value) =>
-                                setSelectedGenres(value as string[])
+        <div className="flex flex-col items-start gap-8 w-full">
+            <div className="w-full">
+                <label className="label">
+                    <span className="label-text text-secondary">Жанр</span>
+                </label>
+                {genres?.length && genres.length > 0 && (
+                    <Select
+                        placeholder="Виберіть жанр/жанри"
+                        multiple
+                        value={selectedGenres}
+                        onChange={(e, value) =>
+                            setSelectedGenres(value as string[])
+                        }
+                    >
+                        {genres?.map((genre) => (
+                            <Select.Option key={genre.slug} value={genre.slug}>
+                                {genre.name_en}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                )}
+            </div>
+            <div className="form-control w-full">
+                <label className="label cursor-pointer justify-start gap-4">
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={selectedUA}
+                        onChange={() => setSelectedUA((prev) => !prev)}
+                    />
+                    <span className="label-text ">Перекладено українською</span>
+                </label>
+            </div>
+            <div className="w-full">
+                <label className="label">
+                    <span className="label-text text-secondary">Статус</span>
+                </label>
+                <div className="flex gap-2 flex-wrap">
+                    {statuses.map((status) => (
+                        <button
+                            onClick={() =>
+                                setSelectedStatuses((prev) =>
+                                    handleFilterSelect(status.slug, prev),
+                                )
                             }
+                            key={status.slug}
+                            className={clsx(
+                                'btn-sm btn rounded-3xl px-3.5 py-1',
+                                selectedStatuses.includes(status.slug)
+                                    ? 'btn-primary'
+                                    : 'btn-outline',
+                            )}
                         >
-                            {genres?.map((genre) => (
-                                <Select.Option
-                                    key={genre.slug}
-                                    value={genre.slug}
-                                >
-                                    {genre.name_en}
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    )}
+                            {status.title}
+                        </button>
+                    ))}
                 </div>
-                <div className="form-control mt-9">
-                    <label className="label cursor-pointer">
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={selectedUA}
-                            onChange={() => setSelectedUA((prev) => !prev)}
-                        />
-                        <span className="label-text ">
-                            Перекладено українською
-                        </span>
-                    </label>
-                </div>
-                <div className="mt-9">
-                    <label className="label">
-                        <span className="label-text text-secondary">
-                            Статус
-                        </span>
-                    </label>
-                    <div className="flex gap-2 flex-wrap">
-                        {statuses.map((status) => (
-                            <button
-                                onClick={() =>
-                                    setSelectedStatuses((prev) =>
-                                        handleFilterSelect(status.slug, prev),
-                                    )
-                                }
-                                key={status.slug}
-                                className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    selectedStatuses.includes(status.slug)
-                                        ? 'btn-primary'
-                                        : 'btn-outline',
-                                )}
-                            >
-                                {status.title}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-                <div className="mt-9">
-                    <label className="label">
-                        <span className="label-text text-secondary">Тип</span>
-                    </label>
-                    <div className="flex gap-2 flex-wrap">
-                        {types.map((type) => (
-                            <button
-                                onClick={() =>
-                                    setSelectedTypes((prev) =>
-                                        handleFilterSelect(type.slug, prev),
-                                    )
-                                }
-                                key={type.slug}
-                                className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    selectedTypes.includes(type.slug)
-                                        ? 'btn-primary'
-                                        : 'btn-outline',
-                                )}
-                            >
-                                {type.title}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-                <div className="mt-9">
-                    <label className="label">
-                        <span className="label-text text-secondary">Сезон</span>
-                    </label>
-                    <div className="flex gap-2 flex-wrap">
-                        {seasons.map((season) => (
-                            <button
-                                onClick={() =>
-                                    setSelectedSeasons((prev) =>
-                                        handleFilterSelect(season.slug, prev),
-                                    )
-                                }
-                                key={season.slug}
-                                className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    selectedSeasons.includes(season.slug)
-                                        ? 'btn-primary'
-                                        : 'btn-outline',
-                                )}
-                            >
-                                {season.title}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-                <div className="mt-9">
-                    <label className="label">
-                        <span className="label-text text-secondary">
-                            Рейтинг
-                        </span>
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                        {ageRatings.map((ageRating) => (
-                            <button
-                                onClick={() =>
-                                    setSelectedAgeRatings((prev) =>
-                                        handleFilterSelect(
-                                            ageRating.slug,
-                                            prev,
-                                        ),
-                                    )
-                                }
-                                key={ageRating.slug}
-                                className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    selectedAgeRatings.includes(ageRating.slug)
-                                        ? 'btn-primary'
-                                        : 'btn-outline',
-                                )}
-                            >
-                                {ageRating.title}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="mt-9">
-                        <Slider
-                            onChangeCommitted={(e, value) =>
-                                setSelectedYears(
-                                    (value as number[]).map(String),
+            </div>
+            <div className="w-full">
+                <label className="label">
+                    <span className="label-text text-secondary">Тип</span>
+                </label>
+                <div className="flex gap-2 flex-wrap">
+                    {types.map((type) => (
+                        <button
+                            onClick={() =>
+                                setSelectedTypes((prev) =>
+                                    handleFilterSelect(type.slug, prev),
                                 )
                             }
-                            onChange={(e, value) =>
-                                setSelectingYears(
-                                    (value as number[]).map(String),
+                            key={type.slug}
+                            className={clsx(
+                                'btn-sm btn rounded-3xl px-3.5 py-1',
+                                selectedTypes.includes(type.slug)
+                                    ? 'btn-primary'
+                                    : 'btn-outline',
+                            )}
+                        >
+                            {type.title}
+                        </button>
+                    ))}
+                </div>
+            </div>
+            <div className="w-full">
+                <label className="label">
+                    <span className="label-text text-secondary">Сезон</span>
+                </label>
+                <div className="flex gap-2 flex-wrap">
+                    {seasons.map((season) => (
+                        <button
+                            onClick={() =>
+                                setSelectedSeasons((prev) =>
+                                    handleFilterSelect(season.slug, prev),
                                 )
                             }
-                            min={years[0]}
-                            max={years[1]}
-                            value={selectingYears.map((y) => Number(y))}
-                        />
-                    </div>
+                            key={season.slug}
+                            className={clsx(
+                                'btn-sm btn rounded-3xl px-3.5 py-1',
+                                selectedSeasons.includes(season.slug)
+                                    ? 'btn-primary'
+                                    : 'btn-outline',
+                            )}
+                        >
+                            {season.title}
+                        </button>
+                    ))}
                 </div>
+            </div>
+            <div className="w-full">
+                <label className="label">
+                    <span className="label-text text-secondary">Рейтинг</span>
+                </label>
+                <div className="flex flex-wrap gap-2">
+                    {ageRatings.map((ageRating) => (
+                        <button
+                            onClick={() =>
+                                setSelectedAgeRatings((prev) =>
+                                    handleFilterSelect(ageRating.slug, prev),
+                                )
+                            }
+                            key={ageRating.slug}
+                            className={clsx(
+                                'btn-sm btn rounded-3xl px-3.5 py-1',
+                                selectedAgeRatings.includes(ageRating.slug)
+                                    ? 'btn-primary'
+                                    : 'btn-outline',
+                            )}
+                        >
+                            {ageRating.title}
+                        </button>
+                    ))}
+                </div>
+            </div>
+            <div className="w-full">
+                <label className="label">
+                    <span className="label-text text-secondary">
+                        Рік виходу
+                    </span>
+                </label>
+                <div className="flex gap-4 items-center">
+                    <p className="badge">{selectingYears[0]}</p>
+                    <Slider
+                        onChangeCommitted={(e, value) =>
+                            setSelectedYears((value as number[]).map(String))
+                        }
+                        onChange={(e, value) =>
+                            setSelectingYears((value as number[]).map(String))
+                        }
+                        min={years[0]}
+                        max={years[1]}
+                        marks={Array.from(
+                            Array(Math.floor((years[1] - years[0]) / 5)).keys(),
+                        ).map((v, i) => ({
+                            value: years[0] + (i + 1) * 5,
+                        }))}
+                        value={selectingYears.map((y) => Number(y))}
+                    />
+                    <p className="badge">{selectingYears[1]}</p>
+                </div>
+            </div>
+            <div className="w-full flex gap-2">
+                <button
+                    onClick={clearFilters}
+                    className="btn btn-outline flex-1 btn-error"
+                >
+                    <AiClearOutlined />
+                    Clear Filters
+                </button>
+                <label
+                    htmlFor="filterDrawer"
+                    className="btn drawer-button btn-square btn-outline flex md:hidden"
+                >
+                    <AiCloseOutlined />
+                </label>
             </div>
         </div>
     );

@@ -11,7 +11,7 @@ const Component = ({ poster, title_en, ...props }: Props) => {
         <Link className="flex flex-col gap-2" {...props}>
             <div className="w-full bg-inherit pt-[140%] relative overflow-hidden rounded-lg">
                 <div className="absolute w-full h-full top-0 left-0">
-                    <figure>
+                    <figure className="w-full h-full">
                         <Image
                             src={poster}
                             width={184}

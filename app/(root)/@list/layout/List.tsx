@@ -1,14 +1,20 @@
 'use client';
 
 import Card from '../components/Card';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
 import useDebounce from '@/utils/hooks/useDebounce';
 import clsx from 'clsx';
+import { useCallback, useEffect, useState } from 'react';
+import AiArrowLeftOutlined from '@/app/components/icons/AiArrowLeftOutlined';
+import AiArrowRightOutlined from '@/app/components/icons/AiArrowRightOutlined';
 
 const Component = () => {
+    const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
+
     const search = useDebounce({
         value:
             searchParams.has('search') && searchParams.get('search')!.length > 3
@@ -16,6 +22,9 @@ const Component = () => {
                 : undefined,
         delay: 300,
     });
+    const [page, setPage] = useState(
+        searchParams.get('page') ? Number(searchParams.get('page')) : 1,
+    );
     const types = searchParams.getAll('types');
     const statuses = searchParams.getAll('statuses');
     const seasons = searchParams.getAll('seasons');
@@ -38,6 +47,7 @@ const Component = () => {
             years,
             lang,
             genres,
+            page,
         ],
         queryFn: () =>
             getAnimeCatalog({
@@ -47,29 +57,137 @@ const Component = () => {
                 season: seasons,
                 status: statuses,
                 media_type: types,
-                genres
+                genres,
+                page,
             }),
     });
 
+    const createQueryString = useCallback(
+        (name: string, value: string | null) => {
+            const params = new URLSearchParams(searchParams);
+
+            if (value) {
+                params.set(name, value);
+            } else {
+                params.delete(name);
+            }
+
+            return params.toString();
+        },
+        [searchParams],
+    );
+
+    const range = (min: number, max: number) => {
+        const newArr = [];
+
+        for (let i = min; i <= max; i++) {
+            newArr.push(i);
+        }
+
+        return newArr;
+    };
+
+    const generatePaginationArr = (
+        pagination: Hikka.Pagination,
+        page: number,
+    ) => {
+        const pagArr: (number | undefined)[] = [1];
+
+        if (pagination.pages >= 7) {
+            if (pagination.pages - page <= 3) {
+                pagArr.push(undefined);
+                pagArr.push(...range(pagination.pages - 4, pagination.pages));
+
+                return pagArr;
+            }
+
+            if (page < 5) {
+                pagArr.push(...range(2, 5));
+                pagArr.push(undefined);
+                pagArr.push(pagination.pages);
+
+                return pagArr;
+            }
+
+            pagArr.push(undefined);
+            pagArr.push(...range(page - 1, page + 1));
+            pagArr.push(undefined);
+            pagArr.push(pagination.pages);
+
+            return pagArr;
+        }
+
+        pagArr.push(...range(2, pagination.pages));
+        return pagArr;
+    };
+
+    useEffect(() => {
+        const query = createQueryString('page', String(page));
+
+        router.replace(`${pathname}?${query}`);
+    }, [page]);
+
     return (
-        <section
-            className={clsx('grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8')}
-        >
-            {!isLoading &&
-                data &&
-                data.list &&
-                data!.list.map((x: Hikka.Anime) => {
-                    return (
-                        <Card
-                            href="#"
-                            poster={x.poster}
-                            title_en={x.title_en}
-                            key={x.slug}
-                        />
-                    );
-                })}
-            {error && <div>error</div>}
-        </section>
+        <div className="flex flex-col gap-8">
+            <section
+                className={clsx(
+                    'grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8',
+                )}
+            >
+                {data &&
+                    data.list &&
+                    data!.list.map((x: Hikka.Anime) => {
+                        return (
+                            <Card
+                                href="#"
+                                poster={x.poster}
+                                title_en={x.title_en}
+                                key={x.slug}
+                            />
+                        );
+                    })}
+                {error && <div>error</div>}
+            </section>
+            {data && data.pagination && data.pagination.pages > 1 && (
+                <div className="flex md:gap-4 gap-2 w-full justify-center">
+                    <button
+                        onClick={() => setPage((prev) => prev - 1)}
+                        disabled={page === 1}
+                        className={clsx(
+                            'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
+                        )}
+                    >
+                        <AiArrowLeftOutlined />
+                    </button>
+                    {generatePaginationArr(data.pagination, page).map(
+                        (v, index) => {
+                            return (
+                                <button
+                                    disabled={!v}
+                                    onClick={() => v && setPage(v)}
+                                    key={index}
+                                    className={clsx(
+                                        'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
+                                        page === v && 'btn-active',
+                                    )}
+                                >
+                                    {v ? v : '...'}
+                                </button>
+                            );
+                        },
+                    )}
+                    <button
+                        onClick={() => setPage((prev) => prev + 1)}
+                        disabled={page === data.pagination.pages}
+                        className={clsx(
+                            'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
+                        )}
+                    >
+                        <AiArrowRightOutlined />
+                    </button>
+                </div>
+            )}
+        </div>
     );
 };
 
