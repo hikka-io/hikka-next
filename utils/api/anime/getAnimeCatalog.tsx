@@ -19,7 +19,7 @@ interface Request {
 export default async function req(
     params: Request,
 ): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
-    const res = await fetch(config.baseAPI + '/anime/', {
+    const res = await fetch(config.baseAPI + '/anime', {
         method: 'post',
         body: JSON.stringify(params),
         ...config.config,

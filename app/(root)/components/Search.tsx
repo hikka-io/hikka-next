@@ -14,6 +14,7 @@ const Component = () => {
     const createQueryString = useCallback(
         (name: string, value: string | null) => {
             const params = new URLSearchParams(searchParams);
+            params.set('page', '1');
 
             if (value) {
                 params.set(name, value);
@@ -34,11 +35,11 @@ const Component = () => {
 
     return (
         <div className="form-control w-full">
-            <label className="label">
+            <label className="label md:flex hidden">
                 <span className="label-text text-secondary">Пошук</span>
             </label>
             <Input
-                value={search}
+                value={search || ''}
                 onChange={(event) => setSearch(event.target.value)}
                 type="text"
                 placeholder="Ввведіть назву аніме"

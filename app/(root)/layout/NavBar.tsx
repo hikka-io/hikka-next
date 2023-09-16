@@ -8,12 +8,12 @@ import clsx from 'clsx';
 interface Props {}
 
 const Component = ({}: Props) => {
-    const [positionReached, setPositionReached] = useState(false);
+    const [positionReached, setPositionReached] = useState(
+        typeof window !== 'undefined' ? window.scrollY > 40 : false,
+    );
 
     const listenScrollEvent = () => {
-        const px = window.innerWidth < 640 ? 100 : 180;
-
-        if (window.scrollY > px) {
+        if (window.scrollY > 40) {
             setPositionReached(true);
         } else {
             setPositionReached(false);
@@ -21,7 +21,11 @@ const Component = ({}: Props) => {
     };
 
     useEffect(() => {
-        window.addEventListener('scroll', listenScrollEvent);
+        if (window.innerWidth < 640) {
+            window.addEventListener('scroll', listenScrollEvent, {
+                passive: true,
+            });
+        }
 
         return () => {
             window.removeEventListener('scroll', listenScrollEvent);
@@ -31,9 +35,8 @@ const Component = ({}: Props) => {
     return (
         <div
             className={clsx(
-                'flex gap-2 items-end sticky top-0 z-[1] -mx-4 px-4 py-4 md:pt-0 transition rounded-b-lg',
-                positionReached &&
-                    'bg-black/90 backdrop-blur',
+                'flex gap-2 items-end px-4 py-4 md:pt-0 transition bg-transparent rounded-b-lg',
+                positionReached && '!bg-black/90',
             )}
         >
             <Search />

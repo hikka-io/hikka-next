@@ -2,20 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    /*scroll-behavior: smooth;*/
+}
+
 body {
-  background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
-  min-height: 100vh;
+    background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
+    scroll-behavior: smooth;
+}
+
+main {
+    min-height: 100vh;
+}
+
+h1 {
+    @apply font-bold text-3xl;
+}
+
+h2 {
+    @apply font-bold text-2xl;
+}
+
+h3 {
+    @apply font-bold text-xl;
 }
 
 .btn-outline, .badge-outline {
-  @apply border-zinc-700;
+    @apply border-zinc-700;
 }
 
 .btn {
-  font-weight: 500;
-  text-transform: capitalize;
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
 .MuiSlider-markActive {
-  @apply bg-white
+    @apply bg-white
+}
+
+.Mui-selected .selected {
+    opacity: 1;
+}
+
+textarea:focus, input:focus {
+    outline: none;
 }

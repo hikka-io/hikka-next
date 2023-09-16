@@ -1,6 +1,7 @@
 'use client';
 
 import Card from '../components/Card';
+import SkeletonCard from '../components/skeletons/Card';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
@@ -9,6 +10,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
 import AiArrowLeftOutlined from '@/app/components/icons/AiArrowLeftOutlined';
 import AiArrowRightOutlined from '@/app/components/icons/AiArrowRightOutlined';
+import NotFound from '../components/NotFound';
 
 const Component = () => {
     const router = useRouter();
@@ -22,9 +24,10 @@ const Component = () => {
                 : undefined,
         delay: 300,
     });
-    const [page, setPage] = useState(
-        searchParams.get('page') ? Number(searchParams.get('page')) : 1,
-    );
+
+    const page = searchParams.get('page');
+
+    const [selectedPage, setSelectedPage] = useState(page ? Number(page) : 1);
     const types = searchParams.getAll('types');
     const statuses = searchParams.getAll('statuses');
     const seasons = searchParams.getAll('seasons');
@@ -47,7 +50,7 @@ const Component = () => {
             years,
             lang,
             genres,
-            page,
+            selectedPage,
         ],
         queryFn: () =>
             getAnimeCatalog({
@@ -58,7 +61,7 @@ const Component = () => {
                 status: statuses,
                 media_type: types,
                 genres,
-                page,
+                page: selectedPage,
             }),
     });
 
@@ -122,16 +125,35 @@ const Component = () => {
     };
 
     useEffect(() => {
-        const query = createQueryString('page', String(page));
+        const query = createQueryString('page', String(selectedPage));
+        router.replace(`${pathname}?${query}`, { scroll: true });
+    }, [selectedPage]);
 
-        router.replace(`${pathname}?${query}`);
+    useEffect(() => {
+        if (page) {
+            setSelectedPage(Number(page));
+        }
     }, [page]);
+
+    if (isLoading) {
+        return (
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8">
+                {range(1, 12).map((v) => (
+                    <SkeletonCard key={v} />
+                ))}
+            </div>
+        );
+    }
+
+    if (data === undefined || !data?.list || data.list.length === 0) {
+        return <NotFound />;
+    }
 
     return (
         <div className="flex flex-col gap-8">
             <section
                 className={clsx(
-                    'grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8',
+                    'grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8',
                 )}
             >
                 {data &&
@@ -151,24 +173,24 @@ const Component = () => {
             {data && data.pagination && data.pagination.pages > 1 && (
                 <div className="flex md:gap-4 gap-2 w-full justify-center">
                     <button
-                        onClick={() => setPage((prev) => prev - 1)}
-                        disabled={page === 1}
+                        onClick={() => setSelectedPage((prev) => prev - 1)}
+                        disabled={selectedPage === 1}
                         className={clsx(
                             'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
                         )}
                     >
                         <AiArrowLeftOutlined />
                     </button>
-                    {generatePaginationArr(data.pagination, page).map(
+                    {generatePaginationArr(data.pagination, selectedPage).map(
                         (v, index) => {
                             return (
                                 <button
                                     disabled={!v}
-                                    onClick={() => v && setPage(v)}
+                                    onClick={() => v && setSelectedPage(v)}
                                     key={index}
                                     className={clsx(
                                         'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
-                                        page === v && 'btn-active',
+                                        selectedPage === v && 'btn-active',
                                     )}
                                 >
                                     {v ? v : '...'}
@@ -177,8 +199,8 @@ const Component = () => {
                         },
                     )}
                     <button
-                        onClick={() => setPage((prev) => prev + 1)}
-                        disabled={page === data.pagination.pages}
+                        onClick={() => setSelectedPage((prev) => prev + 1)}
+                        disabled={selectedPage === data.pagination.pages}
                         className={clsx(
                             'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
                         )}

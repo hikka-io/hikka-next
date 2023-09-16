@@ -20,9 +20,7 @@ export default function RootLayout({
         <html data-theme="synthwave" lang="en">
             <body className={inter.className}>
                 <Providers>
-                    <header>
-                        <NavBar />
-                    </header>
+                    <NavBar />
                     <main className="container max-w-screen-xl mx-auto px-4">
                         {children}
                     </main>

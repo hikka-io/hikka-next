@@ -10,6 +10,7 @@ import {
     SelectOption,
     SelectProps,
 } from '@mui/base';
+import AiCheckOutlined from './icons/AiCheckOutlined';
 
 interface Props extends SelectProps<number | string, any> {
     children: ReactNode;
@@ -27,7 +28,7 @@ const getOptionColorClasses = ({
         if (selected) {
             classes += ' bg-secondary/60 hover:bg-secondary';
         } else if (highlighted) {
-            classes += ' bg-secondary hover:bg-secondary/90';
+            classes += ' bg-secondary/30 hover:bg-secondary';
         } else {
             classes += ' hover:bg-secondary/90';
         }
@@ -49,6 +50,7 @@ const Option = React.forwardRef<HTMLLIElement, OptionProps<number | string>>(
                     }),
                 }}
             >
+                <AiCheckOutlined className="opacity-0 selected" />
                 {children}
             </BaseOption>
         );
@@ -103,8 +105,11 @@ const Select = ({ children, placeholder, multiple, ...props }: Props) => {
     };
 
     const handleOffClick = (event: any) => {
-        if (elementRef.current) {
-            if (elementRef.current!.contains(event.target)) {
+        if (elementRef.current && baseRef.current && open) {
+            if (
+                elementRef.current!.contains(event.target) ||
+                baseRef.current!.contains(event.target)
+            ) {
                 return;
             }
 
@@ -129,12 +134,10 @@ const Select = ({ children, placeholder, multiple, ...props }: Props) => {
             ref={baseRef}
             slotProps={{
                 root: ({ focusVisible, open }) => ({
-                    className: `relative min-h-12 overflow-hidden after:absolute after:right-3 after:z-0 box-border w-full px-3 pr-6 py-3 rounded-lg text-left bg-secondary/30 hover:bg-secondary-focus/60 transition duration-100 outline-0 shadow shadow-slate-900 ${
+                    className: `relative min-h-12 max-h-24 overflow-hidden after:absolute after:right-3 after:z-0 box-border w-full px-3 pr-6 py-3 rounded-lg text-left bg-secondary/30 hover:bg-secondary-focus/60 transition duration-100 outline-0 shadow shadow-slate-900 ${
                         focusVisible ? 'shadow-outline-purple' : ''
                     } after:top-[calc(50%-10px)] ${
-                        open
-                            ? 'after:content-["▴"]'
-                            : 'after:content-["▾"]'
+                        open ? 'after:content-["▴"]' : 'after:content-["▾"]'
                     }`,
                     onClick: () => setOpen((prev) => !prev),
                 }),
