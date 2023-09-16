@@ -3,7 +3,7 @@ import Image from '@/app/components/Image';
 
 const Component = () => {
     return (
-        <nav className="navbar bg-inherit px-10 md:px-0">
+        <nav className="navbar container max-w-screen-xl mx-auto px-4">
             <div className="navbar-start">
                 <Link href="#">
                     <Image
