@@ -192,7 +192,7 @@ const Component = () => {
                 'transition',
             )}
         >
-            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll" ref={filterRef}>
+            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll md:overflow-y-visible" ref={filterRef}>
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text text-secondary">Жанр</span>
