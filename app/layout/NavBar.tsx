@@ -2,29 +2,14 @@
 
 import Link from 'next/link';
 import Image from '@/app/components/Image';
-import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import useScrollTrigger from '@/utils/hooks/useScrollTrigger';
 
 const Component = () => {
-    const [positionReached, setPositionReached] = useState(
-        typeof window !== 'undefined' ? window.scrollY > 40 : false,
-    );
-
-    const listenScrollEvent = () => {
-        if (window.scrollY > 40) {
-            setPositionReached(true);
-        } else {
-            setPositionReached(false);
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener('scroll', listenScrollEvent, { passive: true });
-
-        return () => {
-            window.removeEventListener('scroll', listenScrollEvent);
-        };
-    }, []);
+    const trigger = useScrollTrigger({
+        threshold: 40,
+        disableHysteresis: true,
+    });
 
     return (
         <nav
@@ -33,7 +18,7 @@ const Component = () => {
                 'w-full py-2 h-20',
                 'border-b border-transparent',
                 'transition',
-                positionReached && '!bg-black/90 !border-secondary/30',
+                trigger && '!bg-black/90 !border-secondary/30',
             )}
         >
             <div className="navbar container max-w-screen-xl px-4 mx-auto">

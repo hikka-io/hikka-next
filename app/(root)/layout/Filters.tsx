@@ -2,13 +2,15 @@
 
 import Slider from '@/app/components/Slider';
 import Select from '@/app/components/Select';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
 import AiClearOutlined from '@/app/components/icons/AiClearOutlined';
 import AiCloseOutlined from '@/app/components/icons/AiCloseOutlined';
+import useScrollTrigger from "@/utils/hooks/useScrollTrigger";
+import useIsMobile from "@/utils/hooks/useIsMobile";
 
 type Filter<T> = {
     title: string;
@@ -106,9 +108,13 @@ const AGE_RATINGS: Filter<Hikka.AgeRating>[] = [
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
 const Component = () => {
+    const filterRef = useRef<HTMLDivElement>(null);
+
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
+    const isMobile = useIsMobile();
+    const trigger = useScrollTrigger({ disableHysteresis: true, target: filterRef.current, threshold: 10 });
 
     const types = searchParams.getAll('types');
     const statuses = searchParams.getAll('statuses');
@@ -179,15 +185,23 @@ const Component = () => {
         }
     }, [searchParams]);
 
+    useEffect(() => {
+        console.log(trigger);
+    }, [trigger]);
+
+
     return (
         <div
             className={clsx(
                 'flex flex-col items-start gap-8',
                 'md:absolute md:top-0',
-                'w-full md:max-h-[100vh]',
+                'w-full md:max-h-[calc(100vh-11rem)]',
+                'border-t border-t-transparent',
+                'transition',
+                !isMobile && trigger && '!border-t-secondary/30'
             )}
         >
-            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll">
+            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll" ref={filterRef}>
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text text-secondary">Жанр</span>
