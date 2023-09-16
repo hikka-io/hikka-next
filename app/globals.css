@@ -4,6 +4,7 @@
 
 body {
   background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
+  min-height: 100vh;
 }
 
 .btn-outline, .badge-outline {
@@ -13,4 +14,8 @@ body {
 .btn {
   font-weight: 500;
   text-transform: capitalize;
+}
+
+.MuiSlider-markActive {
+  @apply bg-white
 }
