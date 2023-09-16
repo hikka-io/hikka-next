@@ -3,7 +3,7 @@ import config from '@/utils/api/config';
 interface Request {
     query?: string;
     sort?: string[];
-    page?: string[];
+    page?: number;
     years?: string[];
     score?: string[];
     media_type?: string[];
