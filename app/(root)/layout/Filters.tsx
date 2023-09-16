@@ -113,8 +113,6 @@ const Component = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
-    const isMobile = useIsMobile();
-    const trigger = useScrollTrigger({ disableHysteresis: true, target: filterRef.current, threshold: 10 });
 
     const types = searchParams.getAll('types');
     const statuses = searchParams.getAll('statuses');
@@ -185,20 +183,13 @@ const Component = () => {
         }
     }, [searchParams]);
 
-    useEffect(() => {
-        console.log(trigger);
-    }, [trigger]);
-
-
     return (
         <div
             className={clsx(
                 'flex flex-col items-start gap-8',
                 'md:absolute md:top-0',
-                'w-full md:max-h-[calc(100vh-11rem)]',
                 'border-t border-t-transparent',
                 'transition',
-                !isMobile && trigger && '!border-t-secondary/30'
             )}
         >
             <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll" ref={filterRef}>

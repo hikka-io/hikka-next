@@ -22,7 +22,7 @@ const Component = ({ list }: Props) => {
                         </div>
                         {list}
                     </div>
-                    <div className="order-1 md:order-2 md:sticky md:top-[calc(5rem-1px)] md:flex hidden">
+                    <div className="order-1 md:order-2 md:flex hidden">
                         <Filters />
                     </div>
                 </div>
