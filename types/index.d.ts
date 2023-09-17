@@ -1,6 +1,10 @@
 export {};
 
 declare global {
+    interface Window {
+        authModal: HTMLDialogElement;
+    }
+
     namespace Hikka {
         type Pagination = {
             total: number;
@@ -8,18 +12,17 @@ declare global {
             page: number;
         };
 
-        type User = {
-            username: string;
-            avatar: string;
-        };
-
         type Season = 'summer' | 'winter' | 'fall' | 'spring';
 
-        type Release = 'tv' | 'movie' | 'ova' | 'ona' | 'music' | 'special';
+        type MediaType = 'tv' | 'movie' | 'ova' | 'ona' | 'special';
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
-        type Status = 'airing' | 'finished' | 'not_yet';
+        type Status = 'ongoing' | 'finished' | 'discontinued' | 'announced' | 'paused';
+
+        type Video = 'video_promo' | 'video_music';
+
+        type OST = 'opening' | 'ending';
 
         type Anime = {
             media_type: string;
