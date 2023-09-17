@@ -2,114 +2,23 @@
 
 import Slider from '@/app/components/Slider';
 import Select from '@/app/components/Select';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
 import AiClearOutlined from '@/app/components/icons/AiClearOutlined';
 import AiCloseOutlined from '@/app/components/icons/AiCloseOutlined';
-import useScrollTrigger from "@/utils/hooks/useScrollTrigger";
-import useIsMobile from "@/utils/hooks/useIsMobile";
-
-type Filter<T> = {
-    title: string;
-    slug: T;
-};
-
-const TYPES: Filter<Hikka.Release>[] = [
-    {
-        title: 'Серіал',
-        slug: 'tv',
-    },
-    {
-        title: 'Фільм',
-        slug: 'movie',
-    },
-    {
-        title: 'OVA',
-        slug: 'ova',
-    },
-    {
-        title: 'ONA',
-        slug: 'ona',
-    },
-    {
-        title: 'Спешл',
-        slug: 'special',
-    },
-    {
-        title: 'Кліп',
-        slug: 'music',
-    },
-];
-
-const STATUSES: Filter<Hikka.Status>[] = [
-    {
-        title: 'Онґоінґ',
-        slug: 'airing',
-    },
-    {
-        title: 'Анонс',
-        slug: 'not_yet',
-    },
-    {
-        title: 'Реліз',
-        slug: 'finished',
-    },
-];
-
-const SEASONS: Filter<Hikka.Season>[] = [
-    {
-        title: 'Осінь',
-        slug: 'fall',
-    },
-    {
-        title: 'Зима',
-        slug: 'winter',
-    },
-    {
-        title: 'Весна',
-        slug: 'spring',
-    },
-    {
-        title: 'Літо',
-        slug: 'summer',
-    },
-];
-
-const AGE_RATINGS: Filter<Hikka.AgeRating>[] = [
-    {
-        title: 'G',
-        slug: 'g',
-    },
-    {
-        title: 'PG',
-        slug: 'pg',
-    },
-    {
-        title: 'PG-13',
-        slug: 'pg_13',
-    },
-    {
-        title: 'R',
-        slug: 'r',
-    },
-    {
-        title: 'R PLUS',
-        slug: 'r_plus',
-    },
-    {
-        title: 'RX',
-        slug: 'rx',
-    },
-];
+import {
+    AGE_RATING,
+    MEDIA_TYPE,
+    RELEASE_STATUS,
+    SEASON,
+} from '@/utils/constants';
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
 const Component = () => {
-    const filterRef = useRef<HTMLDivElement>(null);
-
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
@@ -179,7 +88,9 @@ const Component = () => {
 
     useEffect(() => {
         if (JSON.stringify(selectingYears) !== JSON.stringify(years)) {
-            setSelectingYears(years.length > 0 ? years : YEARS.map((y) => String(y)));
+            setSelectingYears(
+                years.length > 0 ? years : YEARS.map((y) => String(y)),
+            );
         }
     }, [searchParams]);
 
@@ -192,7 +103,7 @@ const Component = () => {
                 'transition',
             )}
         >
-            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll md:overflow-y-visible" ref={filterRef}>
+            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll md:overflow-y-visible">
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text text-secondary">Жанр</span>
@@ -239,26 +150,23 @@ const Component = () => {
                         </span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
-                        {STATUSES.map((status) => (
+                        {Object.keys(RELEASE_STATUS).map((slug) => (
                             <button
                                 onClick={() =>
                                     handleChangeParam(
                                         'statuses',
-                                        handleFilterSelect(
-                                            status.slug,
-                                            statuses,
-                                        ),
+                                        handleFilterSelect(slug, statuses),
                                     )
                                 }
-                                key={status.slug}
+                                key={slug}
                                 className={clsx(
                                     'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    statuses.includes(status.slug)
+                                    statuses.includes(slug)
                                         ? 'btn-primary'
                                         : 'btn-outline',
                                 )}
                             >
-                                {status.title}
+                                {RELEASE_STATUS[slug as Hikka.Status].title_ua}
                             </button>
                         ))}
                     </div>
@@ -268,23 +176,23 @@ const Component = () => {
                         <span className="label-text text-secondary">Тип</span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
-                        {TYPES.map((type) => (
+                        {Object.keys(MEDIA_TYPE).map((slug) => (
                             <button
                                 onClick={() =>
                                     handleChangeParam(
                                         'types',
-                                        handleFilterSelect(type.slug, types),
+                                        handleFilterSelect(slug, types),
                                     )
                                 }
-                                key={type.slug}
+                                key={slug}
                                 className={clsx(
                                     'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    types.includes(type.slug)
+                                    types.includes(slug)
                                         ? 'btn-primary'
                                         : 'btn-outline',
                                 )}
                             >
-                                {type.title}
+                                {MEDIA_TYPE[slug as Hikka.MediaType].title_ua}
                             </button>
                         ))}
                     </div>
@@ -294,26 +202,23 @@ const Component = () => {
                         <span className="label-text text-secondary">Сезон</span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
-                        {SEASONS.map((season) => (
+                        {Object.keys(SEASON).map((slug) => (
                             <button
                                 onClick={() =>
                                     handleChangeParam(
                                         'seasons',
-                                        handleFilterSelect(
-                                            season.slug,
-                                            seasons,
-                                        ),
+                                        handleFilterSelect(slug, seasons),
                                     )
                                 }
-                                key={season.slug}
+                                key={slug}
                                 className={clsx(
                                     'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    seasons.includes(season.slug)
+                                    seasons.includes(slug)
                                         ? 'btn-primary'
                                         : 'btn-outline',
                                 )}
                             >
-                                {season.title}
+                                {SEASON[slug as Hikka.Season].title_ua}
                             </button>
                         ))}
                     </div>
@@ -325,26 +230,23 @@ const Component = () => {
                         </span>
                     </label>
                     <div className="flex flex-wrap gap-2">
-                        {AGE_RATINGS.map((ageRating) => (
+                        {Object.keys(AGE_RATING).map((slug) => (
                             <button
                                 onClick={() =>
                                     handleChangeParam(
                                         'ratings',
-                                        handleFilterSelect(
-                                            ageRating.slug,
-                                            ageRatings,
-                                        ),
+                                        handleFilterSelect(slug, ageRatings),
                                     )
                                 }
-                                key={ageRating.slug}
+                                key={slug}
                                 className={clsx(
                                     'btn-sm btn rounded-3xl px-3.5 py-1',
-                                    ageRatings.includes(ageRating.slug)
+                                    ageRatings.includes(slug)
                                         ? 'btn-primary'
                                         : 'btn-outline',
                                 )}
                             >
-                                {ageRating.title}
+                                {AGE_RATING[slug as Hikka.AgeRating].title_ua}
                             </button>
                         ))}
                     </div>

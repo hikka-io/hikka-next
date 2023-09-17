@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation';
+
 const Component = () => {
-    return null;
+    return redirect('/anime');
 };
 
 export default Component;
