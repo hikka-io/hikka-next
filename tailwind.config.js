@@ -9,9 +9,9 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'dark-grey': 'rgba(110, 110, 110, 0.3)',
-                'stone-900': 'rgba(41, 41, 41, 1)',
-                'text-color': 'rgba(173, 173, 173, 1)',
+                // 'dark-grey': 'rgba(110, 110, 110, 0.3)',
+                // 'stone-900': 'rgba(41, 41, 41, 1)',
+                // 'text-color': 'rgba(173, 173, 173, 1)',
             },
         },
     },
@@ -20,25 +20,25 @@ module.exports = {
         // base: false,
         themes: [
             {
-                dark: {
+                hikka: {
                     primary: '#e779c1',
 
                     secondary: '#494949',
 
-                    accent: '#f3cc30',
+                    // accent: '#f3cc30',
 
-                    neutral: '#221551',
+                    // neutral: '#221551',
 
-                    'base-100': 'rgba(22, 8, 32, 1)',
+                    // 'base-100': 'rgba(22, 8, 32, 1)',
                     // "base-100": `rgba(22, 8, 32, 1), rgba(0, 0, 0, 1)`,
 
-                    info: '#53c0f3',
+                    /*info: '#53c0f3',
 
                     success: '#71ead2',
 
                     warning: '#f3cc30',
 
-                    error: '#e24056',
+                    error: '#e24056',*/
                 },
             },
         ],

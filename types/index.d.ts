@@ -6,6 +6,27 @@ declare global {
     }
 
     namespace Hikka {
+        type WatchStatus = 'completed'
+            | 'watching'
+            | 'planned'
+            | 'dropped'
+            | 'on_hold';
+
+        type StatType =
+            | WatchStatus
+            | 'score_1'
+            | 'score_2'
+            | 'score_3'
+            | 'score_4'
+            | 'score_5'
+            | 'score_6'
+            | 'score_7'
+            | 'score_8'
+            | 'score_9'
+            | 'score_10';
+
+        type Stats = Record<StatType, number>;
+
         type Pagination = {
             total: number;
             pages: number;
@@ -18,11 +39,57 @@ declare global {
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
-        type Status = 'ongoing' | 'finished' | 'discontinued' | 'announced' | 'paused';
+        type Status =
+            | 'ongoing'
+            | 'finished'
+            | 'discontinued'
+            | 'announced'
+            | 'paused';
 
-        type Video = 'video_promo' | 'video_music';
+        type VideoType = 'video_promo' | 'video_music';
 
-        type OST = 'opening' | 'ending';
+        type OSTType = 'opening' | 'ending';
+
+        type Video = {
+            url: string;
+            title: string;
+            description: string;
+            video_type: VideoType;
+        };
+
+        type OST = {
+            index: number;
+            title: string;
+            author: string;
+            spotify: string;
+            ost_type: OSTType;
+        };
+
+        type Source =
+            | 'digital_manga'
+            | 'picture_book'
+            | 'visual_novel'
+            | '4_koma_manga'
+            | 'light_novel'
+            | 'card_game'
+            | 'web_manga'
+            | 'original'
+            | 'manga'
+            | 'music'
+            | 'novel'
+            | 'other'
+            | 'radio'
+            | 'game'
+            | 'book';
+
+        type Company = {
+            company: {
+                image: string;
+                slug: string;
+                name: string;
+            };
+            type: 'producer' | 'studio';
+        };
 
         type Anime = {
             media_type: string;
@@ -43,6 +110,22 @@ declare global {
             name_ua: string;
             slug: string;
             type: string;
+        };
+
+        type Character = {
+            name_ua: string;
+            name_en: string;
+            name_ja: string;
+            image: string;
+            slug: string;
+        };
+
+        type Person = {
+            name_native: string;
+            name_ua: string;
+            name_en: string;
+            image: string;
+            slug: string;
         };
     }
 }

@@ -23,7 +23,7 @@ const Component = () => {
         >
             <div className="navbar container max-w-screen-xl px-4 mx-auto">
                 <div className="navbar-start">
-                    <Link href="#">
+                    <Link href="/">
                         <Image
                             src="/logo.svg"
                             alt="Hikka"

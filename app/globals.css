@@ -7,6 +7,7 @@ html {
 }
 
 body {
+    color: white;
     background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
     scroll-behavior: smooth;
 }
@@ -27,6 +28,10 @@ h3 {
     @apply font-bold text-xl;
 }
 
+h4 {
+    @apply font-bold text-lg;
+}
+
 .btn-outline, .badge-outline {
     @apply border-zinc-700;
 }
@@ -34,6 +39,10 @@ h3 {
 .btn {
     font-weight: 500;
     text-transform: capitalize;
+}
+
+.btn-ghost.btn-active {
+    @apply bg-white text-black;
 }
 
 .MuiSlider-markActive {

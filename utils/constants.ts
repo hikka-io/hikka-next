@@ -1,8 +1,17 @@
+import Completed from '@/app/components/icons/watchStatus/Completed';
+import Dropped from '@/app/components/icons/watchStatus/Dropped';
+import OnHold from '@/app/components/icons/watchStatus/OnHold';
+import Planned from '@/app/components/icons/watchStatus/Planned';
+import Watching from '@/app/components/icons/watchStatus/Watching';
+import { Property } from 'csstype';
+import { ReactNode } from 'react';
+
 type Property<T extends string> = Record<
     T,
     {
         title_ua: string;
         title_en: string;
+        icon?: ReactNode;
     }
 >;
 
@@ -12,22 +21,27 @@ export const WATCH_STATUS = {
     planned: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
+        icon: Planned,
     },
     watching: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
+        icon: Watching,
     },
     completed: {
         title_ua: 'Завершено',
         title_en: 'Completed',
+        icon: Completed,
     },
     on_hold: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
+        icon: OnHold,
     },
     dropped: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
+        icon: Dropped,
     },
 };
 
@@ -123,9 +137,9 @@ export const AGE_RATING: Property<Hikka.AgeRating> = {
     },
 };
 
-export const VIDEO: Property<Hikka.Video> = {
+export const VIDEO: Property<Hikka.VideoType> = {
     video_promo: {
-        title_ua: 'Промо Відео',
+        title_ua: 'Промо-відео',
         title_en: 'Promo Video',
     },
     video_music: {
@@ -134,7 +148,7 @@ export const VIDEO: Property<Hikka.Video> = {
     },
 };
 
-export const OST: Property<Hikka.OST> = {
+export const OST: Property<Hikka.OSTType> = {
     opening: {
         title_ua: 'Опенінг',
         title_en: 'Opening',
@@ -142,5 +156,68 @@ export const OST: Property<Hikka.OST> = {
     ending: {
         title_ua: 'Ендінг',
         title_en: 'Ending',
+    },
+};
+
+export const SOURCE: Property<Hikka.Source> = {
+    digital_manga: {
+        title_ua: 'Цифрова Манга',
+        title_en: 'Digital Manga',
+    },
+    picture_book: {
+        title_ua: 'Книга з Ілюстраціями',
+        title_en: 'Picture Book',
+    },
+    visual_novel: {
+        title_ua: 'Візуальна Новала',
+        title_en: 'Visual Novel',
+    },
+    '4_koma_manga': {
+        title_ua: 'Чотирьохпанельна Манга',
+        title_en: 'Yonkoma manga',
+    },
+    light_novel: {
+        title_ua: 'Ранобе',
+        title_en: 'Light Novel',
+    },
+    card_game: {
+        title_ua: 'Карткова Гра',
+        title_en: 'Card Game',
+    },
+    web_manga: {
+        title_ua: 'Веб-манга',
+        title_en: 'Web Manga',
+    },
+    original: {
+        title_ua: 'Оригінальний Твір',
+        title_en: 'Original',
+    },
+    manga: {
+        title_ua: 'Манга',
+        title_en: 'Manga',
+    },
+    music: {
+        title_ua: 'Музика',
+        title_en: 'Music',
+    },
+    novel: {
+        title_ua: 'Новела',
+        title_en: 'Novel',
+    },
+    other: {
+        title_ua: 'Інше',
+        title_en: 'Other',
+    },
+    radio: {
+        title_ua: 'Радіо',
+        title_en: 'Radio',
+    },
+    game: {
+        title_ua: 'Гра',
+        title_en: 'Game',
+    },
+    book: {
+        title_ua: 'Книга',
+        title_en: 'Book',
     },
 };

@@ -1,7 +1,7 @@
 'use client';
 
-import Card from '../components/Card';
-import SkeletonCard from '../components/skeletons/Card';
+import EntryCard from '../../../../components/EntryCard';
+import SkeletonCard from '@/app/components/skeletons/EntryCard';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
@@ -165,10 +165,10 @@ const Component = () => {
                     data.list &&
                     data!.list.map((x: Hikka.Anime) => {
                         return (
-                            <Card
-                                href="#"
+                            <EntryCard
+                                href={`/anime/${x.slug}`}
                                 poster={x.poster}
-                                title_en={x.title_en}
+                                title={x.title_en}
                                 key={x.slug}
                             />
                         );

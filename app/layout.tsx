@@ -15,7 +15,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html data-theme="synthwave" lang="en">
+        <html lang="en">
             <body className={inter.className}>
                 <Providers>
                     <AuthModal />
