@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import Link from 'next/link';
 import clsx from "clsx";
+import ArrowRight from "@/app/components/icons/ArrowRight";
 
 interface Props {
     extended?: boolean;
@@ -25,7 +26,14 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <h3>Посилання</h3>
+            <div className="flex justify-between items-center">
+                <h3>Посилання</h3>
+                {!extended && (
+                    <Link replace href={params.slug + "/links"} className="btn btn-sm">
+                        Більше <ArrowRight className="text-2xl" />
+                    </Link>
+                )}
+            </div>
             <div className={clsx("grid gap-4", extended ? "md:grid-cols-4 grid-cols-2" : "md:grid-cols-5 grid-cols-2")}>
                 {filteredData.map((link) => (
                     <Link

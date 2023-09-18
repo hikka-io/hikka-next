@@ -9,6 +9,8 @@ import { OST, VIDEO } from '@/utils/constants';
 import { useState } from 'react';
 import clsx from 'clsx';
 import OndemandVideo from '@/app/components/icons/OndemandVideo';
+import Link from "next/link";
+import ArrowRight from "@/app/components/icons/ArrowRight";
 
 interface Props {
     extended?: boolean;
@@ -45,32 +47,39 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex gap-8 items-center">
-                <h3>Медіа</h3>
-                <div className="flex gap-2">
-                    {data.videos.length > 0 && (
-                        <button
-                            onClick={() => setActive('video')}
-                            className={clsx(
-                                'btn btn-sm btn-ghost rounded-full',
-                                active === 'video' && 'btn-active',
-                            )}
-                        >
-                            Відео
-                        </button>
-                    )}
-                    {data.ost.length > 0 && (
-                        <button
-                            onClick={() => setActive('music')}
-                            className={clsx(
-                                'btn btn-sm btn-ghost rounded-full',
-                                active === 'music' && 'btn-active',
-                            )}
-                        >
-                            Музика
-                        </button>
-                    )}
+            <div className="flex gap-2 justify-between">
+                <div className="flex gap-8 items-center">
+                    <h3>Медіа</h3>
+                    <div className="flex gap-2">
+                        {data.videos.length > 0 && (
+                            <button
+                                onClick={() => setActive('video')}
+                                className={clsx(
+                                    'btn btn-sm btn-ghost rounded-full',
+                                    active === 'video' && 'btn-active',
+                                )}
+                            >
+                                Відео
+                            </button>
+                        )}
+                        {data.ost.length > 0 && (
+                            <button
+                                onClick={() => setActive('music')}
+                                className={clsx(
+                                    'btn btn-sm btn-ghost rounded-full',
+                                    active === 'music' && 'btn-active',
+                                )}
+                            >
+                                Музика
+                            </button>
+                        )}
+                    </div>
                 </div>
+                {!extended && (
+                    <Link replace href={params.slug + "/media"} className="btn btn-sm">
+                        Більше <ArrowRight className="text-2xl" />
+                    </Link>
+                )}
             </div>
             <div
                 className={clsx(

@@ -4,6 +4,8 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
 import EntryCard from '@/app/components/EntryCard';
+import Link from "next/link";
+import ArrowRight from "@/app/components/icons/ArrowRight";
 
 interface Props {
     extended?: boolean;
@@ -25,7 +27,14 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <h3>Автори</h3>
+            <div className="flex justify-between items-center">
+                <h3>Автори</h3>
+                {!extended && (
+                    <Link replace href={params.slug + "/staff"} className="btn btn-sm">
+                        Більше <ArrowRight className="text-2xl" />
+                    </Link>
+                )}
+            </div>
             <div className="grid md:grid-cols-6 grid-cols-3 gap-4">
                 {filteredData.map((staff) => (
                         <EntryCard

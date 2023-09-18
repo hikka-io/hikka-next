@@ -8,7 +8,7 @@ interface Props {
 
 const Component = ({ list }: Props) => {
     return (
-        <div className="md:mt-24">
+        <div>
             <div className="drawer drawer-end">
                 <input
                     id="filterDrawer"

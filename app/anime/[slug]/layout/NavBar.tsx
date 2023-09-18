@@ -101,6 +101,7 @@ const Component = () => {
                 {filteredItems.map((item) => {
                     return (
                         <Link
+                            replace
                             href={'/anime/' + params.slug + item.url}
                             key={item.slug}
                             className={clsx(

@@ -8,8 +8,10 @@ html {
 
 body {
     color: white;
-    background: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
-    scroll-behavior: smooth;
+    background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: 100% 100vh;
 }
 
 main {
