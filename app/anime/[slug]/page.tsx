@@ -4,13 +4,9 @@ import Links from './layout/Links';
 import Characters from './layout/Characters';
 import Franchise from './layout/Franchise';
 import Staff from './layout/Staff';
-import Media from "@/app/anime/[slug]/layout/Media";
+import Media from "./layout/Media";
 
-interface Props {
-    params: { slug: string };
-}
-
-const Component = ({ params: { slug } }: Props) => {
+const Component = () => {
     return (
         <div className="flex flex-col gap-12">
             <About />
