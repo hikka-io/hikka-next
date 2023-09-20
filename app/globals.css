@@ -43,6 +43,14 @@ h4 {
     text-transform: capitalize;
 }
 
+.btn.btn-outline:hover {
+    /*@apply bg-secondary;*/
+}
+
+.btn-ghost {
+    @apply text-base-content;
+}
+
 .btn-ghost.btn-active {
     @apply bg-white text-black;
 }

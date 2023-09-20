@@ -24,12 +24,14 @@ module.exports = {
                     primary: '#e779c1',
 
                     secondary: '#494949',
+                    // 'base-content': '',
 
                     // accent: '#f3cc30',
 
                     // neutral: '#221551',
 
-                    // 'base-100': 'rgba(22, 8, 32, 1)',
+                    'base-100': 'rgba(22, 8, 32, 1)',
+                    'base-200': 'rgb(42,16,63)',
                     // "base-100": `rgba(22, 8, 32, 1), rgba(0, 0, 0, 1)`,
 
                     /*info: '#53c0f3',

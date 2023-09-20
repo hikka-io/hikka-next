@@ -5,9 +5,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import formatDuration from 'date-fns/formatDuration';
+import intervalToDuration from 'date-fns/intervalToDuration';
+import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { uk } from 'date-fns/locale';
 
 const Component = () => {
     const params = useParams();
+    setDefaultOptions({ locale: uk });
+
     const { data } = useQuery({
         queryKey: ['anime', params.slug],
         queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
@@ -22,7 +28,7 @@ const Component = () => {
             <div className="flex flex-col gap-4">
                 <div className="flex">
                     <div className="w-1/4">
-                        <p>Тип:</p>
+                        <p className="text-gray-400">Тип:</p>
                     </div>
                     <div className="flex-1">
                         <p>{MEDIA_TYPE[data.media_type].title_ua}</p>
@@ -30,37 +36,56 @@ const Component = () => {
                 </div>
                 <div className="flex">
                     <div className="w-1/4">
-                        <p>Статус:</p>
+                        <p className="text-gray-400">Статус:</p>
                     </div>
                     <div className="flex-1">
-                        <p>{RELEASE_STATUS[data.status].title_ua}</p>
+                        <div
+                            className="rounded-md px-2 w-fit"
+                            style={{
+                                backgroundColor:
+                                    RELEASE_STATUS[data.status].color,
+                            }}
+                        >
+                            <p>{RELEASE_STATUS[data.status].title_ua}</p>
+                        </div>
                     </div>
                 </div>
-                {data.media_type !== 'movie' && (
+                {data.media_type !== 'movie' &&
+                    data.episodes_total &&
+                    data.episodes_released !== null && (
+                        <div className="flex">
+                            <div className="w-1/4">
+                                <p className="text-gray-400">Епізоди:</p>
+                            </div>
+                            <div className="flex-1">
+                                <p>
+                                    {data.status === 'finished'
+                                        ? data.episodes_total
+                                        : `${data.episodes_released} / ${data.episodes_total}`}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                {data.duration && (
                     <div className="flex">
                         <div className="w-1/4">
-                            <p>Епізоди:</p>
+                            <p className="text-gray-400">Тривалість епізоду:</p>
                         </div>
                         <div className="flex-1">
                             <p>
-                                {data.status === 'finished'
-                                    ? data.episodes_total
-                                    : `${data.episodes_released} / ${data.episodes_total}`}
+                                {formatDuration(
+                                    intervalToDuration({
+                                        start: 0,
+                                        end: data.duration * 60 * 1000,
+                                    }),
+                                )}
                             </p>
                         </div>
                     </div>
                 )}
                 <div className="flex">
                     <div className="w-1/4">
-                        <p>Тривалість епізоду:</p>
-                    </div>
-                    <div className="flex-1">
-                        <p>{data.duration} хвилини</p>
-                    </div>
-                </div>
-                <div className="flex">
-                    <div className="w-1/4">
-                        <p>Жанри:</p>
+                        <p className="text-gray-400">Жанри:</p>
                     </div>
                     <div className="flex-1">
                         {data.genres.map((genre, i) => (
@@ -75,14 +100,16 @@ const Component = () => {
                         ))}
                     </div>
                 </div>
-                <div className="flex">
-                    <div className="w-1/4">
-                        <p>Рейтинг:</p>
+                {data.rating && (
+                    <div className="flex">
+                        <div className="w-1/4">
+                            <p className="text-gray-400">Рейтинг:</p>
+                        </div>
+                        <div className="flex-1">
+                            <p>{AGE_RATING[data.rating].title_ua}</p>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                        <p>{AGE_RATING[data.rating].title_ua}</p>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );

@@ -19,7 +19,7 @@ const Component = () => {
         <div className="flex justify-between">
             <div>
                 <h2>
-                    {data.title_en}{' '}
+                    {data.title_ua || data.title_en || data.title_ja}{' '}
                     <span className="font-normal">
                         ({new Date(data.start_date * 1000).getFullYear()})
                     </span>

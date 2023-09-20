@@ -29,9 +29,9 @@ const Component = ({ extended }: Props) => {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex justify-between items-center">
-                <h3>Головні Персонажі</h3>
+                <h3>{extended ? 'Персонажі' : 'Головні Персонажі'}</h3>
                 {!extended && (
-                    <Link replace href={params.slug + "/characters"} className="btn btn-sm">
+                    <Link replace href={params.slug + "/characters"} className="btn btn-sm btn-ghost">
                         Більше <ArrowRight className="text-2xl" />
                     </Link>
                 )}

@@ -76,7 +76,7 @@ const Component = ({ extended }: Props) => {
                     </div>
                 </div>
                 {!extended && (
-                    <Link replace href={params.slug + "/media"} className="btn btn-sm">
+                    <Link replace href={params.slug + "/media"} className="btn btn-sm btn-ghost">
                         Більше <ArrowRight className="text-2xl" />
                     </Link>
                 )}

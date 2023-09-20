@@ -4,7 +4,6 @@ import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
-import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
@@ -55,11 +54,6 @@ const Component = () => {
         queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
     });
 
-    const { data: franchise } = useQuery({
-        queryKey: ['franchise', params.slug],
-        queryFn: () => getAnimeFranchise({ slug: String(params.slug) }),
-    });
-
     const { data: characters } = useQuery({
         queryKey: ['characters', params.slug],
         queryFn: () => getAnimeCharacters({ slug: String(params.slug) }),
@@ -87,17 +81,14 @@ const Component = () => {
             case 'links':
                 return anime && anime?.external && anime.external.length > 0;
             case 'franchise':
-                return (
-                    franchise && franchise?.list && franchise.list.length > 0
-                );
+                return anime && anime.has_franchise;
             case 'general':
                 return true;
         }
     });
 
     return (
-        <div className="w-full overflow-hidden">
-            <div className="flex gap-8">
+            <div className="flex gap-8 overflow-y-scroll -mx-4 md:mx-0 p-4 md:p-0">
                 {filteredItems.map((item) => {
                     return (
                         <Link
@@ -116,7 +107,6 @@ const Component = () => {
                     );
                 })}
             </div>
-        </div>
     );
 };
 

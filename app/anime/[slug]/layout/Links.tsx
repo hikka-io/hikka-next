@@ -29,7 +29,7 @@ const Component = ({ extended }: Props) => {
             <div className="flex justify-between items-center">
                 <h3>Посилання</h3>
                 {!extended && (
-                    <Link replace href={params.slug + "/links"} className="btn btn-sm">
+                    <Link replace href={params.slug + "/links"} className="btn btn-sm btn-ghost">
                         Більше <ArrowRight className="text-2xl" />
                     </Link>
                 )}

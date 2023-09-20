@@ -12,6 +12,7 @@ type Property<T extends string> = Record<
         title_ua: string;
         title_en: string;
         icon?: ReactNode;
+        color?: string;
     }
 >;
 
@@ -68,22 +69,28 @@ export const RELEASE_STATUS: Property<Hikka.Status> = {
     discontinued: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
+        color: '#952828'
     },
     announced: {
         title_ua: 'Анонс',
         title_en: 'Announced',
+        color: '#AB872B',
     },
     finished: {
         title_ua: 'Завершено',
         title_en: 'Finished',
+        color: '#518146',
     },
     ongoing: {
         title_ua: 'Онгоінг',
         title_en: 'Ongoing',
+
+        color: '#2B94AB',
     },
     paused: {
         title_ua: 'Зупинено',
         title_en: 'Paused',
+        color: '#5C5C5C',
     },
 };
 
