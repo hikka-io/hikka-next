@@ -7,8 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
-import {useEffect, useRef} from 'react';
-import useIsMobile from "@/utils/hooks/useIsMobile";
+import { useEffect, useRef } from 'react';
+import useIsMobile from '@/utils/hooks/useIsMobile';
 
 const ITEMS: {
     slug: string;
@@ -92,17 +92,23 @@ const Component = () => {
     });
 
     useEffect(() => {
-        if (isMobile && navRef.current && pathname !== `/anime/${params.slug}`) {
-            navRef.current.scrollIntoView()
+        if (
+            isMobile &&
+            navRef.current &&
+            pathname !== `/anime/${params.slug}`
+        ) {
+            navRef.current.scrollIntoView();
         }
     }, [pathname]);
 
     return (
-        <div ref={navRef} className="flex gap-8 overflow-y-scroll -mx-4 md:mx-0 p-4 md:p-0">
+        <div
+            ref={navRef}
+            className="flex gap-8 overflow-y-scroll -mx-4 md:mx-0 p-4 md:p-0"
+        >
             {filteredItems.map((item) => {
                 return (
                     <Link
-                        replace
                         href={'/anime/' + params.slug + item.url}
                         key={item.slug}
                         className={clsx(

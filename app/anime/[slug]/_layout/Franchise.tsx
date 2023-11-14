@@ -43,7 +43,6 @@ const Component = ({ extended }: Props) => {
                 <h3>{`Пов'язане`}</h3>
                 {!extended && (
                     <Link
-                        replace
                         href={params.slug + '/franchise'}
                         className="btn btn-sm btn-ghost btn-square"
                     >

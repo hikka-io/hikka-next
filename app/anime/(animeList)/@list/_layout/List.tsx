@@ -2,7 +2,8 @@
 
 import EntryCard from '@/app/_components/EntryCard';
 import SkeletonCard from '@/app/_components/skeletons/EntryCard';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import useRouter from '@/utils/useRouter';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
 import useDebounce from '@/utils/hooks/useDebounce';

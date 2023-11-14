@@ -31,7 +31,7 @@ const Component = ({ extended }: Props) => {
             <div className="flex justify-between items-center">
                 <h3>{extended ? 'Персонажі' : 'Головні Персонажі'}</h3>
                 {!extended && (
-                    <Link replace href={params.slug + "/characters"} className="btn btn-sm btn-ghost btn-square">
+                    <Link href={params.slug + "/characters"} className="btn btn-sm btn-ghost btn-square">
                         <ArrowRight className="text-2xl" />
                     </Link>
                 )}

@@ -6,11 +6,7 @@ import { ReactNode } from 'react';
 import ScrollTop from '@/app/_layout/ScrollTop';
 import AuthGate from '@/app/_layout/AuthGate';
 import NavBar from '@/app/_layout/NavBar';
-/*import dynamic from 'next/dynamic';
-
-const NavBar = dynamic(() => import('@/app/_layout/NavBar'), {
-    ssr: false,
-});*/
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +23,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
+                <NextTopLoader color="#e779c1" />
                 <Providers>
                     <AuthGate>
                         <ScrollTop />

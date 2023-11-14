@@ -52,7 +52,6 @@ const Component = () => {
             {ITEMS.map((item) => {
                 return (
                     <Link
-                        replace
                         href={'/u/' + params.username + item.url}
                         key={item.slug}
                         className={clsx(

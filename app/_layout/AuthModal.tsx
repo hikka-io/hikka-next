@@ -5,7 +5,7 @@ import Image from '@/app/_components/Image';
 import {useAuthContext} from '@/utils/providers/AuthProvider';
 import {useForm} from 'react-hook-form';
 import login from '@/utils/api/auth/login';
-import {useRouter} from "next/navigation";
+import useRouter from '@/utils/useRouter';
 import {setCookie} from "@/app/actions";
 import {Dispatch, SetStateAction} from "react";
 // import {setCookie} from "cookies-next";
@@ -83,7 +83,7 @@ const Component = ({ open, setOpen }: Props) => {
                             <input
                                 type="email"
                                 placeholder="Введіть пошту"
-                                autoFocus
+                                autoFocus={open}
                                 className="input bg-secondary w-full"
                                 {...register('email', { required: true })}
                             />

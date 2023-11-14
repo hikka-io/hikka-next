@@ -87,7 +87,7 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex md:flex-col gap-4">
+            <div className="grid md:grid-cols-1 grid-cols-[auto_1fr] gap-4">
                 <div className="avatar w-32 h-32 md:w-full md:h-full">
                     <div className="w-full rounded-lg">
                         <Image

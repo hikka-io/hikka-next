@@ -2,7 +2,7 @@
 
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import useRouter from '@/utils/useRouter';
 
 type FormValues = {
     password: string;

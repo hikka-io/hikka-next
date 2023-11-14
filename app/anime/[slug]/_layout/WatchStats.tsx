@@ -79,10 +79,10 @@ const Component = () => {
     }
 
     return (
-        <div className="stats flex bg-secondary/60 border border-secondary rounded-lg p-0">
+        <div className="stats grid grid-cols-2 bg-secondary/60 border border-secondary rounded-lg p-0">
             <div
                 className={clsx(
-                    'stat p-4 flex-1 min-w-[50%] md:min-w-fit text-left transition',
+                    'stat p-4',
                 )}
             >
                 <div className="stat-title text-inherit">Оцінка</div>
@@ -106,7 +106,7 @@ const Component = () => {
             </div>
             <div
                 className={clsx(
-                    'stat p-4 flex-1 min-w-[50%] md:min-w-fit text-left transition',
+                    'stat p-4',
                 )}
             >
                 <div className="flex gap-2 justify-between">

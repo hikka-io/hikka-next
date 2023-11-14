@@ -25,7 +25,7 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="stats bg-transparent flex border border-secondary rounded-none md:rounded-lg p-0 md:mx-0 -mx-4">
+            <div className="stats bg-transparent flex border-y md:border border-secondary rounded-none md:rounded-lg p-0 md:mx-0 -mx-4">
                 {Object.keys(data).map((status) => {
                     return (
                         <Link

@@ -3,7 +3,8 @@
 import Slider from '@/app/_components/Slider';
 import Select from '@/app/_components/Select';
 import { useCallback, useEffect, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import useRouter from '@/utils/useRouter';
 import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
