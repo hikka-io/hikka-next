@@ -26,13 +26,13 @@ const Component = () => {
             className="py-8 px-8 flex flex-col gap-6"
         >
             <div className="h-12 flex items-center">
-                <h3>Ім'я користувача</h3>
+                <h3>Ім’я користувача</h3>
             </div>
             <div className="w-full">
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text-alt text-neutral">
-                            Нове ім'я користувача
+                            Нове ім’я користувача
                         </span>
                     </label>
                     <input
