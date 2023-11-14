@@ -1,4 +1,4 @@
-import Staff from '../layout/Staff';
+import Staff from '@/app/anime/[slug]/_layout/Staff';
 
 const Component = async () => {
     return (

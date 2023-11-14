@@ -1,4 +1,4 @@
-import Links from '../layout/Links';
+import Links from '@/app/anime/[slug]/_layout/Links';
 
 const Component = async () => {
     return (

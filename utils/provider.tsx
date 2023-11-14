@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
+import AuthProvider from '@/utils/providers/AuthProvider';
 
-function Providers({ children }: React.PropsWithChildren) {
+interface Props extends PropsWithChildren {}
+
+function Providers({ children }: Props) {
     const [client] = React.useState(
         new QueryClient({
             defaultOptions: { queries: { staleTime: 60 * 1000, retry: false } },
@@ -13,12 +15,12 @@ function Providers({ children }: React.PropsWithChildren) {
     );
 
     return (
-        <QueryClientProvider client={client}>
-            <ReactQueryStreamedHydration>
+        <AuthProvider>
+            <QueryClientProvider client={client}>
                 {children}
-            </ReactQueryStreamedHydration>
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+        </AuthProvider>
     );
 }
 

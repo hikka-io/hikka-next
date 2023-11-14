@@ -1,4 +1,4 @@
-import Media from '../layout/Media';
+import Media from '@/app/anime/[slug]/_layout/Media';
 
 const Component = async () => {
     return (

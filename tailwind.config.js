@@ -21,17 +21,23 @@ module.exports = {
         themes: [
             {
                 hikka: {
-                    primary: '#e779c1',
+                    primary: '#000',
+                    'primary-content': '#fff',
 
-                    secondary: '#494949',
+                    secondary: '#292929',
+                    'secondary=content': '#fff',
+
+                    accent: '#e779c1',
+                    'accent-content': '#000',
+
+                    neutral: '#494949',
                     // 'base-content': '',
 
                     // accent: '#f3cc30',
 
                     // neutral: '#221551',
 
-                    'base-100': 'rgba(22, 8, 32, 1)',
-                    'base-200': 'rgb(42,16,63)',
+                    'base-100': '#000',
                     // "base-100": `rgba(22, 8, 32, 1), rgba(0, 0, 0, 1)`,
 
                     /*info: '#53c0f3',

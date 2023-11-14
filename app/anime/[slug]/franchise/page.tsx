@@ -1,4 +1,4 @@
-import Franchise from '../layout/Franchise';
+import Franchise from '@/app/anime/[slug]/_layout/Franchise';
 
 const Component = async () => {
     return (

@@ -3,6 +3,8 @@ export {};
 declare global {
     interface Window {
         authModal: HTMLDialogElement;
+        settingsModal: HTMLDialogElement;
+        watchEditModal: HTMLDialogElement;
     }
 
     namespace Hikka {

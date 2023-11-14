@@ -1,4 +1,4 @@
-import Characters from '../layout/Characters';
+import Characters from '@/app/anime/[slug]/_layout/Characters';
 
 const Component = async () => {
     return (

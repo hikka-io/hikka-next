@@ -1,10 +1,10 @@
-import About from './layout/About';
-import Description from './layout/Description';
-import Links from './layout/Links';
-import Characters from './layout/Characters';
-import Franchise from './layout/Franchise';
-import Staff from './layout/Staff';
-import Media from "./layout/Media";
+import About from '@/app/anime/[slug]/_layout/About';
+import Description from '@/app/anime/[slug]/_layout/Description';
+import Links from '@/app/anime/[slug]/_layout/Links';
+import Characters from '@/app/anime/[slug]/_layout/Characters';
+import Franchise from '@/app/anime/[slug]/_layout/Franchise';
+import Staff from '@/app/anime/[slug]/_layout/Staff';
+import Media from "@/app/anime/[slug]/_layout/Media";
 
 const Component = () => {
     return (

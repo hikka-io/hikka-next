@@ -1,5 +1,5 @@
-import Filters from './layout/Filters';
-import NavBar from './layout/NavBar';
+import Filters from '@/app/anime/(animeList)/_layout/Filters';
+import NavBar from '@/app/anime/(animeList)/_layout/NavBar';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -22,7 +22,7 @@ const Component = ({ list }: Props) => {
                         </div>
                         {list}
                     </div>
-                    <div className="order-1 md:order-2 md:flex hidden">
+                    <div className="order-1 md:order-2 md:block w-full hidden">
                         <Filters />
                     </div>
                 </div>
@@ -31,7 +31,7 @@ const Component = ({ list }: Props) => {
                         htmlFor="filterDrawer"
                         className="drawer-overlay"
                     ></label>
-                    <div className="p-4 w-80 overflow-y-scroll overscroll-contain h-full bg-black text-base-content">
+                    <div className="p-8 md:p-4 w-full overflow-y-scroll overscroll-contain h-full bg-black text-base-content">
                         <Filters />
                     </div>
                 </div>

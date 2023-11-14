@@ -18,6 +18,22 @@ main {
     min-height: 100vh;
 }
 
+table th:nth-child(1) {
+    @apply rounded-l-lg;
+}
+
+table th:nth-last-child(1) {
+    @apply rounded-r-lg;
+}
+
+.table :where(thead, tbody) :where(tr:not(:last-child)), .table :where(thead, tbody) :where(tr:first-child:last-child) {
+    border-bottom: 0;
+}
+
+.table :where(thead, tfoot) {
+    @apply font-normal text-sm;
+}
+
 h1 {
     @apply font-bold text-3xl;
 }
@@ -35,12 +51,13 @@ h4 {
 }
 
 .btn-outline, .badge-outline {
-    @apply border-zinc-700;
+    @apply border-secondary/60;
 }
 
 .btn {
     font-weight: 500;
     text-transform: capitalize;
+    animation: none;
 }
 
 .btn.btn-outline:hover {
@@ -73,4 +90,32 @@ textarea:focus, input:focus {
 
 .modal-box {
     @apply bg-black;
+}
+/*
+@keyframes modal-slide {
+
+    0% { transform: translateY(100px); }
+}*/
+
+/*.modal:not(dialog:not(.modal-open)),*/
+
+.modal::backdrop {
+    /*backdrop-filter: blur(10px);*/
+    /*-webkit-backdrop-filter: blur(10px);*/
+    background-color: rgba(0, 0, 0, 0.9);
+
+    /*3s linear 1s slidein;*/
+}
+
+
+.menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active, .menu li > details > summary:active {
+    @apply bg-secondary/30;
+}
+
+.rating:not(.readonly):hover input {
+    --tw-bg-opacity: 1 !important;
+}
+
+.rating:not(.readonly) input:hover ~ input {
+    --tw-bg-opacity: 0.2 !important;
 }
