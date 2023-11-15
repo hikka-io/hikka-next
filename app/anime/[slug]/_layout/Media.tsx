@@ -2,15 +2,15 @@
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import EntryCard from '@/app/_components/EntryCard';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import LibraryMusic from '@/app/_components/icons/LibraryMusic';
+import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 import { OST, VIDEO } from '@/utils/constants';
 import { useState } from 'react';
 import clsx from 'clsx';
-import OndemandVideo from '@/app/_components/icons/OndemandVideo';
-import Link from "next/link";
-import ArrowRight from "@/app/_components/icons/ArrowRight";
+import Link from 'next/link';
+import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
+import BaseCard from '@/app/_components/BaseCard';
 
 interface Props {
     extended?: boolean;
@@ -76,8 +76,11 @@ const Component = ({ extended }: Props) => {
                     </div>
                 </div>
                 {!extended && (
-                    <Link href={params.slug + "/media"} className="btn btn-sm btn-ghost btn-square">
-                        <ArrowRight className="text-2xl" />
+                    <Link
+                        href={params.slug + '/media'}
+                        className="btn btn-sm btn-ghost btn-square"
+                    >
+                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>
                 )}
             </div>
@@ -91,7 +94,7 @@ const Component = ({ extended }: Props) => {
             >
                 {active === 'music' &&
                     filteredOSTData.map((ost) => (
-                        <EntryCard
+                        <BaseCard
                             target="_blank"
                             key={ost.spotify}
                             href={ost.spotify || '#'}
@@ -103,16 +106,16 @@ const Component = ({ extended }: Props) => {
                             }
                         >
                             <div className="flex h-full w-full text-4xl items-center justify-center">
-                                <LibraryMusic className="text-neutral" />
+                                <IcBaselineLibraryMusic className="text-neutral" />
                             </div>
-                        </EntryCard>
+                        </BaseCard>
                     ))}
                 {active === 'video' &&
                     filteredVideoData.map((video) => {
                         const thumb = getYoutubeThumb(video.url);
 
                         return (
-                            <EntryCard
+                            <BaseCard
                                 target="_blank"
                                 key={video.url}
                                 href={video.url || '#'}
@@ -126,10 +129,10 @@ const Component = ({ extended }: Props) => {
                             >
                                 {!thumb && (
                                     <div className="flex h-full w-full text-4xl items-center justify-center">
-                                        <OndemandVideo className="text-neutral" />
+                                        <IcBaselineOndemandVideo className="text-neutral" />
                                     </div>
                                 )}
-                            </EntryCard>
+                            </BaseCard>
                         );
                     })}
             </div>

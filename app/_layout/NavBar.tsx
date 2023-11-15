@@ -90,7 +90,7 @@ const Component = () => {
                     )}
                 </div>
             </div>
-            <AuthModal open={open} setOpen={setOpen} />
+            {!user && <AuthModal open={open} setOpen={setOpen} />}
         </nav>
     );
 };

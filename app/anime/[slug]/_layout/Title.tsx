@@ -20,13 +20,13 @@ const Component = () => {
             <div>
                 <h2>
                     {data.title_ua || data.title_en || data.title_ja}{' '}
-                    <span className="font-normal">
+                    {data.start_date && <span className="font-normal">
                         ({new Date(data.start_date * 1000).getFullYear()})
-                    </span>
+                    </span>}
                 </h2>
                 <p className="mt-2">{data.title_ja}</p>
             </div>
-            <p className="text-4xl font-bold">{data.score}</p>
+            {data.score > 0 && <p className="text-4xl font-bold">{data.score}</p>}
         </div>
     );
 };

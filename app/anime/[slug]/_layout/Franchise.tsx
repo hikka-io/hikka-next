@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
-import EntryCard from '@/app/_components/EntryCard';
+import AnimeCard from '@/app/_components/AnimeCard';
 import Link from 'next/link';
-import ArrowRight from '@/app/_components/icons/ArrowRight';
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded'
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 
 interface Props {
@@ -46,17 +46,18 @@ const Component = ({ extended }: Props) => {
                         href={params.slug + '/franchise'}
                         className="btn btn-sm btn-ghost btn-square"
                     >
-                        <ArrowRight className="text-2xl" />
+                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>
                 )}
             </div>
             <div className="grid md:grid-cols-5 grid-cols-2 gap-4 md:gap-8">
                 {filteredData.map((anime) => (
-                    <EntryCard
+                    <AnimeCard
                         key={anime.slug}
+                        slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         poster={anime.poster}
-                        title={anime.title_ua || anime.title_en}
+                        title={anime.title_ua || anime.title_en || anime.title_ja}
                         posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
                     />
                 ))}

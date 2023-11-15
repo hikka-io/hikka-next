@@ -8,7 +8,13 @@ declare global {
     }
 
     namespace Hikka {
-        type WatchStatus = 'completed'
+        type Error = {
+            code: string;
+            message: string;
+        }
+
+        type WatchStatus =
+            | 'completed'
             | 'watching'
             | 'planned'
             | 'dropped'
@@ -37,16 +43,16 @@ declare global {
 
         type Season = 'summer' | 'winter' | 'fall' | 'spring';
 
-        type MediaType = 'tv' | 'movie' | 'ova' | 'ona' | 'special';
+        type MediaType = 'tv' | 'movie' | 'ova' | 'ona' | 'special' | 'music';
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
         type Status =
             | 'ongoing'
             | 'finished'
-            | 'discontinued'
-            | 'announced'
-            | 'paused';
+            // | 'discontinued'
+            // | 'paused'
+            | 'announced';
 
         type VideoType = 'video_promo' | 'video_music';
 

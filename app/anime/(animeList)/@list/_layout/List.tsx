@@ -1,6 +1,6 @@
 'use client';
 
-import EntryCard from '@/app/_components/EntryCard';
+import AnimeCard from '@/app/_components/AnimeCard';
 import SkeletonCard from '@/app/_components/skeletons/EntryCard';
 import { usePathname, useSearchParams } from 'next/navigation';
 import useRouter from '@/utils/useRouter';
@@ -9,10 +9,10 @@ import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
 import useDebounce from '@/utils/hooks/useDebounce';
 import clsx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
-import AiArrowLeftOutlined from '@/app/_components/icons/AiArrowLeftOutlined';
-import AiArrowRightOutlined from '@/app/_components/icons/AiArrowRightOutlined';
+import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined'
+import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined'
 import NotFound from '@/app/_components/NotFound';
-import AiClearOutlined from '@/app/_components/icons/AiClearOutlined';
+import AntDesignClearOutlined from '~icons/ant-design/clear-outlined'
 
 const Component = () => {
     const router = useRouter();
@@ -161,7 +161,7 @@ const Component = () => {
                     onClick={() => router.push(pathname)}
                     className="btn btn-error w-full md:w-auto"
                 >
-                    <AiClearOutlined />
+                    <AntDesignClearOutlined />
                     Clear Filters
                 </button>
             </NotFound>
@@ -179,11 +179,12 @@ const Component = () => {
                     data.list &&
                     data!.list.map((x: Hikka.Anime) => {
                         return (
-                            <EntryCard
+                            <AnimeCard
                                 href={`/anime/${x.slug}`}
                                 poster={x.poster}
-                                title={x.title_en}
+                                title={x.title_ua || x.title_en || x.title_ja}
                                 key={x.slug}
+                                slug={x.slug}
                             />
                         );
                     })}
@@ -198,7 +199,7 @@ const Component = () => {
                             'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
                         )}
                     >
-                        <AiArrowLeftOutlined />
+                        <AntDesignArrowLeftOutlined />
                     </button>
                     {generatePaginationArr(data.pagination, selectedPage).map(
                         (v, index) => {
@@ -224,7 +225,7 @@ const Component = () => {
                             'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
                         )}
                     >
-                        <AiArrowRightOutlined />
+                        <AntDesignArrowRightOutlined />
                     </button>
                 </div>
             )}

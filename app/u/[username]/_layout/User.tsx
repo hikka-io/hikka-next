@@ -6,14 +6,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import getUserInfo from '@/utils/api/user/getUserInfo';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
-import UserFollow from '@/app/_components/icons/UserFollow';
+import CilUserFollow from '~icons/cil/user-follow';
+import CilUserUnfollow from '~icons/cil/user-unfollow';
 import checkFollow from '@/utils/api/follow/checkFollow';
-import UserUnfollow from '@/app/_components/icons/UserUnfollow';
 import follow from '@/utils/api/follow/follow';
 import unfollow from '@/utils/api/follow/unfollow';
-import Preferences from '@/app/_components/icons/Preferences';
-import SettingsModal from "@/app/u/[username]/_layout/SettingsModal";
-import {useState} from "react";
+import PajamasPreferences from '~icons/pajamas/preferences';
+import SettingsModal from '@/app/u/[username]/_layout/SettingsModal';
+import { useState } from 'react';
 
 interface Props {}
 
@@ -88,11 +88,11 @@ const Component = ({}: Props) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="grid md:grid-cols-1 grid-cols-[auto_1fr] gap-4">
-                <div className="avatar w-32 h-32 md:w-full md:h-full">
-                    <div className="w-full rounded-lg">
+                <div className="avatar w-32 h-32 md:w-full pt-[100%] relative">
+                    <div className="w-full rounded-lg absolute top-0">
                         <Image
                             alt="avatar"
-                            className="object-contain"
+                            className="object-contain w-full h-full"
                             width={287}
                             height={287}
                             src={user.avatar}
@@ -111,7 +111,7 @@ const Component = ({}: Props) => {
                     onClick={() => setOpen(true)}
                     className="btn btn-secondary"
                 >
-                    <Preferences /> Налаштування
+                    <PajamasPreferences /> Налаштування
                 </button>
             )}
             {loggedUser ? (
@@ -125,7 +125,7 @@ const Component = ({}: Props) => {
                             {unfollowLoading ? (
                                 <span className="loading loading-spinner"></span>
                             ) : (
-                                <UserUnfollow />
+                                <CilUserUnfollow />
                             )}
                             Не стежити
                         </button>
@@ -138,7 +138,7 @@ const Component = ({}: Props) => {
                             {followLoading ? (
                                 <span className="loading loading-spinner"></span>
                             ) : (
-                                <UserFollow />
+                                <CilUserFollow />
                             )}
                             Відстежувати
                         </button>
@@ -149,11 +149,11 @@ const Component = ({}: Props) => {
                     onClick={() => window.authModal.showModal()}
                     className="btn bg-secondary/60 w-full"
                 >
-                    <UserFollow />
+                    <CilUserFollow />
                     Відстежувати
                 </button>
             )}
-            <SettingsModal open={open} setOpen={setOpen}  />
+            <SettingsModal open={open} setOpen={setOpen} />
         </div>
     );
 };

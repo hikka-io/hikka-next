@@ -21,6 +21,7 @@ module.exports = {
         themes: [
             {
                 hikka: {
+                    "--btn-focus-scale": "1",
                     primary: '#000',
                     'primary-content': '#fff',
 

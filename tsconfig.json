@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+      "unplugin-icons/types/react",
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

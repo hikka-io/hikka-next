@@ -1,7 +1,7 @@
 'use client';
 
 import Search from '@/app/anime/(animeList)/_components/Search';
-import AiFilterFilled from '@/app/_components/icons/AiFilterFilled';
+import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 import clsx from 'clsx';
 import useScrollTrigger from '@/utils/hooks/useScrollTrigger';
 import useIsMobile from '@/utils/hooks/useIsMobile';
@@ -27,7 +27,7 @@ const Component = ({}: Props) => {
                 htmlFor="filterDrawer"
                 className="btn drawer-button btn-square btn-outline flex md:hidden"
             >
-                <AiFilterFilled />
+                <AntDesignFilterFilled />
             </label>
         </div>
     );

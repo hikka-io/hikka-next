@@ -3,14 +3,13 @@
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
-import EntryCard from '@/app/_components/EntryCard';
-import Link from "next/link";
-import ArrowRight from "@/app/_components/icons/ArrowRight";
+import Link from 'next/link';
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
+import BaseCard from '@/app/_components/BaseCard';
 
 interface Props {
     extended?: boolean;
 }
-
 
 const Component = ({ extended }: Props) => {
     const params = useParams();
@@ -30,20 +29,27 @@ const Component = ({ extended }: Props) => {
             <div className="flex justify-between items-center">
                 <h3>Автори</h3>
                 {!extended && (
-                    <Link href={params.slug + "/staff"} className="btn btn-sm btn-ghost btn-square">
-                        <ArrowRight className="text-2xl" />
+                    <Link
+                        href={params.slug + '/staff'}
+                        className="btn btn-sm btn-ghost btn-square"
+                    >
+                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>
                 )}
             </div>
             <div className="grid md:grid-cols-6 grid-cols-3 gap-4 md:gap-8">
                 {filteredData.map((staff) => (
-                        <EntryCard
-                            key={staff.person.slug}
-                            href={`/person/${staff.person.slug}`}
-                            poster={staff.person.image}
-                            title={staff.person.name_ua || staff.person.name_en || staff.person.name_native}
-                        />
-                    ))}
+                    <BaseCard
+                        key={staff.person.slug}
+                        href={`/person/${staff.person.slug}`}
+                        poster={staff.person.image}
+                        title={
+                            staff.person.name_ua ||
+                            staff.person.name_en ||
+                            staff.person.name_native
+                        }
+                    />
+                ))}
             </div>
         </div>
     );

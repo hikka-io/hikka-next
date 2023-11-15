@@ -1,19 +1,20 @@
 'use client';
 
-import Favorite from '@/app/_components/icons/Favorite';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import addFavourite from '@/utils/api/favourite/addFavourite';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import getFavourite from '@/utils/api/favourite/getFavourite';
 import deleteFavourite from '@/utils/api/favourite/deleteFavourite';
-import FavoriteOutline from '@/app/_components/icons/FavoriteOutline';
+import MaterialSymbolsFavoriteOutlineRounded from '~icons/material-symbols/favorite-outline-rounded';
+import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import clsx from 'clsx';
 
 interface Props {
     slug: string;
+    disabled?: boolean;
 }
 
-const Component = ({ slug }: Props) => {
+const Component = ({ slug, disabled }: Props) => {
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
 
@@ -51,6 +52,7 @@ const Component = ({ slug }: Props) => {
 
     return (
         <button
+            disabled={disabled}
             onClick={() =>
                 favorite && !favoriteError
                     ? deleteFromFavorite()
@@ -61,7 +63,7 @@ const Component = ({ slug }: Props) => {
                 (favorite && !favoriteError) ? 'btn-error bg-secondary' : 'btn-neutral',
             )}
         >
-            {favorite && !favoriteError ? <Favorite /> : <FavoriteOutline />}
+            {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded /> : <MaterialSymbolsFavoriteOutlineRounded />}
         </button>
     );
 };

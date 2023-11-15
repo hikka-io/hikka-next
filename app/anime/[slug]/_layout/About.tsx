@@ -90,7 +90,10 @@ const Component = () => {
                     <div className="flex-1">
                         {data.genres.map((genre, i) => (
                             <span key={genre.slug}>
-                                <Link href={`/anime?genres=${genre.slug}`}>
+                                <Link
+                                    className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"
+                                    href={`/anime?genres=${genre.slug}`}
+                                >
                                     {genre.name_ua}
                                 </Link>
                                 {i + 1 !== data.genres.length && (

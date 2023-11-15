@@ -66,11 +66,11 @@ export const SEASON: Property<Hikka.Season> = {
 };
 
 export const RELEASE_STATUS: Property<Hikka.Status> = {
-    discontinued: {
+    /*discontinued: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
         color: '#952828'
-    },
+    },*/
     announced: {
         title_ua: 'Анонс',
         title_en: 'Announced',
@@ -87,11 +87,11 @@ export const RELEASE_STATUS: Property<Hikka.Status> = {
 
         color: '#2B94AB',
     },
-    paused: {
+    /*paused: {
         title_ua: 'Зупинено',
         title_en: 'Paused',
         color: '#5C5C5C',
-    },
+    },*/
 };
 
 export const MEDIA_TYPE: Property<Hikka.MediaType> = {
@@ -114,6 +114,10 @@ export const MEDIA_TYPE: Property<Hikka.MediaType> = {
     tv: {
         title_ua: 'TV Серіал',
         title_en: 'TV',
+    },
+    music: {
+        title_ua: 'Музика',
+        title_en: 'Music',
     },
 };
 

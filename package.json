@@ -13,6 +13,7 @@
     "@headlessui/tailwindcss": "^0.2.0",
     "@mobily/ts-belt": "^3.13.1",
     "@mui/base": "^5.0.0-beta.15",
+    "@next/bundle-analyzer": "^14.0.2",
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.32.6",
     "@tanstack/react-query-next-experimental": "^5.0.0-alpha.80",
@@ -45,9 +46,13 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.142",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^4.34.1",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
-    "eslint-plugin-functional": "^6.0.0"
+    "eslint-plugin-functional": "^6.0.0",
+    "unplugin-icons": "^0.17.4"
   }
 }

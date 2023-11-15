@@ -18,7 +18,7 @@ import {
 } from '@mui/base/useSelect';
 import { useOption } from '@mui/base/useOption';
 import { SelectOption } from '@mui/base';
-import ArrowDropdown from './icons/ArrowDropdown';
+import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
 
 type OptionValue = string | number | null;
 
@@ -76,7 +76,7 @@ const OptionItem = forwardRef(
             <li
                 ref={ref}
                 className={clsx(
-                    'py-3 px-4 flex gap-2 items-center hover:bg-secondary cursor-pointer',
+                    'py-3 px-4 flex gap-2 items-center hover:bg-secondary cursor-pointer transition-colors duration-100',
                     className,
                 )}
                 {...props}
@@ -120,7 +120,7 @@ function Option(props: OptionProps) {
         <OptionItem
             {...getRootProps()}
             className={clsx(
-                selected && 'bg-accent hover:bg-accent/60 text-accent-content',
+                selected && 'bg-accent hover:!bg-accent/60 text-accent-content',
                 className,
             )}
         >
@@ -245,7 +245,7 @@ function Select({
                             listboxVisible && 'transform -scale-y-100',
                         )}
                     >
-                        <ArrowDropdown />
+                        <MaterialSymbolsArrowDropDownRounded />
                     </div>
                 </Toggle>
             )}

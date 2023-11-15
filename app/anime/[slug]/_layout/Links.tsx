@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import Link from 'next/link';
 import clsx from "clsx";
-import ArrowRight from "@/app/_components/icons/ArrowRight";
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded'
 
 interface Props {
     extended?: boolean;
@@ -30,7 +30,7 @@ const Component = ({ extended }: Props) => {
                 <h3>Посилання</h3>
                 {!extended && (
                     <Link href={params.slug + "/links"} className="btn btn-sm btn-ghost btn-square">
-                        <ArrowRight className="text-2xl" />
+                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>
                 )}
             </div>

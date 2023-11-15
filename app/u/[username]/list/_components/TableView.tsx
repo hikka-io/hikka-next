@@ -2,14 +2,15 @@
 
 import { MEDIA_TYPE } from '@/utils/constants';
 import { Response } from '@/utils/api/watch/getWatchList';
-import WatchEditModal from "@/app/u/[username]/list/_layout/WatchEditModal";
-import {useState} from "react";
+import WatchEditModal from '@/app/u/[username]/list/_layout/WatchEditModal';
+import {CSSProperties, useState} from 'react';
 import Link from 'next/link';
-import {useAuthContext} from "@/utils/providers/AuthProvider";
-import {useQuery} from "@tanstack/react-query";
-import getLoggedUserInfo from "@/utils/api/user/getLoggedUserInfo";
-import clsx from "clsx";
-import {useParams} from "next/navigation";
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useQuery } from '@tanstack/react-query';
+import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
+import clsx from 'clsx';
+import { useParams } from 'next/navigation';
+import Image from '@/app/_components/Image';
 
 interface Props {
     data: Response;
@@ -33,11 +34,11 @@ const Component = ({ data }: Props) => {
                 <thead className="bg-secondary/30 overflow-hidden rounded-lg">
                     <tr>
                         <th className="w-8">#</th>
-                        <th>Назва</th>
+                        <th>Деталі</th>
                         <th className="w-20" align="center">
-                            Серії
+                            Епізоди
                         </th>
-                        <th className="w-32" align="center">
+                        <th className="w-32 hidden md:table-cell" align="center">
                             Тип
                         </th>
                         <th className="w-20" align="center">
@@ -47,19 +48,52 @@ const Component = ({ data }: Props) => {
                 </thead>
                 <tbody>
                     {data.list.map((res, i) => (
-                        <tr key={res.reference} className={clsx(loggedUser?.username === params.username && "hover:bg-secondary/60 hover:cursor-pointer")} onClick={() => !go && setSlug(res.anime.slug)}>
+                        <tr
+                            key={res.reference}
+                            className={clsx(
+                                loggedUser?.username === params.username &&
+                                    'hover:bg-secondary/60 hover:cursor-pointer',
+                            )}
+                            onClick={() => !go && setSlug(res.anime.slug)}
+                        >
                             <th className="w-8 text-neutral">{i + 1}</th>
                             <td>
-                                <Link className="hover:underline" href={`/anime/${res.anime.slug}`} onClick={() => setGo(true)}>
-                                    {res.anime.title_ua ||
-                                        res.anime.title_en ||
-                                        res.anime.title_ja}
-                                </Link>
+                                <div className="flex gap-4">
+                                    <div className="w-12 hidden md:block">
+                                        <div className="relative pt-[140%] w-full overflow-hidden rounded-md">
+                                            <div className="absolute top-0 left-0">
+                                                <Image
+                                                    src={res.anime.poster}
+                                                    alt="poster"
+                                                    width="50"
+                                                    height="50"
+                                                    className="w-full h-full"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <Link
+                                            className="hover:underline"
+                                            href={`/anime/${res.anime.slug}`}
+                                            onClick={() => setGo(true)}
+                                        >
+                                            {res.anime.title_ua ||
+                                                res.anime.title_en ||
+                                                res.anime.title_ja}
+                                        </Link>
+                                        {res.note && (
+                                            <p className="text-neutral">
+                                                {res.note}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
                             </td>
                             <td className="w-20" align="center">
                                 {res.episodes} / {res.anime.episodes_total}
                             </td>
-                            <td className="w-32" align="center">
+                            <td className="w-32 hidden md:table-cell" align="center">
                                 {
                                     MEDIA_TYPE[
                                         res.anime.media_type as Hikka.MediaType
@@ -67,7 +101,18 @@ const Component = ({ data }: Props) => {
                                 }
                             </td>
                             <th className="w-20" align="center">
-                                <div className="rounded-full border border-secondary font-bold w-12 h-12 flex justify-center items-center">
+                                <div
+                                    className={clsx(
+                                        'radial-progress text-accent border border-secondary',
+
+                                    )}
+                                    style={{
+                                        '--value': res.score * 10,
+                                        '--size': '2.5rem',
+                                        '--thickness': res.score > 0 ? '2px' : '0px',
+                                    } as CSSProperties}
+                                    role="progressbar"
+                                >
                                     {res.score}
                                 </div>
                             </th>
@@ -75,7 +120,9 @@ const Component = ({ data }: Props) => {
                     ))}
                 </tbody>
             </table>
-            {!go && slug && loggedUser?.username === params.username && <WatchEditModal slug={slug} setSlug={setSlug} />}
+            {!go && slug && loggedUser?.username === params.username && (
+                <WatchEditModal slug={slug} setSlug={setSlug} />
+            )}
         </div>
     );
 };

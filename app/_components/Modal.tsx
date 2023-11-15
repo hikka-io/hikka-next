@@ -5,11 +5,11 @@ import React, {
     PropsWithChildren,
     useCallback,
     useEffect,
-    useRef,
+    useRef, useState,
 } from 'react';
 import clsx from 'clsx';
 import { createPortal } from 'react-dom';
-import AiCloseOutlined from '@/app/_components/icons/AiCloseOutlined';
+import AntDesignCloseOutlined from '~icons/ant-design/close-outlined'
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -30,6 +30,7 @@ const Component = ({
     title,
     ...props
 }: Props) => {
+    const [mounted, setMounted] = useState(false);
     const ref = useRef<HTMLDialogElement>(null);
 
     const onKeyDown = useCallback(
@@ -54,6 +55,13 @@ const Component = ({
         }
     }, [open]);
 
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
 
     return createPortal(
         <dialog
@@ -83,7 +91,7 @@ const Component = ({
                         onClick={onDismiss}
                         className="btn btn-outline btn-square"
                     >
-                        <AiCloseOutlined />
+                        <AntDesignCloseOutlined />
                     </button>
                 </div>
                 {children}

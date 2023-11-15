@@ -1,7 +1,7 @@
 'use client';
 
-import GridList from '@/app/_components/icons/GridList';
-import TableList from '@/app/_components/icons/TableList';
+import IcRoundGridView from '~icons/ic/round-grid-view';
+import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 import {
     useParams,
     usePathname,
@@ -118,7 +118,7 @@ const Component = ({}: Props) => {
                             view === 'table' && 'btn-active',
                         )}
                     >
-                        <TableList />
+                        <MaterialSymbolsEventList />
                     </button>
                     <button
                         onClick={() => setView('grid')}
@@ -127,7 +127,7 @@ const Component = ({}: Props) => {
                             view === 'grid' && 'btn-active',
                         )}
                     >
-                        <GridList />
+                        <IcRoundGridView />
                     </button>
                 </div>
             </div>

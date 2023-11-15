@@ -3,7 +3,7 @@
 import Planned from '@/app/_components/icons/watchStatus/Planned';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import CustomSelect from '@/app/_components/Select';
-import ArrowDropdown from '@/app/_components/icons/ArrowDropdown';
+import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
 import clsx from 'clsx';
 import { WATCH_STATUS } from '@/utils/constants';
 import * as React from 'react';
@@ -12,14 +12,15 @@ import { useAuthContext } from '@/utils/providers/AuthProvider';
 import addWatch from '@/utils/api/watch/addWatch';
 import getWatch from '@/utils/api/watch/getWatch';
 import deleteWatch from '@/utils/api/watch/deleteWatch';
-import RemoveCircle from '@/app/_components/icons/RemoveCircle';
+import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
 
 interface Props {
     slug: string;
     additional?: boolean;
+    disabled?: boolean;
 }
 
-const Component = ({ slug, additional }: Props) => {
+const Component = ({ slug, additional, disabled }: Props) => {
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const { data: watch, isError: watchError } = useQuery({
@@ -76,6 +77,7 @@ const Component = ({ slug, additional }: Props) => {
                         <button
                             onClick={() => !value && addToList('planned')}
                             {...(value && buttonProps)}
+                            disabled={disabled}
                             className={clsx(
                                 'btn btn-secondary border-b-none flex-1 join-item btn-md',
                                 listboxVisible && 'border-b-0',
@@ -105,7 +107,7 @@ const Component = ({ slug, additional }: Props) => {
                                             'transform -scale-y-100',
                                     )}
                                 >
-                                    <ArrowDropdown />
+                                    <MaterialSymbolsArrowDropDownRounded />
                                 </div>
                             )}
                         </button>
@@ -113,6 +115,7 @@ const Component = ({ slug, additional }: Props) => {
                             <button
                                 onClick={() => value && deleteFromList()}
                                 {...(!value && buttonProps)}
+                                disabled={disabled}
                                 className={clsx(
                                     'btn btn-square join-item btn-md text-xl',
                                     listboxVisible && 'border-b-0',
@@ -121,7 +124,11 @@ const Component = ({ slug, additional }: Props) => {
                                         : 'btn-secondary',
                                 )}
                             >
-                                {value ? <RemoveCircle /> : <ArrowDropdown />}
+                                {value ? (
+                                    <IcBaselineRemoveCircle />
+                                ) : (
+                                    <MaterialSymbolsArrowDropDownRounded />
+                                )}
                             </button>
                         )}
                     </div>

@@ -8,8 +8,8 @@ import useRouter from '@/utils/useRouter';
 import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
-import AiClearOutlined from '@/app/_components/icons/AiClearOutlined';
-import AiCloseOutlined from '@/app/_components/icons/AiCloseOutlined';
+import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
+import AntDesignCloseOutlined from '~icons/ant-design/close-outlined'
 import {
     AGE_RATING,
     MEDIA_TYPE,
@@ -125,7 +125,7 @@ const Component = () => {
                                     key={genre.slug}
                                     value={genre.slug}
                                 >
-                                    {genre.name_en}
+                                    {genre.name_ua || genre.name_en}
                                 </Select.Option>
                             ))}
                         </Select>
@@ -294,14 +294,14 @@ const Component = () => {
                     onClick={clearFilters}
                     className="btn btn-outline flex-1 btn-error bg-black"
                 >
-                    <AiClearOutlined />
+                    <AntDesignClearOutlined />
                     Clear Filters
                 </button>
                 <label
                     htmlFor="filterDrawer"
                     className="btn drawer-button btn-square btn-outline flex md:hidden bg-black"
                 >
-                    <AiCloseOutlined />
+                    <AntDesignCloseOutlined />
                 </label>
             </div>
         </div>

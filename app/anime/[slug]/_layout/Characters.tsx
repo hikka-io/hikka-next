@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
-import EntryCard from '@/app/_components/EntryCard';
-import ArrowRight from '@/app/_components/icons/ArrowRight';
-import Link from "next/link";
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
+import Link from 'next/link';
+import BaseCard from '@/app/_components/BaseCard';
 
 interface Props {
     extended?: boolean;
@@ -31,18 +31,25 @@ const Component = ({ extended }: Props) => {
             <div className="flex justify-between items-center">
                 <h3>{extended ? 'Персонажі' : 'Головні Персонажі'}</h3>
                 {!extended && (
-                    <Link href={params.slug + "/characters"} className="btn btn-sm btn-ghost btn-square">
-                        <ArrowRight className="text-2xl" />
+                    <Link
+                        href={params.slug + '/characters'}
+                        className="btn btn-sm btn-ghost btn-square"
+                    >
+                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>
                 )}
             </div>
             <div className="grid md:grid-cols-6 grid-cols-3 gap-4 md:gap-8">
                 {filteredData.map((ch) => (
-                    <EntryCard
+                    <BaseCard
                         key={ch.character.slug}
                         href={`/characters/${ch.character.slug}`}
                         poster={ch.character.image}
-                        title={ch.character.name_ua || ch.character.name_en}
+                        title={
+                            ch.character.name_ua ||
+                            ch.character.name_en ||
+                            ch.character.name_ja
+                        }
                         posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
                     />
                 ))}

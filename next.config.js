@@ -10,6 +10,23 @@ const nextConfig = {
             },
         ],
     },
+    '@mui/base': {
+        transform: '@mui/base/{{member}}'
+    },
+    webpack(config) {
+        config.plugins.push(
+            require('unplugin-icons/webpack')({
+                compiler: 'jsx',
+                jsx: 'react',
+            }),
+        )
+
+        return config
+    },
 };
 
-module.exports = nextConfig;
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer(nextConfig)

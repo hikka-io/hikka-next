@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import ArrowRight from '@/app/_components/icons/ArrowRight';
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded'
 import { useParams } from 'next/navigation';
-import EntryCard from '@/app/_components/EntryCard';
+import AnimeCard from '@/app/_components/AnimeCard';
 import { useQuery } from '@tanstack/react-query';
 import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
 
@@ -38,13 +38,13 @@ const Component = ({ extended }: Props) => {
                         href={'/u/' + params.username + '/favorites'}
                         className="btn btn-sm btn-square btn-ghost"
                     >
-                        <ArrowRight className="text-2xl" />
+                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>
                 )}
             </div>
             <div className="grid md:grid-cols-5 grid-cols-2 md:gap-8 gap-4">
                 {filteredData.map((res) => (
-                    <EntryCard
+                    <AnimeCard
                         key={res.reference}
                         title={
                             res.anime.title_ua ||
@@ -53,6 +53,7 @@ const Component = ({ extended }: Props) => {
                         }
                         poster={res.anime.poster}
                         href={'/anime/' + res.anime.slug}
+                        slug={res.anime.slug}
                     />
                 ))}
             </div>
