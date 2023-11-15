@@ -55,7 +55,7 @@ const Component = ({ extended }: Props) => {
                             <button
                                 onClick={() => setActive('video')}
                                 className={clsx(
-                                    'btn btn-sm btn-ghost rounded-full',
+                                    'btn btn-badge btn-ghost rounded-full',
                                     active === 'video' && 'btn-active',
                                 )}
                             >
@@ -66,7 +66,7 @@ const Component = ({ extended }: Props) => {
                             <button
                                 onClick={() => setActive('music')}
                                 className={clsx(
-                                    'btn btn-sm btn-ghost rounded-full',
+                                    'btn btn-badge btn-ghost rounded-full',
                                     active === 'music' && 'btn-active',
                                 )}
                             >
@@ -78,7 +78,7 @@ const Component = ({ extended }: Props) => {
                 {!extended && (
                     <Link
                         href={params.slug + '/media'}
-                        className="btn btn-sm btn-ghost btn-square"
+                        className="btn btn-badge btn-ghost btn-square"
                     >
                         <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>

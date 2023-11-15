@@ -8,11 +8,15 @@ import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import AuthModal from '@/app/_layout/AuthModal';
-import {useState} from "react";
+import {useRef, useState} from 'react';
+import {Popper} from "@mui/base/Popper";
+import ProfileMenu from "@/app/_layout/ProfileMenu";
 
 const Component = () => {
-    const [open, setOpen] = useState<boolean>(false);
-    const { secret, logout } = useAuthContext();
+    const profileRef = useRef<HTMLButtonElement>(null);
+    const [openProfileMenu, setOpenProfileMenu] = useState<boolean>(false);
+    const [openAuth, setOpenAuth] = useState<boolean>(false);
+    const { secret } = useAuthContext();
     const { data: user } = useQuery({
         queryKey: ['loggedUser', secret],
         queryFn: () => getLoggedUserInfo({ secret }),
@@ -28,7 +32,7 @@ const Component = () => {
         <nav
             className={clsx(
                 'top-0 left-0 right-0 sticky z-10 bg-transparent',
-                'w-full py-2 h-20',
+                'w-full',
                 'border-b border-secondary/30',
                 'transition',
                 trigger && '!bg-black !border-secondary',
@@ -50,47 +54,37 @@ const Component = () => {
                     <Link
                         href="/anime"
                         role="button"
-                        className="btn-outline btn-md btn"
+                        className="btn-outline btn btn-sm"
                     >
                         Аніме
                     </Link>
                 </div>
                 <div className="navbar-end">
                     {user ? (
-                        <div className="join">
-                            <Link
-                                tabIndex={0}
-                                href={`/u/${user.username}`}
-                                className="btn-ghost btn-square btn join-item overflow-hidden"
-                            >
-                                <div className="avatar">
-                                    <Image
-                                        src={user.avatar}
-                                        alt="pfp"
-                                        width={44}
-                                        height={44}
-                                    />
-                                </div>
-                            </Link>
-                            <button
-                                className="btn btn-outline join-item"
-                                onClick={logout}
-                            >
-                                Вийти
-                            </button>
-                        </div>
+                        <button
+                            ref={profileRef}
+                            onClick={() => setOpenProfileMenu(true)}
+                            className="btn-ghost btn-square btn btn-sm join-item overflow-hidden"
+                        >
+                            <Image
+                                src={user.avatar}
+                                alt="pfp"
+                                width={44}
+                                height={44}
+                            />
+                        </button>
                     ) : (
                         <button
-                            tabIndex={0}
                             className="btn-outline btn-md btn"
-                            onClick={() => setOpen(true)}
+                            onClick={() => setOpenAuth(true)}
                         >
                             Увійти
                         </button>
                     )}
                 </div>
             </div>
-            {!user && <AuthModal open={open} setOpen={setOpen} />}
+            <ProfileMenu open={openProfileMenu} setOpen={setOpenProfileMenu} anchorEl={profileRef.current} />
+            {!user && <AuthModal open={openAuth} setOpen={setOpenAuth} />}
         </nav>
     );
 };

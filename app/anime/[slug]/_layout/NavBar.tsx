@@ -112,7 +112,7 @@ const Component = () => {
                         href={'/anime/' + params.slug + item.url}
                         key={item.slug}
                         className={clsx(
-                            'btn btn-ghost rounded-full btn-sm',
+                            'btn btn-ghost rounded-full btn-badge',
                             pathname === '/anime/' + params.slug + item.url &&
                                 'btn-active',
                         )}

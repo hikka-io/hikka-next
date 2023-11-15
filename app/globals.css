@@ -62,10 +62,65 @@ h5 {
     @apply border-secondary/60;
 }
 
+.btn.btn-secondary {
+    @apply border-secondary/60;
+}
+
+.btn.btn-accent {
+    @apply border-accent/60;
+}
+
+.btn.btn-neutral {
+    @apply border-neutral/60;
+}
+
 .btn {
     text-transform: capitalize;
     animation: none;
 }
+
+.btn-sm {
+    height: 2.5rem;
+    min-height: 2.5rem;
+}
+
+.btn-square:where(.btn-sm) {
+    width: 2.5rem;
+}
+
+.btn-circle:where(.btn-sm) {
+    width: 2.5rem;
+}
+
+.btn-badge {
+    height: 2rem;
+    min-height: 2rem;
+}
+
+.btn-square:where(.btn-badge) {
+    width: 2rem;
+}
+
+.btn-circle:where(.btn-badge) {
+    width: 2rem;
+}
+
+/*
+.btn-xs {
+    height: 2rem;
+    min-height: 2rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.btn-square:where(.btn-xs) {
+    width: 2rem;
+}
+
+.btn-circle:where(.btn-xs) {
+    width: 2rem;
+}*/
+
 
 .btn:active:hover,
 .btn:active:focus {

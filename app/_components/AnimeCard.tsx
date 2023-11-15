@@ -67,7 +67,7 @@ const Component = ({
                     <button
                         onMouseOver={() => slug && setOnCard(true)}
                         onMouseOut={() => slug && setOnCard(false)}
-                        className="btn btn-circle btn-secondary absolute bottom-2 right-2 btn-sm group-hover:opacity-100 opacity-0 hidden md:flex"
+                        className="btn btn-circle btn-secondary absolute bottom-2 right-2 btn-badge group-hover:opacity-100 opacity-0 hidden md:flex"
                     >
                         <MaterialSymbolsArticle />
                     </button>

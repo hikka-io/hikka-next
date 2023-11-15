@@ -18,8 +18,8 @@ const Component = ({}: Props) => {
     return (
         <div
             className={clsx(
-                'flex gap-2 items-end p-4 md:pt-0 transition bg-transparent',
-                isMobile && trigger && '!bg-black',
+                'flex gap-2 items-end p-4 md:pt-0 border-b border-b-transparent transition bg-transparent',
+                isMobile && trigger && '!bg-black !border-b-secondary',
             )}
         >
             <Search />

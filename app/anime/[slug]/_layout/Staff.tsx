@@ -31,7 +31,7 @@ const Component = ({ extended }: Props) => {
                 {!extended && (
                     <Link
                         href={params.slug + '/staff'}
-                        className="btn btn-sm btn-ghost btn-square"
+                        className="btn btn-badge btn-ghost btn-square"
                     >
                         <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>

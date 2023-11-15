@@ -36,7 +36,7 @@ const Component = ({ extended }: Props) => {
                 {!extended && (
                     <Link
                         href={'/u/' + params.username + '/favorites'}
-                        className="btn btn-sm btn-square btn-ghost"
+                        className="btn btn-badge btn-square btn-ghost"
                     >
                         <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
                     </Link>

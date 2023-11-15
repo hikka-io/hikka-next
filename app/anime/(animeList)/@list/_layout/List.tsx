@@ -196,7 +196,7 @@ const Component = () => {
                         onClick={() => setSelectedPage((prev) => prev - 1)}
                         disabled={selectedPage === 1}
                         className={clsx(
-                            'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
+                            'btn btn-outline btn-square md:btn-md btn-badge md:text-base text-xs',
                         )}
                     >
                         <AntDesignArrowLeftOutlined />
@@ -209,8 +209,9 @@ const Component = () => {
                                     onClick={() => v && setSelectedPage(v)}
                                     key={index}
                                     className={clsx(
-                                        'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
-                                        selectedPage === v && 'btn-active',
+                                        'btn btn-outline btn-square md:btn-md btn-badge md:text-base text-xs',
+                                        selectedPage === v && 'btn-active btn-accent',
+                                        !v && '!btn-ghost'
                                     )}
                                 >
                                     {v ? v : '...'}
@@ -222,7 +223,7 @@ const Component = () => {
                         onClick={() => setSelectedPage((prev) => prev + 1)}
                         disabled={selectedPage === data.pagination.pages}
                         className={clsx(
-                            'btn btn-outline btn-square md:btn-md btn-sm md:text-base text-xs',
+                            'btn btn-outline btn-square md:btn-md btn-badge md:text-base text-xs',
                         )}
                     >
                         <AntDesignArrowRightOutlined />

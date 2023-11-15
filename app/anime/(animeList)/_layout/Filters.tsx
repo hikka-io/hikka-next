@@ -163,7 +163,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn rounded-3xl px-3.5 py-1',
                                     statuses.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -189,7 +189,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn rounded-3xl px-3.5 py-1',
                                     types.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -215,7 +215,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn rounded-3xl px-3.5 py-1',
                                     seasons.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -243,7 +243,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-sm btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn rounded-3xl px-3.5 py-1',
                                     ageRatings.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',

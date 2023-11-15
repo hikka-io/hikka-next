@@ -114,7 +114,7 @@ const Component = ({}: Props) => {
                     <button
                         onClick={() => setView('table')}
                         className={clsx(
-                            'btn btn-ghost btn-circle btn-sm',
+                            'btn btn-ghost btn-circle btn-badge',
                             view === 'table' && 'btn-active',
                         )}
                     >
@@ -123,7 +123,7 @@ const Component = ({}: Props) => {
                     <button
                         onClick={() => setView('grid')}
                         className={clsx(
-                            'btn btn-ghost btn-circle btn-sm',
+                            'btn btn-ghost btn-circle btn-badge',
                             view === 'grid' && 'btn-active',
                         )}
                     >
