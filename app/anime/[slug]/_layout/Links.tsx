@@ -39,9 +39,9 @@ const Component = ({ extended }: Props) => {
                     <Link
                         href={link.url}
                         key={link.url}
-                        className="rounded-lg p-6 gap-2 flex flex-col items-center justify-center btn h-auto btn-outline"
+                        className="overflow-hidden rounded-lg p-6 gap-2 flex flex-col items-center justify-center btn h-auto btn-outline btn-secondary"
                     >
-                        <h4>{link.text}</h4>
+                        <h4 className="w-full whitespace-nowrap overflow-hidden overflow-ellipsis">{link.text}</h4>
                         <p className="opacity-60 text-xs w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {link.url}
                         </p>

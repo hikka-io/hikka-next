@@ -25,7 +25,7 @@ const Component = ({}: Props) => {
             <Search />
             <label
                 htmlFor="filterDrawer"
-                className="btn drawer-button btn-square btn-outline flex md:hidden"
+                className="btn btn-secondary drawer-button btn-square btn-outline flex md:hidden"
             >
                 <AntDesignFilterFilled />
             </label>

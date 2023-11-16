@@ -8,14 +8,14 @@ import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import AuthModal from '@/app/_layout/AuthModal';
-import {useRef, useState} from 'react';
-import {Popper} from "@mui/base/Popper";
-import ProfileMenu from "@/app/_layout/ProfileMenu";
+import { useRef, useState } from 'react';
+import ProfileMenu from '@/app/_layout/ProfileMenu';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 const Component = () => {
+    const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
     const [openProfileMenu, setOpenProfileMenu] = useState<boolean>(false);
-    const [openAuth, setOpenAuth] = useState<boolean>(false);
     const { secret } = useAuthContext();
     const { data: user } = useQuery({
         queryKey: ['loggedUser', secret],
@@ -33,9 +33,9 @@ const Component = () => {
             className={clsx(
                 'top-0 left-0 right-0 sticky z-10 bg-transparent',
                 'w-full',
-                'border-b border-secondary/30',
+                'border-b border-b-secondary/30',
                 'transition',
-                trigger && '!bg-black !border-secondary',
+                trigger && '!bg-black !border-b-secondary',
             )}
         >
             <div className="navbar container max-w-screen-xl px-4 mx-auto">
@@ -54,12 +54,12 @@ const Component = () => {
                     <Link
                         href="/anime"
                         role="button"
-                        className="btn-outline btn btn-sm"
+                        className="btn-outline btn-secondary btn btn-sm"
                     >
                         Аніме
                     </Link>
                 </div>
-                <div className="navbar-end">
+                <div className="navbar-end gap-4">
                     {user ? (
                         <button
                             ref={profileRef}
@@ -74,17 +74,30 @@ const Component = () => {
                             />
                         </button>
                     ) : (
-                        <button
-                            className="btn-outline btn-md btn"
-                            onClick={() => setOpenAuth(true)}
-                        >
-                            Увійти
-                        </button>
+                        <>
+                            <button
+                                className="btn-ghost btn-sm btn"
+                                onClick={() => switchModal('login')}
+                            >
+                                Увійти
+                            </button>
+                            <button
+                                className="btn-accent btn-sm btn"
+                                onClick={() => switchModal('signup')}
+                            >
+                                Реєстрація
+                            </button>
+
+                        </>
                     )}
                 </div>
             </div>
-            <ProfileMenu open={openProfileMenu} setOpen={setOpenProfileMenu} anchorEl={profileRef.current} />
-            {!user && <AuthModal open={openAuth} setOpen={setOpenAuth} />}
+            <ProfileMenu
+                open={openProfileMenu}
+                setOpen={setOpenProfileMenu}
+                anchorEl={profileRef.current}
+            />
+            {!user && <AuthModal />}
         </nav>
     );
 };

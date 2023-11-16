@@ -120,7 +120,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     'btn btn-square join-item btn-md text-xl',
                                     listboxVisible && 'border-b-0',
                                     value
-                                        ? 'btn-error btn-outline bg-secondary'
+                                        ? 'btn-error bg-secondary border-secondary'
                                         : 'btn-secondary',
                                 )}
                             >

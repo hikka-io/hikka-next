@@ -1,13 +1,20 @@
 'use client';
 
 import Modal from '@/app/_components/Modal';
-import {Dispatch, ReactNode, SetStateAction, useState} from 'react';
+import {
+    Dispatch,
+    ReactNode,
+    SetStateAction,
+    useEffect,
+    useState,
+} from 'react';
 import clsx from 'clsx';
 import GeneralForm from './settings/GeneralForm';
 import useIsMobile from '@/utils/hooks/useIsMobile';
-import EmailForm from "./settings/EmailForm";
-import UsernameForm from "@/app/u/[username]/_layout/settings/UsernameForm";
-import PasswordForm from "@/app/u/[username]/_layout/settings/PasswordForm";
+import EmailForm from './settings/EmailForm';
+import UsernameForm from '@/app/u/[username]/_layout/settings/UsernameForm';
+import PasswordForm from '@/app/u/[username]/_layout/settings/PasswordForm';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type Tab = 'general' | 'password' | 'username' | 'email';
 
@@ -48,12 +55,18 @@ interface Props {
     setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Component = ({ open, setOpen }: Props) => {
+const Component = () => {
+    const { userSettings, closeModals } = useModalContext();
     const isMobile = useIsMobile();
     const [activeTab, setActiveTab] = useState<Tab | undefined>(
         isMobile ? undefined : 'general',
     );
-    // className="md:py-4 md:px-8 flex flex-col gap-6"
+
+    useEffect(() => {
+        if (!userSettings) {
+            setActiveTab(isMobile ? undefined : 'general');
+        }
+    }, [userSettings]);
 
     const Tabs = () => {
         return (
@@ -87,8 +100,8 @@ const Component = ({ open, setOpen }: Props) => {
 
     return (
         <Modal
-            open={open}
-            onDismiss={() => setOpen(false)}
+            open={Boolean(userSettings)}
+            onDismiss={closeModals}
             id="settingsModal"
             boxClassName="p-0"
         >

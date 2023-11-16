@@ -41,7 +41,7 @@ const Component = ({ extended }: Props) => {
                 {filteredData.map((staff) => (
                     <BaseCard
                         key={staff.person.slug}
-                        href={`/person/${staff.person.slug}`}
+                        // href={`/person/${staff.person.slug}`}
                         poster={staff.person.image}
                         title={
                             staff.person.name_ua ||

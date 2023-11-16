@@ -18,7 +18,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <h3>Опис</h3>
-            <p>{data.synopsis_ua || data.synopsis_en}</p>
+            <p className="whitespace-pre-wrap">{data.synopsis_ua || data.synopsis_en}</p>
         </div>
     );
 };

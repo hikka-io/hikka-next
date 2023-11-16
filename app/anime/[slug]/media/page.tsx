@@ -1,4 +1,9 @@
 import Media from '@/app/anime/[slug]/_layout/Media';
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Медіа',
+}
 
 const Component = async () => {
     return (

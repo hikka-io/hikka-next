@@ -1,6 +1,6 @@
 import config from '@/utils/api/config';
 
-interface Response {
+export interface Response {
     companies: Hikka.Company[];
     genres: Hikka.Genre[];
     start_date: number;

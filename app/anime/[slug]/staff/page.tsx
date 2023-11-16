@@ -1,4 +1,9 @@
 import Staff from '@/app/anime/[slug]/_layout/Staff';
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Автори',
+}
 
 const Component = async () => {
     return (

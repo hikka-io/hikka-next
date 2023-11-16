@@ -27,7 +27,7 @@ const Component = ({}: Props) => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
                 <h3>Стежать</h3>
-                <Link href="#" className="btn btn-outline btn-xs">{data.pagination.total}</Link>
+                <Link href="#" className="btn btn-outline btn-secondary btn-xs">{data.pagination.total}</Link>
             </div>
             <div className="grid grid-cols-5 gap-4">
                 {data.list.slice(0, 8).map((user) => (

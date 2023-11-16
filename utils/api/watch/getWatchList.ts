@@ -17,9 +17,11 @@ export interface Response {
 export default async function req({
     username,
     status,
+    page = 1,
 }: {
     username: string;
     status: Hikka.WatchStatus;
+    page?: number;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI +
@@ -28,6 +30,7 @@ export default async function req({
             '/list?' +
             new URLSearchParams({
                 status: status,
+                page: String(page),
             }),
         {
             method: 'get',

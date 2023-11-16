@@ -1,6 +1,6 @@
 import config from '@/utils/api/config';
 
-interface Response {
+export interface Response {
     description: string;
     created: number;
     username: string;

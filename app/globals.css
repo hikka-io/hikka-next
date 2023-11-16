@@ -57,27 +57,96 @@ h4 {
 h5 {
     @apply font-bold text-base;
 }
+/*
 
 .btn-outline, .badge-outline {
     @apply border-secondary/60;
 }
-
-.btn.btn-secondary {
-    @apply border-secondary/60;
-}
-
-.btn.btn-accent {
-    @apply border-accent/60;
-}
-
-.btn.btn-neutral {
-    @apply border-neutral/60;
-}
+*/
 
 .btn {
+    @apply text-white/90;
     text-transform: capitalize;
     animation: none;
 }
+
+.btn:hover {
+    @apply text-white;
+}
+
+/* neutral btn */
+
+.btn.btn-neutral {
+    @apply text-neutral-content/90;
+}
+
+.btn.btn-neutral:hover {
+    @apply text-neutral-content;
+}
+
+.btn.btn-outline.btn-neutral {
+    @apply border-neutral/60 text-neutral-content/90;
+}
+
+.btn.btn-outline.btn-neutral:hover {
+    @apply border-neutral bg-neutral/10 text-neutral-content;
+}
+
+/* secondary btn */
+
+.btn.btn-secondary {
+    @apply text-secondary-content/90;
+}
+
+.btn.btn-secondary:hover {
+    @apply text-secondary-content;
+}
+
+.btn.btn-outline.btn-secondary {
+    @apply border-secondary/60 text-secondary-content/90;
+}
+
+.btn.btn-outline.btn-secondary:hover {
+    @apply border-secondary bg-secondary/10 text-secondary-content;
+}
+
+/* accent btn */
+
+.btn.btn-accent {
+    @apply text-accent-content/90;
+}
+
+.btn.btn-accent:hover {
+    @apply text-accent-content;
+}
+
+.btn.btn-outline.btn-accent {
+    @apply border-accent/60 text-accent/90;
+}
+
+.btn.btn-outline.btn-accent:hover {
+    @apply border-accent bg-accent/10 text-accent;
+}
+
+/* error btn */
+
+.btn.btn-error {
+    @apply text-error-content/90;
+}
+
+.btn.btn-error:hover {
+    @apply text-error-content;
+}
+
+.btn.btn-outline.btn-error {
+    @apply border-error/60 text-error/90;
+}
+
+.btn.btn-outline.btn-error:hover {
+    @apply border-error bg-error/10 text-error;
+}
+
+/**/
 
 .btn-sm {
     height: 2.5rem;
@@ -104,6 +173,12 @@ h5 {
 .btn-circle:where(.btn-badge) {
     width: 2rem;
 }
+
+.btn.btn-disabled, .btn[disabled], .btn:disabled {
+    border: none;
+    color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity))) !important;
+}
+
 
 /*
 .btn-xs {

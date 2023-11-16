@@ -1,10 +1,9 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
-import useRouter from '@/utils/useRouter';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import signup, { Response } from '@/utils/api/auth/signup';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = {
     email: string;
@@ -13,13 +12,8 @@ type FormValues = {
     passwordConfirmation: string;
 };
 
-interface Props {
-    open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
-    setTab: Dispatch<SetStateAction<'login' | 'signup'>>;
-}
-
-const Component = ({ open, setOpen, setTab }: Props) => {
+const Component = () => {
+    const { signup: signupModal, switchModal } = useModalContext();
     const [signUpUser, setSignUpUser] = useState<Response | null>(null);
     const {
         register,
@@ -28,8 +22,6 @@ const Component = ({ open, setOpen, setTab }: Props) => {
         setFocus,
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
-    const { setState: setAuth } = useAuthContext();
-    const router = useRouter();
 
     const onSubmit = async (data: FormValues) => {
         try {
@@ -52,7 +44,7 @@ const Component = ({ open, setOpen, setTab }: Props) => {
     };
 
     useEffect(() => {
-        if (open) {
+        if (signupModal) {
             setFocus('email');
         }
     }, [open]);
@@ -62,12 +54,14 @@ const Component = ({ open, setOpen, setTab }: Props) => {
             <div className="w-full flex flex-col items-center gap-8">
                 <h2 className="text-accent">🥳️ Вітаємо!</h2>
                 <p>
-                    <span className="text-accent font-bold">{signUpUser.username}</span>, на Вашу пошту відправлено лист
-                    підтведження. Будь ласка, перейдіть по посиланню у листі,
-                    щоб завершити реєстрацію.
+                    <span className="text-accent font-bold">
+                        {signUpUser.username}
+                    </span>
+                    , Ви успішно зареєструвались. Бажаємо приємного
+                    користування!
                 </p>
                 <button
-                    onClick={() => setTab('login')}
+                    onClick={() => switchModal('login')}
                     className="btn btn-secondary w-full"
                 >
                     Авторизація
@@ -164,7 +158,7 @@ const Component = ({ open, setOpen, setTab }: Props) => {
                 </button>
                 <button
                     disabled={isSubmitting}
-                    onClick={() => setTab('login')}
+                    onClick={() => switchModal('login')}
                     className="btn btn-secondary w-full"
                 >
                     Авторизація

@@ -1,25 +1,24 @@
 'use client';
 
-import Image from '@/app/_components/Image';
-import {useAuthContext} from '@/utils/providers/AuthProvider';
-import {useForm} from 'react-hook-form';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useForm } from 'react-hook-form';
 import login from '@/utils/api/auth/login';
 import useRouter from '@/utils/useRouter';
-import {setCookie} from "@/app/actions";
-import {Dispatch, SetStateAction, useEffect} from "react";
+import { setCookie } from '@/app/actions';
+import { useEffect } from 'react';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = {
     email: string;
     password: string;
 };
 
-interface Props {
-    open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
-    setTab: Dispatch<SetStateAction<'login' | 'signup'>>;
-}
-
-const Component = ({ open, setOpen, setTab }: Props) => {
+const Component = () => {
+    const {
+        login: loginModal,
+        setState: setModalState,
+        switchModal,
+    } = useModalContext();
     const {
         register,
         reset,
@@ -36,7 +35,7 @@ const Component = ({ open, setOpen, setTab }: Props) => {
             setAuth((prev) => res);
             await setCookie('secret', res.secret);
             reset();
-            setOpen(false);
+            setModalState((prev) => ({ ...prev, login: false, signup: false }));
             router.refresh();
             return;
         } catch (e) {
@@ -46,7 +45,7 @@ const Component = ({ open, setOpen, setTab }: Props) => {
     };
 
     useEffect(() => {
-        if (open) {
+        if (loginModal) {
             setFocus('email');
         }
     }, [open]);
@@ -111,7 +110,7 @@ const Component = ({ open, setOpen, setTab }: Props) => {
                 </button>
                 <button
                     disabled={isSubmitting}
-                    onClick={() => setTab('signup')}
+                    onClick={() => switchModal('signup')}
                     className="btn btn-secondary w-full"
                 >
                     Реєстрація

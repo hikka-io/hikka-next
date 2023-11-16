@@ -1,9 +1,8 @@
 'use client';
 
 import { MEDIA_TYPE } from '@/utils/constants';
-import { Response } from '@/utils/api/watch/getWatchList';
 import WatchEditModal from '@/app/u/[username]/list/_layout/WatchEditModal';
-import {CSSProperties, useState} from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
@@ -11,12 +10,23 @@ import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import clsx from 'clsx';
 import { useParams } from 'next/navigation';
 import Image from '@/app/_components/Image';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 interface Props {
-    data: Response;
+    data: {
+        reference: string;
+        updated: number;
+        created: number;
+        note: string;
+        status: Hikka.WatchStatus;
+        episodes: number;
+        score: number;
+        anime: Hikka.Anime;
+    }[];
 }
 
 const Component = ({ data }: Props) => {
+    const { setState: setModalState } = useModalContext();
     const { secret } = useAuthContext();
     const params = useParams();
     const [go, setGo] = useState(false);
@@ -28,6 +38,12 @@ const Component = ({ data }: Props) => {
         enabled: Boolean(secret),
     });
 
+    useEffect(() => {
+        if (slug) {
+            setModalState((prev) => ({ ...prev, animeSettings: true }));
+        }
+    }, [slug]);
+
     return (
         <div className="overflow-x-auto">
             <table className="table">
@@ -38,7 +54,10 @@ const Component = ({ data }: Props) => {
                         <th className="w-20" align="center">
                             Епізоди
                         </th>
-                        <th className="w-32 hidden md:table-cell" align="center">
+                        <th
+                            className="w-32 hidden md:table-cell"
+                            align="center"
+                        >
                             Тип
                         </th>
                         <th className="w-20" align="center">
@@ -47,7 +66,7 @@ const Component = ({ data }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.list.map((res, i) => (
+                    {data.map((res, i) => (
                         <tr
                             key={res.reference}
                             className={clsx(
@@ -93,7 +112,10 @@ const Component = ({ data }: Props) => {
                             <td className="w-20" align="center">
                                 {res.episodes} / {res.anime.episodes_total}
                             </td>
-                            <td className="w-32 hidden md:table-cell" align="center">
+                            <td
+                                className="w-32 hidden md:table-cell"
+                                align="center"
+                            >
                                 {
                                     MEDIA_TYPE[
                                         res.anime.media_type as Hikka.MediaType
@@ -104,13 +126,15 @@ const Component = ({ data }: Props) => {
                                 <div
                                     className={clsx(
                                         'radial-progress text-accent border border-secondary',
-
                                     )}
-                                    style={{
-                                        '--value': res.score * 10,
-                                        '--size': '2.5rem',
-                                        '--thickness': res.score > 0 ? '2px' : '0px',
-                                    } as CSSProperties}
+                                    style={
+                                        {
+                                            '--value': res.score * 10,
+                                            '--size': '2.5rem',
+                                            '--thickness':
+                                                res.score > 0 ? '2px' : '0px',
+                                        } as CSSProperties
+                                    }
                                     role="progressbar"
                                 >
                                     {res.score}

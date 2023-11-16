@@ -1,4 +1,9 @@
 import Franchise from '@/app/anime/[slug]/_layout/Franchise';
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Пов\'язане',
+}
 
 const Component = async () => {
     return (

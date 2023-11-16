@@ -1,4 +1,9 @@
 import Links from '@/app/anime/[slug]/_layout/Links';
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Посилання',
+}
 
 const Component = async () => {
     return (

@@ -114,7 +114,7 @@ const Component = () => {
                         <Select
                             placeholder="Виберіть жанр/жанри"
                             multiple
-                            toggleClassName="btn-outline"
+                            toggleClassName="btn-outline btn-secondary"
                             value={genres}
                             onChange={(_e, value) =>
                                 handleChangeParam('genres', value as string[])
@@ -131,7 +131,7 @@ const Component = () => {
                         </Select>
                     )}
                 </div>
-                <div className="form-control w-full">
+                {/*<div className="form-control w-full">
                     <label className="label cursor-pointer justify-start gap-4">
                         <input
                             type="checkbox"
@@ -145,7 +145,7 @@ const Component = () => {
                             Перекладено українською
                         </span>
                     </label>
-                </div>
+                </div>*/}
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text text-neutral">
@@ -163,7 +163,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
                                     statuses.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -189,7 +189,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
                                     types.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -215,7 +215,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
                                     seasons.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -243,7 +243,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
                                     ageRatings.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -295,11 +295,11 @@ const Component = () => {
                     className="btn btn-outline flex-1 btn-error bg-black"
                 >
                     <AntDesignClearOutlined />
-                    Clear Filters
+                    Очистити
                 </button>
                 <label
                     htmlFor="filterDrawer"
-                    className="btn drawer-button btn-square btn-outline flex md:hidden bg-black"
+                    className="btn btn-secondary drawer-button btn-square btn-outline flex md:hidden bg-black"
                 >
                     <AntDesignCloseOutlined />
                 </label>

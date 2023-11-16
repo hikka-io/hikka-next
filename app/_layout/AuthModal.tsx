@@ -2,22 +2,17 @@
 
 import Modal from '@/app/_components/Modal';
 import Image from '@/app/_components/Image';
-import { Dispatch, SetStateAction, useState } from 'react';
 import LoginForm from '@/app/_layout/auth/LoginForm';
 import SignUpForm from '@/app/_layout/auth/SignUpForm';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
-interface Props {
-    open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-const Component = ({ open, setOpen }: Props) => {
-    const [tab, setTab] = useState<'login' | 'signup'>('login');
+const Component = () => {
+    const { login, signup, closeModals } = useModalContext();
 
     return (
         <Modal
-            open={open}
-            onDismiss={() => setOpen(false)}
+            open={Boolean(login) || Boolean(signup)}
+            onDismiss={closeModals}
             id="authModal"
             boxClassName="p-0"
         >
@@ -40,20 +35,8 @@ const Component = ({ open, setOpen }: Props) => {
                             height={25}
                         />
                     </div>
-                    {open && tab === 'login' && (
-                        <LoginForm
-                            open={open}
-                            setOpen={setOpen}
-                            setTab={setTab}
-                        />
-                    )}
-                    {open && tab === 'signup' && (
-                        <SignUpForm
-                            open={open}
-                            setOpen={setOpen}
-                            setTab={setTab}
-                        />
-                    )}
+                    {login && <LoginForm />}
+                    {signup && <SignUpForm />}
                 </div>
             </div>
         </Modal>

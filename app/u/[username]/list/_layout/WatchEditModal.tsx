@@ -16,6 +16,7 @@ import Select from '@/app/_components/Select';
 import { WATCH_STATUS } from '@/utils/constants';
 import addWatch from '@/utils/api/watch/addWatch';
 import deleteWatch from '@/utils/api/watch/deleteWatch';
+import {useModalContext} from "@/utils/providers/ModalProvider";
 
 type FormValues = {
     score: number;
@@ -29,6 +30,7 @@ interface Props {
 }
 
 const Component = ({ slug, setSlug }: Props) => {
+    const { animeSettings, closeModals } = useModalContext();
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const { data: watch, isError: watchError } = useQuery({
@@ -98,7 +100,7 @@ const Component = ({ slug, setSlug }: Props) => {
     };
 
     const onDismiss = () => {
-        window.watchEditModal.close();
+        closeModals();
         setTimeout(() => setSlug(null), 300);
         reset();
     };
@@ -111,7 +113,7 @@ const Component = ({ slug, setSlug }: Props) => {
 
     return (
         <Modal
-            open={Boolean(slug) && Boolean(watch)}
+            open={Boolean(animeSettings) && Boolean(watch)}
             onDismiss={onDismiss}
             id="watchEditModal"
             boxClassName="p-0 !max-w-xl"

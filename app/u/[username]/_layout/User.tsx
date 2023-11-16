@@ -13,12 +13,12 @@ import follow from '@/utils/api/follow/follow';
 import unfollow from '@/utils/api/follow/unfollow';
 import PajamasPreferences from '~icons/pajamas/preferences';
 import SettingsModal from '@/app/u/[username]/_layout/SettingsModal';
-import { useState } from 'react';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 interface Props {}
 
 const Component = ({}: Props) => {
-    const [open, setOpen] = useState<boolean>(false);
+    const { switchModal } = useModalContext();
     const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
@@ -108,7 +108,7 @@ const Component = ({}: Props) => {
             </div>
             {loggedUser && loggedUser.username === user.username && (
                 <button
-                    onClick={() => setOpen(true)}
+                    onClick={() => switchModal('userSettings')}
                     className="btn btn-secondary"
                 >
                     <PajamasPreferences /> Налаштування
@@ -153,7 +153,7 @@ const Component = ({}: Props) => {
                     Відстежувати
                 </button>
             )}
-            <SettingsModal open={open} setOpen={setOpen} />
+            <SettingsModal />
         </div>
     );
 };

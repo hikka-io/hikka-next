@@ -60,7 +60,7 @@ const Component = ({ slug, disabled }: Props) => {
             }
             className={clsx(
                 'btn btn-square btn-outline btn-md text-xl',
-                (favorite && !favoriteError) ? 'btn-error bg-secondary' : 'btn-neutral',
+                (favorite && !favoriteError) ? 'btn-error bg-secondary !border-secondary' : 'btn-secondary',
             )}
         >
             {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded /> : <MaterialSymbolsFavoriteOutlineRounded />}

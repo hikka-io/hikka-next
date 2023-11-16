@@ -89,7 +89,7 @@ const Component = ({
                     </h3>
                     <button
                         onClick={onDismiss}
-                        className="btn btn-outline btn-square"
+                        className="btn btn-outline btn-secondary btn-square"
                     >
                         <AntDesignCloseOutlined />
                     </button>

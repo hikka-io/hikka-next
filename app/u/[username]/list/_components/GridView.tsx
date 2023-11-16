@@ -1,16 +1,24 @@
 'use client';
 
-import { Response } from '@/utils/api/watch/getWatchList';
 import AnimeCard from '@/app/_components/AnimeCard';
 
 interface Props {
-    data: Response;
+    data: {
+        reference: string;
+        updated: number;
+        created: number;
+        note: string;
+        status: Hikka.WatchStatus;
+        episodes: number;
+        score: number;
+        anime: Hikka.Anime;
+    }[];
 }
 
 const Component = ({ data }: Props) => {
     return (
         <div className="grid md:grid-cols-5 grid-cols-2 md:gap-8 gap-4">
-            {data.list.map((res) => (
+            {data.map((res) => (
                 <AnimeCard
                     slug={res.anime.slug}
                     key={res.reference}

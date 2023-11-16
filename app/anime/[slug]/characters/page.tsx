@@ -1,4 +1,9 @@
 import Characters from '@/app/anime/[slug]/_layout/Characters';
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Персонажі',
+}
 
 const Component = async () => {
     return (

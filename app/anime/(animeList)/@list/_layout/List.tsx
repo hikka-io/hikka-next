@@ -154,15 +154,15 @@ const Component = () => {
     if (data === undefined || !data?.list || data.list.length === 0) {
         return (
             <NotFound
-                title="No results were found for your request"
-                description="Clear or modify your filters to change the result"
+                title="Не знайдено результатів за Вашим запитом"
+                description="Очистіть або змініть фільтри, щоб отримати інший результат"
             >
                 <button
                     onClick={() => router.push(pathname)}
                     className="btn btn-error w-full md:w-auto"
                 >
                     <AntDesignClearOutlined />
-                    Clear Filters
+                    Очистити
                 </button>
             </NotFound>
         );
@@ -196,7 +196,7 @@ const Component = () => {
                         onClick={() => setSelectedPage((prev) => prev - 1)}
                         disabled={selectedPage === 1}
                         className={clsx(
-                            'btn btn-outline btn-square md:btn-md btn-badge md:text-base text-xs',
+                            'btn btn-outline btn-secondary btn-square md:btn-md btn-badge md:text-base text-xs',
                         )}
                     >
                         <AntDesignArrowLeftOutlined />
@@ -209,8 +209,8 @@ const Component = () => {
                                     onClick={() => v && setSelectedPage(v)}
                                     key={index}
                                     className={clsx(
-                                        'btn btn-outline btn-square md:btn-md btn-badge md:text-base text-xs',
-                                        selectedPage === v && 'btn-active btn-accent',
+                                        'btn btn-square md:btn-md btn-badge md:text-base text-xs',
+                                        selectedPage === v ? 'btn-accent' : 'btn-outline btn-secondary',
                                         !v && '!btn-ghost'
                                     )}
                                 >
@@ -223,7 +223,7 @@ const Component = () => {
                         onClick={() => setSelectedPage((prev) => prev + 1)}
                         disabled={selectedPage === data.pagination.pages}
                         className={clsx(
-                            'btn btn-outline btn-square md:btn-md btn-badge md:text-base text-xs',
+                            'btn btn-outline btn-secondary btn-square md:btn-md btn-badge md:text-base text-xs',
                         )}
                     >
                         <AntDesignArrowRightOutlined />

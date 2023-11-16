@@ -10,32 +10,42 @@ import {
 } from 'next/navigation';
 import { createElement, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { useQuery } from '@tanstack/react-query';
-import getWatchList from '@/utils/api/watch/getWatchList';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import getWatchList, { Response } from '@/utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 import Select from '@/app/_components/Select';
 import NotFound from '@/app/_components/NotFound';
 import TableView from '@/app/u/[username]/list/_components/TableView';
 import GridView from '@/app/u/[username]/list/_components/GridView';
+import { useInView } from 'react-intersection-observer';
 
 interface Props {}
 
 const Component = ({}: Props) => {
+    const { ref, inView } = useInView();
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams()!;
     const [view, setView] = useState<'table' | 'grid'>('table');
     const watchStatus = searchParams.get('status');
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['list', params.username, watchStatus],
-        queryFn: () =>
-            getWatchList({
-                username: String(params.username),
-                status: watchStatus as Hikka.WatchStatus,
-            }),
-        staleTime: 0,
-    });
+    const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+        useInfiniteQuery({
+            queryKey: ['list', params.username, watchStatus],
+            getNextPageParam: (lastPage: Response, allPages) => {
+                const nextPage = lastPage.pagination.page + 1;
+                return nextPage > lastPage.pagination.pages
+                    ? undefined
+                    : nextPage;
+            },
+            queryFn: ({ pageParam = 1 }) =>
+                getWatchList({
+                    username: String(params.username),
+                    status: watchStatus as Hikka.WatchStatus,
+                    page: pageParam,
+                }),
+            staleTime: 0,
+        });
 
     const createQueryString = useCallback(
         (name: string, value: string | string[] | boolean) => {
@@ -64,9 +74,17 @@ const Component = ({}: Props) => {
         }
     }, [watchStatus]);
 
-    if (!data || !data.list || !watchStatus) {
+    useEffect(() => {
+        if (inView) {
+            fetchNextPage();
+        }
+    }, [inView])
+
+    if (!data || !data.pages || !watchStatus) {
         return null;
     }
+
+    const list = data.pages.map((data) => data.list).flat(1);
 
     return (
         <div className="flex flex-col gap-8">
@@ -76,7 +94,10 @@ const Component = ({}: Props) => {
                         toggleClassName="btn-ghost"
                         value={watchStatus}
                         onChange={(_e, value) => {
-                            const query = createQueryString('status', value as string);
+                            const query = createQueryString(
+                                'status',
+                                value as string,
+                            );
                             router.replace(`${pathname}?${query}`);
                         }}
                         renderValue={(option) =>
@@ -131,11 +152,11 @@ const Component = ({}: Props) => {
                     </button>
                 </div>
             </div>
-            {data.list.length > 0 ? (
+            {list.length > 0 ? (
                 view === 'table' ? (
-                    <TableView data={data} />
+                    <TableView data={list} />
                 ) : (
-                    <GridView data={data} />
+                    <GridView data={list} />
                 )
             ) : (
                 <NotFound
@@ -143,13 +164,30 @@ const Component = ({}: Props) => {
                         <span>
                             No anime added to the{' '}
                             <span className="font-black">
-                                {WATCH_STATUS[watchStatus as Hikka.WatchStatus].title_en}
+                                {
+                                    WATCH_STATUS[
+                                        watchStatus as Hikka.WatchStatus
+                                    ].title_en
+                                }
                             </span>{' '}
                             list
                         </span>
                     }
                     description="The list will be updated after adding anime with this status"
                 />
+            )}
+            {hasNextPage && (
+                <button
+                    ref={ref}
+                    disabled={isFetchingNextPage}
+                    onClick={() => fetchNextPage()}
+                    className="btn btn-secondary"
+                >
+                    {isFetchingNextPage && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Заванатажити ще
+                </button>
             )}
         </div>
     );

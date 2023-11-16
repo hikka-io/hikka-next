@@ -26,7 +26,7 @@ module.exports = {
                     'primary-content': '#fff',
 
                     secondary: '#292929',
-                    'secondary=content': '#fff',
+                    'secondary-content': '#fff',
 
                     accent: '#e779c1',
                     'accent-content': '#000',
@@ -48,6 +48,7 @@ module.exports = {
                     warning: '#f3cc30',
 
                     error: '#e24056',*/
+                    'error-content': '#fff',
                 },
             },
         ],
