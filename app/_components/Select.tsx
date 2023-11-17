@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import {
     CSSProperties,
@@ -16,9 +17,10 @@ import {
     useSelect,
     UseSelectButtonSlotProps,
 } from '@mui/base/useSelect';
-import { useOption } from '@mui/base/useOption';
+import { useOption, useOptionContextStabilizer } from '@mui/base/useOption';
 import { SelectOption } from '@mui/base';
 import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
+import { ListContext } from '@mui/base/useList';
 
 type OptionValue = string | number | null;
 
@@ -80,7 +82,6 @@ const OptionItem = forwardRef(
                     className,
                 )}
                 {...props}
-                {...ref}
             >
                 {children}
             </li>
@@ -96,7 +97,11 @@ function renderSelectedValue(
             return null;
         }
 
-        return <div className="whitespace-nowrap truncate">{`${value.map((so) => so.label).join(' - ')}`}</div>;
+        return (
+            <div className="whitespace-nowrap truncate">{`${value
+                .map((so) => so.label)
+                .join(' - ')}`}</div>
+        );
     }
 
     return value ? `${value.label}` : null;
@@ -110,22 +115,31 @@ interface OptionProps extends PropsWithChildren {
 
 function Option(props: OptionProps) {
     const { children, value, className, disabled = false } = props;
+
+    if (typeof window === 'undefined') {
+        return <OptionItem>{children}</OptionItem>;
+    }
+
     const { getRootProps, highlighted, selected } = useOption({
         value,
         disabled,
         label: children,
     });
+    const { contextValue } = useOptionContextStabilizer(value);
 
     return (
-        <OptionItem
-            {...getRootProps()}
-            className={clsx(
-                selected && 'bg-accent hover:!bg-accent/60 text-accent-content',
-                className,
-            )}
-        >
-            {children}
-        </OptionItem>
+        <ListContext.Provider value={contextValue}>
+            <OptionItem
+                {...getRootProps()}
+                className={clsx(
+                    selected &&
+                        'bg-accent hover:!bg-accent/60 text-accent-content',
+                    className,
+                )}
+            >
+                {children}
+            </OptionItem>
+        </ListContext.Provider>
     );
 }
 

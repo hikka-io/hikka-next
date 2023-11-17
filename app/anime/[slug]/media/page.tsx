@@ -3,6 +3,12 @@ import {Metadata} from "next";
 
 export const metadata: Metadata = {
     title: 'Медіа',
+    openGraph: {
+        title: 'Медіа',
+    },
+    twitter: {
+        title: 'Медіа',
+    }
 }
 
 const Component = async () => {

@@ -77,7 +77,7 @@ const Component = ({
             <div
                 className={clsx(
                     'modal-box ',
-                    'w-full h-[calc(100vh-5em)] max-h-none md:h-auto md:max-h-[calc(100vh-5em)] md:max-w-3xl md:w-11/12',
+                    'w-full h-[100vh] max-h-none md:h-auto md:max-h-[calc(100vh-5em)] md:max-w-3xl md:w-11/12',
                     'border border-secondary',
                     'rounded-none md:rounded-2xl',
                     boxClassName,

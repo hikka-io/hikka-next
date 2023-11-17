@@ -3,6 +3,12 @@ import {Metadata} from "next";
 
 export const metadata: Metadata = {
     title: 'Посилання',
+    openGraph: {
+        title: 'Посилання',
+    },
+    twitter: {
+        title: 'Посилання',
+    }
 }
 
 const Component = async () => {

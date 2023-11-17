@@ -1,9 +1,15 @@
 import Franchise from '@/app/anime/[slug]/_layout/Franchise';
-import {Metadata} from "next";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Пов\'язане',
-}
+    title: "Пов'язане",
+    openGraph: {
+        title: "Пов'язане",
+    },
+    twitter: {
+        title: "Пов'язане",
+    },
+};
 
 const Component = async () => {
     return (
