@@ -17,6 +17,9 @@ export async function GET(request: Request) {
 
         return redirect('/anime?auth=success&provider=google');
     } catch (e) {
+        if ('code' in (e as Hikka.Error)) {
+            return redirect('/anime?auth=error&provider=google&error=' + (e as Hikka.Error).code);
+        }
         return redirect('/anime?auth=error&provider=google');
     }
 }
