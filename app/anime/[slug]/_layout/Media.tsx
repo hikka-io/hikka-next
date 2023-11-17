@@ -7,10 +7,9 @@ import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 import { OST, VIDEO } from '@/utils/constants';
 import { useState } from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
 import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 import BaseCard from '@/app/_components/BaseCard';
+import SubHeader from '@/app/_components/SubHeader';
 
 interface Props {
     extended?: boolean;
@@ -47,43 +46,10 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex gap-2 justify-between">
-                <div className="flex gap-8 items-center">
-                    <h3>Медіа</h3>
-                    <div className="flex gap-2">
-                        {data.videos.length > 0 && (
-                            <button
-                                onClick={() => setActive('video')}
-                                className={clsx(
-                                    'btn btn-badge btn-ghost rounded-full',
-                                    active === 'video' && 'btn-active',
-                                )}
-                            >
-                                Відео
-                            </button>
-                        )}
-                        {data.ost.length > 0 && (
-                            <button
-                                onClick={() => setActive('music')}
-                                className={clsx(
-                                    'btn btn-badge btn-ghost rounded-full',
-                                    active === 'music' && 'btn-active',
-                                )}
-                            >
-                                Музика
-                            </button>
-                        )}
-                    </div>
-                </div>
-                {!extended && (
-                    <Link
-                        href={params.slug + '/media'}
-                        className="btn btn-badge btn-ghost btn-square"
-                    >
-                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
-                    </Link>
-                )}
-            </div>
+            <SubHeader
+                title="Медіа"
+                href={!extended ? params.slug + '/media' : undefined}
+            />
             <div
                 className={clsx(
                     'grid gap-4 md:gap-8',

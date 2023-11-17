@@ -3,9 +3,8 @@
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
-import Link from 'next/link';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 import BaseCard from '@/app/_components/BaseCard';
+import SubHeader from '@/app/_components/SubHeader';
 
 interface Props {
     extended?: boolean;
@@ -26,17 +25,10 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex justify-between items-center">
-                <h3>Автори</h3>
-                {!extended && (
-                    <Link
-                        href={params.slug + '/staff'}
-                        className="btn btn-badge btn-ghost btn-square"
-                    >
-                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
-                    </Link>
-                )}
-            </div>
+            <SubHeader
+                title="Автори"
+                href={!extended ? params.slug + '/staff' : undefined}
+            />
             <div className="grid md:grid-cols-6 grid-cols-3 gap-4 md:gap-8">
                 {filteredData.map((staff) => (
                     <BaseCard

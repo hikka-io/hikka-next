@@ -7,6 +7,8 @@ import useRouter from '@/utils/useRouter';
 import { setCookie } from '@/app/actions';
 import { useEffect } from 'react';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import getOAuth from '@/utils/api/auth/getOAuth';
+import {redirect} from "next/navigation";
 
 type FormValues = {
     email: string;
@@ -43,6 +45,17 @@ const Component = () => {
             return;
         }
     };
+
+    const onOAuthSubmit = async() => {
+        try {
+            const res = await getOAuth({ provider: 'google' });
+            window.location.href = res.url;
+            return;
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    }
 
     useEffect(() => {
         if (loginModal) {
@@ -107,6 +120,16 @@ const Component = () => {
                         <span className="loading loading-spinner"></span>
                     )}
                     Увійти
+                </button>
+                <button
+                    onClick={onOAuthSubmit}
+                    disabled={isSubmitting}
+                    className="btn btn-outline btn-accent w-full mb-2"
+                >
+                    {isSubmitting && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Увійти з Google
                 </button>
                 <button
                     disabled={isSubmitting}

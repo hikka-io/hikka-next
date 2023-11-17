@@ -4,9 +4,8 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
 import AnimeCard from '@/app/_components/AnimeCard';
-import Link from 'next/link';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded'
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import SubHeader from '@/app/_components/SubHeader';
 
 interface Props {
     extended?: boolean;
@@ -39,17 +38,10 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex justify-between items-center">
-                <h3>{`Пов'язане`}</h3>
-                {!extended && (
-                    <Link
-                        href={params.slug + '/franchise'}
-                        className="btn btn-badge btn-ghost btn-square"
-                    >
-                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
-                    </Link>
-                )}
-            </div>
+            <SubHeader
+                title={`Пов'язане`}
+                href={!extended ? params.slug + '/franchise' : undefined}
+            />
             <div className="grid md:grid-cols-5 grid-cols-2 gap-4 md:gap-8">
                 {filteredData.map((anime) => (
                     <AnimeCard
@@ -57,7 +49,9 @@ const Component = ({ extended }: Props) => {
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         poster={anime.poster}
-                        title={anime.title_ua || anime.title_en || anime.title_ja}
+                        title={
+                            anime.title_ua || anime.title_en || anime.title_ja
+                        }
                         posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
                     />
                 ))}

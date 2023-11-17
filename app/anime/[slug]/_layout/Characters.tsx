@@ -6,6 +6,7 @@ import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 import Link from 'next/link';
 import BaseCard from '@/app/_components/BaseCard';
+import SubHeader from '@/app/_components/SubHeader';
 
 interface Props {
     extended?: boolean;
@@ -28,17 +29,10 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex justify-between items-center">
-                <h3>{extended ? 'Персонажі' : 'Головні Персонажі'}</h3>
-                {!extended && (
-                    <Link
-                        href={params.slug + '/characters'}
-                        className="btn btn-badge btn-ghost btn-square"
-                    >
-                        <MaterialSymbolsArrowRightAltRounded className="text-2xl" />
-                    </Link>
-                )}
-            </div>
+            <SubHeader
+                title={extended ? 'Персонажі' : 'Головні Персонажі'}
+                href={!extended ? params.slug + '/characters' : undefined}
+            />
             <div className="grid md:grid-cols-6 grid-cols-3 gap-4 md:gap-8">
                 {filteredData.map((ch) => (
                     <BaseCard
