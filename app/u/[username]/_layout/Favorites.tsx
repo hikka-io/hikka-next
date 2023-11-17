@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded'
+import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 import { useParams } from 'next/navigation';
 import AnimeCard from '@/app/_components/AnimeCard';
 import { useQuery } from '@tanstack/react-query';
 import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
+import { WATCH_STATUS } from '@/utils/constants';
+import NotFound from '@/app/_components/NotFound';
 
 interface Props {
     extended?: boolean;
@@ -42,7 +44,7 @@ const Component = ({ extended }: Props) => {
                     </Link>
                 )}
             </div>
-            <div className="grid md:grid-cols-5 grid-cols-2 md:gap-8 gap-4">
+            {filteredData.length > 0 && <div className="grid md:grid-cols-5 grid-cols-2 md:gap-8 gap-4">
                 {filteredData.map((res) => (
                     <AnimeCard
                         key={res.reference}
@@ -56,7 +58,17 @@ const Component = ({ extended }: Props) => {
                         slug={res.anime.slug}
                     />
                 ))}
-            </div>
+            </div>}
+            {filteredData.length === 0 && (
+                <NotFound
+                    title={
+                        <span>
+                                У списку <span className="font-black">Улюблені</span> пусто
+                            </span>
+                    }
+                    description="Цей список оновиться після як сюди буде додано аніме"
+                />
+            )}
         </div>
     );
 };

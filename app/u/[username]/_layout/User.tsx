@@ -146,7 +146,7 @@ const Component = ({}: Props) => {
                 ) : null
             ) : (
                 <button
-                    onClick={() => window.authModal.showModal()}
+                    onClick={() => switchModal('login')}
                     className="btn bg-secondary/60 w-full"
                 >
                     <CilUserFollow />

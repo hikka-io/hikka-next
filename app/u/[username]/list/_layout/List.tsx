@@ -162,18 +162,18 @@ const Component = ({}: Props) => {
                 <NotFound
                     title={
                         <span>
-                            No anime added to the{' '}
+                            У списку{' '}
                             <span className="font-black">
                                 {
                                     WATCH_STATUS[
                                         watchStatus as Hikka.WatchStatus
-                                    ].title_en
+                                    ].title_ua
                                 }
                             </span>{' '}
-                            list
+                            пусто
                         </span>
                     }
-                    description="The list will be updated after adding anime with this status"
+                    description="Цей список оновиться після як сюди буде додано аніме з цим статусом"
                 />
             )}
             {hasNextPage && (

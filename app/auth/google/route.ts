@@ -14,12 +14,13 @@ export async function GET(request: Request) {
         });
 
         cookies().set('secret', res.secret);
-
-        return redirect('/anime?auth=success&provider=google');
     } catch (e) {
         if ('code' in (e as Hikka.Error)) {
             return redirect('/anime?auth=error&provider=google&error=' + (e as Hikka.Error).code);
         }
-        return redirect('/anime?auth=error&provider=google');
+
+        return redirect('/anime?auth=error&provider=google&error=' + e);
     }
+
+    return redirect('/anime?auth=success&provider=google');
 }
