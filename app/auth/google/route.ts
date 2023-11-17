@@ -1,7 +1,8 @@
 import loginOAuth from '@/utils/api/auth/loginOAuth';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import {NextResponse} from "next/server";
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
     try {
@@ -14,10 +15,8 @@ export async function GET(request: Request) {
 
         cookies().set('secret', res.secret);
 
-        return NextResponse.json({ res });
-
-        // return redirect('/anime?auth=success&provider=google');
+        return redirect('/anime?auth=success&provider=google');
     } catch (e) {
-        return NextResponse.json({ e });
+        return redirect('/anime?auth=error&provider=google');
     }
 }

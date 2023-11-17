@@ -5,9 +5,22 @@ import Image from '@/app/_components/Image';
 import LoginForm from '@/app/_layout/auth/LoginForm';
 import SignUpForm from '@/app/_layout/auth/SignUpForm';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import getOAuth from '@/utils/api/auth/getOAuth';
+import LogosGoogleIcon from '~icons/logos/google-icon'
 
 const Component = () => {
     const { login, signup, closeModals } = useModalContext();
+
+    const onOAuthSubmit = async () => {
+        try {
+            const res = await getOAuth({ provider: 'google' });
+            window.location.href = res.url;
+            return;
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    };
 
     return (
         <Modal
@@ -37,6 +50,13 @@ const Component = () => {
                     </div>
                     {login && <LoginForm />}
                     {signup && <SignUpForm />}
+                    <button
+                        onClick={onOAuthSubmit}
+                        className="btn btn-outline btn-accent w-full mt-4"
+                    >
+                        <LogosGoogleIcon />
+                        Увійти з Google
+                    </button>
                 </div>
             </div>
         </Modal>
