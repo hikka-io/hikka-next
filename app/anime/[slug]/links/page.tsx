@@ -1,14 +1,26 @@
 import Links from '@/app/anime/[slug]/_layout/Links';
-import {Metadata} from "next";
+import { Metadata, ResolvingMetadata } from 'next';
 
-export const metadata: Metadata = {
-    title: 'Посилання',
-    openGraph: {
+export async function generateMetadata(
+    { params }: { params: { slug: string } },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    const parentMetadata = await parent;
+
+    return {
         title: 'Посилання',
-    },
-    twitter: {
-        title: 'Посилання',
-    }
+        description: parentMetadata.openGraph?.description,
+        openGraph: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.openGraph?.images,
+            title: 'Посилання',
+        },
+        twitter: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.twitter?.images,
+            title: 'Посилання',
+        },
+    };
 }
 
 const Component = async () => {

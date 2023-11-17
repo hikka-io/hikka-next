@@ -1,14 +1,26 @@
 import Characters from '@/app/anime/[slug]/_layout/Characters';
-import {Metadata} from "next";
+import { Metadata, ResolvingMetadata } from 'next';
 
-export const metadata: Metadata = {
-    title: 'Персонажі',
-    openGraph: {
-        title: "Персонажі",
-    },
-    twitter: {
-        title: "Персонажі",
-    },
+export async function generateMetadata(
+    { params }: { params: { slug: string } },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    const parentMetadata = await parent;
+
+    return {
+        title: 'Персонажі',
+        description: parentMetadata.openGraph?.description,
+        openGraph: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.openGraph?.images,
+            title: 'Персонажі',
+        },
+        twitter: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.twitter?.images,
+            title: 'Персонажі',
+        },
+    };
 }
 
 const Component = async () => {

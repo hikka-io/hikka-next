@@ -1,15 +1,27 @@
 import Franchise from '@/app/anime/[slug]/_layout/Franchise';
-import { Metadata } from 'next';
+import {Metadata, ResolvingMetadata} from 'next';
 
-export const metadata: Metadata = {
-    title: "Пов'язане",
-    openGraph: {
+export async function generateMetadata(
+    { params }: { params: { slug: string } },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    const parentMetadata = await parent;
+
+    return {
         title: "Пов'язане",
-    },
-    twitter: {
-        title: "Пов'язане",
-    },
-};
+        description: parentMetadata.openGraph?.description,
+        openGraph: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.openGraph?.images,
+            title: "Пов'язане",
+        },
+        twitter: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.twitter?.images,
+            title: "Пов'язане",
+        },
+    };
+}
 
 const Component = async () => {
     return (

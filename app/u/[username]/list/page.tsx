@@ -1,14 +1,26 @@
-import List from "@/app/u/[username]/list/_layout/List";
-import {Metadata} from "next";
+import List from '@/app/u/[username]/list/_layout/List';
+import { Metadata, ResolvingMetadata } from 'next';
 
-export const metadata: Metadata = {
-    title: 'Список',
-    openGraph: {
+export async function generateMetadata(
+    { params }: { params: { username: string } },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    const parentMetadata = await parent;
+
+    return {
         title: 'Список',
-    },
-    twitter: {
-        title: 'Список',
-    }
+        description: parentMetadata.openGraph?.description,
+        openGraph: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.openGraph?.images,
+            title: 'Список',
+        },
+        twitter: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.twitter?.images,
+            title: 'Список',
+        },
+    };
 }
 
 const Component = () => {

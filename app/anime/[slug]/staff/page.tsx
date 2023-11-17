@@ -1,14 +1,26 @@
 import Staff from '@/app/anime/[slug]/_layout/Staff';
-import {Metadata} from "next";
+import { Metadata, ResolvingMetadata } from 'next';
 
-export const metadata: Metadata = {
-    title: 'Автори',
-    openGraph: {
+export async function generateMetadata(
+    { params }: { params: { slug: string } },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    const parentMetadata = await parent;
+
+    return {
         title: 'Автори',
-    },
-    twitter: {
-        title: 'Автори',
-    }
+        description: parentMetadata.openGraph?.description,
+        openGraph: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.openGraph?.images,
+            title: 'Автори',
+        },
+        twitter: {
+            description: parentMetadata.openGraph?.description,
+            images: parentMetadata.twitter?.images,
+            title: 'Автори',
+        },
+    };
 }
 
 const Component = async () => {
