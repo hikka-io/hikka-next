@@ -11,6 +11,8 @@ import AuthModal from '@/app/_layout/AuthModal';
 import { useRef, useState } from 'react';
 import ProfileMenu from '@/app/_layout/ProfileMenu';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import SearchModal from '@/app/_layout/SearchModal';
+import MaterialSymbolsSearch from '~icons/material-symbols/search';
 
 const Component = () => {
     const { switchModal } = useModalContext();
@@ -54,12 +56,18 @@ const Component = () => {
                     <Link
                         href="/anime"
                         role="button"
-                        className="btn-outline btn-secondary btn btn-sm"
+                        className="btn-ghost btn-secondary btn btn-sm"
                     >
-                        Аніме
+                        Каталог
                     </Link>
                 </div>
                 <div className="navbar-end gap-4">
+                    <button
+                        onClick={() => switchModal('search')}
+                        className="btn btn-ghost btn-secondary btn-sm "
+                    >
+                        <MaterialSymbolsSearch /> <span className="hidden md:block">Пошук</span>
+                    </button>
                     {user ? (
                         <button
                             ref={profileRef}
@@ -87,7 +95,6 @@ const Component = () => {
                             >
                                 Реєстрація
                             </button>
-
                         </>
                     )}
                 </div>
@@ -98,6 +105,7 @@ const Component = () => {
                 anchorEl={profileRef.current}
             />
             {!user && <AuthModal />}
+            <SearchModal />
         </nav>
     );
 };

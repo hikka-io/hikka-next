@@ -100,14 +100,14 @@ declare global {
         };
 
         type Anime = {
-            media_type: string;
+            media_type: MediaType;
             title_ua: string;
             title_en: string;
             title_ja: string;
             episodes_released: number;
             episodes_total: number;
             poster: string;
-            status: string;
+            status: Status;
             scored_by: number;
             score: number;
             slug: string;

@@ -14,6 +14,7 @@ interface State {
     signup?: boolean;
     userSettings?: boolean;
     animeSettings?: boolean;
+    search?: boolean;
 }
 
 interface ContextProps extends State {
@@ -38,6 +39,7 @@ function getInitialState() {
         signup: false,
         userSettings: false,
         animeSettings: false,
+        search: false,
     };
 }
 
