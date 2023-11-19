@@ -51,7 +51,7 @@ const Component = () => {
                 <button className="btn w-full btn-secondary" onClick={() => switchModal('animeEdit')}>Створити правку</button>
             </div>
             {data && (
-                <div className="overflow-y-scroll flex-1 mb-8">
+                <div className="overflow-y-scroll flex-1 pb-8">
                     {data.list.map((edit) => (
                         <EditCard onClick={() => openEditModal(edit)} key={edit.edit_id} edit={edit} />
                     ))}

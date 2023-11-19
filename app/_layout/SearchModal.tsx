@@ -41,8 +41,14 @@ const Component = () => {
     };
 
     useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
+        if (search) {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        } else {
+            if (inputRef.current) {
+                inputRef.current.blur();
+            }
         }
     }, [search]);
 
@@ -77,7 +83,7 @@ const Component = () => {
                 </div>
             </div>
             {data && (
-                <div className="overflow-y-scroll flex-1 mb-8">
+                <div className="overflow-y-scroll flex-1 pb-8">
                     {data.list.map((anime) => (
                         <SearchCard onClick={onDismiss} anime={anime} key={anime.slug} />
                     ))}
