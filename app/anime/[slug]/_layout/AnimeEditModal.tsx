@@ -109,7 +109,7 @@ const Component = ({ edit, setEdit }: Props) => {
     };
 
     const onDismiss = () => {
-        switchModal('animeEdit');
+        switchModal('animeEdit', true);
         reset();
         queryClient.invalidateQueries(['editList']);
         setEdit && setEdit(undefined);
