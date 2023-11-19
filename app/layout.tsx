@@ -75,7 +75,7 @@ export default async function RootLayout({
     children: ReactNode;
 }) {
     return (
-        <html lang="uk">
+        <html lang="uk" data-theme="dark">
             <body className={inter.className}>
                 <NextTopLoader color="#e779c1" />
                 <Providers>

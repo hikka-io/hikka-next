@@ -22,7 +22,7 @@ interface State {
 
 interface ContextProps extends State {
     setState: Dispatch<SetStateAction<State>>;
-    switchModal: (modal: keyof State) => void;
+    switchModal: (modal: keyof State, hierarchy?: boolean) => void;
     closeModals: () => void;
 }
 
@@ -56,9 +56,9 @@ export default function ModalProvider({ children }: Props) {
     const pathname = usePathname();
     const [state, setState] = useState<State>(getInitialState());
 
-    const switchModal = (modal: keyof State) => {
+    const switchModal = (modal: keyof State, hierarchy: boolean = false) => {
         setState({
-            ...state,
+            ...(hierarchy ? state : getInitialState()),
             [modal]: !state[modal],
         });
     };

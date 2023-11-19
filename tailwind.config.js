@@ -6,21 +6,12 @@ module.exports = {
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
-    theme: {
-        extend: {
-            colors: {
-                // 'dark-grey': 'rgba(110, 110, 110, 0.3)',
-                // 'stone-900': 'rgba(41, 41, 41, 1)',
-                // 'text-color': 'rgba(173, 173, 173, 1)',
-            },
-        },
-    },
     plugins: [require('daisyui')],
     daisyui: {
         // base: false,
         themes: [
             {
-                hikka: {
+                dark: {
                     "--btn-focus-scale": "1",
                     primary: '#000',
                     'primary-content': '#fff',

@@ -48,7 +48,7 @@ const Component = () => {
                     "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-black after:to-transparent",
                 )}
             >
-                <button className="btn w-full btn-secondary" onClick={() => switchModal('animeEdit')}>Створити правку</button>
+                <button className="btn w-full btn-secondary" onClick={() => switchModal('animeEdit', true)}>Створити правку</button>
             </div>
             {data && (
                 <div className="overflow-y-scroll flex-1 pb-8">
