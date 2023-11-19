@@ -32,7 +32,7 @@ const Component = () => {
             <div className="grid md:grid-cols-[40%_1fr] grid-cols-1">
                 <div className="relative hidden md:block">
                     <Image
-                        src="https://images.pexels.com/photos/18608193/pexels-photo-18608193.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                        src="/hikka.art.jpg"
                         width={200}
                         height={200}
                         className="object-cover w-full h-full"

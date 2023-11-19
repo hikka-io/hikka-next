@@ -90,7 +90,7 @@ const Component = () => {
                         type="email"
                         placeholder="Введіть пошту"
                         autoFocus
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('email', { required: true })}
                     />
                 </div>
@@ -104,7 +104,7 @@ const Component = () => {
                         type="text"
                         placeholder="Введіть Ваше ім’я"
                         autoFocus
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('username', { required: true })}
                     />
                 </div>
@@ -117,7 +117,7 @@ const Component = () => {
                     <input
                         type="password"
                         placeholder="Введіть пароль"
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('password', {
                             required: true,
                         })}
@@ -137,7 +137,7 @@ const Component = () => {
                     <input
                         type="password"
                         placeholder="Повторіть пароль"
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('passwordConfirmation', {
                             required: true,
                         })}

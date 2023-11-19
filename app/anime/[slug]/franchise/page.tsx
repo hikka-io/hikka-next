@@ -8,17 +8,17 @@ export async function generateMetadata(
     const parentMetadata = await parent;
 
     return {
-        title: "Пов'язане",
+        title: "Пов’язане",
         description: parentMetadata.openGraph?.description,
         openGraph: {
             description: parentMetadata.openGraph?.description,
             images: parentMetadata.openGraph?.images,
-            title: "Пов'язане",
+            title: "Пов’язане",
         },
         twitter: {
             description: parentMetadata.openGraph?.description,
             images: parentMetadata.twitter?.images,
-            title: "Пов'язане",
+            title: "Пов’язане",
         },
     };
 }

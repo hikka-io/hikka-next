@@ -1,3 +1,5 @@
+import {After} from "@/utils/api/edit/addEdit";
+
 export {};
 
 declare global {
@@ -11,7 +13,15 @@ declare global {
         type Error = {
             code: string;
             message: string;
-        }
+        };
+
+        type User = {
+            reference: string;
+            description: string | null;
+            username: string;
+            created: number;
+            avatar: string;
+        };
 
         type WatchStatus =
             | 'completed'
@@ -135,5 +145,33 @@ declare global {
             image: string;
             slug: string;
         };
+
+        type EditParams = {
+            title_ua?: string;
+            title_en?: string;
+            title_ja?: string;
+            synopsis_en?: string;
+            synopsis_ua?: string;
+            synonyms?: string;
+        }
+
+        type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
+
+        type Edit = {
+            content_type: 'anime' | 'person';
+            status: EditStatus;
+            description: string | null;
+            created: number;
+            updated: number;
+            edit_id: number;
+            moderator: Hikka.User | null;
+            author: Hikka.User;
+            after: EditParams;
+            before: EditParams | null;
+            content: {
+                slug: string;
+            };
+        }
+
     }
 }

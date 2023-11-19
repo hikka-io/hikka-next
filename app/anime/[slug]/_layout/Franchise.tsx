@@ -39,7 +39,7 @@ const Component = ({ extended }: Props) => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader
-                title={`Пов'язане`}
+                title={`Пов’язане`}
                 href={!extended ? params.slug + '/franchise' : undefined}
             />
             <div className="grid md:grid-cols-5 grid-cols-2 gap-4 md:gap-8">

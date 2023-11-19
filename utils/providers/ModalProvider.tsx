@@ -5,9 +5,10 @@ import {
     Dispatch,
     ReactNode,
     SetStateAction,
-    useContext,
+    useContext, useEffect,
     useState,
 } from 'react';
+import {usePathname} from "next/navigation";
 
 interface State {
     login?: boolean;
@@ -15,6 +16,8 @@ interface State {
     userSettings?: boolean;
     animeSettings?: boolean;
     search?: boolean;
+    animeEdit?: boolean;
+    animeEditList?: boolean;
 }
 
 interface ContextProps extends State {
@@ -40,6 +43,8 @@ function getInitialState() {
         userSettings: false,
         animeSettings: false,
         search: false,
+        animeEdit: false,
+        animeEditList: false,
     };
 }
 
@@ -48,11 +53,12 @@ export const useModalContext = () => {
 };
 
 export default function ModalProvider({ children }: Props) {
+    const pathname = usePathname();
     const [state, setState] = useState<State>(getInitialState());
 
     const switchModal = (modal: keyof State) => {
         setState({
-            ...getInitialState(),
+            ...state,
             [modal]: !state[modal],
         });
     };
@@ -60,6 +66,13 @@ export default function ModalProvider({ children }: Props) {
     const closeModals = () => {
         setState(getInitialState());
     };
+
+    useEffect(() => {
+        if (pathname) {
+            closeModals();
+        }
+    }, [pathname]);
+
 
     return (
         <ModalContext.Provider

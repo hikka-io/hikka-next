@@ -13,8 +13,11 @@ import ProfileMenu from '@/app/_layout/ProfileMenu';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import SearchModal from '@/app/_layout/SearchModal';
 import MaterialSymbolsSearch from '~icons/material-symbols/search';
+import MaterialSymbolsMenu from '~icons/material-symbols/menu';
+import {usePathname} from "next/navigation";
 
 const Component = () => {
+    const pathname = usePathname();
     const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
     const [openProfileMenu, setOpenProfileMenu] = useState<boolean>(false);
@@ -52,13 +55,20 @@ const Component = () => {
                         />
                     </Link>
                 </div>
-                <div className="navbar-center hidden md:flex">
+                <div className="navbar-center gap-4 hidden md:flex">
                     <Link
+
                         href="/anime"
-                        role="button"
-                        className="btn-ghost btn-secondary btn btn-sm"
+                        className={clsx("btn-ghost btn-secondary btn btn-sm", pathname === '/anime' && "btn-outline")}
                     >
                         Каталог
+                    </Link>
+                    <Link
+
+                        href="/about"
+                        className={clsx("btn-ghost btn-secondary btn btn-sm", pathname === '/about' && "btn-outline")}
+                    >
+                        Про нас
                     </Link>
                 </div>
                 <div className="navbar-end gap-4">
@@ -90,13 +100,19 @@ const Component = () => {
                                 Увійти
                             </button>
                             <button
-                                className="btn-accent btn-sm btn"
+                                className="hidden md:flex btn-accent btn-sm btn"
                                 onClick={() => switchModal('signup')}
                             >
                                 Реєстрація
                             </button>
                         </>
                     )}
+                    <label
+                        htmlFor="mobileNavDrawer"
+                        className="btn btn-ghost btn-square btn-sm drawer-button md:hidden flex"
+                    >
+                        <MaterialSymbolsMenu />
+                    </label>
                 </div>
             </div>
             <ProfileMenu

@@ -38,7 +38,7 @@ const Component = () => {
                     <input
                         type="email"
                         placeholder="Введіть новий email"
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('email', { required: true })}
                     />
                 </div>

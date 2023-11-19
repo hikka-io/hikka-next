@@ -39,7 +39,7 @@ const Component = () => {
                     <input
                         type="password"
                         placeholder="Введіть новий пароль"
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('password', { required: true })}
                     />
                 </div>
@@ -52,7 +52,7 @@ const Component = () => {
                     <input
                         type="password"
                         placeholder="Підтвердіть новий пароль"
-                        className="input bg-secondary w-full"
+                        className="input bg-secondary/60 w-full"
                         {...register('passwordConfirmation', {
                             required: true,
                         })}

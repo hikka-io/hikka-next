@@ -50,7 +50,7 @@ const Component = () => {
                     <textarea
                         placeholder="Введіть опис"
                         rows={3}
-                        className="textarea bg-secondary w-full"
+                        className="textarea bg-secondary/60 text-base w-full"
                         {...register('description')}
                     />
                 </div>

@@ -232,3 +232,26 @@ export const SOURCE: Property<Hikka.Source> = {
         title_en: 'Book',
     },
 };
+
+export const EDIT_STATUS: Property<Hikka.EditStatus> = {
+    pending: {
+        title_ua: 'На Розгляді',
+        title_en: 'Pending',
+        color: '#AB872B',
+    },
+    accepted: {
+        title_ua: 'Прийнято',
+        title_en: 'Accepted',
+        color: '#518146',
+    },
+    denied: {
+        title_ua: 'Відхилено',
+        title_en: 'Denied',
+        color: '#952828',
+    },
+    closed: {
+        title_ua: 'Закрито',
+        title_en: 'Closed',
+        color: '#5C5C5C',
+    },
+};

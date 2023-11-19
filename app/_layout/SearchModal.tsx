@@ -60,7 +60,7 @@ const Component = () => {
                     "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-black after:to-transparent",
                 )}
             >
-                <div className="input input-lg bg-secondary/60 flex items-center pr-4 gap-2">
+                <div className="input md:input-lg input-md bg-secondary/60 flex items-center pr-4 gap-2">
                     <input
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
@@ -77,7 +77,7 @@ const Component = () => {
                 </div>
             </div>
             {data && (
-                <div className="overflow-y-scroll flex-1">
+                <div className="overflow-y-scroll flex-1 mb-8">
                     {data.list.map((anime) => (
                         <SearchCard onClick={onDismiss} anime={anime} key={anime.slug} />
                     ))}

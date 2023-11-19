@@ -147,7 +147,7 @@ const Component = ({}: Props) => {
             ) : (
                 <button
                     onClick={() => switchModal('login')}
-                    className="btn bg-secondary/60 w-full"
+                    className="btn btn-secondary w-full"
                 >
                     <CilUserFollow />
                     Відстежувати

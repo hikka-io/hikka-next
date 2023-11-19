@@ -174,7 +174,7 @@ const Component = ({ slug, setSlug }: Props) => {
                                 <input
                                     type="number"
                                     placeholder="Введіть оцінку"
-                                    className="input bg-secondary w-full"
+                                    className="input bg-secondary/60 w-full"
                                     {...register('score', {
                                         value: watch.score || undefined,
                                         valueAsNumber: true,
@@ -190,7 +190,7 @@ const Component = ({ slug, setSlug }: Props) => {
                                 <input
                                     type="number"
                                     placeholder="Введіть к-сть переглянутих епізодів"
-                                    className="input bg-secondary w-full"
+                                    className="input bg-secondary/60 w-full"
                                     {...register('episodes', {
                                         value: watch.episodes || undefined,
                                         valueAsNumber: true,
@@ -207,7 +207,7 @@ const Component = ({ slug, setSlug }: Props) => {
                             <textarea
                                 placeholder="Залиште нотатку до аніме"
                                 rows={3}
-                                className="textarea textarea-ghost text-base bg-secondary w-full"
+                                className="textarea textarea-ghost text-base bg-secondary/60 w-full"
                                 {...register('note', {
                                     value: watch.note || undefined,
                                 })}
