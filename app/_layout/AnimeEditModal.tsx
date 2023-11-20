@@ -3,15 +3,14 @@
 import Modal from '@/app/_components/Modal';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
 import { useParams } from 'next/navigation';
 import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import addEdit from '@/utils/api/edit/addEdit';
-import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import BaseCard from '@/app/_components/BaseCard';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -79,22 +78,20 @@ const Component = ({ edit, setEdit }: Props) => {
     const params = useParams();
     const { secret } = useAuthContext();
 
-    const { data: anime } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-        enabled: Boolean(animeEdit),
-    });
-
-    const { data: loggedUser } = useQuery({
-        queryKey: ['loggedUser', secret],
-        queryFn: () => getLoggedUserInfo({ secret }),
-        enabled: Boolean(secret),
-    });
+    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+        'loggedUser',
+        secret,
+    ]);
 
     const isView =
         edit &&
         (loggedUser?.username !== edit.author.username ||
             edit.status !== 'pending');
+
+    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
+        'anime',
+        params.slug,
+    ]);
 
     const {
         register,
@@ -227,13 +224,13 @@ const Component = ({ edit, setEdit }: Props) => {
     return (
         <Modal
             noEscape
-            open={Boolean(animeEdit) && Boolean(anime)}
+            open={Boolean(animeEdit) && (isView ? true : Boolean(anime))}
             onDismiss={onDismiss}
             id="animeEditModal"
             boxClassName="p-0 lg:max-w-5xl"
-            title="Редагувати аніме"
+            title="Редагувати контент"
         >
-            {Boolean(animeEdit) && anime && (
+            {Boolean(animeEdit) && (isView ? true : Boolean(anime)) && (
                 <form
                     onSubmit={(e) => e.preventDefault()}
                     className="py-8 px-8 flex flex-col gap-6"
@@ -363,7 +360,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                                         ? edit!.after[
                                                               param.param
                                                           ]
-                                                        : (anime[
+                                                        : (anime![
                                                               param.param
                                                           ] as string) ||
                                                           undefined,
@@ -432,7 +429,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                                         ? edit!.after[
                                                               param.param
                                                           ]
-                                                        : (anime[
+                                                        : (anime![
                                                               param.param
                                                           ] as string) ||
                                                           undefined,

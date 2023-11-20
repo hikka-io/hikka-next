@@ -246,6 +246,14 @@ textarea:focus, input:focus {
     @apply rounded-lg;
 }
 
+.tooltip:before {
+    @apply bg-black border border-secondary;
+}
+
+.tooltip:after {
+    @apply border-t-secondary;
+}
+
 .markdown p {
     @apply mb-4;
 }

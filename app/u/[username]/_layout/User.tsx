@@ -101,6 +101,14 @@ const Component = ({}: Props) => {
                 </div>
                 <div className="w-full flex flex-col justify-between">
                     <div>
+                        {(user.role === 'admin' ||
+                            user.role === 'moderator') && (
+                            <div className="w-fit mb-2 text-xs font-bold rounded-md bg-accent text-accent-content px-2 py-1">
+                                {user.role === 'admin'
+                                    ? 'Адміністратор'
+                                    : 'Модератор'}
+                            </div>
+                        )}
                         <h2>{user.username}</h2>
                         {user.description && <p>{user.description}</p>}
                     </div>

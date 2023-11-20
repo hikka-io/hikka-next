@@ -15,13 +15,15 @@ declare global {
             message: string;
         };
 
+        type UserRole = 'admin' | 'moderator' | 'user' | 'banned' | 'not_activated';
+
         type User = {
             reference: string;
             description: string | null;
             username: string;
             created: number;
             avatar: string;
-            role: 'admin' | 'moderator' | 'user' | 'banned' | 'not_activated';
+            role: UserRole;
         };
 
         type WatchStatus =
@@ -169,9 +171,7 @@ declare global {
             author: Hikka.User;
             after: EditParams;
             before: EditParams | null;
-            content: {
-                slug: string;
-            };
+            content: Hikka.Anime | Hikka.Person;
         }
 
     }

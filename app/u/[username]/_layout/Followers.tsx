@@ -31,7 +31,7 @@ const Component = ({}: Props) => {
                 <Link href="#" className="btn btn-outline btn-secondary btn-xs">{data.pagination.total}</Link>
             </div>
             <div className="grid grid-cols-5 gap-4">
-                {data.list.slice(0, 8).map((user) => (
+                {data.list.slice(0, 10).map((user) => (
                     <Link key={user.reference} href={`/u/${user.username}`}>
                         <div className="avatar">
                             <div className="w-full rounded-lg">

@@ -27,7 +27,7 @@ const Component = () => {
                         </button>
                     </div>
                     <div className="flex lg:justify-end justify-center items-center">
-                        <p className="font-bold opacity-60">© 2023 Hikka</p>
+                        <p className="text-sm opacity-60">© 2023 Hikka</p>
                     </div>
                 </div>
             </div>

@@ -3,14 +3,14 @@
 import Modal from '@/app/_components/Modal';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import getEditList, {
+import getContentEditList, {
     Response as EditListResponse,
-} from '@/utils/api/edit/getEditList';
-import EditCard from '@/app/anime/[slug]/_components/EditCard';
-import AnimeEditModal from '@/app/anime/[slug]/_layout/AnimeEditModal';
+} from '@/utils/api/edit/getContentEditList';
+import EditCard from '@/app/_components/EditCard';
+import AnimeEditModal from '@/app/_layout/AnimeEditModal';
 import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
 
@@ -25,10 +25,11 @@ const Component = () => {
             Error
         >({
             queryKey: ['editList', params.slug],
-            queryFn: () =>
-                getEditList({
+            queryFn: ({ pageParam = 1 }) =>
+                getContentEditList({
                     slug: String(params.slug),
                     contentType: 'anime',
+                    page: pageParam,
                 }),
             getNextPageParam: (lastPage: EditListResponse, allPages) => {
                 const nextPage = lastPage.pagination.page + 1;
@@ -54,7 +55,7 @@ const Component = () => {
         if (inView && data) {
             fetchNextPage();
         }
-    }, [inView])
+    }, [inView]);
 
     return (
         <Modal

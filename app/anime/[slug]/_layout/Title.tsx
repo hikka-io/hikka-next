@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import AnimeEditModal from '@/app/anime/[slug]/_layout/AnimeEditModal';
+import AnimeEditModal from '@/app/_layout/AnimeEditModal';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import clsx from "clsx";

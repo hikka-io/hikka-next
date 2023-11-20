@@ -5,7 +5,7 @@ import WatchEditModal from '@/app/u/[username]/list/_layout/WatchEditModal';
 import { CSSProperties, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQuery } from '@tanstack/react-query';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
 import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import clsx from 'clsx';
 import { useParams } from 'next/navigation';
@@ -26,17 +26,17 @@ interface Props {
 }
 
 const Component = ({ data }: Props) => {
+    const queryClient = useQueryClient();
     const { setState: setModalState } = useModalContext();
     const { secret } = useAuthContext();
     const params = useParams();
     const [go, setGo] = useState(false);
     const [slug, setSlug] = useState<string | null>(null);
 
-    const { data: loggedUser } = useQuery({
-        queryKey: ['loggedUser', secret],
-        queryFn: () => getLoggedUserInfo({ secret }),
-        enabled: Boolean(secret),
-    });
+    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+        'loggedUser',
+        secret,
+    ]);
 
     useEffect(() => {
         if (slug) {

@@ -247,8 +247,8 @@ const Component = () => {
                                 )}
                             >
                                 {AGE_RATING[slug as Hikka.AgeRating].title_ua}
-                                <div className="tooltip" data-tip={AGE_RATING[slug as Hikka.AgeRating].description}>
-                                    <MaterialSymbolsInfoRounded className="transition duration-100 opacity-30 hover:opacity-100" />
+                                <div className="tooltip font-normal" data-tip={AGE_RATING[slug as Hikka.AgeRating].description}>
+                                    <MaterialSymbolsInfoRounded className="transition duration-100 text-xs opacity-30 hover:opacity-100" />
                                 </div>
                             </button>
                         ))}

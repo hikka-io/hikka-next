@@ -1,11 +1,6 @@
 import config from '@/utils/api/config';
 
-export interface Response {
-    description: string;
-    created: number;
-    username: string;
-    avatar: string;
-}
+export interface Response extends Hikka.User {}
 
 export default async function req({
     username,
