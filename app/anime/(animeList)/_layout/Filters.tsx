@@ -9,7 +9,8 @@ import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
-import AntDesignCloseOutlined from '~icons/ant-design/close-outlined'
+import AntDesignCloseOutlined from '~icons/ant-design/close-outlined';
+import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import {
     AGE_RATING,
     MEDIA_TYPE,
@@ -148,9 +149,7 @@ const Component = () => {
                 </div>*/}
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">
-                            Статус
-                        </span>
+                        <span className="label-text text-neutral">Статус</span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
                         {Object.keys(RELEASE_STATUS).map((slug) => (
@@ -228,9 +227,7 @@ const Component = () => {
                 </div>
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">
-                            Рейтинг
-                        </span>
+                        <span className="label-text text-neutral">Рейтинг</span>
                     </label>
                     <div className="flex flex-wrap gap-2">
                         {Object.keys(AGE_RATING).map((slug) => (
@@ -250,6 +247,9 @@ const Component = () => {
                                 )}
                             >
                                 {AGE_RATING[slug as Hikka.AgeRating].title_ua}
+                                <div className="tooltip" data-tip={AGE_RATING[slug as Hikka.AgeRating].description}>
+                                    <MaterialSymbolsInfoRounded className="transition duration-100 opacity-30 hover:opacity-100" />
+                                </div>
                             </button>
                         ))}
                     </div>

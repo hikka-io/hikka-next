@@ -13,6 +13,7 @@ type Property<T extends string> = Record<
         title_en: string;
         icon?: ReactNode;
         color?: string;
+        description?: string;
     }
 >;
 
@@ -126,26 +127,32 @@ export const AGE_RATING: Property<Hikka.AgeRating> = {
     g: {
         title_ua: 'G',
         title_en: 'G',
+        description: "Немає вікових обмежень",
     },
     pg: {
         title_ua: 'PG',
         title_en: 'PG',
+        description: "Рекомендується присутність батьків",
     },
     pg_13: {
         title_ua: 'PG-13',
         title_en: 'PG-13',
+        description: "Дітям до 13 років перегляд небажаний",
     },
     r: {
         title_ua: 'R',
         title_en: 'R',
+        description: "Лицям до 18 років обовʼязкова присутність дорослого",
     },
     r_plus: {
         title_ua: 'R PLUS',
         title_en: 'R PLUS',
+        description: "Лицям до 18 років перегляд заборонений",
     },
     rx: {
         title_ua: 'RX',
         title_en: 'RX',
+        description: "Хентай",
     },
 };
 
