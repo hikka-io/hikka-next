@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import { useSnackbar } from 'notistack';
 import confirmPasswordReset from '@/utils/api/auth/confirmPasswordReset';
-import {useSearchParams} from "next/navigation";
-import {setCookie} from "@/app/actions";
-import useRouter from "@/utils/useRouter";
-import {useAuthContext} from "@/utils/providers/AuthProvider";
+import { useSearchParams } from 'next/navigation';
+import { setCookie } from '@/app/actions';
+import useRouter from '@/utils/useRouter';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 type FormValues = {
     password: string;
@@ -39,6 +39,10 @@ const Component = () => {
 
     const onSubmit = async (data: FormValues) => {
         try {
+            if (data.passwordConfirmation !== data.password) {
+                return;
+            }
+
             const res = await confirmPasswordReset({
                 password: data.password,
                 token: String(token),
@@ -47,7 +51,10 @@ const Component = () => {
             setAuth((prev) => res);
             reset();
             closeModals();
-            router.push("/anime");
+            router.push('/anime');
+            enqueueSnackbar('Ви успішно змінили Ваш пароль.', {
+                variant: 'success',
+            });
             return;
         } catch (e) {
             console.error(e);

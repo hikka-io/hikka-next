@@ -12,7 +12,7 @@
 }
 
 .snackbar-timer {
-    animation: snack-progress 1500ms;
+    animation: snack-progress 2000ms;
     animation-fill-mode: forwards;
 }
 

@@ -8,13 +8,14 @@ interface Response {
     avatar: string;
 }
 
-export default async function req(params: {
-    email: string;
-}): Promise<Response> {
+export default async function req({ secret }: { secret: string }): Promise<Response> {
     const res = await fetch(config.baseAPI + '/auth/activation/resend', {
         method: 'post',
-        body: JSON.stringify(params),
         ...config.config,
+        headers: {
+            ...config.config.headers,
+            auth: secret || '',
+        },
     });
 
     if (!res.ok) {

@@ -37,7 +37,7 @@ function Providers({ children }: Props) {
             }}
             maxSnack={2}
             preventDuplicate
-            autoHideDuration={1500}
+            autoHideDuration={2000}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             <ModalProvider>

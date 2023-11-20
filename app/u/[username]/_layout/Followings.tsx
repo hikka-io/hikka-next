@@ -13,6 +13,7 @@ const Component = ({}: Props) => {
     const { data } = useQuery({
         queryKey: ['followings', params.username],
         queryFn: () => getFollowings({ username: String(params.username) }),
+        staleTime: 0,
     });
 
     if (!data) {
