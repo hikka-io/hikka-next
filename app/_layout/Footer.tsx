@@ -26,7 +26,7 @@ const Component = () => {
                             Правовласникам
                         </button>
                     </div>
-                    <div className="flex lg:justify-end justify-center">
+                    <div className="flex lg:justify-end justify-center items-center">
                         <p className="font-bold opacity-60">© 2023 Hikka</p>
                     </div>
                 </div>

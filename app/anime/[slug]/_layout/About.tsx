@@ -9,6 +9,7 @@ import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { uk } from 'date-fns/locale';
+import Image from 'next/image';
 
 const Component = () => {
     const params = useParams();
@@ -22,6 +23,8 @@ const Component = () => {
     if (!data) {
         return null;
     }
+
+    const studio = data.companies.find((c) => c.type === 'studio');
 
     return (
         <div className="flex flex-col gap-12">
@@ -83,7 +86,7 @@ const Component = () => {
                         </div>
                     </div>
                 )}
-                <div className="flex">
+                {data.genres.length > 0 && <div className="flex">
                     <div className="w-1/4">
                         <p className="text-gray-400">Жанри:</p>
                     </div>
@@ -102,7 +105,7 @@ const Component = () => {
                             </span>
                         ))}
                     </div>
-                </div>
+                </div>}
                 {data.rating && (
                     <div className="flex">
                         <div className="w-1/4">
@@ -110,6 +113,28 @@ const Component = () => {
                         </div>
                         <div className="flex-1">
                             <p>{AGE_RATING[data.rating].title_ua}</p>
+                        </div>
+                    </div>
+                )}
+                {studio && (
+                    <div className="flex">
+                        <div className="w-1/4">
+                            <p className="text-gray-400">Студія:</p>
+                        </div>
+                        <div className="flex-1">
+                            {studio.company.image ? (
+                                <div className="tooltip" data-tip={studio.company.name}>
+                                    <Image
+                                        src={studio.company.image}
+                                        alt="studio"
+                                        width={100}
+                                        height={50}
+                                        className="object-cover w-16 rounded-md"
+                                    />
+                                </div>
+                            ) : (
+                                <p>{studio.company.name}</p>
+                            )}
                         </div>
                     </div>
                 )}

@@ -82,7 +82,7 @@ export const RELEASE_STATUS: Property<Hikka.Status> = {
         color: '#518146',
     },
     ongoing: {
-        title_ua: 'Онгоінг',
+        title_ua: 'Онґоінґ',
         title_en: 'Ongoing',
 
         color: '#2B94AB',
@@ -122,29 +122,30 @@ export const MEDIA_TYPE: Property<Hikka.MediaType> = {
 };
 
 export const AGE_RATING: Property<Hikka.AgeRating> = {
-    r_plus: {
-        title_ua: 'R PLUS',
-        title_en: 'R PLUS',
-    },
-    pg_13: {
-        title_ua: 'PG-13',
-        title_en: 'PG-13',
+
+    g: {
+        title_ua: 'G',
+        title_en: 'G',
     },
     pg: {
         title_ua: 'PG',
         title_en: 'PG',
     },
-    rx: {
-        title_ua: 'RX',
-        title_en: 'RX',
-    },
-    g: {
-        title_ua: 'G',
-        title_en: 'G',
+    pg_13: {
+        title_ua: 'PG-13',
+        title_en: 'PG-13',
     },
     r: {
         title_ua: 'R',
         title_en: 'R',
+    },
+    r_plus: {
+        title_ua: 'R PLUS',
+        title_en: 'R PLUS',
+    },
+    rx: {
+        title_ua: 'RX',
+        title_en: 'RX',
     },
 };
 

@@ -43,6 +43,7 @@ const Component = ({ extended }: Props) => {
                     <Link
                         href={link.url}
                         key={link.url}
+                        target="_blank"
                         className="overflow-hidden rounded-lg p-6 gap-2 flex flex-col items-center justify-center btn h-auto btn-outline btn-secondary"
                     >
                         <h4 className="w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
