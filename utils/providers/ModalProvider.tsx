@@ -79,12 +79,12 @@ export default function ModalProvider({ children }: Props) {
             closeModals();
         }
     }, [pathname]);
-/*
+
     useEffect(() => {
         if (modalParam && modalParam in state) {
             switchModal(modalParam as keyof State);
         }
-    }, [modalParam]);*/
+    }, [modalParam]);
 
 
     return (
