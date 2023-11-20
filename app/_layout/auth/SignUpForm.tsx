@@ -1,10 +1,14 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import {useEffect, useRef, useState} from 'react';
-import signup, { Response } from '@/utils/api/auth/signup';
+import { useEffect, useRef } from 'react';
+import signup from '@/utils/api/auth/signup';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-import {Turnstile, TurnstileInstance} from "@marsidev/react-turnstile";
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { setCookie } from '@/app/actions';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import useRouter from '@/utils/useRouter';
+import { useSnackbar } from 'notistack';
 
 type FormValues = {
     email: string;
@@ -14,9 +18,9 @@ type FormValues = {
 };
 
 const Component = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const captchaRef = useRef<TurnstileInstance>();
-    const { signup: signupModal, switchModal } = useModalContext();
-    const [signUpUser, setSignUpUser] = useState<Response | null>(null);
+    const { signup: signupModal, closeModals, switchModal } = useModalContext();
     const {
         register,
         reset,
@@ -24,6 +28,8 @@ const Component = () => {
         setFocus,
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
+    const { setState: setAuth } = useAuthContext();
+    const router = useRouter();
 
     const onSubmit = async (data: FormValues) => {
         try {
@@ -38,8 +44,20 @@ const Component = () => {
                     email: data.email,
                     captcha: String(captchaRef.current.getResponse()),
                 });
+
+                setAuth((prev) => res);
+                await setCookie('secret', res.secret);
                 reset();
-                setSignUpUser(res);
+                closeModals();
+                router.refresh();
+
+                enqueueSnackbar(
+                    <span>
+                        <span className="font-bold">{data.username}</span>, Ви успішно зареєструвались.
+                    </span>,
+                    { variant: 'success' },
+                );
+
                 return;
             } else {
                 throw Error('No captcha found');
@@ -56,29 +74,11 @@ const Component = () => {
         }
     }, [open]);
 
-    if (signUpUser) {
-        return (
-            <div className="w-full flex flex-col items-center gap-8">
-                <h2 className="text-accent">🥳️ Вітаємо!</h2>
-                <p>
-                    <span className="text-accent font-bold">
-                        {signUpUser.username}
-                    </span>
-                    , Ви успішно зареєструвались. Бажаємо приємного
-                    користування!
-                </p>
-                <button
-                    onClick={() => switchModal('login')}
-                    className="btn btn-secondary w-full"
-                >
-                    Авторизація
-                </button>
-            </div>
-        );
-    }
-
     return (
-        <form onSubmit={(e) => e.preventDefault()} className="w-full flex flex-col items-center gap-8">
+        <form
+            onSubmit={(e) => e.preventDefault()}
+            className="w-full flex flex-col items-center gap-8"
+        >
             <div>
                 <h2 className="text-accent">✌️ Раді познайомитись!</h2>
                 <p className="text-neutral text-xs mt-2">

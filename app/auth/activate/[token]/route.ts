@@ -11,7 +11,6 @@ export async function GET(
     try {
         const res = await activation({ token });
         cookies().set('secret', res.secret);
-        return redirect('/anime?activation=success');
     }  catch (e) {
         if ('code' in (e as Hikka.Error)) {
             if ((e as Hikka.Error).code === 'auth:activation_expired') {
@@ -23,4 +22,6 @@ export async function GET(
 
         return redirect('/anime?activation=error&error=' + e);
     }
+
+    return redirect('/anime?activation=success');
 }

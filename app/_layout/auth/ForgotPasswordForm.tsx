@@ -32,9 +32,9 @@ const Component = () => {
             const res = await passwordReset(data);
             closeModals();
             enqueueSnackbar(
-                res.username +
-                    ', ми успішно надіслали Вам лист для відновлення паролю на вашу поштову адресу.',
-            );
+                <span><span className="font-bold">{res.username}</span>, ми успішно надіслали Вам лист для відновлення паролю на вашу поштову адресу.</span>,
+                { variant: 'info' }
+            )
             return;
         } catch (e) {
             if ('code' in (e as Hikka.Error)) {

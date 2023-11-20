@@ -13,6 +13,7 @@ import getFollowers from '@/utils/api/follow/getFollowers';
 import Followers from '@/app/u/[username]/_layout/Followers';
 import Followings from '@/app/u/[username]/_layout/Followings';
 import {Metadata, ResolvingMetadata} from "next";
+import ActivationAlert from "@/app/u/[username]/_layout/ActivationAlert";
 
 interface Props extends PropsWithChildren {
     params: { username: string };
@@ -82,6 +83,7 @@ const Component = async ({ params: { username }, children }: Props) => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-12">
+                    <ActivationAlert />
                     <NavBar />
                     {children}
                 </div>

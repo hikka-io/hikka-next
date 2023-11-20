@@ -1,5 +1,8 @@
+const withMDX = require('@next/mdx')()
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     images: {
         unoptimized: true,
         remotePatterns: [
@@ -27,4 +30,4 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
 })
 
-module.exports = withBundleAnalyzer(nextConfig)
+module.exports = withBundleAnalyzer(withMDX(nextConfig))

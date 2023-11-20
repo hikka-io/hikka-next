@@ -20,6 +20,7 @@ interface State {
     animeEditList?: boolean;
     forgotPassword?: boolean;
     passwordConfirm?: boolean;
+    rightholder?: boolean;
 }
 
 interface ContextProps extends State {
@@ -49,6 +50,7 @@ function getInitialState(): State {
         animeEditList: false,
         forgotPassword: false,
         passwordConfirm: false,
+        rightholder: false,
     };
 }
 

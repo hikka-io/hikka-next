@@ -14,9 +14,11 @@ import { useModalContext } from '@/utils/providers/ModalProvider';
 import SearchModal from '@/app/_layout/SearchModal';
 import MaterialSymbolsSearch from '~icons/material-symbols/search';
 import MaterialSymbolsMenu from '~icons/material-symbols/menu';
-import {usePathname} from "next/navigation";
+import { usePathname } from 'next/navigation';
+import { useSnackbar } from 'notistack';
 
 const Component = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const pathname = usePathname();
     const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
@@ -57,26 +59,26 @@ const Component = () => {
                 </div>
                 <div className="navbar-center gap-4 hidden md:flex">
                     <Link
-
                         href="/anime"
-                        className={clsx("btn-ghost btn-secondary btn btn-sm", pathname === '/anime' && "btn-outline")}
+                        className={clsx(
+                            'btn-ghost btn-secondary btn btn-sm',
+                            pathname === '/anime' && 'btn-outline',
+                        )}
                     >
                         Каталог
-                    </Link>
-                    <Link
-
-                        href="/about"
-                        className={clsx("btn-ghost btn-secondary btn btn-sm", pathname === '/about' && "btn-outline")}
-                    >
-                        Про нас
                     </Link>
                 </div>
                 <div className="navbar-end gap-4">
                     <button
                         onClick={() => switchModal('search')}
-                        className="btn btn-ghost btn-secondary btn-sm "
+                        className={clsx(
+                            'btn btn-outline btn-secondary btn-sm',
+                            'bg-secondary/30 hover:!bg-secondary/60',
+                            'md:w-40 md:justify-start md:!text-white/60 md:font-normal',
+                        )}
                     >
-                        <MaterialSymbolsSearch /> <span className="hidden md:block">Пошук</span>
+                        <MaterialSymbolsSearch />{' '}
+                        <span className="hidden md:block">Пошук...</span>
                     </button>
                     {user ? (
                         <button
@@ -89,6 +91,7 @@ const Component = () => {
                                 alt="pfp"
                                 width={44}
                                 height={44}
+                                className="w-full h-full"
                             />
                         </button>
                     ) : (

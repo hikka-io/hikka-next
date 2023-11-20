@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes snack-progress {
+    0% {
+        height: 100%;
+    }
+    100% {
+        height: 0;
+    }
+}
+
+.snackbar-timer {
+    animation: snack-progress 1500ms;
+    animation-fill-mode: forwards;
+}
+
 :root {
     color-scheme: dark;
 }
@@ -19,7 +33,7 @@ body {
 }
 
 main {
-    min-height: 100vh;
+    min-height: calc(100vh - 16.5rem);
 }
 
 table th:nth-child(1) {
@@ -181,50 +195,15 @@ h5 {
 }
 
 
-/*
-.btn-xs {
-    height: 2rem;
-    min-height: 2rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-}
-
-.btn-square:where(.btn-xs) {
-    width: 2rem;
-}
-
-.btn-circle:where(.btn-xs) {
-    width: 2rem;
-}*/
-
 
 .btn:active:hover,
 .btn:active:focus {
-    /*transform: scale(1.1);*/
-    /*background-color: color-mix(
-            in oklab,
-            oklch(var(--btn-color, var(--b2)) / var(--tw-bg-opacity)) 100%,
-            black
-    );*/
-    /*box-shadow: none;
-    border-color: var(--fallback-bc,oklch(var(--bc)/0.2));
-    outline-style: solid;
-    outline-width: 2px;
-    outline-offset: 2px;
-    outline-color: var(--fallback-bc,oklch(var(--bc)/0.2));*/
+
 }
 
 .btn.btn-outline {
     /*@apply text-white;*/
 }
-
-/*.btn-ghost {
-    @apply text-base-content;
-}*/
-
-/*.btn-ghost.btn-active {
-    @apply bg-white text-black;
-}*/
 
 .MuiSlider-markActive {
     @apply bg-white
@@ -261,4 +240,25 @@ textarea:focus, input:focus {
 
 .rating:not(.readonly) input:hover ~ input {
     --tw-bg-opacity: 0.2 !important;
+}
+
+.alert {
+    @apply rounded-lg;
+}
+
+.markdown p {
+    @apply mb-4;
+}
+
+.markdown a {
+    @apply text-accent hover:underline;
+}
+
+.markdown ul {
+    @apply list-none ml-4 mb-4;
+}
+
+.markdown ul li::before {
+    content: "\2022";
+    @apply text-accent font-bold inline-block w-4 -ml-4;
 }
