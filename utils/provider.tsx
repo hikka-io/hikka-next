@@ -18,12 +18,12 @@ function Providers({ children }: Props) {
         }),
     );
 
-    /*const pathname = usePathname();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
 
     useEffect(() => {
         NProgress.done();
-    }, [pathname, searchParams]);*/
+    }, [pathname, searchParams]);
 
     return (
         <SnackbarProvider preventDuplicate>
