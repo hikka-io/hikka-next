@@ -35,14 +35,14 @@ export async function generateMetadata(
     let synopsis: string | undefined = anime.synopsis_ua || anime.synopsis_en;
 
     synopsis =
-        synopsis.length > 150
+        synopsis && (synopsis.length > 150
             ? synopsis.substring(
                   0,
                   150 + synopsis.substring(150).indexOf(' '),
               ) + '...'
             : synopsis.length > 0
             ? synopsis + '...'
-            : undefined;
+            : undefined);
 
     return {
         title: { default: title, template: title + ' / %s / Hikka' },
@@ -66,13 +66,14 @@ const Component = async ({ params: { slug }, children }: Props) => {
     await queryClient.prefetchQuery(['anime', slug], () =>
         getAnimeInfo({ slug }),
     );
-    await queryClient.prefetchQuery(['characters', slug], () =>
+    await queryClient.prefetchInfiniteQuery(['characters', slug], () =>
         getAnimeCharacters({ slug }),
     );
-    await queryClient.prefetchQuery(['franchise', slug], () =>
+
+    await queryClient.prefetchInfiniteQuery(['franchise', slug], () =>
         getAnimeFranchise({ slug }),
     );
-    await queryClient.prefetchQuery(['staff', slug], () =>
+    await queryClient.prefetchInfiniteQuery(['staff', slug], () =>
         getAnimeStaff({ slug }),
     );
 

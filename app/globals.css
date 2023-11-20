@@ -65,13 +65,13 @@ h5 {
 */
 
 .btn {
-    @apply text-white/90;
+    /*@apply text-white/90;*/
     text-transform: capitalize;
     animation: none;
 }
 
 .btn:hover {
-    @apply text-white;
+    /*@apply text-white;*/
 }
 
 /* neutral btn */
@@ -176,7 +176,8 @@ h5 {
 
 .btn.btn-disabled, .btn[disabled], .btn:disabled {
     border: none;
-    color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity))) !important;
+    color: hsl(var(--bc) / var(--tw-text-opacity)) !important;
+    /*color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity))) !important;*/
 }
 
 

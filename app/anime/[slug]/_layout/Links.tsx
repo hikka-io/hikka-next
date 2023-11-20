@@ -1,8 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import getAnimeInfo, {Response as AnimeInfoResponse} from '@/utils/api/anime/getAnimeInfo';
 import Link from 'next/link';
 import clsx from 'clsx';
 import SubHeader from '@/app/_components/SubHeader';
@@ -13,16 +13,17 @@ interface Props {
 
 const Component = ({ extended }: Props) => {
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const queryClient = useQueryClient();
+    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
+        'anime',
+        params.slug,
+    ]);
 
-    if (!data) {
+    if (!anime) {
         return null;
     }
 
-    const filteredData = extended ? data.external : data.external.slice(0, 4);
+    const filteredData = extended ? anime.external : anime.external.slice(0, 4);
 
     return (
         <div className="flex flex-col gap-8">

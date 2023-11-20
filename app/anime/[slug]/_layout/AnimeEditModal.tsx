@@ -16,6 +16,10 @@ import BaseCard from '@/app/_components/BaseCard';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import updateEdit from '@/utils/api/edit/updateEdit';
+import acceptEdit from '@/utils/api/edit/acceptEdit';
+import closeEdit from '@/utils/api/edit/closeEdit';
+import denyEdit from '@/utils/api/edit/denyEdit';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 type FormValues = Hikka.EditParams & {
     description: string;
@@ -64,6 +68,7 @@ interface Props {
 }
 
 const Component = ({ edit, setEdit }: Props) => {
+    const captchaRef = useRef<TurnstileInstance>();
     const queryClient = useQueryClient();
     const titleRef = useRef<HTMLInputElement>(null);
     const synopsisRef = useRef<HTMLInputElement>(null);
@@ -95,7 +100,7 @@ const Component = ({ edit, setEdit }: Props) => {
         register,
         reset,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm<FormValues>();
 
     const getEditParams = (data: FormValues) => {
@@ -117,12 +122,50 @@ const Component = ({ edit, setEdit }: Props) => {
 
     const onSaveSubmit = async (data: FormValues) => {
         try {
-            await addEdit({
+            if (captchaRef.current) {
+                await addEdit({
+                    secret: String(secret),
+                    contentType: 'anime',
+                    slug: String(params.slug),
+                    after: getEditParams(data),
+                    description: data.description,
+                    captcha: String(captchaRef.current.getResponse()),
+                });
+
+                onDismiss();
+            } else {
+                throw Error('No captcha found');
+            }
+        } catch (e) {
+            return;
+        }
+    };
+
+    const onUpdateSubmit = async (data: FormValues) => {
+        try {
+            if (captchaRef.current) {
+                await updateEdit({
+                    secret: String(secret),
+                    edit_id: Number(edit?.edit_id),
+                    after: getEditParams(data),
+                    description: data.description,
+                    captcha: String(captchaRef.current.getResponse()),
+                });
+
+                onDismiss();
+            } else {
+                throw Error('No captcha found');
+            }
+        } catch (e) {
+            return;
+        }
+    };
+
+    const onAcceptSubmit = async () => {
+        try {
+            await acceptEdit({
                 secret: String(secret),
-                contentType: 'anime',
-                slug: String(params.slug),
-                after: getEditParams(data),
-                description: data.description,
+                edit_id: Number(edit?.edit_id),
             });
 
             onDismiss();
@@ -131,13 +174,24 @@ const Component = ({ edit, setEdit }: Props) => {
         }
     };
 
-    const onUpdateSubmit = async (data: FormValues) => {
+    const onCloseSubmit = async () => {
         try {
-            await updateEdit({
+            await closeEdit({
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
-                after: getEditParams(data),
-                description: data.description,
+            });
+
+            onDismiss();
+        } catch (e) {
+            return;
+        }
+    };
+
+    const onDenySubmit = async () => {
+        try {
+            await denyEdit({
+                secret: String(secret),
+                edit_id: Number(edit?.edit_id),
             });
 
             onDismiss();
@@ -172,9 +226,10 @@ const Component = ({ edit, setEdit }: Props) => {
 
     return (
         <Modal
+            noEscape
             open={Boolean(animeEdit) && Boolean(anime)}
             onDismiss={onDismiss}
-            id="watchEditModal"
+            id="animeEditModal"
             boxClassName="p-0 md:max-w-5xl"
             title="Редагувати аніме"
         >
@@ -184,28 +239,68 @@ const Component = ({ edit, setEdit }: Props) => {
                     className="py-8 px-8 flex flex-col gap-6"
                 >
                     {edit && (
-                        <div className="w-full flex gap-4 items-center">
-                            <div className="w-12">
-                                <BaseCard
-                                    href={'/u/' + edit.author.username}
-                                    containerClassName="!pt-[100%]"
-                                    poster={edit.author.avatar}
-                                />
-                            </div>
-                            <div className="flex flex-col flex-1">
-                                <Link href={'/u/' + edit.author.username}>
-                                    <h5>{edit.author.username}</h5>
-                                </Link>
-                                <div className="flex flex-col gap-1">
-                                    <div className="flex gap-4 items-center">
-                                        <p className=" text-gray-400 text-sm">
-                                            {format(
-                                                edit.created * 1000,
-                                                'd MMM yyyy kk:mm',
-                                            )}
-                                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4">
+                            <div className="w-full flex gap-4 items-center">
+                                <div className="w-12">
+                                    <BaseCard
+                                        href={'/u/' + edit.author.username}
+                                        containerClassName="!pt-[100%]"
+                                        poster={edit.author.avatar}
+                                    />
+                                </div>
+                                <div className="flex flex-col flex-1">
+                                    <Link href={'/u/' + edit.author.username}>
+                                        <h5>{edit.author.username}</h5>
+                                    </Link>
+                                    <div className="flex flex-col gap-1">
+                                        <div className="flex gap-4 items-center">
+                                            <p className=" text-gray-400 text-sm">
+                                                {format(
+                                                    edit.created * 1000,
+                                                    'd MMM yyyy kk:mm',
+                                                )}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="grid grid-flow-col auto-cols-fr gap-2">
+                                {(loggedUser?.role === 'moderator' ||
+                                    loggedUser?.role === 'admin') &&
+                                edit.status === 'pending' ? (
+                                    <>
+                                        <button
+                                            disabled={isSubmitting}
+                                            className="btn btn-sm btn-success"
+                                            onClick={handleSubmit(
+                                                onAcceptSubmit,
+                                            )}
+                                        >
+                                            Прийняти
+                                        </button>
+                                        <button
+                                            disabled={isSubmitting}
+                                            className="btn btn-sm btn-error"
+                                            onClick={handleSubmit(onDenySubmit)}
+                                        >
+                                            Відхилити
+                                        </button>
+                                    </>
+                                ) : null}
+                                {loggedUser?.username ===
+                                    edit.author.username &&
+                                    edit.status === 'pending' && (
+                                        <button
+                                            disabled={isSubmitting}
+                                            className="btn btn-sm btn-warning"
+                                            onClick={handleSubmit(
+                                                onCloseSubmit,
+                                            )}
+                                        >
+                                            Закрити
+                                        </button>
+                                    )}
                             </div>
                         </div>
                     )}
@@ -373,7 +468,11 @@ const Component = ({ edit, setEdit }: Props) => {
                         </div>
                     </div>
                     {!isView && (
-                        <div className="w-full grid grid-cols-1 gap-8">
+                        <div className="w-full flex flex-col gap-4">
+                            <Turnstile
+                                ref={captchaRef}
+                                siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
+                            />
                             <button
                                 disabled={isSubmitting}
                                 onClick={

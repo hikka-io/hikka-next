@@ -8,7 +8,7 @@ import {
     useContext, useEffect,
     useState,
 } from 'react';
-import {usePathname} from "next/navigation";
+import {usePathname, useSearchParams} from "next/navigation";
 
 interface State {
     login?: boolean;
@@ -18,6 +18,8 @@ interface State {
     search?: boolean;
     animeEdit?: boolean;
     animeEditList?: boolean;
+    forgotPassword?: boolean;
+    passwordConfirm?: boolean;
 }
 
 interface ContextProps extends State {
@@ -36,7 +38,7 @@ interface Props {
     children: ReactNode;
 }
 
-function getInitialState() {
+function getInitialState(): State {
     return {
         login: false,
         signup: false,
@@ -45,6 +47,8 @@ function getInitialState() {
         search: false,
         animeEdit: false,
         animeEditList: false,
+        forgotPassword: false,
+        passwordConfirm: false,
     };
 }
 
@@ -54,7 +58,10 @@ export const useModalContext = () => {
 
 export default function ModalProvider({ children }: Props) {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     const [state, setState] = useState<State>(getInitialState());
+
+    const modalParam = searchParams.get('modal');
 
     const switchModal = (modal: keyof State, hierarchy: boolean = false) => {
         setState({
@@ -72,6 +79,12 @@ export default function ModalProvider({ children }: Props) {
             closeModals();
         }
     }, [pathname]);
+
+    useEffect(() => {
+        if (modalParam && modalParam in state) {
+            switchModal(modalParam as keyof State);
+        }
+    }, [modalParam]);
 
 
     return (

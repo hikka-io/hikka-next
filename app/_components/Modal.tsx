@@ -3,13 +3,14 @@
 import React, {
     memo,
     PropsWithChildren,
-    useCallback,
+    SyntheticEvent,
     useEffect,
-    useRef, useState,
+    useRef,
+    useState,
 } from 'react';
 import clsx from 'clsx';
 import { createPortal } from 'react-dom';
-import AntDesignCloseOutlined from '~icons/ant-design/close-outlined'
+import AntDesignCloseOutlined from '~icons/ant-design/close-outlined';
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -18,6 +19,7 @@ interface Props extends PropsWithChildren {
     onDismiss: () => void;
     boxClassName?: string;
     title?: string;
+    noEscape?: boolean;
 }
 
 const Component = ({
@@ -28,22 +30,16 @@ const Component = ({
     children,
     onDismiss,
     title,
+    noEscape,
     ...props
 }: Props) => {
     const [mounted, setMounted] = useState(false);
     const ref = useRef<HTMLDialogElement>(null);
 
-    const onKeyDown = useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onDismiss();
-        },
-        [onDismiss],
-    );
-
-    useEffect(() => {
-        document.addEventListener('keydown', onKeyDown);
-        return () => document.removeEventListener('keydown', onKeyDown);
-    }, [onKeyDown]);
+    const handleOnCancel = (e: SyntheticEvent<HTMLDialogElement, Event>) => {
+        e.preventDefault();
+        !noEscape && onDismiss();
+    };
 
     useEffect(() => {
         if (ref?.current) {
@@ -66,12 +62,9 @@ const Component = ({
     return createPortal(
         <dialog
             ref={ref}
-            className={clsx(
-                'modal',
-                'modal-bottom md:modal-middle',
-                className,
-            )}
+            className={clsx('modal', 'modal-bottom md:modal-middle', className)}
             id={id}
+            onCancel={(e) => handleOnCancel(e)}
             {...props}
         >
             <div
@@ -83,10 +76,13 @@ const Component = ({
                     boxClassName,
                 )}
             >
-                <div className={clsx("flex justify-between items-center pt-8 px-8 w-full gap-2", !title && 'absolute')}>
-                    <h3>
-                        {title}
-                    </h3>
+                <div
+                    className={clsx(
+                        'flex justify-between items-center pt-8 px-8 w-full gap-2',
+                        !title && 'absolute',
+                    )}
+                >
+                    <h3>{title}</h3>
                     <button
                         onClick={onDismiss}
                         className="btn btn-outline btn-secondary btn-square"

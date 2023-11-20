@@ -1,29 +1,23 @@
 import config from '@/utils/api/config';
 
-export interface Response {
-    pagination: Hikka.Pagination;
-    list: {
-        main: boolean;
-        character: Hikka.Character;
-    }[];
-}
+export interface Response extends Hikka.Edit {}
 
 export default async function req({
-    slug,
-    page = 1,
+    secret,
+    edit_id,
 }: {
-    slug: string;
-    page?: number;
+    secret: string;
+    edit_id: number;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI +
-            `/anime/${slug}/characters?` +
-            new URLSearchParams({
-                page: String(page),
-            }),
+        config.baseAPI + '/edit/' + edit_id + '/close',
         {
-            method: 'get',
+            method: 'post',
             ...config.config,
+            headers: {
+                ...config.config.headers,
+                auth: secret || '',
+            },
         },
     );
 

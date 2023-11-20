@@ -9,6 +9,7 @@ import NavBar from '@/app/_layout/NavBar';
 import NextTopLoader from 'nextjs-toploader';
 import { Metadata } from 'next';
 import MobileNavBar from '@/app/_layout/MobileNavBar';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
 

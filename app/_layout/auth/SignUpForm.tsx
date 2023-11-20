@@ -1,9 +1,10 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import signup, { Response } from '@/utils/api/auth/signup';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import {Turnstile, TurnstileInstance} from "@marsidev/react-turnstile";
 
 type FormValues = {
     email: string;
@@ -13,6 +14,7 @@ type FormValues = {
 };
 
 const Component = () => {
+    const captchaRef = useRef<TurnstileInstance>();
     const { signup: signupModal, switchModal } = useModalContext();
     const [signUpUser, setSignUpUser] = useState<Response | null>(null);
     const {
@@ -25,18 +27,23 @@ const Component = () => {
 
     const onSubmit = async (data: FormValues) => {
         try {
-            if (data.passwordConfirmation !== data.password) {
-                return;
-            }
+            if (captchaRef.current) {
+                if (data.passwordConfirmation !== data.password) {
+                    return;
+                }
 
-            const res = await signup({
-                password: data.password,
-                username: data.username,
-                email: data.email,
-            });
-            reset();
-            setSignUpUser(res);
-            return;
+                const res = await signup({
+                    password: data.password,
+                    username: data.username,
+                    email: data.email,
+                    captcha: String(captchaRef.current.getResponse()),
+                });
+                reset();
+                setSignUpUser(res);
+                return;
+            } else {
+                throw Error('No captcha found');
+            }
         } catch (e) {
             console.error(e);
             return;
@@ -71,7 +78,7 @@ const Component = () => {
     }
 
     return (
-        <form className="w-full flex flex-col items-center gap-8">
+        <form onSubmit={(e) => e.preventDefault()} className="w-full flex flex-col items-center gap-8">
             <div>
                 <h2 className="text-accent">✌️ Раді познайомитись!</h2>
                 <p className="text-neutral text-xs mt-2">
@@ -143,6 +150,11 @@ const Component = () => {
                         })}
                     />
                 </div>
+                <Turnstile
+                    className="mt-2"
+                    ref={captchaRef}
+                    siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
+                />
             </div>
             <div className="w-full flex flex-col gap-4">
                 <button

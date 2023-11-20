@@ -1,8 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import getAnimeInfo, {Response as AnimeInfoResponse} from '@/utils/api/anime/getAnimeInfo';
 import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 import { OST, VIDEO } from '@/utils/constants';
 import { useState } from 'react';
@@ -16,16 +16,17 @@ interface Props {
 }
 
 const Component = ({ extended }: Props) => {
+    const queryClient = useQueryClient();
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
+        'anime',
+        params.slug,
+    ]);
     const [active, setActive] = useState<'video' | 'music'>(
-        data?.videos && data.videos.length === 0 ? 'music' : 'video',
+        anime?.videos && anime.videos.length === 0 ? 'music' : 'video',
     );
 
-    if (!data || (data.ost.length === 0 && data.videos.length === 0)) {
+    if (!anime || (anime.ost.length === 0 && anime.videos.length === 0)) {
         return null;
     }
 
@@ -41,8 +42,8 @@ const Component = ({ extended }: Props) => {
         return undefined;
     };
 
-    const filteredOSTData = extended ? data.ost : data.ost.slice(0, 6);
-    const filteredVideoData = extended ? data.videos : data.videos.slice(0, 4);
+    const filteredOSTData = extended ? anime.ost : anime.ost.slice(0, 6);
+    const filteredVideoData = extended ? anime.videos : anime.videos.slice(0, 4);
 
     return (
         <div className="flex flex-col gap-8">

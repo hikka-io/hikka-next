@@ -2,14 +2,16 @@
 
 import Modal from '@/app/_components/Modal';
 import Image from '@/app/_components/Image';
+import ForgotPasswordForm from '@/app/_layout/auth/ForgotPasswordForm';
 import LoginForm from '@/app/_layout/auth/LoginForm';
 import SignUpForm from '@/app/_layout/auth/SignUpForm';
+import PasswordConfirmForm from '@/app/_layout/auth/PasswordConfirmForm';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import getOAuth from '@/utils/api/auth/getOAuth';
 import LogosGoogleIcon from '~icons/logos/google-icon'
 
 const Component = () => {
-    const { login, signup, closeModals } = useModalContext();
+    const { login, signup, forgotPassword, passwordConfirm, closeModals } = useModalContext();
 
     const onOAuthSubmit = async () => {
         try {
@@ -24,7 +26,7 @@ const Component = () => {
 
     return (
         <Modal
-            open={Boolean(login) || Boolean(signup)}
+            open={Boolean(login) || Boolean(signup) || Boolean(forgotPassword) || Boolean(passwordConfirm)}
             onDismiss={closeModals}
             id="authModal"
             boxClassName="p-0"
@@ -48,8 +50,10 @@ const Component = () => {
                             height={25}
                         />
                     </div>
+                    {forgotPassword && <ForgotPasswordForm />}
                     {login && <LoginForm />}
                     {signup && <SignUpForm />}
+                    {passwordConfirm && <PasswordConfirmForm />}
                     <button
                         onClick={onOAuthSubmit}
                         className="btn btn-outline btn-accent w-full mt-4"

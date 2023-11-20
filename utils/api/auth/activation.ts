@@ -1,11 +1,9 @@
 import config from '@/utils/api/config';
 
 interface Response {
-    reference: string;
-    description: string;
+    secret: string;
+    expiration: number;
     created: number;
-    username: string;
-    avatar: string;
 }
 
 export default async function req(params: {

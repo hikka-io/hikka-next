@@ -21,6 +21,7 @@ declare global {
             username: string;
             created: number;
             avatar: string;
+            role: 'admin' | 'moderator' | 'user' | 'banned' | 'not_activated';
         };
 
         type WatchStatus =

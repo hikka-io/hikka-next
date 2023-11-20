@@ -1,20 +1,19 @@
 import config from '@/utils/api/config';
 
-interface Response extends Hikka.User {
+interface Response {
+    secret: string;
+    expiration: number;
+    created: number;
 }
 
-export default async function req({
-    secret,
-}: {
-    secret?: string;
+export default async function req(params: {
+    password: string;
+    token: string;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + '/user/me', {
-        method: 'get',
+    const res = await fetch(config.baseAPI + '/auth/password/confirm', {
+        method: 'post',
+        body: JSON.stringify(params),
         ...config.config,
-        headers: {
-            ...config.config.headers,
-            auth: secret || "",
-        },
     });
 
     if (!res.ok) {

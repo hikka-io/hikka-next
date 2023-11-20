@@ -10,11 +10,20 @@ export default async function req(params: {
     email: string;
     username: string;
     password: string;
+    captcha: string;
 }): Promise<Response> {
     const res = await fetch(config.baseAPI + '/auth/signup', {
         method: 'post',
-        body: JSON.stringify(params),
+        body: JSON.stringify({
+            email: params.email,
+            username: params.username,
+            password: params.password,
+        }),
         ...config.config,
+        headers: {
+            ...config.config.headers,
+            "Captcha": params.captcha,
+        },
     });
 
     if (!res.ok) {

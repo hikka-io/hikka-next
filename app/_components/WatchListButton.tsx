@@ -13,6 +13,7 @@ import addWatch from '@/utils/api/watch/addWatch';
 import getWatch from '@/utils/api/watch/getWatch';
 import deleteWatch from '@/utils/api/watch/deleteWatch';
 import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 
 interface Props {
     slug: string;
@@ -28,15 +29,31 @@ const Component = ({ slug, additional, disabled }: Props) => {
         queryFn: () => getWatch({ slug: String(slug), secret: String(secret) }),
     });
 
+    const { data: anime } = useQuery({
+        queryKey: ['anime', slug],
+        queryFn: () => getAnimeInfo({ slug: String(slug) }),
+        enabled: !disabled,
+    });
+
     const { mutate: addToList, isLoading: addToListLoading } = useMutation({
         mutationKey: ['addToList', secret, slug],
-        mutationFn: (status: Hikka.WatchStatus) =>
+        mutationFn: ({
+            status,
+            episodes,
+        }: {
+            status: Hikka.WatchStatus;
+            episodes?: number;
+        }) =>
             addWatch({
                 secret: String(secret),
                 slug: String(slug),
                 status: status,
                 score: !watchError ? watch?.score : 0,
-                episodes: !watchError ? watch?.episodes : 0,
+                episodes: episodes
+                    ? episodes
+                    : !watchError
+                    ? watch?.episodes
+                    : 0,
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries(['watch']);
@@ -60,9 +77,16 @@ const Component = ({ slug, additional, disabled }: Props) => {
         <CustomSelect
             className="w-full"
             onChange={(e, option) => {
-                option &&
-                    typeof option === 'string' &&
-                    addToList(option as Hikka.WatchStatus);
+                if (option && typeof option === 'string') {
+                    if (option === 'completed') {
+                        addToList({
+                            status: 'completed',
+                            episodes: anime?.episodes_total,
+                        });
+                    } else {
+                        addToList({ status: option as Hikka.WatchStatus });
+                    }
+                }
             }}
             value={watch && !watchError ? watch.status : null}
             renderToggle={(getButtonProps, listboxVisible, value) => {
@@ -75,7 +99,9 @@ const Component = ({ slug, additional, disabled }: Props) => {
                         )}
                     >
                         <button
-                            onClick={() => !value && addToList('planned')}
+                            onClick={() =>
+                                !value && addToList({ status: 'planned' })
+                            }
                             {...(value && buttonProps)}
                             disabled={disabled}
                             className={clsx(
@@ -97,7 +123,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                           .title_ua ||
                                       WATCH_STATUS[value as Hikka.WatchStatus]
                                           .title_en
-                                    : 'Додати в Список'}
+                                    : 'Додати У Список'}
                             </span>
                             {!additional && (
                                 <div

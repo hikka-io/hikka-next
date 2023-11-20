@@ -49,7 +49,7 @@ const Component = async ({ params: { username }, children }: Props) => {
         getUserInfo({ username }),
     );
 
-    await queryClient.prefetchQuery(['favorites', username], () =>
+    await queryClient.prefetchInfiniteQuery(['favorites', username], () =>
         getFavouriteList({ username }),
     );
 

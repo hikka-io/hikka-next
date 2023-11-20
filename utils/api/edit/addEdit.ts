@@ -8,12 +8,14 @@ export default async function req({
     description,
     after,
     slug,
+    captcha
 }: {
     secret: string;
     description?: string;
     contentType: 'anime' | 'person';
     after: Hikka.EditParams;
     slug: string;
+    captcha: string;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI + '/edit/' + contentType + '/' + slug,
@@ -24,6 +26,7 @@ export default async function req({
             headers: {
                 ...config.config.headers,
                 auth: secret || '',
+                "Captcha": captcha,
             },
         },
     );

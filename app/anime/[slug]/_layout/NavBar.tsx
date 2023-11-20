@@ -3,10 +3,10 @@
 import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
-import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
+import { InfiniteData, useQueryClient } from '@tanstack/react-query';
+import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
+import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharacters';
+import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
 import { useEffect, useRef } from 'react';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 
@@ -48,34 +48,29 @@ const ITEMS: {
 ];
 
 const Component = () => {
+    const queryClient = useQueryClient();
     const isMobile = useIsMobile();
     const navRef = useRef<HTMLDivElement>(null);
     const params = useParams();
     const pathname = usePathname();
 
-    const { data: anime } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const characters: InfiniteData<CharactersResponse> | undefined =
+        queryClient.getQueryData(['characters', params.slug]);
 
-    const { data: characters } = useQuery({
-        queryKey: ['characters', params.slug],
-        queryFn: () => getAnimeCharacters({ slug: String(params.slug) }),
-    });
+    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
+        'anime',
+        params.slug,
+    ]);
 
-    const { data: staff } = useQuery({
-        queryKey: ['staff', params.slug],
-        queryFn: () => getAnimeStaff({ slug: String(params.slug) }),
-    });
+    const staff: InfiniteData<AnimeStuffResponse> | undefined =
+        queryClient.getQueryData(['characters', params.slug]);
 
     const filteredItems = ITEMS.filter((item) => {
         switch (item.slug) {
             case 'characters':
-                return (
-                    characters && characters?.list && characters.list.length > 0
-                );
+                return characters !== undefined;
             case 'staff':
-                return staff && staff?.list && staff.list.length > 0;
+                return staff !== undefined;
             case 'media':
                 return (
                     anime &&

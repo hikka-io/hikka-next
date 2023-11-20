@@ -1,31 +1,46 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
-import Link from 'next/link';
+import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import getAnimeCharacters, { Response } from '@/utils/api/anime/getAnimeCharacters';
 import BaseCard from '@/app/_components/BaseCard';
 import SubHeader from '@/app/_components/SubHeader';
+import {useInView} from "react-intersection-observer";
+import {useEffect} from "react";
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { ref, inView } = useInView();
     const params = useParams();
-    const { data } = useQuery({
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['characters', params.slug],
-        queryFn: () => getAnimeCharacters({ slug: String(params.slug) }),
+        getNextPageParam: (lastPage: Response, allPages) => {
+            const nextPage = lastPage.pagination.page + 1;
+            return nextPage > lastPage.pagination.pages
+                ? undefined
+                : nextPage;
+        },
+        queryFn: ({ pageParam = 1 }) => getAnimeCharacters({ slug: String(params.slug), page: pageParam }),
     });
 
-    if (!data || !data.list || data.list.length === 0) {
+    useEffect(() => {
+        if (inView && data) {
+            fetchNextPage();
+        }
+    }, [inView])
+
+    if (!data || !data.pages) {
         return null;
     }
 
+    const list = data.pages.map((data) => data.list).flat(1);
+
     const filteredData = extended
-        ? data.list
-        : data.list.filter((ch) => ch.main).slice(0, 6);
+        ? list
+        : list.filter((ch) => ch.main).slice(0, 6);
 
     return (
         <div className="flex flex-col gap-8">
@@ -48,6 +63,19 @@ const Component = ({ extended }: Props) => {
                     />
                 ))}
             </div>
+            {extended && hasNextPage && (
+                <button
+                    ref={ref}
+                    disabled={isFetchingNextPage}
+                    onClick={() => fetchNextPage()}
+                    className="btn btn-secondary"
+                >
+                    {isFetchingNextPage && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Заванатажити ще
+                </button>
+            )}
         </div>
     );
 };

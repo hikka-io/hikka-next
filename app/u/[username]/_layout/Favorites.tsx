@@ -4,32 +4,50 @@ import Link from 'next/link';
 import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 import { useParams } from 'next/navigation';
 import AnimeCard from '@/app/_components/AnimeCard';
-import { useQuery } from '@tanstack/react-query';
-import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
+import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import getFavouriteList, { Response as FavouriteListResponse } from '@/utils/api/favourite/getFavouriteList';
 import { WATCH_STATUS } from '@/utils/constants';
 import NotFound from '@/app/_components/NotFound';
+import {Response} from "@/utils/api/anime/getAnimeCharacters";
+import {useInView} from "react-intersection-observer";
+import {useEffect} from "react";
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { ref, inView } = useInView();
     const params = useParams();
-    const { data } = useQuery({
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['favorites', params.username],
-        queryFn: () => getFavouriteList({ username: String(params.username) }),
+        getNextPageParam: (lastPage: FavouriteListResponse, allPages) => {
+            const nextPage = lastPage.pagination.page + 1;
+            return nextPage > lastPage.pagination.pages
+                ? undefined
+                : nextPage;
+        },
+        queryFn: ({ pageParam = 1 }) => getFavouriteList({ username: String(params.username), page: pageParam }),
         staleTime: 0,
     });
 
-    if (!data || !data.list) {
+    useEffect(() => {
+        if (inView && data) {
+            fetchNextPage();
+        }
+    }, [inView])
+
+    if (!data || !data.pages) {
         return null;
     }
 
-    if (data.list.length === 0 && !extended) {
+    const list = data.pages.map((data) => data.list).flat(1);
+
+    if (list.length === 0 && !extended) {
         return null;
     }
 
-    const filteredData = extended ? data.list : data.list.slice(0, 5);
+    const filteredData = extended ? list : list.slice(0, 5);
 
     return (
         <div className="flex flex-col gap-8">
@@ -68,6 +86,19 @@ const Component = ({ extended }: Props) => {
                     }
                     description="Цей список оновиться після як сюди буде додано аніме"
                 />
+            )}
+            {extended && hasNextPage && (
+                <button
+                    ref={ref}
+                    disabled={isFetchingNextPage}
+                    onClick={() => fetchNextPage()}
+                    className="btn btn-secondary"
+                >
+                    {isFetchingNextPage && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Заванатажити ще
+                </button>
             )}
         </div>
     );

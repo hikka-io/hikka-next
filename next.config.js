@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
+        unoptimized: true,
         remotePatterns: [
             {
                 protocol: 'https',
@@ -9,9 +10,6 @@ const nextConfig = {
                 pathname: '**',
             },
         ],
-    },
-    '@mui/base': {
-        transform: '@mui/base/{{member}}'
     },
     webpack(config) {
         config.plugins.push(

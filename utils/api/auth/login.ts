@@ -9,11 +9,19 @@ interface Response {
 export default async function req(params: {
     email: string;
     password: string;
+    captcha: string;
 }): Promise<Response> {
     const res = await fetch(config.baseAPI + '/auth/login', {
         method: 'post',
-        body: JSON.stringify(params),
+        body: JSON.stringify({
+            email: params.email,
+            password: params.password,
+        }),
         ...config.config,
+        headers: {
+            ...config.config.headers,
+            "Captcha": params.captcha,
+        },
     });
 
     if (!res.ok) {

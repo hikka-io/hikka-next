@@ -1,6 +1,6 @@
 import config from '@/utils/api/config';
 
-interface Response {
+export interface Response {
     pagination: Hikka.Pagination;
     list: {
         reference: string;
@@ -11,11 +11,15 @@ interface Response {
 
 export default async function req({
     username,
+    page = 1,
 }: {
     username: string;
+    page?: number;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI + '/favourite/anime/' + username + '/list',
+        config.baseAPI + '/favourite/anime/' + username + '/list?' + new URLSearchParams({
+            page: String(page),
+        }),
         {
             method: 'get',
             ...config.config.headers,

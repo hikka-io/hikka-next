@@ -1,27 +1,48 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import getAnimeStaff, {
+    Response as AnimeStuffResponse,
+} from '@/utils/api/anime/getAnimeStaff';
 import BaseCard from '@/app/_components/BaseCard';
 import SubHeader from '@/app/_components/SubHeader';
+import { useInView } from 'react-intersection-observer';
+import {useEffect} from "react";
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { ref, inView } = useInView();
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['staff', params.slug],
-        queryFn: () => getAnimeStaff({ slug: String(params.slug) }),
-    });
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteQuery({
+            queryKey: ['staff', params.slug],
+            getNextPageParam: (lastPage: AnimeStuffResponse, allPages) => {
+                const nextPage = lastPage.pagination.page + 1;
+                return nextPage > lastPage.pagination.pages
+                    ? undefined
+                    : nextPage;
+            },
+            queryFn: ({ pageParam = 1 }) =>
+                getAnimeStaff({ slug: String(params.slug), page: pageParam }),
+        });
 
-    if (!data || !data.list || data.list.length === 0) {
+    useEffect(() => {
+        if (inView && data) {
+            fetchNextPage();
+        }
+    }, [inView])
+
+    if (!data || !data.pages) {
         return null;
     }
 
-    const filteredData = extended ? data.list : data.list.slice(0, 6);
+    const list = data.pages.map((data) => data.list).flat(1);
+
+    const filteredData = extended ? list : list.slice(0, 6);
 
     return (
         <div className="flex flex-col gap-8">
@@ -43,6 +64,19 @@ const Component = ({ extended }: Props) => {
                     />
                 ))}
             </div>
+            {extended && hasNextPage && (
+                <button
+                    ref={ref}
+                    disabled={isFetchingNextPage}
+                    onClick={() => fetchNextPage()}
+                    className="btn btn-secondary"
+                >
+                    {isFetchingNextPage && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Заванатажити ще
+                </button>
+            )}
         </div>
     );
 };
