@@ -15,23 +15,23 @@ const Component = ({ list }: Props) => {
                     type="checkbox"
                     className="drawer-toggle"
                 />
-                <div className="drawer-content grid grid-cols-1 md:grid-cols-[1fr_25%] justify-center md:items-start md:justify-between md:gap-16">
+                <div className="drawer-content grid grid-cols-1 lg:grid-cols-[1fr_25%] justify-center lg:items-start lg:justify-between lg:gap-16">
                     <div className="flex flex-col gap-8">
-                        <div className="sticky md:relative top-16 md:top-0 z-[1] -mx-4">
+                        <div className="sticky lg:relative top-16 lg:top-0 z-[1] -mx-4">
                             <NavBar />
                         </div>
                         {list}
                     </div>
-                    <div className="order-1 md:order-2 md:block w-full hidden">
+                    <div className="order-1 lg:order-2 lg:block w-full hidden">
                         <Filters />
                     </div>
                 </div>
-                <div className="drawer-side overflow-y-visible z-10 md:hidden">
+                <div className="drawer-side overflow-y-visible z-10 lg:hidden">
                     <label
                         htmlFor="filterDrawer"
                         className="drawer-overlay"
                     ></label>
-                    <div className="p-8 md:p-4 w-full overflow-y-scroll overscroll-contain h-full bg-black text-base-content">
+                    <div className="p-8 lg:p-4 w-full overflow-y-scroll overscroll-contain h-full bg-black text-base-content">
                         <Filters />
                     </div>
                 </div>

@@ -57,7 +57,7 @@ const Component = () => {
                         />
                     </Link>
                 </div>
-                <div className="navbar-center gap-4 hidden md:flex">
+                <div className="navbar-center gap-4 hidden lg:flex">
                     <Link
                         href="/anime"
                         className={clsx(
@@ -103,7 +103,7 @@ const Component = () => {
                                 Увійти
                             </button>
                             <button
-                                className="hidden md:flex btn-accent btn-sm btn"
+                                className="hidden lg:flex btn-accent btn-sm btn"
                                 onClick={() => switchModal('signup')}
                             >
                                 Реєстрація
@@ -112,7 +112,7 @@ const Component = () => {
                     )}
                     <label
                         htmlFor="mobileNavDrawer"
-                        className="btn btn-ghost btn-square btn-sm drawer-button md:hidden flex"
+                        className="btn btn-ghost btn-square btn-sm drawer-button lg:hidden flex"
                     >
                         <MaterialSymbolsMenu />
                     </label>

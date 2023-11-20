@@ -12,8 +12,8 @@ const Component = () => {
     return (
         <footer className="w-full mt-12 border-t border-t-secondary">
             <div className="container max-w-screen-xl mx-auto p-4">
-                <div className="grid md:grid-cols-2 grid-cols-1">
-                    <div className="md:flex gap-4 hidden">
+                <div className="grid lg:grid-cols-2 grid-cols-1">
+                    <div className="lg:flex gap-4 hidden">
                         <Link href="https://t.me/hikka_io" target="_blank" className="btn btn-ghost btn-sm">
                             <MingcuteTelegramFill />
                             Telegram
@@ -26,7 +26,7 @@ const Component = () => {
                             Правовласникам
                         </button>
                     </div>
-                    <div className="flex md:justify-end justify-center">
+                    <div className="flex lg:justify-end justify-center">
                         <p className="font-bold opacity-60">© 2023 Hikka</p>
                     </div>
                 </div>

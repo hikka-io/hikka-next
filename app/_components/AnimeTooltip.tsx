@@ -33,7 +33,7 @@ export default function Component({ anchor, slug, setOnTooltip }: Props) {
 
     return (
         <Popper
-            className="hidden md:block z-50"
+            className="hidden lg:block z-50"
             placement="right-start"
             onMouseOver={() => setOnTooltip(true)}
             onMouseOut={() => setOnTooltip(false)}

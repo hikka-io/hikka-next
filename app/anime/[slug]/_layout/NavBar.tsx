@@ -97,26 +97,26 @@ const Component = () => {
     }, [pathname]);
 
     return (
-        <div
-            ref={navRef}
-            className="flex gap-8 overflow-y-scroll -mx-4 md:mx-0 p-4 md:p-0"
-        >
-            {filteredItems.map((item) => {
-                return (
-                    <Link
-                        href={'/anime/' + params.slug + item.url}
-                        key={item.slug}
-                        className={clsx(
-                            'btn btn-ghost rounded-full btn-badge',
-                            pathname === '/anime/' + params.slug + item.url &&
-                                'btn-active',
-                        )}
-                    >
-                        {item.title_ua}
-                    </Link>
-                );
-            })}
-        </div>
+            <div
+                ref={navRef}
+                className="flex md:flex-wrap gap-8 md:w-full overflow-y-scroll -mx-4 lg:mx-0 p-4 lg:p-0"
+            >
+                {filteredItems.map((item) => {
+                    return (
+                        <Link
+                            href={'/anime/' + params.slug + item.url}
+                            key={item.slug}
+                            className={clsx(
+                                'btn btn-ghost rounded-full btn-badge',
+                                pathname === '/anime/' + params.slug + item.url &&
+                                    'btn-active',
+                            )}
+                        >
+                            {item.title_ua}
+                        </Link>
+                    );
+                })}
+            </div>
     );
 };
 

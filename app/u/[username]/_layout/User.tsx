@@ -87,8 +87,8 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="grid md:grid-cols-1 grid-cols-[auto_1fr] gap-4">
-                <div className="avatar w-32 h-32 md:w-full pt-[100%] relative">
+            <div className="grid lg:grid-cols-1 grid-cols-[auto_1fr] gap-4">
+                <div className="avatar w-32 h-32 lg:w-full pt-[100%] relative">
                     <div className="w-full rounded-lg absolute top-0">
                         <Image
                             alt="avatar"

@@ -50,7 +50,7 @@ const Component = ({ extended }: Props) => {
                 title="Автори"
                 href={!extended ? params.slug + '/staff' : undefined}
             />
-            <div className="grid md:grid-cols-6 grid-cols-3 gap-4 md:gap-8">
+            <div className="grid md:grid-cols-6 grid-cols-3 gap-4 lg:gap-8">
                 {filteredData.map((staff) => (
                     <BaseCard
                         key={staff.person.slug}

@@ -62,7 +62,7 @@ const Component = ({ extended }: Props) => {
                     </Link>
                 )}
             </div>
-            {filteredData.length > 0 && <div className="grid md:grid-cols-5 grid-cols-2 md:gap-8 gap-4">
+            {filteredData.length > 0 && <div className="grid md:grid-cols-5 grid-cols-2 lg:gap-8 gap-4">
                 {filteredData.map((res) => (
                     <AnimeCard
                         key={res.reference}

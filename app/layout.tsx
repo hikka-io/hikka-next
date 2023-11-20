@@ -90,12 +90,12 @@ export default async function RootLayout({
                                 className="drawer-toggle"
                             />
                             <div className="drawer-content">
-                                <main className="container max-w-screen-xl mx-auto px-4 md:mt-20 mt-8">
+                                <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
                                     {children}
                                 </main>
                                 <Footer />
                             </div>
-                            <div className="drawer-side overflow-y-visible z-10 md:hidden">
+                            <div className="drawer-side overflow-y-visible z-10 lg:hidden">
                                 <label
                                     htmlFor="mobileNavDrawer"
                                     aria-label="close sidebar"

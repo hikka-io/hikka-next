@@ -47,7 +47,7 @@ const Component = () => {
     return (
         <div
             ref={navRef}
-            className="flex gap-8 overflow-y-scroll -mx-4 md:mx-0 p-4 md:p-0"
+            className="flex gap-8 overflow-y-scroll -mx-4 lg:mx-0 p-4 lg:p-0"
         >
             {ITEMS.map((item) => {
                 return (

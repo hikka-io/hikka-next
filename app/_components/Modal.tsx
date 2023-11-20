@@ -72,7 +72,7 @@ const Component = ({
                     'modal-box ',
                     'w-full h-full max-h-none md:h-auto md:max-h-[100%] md:max-w-3xl md:w-11/12',
                     'border border-secondary',
-                    'rounded-none md:rounded-2xl',
+                    'rounded-none lg:rounded-2xl',
                     boxClassName,
                 )}
             >

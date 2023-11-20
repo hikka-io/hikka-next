@@ -53,7 +53,7 @@ const Component = ({ extended }: Props) => {
             />
             <div
                 className={clsx(
-                    'grid gap-4 md:gap-8',
+                    'grid gap-4 lg:gap-8',
                     active === 'music'
                         ? 'md:grid-cols-6 grid-cols-3'
                         : 'md:grid-cols-4 grid-cols-2',

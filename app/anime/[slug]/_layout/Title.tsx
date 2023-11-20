@@ -48,7 +48,7 @@ const Component = () => {
                             </span>
                         )}
                     </h2>
-                    {secret && <EditButton className="hidden md:flex" />}
+                    {secret && <EditButton className="hidden lg:flex" />}
                 </div>
                 <p className="mt-2">{data.title_ja}</p>
             </div>
@@ -56,7 +56,7 @@ const Component = () => {
                 {data.score > 0 && (
                     <p className="text-4xl font-bold">{data.score}</p>
                 )}
-                {secret && <EditButton className="md:hidden flex" />}
+                {secret && <EditButton className="lg:hidden flex" />}
             </div>
             {secret && <AnimeEditListModal />}
         </div>

@@ -81,12 +81,12 @@ const Component = async ({ params: { slug }, children }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 md:grid-cols-[25%_1fr] md:gap-16 gap-12">
+            <div className="inline-grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-16 gap-12">
                 <div className="flex flex-col gap-4">
                     <Cover />
-                    <div className="flex flex-col gap-12 md:sticky md:top-20 md:self-start w-full">
+                    <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">
                         <Actions />
-                        <div className="md:block hidden">
+                        <div className="lg:block hidden">
                             <WatchListStats />
                         </div>
                     </div>
@@ -95,7 +95,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                     <Title />
                     <NavBar />
                     {children}
-                    <div className="md:hidden block">
+                    <div className="lg:hidden block">
                         <WatchListStats />
                     </div>
                 </div>

@@ -19,7 +19,7 @@ const Component = () => {
     }
 
     return (
-        <div className="flex items-center md:px-0 px-16">
+        <div className="flex items-center lg:px-0 md:px-48 px-16">
             <BaseCard poster={data.poster} />
         </div>
     );

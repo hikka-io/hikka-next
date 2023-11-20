@@ -99,13 +99,13 @@ const Component = () => {
         <div
             className={clsx(
                 'flex flex-col items-start gap-8',
-                // 'md:absolute md:top-0',
+                // 'lg:absolute lg:top-0',
                 'border-t border-t-transparent',
                 'transition',
             )}
         >
-            <h3 className="text-white md:hidden">Фільтри</h3>
-            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll md:overflow-y-visible">
+            <h3 className="text-white lg:hidden">Фільтри</h3>
+            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll lg:overflow-y-visible">
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text text-neutral">Жанр</span>
@@ -289,7 +289,7 @@ const Component = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex gap-2 md:relative sticky bottom-4">
+            <div className="w-full flex gap-2 lg:relative sticky bottom-4">
                 <button
                     onClick={clearFilters}
                     className="btn btn-outline flex-1 btn-error bg-black"
@@ -299,7 +299,7 @@ const Component = () => {
                 </button>
                 <label
                     htmlFor="filterDrawer"
-                    className="btn btn-secondary drawer-button btn-square btn-outline flex md:hidden bg-black"
+                    className="btn btn-secondary drawer-button btn-square btn-outline flex lg:hidden bg-black"
                 >
                     <AntDesignCloseOutlined />
                 </label>

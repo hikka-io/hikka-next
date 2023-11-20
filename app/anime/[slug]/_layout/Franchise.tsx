@@ -59,7 +59,7 @@ const Component = ({ extended }: Props) => {
                 title={`Пов’язане`}
                 href={!extended ? params.slug + '/franchise' : undefined}
             />
-            <div className="grid md:grid-cols-5 grid-cols-2 gap-4 md:gap-8">
+            <div className="grid md:grid-cols-5 grid-cols-2 gap-4 lg:gap-8">
                 {filteredData.map((anime) => (
                     <AnimeCard
                         key={anime.slug}

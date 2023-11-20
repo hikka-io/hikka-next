@@ -230,7 +230,7 @@ const Component = ({ edit, setEdit }: Props) => {
             open={Boolean(animeEdit) && Boolean(anime)}
             onDismiss={onDismiss}
             id="animeEditModal"
-            boxClassName="p-0 md:max-w-5xl"
+            boxClassName="p-0 lg:max-w-5xl"
             title="Редагувати аніме"
         >
             {Boolean(animeEdit) && anime && (
@@ -239,7 +239,7 @@ const Component = ({ edit, setEdit }: Props) => {
                     className="py-8 px-8 flex flex-col gap-6"
                 >
                     {edit && (
-                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
                             <div className="w-full flex gap-4 items-center">
                                 <div className="w-12">
                                     <BaseCard

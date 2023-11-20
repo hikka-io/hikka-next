@@ -33,7 +33,7 @@ const Component = ({ extended }: Props) => {
             />
             <div
                 className={clsx(
-                    'grid gap-4 md:gap-8',
+                    'grid gap-4 lg:gap-8',
                     extended
                         ? 'md:grid-cols-4 grid-cols-2'
                         : 'md:grid-cols-4 grid-cols-2',

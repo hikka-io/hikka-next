@@ -70,7 +70,7 @@ const Component = () => {
 
     const Tabs = () => {
         return (
-            <div className="w-full h-full py-8 flex flex-col gap-4 md:border-r border-r-secondary/60">
+            <div className="w-full h-full py-8 flex flex-col gap-4 lg:border-r border-r-secondary/60">
                 <div className="h-12 flex items-center">
                     <h3 className="px-8">Налаштування</h3>
                 </div>
@@ -105,7 +105,7 @@ const Component = () => {
             id="settingsModal"
             boxClassName="p-0"
         >
-            <div className="grid md:grid-cols-[40%_1fr] grid-cols-1">
+            <div className="grid lg:grid-cols-[40%_1fr] grid-cols-1">
                 {isMobile && !activeTab && <Tabs />}
                 {!isMobile && <Tabs />}
                 {activeForm?.form}

@@ -25,14 +25,14 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="stats bg-transparent flex border-y md:border border-secondary rounded-none md:rounded-lg p-0 md:mx-0 -mx-4">
+            <div className="stats bg-transparent flex border-y lg:border border-secondary rounded-none lg:rounded-lg p-0 lg:mx-0 -mx-4">
                 {Object.keys(data).map((status) => {
                     return (
                         <Link
                             href={`${pathname}/list?status=${status}`}
                             key={status}
                             className={clsx(
-                                'stat p-4 flex-1 min-w-[50%] md:min-w-fit text-left bg-secondary/60 transition',
+                                'stat p-4 flex-1 min-w-[50%] md:min-w-[25%] lg:min-w-fit text-left bg-secondary/60 transition',
                                 'hover:bg-secondary/30',
                             )}
                         >

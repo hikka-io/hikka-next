@@ -31,8 +31,8 @@ const Component = () => {
             id="authModal"
             boxClassName="p-0"
         >
-            <div className="grid md:grid-cols-[40%_1fr] grid-cols-1">
-                <div className="relative hidden md:block">
+            <div className="grid lg:grid-cols-[40%_1fr] grid-cols-1">
+                <div className="relative hidden lg:block">
                     <Image
                         src="/hikka.art.jpg"
                         width={200}

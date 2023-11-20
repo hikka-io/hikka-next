@@ -36,7 +36,7 @@ const Component = () => {
 
     return (
         <div className="form-control w-full">
-            <label className="label md:flex hidden">
+            <label className="label lg:flex hidden">
                 <span className="label-text text-neutral">Пошук</span>
             </label>
             <input

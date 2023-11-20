@@ -48,7 +48,7 @@ const Component = ({ extended }: Props) => {
                 title={extended ? 'Персонажі' : 'Головні Персонажі'}
                 href={!extended ? params.slug + '/characters' : undefined}
             />
-            <div className="grid md:grid-cols-6 grid-cols-3 gap-4 md:gap-8">
+            <div className="grid md:grid-cols-6 grid-cols-3 gap-4 lg:gap-8">
                 {filteredData.map((ch) => (
                     <BaseCard
                         key={ch.character.slug}

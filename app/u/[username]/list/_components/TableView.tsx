@@ -55,7 +55,7 @@ const Component = ({ data }: Props) => {
                             Епізоди
                         </th>
                         <th
-                            className="w-32 hidden md:table-cell"
+                            className="w-32 hidden lg:table-cell"
                             align="center"
                         >
                             Тип
@@ -78,7 +78,7 @@ const Component = ({ data }: Props) => {
                             <th className="w-8 text-neutral">{i + 1}</th>
                             <td>
                                 <div className="flex gap-4">
-                                    <div className="w-12 hidden md:block">
+                                    <div className="w-12 hidden lg:block">
                                         <div className="relative pt-[140%] w-full overflow-hidden rounded-md">
                                             <div className="absolute top-0 left-0">
                                                 <Image
@@ -113,7 +113,7 @@ const Component = ({ data }: Props) => {
                                 {res.episodes} / {res.anime.episodes_total}
                             </td>
                             <td
-                                className="w-32 hidden md:table-cell"
+                                className="w-32 hidden lg:table-cell"
                                 align="center"
                             >
                                 {
