@@ -35,20 +35,6 @@ const Component = () => {
         disableHysteresis: true,
     });
 
-    useEffect(() => {
-        function handleKeyDown(e: KeyboardEvent) {
-            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-                switchModal('search', true);
-            }
-        }
-
-        document.addEventListener('keydown', handleKeyDown);
-
-        return function cleanup() {
-            document.removeEventListener('keydown', handleKeyDown);
-        }
-    }, []);
-
     return (
         <nav
             className={clsx(

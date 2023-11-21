@@ -17,7 +17,7 @@ const Component = () => {
         undefined,
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
-    const { search, closeModals } = useModalContext();
+    const { search, closeModals, switchModal } = useModalContext();
     const { data, isLoading, error } = useQuery<
         { list: Hikka.Anime[]; pagination: Hikka.Pagination },
         Error
@@ -51,6 +51,22 @@ const Component = () => {
             }
         }
     }, [search]);
+
+    useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+                e.preventDefault();
+                switchModal('search', true);
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return function cleanup() {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
+
 
     return (
         <Modal
