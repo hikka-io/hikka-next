@@ -32,12 +32,12 @@ export async function generateMetadata(
         description: user.description,
         openGraph: {
             title: { default: user.username, template: user.username + ' / %s / Hikka' },
-            description: user.description,
+            description: user.description || "",
             images: user.avatar,
         },
         twitter: {
             title: { default: user.username, template: user.username + ' / %s / Hikka' },
-            description: user.description,
+            description: user.description || "",
             images: user.avatar,
         },
     };

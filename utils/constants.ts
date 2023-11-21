@@ -142,12 +142,12 @@ export const AGE_RATING: Property<Hikka.AgeRating> = {
     r: {
         title_ua: 'R',
         title_en: 'R',
-        description: "Лицям до 18 років обовʼязкова присутність дорослого",
+        description: "Особам до 18 років обовʼязкова присутність дорослого",
     },
     r_plus: {
         title_ua: 'R PLUS',
         title_en: 'R PLUS',
-        description: "Лицям до 18 років перегляд заборонений",
+        description: "Особам до 18 років перегляд заборонений",
     },
     rx: {
         title_ua: 'RX',

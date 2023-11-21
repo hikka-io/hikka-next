@@ -1,4 +1,4 @@
-import EditList from '@/app/u/[username]/edit/_layout/EditList';
+import EditList from '@/app/edit/_layout/EditList';
 
 const Component = () => {
     return (

@@ -3,7 +3,7 @@
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import getEditList, {
     Response as EditListResponse,
@@ -17,27 +17,15 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { uk } from 'date-fns/locale';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 const Component = () => {
     setDefaultOptions({ locale: uk });
     const params = useParams();
-    const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
+
     const [go, setGo] = useState(false);
     const { ref, inView } = useInView();
     const [edit, setEdit] = useState<Hikka.Edit | undefined>();
     const { switchModal } = useModalContext();
-
-    const user: Hikka.User | undefined = queryClient.getQueryData([
-        'user',
-        params.username,
-    ]);
-
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
 
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery<
@@ -69,13 +57,6 @@ const Component = () => {
             fetchNextPage();
         }
     }, [inView]);
-
-    if (
-        loggedUser?.username !== user?.username ||
-        !(loggedUser?.role === 'moderator' || loggedUser?.role === 'admin')
-    ) {
-        return null;
-    }
 
     return (
         <div className="flex flex-col gap-8">

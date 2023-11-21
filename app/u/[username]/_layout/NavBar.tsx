@@ -5,8 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import useIsMobile from '@/utils/hooks/useIsMobile';
-import {useAuthContext} from "@/utils/providers/AuthProvider";
-import {useQueryClient} from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
 const ITEMS: {
     slug: string;
@@ -28,12 +27,6 @@ const ITEMS: {
         slug: 'favorites',
         title_ua: 'Улюблені',
         url: '/favorites',
-    },
-    {
-        slug: 'edit',
-        title_ua: 'Правки',
-        url: '/edit',
-        role: ['admin', 'moderator']
     },
 ];
 

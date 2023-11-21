@@ -1,4 +1,5 @@
 'use client';
+import Markdown from 'react-markdown';
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -18,7 +19,10 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <h3>Опис</h3>
-            <p className="whitespace-pre-wrap">{data.synopsis_ua || data.synopsis_en}</p>
+            <Markdown className="markdown">
+                {data.synopsis_ua || data.synopsis_en}
+            </Markdown>
+            <p className="whitespace-pre-wrap"></p>
         </div>
     );
 };

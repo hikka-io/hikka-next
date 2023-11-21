@@ -67,6 +67,15 @@ const Component = () => {
                     >
                         Каталог
                     </Link>
+                    <Link
+                        href="/edit"
+                        className={clsx(
+                            'btn-ghost btn-secondary btn btn-sm',
+                            pathname === '/edit' && 'btn-outline',
+                        )}
+                    >
+                        Правки
+                    </Link>
                 </div>
                 <div className="navbar-end gap-4">
                     <button
