@@ -82,18 +82,15 @@ export default async function RootLayout({
                 <Providers>
                     <AuthGate>
                         <ScrollTop />
-                        <NavBar />
-                        <div className="drawer drawer-end">
+
+                        <div className="drawer drawer-end top-0 left-0 right-0 sticky z-10">
                             <input
                                 id="mobileNavDrawer"
                                 type="checkbox"
                                 className="drawer-toggle"
                             />
                             <div className="drawer-content">
-                                <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
-                                    {children}
-                                </main>
-                                <Footer />
+                                <NavBar />
                             </div>
                             <div className="drawer-side overflow-y-visible z-10 lg:hidden">
                                 <label
@@ -104,6 +101,10 @@ export default async function RootLayout({
                                 <MobileNavBar />
                             </div>
                         </div>
+                        <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
+                            {children}
+                        </main>
+                        <Footer />
                     </AuthGate>
                 </Providers>
             </body>

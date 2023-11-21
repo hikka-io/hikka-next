@@ -114,22 +114,29 @@ const Component = () => {
                                         </div>
                                     </td>
                                     <td align="left">
-                                        {edit.content_type === 'anime' &&
-                                        'title_en' in edit.content ? (
-                                            <Link
-                                                className="hover:underline"
-                                                href={`/anime/${edit.content.slug}`}
-                                                onClick={() => setGo(true)}
-                                            >
-                                                {edit.content.title_ua ||
-                                                    edit.content.title_en ||
-                                                    edit.content.title_ja}
-                                            </Link>
-                                        ) : (
-                                            'name_ua' in edit.content &&
-                                            (edit.content.name_ua ||
-                                                edit.content.name_en)
-                                        )}
+                                        <div className="flex gap-4">
+                                            {edit.content_type === 'anime' &&
+                                            'title_en' in edit.content ? (
+                                                <Link
+                                                    className="hover:underline"
+                                                    href={`/anime/${edit.content.slug}`}
+                                                    onClick={() => setGo(true)}
+                                                >
+                                                    {edit.content.title_ua ||
+                                                        edit.content.title_en ||
+                                                        edit.content.title_ja}
+                                                </Link>
+                                            ) : (
+                                                'name_ua' in edit.content &&
+                                                (edit.content.name_ua ||
+                                                    edit.content.name_en)
+                                            )}
+                                        </div>
+                                        <p className="opacity-30 text-xs">
+                                            {edit.content_type === 'anime'
+                                                ? 'Аніме'
+                                                : 'Автор'}
+                                        </p>
                                     </td>
                                     <td
                                         className=" hidden lg:table-cell"

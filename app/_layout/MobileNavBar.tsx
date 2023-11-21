@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee'
 import MaterialSymbolsCopyrightRounded from '~icons/material-symbols/copyright-rounded'
 import {useModalContext} from "@/utils/providers/ModalProvider";
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded'
 
 const Component = () => {
     const { switchModal } = useModalContext();
@@ -33,6 +34,12 @@ const Component = () => {
                     <Link href={'/anime'} onClick={closeDrawer}>
                         <MaterialSymbolsLightGridViewRounded />
                         Каталог
+                    </Link>
+                </li>
+                <li>
+                    <Link href={'/edit'} onClick={closeDrawer}>
+                        <MaterialSymbolsEditRounded />
+                        Правки
                     </Link>
                 </li>
                 <li className="menu-title">Соцмережі</li>

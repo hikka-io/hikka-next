@@ -8,7 +8,7 @@ import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import AuthModal from '@/app/_layout/AuthModal';
-import { useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import ProfileMenu from '@/app/_layout/ProfileMenu';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import SearchModal from '@/app/_layout/SearchModal';
@@ -35,10 +35,24 @@ const Component = () => {
         disableHysteresis: true,
     });
 
+    useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+                switchModal('search', true);
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return function cleanup() {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
+
     return (
         <nav
             className={clsx(
-                'top-0 left-0 right-0 sticky z-10 bg-transparent',
+                'z-10 bg-transparent',
                 'w-full',
                 'border-b border-b-secondary/30',
                 'transition',
@@ -46,7 +60,7 @@ const Component = () => {
             )}
         >
             <div className="navbar container max-w-screen-xl px-4 mx-auto">
-                <div className="navbar-start">
+                <div className="navbar-start gap-16">
                     <Link href="/">
                         <Image
                             src="/logo.svg"
@@ -56,26 +70,29 @@ const Component = () => {
                             className="w-full h-6"
                         />
                     </Link>
+                    <div className="hidden lg:flex gap-4">
+                        <Link
+                            href="/anime"
+                            className={clsx(
+                                'btn-ghost btn-secondary btn btn-sm',
+                                pathname === '/anime' && 'btn-outline',
+                            )}
+                        >
+                            Каталог
+                        </Link>
+                        <Link
+                            href="/edit"
+                            className={clsx(
+                                'btn-ghost btn-secondary btn btn-sm',
+                                pathname === '/edit' && 'btn-outline',
+                            )}
+                        >
+                            Правки
+                        </Link>
+                    </div>
                 </div>
-                <div className="navbar-center gap-4 hidden lg:flex">
-                    <Link
-                        href="/anime"
-                        className={clsx(
-                            'btn-ghost btn-secondary btn btn-sm',
-                            pathname === '/anime' && 'btn-outline',
-                        )}
-                    >
-                        Каталог
-                    </Link>
-                    <Link
-                        href="/edit"
-                        className={clsx(
-                            'btn-ghost btn-secondary btn btn-sm',
-                            pathname === '/edit' && 'btn-outline',
-                        )}
-                    >
-                        Правки
-                    </Link>
+                <div className="navbar-center gap-4 ">
+
                 </div>
                 <div className="navbar-end gap-4">
                     <button
@@ -83,11 +100,20 @@ const Component = () => {
                         className={clsx(
                             'btn btn-outline btn-secondary btn-sm',
                             'bg-secondary/30 hover:!bg-secondary/60',
-                            'md:w-40 md:justify-start md:!text-white/60 md:font-normal',
+                            'md:w-44 md:justify-between md:!text-white/60 md:font-normal',
+                            'transition-all duration-200',
+                            'md:hover:w-60',
+                            'items-center'
                         )}
                     >
-                        <MaterialSymbolsSearch />{' '}
-                        <span className="hidden md:block">Пошук...</span>
+                        <div className="flex items-center gap-2">
+                            <MaterialSymbolsSearch />{' '}
+                            <span className="hidden md:block">Пошук...</span>
+                        </div>
+                        <div className="hidden md:flex items-center">
+                            <kbd className="kbd kbd-sm">⌘</kbd>
+                            <kbd className="kbd kbd-sm">K</kbd>
+                        </div>
                     </button>
                     {user ? (
                         <button
