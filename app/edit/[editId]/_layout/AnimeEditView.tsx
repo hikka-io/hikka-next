@@ -68,19 +68,13 @@ const Component = () => {
 
     return (
         <div>
-            <div
-                onSubmit={(e) => e.preventDefault()}
-                className="flex flex-col gap-6"
-            >
+            <div className="flex flex-col gap-6">
                 <div className="w-full flex flex-col gap-2">
                     {(edit.after.title_ua ||
                         edit.after.title_en ||
                         edit.after.title_ja) && (
-                        <div className="collapse collapse-arrow border border-secondary">
-                            <input
-                                type="checkbox"
-                                checked
-                            />
+                        <div className="collapse border border-secondary">
+                            <input type="checkbox" checked readOnly />
                             <div className="collapse-title flex gap-4 items-center">
                                 <h5>Назва аніме</h5>
                             </div>
@@ -100,7 +94,7 @@ const Component = () => {
                                             className="form-control w-full"
                                         >
                                             <label className="label">
-                                                <span className="label-text-alt text-neutral">
+                                                <span className="label-text">
                                                     {param.title}
                                                 </span>
                                             </label>
@@ -118,11 +112,8 @@ const Component = () => {
                         </div>
                     )}
                     {(edit.after.synopsis_ua || edit.after.synopsis_en) && (
-                        <div className="collapse collapse-arrow border border-secondary">
-                            <input
-                                type="checkbox"
-                                checked
-                            />
+                        <div className="collapse border border-secondary">
+                            <input type="checkbox" checked readOnly />
                             <div className="collapse-title flex gap-4 items-center">
                                 <h5>Опис аніме</h5>
                             </div>
@@ -142,7 +133,7 @@ const Component = () => {
                                             className="form-control w-full"
                                         >
                                             <label className="label">
-                                                <span className="label-text-alt text-neutral">
+                                                <span className="label-text">
                                                     {param.title}
                                                 </span>
                                             </label>
@@ -162,12 +153,7 @@ const Component = () => {
                     {edit.description && (
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text-alt text-neutral">
-                                    Опис правки
-                                </span>
-                                <span className="label-text-alt text-neutral">
-                                    Необов’язково
-                                </span>
+                                <span className="label-text">Опис правки</span>
                             </label>
                             <textarea
                                 disabled

@@ -10,6 +10,8 @@ import NextTopLoader from 'nextjs-toploader';
 import { Metadata } from 'next';
 import MobileNavBar from '@/app/_layout/MobileNavBar';
 import Script from 'next/script';
+import setDefaultOptions from "date-fns/setDefaultOptions";
+import {uk} from "date-fns/locale";
 
 const inter = Inter({ subsets: ['latin'] });
 

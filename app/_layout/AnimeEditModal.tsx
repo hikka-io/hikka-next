@@ -346,7 +346,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                             className="form-control w-full"
                                         >
                                             <label className="label">
-                                                <span className="label-text-alt text-neutral">
+                                                <span className="label-text">
                                                     {param.title}
                                                 </span>
                                             </label>
@@ -415,7 +415,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                             className="form-control w-full"
                                         >
                                             <label className="label">
-                                                <span className="label-text-alt text-neutral">
+                                                <span className="label-text">
                                                     {param.title}
                                                 </span>
                                             </label>
@@ -442,10 +442,10 @@ const Component = ({ edit, setEdit }: Props) => {
                         </div>
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text-alt text-neutral">
+                                <span className="label-text">
                                     Опис правки
                                 </span>
-                                <span className="label-text-alt text-neutral">
+                                <span className="label-text">
                                     Необов’язково
                                 </span>
                             </label>

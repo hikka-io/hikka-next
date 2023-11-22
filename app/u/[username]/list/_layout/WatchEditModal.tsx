@@ -129,7 +129,7 @@ const Component = ({ slug, setSlug }: Props) => {
                     <div className="w-full flex flex-col gap-2">
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text-alt text-neutral">
+                                <span className="label-text">
                                     Список
                                 </span>
                             </label>
@@ -167,7 +167,7 @@ const Component = ({ slug, setSlug }: Props) => {
                         <div className="flex gap-8">
                             <div className="form-control w-full">
                                 <label className="label">
-                                    <span className="label-text-alt text-neutral">
+                                    <span className="label-text">
                                         Оцінка
                                     </span>
                                 </label>
@@ -183,7 +183,7 @@ const Component = ({ slug, setSlug }: Props) => {
                             </div>
                             <div className="form-control w-full">
                                 <label className="label">
-                                    <span className="label-text-alt text-neutral">
+                                    <span className="label-text">
                                         Епізоди
                                     </span>
                                 </label>
@@ -200,7 +200,7 @@ const Component = ({ slug, setSlug }: Props) => {
                         </div>
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text-alt text-neutral">
+                                <span className="label-text">
                                     Нотатки
                                 </span>
                             </label>

@@ -22,8 +22,8 @@ const Component = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            <SubHeader variant="h4" title="Автор" />
+        <div className="flex flex-col gap-2">
+            <p className="label-text">Автор</p>
             <div className="w-full flex gap-4 items-center">
                 <div className="w-12">
                     <BaseCard
@@ -38,7 +38,7 @@ const Component = () => {
                     </Link>
                     <div className="flex flex-col gap-1">
                         <div className="flex gap-4 items-center">
-                            <p className="opacity-30 text-xs">
+                            <p className="label-text-alt">
                                 {format(
                                     edit.created * 1000,
                                     'd MMM yyyy kk:mm',

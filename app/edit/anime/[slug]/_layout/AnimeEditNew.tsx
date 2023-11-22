@@ -168,7 +168,7 @@ const Component = () => {
                                         className="form-control w-full"
                                     >
                                         <label className="label">
-                                            <span className="label-text-alt text-neutral">
+                                            <span className="label-text">
                                                 {param.title}
                                             </span>
                                         </label>
@@ -225,7 +225,7 @@ const Component = () => {
                                         className="form-control w-full"
                                     >
                                         <label className="label">
-                                            <span className="label-text-alt text-neutral">
+                                            <span className="label-text">
                                                 {param.title}
                                             </span>
                                         </label>
@@ -247,10 +247,10 @@ const Component = () => {
                     </div>
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text-alt text-neutral">
+                            <span className="label-text">
                                 Опис правки
                             </span>
-                            <span className="label-text-alt text-neutral">
+                            <span className="label-text">
                                 Необов’язково
                             </span>
                         </label>

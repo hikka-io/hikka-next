@@ -43,7 +43,7 @@ const Component = () => {
             <div className="w-full">
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text-alt text-neutral">
+                        <span className="label-text">
                             Опис
                         </span>
                     </label>

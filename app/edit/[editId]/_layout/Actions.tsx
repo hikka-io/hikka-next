@@ -71,12 +71,19 @@ const Component = () => {
         setIsSubmitting(false);
     };
 
-    if (!edit) {
+    if (
+        !edit ||
+        !(loggedUser?.role === 'moderator' || loggedUser?.role === 'admin') ||
+        !(
+            edit.author.username === loggedUser?.username &&
+            edit.status === 'pending'
+        )
+    ) {
         return null;
     }
 
     return (
-        <div className="grid grid-flow-col auto-cols-fr gap-2 items-center">
+        <div className="grid grid-flow-col auto-cols-min gap-2 items-center">
             {(loggedUser?.role === 'moderator' ||
                 loggedUser?.role === 'admin') &&
             edit.status === 'pending' ? (

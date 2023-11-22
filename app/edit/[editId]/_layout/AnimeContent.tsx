@@ -26,8 +26,15 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="w-full flex gap-4 items-center">
+            <SubHeader title="Контент" variant="h4" />
+            <div className="w-full gap-4 items-center lg:px-0 md:px-48 px-16 hidden lg:flex">
                 <AnimeCard href={`/anime/` + content.slug} poster={content.poster} />
+            </div>
+            <div className="w-full gap-4 flex lg:hidden">
+                <div className="w-12">
+                    <AnimeCard href={`/anime/` + content.slug} poster={content.poster} />
+                </div>
+                <Link href={`/anime/` + content.slug}>{content.title_ua || content.title_en || content.title_ja}</Link>
             </div>
         </div>
     );

@@ -68,7 +68,7 @@ const Component = () => {
             <div className="w-full flex flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text-alt text-neutral">
+                        <span className="label-text">
                             Email
                         </span>
                     </label>

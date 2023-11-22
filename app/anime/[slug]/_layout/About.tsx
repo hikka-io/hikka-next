@@ -7,13 +7,10 @@ import Link from 'next/link';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
-import setDefaultOptions from 'date-fns/setDefaultOptions';
-import { uk } from 'date-fns/locale';
 import Image from 'next/image';
 
 const Component = () => {
     const params = useParams();
-    setDefaultOptions({ locale: uk });
 
     const { data } = useQuery({
         queryKey: ['anime', params.slug],
@@ -86,26 +83,28 @@ const Component = () => {
                         </div>
                     </div>
                 )}
-                {data.genres.length > 0 && <div className="flex">
-                    <div className="w-1/4">
-                        <p className="text-gray-400">Жанри:</p>
+                {data.genres.length > 0 && (
+                    <div className="flex">
+                        <div className="w-1/4">
+                            <p className="text-gray-400">Жанри:</p>
+                        </div>
+                        <div className="flex-1">
+                            {data.genres.map((genre, i) => (
+                                <span key={genre.slug}>
+                                    <Link
+                                        className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"
+                                        href={`/anime?genres=${genre.slug}`}
+                                    >
+                                        {genre.name_ua}
+                                    </Link>
+                                    {i + 1 !== data.genres.length && (
+                                        <span>, </span>
+                                    )}
+                                </span>
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex-1">
-                        {data.genres.map((genre, i) => (
-                            <span key={genre.slug}>
-                                <Link
-                                    className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"
-                                    href={`/anime?genres=${genre.slug}`}
-                                >
-                                    {genre.name_ua}
-                                </Link>
-                                {i + 1 !== data.genres.length && (
-                                    <span>, </span>
-                                )}
-                            </span>
-                        ))}
-                    </div>
-                </div>}
+                )}
                 {data.rating && (
                     <div className="flex">
                         <div className="w-1/4">
@@ -123,7 +122,10 @@ const Component = () => {
                         </div>
                         <div className="flex-1">
                             {studio.company.image ? (
-                                <div className="tooltip" data-tip={studio.company.name}>
+                                <div
+                                    className="tooltip"
+                                    data-tip={studio.company.name}
+                                >
                                     <Image
                                         src={studio.company.image}
                                         alt="studio"

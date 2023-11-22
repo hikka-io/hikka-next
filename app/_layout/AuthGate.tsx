@@ -19,9 +19,7 @@ const Component = async ({ children }: Props) => {
 
     const dehydratedState = dehydrate(queryClient);
 
-    const loggedUserData = dehydratedState.queries.find((q) =>
-        q.queryKey.includes('loggedUser'),
-    )?.state.data;
+    const loggedUserData: Hikka.User | undefined = queryClient.getQueryData(['loggedUser', secret]);
 
     if (!loggedUserData) {
         await fetch('http://' + headersList.get('host') + '/auth/logout');

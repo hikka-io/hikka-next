@@ -9,10 +9,13 @@ import { SnackbarProvider } from 'notistack';
 import { usePathname, useSearchParams } from 'next/navigation';
 import NProgress from 'nprogress';
 import SnackbarItem from '@/app/_components/SnackbarItem';
+import setDefaultOptions from "date-fns/setDefaultOptions";
+import {uk} from "date-fns/locale";
 
 interface Props extends PropsWithChildren {}
 
 function Providers({ children }: Props) {
+    setDefaultOptions({ locale: uk });
     const [client] = React.useState(
         new QueryClient({
             defaultOptions: { queries: { staleTime: 60 * 1000, retry: false } },

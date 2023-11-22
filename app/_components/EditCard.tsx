@@ -3,18 +3,14 @@
 import * as React from 'react';
 import BaseCard from '@/app/_components/BaseCard';
 import { EDIT_STATUS } from '@/utils/constants';
-import { uk } from 'date-fns/locale';
-import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { format } from 'date-fns';
-import Link, {LinkProps} from "next/link";
+import Link, { LinkProps } from 'next/link';
 
 interface Props extends LinkProps {
     edit: Hikka.Edit;
 }
 
 const Component = ({ edit, href, ...props }: Props) => {
-    setDefaultOptions({ locale: uk });
-
     return (
         <Link
             {...props}

@@ -4,6 +4,8 @@ import { dehydrate } from '@tanstack/query-core';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import RQHydrate from '@/utils/RQHydrate';
 import AnimeContent from "./_layout/AnimeContent";
+import SubHeader from "@/app/_components/SubHeader";
+import * as React from "react";
 
 interface Props {
     params: { slug: string };
@@ -20,7 +22,10 @@ const Component = async ({ params: { slug } }: Props) => {
     return (
         <RQHydrate state={dehydratedState}>
             <div className="grid lg:grid-cols-[1fr_25%] grid-cols-1 lg:gap-16 gap-12">
-                <AnimeEditNew />
+                <div className="flex flex-col gap-8">
+                    <SubHeader title={`Нова правка`} />
+                    <AnimeEditNew />
+                </div>
                 <div className="flex flex-col gap-12">
                     <AnimeContent />
                 </div>

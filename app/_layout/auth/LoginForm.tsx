@@ -76,7 +76,7 @@ const Component = () => {
                 <div className="w-full flex flex-col gap-2">
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text-alt text-neutral">
+                            <span className="label-text">
                                 Email
                             </span>
                         </label>
@@ -90,7 +90,7 @@ const Component = () => {
                     </div>
                     <div className="form-control w-full">
                         <div className="label">
-                            <span className="label-text-alt text-neutral">
+                            <span className="label-text">
                                 Пароль
                             </span>
                             <button
@@ -110,7 +110,7 @@ const Component = () => {
                             })}
                         />
                         <label className="label">
-                            <span className="label-text-alt text-neutral">
+                            <span className="label-text">
                                 Не менше 6 символів, не менше 2 літер.
                             </span>
                         </label>

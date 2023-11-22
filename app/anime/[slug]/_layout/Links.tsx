@@ -49,7 +49,7 @@ const Component = ({ extended }: Props) => {
                         <h4 className="w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {link.text}
                         </h4>
-                        <p className="opacity-60 text-xs w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
+                        <p className="label-text text-xs w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
                             {link.url}
                         </p>
                     </Link>

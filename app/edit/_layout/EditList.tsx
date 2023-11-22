@@ -11,16 +11,13 @@ import getEditList, {
 import AnimeEditModal from '@/app/_layout/AnimeEditModal';
 import { useInView } from 'react-intersection-observer';
 import clsx from 'clsx';
-import { EDIT_STATUS } from '@/utils/constants';
 import BaseCard from '@/app/_components/BaseCard';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import setDefaultOptions from 'date-fns/setDefaultOptions';
-import { uk } from 'date-fns/locale';
-import useRouter from "@/utils/useRouter";
+import useRouter from '@/utils/useRouter';
+import EditStatus from '../_components/EditStatus';
 
 const Component = () => {
-    setDefaultOptions({ locale: uk });
     const params = useParams();
 
     const [go, setGo] = useState(false);
@@ -85,7 +82,10 @@ const Component = () => {
                                     className={clsx(
                                         'hover:bg-secondary/60 hover:cursor-pointer',
                                     )}
-                                    onClick={() => !go && router.push('/edit/' + edit.edit_id)}
+                                    onClick={() =>
+                                        !go &&
+                                        router.push('/edit/' + edit.edit_id)
+                                    }
                                 >
                                     <th className="w-8 text-neutral">
                                         {edit.edit_id}
@@ -157,22 +157,7 @@ const Component = () => {
                                     </td>
                                     <th align="center" className="w-20">
                                         <div className="flex justify-end">
-                                            <div
-                                                className="rounded-md whitespace-nowrap px-2"
-                                                style={{
-                                                    backgroundColor:
-                                                        EDIT_STATUS[edit.status]
-                                                            .color,
-                                                }}
-                                            >
-                                                <p className="text-base font-normal">
-                                                    {
-                                                        EDIT_STATUS[
-                                                            edit.status as Hikka.EditStatus
-                                                        ].title_ua
-                                                    }
-                                                </p>
-                                            </div>
+                                            <EditStatus status={edit.status} />
                                         </div>
                                     </th>
                                 </tr>
