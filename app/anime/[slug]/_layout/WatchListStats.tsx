@@ -26,7 +26,7 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <h3>У Списках</h3>
+            <h4>У Списках</h4>
             <div className="flex flex-col gap-4">
                 {Object.keys(data.stats)
                     .filter((stat) => !stat.includes('score'))
