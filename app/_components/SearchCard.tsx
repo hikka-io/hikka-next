@@ -19,14 +19,14 @@ const Component = ({ anime, onClick }: Props) => {
             <div className="w-full flex flex-col gap-2">
                 <h5>
                     {anime.title_ua || anime.title_en}{' '}
-                    <span className="text-gray-400">
+                    <span className="label-text">
                                 / {anime.title_ja}
                             </span>
                 </h5>
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-4 items-center">
                         <div className="flex gap-2">
-                            <p className="text-gray-400 text-sm">
+                            <p className="label-text text-sm">
                                 Тип:
                             </p>
                             <p className="text-sm">
@@ -46,7 +46,7 @@ const Component = ({ anime, onClick }: Props) => {
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <p className="text-gray-400 text-sm">Оцінка:</p>
+                        <p className="label-text text-sm">Оцінка:</p>
                         <p className="text-sm">{anime.score}</p>
                     </div>
                 </div>

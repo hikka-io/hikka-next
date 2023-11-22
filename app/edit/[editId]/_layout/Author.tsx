@@ -38,7 +38,7 @@ const Component = () => {
                     </Link>
                     <div className="flex flex-col gap-1">
                         <div className="flex gap-4 items-center">
-                            <p className="label-text-alt">
+                            <p className="label-text-alt opacity-60">
                                 {format(
                                     edit.created * 1000,
                                     'd MMM yyyy kk:mm',

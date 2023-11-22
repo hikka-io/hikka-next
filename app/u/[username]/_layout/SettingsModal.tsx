@@ -85,7 +85,7 @@ const Component = () => {
                                 )}
                             >
                                 <p>{tab.title}</p>
-                                <p className="text-neutral text-xs">
+                                <p className="label-text text-xs">
                                     {tab.description}
                                 </p>
                             </a>

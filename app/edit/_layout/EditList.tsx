@@ -87,7 +87,7 @@ const Component = () => {
                                         router.push('/edit/' + edit.edit_id)
                                     }
                                 >
-                                    <th className="w-8 text-neutral">
+                                    <th className="w-8 label-text">
                                         {edit.edit_id}
                                     </th>
                                     <td>
@@ -106,7 +106,7 @@ const Component = () => {
                                                 >
                                                     {edit.author.username}
                                                 </Link>
-                                                <p className="opacity-30 text-xs">
+                                                <p className="label-text-alt opacity-60">
                                                     {format(
                                                         edit.created * 1000,
                                                         'd MMM yyyy kk:mm',
@@ -134,7 +134,7 @@ const Component = () => {
                                                     edit.content.name_en)
                                             )}
                                         </div>
-                                        <p className="opacity-30 text-xs">
+                                        <p className="label-text-alt opacity-60">
                                             {edit.content_type === 'anime'
                                                 ? 'Аніме'
                                                 : 'Автор'}

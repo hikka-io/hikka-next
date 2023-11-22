@@ -76,7 +76,7 @@ const Component = () => {
             <div className="w-full text-center flex flex-col items-center gap-4">
                 <div>
                     <h2 className="text-accent">🔓 Відновити пароль</h2>
-                    <p className="text-neutral text-xs mt-2">
+                    <p className="label-text-alt opacity-60 mt-2">
                         Будь ласка, введіть новий пароль.
                     </p>
                 </div>

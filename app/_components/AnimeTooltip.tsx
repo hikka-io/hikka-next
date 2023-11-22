@@ -56,7 +56,7 @@ export default function Component({ anchor, slug, setOnTooltip }: Props) {
                     </p>}
                     <div className="flex">
                         <div className="w-1/4">
-                            <p className="text-gray-400 text-sm">Тип:</p>
+                            <p className="label-text text-sm">Тип:</p>
                         </div>
                         <div className="flex-1 flex gap-2">
                             <p className="text-sm">{MEDIA_TYPE[data.media_type].title_ua}</p>
@@ -76,7 +76,7 @@ export default function Component({ anchor, slug, setOnTooltip }: Props) {
                         data.episodes_released !== null && (
                             <div className="flex">
                                 <div className="w-1/4">
-                                    <p className="text-gray-400 text-sm">Епізоди:</p>
+                                    <p className="label-text text-sm">Епізоди:</p>
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-sm">
@@ -89,7 +89,7 @@ export default function Component({ anchor, slug, setOnTooltip }: Props) {
                         )}
                     <div className="flex">
                         <div className="w-1/4">
-                            <p className="text-gray-400 text-sm">Жанри:</p>
+                            <p className="label-text text-sm">Жанри:</p>
                         </div>
                         <div className="flex-1">
                             {data.genres.map((genre, i) => (

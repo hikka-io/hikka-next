@@ -75,7 +75,7 @@ const Component = ({ data }: Props) => {
                             )}
                             onClick={() => !go && setSlug(res.anime.slug)}
                         >
-                            <th className="w-8 text-neutral">{i + 1}</th>
+                            <th className="w-8 label-text">{i + 1}</th>
                             <td>
                                 <div className="flex gap-4">
                                     <div className="w-12 hidden lg:block">
@@ -102,7 +102,7 @@ const Component = ({ data }: Props) => {
                                                 res.anime.title_ja}
                                         </Link>
                                         {res.note && (
-                                            <p className="text-neutral">
+                                            <p className="label-text-alt opacity-60">
                                                 {res.note}
                                             </p>
                                         )}

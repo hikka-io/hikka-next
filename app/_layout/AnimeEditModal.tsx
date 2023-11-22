@@ -251,7 +251,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                     </Link>
                                     <div className="flex flex-col gap-1">
                                         <div className="flex gap-4 items-center">
-                                            <p className=" text-gray-400 text-sm">
+                                            <p className="label-text opacity-60 text-sm">
                                                 {format(
                                                     edit.created * 1000,
                                                     'd MMM yyyy kk:mm',

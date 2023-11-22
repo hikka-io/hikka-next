@@ -28,7 +28,7 @@ const Component = () => {
             <div className="flex flex-col gap-4">
                 <div className="flex">
                     <div className="w-1/4">
-                        <p className="text-gray-400">Тип:</p>
+                        <p className="label-text">Тип:</p>
                     </div>
                     <div className="flex-1">
                         <p>{MEDIA_TYPE[data.media_type].title_ua}</p>
@@ -36,7 +36,7 @@ const Component = () => {
                 </div>
                 <div className="flex">
                     <div className="w-1/4">
-                        <p className="text-gray-400">Статус:</p>
+                        <p className="label-text">Статус:</p>
                     </div>
                     <div className="flex-1">
                         <div
@@ -55,7 +55,7 @@ const Component = () => {
                     data.episodes_released !== null && (
                         <div className="flex">
                             <div className="w-1/4">
-                                <p className="text-gray-400">Епізоди:</p>
+                                <p className="label-text">Епізоди:</p>
                             </div>
                             <div className="flex-1">
                                 <p>
@@ -69,7 +69,7 @@ const Component = () => {
                 {data.duration && (
                     <div className="flex">
                         <div className="w-1/4">
-                            <p className="text-gray-400">Тривалість епізоду:</p>
+                            <p className="label-text">Тривалість епізоду:</p>
                         </div>
                         <div className="flex-1">
                             <p>
@@ -86,7 +86,7 @@ const Component = () => {
                 {data.genres.length > 0 && (
                     <div className="flex">
                         <div className="w-1/4">
-                            <p className="text-gray-400">Жанри:</p>
+                            <p className="label-text">Жанри:</p>
                         </div>
                         <div className="flex-1">
                             {data.genres.map((genre, i) => (
@@ -108,7 +108,7 @@ const Component = () => {
                 {data.rating && (
                     <div className="flex">
                         <div className="w-1/4">
-                            <p className="text-gray-400">Рейтинг:</p>
+                            <p className="label-text">Рейтинг:</p>
                         </div>
                         <div className="flex-1">
                             <p>{AGE_RATING[data.rating].title_ua}</p>
@@ -118,7 +118,7 @@ const Component = () => {
                 {studio && (
                     <div className="flex">
                         <div className="w-1/4">
-                            <p className="text-gray-400">Студія:</p>
+                            <p className="label-text">Студія:</p>
                         </div>
                         <div className="flex-1">
                             {studio.company.image ? (

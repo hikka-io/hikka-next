@@ -109,7 +109,7 @@ const Component = () => {
             <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll lg:overflow-y-visible">
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">Жанр</span>
+                        <span className="label-text">Жанр</span>
                     </label>
                     {genresList && genresList.list.length > 0 && (
                         <Select
@@ -149,7 +149,7 @@ const Component = () => {
                 </div>*/}
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">Статус</span>
+                        <span className="label-text">Статус</span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
                         {Object.keys(RELEASE_STATUS).map((slug) => (
@@ -175,7 +175,7 @@ const Component = () => {
                 </div>
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">Тип</span>
+                        <span className="label-text">Тип</span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
                         {Object.keys(MEDIA_TYPE).map((slug) => (
@@ -201,7 +201,7 @@ const Component = () => {
                 </div>
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">Сезон</span>
+                        <span className="label-text">Сезон</span>
                     </label>
                     <div className="flex gap-2 flex-wrap">
                         {Object.keys(SEASON).map((slug) => (
@@ -227,7 +227,7 @@ const Component = () => {
                 </div>
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">Рейтинг</span>
+                        <span className="label-text">Рейтинг</span>
                     </label>
                     <div className="flex flex-wrap gap-2">
                         {Object.keys(AGE_RATING).map((slug) => (
@@ -256,7 +256,7 @@ const Component = () => {
                 </div>
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text text-neutral">
+                        <span className="label-text">
                             Рік виходу
                         </span>
                     </label>

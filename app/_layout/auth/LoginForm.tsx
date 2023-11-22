@@ -68,7 +68,7 @@ const Component = () => {
                 <div className="w-full text-center flex flex-col items-center gap-4">
                     <div>
                         <h2 className="text-accent">👋 З поверненням!</h2>
-                        <p className="text-neutral text-xs mt-2">
+                        <p className="label-text-alt opacity-60 mt-2">
                             Будь ласка, зареєструйтесь, або авторизуйтесь.
                         </p>
                     </div>
@@ -96,7 +96,7 @@ const Component = () => {
                             <button
                                 onClick={() => switchModal('forgotPassword')}
                             >
-                                <span className="label-text-alt text-accent hover:underline w-fit">
+                                <span className="label-text text-accent hover:underline w-fit">
                                     Забули пароль?
                                 </span>
                             </button>
@@ -110,7 +110,7 @@ const Component = () => {
                             })}
                         />
                         <label className="label">
-                            <span className="label-text">
+                            <span className="label-text-alt opacity-60">
                                 Не менше 6 символів, не менше 2 літер.
                             </span>
                         </label>

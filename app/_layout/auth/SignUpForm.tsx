@@ -81,7 +81,7 @@ const Component = () => {
         >
             <div>
                 <h2 className="text-accent">✌️ Раді познайомитись!</h2>
-                <p className="text-neutral text-xs mt-2">
+                <p className="label-text-alt opacity-60 mt-2">
                     Будь ласка, заповніть форму реєстрації.
                 </p>
             </div>
@@ -130,7 +130,7 @@ const Component = () => {
                         })}
                     />
                     <label className="label">
-                        <span className="label-text">
+                        <span className="label-text-alt opacity-60">
                             Не менше 6 символів, не менше 2 літер.
                         </span>
                     </label>

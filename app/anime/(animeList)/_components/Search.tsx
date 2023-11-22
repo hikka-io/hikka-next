@@ -37,7 +37,7 @@ const Component = () => {
     return (
         <div className="form-control w-full">
             <label className="label lg:flex hidden">
-                <span className="label-text text-neutral">Пошук</span>
+                <span className="label-text">Пошук по назві</span>
             </label>
             <input
                 className="input bg-secondary/60"

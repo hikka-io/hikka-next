@@ -88,7 +88,7 @@ const Component = () => {
                 <div className="stat-title text-inherit">Оцінка</div>
                 <h3 className="mb-2">
                     {watch.score}
-                    <span className="text-sm font-normal text-neutral">
+                    <span className="text-sm font-normal label-text opacity-60">
                         /10
                     </span>
                 </h3>
@@ -128,7 +128,7 @@ const Component = () => {
                 </div>
                 <h3 className="mb-2">
                     {watch.episodes}
-                    <span className="text-sm font-normal text-neutral">
+                    <span className="text-sm font-normal label-text opacity-60">
                         /{watch.anime.episodes_total || '?'}
                     </span>
                 </h3>

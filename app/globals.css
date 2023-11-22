@@ -88,24 +88,6 @@ h5 {
     /*@apply text-white;*/
 }
 
-/* neutral btn */
-
-.btn.btn-neutral {
-    @apply text-neutral-content/90;
-}
-
-.btn.btn-neutral:hover {
-    @apply text-neutral-content;
-}
-
-.btn.btn-outline.btn-neutral {
-    @apply border-neutral/60 text-neutral-content/90;
-}
-
-.btn.btn-outline.btn-neutral:hover {
-    @apply border-neutral bg-neutral/10 text-neutral-content;
-}
-
 /* secondary btn */
 
 .btn.btn-secondary {

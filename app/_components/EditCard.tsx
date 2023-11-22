@@ -27,7 +27,7 @@ const Component = ({ edit, href, ...props }: Props) => {
                 <h5>{edit.author.username}</h5>
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-4 items-center">
-                        <p className=" text-gray-400 text-sm">
+                        <p className="label-text-alt opacity-60">
                             {format(edit.created * 1000, 'd MMM yyyy kk:mm')}
                         </p>
                     </div>
