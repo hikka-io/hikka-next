@@ -145,9 +145,9 @@ const Component = () => {
                                         align="left"
                                     >
                                         <p
-                                            className={clsx(
+                                            className={clsx('label-text',
                                                 !edit.description &&
-                                                    'opacity-30',
+                                                    'opacity-60',
                                             )}
                                         >
                                             {edit.description
