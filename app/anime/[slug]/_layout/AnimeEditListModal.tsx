@@ -3,22 +3,21 @@
 import Modal from '@/app/_components/Modal';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import getContentEditList, {
     Response as EditListResponse,
 } from '@/utils/api/edit/getContentEditList';
 import EditCard from '@/app/_components/EditCard';
-import AnimeEditModal from '@/app/_layout/AnimeEditModal';
 import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
+import Link from 'next/link';
 
 const Component = () => {
     const { ref, inView } = useInView();
     const params = useParams();
-    const [edit, setEdit] = useState<Hikka.Edit | undefined>();
-    const { animeEditList, closeModals, switchModal } = useModalContext();
+    const { animeEditList, closeModals } = useModalContext();
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery<
             { list: Hikka.Edit[]; pagination: Hikka.Pagination },
@@ -31,7 +30,7 @@ const Component = () => {
                     contentType: 'anime',
                     page: pageParam,
                 }),
-            getNextPageParam: (lastPage: EditListResponse, allPages) => {
+            getNextPageParam: (lastPage: EditListResponse) => {
                 const nextPage = lastPage.pagination.page + 1;
                 return nextPage > lastPage.pagination.pages
                     ? undefined
@@ -42,11 +41,6 @@ const Component = () => {
 
     const onDismiss = () => {
         closeModals();
-    };
-
-    const openEditModal = (edit: Hikka.Edit) => {
-        setEdit(edit);
-        switchModal('animeEdit', true);
     };
 
     const list = data && data.pages.map((data) => data.list).flat(1);
@@ -72,18 +66,18 @@ const Component = () => {
                     "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-black after:to-transparent",
                 )}
             >
-                <button
+                <Link
                     className="btn w-full btn-secondary"
-                    onClick={() => switchModal('animeEdit', true)}
+                    href={`/edit/anime/` + params.slug}
                 >
                     Створити правку
-                </button>
+                </Link>
             </div>
             {data && (
                 <div className="overflow-y-scroll flex-1 pb-8">
                     {list!.map((edit) => (
                         <EditCard
-                            onClick={() => openEditModal(edit)}
+                            href={`/edit/` + edit.edit_id}
                             key={edit.edit_id}
                             edit={edit}
                         />
@@ -105,7 +99,6 @@ const Component = () => {
                     )}
                 </div>
             )}
-            <AnimeEditModal edit={edit} setEdit={setEdit} />
         </Modal>
     );
 };

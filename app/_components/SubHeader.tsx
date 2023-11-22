@@ -7,13 +7,16 @@ import { PropsWithChildren } from 'react';
 interface Props extends PropsWithChildren {
     title: string;
     href?: string;
+    variant?: "h4" | "h5";
 }
 
-const Component = ({ title, href, children }: Props) => {
+const Component = ({ title, href, variant, children }: Props) => {
+    const Title = variant ? variant : 'h3';
+
     return (
         <div className="flex gap-2 justify-between items-center">
             <div className="flex gap-8 items-center">
-                <h3>{title}</h3>
+                <Title>{title}</Title>
                 {children}
             </div>
             {href && (

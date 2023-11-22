@@ -1,7 +1,13 @@
 import Image from '@/app/_components/Image';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { ForwardedRef, forwardRef, MouseEventHandler, ReactNode } from 'react';
+import {
+    ForwardedRef,
+    forwardRef,
+    MouseEventHandler,
+    ReactNode,
+    Ref,
+} from 'react';
 import { UrlObject } from 'url';
 
 interface Props {
@@ -72,7 +78,10 @@ const Component = forwardRef(
 
         if (!href) {
             return (
-                <div className="flex flex-col gap-2 group w-full">
+                <div
+                    ref={ref as Ref<HTMLDivElement>}
+                    className="flex flex-col gap-2 group w-full"
+                >
                     {content}
                 </div>
             );

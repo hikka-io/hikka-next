@@ -6,10 +6,8 @@ export interface Response extends Hikka.Edit {
 
 export default async function req({
     edit_id,
-    page = 1,
 }: {
     edit_id: number;
-    page?: number;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI + '/edit/' + edit_id,

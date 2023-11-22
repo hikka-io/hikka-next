@@ -1,18 +1,20 @@
-import { LinkProps } from 'next/link';
+'use client';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import AnimeTooltip from './AnimeTooltip';
 import MaterialSymbolsArticle from '~icons/material-symbols/article';
 import BaseCard from '@/app/_components/BaseCard';
+import {UrlObject} from "url";
 
-interface Props extends LinkProps {
+interface Props {
     target?: string;
-    title: string;
+    title?: string;
     desc?: string;
     poster?: string;
     posterClassName?: string;
     containerClassName?: string;
     children?: ReactNode;
     slug?: string;
+    href?: string | UrlObject;
 }
 
 const Component = ({

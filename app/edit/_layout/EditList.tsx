@@ -17,6 +17,7 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { uk } from 'date-fns/locale';
+import useRouter from "@/utils/useRouter";
 
 const Component = () => {
     setDefaultOptions({ locale: uk });
@@ -26,6 +27,7 @@ const Component = () => {
     const { ref, inView } = useInView();
     const [edit, setEdit] = useState<Hikka.Edit | undefined>();
     const { switchModal } = useModalContext();
+    const router = useRouter();
 
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery<
@@ -83,7 +85,7 @@ const Component = () => {
                                     className={clsx(
                                         'hover:bg-secondary/60 hover:cursor-pointer',
                                     )}
-                                    onClick={() => !go && openEditModal(edit)}
+                                    onClick={() => !go && router.push('/edit/' + edit.edit_id)}
                                 >
                                     <th className="w-8 text-neutral">
                                         {edit.edit_id}

@@ -6,18 +6,19 @@ import { EDIT_STATUS } from '@/utils/constants';
 import { uk } from 'date-fns/locale';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { format } from 'date-fns';
+import Link, {LinkProps} from "next/link";
 
-interface Props {
+interface Props extends LinkProps {
     edit: Hikka.Edit;
-    onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const Component = ({ edit, onClick }: Props) => {
+const Component = ({ edit, href, ...props }: Props) => {
     setDefaultOptions({ locale: uk });
 
     return (
-        <div
-            onClick={onClick}
+        <Link
+            {...props}
+            href={href}
             className="w-full flex gap-4 px-8 py-4 items-center hover:bg-secondary/60 hover:cursor-pointer"
         >
             <div className="w-12">
@@ -44,7 +45,7 @@ const Component = ({ edit, onClick }: Props) => {
             >
                 <p>{EDIT_STATUS[edit.status as Hikka.EditStatus].title_ua}</p>
             </div>
-        </div>
+        </Link>
     );
 };
 

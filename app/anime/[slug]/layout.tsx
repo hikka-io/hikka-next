@@ -81,7 +81,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="inline-grid grid-cols-1 lg:grid-cols-[25%_1fr] lg:gap-16 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[25%_1fr] lg:gap-16 gap-12">
                 <div className="flex flex-col gap-4">
                     <Cover />
                     <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">
