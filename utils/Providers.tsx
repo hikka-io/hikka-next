@@ -11,6 +11,7 @@ import NProgress from 'nprogress';
 import SnackbarItem from '@/app/_components/SnackbarItem';
 import setDefaultOptions from "date-fns/setDefaultOptions";
 import {uk} from "date-fns/locale";
+import {SnackbarUtilsConfigurator} from "@/utils/Snackbar";
 
 interface Props extends PropsWithChildren {}
 
@@ -43,6 +44,7 @@ function Providers({ children }: Props) {
             autoHideDuration={2000}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
+            <SnackbarUtilsConfigurator />
             <ModalProvider>
                 <AuthProvider>
                     <QueryClientProvider client={client}>

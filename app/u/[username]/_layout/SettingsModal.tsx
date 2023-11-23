@@ -85,7 +85,7 @@ const Component = () => {
                                 )}
                             >
                                 <p>{tab.title}</p>
-                                <p className="label-text text-xs">
+                                <p className="label-text-alt opacity-60 text-xs">
                                     {tab.description}
                                 </p>
                             </a>
@@ -105,11 +105,11 @@ const Component = () => {
             id="settingsModal"
             boxClassName="p-0"
         >
-            <div className="grid lg:grid-cols-[40%_1fr] grid-cols-1">
+            {Boolean(userSettings) && <div className="grid lg:grid-cols-[40%_1fr] grid-cols-1">
                 {isMobile && !activeTab && <Tabs />}
                 {!isMobile && <Tabs />}
                 {activeForm?.form}
-            </div>
+            </div>}
         </Modal>
     );
 };

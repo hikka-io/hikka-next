@@ -2,23 +2,41 @@
 
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
-import useRouter from '@/utils/useRouter';
+import { useModalContext } from '@/utils/providers/ModalProvider';
+import { useQueryClient } from '@tanstack/react-query';
+import changeUserEmail from '@/utils/api/settings/changeUserEmail';
+import {useSnackbar} from "notistack";
 
 type FormValues = {
     email: string;
 };
 
 const Component = () => {
+    const { enqueueSnackbar } = useSnackbar();
+    const { switchModal } = useModalContext();
+    const queryClient = useQueryClient();
     const {
         register,
-        reset,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
-    const { setState: setAuth } = useAuthContext();
-    const router = useRouter();
+    const { secret } = useAuthContext();
 
-    const onSubmit = async (data: FormValues) => {};
+    const onSubmit = async (data: FormValues) => {
+        try {
+            await changeUserEmail({
+                secret: String(secret),
+                email: data.email,
+            });
+            await queryClient.invalidateQueries();
+            switchModal('userSettings');
+            enqueueSnackbar("Ви успішно змінити поштову адресу.", { variant: "success" });
+            return;
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    };
 
     return (
         <form
@@ -31,9 +49,7 @@ const Component = () => {
             <div className="w-full">
                 <div className="form-control w-full">
                     <label className="label">
-                                <span className="label-text">
-                                    Новий email
-                                </span>
+                        <span className="label-text">Новий email</span>
                     </label>
                     <input
                         type="email"

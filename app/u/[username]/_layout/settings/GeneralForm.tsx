@@ -2,14 +2,18 @@
 
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
-import changeUserDescription from '@/utils/api/user/changeUserDescription';
+import changeUserDescription from '@/utils/api/settings/changeUserDescription';
 import { useQueryClient } from '@tanstack/react-query';
+import {useModalContext} from "@/utils/providers/ModalProvider";
+import {useSnackbar} from "notistack";
 
 type FormValues = {
     description: string;
 };
 
 const Component = () => {
+    const { enqueueSnackbar } = useSnackbar();
+    const { switchModal } = useModalContext();
     const queryClient = useQueryClient();
     const {
         register,
@@ -17,6 +21,7 @@ const Component = () => {
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
     const { secret } = useAuthContext();
+    const loggedUser: Hikka.User | undefined = queryClient.getQueryData(['loggedUser', secret]);
 
     const onSubmit = async (data: FormValues) => {
         try {
@@ -25,6 +30,8 @@ const Component = () => {
                 description: data.description,
             });
             await queryClient.invalidateQueries();
+            switchModal('userSettings');
+            enqueueSnackbar("Ви успішно змінити загальні налаштування профілю.", { variant: "success" });
             return;
         } catch (e) {
             console.error(e);
@@ -51,7 +58,7 @@ const Component = () => {
                         placeholder="Введіть опис"
                         rows={3}
                         className="textarea bg-secondary/60 text-base w-full"
-                        {...register('description')}
+                        {...register('description', { value: loggedUser?.description || undefined })}
                     />
                 </div>
             </div>

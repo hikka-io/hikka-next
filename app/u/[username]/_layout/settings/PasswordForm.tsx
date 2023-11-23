@@ -3,6 +3,11 @@
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
 import useRouter from '@/utils/useRouter';
+import {useModalContext} from "@/utils/providers/ModalProvider";
+import {useQueryClient} from "@tanstack/react-query";
+import changeUserEmail from "@/utils/api/settings/changeUserEmail";
+import changeUserPassword from '@/utils/api/settings/changeUserPassword';
+import {useSnackbar} from "notistack";
 
 type FormValues = {
     password: string;
@@ -10,16 +15,35 @@ type FormValues = {
 };
 
 const Component = () => {
+    const { enqueueSnackbar } = useSnackbar();
+    const { switchModal } = useModalContext();
+    const queryClient = useQueryClient();
     const {
         register,
-        reset,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
-    const { setState: setAuth } = useAuthContext();
-    const router = useRouter();
+    const { secret } = useAuthContext();
 
-    const onSubmit = async (data: FormValues) => {};
+    const onSubmit = async (data: FormValues) => {
+        if (data.password !== data.passwordConfirmation) {
+            return;
+        }
+
+        try {
+            await changeUserPassword({
+                secret: String(secret),
+                password: data.password,
+            });
+            await queryClient.invalidateQueries();
+            switchModal('userSettings');
+            enqueueSnackbar("Ви успішно змінити пароль.", { variant: "success" });
+            return;
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    };
 
     return (
         <form
@@ -29,7 +53,7 @@ const Component = () => {
             <div className="h-12 flex items-center">
                 <h3>Пароль</h3>
             </div>
-            <div className="w-full">
+            <div className="w-full flex flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text">

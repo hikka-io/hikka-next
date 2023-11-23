@@ -5,15 +5,15 @@ export interface Response {
 }
 
 export default async function req({
-    description,
+                                      username,
     secret,
 }: {
-    description: string;
+    username: string;
     secret: string;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + '/user/description', {
-        method: 'post',
-        body: JSON.stringify({ description }),
+    const res = await fetch(config.baseAPI + '/settings/username', {
+        method: 'put',
+        body: JSON.stringify({ username }),
         ...config.config,
         headers: {
             ...config.config.headers,

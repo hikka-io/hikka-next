@@ -1,5 +1,5 @@
 import './globals.css';
-import Providers from '@/utils/provider';
+import Providers from '@/utils/Providers';
 import { Inter } from 'next/font/google';
 import Footer from '@/app/_layout/Footer';
 import { ReactNode } from 'react';
