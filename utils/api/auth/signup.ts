@@ -1,4 +1,6 @@
 import config from '@/utils/api/config';
+import getApiErrorMessage from "@/utils/getApiErrorMessage";
+import SnackbarUtils from "@/utils/SnackbarUtils";
 
 export interface Response {
     secret: string;
@@ -28,7 +30,11 @@ export default async function req(params: {
 
     if (!res.ok) {
         if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
+            const error: Hikka.Error = await res.json();
+            const errorMessage = getApiErrorMessage(error);
+
+            errorMessage && SnackbarUtils.error(errorMessage);
+            throw error;
         }
         throw new Error('Failed to fetch data');
     }

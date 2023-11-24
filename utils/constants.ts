@@ -123,36 +123,35 @@ export const MEDIA_TYPE: Property<Hikka.MediaType> = {
 };
 
 export const AGE_RATING: Property<Hikka.AgeRating> = {
-
     g: {
         title_ua: 'G',
         title_en: 'G',
-        description: "Немає вікових обмежень",
+        description: 'Немає вікових обмежень',
     },
     pg: {
         title_ua: 'PG',
         title_en: 'PG',
-        description: "Рекомендується присутність батьків",
+        description: 'Рекомендується присутність батьків',
     },
     pg_13: {
         title_ua: 'PG-13',
         title_en: 'PG-13',
-        description: "Дітям до 13 років перегляд небажаний",
+        description: 'Дітям до 13 років перегляд небажаний',
     },
     r: {
         title_ua: 'R',
         title_en: 'R',
-        description: "Особам до 18 років обовʼязкова присутність дорослого",
+        description: 'Особам до 18 років обовʼязкова присутність дорослого',
     },
     r_plus: {
         title_ua: 'R PLUS',
         title_en: 'R PLUS',
-        description: "Особам до 18 років перегляд заборонений",
+        description: 'Особам до 18 років перегляд заборонений',
     },
     rx: {
         title_ua: 'RX',
         title_en: 'RX',
-        description: "Хентай",
+        description: 'Хентай',
     },
 };
 
@@ -261,5 +260,96 @@ export const EDIT_STATUS: Property<Hikka.EditStatus> = {
         title_ua: 'Закрито',
         title_en: 'Closed',
         color: '#5C5C5C',
+    },
+};
+
+export const ERRORS: Record<string, Record<string, string>> = {
+    auth: {
+        activation_valid:
+            'Попередній токен активації поштової скиньки все ще дійсний.',
+        reset_valid: 'Попередній токен зміни паролю все ще активний.',
+        email_exists: 'Користувач з даною поштою вже зареєстрований.',
+        activation_expired:
+            'Термін дії токену активації поштової скриньки минув.',
+        activation_invalid: 'Токен активації поштової скиньки недійсний.',
+        oauth_code_required: 'Потрібен OAuth код.',
+        invalid_provider: 'Невірний OAuth провайдер.',
+        username_taken: 'Імʼя користувача вже зайнято.',
+        reset_expired: 'Термін дії токену зміни паролю минув.',
+        reset_invalid: 'Токен зміни паролю недійсний.',
+        already_activated: 'Вже активовано.',
+        invalid_token: 'Токен авторизації недійсний',
+        missing_token: 'Токен авторизації відсутній.',
+        invalid_password: 'Невірний пароль.',
+        username_set: 'Імʼя користувача вже встановлено.',
+        token_expired: 'Термін токену авторизації минув.',
+        invalid_code: 'OAuth код недійсний.',
+        oauth_error: 'Виникла помилка під час OAuth авторизації.',
+        user_not_found: 'Користувача не знайдено.',
+        email_set: 'Email already set',
+        not_available: 'Signup not available',
+    },
+    settings: {
+        username_cooldown: 'Імʼя користувача можна змінювати один раз в годину.',
+        email_cooldown: 'Поштову скриньку можна змінювати один раз на день.',
+        username_taken: 'Імʼя користувача вже зайнято.',
+    },
+    permission: {
+        denied: "Ви не маєте дозволу для виконання цієї дії.",
+    },
+    anime: {
+        no_franchise: "This anime doesn't have franchise",
+        unknown_producer: 'Unknown producer',
+        unknown_studio: 'Unknown studio',
+        bad_year: 'Invalid years passed',
+        unknown_genre: 'Unknown genre',
+        not_found: 'Anime not found',
+    },
+    edit: {
+        not_pending: 'Only pending edit can be changed',
+        not_author: 'Only author can modify edit',
+        invalid_content_id: 'Invalid content id',
+        content_not_found: 'Content not found',
+        bad_edit: 'This edit is invalid',
+        invalid_field: 'Invalid field',
+        not_found: 'Edit not found',
+    },
+    studio: {
+        not_found: 'Studio not found',
+    },
+    genre: {
+        not_found: 'Genre not found',
+    },
+    watch: {
+        bad_episodes: 'Bad episodes number provided',
+        not_found: 'Watch record not found',
+    },
+    favourite: {
+        exists: 'Favourite record for this anime already exists',
+        not_found: 'Favourite record not found',
+    },
+    captcha: {
+        invalid: 'Failed to validate captcha',
+    },
+    user: {
+        not_found: 'Користувача не знайдено.',
+    },
+    follow: {
+        already_following: 'This user is already followed',
+        not_following: 'This user is not followed',
+        invalid_action: 'Invalid action',
+        self: "Can't follow self",
+    },
+    search: {
+        query_down: 'Search by query unavailable at the moment',
+    },
+    company: {
+        not_found: 'Company not found',
+    },
+    character: {
+        not_found: 'Character not found',
+    },
+    person: {
+        not_found: 'Person not found',
     },
 };

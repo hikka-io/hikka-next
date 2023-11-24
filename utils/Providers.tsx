@@ -11,7 +11,7 @@ import NProgress from 'nprogress';
 import SnackbarItem from '@/app/_components/SnackbarItem';
 import setDefaultOptions from "date-fns/setDefaultOptions";
 import {uk} from "date-fns/locale";
-import {SnackbarUtilsConfigurator} from "@/utils/Snackbar";
+import {SnackbarUtilsConfigurator} from "@/utils/SnackbarUtils";
 
 interface Props extends PropsWithChildren {}
 
@@ -41,7 +41,7 @@ function Providers({ children }: Props) {
             }}
             maxSnack={2}
             preventDuplicate
-            autoHideDuration={2000}
+            autoHideDuration={3000}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             <SnackbarUtilsConfigurator />

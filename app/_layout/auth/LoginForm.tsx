@@ -76,9 +76,7 @@ const Component = () => {
                 <div className="w-full flex flex-col gap-2">
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text">
-                                Email
-                            </span>
+                            <span className="label-text">Email</span>
                         </label>
                         <input
                             type="email"
@@ -90,10 +88,10 @@ const Component = () => {
                     </div>
                     <div className="form-control w-full">
                         <div className="label">
-                            <span className="label-text">
-                                Пароль
-                            </span>
+                            <span className="label-text">Пароль</span>
                             <button
+                                type="button"
+                                tabIndex={-1}
                                 onClick={() => switchModal('forgotPassword')}
                             >
                                 <span className="label-text text-accent hover:underline w-fit">

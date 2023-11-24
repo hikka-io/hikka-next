@@ -40,17 +40,6 @@ const Component = () => {
         inputRef.current?.focus();
     };
 
-    useEffect(() => {
-        if (search) {
-            if (inputRef.current) {
-                inputRef.current.focus();
-            }
-        } else {
-            if (inputRef.current) {
-                inputRef.current.blur();
-            }
-        }
-    }, [search]);
 
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
@@ -84,6 +73,7 @@ const Component = () => {
             >
                 <div className="input input-md bg-secondary/60 flex items-center pr-4 gap-2">
                     <input
+                        autoFocus={true}
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         ref={inputRef}
