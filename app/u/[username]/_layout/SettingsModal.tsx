@@ -12,11 +12,12 @@ import clsx from 'clsx';
 import GeneralForm from './settings/GeneralForm';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import EmailForm from './settings/EmailForm';
-import UsernameForm from '@/app/u/[username]/_layout/settings/UsernameForm';
-import PasswordForm from '@/app/u/[username]/_layout/settings/PasswordForm';
+import UsernameForm from './settings/UsernameForm';
+import PasswordForm from './settings/PasswordForm';
+import WatchListForm from './settings/WatchListForm';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
-type Tab = 'general' | 'password' | 'username' | 'email';
+type Tab = 'general' | 'password' | 'username' | 'email' | 'watchList';
 
 const DATA: {
     title: string;
@@ -29,6 +30,12 @@ const DATA: {
         description: 'Змінити загальні дані профілю',
         slug: 'general',
         form: <GeneralForm />,
+    },
+    {
+        title: 'Список',
+        description: 'Налаштування Вашого списку аніме',
+        slug: 'watchList',
+        form: <WatchListForm />,
     },
     {
         title: 'Email',
@@ -105,7 +112,7 @@ const Component = () => {
             id="settingsModal"
             boxClassName="p-0"
         >
-            {Boolean(userSettings) && <div className="grid lg:grid-cols-[40%_1fr] grid-cols-1">
+            {Boolean(userSettings) && <div className="grid md:grid-cols-[40%_1fr] grid-cols-1">
                 {isMobile && !activeTab && <Tabs />}
                 {!isMobile && <Tabs />}
                 {activeForm?.form}

@@ -79,38 +79,41 @@ const Component = () => {
     }
 
     return (
-        <div className="stats grid grid-cols-2 bg-secondary/60 border border-secondary rounded-lg p-0">
+        <div className="stats lg:stats-horizontal lg:grid-cols-2 grid grid-cols-2 bg-secondary/60 border border-secondary rounded-lg p-0">
             <div
                 className={clsx(
                     'stat p-4',
                 )}
             >
-                <div className="stat-title text-inherit">Оцінка</div>
-                <h3 className="mb-2">
-                    {watch.score}
-                    <span className="text-sm font-normal label-text opacity-60">
+                <div className="label-text min-h-[30px]">Оцінка</div>
+                <div>
+                    <h3>
+                        {watch.score}
+                        <span className="text-sm font-normal label-text opacity-60">
                         /10
                     </span>
-                </h3>
-                <Rating
-                    className="rating-md"
-                    onChange={(value) =>
-                        addToList({
-                            status: watch?.status,
-                            score: value,
-                            episodes: watch?.episodes,
-                        })
-                    }
-                    value={watch.score}
-                />
+                    </h3>
+                    <Rating
+                        className="rating-md lg:flex"
+                        starClassName="lg:flex-1 lg:!w-auto"
+                        onChange={(value) =>
+                            addToList({
+                                status: watch?.status,
+                                score: value,
+                                episodes: watch?.episodes,
+                            })
+                        }
+                        value={watch.score}
+                    />
+                </div>
             </div>
             <div
                 className={clsx(
                     'stat p-4',
                 )}
             >
-                <div className="flex gap-2 justify-between">
-                    <div className="stat-title text-inherit">Епізоди</div>
+                <div className="flex gap-2 justify-between overflow-hidden">
+                    <div className="label-text overflow-ellipsis overflow-hidden min-h-[24px]">Епізоди</div>
                     <div className="join">
                         <button
                             className="btn join-item btn-xs btn-secondary"
@@ -126,7 +129,7 @@ const Component = () => {
                         </button>
                     </div>
                 </div>
-                <h3 className="mb-2">
+                <h3>
                     {watch.episodes}
                     <span className="text-sm font-normal label-text opacity-60">
                         /{watch.anime.episodes_total || '?'}

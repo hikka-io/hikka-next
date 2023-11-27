@@ -105,7 +105,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             {...(value && buttonProps)}
                             disabled={disabled}
                             className={clsx(
-                                'btn btn-secondary border-b-none flex-1 join-item btn-md',
+                                'btn btn-secondary border-b-none flex-1 join-item btn-md flex-nowrap',
                                 listboxVisible && 'border-b-0',
                             )}
                         >

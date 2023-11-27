@@ -139,9 +139,9 @@ const ModalContent = React.forwardRef(function Fade(
                     style={style}
                     className={clsx(
                         'modal-box transform-none relative',
-                        'w-full h-full max-h-none md:h-auto md:max-h-[100%] md:max-w-3xl md:w-11/12',
+                        'w-full h-full max-h-none sm:h-auto sm:max-h-[100%] sm:max-w-3xl sm:w-11/12',
                         'border border-secondary',
-                        'rounded-none lg:rounded-2xl',
+                        'rounded-none sm:rounded-2xl',
                         className,
                     )}
                     ref={ref}

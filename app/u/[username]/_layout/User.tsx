@@ -15,7 +15,8 @@ import PajamasPreferences from '~icons/pajamas/preferences';
 import SettingsModal from '@/app/u/[username]/_layout/SettingsModal';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
-import {ChangeEvent, useRef} from "react";
+import { ChangeEvent, useRef } from 'react';
+import { xml2json } from 'xml-js';
 
 interface Props {}
 
@@ -95,13 +96,13 @@ const Component = ({}: Props) => {
                 if (end <= file.size) {
                     const chunk = file.slice(start, end);
                     const formData = new FormData();
-                    formData.append("file", chunk);
-                    formData.append("chunkNumber", String(chunkNumber));
-                    formData.append("totalChunks", String(totalChunks));
-                    formData.append("originalname", file.name);
+                    formData.append('file', chunk);
+                    formData.append('chunkNumber', String(chunkNumber));
+                    formData.append('totalChunks', String(totalChunks));
+                    formData.append('originalname', file.name);
 
-                    fetch("http://localhost:8000/test/image", {
-                        method: "POST",
+                    fetch('http://localhost:8000/test/image', {
+                        method: 'POST',
                         body: formData,
                     })
                         .then((response) => response.json())
@@ -114,16 +115,14 @@ const Component = ({}: Props) => {
                             uploadNextChunk();
                         })
                         .catch((error) => {
-                            console.error("Error uploading chunk:", error);
+                            console.error('Error uploading chunk:', error);
                         });
                 }
             };
 
             uploadNextChunk();
         }
-    }
-
-
+    };
 
     if (!user) {
         return null;
@@ -149,7 +148,13 @@ const Component = ({}: Props) => {
                     <div className="btn btn-sm btn-secondary absolute bottom-2 right-2 group-hover:opacity-100 opacity-0">
                         <MaterialSymbolsUploadRounded />
                         Завантажити
-                        <input type="file" onChange={handleUploadImageSelected} ref={uploadImageRef} className="absolute w-full h-full top-0 left-0 opacity-0" accept="image/png, image/jpeg" />
+                        <input
+                            type="file"
+                            onChange={handleUploadImageSelected}
+                            ref={uploadImageRef}
+                            className="absolute w-full h-full top-0 left-0 opacity-0"
+                            accept="image/png, image/jpeg"
+                        />
                     </div>
                 </div>
                 <div className="w-full flex flex-col justify-between">
@@ -214,6 +219,7 @@ const Component = ({}: Props) => {
                     Відстежувати
                 </button>
             )}
+
             <SettingsModal />
         </div>
     );

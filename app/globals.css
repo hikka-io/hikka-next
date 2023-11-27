@@ -45,7 +45,8 @@ table th:nth-last-child(1) {
 }
 
 .table :where(thead, tbody) :where(tr:not(:last-child)), .table :where(thead, tbody) :where(tr:first-child:last-child) {
-    border-bottom: 0;
+    /*border-bottom: 0;*/
+    @apply border-b-secondary/30;
 }
 
 .table :where(thead, tfoot) {

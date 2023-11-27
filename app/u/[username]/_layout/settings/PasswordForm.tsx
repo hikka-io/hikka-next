@@ -37,7 +37,7 @@ const Component = () => {
             });
             await queryClient.invalidateQueries();
             switchModal('userSettings');
-            enqueueSnackbar("Ви успішно змінити пароль.", { variant: "success" });
+            enqueueSnackbar("Ви успішно змінили пароль.", { variant: "success" });
             return;
         } catch (e) {
             console.error(e);

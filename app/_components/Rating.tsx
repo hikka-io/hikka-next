@@ -7,11 +7,12 @@ interface Props {
     readonly?: boolean;
     value?: number;
     className?: string;
+    starClassName?:string;
 }
 
-const Component = ({ onChange, readonly, value, className }: Props) => {
+const Component = ({ onChange, readonly, value, className, starClassName }: Props) => {
     return (
-        <div className={clsx("rating rating-sm rating-half relative", readonly && "readonly", className)}>
+        <div className={clsx("rating rating-half relative", readonly && "readonly", className)}>
             <input
                 type="radio"
                 name="rating-10"
@@ -31,6 +32,7 @@ const Component = ({ onChange, readonly, value, className }: Props) => {
                     className={clsx(
                         'bg-orange-400 mask mask-star-2',
                         v % 2 === 0 ? 'mask-half-2' : 'mask-half-1',
+                        starClassName,
                     )}
                 />
             ))}
