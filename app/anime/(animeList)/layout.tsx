@@ -6,6 +6,8 @@ interface Props {
     list: ReactNode;
 }
 
+export const runtime = 'edge';
+
 const Component = ({ list }: Props) => {
     return (
         <div>

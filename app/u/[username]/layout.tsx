@@ -19,6 +19,8 @@ interface Props extends PropsWithChildren {
     params: { username: string };
 }
 
+export const runtime = 'edge';
+
 export async function generateMetadata(
     { params }: { params: { username: string } },
     parent: ResolvingMetadata,
