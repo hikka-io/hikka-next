@@ -130,6 +130,7 @@ const Component = ({  }: Props) => {
             </div>
             <ProfileMenu anchorEl={profileRef.current} />
         </nav>
+        
     );
 };
 
