@@ -8,6 +8,7 @@ import { useCallback, useState } from 'react';
 import { xml2json } from 'xml-js';
 import { useDropzone } from 'react-dropzone';
 import clsx from 'clsx';
+import importWatch from '@/utils/api/settings/importWatch';
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -68,7 +69,7 @@ const Component = () => {
             );
 
             if ('myanimelist' in res) {
-                console.log(res.myanimelist)
+                console.log(res.myanimelist);
                 setWatchList(res.myanimelist);
             }
         }
@@ -81,10 +82,31 @@ const Component = () => {
         },
     });
 
-    const handleCompleteImport = () => {
+    const handleCompleteImport = async () => {
         setImporting(true);
 
         if (watchList?.anime && watchList.anime.length > 0) {
+            try {
+                const res = await importWatch({
+                    overwrite: rewrite,
+                    anime: watchList.anime,
+                    secret: String(secret),
+                });
+
+                enqueueSnackbar(
+                    <span>
+                        Ви успішно імпортували{' '}
+                        <span className="font-bold">
+                            {watchList.anime.length}
+                        </span>{' '}
+                        аніме до Вашого списку.
+                    </span>,
+                    { variant: 'success' },
+                );
+
+                await queryClient.invalidateQueries();
+                switchModal('userSettings');
+            } catch (e) {}
         }
 
         setImporting(false);
@@ -159,8 +181,15 @@ const Component = () => {
                 </div>
                 <div className="form-control">
                     <label className="label cursor-pointer">
-                        <span className="label-text">Переписати аніме, які вже додані до списку</span>
-                        <input type="checkbox" checked={rewrite} onChange={() => setRewrite(!rewrite)} className="checkbox checkbox-accent" />
+                        <span className="label-text">
+                            Переписати аніме, які вже додані до списку
+                        </span>
+                        <input
+                            type="checkbox"
+                            checked={rewrite}
+                            onChange={() => setRewrite(!rewrite)}
+                            className="checkbox checkbox-accent"
+                        />
                     </label>
                 </div>
             </div>

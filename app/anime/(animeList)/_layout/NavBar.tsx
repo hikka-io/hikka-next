@@ -18,14 +18,14 @@ const Component = ({}: Props) => {
     return (
         <div
             className={clsx(
-                'flex gap-2 items-end p-4 lg:pt-0 border-b border-b-transparent transition bg-transparent',
+                'flex gap-2 items-end border-b border-b-transparent transition bg-transparent',
                 isMobile && trigger && '!bg-black !border-b-secondary',
             )}
         >
             <Search />
             <label
                 htmlFor="filterDrawer"
-                className="btn btn-secondary drawer-button btn-square btn-outline flex lg:hidden"
+                className={clsx("btn btn-secondary drawer-button btn-square btn-outline flex lg:hidden")}
             >
                 <AntDesignFilterFilled />
             </label>

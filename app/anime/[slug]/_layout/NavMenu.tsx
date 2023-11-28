@@ -51,10 +51,10 @@ const ROUTES: {
 ];
 
 const Component = () => {
+    const isMobile = useIsMobile();
     const ref = useRef<HTMLDivElement>(null);
     const { animeNav, closePoppers, switchPopper } = usePopperContext();
     const queryClient = useQueryClient();
-    const isMobile = useIsMobile();
     const params = useParams();
     const pathname = usePathname();
     const current = ROUTES.find(
@@ -117,7 +117,7 @@ const Component = () => {
             </div>
             <Popper
                 disablePortal
-                placement="bottom-start"
+                placement={isMobile ? "bottom-end" : "bottom-start"}
                 id="anime-nav"
                 open={Boolean(animeNav)}
                 onDismiss={closePoppers}

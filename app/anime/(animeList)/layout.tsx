@@ -20,9 +20,7 @@ const Component = ({ list }: Props) => {
                 />
                 <div className="drawer-content grid grid-cols-1 lg:grid-cols-[1fr_25%] justify-center lg:items-start lg:justify-between lg:gap-16">
                     <div className="flex flex-col gap-8">
-                        <div className="sticky lg:relative top-16 lg:top-0 z-[1] -mx-4">
-                            <NavBar />
-                        </div>
+                        <NavBar />
                         {list}
                     </div>
                     <div className="order-1 lg:order-2 lg:block w-full hidden">

@@ -21,15 +21,29 @@ const Component = ({ children }: Props) => {
         return null;
     }
 
+    if (isMobile) {
+        return createPortal(
+            <div className="min-h-[2.5rem] px-4 h-auto flex-1 gap-4 items-center overflow-hidden flex md:hidden">{Children.map(arrayChildren, (child, index) => {
+                return (
+                    <>
+                        <IconamoonSignDivisionSlashThin className={clsx("opacity-30", index === 0 && "hidden lg:block")} />
+                        {child}
+                    </>
+                )
+            })}</div>,
+            document.getElementById('nav-items-mobile')!,
+        );
+    }
+
     return createPortal(
-        <>{!isMobile ? Children.map(arrayChildren, (child, index) => {
+        <>{Children.map(arrayChildren, (child, index) => {
             return (
                 <>
                     <IconamoonSignDivisionSlashThin className={clsx("opacity-30", index === 0 && "hidden lg:block")} />
                     {child}
                 </>
             )
-        }) : arrayChildren[arrayChildren.length - 1]}</>,
+        })}</>,
         document.getElementById('nav-items')!,
     );
 };
