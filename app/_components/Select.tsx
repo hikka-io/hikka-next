@@ -58,7 +58,7 @@ const Listbox = forwardRef(
             <ul
                 ref={ref}
                 className={clsx(
-                    'z-10 absolute w-full h-auto rounded-lg overflow-auto outline-0 bg-black border border-secondary max-h-96 p-2 mt-2',
+                    'z-10 absolute w-full h-auto rounded-lg menu [&_li>*]:py-3 overflow-y-scroll flex-nowrap outline-0 bg-black border border-secondary max-h-96 p-2 mt-2',
                     className,
                 )}
                 {...props}
@@ -75,15 +75,8 @@ const OptionItem = forwardRef(
         ref: ForwardedRef<HTMLLIElement>,
     ) => {
         return (
-            <li
-                ref={ref}
-                className={clsx(
-                    'py-3 px-4 rounded-md flex gap-2 items-center hover:bg-secondary cursor-pointer transition-colors duration-100',
-                    className,
-                )}
-                {...props}
-            >
-                {children}
+            <li ref={ref} {...props}>
+                <a className={clsx('', className)}>{children}</a>
             </li>
         );
     },
@@ -133,7 +126,7 @@ function Option(props: OptionProps) {
                 {...getRootProps()}
                 className={clsx(
                     selected &&
-                        'bg-accent hover:!bg-accent/60 text-accent-content',
+                        'active',
                     className,
                 )}
             >
@@ -238,12 +231,7 @@ function Select({
                     placeholder,
                 )
             ) : (
-                <Toggle
-                    {...getButtonProps()}
-                    className={clsx(
-                        toggleClassName,
-                    )}
-                >
+                <Toggle {...getButtonProps()} className={clsx(toggleClassName)}>
                     {renderValue
                         ? renderValue(selectedOptionsMetadata)
                         : renderSelectedValue(selectedOptionsMetadata) || (

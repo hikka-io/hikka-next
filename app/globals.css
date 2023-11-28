@@ -271,3 +271,11 @@ textarea:focus, input:focus {
     transform: scale(0.9);
     transition: opacity 300ms, transform 300ms;
 }
+
+.menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active, .menu li > details > summary:active {
+    @apply bg-accent text-accent-content;
+}
+
+.menu li > *:not(ul):not(.menu-title):not(details):active:hover, .menu li > *:not(ul):not(.menu-title):not(details).active:hover, .menu li > details > summary:active:hover {
+    @apply bg-accent-focus;
+}

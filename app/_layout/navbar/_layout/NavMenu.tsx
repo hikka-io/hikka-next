@@ -74,7 +74,7 @@ const Component = ({ className }: Props) => {
                 onDismiss={closePoppers}
                 anchorEl={ref.current}
             >
-                <ul className="menu w-full  [&_li>*]:py-3">
+                <ul className="menu w-full [&_li>*]:py-3">
                     {ROUTES.map(
                         (r) =>
                             r.visible && (
