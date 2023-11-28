@@ -5,15 +5,21 @@ import getAnimeInfo, {
     Response as AnimeResponse,
 } from '@/utils/api/anime/getAnimeInfo';
 import Actions from '@/app/anime/[slug]/_layout/Actions';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import Title from '@/app/anime/[slug]/_layout/Title';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
-import NavBar from '@/app/anime/[slug]/_layout/NavBar';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
 import WatchListStats from '@/app/anime/[slug]/_layout/WatchListStats';
 import Cover from '@/app/anime/[slug]/_layout/Cover';
 import { Metadata, ResolvingMetadata } from 'next';
+import NavBar from '@/app/_layout/navbar/NavBar';
+import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
+import Select from "@/app/_components/Select";
+import NavMenu from "@/app/anime/[slug]/_layout/NavMenu";
+import Link from "next/link";
+import Breadcrumbs from "@/app/_components/Breadcrumbs";
+import {RELEASE_STATUS} from "@/utils/constants";
 
 interface Props extends PropsWithChildren {
     params: { slug: string };
@@ -37,7 +43,8 @@ export async function generateMetadata(
     let synopsis: string | undefined = anime.synopsis_ua || anime.synopsis_en;
 
     synopsis =
-        synopsis && (synopsis.length > 150
+        synopsis &&
+        (synopsis.length > 150
             ? synopsis.substring(
                   0,
                   150 + synopsis.substring(150).indexOf(' '),
@@ -79,11 +86,25 @@ const Component = async ({ params: { slug }, children }: Props) => {
         getAnimeStaff({ slug }),
     );
 
+    const anime: Hikka.Anime | undefined = queryClient.getQueryData([
+        'anime',
+        slug,
+    ]);
+
     const dehydratedState = dehydrate(queryClient);
 
     return (
         <RQHydrate state={dehydratedState}>
             <div className="grid grid-cols-1 lg:grid-cols-[25%_1fr] lg:gap-16 gap-12">
+                <Breadcrumbs>
+                    <div className="flex gap-4 items-center overflow-hidden whitespace-nowrap w-auto">
+                        <div className="w-2 h-2 bg-white rounded-full" style={{ backgroundColor: RELEASE_STATUS[anime?.status as Hikka.Status].color }} />
+                        <Link href={'/anime/' + anime?.slug} className="text-sm font-bold flex-1 overflow-hidden overflow-ellipsis hover:underline">
+                            {anime?.title_ua || anime?.title_en || anime?.title_ja}
+                        </Link>
+                    </div>
+                    <NavMenu />
+                </Breadcrumbs>
                 <div className="flex flex-col gap-4">
                     <Cover />
                     <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">
@@ -95,7 +116,6 @@ const Component = async ({ params: { slug }, children }: Props) => {
                 </div>
                 <div className="flex flex-col gap-12">
                     <Title />
-                    <NavBar />
                     {children}
                     <div className="lg:hidden block">
                         <WatchListStats />

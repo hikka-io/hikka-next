@@ -10,6 +10,9 @@ import AnimeContent from '@/app/edit/[editId]/_layout/AnimeContent';
 import SubHeader from '@/app/_components/SubHeader';
 import * as React from 'react';
 import EditStatus from '@/app/edit/_components/EditStatus';
+import Breadcrumbs from "@/app/_components/Breadcrumbs";
+import {RELEASE_STATUS} from "@/utils/constants";
+import Link from "next/link";
 
 interface Props {
     params: { editId: string };
@@ -32,6 +35,11 @@ const Component = async ({ params: { editId } }: Props) => {
     return (
         <RQHydrate state={dehydratedState}>
             <div className="grid lg:grid-cols-[1fr_25%] grid-cols-1 lg:gap-16 gap-12">
+                <Breadcrumbs>
+                    <Link href={'/edit/' + edit?.edit_id} className="text-sm font-bold hover:underline">
+                        Правка #{edit?.edit_id}
+                    </Link>
+                </Breadcrumbs>
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Правка #` + editId} />
                     <div className="flex flex-col gap-12">

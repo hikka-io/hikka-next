@@ -70,7 +70,7 @@ const Component = ({}: Props) => {
 
     useEffect(() => {
         if (!watchStatus) {
-            router.push(pathname + '/?status=completed');
+            router.replace(pathname + '/?status=completed');
         }
     }, [watchStatus]);
 

@@ -2,13 +2,15 @@ import './globals.css';
 import Providers from '@/utils/Providers';
 import { Inter } from 'next/font/google';
 import Footer from '@/app/_layout/Footer';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import ScrollTop from '@/app/_layout/ScrollTop';
 import AuthGate from '@/app/_layout/AuthGate';
-import NavBar from '@/app/_layout/NavBar';
 import NextTopLoader from 'nextjs-toploader';
 import { Metadata } from 'next';
 import MobileNavBar from '@/app/_layout/MobileNavBar';
+import AuthModal from '@/app/_layout/AuthModal';
+import SearchModal from '@/app/_layout/SearchModal';
+import NavBar from '@/app/_layout/navbar/NavBar';
 
 export const runtime = 'edge';
 
@@ -82,15 +84,16 @@ export default async function RootLayout({
                 <NextTopLoader color="#e779c1" />
                 <Providers>
                     <AuthGate>
+                        <AuthModal />
+                        <SearchModal />
                         <ScrollTop />
-
                         <div className="drawer drawer-end top-0 left-0 right-0 sticky z-10">
                             <input
                                 id="mobileNavDrawer"
                                 type="checkbox"
                                 className="drawer-toggle"
                             />
-                            <div className="drawer-content">
+                            <div className="drawer-content overflow-hidden">
                                 <NavBar />
                             </div>
                             <div className="drawer-side overflow-y-visible z-10 lg:hidden">

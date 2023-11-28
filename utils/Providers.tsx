@@ -9,9 +9,10 @@ import { SnackbarProvider } from 'notistack';
 import { usePathname, useSearchParams } from 'next/navigation';
 import NProgress from 'nprogress';
 import SnackbarItem from '@/app/_components/SnackbarItem';
-import setDefaultOptions from "date-fns/setDefaultOptions";
-import {uk} from "date-fns/locale";
-import {SnackbarUtilsConfigurator} from "@/utils/SnackbarUtils";
+import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { uk } from 'date-fns/locale';
+import { SnackbarUtilsConfigurator } from '@/utils/SnackbarUtils';
+import PoppperProvider from '@/utils/providers/PopperProvider';
 
 interface Props extends PropsWithChildren {}
 
@@ -45,14 +46,16 @@ function Providers({ children }: Props) {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             <SnackbarUtilsConfigurator />
-            <ModalProvider>
-                <AuthProvider>
-                    <QueryClientProvider client={client}>
-                        {children}
-                        <ReactQueryDevtools initialIsOpen={false} />
-                    </QueryClientProvider>
-                </AuthProvider>
-            </ModalProvider>
+            <PoppperProvider>
+                <ModalProvider>
+                    <AuthProvider>
+                        <QueryClientProvider client={client}>
+                            {children}
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        </QueryClientProvider>
+                    </AuthProvider>
+                </ModalProvider>
+            </PoppperProvider>
         </SnackbarProvider>
     );
 }

@@ -7,22 +7,20 @@ import useScrollTrigger from '@/utils/hooks/useScrollTrigger';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
-import AuthModal from '@/app/_layout/AuthModal';
-import {useEffect, useRef, useState} from 'react';
-import ProfileMenu from '@/app/_layout/ProfileMenu';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import ProfileMenu from './_layout/ProfileMenu';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-import SearchModal from '@/app/_layout/SearchModal';
 import MaterialSymbolsSearch from '~icons/material-symbols/search';
 import MaterialSymbolsMenu from '~icons/material-symbols/menu';
-import { usePathname } from 'next/navigation';
-import { useSnackbar } from 'notistack';
+import { usePopperContext } from '@/utils/providers/PopperProvider';
+import NavMenu from '@/app/_layout/navbar/_layout/NavMenu';
 
-const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
-    const pathname = usePathname();
+interface Props extends PropsWithChildren {}
+
+const Component = ({  }: Props) => {
+    const { switchPopper } = usePopperContext();
     const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
-    const [openProfileMenu, setOpenProfileMenu] = useState<boolean>(false);
     const { secret } = useAuthContext();
     const { data: user } = useQuery({
         queryKey: ['loggedUser', secret],
@@ -34,6 +32,10 @@ const Component = () => {
         threshold: 40,
         disableHysteresis: true,
     });
+    const isMac =
+        typeof window !== 'undefined'
+            ? /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
+            : undefined;
 
     return (
         <nav
@@ -45,66 +47,53 @@ const Component = () => {
                 trigger && '!bg-black !border-b-secondary',
             )}
         >
-            <div className="navbar container max-w-screen-xl px-4 mx-auto">
-                <div className="navbar-start gap-16">
-                    <Link href="/">
+            <div className="navbar lg:gap-16 md:gap-8 gap-4 container max-w-screen-2xl px-4 mx-auto">
+                <div className="flex flex-1 lg:gap-16 md:gap-8 gap-4 overflow-hidden">
+                    <Link href="/" className="w-20 h-full">
                         <Image
                             src="/logo.svg"
                             alt="Hikka"
-                            width={115}
-                            height={34}
-                            className="w-full h-6"
+                            width={80}
+                            height={24}
+                            className="w-full h-full"
                         />
                     </Link>
-                    <div className="hidden lg:flex gap-4">
-                        <Link
-                            href="/anime"
-                            className={clsx(
-                                'btn-ghost btn-secondary btn btn-sm',
-                                pathname === '/anime' && 'btn-outline',
-                            )}
-                        >
-                            Каталог
-                        </Link>
-                        <Link
-                            href="/edit"
-                            className={clsx(
-                                'btn-ghost btn-secondary btn btn-sm',
-                                pathname === '/edit' && 'btn-outline',
-                            )}
-                        >
-                            Правки
-                        </Link>
+
+                    <div className="flex flex-1 gap-4 items-center overflow-hidden" id="nav-items">
+                        <NavMenu className="hidden lg:flex" />
                     </div>
                 </div>
-                <div className="navbar-center gap-4 ">
-
-                </div>
-                <div className="navbar-end gap-4">
+                <div className="flex gap-4">
                     <button
                         onClick={() => switchModal('search')}
                         className={clsx(
                             'btn btn-outline btn-secondary btn-sm',
                             'bg-secondary/30 hover:!bg-secondary/60',
-                            'md:w-44 md:justify-between md:!text-white/60 md:font-normal',
+                            'md:w-48 md:justify-between md:!text-white/60 md:font-normal',
                             'transition-all duration-200',
                             'md:hover:w-60',
-                            'items-center'
+                            'items-center',
                         )}
                     >
                         <div className="flex items-center gap-2">
                             <MaterialSymbolsSearch />{' '}
                             <span className="hidden md:block">Пошук...</span>
                         </div>
-                        <div className="hidden md:flex items-center">
-                            <kbd className="kbd kbd-sm">⌘</kbd>
-                            <kbd className="kbd kbd-sm">K</kbd>
-                        </div>
+                        {isMac !== undefined ? (
+                            <div className="hidden md:flex items-center">
+                                <kbd className="kbd kbd-sm">
+                                    {isMac ? '⌘' : 'ctrl'}
+                                </kbd>
+                                <kbd className="kbd kbd-sm">K</kbd>
+                            </div>
+                        ) : (
+                            <div />
+                        )}
                     </button>
                     {user ? (
                         <button
                             ref={profileRef}
-                            onClick={() => setOpenProfileMenu(true)}
+                            onClick={() => switchPopper('profile')}
                             className="btn-ghost btn-square btn btn-sm join-item overflow-hidden"
                         >
                             <Image
@@ -139,13 +128,7 @@ const Component = () => {
                     </label>
                 </div>
             </div>
-            <ProfileMenu
-                open={openProfileMenu}
-                setOpen={setOpenProfileMenu}
-                anchorEl={profileRef.current}
-            />
-            {!user && <AuthModal />}
-            <SearchModal />
+            <ProfileMenu anchorEl={profileRef.current} />
         </nav>
     );
 };

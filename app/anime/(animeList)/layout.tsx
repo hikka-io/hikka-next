@@ -11,6 +11,7 @@ export const runtime = 'edge';
 const Component = ({ list }: Props) => {
     return (
         <div>
+
             <div className="drawer drawer-end">
                 <input
                     id="filterDrawer"

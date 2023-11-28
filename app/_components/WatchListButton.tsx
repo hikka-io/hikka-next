@@ -95,7 +95,6 @@ const Component = ({ slug, additional, disabled }: Props) => {
                     <div
                         className={clsx(
                             'join w-full',
-                            listboxVisible && 'rounded-b-none',
                         )}
                     >
                         <button
@@ -106,7 +105,6 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             disabled={disabled}
                             className={clsx(
                                 'btn btn-secondary border-b-none flex-1 join-item btn-md flex-nowrap',
-                                listboxVisible && 'border-b-0',
                             )}
                         >
                             {value ? (
@@ -144,7 +142,6 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                 disabled={disabled}
                                 className={clsx(
                                     'btn btn-square join-item btn-md text-xl',
-                                    listboxVisible && 'border-b-0',
                                     value
                                         ? 'btn-error bg-secondary border-secondary'
                                         : 'btn-secondary',

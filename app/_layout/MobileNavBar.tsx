@@ -1,14 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
-import MingcuteTelegramFill from '~icons/mingcute/telegram-fill'
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded'
 import { useEffect, useState } from 'react';
-import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee'
-import MaterialSymbolsCopyrightRounded from '~icons/material-symbols/copyright-rounded'
-import {useModalContext} from "@/utils/providers/ModalProvider";
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded'
+import { useModalContext } from '@/utils/providers/ModalProvider';
+
+import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
+import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
+
+import MaterialSymbolsCopyrightRounded from '~icons/material-symbols/copyright-rounded';
+
+import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 const Component = () => {
     const { switchModal } = useModalContext();
@@ -44,23 +46,33 @@ const Component = () => {
                 </li>
                 <li className="menu-title">Соцмережі</li>
                 <li>
-                    <Link href="https://t.me/hikka_io" target="_blank" onClick={closeDrawer}>
+                    <Link
+                        href="https://t.me/hikka_io"
+                        target="_blank"
+                        onClick={closeDrawer}
+                    >
                         <MingcuteTelegramFill />
                         Telegram
                     </Link>
                 </li>
                 <li>
-                    <Link href="https://www.buymeacoffee.com" onClick={closeDrawer} target="_blank">
+                    <Link
+                        href="https://www.buymeacoffee.com"
+                        onClick={closeDrawer}
+                        target="_blank"
+                    >
                         <SimpleIconsBuymeacoffee />
                         Buy Me a Coffee
                     </Link>
                 </li>
                 <li className="menu-title">Інше</li>
                 <li>
-                    <button onClick={() => {
-                        closeDrawer();
-                        switchModal('rightholder');
-                    }}>
+                    <button
+                        onClick={() => {
+                            closeDrawer();
+                            switchModal('rightholder');
+                        }}
+                    >
                         <MaterialSymbolsCopyrightRounded />
                         Правовласникам
                     </button>
