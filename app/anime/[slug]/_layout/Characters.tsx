@@ -45,6 +45,10 @@ const Component = ({ extended }: Props) => {
 
     const list = data.pages.map((data) => data.list).flat(1);
 
+    if (!list || list.length === 0) {
+        return null;
+    }
+
     const main = list.filter((ch) => ch.main);
     const other = list.filter((ch) => !ch.main);
 

@@ -69,9 +69,9 @@ const Component = () => {
     const filteredRoutes = ROUTES.filter((r) => {
         switch (r.slug) {
             case 'characters':
-                return characters !== undefined;
+                return characters !== undefined && characters.pages.length > 0 && characters.pages[0].list.length > 0;
             case 'staff':
-                return staff !== undefined;
+                return staff !== undefined && staff.pages.length > 0 && staff.pages[0].list.length > 0;
             case 'media':
                 return (
                     anime &&
