@@ -27,9 +27,9 @@ const Component = ({}: Props) => {
     const router = useRouter();
     const searchParams = useSearchParams()!;
     const [view, setView] = useState<'table' | 'grid'>('table');
-    const watchStatus = searchParams.get('status');
     const params = useParams();
 
+    const watchStatus = searchParams.get('status');
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
 
@@ -81,6 +81,8 @@ const Component = ({}: Props) => {
     useEffect(() => {
         if (!watchStatus) {
             router.replace(pathname + '/?status=completed&order=score&sort=desc');
+        } else if(!order || !sort) {
+            router.replace(pathname + '/?status=' + watchStatus + '&order=score&sort=desc');
         }
     }, [watchStatus]);
 
