@@ -10,7 +10,7 @@ const Component = () => {
     const { switchModal } = useModalContext();
 
     return (
-        <footer className="w-full mt-12 border-t border-t-secondary">
+        <footer className="md:mt-12 w-full border-t border-t-secondary">
             <div className="container max-w-screen-xl mx-auto p-4">
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
                     <div className="flex gap-4 flex-wrap justify-center lg:justify-start">
@@ -27,7 +27,7 @@ const Component = () => {
                         </button>
                     </div>
                     <div className="flex lg:justify-end justify-center items-center">
-                        <p className="label-text">© 2023 Hikka</p>
+                        <p id="hikka-footer-label" className="label-text">© 2023 Hikka</p>
                     </div>
                 </div>
             </div>

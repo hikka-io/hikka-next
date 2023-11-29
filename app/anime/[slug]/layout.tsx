@@ -13,22 +13,29 @@ import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
 import WatchListStats from '@/app/anime/[slug]/_layout/WatchListStats';
 import Cover from '@/app/anime/[slug]/_layout/Cover';
 import { Metadata, ResolvingMetadata } from 'next';
-import NavBar from '@/app/_layout/navbar/NavBar';
-import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
-import Select from "@/app/_components/Select";
-import NavMenu from "@/app/anime/[slug]/_layout/NavMenu";
-import Link from "next/link";
-import Breadcrumbs from "@/app/_components/Breadcrumbs";
-import {RELEASE_STATUS} from "@/utils/constants";
+import NavBar from './_layout/NavBar';
+import NavMenu from '@/app/anime/[slug]/_layout/NavMenu';
+import Link from 'next/link';
+import Breadcrumbs from '@/app/_components/Breadcrumbs';
+import { RELEASE_STATUS } from '@/utils/constants';
+import SubBar from '@/app/_components/SubBar';
 
 interface Props extends PropsWithChildren {
-    params: { slug: string };
+    params: {
+        slug: string;
+    };
 }
 
 export const runtime = 'edge';
 
 export async function generateMetadata(
-    { params }: { params: { slug: string } },
+    {
+        params,
+    }: {
+        params: {
+            slug: string;
+        };
+    },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
     const slug = params.slug;
@@ -98,13 +105,29 @@ const Component = async ({ params: { slug }, children }: Props) => {
             <div className="grid grid-cols-1 lg:grid-cols-[25%_1fr] lg:gap-16 gap-12">
                 <Breadcrumbs>
                     <div className="flex gap-4 items-center overflow-hidden whitespace-nowrap w-auto">
-                        <div className="w-2 h-2 bg-white rounded-full" style={{ backgroundColor: RELEASE_STATUS[anime?.status as Hikka.Status].color }} />
-                        <Link href={'/anime/' + anime?.slug} className="text-sm font-bold flex-1 overflow-hidden overflow-ellipsis hover:underline">
-                            {anime?.title_ua || anime?.title_en || anime?.title_ja}
+                        <div
+                            className="w-2 h-2 bg-white rounded-full"
+                            style={{
+                                backgroundColor:
+                                    RELEASE_STATUS[
+                                        anime?.status as Hikka.Status
+                                    ].color,
+                            }}
+                        />
+                        <Link
+                            href={'/anime/' + anime?.slug}
+                            className="text-sm font-bold flex-1 overflow-hidden overflow-ellipsis hover:underline"
+                        >
+                            {anime?.title_ua ||
+                                anime?.title_en ||
+                                anime?.title_ja}
                         </Link>
                     </div>
                     <NavMenu />
                 </Breadcrumbs>
+                <SubBar mobileOnly>
+                    <NavBar />
+                </SubBar>
                 <div className="flex flex-col gap-4">
                     <Cover />
                     <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">

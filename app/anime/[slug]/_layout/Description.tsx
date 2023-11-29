@@ -22,7 +22,6 @@ const Component = () => {
             <Markdown className="markdown">
                 {data.synopsis_ua || data.synopsis_en}
             </Markdown>
-            <p className="whitespace-pre-wrap"></p>
         </div>
     );
 };

@@ -62,7 +62,7 @@ const Component = ({}: Props) => {
 
                     <div
                         className="flex flex-1 gap-4 items-center overflow-hidden"
-                        id="nav-items"
+                        id="breadcrumbs"
                     >
                         <NavMenu />
                     </div>
@@ -128,8 +128,9 @@ const Component = ({}: Props) => {
             </div>
             <div
                 className="w-full"
-                id="nav-items-mobile"
+                id="breadcrumbs-mobile"
             />
+            <div className="w-full container mx-auto max-w-[88rem] px-4" id="subbar" />
             <ProfileMenu anchorEl={profileRef.current} />
         </nav>
     );

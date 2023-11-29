@@ -11,6 +11,7 @@ import MobileNavBar from '@/app/_layout/MobileNavBar';
 import AuthModal from '@/app/_layout/AuthModal';
 import SearchModal from '@/app/_layout/SearchModal';
 import NavBar from '@/app/_layout/navbar/NavBar';
+import SettingsModal from "@/app/_layout/UserSettingsModal";
 
 export const runtime = 'edge';
 
@@ -84,6 +85,7 @@ export default async function RootLayout({
                 <NextTopLoader color="#e779c1" />
                 <Providers>
                     <AuthGate>
+                        <SettingsModal />
                         <AuthModal />
                         <SearchModal />
                         <ScrollTop />
@@ -108,6 +110,7 @@ export default async function RootLayout({
                         <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
                             {children}
                         </main>
+                        <div id="subbar-mobile" className="mt-12 md:hidden block w-full sticky bottom-0 overflow-auto bg-black border-t border-t-secondary" />
                         <Footer />
                     </AuthGate>
                 </Providers>

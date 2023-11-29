@@ -9,8 +9,6 @@ import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharac
 import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
 import { useEffect, useRef } from 'react';
 import useIsMobile from '@/utils/hooks/useIsMobile';
-import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
-import Popper from '@/app/_components/Popper';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
 
 const ROUTES: {
@@ -53,13 +51,9 @@ const ROUTES: {
 const Component = () => {
     const isMobile = useIsMobile();
     const ref = useRef<HTMLDivElement>(null);
-    const { animeNav, closePoppers, switchPopper } = usePopperContext();
     const queryClient = useQueryClient();
     const params = useParams();
     const pathname = usePathname();
-    const current = ROUTES.find(
-        (r) => pathname === '/anime/' + params.slug + r.url,
-    );
 
     const characters: InfiniteData<CharactersResponse> | undefined =
         queryClient.getQueryData(['characters', params.slug]);
@@ -100,48 +94,21 @@ const Component = () => {
     }, [pathname]);
 
     return (
-        <>
-            <div className="flex gap-2 items-center" ref={ref}>
+        <div className="tabs flex-nowrap w-full" ref={ref}>
+            {filteredRoutes.map((r) => (
                 <Link
-                    href={'/anime/' + params.slug + current?.url}
-                    className="text-sm hover:underline"
+                    key={r.slug}
+                    className={clsx(
+                        "tab h-12",
+                        pathname === '/anime/' + params.slug + r.url &&
+                            'tab-bordered tab-active',
+                    )}
+                    href={'/anime/' + params.slug + r.url}
                 >
-                    {current?.title_ua}
+                    {r.title_ua}
                 </Link>
-                {!isMobile && <button
-                    onClick={() => switchPopper('animeNav')}
-                    className="btn btn-sm btn-ghost px-1"
-                >
-                    <PhCaretUpDownThin />
-                </button>}
-            </div>
-            {!isMobile && <Popper
-                disablePortal
-                placement={isMobile ? "bottom-end" : "bottom-start"}
-                id="anime-nav"
-                open={Boolean(animeNav)}
-                onDismiss={closePoppers}
-                anchorEl={ref.current}
-            >
-                <ul className="menu w-full  [&_li>*]:py-3">
-                    {filteredRoutes.map((r) => (
-                        <li key={r.slug}>
-                            <Link
-                                className={clsx(
-                                    pathname ===
-                                        '/anime/' + params.slug + r.url &&
-                                        'active',
-                                )}
-                                href={'/anime/' + params.slug + r.url}
-                                onClick={closePoppers}
-                            >
-                                {r.title_ua}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </Popper>}
-        </>
+            ))}
+        </div>
     );
 };
 

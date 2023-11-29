@@ -59,39 +59,43 @@ const Component = () => {
                 >
                     {current?.title_ua}
                 </Link>
-                <button
-                    onClick={() => switchPopper('userNav')}
-                    className="btn btn-sm btn-ghost px-1"
-                >
-                    <PhCaretUpDownThin />
-                </button>
+                {!isMobile && (
+                    <button
+                        onClick={() => switchPopper('userNav')}
+                        className="btn btn-sm btn-ghost px-1"
+                    >
+                        <PhCaretUpDownThin />
+                    </button>
+                )}
             </div>
-            <Popper
-                disablePortal
-                placement="bottom-start"
-                id="anime-nav"
-                open={Boolean(userNav)}
-                onDismiss={closePoppers}
-                anchorEl={ref.current}
-            >
-                <ul className="menu w-full  [&_li>*]:py-3">
-                    {ROUTES.map((r) => (
-                        <li key={r.slug}>
-                            <Link
-                                className={clsx(
-                                    pathname ===
-                                        '/u/' + params.username + r.url &&
-                                        'active',
-                                )}
-                                href={'/u/' + params.username + r.url}
-                                onClick={closePoppers}
-                            >
-                                {r.title_ua}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </Popper>
+            {!isMobile && (
+                <Popper
+                    disablePortal
+                    placement="bottom-start"
+                    id="anime-nav"
+                    open={Boolean(userNav)}
+                    onDismiss={closePoppers}
+                    anchorEl={ref.current}
+                >
+                    <ul className="menu w-full  [&_li>*]:py-3">
+                        {ROUTES.map((r) => (
+                            <li key={r.slug}>
+                                <Link
+                                    className={clsx(
+                                        pathname ===
+                                            '/u/' + params.username + r.url &&
+                                            'active',
+                                    )}
+                                    href={'/u/' + params.username + r.url}
+                                    onClick={closePoppers}
+                                >
+                                    {r.title_ua}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </Popper>
+            )}
         </>
     );
 };

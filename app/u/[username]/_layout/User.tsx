@@ -12,7 +12,7 @@ import checkFollow from '@/utils/api/follow/checkFollow';
 import follow from '@/utils/api/follow/follow';
 import unfollow from '@/utils/api/follow/unfollow';
 import PajamasPreferences from '~icons/pajamas/preferences';
-import SettingsModal from '@/app/u/[username]/_layout/SettingsModal';
+import SettingsModal from '@/app/_layout/UserSettingsModal';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 import { ChangeEvent, useRef } from 'react';
@@ -172,14 +172,6 @@ const Component = ({}: Props) => {
                     </div>
                 </div>
             </div>
-            {loggedUser && loggedUser.username === user.username && (
-                <button
-                    onClick={() => switchModal('userSettings')}
-                    className="btn btn-secondary"
-                >
-                    <PajamasPreferences /> Налаштування
-                </button>
-            )}
             {loggedUser ? (
                 loggedUser.username !== user.username && followChecker ? (
                     followChecker.follow ? (
@@ -219,8 +211,6 @@ const Component = ({}: Props) => {
                     Відстежувати
                 </button>
             )}
-
-            <SettingsModal />
         </div>
     );
 };

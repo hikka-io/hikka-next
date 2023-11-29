@@ -15,7 +15,7 @@ const Component = ({ children }: Props) => {
 
     useEffect(() => {
         setMounted(true);
-    });
+    }, []);
 
     if (!mounted || arrayChildren.length === 0) {
         return null;
@@ -31,7 +31,7 @@ const Component = ({ children }: Props) => {
                     </>
                 )
             })}</div>,
-            document.getElementById('nav-items-mobile')!,
+            document.getElementById('breadcrumbs-mobile')!,
         );
     }
 
@@ -44,7 +44,7 @@ const Component = ({ children }: Props) => {
                 </>
             )
         })}</>,
-        document.getElementById('nav-items')!,
+        document.getElementById('breadcrumbs')!,
     );
 };
 

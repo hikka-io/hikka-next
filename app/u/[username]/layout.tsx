@@ -18,6 +18,8 @@ import { Metadata, ResolvingMetadata } from 'next';
 import ActivationAlert from '@/app/u/[username]/_layout/ActivationAlert';
 import Breadcrumbs from '@/app/_components/Breadcrumbs';
 import Link from 'next/link';
+import SubBar from '@/app/_components/SubBar';
+import NavBar from './_layout/NavBar';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -100,6 +102,10 @@ const Component = async ({ params: { username }, children }: Props) => {
         username,
     ]);
 
+    if (!user) {
+        return redirect('/');
+    }
+
     return (
         <RQHydrate state={dehydratedState}>
             <div className="grid grid-cols-1 lg:grid-cols-[20%_1fr] lg:gap-16 gap-12">
@@ -112,6 +118,9 @@ const Component = async ({ params: { username }, children }: Props) => {
                     </Link>
                     <NavMenu />
                 </Breadcrumbs>
+                <SubBar mobileOnly>
+                    <NavBar />
+                </SubBar>
                 <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start">
                     <User />
                     <div className="lg:flex flex-col gap-12 hidden">

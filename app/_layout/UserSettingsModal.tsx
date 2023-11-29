@@ -9,12 +9,12 @@ import {
     useState,
 } from 'react';
 import clsx from 'clsx';
-import GeneralForm from './settings/GeneralForm';
+import GeneralForm from '@/app/_layout/userSettings/GeneralForm';
 import useIsMobile from '@/utils/hooks/useIsMobile';
-import EmailForm from './settings/EmailForm';
-import UsernameForm from './settings/UsernameForm';
-import PasswordForm from './settings/PasswordForm';
-import WatchListForm from './settings/WatchListForm';
+import EmailForm from '@/app/_layout/userSettings/EmailForm';
+import UsernameForm from '@/app/_layout/userSettings/UsernameForm';
+import PasswordForm from '@/app/_layout/userSettings/PasswordForm';
+import WatchListForm from '@/app/_layout/userSettings/WatchListForm';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type Tab = 'general' | 'password' | 'username' | 'email' | 'watchList';
@@ -88,7 +88,7 @@ const Component = () => {
                                 onClick={() => setActiveTab(tab.slug)}
                                 className={clsx(
                                     'flex flex-col items-start justify-center gap-0 py-4 px-8',
-                                    activeTab === tab.slug && 'active',
+                                    activeTab === tab.slug && 'active !bg-secondary !text-white',
                                 )}
                             >
                                 <p>{tab.title}</p>

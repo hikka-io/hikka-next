@@ -9,9 +9,11 @@ import MaterialSymbolsPerson from '~icons/material-symbols/person';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
+import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline'
 import Link from 'next/link';
 import Popper from '@/app/_components/Popper';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
+import {useModalContext} from "@/utils/providers/ModalProvider";
 
 interface Props {
     anchorEl: HTMLButtonElement | null;
@@ -19,6 +21,7 @@ interface Props {
 
 const Component = ({ anchorEl }: Props) => {
     const { profile, closePoppers } = usePopperContext();
+    const { switchModal } = useModalContext();
     const { secret, logout } = useAuthContext();
     const { data: user } = useQuery({
         queryKey: ['loggedUser', secret],
@@ -76,6 +79,17 @@ const Component = ({ anchorEl }: Props) => {
                         <MaterialSymbolsFavoriteRounded />
                         Улюблене
                     </Link>
+                </li>
+                <li>
+                    <button
+                        onClick={() => {
+                            switchModal('userSettings');
+                            closePoppers();
+                        }}
+                    >
+                        <MaterialSymbolsSettingsOutline />
+                        Налаштування
+                    </button>
                 </li>
                 <li className="mt-2">
                     <button
