@@ -46,7 +46,7 @@ const Component = () => {
     }, [pathname]);
 
     return (
-        <div className="tabs flex-nowrap w-full" ref={ref}>
+        <div className="tabs flex-nowrap w-full pb-6" ref={ref}>
             {ROUTES.map((r) => (
                 <Link
                     key={r.slug}
