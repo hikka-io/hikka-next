@@ -110,7 +110,7 @@ export default async function RootLayout({
                         <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
                             {children}
                         </main>
-                        <div id="subbar-mobile" className="mt-12 md:hidden block w-full sticky bottom-0 overflow-auto bg-black border-t border-t-secondary" />
+                        <div id="subbar-mobile" className="no-scrollbar mt-12 md:hidden block w-full sticky bottom-0 overflow-auto bg-black border-t border-t-secondary" />
                         <Footer />
                     </AuthGate>
                 </Providers>

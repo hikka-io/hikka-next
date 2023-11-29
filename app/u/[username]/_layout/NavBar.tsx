@@ -46,12 +46,12 @@ const Component = () => {
     }, [pathname]);
 
     return (
-        <div className="tabs flex-nowrap w-full pb-6" ref={ref}>
+        <div className="tabs flex-nowrap w-full" ref={ref}>
             {ROUTES.map((r) => (
                 <Link
                     key={r.slug}
                     className={clsx(
-                        "tab h-12",
+                        "tab h-16",
                         pathname ===
                         '/u/' + params.username + r.url &&
                         'tab-bordered tab-active',
