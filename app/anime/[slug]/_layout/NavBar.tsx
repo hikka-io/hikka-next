@@ -7,50 +7,9 @@ import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
 import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharacters';
 import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
-import { useEffect, useRef } from 'react';
-import useIsMobile from '@/utils/hooks/useIsMobile';
-import { usePopperContext } from '@/utils/providers/PopperProvider';
-
-const ROUTES: {
-    slug: string;
-    title_ua: string;
-    url: string;
-}[] = [
-    {
-        slug: 'general',
-        title_ua: 'Загальне',
-        url: '',
-    },
-    {
-        slug: 'characters',
-        title_ua: 'Персонажі',
-        url: '/characters',
-    },
-    {
-        slug: 'staff',
-        title_ua: 'Автори',
-        url: '/staff',
-    },
-    {
-        slug: 'media',
-        title_ua: 'Медіа',
-        url: '/media',
-    },
-    {
-        slug: 'links',
-        title_ua: 'Посилання',
-        url: '/links',
-    },
-    {
-        slug: 'franchise',
-        title_ua: "Пов'язане",
-        url: '/franchise',
-    },
-];
+import {ANIME_NAV_ROUTES} from "@/utils/constants";
 
 const Component = () => {
-    const isMobile = useIsMobile();
-    const ref = useRef<HTMLDivElement>(null);
     const queryClient = useQueryClient();
     const params = useParams();
     const pathname = usePathname();
@@ -66,12 +25,20 @@ const Component = () => {
     const staff: InfiniteData<AnimeStuffResponse> | undefined =
         queryClient.getQueryData(['characters', params.slug]);
 
-    const filteredRoutes = ROUTES.filter((r) => {
+    const filteredRoutes = ANIME_NAV_ROUTES.filter((r) => {
         switch (r.slug) {
             case 'characters':
-                return characters !== undefined && characters.pages.length > 0 && characters.pages[0].list.length > 0;
+                return (
+                    characters !== undefined &&
+                    characters.pages.length > 0 &&
+                    characters.pages[0].list.length > 0
+                );
             case 'staff':
-                return staff !== undefined && staff.pages.length > 0 && staff.pages[0].list.length > 0;
+                return (
+                    staff !== undefined &&
+                    staff.pages.length > 0 &&
+                    staff.pages[0].list.length > 0
+                );
             case 'media':
                 return (
                     anime &&
@@ -87,19 +54,13 @@ const Component = () => {
         }
     });
 
-    useEffect(() => {
-        if (isMobile && ref.current && pathname !== `/anime/${params.slug}`) {
-            ref.current.scrollIntoView();
-        }
-    }, [pathname]);
-
     return (
-        <div className="tabs flex-nowrap w-full" ref={ref}>
+        <div className="tabs flex-nowrap w-full">
             {filteredRoutes.map((r) => (
                 <Link
                     key={r.slug}
                     className={clsx(
-                        "tab h-16",
+                        'tab h-16',
                         pathname === '/anime/' + params.slug + r.url &&
                             'tab-bordered tab-active',
                     )}

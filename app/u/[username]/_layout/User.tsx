@@ -167,7 +167,7 @@ const Component = ({}: Props) => {
                                     : 'Модератор'}
                             </div>
                         )}
-                        <h2>{user.username}</h2>
+                        <h3 className="overflow-hidden overflow-ellipsis">{user.username}</h3>
                         {user.description && <p>{user.description}</p>}
                     </div>
                 </div>

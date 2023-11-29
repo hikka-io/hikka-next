@@ -7,48 +7,12 @@ import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
 import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharacters';
 import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
 import Popper from '@/app/_components/Popper';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
-
-const ROUTES: {
-    slug: string;
-    title_ua: string;
-    url: string;
-}[] = [
-    {
-        slug: 'general',
-        title_ua: 'Загальне',
-        url: '',
-    },
-    {
-        slug: 'characters',
-        title_ua: 'Персонажі',
-        url: '/characters',
-    },
-    {
-        slug: 'staff',
-        title_ua: 'Автори',
-        url: '/staff',
-    },
-    {
-        slug: 'media',
-        title_ua: 'Медіа',
-        url: '/media',
-    },
-    {
-        slug: 'links',
-        title_ua: 'Посилання',
-        url: '/links',
-    },
-    {
-        slug: 'franchise',
-        title_ua: "Пов'язане",
-        url: '/franchise',
-    },
-];
+import { ANIME_NAV_ROUTES } from '@/utils/constants';
 
 const Component = () => {
     const isMobile = useIsMobile();
@@ -57,7 +21,7 @@ const Component = () => {
     const queryClient = useQueryClient();
     const params = useParams();
     const pathname = usePathname();
-    const current = ROUTES.find(
+    const current = ANIME_NAV_ROUTES.find(
         (r) => pathname === '/anime/' + params.slug + r.url,
     );
 
@@ -72,12 +36,20 @@ const Component = () => {
     const staff: InfiniteData<AnimeStuffResponse> | undefined =
         queryClient.getQueryData(['characters', params.slug]);
 
-    const filteredRoutes = ROUTES.filter((r) => {
+    const filteredRoutes = ANIME_NAV_ROUTES.filter((r) => {
         switch (r.slug) {
             case 'characters':
-                return characters !== undefined && characters.pages.length > 0 && characters.pages[0].list.length > 0;
+                return (
+                    characters !== undefined &&
+                    characters.pages.length > 0 &&
+                    characters.pages[0].list.length > 0
+                );
             case 'staff':
-                return staff !== undefined && staff.pages.length > 0 && staff.pages[0].list.length > 0;
+                return (
+                    staff !== undefined &&
+                    staff.pages.length > 0 &&
+                    staff.pages[0].list.length > 0
+                );
             case 'media':
                 return (
                     anime &&
@@ -93,12 +65,6 @@ const Component = () => {
         }
     });
 
-    useEffect(() => {
-        if (isMobile && ref.current && pathname !== `/anime/${params.slug}`) {
-            ref.current.scrollIntoView();
-        }
-    }, [pathname]);
-
     return (
         <>
             <div className="flex gap-2 items-center" ref={ref}>
@@ -108,39 +74,43 @@ const Component = () => {
                 >
                     {current?.title_ua}
                 </Link>
-                {!isMobile && <button
-                    onClick={() => switchPopper('animeNav')}
-                    className="btn btn-sm btn-ghost px-1"
-                >
-                    <PhCaretUpDownThin />
-                </button>}
+                {!isMobile && (
+                    <button
+                        onClick={() => switchPopper('animeNav')}
+                        className="btn btn-sm btn-ghost px-1"
+                    >
+                        <PhCaretUpDownThin />
+                    </button>
+                )}
             </div>
-            {!isMobile && <Popper
-                disablePortal
-                placement={isMobile ? "bottom-end" : "bottom-start"}
-                id="anime-nav"
-                open={Boolean(animeNav)}
-                onDismiss={closePoppers}
-                anchorEl={ref.current}
-            >
-                <ul className="menu w-full  [&_li>*]:py-3">
-                    {filteredRoutes.map((r) => (
-                        <li key={r.slug}>
-                            <Link
-                                className={clsx(
-                                    pathname ===
-                                        '/anime/' + params.slug + r.url &&
-                                        'active',
-                                )}
-                                href={'/anime/' + params.slug + r.url}
-                                onClick={closePoppers}
-                            >
-                                {r.title_ua}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </Popper>}
+            {!isMobile && (
+                <Popper
+                    disablePortal
+                    placement={isMobile ? 'bottom-end' : 'bottom-start'}
+                    id="anime-nav"
+                    open={Boolean(animeNav)}
+                    onDismiss={closePoppers}
+                    anchorEl={ref.current}
+                >
+                    <ul className="menu w-full  [&_li>*]:py-3">
+                        {filteredRoutes.map((r) => (
+                            <li key={r.slug}>
+                                <Link
+                                    className={clsx(
+                                        pathname ===
+                                            '/anime/' + params.slug + r.url &&
+                                            'active',
+                                    )}
+                                    href={'/anime/' + params.slug + r.url}
+                                    onClick={closePoppers}
+                                >
+                                    {r.title_ua}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </Popper>
+            )}
         </>
     );
 };

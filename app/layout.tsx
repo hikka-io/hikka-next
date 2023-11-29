@@ -6,7 +6,7 @@ import React, { ReactNode } from 'react';
 import ScrollTop from '@/app/_layout/ScrollTop';
 import AuthGate from '@/app/_layout/AuthGate';
 import NextTopLoader from 'nextjs-toploader';
-import { Metadata } from 'next';
+import {Metadata, Viewport} from 'next';
 import MobileNavBar from '@/app/_layout/MobileNavBar';
 import AuthModal from '@/app/_layout/AuthModal';
 import SearchModal from '@/app/_layout/SearchModal';
@@ -73,6 +73,14 @@ export const metadata: Metadata = {
     },
     metadataBase: new URL('https://hikka.io'),
 };
+
+export const viewport: Viewport = {
+    colorScheme: 'dark',
+    themeColor: 'black',
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+}
 
 export default async function RootLayout({
     children,

@@ -353,3 +353,64 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_found: 'Person not found',
     },
 };
+
+
+export const ANIME_NAV_ROUTES: {
+    slug: string;
+    title_ua: string;
+    url: string;
+}[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
+    },
+    {
+        slug: 'staff',
+        title_ua: 'Автори',
+        url: '/staff',
+    },
+    {
+        slug: 'media',
+        title_ua: 'Медіа',
+        url: '/media',
+    },
+    {
+        slug: 'links',
+        title_ua: 'Посилання',
+        url: '/links',
+    },
+    {
+        slug: 'franchise',
+        title_ua: "Пов'язане",
+        url: '/franchise',
+    },
+];
+
+export const USER_NAV_ROUTES: {
+    slug: string;
+    title_ua: string;
+    url: string;
+    role?: Hikka.UserRole[];
+}[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'list',
+        title_ua: 'Список',
+        url: '/list',
+    },
+    {
+        slug: 'favorites',
+        title_ua: 'Улюблені',
+        url: '/favorites',
+    },
+];

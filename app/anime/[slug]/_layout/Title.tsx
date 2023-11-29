@@ -1,16 +1,21 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import AnimeEditModal from '@/app/_layout/AnimeEditModal';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-import clsx from "clsx";
-import AnimeEditListModal from "@/app/anime/[slug]/_layout/AnimeEditListModal";
+import clsx from 'clsx';
+import AnimeEditListModal from '@/app/anime/[slug]/_layout/AnimeEditListModal';
+import { useEffect, useRef } from 'react';
+import useIsMobile from '@/utils/hooks/useIsMobile';
+import { ANIME_NAV_ROUTES } from '@/utils/constants';
 
 const Component = () => {
+    const isMobile = useIsMobile();
+    const pathname = usePathname();
+    const divRef = useRef<HTMLDivElement>(null);
     const { switchModal } = useModalContext();
     const { secret } = useAuthContext();
     const params = useParams();
@@ -23,19 +28,36 @@ const Component = () => {
         return (
             <button
                 onClick={() => switchModal('animeEditList')}
-                className={clsx("btn btn-xs btn-secondary btn-square btn-outline", className)}
+                className={clsx(
+                    'btn btn-xs btn-secondary btn-square btn-outline',
+                    className,
+                )}
             >
                 <MaterialSymbolsEditRounded />
             </button>
         );
     };
 
+    useEffect(() => {
+        if (
+            isMobile &&
+            divRef.current &&
+            ANIME_NAV_ROUTES.some(
+                (r) =>
+                    r.url !== '' &&
+                    pathname === '/anime/' + params.slug + r.url,
+            )
+        ) {
+            divRef.current.scrollIntoView(true);
+        }
+    }, [pathname]);
+
     if (!data) {
         return null;
     }
 
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between" ref={divRef}>
             <div>
                 <div className="flex gap-4 items-center">
                     <h2>
