@@ -48,8 +48,8 @@ const Component = ({}: Props) => {
                 trigger && '!bg-black !border-b-secondary',
             )}
         >
-            <div className="navbar lg:gap-16 md:gap-8 gap-4 container max-w-[88rem] px-4 mx-auto">
-                <div className="flex flex-1 lg:gap-16 md:gap-8 gap-4 overflow-hidden">
+            <div className="navbar md:gap-8 gap-4 container max-w-[88rem] px-4 mx-auto">
+                <div className="flex flex-1 md:gap-8 gap-4 overflow-hidden">
                     <Link href="/" className="w-20 h-full">
                         <Image
                             src="/logo.svg"

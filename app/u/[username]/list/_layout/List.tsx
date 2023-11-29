@@ -29,9 +29,13 @@ const Component = ({}: Props) => {
     const [view, setView] = useState<'table' | 'grid'>('table');
     const watchStatus = searchParams.get('status');
     const params = useParams();
+
+    const order = searchParams.get('order');
+    const sort = searchParams.get('sort');
+
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
         useInfiniteQuery({
-            queryKey: ['list', params.username, watchStatus],
+            queryKey: ['list', params.username, watchStatus, order, sort],
             getNextPageParam: (lastPage: Response, allPages) => {
                 const nextPage = lastPage.pagination.page + 1;
                 return nextPage > lastPage.pagination.pages
@@ -43,6 +47,12 @@ const Component = ({}: Props) => {
                     username: String(params.username),
                     status: watchStatus as Hikka.WatchStatus,
                     page: pageParam,
+                    order: order as
+                        | 'score'
+                        | 'episodes'
+                        | 'media_type'
+                        | undefined,
+                    sort: sort as 'asc' | 'desc' | undefined,
                 }),
             staleTime: 0,
         });
@@ -70,7 +80,7 @@ const Component = ({}: Props) => {
 
     useEffect(() => {
         if (!watchStatus) {
-            router.replace(pathname + '/?status=completed');
+            router.replace(pathname + '/?status=completed&order=score&sort=desc');
         }
     }, [watchStatus]);
 
@@ -78,7 +88,7 @@ const Component = ({}: Props) => {
         if (inView) {
             fetchNextPage();
         }
-    }, [inView])
+    }, [inView]);
 
     if (!data || !data.pages || !watchStatus) {
         return null;

@@ -18,10 +18,14 @@ export default async function req({
     username,
     status,
     page = 1,
+    order = 'score',
+    sort = 'desc',
 }: {
     username: string;
     status: Hikka.WatchStatus;
     page?: number;
+    order?: 'score' | 'episodes' | 'media_type';
+    sort?: 'asc' | 'desc';
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI +
@@ -31,6 +35,8 @@ export default async function req({
             new URLSearchParams({
                 status: status,
                 page: String(page),
+                order: order || '',
+                sort: sort || '',
             }),
         {
             method: 'get',

@@ -2,15 +2,15 @@
 
 import { MEDIA_TYPE } from '@/utils/constants';
 import WatchEditModal from '@/app/u/[username]/list/_layout/WatchEditModal';
-import { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import {useQuery, useQueryClient} from '@tanstack/react-query';
-import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import Image from '@/app/_components/Image';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import useRouter from '@/utils/useRouter';
 
 interface Props {
     data: {
@@ -26,6 +26,9 @@ interface Props {
 }
 
 const Component = ({ data }: Props) => {
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
     const queryClient = useQueryClient();
     const { setState: setModalState } = useModalContext();
     const { secret } = useAuthContext();
@@ -33,10 +36,59 @@ const Component = ({ data }: Props) => {
     const [go, setGo] = useState(false);
     const [slug, setSlug] = useState<string | null>(null);
 
+    const order = searchParams.get('order');
+    const sort = searchParams.get('sort');
+
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
         secret,
     ]);
+
+    const createQueryString = useCallback(
+        (name: string, value: string | string[] | boolean, ownParams?: URLSearchParams) => {
+            const params = ownParams ? ownParams : new URLSearchParams(searchParams);
+            // params.set('page', '1');
+
+            if (value) {
+                if (Array.isArray(value)) {
+                    params.delete(name);
+                    value.forEach((v) => params.append(name, String(v)));
+                } else {
+                    params.set(name, String(value));
+                }
+            } else {
+                params.delete(name);
+            }
+
+            return params;
+        },
+        [searchParams],
+    );
+
+    const switchOrder = (newOrder: 'score' | 'episodes' | 'media_type') => {
+        let query;
+
+        if (order && order === newOrder) {
+            if (sort) {
+                if (sort === 'asc') {
+                    query = createQueryString('sort', 'desc').toString();
+                } else if (sort === 'desc') {
+                    query = createQueryString('sort', 'asc').toString();
+                } else {
+                    query = createQueryString('sort', 'desc').toString();
+                }
+            } else {
+                query = createQueryString('sort', 'desc').toString();
+            }
+        } else {
+            query = createQueryString('sort', 'desc', createQueryString(
+                'order',
+                newOrder,
+            )).toString();
+        }
+
+        router.replace(`${pathname}?${query}`);
+    }
 
     useEffect(() => {
         if (slug) {
@@ -51,16 +103,17 @@ const Component = ({ data }: Props) => {
                     <tr>
                         <th className="w-8">#</th>
                         <th>Деталі</th>
-                        <th className="w-20" align="center">
+                        <th className={clsx("w-20 select-none cursor-pointer hover:underline", order === 'episodes' && "text-accent")} align="center" onClick={() => switchOrder('episodes')}>
                             Епізоди
                         </th>
-                        <th
-                            className="w-32 hidden lg:table-cell"
-                            align="center"
-                        >
+                        <th className={clsx("w-32 select-none hidden lg:table-cell cursor-pointer hover:underline", order === 'media_type' && "text-accent")} align="center" onClick={() => switchOrder('media_type')}>
                             Тип
                         </th>
-                        <th className="w-20" align="center">
+                        <th
+                            className={clsx("w-20 select-none cursor-pointer hover:underline", order === 'score' && "text-accent")}
+                            align="center"
+                            onClick={() => switchOrder('score')}
+                        >
                             Оцінка
                         </th>
                     </tr>

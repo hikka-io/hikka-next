@@ -26,7 +26,7 @@ const Component = ({ children }: Props) => {
             <div className="min-h-[2.5rem] px-4 h-auto flex-1 gap-4 items-center overflow-hidden flex md:hidden">{Children.map(arrayChildren, (child, index) => {
                 return (
                     <>
-                        <IconamoonSignDivisionSlashThin className={clsx("opacity-30", index === 0 && "hidden lg:block")} />
+                        <IconamoonSignDivisionSlashThin className={clsx("opacity-30", index === 0 && "hidden md:block")} />
                         {child}
                     </>
                 )
@@ -39,7 +39,7 @@ const Component = ({ children }: Props) => {
         <>{Children.map(arrayChildren, (child, index) => {
             return (
                 <>
-                    <IconamoonSignDivisionSlashThin className={clsx("opacity-30", index === 0 && "hidden lg:block")} />
+                    <IconamoonSignDivisionSlashThin className={clsx("opacity-30", index === 0 && "hidden md:block")} />
                     {child}
                 </>
             )
