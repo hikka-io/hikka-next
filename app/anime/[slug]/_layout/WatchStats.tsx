@@ -79,41 +79,31 @@ const Component = () => {
     }
 
     return (
-        <div className="stats lg:stats-horizontal lg:grid-cols-2 grid grid-cols-2 bg-secondary/60 border border-secondary rounded-lg p-0">
-            <div
-                className={clsx(
-                    'stat p-4',
-                )}
-            >
-                <div className="label-text min-h-[30px]">Оцінка</div>
-                <div>
-                    <h3>
-                        {watch.score}
-                        <span className="text-sm font-normal label-text opacity-60">
+        <div className="flex flex-col gap-4">
+            <div className="p-4 border border-secondary/60 rounded-lg flex gap-4 justify-between">
+                <Rating
+                    className="rating-md lg:flex"
+                    onChange={(value) =>
+                        addToList({
+                            status: watch?.status,
+                            score: value,
+                            episodes: watch?.episodes,
+                        })
+                    }
+                    value={watch.score}
+                />
+                <h3>
+                    {watch.score}
+                    <span className="text-sm font-normal label-text opacity-60">
                         /10
                     </span>
-                    </h3>
-                    <Rating
-                        className="rating-md lg:flex"
-                        starClassName="lg:flex-1 lg:!w-auto"
-                        onChange={(value) =>
-                            addToList({
-                                status: watch?.status,
-                                score: value,
-                                episodes: watch?.episodes,
-                            })
-                        }
-                        value={watch.score}
-                    />
-                </div>
+                </h3>
             </div>
-            <div
-                className={clsx(
-                    'stat p-4',
-                )}
-            >
+            <div className="p-4 border border-secondary/60 rounded-lg ">
                 <div className="flex gap-2 justify-between overflow-hidden">
-                    <div className="label-text overflow-ellipsis overflow-hidden min-h-[24px]">Епізоди</div>
+                    <div className="label-text overflow-ellipsis overflow-hidden min-h-[24px]">
+                        Епізоди
+                    </div>
                     <div className="join">
                         <button
                             className="btn join-item btn-xs btn-secondary"

@@ -13,7 +13,7 @@ import SearchModal from '@/app/_layout/SearchModal';
 import NavBar from '@/app/_layout/navbar/NavBar';
 import SettingsModal from "@/app/_layout/UserSettingsModal";
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 const inter = Inter({ subsets: ['latin'] });
 

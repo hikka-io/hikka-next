@@ -59,11 +59,12 @@ const Component = ({ slug, disabled }: Props) => {
                     : addToFavorite()
             }
             className={clsx(
-                'btn btn-square btn-outline btn-md text-xl',
-                (favorite && !favoriteError) ? 'btn-error bg-secondary !border-secondary' : 'btn-secondary',
+                'btn btn-ghost btn-sm',
+                'btn-secondary btn-square',
+                'absolute bottom-2 right-2 z-[1]'
             )}
         >
-            {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded /> : <MaterialSymbolsFavoriteOutlineRounded />}
+            {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded className="text-xl text-error" /> : <MaterialSymbolsFavoriteOutlineRounded className="text-xl" />}
         </button>
     );
 };

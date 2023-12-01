@@ -92,11 +92,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
             renderToggle={(getButtonProps, listboxVisible, value) => {
                 const buttonProps = getButtonProps();
                 return (
-                    <div
-                        className={clsx(
-                            'join w-full',
-                        )}
-                    >
+                    <div className={clsx('join w-full')}>
                         <button
                             onClick={() =>
                                 !value && addToList({ status: 'planned' })
@@ -104,7 +100,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             {...(value && buttonProps)}
                             disabled={disabled}
                             className={clsx(
-                                'btn btn-secondary border-b-none flex-1 join-item btn-md flex-nowrap',
+                                'btn btn-secondary border-b-none flex-1 join-item btn-md flex-nowrap overflow-hidden',
                             )}
                         >
                             {value ? (
@@ -115,7 +111,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             ) : (
                                 <Planned />
                             )}
-                            <span className="whitespace-nowrap">
+                            <span className="whitespace-nowrap overflow-ellipsis overflow-hidden">
                                 {value
                                     ? WATCH_STATUS[value as Hikka.WatchStatus]
                                           .title_ua ||
@@ -123,6 +119,14 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                           .title_en
                                     : 'Додати У Список'}
                             </span>
+                            {watch?.score && (
+                                <>
+                                    <span className="opacity-60">-</span>
+                                    <span className="opacity-60">
+                                        {watch.score}
+                                    </span>
+                                </>
+                            )}
                             {!additional && (
                                 <div
                                     className={clsx(
@@ -141,7 +145,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                 {...(!value && buttonProps)}
                                 disabled={disabled}
                                 className={clsx(
-                                    'btn btn-square join-item btn-md text-xl',
+                                    'btn btn-square join-item btn-md text-xl !text-white',
                                     value
                                         ? 'btn-error bg-secondary border-secondary'
                                         : 'btn-secondary',

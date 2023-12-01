@@ -5,17 +5,19 @@ import Characters from '@/app/anime/[slug]/_layout/Characters';
 import Franchise from '@/app/anime/[slug]/_layout/Franchise';
 import Staff from '@/app/anime/[slug]/_layout/Staff';
 import Media from "@/app/anime/[slug]/_layout/Media";
+import Comments from "@/app/anime/[slug]/_layout/Comments";
 
 const Component = () => {
     return (
         <div className="flex flex-col gap-12">
-            <About />
+
             <Description />
             <Characters />
             <Franchise />
             <Media />
             <Staff />
             <Links />
+            <Comments />
         </div>
     );
 };

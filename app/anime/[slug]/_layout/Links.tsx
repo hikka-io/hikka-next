@@ -23,7 +23,7 @@ const Component = ({ extended }: Props) => {
         return null;
     }
 
-    const filteredData = extended ? anime.external : anime.external.slice(0, 4);
+    const filteredData = extended ? anime.external : anime.external.slice(0, 3);
 
     return (
         <div className="flex flex-col gap-8">
@@ -35,8 +35,8 @@ const Component = ({ extended }: Props) => {
                 className={clsx(
                     'grid gap-4 lg:gap-8',
                     extended
-                        ? 'md:grid-cols-4 grid-cols-2'
-                        : 'md:grid-cols-4 grid-cols-2',
+                        ? 'md:grid-cols-3 grid-cols-2'
+                        : 'md:grid-cols-3 grid-cols-2',
                 )}
             >
                 {filteredData.map((link) => (

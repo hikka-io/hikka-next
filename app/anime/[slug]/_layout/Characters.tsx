@@ -59,8 +59,8 @@ const Component = ({ extended }: Props) => {
                     title={'Головні Персонажі'}
                     href={!extended ? params.slug + '/characters' : undefined}
                 />
-                <div className="grid md:grid-cols-6 grid-cols-3 gap-4 lg:gap-8">
-                    {(extended ? main : main.slice(0, 6)).map((ch) => (
+                <div className="grid md:grid-cols-5 grid-cols-3 gap-4 lg:gap-8">
+                    {(extended ? main : main.slice(0, 5)).map((ch) => (
                         <BaseCard
                             key={ch.character.slug}
                             // href={`/characters/${ch.character.slug}`}
@@ -78,7 +78,7 @@ const Component = ({ extended }: Props) => {
             {extended && (
                 <div className="flex flex-col gap-8">
                     <SubHeader title={'Другорядні Персонажі'} />
-                    <div className="grid md:grid-cols-6 grid-cols-3 gap-4 lg:gap-8">
+                    <div className="grid md:grid-cols-5 grid-cols-3 gap-4 lg:gap-8">
                         {other.map((ch) => (
                             <BaseCard
                                 key={ch.character.slug}

@@ -39,7 +39,7 @@ module.exports = {
                     warning: '#f3cc30',
 
                     error: '#e24056',*/
-                    'error-content': '#fff',
+                    'error-content': '#000',
                 },
             },
         ],

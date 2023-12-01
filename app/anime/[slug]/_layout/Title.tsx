@@ -11,6 +11,7 @@ import AnimeEditListModal from '@/app/anime/[slug]/_layout/AnimeEditListModal';
 import { useEffect, useRef } from 'react';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import Link from 'next/link';
 
 const Component = () => {
     const isMobile = useIsMobile();
@@ -57,30 +58,51 @@ const Component = () => {
     }
 
     return (
-        <div className="flex justify-between" ref={divRef}>
-            <div>
-                <div className="flex gap-4 items-center">
-                    <h2>
-                        {data.title_ua || data.title_en || data.title_ja}{' '}
-                        {data.start_date && (
-                            <span className="font-normal">
-                                (
-                                {new Date(data.start_date * 1000).getFullYear()}
-                                )
-                            </span>
-                        )}
-                    </h2>
-                    {secret && <EditButton className="hidden lg:flex" />}
+        <div className="flex flex-col gap-4">
+            <div className="flex justify-between" ref={divRef}>
+                <div>
+                    <div className="flex gap-4 items-center">
+                        <h2>
+                            {data.title_ua || data.title_en || data.title_ja}{' '}
+                            {data.start_date && (
+                                <span className="font-normal">
+                                    (
+                                    {new Date(
+                                        data.start_date * 1000,
+                                    ).getFullYear()}
+                                    )
+                                </span>
+                            )}
+                        </h2>
+                        {secret && <EditButton className="hidden lg:flex" />}
+                    </div>
+                    <p className="mt-2">{data.title_ja}</p>
                 </div>
-                <p className="mt-2">{data.title_ja}</p>
+                <div className="flex flex-col gap-2 items-end">
+                    {data.score > 0 && (
+                        <p className="text-4xl font-bold">{data.score}</p>
+                    )}
+                    {secret && <EditButton className="lg:hidden flex" />}
+                </div>
+                {secret && <AnimeEditListModal />}
             </div>
-            <div className="flex flex-col gap-2 items-end">
-                {data.score > 0 && (
-                    <p className="text-4xl font-bold">{data.score}</p>
-                )}
-                {secret && <EditButton className="lg:hidden flex" />}
-            </div>
-            {secret && <AnimeEditListModal />}
+            {data.genres.length > 0 && (
+                <div className="flex gap-2">
+                    {data.genres.map((genre, i) => (
+                        <span
+                            key={genre.slug}
+                            className="label-text text-white"
+                        >
+                            <Link
+                                className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"
+                                href={`/anime?genres=${genre.slug}`}
+                            >
+                                {genre.name_ua}
+                            </Link>
+                        </span>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

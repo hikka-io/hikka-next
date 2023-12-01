@@ -51,7 +51,7 @@ const Component = ({ extended }: Props) => {
     const list = data.pages.map((data) => data.list).flat(1);
 
     const filterSelfData = list.filter((anime) => anime.slug !== params.slug);
-    const filteredData = extended ? filterSelfData : filterSelfData.slice(0, 5);
+    const filteredData = extended ? filterSelfData : filterSelfData.slice(0, 4);
 
     return (
         <div className="flex flex-col gap-8">
@@ -59,7 +59,7 @@ const Component = ({ extended }: Props) => {
                 title={`Пов’язане`}
                 href={!extended ? params.slug + '/franchise' : undefined}
             />
-            <div className="grid md:grid-cols-5 grid-cols-2 gap-4 lg:gap-8">
+            <div className="grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8">
                 {filteredData.map((anime) => (
                     <AnimeCard
                         key={anime.slug}

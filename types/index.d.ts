@@ -174,5 +174,12 @@ declare global {
             content: Hikka.Anime | Hikka.Person;
         }
 
+        type Comment = {
+            comment_id: number;
+            user: Hikka.User;
+            created_at: number;
+            text: string;
+            comments: Comment[];
+        }
     }
 }

@@ -42,7 +42,7 @@ const Component = ({ extended }: Props) => {
 
     const list = data.pages.map((data) => data.list).flat(1);
 
-    const filteredData = extended ? list : list.slice(0, 6);
+    const filteredData = extended ? list : list.slice(0, 4);
 
     return (
         <div className="flex flex-col gap-8">
@@ -50,7 +50,7 @@ const Component = ({ extended }: Props) => {
                 title="Автори"
                 href={!extended ? params.slug + '/staff' : undefined}
             />
-            <div className="grid md:grid-cols-6 grid-cols-3 gap-4 lg:gap-8">
+            <div className="grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8">
                 {filteredData.map((staff) => (
                     <BaseCard
                         key={staff.person.slug}

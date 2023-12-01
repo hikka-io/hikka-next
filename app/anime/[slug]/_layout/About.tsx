@@ -8,6 +8,7 @@ import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
 import Image from 'next/image';
+import SubHeader from "@/app/_components/SubHeader";
 
 const Component = () => {
     const params = useParams();
@@ -24,18 +25,19 @@ const Component = () => {
     const studio = data.companies.find((c) => c.type === 'studio');
 
     return (
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-8">
+            <SubHeader title="Деталі" />
             <div className="flex flex-col gap-4">
-                <div className="flex">
-                    <div className="w-1/4">
+                <div className="flex flex-wrap">
+                    <div className="w-24">
                         <p className="label-text">Тип:</p>
                     </div>
                     <div className="flex-1">
-                        <p>{MEDIA_TYPE[data.media_type].title_ua}</p>
+                        <p className="label-text text-white">{MEDIA_TYPE[data.media_type].title_ua}</p>
                     </div>
                 </div>
-                <div className="flex">
-                    <div className="w-1/4">
+                <div className="flex flex-wrap">
+                    <div className="w-24">
                         <p className="label-text">Статус:</p>
                     </div>
                     <div className="flex-1">
@@ -46,19 +48,19 @@ const Component = () => {
                                     RELEASE_STATUS[data.status].color,
                             }}
                         >
-                            <p>{RELEASE_STATUS[data.status].title_ua}</p>
+                            <p className="label-text text-white">{RELEASE_STATUS[data.status].title_ua}</p>
                         </div>
                     </div>
                 </div>
                 {data.media_type !== 'movie' &&
                     data.episodes_total &&
                     data.episodes_released !== null && (
-                        <div className="flex">
-                            <div className="w-1/4">
+                        <div className="flex flex-wrap">
+                            <div className="w-24">
                                 <p className="label-text">Епізоди:</p>
                             </div>
                             <div className="flex-1">
-                                <p>
+                                <p className="label-text text-white">
                                     {data.status === 'finished'
                                         ? data.episodes_total
                                         : `${data.episodes_released} / ${data.episodes_total}`}
@@ -67,12 +69,12 @@ const Component = () => {
                         </div>
                     )}
                 {data.duration && (
-                    <div className="flex">
-                        <div className="w-1/4">
+                    <div className="flex flex-wrap">
+                        <div className="w-24">
                             <p className="label-text">Тривалість епізоду:</p>
                         </div>
                         <div className="flex-1">
-                            <p>
+                            <p className="label-text text-white">
                                 {formatDuration(
                                     intervalToDuration({
                                         start: 0,
@@ -83,41 +85,20 @@ const Component = () => {
                         </div>
                     </div>
                 )}
-                {data.genres.length > 0 && (
-                    <div className="flex">
-                        <div className="w-1/4">
-                            <p className="label-text">Жанри:</p>
-                        </div>
-                        <div className="flex-1">
-                            {data.genres.map((genre, i) => (
-                                <span key={genre.slug}>
-                                    <Link
-                                        className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"
-                                        href={`/anime?genres=${genre.slug}`}
-                                    >
-                                        {genre.name_ua}
-                                    </Link>
-                                    {i + 1 !== data.genres.length && (
-                                        <span>, </span>
-                                    )}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
+
                 {data.rating && (
-                    <div className="flex">
-                        <div className="w-1/4">
+                    <div className="flex flex-wrap">
+                        <div className="w-24">
                             <p className="label-text">Рейтинг:</p>
                         </div>
                         <div className="flex-1">
-                            <p>{AGE_RATING[data.rating].title_ua}</p>
+                            <p className="label-text text-white">{AGE_RATING[data.rating].title_ua}</p>
                         </div>
                     </div>
                 )}
                 {studio && (
-                    <div className="flex">
-                        <div className="w-1/4">
+                    <div className="flex flex-wrap">
+                        <div className="w-24">
                             <p className="label-text">Студія:</p>
                         </div>
                         <div className="flex-1">
@@ -135,7 +116,7 @@ const Component = () => {
                                     />
                                 </div>
                             ) : (
-                                <p>{studio.company.name}</p>
+                                <p className="label-text text-white">{studio.company.name}</p>
                             )}
                         </div>
                     </div>

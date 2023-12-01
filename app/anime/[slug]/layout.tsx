@@ -19,6 +19,7 @@ import Link from 'next/link';
 import Breadcrumbs from '@/app/_components/Breadcrumbs';
 import { RELEASE_STATUS } from '@/utils/constants';
 import SubBar from '@/app/_components/SubBar';
+import About from "@/app/anime/[slug]/_layout/About";
 
 interface Props extends PropsWithChildren {
     params: {
@@ -26,7 +27,7 @@ interface Props extends PropsWithChildren {
     };
 }
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export async function generateMetadata(
     {
@@ -102,7 +103,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 lg:grid-cols-[25%_1fr] lg:gap-16 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[20%_1fr_20%] lg:gap-16 gap-12">
                 <Breadcrumbs>
                     <div className="flex gap-4 items-center overflow-hidden whitespace-nowrap w-auto">
                         <div
@@ -132,9 +133,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                     <Cover />
                     <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">
                         <Actions />
-                        <div className="lg:block hidden">
-                            <WatchListStats />
-                        </div>
+
                     </div>
                 </div>
                 <div className="flex flex-col gap-12">
@@ -144,6 +143,13 @@ const Component = async ({ params: { slug }, children }: Props) => {
                         <WatchListStats />
                     </div>
                 </div>
+                <div className="flex flex-col gap-16">
+                    <About />
+                    <div className="lg:block hidden">
+                        <WatchListStats />
+                    </div>
+                </div>
+
             </div>
         </RQHydrate>
     );

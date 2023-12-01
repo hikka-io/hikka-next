@@ -5,6 +5,7 @@ import { NumericFormat } from 'react-number-format';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import SubHeader from "@/app/_components/SubHeader";
 
 const Component = () => {
     const params = useParams();
@@ -26,7 +27,7 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <h4>У Списках</h4>
+            <SubHeader title="У Списках" />
             <div className="flex flex-col gap-4">
                 {Object.keys(data.stats)
                     .filter((stat) => !stat.includes('score'))

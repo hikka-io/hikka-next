@@ -24,10 +24,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
-                <div className="flex gap-2">
-                    <WatchListButton disabled={!secret} additional slug={String(params.slug)} />
-                    <FavoriteButton disabled={!secret} slug={String(params.slug)} />
-                </div>
+                <WatchListButton disabled={!secret} additional slug={String(params.slug)} />
                 <WatchStats />
             </div>
         </div>
