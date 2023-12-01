@@ -13,8 +13,10 @@ import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined'
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined'
 import NotFound from '@/app/_components/NotFound';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined'
+import {useAuthContext} from "@/utils/providers/AuthProvider";
 
 const Component = () => {
+    const { secret } = useAuthContext();
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -53,6 +55,7 @@ const Component = () => {
             lang,
             genres,
             selectedPage,
+            secret,
         ],
         queryFn: () =>
             getAnimeCatalog({
@@ -64,6 +67,7 @@ const Component = () => {
                 media_type: types,
                 genres,
                 page: selectedPage,
+                secret: String(secret)
             }),
     });
 
@@ -185,6 +189,7 @@ const Component = () => {
                                 title={x.title_ua || x.title_en || x.title_ja}
                                 key={x.slug}
                                 slug={x.slug}
+                                watch={x.watch.length > 0 ? x.watch[0] : undefined}
                             />
                         );
                     })}

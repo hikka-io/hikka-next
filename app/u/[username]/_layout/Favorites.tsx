@@ -11,23 +11,25 @@ import NotFound from '@/app/_components/NotFound';
 import {Response} from "@/utils/api/anime/getAnimeCharacters";
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";
+import {useAuthContext} from "@/utils/providers/AuthProvider";
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { secret } = useAuthContext();
     const { ref, inView } = useInView();
     const params = useParams();
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ['favorites', params.username],
+        queryKey: ['favorites', params.username, secret],
         getNextPageParam: (lastPage: FavouriteListResponse, allPages) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages
                 ? undefined
                 : nextPage;
         },
-        queryFn: ({ pageParam = 1 }) => getFavouriteList({ username: String(params.username), page: pageParam }),
+        queryFn: ({ pageParam = 1 }) => getFavouriteList({ username: String(params.username), page: pageParam, secret: String(secret) }),
         staleTime: 0,
     });
 
@@ -66,6 +68,7 @@ const Component = ({ extended }: Props) => {
                 {filteredData.map((res) => (
                     <AnimeCard
                         key={res.reference}
+                        watch={res.anime.watch.length > 0 ? res.anime.watch[0] : undefined}
                         title={
                             res.anime.title_ua ||
                             res.anime.title_en ||

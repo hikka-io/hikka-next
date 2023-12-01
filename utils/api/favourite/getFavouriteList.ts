@@ -12,9 +12,11 @@ export interface Response {
 export default async function req({
     username,
     page = 1,
+    secret,
 }: {
     username: string;
     page?: number;
+    secret?: string;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI + '/favourite/anime/' + username + '/list?' + new URLSearchParams({
@@ -22,7 +24,11 @@ export default async function req({
         }),
         {
             method: 'get',
-            ...config.config.headers,
+            ...config.config,
+            headers: {
+                ...config.config.headers,
+                auth: secret || '',
+            },
             next: {
                 revalidate: 0
             }

@@ -9,6 +9,7 @@ import BaseCard from '@/app/_components/BaseCard';
 import SubHeader from '@/app/_components/SubHeader';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
+import clsx from "clsx";
 
 interface Props {
     extended?: boolean;
@@ -59,7 +60,7 @@ const Component = ({ extended }: Props) => {
                     title={'Головні Персонажі'}
                     href={!extended ? params.slug + '/characters' : undefined}
                 />
-                <div className="grid md:grid-cols-5 grid-cols-3 gap-4 lg:gap-8">
+                <div className={clsx("grid md:grid-cols-5 grid-cols-3 gap-4 lg:gap-8", extended && "md:grid-cols-6")}>
                     {(extended ? main : main.slice(0, 5)).map((ch) => (
                         <BaseCard
                             key={ch.character.slug}
@@ -75,10 +76,10 @@ const Component = ({ extended }: Props) => {
                     ))}
                 </div>
             </div>
-            {extended && (
+            {extended && other.length > 0 && (
                 <div className="flex flex-col gap-8">
                     <SubHeader title={'Другорядні Персонажі'} />
-                    <div className="grid md:grid-cols-5 grid-cols-3 gap-4 lg:gap-8">
+                    <div className={clsx("grid md:grid-cols-5 grid-cols-3 gap-4 lg:gap-8", extended && "md:grid-cols-6")}>
                         {other.map((ch) => (
                             <BaseCard
                                 key={ch.character.slug}

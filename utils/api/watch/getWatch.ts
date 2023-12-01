@@ -1,15 +1,6 @@
 import config from '@/utils/api/config';
 
-export interface Response {
-    reference: string;
-    updated: number;
-    created: number;
-    note: string;
-    status: Hikka.WatchStatus;
-    episodes: number;
-    score: number;
-    anime: Hikka.Anime;
-}
+export interface Response extends Hikka.Watch {}
 
 export default async function req({
     slug,

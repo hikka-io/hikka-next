@@ -27,7 +27,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="Деталі" />
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 p-4 border border-secondary/60 rounded-lg bg-secondary/30">
                 <div className="flex flex-wrap">
                     <div className="w-24">
                         <p className="label-text">Тип:</p>

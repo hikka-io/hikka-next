@@ -42,21 +42,46 @@ const Component = ({ extended }: Props) => {
         return undefined;
     };
 
-    const filteredOSTData = extended ? anime.ost : anime.ost.slice(0, 6);
-    const filteredVideoData = extended ? anime.videos : anime.videos.slice(0, 4);
+    const filteredOSTData = extended ? anime.ost : anime.ost.slice(0, 4);
+    const filteredVideoData = extended ? anime.videos : anime.videos.slice(0, 3);
 
     return (
         <div className="flex flex-col gap-8">
             <SubHeader
                 title="Медіа"
                 href={!extended ? params.slug + '/media' : undefined}
-            />
+            >
+                <div className="flex gap-4">
+                    {anime.videos.length > 0 && (
+                        <button
+                            onClick={() => setActive('video')}
+                            className={clsx(
+                                'btn btn-badge btn-ghost rounded-full',
+                                active === 'video' && 'btn-active',
+                            )}
+                        >
+                            Відео
+                        </button>
+                    )}
+                    {anime.ost.length > 0 && (
+                        <button
+                            onClick={() => setActive('music')}
+                            className={clsx(
+                                'btn btn-badge btn-ghost rounded-full',
+                                active === 'music' && 'btn-active',
+                            )}
+                        >
+                            Музика
+                        </button>
+                    )}
+                </div>
+            </SubHeader>
             <div
                 className={clsx(
                     'grid gap-4 lg:gap-8',
                     active === 'music'
-                        ? 'md:grid-cols-6 grid-cols-3'
-                        : 'md:grid-cols-4 grid-cols-2',
+                        ? extended ? 'md:grid-cols-6' : 'md:grid-cols-4 grid-cols-3'
+                        : extended ? 'md:grid-cols-4' : 'md:grid-cols-3 grid-cols-2',
                 )}
             >
                 {active === 'music' &&

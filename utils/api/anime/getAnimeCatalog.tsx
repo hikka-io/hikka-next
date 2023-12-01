@@ -14,15 +14,20 @@ interface Request {
     producers?: string[];
     studios?: string[];
     genres?: string[];
+    secret?: string;
 }
 
 export default async function req(
-    { page = 1, ...params }: Request,
+    { page = 1, secret, ...params }: Request,
 ): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
     const res = await fetch(config.baseAPI + '/anime?page=' + page, {
         method: 'post',
         body: JSON.stringify(params),
         ...config.config,
+        headers: {
+            ...config.config.headers,
+            auth: secret || '',
+        },
     });
 
     if (!res.ok) {

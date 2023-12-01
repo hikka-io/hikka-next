@@ -20,6 +20,7 @@ import Breadcrumbs from '@/app/_components/Breadcrumbs';
 import Link from 'next/link';
 import SubBar from '@/app/_components/SubBar';
 import NavBar from './_layout/NavBar';
+import {getCookie} from "@/app/actions";
 
 interface Props extends PropsWithChildren {
     params: {
@@ -70,12 +71,13 @@ export async function generateMetadata(
 
 const Component = async ({ params: { username }, children }: Props) => {
     const queryClient = getQueryClient();
+    const secret = await getCookie('secret');
 
     await queryClient.prefetchQuery(['user', username], () =>
         getUserInfo({ username }),
     );
 
-    await queryClient.prefetchInfiniteQuery(['favorites', username], () =>
+    await queryClient.prefetchInfiniteQuery(['favorites', username, secret], () =>
         getFavouriteList({ username }),
     );
 

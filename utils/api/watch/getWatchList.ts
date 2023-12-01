@@ -2,16 +2,7 @@ import config from '@/utils/api/config';
 
 export interface Response {
     pagination: Hikka.Pagination;
-    list: {
-        reference: string;
-        updated: number;
-        created: number;
-        note: string;
-        status: Hikka.WatchStatus;
-        episodes: number;
-        score: number;
-        anime: Hikka.Anime;
-    }[];
+    list: Hikka.Watch[];
 }
 
 export default async function req({

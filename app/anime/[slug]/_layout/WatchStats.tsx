@@ -80,7 +80,7 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="p-4 border border-secondary/60 rounded-lg flex gap-4 justify-between">
+            <div className="p-4 border border-secondary/60 bg-secondary/30 rounded-lg flex gap-4 justify-between">
                 <Rating
                     className="rating-md lg:flex"
                     onChange={(value) =>
@@ -99,7 +99,7 @@ const Component = () => {
                     </span>
                 </h3>
             </div>
-            <div className="p-4 border border-secondary/60 rounded-lg ">
+            <div className="p-4 border border-secondary/60 bg-secondary/30 rounded-lg ">
                 <div className="flex gap-2 justify-between overflow-hidden">
                     <div className="label-text overflow-ellipsis overflow-hidden min-h-[24px]">
                         Епізоди

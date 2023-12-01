@@ -112,6 +112,17 @@ declare global {
             type: 'producer' | 'studio';
         };
 
+        type Watch = {
+            reference: string;
+            updated: number;
+            created: number;
+            note: string;
+            status: Hikka.WatchStatus;
+            episodes: number;
+            score: number;
+            anime: Hikka.Anime;
+        }
+
         type Anime = {
             media_type: MediaType;
             title_ua: string;
@@ -124,6 +135,7 @@ declare global {
             scored_by: number;
             score: number;
             slug: string;
+            watch: Watch[];
         };
 
         type Genre = {

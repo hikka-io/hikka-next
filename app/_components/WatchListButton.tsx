@@ -119,14 +119,14 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                           .title_en
                                     : 'Додати У Список'}
                             </span>
-                            {watch?.score && (
+                            {!watchError && watch?.score && watch.score > 0 ? (
                                 <>
                                     <span className="opacity-60">-</span>
                                     <span className="opacity-60">
                                         {watch.score}
                                     </span>
                                 </>
-                            )}
+                            ) : null}
                             {!additional && (
                                 <div
                                     className={clsx(

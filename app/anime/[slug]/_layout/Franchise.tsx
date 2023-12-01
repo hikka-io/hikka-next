@@ -10,12 +10,15 @@ import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
 import SubHeader from '@/app/_components/SubHeader';
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";
+import clsx from "clsx";
+import {useAuthContext} from "@/utils/providers/AuthProvider";
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { secret } = useAuthContext();
     const { ref, inView } = useInView();
     const params = useParams();
     const queryClient = useQueryClient();
@@ -29,13 +32,13 @@ const Component = ({ extended }: Props) => {
     }
 
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ['franchise', params.slug],
+        queryKey: ['franchise', params.slug, secret],
         getNextPageParam: (lastPage: AnimeFranchiseResponse, allPages) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
         },
         queryFn: ({ pageParam = 1 }) =>
-            getAnimeFranchise({ slug: String(params.slug), page: pageParam }),
+            getAnimeFranchise({ slug: String(params.slug), page: pageParam, secret: String(secret) }),
     });
 
     useEffect(() => {
@@ -59,10 +62,11 @@ const Component = ({ extended }: Props) => {
                 title={`Пов’язане`}
                 href={!extended ? params.slug + '/franchise' : undefined}
             />
-            <div className="grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8">
+            <div className={clsx("grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8", extended && "md:grid-cols-5")}>
                 {filteredData.map((anime) => (
                     <AnimeCard
                         key={anime.slug}
+                        watch={anime.watch.length > 0 ? anime.watch[0] : undefined}
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         poster={anime.poster}

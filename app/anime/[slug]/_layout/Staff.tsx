@@ -9,6 +9,7 @@ import BaseCard from '@/app/_components/BaseCard';
 import SubHeader from '@/app/_components/SubHeader';
 import { useInView } from 'react-intersection-observer';
 import {useEffect} from "react";
+import clsx from "clsx";
 
 interface Props {
     extended?: boolean;
@@ -36,7 +37,7 @@ const Component = ({ extended }: Props) => {
         }
     }, [inView])
 
-    if (!data || !data.pages) {
+    if (!data || !data.pages || data.pages[0].list.length === 0) {
         return null;
     }
 
@@ -50,7 +51,7 @@ const Component = ({ extended }: Props) => {
                 title="Автори"
                 href={!extended ? params.slug + '/staff' : undefined}
             />
-            <div className="grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8">
+            <div className={clsx("grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8", extended && "md:grid-cols-6")}>
                 {filteredData.map((staff) => (
                     <BaseCard
                         key={staff.person.slug}

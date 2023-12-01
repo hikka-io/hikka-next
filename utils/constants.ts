@@ -24,26 +24,31 @@ export const WATCH_STATUS = {
         title_ua: 'Заплановано',
         title_en: 'Planned',
         icon: Planned,
+        color: '#AB872B',
     },
     watching: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
         icon: Watching,
+        color: '#2B94AB',
     },
     completed: {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
+        color: '#518146',
     },
     on_hold: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
         icon: OnHold,
+        color: '#5C5C5C',
     },
     dropped: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
         icon: Dropped,
+        color: '#952828',
     },
 };
 

@@ -19,7 +19,8 @@ import Link from 'next/link';
 import Breadcrumbs from '@/app/_components/Breadcrumbs';
 import { RELEASE_STATUS } from '@/utils/constants';
 import SubBar from '@/app/_components/SubBar';
-import About from "@/app/anime/[slug]/_layout/About";
+import About from '@/app/anime/[slug]/_layout/About';
+import {getCookie} from "@/app/actions";
 
 interface Props extends PropsWithChildren {
     params: {
@@ -79,6 +80,7 @@ export async function generateMetadata(
 
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
+    const secret = await getCookie('secret');
 
     await queryClient.prefetchQuery(['anime', slug], () =>
         getAnimeInfo({ slug }),
@@ -87,8 +89,8 @@ const Component = async ({ params: { slug }, children }: Props) => {
         getAnimeCharacters({ slug }),
     );
 
-    await queryClient.prefetchInfiniteQuery(['franchise', slug], () =>
-        getAnimeFranchise({ slug }),
+    await queryClient.prefetchInfiniteQuery(['franchise', slug, secret], () =>
+        getAnimeFranchise({ slug, secret }),
     );
     await queryClient.prefetchInfiniteQuery(['staff', slug], () =>
         getAnimeStaff({ slug }),
@@ -103,7 +105,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 lg:grid-cols-[20%_1fr_20%] lg:gap-16 gap-12">
+            <>
                 <Breadcrumbs>
                     <div className="flex gap-4 items-center overflow-hidden whitespace-nowrap w-auto">
                         <div
@@ -129,28 +131,20 @@ const Component = async ({ params: { slug }, children }: Props) => {
                 <SubBar mobileOnly>
                     <NavBar />
                 </SubBar>
-                <div className="flex flex-col gap-4">
-                    <Cover />
-                    <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">
-                        <Actions />
+                <div className="grid grid-cols-1 lg:grid-cols-[20%_1fr] lg:gap-16 gap-12">
+                    <div className="flex flex-col gap-4">
+                        <Cover />
+                        <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start w-full">
+                            <Actions />
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-12">
+                        <Title />
+                        {children}
+                    </div>
 
-                    </div>
                 </div>
-                <div className="flex flex-col gap-12">
-                    <Title />
-                    {children}
-                    <div className="lg:hidden block">
-                        <WatchListStats />
-                    </div>
-                </div>
-                <div className="flex flex-col gap-16">
-                    <About />
-                    <div className="lg:block hidden">
-                        <WatchListStats />
-                    </div>
-                </div>
-
-            </div>
+            </>
         </RQHydrate>
     );
 };

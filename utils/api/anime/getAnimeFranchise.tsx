@@ -8,9 +8,11 @@ export interface Response {
 export default async function req({
     slug,
     page = 1,
+    secret
 }: {
     slug: string;
     page?: number;
+    secret?: string;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI +
@@ -21,6 +23,10 @@ export default async function req({
         {
             method: 'get',
             ...config.config,
+            headers: {
+                ...config.config.headers,
+                auth: secret || '',
+            },
         },
     );
 

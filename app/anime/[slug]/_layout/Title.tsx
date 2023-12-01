@@ -59,9 +59,9 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between" ref={divRef}>
+            <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4">
                         <h2>
                             {data.title_ua || data.title_en || data.title_ja}{' '}
                             {data.start_date && (
