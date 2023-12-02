@@ -57,6 +57,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries(['watch']);
+            await queryClient.invalidateQueries(['list']);
         },
     });
 
@@ -111,7 +112,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             ) : (
                                 <Planned />
                             )}
-                            <span className="whitespace-nowrap overflow-ellipsis overflow-hidden">
+                            <span className="whitespace-nowrap overflow-ellipsis overflow-hidden rounded-none">
                                 {value
                                     ? WATCH_STATUS[value as Hikka.WatchStatus]
                                           .title_ua ||

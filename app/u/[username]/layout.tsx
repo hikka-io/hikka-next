@@ -21,6 +21,8 @@ import Link from 'next/link';
 import SubBar from '@/app/_components/SubBar';
 import NavBar from './_layout/NavBar';
 import {getCookie} from "@/app/actions";
+import FollowListModal from "@/app/u/[username]/_layout/FollowListModal";
+import getFollowStats from '@/utils/api/follow/getFollowStats';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -85,13 +87,10 @@ const Component = async ({ params: { username }, children }: Props) => {
         getWatchStats({ username }),
     );
 
-    await queryClient.prefetchQuery(['followings', username], () =>
-        getFollowings({ username }),
+    await queryClient.prefetchQuery(['followStats', username], () =>
+        getFollowStats({ username }),
     );
 
-    await queryClient.prefetchQuery(['followers', username], () =>
-        getFollowers({ username }),
-    );
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -111,6 +110,7 @@ const Component = async ({ params: { username }, children }: Props) => {
     return (
         <RQHydrate state={dehydratedState}>
             <div className="grid grid-cols-1 lg:grid-cols-[20%_1fr] lg:gap-16 gap-12">
+                <FollowListModal />
                 <Breadcrumbs>
                     <Link
                         href={'/u/' + user?.username}
@@ -125,10 +125,6 @@ const Component = async ({ params: { username }, children }: Props) => {
                 </SubBar>
                 <div className="flex flex-col gap-12 lg:sticky lg:top-20 lg:self-start">
                     <User />
-                    <div className="lg:flex flex-col gap-12 hidden">
-                        <Followers />
-                        <Followings />
-                    </div>
                 </div>
                 <div className="flex flex-col gap-12">
                     <ActivationAlert />

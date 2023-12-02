@@ -376,9 +376,9 @@ export const ANIME_NAV_ROUTES: {
         url: '/characters',
     },
     {
-        slug: 'staff',
-        title_ua: 'Автори',
-        url: '/staff',
+        slug: 'franchise',
+        title_ua: "Пов'язане",
+        url: '/franchise',
     },
     {
         slug: 'media',
@@ -386,14 +386,14 @@ export const ANIME_NAV_ROUTES: {
         url: '/media',
     },
     {
+        slug: 'staff',
+        title_ua: 'Автори',
+        url: '/staff',
+    },
+    {
         slug: 'links',
         title_ua: 'Посилання',
         url: '/links',
-    },
-    {
-        slug: 'franchise',
-        title_ua: "Пов'язане",
-        url: '/franchise',
     },
 ];
 

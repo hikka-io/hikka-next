@@ -5,10 +5,12 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import getFollowers from '@/utils/api/follow/getFollowers';
+import {useModalContext} from "@/utils/providers/ModalProvider";
 
 interface Props {}
 
 const Component = ({}: Props) => {
+    const { switchModal } = useModalContext();
     const params = useParams();
     const { data } = useQuery({
         queryKey: ['followers', params.username],
@@ -28,7 +30,7 @@ const Component = ({}: Props) => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
                 <h4>Стежать</h4>
-                <Link href="#" className="btn btn-outline btn-secondary btn-xs">{data.pagination.total}</Link>
+                <button onClick={() => switchModal('followers')} className="btn btn-outline btn-secondary btn-xs">{data.pagination.total}</button>
             </div>
             <div className="grid grid-cols-5 gap-4">
                 {data.list.slice(0, 10).map((user) => (

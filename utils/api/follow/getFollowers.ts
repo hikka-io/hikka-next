@@ -2,11 +2,7 @@ import config from '@/utils/api/config';
 
 export interface Response {
     pagination: Hikka.Pagination;
-    list: {
-        reference: string;
-        username: string;
-        avatar: string;
-    }[];
+    list: Hikka.User[];
 }
 
 export default async function req({

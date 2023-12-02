@@ -21,6 +21,8 @@ interface State {
     forgotPassword?: boolean;
     passwordConfirm?: boolean;
     rightholder?: boolean;
+    followers?: boolean;
+    followings?: boolean;
 }
 
 interface ContextProps extends State {
@@ -51,6 +53,8 @@ function getInitialState(): State {
         forgotPassword: false,
         passwordConfirm: false,
         rightholder: false,
+        followers: false,
+        followings: false,
     };
 }
 

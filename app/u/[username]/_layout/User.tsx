@@ -11,12 +11,10 @@ import CilUserUnfollow from '~icons/cil/user-unfollow';
 import checkFollow from '@/utils/api/follow/checkFollow';
 import follow from '@/utils/api/follow/follow';
 import unfollow from '@/utils/api/follow/unfollow';
-import PajamasPreferences from '~icons/pajamas/preferences';
-import SettingsModal from '@/app/_layout/UserSettingsModal';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 import { ChangeEvent, useRef } from 'react';
-import { xml2json } from 'xml-js';
+import { Response as FollowStatsResponse } from '@/utils/api/follow/getFollowStats';
 
 interface Props {}
 
@@ -26,6 +24,9 @@ const Component = ({}: Props) => {
     const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
+
+    const followStats: FollowStatsResponse | undefined = queryClient.getQueryData(['followStats', params.username]);
+
     const { data: user } = useQuery({
         queryKey: ['user', params.username],
         queryFn: () => getUserInfo({ username: String(params.username) }),
@@ -157,7 +158,7 @@ const Component = ({}: Props) => {
                         />
                     </div>
                 </div>
-                <div className="w-full flex flex-col justify-between">
+                <div className="w-full flex flex-col gap-4">
                     <div>
                         {(user.role === 'admin' ||
                             user.role === 'moderator') && (
@@ -167,10 +168,23 @@ const Component = ({}: Props) => {
                                     : 'Модератор'}
                             </div>
                         )}
-                        <h3 className="overflow-hidden overflow-ellipsis">{user.username}</h3>
+                        <h3 className="overflow-hidden overflow-ellipsis">
+                            {user.username}
+                        </h3>
                         {user.description && <p>{user.description}</p>}
                     </div>
                 </div>
+
+            </div>
+            <div className="flex h-fit gap-4 p-4 border border-secondary/60 bg-secondary/30 rounded-lg">
+                <button onClick={() => switchModal('followers')} className="flex-1 flex flex-col gap-1">
+                    <p className="label-text text-white"><span className="font-bold">{followStats ? followStats.followers : 0}</span></p>
+                    <p className="label-text">стежать</p>
+                </button>
+                <button onClick={() => switchModal('followings')} className="flex-1 flex flex-col gap-1">
+                    <p className="label-text text-white"><span className="font-bold">{followStats ? followStats.following : 0}</span></p>
+                    <p className="label-text">відстежується</p>
+                </button>
             </div>
             {loggedUser ? (
                 loggedUser.username !== user.username && followChecker ? (

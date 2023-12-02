@@ -114,7 +114,7 @@ const Component = () => {
                                             }}
                                         />
                                         <div
-                                            className="absolute bottom-0 w-full p-2 left-0 z-[10] flex items-end justify-center"
+                                            className="absolute bottom-0 w-full p-2 left-0 flex items-end justify-center"
                                             style={{
                                                 backgroundColor: status.color,
                                                 width: `${
