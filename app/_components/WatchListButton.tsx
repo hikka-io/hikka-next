@@ -58,6 +58,8 @@ const Component = ({ slug, additional, disabled }: Props) => {
         onSuccess: async () => {
             await queryClient.invalidateQueries(['watch']);
             await queryClient.invalidateQueries(['list']);
+            await queryClient.invalidateQueries(['favorites']);
+            await queryClient.invalidateQueries(['franchise']);
         },
     });
 
