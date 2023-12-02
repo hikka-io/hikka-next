@@ -87,7 +87,7 @@ const Component = () => {
                 {secret && <AnimeEditListModal />}
             </div>
             {data.genres.length > 0 && (
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                     {data.genres.map((genre, i) => (
                         <span
                             key={genre.slug}

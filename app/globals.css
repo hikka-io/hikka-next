@@ -37,6 +37,7 @@
 
 html {
     /*scroll-behavior: smooth;*/
+    @apply text-[15px] xl:text-[16px];
 }
 
 body {

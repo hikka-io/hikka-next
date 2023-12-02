@@ -30,7 +30,7 @@ const Component = ({}: Props) => {
     });
 
     const trigger = useScrollTrigger({
-        threshold: 40,
+        threshold: isMobile ? 0 : 40,
         disableHysteresis: true,
     });
     const isMac =

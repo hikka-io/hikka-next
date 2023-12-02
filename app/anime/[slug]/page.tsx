@@ -11,8 +11,8 @@ import React from 'react';
 
 const Component = () => {
     return (
-        <div className="grid md:grid-cols-[1fr_30%] grid-cols-1 lg:gap-16 gap-12">
-            <div className="relative flex flex-col gap-12 md:order-1 order-2">
+        <div className="grid lg:grid-cols-[1fr_30%] grid-cols-1 lg:gap-16 gap-12">
+            <div className="relative flex flex-col gap-12 lg:order-1 order-2">
                 <Description />
                 <Characters />
                 <Franchise />
@@ -23,9 +23,9 @@ const Component = () => {
                     <WatchListStats />
                 </div>
             </div>
-            <div className="flex flex-col gap-12 md:order-2 order-1">
+            <div className="flex flex-col gap-12 lg:order-2 order-1">
                 <About />
-                <div className="lg:block hidden">
+                <div className="flex-1 lg:block hidden">
                     <WatchListStats />
                 </div>
             </div>
