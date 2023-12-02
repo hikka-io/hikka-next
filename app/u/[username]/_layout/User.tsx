@@ -14,7 +14,9 @@ import unfollow from '@/utils/api/follow/unfollow';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 import { ChangeEvent, useRef } from 'react';
-import { Response as FollowStatsResponse } from '@/utils/api/follow/getFollowStats';
+import getFollowStats, {
+    Response as FollowStatsResponse,
+} from '@/utils/api/follow/getFollowStats';
 
 interface Props {}
 
@@ -25,8 +27,11 @@ const Component = ({}: Props) => {
     const params = useParams();
     const { secret } = useAuthContext();
 
-    const followStats: FollowStatsResponse | undefined = queryClient.getQueryData(['followStats', params.username]);
-
+    const { data: followStats } = useQuery({
+        queryKey: ['followStats', params.username],
+        queryFn: () => getFollowStats({ username: String(params.username) }),
+    });
+    
     const { data: user } = useQuery({
         queryKey: ['user', params.username],
         queryFn: () => getUserInfo({ username: String(params.username) }),
