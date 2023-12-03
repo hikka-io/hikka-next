@@ -46,9 +46,9 @@ export default function Component({ anchor, slug, setOnTooltip }: Props) {
                 <div className="flex flex-col gap-2">
                     <div className="flex justify-between gap-2">
                         <h5>{title}</h5>
-                        <div className="border text-sm h-fit  border-accent bg-accent text-accent-content rounded-md w-fit px-2">
+                        {data.score > 0 ? <div className="border text-sm h-fit  border-accent bg-accent text-accent-content rounded-md w-fit px-2">
                             {data.score}
-                        </div>
+                        </div> : null}
                     </div>
                     {synopsis && (
                         <p className="text-sm">

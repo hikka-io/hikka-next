@@ -130,7 +130,7 @@ const Component = ({}: Props) => {
                 className="w-full"
                 id="breadcrumbs-mobile"
             />
-            <div className="w-full container mx-auto max-w-[88rem] px-4" id="subbar" />
+            {/*<div className="w-full container mx-auto max-w-[88rem] px-4" id="subbar" />*/}
             <ProfileMenu anchorEl={profileRef.current} />
         </nav>
     );

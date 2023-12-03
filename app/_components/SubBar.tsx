@@ -1,11 +1,8 @@
 'use client';
 
-import { PropsWithChildren, useEffect, useState, Children } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
-import clsx from "clsx";
-import useIsMobile from "@/utils/hooks/useIsMobile";
-import {useInView} from "react-intersection-observer";
+import useIsMobile from '@/utils/hooks/useIsMobile';
 
 interface Props extends PropsWithChildren {
     mobileOnly?: boolean;
@@ -24,7 +21,8 @@ const Component = ({ children, mobileOnly }: Props) => {
     }
 
     if (isMobile) {
-        return createPortal(<>{children}</>,
+        return createPortal(
+            <>{children}</>,
             document.getElementById('subbar-mobile')!,
         );
     }
@@ -34,7 +32,9 @@ const Component = ({ children, mobileOnly }: Props) => {
     }
 
     return createPortal(
-        <>{children}</>,
+        <div className="overflow-hidden px-4 shadow-lg border border-secondary rounded-full bg-black">
+            {children}
+        </div>,
         document.getElementById('subbar')!,
     );
 };

@@ -9,6 +9,7 @@ import { xml2json } from 'xml-js';
 import { useDropzone } from 'react-dropzone';
 import clsx from 'clsx';
 import importWatch from '@/utils/api/settings/importWatch';
+import Link from "next/link";
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -121,15 +122,6 @@ const Component = () => {
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text">Імпорт списку</span>
-                        <button
-                            type="button"
-                            tabIndex={-1}
-                            onClick={() => switchModal('forgotPassword')}
-                        >
-                            <span className="label-text text-accent hover:underline w-fit">
-                                Як отримати файл?
-                            </span>
-                        </button>
                     </label>
                     <div
                         {...getRootProps({
@@ -169,9 +161,9 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text label-text-alt">
                             Ви можете імпортувати свій список з{' '}
-                            <span className="rounded-sm bg-accent text-accent-content px-1">
+                            <Link target="_blank" href="https://myanimelist.net/panel.php?go=export" className="hover:!text-accent-content hover:bg-accent-focus rounded-sm bg-accent text-accent-content px-1">
                                 MyAnimeList
-                            </span>{' '}
+                            </Link>{' '}
                             або{' '}
                             <span className="rounded-sm bg-accent text-accent-content px-1">
                                 Shikimori

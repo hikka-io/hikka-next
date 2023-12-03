@@ -56,10 +56,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                     : 0,
             }),
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['watch']);
-            await queryClient.invalidateQueries(['list']);
-            await queryClient.invalidateQueries(['favorites']);
-            await queryClient.invalidateQueries(['franchise']);
+            await invalidateData();
         },
     });
 
@@ -72,9 +69,16 @@ const Component = ({ slug, additional, disabled }: Props) => {
                     slug: String(slug),
                 }),
             onSuccess: async () => {
-                await queryClient.invalidateQueries(['watch']);
+                await invalidateData();
             },
         });
+
+    const invalidateData = async () => {
+        await queryClient.invalidateQueries(['watch']);
+        await queryClient.invalidateQueries(['list']);
+        await queryClient.invalidateQueries(['favorites']);
+        await queryClient.invalidateQueries(['franchise']);
+    }
 
     return (
         <CustomSelect

@@ -44,6 +44,8 @@ logs
 node_modules
 bower_components
 
+/.react-email/
+
 *.sublime*
 
 psd

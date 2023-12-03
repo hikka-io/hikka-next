@@ -1,21 +1,44 @@
 import './globals.css';
-import Providers from '@/utils/Providers';
-import { Inter } from 'next/font/google';
-import Footer from '@/app/_layout/Footer';
-import React, { ReactNode } from 'react';
-import ScrollTop from '@/app/_layout/ScrollTop';
-import AuthGate from '@/app/_layout/AuthGate';
-import NextTopLoader from 'nextjs-toploader';
+import {Inter} from 'next/font/google';
+import localFont from 'next/font/local';
+import React, {ReactNode} from 'react';
 import {Metadata, Viewport} from 'next';
-import MobileNavBar from '@/app/_layout/MobileNavBar';
-import AuthModal from '@/app/_layout/AuthModal';
-import SearchModal from '@/app/_layout/SearchModal';
-import NavBar from '@/app/_layout/navbar/NavBar';
-import SettingsModal from "@/app/_layout/UserSettingsModal";
 
 // export const runtime = 'edge';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+    subsets: ['latin', 'cyrillic'],
+    display: 'swap',
+    variable: '--font-inter',
+});
+
+const fixelDisplay = localFont({
+    src: '../fonts/FixelDisplay-Bold.woff2',
+    display: 'swap',
+    variable: '--font-fixel-display',
+});
+
+/*const fixelText = localFont({
+    src: [
+        {
+            path: '../fonts/FixelText-Regular.woff2',
+            weight: '400',
+            style: 'normal',
+        },
+        {
+            path: '../fonts/FixelText-SemiBold.woff2',
+            weight: '500',
+            style: 'normal',
+        },
+        {
+            path: '../fonts/FixelText-Bold.woff2',
+            weight: '600',
+            style: 'normal',
+        },
+    ],
+    display: 'swap',
+    variable: '--font-fixel-text',
+});*/
 
 export const metadata: Metadata = {
     title: {
@@ -80,7 +103,7 @@ export const viewport: Viewport = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
-}
+};
 
 export default async function RootLayout({
     children,
@@ -88,41 +111,12 @@ export default async function RootLayout({
     children: ReactNode;
 }) {
     return (
-        <html lang="uk" data-theme="dark">
-            <body className={inter.className}>
-                <NextTopLoader color="#e779c1" />
-                <Providers>
-                    <AuthGate>
-                        <SettingsModal />
-                        <AuthModal />
-                        <SearchModal />
-                        <ScrollTop />
-                        <div className="drawer drawer-end top-0 left-0 right-0 sticky z-10">
-                            <input
-                                id="mobileNavDrawer"
-                                type="checkbox"
-                                className="drawer-toggle"
-                            />
-                            <div className="drawer-content overflow-hidden">
-                                <NavBar />
-                            </div>
-                            <div className="drawer-side overflow-y-visible z-10 lg:hidden">
-                                <label
-                                    htmlFor="mobileNavDrawer"
-                                    aria-label="close sidebar"
-                                    className="drawer-overlay"
-                                ></label>
-                                <MobileNavBar />
-                            </div>
-                        </div>
-                        <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
-                            {children}
-                        </main>
-                        <div id="subbar-mobile" className="no-scrollbar mt-12 md:hidden block w-full sticky bottom-0 overflow-auto bg-black border-t border-t-secondary" />
-                        <Footer />
-                    </AuthGate>
-                </Providers>
-            </body>
+        <html
+            className={`${inter.variable} ${fixelDisplay.variable}`}
+            lang="uk"
+            data-theme="dark"
+        >
+            <body>{children}</body>
         </html>
     );
 }

@@ -9,6 +9,7 @@ import {useSnackbar} from "notistack";
 
 type FormValues = {
     email: string;
+    emailConfirmation: string;
 };
 
 const Component = () => {
@@ -23,6 +24,10 @@ const Component = () => {
     const { secret } = useAuthContext();
 
     const onSubmit = async (data: FormValues) => {
+        if (data.email !== data.emailConfirmation) {
+            return null;
+        }
+
         try {
             await changeUserEmail({
                 secret: String(secret),
@@ -46,7 +51,7 @@ const Component = () => {
             <div className="h-12 flex items-center">
                 <h3>Email</h3>
             </div>
-            <div className="w-full">
+            <div className="w-full flex flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text">Новий email</span>
@@ -56,6 +61,17 @@ const Component = () => {
                         placeholder="Введіть новий email"
                         className="input bg-secondary/60 w-full"
                         {...register('email', { required: true })}
+                    />
+                </div>
+                <div className="form-control w-full">
+                    <label className="label">
+                        <span className="label-text">Підтвердити email</span>
+                    </label>
+                    <input
+                        type="email"
+                        placeholder="Підтвердіть новий email"
+                        className="input bg-secondary/60 w-full"
+                        {...register('emailConfirmation', { required: true })}
                     />
                 </div>
             </div>
