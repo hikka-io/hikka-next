@@ -65,7 +65,7 @@ const Component = () => {
                         <h2>
                             {data.title_ua || data.title_en || data.title_ja}{' '}
                             {data.start_date && (
-                                <span className="font-normal">
+                                <span className="font-normal font-sans">
                                     (
                                     {new Date(
                                         data.start_date * 1000,
