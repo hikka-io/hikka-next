@@ -67,7 +67,8 @@ const Component = () => {
                 media_type: types,
                 genres,
                 page: selectedPage,
-                secret: String(secret)
+                secret: String(secret),
+                size: 20
             }),
     });
 
@@ -148,7 +149,7 @@ const Component = () => {
     if (isLoading) {
         return (
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 lg:gap-8">
-                {range(1, 12).map((v) => (
+                {range(1, 20).map((v) => (
                     <SkeletonCard key={v} />
                 ))}
             </div>

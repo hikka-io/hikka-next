@@ -15,12 +15,13 @@ interface Request {
     studios?: string[];
     genres?: string[];
     secret?: string;
+    size?: number;
 }
 
 export default async function req(
-    { page = 1, secret, ...params }: Request,
+    { page = 1, size = 15, secret, ...params }: Request,
 ): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
-    const res = await fetch(config.baseAPI + '/anime?page=' + page, {
+    const res = await fetch(config.baseAPI + '/anime?page=' + page + "&size=" + size, {
         method: 'post',
         body: JSON.stringify(params),
         ...config.config,
