@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 const fixelDisplay = localFont({
-    src: '../fonts/FixelDisplay-Bold.woff2',
+    src: '../fonts/FixelDisplay-SemiBold.woff2',
     display: 'swap',
     variable: '--font-fixel-display',
 });
