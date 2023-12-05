@@ -5,7 +5,6 @@ import Characters from '@/app/(pages)/anime/[slug]/_layout/Characters';
 import Franchise from '@/app/(pages)/anime/[slug]/_layout/Franchise';
 import Staff from '@/app/(pages)/anime/[slug]/_layout/Staff';
 import Media from '@/app/(pages)/anime/[slug]/_layout/Media';
-import Comments from '@/app/(pages)/anime/[slug]/_layout/Comments';
 import WatchListStats from '@/app/(pages)/anime/[slug]/_layout/WatchListStats';
 import React from 'react';
 
