@@ -26,6 +26,12 @@ export const ConfirmEmail = () => {
                     fontWeight={400}
                     fontStyle="normal"
                 />
+                <style>
+                    {`
+                         .body .gmail-blend-screen { background:#000; mix-blend-mode:screen; }
+                         .body .gmail-blend-difference { background:#000; mix-blend-mode:difference; }
+                    `}
+                </style>
             </Head>
             <Preview>{previewText}</Preview>
             <Tailwind
@@ -51,38 +57,52 @@ export const ConfirmEmail = () => {
                     },
                 }}
             >
-                <Body className="bg-black my-auto mx-auto font-sans">
-                    <Container className="border border-solid  border-secondary rounded-lg my-[40px] mx-auto p-8 w-[465px]">
-                        <Section className="py-4">
+                <Body
+                    style={{ backgroundImage: 'linear-gradient(#000, #000)' }}
+                    className="bg-black body my-auto mx-auto font-sans"
+                >
+                    <Container className="border border-solid border-secondary rounded-lg my-[40px] mx-auto p-8 w-[465px]">
+                        <Section className="py-4 text-left">
                             <Img
-                                src={`https://hikka.io/static/hikka.png`}
+                                title="Hikka"
+                                src={`https://www.cdn.hikka.io/logo.png`}
                                 width="80"
                                 height="24"
                                 alt="Hikka"
                             />
                         </Section>
-                        <Heading className="text-white text-[20px] leading-[28px] font-bold">
-                            Вітаємо, {"{username}"}!
-                        </Heading>
-                        <Text className="text-white text-[16px] leading-[24px]">
-                            Ви успішно зареєструватились на <strong>hikka</strong>. Щоб залишати
-                            Ваш акаунт у безпеці та дати Вам більше можливостей
-                            на сайті, будь ласка, підтвердіть Вашу електронну
-                            пошту. Дякуємо Вам за підтримку та до зустрічі!
-                        </Text>
+                        <div className="gmail-blend-screen">
+                            <div className="gmail-blend-difference">
+                                <Heading className="text-white text-[20px] leading-[28px] font-bold">
+                                    Вітаємо, {'{username}'}!
+                                </Heading>
+                                <Text className="text-white text-[16px] leading-[24px]">
+                                    Ви успішно зареєструватились на{' '}
+                                    <strong>hikka</strong>. Щоб залишати Ваш
+                                    акаунт у безпеці та дати Вам більше
+                                    можливостей на сайті, будь ласка,
+                                    підтвердіть Вашу електронну пошту. Дякуємо
+                                    Вам за підтримку та до зустрічі!
+                                </Text>
+                            </div>
+                        </div>
                         <div className="border p-4 border-solid border-secondary/60 rounded-lg bg-secondary/30 flex justify-center items-center">
                             <Button
                                 className="bg-accent p-4 w-full rounded-lg text-black text-[14px] font-semibold no-underline text-center"
-                                href={"https://hikka.io/auth/activate/{token}"}
+                                href={'https://hikka.io/auth/activate/{token}'}
                             >
                                 Підтвердити email
                             </Button>
                         </div>
-                        <Text className="text-base-content text-[14px] leading-[20px]">
-                            Якщо ви не реєструвались за цією електронною поштою,
-                            нема про що хвилюватися – ви можете сміливо його
-                            ігнорувати.
-                        </Text>
+                        <div className="gmail-blend-screen">
+                            <div className="gmail-blend-difference">
+                                <Text className="text-base-content text-[14px] leading-[20px]">
+                                    Якщо ви не реєструвались за цією електронною
+                                    поштою, нема про що хвилюватися – ви можете
+                                    сміливо його ігнорувати.
+                                </Text>
+                            </div>
+                        </div>
                     </Container>
                 </Body>
             </Tailwind>

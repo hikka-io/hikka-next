@@ -32,8 +32,8 @@ const DATA: {
         form: <GeneralForm />,
     },
     {
-        title: 'Список',
-        description: 'Налаштування Вашого списку аніме',
+        title: 'Імпорт',
+        description: 'Імпорт Вашого списку аніме',
         slug: 'watchList',
         form: <WatchListForm />,
     },

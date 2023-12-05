@@ -3,7 +3,6 @@ import Dropped from '@/app/_components/icons/watchStatus/Dropped';
 import OnHold from '@/app/_components/icons/watchStatus/OnHold';
 import Planned from '@/app/_components/icons/watchStatus/Planned';
 import Watching from '@/app/_components/icons/watchStatus/Watching';
-import { Property } from 'csstype';
 import { ReactNode } from 'react';
 
 type Property<T extends string> = Record<
@@ -173,11 +172,11 @@ export const VIDEO: Property<Hikka.VideoType> = {
 
 export const OST: Property<Hikka.OSTType> = {
     opening: {
-        title_ua: 'Опенінг',
+        title_ua: 'Опенінґ',
         title_en: 'Opening',
     },
     ending: {
-        title_ua: 'Ендінг',
+        title_ua: 'Ендінґ',
         title_en: 'Ending',
     },
 };

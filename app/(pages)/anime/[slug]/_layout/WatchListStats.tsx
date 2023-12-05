@@ -7,7 +7,7 @@ import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import SubHeader from '@/app/_components/SubHeader';
 import { createElement, useRef } from 'react';
 import { NumericFormat } from 'react-number-format';
-import useSize from "@/utils/hooks/useSize";
+import useSize from '@/utils/hooks/useSize';
 
 const DATA = [
     {
@@ -103,6 +103,19 @@ const Component = () => {
                                     key={stat}
                                     className="flex gap-2 justify-between items-center"
                                 >
+                                    <div className="flex gap-2 items-center">
+                                        <div className="p-1 bg-secondary rounded-md">
+                                            {createElement(status.icon)}
+                                        </div>
+                                        <p className="label-text-alt w-10 text-right">
+                                            <NumericFormat
+                                                suffix="%"
+                                                displayType="text"
+                                                value={percentage}
+                                                decimalScale={1}
+                                            />
+                                        </p>
+                                    </div>
                                     <div
                                         ref={ref}
                                         className="relative overflow-hidden rounded-md w-full h-2"
@@ -126,19 +139,6 @@ const Component = () => {
                                                 }px`,
                                             }}
                                         ></div>
-                                    </div>
-                                    <div className="flex gap-2 items-center">
-                                        <p className="label-text-alt w-10 text-right">
-                                            <NumericFormat
-                                                suffix="%"
-                                                displayType="text"
-                                                value={percentage}
-                                                decimalScale={1}
-                                            />
-                                        </p>
-                                        <div className="p-1 bg-secondary rounded-md">
-                                            {createElement(status.icon)}
-                                        </div>
                                     </div>
                                 </div>
                             );

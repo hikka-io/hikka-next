@@ -1,5 +1,12 @@
 'use client';
-import { createElement, ReactNode, useEffect, useRef, useState } from 'react';
+import {
+    createElement,
+    ForwardedRef,
+    forwardRef,
+    MouseEventHandler,
+    ReactNode,
+    useState,
+} from 'react';
 import AnimeTooltip from './AnimeTooltip';
 import MaterialSymbolsArticle from '~icons/material-symbols/article';
 import BaseCard from '@/app/_components/BaseCard';
@@ -19,89 +26,79 @@ interface Props {
     watch?: Hikka.Watch;
 }
 
-const Component = ({
-    poster,
-    title,
-    desc,
-    posterClassName,
-    containerClassName,
-    children,
-    slug,
-    href,
-    watch,
-}: Props) => {
-    const ref = useRef<HTMLAnchorElement>(null);
-    const [anchor, setAnchor] = useState<null | HTMLAnchorElement>(null);
-    const [onTooltip, setOnTooltip] = useState<boolean>(false);
-    const [onCard, setOnCard] = useState<boolean>(false);
+const Watch = ({ watch }: { watch: Hikka.Watch }) => (
+    <div className="absolute top-0 left-0 w-full">
+        <div
+            className="absolute right-2 top-2 border-white w-fit rounded-md p-1 z-[1] bg-secondary text-white"
+            style={{
+                backgroundColor:
+                    WATCH_STATUS[watch.status as Hikka.WatchStatus].color,
+            }}
+        >
+            {createElement(
+                WATCH_STATUS[watch.status as Hikka.WatchStatus].icon,
+            )}
+        </div>
+        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black to-transparent z-0" />
+    </div>
+);
 
-    useEffect(() => {
-        if (onTooltip) {
-            setAnchor(ref.current);
-        } else {
-            if (!onCard) {
-                setAnchor(null);
-            }
-        }
-    }, [onTooltip]);
+const Card = forwardRef(
+    (
+        {
+            slug,
+            watch,
+            onMouseOver,
+            onMouseOut,
+            ...props
+        }: Props & {
+            onMouseOver?: MouseEventHandler<HTMLElement>;
+            onMouseOut?: MouseEventHandler<HTMLElement>;
+        },
+        ref: ForwardedRef<HTMLAnchorElement>,
+    ) => {
+        const [onCard, setOnCard] = useState<boolean>(false);
 
-    useEffect(() => {
-        if (onCard) {
-            setAnchor(ref.current);
-        } else {
-            if (!onTooltip) {
-                setAnchor(null);
-            }
-        }
-    }, [onCard]);
-
-    return (
-        <>
+        return (
             <BaseCard
+                onMouseOver={(e) => {
+                    onCard && onMouseOver && onMouseOver(e);
+                }}
+                onMouseOut={(e) => {
+                    onMouseOut && onMouseOut(e);
+                    setOnCard(false);
+                }}
                 ref={ref}
-                title={title}
-                href={href}
-                desc={desc}
-                posterClassName={posterClassName}
-                containerClassName={containerClassName}
-                poster={poster}
-                onMouseOver={() => slug && onCard && setOnCard(true)}
-                onMouseOut={() => slug && onCard && setOnCard(false)}
+                {...props}
             >
-                {watch && (
-                    <div className="absolute top-0 left-0 w-full">
-                        <div className="absolute right-2 top-2 border-white w-fit rounded-md p-1 z-[1] bg-secondary text-white" style={{
-                            backgroundColor: WATCH_STATUS[watch.status as Hikka.WatchStatus].color
-                        }}>
-                            {createElement(
-                                WATCH_STATUS[watch.status as Hikka.WatchStatus]
-                                    .icon,
-                            )}
-                        </div>
-                        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black to-transparent z-0" />
-                    </div>
-                )}
+                {watch && <Watch watch={watch} />}
 
                 {slug && (
                     <button
-                        onMouseOver={() => slug && setOnCard(true)}
-                        onMouseOut={() => slug && setOnCard(false)}
+                        onMouseOver={(e) => {
+                            onMouseOver && onMouseOver(e);
+                            setOnCard(true);
+                        }}
                         className="btn btn-square btn-secondary absolute bottom-2 right-2 btn-badge group-hover:opacity-100 opacity-0 hidden lg:flex"
                     >
                         <MaterialSymbolsArticle />
                     </button>
                 )}
-                {children}
             </BaseCard>
-            {slug && (onCard || onTooltip) && (
-                <AnimeTooltip
-                    setOnTooltip={setOnTooltip}
-                    slug={slug}
-                    anchor={anchor}
-                />
-            )}
-        </>
-    );
+        );
+    },
+);
+
+const Component = ({ watch, slug, ...props }: Props) => {
+    if (slug) {
+        return (
+            <AnimeTooltip slug={slug}>
+                <Card {...props} slug={slug} watch={watch} />
+            </AnimeTooltip>
+        );
+    }
+
+    return <BaseCard {...props}>{watch && <Watch watch={watch} />}</BaseCard>;
 };
 
 export default Component;
