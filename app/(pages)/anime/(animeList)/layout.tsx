@@ -8,7 +8,7 @@ interface Props {
 
 // export const runtime = 'edge';
 
-const Component = ({ list }: Props) => {
+const Component = async ({ list }: Props) => {
     return (
         <div>
             <div className="drawer drawer-end">

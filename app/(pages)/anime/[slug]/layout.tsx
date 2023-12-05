@@ -10,7 +10,6 @@ import Title from '@/app/(pages)/anime/[slug]/_layout/Title';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
-import WatchListStats from '@/app/(pages)/anime/[slug]/_layout/WatchListStats';
 import Cover from '@/app/(pages)/anime/[slug]/_layout/Cover';
 import { Metadata, ResolvingMetadata } from 'next';
 import NavBar from './_layout/NavBar';
@@ -19,8 +18,7 @@ import Link from 'next/link';
 import Breadcrumbs from '@/app/_components/Breadcrumbs';
 import { RELEASE_STATUS } from '@/utils/constants';
 import SubBar from '@/app/_components/SubBar';
-import About from '@/app/(pages)/anime/[slug]/_layout/About';
-import {getCookie} from "@/app/actions";
+import { getCookie } from '@/app/actions';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -59,8 +57,8 @@ export async function generateMetadata(
                   150 + synopsis.substring(150).indexOf(' '),
               ) + '...'
             : synopsis.length > 0
-            ? synopsis + '...'
-            : undefined);
+              ? synopsis + '...'
+              : undefined);
 
     return {
         title: { default: title, template: title + ' / %s / Hikka' },
@@ -142,7 +140,6 @@ const Component = async ({ params: { slug }, children }: Props) => {
                         <Title />
                         {children}
                     </div>
-
                 </div>
             </>
         </RQHydrate>

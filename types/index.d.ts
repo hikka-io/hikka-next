@@ -24,6 +24,8 @@ declare global {
             created: number;
             avatar: string;
             role: UserRole;
+            active: boolean;
+            is_followed?: boolean;
         };
 
         type WatchStatus =

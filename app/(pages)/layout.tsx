@@ -26,24 +26,7 @@ export default async function RootLayout({
                     <AuthModal />
                     <SearchModal />
                     <ScrollTop />
-                    <div className="drawer drawer-end top-0 left-0 right-0 sticky z-10">
-                        <input
-                            id="mobileNavDrawer"
-                            type="checkbox"
-                            className="drawer-toggle"
-                        />
-                        <div className="drawer-content overflow-hidden">
-                            <NavBar />
-                        </div>
-                        <div className="drawer-side overflow-y-visible z-10 lg:hidden">
-                            <label
-                                htmlFor="mobileNavDrawer"
-                                aria-label="close sidebar"
-                                className="drawer-overlay"
-                            ></label>
-                            <MobileNavBar />
-                        </div>
-                    </div>
+                    <NavBar />
                     <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
                         {children}
                     </main>

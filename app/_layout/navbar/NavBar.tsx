@@ -45,6 +45,7 @@ const Component = ({}: Props) => {
                 'w-full',
                 'border-b border-b-secondary/30',
                 'transition',
+                'sticky z-10 top-0',
                 trigger && '!bg-black !border-b-secondary',
             )}
         >

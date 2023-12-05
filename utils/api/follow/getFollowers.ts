@@ -7,14 +7,20 @@ export interface Response {
 
 export default async function req({
     username,
+    secret,
 }: {
     username: string;
+    secret?: string;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI + '/follow/' + username + '/followers',
         {
             method: 'get',
             ...config.config,
+            headers: {
+                ...config.config.headers,
+                auth: secret || '',
+            },
         },
     );
 

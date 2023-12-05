@@ -151,7 +151,7 @@ const Component = () => {
                 <div className="flex gap-2">
                     <input
                         type="text"
-                        placeholder="Введіть нове ім'я"
+                        placeholder="Введіть імʼя користувача"
                         className="input bg-secondary/60 w-full flex-1"
                         onChange={(e) => setAniListUsername(e.target.value)}
                     />

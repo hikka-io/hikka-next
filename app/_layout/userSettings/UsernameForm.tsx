@@ -58,7 +58,7 @@ const Component = () => {
                     </label>
                     <input
                         type="text"
-                        placeholder="Введіть нове ім'я"
+                        placeholder="Введіть нове імʼя"
                         className="input bg-secondary/60 w-full"
                         {...register('username', { required: true })}
                     />
