@@ -128,7 +128,7 @@ const Component = ({}: Props) => {
                                         </div>
                                     </div>
                                     {'is_followed' in user ? (
-                                        user.is_followed ? (
+                                        !user.is_followed ? (
                                             <button
                                                 onClick={() =>
                                                     mutateFollow(user.username)
