@@ -64,7 +64,7 @@ const Component = ({ slug, disabled }: Props) => {
                 'absolute bottom-2 right-2 z-[1]'
             )}
         >
-            {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded className="text-xl text-error" /> : <MaterialSymbolsFavoriteOutlineRounded className="text-xl" />}
+            {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded className="text-xl text-error" /> : <MaterialSymbolsFavoriteOutlineRounded className="text-xl text-white" />}
         </button>
     );
 };

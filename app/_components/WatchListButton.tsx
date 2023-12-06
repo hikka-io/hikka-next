@@ -152,7 +152,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                 {...(!value && buttonProps)}
                                 disabled={disabled}
                                 className={clsx(
-                                    'btn btn-square join-item btn-md text-xl !text-white',
+                                    'btn btn-square join-item btn-md text-xl !text-base-content',
                                     value
                                         ? 'btn-error bg-secondary border-secondary'
                                         : 'btn-secondary',

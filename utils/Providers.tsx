@@ -13,6 +13,7 @@ import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { uk } from 'date-fns/locale';
 import { SnackbarUtilsConfigurator } from '@/utils/SnackbarUtils';
 import PoppperProvider from '@/utils/providers/PopperProvider';
+import ThemeProvider from '@/utils/providers/ThemeProvider';
 
 interface Props extends PropsWithChildren {}
 
@@ -32,31 +33,33 @@ function Providers({ children }: Props) {
     }, [pathname, searchParams]);
 
     return (
-        <SnackbarProvider
-            Components={{
-                default: SnackbarItem,
-                success: SnackbarItem,
-                error: SnackbarItem,
-                warning: SnackbarItem,
-                info: SnackbarItem,
-            }}
-            maxSnack={2}
-            preventDuplicate
-            autoHideDuration={3000}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-            <SnackbarUtilsConfigurator />
-            <PoppperProvider>
-                <ModalProvider>
-                    <AuthProvider>
-                        <QueryClientProvider client={client}>
-                            {children}
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        </QueryClientProvider>
-                    </AuthProvider>
-                </ModalProvider>
-            </PoppperProvider>
-        </SnackbarProvider>
+        <ThemeProvider>
+            <SnackbarProvider
+                Components={{
+                    default: SnackbarItem,
+                    success: SnackbarItem,
+                    error: SnackbarItem,
+                    warning: SnackbarItem,
+                    info: SnackbarItem,
+                }}
+                maxSnack={2}
+                preventDuplicate
+                autoHideDuration={3000}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+                <SnackbarUtilsConfigurator />
+                <PoppperProvider>
+                    <ModalProvider>
+                        <AuthProvider>
+                            <QueryClientProvider client={client}>
+                                {children}
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            </QueryClientProvider>
+                        </AuthProvider>
+                    </ModalProvider>
+                </PoppperProvider>
+            </SnackbarProvider>
+        </ThemeProvider>
     );
 }
 

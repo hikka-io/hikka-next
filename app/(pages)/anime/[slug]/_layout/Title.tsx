@@ -91,7 +91,7 @@ const Component = () => {
                     {data.genres.map((genre, i) => (
                         <span
                             key={genre.slug}
-                            className="label-text text-white"
+                            className="label-text !text-base-content"
                         >
                             <Link
                                 className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"

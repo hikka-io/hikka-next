@@ -58,7 +58,7 @@ const Listbox = forwardRef(
             <ul
                 ref={ref}
                 className={clsx(
-                    'z-10 absolute w-full h-auto rounded-lg menu [&_li>*]:py-3 overflow-y-scroll flex-nowrap outline-0 bg-black border border-secondary max-h-96 p-2 mt-2',
+                    'z-10 absolute w-full h-auto rounded-lg menu [&_li>*]:py-3 overflow-y-scroll flex-nowrap outline-0 bg-base-100 border border-secondary max-h-96 p-2 mt-2',
                     className,
                 )}
                 {...props}

@@ -88,7 +88,7 @@ const Component = () => {
                                 onClick={() => setActiveTab(tab.slug)}
                                 className={clsx(
                                     'flex flex-col items-start justify-center gap-0 py-4 px-8',
-                                    activeTab === tab.slug && 'active !bg-secondary !text-white',
+                                    activeTab === tab.slug && 'active !bg-secondary !text-base-content',
                                 )}
                             >
                                 <p>{tab.title}</p>

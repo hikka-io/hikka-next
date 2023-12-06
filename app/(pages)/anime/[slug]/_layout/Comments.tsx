@@ -108,7 +108,7 @@ const Comment = ({ comment }: CommentProps) => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-between">
-                        <p className="label-text text-white font-bold">
+                        <p className="label-text !text-base-content font-bold">
                             {comment.user.username}
                         </p>
                         <p className="label-text-alt opacity-60">

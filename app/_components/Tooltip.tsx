@@ -40,7 +40,7 @@ const Component = ({
             >
                 <div
                     className={clsx(
-                        'z-50 rounded-lg p-4 border border-solid border-secondary bg-black shadow-md',
+                        'z-50 rounded-lg border border-solid border-secondary bg-base-100 shadow-md',
                         className,
                     )}
                 >

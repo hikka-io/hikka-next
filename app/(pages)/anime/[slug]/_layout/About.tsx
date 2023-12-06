@@ -8,6 +8,7 @@ import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
 import Image from 'next/image';
 import SubHeader from '@/app/_components/SubHeader';
+import Tooltip from '@/app/_components/Tooltip';
 
 const Component = () => {
     const params = useParams();
@@ -32,7 +33,7 @@ const Component = () => {
                         <p className="label-text">Тип:</p>
                     </div>
                     <div className="flex-1">
-                        <p className="label-text text-white">
+                        <p className="label-text !text-base-content">
                             {MEDIA_TYPE[data.media_type].title_ua}
                         </p>
                     </div>
@@ -49,7 +50,7 @@ const Component = () => {
                                     RELEASE_STATUS[data.status].color,
                             }}
                         >
-                            <p className="label-text text-white">
+                            <p className="label-text !text-white">
                                 {RELEASE_STATUS[data.status].title_ua}
                             </p>
                         </div>
@@ -63,7 +64,7 @@ const Component = () => {
                             <p className="label-text">Епізоди:</p>
                         </div>
                         <div className="flex-1">
-                            <p className="label-text text-white">
+                            <p className="label-text !text-base-content">
                                 {data.status === 'finished'
                                     ? data.episodes_total
                                     : `${data.episodes_released} / ${data.episodes_total}`}
@@ -77,7 +78,7 @@ const Component = () => {
                             <p className="label-text">Тривалість епізоду:</p>
                         </div>
                         <div className="flex-1">
-                            <p className="label-text text-white">
+                            <p className="label-text !text-base-content">
                                 {formatDuration(
                                     intervalToDuration({
                                         start: 0,
@@ -95,7 +96,7 @@ const Component = () => {
                             <p className="label-text">Рейтинг:</p>
                         </div>
                         <div className="flex-1">
-                            <p className="label-text text-white">
+                            <p className="label-text !text-base-content">
                                 {AGE_RATING[data.rating].title_ua}
                             </p>
                         </div>
@@ -108,9 +109,14 @@ const Component = () => {
                         </div>
                         <div className="flex-1">
                             {studio.company.image ? (
-                                <div
-                                    className="tooltip"
-                                    data-tip={studio.company.name}
+                                <Tooltip
+                                    placement="top"
+                                    className="p-1 mr-1"
+                                    data={
+                                        <p className="text-sm">
+                                            {studio.company.name}
+                                        </p>
+                                    }
                                 >
                                     <Image
                                         src={studio.company.image}
@@ -119,9 +125,9 @@ const Component = () => {
                                         height={50}
                                         className="object-cover w-16 rounded-md"
                                     />
-                                </div>
+                                </Tooltip>
                             ) : (
-                                <p className="label-text text-white">
+                                <p className="label-text !text-base-content">
                                     {studio.company.name}
                                 </p>
                             )}

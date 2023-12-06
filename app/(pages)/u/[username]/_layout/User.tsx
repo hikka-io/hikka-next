@@ -15,6 +15,9 @@ import { useModalContext } from '@/utils/providers/ModalProvider';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 import { ChangeEvent, useRef } from 'react';
 import getFollowStats from '@/utils/api/follow/getFollowStats';
+import clsx from 'clsx';
+import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
+import Tooltip from '@/app/_components/Tooltip';
 
 interface Props {}
 
@@ -140,42 +143,55 @@ const Component = ({}: Props) => {
         <div className="flex flex-col gap-4">
             <div className="grid lg:grid-cols-1 grid-cols-[auto_1fr] gap-4">
                 <div className="relative">
-                    <div className="indicator w-full">
-                        <div className="rounded-full z-[1] overflow-hidden w-32 h-32 lg:w-full pt-[100%] relative group">
-                            <div className="w-full rounded-lg absolute top-0">
-                                <Image
-                                    alt="avatar"
-                                    className="object-contain w-full h-full"
-                                    width={287}
-                                    height={287}
-                                    src={user.avatar}
+                    <div className="rounded-lg z-[1] overflow-hidden w-32 h-32 lg:w-full pt-[100%] relative group">
+                        <div className="w-full rounded-lg absolute top-0">
+                            <Image
+                                alt="avatar"
+                                className="object-contain w-full h-full"
+                                width={287}
+                                height={287}
+                                src={user.avatar}
+                            />
+                        </div>
+                        {loggedUser?.username === user.username && (
+                            <div className="btn btn-badge btn-square btn-secondary absolute bottom-2 right-2 group-hover:opacity-100 opacity-0">
+                                <MaterialSymbolsUploadRounded />
+                                <input
+                                    type="file"
+                                    onChange={handleUploadImageSelected}
+                                    ref={uploadImageRef}
+                                    className="absolute w-full h-full top-0 left-0 opacity-0"
+                                    accept="image/png, image/jpeg"
                                 />
                             </div>
-                            {loggedUser?.username === user.username && (
-                                <div className="btn btn-badge btn-square btn-secondary absolute bottom-2 right-2 group-hover:opacity-100 opacity-0">
-                                    <MaterialSymbolsUploadRounded />
-                                    <input
-                                        type="file"
-                                        onChange={handleUploadImageSelected}
-                                        ref={uploadImageRef}
-                                        className="absolute w-full h-full top-0 left-0 opacity-0"
-                                        accept="image/png, image/jpeg"
-                                    />
-                                </div>
-                            )}
-                            {/*<div className="absolute top-2 right-2">
+                        )}
+                        <div className="absolute top-2 right-2">
                             {(user.role === 'admin' ||
                                 user.role === 'moderator') && (
-                                <div className="w-fit mb-2 text-xs font-bold rounded-md bg-accent text-accent-content px-2 py-1">
-                                    {user.role === 'admin'
-                                        ? 'Адміністратор'
-                                        : 'Модератор'}
-                                </div>
+                                <Tooltip
+                                    placement="left"
+                                    className="p-1 mr-1"
+                                    data={
+                                        <p className="text-sm">
+                                            {user.role === 'admin'
+                                                ? 'Адміністратор'
+                                                : 'Модератор'}
+                                        </p>
+                                    }
+                                >
+                                    <div className="p-1 text-xs font-bold rounded-md bg-accent text-accent-content">
+                                        <ClarityAdministratorSolid />
+                                    </div>
+                                </Tooltip>
                             )}
-                        </div>*/}
                         </div>
-                        {/*<div className={clsx("absolute -bottom-2 rounded-b-lg z-0 left-0 h-4 w-full", user.active ? "bg-success/60" : "bg-neutral/60")} />*/}
                     </div>
+                    <div
+                        className={clsx(
+                            'absolute -bottom-2 rounded-b-lg z-0 left-0 h-4 w-full',
+                            user.active ? 'bg-success' : 'bg-neutral',
+                        )}
+                    />
                 </div>
                 <div className="w-full flex flex-col lg:text-center">
                     <h3 className="overflow-hidden overflow-ellipsis">
@@ -191,7 +207,7 @@ const Component = ({}: Props) => {
                     onClick={() => switchModal('followers')}
                     className="flex-1 flex flex-col gap-1"
                 >
-                    <p className="label-text text-white">
+                    <p className="label-text !text-base-content">
                         <span className="font-bold">
                             {followStats ? followStats.followers : 0}
                         </span>
@@ -202,7 +218,7 @@ const Component = ({}: Props) => {
                     onClick={() => switchModal('followings')}
                     className="flex-1 flex flex-col gap-1"
                 >
-                    <p className="label-text text-white">
+                    <p className="label-text !text-base-content">
                         <span className="font-bold">
                             {followStats ? followStats.following : 0}
                         </span>

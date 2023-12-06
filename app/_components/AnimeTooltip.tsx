@@ -81,7 +81,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
                             {MEDIA_TYPE[data.media_type].title_ua}
                         </p>
                         <div
-                            className="rounded-md px-2 text-sm w-fit"
+                            className="rounded-md px-2 text-sm w-fit text-white"
                             style={{
                                 backgroundColor:
                                     RELEASE_STATUS[data.status].color,
@@ -139,7 +139,7 @@ const Component = ({ slug, children, ...props }: Props) => {
         <Tooltip
             placement="right-start"
             data={<TooltipData slug={slug} />}
-            className="ml-4 flex flex-col gap-4 w-80"
+            className="ml-4 flex flex-col gap-4 w-80 p-4"
         >
             {children}
         </Tooltip>

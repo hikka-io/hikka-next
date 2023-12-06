@@ -39,7 +39,7 @@ const Component = ({ edit, href, ...props }: Props) => {
                     backgroundColor: EDIT_STATUS[edit.status].color,
                 }}
             >
-                <p>{EDIT_STATUS[edit.status as Hikka.EditStatus].title_ua}</p>
+                <p className="label-text !text-white">{EDIT_STATUS[edit.status as Hikka.EditStatus].title_ua}</p>
             </div>
         </Link>
     );

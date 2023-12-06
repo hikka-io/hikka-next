@@ -29,7 +29,7 @@ const Component = () => {
     };
 
     return (
-        <div className="w-60 overflow-y-scroll overscroll-contain border-l border-l-secondary h-full bg-black text-base-content">
+        <div className="w-60 overflow-y-scroll overscroll-contain border-l border-l-secondary h-full bg-base-100 text-base-content">
             <ul className="menu menu-lg p-0 w-full [&_li>*]:rounded-none  mt-4">
                 <li className="menu-title">Загальне</li>
                 <li>

@@ -29,7 +29,7 @@ interface Props {
 const Watch = ({ watch }: { watch: Hikka.Watch }) => (
     <div className="absolute top-0 left-0 w-full">
         <div
-            className="absolute right-2 top-2 border-white w-fit rounded-md p-1 z-[1] bg-secondary text-white"
+            className="absolute right-2 top-2 border-white w-fit rounded-md p-1 z-[1] text-white"
             style={{
                 backgroundColor:
                     WATCH_STATUS[watch.status as Hikka.WatchStatus].color,

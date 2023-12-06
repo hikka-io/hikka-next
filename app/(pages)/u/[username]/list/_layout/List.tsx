@@ -116,7 +116,7 @@ const Component = ({}: Props) => {
                             !Array.isArray(option) &&
                             option && (
                                 <div className="flex items-center gap-4">
-                                    <div className="stat-figure text-xl p-1 text-white rounded-md bg-secondary/60 border border-secondary">
+                                    <div className="stat-figure text-xl p-1 text-base-content rounded-md bg-secondary/60 border border-secondary">
                                         {createElement(
                                             WATCH_STATUS[
                                                 option.value as Hikka.WatchStatus

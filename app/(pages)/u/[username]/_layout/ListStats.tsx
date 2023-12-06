@@ -36,17 +36,17 @@ const Component = ({}: Props) => {
                                 'hover:bg-secondary/10',
                             )}
                         >
-                            <div className="stat-title text-inherit">
+                            <div className="stat-title">
                                 {WATCH_STATUS[status as Hikka.WatchStatus]
                                     .title_ua ||
                                     WATCH_STATUS[status as Hikka.WatchStatus]
                                         .title_en}
                             </div>
                             <div className="grid">
-                                <div className="stat-value font-bold">
+                                <div className="stat-value font-display">
                                     {data[status as Hikka.WatchStatus]}
                                 </div>
-                                <div className="stat-figure text-xl p-1 text-white rounded-md bg-secondary">
+                                <div className="stat-figure text-xl p-1 rounded-md bg-secondary">
                                     {createElement(
                                         WATCH_STATUS[
                                             status as Hikka.WatchStatus

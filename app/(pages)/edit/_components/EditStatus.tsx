@@ -17,7 +17,7 @@ const Component = ({ status }: Props) => {
                 backgroundColor: EDIT_STATUS[status].color,
             }}
         >
-            <p className="text-base font-normal">
+            <p className="label-text font-normal !text-white">
                 {EDIT_STATUS[status].title_ua}
             </p>
         </div>

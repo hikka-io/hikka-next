@@ -31,7 +31,7 @@ const Component = async ({ list }: Props) => {
                         htmlFor="filterDrawer"
                         className="drawer-overlay"
                     ></label>
-                    <div className="p-8 lg:p-4 w-full overflow-y-scroll overscroll-contain h-full bg-black text-base-content">
+                    <div className="p-8 lg:p-4 w-full overflow-y-scroll overscroll-contain h-full bg-base-100 text-base-content">
                         <Filters />
                     </div>
                 </div>

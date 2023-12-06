@@ -14,10 +14,14 @@ import MaterialSymbolsSearch from '~icons/material-symbols/search';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
 import NavMenu from '@/app/_layout/navbar/_layout/NavMenu';
 import useIsMobile from '@/utils/hooks/useIsMobile';
+import MaterialSymbolsLightModeRounded from '~icons/material-symbols/light-mode-rounded';
+import MaterialSymbolsDarkModeRounded from '~icons/material-symbols/dark-mode-rounded';
+import { useThemeContext } from '@/utils/providers/ThemeProvider';
 
 interface Props extends PropsWithChildren {}
 
 const Component = ({}: Props) => {
+    const { switchTheme, theme } = useThemeContext();
     const isMobile = useIsMobile();
     const { switchPopper } = usePopperContext();
     const { switchModal } = useModalContext();
@@ -46,19 +50,13 @@ const Component = ({}: Props) => {
                 'border-b border-b-secondary/30',
                 'transition',
                 'sticky z-10 top-0',
-                trigger && '!bg-black !border-b-secondary',
+                trigger && '!bg-base-100 !border-b-secondary',
             )}
         >
             <div className="navbar md:gap-8 gap-4 container max-w-[88rem] px-4 mx-auto">
                 <div className="flex flex-1 md:gap-8 gap-4 overflow-hidden">
                     <Link href="/" className="w-20 h-full">
-                        <Image
-                            src="/logo.svg"
-                            alt="Hikka"
-                            width={80}
-                            height={24}
-                            className="w-full h-full"
-                        />
+                        <div className="logo w-[80px] h-[24px] bg-base-content" />
                     </Link>
 
                     <div
@@ -74,7 +72,7 @@ const Component = ({}: Props) => {
                         className={clsx(
                             'btn btn-outline btn-secondary btn-sm',
                             'bg-secondary/30 hover:!bg-secondary/60',
-                            'lg:w-48 lg:justify-between lg:!text-white/60 lg:font-normal',
+                            'lg:w-48 lg:justify-between lg:!text-base-content/60 lg:font-normal',
                             'transition-all duration-200',
                             'lg:hover:w-60',
                             'items-center',
@@ -95,6 +93,21 @@ const Component = ({}: Props) => {
                             <div />
                         )}
                     </button>
+                    <label className="btn btn-ghost btn-sm btn-square btn-secondary swap swap-rotate">
+                        {/* this hidden checkbox controls the state */}
+                        <input
+                            type="checkbox"
+                            onChange={(e) =>
+                                switchTheme(theme === 'dark' ? 'light' : 'dark')
+                            }
+                            checked={theme === 'dark'}
+                        />
+
+                        {/* hamburger icon */}
+                        <MaterialSymbolsLightModeRounded className="swap-off fill-current" />
+                        {/* close icon */}
+                        <MaterialSymbolsDarkModeRounded className="swap-on fill-current" />
+                    </label>
                     {user ? (
                         <button
                             ref={profileRef}
@@ -127,10 +140,7 @@ const Component = ({}: Props) => {
                     )}
                 </div>
             </div>
-            <div
-                className="w-full"
-                id="breadcrumbs-mobile"
-            />
+            <div className="w-full" id="breadcrumbs-mobile" />
             {/*<div className="w-full container mx-auto max-w-[88rem] px-4" id="subbar" />*/}
             <ProfileMenu anchorEl={profileRef.current} />
         </nav>

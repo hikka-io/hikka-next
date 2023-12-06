@@ -17,6 +17,7 @@ import {
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants';
+import Tooltip from '@/app/_components/Tooltip';
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
@@ -105,7 +106,7 @@ const Component = () => {
                 'transition',
             )}
         >
-            <h3 className="text-white lg:hidden">Фільтри</h3>
+            <h3 className="text-base-content lg:hidden">Фільтри</h3>
             <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll lg:overflow-y-visible">
                 <div className="w-full">
                     <label className="label">
@@ -115,7 +116,7 @@ const Component = () => {
                         <Select
                             placeholder="Виберіть жанр/жанри"
                             multiple
-                            toggleClassName="btn-outline btn-secondary"
+                            toggleClassName="btn-outline btn-secondary font-normal"
                             value={genres}
                             onChange={(_e, value) =>
                                 handleChangeParam('genres', value as string[])
@@ -247,18 +248,30 @@ const Component = () => {
                                 )}
                             >
                                 {AGE_RATING[slug as Hikka.AgeRating].title_ua}
-                                <div className="hidden tooltip-left lg:block tooltip font-normal normal-case" data-tip={AGE_RATING[slug as Hikka.AgeRating].description}>
-                                    <MaterialSymbolsInfoRounded className="transition duration-100 text-xs opacity-30 hover:opacity-100" />
-                                </div>
+                                <Tooltip
+                                    placement="top"
+                                    className="p-1 mr-1"
+                                    data={
+                                        <p className="text-sm">
+                                            {
+                                                AGE_RATING[
+                                                    slug as Hikka.AgeRating
+                                                ].description
+                                            }
+                                        </p>
+                                    }
+                                >
+                                    <div>
+                                        <MaterialSymbolsInfoRounded className="transition duration-100 text-xs opacity-30 hover:opacity-100" />
+                                    </div>
+                                </Tooltip>
                             </button>
                         ))}
                     </div>
                 </div>
                 <div className="w-full">
                     <label className="label">
-                        <span className="label-text">
-                            Рік виходу
-                        </span>
+                        <span className="label-text">Рік виходу</span>
                     </label>
                     <div className="flex gap-4 items-center">
                         <p className="badge">{selectingYears[0]}</p>
@@ -292,14 +305,14 @@ const Component = () => {
             <div className="w-full flex gap-2 lg:relative sticky bottom-4">
                 <button
                     onClick={clearFilters}
-                    className="btn btn-outline flex-1 btn-error bg-black"
+                    className="btn btn-outline flex-1 btn-error bg-base-100"
                 >
                     <AntDesignClearOutlined />
                     Очистити
                 </button>
                 <label
                     htmlFor="filterDrawer"
-                    className="btn btn-secondary drawer-button btn-square btn-outline flex lg:hidden bg-black"
+                    className="btn btn-secondary drawer-button btn-square btn-outline flex lg:hidden bg-base-100"
                 >
                     <AntDesignCloseOutlined />
                 </label>

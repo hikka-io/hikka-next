@@ -30,7 +30,7 @@ const Component = (props: Props) => {
                 open={open}
                 {...etc}
             >
-                <div className="mt-3 flex overflow-hidden flex-col rounded-lg w-60 border border-solid border-secondary bg-black shadow-md">
+                <div className="mt-3 flex overflow-hidden flex-col rounded-lg w-60 border border-solid border-secondary bg-base-100 shadow-md">
                     {typeof children !== "function" && children}
                 </div>
             </Popper>

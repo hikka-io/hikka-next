@@ -9,6 +9,7 @@ import PasswordConfirmForm from '@/app/_layout/auth/PasswordConfirmForm';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import getOAuth from '@/utils/api/auth/getOAuth';
 import LogosGoogleIcon from '~icons/logos/google-icon'
+import React from "react";
 
 const Component = () => {
     const { login, signup, forgotPassword, passwordConfirm, closeModals } = useModalContext();
@@ -43,12 +44,7 @@ const Component = () => {
                 </div>
                 <div className="py-8 px-8 w-full text-center flex flex-col items-center gap-4">
                     <div className="h-12 flex items-center">
-                        <Image
-                            src="/logo.svg"
-                            alt="Hikka"
-                            width={85}
-                            height={25}
-                        />
+                        <div className="logo w-[80px] h-[24px] bg-base-content" />
                     </div>
                     {forgotPassword && <ForgotPasswordForm />}
                     {login && <LoginForm />}

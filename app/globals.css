@@ -31,9 +31,9 @@
     animation-fill-mode: forwards;
 }
 
-:root {
-    color-scheme: dark;
-}
+/*:root {*/
+/*    color-scheme: dark;*/
+/*}*/
 
 html {
     /*scroll-behavior: smooth;*/
@@ -41,11 +41,26 @@ html {
 }
 
 body {
-    color: white;
-    background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
-    background-color: black;
+    @apply bg-base-100;
     background-repeat: no-repeat;
     background-size: 100% 100vh;
+}
+
+[data-theme="dark"] body {
+    @apply text-base-content;
+    background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
+}
+
+[data-theme="light"] body {
+    @apply text-black;
+    /*background-image: linear-gradient(180deg, #fbf7fd 0%, #fafafa 60%, #fafafa 100%);*/
+}
+
+.logo {
+    -webkit-mask: url(/logo.svg) no-repeat center;
+    mask: url(/logo.svg) no-repeat center;
+    mask-size: contain;
+    -webkit-mask-size: contain;
 }
 
 main {
@@ -96,13 +111,13 @@ h5 {
 */
 
 .btn {
-    /*@apply text-white/90;*/
+    /*@apply text-base-content/90;*/
     text-transform: capitalize;
     animation: none;
 }
 
 .btn:hover {
-    /*@apply text-white;*/
+    /*@apply text-base-content;*/
 }
 
 /* secondary btn */
@@ -175,8 +190,7 @@ h5 {
 }
 
 .btn-badge {
-    height: 2rem;
-    min-height: 2rem;
+    @apply font-normal h-8 min-h-8;
 }
 
 .btn-square:where(.btn-badge) {
@@ -201,11 +215,11 @@ h5 {
 }
 
 .btn.btn-outline {
-    /*@apply text-white;*/
+    /*@apply text-base-content;*/
 }
 
 .MuiSlider-markActive {
-    @apply bg-white
+    @apply bg-base-content
 }
 
 .Mui-selected .selected {
@@ -217,11 +231,11 @@ textarea:focus, input:focus {
 }
 
 .modal {
-    @apply text-white;
+    @apply text-base-content;
 }
 
 .modal-box {
-    @apply bg-black;
+    @apply bg-base-100;
 }
 
 .modal::backdrop {
@@ -246,7 +260,7 @@ textarea:focus, input:focus {
 }
 
 .tooltip:before {
-    @apply bg-black border border-secondary;
+    @apply bg-base-100 border border-secondary;
 }
 
 .tooltip:after {
@@ -294,4 +308,8 @@ textarea:focus, input:focus {
 
 .menu li > *:not(ul):not(.menu-title):not(details):active:hover, .menu li > *:not(ul):not(.menu-title):not(details).active:hover, .menu li > details > summary:active:hover {
     @apply bg-accent-focus;
+}
+
+.label-text, .label-text-alt {
+    @apply text-neutral;
 }

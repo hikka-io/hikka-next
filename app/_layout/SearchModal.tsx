@@ -68,7 +68,7 @@ const Component = () => {
             <div
                 className={clsx(
                     'relative py-8 px-8 flex flex-col gap-6',
-                    "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-black after:to-transparent",
+                    "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-base-100 after:to-transparent",
                 )}
             >
                 <div className="input input-md bg-secondary/60 flex items-center pr-4 gap-2">

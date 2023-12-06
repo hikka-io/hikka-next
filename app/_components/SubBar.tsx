@@ -32,7 +32,7 @@ const Component = ({ children, mobileOnly }: Props) => {
     }
 
     return createPortal(
-        <div className="overflow-hidden px-4 shadow-lg border border-secondary rounded-full bg-black">
+        <div className="overflow-hidden px-4 shadow-lg border border-secondary rounded-full bg-base-100">
             {children}
         </div>,
         document.getElementById('subbar')!,

@@ -50,7 +50,7 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
             <SnackbarContent
                 ref={forwardedRef}
                 className={clsx(
-                    'flex gap-4 h-full flex-nowrap bg-black border border-secondary text-sm text-white items-center p-4 max-w-sm rounded-md shadow-md',
+                    'flex gap-4 h-full flex-nowrap bg-base-100 border border-secondary text-sm text-base-content items-center p-4 max-w-sm rounded-md shadow-md',
                 )}
             >
                 {icons[variant] !== null &&

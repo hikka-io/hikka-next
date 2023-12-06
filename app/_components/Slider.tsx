@@ -41,7 +41,7 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                     return {
                         ...resolvedSlotProps,
                         className: clsx(
-                            'block absolute w-full h-1 rounded-sm bg-white opacity-40',
+                            'block absolute w-full h-1 rounded-sm bg-base-content opacity-40',
                             resolvedSlotProps?.className,
                         ),
                     };
@@ -55,7 +55,7 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                     return {
                         ...resolvedSlotProps,
                         className: clsx(
-                            'block absolute h-1 rounded-sm bg-white',
+                            'block absolute h-1 rounded-sm bg-base-content',
                             resolvedSlotProps?.className,
                         ),
                     };
@@ -68,7 +68,7 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                     return {
                         ...resolvedSlotProps,
                         className: clsx(
-                            `absolute w-4 h-4 -ml-1.5 -mt-1.5 box-border rounded-full outline-0 border-3 border-solid border-current bg-white hover:shadow-outline-purple`,
+                            `absolute w-4 h-4 -ml-1.5 -mt-1.5 box-border rounded-full outline-0 border-3 border-solid border-current bg-base-content hover:shadow-outline-purple`,
                             focused || (active && 'shadow-outline-purple'),
                             resolvedSlotProps?.className,
                         ),
@@ -78,7 +78,7 @@ const Component = React.forwardRef<HTMLSpanElement, Props>((props, ref) => {
                     // console.log(ownerState)
                     return {
                         className: clsx(
-                            'absolute w-2 h-2 rounded-full bg-zinc-400 top-[calc(50%-0.125rem)] -translate-x-1/2',
+                            'absolute w-2 h-2 rounded-full bg-neutral top-[calc(50%-0.125rem)] -translate-x-1/2',
                         ),
                     };
                 },

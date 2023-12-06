@@ -118,7 +118,7 @@ const Component = ({}: Props) => {
                                         <div className="flex flex-col justify-between">
                                             <Link
                                                 href={'/u/' + user.username}
-                                                className="label-text text-white font-bold"
+                                                className="label-text !text-base-content font-bold"
                                             >
                                                 {user.username}
                                             </Link>
