@@ -10,18 +10,14 @@ import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
 import getWatchStats from '@/utils/api/watch/getWatchStats';
 import NavMenu from '@/app/(pages)/u/[username]/_layout/NavMenu';
 import { redirect } from 'next/navigation';
-import getFollowings from '@/utils/api/follow/getFollowings';
-import getFollowers from '@/utils/api/follow/getFollowers';
-import Followers from '@/app/(pages)/u/[username]/_layout/Followers';
-import Followings from '@/app/(pages)/u/[username]/_layout/Followings';
 import { Metadata, ResolvingMetadata } from 'next';
 import ActivationAlert from '@/app/(pages)/u/[username]/_layout/ActivationAlert';
 import Breadcrumbs from '@/app/_components/Breadcrumbs';
 import Link from 'next/link';
 import SubBar from '@/app/_components/SubBar';
 import NavBar from './_layout/NavBar';
-import {getCookie} from "@/app/actions";
-import FollowListModal from "@/app/(pages)/u/[username]/_layout/FollowListModal";
+import { getCookie } from '@/app/actions';
+import FollowListModal from '@/app/(pages)/u/[username]/_layout/FollowListModal';
 import getFollowStats from '@/utils/api/follow/getFollowStats';
 
 interface Props extends PropsWithChildren {
@@ -30,7 +26,7 @@ interface Props extends PropsWithChildren {
     };
 }
 
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export async function generateMetadata(
     {
@@ -79,8 +75,9 @@ const Component = async ({ params: { username }, children }: Props) => {
         getUserInfo({ username }),
     );
 
-    await queryClient.prefetchInfiniteQuery(['favorites', username, secret], () =>
-        getFavouriteList({ username }),
+    await queryClient.prefetchInfiniteQuery(
+        ['favorites', username, secret],
+        () => getFavouriteList({ username }),
     );
 
     await queryClient.prefetchQuery(['watchStats', username], () =>
@@ -90,7 +87,6 @@ const Component = async ({ params: { username }, children }: Props) => {
     await queryClient.prefetchQuery(['followStats', username], () =>
         getFollowStats({ username }),
     );
-
 
     const dehydratedState = dehydrate(queryClient);
 

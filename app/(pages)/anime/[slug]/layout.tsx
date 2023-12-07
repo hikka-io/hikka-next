@@ -26,7 +26,7 @@ interface Props extends PropsWithChildren {
     };
 }
 
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export async function generateMetadata(
     {

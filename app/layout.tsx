@@ -114,7 +114,7 @@ export default async function RootLayout({
         <html
             className={`${inter.variable} ${fixelDisplay.variable}`}
             lang="uk"
-            data-theme="light"
+            data-theme="dark"
         >
             <body>{children}</body>
         </html>
