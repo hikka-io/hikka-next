@@ -31,7 +31,7 @@ export async function GET(
                     fontSize: 16,
                     gap: 32,
                     color: 'white',
-                    background: 'black',
+                    background: 'linear-gradient(180deg, #160820 0%, #000 60%, #000 100%)',
                     width: '100%',
                     height: '100%',
                     padding: '32px',
