@@ -30,7 +30,7 @@ interface Props {
 }
 
 function getInitialState(): State {
-    const theme = window ? localStorage.getItem('theme') : undefined;
+    const theme = window !== undefined ? localStorage.getItem('theme') : undefined;
 
     return {
         theme: theme ? (theme as Theme) : 'dark',
