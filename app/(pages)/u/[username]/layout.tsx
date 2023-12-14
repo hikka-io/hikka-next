@@ -58,7 +58,7 @@ export async function generateMetadata(
                 template: user.username + ' / %s / Hikka',
             },
             description: user.description || '',
-            images: '/generate/preview/u/' + username,
+            images: 'https://hikkaio.vercel.app/generate/preview/u/' + username,
         },
         twitter: {
             title: {
@@ -66,7 +66,7 @@ export async function generateMetadata(
                 template: user.username + ' / %s / Hikka',
             },
             description: user.description || '',
-            images: '/generate/preview/u/' + username,
+            images: 'https://hikkaio.vercel.app/generate/preview/u/' + username,
         },
     };
 }
