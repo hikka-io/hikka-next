@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { EDIT_STATUS } from '@/utils/constants';
 
 interface Props {
@@ -12,7 +13,7 @@ const Component = ({ status }: Props) => {
 
     return (
         <div
-            className="rounded-md whitespace-nowrap px-2"
+            className="whitespace-nowrap rounded-md px-2"
             style={{
                 backgroundColor: EDIT_STATUS[status].color,
             }}

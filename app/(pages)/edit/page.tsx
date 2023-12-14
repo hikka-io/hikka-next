@@ -1,8 +1,10 @@
-import EditList from './_layout/EditList';
-import getQueryClient from '@/utils/getQueryClient';
-import RQHydrate from '@/utils/RQHydrate';
 import { dehydrate } from '@tanstack/query-core';
+
+import RQHydrate from '@/utils/RQHydrate';
 import getEditList from '@/utils/api/edit/getEditList';
+import getQueryClient from '@/utils/getQueryClient';
+
+import EditList from './_layout/EditList';
 
 const Component = async () => {
     const queryClient = getQueryClient();
@@ -15,7 +17,7 @@ const Component = async () => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 lg:gap-16 gap-12">
+            <div className="grid grid-cols-1 gap-12 lg:gap-16">
                 <EditList />
             </div>
         </RQHydrate>

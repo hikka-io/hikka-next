@@ -1,18 +1,22 @@
-import AnimeEditView from './_layout/AnimeEditView';
-import getQueryClient from '@/utils/getQueryClient';
-import RQHydrate from '@/utils/RQHydrate';
-import { dehydrate } from '@tanstack/query-core';
-import getEdit from '@/utils/api/edit/getEdit';
-import Author from './_layout/Author';
-import Actions from './_layout/Actions';
-import Moderator from '@/app/(pages)/edit/[editId]/_layout/Moderator';
-import AnimeContent from '@/app/(pages)/edit/[editId]/_layout/AnimeContent';
-import SubHeader from '@/app/_components/SubHeader';
 import * as React from 'react';
+
+import Link from 'next/link';
+
+import { dehydrate } from '@tanstack/query-core';
+
+import AnimeContent from '@/app/(pages)/edit/[editId]/_layout/AnimeContent';
+import Moderator from '@/app/(pages)/edit/[editId]/_layout/Moderator';
 import EditStatus from '@/app/(pages)/edit/_components/EditStatus';
-import Breadcrumbs from "@/app/_components/Breadcrumbs";
-import {RELEASE_STATUS} from "@/utils/constants";
-import Link from "next/link";
+import Breadcrumbs from '@/app/_components/Breadcrumbs';
+import SubHeader from '@/app/_components/SubHeader';
+import RQHydrate from '@/utils/RQHydrate';
+import getEdit from '@/utils/api/edit/getEdit';
+import { RELEASE_STATUS } from '@/utils/constants';
+import getQueryClient from '@/utils/getQueryClient';
+
+import Actions from './_layout/Actions';
+import AnimeEditView from './_layout/AnimeEditView';
+import Author from './_layout/Author';
 
 interface Props {
     params: { editId: string };
@@ -34,9 +38,12 @@ const Component = async ({ params: { editId } }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid lg:grid-cols-[1fr_25%] grid-cols-1 lg:gap-16 gap-12">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Breadcrumbs>
-                    <Link href={'/edit/' + edit?.edit_id} className="text-sm font-bold hover:underline">
+                    <Link
+                        href={'/edit/' + edit?.edit_id}
+                        className="text-sm font-bold hover:underline"
+                    >
                         Правка #{edit?.edit_id}
                     </Link>
                 </Breadcrumbs>

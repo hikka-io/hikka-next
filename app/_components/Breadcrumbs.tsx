@@ -1,9 +1,10 @@
 'use client';
 
+import clsx from 'clsx';
 import { Children, PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
-import clsx from 'clsx';
+
 import useIsMobile from '@/utils/hooks/useIsMobile';
 
 interface Props extends PropsWithChildren {}
@@ -23,7 +24,7 @@ const Component = ({ children }: Props) => {
 
     if (isMobile) {
         return createPortal(
-            <div className="min-h-[2.5rem] px-4 h-auto flex-1 gap-4 items-center overflow-hidden flex md:hidden">
+            <div className="flex h-auto min-h-[2.5rem] flex-1 items-center gap-4 overflow-hidden px-4 md:hidden">
                 {Children.map(arrayChildren, (child, index) => {
                     return (
                         <>

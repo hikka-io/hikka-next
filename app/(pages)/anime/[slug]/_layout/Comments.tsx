@@ -1,8 +1,9 @@
 'use client';
 
-import Image from '@/app/_components/Image';
 import { formatDistance } from 'date-fns';
-import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded'
+import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded';
+
+import Image from '@/app/_components/Image';
 
 interface CommentProps {
     comment: Hikka.Comment;
@@ -108,7 +109,7 @@ const Comment = ({ comment }: CommentProps) => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-between">
-                        <p className="label-text !text-base-content font-bold">
+                        <p className="label-text font-bold !text-base-content">
                             {comment.user.username}
                         </p>
                         <p className="label-text-alt opacity-60">
@@ -122,7 +123,7 @@ const Comment = ({ comment }: CommentProps) => {
                 </div>
                 <p>{comment.text}</p>
                 <div>
-                    <button className="btn btn-ghost btn-secondary btn-sm opacity-60">
+                    <button className="btn btn-secondary btn-ghost btn-sm opacity-60">
                         Відповісти
                     </button>
                 </div>
@@ -152,9 +153,14 @@ const Component = () => {
         <div className="flex flex-col gap-8">
             <h3>Коментарі</h3>
             <div className="relative">
-                <textarea rows={5} className="textarea bg-secondary/60 text-base w-full" />
+                <textarea
+                    rows={5}
+                    className="textarea w-full bg-secondary/60 text-base"
+                />
                 <div className="absolute bottom-4 left-2">
-                    <button className="btn btn-ghost btn-secondary btn-sm btn-square"><MaterialSymbolsImageOutlineRounded /></button>
+                    <button className="btn btn-square btn-secondary btn-ghost btn-sm">
+                        <MaterialSymbolsImageOutlineRounded />
+                    </button>
                 </div>
             </div>
             <Comments comments={DATA} />

@@ -1,8 +1,10 @@
 'use client';
 
+import * as React from 'react';
+
 import Modal from '@/app/_components/Modal';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-import * as React from 'react';
+
 import Content from './content.mdx';
 
 const Component = () => {
@@ -20,7 +22,7 @@ const Component = () => {
             boxClassName="p-0 flex flex-col relative"
             title="Правовласникам"
         >
-            <div className="flex-1 p-8 markdown">
+            <div className="markdown flex-1 p-8">
                 <Content />
             </div>
         </Modal>

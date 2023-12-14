@@ -18,18 +18,24 @@ interface Request {
     size?: number;
 }
 
-export default async function req(
-    { page = 1, size = 15, secret, ...params }: Request,
-): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
-    const res = await fetch(config.baseAPI + '/anime?page=' + page + "&size=" + size, {
-        method: 'post',
-        body: JSON.stringify(params),
-        ...config.config,
-        headers: {
-            ...config.config.headers,
-            auth: secret || '',
+export default async function req({
+    page = 1,
+    size = 15,
+    secret,
+    ...params
+}: Request): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
+    const res = await fetch(
+        config.baseAPI + '/anime?page=' + page + '&size=' + size,
+        {
+            method: 'post',
+            body: JSON.stringify(params),
+            ...config.config,
+            headers: {
+                ...config.config.headers,
+                auth: secret || '',
+            },
         },
-    });
+    );
 
     if (!res.ok) {
         if (res.status >= 400 && res.status <= 499) {

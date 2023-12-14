@@ -1,6 +1,6 @@
+import SnackbarUtils from '@/utils/SnackbarUtils';
 import config from '@/utils/api/config';
 import getApiErrorMessage from '@/utils/getApiErrorMessage';
-import SnackbarUtils from '@/utils/SnackbarUtils';
 
 export interface Response {
     success: boolean;

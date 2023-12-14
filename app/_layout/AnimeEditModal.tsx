@@ -1,24 +1,27 @@
 'use client';
 
-import Modal from '@/app/_components/Modal';
-import { useForm } from 'react-hook-form';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQueryClient } from '@tanstack/react-query';
-import { useModalContext } from '@/utils/providers/ModalProvider';
-import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
-import { useParams } from 'next/navigation';
+import clsx from 'clsx';
+import { format } from 'date-fns';
 import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
-import addEdit from '@/utils/api/edit/addEdit';
-import BaseCard from '@/app/_components/BaseCard';
-import { format } from 'date-fns';
+import { useForm } from 'react-hook-form';
+
 import Link from 'next/link';
-import updateEdit from '@/utils/api/edit/updateEdit';
+import { useParams } from 'next/navigation';
+
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { useQueryClient } from '@tanstack/react-query';
+
+import BaseCard from '@/app/_components/BaseCard';
+import Modal from '@/app/_components/Modal';
+import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
 import acceptEdit from '@/utils/api/edit/acceptEdit';
+import addEdit from '@/utils/api/edit/addEdit';
 import closeEdit from '@/utils/api/edit/closeEdit';
 import denyEdit from '@/utils/api/edit/denyEdit';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import updateEdit from '@/utils/api/edit/updateEdit';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = Hikka.EditParams & {
     description: string;
@@ -233,11 +236,11 @@ const Component = ({ edit, setEdit }: Props) => {
             {Boolean(animeEdit) && (isView ? true : Boolean(anime)) && (
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="py-8 px-8 flex flex-col gap-6"
+                    className="flex flex-col gap-6 px-8 py-8"
                 >
                     {edit && (
-                        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
-                            <div className="w-full flex gap-4 items-center">
+                        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto]">
+                            <div className="flex w-full items-center gap-4">
                                 <div className="w-12">
                                     <BaseCard
                                         href={'/u/' + edit.author.username}
@@ -245,13 +248,13 @@ const Component = ({ edit, setEdit }: Props) => {
                                         poster={edit.author.avatar}
                                     />
                                 </div>
-                                <div className="flex flex-col flex-1">
+                                <div className="flex flex-1 flex-col">
                                     <Link href={'/u/' + edit.author.username}>
                                         <h5>{edit.author.username}</h5>
                                     </Link>
                                     <div className="flex flex-col gap-1">
-                                        <div className="flex gap-4 items-center">
-                                            <p className="label-text opacity-60 text-sm">
+                                        <div className="flex items-center gap-4">
+                                            <p className="label-text text-sm opacity-60">
                                                 {format(
                                                     edit.created * 1000,
                                                     'd MMM yyyy kk:mm',
@@ -262,14 +265,14 @@ const Component = ({ edit, setEdit }: Props) => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-flow-col auto-cols-fr gap-2">
+                            <div className="grid auto-cols-fr grid-flow-col gap-2">
                                 {(loggedUser?.role === 'moderator' ||
                                     loggedUser?.role === 'admin') &&
                                 edit.status === 'pending' ? (
                                     <>
                                         <button
                                             disabled={isSubmitting}
-                                            className="btn btn-sm btn-success"
+                                            className="btn btn-success btn-sm"
                                             onClick={handleSubmit(
                                                 onAcceptSubmit,
                                             )}
@@ -278,7 +281,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                         </button>
                                         <button
                                             disabled={isSubmitting}
-                                            className="btn btn-sm btn-error"
+                                            className="btn btn-error btn-sm"
                                             onClick={handleSubmit(onDenySubmit)}
                                         >
                                             Відхилити
@@ -290,7 +293,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                     edit.status === 'pending' && (
                                         <button
                                             disabled={isSubmitting}
-                                            className="btn btn-sm btn-warning"
+                                            className="btn btn-warning btn-sm"
                                             onClick={handleSubmit(
                                                 onCloseSubmit,
                                             )}
@@ -301,18 +304,18 @@ const Component = ({ edit, setEdit }: Props) => {
                             </div>
                         </div>
                     )}
-                    <div className="w-full flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2">
                         <div className="collapse collapse-arrow border border-secondary">
                             <input
                                 ref={titleRef}
                                 type="checkbox"
                                 defaultChecked={Boolean(edit)}
                             />
-                            <div className="collapse-title flex gap-4 items-center">
+                            <div className="collapse-title flex items-center gap-4">
                                 <h5>Назва аніме</h5>
                             </div>
                             <div className="collapse-content flex flex-col gap-2">
-                                <div className="flex gap-2 flex-wrap">
+                                <div className="flex flex-wrap gap-2">
                                     {TITLE_PARAMS.map((param) => (
                                         <button
                                             disabled={isView}
@@ -321,7 +324,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                                 switchParam(param.param)
                                             }
                                             className={clsx(
-                                                'btn btn-badge btn-secondary rounded-badge',
+                                                'btn-badge btn btn-secondary rounded-badge',
                                                 editParams.includes(param.param)
                                                     ? 'btn-accent'
                                                     : 'btn-outline',
@@ -354,7 +357,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                                 disabled={isView}
                                                 type="text"
                                                 placeholder={param.placeholder}
-                                                className="input bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                                className="input w-full bg-secondary/60 disabled:bg-secondary/60 disabled:text-secondary-content"
                                                 {...register(param.param, {
                                                     value: edit
                                                         ? edit!.after[
@@ -371,17 +374,17 @@ const Component = ({ edit, setEdit }: Props) => {
                                 })}
                             </div>
                         </div>
-                        <div className="collapse collapse-arrow border border-secondary">
+                        <div className="collapse-arrow collapse border border-secondary">
                             <input
                                 ref={synopsisRef}
                                 type="checkbox"
                                 defaultChecked={Boolean(edit)}
                             />
-                            <div className="collapse-title flex gap-4 items-center">
+                            <div className="collapse-title flex items-center gap-4">
                                 <h5>Опис аніме</h5>
                             </div>
                             <div className="collapse-content flex flex-col gap-2">
-                                <div className="flex gap-2 flex-wrap">
+                                <div className="flex flex-wrap gap-2">
                                     {SYNOPSIS_PARAMS.map((param) => (
                                         <button
                                             disabled={isView}
@@ -390,7 +393,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                                 switchParam(param.param)
                                             }
                                             className={clsx(
-                                                'btn btn-badge btn-secondary rounded-badge',
+                                                'btn-badge btn btn-secondary rounded-badge',
                                                 editParams.includes(param.param)
                                                     ? 'btn-accent'
                                                     : 'btn-outline',
@@ -423,7 +426,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                                 disabled={isView}
                                                 placeholder={param.placeholder}
                                                 rows={5}
-                                                className="textarea textarea-ghost text-base bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                                className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
                                                 {...register(param.param, {
                                                     value: edit
                                                         ? edit!.after[
@@ -442,9 +445,7 @@ const Component = ({ edit, setEdit }: Props) => {
                         </div>
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text">
-                                    Опис правки
-                                </span>
+                                <span className="label-text">Опис правки</span>
                                 <span className="label-text">
                                     Необов’язково
                                 </span>
@@ -453,7 +454,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                 disabled={isView}
                                 placeholder="Введіть причину правки"
                                 rows={3}
-                                className="textarea textarea-ghost text-base bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
                                 {...register('description', {
                                     value: edit
                                         ? edit!.description
@@ -465,7 +466,7 @@ const Component = ({ edit, setEdit }: Props) => {
                         </div>
                     </div>
                     {!isView && (
-                        <div className="w-full flex flex-col gap-4">
+                        <div className="flex w-full flex-col gap-4">
                             <Turnstile
                                 ref={captchaRef}
                                 siteKey="0x4AAAAAAANXs8kaCqjo_FLF"

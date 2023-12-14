@@ -1,12 +1,15 @@
 'use client';
 
-import { WATCH_STATUS } from '@/utils/constants';
-import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import SubHeader from '@/app/_components/SubHeader';
 import { createElement, useRef } from 'react';
 import { NumericFormat } from 'react-number-format';
+
+import { useParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
+import SubHeader from '@/app/_components/SubHeader';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import { WATCH_STATUS } from '@/utils/constants';
 import useSize from '@/utils/hooks/useSize';
 
 const DATA = [
@@ -87,8 +90,8 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="У Списках" />
-            <div className="relative overflow-hidden p-4 border border-secondary/60 rounded-lg bg-secondary/30">
-                <div className="flex flex-col gap-2 justify-center">
+            <div className="relative overflow-hidden rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+                <div className="flex flex-col justify-center gap-2">
                     {Object.keys(data.stats)
                         .filter((stat) => !stat.includes('score'))
                         .map((stat) => {
@@ -101,10 +104,10 @@ const Component = () => {
                             return (
                                 <div
                                     key={stat}
-                                    className="flex gap-2 justify-between items-center"
+                                    className="flex items-center justify-between gap-2"
                                 >
-                                    <div className="flex gap-2 items-center">
-                                        <div className="p-1 bg-secondary rounded-md">
+                                    <div className="flex items-center gap-2">
+                                        <div className="rounded-md bg-secondary p-1">
                                             {createElement(status.icon)}
                                         </div>
                                         <p className="label-text-alt w-10 text-right">
@@ -118,16 +121,16 @@ const Component = () => {
                                     </div>
                                     <div
                                         ref={ref}
-                                        className="relative overflow-hidden rounded-md w-full h-2"
+                                        className="relative h-2 w-full overflow-hidden rounded-md"
                                     >
                                         <div
-                                            className="absolute bottom-0 left-0 w-full h-full opacity-10"
+                                            className="absolute bottom-0 left-0 h-full w-full opacity-10"
                                             style={{
                                                 backgroundColor: status.color,
                                             }}
                                         />
                                         <div
-                                            className="absolute bottom-0 w-full p-2 left-0 flex items-end justify-center"
+                                            className="absolute bottom-0 left-0 flex w-full items-end justify-center p-2"
                                             style={{
                                                 backgroundColor: status.color,
                                                 width: `${

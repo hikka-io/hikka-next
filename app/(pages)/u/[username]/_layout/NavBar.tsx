@@ -1,8 +1,10 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
+
 import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
 import { USER_NAV_ROUTES } from '@/utils/constants';
 
 const Component = () => {
@@ -10,14 +12,14 @@ const Component = () => {
     const pathname = usePathname();
 
     return (
-        <div className="tabs flex-nowrap w-full">
+        <div className="tabs w-full flex-nowrap">
             {USER_NAV_ROUTES.map((r) => (
                 <Link
                     key={r.slug}
                     className={clsx(
                         'tab h-16',
                         pathname === '/u/' + params.username + r.url &&
-                            'tab-bordered tab-active',
+                            'tab-active tab-bordered',
                     )}
                     href={'/u/' + params.username + r.url}
                 >

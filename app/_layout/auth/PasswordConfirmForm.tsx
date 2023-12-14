@@ -1,14 +1,16 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
-import { useModalContext } from '@/utils/providers/ModalProvider';
 import { useSnackbar } from 'notistack';
-import confirmPasswordReset from '@/utils/api/auth/confirmPasswordReset';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
 import { useSearchParams } from 'next/navigation';
+
 import { setCookie } from '@/app/actions';
-import useRouter from '@/utils/useRouter';
+import confirmPasswordReset from '@/utils/api/auth/confirmPasswordReset';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
+import useRouter from '@/utils/useRouter';
 
 type FormValues = {
     password: string;
@@ -71,49 +73,45 @@ const Component = () => {
     return (
         <form
             onSubmit={(e) => e.preventDefault()}
-            className="w-full flex flex-col items-center gap-6"
+            className="flex w-full flex-col items-center gap-6"
         >
-            <div className="w-full text-center flex flex-col items-center gap-4">
+            <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
                     <h2 className="text-accent">🔓 Відновити пароль</h2>
-                    <p className="label-text-alt opacity-60 mt-2">
+                    <p className="label-text-alt mt-2 opacity-60">
                         Будь ласка, введіть новий пароль.
                     </p>
                 </div>
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text">
-                            Пароль
-                        </span>
+                        <span className="label-text">Пароль</span>
                     </label>
                     <input
                         type="password"
                         placeholder="Введіть пароль"
                         autoFocus
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('password', { required: true })}
                     />
                 </div>
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text">
-                            Підтвердіть Пароль
-                        </span>
+                        <span className="label-text">Підтвердіть Пароль</span>
                     </label>
                     <input
                         type="password"
                         placeholder="Повторіть пароль"
                         autoFocus
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('passwordConfirmation', {
                             required: true,
                         })}
                     />
                 </div>
             </div>
-            <div className="w-full flex flex-col gap-4">
+            <div className="flex w-full flex-col gap-4">
                 <button
                     onClick={handleSubmit(onSubmit)}
                     disabled={isSubmitting}

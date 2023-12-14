@@ -1,17 +1,20 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-import { useModalContext } from '@/utils/providers/ModalProvider';
 import clsx from 'clsx';
-import AnimeEditListModal from '@/app/(pages)/anime/[slug]/_layout/AnimeEditListModal';
 import { useEffect, useRef } from 'react';
-import useIsMobile from '@/utils/hooks/useIsMobile';
-import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+
 import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
+import AnimeEditListModal from '@/app/(pages)/anime/[slug]/_layout/AnimeEditListModal';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import useIsMobile from '@/utils/hooks/useIsMobile';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 const Component = () => {
     const isMobile = useIsMobile();
@@ -30,7 +33,7 @@ const Component = () => {
             <button
                 onClick={() => switchModal('animeEditList')}
                 className={clsx(
-                    'btn btn-xs btn-secondary btn-square btn-outline',
+                    'btn btn-square btn-secondary btn-outline btn-xs',
                     className,
                 )}
             >
@@ -63,9 +66,9 @@ const Component = () => {
                 <div>
                     <div className="flex gap-4">
                         <h2>
-                            {data.title_ua || data.title_en || data.title_ja}{' '}
+                            {data.title_ua || data.title_en || data.title_ja || ""}{' '}
                             {data.start_date && (
-                                <span className="font-normal font-sans">
+                                <span className="font-sans font-normal">
                                     (
                                     {new Date(
                                         data.start_date * 1000,
@@ -78,11 +81,13 @@ const Component = () => {
                     </div>
                     <p className="mt-2">{data.title_ja}</p>
                 </div>
-                <div className="flex flex-col gap-2 items-end">
+                <div className="flex flex-col items-end gap-2">
                     {data.score > 0 && (
-                        <p className="text-4xl font-bold font-display">{data.score}</p>
+                        <p className="font-display text-4xl font-bold">
+                            {data.score}
+                        </p>
                     )}
-                    {secret && <EditButton className="lg:hidden flex" />}
+                    {secret && <EditButton className="flex lg:hidden" />}
                 </div>
                 {secret && <AnimeEditListModal />}
             </div>
@@ -94,7 +99,7 @@ const Component = () => {
                             className="label-text !text-base-content"
                         >
                             <Link
-                                className="rounded-sm underline decoration-accent decoration-dashed hover:bg-accent hover:text-accent-content transition-colors duration-100"
+                                className="rounded-sm underline decoration-accent decoration-dashed transition-colors duration-100 hover:bg-accent hover:text-accent-content"
                                 href={`/anime?genres=${genre.slug}`}
                             >
                                 {genre.name_ua}

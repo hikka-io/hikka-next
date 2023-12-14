@@ -1,13 +1,15 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import useRouter from '@/utils/useRouter';
-import {useModalContext} from "@/utils/providers/ModalProvider";
-import {useQueryClient} from "@tanstack/react-query";
-import changeUserEmail from "@/utils/api/settings/changeUserEmail";
+
+import { useQueryClient } from '@tanstack/react-query';
+
+import changeUserEmail from '@/utils/api/settings/changeUserEmail';
 import changeUserPassword from '@/utils/api/settings/changeUserPassword';
-import {useSnackbar} from "notistack";
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
+import useRouter from '@/utils/useRouter';
 
 type FormValues = {
     password: string;
@@ -37,7 +39,9 @@ const Component = () => {
             });
             await queryClient.invalidateQueries();
             switchModal('userSettings');
-            enqueueSnackbar("Ви успішно змінили пароль.", { variant: "success" });
+            enqueueSnackbar('Ви успішно змінили пароль.', {
+                variant: 'success',
+            });
             return;
         } catch (e) {
             console.error(e);
@@ -48,35 +52,31 @@ const Component = () => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="py-8 px-8 flex flex-col gap-6"
+            className="flex flex-col gap-6 px-8 py-8"
         >
-            <div className="h-12 flex items-center">
+            <div className="flex h-12 items-center">
                 <h3>Пароль</h3>
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text">
-                            Новий пароль
-                        </span>
+                        <span className="label-text">Новий пароль</span>
                     </label>
                     <input
                         type="password"
                         placeholder="Введіть новий пароль"
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('password', { required: true })}
                     />
                 </div>
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text">
-                            Підтвердити пароль
-                        </span>
+                        <span className="label-text">Підтвердити пароль</span>
                     </label>
                     <input
                         type="password"
                         placeholder="Підтвердіть новий пароль"
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('passwordConfirmation', {
                             required: true,
                         })}

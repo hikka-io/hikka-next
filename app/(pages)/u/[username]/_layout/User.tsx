@@ -1,23 +1,26 @@
 'use client';
 
-import Image from '@/app/_components/Image';
-import { useParams } from 'next/navigation';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import getUserInfo from '@/utils/api/user/getUserInfo';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
+import clsx from 'clsx';
+import { ChangeEvent, useRef } from 'react';
 import CilUserFollow from '~icons/cil/user-follow';
 import CilUserUnfollow from '~icons/cil/user-unfollow';
+import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
+import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
+
+import { useParams } from 'next/navigation';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import Image from '@/app/_components/Image';
+import Tooltip from '@/app/_components/Tooltip';
 import checkFollow from '@/utils/api/follow/checkFollow';
 import follow from '@/utils/api/follow/follow';
-import unfollow from '@/utils/api/follow/unfollow';
-import { useModalContext } from '@/utils/providers/ModalProvider';
-import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
-import { ChangeEvent, useRef } from 'react';
 import getFollowStats from '@/utils/api/follow/getFollowStats';
-import clsx from 'clsx';
-import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
-import Tooltip from '@/app/_components/Tooltip';
+import unfollow from '@/utils/api/follow/unfollow';
+import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
+import getUserInfo from '@/utils/api/user/getUserInfo';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 interface Props {}
 
@@ -141,36 +144,36 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="grid lg:grid-cols-1 grid-cols-[auto_1fr] gap-4">
+            <div className="grid grid-cols-[auto_1fr] gap-4 lg:grid-cols-1">
                 <div className="relative">
-                    <div className="rounded-lg z-[1] overflow-hidden w-32 h-32 lg:w-full pt-[100%] relative group">
-                        <div className="w-full rounded-lg absolute top-0">
+                    <div className="group relative z-[1] h-32 w-32 overflow-hidden rounded-lg pt-[100%] lg:w-full">
+                        <div className="absolute top-0 w-full rounded-lg">
                             <Image
                                 alt="avatar"
-                                className="object-contain w-full h-full"
+                                className="h-full w-full object-contain"
                                 width={287}
                                 height={287}
                                 src={user.avatar}
                             />
                         </div>
                         {loggedUser?.username === user.username && (
-                            <div className="btn btn-badge btn-square btn-secondary absolute bottom-2 right-2 group-hover:opacity-100 opacity-0">
+                            <div className="btn-badge btn btn-square btn-secondary absolute bottom-2 right-2 opacity-0 group-hover:opacity-100">
                                 <MaterialSymbolsUploadRounded />
                                 <input
                                     type="file"
                                     onChange={handleUploadImageSelected}
                                     ref={uploadImageRef}
-                                    className="absolute w-full h-full top-0 left-0 opacity-0"
+                                    className="absolute left-0 top-0 h-full w-full opacity-0"
                                     accept="image/png, image/jpeg"
                                 />
                             </div>
                         )}
-                        <div className="absolute top-2 right-2">
+                        <div className="absolute right-2 top-2">
                             {(user.role === 'admin' ||
                                 user.role === 'moderator') && (
                                 <Tooltip
                                     placement="left"
-                                    className="p-1 mr-1"
+                                    className="mr-1 p-1"
                                     data={
                                         <p className="text-sm">
                                             {user.role === 'admin'
@@ -179,7 +182,7 @@ const Component = ({}: Props) => {
                                         </p>
                                     }
                                 >
-                                    <div className="p-1 text-xs font-bold rounded-md bg-accent text-accent-content">
+                                    <div className="rounded-md bg-accent p-1 text-xs font-bold text-accent-content">
                                         <ClarityAdministratorSolid />
                                     </div>
                                 </Tooltip>
@@ -188,12 +191,12 @@ const Component = ({}: Props) => {
                     </div>
                     <div
                         className={clsx(
-                            'absolute -bottom-2 rounded-b-lg z-0 left-0 h-4 w-full',
+                            'absolute -bottom-2 left-0 z-0 h-4 w-full rounded-b-lg',
                             user.active ? 'bg-success' : 'bg-neutral',
                         )}
                     />
                 </div>
-                <div className="w-full flex flex-col lg:text-center">
+                <div className="flex w-full flex-col lg:text-center">
                     <h3 className="overflow-hidden overflow-ellipsis">
                         {user.username}
                     </h3>
@@ -202,10 +205,10 @@ const Component = ({}: Props) => {
                     )}
                 </div>
             </div>
-            <div className="flex h-fit gap-4 p-4 border border-secondary/60 bg-secondary/30 rounded-lg">
+            <div className="flex h-fit gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <button
                     onClick={() => switchModal('followers')}
-                    className="flex-1 flex flex-col gap-1"
+                    className="flex flex-1 flex-col gap-1"
                 >
                     <p className="label-text !text-base-content">
                         <span className="font-bold">
@@ -216,7 +219,7 @@ const Component = ({}: Props) => {
                 </button>
                 <button
                     onClick={() => switchModal('followings')}
-                    className="flex-1 flex flex-col gap-1"
+                    className="flex flex-1 flex-col gap-1"
                 >
                     <p className="label-text !text-base-content">
                         <span className="font-bold">
@@ -232,7 +235,7 @@ const Component = ({}: Props) => {
                         <button
                             disabled={unfollowLoading}
                             onClick={() => handleFollowAction('unfollow')}
-                            className="btn btn-outline btn-error w-full"
+                            className="btn btn-error btn-outline w-full"
                         >
                             {unfollowLoading ? (
                                 <span className="loading loading-spinner"></span>

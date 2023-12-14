@@ -1,15 +1,18 @@
 'use client';
 
-import Modal from '@/app/_components/Modal';
-import { useModalContext } from '@/utils/providers/ModalProvider';
-import AntDesignCloseCircleFilled from '~icons/ant-design/close-circle-filled';
+import clsx from 'clsx';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import AntDesignCloseCircleFilled from '~icons/ant-design/close-circle-filled';
+import AntDesignCloseOutlined from '~icons/ant-design/close-outlined';
+
 import { useQuery } from '@tanstack/react-query';
-import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
+
+import Modal from '@/app/_components/Modal';
 import SearchCard from '@/app/_components/SearchCard';
-import clsx from 'clsx';
-import useDebounce from "@/utils/hooks/useDebounce";
+import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
+import useDebounce from '@/utils/hooks/useDebounce';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 const Component = () => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -27,12 +30,12 @@ const Component = () => {
             getAnimeCatalog({
                 query: value,
             }),
-        enabled: value !== undefined && value.length >= 3
+        enabled: value !== undefined && value.length >= 3,
     });
 
     const onDismiss = () => {
         closeModals();
-        setSearchValue("");
+        setSearchValue('');
     };
 
     const remove = () => {
@@ -40,10 +43,9 @@ const Component = () => {
         inputRef.current?.focus();
     };
 
-
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
-            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
                 switchModal('search', true);
             }
@@ -53,9 +55,8 @@ const Component = () => {
 
         return function cleanup() {
             document.removeEventListener('keydown', handleKeyDown);
-        }
+        };
     }, []);
-
 
     return (
         <Modal
@@ -67,31 +68,35 @@ const Component = () => {
         >
             <div
                 className={clsx(
-                    'relative py-8 px-8 flex flex-col gap-6',
-                    "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-base-100 after:to-transparent",
+                    'relative p-8 border-b-secondary',
+                    data && data.list.length > 0 && 'border-b'
                 )}
             >
-                <div className="input input-md bg-secondary/60 flex items-center pr-4 gap-2">
+                <div className="input input-md flex bg-secondary/60 items-center gap-2 pr-4">
                     <input
                         autoFocus={true}
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         ref={inputRef}
-                        className="w-full h-full bg-transparent"
+                        className="h-full w-full bg-transparent"
                     />
                     <button
-                        onClick={remove}
                         disabled={!searchValue}
-                        className="btn border-0 btn-ghost btn-sm btn-square disabled:bg-transparent"
+                        onClick={remove}
+                        className="btn btn-square btn-ghost btn-badge border-0 disabled:bg-transparent"
                     >
                         <AntDesignCloseCircleFilled />
                     </button>
                 </div>
             </div>
-            {data && (
-                <div className="overflow-y-scroll flex-1 pb-8">
+            {data && data.list.length > 0 && (
+                <div className="flex-1 overflow-y-scroll pb-8">
                     {data.list.map((anime) => (
-                        <SearchCard onClick={onDismiss} anime={anime} key={anime.slug} />
+                        <SearchCard
+                            onClick={onDismiss}
+                            anime={anime}
+                            key={anime.slug}
+                        />
                     ))}
                 </div>
             )}

@@ -4,7 +4,11 @@ export interface Response {
     url: string;
 }
 
-export default async function req({ provider }: { provider: 'google' }): Promise<Response> {
+export default async function req({
+    provider,
+}: {
+    provider: 'google';
+}): Promise<Response> {
     const res = await fetch(config.baseAPI + '/auth/oauth/' + provider, {
         method: 'get',
         ...config.config,

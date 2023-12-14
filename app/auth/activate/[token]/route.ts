@@ -1,6 +1,7 @@
-import activation from '@/utils/api/auth/activation';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import {cookies} from "next/headers";
+
+import activation from '@/utils/api/auth/activation';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,13 +12,15 @@ export async function GET(
     try {
         const res = await activation({ token });
         cookies().set('secret', res.secret);
-    }  catch (e) {
+    } catch (e) {
         if ('code' in (e as Hikka.Error)) {
             if ((e as Hikka.Error).code === 'auth:activation_expired') {
                 return redirect('/anime?activation=resend');
             }
 
-            return redirect('/anime?activation=error&error=' + (e as Hikka.Error).code);
+            return redirect(
+                '/anime?activation=error&error=' + (e as Hikka.Error).code,
+            );
         }
 
         return redirect('/anime?activation=error&error=' + e);

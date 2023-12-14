@@ -17,7 +17,7 @@ interface Props {
 
 const Component = ({ data }: Props) => {
     return (
-        <div className="grid md:grid-cols-5 grid-cols-2 lg:gap-8 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
             {data.map((res) => (
                 <AnimeCard
                     slug={res.anime.slug}

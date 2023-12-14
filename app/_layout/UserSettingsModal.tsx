@@ -1,6 +1,6 @@
 'use client';
 
-import Modal from '@/app/_components/Modal';
+import clsx from 'clsx';
 import {
     Dispatch,
     ReactNode,
@@ -8,13 +8,14 @@ import {
     useEffect,
     useState,
 } from 'react';
-import clsx from 'clsx';
-import GeneralForm from '@/app/_layout/userSettings/GeneralForm';
-import useIsMobile from '@/utils/hooks/useIsMobile';
+
+import Modal from '@/app/_components/Modal';
 import EmailForm from '@/app/_layout/userSettings/EmailForm';
-import UsernameForm from '@/app/_layout/userSettings/UsernameForm';
+import GeneralForm from '@/app/_layout/userSettings/GeneralForm';
 import PasswordForm from '@/app/_layout/userSettings/PasswordForm';
+import UsernameForm from '@/app/_layout/userSettings/UsernameForm';
 import WatchListForm from '@/app/_layout/userSettings/WatchListForm';
+import useIsMobile from '@/utils/hooks/useIsMobile';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type Tab = 'general' | 'password' | 'username' | 'email' | 'watchList';
@@ -77,22 +78,23 @@ const Component = () => {
 
     const Tabs = () => {
         return (
-            <div className="w-full h-full py-8 flex flex-col gap-4 lg:border-r border-r-secondary/60">
-                <div className="h-12 flex items-center">
+            <div className="flex h-full w-full flex-col gap-4 border-r-secondary/60 py-8 lg:border-r">
+                <div className="flex h-12 items-center">
                     <h3 className="px-8">Налаштування</h3>
                 </div>
-                <ul className="menu p-0 [&_li>*]:rounded-none w-full">
+                <ul className="menu w-full p-0 [&_li>*]:rounded-none">
                     {DATA.map((tab) => (
                         <li key={tab.slug}>
                             <a
                                 onClick={() => setActiveTab(tab.slug)}
                                 className={clsx(
-                                    'flex flex-col items-start justify-center gap-0 py-4 px-8',
-                                    activeTab === tab.slug && 'active !bg-secondary !text-base-content',
+                                    'flex flex-col items-start justify-center gap-0 px-8 py-4',
+                                    activeTab === tab.slug &&
+                                        'active !bg-secondary !text-base-content',
                                 )}
                             >
                                 <p>{tab.title}</p>
-                                <p className="label-text-alt opacity-60 text-xs">
+                                <p className="label-text-alt text-xs opacity-60">
                                     {tab.description}
                                 </p>
                             </a>
@@ -112,11 +114,13 @@ const Component = () => {
             id="settingsModal"
             boxClassName="p-0"
         >
-            {Boolean(userSettings) && <div className="grid md:grid-cols-[40%_1fr] grid-cols-1">
-                {isMobile && !activeTab && <Tabs />}
-                {!isMobile && <Tabs />}
-                {activeForm?.form}
-            </div>}
+            {Boolean(userSettings) && (
+                <div className="grid grid-cols-1 md:grid-cols-[40%_1fr]">
+                    {isMobile && !activeTab && <Tabs />}
+                    {!isMobile && <Tabs />}
+                    {activeForm?.form}
+                </div>
+            )}
         </Modal>
     );
 };

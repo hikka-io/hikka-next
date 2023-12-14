@@ -1,15 +1,16 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { useEffect, useRef } from 'react';
-import useIsMobile from '@/utils/hooks/useIsMobile';
 import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
-import Popper from '@/app/_components/Popper';
-import { usePopperContext } from '@/utils/providers/PopperProvider';
-import {USER_NAV_ROUTES} from "@/utils/constants";
 
+import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
+import Popper from '@/app/_components/Popper';
+import { USER_NAV_ROUTES } from '@/utils/constants';
+import useIsMobile from '@/utils/hooks/useIsMobile';
+import { usePopperContext } from '@/utils/providers/PopperProvider';
 
 const Component = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +26,7 @@ const Component = () => {
 
     return (
         <>
-            <div className="flex gap-2 items-center" ref={ref}>
+            <div className="flex items-center gap-2" ref={ref}>
                 <Link
                     href={'/u/' + params.username + current?.url}
                     className="text-sm hover:underline"
@@ -35,7 +36,7 @@ const Component = () => {
                 {!isMobile && (
                     <button
                         onClick={() => switchPopper('userNav')}
-                        className="btn btn-sm btn-ghost px-1"
+                        className="btn btn-ghost btn-sm px-1"
                     >
                         <PhCaretUpDownThin />
                     </button>

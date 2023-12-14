@@ -1,9 +1,11 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+
+import { useParams } from 'next/navigation';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 type Param = {
     param: keyof Hikka.EditParams;
@@ -69,13 +71,13 @@ const Component = () => {
     return (
         <div>
             <div className="flex flex-col gap-6">
-                <div className="w-full flex flex-col gap-2">
+                <div className="flex w-full flex-col gap-2">
                     {(edit.after.title_ua ||
                         edit.after.title_en ||
                         edit.after.title_ja) && (
                         <div className="collapse border border-secondary">
                             <input type="checkbox" checked readOnly />
-                            <div className="collapse-title flex gap-4 items-center">
+                            <div className="collapse-title flex items-center gap-4">
                                 <h5>Назва аніме</h5>
                             </div>
                             <div className="collapse-content flex flex-col gap-2">
@@ -102,7 +104,7 @@ const Component = () => {
                                                 disabled
                                                 type="text"
                                                 placeholder={param.placeholder}
-                                                className="input bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                                className="input w-full bg-secondary/60 disabled:bg-secondary/60 disabled:text-secondary-content"
                                                 value={edit!.after[param.param]}
                                             />
                                         </div>
@@ -114,7 +116,7 @@ const Component = () => {
                     {(edit.after.synopsis_ua || edit.after.synopsis_en) && (
                         <div className="collapse border border-secondary">
                             <input type="checkbox" checked readOnly />
-                            <div className="collapse-title flex gap-4 items-center">
+                            <div className="collapse-title flex items-center gap-4">
                                 <h5>Опис аніме</h5>
                             </div>
                             <div className="collapse-content flex flex-col gap-2">
@@ -141,7 +143,7 @@ const Component = () => {
                                                 disabled
                                                 placeholder={param.placeholder}
                                                 rows={5}
-                                                className="textarea textarea-ghost text-base bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                                className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
                                                 value={edit!.after[param.param]}
                                             />
                                         </div>
@@ -159,7 +161,7 @@ const Component = () => {
                                 disabled
                                 placeholder="Введіть причину правки"
                                 rows={3}
-                                className="textarea textarea-ghost text-base bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
                                 value={edit!.description}
                             />
                         </div>

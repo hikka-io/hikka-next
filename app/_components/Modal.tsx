@@ -1,16 +1,11 @@
 'use client';
 
-import React, {
-    ForwardedRef,
-    memo,
-    PropsWithChildren,
-    ReactNode,
-    useRef,
-} from 'react';
 import clsx from 'clsx';
+import React, { ForwardedRef, PropsWithChildren, ReactNode } from 'react';
 import AntDesignCloseOutlined from '~icons/ant-design/close-outlined';
+
 import { Modal, ModalBackdropSlotProps } from '@mui/base';
-import { animated, useSpring, useTransition } from '@react-spring/web';
+import { animated, useTransition } from '@react-spring/web';
 
 interface Props extends PropsWithChildren {
     className?: string;
@@ -19,6 +14,7 @@ interface Props extends PropsWithChildren {
     onDismiss: () => void;
     boxClassName?: string;
     title?: string;
+    disableHeader?: boolean;
     noEscape?: boolean;
 }
 
@@ -46,7 +42,7 @@ const Backdrop = React.forwardRef(
                         style={style}
                         className={clsx(
                             { 'MuiBackdrop-open': open },
-                            '-z-[1] fixed inset-0 bg-black/80',
+                            'fixed inset-0 -z-[1] bg-black/80',
                             className,
                         )}
                         ref={ref}
@@ -66,13 +62,15 @@ const Component = ({
     onDismiss,
     title,
     noEscape,
+    disableHeader,
 }: Props) => {
     return (
         <Modal
+            disableAutoFocus
             disableRestoreFocus
             open={open}
             className={clsx(
-                'fixed z-[1300] inset-0 flex items-center justify-center',
+                'fixed inset-0 z-[1300] flex items-center justify-center',
                 className,
             )}
             onClose={onDismiss}
@@ -80,20 +78,22 @@ const Component = ({
             slots={{ backdrop: Backdrop }}
         >
             <ModalContent in={open} className={boxClassName}>
-                <div
-                    className={clsx(
-                        'flex justify-between items-center pt-8 px-8 w-full gap-2',
-                        !title && 'absolute',
-                    )}
-                >
-                    <h3>{title}</h3>
-                    <button
-                        onClick={onDismiss}
-                        className="btn btn-outline btn-secondary btn-square"
+                {!disableHeader && (
+                    <div
+                        className={clsx(
+                            'flex w-full items-center justify-between gap-2 px-8 pt-8',
+                            !title && 'absolute',
+                        )}
                     >
-                        <AntDesignCloseOutlined />
-                    </button>
-                </div>
+                        {title ? <h3>{title}</h3> : <div />}
+                        <button
+                            onClick={onDismiss}
+                            className="btn btn-sm btn-square btn-secondary btn-outline"
+                        >
+                            <AntDesignCloseOutlined />
+                        </button>
+                    </div>
+                )}
                 {children}
             </ModalContent>
         </Modal>
@@ -138,8 +138,8 @@ const ModalContent = React.forwardRef(function Fade(
                 <animated.div
                     style={style}
                     className={clsx(
-                        'modal-box transform-none relative',
-                        'w-full h-full max-h-none sm:h-auto sm:max-h-[100%] sm:max-w-3xl sm:w-11/12',
+                        'modal-box relative transform-none',
+                        'h-full max-h-none w-full sm:h-auto sm:max-h-[100%] sm:w-11/12 sm:max-w-3xl',
                         'border border-secondary',
                         'rounded-none sm:rounded-2xl',
                         className,

@@ -1,8 +1,10 @@
-import './globals.css';
-import {Inter} from 'next/font/google';
+import { Metadata, Viewport } from 'next';
+import React, { ReactNode } from 'react';
+
+import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
-import React, {ReactNode} from 'react';
-import {Metadata, Viewport} from 'next';
+
+import './globals.css';
 
 // export const runtime = 'edge';
 

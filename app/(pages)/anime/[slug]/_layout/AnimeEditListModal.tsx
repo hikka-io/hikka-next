@@ -1,18 +1,21 @@
 'use client';
 
-import Modal from '@/app/_components/Modal';
-import { useModalContext } from '@/utils/providers/ModalProvider';
+import clsx from 'clsx';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+import EditCard from '@/app/_components/EditCard';
+import Modal from '@/app/_components/Modal';
 import getContentEditList, {
     Response as EditListResponse,
 } from '@/utils/api/edit/getContentEditList';
-import EditCard from '@/app/_components/EditCard';
-import clsx from 'clsx';
-import { useInView } from 'react-intersection-observer';
-import Link from 'next/link';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 const Component = () => {
     const { ref, inView } = useInView();
@@ -62,19 +65,19 @@ const Component = () => {
         >
             <div
                 className={clsx(
-                    'relative py-8 px-8',
-                    "after:content-[' '] after:z-10 after:absolute after:-bottom-[calc(2rem-1px)] after:left-0 after:w-full after:h-8 after:bg-gradient-to-b after:from-base-100 after:to-transparent",
+                    'relative px-8 py-8 border-b-secondary',
+                    data && list!.length > 0 && 'border-b'
                 )}
             >
                 <Link
-                    className="btn w-full btn-secondary"
+                    className="btn btn-secondary w-full"
                     href={`/edit/anime/` + params.slug}
                 >
                     Створити правку
                 </Link>
             </div>
-            {data && (
-                <div className="overflow-y-scroll flex-1 pb-8">
+            {data && list!.length > 0 && (
+                <div className="flex-1 overflow-y-scroll pb-8">
                     {list!.map((edit) => (
                         <EditCard
                             href={`/edit/` + edit.edit_id}

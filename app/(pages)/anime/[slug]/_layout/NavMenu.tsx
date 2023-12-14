@@ -1,18 +1,21 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import Link from 'next/link';
-import { InfiniteData, useQueryClient } from '@tanstack/react-query';
-import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
-import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharacters';
-import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
 import { useRef } from 'react';
-import useIsMobile from '@/utils/hooks/useIsMobile';
 import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
+
+import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
+import { InfiniteData, useQueryClient } from '@tanstack/react-query';
+
 import Popper from '@/app/_components/Popper';
-import { usePopperContext } from '@/utils/providers/PopperProvider';
+import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharacters';
+import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
+import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import useIsMobile from '@/utils/hooks/useIsMobile';
+import { usePopperContext } from '@/utils/providers/PopperProvider';
 
 const Component = () => {
     const isMobile = useIsMobile();
@@ -67,7 +70,7 @@ const Component = () => {
 
     return (
         <>
-            <div className="flex gap-2 items-center" ref={ref}>
+            <div className="flex items-center gap-2" ref={ref}>
                 <Link
                     href={'/anime/' + params.slug + current?.url}
                     className="text-sm hover:underline"
@@ -77,7 +80,7 @@ const Component = () => {
                 {!isMobile && (
                     <button
                         onClick={() => switchPopper('animeNav')}
-                        className="btn btn-sm btn-ghost px-1"
+                        className="btn btn-ghost btn-sm px-1"
                     >
                         <PhCaretUpDownThin />
                     </button>

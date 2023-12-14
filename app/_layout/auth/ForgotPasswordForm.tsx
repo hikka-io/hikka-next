@@ -1,10 +1,11 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
-import { useModalContext } from '@/utils/providers/ModalProvider';
-import passwordReset from '@/utils/api/auth/passwordReset';
 import { useSnackbar } from 'notistack';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+
+import passwordReset from '@/utils/api/auth/passwordReset';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = {
     email: string;
@@ -32,9 +33,13 @@ const Component = () => {
             const res = await passwordReset(data);
             closeModals();
             enqueueSnackbar(
-                <span><span className="font-bold">{res.username}</span>, ми успішно надіслали Вам лист для відновлення паролю на вашу поштову адресу.</span>,
-                { variant: 'info' }
-            )
+                <span>
+                    <span className="font-bold">{res.username}</span>, ми
+                    успішно надіслали Вам лист для відновлення паролю на вашу
+                    поштову адресу.
+                </span>,
+                { variant: 'info' },
+            );
             return;
         } catch (e) {
             if ('code' in (e as Hikka.Error)) {
@@ -54,37 +59,39 @@ const Component = () => {
     return (
         <form
             onSubmit={(e) => e.preventDefault()}
-            className="w-full flex flex-col items-center gap-6"
+            className="flex w-full flex-col items-center gap-6"
         >
-            <div className="w-full text-center flex flex-col items-center gap-4">
+            <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
                     <h2 className="text-accent">🔐 Відновити пароль</h2>
-                    <p className="label-text-alt opacity-60 mt-2">
+                    <p className="label-text-alt mt-2 opacity-60">
                         Будь ласка, введіть дані для отримання листа
                         відновлення.
                     </p>
                 </div>
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
-                        <span className="label-text">
-                            Email
-                        </span>
+                        <span className="label-text">Email</span>
                     </label>
                     <input
                         type="email"
                         placeholder="Введіть пошту"
                         autoFocus
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('email', { required: true })}
                     />
-                    {errors.email && <label className="label">
-                        <span className="label-text-alt text-error">{errors.email.message}</span>
-                    </label>}
+                    {errors.email && (
+                        <label className="label">
+                            <span className="label-text-alt text-error">
+                                {errors.email.message}
+                            </span>
+                        </label>
+                    )}
                 </div>
             </div>
-            <div className="w-full flex flex-col gap-4">
+            <div className="flex w-full flex-col gap-4">
                 <button
                     onClick={handleSubmit(onSubmit)}
                     disabled={isSubmitting}

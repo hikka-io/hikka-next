@@ -1,22 +1,24 @@
 'use client';
 
-import Modal from '@/app/_components/Modal';
-import { useForm } from 'react-hook-form';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
 import {
-    createElement,
     Dispatch,
     SetStateAction,
+    createElement,
     useEffect,
     useState,
 } from 'react';
+import { useForm } from 'react-hook-form';
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import getWatch from '@/utils/api/watch/getWatch';
+
+import Modal from '@/app/_components/Modal';
 import Select from '@/app/_components/Select';
-import { WATCH_STATUS } from '@/utils/constants';
 import addWatch from '@/utils/api/watch/addWatch';
 import deleteWatch from '@/utils/api/watch/deleteWatch';
-import {useModalContext} from "@/utils/providers/ModalProvider";
+import getWatch from '@/utils/api/watch/getWatch';
+import { WATCH_STATUS } from '@/utils/constants';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = {
     score: number;
@@ -125,13 +127,11 @@ const Component = ({ slug, setSlug }: Props) => {
             }
         >
             {watch && (
-                <form className="py-8 px-8 flex flex-col gap-6">
-                    <div className="w-full flex flex-col gap-2">
+                <form className="flex flex-col gap-6 px-8 py-8">
+                    <div className="flex w-full flex-col gap-2">
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text">
-                                    Список
-                                </span>
+                                <span className="label-text">Список</span>
                             </label>
                             <Select
                                 onChange={(e, value) =>
@@ -143,13 +143,17 @@ const Component = ({ slug, setSlug }: Props) => {
                                 toggleClassName="btn-secondary"
                                 renderValue={(value) => (
                                     <div className="flex gap-2">
-                                        {value && !Array.isArray(value) &&
+                                        {value &&
+                                            !Array.isArray(value) &&
                                             createElement(
                                                 WATCH_STATUS[
                                                     value.value as Hikka.WatchStatus
                                                 ].icon,
                                             )}
-                                        {value && !Array.isArray(value) && value?.label || 'Виберіть список'}
+                                        {(value &&
+                                            !Array.isArray(value) &&
+                                            value?.label) ||
+                                            'Виберіть список'}
                                     </div>
                                 )}
                             >
@@ -167,14 +171,12 @@ const Component = ({ slug, setSlug }: Props) => {
                         <div className="flex gap-8">
                             <div className="form-control w-full">
                                 <label className="label">
-                                    <span className="label-text">
-                                        Оцінка
-                                    </span>
+                                    <span className="label-text">Оцінка</span>
                                 </label>
                                 <input
                                     type="number"
                                     placeholder="Введіть оцінку"
-                                    className="input bg-secondary/60 w-full"
+                                    className="input w-full bg-secondary/60"
                                     {...register('score', {
                                         value: watch.score || undefined,
                                         valueAsNumber: true,
@@ -183,14 +185,12 @@ const Component = ({ slug, setSlug }: Props) => {
                             </div>
                             <div className="form-control w-full">
                                 <label className="label">
-                                    <span className="label-text">
-                                        Епізоди
-                                    </span>
+                                    <span className="label-text">Епізоди</span>
                                 </label>
                                 <input
                                     type="number"
                                     placeholder="Введіть к-сть переглянутих епізодів"
-                                    className="input bg-secondary/60 w-full"
+                                    className="input w-full bg-secondary/60"
                                     {...register('episodes', {
                                         value: watch.episodes || undefined,
                                         valueAsNumber: true,
@@ -200,21 +200,19 @@ const Component = ({ slug, setSlug }: Props) => {
                         </div>
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text">
-                                    Нотатки
-                                </span>
+                                <span className="label-text">Нотатки</span>
                             </label>
                             <textarea
                                 placeholder="Залиште нотатку до аніме"
                                 rows={3}
-                                className="textarea textarea-ghost text-base bg-secondary/60 w-full"
+                                className="textarea textarea-ghost w-full bg-secondary/60 text-base"
                                 {...register('note', {
                                     value: watch.note || undefined,
                                 })}
                             />
                         </div>
                     </div>
-                    <div className="w-full grid grid-cols-2 gap-8">
+                    <div className="grid w-full grid-cols-2 gap-8">
                         <button
                             onClick={handleSubmit(() => deleteFromList())}
                             disabled={

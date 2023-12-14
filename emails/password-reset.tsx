@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {
     Body,
     Button,
@@ -12,7 +14,6 @@ import {
     Tailwind,
     Text,
 } from '@react-email/components';
-import * as React from 'react';
 
 export const ConfirmEmail = () => {
     const previewText = `Відновлення паролю {username}`;
@@ -59,9 +60,9 @@ export const ConfirmEmail = () => {
             >
                 <Body
                     style={{ backgroundImage: 'linear-gradient(#000, #000)' }}
-                    className="bg-black body my-auto mx-auto font-sans"
+                    className="body mx-auto my-auto bg-black font-sans"
                 >
-                    <Container className="border border-solid border-secondary rounded-lg my-[40px] mx-auto p-8 w-[465px]">
+                    <Container className="mx-auto my-[40px] w-[465px] rounded-lg border border-solid border-secondary p-8">
                         <Section className="py-4 text-left">
                             <Img
                                 title="Hikka"
@@ -75,11 +76,11 @@ export const ConfirmEmail = () => {
                             <div className="gmail-blend-difference">
                                 <Heading
                                     style={{ color: '#fff' }}
-                                    className="text-[20px] leading-[28px] font-bold"
+                                    className="text-[20px] font-bold leading-[28px]"
                                 >
                                     Вітаємо, {'{username}'}!
                                 </Heading>
-                                <Text className="text-white text-[16px] leading-[24px]">
+                                <Text className="text-[16px] leading-[24px] text-white">
                                     Ви зробили запит на{' '}
                                     <strong>відновлення паролю</strong> Вашого
                                     акаунту. Для продовження, будь ласка,
@@ -90,14 +91,14 @@ export const ConfirmEmail = () => {
                         </div>
                         <div className="gmail-blend-screen">
                             <div className="gmail-blend-difference">
-                                <Text className="text-white text-[16px] leading-[24px]">
+                                <Text className="text-[16px] leading-[24px] text-white">
                                     З повагою, команда hikka!
                                 </Text>
                             </div>
                         </div>
-                        <div className="border p-4 border-solid border-secondary/60 rounded-lg bg-secondary/30 flex justify-center items-center">
+                        <div className="flex items-center justify-center rounded-lg border border-solid border-secondary/60 bg-secondary/30 p-4">
                             <Button
-                                className="bg-accent p-4 w-full rounded-lg text-black text-[14px] font-semibold no-underline text-center"
+                                className="w-full rounded-lg bg-accent p-4 text-center text-[14px] font-semibold text-black no-underline"
                                 href={'https://hikka.io/auth/reset/{token}'}
                             >
                                 Змінити пароль
@@ -105,7 +106,7 @@ export const ConfirmEmail = () => {
                         </div>
                         <div className="gmail-blend-screen">
                             <div className="gmail-blend-difference">
-                                <Text className="text-base-content text-[14px] leading-[20px]">
+                                <Text className="text-[14px] leading-[20px] text-base-content">
                                     Якщо ви не робили цей запит, ви можете
                                     сміливо його ігнорувати.
                                 </Text>

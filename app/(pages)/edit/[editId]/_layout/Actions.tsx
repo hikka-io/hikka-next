@@ -1,13 +1,16 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import * as React from 'react';
 import { useState } from 'react';
+
+import { useParams } from 'next/navigation';
+
+import { useQueryClient } from '@tanstack/react-query';
+
 import acceptEdit from '@/utils/api/edit/acceptEdit';
 import closeEdit from '@/utils/api/edit/closeEdit';
 import denyEdit from '@/utils/api/edit/denyEdit';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 const Component = () => {
     const params = useParams();
@@ -83,21 +86,21 @@ const Component = () => {
     }
 
     return (
-        <div className="grid grid-flow-col auto-cols-min gap-2 items-center">
+        <div className="grid auto-cols-min grid-flow-col items-center gap-2">
             {(loggedUser?.role === 'moderator' ||
                 loggedUser?.role === 'admin') &&
             edit.status === 'pending' ? (
                 <>
                     <button
                         disabled={isSubmitting}
-                        className="btn btn-sm btn-success"
+                        className="btn btn-success btn-sm"
                         onClick={onAcceptSubmit}
                     >
                         Прийняти
                     </button>
                     <button
                         disabled={isSubmitting}
-                        className="btn btn-sm btn-error"
+                        className="btn btn-error btn-sm"
                         onClick={onDenySubmit}
                     >
                         Відхилити
@@ -108,7 +111,7 @@ const Component = () => {
                 edit.status === 'pending' && (
                     <button
                         disabled={isSubmitting}
-                        className="btn btn-sm btn-warning"
+                        className="btn btn-warning btn-sm"
                         onClick={onCloseSubmit}
                     >
                         Закрити

@@ -1,13 +1,16 @@
 'use client';
 
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import clsx from 'clsx';
+
+import { useParams } from 'next/navigation';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import Rating from '@/app/_components/Rating';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import addWatch from '@/utils/api/watch/addWatch';
 import getWatch from '@/utils/api/watch/getWatch';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import addWatch from '@/utils/api/watch/addWatch';
 
 const Component = () => {
     const queryClient = useQueryClient();
@@ -80,7 +83,7 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="p-4 border border-secondary/60 bg-secondary/30 rounded-lg flex gap-4 justify-between">
+            <div className="flex justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <Rating
                     className="rating-md lg:flex"
                     onChange={(value) =>
@@ -94,25 +97,25 @@ const Component = () => {
                 />
                 <h3>
                     {watch.score}
-                    <span className="text-sm font-normal label-text opacity-60">
+                    <span className="label-text text-sm font-normal opacity-60">
                         /10
                     </span>
                 </h3>
             </div>
-            <div className="p-4 border border-secondary/60 bg-secondary/30 rounded-lg ">
-                <div className="flex gap-2 justify-between overflow-hidden">
-                    <div className="label-text overflow-ellipsis overflow-hidden min-h-[24px]">
+            <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4 ">
+                <div className="flex justify-between gap-2 overflow-hidden">
+                    <div className="label-text min-h-[24px] overflow-hidden overflow-ellipsis">
                         Епізоди
                     </div>
                     <div className="join">
                         <button
-                            className="btn join-item btn-xs btn-secondary"
+                            className="btn btn-secondary join-item btn-xs"
                             onClick={() => changeEpisodes('decrease')}
                         >
                             -
                         </button>
                         <button
-                            className="btn join-item btn-xs btn-secondary"
+                            className="btn btn-secondary join-item btn-xs"
                             onClick={() => changeEpisodes('increase')}
                         >
                             +
@@ -121,7 +124,7 @@ const Component = () => {
                 </div>
                 <h3>
                     {watch.episodes}
-                    <span className="text-sm font-normal label-text opacity-60">
+                    <span className="label-text text-sm font-normal opacity-60">
                         /{watch.anime.episodes_total || '?'}
                     </span>
                 </h3>

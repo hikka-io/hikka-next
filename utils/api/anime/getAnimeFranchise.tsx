@@ -8,7 +8,7 @@ export interface Response {
 export default async function req({
     slug,
     page = 1,
-    secret
+    secret,
 }: {
     slug: string;
     page?: number;

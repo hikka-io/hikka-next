@@ -1,5 +1,6 @@
+import { Metadata, ResolvingMetadata } from 'next';
+
 import Franchise from '@/app/(pages)/anime/[slug]/_layout/Franchise';
-import {Metadata, ResolvingMetadata} from 'next';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },
@@ -8,17 +9,17 @@ export async function generateMetadata(
     const parentMetadata = await parent;
 
     return {
-        title: "Пов’язане",
+        title: 'Пов’язане',
         description: parentMetadata.openGraph?.description,
         openGraph: {
             description: parentMetadata.openGraph?.description,
             images: parentMetadata.openGraph?.images,
-            title: "Пов’язане",
+            title: 'Пов’язане',
         },
         twitter: {
             description: parentMetadata.openGraph?.description,
             images: parentMetadata.twitter?.images,
-            title: "Пов’язане",
+            title: 'Пов’язане',
         },
     };
 }

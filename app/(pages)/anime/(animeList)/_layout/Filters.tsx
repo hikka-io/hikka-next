@@ -1,23 +1,26 @@
 'use client';
 
-import Slider from '@/app/_components/Slider';
-import Select from '@/app/_components/Select';
-import { useCallback, useEffect, useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import useRouter from '@/utils/useRouter';
 import clsx from 'clsx';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
+import { useCallback, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import AntDesignCloseOutlined from '~icons/ant-design/close-outlined';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
+
+import { usePathname, useSearchParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Select from '@/app/_components/Select';
+import Slider from '@/app/_components/Slider';
+import Tooltip from '@/app/_components/Tooltip';
+import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
 import {
     AGE_RATING,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants';
-import Tooltip from '@/app/_components/Tooltip';
+import useRouter from '@/utils/useRouter';
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
@@ -107,7 +110,7 @@ const Component = () => {
             )}
         >
             <h3 className="text-base-content lg:hidden">Фільтри</h3>
-            <div className="flex flex-col items-start gap-8 w-full overflow-y-scroll lg:overflow-y-visible">
+            <div className="flex w-full flex-col items-start gap-8 overflow-y-scroll lg:overflow-y-visible">
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text">Жанр</span>
@@ -152,7 +155,7 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text">Статус</span>
                     </label>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex flex-wrap gap-2">
                         {Object.keys(RELEASE_STATUS).map((slug) => (
                             <button
                                 onClick={() =>
@@ -163,7 +166,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn btn-secondary rounded-3xl px-3.5 py-1',
                                     statuses.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -178,7 +181,7 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text">Тип</span>
                     </label>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex flex-wrap gap-2">
                         {Object.keys(MEDIA_TYPE).map((slug) => (
                             <button
                                 onClick={() =>
@@ -189,7 +192,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn btn-secondary rounded-3xl px-3.5 py-1',
                                     types.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -204,7 +207,7 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text">Сезон</span>
                     </label>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex flex-wrap gap-2">
                         {Object.keys(SEASON).map((slug) => (
                             <button
                                 onClick={() =>
@@ -215,7 +218,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn btn-secondary rounded-3xl px-3.5 py-1',
                                     seasons.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -241,7 +244,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 className={clsx(
-                                    'btn-badge btn-secondary btn rounded-3xl px-3.5 py-1',
+                                    'btn-badge btn btn-secondary rounded-3xl px-3.5 py-1',
                                     ageRatings.includes(slug)
                                         ? 'btn-accent'
                                         : 'btn-outline',
@@ -250,7 +253,7 @@ const Component = () => {
                                 {AGE_RATING[slug as Hikka.AgeRating].title_ua}
                                 <Tooltip
                                     placement="top"
-                                    className="p-1 mr-1"
+                                    className="mr-1 p-1"
                                     data={
                                         <p className="text-sm">
                                             {
@@ -262,7 +265,7 @@ const Component = () => {
                                     }
                                 >
                                     <div>
-                                        <MaterialSymbolsInfoRounded className="transition duration-100 text-xs opacity-30 hover:opacity-100" />
+                                        <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
                                     </div>
                                 </Tooltip>
                             </button>
@@ -273,7 +276,7 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text">Рік виходу</span>
                     </label>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex items-center gap-4">
                         <p className="badge">{selectingYears[0]}</p>
                         <Slider
                             onChangeCommitted={(_e, value) =>
@@ -302,17 +305,17 @@ const Component = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex gap-2 lg:relative sticky bottom-4">
+            <div className="sticky bottom-4 flex w-full gap-2 lg:relative">
                 <button
                     onClick={clearFilters}
-                    className="btn btn-outline flex-1 btn-error bg-base-100"
+                    className="btn btn-error btn-outline flex-1 bg-base-100"
                 >
                     <AntDesignClearOutlined />
                     Очистити
                 </button>
                 <label
                     htmlFor="filterDrawer"
-                    className="btn btn-secondary drawer-button btn-square btn-outline flex lg:hidden bg-base-100"
+                    className="btn btn-square btn-secondary btn-outline drawer-button flex bg-base-100 lg:hidden"
                 >
                     <AntDesignCloseOutlined />
                 </label>

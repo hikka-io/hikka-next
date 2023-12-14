@@ -1,7 +1,9 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 
-const getIsMobile = () => typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+const getIsMobile = () =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
 export default function useIsMobile() {
     const [isMobile, setIsMobile] = useState(getIsMobile());

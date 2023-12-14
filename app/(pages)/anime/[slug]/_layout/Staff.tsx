@@ -1,15 +1,18 @@
 'use client';
 
+import clsx from 'clsx';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
 import { useParams } from 'next/navigation';
+
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+import BaseCard from '@/app/_components/BaseCard';
+import SubHeader from '@/app/_components/SubHeader';
 import getAnimeStaff, {
     Response as AnimeStuffResponse,
 } from '@/utils/api/anime/getAnimeStaff';
-import BaseCard from '@/app/_components/BaseCard';
-import SubHeader from '@/app/_components/SubHeader';
-import { useInView } from 'react-intersection-observer';
-import {useEffect} from "react";
-import clsx from "clsx";
 
 interface Props {
     extended?: boolean;
@@ -35,7 +38,7 @@ const Component = ({ extended }: Props) => {
         if (inView && data) {
             fetchNextPage();
         }
-    }, [inView])
+    }, [inView]);
 
     if (!data || !data.pages || data.pages[0].list.length === 0) {
         return null;
@@ -51,7 +54,12 @@ const Component = ({ extended }: Props) => {
                 title="Автори"
                 href={!extended ? params.slug + '/staff' : undefined}
             />
-            <div className={clsx("grid md:grid-cols-4 grid-cols-3 gap-4 lg:gap-8", extended && "md:grid-cols-6")}>
+            <div
+                className={clsx(
+                    'grid grid-cols-3 gap-4 md:grid-cols-4 lg:gap-8',
+                    extended && 'md:grid-cols-6',
+                )}
+            >
                 {filteredData.map((staff) => (
                     <BaseCard
                         key={staff.person.slug}

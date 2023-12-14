@@ -8,7 +8,7 @@ export default async function req({
     description,
     after,
     slug,
-    captcha
+    captcha,
 }: {
     secret: string;
     description?: string;
@@ -26,7 +26,7 @@ export default async function req({
             headers: {
                 ...config.config.headers,
                 auth: secret || '',
-                "Captcha": captcha,
+                Captcha: captcha,
             },
         },
     );

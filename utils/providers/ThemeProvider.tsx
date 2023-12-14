@@ -1,12 +1,13 @@
 'use client';
 
 import {
-    createContext,
     ReactNode,
+    createContext,
     useContext,
     useEffect,
     useState,
 } from 'react';
+
 import { usePathname } from 'next/navigation';
 
 type Theme = 'dark' | 'light';
@@ -29,7 +30,7 @@ interface Props {
 }
 
 function getInitialState(): State {
-    const theme = localStorage.getItem('theme');
+    const theme = window ? localStorage.getItem('theme') : undefined;
 
     return {
         theme: theme ? (theme as Theme) : 'dark',
@@ -52,8 +53,7 @@ export default function ThemeProvider({ children }: Props) {
     useEffect(() => {
         localStorage.setItem('theme', state.theme);
         // document.getElementsByTagName('html')[0].setAttribute('data-theme', state.theme)
-        document.documentElement.setAttribute('data-theme', state.theme)
-
+        document.documentElement.setAttribute('data-theme', state.theme);
     }, [state.theme]);
 
     return (

@@ -20,10 +20,10 @@ module.exports = {
         themes: [
             {
                 dark: {
-                    "--btn-focus-scale": "1",
-                    primary: '#000',
-                    'primary-content': '#fff',
-                    secondary: '#292929',
+                    '--btn-focus-scale': '1',
+                    primary: '#fff',
+                    'primary-content': '#000',
+                    secondary: '#27272a',
                     'secondary-content': '#fff',
                     accent: '#e779c1',
                     'accent-content': '#000',
@@ -33,9 +33,9 @@ module.exports = {
                     'error-content': '#000',
                 },
                 light: {
-                    "--btn-focus-scale": "1",
-                    primary: '#fff',
-                    'primary-content': '#000',
+                    '--btn-focus-scale': '1',
+                    primary: '#000',
+                    'primary-content': '#fff',
                     secondary: '#eaeaea',
                     'secondary-content': '#000',
                     accent: '#e779c1',

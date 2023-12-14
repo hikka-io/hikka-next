@@ -1,8 +1,9 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
-import {Popper, PopperProps} from '@mui/base/Popper';
 import { createPortal } from 'react-dom';
+
+import { Popper, PopperProps } from '@mui/base/Popper';
 
 interface Props extends PopperProps {
     open: boolean;
@@ -18,20 +19,14 @@ const Component = (props: Props) => {
     }
 
     return createPortal(
-        <div role="presentation" className="fixed z-[1300] inset-0">
+        <div role="presentation" className="fixed inset-0 z-[1300]">
             <div
-                className="fixed flex items-center justify-center inset-0 bg-black/60 -z-[1]"
+                className="fixed inset-0 -z-[1] flex items-center justify-center bg-black/60"
                 onClick={onDismiss}
             />
-            <Popper
-                role="menu"
-                disablePortal
-                id={id}
-                open={open}
-                {...etc}
-            >
-                <div className="mt-3 flex overflow-hidden flex-col rounded-lg w-60 border border-solid border-secondary bg-base-100 shadow-md">
-                    {typeof children !== "function" && children}
+            <Popper role="menu" disablePortal id={id} open={open} {...etc}>
+                <div className="mt-3 flex w-60 flex-col overflow-hidden rounded-lg border border-solid border-secondary bg-base-100 shadow-md">
+                    {typeof children !== 'function' && children}
                 </div>
             </Popper>
         </div>,

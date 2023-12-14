@@ -1,17 +1,20 @@
 'use client';
 
+import { uk } from 'date-fns/locale';
+import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { SnackbarProvider } from 'notistack';
+import NProgress from 'nprogress';
 import React, { PropsWithChildren, useEffect } from 'react';
+
+import { usePathname, useSearchParams } from 'next/navigation';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import SnackbarItem from '@/app/_components/SnackbarItem';
+import { SnackbarUtilsConfigurator } from '@/utils/SnackbarUtils';
 import AuthProvider from '@/utils/providers/AuthProvider';
 import ModalProvider from '@/utils/providers/ModalProvider';
-import { SnackbarProvider } from 'notistack';
-import { usePathname, useSearchParams } from 'next/navigation';
-import NProgress from 'nprogress';
-import SnackbarItem from '@/app/_components/SnackbarItem';
-import setDefaultOptions from 'date-fns/setDefaultOptions';
-import { uk } from 'date-fns/locale';
-import { SnackbarUtilsConfigurator } from '@/utils/SnackbarUtils';
 import PoppperProvider from '@/utils/providers/PopperProvider';
 import ThemeProvider from '@/utils/providers/ThemeProvider';
 

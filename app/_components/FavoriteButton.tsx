@@ -1,13 +1,15 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import addFavourite from '@/utils/api/favourite/addFavourite';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import getFavourite from '@/utils/api/favourite/getFavourite';
-import deleteFavourite from '@/utils/api/favourite/deleteFavourite';
+import clsx from 'clsx';
 import MaterialSymbolsFavoriteOutlineRounded from '~icons/material-symbols/favorite-outline-rounded';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
-import clsx from 'clsx';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import addFavourite from '@/utils/api/favourite/addFavourite';
+import deleteFavourite from '@/utils/api/favourite/deleteFavourite';
+import getFavourite from '@/utils/api/favourite/getFavourite';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 interface Props {
     slug: string;
@@ -60,11 +62,15 @@ const Component = ({ slug, disabled }: Props) => {
             }
             className={clsx(
                 'btn btn-ghost btn-sm',
-                'btn-secondary btn-square',
-                'absolute bottom-2 right-2 z-[1]'
+                'btn-square btn-secondary',
+                'absolute bottom-2 right-2 z-[1]',
             )}
         >
-            {favorite && !favoriteError ? <MaterialSymbolsFavoriteRounded className="text-xl text-error" /> : <MaterialSymbolsFavoriteOutlineRounded className="text-xl text-white" />}
+            {favorite && !favoriteError ? (
+                <MaterialSymbolsFavoriteRounded className="text-xl text-error" />
+            ) : (
+                <MaterialSymbolsFavoriteOutlineRounded className="text-xl text-white" />
+            )}
         </button>
     );
 };

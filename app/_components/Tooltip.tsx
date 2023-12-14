@@ -1,8 +1,18 @@
 'use client';
-import * as React from 'react';
-import {cloneElement, memo, PropsWithChildren, ReactElement, ReactNode, useRef, useState} from 'react';
-import { Popper, PopperProps, PopperPlacementType } from '@mui/base/Popper';
+
 import clsx from 'clsx';
+import * as React from 'react';
+import {
+    PropsWithChildren,
+    ReactElement,
+    ReactNode,
+    cloneElement,
+    memo,
+    useRef,
+    useState,
+} from 'react';
+
+import { Popper, PopperPlacementType, PopperProps } from '@mui/base/Popper';
 
 interface Props extends PropsWithChildren {
     popperClassName?: string;
@@ -31,7 +41,7 @@ const Component = ({
                 onMouseOut: () => setOpen(false),
             })}
             <Popper
-                className={clsx('hidden lg:block z-50', popperClassName)}
+                className={clsx('z-50 hidden lg:block', popperClassName)}
                 {...props}
                 onMouseOver={() => setOpen(true)}
                 onMouseOut={() => setOpen(false)}
@@ -49,6 +59,6 @@ const Component = ({
             </Popper>
         </>
     );
-}
+};
 
 export default memo(Component);

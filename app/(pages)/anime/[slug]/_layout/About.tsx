@@ -1,14 +1,17 @@
 'use client';
 
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
+
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
 import SubHeader from '@/app/_components/SubHeader';
 import Tooltip from '@/app/_components/Tooltip';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 const Component = () => {
     const params = useParams();
@@ -27,7 +30,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="Деталі" />
-            <div className="flex flex-col gap-4 p-4 border border-secondary/60 rounded-lg bg-secondary/30">
+            <div className="flex flex-col gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex flex-wrap">
                     <div className="w-24">
                         <p className="label-text">Тип:</p>
@@ -44,7 +47,7 @@ const Component = () => {
                     </div>
                     <div className="flex-1">
                         <div
-                            className="rounded-md px-2 w-fit"
+                            className="w-fit rounded-md px-2"
                             style={{
                                 backgroundColor:
                                     RELEASE_STATUS[data.status].color,
@@ -111,7 +114,7 @@ const Component = () => {
                             {studio.company.image ? (
                                 <Tooltip
                                     placement="top"
-                                    className="p-1 mr-1"
+                                    className="mr-1 p-1"
                                     data={
                                         <p className="text-sm">
                                             {studio.company.name}
@@ -123,7 +126,7 @@ const Component = () => {
                                         alt="studio"
                                         width={100}
                                         height={50}
-                                        className="object-cover w-16 rounded-md"
+                                        className="w-16 rounded-md object-cover"
                                     />
                                 </Tooltip>
                             ) : (

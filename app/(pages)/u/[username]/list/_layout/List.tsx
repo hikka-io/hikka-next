@@ -1,23 +1,26 @@
 'use client';
 
+import clsx from 'clsx';
+import { createElement, useCallback, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import IcRoundGridView from '~icons/ic/round-grid-view';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
+
 import {
     useParams,
     usePathname,
     useRouter,
     useSearchParams,
 } from 'next/navigation';
-import { createElement, useCallback, useEffect, useState } from 'react';
-import clsx from 'clsx';
+
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+import GridView from '@/app/(pages)/u/[username]/list/_components/GridView';
+import TableView from '@/app/(pages)/u/[username]/list/_components/TableView';
+import NotFound from '@/app/_components/NotFound';
+import Select from '@/app/_components/Select';
 import getWatchList, { Response } from '@/utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
-import Select from '@/app/_components/Select';
-import NotFound from '@/app/_components/NotFound';
-import TableView from '@/app/(pages)/u/[username]/list/_components/TableView';
-import GridView from '@/app/(pages)/u/[username]/list/_components/GridView';
-import { useInView } from 'react-intersection-observer';
 
 interface Props {}
 
@@ -80,9 +83,13 @@ const Component = ({}: Props) => {
 
     useEffect(() => {
         if (!watchStatus) {
-            router.replace(pathname + '/?status=completed&order=score&sort=desc');
-        } else if(!order || !sort) {
-            router.replace(pathname + '/?status=' + watchStatus + '&order=score&sort=desc');
+            router.replace(
+                pathname + '/?status=completed&order=score&sort=desc',
+            );
+        } else if (!order || !sort) {
+            router.replace(
+                pathname + '/?status=' + watchStatus + '&order=score&sort=desc',
+            );
         }
     }, [watchStatus]);
 
@@ -100,7 +107,7 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
                 <div className="flex gap-2">
                     <Select
                         toggleClassName="btn-ghost"
@@ -116,15 +123,17 @@ const Component = ({}: Props) => {
                             !Array.isArray(option) &&
                             option && (
                                 <div className="flex items-center gap-4">
-                                    <div className="stat-figure text-xl p-1 text-base-content rounded-md bg-secondary/60 border border-secondary">
+                                    <div className="stat-figure rounded-md border border-secondary bg-secondary/60 p-1 text-xl text-base-content">
                                         {createElement(
                                             WATCH_STATUS[
                                                 option.value as Hikka.WatchStatus
                                             ].icon,
                                         )}
                                     </div>
-
-                                    <h3>{option.label}</h3>
+                                    <div className="flex items-center gap-2">
+                                        <h3>{option.label}</h3>
+                                        {data?.pages.length > 0 && <p className="label-text">({data?.pages[0].pagination.total})</p>}
+                                    </div>
                                 </div>
                             )
                         }
@@ -147,7 +156,7 @@ const Component = ({}: Props) => {
                     <button
                         onClick={() => setView('table')}
                         className={clsx(
-                            'btn btn-ghost btn-circle btn-badge',
+                            'btn-badge btn btn-circle btn-ghost',
                             view === 'table' && 'btn-active',
                         )}
                     >
@@ -156,7 +165,7 @@ const Component = ({}: Props) => {
                     <button
                         onClick={() => setView('grid')}
                         className={clsx(
-                            'btn btn-ghost btn-circle btn-badge',
+                            'btn-badge btn btn-circle btn-ghost',
                             view === 'grid' && 'btn-active',
                         )}
                     >

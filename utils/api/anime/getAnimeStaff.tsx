@@ -14,17 +14,22 @@ export interface Response {
 
 export default async function req({
     slug,
-    page = 1
+    page = 1,
 }: {
     slug: string;
     page?: number;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + `/anime/${slug}/staff?` + new URLSearchParams({
-        page: String(page),
-    }), {
-        method: 'get',
-        ...config.config,
-    });
+    const res = await fetch(
+        config.baseAPI +
+            `/anime/${slug}/staff?` +
+            new URLSearchParams({
+                page: String(page),
+            }),
+        {
+            method: 'get',
+            ...config.config,
+        },
+    );
 
     if (!res.ok) {
         if (res.status >= 400 && res.status <= 499) {

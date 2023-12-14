@@ -1,11 +1,13 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import { useModalContext } from '@/utils/providers/ModalProvider';
+
 import { useQueryClient } from '@tanstack/react-query';
+
 import changeUserEmail from '@/utils/api/settings/changeUserEmail';
-import {useSnackbar} from "notistack";
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = {
     email: string;
@@ -35,7 +37,9 @@ const Component = () => {
             });
             await queryClient.invalidateQueries();
             switchModal('userSettings');
-            enqueueSnackbar("Ви успішно змінити поштову адресу.", { variant: "success" });
+            enqueueSnackbar('Ви успішно змінити поштову адресу.', {
+                variant: 'success',
+            });
             return;
         } catch (e) {
             console.error(e);
@@ -46,12 +50,12 @@ const Component = () => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="py-8 px-8 flex flex-col gap-6"
+            className="flex flex-col gap-6 px-8 py-8"
         >
-            <div className="h-12 flex items-center">
+            <div className="flex h-12 items-center">
                 <h3>Email</h3>
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text">Новий email</span>
@@ -59,7 +63,7 @@ const Component = () => {
                     <input
                         type="email"
                         placeholder="Введіть новий email"
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('email', { required: true })}
                     />
                 </div>
@@ -70,7 +74,7 @@ const Component = () => {
                     <input
                         type="email"
                         placeholder="Підтвердіть новий email"
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('emailConfirmation', { required: true })}
                     />
                 </div>

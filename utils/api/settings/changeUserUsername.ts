@@ -1,13 +1,13 @@
+import SnackbarUtils from '@/utils/SnackbarUtils';
 import config from '@/utils/api/config';
-import getApiErrorMessage from "@/utils/getApiErrorMessage";
-import SnackbarUtils from "@/utils/SnackbarUtils";
+import getApiErrorMessage from '@/utils/getApiErrorMessage';
 
 export interface Response {
     description: string;
 }
 
 export default async function req({
-                                      username,
+    username,
     secret,
 }: {
     username: string;

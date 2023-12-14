@@ -11,8 +11,8 @@
 
         /* Hide scrollbar for IE, Edge and Firefox */
         .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
         }
     }
 }
@@ -46,12 +46,12 @@ body {
     background-size: 100% 100vh;
 }
 
-[data-theme="dark"] body {
+[data-theme='dark'] body {
     @apply text-base-content;
     background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
 }
 
-[data-theme="light"] body {
+[data-theme='light'] body {
     @apply text-black;
     /*background-image: linear-gradient(180deg, #fbf7fd 0%, #fafafa 60%, #fafafa 100%);*/
 }
@@ -75,33 +75,34 @@ table th:nth-last-child(1) {
     @apply rounded-r-lg;
 }
 
-.table :where(thead, tbody) :where(tr:not(:last-child)), .table :where(thead, tbody) :where(tr:first-child:last-child) {
+.table :where(thead, tbody) :where(tr:not(:last-child)),
+.table :where(thead, tbody) :where(tr:first-child:last-child) {
     /*border-bottom: 0;*/
     @apply border-b-secondary/30;
 }
 
 .table :where(thead, tfoot) {
-    @apply font-normal text-sm;
+    @apply text-sm font-normal;
 }
 
 h1 {
-    @apply font-bold font-display text-3xl;
+    @apply font-display text-3xl font-bold;
 }
 
 h2 {
-    @apply font-bold font-display text-2xl;
+    @apply font-display text-2xl font-bold;
 }
 
 h3 {
-    @apply font-bold font-display text-xl;
+    @apply font-display text-xl font-bold;
 }
 
 h4 {
-    @apply font-bold font-display text-lg;
+    @apply font-display text-lg font-bold;
 }
 
 h5 {
-    @apply font-bold font-display text-base;
+    @apply font-display text-base font-bold;
 }
 /*
 
@@ -190,7 +191,7 @@ h5 {
 }
 
 .btn-badge {
-    @apply font-normal h-8 min-h-8;
+    @apply min-h-8 h-8 font-normal;
 }
 
 .btn-square:where(.btn-badge) {
@@ -201,17 +202,16 @@ h5 {
     width: 2rem;
 }
 
-.btn.btn-disabled, .btn[disabled], .btn:disabled {
+.btn.btn-disabled,
+.btn[disabled],
+.btn:disabled {
     border: none;
     color: hsl(var(--bc) / var(--tw-text-opacity)) !important;
     /*color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity))) !important;*/
 }
 
-
-
 .btn:active:hover,
 .btn:active:focus {
-
 }
 
 .btn.btn-outline {
@@ -219,14 +219,15 @@ h5 {
 }
 
 .MuiSlider-markActive {
-    @apply bg-base-content
+    @apply bg-base-content;
 }
 
 .Mui-selected .selected {
     opacity: 1;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
     outline: none;
 }
 
@@ -242,8 +243,9 @@ textarea:focus, input:focus {
     background-color: rgba(0, 0, 0, 0.9);
 }
 
-
-.menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active, .menu li > details > summary:active {
+.menu li > *:not(ul):not(.menu-title):not(details):active,
+.menu li > *:not(ul):not(.menu-title):not(details).active,
+.menu li > details > summary:active {
     @apply bg-secondary/30;
 }
 
@@ -260,7 +262,7 @@ textarea:focus, input:focus {
 }
 
 .tooltip:before {
-    @apply bg-base-100 border border-secondary;
+    @apply border border-secondary bg-base-100;
 }
 
 .tooltip:after {
@@ -276,12 +278,12 @@ textarea:focus, input:focus {
 }
 
 .markdown ul {
-    @apply list-none ml-4 mb-4;
+    @apply mb-4 ml-4 list-none;
 }
 
 .markdown ul li::before {
-    content: "\2022";
-    @apply text-accent font-bold inline-block w-4 -ml-4;
+    content: '\2022';
+    @apply -ml-4 inline-block w-4 font-bold text-accent;
 }
 
 .modal-enter {
@@ -291,7 +293,9 @@ textarea:focus, input:focus {
 .modal-enter-active {
     opacity: 1;
     transform: translateX(0);
-    transition: opacity 300ms, transform 300ms;
+    transition:
+        opacity 300ms,
+        transform 300ms;
 }
 .modal-exit {
     opacity: 1;
@@ -299,17 +303,24 @@ textarea:focus, input:focus {
 .modal-exit-active {
     opacity: 0;
     transform: scale(0.9);
-    transition: opacity 300ms, transform 300ms;
+    transition:
+        opacity 300ms,
+        transform 300ms;
 }
 
-.menu li > *:not(ul):not(.menu-title):not(details):active, .menu li > *:not(ul):not(.menu-title):not(details).active, .menu li > details > summary:active {
+.menu li > *:not(ul):not(.menu-title):not(details):active,
+.menu li > *:not(ul):not(.menu-title):not(details).active,
+.menu li > details > summary:active {
     @apply bg-accent text-accent-content;
 }
 
-.menu li > *:not(ul):not(.menu-title):not(details):active:hover, .menu li > *:not(ul):not(.menu-title):not(details).active:hover, .menu li > details > summary:active:hover {
+.menu li > *:not(ul):not(.menu-title):not(details):active:hover,
+.menu li > *:not(ul):not(.menu-title):not(details).active:hover,
+.menu li > details > summary:active:hover {
     @apply bg-accent-focus;
 }
 
-.label-text, .label-text-alt {
+.label-text,
+.label-text-alt {
     @apply text-neutral;
 }

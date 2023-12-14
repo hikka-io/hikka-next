@@ -1,12 +1,15 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import { useModalContext } from '@/utils/providers/ModalProvider';
+
+import { useRouter } from 'next/navigation';
+
 import { useQueryClient } from '@tanstack/react-query';
+
 import changeUserUsername from '@/utils/api/settings/changeUserUsername';
-import {useRouter} from "next/navigation";
-import {useSnackbar} from "notistack";
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 type FormValues = {
     username: string;
@@ -33,7 +36,9 @@ const Component = () => {
             await queryClient.invalidateQueries();
             router.push('/u/' + data.username);
             switchModal('userSettings');
-            enqueueSnackbar("Ви успішно змінити імʼя користвача.", { variant: "success" });
+            enqueueSnackbar('Ви успішно змінити імʼя користвача.', {
+                variant: 'success',
+            });
             return;
         } catch (e) {
             console.error(e);
@@ -44,9 +49,9 @@ const Component = () => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="py-8 px-8 flex flex-col gap-6"
+            className="flex flex-col gap-6 px-8 py-8"
         >
-            <div className="h-12 flex items-center">
+            <div className="flex h-12 items-center">
                 <h3>Ім’я користувача</h3>
             </div>
             <div className="w-full">
@@ -59,7 +64,7 @@ const Component = () => {
                     <input
                         type="text"
                         placeholder="Введіть нове імʼя"
-                        className="input bg-secondary/60 w-full"
+                        className="input w-full bg-secondary/60"
                         {...register('username', { required: true })}
                     />
                 </div>

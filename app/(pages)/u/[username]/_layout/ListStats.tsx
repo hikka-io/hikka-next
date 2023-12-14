@@ -1,12 +1,15 @@
 'use client';
 
-import { WATCH_STATUS } from '@/utils/constants';
-import {useParams, usePathname} from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getWatchStats from '@/utils/api/watch/getWatchStats';
 import clsx from 'clsx';
 import { createElement } from 'react';
-import Link from "next/link";
+
+import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
+import getWatchStats from '@/utils/api/watch/getWatchStats';
+import { WATCH_STATUS } from '@/utils/constants';
 
 interface Props {}
 
@@ -25,14 +28,14 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="stats bg-transparent flex border-y lg:border border-secondary/60 rounded-none lg:rounded-lg p-0 lg:mx-0 -mx-4">
+            <div className="stats -mx-4 flex rounded-none border-y border-secondary/60 bg-transparent p-0 lg:mx-0 lg:rounded-lg lg:border">
                 {Object.keys(data).map((status) => {
                     return (
                         <Link
                             href={`${pathname}/list?status=${status}`}
                             key={status}
                             className={clsx(
-                                'stat p-4 flex-1 min-w-[50%] md:min-w-[25%] lg:min-w-fit text-left bg-secondary/30 transition',
+                                'stat min-w-[50%] flex-1 bg-secondary/30 p-4 text-left transition md:min-w-[25%] lg:min-w-fit',
                                 'hover:bg-secondary/10',
                             )}
                         >
@@ -46,7 +49,7 @@ const Component = ({}: Props) => {
                                 <div className="stat-value font-display">
                                     {data[status as Hikka.WatchStatus]}
                                 </div>
-                                <div className="stat-figure text-xl p-1 rounded-md bg-secondary">
+                                <div className="stat-figure rounded-md bg-secondary p-1 text-xl">
                                     {createElement(
                                         WATCH_STATUS[
                                             status as Hikka.WatchStatus

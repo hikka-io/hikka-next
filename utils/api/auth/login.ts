@@ -1,6 +1,6 @@
+import SnackbarUtils from '@/utils/SnackbarUtils';
 import config from '@/utils/api/config';
-import getApiErrorMessage from "@/utils/getApiErrorMessage";
-import SnackbarUtils from "@/utils/SnackbarUtils";
+import getApiErrorMessage from '@/utils/getApiErrorMessage';
 
 interface Response {
     secret: string;
@@ -22,7 +22,7 @@ export default async function req(params: {
         ...config.config,
         headers: {
             ...config.config.headers,
-            "Captcha": params.captcha,
+            Captcha: params.captcha,
         },
     });
 

@@ -1,5 +1,6 @@
-import Links from '@/app/(pages)/anime/[slug]/_layout/Links';
 import { Metadata, ResolvingMetadata } from 'next';
+
+import Links from '@/app/(pages)/anime/[slug]/_layout/Links';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

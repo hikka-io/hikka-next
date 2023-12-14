@@ -2,6 +2,7 @@
 
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+
 import useIsMobile from '@/utils/hooks/useIsMobile';
 
 interface Props extends PropsWithChildren {
@@ -32,7 +33,7 @@ const Component = ({ children, mobileOnly }: Props) => {
     }
 
     return createPortal(
-        <div className="overflow-hidden px-4 shadow-lg border border-secondary rounded-full bg-base-100">
+        <div className="overflow-hidden rounded-full border border-secondary bg-base-100 px-4 shadow-lg">
             {children}
         </div>,
         document.getElementById('subbar')!,

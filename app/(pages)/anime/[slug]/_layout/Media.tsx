@@ -1,15 +1,20 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import {useQuery, useQueryClient} from '@tanstack/react-query';
-import getAnimeInfo, {Response as AnimeInfoResponse} from '@/utils/api/anime/getAnimeInfo';
-import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
-import { OST, VIDEO } from '@/utils/constants';
-import { useState } from 'react';
 import clsx from 'clsx';
+import { useState } from 'react';
+import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
+
+import { useParams } from 'next/navigation';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 import BaseCard from '@/app/_components/BaseCard';
 import SubHeader from '@/app/_components/SubHeader';
+import getAnimeInfo, {
+    Response as AnimeInfoResponse,
+} from '@/utils/api/anime/getAnimeInfo';
+import { OST, VIDEO } from '@/utils/constants';
 
 interface Props {
     extended?: boolean;
@@ -43,7 +48,9 @@ const Component = ({ extended }: Props) => {
     };
 
     const filteredOSTData = extended ? anime.ost : anime.ost.slice(0, 4);
-    const filteredVideoData = extended ? anime.videos : anime.videos.slice(0, 3);
+    const filteredVideoData = extended
+        ? anime.videos
+        : anime.videos.slice(0, 3);
 
     return (
         <div className="flex flex-col gap-8">
@@ -56,7 +63,7 @@ const Component = ({ extended }: Props) => {
                         <button
                             onClick={() => setActive('video')}
                             className={clsx(
-                                'btn btn-badge btn-ghost rounded-full',
+                                'btn-badge btn btn-ghost rounded-full',
                                 active === 'video' && 'btn-active',
                             )}
                         >
@@ -67,7 +74,7 @@ const Component = ({ extended }: Props) => {
                         <button
                             onClick={() => setActive('music')}
                             className={clsx(
-                                'btn btn-badge btn-ghost rounded-full',
+                                'btn-badge btn btn-ghost rounded-full',
                                 active === 'music' && 'btn-active',
                             )}
                         >
@@ -80,8 +87,12 @@ const Component = ({ extended }: Props) => {
                 className={clsx(
                     'grid gap-4 lg:gap-8',
                     active === 'music'
-                        ? extended ? 'md:grid-cols-6 grid-cols-3' : 'md:grid-cols-4 grid-cols-3'
-                        : extended ? 'md:grid-cols-4 grid-cols-2' : 'md:grid-cols-3 grid-cols-2',
+                        ? extended
+                            ? 'grid-cols-3 md:grid-cols-6'
+                            : 'grid-cols-3 md:grid-cols-4'
+                        : extended
+                          ? 'grid-cols-2 md:grid-cols-4'
+                          : 'grid-cols-2 md:grid-cols-3',
                 )}
             >
                 {active === 'music' &&
@@ -97,7 +108,7 @@ const Component = ({ extended }: Props) => {
                                 OST[ost.ost_type].title_en
                             }
                         >
-                            <div className="absolute top-0 left-0 flex h-full w-full text-4xl items-center justify-center">
+                            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
                                 <IcBaselineLibraryMusic className="text-neutral" />
                             </div>
                         </BaseCard>
@@ -120,7 +131,7 @@ const Component = ({ extended }: Props) => {
                                 }
                             >
                                 {!thumb && (
-                                    <div className="absolute top-0 left-0 flex h-full w-full text-4xl items-center justify-center">
+                                    <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
                                         <IcBaselineOndemandVideo className="text-neutral" />
                                     </div>
                                 )}

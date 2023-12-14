@@ -1,5 +1,6 @@
-import Favorites from '@/app/(pages)/u/[username]/_layout/Favorites';
 import { Metadata, ResolvingMetadata } from 'next';
+
+import Favorites from '@/app/(pages)/u/[username]/_layout/Favorites';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },

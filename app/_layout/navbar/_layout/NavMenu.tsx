@@ -1,16 +1,16 @@
 'use client';
 
-import Link from 'next/link';
-import Popper from '@/app/_components/Popper';
-import { usePopperContext } from '@/utils/providers/PopperProvider';
-
+import clsx from 'clsx';
+import { useRef } from 'react';
 import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-
 import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
-import { useRef } from 'react';
+
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
+
+import Popper from '@/app/_components/Popper';
+import { usePopperContext } from '@/utils/providers/PopperProvider';
 
 interface Props {
     className?: string;
@@ -48,7 +48,10 @@ const Component = ({ className }: Props) => {
 
     return (
         <>
-            <div className={clsx("flex gap-2 items-center", className)} ref={ref}>
+            <div
+                className={clsx('flex items-center gap-2', className)}
+                ref={ref}
+            >
                 {current?.visible ? (
                     <Link
                         href={current?.url || '/'}
@@ -61,7 +64,7 @@ const Component = ({ className }: Props) => {
                 )}
                 <button
                     onClick={() => switchPopper('mainNav')}
-                    className="btn btn-sm btn-ghost px-1"
+                    className="btn btn-ghost btn-sm px-1"
                 >
                     <PhCaretUpDownThin />
                 </button>

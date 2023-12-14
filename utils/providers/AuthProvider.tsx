@@ -1,7 +1,16 @@
 'use client';
 
-import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState,} from 'react';
-import {deleteCookie, getCookie} from "@/app/actions";
+import {
+    Dispatch,
+    ReactNode,
+    SetStateAction,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
+
+import { deleteCookie, getCookie } from '@/app/actions';
 
 // import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 

@@ -1,4 +1,4 @@
-import {After} from "@/utils/api/edit/addEdit";
+import { After } from '@/utils/api/edit/addEdit';
 
 export {};
 
@@ -15,7 +15,12 @@ declare global {
             message: string;
         };
 
-        type UserRole = 'admin' | 'moderator' | 'user' | 'banned' | 'not_activated';
+        type UserRole =
+            | 'admin'
+            | 'moderator'
+            | 'user'
+            | 'banned'
+            | 'not_activated';
 
         type User = {
             reference: string;
@@ -123,7 +128,7 @@ declare global {
             episodes: number;
             score: number;
             anime: Hikka.Anime;
-        }
+        };
 
         type Anime = {
             media_type: MediaType;
@@ -170,7 +175,7 @@ declare global {
             synopsis_en?: string;
             synopsis_ua?: string;
             synonyms?: string;
-        }
+        };
 
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
@@ -186,7 +191,7 @@ declare global {
             after: EditParams;
             before: EditParams | null;
             content: Hikka.Anime | Hikka.Person;
-        }
+        };
 
         type Comment = {
             comment_id: number;
@@ -194,6 +199,6 @@ declare global {
             created_at: number;
             text: string;
             comments: Comment[];
-        }
+        };
     }
 }

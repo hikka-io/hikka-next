@@ -1,14 +1,16 @@
-import Image from '@/app/_components/Image';
-import Link from 'next/link';
 import clsx from 'clsx';
 import {
     ForwardedRef,
-    forwardRef,
     MouseEventHandler,
     ReactNode,
     Ref,
+    forwardRef,
 } from 'react';
 import { UrlObject } from 'url';
+
+import Link from 'next/link';
+
+import Image from '@/app/_components/Image';
 
 interface Props {
     target?: string;
@@ -43,19 +45,19 @@ const Component = forwardRef(
             <>
                 <div
                     className={clsx(
-                        'w-full pt-[140%] relative bg-gray-400 overflow-hidden rounded-lg',
+                        'relative w-full overflow-hidden rounded-lg bg-gray-400 pt-[140%]',
                         containerClassName,
                     )}
                 >
-                    <div className="absolute w-full h-full bg-secondary/60 top-0 left-0">
+                    <div className="absolute left-0 top-0 h-full w-full bg-secondary/60">
                         {poster && (
-                            <figure className="w-full h-full relative">
+                            <figure className="relative h-full w-full">
                                 <Image
                                     src={poster}
                                     width={184}
                                     height={259}
                                     className={clsx(
-                                        'w-full h-full object-cover',
+                                        'h-full w-full object-cover',
                                         posterClassName,
                                     )}
                                     alt="Poster"
@@ -67,10 +69,12 @@ const Component = forwardRef(
                 </div>
                 {(title || desc) && (
                     <div className="mt-1">
-                        {desc && (
-                            <p className="label-text-alt mb-1">{desc}</p>
+                        {desc && <p className="label-text-alt mb-1">{desc}</p>}
+                        {title && (
+                            <p className="label-text !text-base-content">
+                                {title}
+                            </p>
                         )}
-                        {title && <p className="!text-base-content label-text">{title}</p>}
                     </div>
                 )}
             </>
@@ -80,7 +84,7 @@ const Component = forwardRef(
             return (
                 <div
                     ref={ref as Ref<HTMLDivElement>}
-                    className="flex flex-col gap-2 group w-full"
+                    className="group flex w-full flex-col gap-2"
                 >
                     {content}
                 </div>
@@ -93,7 +97,7 @@ const Component = forwardRef(
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
                 href={href}
-                className="flex flex-col gap-2 group w-full"
+                className="group flex w-full flex-col gap-2"
                 scroll
                 {...props}
             >

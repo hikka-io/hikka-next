@@ -1,5 +1,6 @@
-import Media from '@/app/(pages)/anime/[slug]/_layout/Media';
 import { Metadata, ResolvingMetadata } from 'next';
+
+import Media from '@/app/(pages)/anime/[slug]/_layout/Media';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

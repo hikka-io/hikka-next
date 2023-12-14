@@ -1,19 +1,21 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQuery } from '@tanstack/react-query';
-import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
-import Image from '@/app/_components/Image';
-
-import MaterialSymbolsPerson from '~icons/material-symbols/person';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
-import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline'
+import MaterialSymbolsPerson from '~icons/material-symbols/person';
+import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
+
 import Link from 'next/link';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Image from '@/app/_components/Image';
 import Popper from '@/app/_components/Popper';
+import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
-import {useModalContext} from "@/utils/providers/ModalProvider";
 
 interface Props {
     anchorEl: HTMLButtonElement | null;
@@ -42,7 +44,7 @@ const Component = ({ anchorEl }: Props) => {
             onDismiss={closePoppers}
             anchorEl={anchorEl}
         >
-            <div className="flex gap-4 items-center p-4">
+            <div className="flex items-center gap-4 p-4">
                 <div className="avatar">
                     <div className="w-10 rounded">
                         <Image
@@ -55,7 +57,7 @@ const Component = ({ anchorEl }: Props) => {
                 </div>
                 <h5>{user.username}</h5>
             </div>
-            <ul className="menu p-0 w-full [&_li>*]:rounded-none [&_li>*]:py-3 pb-4">
+            <ul className="menu w-full p-0 pb-4 [&_li>*]:rounded-none [&_li>*]:py-3">
                 <li>
                     <Link href={'/u/' + user.username} onClick={closePoppers}>
                         <MaterialSymbolsPerson />

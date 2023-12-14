@@ -1,4 +1,5 @@
 'use client';
+
 import * as React from 'react';
 
 interface UseScrollTriggerOptions {
@@ -50,7 +51,8 @@ export default function useScrollTrigger(
         };
 
         handleScroll(); // Re-evaluate trigger when dependencies change
-        target && target.addEventListener('scroll', handleScroll, { passive: true });
+        target &&
+            target.addEventListener('scroll', handleScroll, { passive: true });
         return () => {
             target && target.removeEventListener('scroll', handleScroll);
         };

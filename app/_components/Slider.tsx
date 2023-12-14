@@ -1,8 +1,9 @@
 'use client';
 
-import * as React from 'react';
-import { Slider, SliderProps } from '@mui/base';
 import clsx from 'clsx';
+import * as React from 'react';
+
+import { Slider, SliderProps } from '@mui/base';
 
 interface Props extends SliderProps {}
 

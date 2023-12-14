@@ -1,13 +1,15 @@
 'use client';
 
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
-import {useParams, usePathname} from 'next/navigation';
-import WatchListButton from '@/app/_components/WatchListButton';
-import FavoriteButton from '@/app/_components/FavoriteButton';
+
 import WatchStats from '@/app/(pages)/anime/[slug]/_layout/WatchStats';
-import Link from "next/link";
-import {useAuthContext} from "@/utils/providers/AuthProvider";
+import FavoriteButton from '@/app/_components/FavoriteButton';
+import WatchListButton from '@/app/_components/WatchListButton';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 const Component = () => {
     const { secret } = useAuthContext();
@@ -24,7 +26,11 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
-                <WatchListButton disabled={!secret} additional slug={String(params.slug)} />
+                <WatchListButton
+                    disabled={!secret}
+                    additional
+                    slug={String(params.slug)}
+                />
                 <WatchStats />
             </div>
         </div>

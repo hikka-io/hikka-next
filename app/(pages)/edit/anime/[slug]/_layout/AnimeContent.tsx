@@ -1,11 +1,14 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import * as React from 'react';
+
 import Link from 'next/link';
-import SubHeader from '@/app/_components/SubHeader';
+import { useParams } from 'next/navigation';
+
+import { useQueryClient } from '@tanstack/react-query';
+
 import AnimeCard from '@/app/_components/AnimeCard';
+import SubHeader from '@/app/_components/SubHeader';
 
 const Component = () => {
     const params = useParams();
@@ -23,13 +26,13 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="Контент" variant="h4" />
-            <div className="w-full gap-4 items-center lg:px-0 md:px-48 px-16 hidden lg:flex">
+            <div className="hidden w-full items-center gap-4 px-16 md:px-48 lg:flex lg:px-0">
                 <AnimeCard
                     href={`/anime/` + params.slug}
                     poster={anime.poster}
                 />
             </div>
-            <div className="w-full gap-4 flex lg:hidden">
+            <div className="flex w-full gap-4 lg:hidden">
                 <div className="w-12">
                     <AnimeCard
                         href={`/anime/` + params.slug}

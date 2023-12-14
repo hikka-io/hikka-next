@@ -1,17 +1,20 @@
 'use client';
+
 import {
-    createElement,
     ForwardedRef,
-    forwardRef,
     MouseEventHandler,
     ReactNode,
+    createElement,
+    forwardRef,
     useState,
 } from 'react';
-import AnimeTooltip from './AnimeTooltip';
-import MaterialSymbolsArticle from '~icons/material-symbols/article';
-import BaseCard from '@/app/_components/BaseCard';
 import { UrlObject } from 'url';
+import MaterialSymbolsArticle from '~icons/material-symbols/article';
+
+import BaseCard from '@/app/_components/BaseCard';
 import { WATCH_STATUS } from '@/utils/constants';
+
+import AnimeTooltip from './AnimeTooltip';
 
 interface Props {
     target?: string;
@@ -27,9 +30,9 @@ interface Props {
 }
 
 const Watch = ({ watch }: { watch: Hikka.Watch }) => (
-    <div className="absolute top-0 left-0 w-full">
+    <div className="absolute left-0 top-0 w-full">
         <div
-            className="absolute right-2 top-2 border-white w-fit rounded-md p-1 z-[1] text-white"
+            className="absolute right-2 top-2 z-[1] w-fit rounded-md border-white p-1 text-white"
             style={{
                 backgroundColor:
                     WATCH_STATUS[watch.status as Hikka.WatchStatus].color,
@@ -39,7 +42,7 @@ const Watch = ({ watch }: { watch: Hikka.Watch }) => (
                 WATCH_STATUS[watch.status as Hikka.WatchStatus].icon,
             )}
         </div>
-        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black to-transparent z-0" />
+        <div className="absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b from-black to-transparent" />
     </div>
 );
 
@@ -79,7 +82,7 @@ const Card = forwardRef(
                             onMouseOver && onMouseOver(e);
                             setOnCard(true);
                         }}
-                        className="btn btn-square btn-secondary absolute bottom-2 right-2 btn-badge group-hover:opacity-100 opacity-0 hidden lg:flex"
+                        className="btn-badge btn btn-square btn-secondary absolute bottom-2 right-2 hidden opacity-0 group-hover:opacity-100 lg:flex"
                     >
                         <MaterialSymbolsArticle />
                     </button>

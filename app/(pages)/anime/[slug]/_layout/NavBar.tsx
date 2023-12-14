@@ -1,13 +1,16 @@
 'use client';
 
-import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
+
 import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
-import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
+
 import { Response as CharactersResponse } from '@/utils/api/anime/getAnimeCharacters';
+import { Response as AnimeInfoResponse } from '@/utils/api/anime/getAnimeInfo';
 import { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
-import {ANIME_NAV_ROUTES} from "@/utils/constants";
+import { ANIME_NAV_ROUTES } from '@/utils/constants';
 
 const Component = () => {
     const queryClient = useQueryClient();
@@ -55,14 +58,14 @@ const Component = () => {
     });
 
     return (
-        <div className="tabs flex-nowrap w-full">
+        <div className="tabs w-full flex-nowrap">
             {filteredRoutes.map((r) => (
                 <Link
                     key={r.slug}
                     className={clsx(
                         'tab h-16 md:h-12',
                         pathname === '/anime/' + params.slug + r.url &&
-                            'tab-bordered tab-active',
+                            'tab-active tab-bordered',
                     )}
                     href={'/anime/' + params.slug + r.url}
                 >

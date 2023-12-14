@@ -1,17 +1,19 @@
 'use client';
+
+import clsx from 'clsx';
+import { CustomContentProps, SnackbarContent } from 'notistack';
 import React, {
-    forwardRef, memo,
     ReactElement,
     SVGProps,
+    forwardRef,
+    memo,
     useEffect,
     useState,
 } from 'react';
-import clsx from 'clsx';
-import { CustomContentProps, SnackbarContent } from 'notistack';
-import MaterialSymbolsWarningRounded from '~icons/material-symbols/warning-rounded'
-import EpSuccessFilled from '~icons/ep/success-filled'
-import MaterialSymbolsErrorCircleRounded from '~icons/material-symbols/error-circle-rounded'
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded'
+import EpSuccessFilled from '~icons/ep/success-filled';
+import MaterialSymbolsErrorCircleRounded from '~icons/material-symbols/error-circle-rounded';
+import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
+import MaterialSymbolsWarningRounded from '~icons/material-symbols/warning-rounded';
 
 const icons: Record<
     'default' | 'error' | 'success' | 'warning' | 'info',
@@ -50,23 +52,23 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
             <SnackbarContent
                 ref={forwardedRef}
                 className={clsx(
-                    'flex gap-4 h-full flex-nowrap bg-base-100 border border-secondary text-sm text-base-content items-center p-4 max-w-sm rounded-md shadow-md',
+                    'flex h-full max-w-sm flex-nowrap items-center gap-4 rounded-md border border-secondary bg-base-100 p-4 text-sm text-base-content shadow-md',
                 )}
             >
                 {icons[variant] !== null &&
                     icons[variant]!({ className: `text-${variant} text-xl` })}
                 <div className="flex-1">{message}</div>
-                <div className="h-full flex items-end relative">
+                <div className="relative flex h-full items-end">
                     <div
                         className={clsx(
                             'absolute',
-                            'w-1 h-full rounded-full opacity-30',
+                            'h-full w-1 rounded-full opacity-30',
                             `bg-${variant}`,
                         )}
                     />
                     <div
                         className={clsx(
-                            'w-1 h-full rounded-full snackbar-timer',
+                            'snackbar-timer h-full w-1 rounded-full',
                             `bg-${variant}`,
                         )}
                     />

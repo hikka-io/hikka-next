@@ -1,14 +1,17 @@
 'use client';
 
-import { MEDIA_TYPE } from '@/utils/constants';
-import WatchEditModal from '@/app/(pages)/u/[username]/list/_layout/WatchEditModal';
-import { CSSProperties, useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { CSSProperties, useCallback, useEffect, useState } from 'react';
+
+import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
+
+import { useQueryClient } from '@tanstack/react-query';
+
+import WatchEditModal from '@/app/(pages)/u/[username]/list/_layout/WatchEditModal';
 import Image from '@/app/_components/Image';
+import { MEDIA_TYPE } from '@/utils/constants';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import useRouter from '@/utils/useRouter';
 
@@ -45,8 +48,14 @@ const Component = ({ data }: Props) => {
     ]);
 
     const createQueryString = useCallback(
-        (name: string, value: string | string[] | boolean, ownParams?: URLSearchParams) => {
-            const params = ownParams ? ownParams : new URLSearchParams(searchParams);
+        (
+            name: string,
+            value: string | string[] | boolean,
+            ownParams?: URLSearchParams,
+        ) => {
+            const params = ownParams
+                ? ownParams
+                : new URLSearchParams(searchParams);
             // params.set('page', '1');
 
             if (value) {
@@ -81,14 +90,15 @@ const Component = ({ data }: Props) => {
                 query = createQueryString('sort', 'desc').toString();
             }
         } else {
-            query = createQueryString('sort', 'desc', createQueryString(
-                'order',
-                newOrder,
-            )).toString();
+            query = createQueryString(
+                'sort',
+                'desc',
+                createQueryString('order', newOrder),
+            ).toString();
         }
 
         router.replace(`${pathname}?${query}`);
-    }
+    };
 
     useEffect(() => {
         if (slug) {
@@ -99,18 +109,35 @@ const Component = ({ data }: Props) => {
     return (
         <div className="overflow-x-auto">
             <table className="table">
-                <thead className="bg-secondary/30 overflow-hidden rounded-lg">
+                <thead className="overflow-hidden rounded-lg bg-secondary/30">
                     <tr>
                         <th className="w-8">#</th>
                         <th>Деталі</th>
-                        <th className={clsx("w-20 select-none cursor-pointer hover:underline", order === 'episodes' && "text-accent")} align="center" onClick={() => switchOrder('episodes')}>
+                        <th
+                            className={clsx(
+                                'w-20 cursor-pointer select-none hover:underline',
+                                order === 'episodes' && 'text-accent',
+                            )}
+                            align="center"
+                            onClick={() => switchOrder('episodes')}
+                        >
                             Епізоди
                         </th>
-                        <th className={clsx("w-32 select-none hidden lg:table-cell cursor-pointer hover:underline", order === 'media_type' && "text-accent")} align="center" onClick={() => switchOrder('media_type')}>
+                        <th
+                            className={clsx(
+                                'hidden w-32 cursor-pointer select-none hover:underline lg:table-cell',
+                                order === 'media_type' && 'text-accent',
+                            )}
+                            align="center"
+                            onClick={() => switchOrder('media_type')}
+                        >
                             Тип
                         </th>
                         <th
-                            className={clsx("w-20 select-none cursor-pointer hover:underline", order === 'score' && "text-accent")}
+                            className={clsx(
+                                'w-20 cursor-pointer select-none hover:underline',
+                                order === 'score' && 'text-accent',
+                            )}
                             align="center"
                             onClick={() => switchOrder('score')}
                         >
@@ -124,22 +151,22 @@ const Component = ({ data }: Props) => {
                             key={res.reference}
                             className={clsx(
                                 loggedUser?.username === params.username &&
-                                    'hover:bg-secondary/60 hover:cursor-pointer',
+                                    'hover:cursor-pointer hover:bg-secondary/60',
                             )}
                             onClick={() => !go && setSlug(res.anime.slug)}
                         >
-                            <th className="w-8 label-text">{i + 1}</th>
+                            <th className="label-text w-8">{i + 1}</th>
                             <td>
                                 <div className="flex gap-4">
-                                    <div className="w-12 hidden lg:block">
-                                        <div className="relative pt-[140%] w-full overflow-hidden rounded-md">
-                                            <div className="absolute top-0 left-0">
+                                    <div className="hidden w-12 lg:block">
+                                        <div className="relative w-full overflow-hidden rounded-md pt-[140%]">
+                                            <div className="absolute left-0 top-0">
                                                 <Image
                                                     src={res.anime.poster}
                                                     alt="poster"
                                                     width="50"
                                                     height="50"
-                                                    className="w-full h-full"
+                                                    className="h-full w-full"
                                                 />
                                             </div>
                                         </div>
@@ -166,7 +193,7 @@ const Component = ({ data }: Props) => {
                                 {res.episodes} / {res.anime.episodes_total}
                             </td>
                             <td
-                                className="w-32 hidden lg:table-cell"
+                                className="hidden w-32 lg:table-cell"
                                 align="center"
                             >
                                 {
@@ -178,7 +205,7 @@ const Component = ({ data }: Props) => {
                             <th className="w-20" align="center">
                                 <div
                                     className={clsx(
-                                        'radial-progress text-accent border border-secondary',
+                                        'radial-progress border border-secondary text-accent',
                                     )}
                                     style={
                                         {

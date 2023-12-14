@@ -1,8 +1,11 @@
 'use client';
+
 import Markdown from 'react-markdown';
 
 import { useParams } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
+
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 
 const Component = () => {

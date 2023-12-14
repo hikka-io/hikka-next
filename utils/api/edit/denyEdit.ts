@@ -9,17 +9,14 @@ export default async function req({
     secret: string;
     edit_id: number;
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI + '/edit/' + edit_id + '/deny',
-        {
-            method: 'post',
-            ...config.config,
-            headers: {
-                ...config.config.headers,
-                auth: secret || '',
-            },
+    const res = await fetch(config.baseAPI + '/edit/' + edit_id + '/deny', {
+        method: 'post',
+        ...config.config,
+        headers: {
+            ...config.config.headers,
+            auth: secret || '',
         },
-    );
+    });
 
     if (!res.ok) {
         if (res.status >= 400 && res.status <= 499) {

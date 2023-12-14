@@ -1,6 +1,7 @@
-import loginOAuth from '@/utils/api/auth/loginOAuth';
-import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+
+import loginOAuth from '@/utils/api/auth/loginOAuth';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +17,10 @@ export async function GET(request: Request) {
         cookies().set('secret', res.secret);
     } catch (e) {
         if ('code' in (e as Hikka.Error)) {
-            return redirect('/anime?auth=error&provider=google&error=' + (e as Hikka.Error).code);
+            return redirect(
+                '/anime?auth=error&provider=google&error=' +
+                    (e as Hikka.Error).code,
+            );
         }
 
         return redirect('/anime?auth=error&provider=google&error=' + e);

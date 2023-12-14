@@ -1,5 +1,5 @@
-import ListStats from './_layout/ListStats';
 import Favorites from './_layout/Favorites';
+import ListStats from './_layout/ListStats';
 
 const Component = () => {
     return (

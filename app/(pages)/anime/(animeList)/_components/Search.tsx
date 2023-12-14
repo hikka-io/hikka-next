@@ -1,9 +1,11 @@
-'use client'
+'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+
 import { usePathname, useSearchParams } from 'next/navigation';
+
+import Input from '@/app/_components/Input';
 import useRouter from '@/utils/useRouter';
-import Input from "@/app/_components/Input";
 
 const Component = () => {
     const router = useRouter();
@@ -36,7 +38,7 @@ const Component = () => {
 
     return (
         <div className="form-control w-full">
-            <label className="label lg:flex hidden">
+            <label className="label hidden lg:flex">
                 <span className="label-text">Пошук по назві</span>
             </label>
             <input

@@ -1,20 +1,24 @@
 'use client';
 
-import { useModalContext } from '@/utils/providers/ModalProvider';
+import clsx from 'clsx';
+import { format } from 'date-fns';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+import BaseCard from '@/app/_components/BaseCard';
+import AnimeEditModal from '@/app/_layout/AnimeEditModal';
 import getEditList, {
     Response as EditListResponse,
 } from '@/utils/api/edit/getEditList';
-import AnimeEditModal from '@/app/_layout/AnimeEditModal';
-import { useInView } from 'react-intersection-observer';
-import clsx from 'clsx';
-import BaseCard from '@/app/_components/BaseCard';
-import { format } from 'date-fns';
-import Link from 'next/link';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 import useRouter from '@/utils/useRouter';
+
 import EditStatus from '../_components/EditStatus';
 
 const Component = () => {
@@ -61,7 +65,7 @@ const Component = () => {
         <div className="flex flex-col gap-8">
             <div className="overflow-x-auto">
                 <table className="table">
-                    <thead className="bg-secondary/30 overflow-hidden rounded-lg">
+                    <thead className="overflow-hidden rounded-lg bg-secondary/30">
                         <tr>
                             <th className="w-8">#</th>
                             <th>Автор</th>
@@ -80,14 +84,14 @@ const Component = () => {
                                 <tr
                                     key={edit.edit_id}
                                     className={clsx(
-                                        'hover:bg-secondary/60 hover:cursor-pointer',
+                                        'hover:cursor-pointer hover:bg-secondary/60',
                                     )}
                                     onClick={() =>
                                         !go &&
                                         router.push('/edit/' + edit.edit_id)
                                     }
                                 >
-                                    <th className="w-8 label-text">
+                                    <th className="label-text w-8">
                                         {edit.edit_id}
                                     </th>
                                     <td>
@@ -145,7 +149,8 @@ const Component = () => {
                                         align="left"
                                     >
                                         <p
-                                            className={clsx('label-text',
+                                            className={clsx(
+                                                'label-text',
                                                 !edit.description &&
                                                     'opacity-60',
                                             )}

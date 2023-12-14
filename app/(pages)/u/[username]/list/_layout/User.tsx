@@ -1,10 +1,12 @@
 'use client';
 
-import Image from '@/app/_components/Image';
-import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import getUserInfo from '@/utils/api/user/getUserInfo';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Image from '@/app/_components/Image';
+import getUserInfo from '@/utils/api/user/getUserInfo';
 
 interface Props {}
 
@@ -36,7 +38,7 @@ const Component = ({}: Props) => {
                 <h3>{data.username}</h3>
                 <Link
                     href={`/u/${data.username}`}
-                    className="btn btn-outline bg-secondary/60 flex-1 join-item btn-md w-full"
+                    className="btn btn-outline join-item btn-md w-full flex-1 bg-secondary/60"
                 >
                     Профіль
                 </Link>

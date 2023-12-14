@@ -1,16 +1,19 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQuery } from '@tanstack/react-query';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import { useParams } from 'next/navigation';
+import clsx from 'clsx';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import clsx from 'clsx';
-import addEdit from '@/utils/api/edit/addEdit';
+import { useForm } from 'react-hook-form';
+
+import { useParams } from 'next/navigation';
+
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import useRouter from "@/utils/useRouter";
+import { useQuery } from '@tanstack/react-query';
+
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import addEdit from '@/utils/api/edit/addEdit';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import useRouter from '@/utils/useRouter';
 
 type FormValues = Hikka.EditParams & {
     description: string;
@@ -130,20 +133,20 @@ const Component = () => {
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col gap-6"
             >
-                <div className="w-full flex flex-col gap-2">
-                    <div className="collapse collapse-arrow border border-secondary">
+                <div className="flex w-full flex-col gap-2">
+                    <div className="collapse-arrow collapse border border-secondary">
                         <input ref={titleRef} type="checkbox" />
-                        <div className="collapse-title flex gap-4 items-center">
+                        <div className="collapse-title flex items-center gap-4">
                             <h5>Назва аніме</h5>
                         </div>
                         <div className="collapse-content flex flex-col gap-2">
-                            <div className="flex gap-2 flex-wrap">
+                            <div className="flex flex-wrap gap-2">
                                 {TITLE_PARAMS.map((param) => (
                                     <button
                                         key={param.param}
                                         onClick={() => switchParam(param.param)}
                                         className={clsx(
-                                            'btn btn-badge btn-secondary rounded-badge',
+                                            'btn-badge btn btn-secondary rounded-badge',
                                             editParams.includes(param.param)
                                                 ? 'btn-accent'
                                                 : 'btn-outline',
@@ -175,7 +178,7 @@ const Component = () => {
                                         <input
                                             type="text"
                                             placeholder={param.placeholder}
-                                            className="input bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                            className="input w-full bg-secondary/60 disabled:bg-secondary/60 disabled:text-secondary-content"
                                             {...register(param.param, {
                                                 value:
                                                     (anime![
@@ -188,19 +191,19 @@ const Component = () => {
                             })}
                         </div>
                     </div>
-                    <div className="collapse collapse-arrow border border-secondary">
+                    <div className="collapse-arrow collapse border border-secondary">
                         <input ref={synopsisRef} type="checkbox" />
-                        <div className="collapse-title flex gap-4 items-center">
+                        <div className="collapse-title flex items-center gap-4">
                             <h5>Опис аніме</h5>
                         </div>
                         <div className="collapse-content flex flex-col gap-2">
-                            <div className="flex gap-2 flex-wrap">
+                            <div className="flex flex-wrap gap-2">
                                 {SYNOPSIS_PARAMS.map((param) => (
                                     <button
                                         key={param.param}
                                         onClick={() => switchParam(param.param)}
                                         className={clsx(
-                                            'btn btn-badge btn-secondary rounded-badge',
+                                            'btn-badge btn btn-secondary rounded-badge',
                                             editParams.includes(param.param)
                                                 ? 'btn-accent'
                                                 : 'btn-outline',
@@ -232,7 +235,7 @@ const Component = () => {
                                         <textarea
                                             placeholder={param.placeholder}
                                             rows={5}
-                                            className="textarea textarea-ghost text-base bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                                            className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
                                             {...register(param.param, {
                                                 value:
                                                     (anime![
@@ -247,9 +250,7 @@ const Component = () => {
                     </div>
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text">
-                                Опис правки
-                            </span>
+                            <span className="label-text">Опис правки</span>
                             <span className="label-text-alt opacity-60">
                                 Необов’язково
                             </span>
@@ -257,12 +258,12 @@ const Component = () => {
                         <textarea
                             placeholder="Введіть причину правки"
                             rows={3}
-                            className="textarea textarea-ghost text-base bg-secondary/60 w-full disabled:text-secondary-content disabled:bg-secondary/60"
+                            className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
                             {...register('description')}
                         />
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Turnstile
                         ref={captchaRef}
                         siteKey="0x4AAAAAAANXs8kaCqjo_FLF"

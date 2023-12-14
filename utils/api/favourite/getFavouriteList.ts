@@ -19,9 +19,13 @@ export default async function req({
     secret?: string;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI + '/favourite/anime/' + username + '/list?' + new URLSearchParams({
-            page: String(page),
-        }),
+        config.baseAPI +
+            '/favourite/anime/' +
+            username +
+            '/list?' +
+            new URLSearchParams({
+                page: String(page),
+            }),
         {
             method: 'get',
             ...config.config,
@@ -30,8 +34,8 @@ export default async function req({
                 auth: secret || '',
             },
             next: {
-                revalidate: 0
-            }
+                revalidate: 0,
+            },
         },
     );
 

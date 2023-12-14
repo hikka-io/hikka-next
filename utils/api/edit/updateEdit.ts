@@ -22,7 +22,7 @@ export default async function req({
         headers: {
             ...config.config.headers,
             auth: secret || '',
-            "Captcha": captcha,
+            Captcha: captcha,
         },
     });
 

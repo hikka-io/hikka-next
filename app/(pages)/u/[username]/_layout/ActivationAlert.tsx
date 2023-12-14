@@ -1,11 +1,14 @@
 'use client';
 
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
-import { useQueryClient } from '@tanstack/react-query';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import resendActivation from '@/utils/api/auth/resendActivation';
 import { useSnackbar } from 'notistack';
-import {useParams} from "next/navigation";
+import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
+
+import { useParams } from 'next/navigation';
+
+import { useQueryClient } from '@tanstack/react-query';
+
+import resendActivation from '@/utils/api/auth/resendActivation';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 const Component = () => {
     const params = useParams();
@@ -23,7 +26,11 @@ const Component = () => {
         secret,
     ]);
 
-    if (!loggedUser || loggedUser.role !== 'not_activated' || user?.username !== loggedUser.username) {
+    if (
+        !loggedUser ||
+        loggedUser.role !== 'not_activated' ||
+        user?.username !== loggedUser.username
+    ) {
         return null;
     }
 
@@ -58,7 +65,7 @@ const Component = () => {
 
     return (
         <div>
-            <div className="alert bg-secondary/30 border-secondary">
+            <div className="alert border-secondary bg-secondary/30">
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="text-sm">
                     На вашу пошту відправлено лист з активацією пошти. Будь
@@ -66,7 +73,7 @@ const Component = () => {
                     прийшов, будь ласка,{' '}
                     <button
                         onClick={resend}
-                        className="hover:underline text-accent"
+                        className="text-accent hover:underline"
                     >
                         відправте його повторно
                     </button>

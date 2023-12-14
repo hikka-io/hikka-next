@@ -181,7 +181,10 @@ export default async function req({
                     my_storage: {},
                     my_storage_value: 0,
                     my_status: getWatchStatus(list.name),
-                    my_comments: String(entry.notes).length > 0  ? String(entry.notes) : {},
+                    my_comments:
+                        String(entry.notes).length > 0
+                            ? String(entry.notes)
+                            : {},
                     my_times_watched: 0,
                     my_rewatch_value: {},
                     my_priority: 'LOW',

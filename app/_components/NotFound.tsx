@@ -1,7 +1,7 @@
 'use client';
 
-import MaterialSymbolsFeatureSearch from '~icons/material-symbols/feature-search';
 import { PropsWithChildren, ReactNode } from 'react';
+import MaterialSymbolsFeatureSearch from '~icons/material-symbols/feature-search';
 
 interface Props extends PropsWithChildren {
     title: string | ReactNode;
@@ -10,12 +10,14 @@ interface Props extends PropsWithChildren {
 
 const Component = ({ title, description, children }: Props) => {
     return (
-        <div className="flex justify-between items-center lg:flex-row flex-col bg-secondary/30 gap-4 rounded-lg border border-secondary p-6">
-            <div className="flex gap-4 items-center">
-                <MaterialSymbolsFeatureSearch className="text-4xl label-text" />
+        <div className="flex flex-col items-center justify-between gap-4 rounded-lg border border-secondary bg-secondary/30 p-6 lg:flex-row">
+            <div className="flex items-center gap-4">
+                <MaterialSymbolsFeatureSearch className="label-text text-4xl" />
                 <div className="flex flex-col gap-1">
                     <h3 className="label-text text-xl">{title}</h3>
-                    {description && <p className="label-text opacity-60">{description}</p>}
+                    {description && (
+                        <p className="label-text opacity-60">{description}</p>
+                    )}
                 </div>
             </div>
             {children}

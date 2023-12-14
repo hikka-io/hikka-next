@@ -1,11 +1,14 @@
-import AnimeEditNew from './_layout/AnimeEditNew';
-import getQueryClient from '@/utils/getQueryClient';
+import * as React from 'react';
+
 import { dehydrate } from '@tanstack/query-core';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+
+import SubHeader from '@/app/_components/SubHeader';
 import RQHydrate from '@/utils/RQHydrate';
-import AnimeContent from "./_layout/AnimeContent";
-import SubHeader from "@/app/_components/SubHeader";
-import * as React from "react";
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import getQueryClient from '@/utils/getQueryClient';
+
+import AnimeContent from './_layout/AnimeContent';
+import AnimeEditNew from './_layout/AnimeEditNew';
 
 interface Props {
     params: { slug: string };
@@ -21,7 +24,7 @@ const Component = async ({ params: { slug } }: Props) => {
     const dehydratedState = dehydrate(queryClient);
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid lg:grid-cols-[1fr_25%] grid-cols-1 lg:gap-16 gap-12">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Нова правка`} />
                     <AnimeEditNew />

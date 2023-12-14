@@ -1,17 +1,20 @@
 'use client';
 
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useModalContext } from '@/utils/providers/ModalProvider';
-import { useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useState } from 'react';
-import { xml2json } from 'xml-js';
 import { useDropzone } from 'react-dropzone';
-import clsx from 'clsx';
-import importWatch from '@/utils/api/settings/importWatch';
-import Link from 'next/link';
+import { xml2json } from 'xml-js';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
+
+import Link from 'next/link';
+
+import { useQueryClient } from '@tanstack/react-query';
+
 import importAnilistWatch from '@/utils/api/settings/importAnilistWatch';
+import importWatch from '@/utils/api/settings/importWatch';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -134,7 +137,7 @@ const Component = () => {
         <div>
             <p>
                 У вашому списку знайдено{' '}
-                <span className="rounded-sm bg-accent text-accent-content px-1">
+                <span className="rounded-sm bg-accent px-1 text-accent-content">
                     {watchList.length}
                 </span>{' '}
                 аніме, що готові до імпорту
@@ -143,7 +146,7 @@ const Component = () => {
     );
 
     const aniListImport = (
-        <div className="w-full flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2">
             <div className="form-control w-full">
                 <label className="label">
                     <span className="label-text">Ім’я користувача AniList</span>
@@ -152,7 +155,7 @@ const Component = () => {
                     <input
                         type="text"
                         placeholder="Введіть імʼя користувача"
-                        className="input bg-secondary/60 w-full flex-1"
+                        className="input w-full flex-1 bg-secondary/60"
                         onChange={(e) => setAniListUsername(e.target.value)}
                     />
                     <button
@@ -212,12 +215,12 @@ const Component = () => {
                     <Link
                         target="_blank"
                         href="https://myanimelist.net/panel.php?go=export"
-                        className="hover:!text-accent-content hover:bg-accent-focus rounded-sm bg-accent text-accent-content px-1"
+                        className="rounded-sm bg-accent px-1 text-accent-content hover:bg-accent-focus hover:!text-accent-content"
                     >
                         MyAnimeList
                     </Link>{' '}
                     або{' '}
-                    <span className="rounded-sm bg-accent text-accent-content px-1">
+                    <span className="rounded-sm bg-accent px-1 text-accent-content">
                         Shikimori
                     </span>
                 </span>
@@ -226,8 +229,8 @@ const Component = () => {
     );
 
     return (
-        <div className="py-8 px-8 flex flex-col gap-6">
-            <div className="h-12 flex items-center">
+        <div className="flex flex-col gap-6 px-8 py-8">
+            <div className="flex h-12 items-center">
                 <h3>Імпорт</h3>
             </div>
             <div className="tabs w-full">
@@ -235,7 +238,7 @@ const Component = () => {
                     onClick={() => setTab('general')}
                     className={clsx(
                         'tab flex-1',
-                        tab === 'general' && 'tab-bordered tab-active',
+                        tab === 'general' && 'tab-active tab-bordered',
                     )}
                 >
                     Загальний
@@ -244,13 +247,13 @@ const Component = () => {
                     onClick={() => setTab('aniList')}
                     className={clsx(
                         'tab flex-1',
-                        tab === 'aniList' && 'tab-bordered tab-active',
+                        tab === 'aniList' && 'tab-active tab-bordered',
                     )}
                 >
                     AniList
                 </button>
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 {tab === 'general' && generalImport}
                 {tab === 'aniList' && aniListImport}
                 <div className="form-control">
@@ -262,7 +265,7 @@ const Component = () => {
                             type="checkbox"
                             checked={rewrite}
                             onChange={() => setRewrite(!rewrite)}
-                            className="checkbox checkbox-accent"
+                            className="checkbox-accent checkbox"
                         />
                     </label>
                 </div>

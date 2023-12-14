@@ -1,22 +1,27 @@
 'use client';
 
-import Link from 'next/link';
-import Image from '@/app/_components/Image';
 import clsx from 'clsx';
+import React, { PropsWithChildren, useRef } from 'react';
+import MaterialSymbolsDarkModeRounded from '~icons/material-symbols/dark-mode-rounded';
+import MaterialSymbolsLightModeRounded from '~icons/material-symbols/light-mode-rounded';
+import MaterialSymbolsSearch from '~icons/material-symbols/search';
+
+import Link from 'next/link';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Image from '@/app/_components/Image';
+import NavMenu from '@/app/_layout/navbar/_layout/NavMenu';
+import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
+import useIsMobile from '@/utils/hooks/useIsMobile';
 import useScrollTrigger from '@/utils/hooks/useScrollTrigger';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
-import { useQuery } from '@tanstack/react-query';
-import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
-import React, { PropsWithChildren, useRef } from 'react';
-import ProfileMenu from './_layout/ProfileMenu';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-import MaterialSymbolsSearch from '~icons/material-symbols/search';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
-import NavMenu from '@/app/_layout/navbar/_layout/NavMenu';
-import useIsMobile from '@/utils/hooks/useIsMobile';
-import MaterialSymbolsLightModeRounded from '~icons/material-symbols/light-mode-rounded';
-import MaterialSymbolsDarkModeRounded from '~icons/material-symbols/dark-mode-rounded';
 import { useThemeContext } from '@/utils/providers/ThemeProvider';
+
+import ProfileMenu from './_layout/ProfileMenu';
+
 
 interface Props extends PropsWithChildren {}
 
@@ -45,22 +50,18 @@ const Component = ({}: Props) => {
     return (
         <nav
             className={clsx(
-                'z-10 bg-transparent',
-                'w-full',
-                'border-b border-b-secondary/30',
-                'transition',
-                'sticky z-10 top-0',
-                trigger && '!bg-base-100 !border-b-secondary',
+                'bg-transparent z-10 border-b w-full border-b-secondary/30 transition sticky top-0',
+                trigger && '!border-b-secondary !bg-base-100',
             )}
         >
-            <div className="navbar md:gap-8 gap-4 container max-w-[88rem] px-4 mx-auto">
-                <div className="flex flex-1 md:gap-8 gap-4 overflow-hidden">
-                    <Link href="/" className="w-20 h-full">
-                        <div className="logo w-[80px] h-[24px] bg-base-content" />
+            <div className="container navbar mx-auto max-w-[88rem] gap-4 px-4 md:gap-8">
+                <div className="flex flex-1 gap-4 overflow-hidden md:gap-8">
+                    <Link href="/" className="h-full w-20">
+                        <div className="logo h-[24px] w-[80px] bg-base-content" />
                     </Link>
 
                     <div
-                        className="flex flex-1 gap-4 items-center overflow-hidden"
+                        className="flex flex-1 items-center gap-4 overflow-hidden"
                         id="breadcrumbs"
                     >
                         <NavMenu />
@@ -70,9 +71,9 @@ const Component = ({}: Props) => {
                     <button
                         onClick={() => switchModal('search')}
                         className={clsx(
-                            'btn btn-outline btn-secondary btn-sm',
+                            'btn btn-secondary btn-outline btn-sm',
                             'bg-secondary/30 hover:!bg-secondary/60',
-                            'lg:w-48 lg:justify-between lg:!text-base-content/60 lg:font-normal',
+                            'lg:w-48 lg:justify-between lg:font-normal lg:!text-base-content/60',
                             'transition-all duration-200',
                             'lg:hover:w-60',
                             'items-center',
@@ -83,7 +84,7 @@ const Component = ({}: Props) => {
                             <span className="hidden lg:block">Пошук...</span>
                         </div>
                         {isMac !== undefined ? (
-                            <div className="hidden lg:flex items-center">
+                            <div className="hidden items-center lg:flex">
                                 <kbd className="kbd kbd-sm">
                                     {isMac ? '⌘' : 'ctrl'}
                                 </kbd>
@@ -93,11 +94,11 @@ const Component = ({}: Props) => {
                             <div />
                         )}
                     </button>
-                    <label className="btn btn-ghost btn-sm btn-square btn-secondary swap swap-rotate">
+                    <label className="btn btn-square btn-secondary btn-ghost swap swap-rotate btn-sm">
                         {/* this hidden checkbox controls the state */}
                         <input
                             type="checkbox"
-                            onChange={(e) =>
+                            onChange={() =>
                                 switchTheme(theme === 'dark' ? 'light' : 'dark')
                             }
                             checked={theme === 'dark'}
@@ -112,26 +113,26 @@ const Component = ({}: Props) => {
                         <button
                             ref={profileRef}
                             onClick={() => switchPopper('profile')}
-                            className="btn-ghost btn-square btn btn-sm join-item overflow-hidden"
+                            className="btn btn-square btn-ghost join-item btn-sm overflow-hidden"
                         >
                             <Image
                                 src={user.avatar}
                                 alt="pfp"
                                 width={44}
                                 height={44}
-                                className="w-full h-full"
+                                className="h-full w-full"
                             />
                         </button>
                     ) : (
                         <>
                             <button
-                                className="btn-ghost btn-sm btn"
+                                className="btn btn-ghost btn-sm"
                                 onClick={() => switchModal('login')}
                             >
                                 Увійти
                             </button>
                             <button
-                                className="hidden lg:flex btn-accent btn-sm btn"
+                                className="btn btn-accent btn-sm hidden lg:flex"
                                 onClick={() => switchModal('signup')}
                             >
                                 Реєстрація

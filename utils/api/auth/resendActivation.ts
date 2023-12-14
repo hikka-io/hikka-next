@@ -8,7 +8,11 @@ interface Response {
     avatar: string;
 }
 
-export default async function req({ secret }: { secret: string }): Promise<Response> {
+export default async function req({
+    secret,
+}: {
+    secret: string;
+}): Promise<Response> {
     const res = await fetch(config.baseAPI + '/auth/activation/resend', {
         method: 'post',
         ...config.config,

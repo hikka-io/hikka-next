@@ -1,26 +1,28 @@
 'use client';
+
+import clsx from 'clsx';
 import * as React from 'react';
 import {
     CSSProperties,
     ForwardedRef,
-    forwardRef,
-    memo,
     PropsWithChildren,
     ReactNode,
+    forwardRef,
+    memo,
     useEffect,
     useState,
 } from 'react';
-import clsx from 'clsx';
+import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
+
+import { SelectOption } from '@mui/base';
+import { ListContext } from '@mui/base/useList';
+import { useOption, useOptionContextStabilizer } from '@mui/base/useOption';
 import {
     SelectProvider,
     SelectValue,
-    useSelect,
     UseSelectButtonSlotProps,
+    useSelect,
 } from '@mui/base/useSelect';
-import { useOption, useOptionContextStabilizer } from '@mui/base/useOption';
-import { SelectOption } from '@mui/base';
-import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
-import { ListContext } from '@mui/base/useList';
 
 type OptionValue = string | number | null;
 
@@ -38,7 +40,7 @@ const Toggle = forwardRef(
             <button
                 ref={ref}
                 className={clsx(
-                    'btn justify-start h-auto w-full py-2 pr-10 overflow-hidden relative after:right-4 after:absolute',
+                    'btn relative h-auto w-full justify-start overflow-hidden py-2 pr-10 after:absolute after:right-4',
                     className,
                 )}
                 {...props}
@@ -58,7 +60,7 @@ const Listbox = forwardRef(
             <ul
                 ref={ref}
                 className={clsx(
-                    'z-10 absolute w-full h-auto rounded-lg menu [&_li>*]:py-3 overflow-y-scroll flex-nowrap outline-0 bg-base-100 border border-secondary max-h-96 p-2 mt-2',
+                    'menu absolute z-10 mt-2 h-auto max-h-96 w-full flex-nowrap overflow-y-scroll rounded-lg border border-secondary bg-base-100 p-2 outline-0 [&_li>*]:py-3',
                     className,
                 )}
                 {...props}
@@ -91,7 +93,7 @@ function renderSelectedValue(
         }
 
         return (
-            <div className="whitespace-nowrap truncate">{`${value
+            <div className="truncate whitespace-nowrap">{`${value
                 .map((so) => so.label)
                 .join(' - ')}`}</div>
         );
@@ -124,11 +126,7 @@ function Option(props: OptionProps) {
         <ListContext.Provider value={contextValue}>
             <OptionItem
                 {...getRootProps()}
-                className={clsx(
-                    selected &&
-                        'active',
-                    className,
-                )}
+                className={clsx(selected && 'active', className)}
             >
                 {children}
             </OptionItem>
@@ -242,7 +240,7 @@ function Select({
                     <div
                         className={clsx(
                             'absolute right-2 text-2xl',
-                            listboxVisible && 'transform -scale-y-100',
+                            listboxVisible && '-scale-y-100 transform',
                         )}
                     >
                         <MaterialSymbolsArrowDropDownRounded />

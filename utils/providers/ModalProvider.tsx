@@ -1,14 +1,16 @@
 'use client';
 
 import {
-    createContext,
     Dispatch,
     ReactNode,
     SetStateAction,
-    useContext, useEffect,
+    createContext,
+    useContext,
+    useEffect,
     useState,
 } from 'react';
-import {usePathname, useSearchParams} from "next/navigation";
+
+import { usePathname, useSearchParams } from 'next/navigation';
 
 interface State {
     login?: boolean;
@@ -91,7 +93,6 @@ export default function ModalProvider({ children }: Props) {
             switchModal(modalParam as keyof State);
         }
     }, [modalParam]);
-
 
     return (
         <ModalContext.Provider

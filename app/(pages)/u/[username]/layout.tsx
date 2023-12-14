@@ -1,24 +1,28 @@
-import getQueryClient from '@/utils/getQueryClient';
-import { dehydrate } from '@tanstack/query-core';
-import RQHydrate from '@/utils/RQHydrate';
+import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
+
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+
+import { dehydrate } from '@tanstack/query-core';
+
+import ActivationAlert from '@/app/(pages)/u/[username]/_layout/ActivationAlert';
+import FollowListModal from '@/app/(pages)/u/[username]/_layout/FollowListModal';
+import NavMenu from '@/app/(pages)/u/[username]/_layout/NavMenu';
 import User from '@/app/(pages)/u/[username]/_layout/User';
+import Breadcrumbs from '@/app/_components/Breadcrumbs';
+import SubBar from '@/app/_components/SubBar';
+import { getCookie } from '@/app/actions';
+import RQHydrate from '@/utils/RQHydrate';
+import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
+import getFollowStats from '@/utils/api/follow/getFollowStats';
 import getUserInfo, {
     Response as UserResponse,
 } from '@/utils/api/user/getUserInfo';
-import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
 import getWatchStats from '@/utils/api/watch/getWatchStats';
-import NavMenu from '@/app/(pages)/u/[username]/_layout/NavMenu';
-import { redirect } from 'next/navigation';
-import { Metadata, ResolvingMetadata } from 'next';
-import ActivationAlert from '@/app/(pages)/u/[username]/_layout/ActivationAlert';
-import Breadcrumbs from '@/app/_components/Breadcrumbs';
-import Link from 'next/link';
-import SubBar from '@/app/_components/SubBar';
+import getQueryClient from '@/utils/getQueryClient';
+
 import NavBar from './_layout/NavBar';
-import { getCookie } from '@/app/actions';
-import FollowListModal from '@/app/(pages)/u/[username]/_layout/FollowListModal';
-import getFollowStats from '@/utils/api/follow/getFollowStats';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -54,7 +58,7 @@ export async function generateMetadata(
                 template: user.username + ' / %s / Hikka',
             },
             description: user.description || '',
-            images: user.avatar,
+            images: '/generate/preview/u/' + username,
         },
         twitter: {
             title: {
@@ -62,7 +66,7 @@ export async function generateMetadata(
                 template: user.username + ' / %s / Hikka',
             },
             description: user.description || '',
-            images: user.avatar,
+            images: '/generate/preview/u/' + username,
         },
     };
 }
@@ -105,7 +109,7 @@ const Component = async ({ params: { username }, children }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 lg:grid-cols-[20%_1fr] lg:gap-16 gap-12">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                 <FollowListModal />
                 <Breadcrumbs>
                     <Link

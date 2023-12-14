@@ -1,16 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useModalContext } from '@/utils/providers/ModalProvider';
-
+import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
+import MaterialSymbolsCopyrightRounded from '~icons/material-symbols/copyright-rounded';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
 import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
 
-import MaterialSymbolsCopyrightRounded from '~icons/material-symbols/copyright-rounded';
+import Link from 'next/link';
 
-import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+import { useModalContext } from '@/utils/providers/ModalProvider';
 
 const Component = () => {
     const { switchModal } = useModalContext();
@@ -29,8 +28,8 @@ const Component = () => {
     };
 
     return (
-        <div className="w-60 overflow-y-scroll overscroll-contain border-l border-l-secondary h-full bg-base-100 text-base-content">
-            <ul className="menu menu-lg p-0 w-full [&_li>*]:rounded-none  mt-4">
+        <div className="h-full w-60 overflow-y-scroll overscroll-contain border-l border-l-secondary bg-base-100 text-base-content">
+            <ul className="menu menu-lg mt-4 w-full p-0  [&_li>*]:rounded-none">
                 <li className="menu-title">Загальне</li>
                 <li>
                     <Link href={'/anime'} onClick={closeDrawer}>

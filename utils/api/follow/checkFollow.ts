@@ -11,17 +11,14 @@ export default async function req({
     username: string;
     secret: string;
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI + '/follow/' + username,
-        {
-            method: 'get',
-            ...config.config,
-            headers: {
-                ...config.config.headers,
-                auth: secret || '',
-            },
+    const res = await fetch(config.baseAPI + '/follow/' + username, {
+        method: 'get',
+        ...config.config,
+        headers: {
+            ...config.config.headers,
+            auth: secret || '',
         },
-    );
+    });
 
     if (!res.ok) {
         if (res.status >= 400 && res.status <= 499) {

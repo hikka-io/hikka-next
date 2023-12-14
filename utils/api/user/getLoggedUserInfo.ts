@@ -1,7 +1,6 @@
 import config from '@/utils/api/config';
 
-interface Response extends Hikka.User {
-}
+interface Response extends Hikka.User {}
 
 export default async function req({
     secret,
@@ -13,7 +12,7 @@ export default async function req({
         ...config.config,
         headers: {
             ...config.config.headers,
-            auth: secret || "",
+            auth: secret || '',
         },
     });
 

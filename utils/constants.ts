@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
+
 import Completed from '@/app/_components/icons/watchStatus/Completed';
 import Dropped from '@/app/_components/icons/watchStatus/Dropped';
 import OnHold from '@/app/_components/icons/watchStatus/OnHold';
 import Planned from '@/app/_components/icons/watchStatus/Planned';
 import Watching from '@/app/_components/icons/watchStatus/Watching';
-import { ReactNode } from 'react';
 
 type Property<T extends string> = Record<
     T,
@@ -294,12 +295,13 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_available: 'Signup not available',
     },
     settings: {
-        username_cooldown: 'Імʼя користувача можна змінювати один раз в годину.',
+        username_cooldown:
+            'Імʼя користувача можна змінювати один раз в годину.',
         email_cooldown: 'Поштову скриньку можна змінювати один раз на день.',
         username_taken: 'Імʼя користувача вже зайнято.',
     },
     permission: {
-        denied: "Ви не маєте дозволу для виконання цієї дії.",
+        denied: 'Ви не маєте дозволу для виконання цієї дії.',
     },
     anime: {
         no_franchise: "This anime doesn't have franchise",
@@ -357,7 +359,6 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_found: 'Person not found',
     },
 };
-
 
 export const ANIME_NAV_ROUTES: {
     slug: string;

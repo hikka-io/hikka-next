@@ -1,11 +1,16 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import {useQuery, useQueryClient} from '@tanstack/react-query';
-import getAnimeInfo, {Response as AnimeInfoResponse} from '@/utils/api/anime/getAnimeInfo';
-import Link from 'next/link';
 import clsx from 'clsx';
+
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 import SubHeader from '@/app/_components/SubHeader';
+import getAnimeInfo, {
+    Response as AnimeInfoResponse,
+} from '@/utils/api/anime/getAnimeInfo';
 
 interface Props {
     extended?: boolean;
@@ -35,8 +40,8 @@ const Component = ({ extended }: Props) => {
                 className={clsx(
                     'grid gap-4 lg:gap-8',
                     extended
-                        ? 'md:grid-cols-3 grid-cols-2'
-                        : 'md:grid-cols-3 grid-cols-2',
+                        ? 'grid-cols-2 md:grid-cols-3'
+                        : 'grid-cols-2 md:grid-cols-3',
                 )}
             >
                 {filteredData.map((link) => (
@@ -44,12 +49,12 @@ const Component = ({ extended }: Props) => {
                         href={link.url}
                         key={link.url}
                         target="_blank"
-                        className="overflow-hidden rounded-lg p-6 gap-2 flex flex-col items-center justify-center btn h-auto btn-outline btn-secondary"
+                        className="btn btn-secondary btn-outline flex h-auto flex-col items-center justify-center gap-2 overflow-hidden rounded-lg p-6"
                     >
-                        <h4 className="w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
+                        <h4 className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
                             {link.text}
                         </h4>
-                        <p className="label-text text-xs w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
+                        <p className="label-text w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
                             {link.url}
                         </p>
                     </Link>

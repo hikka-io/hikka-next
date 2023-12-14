@@ -1,19 +1,21 @@
 'use client';
 
-import Planned from '@/app/_components/icons/watchStatus/Planned';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import CustomSelect from '@/app/_components/Select';
-import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
 import clsx from 'clsx';
-import { WATCH_STATUS } from '@/utils/constants';
 import * as React from 'react';
 import { createElement } from 'react';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
-import addWatch from '@/utils/api/watch/addWatch';
-import getWatch from '@/utils/api/watch/getWatch';
-import deleteWatch from '@/utils/api/watch/deleteWatch';
 import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
+import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import CustomSelect from '@/app/_components/Select';
+import Planned from '@/app/_components/icons/watchStatus/Planned';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
+import addWatch from '@/utils/api/watch/addWatch';
+import deleteWatch from '@/utils/api/watch/deleteWatch';
+import getWatch from '@/utils/api/watch/getWatch';
+import { WATCH_STATUS } from '@/utils/constants';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 interface Props {
     slug: string;
@@ -52,8 +54,8 @@ const Component = ({ slug, additional, disabled }: Props) => {
                 episodes: episodes
                     ? episodes
                     : !watchError
-                    ? watch?.episodes
-                    : 0,
+                      ? watch?.episodes
+                      : 0,
             }),
         onSuccess: async () => {
             await invalidateData();
@@ -78,7 +80,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
         await queryClient.invalidateQueries(['list']);
         await queryClient.invalidateQueries(['favorites']);
         await queryClient.invalidateQueries(['franchise']);
-    }
+    };
 
     return (
         <CustomSelect
@@ -107,7 +109,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             {...(value && buttonProps)}
                             disabled={disabled}
                             className={clsx(
-                                'btn btn-secondary border-b-none flex-1 join-item btn-md flex-nowrap overflow-hidden',
+                                'border-b-none btn btn-secondary join-item btn-md flex-1 flex-nowrap overflow-hidden',
                             )}
                         >
                             {value ? (
@@ -118,7 +120,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             ) : (
                                 <Planned />
                             )}
-                            <span className="whitespace-nowrap overflow-ellipsis overflow-hidden rounded-none">
+                            <span className="overflow-hidden overflow-ellipsis whitespace-nowrap rounded-none">
                                 {value
                                     ? WATCH_STATUS[value as Hikka.WatchStatus]
                                           .title_ua ||
@@ -139,7 +141,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     className={clsx(
                                         'absolute right-2 text-2xl',
                                         listboxVisible &&
-                                            'transform -scale-y-100',
+                                            '-scale-y-100 transform',
                                     )}
                                 >
                                     <MaterialSymbolsArrowDropDownRounded />
@@ -154,7 +156,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                 className={clsx(
                                     'btn btn-square join-item btn-md text-xl !text-base-content',
                                     value
-                                        ? 'btn-error bg-secondary border-secondary'
+                                        ? 'btn-error border-secondary bg-secondary'
                                         : 'btn-secondary',
                                 )}
                             >

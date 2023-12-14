@@ -1,6 +1,7 @@
-import type { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useRouter as useBaseRouter } from "next/navigation";
-import NProgress from "nprogress";
+import NProgress from 'nprogress';
+
+import type { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useRouter as useBaseRouter } from 'next/navigation';
 
 export default function useRouter() {
     const router = useBaseRouter();

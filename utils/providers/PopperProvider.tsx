@@ -1,14 +1,16 @@
 'use client';
 
 import {
-    createContext,
     Dispatch,
     ReactNode,
     SetStateAction,
-    useContext, useEffect,
+    createContext,
+    useContext,
+    useEffect,
     useState,
 } from 'react';
-import {usePathname, useSearchParams} from "next/navigation";
+
+import { usePathname, useSearchParams } from 'next/navigation';
 
 interface State {
     profile?: boolean;
@@ -75,7 +77,6 @@ export default function PoppperProvider({ children }: Props) {
             switchPopper(popperParam as keyof State);
         }
     }, [popperParam]);
-
 
     return (
         <PopperContext.Provider

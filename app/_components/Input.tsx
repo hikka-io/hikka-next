@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { Input as BaseInput, InputProps } from '@mui/base';
 import clsx from 'clsx';
+import * as React from 'react';
+
+import { Input as BaseInput, InputProps } from '@mui/base';
 
 interface Props {
     mode?: 'dark' | 'light';
@@ -14,9 +15,7 @@ const Input = (props: InputProps & Props) => {
                     className: clsx(
                         'flex items-center',
                         'text-sm font-normal',
-                        props.mode === 'light'
-                            ? ''
-                            : 'bg-secondary/30',
+                        props.mode === 'light' ? '' : 'bg-secondary/30',
                         'transition duration-100',
                         'w-full h-12 leading-5 px-3 py-3 rounded-lg focus-visible:outline-0',
                         focused
@@ -24,8 +23,8 @@ const Input = (props: InputProps & Props) => {
                                 ? ''
                                 : 'hover:bg-secondary-focus/60 bg-secondary-focus/60'
                             : props.mode === 'light'
-                            ? ''
-                            : 'hover:bg-secondary-focus/60',
+                              ? ''
+                              : 'hover:bg-secondary-focus/60',
                     ),
                 }),
                 input: {
