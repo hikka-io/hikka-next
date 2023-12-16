@@ -397,6 +397,23 @@ export const ANIME_NAV_ROUTES: {
     },
 ];
 
+export const CHARACTER_NAV_ROUTES: {
+    slug: string;
+    title_ua: string;
+    url: string;
+}[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'anime',
+        title_ua: 'Аніме',
+        url: '/anime',
+    },
+];
+
 export const USER_NAV_ROUTES: {
     slug: string;
     title_ua: string;

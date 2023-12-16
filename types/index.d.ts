@@ -1,5 +1,3 @@
-import { After } from '@/utils/api/edit/addEdit';
-
 export {};
 
 declare global {
@@ -200,5 +198,7 @@ declare global {
             text: string;
             comments: Comment[];
         };
+
+
     }
 }

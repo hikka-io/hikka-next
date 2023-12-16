@@ -66,8 +66,8 @@ const Component = () => {
     return (
         <div>
             <div className="alert border-secondary bg-secondary/30">
-                <MaterialSymbolsInfoRounded className="text-xl" />
-                <span className="text-sm">
+                <MaterialSymbolsInfoRounded className="text-xl text-neutral" />
+                <span className="text-sm text-neutral">
                     На вашу пошту відправлено лист з активацією пошти. Будь
                     ласка, перейдіть за посилання у листі. Якщо Ваш лист не
                     прийшов, будь ласка,{' '}

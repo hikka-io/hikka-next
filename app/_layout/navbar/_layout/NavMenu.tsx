@@ -38,13 +38,26 @@ const ROUTES = [
         icon: null,
         visible: false,
     },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
+        icon: null,
+        visible: false,
+    },
 ];
 
 const Component = ({ className }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
     const { mainNav, closePoppers, switchPopper } = usePopperContext();
     const pathname = usePathname();
-    const current = ROUTES.find((r) => pathname.includes(r.url));
+    const parsedPathname = pathname.split('/');
+
+    const current = ROUTES.find(
+        (r) =>
+            parsedPathname.length > 1 &&
+            ("/" + parsedPathname[1]).includes(r.url),
+    );
 
     return (
         <>

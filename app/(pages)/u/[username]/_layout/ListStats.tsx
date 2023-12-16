@@ -27,40 +27,49 @@ const Component = ({}: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-8">
-            <div className="stats -mx-4 flex rounded-none border-y border-secondary/60 bg-transparent p-0 lg:mx-0 lg:rounded-lg lg:border">
-                {Object.keys(data).map((status) => {
-                    return (
-                        <Link
-                            href={`${pathname}/list?status=${status}`}
-                            key={status}
-                            className={clsx(
-                                'stat min-w-[50%] flex-1 bg-secondary/30 p-4 text-left transition md:min-w-[25%] lg:min-w-fit',
-                                'hover:bg-secondary/10',
-                            )}
-                        >
-                            <div className="stat-title">
-                                {WATCH_STATUS[status as Hikka.WatchStatus]
-                                    .title_ua ||
-                                    WATCH_STATUS[status as Hikka.WatchStatus]
-                                        .title_en}
-                            </div>
-                            <div className="grid">
-                                <div className="stat-value font-display">
-                                    {data[status as Hikka.WatchStatus]}
-                                </div>
-                                <div className="stat-figure rounded-md bg-secondary p-1 text-xl">
-                                    {createElement(
+        <div className="flex gap-4 overflow-x-scroll -mx-4 md:mx-0 px-4 md:px-0">
+            {Object.keys(data).map((status) => {
+                return (
+                    <Link
+                        href={`${pathname}/list?status=${status}`}
+                        key={status}
+                        className={clsx(
+                            'flex-1 bg-secondary/30 border border-secondary/60 p-4 text-left transition lg:min-w-fit rounded-lg',
+                            'hover:bg-secondary/10',
+                        )}
+                    >
+                        <div className="flex justify-between gap-4 mb-2">
+                            <div className="flex items-center gap-2">
+                                <div
+                                    className="w-2 h-2 bg-secondary rounded-full"
+                                    style={{
+                                        backgroundColor:
+                                            WATCH_STATUS[
+                                                status as Hikka.WatchStatus
+                                            ].color,
+                                    }}
+                                />
+                                <div className="label-text">
+                                    {WATCH_STATUS[status as Hikka.WatchStatus]
+                                        .title_ua ||
                                         WATCH_STATUS[
                                             status as Hikka.WatchStatus
-                                        ].icon,
-                                    )}
+                                        ].title_en}
                                 </div>
                             </div>
-                        </Link>
-                    );
-                })}
-            </div>
+                            <div className="stat-figure text-lg !text-neutral">
+                                {createElement(
+                                    WATCH_STATUS[status as Hikka.WatchStatus]
+                                        .icon,
+                                )}
+                            </div>
+                        </div>
+                        <div className="stat-value font-display">
+                            {data[status as Hikka.WatchStatus]}
+                        </div>
+                    </Link>
+                );
+            })}
         </div>
     );
 };
