@@ -100,7 +100,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                         <Cover />
                     </div>
                     <div className="flex flex-col gap-12">
-                        {/*<Title />*/}
+                        <Title />
                         {children}
                     </div>
                 </div>
