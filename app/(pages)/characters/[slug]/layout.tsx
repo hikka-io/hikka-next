@@ -93,7 +93,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                     <NavMenu />
                 </Breadcrumbs>
                 <SubBar mobileOnly>
-                    {/*<NavBar />*/}
+                    <NavBar />
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <div className="flex flex-col gap-4">
