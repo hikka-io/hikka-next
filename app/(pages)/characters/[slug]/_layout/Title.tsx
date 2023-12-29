@@ -8,7 +8,7 @@ import { useParams, usePathname } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ANIME_NAV_ROUTES, CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
@@ -71,12 +71,12 @@ const Component = () => {
                                 character.name_ja ||
                                 ''}{' '}
                         </h2>
-                        {/*{secret && <EditButton className="hidden lg:flex" />}*/}
+                        {secret && <EditButton className="hidden lg:flex" />}
                     </div>
                     <p className="mt-2">{character.name_ja}</p>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    {/*{secret && <EditButton className="flex lg:hidden" />}*/}
+                    {secret && <EditButton className="flex lg:hidden" />}
                 </div>
             </div>
         </div>
