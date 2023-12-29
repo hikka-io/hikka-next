@@ -16,6 +16,22 @@ import useIsMobile from '@/utils/hooks/useIsMobile';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
+const EditButton = ({ className }: { className?: string }) => {
+    const { switchModal } = useModalContext();
+
+    return (
+        <button
+            onClick={() => switchModal('animeEditList')}
+            className={clsx(
+                'btn btn-square btn-secondary btn-outline btn-xs',
+                className,
+            )}
+        >
+            <MaterialSymbolsEditRounded />
+        </button>
+    );
+};
+
 const Component = () => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
@@ -27,20 +43,6 @@ const Component = () => {
         queryKey: ['anime', params.slug],
         queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
     });
-
-    const EditButton = ({ className }: { className?: string }) => {
-        return (
-            <button
-                onClick={() => switchModal('animeEditList')}
-                className={clsx(
-                    'btn btn-square btn-secondary btn-outline btn-xs',
-                    className,
-                )}
-            >
-                <MaterialSymbolsEditRounded />
-            </button>
-        );
-    };
 
     useEffect(() => {
         if (
