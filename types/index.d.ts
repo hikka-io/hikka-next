@@ -199,6 +199,10 @@ declare global {
             comments: Comment[];
         };
 
-
+        type External = {
+            url: string;
+            text: string;
+            type: 'general' | 'watch';
+        }
     }
 }

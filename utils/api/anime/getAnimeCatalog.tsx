@@ -16,6 +16,7 @@ interface Request {
     genres?: string[];
     secret?: string;
     size?: number;
+    only_translated?: boolean;
 }
 
 export default async function req({

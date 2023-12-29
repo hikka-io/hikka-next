@@ -24,10 +24,7 @@ export interface Response {
     nsfw: boolean;
     slug: string;
     synonyms: string[];
-    external: {
-        url: string;
-        text: string;
-    }[];
+    external: Hikka.External[];
     videos: Hikka.Video[];
     ost: Hikka.OST[];
     stats: Hikka.Stats;

@@ -37,7 +37,7 @@ const Component = ({ extended }: Props) => {
             return undefined;
         }
 
-
+        return roles[0].name_ua || roles[0].name_en;
     };
 
     useEffect(() => {

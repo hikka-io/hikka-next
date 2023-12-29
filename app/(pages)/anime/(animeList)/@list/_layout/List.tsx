@@ -41,7 +41,7 @@ const Component = () => {
     const ageRatings = searchParams.getAll('ratings');
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
-    const lang = searchParams.get('lang');
+    const lang = searchParams.get('only_translated');
 
     const { data, isLoading, error } = useQuery<
         {
@@ -72,6 +72,7 @@ const Component = () => {
                 status: statuses,
                 media_type: types,
                 genres,
+                only_translated: Boolean(lang),
                 page: selectedPage,
                 secret: String(secret),
                 size: 20,

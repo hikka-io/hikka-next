@@ -5,6 +5,8 @@ import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
+import MaterialSymbolsZoomInRounded from '~icons/material-symbols/zoom-in-rounded';
+import MaterialSymbolsZoomOut from '~icons/material-symbols/zoom-out'
 
 import { useParams } from 'next/navigation';
 
@@ -15,7 +17,6 @@ import Slider from '@/app/_components/Slider';
 import uploadAvatar from '@/utils/api/upload/uploadAvatar';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
-
 
 interface Props {
     file?: File;
@@ -132,13 +133,17 @@ const Component = ({ file }: Props) => {
                 />
             </div>
             <div className="py-4 px-8 flex flex-col gap-4">
-                <Slider
-                    disabled={isLoading}
-                    onChange={(_e, value) => setScale(value as number)}
-                    min={100}
-                    max={130}
-                    value={scale}
-                />
+                <div className="flex items-center gap-4">
+                    <MaterialSymbolsZoomOut className="opacity-60" />
+                    <Slider
+                        disabled={isLoading}
+                        onChange={(_e, value) => setScale(value as number)}
+                        min={100}
+                        max={130}
+                        value={scale}
+                    />
+                    <MaterialSymbolsZoomInRounded className="opacity-60" />
+                </div>
                 <button
                     disabled={isLoading}
                     className="btn btn-secondary"

@@ -35,7 +35,7 @@ const Component = () => {
     const ageRatings = searchParams.getAll('ratings');
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
-    const lang = searchParams.get('lang');
+    const lang = searchParams.get('only_translated');
 
     const { data: genresList } = useQuery({
         queryKey: ['animeGenres'],
@@ -136,21 +136,21 @@ const Component = () => {
                         </Select>
                     )}
                 </div>
-                {/*<div className="form-control w-full">
+                <div className="form-control w-full">
                     <label className="label cursor-pointer justify-start gap-4">
                         <input
                             type="checkbox"
                             className="checkbox"
                             checked={Boolean(lang)}
                             onChange={() =>
-                                handleChangeParam('lang', !Boolean(lang))
+                                handleChangeParam('only_translated', !Boolean(lang))
                             }
                         />
                         <span className="label-text ">
                             Перекладено українською
                         </span>
                     </label>
-                </div>*/}
+                </div>
                 <div className="w-full">
                     <label className="label">
                         <span className="label-text">Статус</span>
