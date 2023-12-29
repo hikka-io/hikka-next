@@ -181,7 +181,7 @@ const Component = ({}: Props) => {
                                             </p>
                                         </div>
                                     </div>
-                                    {user.username !== loggedUser?.username &&
+                                    {secret && user.username !== loggedUser?.username &&
                                         ('is_followed' in user ? (
                                             !user.is_followed ? (
                                                 <button

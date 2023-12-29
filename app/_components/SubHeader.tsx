@@ -31,7 +31,7 @@ const Component = ({
                 className,
             )}
         >
-            <div className={clsx('flex items-center gap-8', titleClassName)}>
+            <div className={clsx('flex items-center gap-8 overflow-hidden', titleClassName)}>
                 <Title>{title}</Title>
                 {children}
             </div>

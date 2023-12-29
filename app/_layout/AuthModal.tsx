@@ -11,8 +11,10 @@ import PasswordConfirmForm from '@/app/_layout/auth/PasswordConfirmForm';
 import SignUpForm from '@/app/_layout/auth/SignUpForm';
 import getOAuth from '@/utils/api/auth/getOAuth';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 const Component = () => {
+    const { secret } = useAuthContext();
     const { login, signup, forgotPassword, passwordConfirm, closeModals } =
         useModalContext();
 
@@ -26,6 +28,10 @@ const Component = () => {
             return;
         }
     };
+
+    if (secret) {
+        return null;
+    }
 
     return (
         <Modal

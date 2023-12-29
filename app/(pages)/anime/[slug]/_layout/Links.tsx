@@ -61,16 +61,18 @@ const Component = ({ extended }: Props) => {
                 title="Посилання"
                 href={!extended ? params.slug + '/links' : undefined}
             >
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                     {generalLinksData.length > 0 && (
                         <button
                             onClick={() => setActive('general')}
                             className={clsx(
-                                'btn-badge btn btn-ghost rounded-full',
+                                'btn-badge btn btn-ghost rounded-full overflow-hidden flex-1',
                                 active === 'general' && 'btn-active',
                             )}
                         >
-                            Загальне
+                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                                Загальне
+                            </span>
                         </button>
                     )}
                     {watchLinksData.length > 0 && (
@@ -81,7 +83,9 @@ const Component = ({ extended }: Props) => {
                                 active === 'watch' && 'btn-active',
                             )}
                         >
-                            Перегляд
+                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                                Перегляд
+                            </span>
                         </button>
                     )}
                 </div>

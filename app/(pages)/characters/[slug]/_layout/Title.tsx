@@ -8,7 +8,7 @@ import { useParams, usePathname } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import { ANIME_NAV_ROUTES, CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
@@ -45,7 +45,7 @@ const Component = () => {
         if (
             isMobile &&
             divRef.current &&
-            ANIME_NAV_ROUTES.some(
+            CHARACTER_NAV_ROUTES.some(
                 (r) =>
                     r.url !== '' &&
                     pathname === '/characters/' + params.slug + r.url,

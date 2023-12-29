@@ -140,7 +140,7 @@ const Component = () => {
                     <label className="label cursor-pointer justify-start gap-4">
                         <input
                             type="checkbox"
-                            className="checkbox"
+                            className="checkbox checkbox-accent"
                             checked={Boolean(lang)}
                             onChange={() =>
                                 handleChangeParam('only_translated', !Boolean(lang))
