@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://hikkaio.vercel.app
+
+# Sitemaps
+Sitemap: https://hikkaio.vercel.app/sitemap.xml

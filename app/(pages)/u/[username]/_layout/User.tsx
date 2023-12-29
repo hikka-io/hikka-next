@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import CilUserFollow from '~icons/cil/user-follow';
 import CilUserUnfollow from '~icons/cil/user-unfollow';
 import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
@@ -21,6 +21,7 @@ import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import getUserInfo from '@/utils/api/user/getUserInfo';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
+import CropEditorModal from '@/app/_layout/CropEditorModal';
 
 interface Props {}
 
@@ -30,6 +31,7 @@ const Component = ({}: Props) => {
     const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
+    const [selectedAvatarFile, setSelectedAvatarFile] = useState<File>();
 
     const { data: followStats } = useQuery({
         queryKey: ['followStats', params.username],
@@ -39,6 +41,7 @@ const Component = ({}: Props) => {
     const { data: user } = useQuery({
         queryKey: ['user', params.username],
         queryFn: () => getUserInfo({ username: String(params.username) }),
+        staleTime: 0
     });
 
     const { data: loggedUser } = useQuery({
@@ -95,42 +98,12 @@ const Component = ({}: Props) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
 
-            const chunkSize = 5 * 1024 * 1024; // 5MB
-            const totalChunks = Math.ceil(file.size / chunkSize);
-            const chunkProgress = 100 / totalChunks;
-            let chunkNumber = 0;
-            let start = 0;
-            let end = 0;
+            setSelectedAvatarFile(file);
+            switchModal('uploadAvatar');
 
-            const uploadNextChunk = async () => {
-                if (end <= file.size) {
-                    const chunk = file.slice(start, end);
-                    const formData = new FormData();
-                    formData.append('file', chunk);
-                    formData.append('chunkNumber', String(chunkNumber));
-                    formData.append('totalChunks', String(totalChunks));
-                    formData.append('originalname', file.name);
-
-                    fetch('http://localhost:8000/test/image', {
-                        method: 'POST',
-                        body: formData,
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            console.log({ data });
-
-                            chunkNumber++;
-                            start = end;
-                            end = start + chunkSize;
-                            uploadNextChunk();
-                        })
-                        .catch((error) => {
-                            console.error('Error uploading chunk:', error);
-                        });
-                }
-            };
-
-            uploadNextChunk();
+            if (uploadImageRef.current) {
+                uploadImageRef.current.value = "";
+            }
         }
     };
 
@@ -163,6 +136,7 @@ const Component = ({}: Props) => {
                                     type="file"
                                     onChange={handleUploadImageSelected}
                                     ref={uploadImageRef}
+                                    multiple={false}
                                     className="absolute left-0 top-0 h-full w-full opacity-0"
                                     accept="image/png, image/jpeg"
                                 />
@@ -268,6 +242,7 @@ const Component = ({}: Props) => {
                     Відстежувати
                 </button>
             )}
+            <CropEditorModal file={selectedAvatarFile} />
         </div>
     );
 };

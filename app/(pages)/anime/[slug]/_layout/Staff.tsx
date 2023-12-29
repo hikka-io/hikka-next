@@ -10,9 +10,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import BaseCard from '@/app/_components/BaseCard';
 import SubHeader from '@/app/_components/SubHeader';
-import getAnimeStaff, {
-    Response as AnimeStuffResponse,
-} from '@/utils/api/anime/getAnimeStaff';
+import getAnimeStaff, { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
 
 interface Props {
     extended?: boolean;
@@ -34,6 +32,14 @@ const Component = ({ extended }: Props) => {
                 getAnimeStaff({ slug: String(params.slug), page: pageParam }),
         });
 
+    const getRole = (roles: { name_ua: string, name_en: string, slug: string }[]) => {
+        if (roles.length === 0) {
+            return undefined;
+        }
+
+
+    };
+
     useEffect(() => {
         if (inView && data) {
             fetchNextPage();
@@ -49,9 +55,9 @@ const Component = ({ extended }: Props) => {
     const filteredData = extended ? list : list.slice(0, 4);
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className='flex flex-col gap-8'>
             <SubHeader
-                title="Автори"
+                title='Автори'
                 href={!extended ? params.slug + '/staff' : undefined}
             />
             <div
@@ -64,6 +70,7 @@ const Component = ({ extended }: Props) => {
                     <BaseCard
                         key={staff.person.slug}
                         // href={`/person/${staff.person.slug}`}
+                        desc={getRole(staff.roles)}
                         poster={staff.person.image}
                         title={
                             staff.person.name_ua ||
@@ -78,10 +85,10 @@ const Component = ({ extended }: Props) => {
                     ref={ref}
                     disabled={isFetchingNextPage}
                     onClick={() => fetchNextPage()}
-                    className="btn btn-secondary"
+                    className='btn btn-secondary'
                 >
                     {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
+                        <span className='loading loading-spinner'></span>
                     )}
                     Заванатажити ще
                 </button>
