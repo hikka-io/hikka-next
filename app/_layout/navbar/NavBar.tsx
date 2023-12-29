@@ -32,7 +32,7 @@ const Component = ({}: Props) => {
     const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
     const { secret } = useAuthContext();
-    const { data: user } = useQuery({
+    const { data: user, isLoading: userLoading } = useQuery({
         queryKey: ['loggedUser', secret],
         queryFn: () => getLoggedUserInfo({ secret }),
         enabled: false,
@@ -109,35 +109,41 @@ const Component = ({}: Props) => {
                         {/* close icon */}
                         <MaterialSymbolsDarkModeRounded className="swap-on fill-current" />
                     </label>
-                    {user ? (
-                        <button
-                            ref={profileRef}
-                            onClick={() => switchPopper('profile')}
-                            className="btn btn-square btn-ghost join-item btn-sm overflow-hidden"
-                        >
-                            <Image
-                                src={user.avatar}
-                                alt="pfp"
-                                width={44}
-                                height={44}
-                                className="h-full w-full"
-                            />
-                        </button>
+                    {!userLoading ? (
+                        user ? (
+                            <button
+                                ref={profileRef}
+                                onClick={() => switchPopper('profile')}
+                                className="btn btn-square btn-ghost join-item btn-sm overflow-hidden"
+                            >
+                                <Image
+                                    src={user.avatar}
+                                    alt="pfp"
+                                    width={44}
+                                    height={44}
+                                    className="h-full w-full"
+                                />
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    className="btn btn-ghost btn-sm"
+                                    onClick={() => switchModal('login')}
+                                >
+                                    Увійти
+                                </button>
+                                <button
+                                    className="btn btn-accent btn-sm hidden lg:flex"
+                                    onClick={() => switchModal('signup')}
+                                >
+                                    Реєстрація
+                                </button>
+                            </>
+                        )
                     ) : (
-                        <>
-                            <button
-                                className="btn btn-ghost btn-sm"
-                                onClick={() => switchModal('login')}
-                            >
-                                Увійти
-                            </button>
-                            <button
-                                className="btn btn-accent btn-sm hidden lg:flex"
-                                onClick={() => switchModal('signup')}
-                            >
-                                Реєстрація
-                            </button>
-                        </>
+                        <div className="animate-pulse flex gap-4">
+                            <div className="h-10 w-10 rounded-lg bg-secondary/60" />
+                        </div>
                     )}
                 </div>
             </div>

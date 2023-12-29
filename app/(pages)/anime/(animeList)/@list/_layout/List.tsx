@@ -42,6 +42,7 @@ const Component = () => {
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
     const lang = searchParams.get('only_translated');
+    const sort = searchParams.get('sort');
 
     const { data, isLoading, error } = useQuery<
         {
@@ -62,6 +63,7 @@ const Component = () => {
             genres,
             selectedPage,
             secret,
+            sort,
         ],
         queryFn: () =>
             getAnimeCatalog({
@@ -71,6 +73,7 @@ const Component = () => {
                 season: seasons,
                 status: statuses,
                 media_type: types,
+                sort: sort ? ["score:" + sort] : ["score:desc"],
                 genres,
                 only_translated: Boolean(lang),
                 page: selectedPage,

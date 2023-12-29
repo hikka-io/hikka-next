@@ -218,6 +218,18 @@ h5 {
     /*@apply text-base-content;*/
 }
 
+.checkbox-accent {
+    @apply border-secondary/60;
+}
+
+.checkbox-accent:hover {
+    @apply border-secondary;
+}
+
+.checkbox-accent:checked:hover {
+    @apply border-accent;
+}
+
 .MuiSlider-markActive {
     @apply bg-base-content;
 }

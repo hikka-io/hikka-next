@@ -22,6 +22,7 @@ import {
 } from '@/utils/constants';
 import useRouter from '@/utils/useRouter';
 
+
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
 const Component = () => {
@@ -115,7 +116,7 @@ const Component = () => {
                     <label className="label">
                         <span className="label-text">Жанр</span>
                     </label>
-                    {genresList && genresList.list.length > 0 && (
+                    {genresList && genresList.list.length > 0 ? (
                         <Select
                             placeholder="Виберіть жанр/жанри"
                             multiple
@@ -134,6 +135,8 @@ const Component = () => {
                                 </Select.Option>
                             ))}
                         </Select>
+                    ) : (
+                        <div className="animate-pulse h-12 w-full rounded-lg bg-secondary/60" />
                     )}
                 </div>
                 <div className="form-control w-full">
@@ -143,7 +146,10 @@ const Component = () => {
                             className="checkbox checkbox-accent"
                             checked={Boolean(lang)}
                             onChange={() =>
-                                handleChangeParam('only_translated', !Boolean(lang))
+                                handleChangeParam(
+                                    'only_translated',
+                                    !Boolean(lang),
+                                )
                             }
                         />
                         <span className="label-text ">
