@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: process.env.SITE_URL || 'https://hikkaio.vercel.app',
+    siteUrl: process.env.SITE_URL || 'https://hikka.io',
     generateRobotsTxt: true,
     sitemapSize: 1000,
 }

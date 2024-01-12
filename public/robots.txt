@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://hikkaio.vercel.app
+Host: https://hikka.io
 
 # Sitemaps
-Sitemap: https://hikkaio.vercel.app/sitemap.xml
+Sitemap: https://hikka.io/sitemap.xml
