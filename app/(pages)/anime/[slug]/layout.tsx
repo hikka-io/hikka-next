@@ -42,6 +42,7 @@ export async function generateMetadata(
     },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const parentMetadata = await parent;
     const slug = params.slug;
 
     const anime: AnimeResponse = await getAnimeInfo({ slug });
@@ -68,6 +69,7 @@ export async function generateMetadata(
         title: { default: title, template: title + ' / %s / Hikka' },
         description: synopsis,
         openGraph: {
+            siteName: parentMetadata.openGraph?.siteName,
             title: { default: title, template: title + ' / %s / Hikka' },
             description: synopsis,
             images: anime.poster,

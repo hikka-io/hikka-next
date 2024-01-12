@@ -55,6 +55,7 @@ export const metadata: Metadata = {
         'аніме культура',
     ],
     openGraph: {
+        siteName: 'Hikka',
         images: '/preview.jpg',
         title: {
             default: 'Hikka - енциклопедія аніме українською',

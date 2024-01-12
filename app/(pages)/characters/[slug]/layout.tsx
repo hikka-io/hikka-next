@@ -38,6 +38,7 @@ export async function generateMetadata(
     },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const parentMetadata = await parent;
     const slug = params.slug;
 
     const character: CharacterResponse = await getCharacterInfo({ slug });
@@ -47,6 +48,7 @@ export async function generateMetadata(
         title: { default: title, template: title + ' / %s / Hikka' },
         description: undefined,
         openGraph: {
+            siteName: parentMetadata.openGraph?.siteName,
             title: { default: title, template: title + ' / %s / Hikka' },
             description: undefined,
             images: character.image,

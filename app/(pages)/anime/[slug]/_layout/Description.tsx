@@ -1,5 +1,6 @@
 'use client';
 
+import rehypeExternalLinks from 'rehype-external-links';
 import Markdown from 'react-markdown';
 
 import { useParams } from 'next/navigation';
@@ -22,7 +23,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <h3>Опис</h3>
-            <Markdown className="markdown">
+            <Markdown rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]} className="markdown">
                 {data.synopsis_ua || data.synopsis_en}
             </Markdown>
         </div>

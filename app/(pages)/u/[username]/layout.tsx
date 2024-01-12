@@ -42,6 +42,7 @@ export async function generateMetadata(
     },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const parentMetadata = await parent;
     const username = params.username;
 
     const user: UserResponse = await getUserInfo({ username });
@@ -53,6 +54,7 @@ export async function generateMetadata(
         },
         description: user.description,
         openGraph: {
+            siteName: parentMetadata.openGraph?.siteName,
             title: {
                 default: user.username,
                 template: user.username + ' / %s / Hikka',

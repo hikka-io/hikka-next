@@ -16,6 +16,7 @@ import useIsMobile from '@/utils/hooks/useIsMobile';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
+
 const EditButton = ({ className }: { className?: string }) => {
     const { switchModal } = useModalContext();
 
@@ -36,7 +37,6 @@ const Component = () => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
     const divRef = useRef<HTMLDivElement>(null);
-    const { switchModal } = useModalContext();
     const { secret } = useAuthContext();
     const params = useParams();
     const { data } = useQuery({
@@ -68,7 +68,10 @@ const Component = () => {
                 <div>
                     <div className="flex gap-4">
                         <h2>
-                            {data.title_ua || data.title_en || data.title_ja || ""}{' '}
+                            {data.title_ua ||
+                                data.title_en ||
+                                data.title_ja ||
+                                ''}{' '}
                             {data.start_date && (
                                 <span className="font-sans font-normal">
                                     (

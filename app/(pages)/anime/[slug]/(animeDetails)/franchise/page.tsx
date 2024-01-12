@@ -12,6 +12,7 @@ export async function generateMetadata(
         title: 'Пов’язане',
         description: parentMetadata.openGraph?.description,
         openGraph: {
+            siteName: parentMetadata.openGraph?.siteName,
             description: parentMetadata.openGraph?.description,
             images: parentMetadata.openGraph?.images,
             title: 'Пов’язане',
