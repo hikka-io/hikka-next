@@ -4,9 +4,9 @@ import React, { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 
-// export const runtime = 'edge';
+import './globals.css';
 
 const inter = Inter({
     subsets: ['latin', 'cyrillic'],
@@ -19,28 +19,6 @@ const fixelDisplay = localFont({
     display: 'swap',
     variable: '--font-fixel-display',
 });
-
-/*const fixelText = localFont({
-    src: [
-        {
-            path: '../fonts/FixelText-Regular.woff2',
-            weight: '400',
-            style: 'normal',
-        },
-        {
-            path: '../fonts/FixelText-SemiBold.woff2',
-            weight: '500',
-            style: 'normal',
-        },
-        {
-            path: '../fonts/FixelText-Bold.woff2',
-            weight: '600',
-            style: 'normal',
-        },
-    ],
-    display: 'swap',
-    variable: '--font-fixel-text',
-});*/
 
 export const metadata: Metadata = {
     title: {
@@ -118,7 +96,10 @@ export default async function RootLayout({
             lang="uk"
             data-theme="dark"
         >
-            <body>{children}</body>
+            <body>
+                {children}
+                <Analytics />
+            </body>
         </html>
     );
 }
