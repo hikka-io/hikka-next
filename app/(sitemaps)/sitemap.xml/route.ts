@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
     return getServerSideSitemap(
         anime.map((res) => ({
-            loc: 'https://hikkaio.vercel.app/anime/' + res.slug,
+            loc: 'https://hikka.io/anime/' + res.slug,
             lastmod: format(toDate(res.updated_at * 1000), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
             changefreq: 'weekly',
             priority: 1,
