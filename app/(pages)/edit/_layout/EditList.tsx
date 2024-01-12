@@ -99,16 +99,16 @@ const Component = () => {
                                             <div className="w-10">
                                                 <BaseCard
                                                     containerClassName="!pt-[100%]"
-                                                    poster={edit.author.avatar}
+                                                    poster={edit.author!.avatar}
                                                 />
                                             </div>
                                             <div className="flex flex-col">
                                                 <Link
                                                     className="hover:underline"
-                                                    href={`/u/${edit.author.username}`}
+                                                    href={`/u/${edit.author!.username}`}
                                                     onClick={() => setGo(true)}
                                                 >
-                                                    {edit.author.username}
+                                                    {edit.author!.username}
                                                 </Link>
                                                 <p className="label-text-alt opacity-60">
                                                     {format(

@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import * as React from 'react';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -88,7 +89,7 @@ const Component = ({ edit, setEdit }: Props) => {
 
     const isView =
         edit &&
-        (loggedUser?.username !== edit.author.username ||
+        (loggedUser?.username !== edit.author?.username ||
             edit.status !== 'pending');
 
     const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
@@ -243,15 +244,28 @@ const Component = ({ edit, setEdit }: Props) => {
                             <div className="flex w-full items-center gap-4">
                                 <div className="w-12">
                                     <BaseCard
-                                        href={'/u/' + edit.author.username}
                                         containerClassName="!pt-[100%]"
-                                        poster={edit.author.avatar}
+                                        poster={
+                                            edit.author ? (
+                                                edit.author.avatar
+                                            ) : (
+                                                <MaterialSymbolsShieldRounded className="text-xl flex-1 text-neutral" />
+                                            )
+                                        }
                                     />
                                 </div>
                                 <div className="flex flex-1 flex-col">
-                                    <Link href={'/u/' + edit.author.username}>
-                                        <h5>{edit.author.username}</h5>
-                                    </Link>
+                                    {edit.author ? (
+                                        <Link
+                                            href={'/u/' + edit.author.username}
+                                        >
+                                            <h5>{edit.author.username}</h5>
+                                        </Link>
+                                    ) : (
+                                        <h5 className="text-neutral">
+                                            Системна правка
+                                        </h5>
+                                    )}
                                     <div className="flex flex-col gap-1">
                                         <div className="flex items-center gap-4">
                                             <p className="label-text text-sm opacity-60">
@@ -289,7 +303,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                     </>
                                 ) : null}
                                 {loggedUser?.username ===
-                                    edit.author.username &&
+                                    edit.author?.username &&
                                     edit.status === 'pending' && (
                                         <button
                                             disabled={isSubmitting}
@@ -475,7 +489,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                 disabled={isSubmitting}
                                 onClick={
                                     loggedUser?.username ===
-                                    edit?.author.username
+                                    edit?.author?.username
                                         ? handleSubmit(onUpdateSubmit)
                                         : handleSubmit(onSaveSubmit)
                                 }
@@ -485,7 +499,7 @@ const Component = ({ edit, setEdit }: Props) => {
                                 {isSubmitting && (
                                     <span className="loading loading-spinner"></span>
                                 )}
-                                {loggedUser?.username === edit?.author.username
+                                {loggedUser?.username === edit?.author?.username
                                     ? 'Оновити'
                                     : 'Зберегти'}
                             </button>
