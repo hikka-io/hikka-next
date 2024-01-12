@@ -25,7 +25,7 @@ const Component = () => {
                             Telegram
                         </Link>
                         <Link
-                            href="https://www.buymeacoffee.com"
+                            href="https://www.buymeacoffee.com/hikka"
                             target="_blank"
                             className="btn btn-ghost btn-sm"
                         >

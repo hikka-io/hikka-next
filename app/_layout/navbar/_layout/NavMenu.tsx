@@ -65,7 +65,7 @@ const Component = ({ className }: Props) => {
                 className={clsx('flex items-center gap-2', className)}
                 ref={ref}
             >
-                {current?.visible ? (
+                {current ? (current?.visible ? (
                     <Link
                         href={current?.url || '/'}
                         className="text-sm hover:underline"
@@ -74,7 +74,7 @@ const Component = ({ className }: Props) => {
                     </Link>
                 ) : (
                     <p className="text-sm">{current?.title_ua}</p>
-                )}
+                )) : <div className="animate-pulse bg-secondary/60 rounded-lg h-4 w-14" />}
                 <button
                     onClick={() => switchPopper('mainNav')}
                     className="btn btn-ghost btn-sm px-1"

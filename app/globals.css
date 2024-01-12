@@ -26,6 +26,7 @@
     }
 }
 
+
 .snackbar-timer {
     animation: snack-progress 3000ms;
     animation-fill-mode: forwards;
@@ -104,6 +105,7 @@ h4 {
 h5 {
     @apply font-display text-base font-bold;
 }
+
 /*
 
 .btn-outline, .badge-outline {
@@ -302,22 +304,23 @@ input:focus {
     opacity: 0;
     transform: scale(0.9);
 }
+
 .modal-enter-active {
     opacity: 1;
     transform: translateX(0);
-    transition:
-        opacity 300ms,
-        transform 300ms;
+    transition: opacity 300ms,
+    transform 300ms;
 }
+
 .modal-exit {
     opacity: 1;
 }
+
 .modal-exit-active {
     opacity: 0;
     transform: scale(0.9);
-    transition:
-        opacity 300ms,
-        transform 300ms;
+    transition: opacity 300ms,
+    transform 300ms;
 }
 
 .menu li > *:not(ul):not(.menu-title):not(details):active,

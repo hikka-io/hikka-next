@@ -12,6 +12,12 @@ module.exports = {
                 sans: ['var(--font-inter)'],
                 display: ['var(--font-fixel-display)'],
             },
+            keyframes: {
+                bgmove: {
+                    '0%': { backgroundPosition: '-500px 0' },
+                    '100%': { backgroundPosition: 'background-position: 1000px 0' },
+                }
+            }
         },
     },
     plugins: [require('daisyui')],
