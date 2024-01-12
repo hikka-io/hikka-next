@@ -31,6 +31,8 @@ const Component = ({}: Props) => {
     const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
 
+    queryClient.setQueryDefaults(['loggedUser'], { cacheTime: Infinity });
+
     let loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
     ]);

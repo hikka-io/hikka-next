@@ -24,7 +24,7 @@ function Providers({ children }: Props) {
     setDefaultOptions({ locale: uk });
     const [client] = React.useState(
         new QueryClient({
-            defaultOptions: { queries: { staleTime: 60 * 1000, retry: false } },
+            defaultOptions: { queries: { staleTime: 60 * 1000, cacheTime: Infinity, retry: false } },
         }),
     );
 
