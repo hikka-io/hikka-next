@@ -18,6 +18,10 @@ const Component = async ({ children }: Props) => {
 
     await queryClient.prefetchQuery(['loggedUser'], () =>
         getLoggedUserInfo({ secret: secret }),
+        {
+            cacheTime: Infinity,
+            staleTime: Infinity
+        }
     );
 
     const dehydratedState = dehydrate(queryClient);
