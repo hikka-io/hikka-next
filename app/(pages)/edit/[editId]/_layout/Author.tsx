@@ -30,14 +30,14 @@ const Component = () => {
             <div className="flex w-full items-center gap-4">
                 <div className="w-12">
                     <BaseCard
-                        href={'/u/' + edit.author.username}
+                        href={'/u/' + edit.author!.username}
                         containerClassName="!pt-[100%]"
-                        poster={edit.author.avatar}
+                        poster={edit.author!.avatar}
                     />
                 </div>
                 <div className="flex flex-1 flex-col">
-                    <Link href={'/u/' + edit.author.username}>
-                        <h5>{edit.author.username}</h5>
+                    <Link href={'/u/' + edit.author!.username}>
+                        <h5>{edit.author!.username}</h5>
                     </Link>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-4">

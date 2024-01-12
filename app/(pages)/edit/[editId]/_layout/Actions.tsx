@@ -77,7 +77,7 @@ const Component = () => {
         !edit ||
         !(loggedUser?.role === 'moderator' || loggedUser?.role === 'admin') ||
         !(
-            edit.author.username === loggedUser?.username &&
+            edit.author?.username === loggedUser?.username &&
             edit.status === 'pending'
         )
     ) {

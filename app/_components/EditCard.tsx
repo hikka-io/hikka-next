@@ -1,7 +1,9 @@
 'use client';
 
+import clsx from 'clsx';
 import { format } from 'date-fns';
 import * as React from 'react';
+import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
 import Link, { LinkProps } from 'next/link';
 
@@ -17,16 +19,31 @@ const Component = ({ edit, href, ...props }: Props) => {
         <Link
             {...props}
             href={href}
-            className="flex w-full items-center gap-4 px-8 py-4 hover:cursor-pointer hover:bg-secondary/60"
+            className={clsx(
+                'flex w-full items-center gap-4 px-8 py-4',
+                edit.author
+                    ? 'hover:cursor-pointer hover:bg-secondary/60'
+                    : 'pointer-events-none',
+            )}
         >
             <div className="w-12">
                 <BaseCard
                     containerClassName="!pt-[100%]"
-                    poster={edit.author.avatar}
+                    poster={
+                        edit.author ? (
+                            edit.author.avatar
+                        ) : (
+                            <MaterialSymbolsShieldRounded className="text-xl flex-1 text-neutral" />
+                        )
+                    }
                 />
             </div>
             <div className="flex flex-1 flex-col">
-                <h5>{edit.author.username}</h5>
+                {edit.author ? (
+                    <h5>{edit.author.username}</h5>
+                ) : (
+                    <h5 className="text-neutral">Системна правка</h5>
+                )}
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-4">
                         <p className="label-text-alt opacity-60">

@@ -185,7 +185,7 @@ declare global {
             updated: number;
             edit_id: number;
             moderator: Hikka.User | null;
-            author: Hikka.User;
+            author?: Hikka.User;
             after: EditParams;
             before: EditParams | null;
             content: Hikka.Anime | Hikka.Person;

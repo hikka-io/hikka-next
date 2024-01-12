@@ -1,11 +1,5 @@
 import clsx from 'clsx';
-import {
-    ForwardedRef,
-    MouseEventHandler,
-    ReactNode,
-    Ref,
-    forwardRef,
-} from 'react';
+import { ForwardedRef, forwardRef, MouseEventHandler, ReactNode, Ref } from 'react';
 import { UrlObject } from 'url';
 
 import Link from 'next/link';
@@ -16,7 +10,7 @@ interface Props {
     target?: string;
     title?: string;
     desc?: string;
-    poster?: string;
+    poster?: string | ReactNode;
     href?: string | UrlObject;
     posterClassName?: string;
     containerClassName?: string;
@@ -49,29 +43,30 @@ const Component = forwardRef(
                         containerClassName,
                     )}
                 >
-                    <div className="absolute left-0 top-0 h-full w-full bg-secondary/60">
+                    <div className='absolute left-0 top-0 h-full w-full flex place-items-center bg-secondary/60'>
                         {poster && (
-                            <figure className="relative h-full w-full">
-                                <Image
-                                    src={poster}
-                                    width={184}
-                                    height={259}
-                                    className={clsx(
-                                        'h-full w-full object-cover',
-                                        posterClassName,
-                                    )}
-                                    alt="Poster"
-                                />
-                            </figure>
+                            typeof poster === 'string' ?
+                                <figure className='relative h-full w-full flex place-items-center'>
+                                    <Image
+                                        src={poster}
+                                        width={184}
+                                        height={259}
+                                        className={clsx(
+                                            'h-full w-full object-cover',
+                                            posterClassName,
+                                        )}
+                                        alt='Poster'
+                                    />
+                                </figure> : poster
                         )}
                     </div>
                     {children}
                 </div>
                 {(title || desc) && (
-                    <div className="mt-1">
-                        {desc && <p className="label-text-alt mb-1">{desc}</p>}
+                    <div className='mt-1'>
+                        {desc && <p className='label-text-alt mb-1'>{desc}</p>}
                         {title && (
-                            <p className="label-text !text-base-content">
+                            <p className='label-text !text-base-content'>
                                 {title}
                             </p>
                         )}
@@ -84,7 +79,7 @@ const Component = forwardRef(
             return (
                 <div
                     ref={ref as Ref<HTMLDivElement>}
-                    className="group flex w-full flex-col gap-2"
+                    className='group flex w-full flex-col gap-2'
                 >
                     {content}
                 </div>
@@ -97,7 +92,7 @@ const Component = forwardRef(
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
                 href={href}
-                className="group flex w-full flex-col gap-2"
+                className='group flex w-full flex-col gap-2'
                 scroll
                 {...props}
             >
