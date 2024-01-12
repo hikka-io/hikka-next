@@ -1,5 +1,5 @@
 export default {
-    baseAPI: 'https://testapi.hikka.io',
+    baseAPI: 'https://api.hikka.io',
     config: {
         headers: {
             'Content-type': 'application/json',
