@@ -16,5 +16,5 @@ export async function GET(request: Request) {
     //     })),
     // );
 
-    Response.json({ result: true });
+    return Response.json({ result: true });
 }
