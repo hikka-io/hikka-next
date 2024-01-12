@@ -9,8 +9,10 @@ import {
     useEffect,
     useState,
 } from 'react';
+import useRouter from '@/utils/useRouter';
 
 import { deleteCookie, getCookie } from '@/app/actions';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 // import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
@@ -50,6 +52,8 @@ export default function AuthProvider({ children }: Props) {
     const logout = async () => {
         await deleteCookie('secret');
         setState(undefined);
+        window.location.reload();
+
     };
 
     useEffect(() => {

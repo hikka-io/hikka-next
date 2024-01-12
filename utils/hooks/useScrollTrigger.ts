@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { usePathname } from 'next/navigation';
 
 interface UseScrollTriggerOptions {
     disableHysteresis?: boolean;
@@ -35,6 +36,7 @@ const defaultTarget = typeof window !== 'undefined' ? window : null;
 export default function useScrollTrigger(
     options: UseScrollTriggerOptions = {},
 ) {
+    const pathname = usePathname();
     const {
         getTrigger = defaultTrigger,
         target = defaultTarget,
@@ -56,7 +58,7 @@ export default function useScrollTrigger(
         return () => {
             target && target.removeEventListener('scroll', handleScroll);
         };
-    }, [target, getTrigger, JSON.stringify(other)]);
+    }, [pathname, target, getTrigger, JSON.stringify(other)]);
 
     return trigger;
 }

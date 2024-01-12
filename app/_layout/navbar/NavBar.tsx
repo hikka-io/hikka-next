@@ -8,14 +8,12 @@ import MaterialSymbolsSearch from '~icons/material-symbols/search';
 
 import Link from 'next/link';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Image from '@/app/_components/Image';
 import NavMenu from '@/app/_layout/navbar/_layout/NavMenu';
-import getLoggedUserInfo from '@/utils/api/user/getLoggedUserInfo';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import useScrollTrigger from '@/utils/hooks/useScrollTrigger';
-import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import { usePopperContext } from '@/utils/providers/PopperProvider';
 import { useThemeContext } from '@/utils/providers/ThemeProvider';
@@ -26,17 +24,16 @@ import ProfileMenu from './_layout/ProfileMenu';
 interface Props extends PropsWithChildren {}
 
 const Component = ({}: Props) => {
+    const queryClient = useQueryClient();
     const { switchTheme, theme } = useThemeContext();
     const isMobile = useIsMobile();
     const { switchPopper } = usePopperContext();
     const { switchModal } = useModalContext();
     const profileRef = useRef<HTMLButtonElement>(null);
-    const { secret } = useAuthContext();
-    const { data: user, isLoading: userLoading } = useQuery({
-        queryKey: ['loggedUser', secret],
-        queryFn: () => getLoggedUserInfo({ secret }),
-        enabled: false,
-    });
+
+    let loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+        'loggedUser',
+    ]);
 
     const trigger = useScrollTrigger({
         threshold: isMobile ? 0 : 40,
@@ -109,41 +106,35 @@ const Component = ({}: Props) => {
                         {/* close icon */}
                         <MaterialSymbolsDarkModeRounded className="swap-on fill-current" />
                     </label>
-                    {!userLoading ? (
-                        user ? (
-                            <button
-                                ref={profileRef}
-                                onClick={() => switchPopper('profile')}
-                                className="btn btn-square btn-ghost join-item btn-sm overflow-hidden"
-                            >
-                                <Image
-                                    src={user.avatar}
-                                    alt="pfp"
-                                    width={44}
-                                    height={44}
-                                    className="h-full w-full"
-                                />
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    className="btn btn-ghost btn-sm"
-                                    onClick={() => switchModal('login')}
-                                >
-                                    Увійти
-                                </button>
-                                <button
-                                    className="btn btn-accent btn-sm hidden lg:flex"
-                                    onClick={() => switchModal('signup')}
-                                >
-                                    Реєстрація
-                                </button>
-                            </>
-                        )
+                    {loggedUser ? (
+                        <button
+                            ref={profileRef}
+                            onClick={() => switchPopper('profile')}
+                            className="btn btn-square btn-ghost join-item btn-sm overflow-hidden"
+                        >
+                            <Image
+                                src={loggedUser.avatar}
+                                alt="pfp"
+                                width={44}
+                                height={44}
+                                className="h-full w-full"
+                            />
+                        </button>
                     ) : (
-                        <div className="animate-pulse flex gap-4">
-                            <div className="h-10 w-10 rounded-lg bg-secondary/60" />
-                        </div>
+                        <>
+                            <button
+                                className="btn btn-ghost btn-sm"
+                                onClick={() => switchModal('login')}
+                            >
+                                Увійти
+                            </button>
+                            <button
+                                className="btn btn-accent btn-sm hidden lg:flex"
+                                onClick={() => switchModal('signup')}
+                            >
+                                Реєстрація
+                            </button>
+                        </>
                     )}
                 </div>
             </div>

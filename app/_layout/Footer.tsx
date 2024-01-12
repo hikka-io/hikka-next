@@ -41,7 +41,7 @@ const Component = () => {
                     </div>
                     <div className="flex items-center justify-center lg:justify-end">
                         <p id="hikka-footer-label" className="label-text">
-                            © 2023 Hikka
+                            © {(new Date()).getFullYear()} Hikka
                         </p>
                     </div>
                 </div>

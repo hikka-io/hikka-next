@@ -34,7 +34,6 @@ const Component = ({ data }: Props) => {
     const router = useRouter();
     const queryClient = useQueryClient();
     const { setState: setModalState } = useModalContext();
-    const { secret } = useAuthContext();
     const params = useParams();
     const [go, setGo] = useState(false);
     const [slug, setSlug] = useState<string | null>(null);
@@ -44,7 +43,6 @@ const Component = ({ data }: Props) => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
     ]);
 
     const createQueryString = useCallback(

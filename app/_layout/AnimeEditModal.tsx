@@ -23,6 +23,7 @@ import updateEdit from '@/utils/api/edit/updateEdit';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
+
 type FormValues = Hikka.EditParams & {
     description: string;
 };
@@ -83,7 +84,6 @@ const Component = ({ edit, setEdit }: Props) => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
     ]);
 
     const isView =

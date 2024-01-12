@@ -33,6 +33,10 @@ const Component = ({}: Props) => {
     const { secret } = useAuthContext();
     const [selectedAvatarFile, setSelectedAvatarFile] = useState<File>();
 
+    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+        'loggedUser',
+    ]);
+
     const { data: followStats } = useQuery({
         queryKey: ['followStats', params.username],
         queryFn: () => getFollowStats({ username: String(params.username) }),
@@ -42,12 +46,6 @@ const Component = ({}: Props) => {
         queryKey: ['user', params.username],
         queryFn: () => getUserInfo({ username: String(params.username) }),
         staleTime: 0
-    });
-
-    const { data: loggedUser } = useQuery({
-        queryKey: ['loggedUser', secret],
-        queryFn: () => getLoggedUserInfo({ secret }),
-        enabled: Boolean(secret),
     });
 
     const { data: followChecker } = useQuery({

@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import resendActivation from '@/utils/api/auth/resendActivation';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 
+
 const Component = () => {
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
@@ -23,7 +24,6 @@ const Component = () => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
     ]);
 
     if (

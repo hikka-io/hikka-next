@@ -16,7 +16,7 @@ const Component = async ({ children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
-    await queryClient.prefetchQuery(['loggedUser', secret], () =>
+    await queryClient.prefetchQuery(['loggedUser'], () =>
         getLoggedUserInfo({ secret: secret }),
     );
 
@@ -24,7 +24,6 @@ const Component = async ({ children }: Props) => {
 
     const loggedUserData: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
     ]);
 
     if (!loggedUserData) {

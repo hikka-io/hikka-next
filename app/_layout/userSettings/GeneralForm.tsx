@@ -9,6 +9,7 @@ import changeUserDescription from '@/utils/api/settings/changeUserDescription';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 
+
 type FormValues = {
     description: string;
 };
@@ -25,7 +26,6 @@ const Component = () => {
     const { secret } = useAuthContext();
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
     ]);
 
     const onSubmit = async (data: FormValues) => {
