@@ -4,8 +4,6 @@ import React, { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import { Analytics } from '@vercel/analytics/react';
-
 import './globals.css';
 
 const inter = Inter({
@@ -98,7 +96,6 @@ export default async function RootLayout({
         >
             <body>
                 {children}
-                <Analytics />
             </body>
         </html>
     );
