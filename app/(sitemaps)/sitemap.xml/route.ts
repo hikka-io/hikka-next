@@ -15,4 +15,6 @@ export async function GET(request: Request) {
     //         priority: 1,
     //     })),
     // );
+
+    Response.json({ result: true });
 }
