@@ -12,6 +12,7 @@ import closeEdit from '@/utils/api/edit/closeEdit';
 import denyEdit from '@/utils/api/edit/denyEdit';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 
+
 const Component = () => {
     const params = useParams();
     const queryClient = useQueryClient();
@@ -73,13 +74,18 @@ const Component = () => {
         setIsSubmitting(false);
     };
 
+    if (edit?.status !== 'pending') {
+        return null;
+    }
+
+    if (!edit.author) {
+        return null;
+    }
+
     if (
-        !edit ||
-        !(loggedUser?.role === 'moderator' || loggedUser?.role === 'admin') ||
-        !(
-            edit.author?.username === loggedUser?.username &&
-            edit.status === 'pending'
-        )
+        !(loggedUser?.role === 'moderator' || loggedUser?.role === 'admin') &&
+        edit.author.username !== loggedUser?.username &&
+        !edit
     ) {
         return null;
     }

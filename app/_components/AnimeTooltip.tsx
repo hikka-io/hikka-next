@@ -82,9 +82,9 @@ const TooltipData = ({ slug }: { slug: string }) => {
                         <p className="label-text text-sm">Тип:</p>
                     </div>
                     <div className="flex flex-1 flex-wrap gap-2">
-                        <p className="text-sm">
+                        {data.media_type && <p className="text-sm">
                             {MEDIA_TYPE[data.media_type].title_ua}
-                        </p>
+                        </p>}
                         <div
                             className="w-fit rounded-md px-2 text-sm text-white"
                             style={{

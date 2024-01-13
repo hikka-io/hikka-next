@@ -31,7 +31,7 @@ const Component = () => {
         <div className="flex flex-col gap-8">
             <SubHeader title="Деталі" />
             <div className="flex flex-col gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
-                <div className="flex flex-wrap">
+                {data.media_type && <div className="flex flex-wrap">
                     <div className="w-24">
                         <p className="label-text">Тип:</p>
                     </div>
@@ -40,7 +40,7 @@ const Component = () => {
                             {MEDIA_TYPE[data.media_type].title_ua}
                         </p>
                     </div>
-                </div>
+                </div>}
                 <div className="flex flex-wrap">
                     <div className="w-24">
                         <p className="label-text">Статус:</p>

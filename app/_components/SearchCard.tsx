@@ -29,12 +29,12 @@ const Component = ({ anime, onClick }: Props) => {
                 </h5>
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-4">
-                        <div className="flex gap-2">
+                        {anime.media_type && <div className="flex gap-2">
                             <p className="label-text text-sm">Тип:</p>
                             <p className="text-sm">
                                 {MEDIA_TYPE[anime.media_type].title_ua}
                             </p>
-                        </div>
+                        </div>}
                         <div
                             className="w-fit rounded-md px-2 text-sm"
                             style={{

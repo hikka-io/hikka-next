@@ -14,6 +14,7 @@ import { MEDIA_TYPE } from '@/utils/constants';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import { useModalContext } from '@/utils/providers/ModalProvider';
 import useRouter from '@/utils/useRouter';
+import BaseCard from '@/app/_components/BaseCard';
 
 interface Props {
     data: {
@@ -157,17 +158,7 @@ const Component = ({ data }: Props) => {
                             <td>
                                 <div className="flex gap-4">
                                     <div className="hidden w-12 lg:block">
-                                        <div className="relative w-full overflow-hidden rounded-md pt-[140%]">
-                                            <div className="absolute left-0 top-0">
-                                                <Image
-                                                    src={res.anime.poster}
-                                                    alt="poster"
-                                                    width="50"
-                                                    height="50"
-                                                    className="h-full w-full"
-                                                />
-                                            </div>
-                                        </div>
+                                        <BaseCard poster={res.anime.poster} />
                                     </div>
                                     <div>
                                         <Link
@@ -195,7 +186,7 @@ const Component = ({ data }: Props) => {
                                 align="center"
                             >
                                 {
-                                    MEDIA_TYPE[
+                                    res.anime.media_type && MEDIA_TYPE[
                                         res.anime.media_type as Hikka.MediaType
                                     ].title_ua
                                 }
