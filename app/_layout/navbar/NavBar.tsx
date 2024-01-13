@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import React, { PropsWithChildren, useRef } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import MaterialSymbolsDarkModeRounded from '~icons/material-symbols/dark-mode-rounded';
 import MaterialSymbolsLightModeRounded from '~icons/material-symbols/light-mode-rounded';
 import MaterialSymbolsSearch from '~icons/material-symbols/search';
@@ -24,6 +24,7 @@ import ProfileMenu from './_layout/ProfileMenu';
 interface Props extends PropsWithChildren {}
 
 const Component = ({}: Props) => {
+    const [isMounted, setIsMounted] = useState(false);
     const queryClient = useQueryClient();
     const { switchTheme, theme } = useThemeContext();
     const isMobile = useIsMobile();
@@ -45,6 +46,11 @@ const Component = ({}: Props) => {
         typeof window !== 'undefined'
             ? /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
             : undefined;
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
 
     return (
         <nav
@@ -82,15 +88,13 @@ const Component = ({}: Props) => {
                             <MaterialSymbolsSearch />{' '}
                             <span className="hidden lg:block">Пошук...</span>
                         </div>
-                        {isMac !== undefined ? (
+                        {isMounted && isMac !== undefined && (
                             <div className="hidden items-center lg:flex">
                                 <kbd className="kbd kbd-sm">
                                     {isMac ? '⌘' : 'ctrl'}
                                 </kbd>
                                 <kbd className="kbd kbd-sm">K</kbd>
                             </div>
-                        ) : (
-                            <div />
                         )}
                     </button>
                     <label className="btn btn-square btn-secondary btn-ghost swap swap-rotate btn-sm">
