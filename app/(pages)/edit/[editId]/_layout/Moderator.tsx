@@ -6,18 +6,19 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import BaseCard from '@/app/_components/BaseCard';
+import getEdit from '@/utils/api/edit/getEdit';
+
 
 const Component = () => {
     const params = useParams();
-    const queryClient = useQueryClient();
 
-    const edit: Hikka.Edit | undefined = queryClient.getQueryData([
-        'edit',
-        params.editId,
-    ]);
+    const { data: edit } = useQuery({
+        queryKey: ['edit', params.editId],
+        queryFn: () => getEdit({ edit_id: Number(params.editId) })
+    });
 
     if (!edit || !edit.moderator) {
         return null;

@@ -42,7 +42,7 @@ const Component = () => {
                 <span className="label-text">Пошук по назві</span>
             </label>
             <input
-                className="input bg-secondary/60"
+                className="input bg-secondary/60 w-full"
                 value={search || ''}
                 onChange={(event) => setSearch(event.target.value)}
                 type="text"

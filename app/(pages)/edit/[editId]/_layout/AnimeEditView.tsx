@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import getEdit from '@/utils/api/edit/getEdit';
 
 type Param = {
     param: keyof Hikka.EditParams;
@@ -46,15 +47,14 @@ const SYNOPSIS_PARAMS: Param[] = [
 
 const Component = () => {
     const params = useParams();
-    const queryClient = useQueryClient();
     const [editParams, setEditParams] = useState<(keyof Hikka.EditParams)[]>(
         [],
     );
 
-    const edit: Hikka.Edit | undefined = queryClient.getQueryData([
-        'edit',
-        params.editId,
-    ]);
+    const { data: edit } = useQuery({
+        queryKey: ['edit', params.editId],
+        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
+    });
 
     useEffect(() => {
         if (edit) {

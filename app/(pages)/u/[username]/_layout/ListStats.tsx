@@ -27,7 +27,7 @@ const Component = ({}: Props) => {
     }
 
     return (
-        <div className="flex gap-4 overflow-x-scroll -mx-4 md:mx-0 px-4 md:px-0">
+        <div className="flex gap-4 overflow-x-scroll no-scrollbar -mx-4 md:mx-0 px-4 md:px-0">
             {Object.keys(data).map((status) => {
                 return (
                     <Link

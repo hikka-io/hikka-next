@@ -42,6 +42,7 @@ const Component = () => {
                 }),
             getNextPageParam: (lastPage: EditListResponse) => {
                 const nextPage = lastPage.pagination.page + 1;
+
                 return nextPage > lastPage.pagination.pages
                     ? undefined
                     : nextPage;

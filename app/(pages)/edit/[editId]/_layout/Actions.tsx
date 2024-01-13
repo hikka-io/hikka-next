@@ -5,11 +5,12 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import acceptEdit from '@/utils/api/edit/acceptEdit';
 import closeEdit from '@/utils/api/edit/closeEdit';
 import denyEdit from '@/utils/api/edit/denyEdit';
+import getEdit from '@/utils/api/edit/getEdit';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 
 
@@ -20,10 +21,10 @@ const Component = () => {
 
     const { secret } = useAuthContext();
 
-    const edit: Hikka.Edit | undefined = queryClient.getQueryData([
-        'edit',
-        params.editId,
-    ]);
+    const { data: edit } = useQuery({
+        queryKey: ['edit', params.editId],
+        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
+    });
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
@@ -36,6 +37,8 @@ const Component = () => {
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
             });
+            await queryClient.invalidateQueries(['edit', params.editId]);
+            // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
             return;
@@ -51,6 +54,8 @@ const Component = () => {
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
             });
+            await queryClient.invalidateQueries(['edit', params.editId]);
+            // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
             return;
@@ -66,6 +71,8 @@ const Component = () => {
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
             });
+            await queryClient.invalidateQueries(['edit', params.editId]);
+            // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
             return;

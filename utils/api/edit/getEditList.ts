@@ -10,7 +10,7 @@ export default async function req({
 }: {
     page?: number;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + '/edit/list', {
+    const res = await fetch(config.baseAPI + '/edit/list?page=' + page, {
         method: 'get',
         ...config.config,
     });
