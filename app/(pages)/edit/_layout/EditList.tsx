@@ -3,64 +3,70 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useCallback, useEffect, useState } from 'react';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import BaseCard from '@/app/_components/BaseCard';
+import Pagination from '@/app/_components/Pagination';
 import AnimeEditModal from '@/app/_layout/AnimeEditModal';
-import getEditList, {
-    Response as EditListResponse,
-} from '@/utils/api/edit/getEditList';
-import { useModalContext } from '@/utils/providers/ModalProvider';
+import getEditList from '@/utils/api/edit/getEditList';
 import useRouter from '@/utils/useRouter';
 
 import EditStatus from '../_components/EditStatus';
 
+
 const Component = () => {
+    const pathname = usePathname();
     const params = useParams();
+    const searchParams = useSearchParams();
+
+    const page = searchParams.get('page');
+    const [selectedPage, setSelectedPage] = useState(page ? Number(page) : 1);
 
     const [go, setGo] = useState(false);
-    const { ref, inView } = useInView();
     const [edit, setEdit] = useState<Hikka.Edit | undefined>();
-    const { switchModal } = useModalContext();
     const router = useRouter();
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteQuery<
-            { list: Hikka.Edit[]; pagination: Hikka.Pagination },
-            Error
-        >({
-            queryKey: ['editList', params.slug],
-            queryFn: ({ pageParam = 1 }) =>
-                getEditList({
-                    page: pageParam,
-                }),
-            getNextPageParam: (lastPage: EditListResponse) => {
-                const nextPage = lastPage.pagination.page + 1;
+    const { data } = useQuery<
+        { list: Hikka.Edit[]; pagination: Hikka.Pagination },
+        Error
+    >({
+        queryKey: ['editList', params.slug, page],
+        queryFn: () =>
+            getEditList({
+                page: page ? Number(page) : 1,
+            }),
+    });
 
-                return nextPage > lastPage.pagination.pages
-                    ? undefined
-                    : nextPage;
-            },
-        });
+    const createQueryString = useCallback(
+        (name: string, value: string | null) => {
+            const params = new URLSearchParams(searchParams);
 
-    const openEditModal = (edit: Hikka.Edit) => {
-        setEdit(edit);
-        switchModal('animeEdit');
-    };
+            if (value) {
+                params.set(name, value);
+            } else {
+                params.delete(name);
+            }
 
-    const list = data && data.pages.map((data) => data.list).flat(1);
+            return params.toString();
+        },
+        [searchParams],
+    );
 
     useEffect(() => {
-        if (inView && data) {
-            fetchNextPage();
+        const query = createQueryString('page', String(selectedPage));
+        router.push(`${pathname}?${query}`, { scroll: true });
+    }, [selectedPage]);
+
+    useEffect(() => {
+        if (page) {
+            setSelectedPage(Number(page));
         }
-    }, [inView]);
+    }, [page]);
 
     return (
         <div className="flex flex-col gap-8">
@@ -80,8 +86,8 @@ const Component = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list &&
-                            list.map((edit) => (
+                        {data &&
+                            data.list.map((edit) => (
                                 <tr
                                     key={edit.edit_id}
                                     className={clsx(
@@ -106,7 +112,9 @@ const Component = () => {
                                             <div className="flex flex-col">
                                                 <Link
                                                     className="hover:underline"
-                                                    href={`/u/${edit.author!.username}`}
+                                                    href={`/u/${
+                                                        edit.author!.username
+                                                    }`}
                                                     onClick={() => setGo(true)}
                                                 >
                                                     {edit.author!.username}
@@ -172,18 +180,12 @@ const Component = () => {
                 </table>
                 {!go && <AnimeEditModal edit={edit} setEdit={setEdit} />}
             </div>
-            {hasNextPage && (
-                <button
-                    ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                    className="btn btn-secondary"
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Заванатажити ще
-                </button>
+            {data && data.pagination.pages > 1 && (
+                <Pagination
+                    page={selectedPage}
+                    pages={data.pagination.pages}
+                    setPage={setSelectedPage}
+                />
             )}
         </div>
     );

@@ -2,8 +2,6 @@
 
 import clsx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
-import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
-import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -12,11 +10,13 @@ import { useQuery } from '@tanstack/react-query';
 
 import AnimeCard from '@/app/_components/AnimeCard';
 import NotFound from '@/app/_components/NotFound';
+import Pagination from '@/app/_components/Pagination';
 import SkeletonCard from '@/app/_components/skeletons/EntryCard';
 import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
 import useDebounce from '@/utils/hooks/useDebounce';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
 import useRouter from '@/utils/useRouter';
+
 
 const Component = () => {
     const { secret } = useAuthContext();
@@ -73,7 +73,7 @@ const Component = () => {
                 season: seasons,
                 status: statuses,
                 media_type: types,
-                sort: sort ? ["score:" + sort] : ["score:desc"],
+                sort: sort ? ['score:' + sort] : ['score:desc'],
                 genres,
                 only_translated: Boolean(lang),
                 page: selectedPage,
@@ -105,40 +105,6 @@ const Component = () => {
         }
 
         return newArr;
-    };
-
-    const generatePaginationArr = (
-        pagination: Hikka.Pagination,
-        page: number,
-    ) => {
-        const pagArr: (number | undefined)[] = [1];
-
-        if (pagination.pages >= 7) {
-            if (pagination.pages - page <= 3) {
-                pagArr.push(undefined);
-                pagArr.push(...range(pagination.pages - 4, pagination.pages));
-
-                return pagArr;
-            }
-
-            if (page < 5) {
-                pagArr.push(...range(2, 5));
-                pagArr.push(undefined);
-                pagArr.push(pagination.pages);
-
-                return pagArr;
-            }
-
-            pagArr.push(undefined);
-            pagArr.push(...range(page - 1, page + 1));
-            pagArr.push(undefined);
-            pagArr.push(pagination.pages);
-
-            return pagArr;
-        }
-
-        pagArr.push(...range(2, pagination.pages));
-        return pagArr;
     };
 
     useEffect(() => {
@@ -209,46 +175,11 @@ const Component = () => {
                 {error && <div>error</div>}
             </section>
             {data && data.pagination && data.pagination.pages > 1 && (
-                <div className="flex w-full justify-center gap-2 lg:gap-4">
-                    <button
-                        onClick={() => setSelectedPage((prev) => prev - 1)}
-                        disabled={selectedPage === 1}
-                        className={clsx(
-                            'btn-badge btn btn-square btn-secondary btn-outline text-xs lg:btn-md lg:text-base',
-                        )}
-                    >
-                        <AntDesignArrowLeftOutlined />
-                    </button>
-                    {generatePaginationArr(data.pagination, selectedPage).map(
-                        (v, index) => {
-                            return (
-                                <button
-                                    disabled={!v}
-                                    onClick={() => v && setSelectedPage(v)}
-                                    key={index}
-                                    className={clsx(
-                                        'btn-badge btn btn-square text-xs lg:btn-md lg:text-base',
-                                        selectedPage === v
-                                            ? 'btn-accent'
-                                            : 'btn-secondary btn-outline',
-                                        !v && '!btn-ghost',
-                                    )}
-                                >
-                                    {v ? v : '...'}
-                                </button>
-                            );
-                        },
-                    )}
-                    <button
-                        onClick={() => setSelectedPage((prev) => prev + 1)}
-                        disabled={selectedPage === data.pagination.pages}
-                        className={clsx(
-                            'btn-badge btn btn-square btn-secondary btn-outline text-xs lg:btn-md lg:text-base',
-                        )}
-                    >
-                        <AntDesignArrowRightOutlined />
-                    </button>
-                </div>
+                <Pagination
+                    page={selectedPage}
+                    pages={data.pagination.pages}
+                    setPage={setSelectedPage}
+                />
             )}
         </div>
     );
