@@ -1,4 +1,5 @@
 'use client';
+
 import * as React from 'react';
 
 import { EDIT_STATUS } from '@/utils/constants';
@@ -6,27 +7,34 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import getEdit from '@/utils/api/edit/getEdit';
 
-const Component = () => {
+interface Props {
+    status?: Hikka.EditStatus;
+}
+
+const Component = ({ status }: Props) => {
     const params = useParams();
 
     const { data: edit } = useQuery({
         queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) })
+        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
+        enabled: Boolean(status)
     });
 
-    if (!edit || !edit.status) {
+    if (!status && (!edit || !edit.status)) {
         return null;
     }
+
+    const currentStatus = status ? status : edit!.status;
 
     return (
         <div
             className="whitespace-nowrap rounded-md px-2"
             style={{
-                backgroundColor: EDIT_STATUS[edit.status].color,
+                backgroundColor: EDIT_STATUS[currentStatus].color,
             }}
         >
             <p className="label-text font-normal !text-white">
-                {EDIT_STATUS[edit.status].title_ua}
+                {EDIT_STATUS[currentStatus].title_ua}
             </p>
         </div>
     );
