@@ -21,7 +21,6 @@ import EditStatus from '../_components/EditStatus';
 
 const Component = () => {
     const pathname = usePathname();
-    const params = useParams();
     const searchParams = useSearchParams();
 
     const page = searchParams.get('page');
@@ -35,10 +34,10 @@ const Component = () => {
         { list: Hikka.Edit[]; pagination: Hikka.Pagination },
         Error
     >({
-        queryKey: ['editList', params.slug, page],
+        queryKey: ['editList', selectedPage],
         queryFn: () =>
             getEditList({
-                page: page ? Number(page) : 1,
+                page: selectedPage,
             }),
     });
 

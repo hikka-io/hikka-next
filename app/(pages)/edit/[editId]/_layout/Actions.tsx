@@ -12,9 +12,11 @@ import closeEdit from '@/utils/api/edit/closeEdit';
 import denyEdit from '@/utils/api/edit/denyEdit';
 import getEdit from '@/utils/api/edit/getEdit';
 import { useAuthContext } from '@/utils/providers/AuthProvider';
+import useRouter from '@/utils/useRouter';
 
 
 const Component = () => {
+    const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
     const [isSubmitting, setIsSubmitting] = useState(false);

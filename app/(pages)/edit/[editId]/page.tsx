@@ -61,7 +61,7 @@ const Component = async ({ params: { editId } }: Props) => {
                             titleClassName="justify-between w-full"
                             variant="h4"
                         >
-                            <EditStatus status={edit?.status} />
+                            <EditStatus />
                         </SubHeader>
                         <div className="flex flex-col justify-between">
                             {edit?.author && <Author />}
