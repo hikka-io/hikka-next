@@ -102,7 +102,7 @@ const Component = () => {
                                     </th>
                                     <td>
                                         <div className="flex gap-4">
-                                            <div className="w-10">
+                                            <div className="w-10 h-10">
                                                 <BaseCard
                                                     containerClassName="!pt-[100%]"
                                                     poster={edit.author!.avatar}
