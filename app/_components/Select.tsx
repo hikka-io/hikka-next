@@ -109,8 +109,8 @@ interface OptionProps extends PropsWithChildren {
     className?: string;
     value: SelectValue<OptionValue, boolean>;
     disabled?: boolean;
-    prev: ReactElement;
-    next: ReactElement;
+    prev?: ReactElement;
+    next?: ReactElement;
 }
 
 function Option(props: OptionProps) {
