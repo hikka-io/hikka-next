@@ -154,7 +154,7 @@ const Component = ({}: Props) => {
                                     key={user.reference}
                                     className="flex items-center justify-between gap-4 px-8 py-4"
                                 >
-                                    <div className="flex gap-3">
+                                    <div className="flex gap-3 overflow-hidden">
                                         <Link
                                             href={'/u/' + user.username}
                                             className="avatar"
@@ -168,14 +168,14 @@ const Component = ({}: Props) => {
                                                 />
                                             </div>
                                         </Link>
-                                        <div className="flex flex-col justify-between">
+                                        <div className="flex flex-col justify-between  overflow-hidden">
                                             <Link
                                                 href={'/u/' + user.username}
                                                 className="label-text font-bold !text-base-content"
                                             >
                                                 {user.username}
                                             </Link>
-                                            <p className="label-text-alt opacity-60">
+                                            <p className="label-text-alt opacity-60 truncate">
                                                 {user.description}
                                             </p>
                                         </div>
