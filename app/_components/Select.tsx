@@ -4,9 +4,12 @@ import clsx from 'clsx';
 import * as React from 'react';
 import {
     CSSProperties,
+    Children,
     ForwardedRef,
     PropsWithChildren,
+    ReactElement,
     ReactNode,
+    cloneElement,
     forwardRef,
     memo,
     useEffect,
@@ -93,7 +96,7 @@ function renderSelectedValue(
         }
 
         return (
-            <div className="truncate whitespace-nowrap">{`${value
+            <div className="truncate whitespace-nowrap max-w-[13rem]">{`${value
                 .map((so) => so.label)
                 .join(' - ')}`}</div>
         );
@@ -106,27 +109,48 @@ interface OptionProps extends PropsWithChildren {
     className?: string;
     value: SelectValue<OptionValue, boolean>;
     disabled?: boolean;
+    prev: ReactElement;
+    next: ReactElement;
 }
 
 function Option(props: OptionProps) {
-    const { children, value, className, disabled = false } = props;
+    const { prev, next, children, value, className, disabled = false } = props;
 
     if (typeof window === 'undefined') {
         return <OptionItem>{children}</OptionItem>;
     }
 
-    const { getRootProps, highlighted, selected } = useOption({
+    const { getRootProps, highlighted, selected, index } = useOption({
         value,
         disabled,
         label: children,
     });
+
+    const { selected: selectedPrev } = useOption({
+        label: prev && prev.props.children,
+        value: prev && prev.props.value,
+        disabled: false
+    });
+
+    const { selected: selectedNext } = useOption({
+        label: next && next.props.children,
+        value: next && next.props.value,
+        disabled: false
+    });
+
     const { contextValue } = useOptionContextStabilizer(value);
 
     return (
         <ListContext.Provider value={contextValue}>
             <OptionItem
                 {...getRootProps()}
-                className={clsx(selected && 'active', className)}
+                className={clsx(
+                    selected && 'active',
+                    selectedPrev && selectedNext && '!rounded-none',
+                    !selectedPrev && selectedNext && '!rounded-b-none',
+                    selectedPrev && !selectedNext && '!rounded-t-none',
+                    className,
+                )}
             >
                 {children}
             </OptionItem>
@@ -177,6 +201,7 @@ function Select({
     toggleClassName,
     onChange,
 }: SelectProps) {
+    const arrayChildren = Children.toArray(children);
     const listboxRef = React.useRef<HTMLUListElement>(null);
     const [listboxVisible, setListboxVisible] = useState(false);
 
@@ -252,7 +277,23 @@ function Select({
                 aria-hidden={!listboxVisible}
                 className={listboxVisible ? '' : 'hidden'}
             >
-                <SelectProvider value={contextValue}>{children}</SelectProvider>
+                <SelectProvider value={contextValue}>
+                    {Children.map(
+                        arrayChildren as ReactElement[],
+                        (child: ReactElement, index) => {
+                            return cloneElement(child, {
+                                prev:
+                                    index > 0
+                                        ? arrayChildren[index - 1]
+                                        : undefined,
+                                next:
+                                    arrayChildren.length > index + 1
+                                        ? arrayChildren[index + 1]
+                                        : undefined,
+                            });
+                        },
+                    )}
+                </SelectProvider>
             </Listbox>
         </div>
     );
