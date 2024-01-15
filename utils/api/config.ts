@@ -5,7 +5,7 @@ export default {
             'Content-type': 'application/json',
         },
         next: {
-            revalidate: 1,
+            revalidate: 0,
         },
     },
 };
