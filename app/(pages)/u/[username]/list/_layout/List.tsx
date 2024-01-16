@@ -5,13 +5,10 @@ import { createElement, useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import IcRoundGridView from '~icons/ic/round-grid-view';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
+import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
+import FeRandom from '~icons/fe/random'
 
-import {
-    useParams,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from 'next/navigation';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
@@ -19,10 +16,12 @@ import GridView from '@/app/(pages)/u/[username]/list/_components/GridView';
 import TableView from '@/app/(pages)/u/[username]/list/_components/TableView';
 import NotFound from '@/app/_components/NotFound';
 import Select from '@/app/_components/Select';
+import getRandomWatch from '@/utils/api/watch/getRandomWatch';
 import getWatchList, { Response } from '@/utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 
-interface Props {}
+interface Props {
+}
 
 const Component = ({}: Props) => {
     const { ref, inView } = useInView();
@@ -81,6 +80,21 @@ const Component = ({}: Props) => {
         [searchParams],
     );
 
+    const handleToolsChange = async (option: string) => {
+        if (option === 'random') {
+            try {
+                const randomAnime = await getRandomWatch({
+                    username: String(params.username),
+                    status: watchStatus as Hikka.WatchStatus,
+                });
+
+                router.push('/anime/' + randomAnime.slug);
+            } catch (e) {
+                return;
+            }
+        }
+    };
+
     useEffect(() => {
         if (!watchStatus) {
             router.replace(
@@ -106,11 +120,11 @@ const Component = ({}: Props) => {
     const list = data.pages.map((data) => data.list).flat(1);
 
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex items-center justify-between">
-                <div className="flex gap-2">
+        <div className='flex flex-col gap-8'>
+            <div className='flex items-center justify-between'>
+                <div className='flex gap-2'>
                     <Select
-                        toggleClassName="btn-ghost"
+                        toggleClassName='btn-ghost'
                         value={watchStatus}
                         onChange={(_e, value) => {
                             const query = createQueryString(
@@ -122,17 +136,27 @@ const Component = ({}: Props) => {
                         renderValue={(option) =>
                             !Array.isArray(option) &&
                             option && (
-                                <div className="flex items-center gap-4">
-                                    <div className="stat-figure rounded-md border border-secondary bg-secondary/60 p-1 text-xl text-base-content">
+                                <div className='flex items-center gap-4'>
+                                    <div
+                                        className='stat-figure rounded-md border border-secondary bg-secondary/60 p-1 text-xl text-base-content'>
                                         {createElement(
                                             WATCH_STATUS[
                                                 option.value as Hikka.WatchStatus
-                                            ].icon,
+                                                ].icon,
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className='flex items-center gap-2'>
                                         <h3>{option.label}</h3>
-                                        {data?.pages.length > 0 && <p className="label-text">({data?.pages[0].pagination.total})</p>}
+                                        {data?.pages.length > 0 && (
+                                            <p className='label-text'>
+                                                (
+                                                {
+                                                    data?.pages[0].pagination
+                                                        .total
+                                                }
+                                                )
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             )
@@ -146,31 +170,60 @@ const Component = ({}: Props) => {
                                 {
                                     WATCH_STATUS[
                                         watchStatus as Hikka.WatchStatus
-                                    ].title_ua
+                                        ].title_ua
                                 }
                             </Select.Option>
                         ))}
                     </Select>
                 </div>
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => setView('table')}
-                        className={clsx(
-                            'btn-badge btn btn-circle btn-ghost',
-                            view === 'table' && 'btn-active',
+                <div className='flex gap-2'>
+
+                    <Select
+                        onChange={(e, option) =>
+                            setView(option as 'table' | 'grid')
+                        }
+                        value={view}
+                        listboxClassName='min-w-44 right-0'
+                        renderToggle={(getButtonProps, listboxVisible, value) => (
+                            <button
+                                {...getButtonProps()}
+                                className={clsx(
+                                    'btn-badge btn btn-circle btn-ghost',
+                                )}
+                            >
+                                {value === 'table' ? <MaterialSymbolsEventList /> : <IcRoundGridView />}
+                            </button>
                         )}
+                        multiple={false}
                     >
-                        <MaterialSymbolsEventList />
-                    </button>
-                    <button
-                        onClick={() => setView('grid')}
-                        className={clsx(
-                            'btn-badge btn btn-circle btn-ghost',
-                            view === 'grid' && 'btn-active',
+                        <Select.Option value='table'>
+                            <MaterialSymbolsEventList /> Таблиця
+                        </Select.Option>
+                        <Select.Option value='grid'>
+                            <IcRoundGridView /> Сітка
+                        </Select.Option>
+                    </Select>
+                    <Select
+                        onChange={(e, option) =>
+                            handleToolsChange(option as string)
+                        }
+                        listboxClassName='min-w-48 right-0'
+                        renderToggle={(getButtonProps) => (
+                            <button
+                                {...getButtonProps()}
+                                className={clsx(
+                                    'btn-badge btn btn-circle btn-ghost',
+                                )}
+                            >
+                                <MaterialSymbolsMoreVert />
+                            </button>
                         )}
+                        multiple={false}
                     >
-                        <IcRoundGridView />
-                    </button>
+                        <Select.Option value='random'>
+                            <FeRandom /> Випадкове аніме
+                        </Select.Option>
+                    </Select>
                 </div>
             </div>
             {list.length > 0 ? (
@@ -184,17 +237,17 @@ const Component = ({}: Props) => {
                     title={
                         <span>
                             У списку{' '}
-                            <span className="font-black">
+                            <span className='font-black'>
                                 {
                                     WATCH_STATUS[
                                         watchStatus as Hikka.WatchStatus
-                                    ].title_ua
+                                        ].title_ua
                                 }
                             </span>{' '}
                             пусто
                         </span>
                     }
-                    description="Цей список оновиться після як сюди буде додано аніме з цим статусом"
+                    description='Цей список оновиться після як сюди буде додано аніме з цим статусом'
                 />
             )}
             {hasNextPage && (
@@ -202,10 +255,10 @@ const Component = ({}: Props) => {
                     ref={ref}
                     disabled={isFetchingNextPage}
                     onClick={() => fetchNextPage()}
-                    className="btn btn-secondary"
+                    className='btn btn-secondary'
                 >
                     {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
+                        <span className='loading loading-spinner'></span>
                     )}
                     Заванатажити ще
                 </button>

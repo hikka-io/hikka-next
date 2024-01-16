@@ -154,21 +154,24 @@ const Component = ({}: Props) => {
                                     key={user.reference}
                                     className="flex items-center justify-between gap-4 px-8 py-4"
                                 >
-                                    <div className="flex gap-3 overflow-hidden">
-                                        <Link
-                                            href={'/u/' + user.username}
-                                            className="avatar"
-                                        >
-                                            <div className="w-10 rounded-md">
-                                                <Image
-                                                    src={user.avatar}
-                                                    width={40}
-                                                    height={40}
-                                                    alt="avatar"
-                                                />
-                                            </div>
-                                        </Link>
-                                        <div className="flex flex-col justify-between  overflow-hidden">
+                                    <div className="flex gap-3 min-w-0">
+                                        <div className="indicator">
+                                            {user.active && <span className="indicator-item indicator-bottom badge badge-success h-2 w-2 p-0"></span>}
+                                            <Link
+                                                href={'/u/' + user.username}
+                                                className="avatar"
+                                            >
+                                                <div className="w-10 rounded-md overflow-hidden">
+                                                    <Image
+                                                        src={user.avatar}
+                                                        width={40}
+                                                        height={40}
+                                                        alt="avatar"
+                                                    />
+                                                </div>
+                                            </Link>
+                                        </div>
+                                        <div className="flex flex-col justify-between min-w-0">
                                             <Link
                                                 href={'/u/' + user.username}
                                                 className="label-text font-bold !text-base-content"
@@ -180,7 +183,9 @@ const Component = ({}: Props) => {
                                             </p>
                                         </div>
                                     </div>
-                                    {secret && user.username !== loggedUser?.username &&
+                                    {secret &&
+                                        user.username !==
+                                            loggedUser?.username &&
                                         ('is_followed' in user ? (
                                             !user.is_followed ? (
                                                 <button

@@ -129,13 +129,13 @@ function Option(props: OptionProps) {
     const { selected: selectedPrev } = useOption({
         label: prev && prev.props.children,
         value: prev && prev.props.value,
-        disabled: false
+        disabled: false,
     });
 
     const { selected: selectedNext } = useOption({
         label: next && next.props.children,
         value: next && next.props.value,
-        disabled: false
+        disabled: false,
     });
 
     const { contextValue } = useOptionContextStabilizer(value);
@@ -169,6 +169,7 @@ interface SelectProps extends PropsWithChildren {
     multiple?: boolean;
     className?: string;
     toggleClassName?: string;
+    listboxClassName?: string;
     renderToggle?: (
         getButtonProps: (otherHandlers?: {}) => UseSelectButtonSlotProps<{}>,
         listboxVisible: boolean,
@@ -198,6 +199,7 @@ function Select({
     renderValue,
     children,
     className,
+    listboxClassName,
     toggleClassName,
     onChange,
 }: SelectProps) {
@@ -275,7 +277,7 @@ function Select({
             <Listbox
                 {...getListboxProps()}
                 aria-hidden={!listboxVisible}
-                className={listboxVisible ? '' : 'hidden'}
+                className={clsx(listboxVisible ? '' : 'hidden', listboxClassName)}
             >
                 <SelectProvider value={contextValue}>
                     {Children.map(
