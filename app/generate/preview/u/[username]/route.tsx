@@ -6,7 +6,7 @@ import getUserInfo from '@/utils/api/user/getUserInfo';
 import getWatchStats from '@/utils/api/watch/getWatchStats';
 import { WATCH_STATUS } from '@/utils/constants';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export async function GET(
     request: Request,

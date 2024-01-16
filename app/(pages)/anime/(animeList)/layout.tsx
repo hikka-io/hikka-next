@@ -7,7 +7,7 @@ interface Props {
     list: ReactNode;
 }
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 const Component = async ({ list }: Props) => {
     return (
