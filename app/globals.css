@@ -40,7 +40,7 @@
         --border: 240 5.9% 90%;
         --input: 240 5.9% 90%;
         --ring: 240 5.9% 10%;
-        --radius: 0.5rem;
+        --radius: 0.625rem;
     }
 
     .dark {
@@ -80,7 +80,7 @@
         --border: 240 3.7% 15.9%;
         --input: 240 3.7% 15.9%;
         --ring: 240 4.9% 83.9%;
-        --radius: 0.5rem;
+        --radius: 0.625rem;
 
         & body {
             background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);

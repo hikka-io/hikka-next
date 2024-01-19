@@ -59,7 +59,7 @@ const Component = () => {
                 <h3>Загальне</h3>
             </div>
             <div className="w-full">
-                <div className="space-y-2 w-full">
+                <div className="flex flex-col gap-2 w-full">
                     <Label>
                         Опис
                     </Label>

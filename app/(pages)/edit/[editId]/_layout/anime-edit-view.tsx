@@ -127,7 +127,7 @@ const Component = () => {
                                                 disabled
                                                 type="text"
                                                 placeholder={param.placeholder}
-                                                className="w-full disabled:text-secondary-foreground"
+                                                className="w-full disabled:opacity-100"
                                                 value={edit!.after[param.param]}
                                             />
                                         </div>
@@ -174,7 +174,7 @@ const Component = () => {
                                                 disabled
                                                 placeholder={param.placeholder}
                                                 rows={5}
-                                                className="w-full disabled:text-secondary-foreground"
+                                                className="w-full disabled:opacity-100"
                                                 value={edit!.after[param.param]}
                                             />
                                         </div>
@@ -193,7 +193,7 @@ const Component = () => {
                                 disabled
                                 placeholder="Введіть причину правки"
                                 rows={3}
-                                className="w-full disabled:text-secondary-foreground"
+                                className="w-full disabled:opacity-100"
                                 value={edit!.description}
                             />
                         </div>

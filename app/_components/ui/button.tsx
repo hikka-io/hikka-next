@@ -22,12 +22,12 @@ const buttonVariants = cva(
                 warning:
                     'border border-warning bg-warning text-warning-foreground hover:bg-warning/90',
                 outline:
-                    'border border-input hover:bg-secondary/60 hover:text-secondary-foreground',
+                    'border border-secondary/60 hover:bg-secondary/30 hover:text-secondary-foreground',
                 secondary:
                     'border border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 accent:
                     'border border-accent bg-accent text-accent-foreground hover:bg-accent/80',
-                ghost: 'hover:bg-secondary/60 hover:text-accent-foreground',
+                ghost: 'hover:bg-secondary/60 hover:text-accent-foreground focus-visible:ring-0 focus-visible:ring-offset-0',
                 link: 'text-primary underline-offset-4 hover:underline',
             },
             size: {

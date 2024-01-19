@@ -144,7 +144,7 @@ export const Combobox = forwardRef(
                                         )?.label || '';
                                     if (
                                         typeof label === 'string' &&
-                                        label.toLowerCase().includes(search)
+                                        label.toLowerCase().includes(search.toLowerCase())
                                     )
                                         return 1;
                                     return 0;

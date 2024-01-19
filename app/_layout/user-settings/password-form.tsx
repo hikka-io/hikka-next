@@ -60,8 +60,8 @@ const Component = () => {
             <div className="flex items-center">
                 <h3>Пароль</h3>
             </div>
-            <div className="flex w-full flex-col gap-2">
-                <div className="space-y-2 w-full">
+            <div className="flex w-full flex-col gap-6">
+                <div className="flex flex-col gap-2 w-full">
                     <Label className="label">
                         Новий пароль
                     </Label>
@@ -71,7 +71,7 @@ const Component = () => {
                         {...register('password', { required: true })}
                     />
                 </div>
-                <div className="space-y-2 w-full">
+                <div className="flex flex-col gap-2 w-full">
                     <Label className="label">
                         Підтвердити пароль
                     </Label>

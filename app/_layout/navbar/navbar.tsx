@@ -82,16 +82,13 @@ const Component = ({}: Props) => {
                             <MaterialSymbolsSearch />{' '}
                             <span className="hidden lg:block">Пошук...</span>
                         </div>
-                        {isMounted && isMac !== undefined && (
-                            <div className="hidden items-center lg:flex">
-                                <kbd className="flex pointer-events-none select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+                        <div className="hidden items-center lg:flex">
+                            <kbd className="flex pointer-events-none select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
                                     <span className="text-xs">
-                                        {isMac ? '⌘' : 'ctrl'}
+                                        /
                                     </span>
-                                    K
-                                </kbd>
-                            </div>
-                        )}
+                            </kbd>
+                        </div>
                     </Button>
                     {loggedUser ? (
                         <ProfileMenu />

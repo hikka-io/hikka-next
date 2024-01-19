@@ -44,11 +44,10 @@ const Component = () => {
                 Пошук по назві
             </Label>
             <Input
-                className="bg-secondary/60"
                 value={search || ''}
                 onChange={(event) => setSearch(event.target.value)}
                 type="text"
-                placeholder="Ввведіть назву аніме"
+                placeholder="Введіть назву аніме..."
             />
         </div>
     );

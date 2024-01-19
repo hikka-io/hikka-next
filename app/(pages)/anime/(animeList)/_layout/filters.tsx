@@ -117,6 +117,7 @@ const Component = () => {
                     <Label className="text-muted-foreground">Жанр</Label>
                     {genresList && genresList.list.length > 0 ? (
                         <Combobox
+                            searchPlaceholder="Назва жанру..."
                             selectPlaceholder="Виберіть жанр/жанри..."
                             clearable
                             options={genresList.list.map((genre) => ({

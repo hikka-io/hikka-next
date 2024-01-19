@@ -58,8 +58,8 @@ const Component = () => {
             <div className="flex items-center">
                 <h3>Email</h3>
             </div>
-            <div className="flex w-full flex-col gap-2">
-                <div className="space-y-2 w-full">
+            <div className="flex w-full flex-col gap-6">
+                <div className="flex flex-col gap-2 w-full">
                     <Label className="label">
                         Новий email
                     </Label>
@@ -69,7 +69,7 @@ const Component = () => {
                         {...register('email', { required: true })}
                     />
                 </div>
-                <div className="space-y-2 w-full">
+                <div className="flex flex-col gap-2 w-full">
                     <Label className="label">
                         Підтвердити email
                     </Label>

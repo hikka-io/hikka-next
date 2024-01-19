@@ -58,7 +58,7 @@ const Component = () => {
                 <h3>Ім’я користувача</h3>
             </div>
             <div className="w-full">
-                <div className="space-y-2 w-full">
+                <div className="flex flex-col gap-2 w-full">
                     <Label className="label">
                             Нове ім’я користувача
                     </Label>

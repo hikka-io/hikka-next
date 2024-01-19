@@ -45,7 +45,7 @@ const Component = () => {
 
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            if (e.key === '/') {
                 e.preventDefault();
                 switchModal('search', true);
             }
@@ -69,11 +69,11 @@ const Component = () => {
                 value={searchValue}
                 onValueChange={(value) => setSearchValue(value)}
                 placeholder="Пошук..."
+                containerClassName={data ? "" : "border-b-0"}
             />
-            <CommandList className="max-h-[calc(100vh-6rem)]">
-                <CommandEmpty>No results found.</CommandEmpty>
+            {data && <CommandList className="max-h-[calc(100vh-6rem)]">
                 <CommandGroup>
-                    {data &&
+                    {
                         data.list.length > 0 &&
                         data.list.map((anime) => (
                             <CommandItem key={anime.slug}>
@@ -81,7 +81,7 @@ const Component = () => {
                             </CommandItem>
                         ))}
                 </CommandGroup>
-            </CommandList>
+            </CommandList>}
         </CommandDialog>
     );
 };

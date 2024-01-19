@@ -157,8 +157,8 @@ const Component = () => {
     );
 
     const aniListImport = (
-        <div className="flex w-full flex-col gap-2">
-            <div className="space-y-2 w-full">
+        <div className="flex w-full flex-col gap-6">
+            <div className="flex flex-col gap-2 w-full">
                 <Label>Ім’я користувача AniList</Label>
                 <div className="flex gap-2">
                     <Input
@@ -189,7 +189,7 @@ const Component = () => {
     );
 
     const generalImport = (
-        <div className="space-y-2 w-full">
+        <div className="flex flex-col gap-2 w-full">
             <Label>Файл списку</Label>
             <div
                 {...getRootProps({
@@ -242,6 +242,7 @@ const Component = () => {
             </div>
 
             <Tabs
+                className="flex flex-col w-full gap-6"
                 value={tab}
                 onValueChange={(v) => setTab(v as 'general' | 'aniList')}
             >
