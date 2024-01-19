@@ -33,7 +33,7 @@ const Component = ({ status }: Props) => {
                 backgroundColor: EDIT_STATUS[currentStatus].color,
             }}
         >
-            <p className="label-text font-normal !text-white">
+            <p className="text-sm">
                 {EDIT_STATUS[currentStatus].title_ua}
             </p>
         </div>

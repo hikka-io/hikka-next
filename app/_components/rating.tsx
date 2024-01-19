@@ -1,15 +1,21 @@
-import React, { JSXElementConstructor, ReactElement, SVGProps, useRef, useState } from 'react';
+import React, {
+    MouseEvent,
+    ReactElement,
+    SVGProps,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import MaterialSymbolsStarOutlineRounded from '~icons/material-symbols/star-outline-rounded';
 import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
-
 
 interface Props {
     value: number;
     onChange: (value: number) => void;
     precision?: number;
     totalStars?: number;
-    emptyIcon?: (props: SVGProps<SVGSVGElement>) => ReactElement<any, string | JSXElementConstructor<any>>;
-    filledIcon?: (props: SVGProps<SVGSVGElement>) => ReactElement<any, string | JSXElementConstructor<any>>;
+    emptyIcon?: (props: SVGProps<SVGSVGElement>) => ReactElement;
+    filledIcon?: (props: SVGProps<SVGSVGElement>) => ReactElement;
 }
 
 const Rating = ({
@@ -20,11 +26,12 @@ const Rating = ({
     emptyIcon = MaterialSymbolsStarOutlineRounded,
     filledIcon = MaterialSymbolsStarRounded,
 }: Props) => {
+    const [selected, setSelected] = useState(value);
     const [hoverActiveStar, setHoverActiveStar] = useState(-1);
     const [isHovered, setIsHovered] = useState(false);
     const ratingContainerRef = useRef<HTMLDivElement>(null);
 
-    const calculateRating = (e) => {
+    const calculateRating = (e: MouseEvent<HTMLElement>) => {
         const { width, left } =
             ratingContainerRef.current!.getBoundingClientRect();
         let percent = (e.clientX - left) / width;
@@ -39,22 +46,30 @@ const Rating = ({
         );
     };
 
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent<HTMLElement>) => {
         setIsHovered(false);
-        onChange(calculateRating(e));
+
+        const current = calculateRating(e);
+
+        setSelected(current);
+        onChange(current);
     };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
         setIsHovered(true);
         setHoverActiveStar(calculateRating(e));
     };
 
-    const handleMouseLeave = (e) => {
+    const handleMouseLeave = () => {
         setHoverActiveStar(-1); // Reset to default state
         setIsHovered(false);
     };
     const EmptyIcon = emptyIcon;
     const FilledIcon = filledIcon;
+
+    useEffect(() => {
+        setSelected(value);
+    }, [value]);
 
     return (
         <div
@@ -64,8 +79,8 @@ const Rating = ({
             onMouseLeave={handleMouseLeave}
             ref={ratingContainerRef}
         >
-            {[...new Array(totalStars)].map((arr, index) => {
-                const activeState = isHovered ? hoverActiveStar : value;
+            {[...new Array(totalStars)].map((_, index) => {
+                const activeState = isHovered ? hoverActiveStar : selected;
 
                 const showEmptyIcon =
                     activeState === -1 || activeState < index + 1;
@@ -80,10 +95,7 @@ const Rating = ({
                     isRatingEqualToIndex;
 
                 return (
-                    <div
-                        className="relative cursor-pointer"
-                        key={index}
-                    >
+                    <div className="relative cursor-pointer" key={index}>
                         <div
                             className="overflow-hidden absolute text-xl"
                             style={{
@@ -92,7 +104,7 @@ const Rating = ({
                                     : '0%',
                             }}
                         >
-                            <FilledIcon />
+                            <FilledIcon className="text-yellow-400" />
                         </div>
                         <div
                             className="text-xl"
@@ -100,7 +112,7 @@ const Rating = ({
                                 color: showEmptyIcon ? 'gray' : 'inherit',
                             }}
                         >
-                            {showEmptyIcon ? <EmptyIcon /> : <FilledIcon />}
+                            {showEmptyIcon ? <EmptyIcon /> : <FilledIcon className="text-yellow-400" />}
                         </div>
                     </div>
                 );

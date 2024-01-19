@@ -189,7 +189,7 @@ const Component = () => {
                                 return (
                                     <div
                                         key={param.param}
-                                        className="space-y-2 w-full"
+                                        className="flex flex-col gap-4 w-full"
                                     >
                                         <Label>{param.title}</Label>
                                         <Input
@@ -253,7 +253,7 @@ const Component = () => {
                                 return (
                                     <div
                                         key={param.param}
-                                        className="form-control w-full"
+                                        className="flex flex-col gap-4 w-full"
                                     >
                                         <Label>{param.title}</Label>
                                         <Textarea
@@ -273,7 +273,7 @@ const Component = () => {
                         </CollapsibleContent>
                     </Collapsible>
 
-                    <div className="space-y-2 w-full">
+                    <div className="flex flex-col gap-4 w-full">
                         <Label className="flex justify-between">
                             <span className="label-text">Опис правки</span>
                             <span className="text-muted-foreground">

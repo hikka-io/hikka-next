@@ -63,7 +63,7 @@ const Component = async ({ params: { editId } }: Props) => {
                         >
                             <EditStatus />
                         </SubHeader>
-                        <div className="flex flex-col justify-between">
+                        <div className="flex flex-col justify-between rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                             {edit?.author && <Author />}
                             <Moderator />
                         </div>

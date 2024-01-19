@@ -174,7 +174,7 @@ const Component = ({ data }: Props) => {
                                     <div className="hidden w-12 lg:block">
                                         <BaseCard poster={res.anime.poster} />
                                     </div>
-                                    <div>
+                                    <div className="flex-1">
                                         <Link
                                             className="hover:underline"
                                             href={`/anime/${res.anime.slug}`}

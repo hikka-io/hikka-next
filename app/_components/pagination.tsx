@@ -62,7 +62,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                 variant="outline"
                 onClick={() => setPage((prev) => prev - 1)}
                 disabled={page === 1}
-                className={clsx('text-xs h-8 w-8 lg:h-10 lg:w-10 lg:text-base')}
+                className={clsx('text-xs')}
             >
                 <AntDesignArrowLeftOutlined />
             </Button>
@@ -84,7 +84,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                 variant="outline"
                 onClick={() => setPage((prev) => prev + 1)}
                 disabled={page === pages}
-                className={clsx('text-xs h-8 w-8 lg:h-10 lg:w-10 lg:text-base')}
+                className={clsx('text-xs')}
             >
                 <AntDesignArrowRightOutlined />
             </Button>

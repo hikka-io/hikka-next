@@ -1,12 +1,24 @@
 'use client';
 
+import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+
+import { Button } from '@/app/_components/ui/button';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/app/_components/ui/collapsible';
+import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
+import { Textarea } from '@/app/_components/ui/textarea';
 import getEdit from '@/utils/api/edit/getEdit';
+
 
 type Param = {
     param: keyof Hikka.EditParams;
@@ -71,16 +83,31 @@ const Component = () => {
     return (
         <div>
             <div className="flex flex-col gap-6">
-                <div className="flex w-full flex-col gap-2">
+                <div className="flex w-full flex-col gap-4">
                     {(edit.after.title_ua ||
                         edit.after.title_en ||
                         edit.after.title_ja) && (
-                        <div className="collapse border border-secondary">
-                            <input type="checkbox" checked readOnly />
-                            <div className="collapse-title flex items-center gap-4">
-                                <h5>Назва аніме</h5>
-                            </div>
-                            <div className="collapse-content flex flex-col gap-2">
+                        <Collapsible
+                            open
+                            className="w-full space-y-2 border border-accent rounded-lg p-4"
+                        >
+                            <CollapsibleTrigger asChild>
+                                <div className="flex items-center justify-between space-x-4 px-4">
+                                    <h5>Назва аніме</h5>
+                                    <Button
+                                        disabled
+                                        id="title-collapse"
+                                        variant="ghost"
+                                        size="sm"
+                                        className="w-9 p-0"
+                                    >
+                                        <ChevronsUpDown className="h-4 w-4" />
+                                        <span className="sr-only">Toggle</span>
+                                    </Button>
+                                </div>
+                            </CollapsibleTrigger>
+
+                            <CollapsibleContent className="flex flex-col gap-2">
                                 {editParams.map((eParam) => {
                                     const param = TITLE_PARAMS.find(
                                         (tParam) => tParam.param === eParam,
@@ -93,33 +120,41 @@ const Component = () => {
                                     return (
                                         <div
                                             key={param.param}
-                                            className="form-control w-full"
+                                            className="flex flex-col gap-4 w-full"
                                         >
-                                            <label className="label">
-                                                <span className="label-text">
-                                                    {param.title}
-                                                </span>
-                                            </label>
-                                            <input
+                                            <Label>{param.title}</Label>
+                                            <Input
                                                 disabled
                                                 type="text"
                                                 placeholder={param.placeholder}
-                                                className="input w-full bg-secondary/60 disabled:bg-secondary/60 disabled:text-secondary-content"
+                                                className="w-full disabled:text-secondary-foreground"
                                                 value={edit!.after[param.param]}
                                             />
                                         </div>
                                     );
                                 })}
-                            </div>
-                        </div>
+                            </CollapsibleContent>
+                        </Collapsible>
                     )}
+
                     {(edit.after.synopsis_ua || edit.after.synopsis_en) && (
-                        <div className="collapse border border-secondary">
-                            <input type="checkbox" checked readOnly />
-                            <div className="collapse-title flex items-center gap-4">
-                                <h5>Опис аніме</h5>
-                            </div>
-                            <div className="collapse-content flex flex-col gap-2">
+                        <Collapsible open className="w-full space-y-2 border border-accent  rounded-lg p-4">
+                            <CollapsibleTrigger asChild>
+                                <div className="flex items-center justify-between space-x-4 px-4">
+                                    <h5>Опис аніме</h5>
+                                    <Button
+                                        disabled
+                                        id="title-collapse"
+                                        variant="ghost"
+                                        size="sm"
+                                        className="w-9 p-0"
+                                    >
+                                        <ChevronsUpDown className="h-4 w-4" />
+                                        <span className="sr-only">Toggle</span>
+                                    </Button>
+                                </div>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent className="flex flex-col gap-2">
                                 {editParams.map((eParam) => {
                                     const param = SYNOPSIS_PARAMS.find(
                                         (tParam) => tParam.param === eParam,
@@ -132,36 +167,33 @@ const Component = () => {
                                     return (
                                         <div
                                             key={param.param}
-                                            className="form-control w-full"
+                                            className="flex flex-col gap-4 w-full"
                                         >
-                                            <label className="label">
-                                                <span className="label-text">
-                                                    {param.title}
-                                                </span>
-                                            </label>
-                                            <textarea
+                                            <Label>{param.title}</Label>
+                                            <Textarea
                                                 disabled
                                                 placeholder={param.placeholder}
                                                 rows={5}
-                                                className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
+                                                className="w-full disabled:text-secondary-foreground"
                                                 value={edit!.after[param.param]}
                                             />
                                         </div>
                                     );
                                 })}
-                            </div>
-                        </div>
+                            </CollapsibleContent>
+                        </Collapsible>
                     )}
+
                     {edit.description && (
-                        <div className="form-control w-full">
+                        <div className="flex flex-col gap-4 w-full">
                             <label className="label">
                                 <span className="label-text">Опис правки</span>
                             </label>
-                            <textarea
+                            <Textarea
                                 disabled
                                 placeholder="Введіть причину правки"
                                 rows={3}
-                                className="textarea textarea-ghost w-full bg-secondary/60 text-base disabled:bg-secondary/60 disabled:text-secondary-content"
+                                className="w-full disabled:text-secondary-foreground"
                                 value={edit!.description}
                             />
                         </div>
