@@ -77,8 +77,6 @@ const Component = ({ className }: Props) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
-                    <DropdownMenuLabel>Навігація</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                         {ROUTES.map(
                             (r) =>

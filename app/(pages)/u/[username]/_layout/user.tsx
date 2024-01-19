@@ -182,7 +182,7 @@ const Component = ({}: Props) => {
             <div className="flex h-fit gap-2 rounded-lg border border-secondary/60 bg-secondary/30 p-2">
                 <Button
                     onClick={() => switchModal('followers')}
-                    className="flex flex-1 flex-col items-start justify-center gap-1 p-2"
+                    className="flex flex-1 flex-col items-center justify-center gap-2 p-2"
                     variant="ghost"
                 >
                     <Label>
@@ -195,7 +195,7 @@ const Component = ({}: Props) => {
                 <Button
                     variant="ghost"
                     onClick={() => switchModal('followings')}
-                    className="flex flex-1 flex-col items-start justify-center gap-1 p-2"
+                    className="flex flex-1 flex-col items-center justify-center gap-2 p-2"
                 >
                     <Label>
                         <span className="font-bold">

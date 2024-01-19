@@ -32,7 +32,7 @@ const Component = () => {
                     {data.synopsis_ua && (
                         <Button
                             size="badge"
-                            variant={active === 'synopsis_ua' ? "default" : "outline"}
+                            variant={active === 'synopsis_ua' ? "secondary" : "outline"}
                             onClick={() => setActive('synopsis_ua')}
                         >
                             <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
@@ -43,7 +43,7 @@ const Component = () => {
                     {data.synopsis_en && (
                         <Button
                             size="badge"
-                            variant={active === 'synopsis_en' ? "default" : "outline"}
+                            variant={active === 'synopsis_en' ? "secondary" : "outline"}
                             onClick={() => setActive('synopsis_en')}
                         >
                             <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">

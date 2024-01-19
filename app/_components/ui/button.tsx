@@ -22,7 +22,7 @@ const buttonVariants = cva(
                 warning:
                     'border border-warning bg-warning text-warning-foreground hover:bg-warning/90',
                 outline:
-                    'border border-input hover:bg-accent hover:text-accent-foreground',
+                    'border border-input hover:bg-secondary/60 hover:text-secondary-foreground',
                 secondary:
                     'border border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 accent:
@@ -34,7 +34,7 @@ const buttonVariants = cva(
                 default: 'h-12 px-4 py-2',
                 sm: 'h-10 rounded-md px-3',
                 lg: 'h-13 rounded-md px-8',
-                badge: 'px-3 py-0.5 text-xs rounded-full',
+                badge: 'px-3.5 py-1 text-xs rounded-full',
                 icon: 'h-12 w-12',
                 "icon-md": 'h-10 w-10',
                 "icon-sm": 'h-8 w-8',

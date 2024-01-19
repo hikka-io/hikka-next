@@ -66,8 +66,6 @@ const Component = () => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56">
-                        <DropdownMenuLabel>Навігація</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             {filteredRoutes.map((r) => (
                                 <DropdownMenuItem asChild key={r.slug}>

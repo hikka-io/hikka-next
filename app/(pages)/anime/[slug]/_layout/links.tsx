@@ -68,7 +68,7 @@ const Component = ({ extended }: Props) => {
                     {generalLinksData.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'general' ? "default" : "outline"}
+                            variant={active === 'general' ? "secondary" : "outline"}
                             onClick={() => setActive('general')}
                             className={clsx(
                                 'rounded-full overflow-hidden flex-1',
@@ -82,7 +82,7 @@ const Component = ({ extended }: Props) => {
                     {watchLinksData.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'watch' ? "default" : "outline"}
+                            variant={active === 'watch' ? "secondary" : "outline"}
                             onClick={() => setActive('watch')}
                         >
                             <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">

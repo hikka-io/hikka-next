@@ -146,7 +146,7 @@ const Component = () => {
                 <div className="flex w-full flex-col gap-6">
                     <Collapsible className="w-full space-y-2 border border-accent rounded-lg p-4">
                         <CollapsibleTrigger asChild>
-                            <div className="flex items-center justify-between space-x-4 px-4">
+                            <div className="flex items-center justify-between">
                                 <h5>Назва аніме</h5>
                                 <Button
                                     id="title-collapse"
@@ -210,7 +210,7 @@ const Component = () => {
                     </Collapsible>
                     <Collapsible className="w-full space-y-2 border border-accent  rounded-lg p-4">
                         <CollapsibleTrigger asChild>
-                            <div className="flex items-center justify-between space-x-4 px-4">
+                            <div className="flex items-center justify-between">
                                 <h5>Опис аніме</h5>
                                 <Button
                                     id="title-collapse"
