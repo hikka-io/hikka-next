@@ -5,14 +5,14 @@ import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import Actions from '@/app/(pages)/anime/[slug]/_layout/Actions';
-import Cover from '@/app/(pages)/anime/[slug]/_layout/Cover';
-import NavMenu from '@/app/(pages)/anime/[slug]/_layout/NavMenu';
-import Title from '@/app/(pages)/anime/[slug]/_layout/Title';
-import Breadcrumbs from '@/app/_components/Breadcrumbs';
-import SubBar from '@/app/_components/SubBar';
+import Actions from '@/app/(pages)/anime/[slug]/_layout/actions';
+import Cover from '@/app/(pages)/anime/[slug]/_layout/cover';
+import NavMenu from '@/app/(pages)/anime/[slug]/_layout/nav-menu';
+import Title from '@/app/(pages)/anime/[slug]/_layout/title';
+import Breadcrumbs from '@/app/_components/breadcrumbs';
+import SubBar from '@/app/_components/sub-navbar';
 import { getCookie } from '@/app/actions';
-import RQHydrate from '@/utils/RQHydrate';
+import RQHydrate from '@/utils/RQ-hydrate';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
 import getAnimeInfo, {
@@ -22,7 +22,7 @@ import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
 import { RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
-import NavBar from './_layout/NavBar';
+import NavBar from './_layout/navbar';
 
 interface Props extends PropsWithChildren {
     params: {

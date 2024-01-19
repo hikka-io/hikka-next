@@ -1,4 +1,4 @@
-import SnackbarUtils from '@/utils/SnackbarUtils';
+import SnackbarUtils from '@/utils/snackbar-utils';
 import config from '@/utils/api/config';
 import getApiErrorMessage from '@/utils/getApiErrorMessage';
 

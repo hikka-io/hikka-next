@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Characters from '@/app/(pages)/anime/[slug]/_layout/Characters';
+import Characters from '@/app/(pages)/anime/[slug]/_layout/characters';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

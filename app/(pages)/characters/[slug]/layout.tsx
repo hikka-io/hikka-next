@@ -5,19 +5,19 @@ import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import Breadcrumbs from '@/app/_components/Breadcrumbs';
-import SubBar from '@/app/_components/SubBar';
-import RQHydrate from '@/utils/RQHydrate';
+import Breadcrumbs from '@/app/_components/breadcrumbs';
+import SubBar from '@/app/_components/sub-navbar';
+import RQHydrate from '@/utils/RQ-hydrate';
 import getCharacterAnime from '@/utils/api/characters/getCharacterAnime';
 import getCharacterInfo, {
     Response as CharacterResponse,
 } from '@/utils/api/characters/getCharacterInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Cover from './_layout/Cover';
-import NavBar from './_layout/NavBar';
-import NavMenu from './_layout/NavMenu';
-import Title from './_layout/Title';
+import Cover from './_layout/cover';
+import NavBar from './_layout/navbar';
+import NavMenu from './_layout/nav-menu';
+import Title from './_layout/title';
 
 
 interface Props extends PropsWithChildren {

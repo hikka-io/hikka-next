@@ -6,14 +6,14 @@ import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import ActivationAlert from '@/app/(pages)/u/[username]/_layout/ActivationAlert';
-import FollowListModal from '@/app/(pages)/u/[username]/_layout/FollowListModal';
-import NavMenu from '@/app/(pages)/u/[username]/_layout/NavMenu';
-import User from '@/app/(pages)/u/[username]/_layout/User';
-import Breadcrumbs from '@/app/_components/Breadcrumbs';
-import SubBar from '@/app/_components/SubBar';
+import ActivationAlert from '@/app/(pages)/u/[username]/_layout/activation-alert';
+import FollowListModal from '@/app/(pages)/u/[username]/_layout/followlist-modal';
+import NavMenu from '@/app/(pages)/u/[username]/_layout/nav-menu';
+import User from '@/app/(pages)/u/[username]/_layout/user';
+import Breadcrumbs from '@/app/_components/breadcrumbs';
+import SubBar from '@/app/_components/sub-navbar';
 import { getCookie } from '@/app/actions';
-import RQHydrate from '@/utils/RQHydrate';
+import RQHydrate from '@/utils/RQ-hydrate';
 import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
 import getFollowStats from '@/utils/api/follow/getFollowStats';
 import getUserInfo, {
@@ -22,7 +22,7 @@ import getUserInfo, {
 import getWatchStats from '@/utils/api/watch/getWatchStats';
 import getQueryClient from '@/utils/getQueryClient';
 
-import NavBar from './_layout/NavBar';
+import NavBar from './_layout/navbar';
 
 interface Props extends PropsWithChildren {
     params: {

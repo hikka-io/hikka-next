@@ -2,59 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-    @variants responsive {
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+
+        --primary: 321 70% 69%;
+        --primary-foreground: 0 0% 0%;
+
+        --secondary: 0 0% 91.76%;
+        --secondary-foreground: 0 0% 0%;
+
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+
+        --destructive: 358 69% 52%;
+        --destructive-foreground: 0 0% 0%;
+
+        --warning: 37.43 91.3% 54.9%;
+        --warning-foreground: 0 0% 0%;
+
+        --success: 166.53 72.41% 60.2%;
+        --success-foreground: 0 0% 0%;
+
+        --info: 212.2 100% 59.8%;
+        --info-foreground: 0 0% 0%;
+
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 5.9% 10%;
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 0 0% 0%;
+        --foreground: 0 0% 98%;
+
+        --card: 240 10% 3.9%;
+        --card-foreground: 0 0% 98%;
+
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+
+        --primary: 321 70% 69%;
+        --primary-foreground: 0 0% 0%;
+
+        --secondary: 240 4% 16%;
+        --secondary-foreground: 0 0% 100%;
+
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
+
+        --destructive: 358 69% 52%;
+        --destructive-foreground: 0 0% 0%;
+
+        --warning: 37.43 91.3% 54.9%;
+        --warning-foreground: 0 0% 0%;
+
+        --success: 166.53 72.41% 60.2%;
+        --success-foreground: 0 0% 0%;
+
+        --info: 212.2 100% 59.8%;
+        --info-foreground: 0 0% 0%;
+
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 240 4.9% 83.9%;
+        --radius: 0.5rem;
+
+        & body {
+            background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
         }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .no-scrollbar {
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
-        }
     }
 }
 
-@keyframes snack-progress {
-    0% {
-        height: 100%;
+@layer base {
+    * {
+        @apply border-border;
     }
-    100% {
-        height: 0;
+
+    body {
+        @apply bg-background text-foreground bg-no-repeat;
+        background-size: 100% 100vh;
     }
-}
-
-
-.snackbar-timer {
-    animation: snack-progress 3000ms;
-    animation-fill-mode: forwards;
-}
-
-/*:root {*/
-/*    color-scheme: dark;*/
-/*}*/
-
-html {
-    /*scroll-behavior: smooth;*/
-    @apply text-[15px] xl:text-[16px];
-}
-
-body {
-    @apply bg-base-100;
-    background-repeat: no-repeat;
-    background-size: 100% 100vh;
-}
-
-[data-theme='dark'] body {
-    @apply text-base-content;
-    background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
-}
-
-[data-theme='light'] body {
-    @apply text-black;
-    /*background-image: linear-gradient(180deg, #fbf7fd 0%, #fafafa 60%, #fafafa 100%);*/
 }
 
 .logo {
@@ -66,24 +108,6 @@ body {
 
 main {
     min-height: calc(100vh - 16.5rem);
-}
-
-table th:nth-child(1) {
-    @apply rounded-l-lg;
-}
-
-table th:nth-last-child(1) {
-    @apply rounded-r-lg;
-}
-
-.table :where(thead, tbody) :where(tr:not(:last-child)),
-.table :where(thead, tbody) :where(tr:first-child:last-child) {
-    /*border-bottom: 0;*/
-    @apply border-b-secondary/30;
-}
-
-.table :where(thead, tfoot) {
-    @apply text-sm font-normal;
 }
 
 h1 {
@@ -106,181 +130,17 @@ h5 {
     @apply font-display text-base font-bold;
 }
 
-/*
-
-.btn-outline, .badge-outline {
-    @apply border-secondary/60;
-}
-*/
-
-.btn {
-    /*@apply text-base-content/90;*/
-    text-transform: capitalize;
-    animation: none;
+[data-select] [data-radix-popper-content-wrapper] {
+    position: absolute !important;
+    width: 100%;
 }
 
-.btn:hover {
-    /*@apply text-base-content;*/
+table th:first-child {
+    @apply rounded-l-md;
 }
 
-/* secondary btn */
-
-.btn.btn-secondary {
-    @apply text-secondary-content/90;
-}
-
-.btn.btn-secondary:hover {
-    @apply text-secondary-content;
-}
-
-.btn.btn-outline.btn-secondary {
-    @apply border-secondary/60 text-secondary-content/90;
-}
-
-.btn.btn-outline.btn-secondary:hover {
-    @apply border-secondary bg-secondary/10 text-secondary-content;
-}
-
-/* accent btn */
-
-.btn.btn-accent {
-    @apply text-accent-content/90;
-}
-
-.btn.btn-accent:hover {
-    @apply text-accent-content;
-}
-
-.btn.btn-outline.btn-accent {
-    @apply border-accent/60 text-accent/90;
-}
-
-.btn.btn-outline.btn-accent:hover {
-    @apply border-accent bg-accent/10 text-accent;
-}
-
-/* error btn */
-
-.btn.btn-error {
-    @apply text-error-content/90;
-}
-
-.btn.btn-error:hover {
-    @apply text-error-content;
-}
-
-.btn.btn-outline.btn-error {
-    @apply border-error/60 text-error/90;
-}
-
-.btn.btn-outline.btn-error:hover {
-    @apply border-error bg-error/10 text-error;
-}
-
-/**/
-
-.btn-sm {
-    height: 2.5rem;
-    min-height: 2.5rem;
-}
-
-.btn-square:where(.btn-sm) {
-    width: 2.5rem;
-}
-
-.btn-circle:where(.btn-sm) {
-    width: 2.5rem;
-}
-
-.btn-badge {
-    @apply min-h-8 h-8 font-normal;
-}
-
-.btn-square:where(.btn-badge) {
-    width: 2rem;
-}
-
-.btn-circle:where(.btn-badge) {
-    width: 2rem;
-}
-
-.btn.btn-disabled,
-.btn[disabled],
-.btn:disabled {
-    border: none;
-    color: hsl(var(--bc) / var(--tw-text-opacity)) !important;
-    /*color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity))) !important;*/
-}
-
-.btn:active:hover,
-.btn:active:focus {
-}
-
-.btn.btn-outline {
-    /*@apply text-base-content;*/
-}
-
-.checkbox-accent {
-    @apply border-secondary/60;
-}
-
-.checkbox-accent:hover {
-    @apply border-secondary;
-}
-
-.checkbox-accent:checked:hover {
-    @apply border-accent;
-}
-
-.MuiSlider-markActive {
-    @apply bg-base-content;
-}
-
-.Mui-selected .selected {
-    opacity: 1;
-}
-
-textarea:focus,
-input:focus {
-    outline: none;
-}
-
-.modal {
-    @apply text-base-content;
-}
-
-.modal-box {
-    @apply bg-base-100;
-}
-
-.modal::backdrop {
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.menu li > *:not(ul):not(.menu-title):not(details):active,
-.menu li > *:not(ul):not(.menu-title):not(details).active,
-.menu li > details > summary:active {
-    @apply bg-secondary/30;
-}
-
-.rating:not(.readonly):hover input {
-    --tw-bg-opacity: 1 !important;
-}
-
-.rating:not(.readonly) input:hover ~ input {
-    --tw-bg-opacity: 0.2 !important;
-}
-
-.alert {
-    @apply rounded-lg;
-}
-
-.tooltip:before {
-    @apply border border-secondary bg-base-100;
-}
-
-.tooltip:after {
-    @apply border-t-secondary;
+table th:last-child {
+    @apply rounded-r-md;
 }
 
 .markdown p {
@@ -288,7 +148,7 @@ input:focus {
 }
 
 .markdown a {
-    @apply text-accent hover:underline;
+    @apply text-primary hover:underline;
 }
 
 .markdown ul {
@@ -300,42 +160,48 @@ input:focus {
     @apply -ml-4 inline-block w-4 font-bold text-accent;
 }
 
-.modal-enter {
-    opacity: 0;
-    transform: scale(0.9);
+.radial-progress {
+    position: relative;
+    display: inline-grid;
+    height: var(--size);
+    width: var(--size);
+    place-content: center;
+    border-radius: 9999px;
+    background-color: transparent;
+    vertical-align: middle;
+    box-sizing: content-box;
+    --value: 0;
+    --size: 5rem;
+    --thickness: calc(var(--size) / 10)
 }
 
-.modal-enter-active {
-    opacity: 1;
-    transform: translateX(0);
-    transition: opacity 300ms,
-    transform 300ms;
+.radial-progress::-moz-progress-bar {
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent
 }
 
-.modal-exit {
-    opacity: 1;
+.radial-progress::-webkit-progress-bar,.radial-progress::-webkit-progress-value {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent
 }
 
-.modal-exit-active {
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 300ms,
-    transform 300ms;
+.radial-progress:after,.radial-progress:before {
+    position: absolute;
+    border-radius: 9999px;
+    content: ""
 }
 
-.menu li > *:not(ul):not(.menu-title):not(details):active,
-.menu li > *:not(ul):not(.menu-title):not(details).active,
-.menu li > details > summary:active {
-    @apply bg-accent text-accent-content;
+.radial-progress:before {
+    inset: 0;
+    background: radial-gradient(farthest-side,currentColor 98%,#0000) top/var(--thickness) var(--thickness) no-repeat,conic-gradient(currentColor calc(var(--value) * 1%),#0000 0);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(99% - var(--thickness)),#000 calc(100% - var(--thickness)));
+    mask: radial-gradient(farthest-side,#0000 calc(99% - var(--thickness)),#000 calc(100% - var(--thickness)))
 }
 
-.menu li > *:not(ul):not(.menu-title):not(details):active:hover,
-.menu li > *:not(ul):not(.menu-title):not(details).active:hover,
-.menu li > details > summary:active:hover {
-    @apply bg-accent-focus;
-}
-
-.label-text,
-.label-text-alt {
-    @apply text-neutral;
+.radial-progress:after {
+    inset: calc(50% - var(--thickness) / 2);
+    transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size) / 2 - 50%));
+    background-color: currentColor
 }

@@ -1,10 +1,10 @@
 import { dehydrate } from '@tanstack/query-core';
 
-import RQHydrate from '@/utils/RQHydrate';
+import RQHydrate from '@/utils/RQ-hydrate';
 import getEditList from '@/utils/api/edit/getEditList';
 import getQueryClient from '@/utils/getQueryClient';
 
-import EditList from './_layout/EditList';
+import EditList from './_layout/editlist';
 
 const Component = async ({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) => {
     const queryClient = getQueryClient();
