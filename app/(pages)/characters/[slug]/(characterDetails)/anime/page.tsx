@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Anime from '../../_layout/Anime';
+import Anime from '../../_layout/anime';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

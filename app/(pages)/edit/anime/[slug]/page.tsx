@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import SubHeader from '@/app/_components/SubHeader';
-import RQHydrate from '@/utils/RQHydrate';
+import SubHeader from '@/app/_components/sub-header';
+import RQHydrate from '@/utils/RQ-hydrate';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
-import AnimeContent from './_layout/AnimeContent';
-import AnimeEditNew from './_layout/AnimeEditNew';
+import AnimeContent from './_layout/anime-content';
+import AnimeEditNew from './_layout/anime-edit-new';
 
 interface Props {
     params: { slug: string };

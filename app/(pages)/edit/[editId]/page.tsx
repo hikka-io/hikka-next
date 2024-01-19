@@ -4,19 +4,19 @@ import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import AnimeContent from '@/app/(pages)/edit/[editId]/_layout/AnimeContent';
-import Moderator from '@/app/(pages)/edit/[editId]/_layout/Moderator';
-import EditStatus from '@/app/(pages)/edit/_components/EditStatus';
-import Breadcrumbs from '@/app/_components/Breadcrumbs';
-import SubHeader from '@/app/_components/SubHeader';
-import RQHydrate from '@/utils/RQHydrate';
+import AnimeContent from '@/app/(pages)/edit/[editId]/_layout/anime-content';
+import Moderator from '@/app/(pages)/edit/[editId]/_layout/moderator';
+import EditStatus from '@/app/(pages)/edit/_components/edit-status';
+import Breadcrumbs from '@/app/_components/breadcrumbs';
+import SubHeader from '@/app/_components/sub-header';
+import RQHydrate from '@/utils/RQ-hydrate';
 import getEdit from '@/utils/api/edit/getEdit';
 import { RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Actions from './_layout/Actions';
-import AnimeEditView from './_layout/AnimeEditView';
-import Author from './_layout/Author';
+import Actions from './_layout/actions';
+import AnimeEditView from './_layout/anime-edit-view';
+import Author from './_layout/author';
 
 interface Props {
     params: { editId: string };
@@ -63,7 +63,7 @@ const Component = async ({ params: { editId } }: Props) => {
                         >
                             <EditStatus />
                         </SubHeader>
-                        <div className="flex flex-col justify-between">
+                        <div className="flex flex-col justify-between rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                             {edit?.author && <Author />}
                             <Moderator />
                         </div>

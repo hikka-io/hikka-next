@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-import Completed from '@/app/_components/icons/watchStatus/Completed';
-import Dropped from '@/app/_components/icons/watchStatus/Dropped';
-import OnHold from '@/app/_components/icons/watchStatus/OnHold';
-import Planned from '@/app/_components/icons/watchStatus/Planned';
-import Watching from '@/app/_components/icons/watchStatus/Watching';
+import Completed from '@/app/_components/icons/watch-status/completed';
+import Dropped from '@/app/_components/icons/watch-status/dropped';
+import OnHold from '@/app/_components/icons/watch-status/on-hold';
+import Planned from '@/app/_components/icons/watch-status/planned';
+import Watching from '@/app/_components/icons/watch-status/watching';
 
 type Property<T extends string> = Record<
     T,

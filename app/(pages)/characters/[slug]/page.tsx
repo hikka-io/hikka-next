@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Anime from './_layout/Anime';
+import Anime from './_layout/anime';
 
 const Component = () => {
     return (

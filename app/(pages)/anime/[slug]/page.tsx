@@ -1,13 +1,13 @@
 import React from 'react';
 
-import About from '@/app/(pages)/anime/[slug]/_layout/About';
-import Characters from '@/app/(pages)/anime/[slug]/_layout/Characters';
-import Description from '@/app/(pages)/anime/[slug]/_layout/Description';
-import Franchise from '@/app/(pages)/anime/[slug]/_layout/Franchise';
-import Links from '@/app/(pages)/anime/[slug]/_layout/Links';
-import Media from '@/app/(pages)/anime/[slug]/_layout/Media';
-import Staff from '@/app/(pages)/anime/[slug]/_layout/Staff';
-import WatchListStats from '@/app/(pages)/anime/[slug]/_layout/WatchListStats';
+import About from '@/app/(pages)/anime/[slug]/_layout/about';
+import Characters from '@/app/(pages)/anime/[slug]/_layout/characters';
+import Description from '@/app/(pages)/anime/[slug]/_layout/description';
+import Franchise from '@/app/(pages)/anime/[slug]/_layout/franchise';
+import Links from '@/app/(pages)/anime/[slug]/_layout/links';
+import Media from '@/app/(pages)/anime/[slug]/_layout/media';
+import Staff from '@/app/(pages)/anime/[slug]/_layout/staff';
+import WatchListStats from '@/app/(pages)/anime/[slug]/_layout/watchlist-stats';
 
 const Component = () => {
     return (
