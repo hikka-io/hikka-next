@@ -85,7 +85,7 @@ const Card = forwardRef(
                             onMouseOver && onMouseOver(e);
                             setOnCard(true);
                         }}
-                        className="absolute bottom-2 right-2 hidden opacity-0 group-hover:opacity-100 lg:flex"
+                        className="absolute bottom-2 right-2 hidden opacity-0 transition-opacity group-hover:opacity-100 lg:flex"
                     >
                         <MaterialSymbolsArticle />
                     </Button>
