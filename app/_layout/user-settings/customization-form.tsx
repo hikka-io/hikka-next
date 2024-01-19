@@ -6,7 +6,7 @@ import { Fragment } from 'react';
 import MaterialSymbolsNightlightOutlineRounded from '~icons/material-symbols/nightlight-outline-rounded';
 import MaterialSymbolsSunnyOutlineRounded from '~icons/material-symbols/sunny-outline-rounded';
 
-import { Combobox } from '@/app/_components/combobox';
+import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 

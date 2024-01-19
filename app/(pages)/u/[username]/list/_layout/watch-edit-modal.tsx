@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Modal from '@/app/_components/modal';
-import { Combobox } from '@/app/_components/combobox';
+import { Combobox } from '@/app/_components/ui/combobox';
 import { Button } from '@/app/_components/ui/button';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';

@@ -8,7 +8,7 @@ import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-d
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { Combobox } from '@/app/_components/combobox';
+import { Combobox } from '@/app/_components/ui/combobox';
 import Planned from '@/app/_components/icons/watch-status/planned';
 import { Button } from '@/app/_components/ui/button';
 import { PopoverAnchor, PopoverTrigger } from '@/app/_components/ui/popover';

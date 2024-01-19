@@ -25,7 +25,7 @@ import {
 } from '@/app/_components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/app/_components/ui/scroll-area';
 
-import { Checkbox } from './ui/checkbox';
+import { Checkbox } from './checkbox';
 
 export interface ComboboxOption {
     value: string;
@@ -61,7 +61,10 @@ export type ComboboxProps = (ComboboxPropsSingle | ComboboxPropsMultiple) & {
         value: string | string[] | undefined,
     ) => ReactNode;
     renderValue?: (option: ComboboxOption | ComboboxOption[] | undefined) => ReactNode;
-    toggleProps?: ButtonProps
+    toggleProps?: ButtonProps;
+    disableCheckbox?: boolean;
+    align?: "center" | "start" | "end";
+    side?: "top" | "right" | "bottom" | "left";
 };
 
 export const handleSingleSelect = (
@@ -135,7 +138,7 @@ export const Combobox = forwardRef(
                         </PopoverTrigger>
                     )}
                     <PopoverPortal container={rootRef.current}>
-                        <PopoverContent align="start" className="p-0">
+                        <PopoverContent side={props.side} align={props.align || "start"} className="p-0">
                             <Command
                                 filter={(value, search) => {
                                     const label =
@@ -204,7 +207,7 @@ export const Combobox = forwardRef(
                                                         }
                                                     }}
                                                 >
-                                                    <Checkbox
+                                                    {!props.disableCheckbox && <Checkbox
                                                         className="border-secondary"
                                                         checked={
                                                             (!props.multiple &&
@@ -215,7 +218,7 @@ export const Combobox = forwardRef(
                                                                     option.value,
                                                                 ))
                                                         }
-                                                    />
+                                                    />}
                                                     {option.label}
                                                 </CommandItem>
                                             ))}

@@ -25,7 +25,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import GridView from '@/app/(pages)/u/[username]/list/_components/grid-view';
 import TableView from '@/app/(pages)/u/[username]/list/_components/table-view';
 import NotFound from '@/app/_components/not-found';
-import { Combobox } from '@/app/_components/combobox';
+import { Combobox } from '@/app/_components/ui/combobox';
 import { Button } from '@/app/_components/ui/button';
 import { PopoverTrigger } from '@/app/_components/ui/popover';
 import getRandomWatch from '@/utils/api/watch/getRandomWatch';
@@ -184,6 +184,8 @@ const Component = ({}: Props) => {
                 </div>
                 <div className="flex gap-2">
                     <Combobox
+                        side="bottom"
+                        align="end"
                         options={[
                             {
                                 label: (
@@ -217,6 +219,9 @@ const Component = ({}: Props) => {
                         )}
                     />
                     <Combobox
+                        side="bottom"
+                        align="end"
+                        disableCheckbox
                         options={[
                             {
                                 label: (

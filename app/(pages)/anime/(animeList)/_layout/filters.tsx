@@ -9,7 +9,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { Combobox } from '@/app/_components/combobox';
+import { Combobox } from '@/app/_components/ui/combobox';
 import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
