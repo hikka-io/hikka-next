@@ -72,16 +72,16 @@ const Component = () => {
 
     return (
         <div>
-            <div className="alert border-secondary bg-secondary/30">
-                <MaterialSymbolsInfoRounded className="text-xl text-neutral" />
-                <span className="text-sm text-neutral">
+            <div className="flex items-center gap-4 p-4 border rounded-md border-secondary/60 bg-secondary/30">
+                <MaterialSymbolsInfoRounded className="text-xl" />
+                <span className="text-sm">
                     На вашу пошту відправлено лист з активацією пошти. Будь
                     ласка, перейдіть за посилання у листі. Якщо Ваш лист не
                     прийшов, будь ласка,{' '}
                     <Button
                         onClick={resend}
                         variant="link"
-                        className="text-primary hover:underline"
+                        className="text-primary hover:underline p-0 h-auto"
                     >
                         відправте його повторно
                     </Button>

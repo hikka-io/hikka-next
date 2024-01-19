@@ -31,19 +31,11 @@ import { useModalContext } from '@/utils/providers/modal-provider';
 import useRouter from '@/utils/useRouter';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import { Label } from '@/app/_components/ui/label';
+import { Badge } from '@/app/_components/ui/badge';
 
 
 interface Props {
-    data: {
-        reference: string;
-        updated: number;
-        created: number;
-        note: string;
-        status: Hikka.WatchStatus;
-        episodes: number;
-        score: number;
-        anime: Hikka.Anime;
-    }[];
+    data: Hikka.Watch[];
 }
 
 const Component = ({ data }: Props) => {
@@ -175,15 +167,18 @@ const Component = ({ data }: Props) => {
                                         <BaseCard poster={res.anime.poster} />
                                     </div>
                                     <div className="flex-1">
-                                        <Link
-                                            className="hover:underline"
-                                            href={`/anime/${res.anime.slug}`}
-                                            onClick={() => setGo(true)}
-                                        >
-                                            {res.anime[titleLanguage!] || res.anime.title_ua ||
-                                                res.anime.title_en ||
-                                                res.anime.title_ja}
-                                        </Link>
+                                        <div className="flex gap-2 items-center">
+                                            <Link
+                                                className="hover:underline"
+                                                href={`/anime/${res.anime.slug}`}
+                                                onClick={() => setGo(true)}
+                                            >
+                                                {res.anime[titleLanguage!] || res.anime.title_ua ||
+                                                    res.anime.title_en ||
+                                                    res.anime.title_ja}
+                                            </Link>
+                                            {res.rewatches > 0 && <Badge variant="outline">{res.rewatches}</Badge>}
+                                        </div>
                                         {res.note && (
                                             <p className="text-xs text-muted-foreground">
                                                 {res.note}

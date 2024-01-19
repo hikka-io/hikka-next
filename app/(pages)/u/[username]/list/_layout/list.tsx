@@ -25,13 +25,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import GridView from '@/app/(pages)/u/[username]/list/_components/grid-view';
 import TableView from '@/app/(pages)/u/[username]/list/_components/table-view';
 import NotFound from '@/app/_components/not-found';
-import { Combobox } from '@/app/_components/ui/combobox';
 import { Button } from '@/app/_components/ui/button';
+import { Combobox } from '@/app/_components/ui/combobox';
+import { Label } from '@/app/_components/ui/label';
 import { PopoverTrigger } from '@/app/_components/ui/popover';
 import getRandomWatch from '@/utils/api/watch/getRandomWatch';
 import getWatchList, { Response } from '@/utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
-import { Label } from '@/app/_components/ui/label';
 
 interface Props {}
 
@@ -140,7 +140,7 @@ const Component = ({}: Props) => {
                             (watchStatus) => ({
                                 label: WATCH_STATUS[
                                     watchStatus as Hikka.WatchStatus
-                                ].title_ua,
+                                    ].title_ua,
                                 value: watchStatus,
                             }),
                         )}

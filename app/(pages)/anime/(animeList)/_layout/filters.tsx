@@ -5,17 +5,24 @@ import { useCallback, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+
+
 import { usePathname, useSearchParams } from 'next/navigation';
+
+
 
 import { useQuery } from '@tanstack/react-query';
 
-import { Combobox } from '@/app/_components/ui/combobox';
+
+
 import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
+import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
 import { Slider } from '@/app/_components/ui/slider';
 import { Switch } from '@/app/_components/ui/switch';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
+import importAnilistWatch from '@/utils/api/settings/importAnilistWatch';
 import {
     AGE_RATING,
     MEDIA_TYPE,
@@ -265,8 +272,9 @@ const Component = () => {
                 <div className="w-full flex flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
                     <div className="flex items-center gap-4">
-                        <Label className="badge">{selectingYears[0]}</Label>
+                        <Label className="badge w-9">{selectingYears[0]}</Label>
                         <Slider
+                            className="flex-1"
                             onValueCommit={(value) =>
                                 handleChangeParam(
                                     'years',
@@ -283,7 +291,7 @@ const Component = () => {
                             minStepsBetweenThumbs={0}
                             value={selectingYears.map((y) => Number(y))}
                         />
-                        <Label className="badge">{selectingYears[1]}</Label>
+                        <Label className="badge w-9">{selectingYears[1]}</Label>
                     </div>
                 </div>
             </div>
@@ -294,7 +302,6 @@ const Component = () => {
             >
                 <AntDesignClearOutlined /> Очистити
             </Button>
-
         </div>
     );
 };

@@ -161,7 +161,7 @@ export default async function req({
     const reformatted: Record<string, any>[] = [];
 
     data.data.MediaListCollection.lists.forEach((list) => {
-        if (!list.isCustomList && list.name !== 'Rewatching') {
+        if (!list.isCustomList) {
             list.entries.forEach((entry) => {
                 if (!Number.isInteger(entry.media.idMal)) {
                     return;
@@ -180,12 +180,12 @@ export default async function req({
                     my_score: entry.score >= 1 ? Math.round(entry.score) : 0,
                     my_storage: {},
                     my_storage_value: 0,
-                    my_status: getWatchStatus(list.name),
+                    my_status: getWatchStatus(list.name === 'Rewatching' ? 'Watching' : list.name),
                     my_comments:
-                        String(entry.notes).length > 0
+                        entry.notes && entry.notes.length > 0
                             ? String(entry.notes)
                             : {},
-                    my_times_watched: 0,
+                    my_times_watched: entry.repeat,
                     my_rewatch_value: {},
                     my_priority: 'LOW',
                     my_tags: {},

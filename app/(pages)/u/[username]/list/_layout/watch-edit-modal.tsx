@@ -157,7 +157,7 @@ const Component = ({ slug, setSlug }: Props) => {
                                 }
                                 value={selectedStatus}
                                 renderValue={(option) => {
-                                    return <div className="flex gap-2">
+                                    return <div className="flex gap-2 items-center">
                                         {option &&
                                             !Array.isArray(option) &&
                                             createElement(

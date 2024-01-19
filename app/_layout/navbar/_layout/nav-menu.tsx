@@ -65,11 +65,11 @@ const Component = ({ className }: Props) => {
 
     return (
         <div className="flex gap-2 place-items-center">
-            {current && (
+            {current && (current.visible ? (
                 <Link href={current.url} className="text-sm hover:underline">
                     {current.title_ua}
                 </Link>
-            )}
+            ) : <p className="text-sm">{current.title_ua}</p>)}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="p-0 px-1">

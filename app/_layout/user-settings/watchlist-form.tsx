@@ -148,7 +148,7 @@ const Component = () => {
         <div>
             <p>
                 У вашому списку знайдено{' '}
-                <span className="rounded-sm bg-accent px-1 text-primary-foreground">
+                <span className="rounded-sm bg-primary px-1 text-primary-foreground">
                     {watchList.length}
                 </span>{' '}
                 аніме, що готові до імпорту
@@ -163,6 +163,7 @@ const Component = () => {
                 <div className="flex gap-2">
                     <Input
                         type="text"
+                        className="flex-1"
                         placeholder="Введіть імʼя користувача"
                         onChange={(e) => setAniListUsername(e.target.value)}
                     />
