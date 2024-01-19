@@ -206,9 +206,9 @@ const Component = () => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <p className="label-text">Перетягніть файл сюди...</p>
+                    <p className="text-muted-foreground text-sm">Перетягніть файл сюди...</p>
                 ) : watchList.length === 0 ? (
-                    <p className="label-text opacity-60">
+                    <p className="text-muted-foreground text-sm">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
                     </p>

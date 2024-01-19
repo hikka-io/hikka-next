@@ -9,6 +9,7 @@ import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 
 import { Response as AnimeResponse } from '@/utils/api/characters/getCharacterAnime';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import { Tabs, TabsList, TabsTrigger } from '@/app/_components/ui/tabs';
 
 
 const Component = () => {
@@ -33,21 +34,19 @@ const Component = () => {
     });
 
     return (
-        <div className="tabs w-full flex-nowrap">
-            {filteredRoutes.map((r) => (
-                <Link
-                    key={r.slug}
-                    className={clsx(
-                        'tab h-16 md:h-12',
-                        pathname === '/characters/' + params.slug + r.url &&
-                            'tab-active tab-bordered',
-                    )}
-                    href={'/characters/' + params.slug + r.url}
-                >
-                    {r.title_ua}
-                </Link>
-            ))}
-        </div>
+        <Tabs value={pathname} defaultValue="account" className="px-2 overflow-hidden w-full">
+            <TabsList className="w-full overflow-x-scroll items-center justify-start no-scrollbar">
+                {filteredRoutes.map((r) => (
+                    <TabsTrigger asChild key={r.slug} value={'/characters/' + params.slug + r.url}>
+                        <Link
+                            href={'/characters/' + params.slug + r.url}
+                        >
+                            {r.title_ua}
+                        </Link>
+                    </TabsTrigger>
+                ))}
+            </TabsList>
+        </Tabs>
     );
 };
 

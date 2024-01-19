@@ -2,10 +2,19 @@
 
 import * as React from 'react';
 
+
+
 import Link from 'next/link';
+
+
 
 import BaseCard from '@/app/_components/base-card';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+
+
+
+import { Label } from './ui/label';
+
 
 interface Props {
     anime: Hikka.Anime;
@@ -25,15 +34,15 @@ const Component = ({ anime, onClick }: Props) => {
             <div className="flex w-full flex-col gap-2">
                 <h5>
                     {anime.title_ua || anime.title_en}{' '}
-                    <span className="label-text">/ {anime.title_ja}</span>
+                    <Label className="text-muted-foreground">/ {anime.title_ja}</Label>
                 </h5>
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-4">
                         {anime.media_type && <div className="flex gap-2">
-                            <p className="label-text text-sm">Тип:</p>
-                            <p className="text-sm">
+                            <Label className="text-sm text-muted-foreground">Тип:</Label>
+                            <Label className="text-sm">
                                 {MEDIA_TYPE[anime.media_type].title_ua}
-                            </p>
+                            </Label>
                         </div>}
                         <div
                             className="w-fit rounded-md px-2 text-sm"
@@ -46,8 +55,8 @@ const Component = ({ anime, onClick }: Props) => {
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <p className="label-text text-sm">Оцінка:</p>
-                        <p className="text-sm">{anime.score}</p>
+                        <Label className="text-sm text-muted-foreground">Оцінка:</Label>
+                        <Label className="text-sm">{anime.score}</Label>
                     </div>
                 </div>
             </div>

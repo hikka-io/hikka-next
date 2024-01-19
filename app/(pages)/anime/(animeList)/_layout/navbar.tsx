@@ -1,17 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
-import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
-import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded'
+import { useCallback } from 'react';
+import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
+
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import Search from '@/app/(pages)/anime/(animeList)/_components/search';
-import useIsMobile from '@/utils/hooks/useIsMobile';
-import useScrollTrigger from '@/utils/hooks/useScrollTrigger';
-import { useCallback } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import useRouter from '@/utils/useRouter';
-import { Button } from '@/app/_components/ui/button';
 import FiltersModal from '@/app/(pages)/anime/(animeList)/_layout/filters-modal';
+import { Button } from '@/app/_components/ui/button';
+import useRouter from '@/utils/useRouter';
 
 interface Props {}
 
@@ -19,12 +17,6 @@ const Component = ({}: Props) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
-
-    const isMobile = useIsMobile();
-    const trigger = useScrollTrigger({
-        threshold: 40,
-        disableHysteresis: true,
-    });
 
     const sort = searchParams.get('sort');
 
@@ -63,22 +55,19 @@ const Component = ({}: Props) => {
         } else {
             handleChangeParam('sort', 'asc');
         }
-    }
+    };
 
     return (
         <div
             className={clsx(
                 'flex items-end gap-2 md:gap-4 border-b border-b-transparent bg-transparent transition',
-                isMobile && trigger && '!border-b-secondary !bg-base-100',
             )}
         >
             <Search />
-            <Button
-                variant="outline"
-                size="icon"
-                onClick={switchSort}
-            >
-                <MaterialSymbolsSortRounded className={clsx(sort === 'asc' && "-scale-y-100")} />
+            <Button variant="outline" size="icon" onClick={switchSort}>
+                <MaterialSymbolsSortRounded
+                    className={clsx(sort === 'asc' && '-scale-y-100')}
+                />
             </Button>
             <div className="lg:hidden">
                 <FiltersModal />

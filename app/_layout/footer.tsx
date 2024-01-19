@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Button } from '@/app/_components/ui/button';
 import RightholderModal from '@/app/_layout/rightholder-modal/rightholder-modal';
 import { useModalContext } from '@/utils/providers/modal-provider';
+import { Label } from '@/app/_components/ui/label';
 
 
 const Component = () => {
@@ -42,9 +43,9 @@ const Component = () => {
                         </Button>
                     </div>
                     <div className="flex items-center justify-center lg:justify-end">
-                        <p id="hikka-footer-label" className="label-text">
+                        <Label id="hikka-footer-label" className="text-muted-foreground">
                             © {new Date().getFullYear()} Hikka
-                        </p>
+                        </Label>
                     </div>
                 </div>
             </div>

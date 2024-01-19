@@ -20,12 +20,12 @@ import {
     TableHeader,
     TableRow,
 } from '@/app/_components/ui/table';
-import AnimeEditModal from '@/app/_layout/anime-edit-modal';
 import getEditList from '@/utils/api/edit/getEditList';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
 
 import EditStatus from '../_components/edit-status';
+import { Label } from '@/app/_components/ui/label';
 
 
 const Component = () => {
@@ -37,7 +37,6 @@ const Component = () => {
     const [selectedPage, setSelectedPage] = useState(page ? Number(page) : 1);
 
     const [go, setGo] = useState(false);
-    const [edit, setEdit] = useState<Hikka.Edit | undefined>();
     const router = useRouter();
 
     const { data } = useQuery<
@@ -110,8 +109,10 @@ const Component = () => {
                                         router.push('/edit/' + edit.edit_id)
                                     }
                                 >
-                                    <TableHead className="label-text w-8">
-                                        {edit.edit_id}
+                                    <TableHead className="w-8">
+                                        <Label>
+                                            {edit.edit_id}
+                                        </Label>
                                     </TableHead>
                                     <TableCell>
                                         <div className="flex gap-4">
@@ -131,12 +132,12 @@ const Component = () => {
                                                 >
                                                     {edit.author!.username}
                                                 </Link>
-                                                <p className="label-text-alt opacity-60">
+                                                <Label className="text-muted-foreground text-xs">
                                                     {format(
                                                         edit.created * 1000,
                                                         'd MMM yyyy kk:mm',
                                                     )}
-                                                </p>
+                                                </Label>
                                             </div>
                                         </div>
                                     </TableCell>
@@ -162,11 +163,11 @@ const Component = () => {
                                                     edit.content.name_en)
                                             )}
                                         </div>
-                                        <p className="label-text-alt opacity-60">
+                                        <Label className="text-xs text-muted-foreground">
                                             {edit.content_type === 'anime'
                                                 ? 'Аніме'
                                                 : 'Автор'}
-                                        </p>
+                                        </Label>
                                     </TableCell>
                                     <TableCell
                                         className=" hidden lg:table-cell"
@@ -174,9 +175,9 @@ const Component = () => {
                                     >
                                         <p
                                             className={clsx(
-                                                'label-text',
+                                                'text-sm',
                                                 !edit.description &&
-                                                    'opacity-60',
+                                                    'text-muted-foreground',
                                             )}
                                         >
                                             {edit.description
@@ -193,7 +194,6 @@ const Component = () => {
                             ))}
                     </TableBody>
                 </Table>
-                {!go && <AnimeEditModal edit={edit} setEdit={setEdit} />}
             </div>
             {data && data.pagination.pages > 1 && (
                 <Pagination

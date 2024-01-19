@@ -28,6 +28,7 @@ import { useModalContext } from '@/utils/providers/modal-provider';
 type FormValues = {
     score: number;
     episodes: number;
+    rewatches: number;
     note: string;
 };
 
@@ -61,6 +62,7 @@ const Component = ({ slug, setSlug }: Props) => {
             score?: number;
             episodes?: number;
             note?: string;
+            rewatches?: number;
         }) =>
             addWatch({
                 secret: String(secret),
@@ -103,6 +105,7 @@ const Component = ({ slug, setSlug }: Props) => {
             score: data.score || undefined,
             episodes: data.episodes || undefined,
             note: data.note || undefined,
+            rewatches: data.rewatches || undefined,
         });
     };
 
@@ -133,8 +136,8 @@ const Component = ({ slug, setSlug }: Props) => {
         >
             {watch && (
                 <div className="flex flex-col gap-6">
-                    <div className="flex w-full flex-col gap-2">
-                        <div className="w-full space-y-1">
+                    <div className="flex w-full flex-col gap-6">
+                        <div className="w-full flex flex-col gap-2">
                             <Label>Список</Label>
                             <Combobox
                                 options={Object.keys(WATCH_STATUS).map(
@@ -171,7 +174,7 @@ const Component = ({ slug, setSlug }: Props) => {
                             />
                         </div>
                         <div className="flex gap-8">
-                            <div className="w-full space-y-1">
+                            <div className="w-full flex flex-col gap-2">
                                 <Label>Оцінка</Label>
                                 <Input
                                     type="number"
@@ -182,7 +185,7 @@ const Component = ({ slug, setSlug }: Props) => {
                                     })}
                                 />
                             </div>
-                            <div className="w-full space-y-1">
+                            <div className="w-full flex flex-col gap-2">
                                 <Label>Епізоди</Label>
                                 <Input
                                     type="number"
@@ -194,7 +197,18 @@ const Component = ({ slug, setSlug }: Props) => {
                                 />
                             </div>
                         </div>
-                        <div className="w-full space-y-1">
+                        <div className="w-full flex flex-col gap-2">
+                            <Label>Повторні перегляди</Label>
+                            <Input
+                                type="number"
+                                placeholder="Введіть к-сть повторних переглядів"
+                                {...register('rewatches', {
+                                    value: watch.rewatches || undefined,
+                                    valueAsNumber: true,
+                                })}
+                            />
+                        </div>
+                        <div className="w-full flex flex-col gap-2">
                             <Label>Нотатки</Label>
                             <Textarea
                                 placeholder="Залиште нотатку до аніме"

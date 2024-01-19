@@ -97,11 +97,11 @@ const Component = () => {
                                 className={clsx(
                                     'flex flex-col items-start justify-center gap-0 px-8 py-4',
                                     activeTab === tab.slug &&
-                                        'active !bg-secondary !text-base-content',
+                                        'active !bg-secondary',
                                 )}
                             >
                                 <p>{tab.title}</p>
-                                <p className="label-text-alt text-xs opacity-60">
+                                <p className="text-xs text-muted-foreground">
                                     {tab.description}
                                 </p>
                             </a>

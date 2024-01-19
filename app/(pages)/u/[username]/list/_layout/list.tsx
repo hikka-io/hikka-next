@@ -31,6 +31,7 @@ import { PopoverTrigger } from '@/app/_components/ui/popover';
 import getRandomWatch from '@/utils/api/watch/getRandomWatch';
 import getWatchList, { Response } from '@/utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
+import { Label } from '@/app/_components/ui/label';
 
 interface Props {}
 
@@ -166,14 +167,14 @@ const Component = ({}: Props) => {
                                     <div className="flex items-center gap-2">
                                         <h3>{option.label}</h3>
                                         {data?.pages.length > 0 && (
-                                            <p className="label-text">
+                                            <Label className="text-muted-foreground">
                                                 (
                                                 {
                                                     data?.pages[0].pagination
                                                         .total
                                                 }
                                                 )
-                                            </p>
+                                            </Label>
                                         )}
                                     </div>
                                 </div>

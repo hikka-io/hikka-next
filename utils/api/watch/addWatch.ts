@@ -1,5 +1,6 @@
 import config from '@/utils/api/config';
 
+
 export interface Response {
     note: string;
     score: number;
@@ -13,6 +14,7 @@ export default async function req({
     note,
     status,
     score,
+    rewatches,
     episodes,
 }: {
     secret: string;
@@ -20,11 +22,12 @@ export default async function req({
     note?: string;
     score?: number;
     episodes?: number;
+    rewatches?: number;
     status: Hikka.WatchStatus;
 }): Promise<Response> {
     const res = await fetch(config.baseAPI + '/watch/' + slug, {
         method: 'put',
-        body: JSON.stringify({ note, score, episodes, status }),
+        body: JSON.stringify({ note, score, episodes, status, rewatches }),
         ...config.config,
         headers: {
             ...config.config.headers,

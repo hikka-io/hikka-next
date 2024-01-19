@@ -1,10 +1,19 @@
 import { Metadata, Viewport } from 'next';
 import React, { ReactNode } from 'react';
 
+
+
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
+
+
+import Providers from '@/utils/providers';
+
+
+
 import './globals.css';
+
 
 const inter = Inter({
     subsets: ['latin', 'cyrillic'],
@@ -96,7 +105,9 @@ export default async function RootLayout({
             data-theme="dark"
         >
             <body>
-                {children}
+                <Providers>
+                    {children}
+                </Providers>
             </body>
         </html>
     );

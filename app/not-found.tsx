@@ -1,17 +1,10 @@
 import React from 'react';
 
-
-
 import Link from 'next/link';
-
-
 
 import Image from '@/app/_components/image';
 
-
-
 import { Button } from './_components/ui/button';
-
 
 export default function NotFound() {
     return (
@@ -31,9 +24,7 @@ export default function NotFound() {
                     <p className="">На жаль, такої сторінки не існує 😢</p>
                 </div>
                 <Button variant="outline" asChild>
-                    <Link href="/">
-                        На головну
-                    </Link>
+                    <Link href="/">На головну</Link>
                 </Button>
             </div>
         </div>

@@ -123,6 +123,7 @@ declare global {
             created: number;
             note: string;
             status: Hikka.WatchStatus;
+            rewatches: number;
             episodes: number;
             score: number;
             anime: Hikka.Anime;

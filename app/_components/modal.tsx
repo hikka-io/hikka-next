@@ -31,7 +31,7 @@ const Component = ({
 }: Props) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent id={id} className={cn('overflow-hidden', boxClassName)}>
+            <DialogContent id={id} className={cn('overflow-y-scroll max-h-screen', boxClassName)}>
                 {!disableHeader && title && (
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>

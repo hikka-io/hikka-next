@@ -61,7 +61,7 @@ const Component = () => {
             <div className="w-full">
                 <div className="space-y-2 w-full">
                     <Label>
-                        <span className="label-text">Опис</span>
+                        Опис
                     </Label>
                     <Textarea
                         placeholder="Введіть опис"

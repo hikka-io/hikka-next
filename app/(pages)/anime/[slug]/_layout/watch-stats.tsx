@@ -102,14 +102,14 @@ const Component = () => {
                 />
                 <h3>
                     {watch.score}
-                    <span className="label-text text-sm font-normal opacity-60">
+                    <Label className="text-sm font-normal text-muted-foreground">
                         /10
-                    </span>
+                    </Label>
                 </h3>
             </div>
             <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
-                    <Label className="label-text min-h-[24px] overflow-hidden overflow-ellipsis">
+                    <Label className="min-h-[24px] overflow-hidden overflow-ellipsis">
                         Епізоди
                     </Label>
                     <div className="inline-flex">
@@ -133,9 +133,9 @@ const Component = () => {
                 </div>
                 <h3>
                     {watch.episodes}
-                    <span className="label-text text-sm font-normal opacity-60">
+                    <Label className="text-sm font-normal text-muted-foreground">
                         /{watch.anime.episodes_total || '?'}
-                    </span>
+                    </Label>
                 </h3>
                 <Progress
                     className="h-2 mt-2"

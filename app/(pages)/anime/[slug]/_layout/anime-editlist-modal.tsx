@@ -66,7 +66,7 @@ const Component = () => {
             open={Boolean(animeEditList)}
             onOpenChange={(open) => !open && onDismiss()}
         >
-            <SheetContent side="left" className="!max-w-xl flex flex-col gap-0 pb-0">
+            <SheetContent side="left" className="!max-w-lg flex flex-col gap-0 pb-0">
                 <SheetHeader>
                     <SheetTitle>Список правок</SheetTitle>
                 </SheetHeader>

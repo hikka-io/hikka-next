@@ -83,7 +83,7 @@ const Component = () => {
     return (
         <div>
             <div className="flex flex-col gap-6">
-                <div className="flex w-full flex-col gap-4">
+                <div className="flex w-full flex-col gap-6">
                     {(edit.after.title_ua ||
                         edit.after.title_en ||
                         edit.after.title_ja) && (
@@ -107,7 +107,7 @@ const Component = () => {
                                 </div>
                             </CollapsibleTrigger>
 
-                            <CollapsibleContent className="flex flex-col gap-2">
+                            <CollapsibleContent className="flex flex-col gap-6">
                                 {editParams.map((eParam) => {
                                     const param = TITLE_PARAMS.find(
                                         (tParam) => tParam.param === eParam,
@@ -154,7 +154,7 @@ const Component = () => {
                                     </Button>
                                 </div>
                             </CollapsibleTrigger>
-                            <CollapsibleContent className="flex flex-col gap-2">
+                            <CollapsibleContent className="flex flex-col gap-6">
                                 {editParams.map((eParam) => {
                                     const param = SYNOPSIS_PARAMS.find(
                                         (tParam) => tParam.param === eParam,
@@ -186,9 +186,9 @@ const Component = () => {
 
                     {edit.description && (
                         <div className="flex flex-col gap-4 w-full">
-                            <label className="label">
-                                <span className="label-text">Опис правки</span>
-                            </label>
+                            <Label>
+                                Опис правки
+                            </Label>
                             <Textarea
                                 disabled
                                 placeholder="Введіть причину правки"

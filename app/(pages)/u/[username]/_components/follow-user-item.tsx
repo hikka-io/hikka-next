@@ -79,7 +79,7 @@ const Component = ({ user }: Props) => {
                 <div className="flex flex-col justify-between min-w-0">
                     <Link
                         href={'/u/' + user.username}
-                        className="label-text font-bold !text-base-content"
+                        className="font-bold"
                     >
                         {user.username}
                     </Link>

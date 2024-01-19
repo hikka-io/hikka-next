@@ -39,8 +39,8 @@ const Component = () => {
     }, [search]);
 
     return (
-        <div className="flex flex-col gap-2 flex-1">
-            <Label className="hidden lg:flex">
+        <div className="flex flex-col gap-4 flex-1">
+            <Label className="text-muted-foreground hidden lg:flex">
                 Пошук по назві
             </Label>
             <Input

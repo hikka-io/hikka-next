@@ -59,19 +59,19 @@ const Component = () => {
     });
 
     return (
-            <Tabs value={pathname} defaultValue="account" className="px-2 overflow-hidden w-full">
-                <TabsList className="w-full overflow-x-scroll items-center justify-start">
-                    {filteredRoutes.map((r) => (
-                        <TabsTrigger asChild key={r.slug} value={'/anime/' + params.slug + r.url}>
-                            <Link
-                                href={'/anime/' + params.slug + r.url}
-                            >
-                                {r.title_ua}
-                            </Link>
-                        </TabsTrigger>
-                    ))}
-                </TabsList>
-            </Tabs>
+        <Tabs value={pathname} defaultValue='account' className='px-2 overflow-hidden w-full'>
+            <TabsList className='w-full overflow-x-scroll items-center justify-start no-scrollbar'>
+                {filteredRoutes.map((r) => (
+                    <TabsTrigger asChild key={r.slug} value={'/anime/' + params.slug + r.url}>
+                        <Link
+                            href={'/anime/' + params.slug + r.url}
+                        >
+                            {r.title_ua}
+                        </Link>
+                    </TabsTrigger>
+                ))}
+            </TabsList>
+        </Tabs>
     );
 };
 

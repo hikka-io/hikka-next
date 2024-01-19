@@ -63,7 +63,7 @@ const Component = ({ extended }: Props) => {
                     {anime.videos.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'video' ? "default" : "ghost"}
+                            variant={active === 'video' ? "default" : "outline"}
                             onClick={() => setActive('video')}
                         >
                             Відео
@@ -72,7 +72,7 @@ const Component = ({ extended }: Props) => {
                     {anime.ost.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'music' ? "default" : "ghost"}
+                            variant={active === 'music' ? "default" : "outline"}
                             onClick={() => setActive('music')}
                         >
                             Музика

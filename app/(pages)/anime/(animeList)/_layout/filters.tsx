@@ -112,9 +112,9 @@ const Component = () => {
                 'transition',
             )}
         >
-            <div className="flex w-full flex-col items-start gap-8 overflow-y-scroll lg:overflow-y-visible">
-                <div className="w-full flex flex-col gap-2">
-                    <Label>Жанр</Label>
+            <div className="flex w-full flex-col items-start gap-8">
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Жанр</Label>
                     {genresList && genresList.list.length > 0 ? (
                         <Combobox
                             selectPlaceholder="Виберіть жанр/жанри..."
@@ -150,8 +150,8 @@ const Component = () => {
                         </Label>
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                    <Label>Статус</Label>
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Статус</Label>
                     <div className="flex flex-wrap gap-2">
                         {Object.keys(RELEASE_STATUS).map((slug) => (
                             <Button
@@ -174,8 +174,8 @@ const Component = () => {
                         ))}
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                    <Label>Тип</Label>
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Тип</Label>
                     <div className="flex flex-wrap gap-2">
                         {Object.keys(MEDIA_TYPE).map((slug) => (
                             <Button
@@ -188,7 +188,7 @@ const Component = () => {
                                 }
                                 key={slug}
                                 variant={
-                                    types.includes(slug) ? 'accent' : 'outline'
+                                    types.includes(slug) ? 'default' : 'outline'
                                 }
                             >
                                 {MEDIA_TYPE[slug as Hikka.MediaType].title_ua}
@@ -196,8 +196,8 @@ const Component = () => {
                         ))}
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                    <Label>Сезон</Label>
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Сезон</Label>
                     <div className="flex flex-wrap gap-2">
                         {Object.keys(SEASON).map((slug) => (
                             <Button
@@ -211,7 +211,7 @@ const Component = () => {
                                 key={slug}
                                 variant={
                                     seasons.includes(slug)
-                                        ? 'accent'
+                                        ? 'default'
                                         : 'outline'
                                 }
                             >
@@ -220,8 +220,8 @@ const Component = () => {
                         ))}
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                    <Label>Рейтинг</Label>
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Рейтинг</Label>
                     <div className="flex flex-wrap gap-2">
                         {Object.keys(AGE_RATING).map((slug) => (
                             <Button
@@ -235,7 +235,7 @@ const Component = () => {
                                 key={slug}
                                 variant={
                                     ageRatings.includes(slug)
-                                        ? 'accent'
+                                        ? 'default'
                                         : 'outline'
                                 }
                             >
@@ -261,10 +261,10 @@ const Component = () => {
                         ))}
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                    <Label>Рік виходу</Label>
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Рік виходу</Label>
                     <div className="flex items-center gap-4">
-                        <p className="badge">{selectingYears[0]}</p>
+                        <Label className="badge">{selectingYears[0]}</Label>
                         <Slider
                             onValueCommit={(value) =>
                                 handleChangeParam(
@@ -282,19 +282,18 @@ const Component = () => {
                             minStepsBetweenThumbs={0}
                             value={selectingYears.map((y) => Number(y))}
                         />
-                        <p className="badge">{selectingYears[1]}</p>
+                        <Label className="badge">{selectingYears[1]}</Label>
                     </div>
                 </div>
             </div>
-            <div className="sticky bottom-4 flex w-full gap-2 lg:relative">
-                <Button
-                    variant="outline"
-                    className="flex-1 shadow-md bg-background"
-                    onClick={clearFilters}
-                >
-                    <AntDesignClearOutlined /> Очистити
-                </Button>
-            </div>
+            <Button
+                variant="outline"
+                className="shadow-md bg-background sticky bottom-4 lg:flex w-full"
+                onClick={clearFilters}
+            >
+                <AntDesignClearOutlined /> Очистити
+            </Button>
+
         </div>
     );
 };

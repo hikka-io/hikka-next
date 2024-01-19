@@ -17,12 +17,11 @@ const Component = () => {
     return (
         <Modal
             open={Boolean(rightholder)}
-            onDismiss={onDismiss}
+            onOpenChange={(open) => !open && onDismiss()}
             id="searchModal"
-            boxClassName="p-0 flex flex-col relative"
             title="Правовласникам"
         >
-            <div className="markdown flex-1 p-8">
+            <div className="markdown">
                 <Content />
             </div>
         </Modal>
