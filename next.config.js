@@ -1,5 +1,4 @@
 const withMDX = require('@next/mdx')();
-const { withPlausibleProxy } = require('next-plausible')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -35,4 +34,4 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
 });
 
-module.exports = withBundleAnalyzer(withMDX(withPlausibleProxy({ customDomain: 'https://analytics.hikka.io' })(nextConfig)));
+module.exports = withBundleAnalyzer(withMDX(nextConfig));
