@@ -1,5 +1,6 @@
 'use client';
 
+import { useSnackbar } from 'notistack';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -13,15 +14,14 @@ import {
     FormField,
     FormItem,
     FormLabel,
+    FormMessage,
 } from '@/app/_components/ui/form';
 import { Input } from '@/app/_components/ui/input';
 import { setCookie } from '@/app/actions';
-import login from '@/utils/api/auth/login';
+import signup from '@/utils/api/auth/signup';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
 import useRouter from '@/utils/useRouter';
-import signup from '@/utils/api/auth/signup';
-import { useSnackbar } from 'notistack';
 
 type FormValues = {
     email: string;
@@ -29,7 +29,6 @@ type FormValues = {
     username: string;
     passwordConfirmation: string;
 };
-
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -43,6 +42,10 @@ const Component = () => {
         try {
             if (captchaRef.current) {
                 if (data.passwordConfirmation !== data.password) {
+                    form.setError('passwordConfirmation', {
+                        message: 'Пароль підтвердження не співпадає з паролем'
+                    });
+
                     return;
                 }
 
@@ -98,7 +101,39 @@ const Component = () => {
                     className="space-y-4 w-full text-left"
                 >
                     <FormField
+                        rules={{
+                            pattern: {
+                                value: /^[A-Za-z][A-Za-z0-9_]{4,63}$/i,
+                                message: 'Неправильне ім’я користувача',
+                            },
+                            required: true,
+                        }}
+                        name="username"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Ім’я користувача (нікнейм)
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="text"
+                                        placeholder="Введіть Ваше ім’я"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
                         name="email"
+                        rules={{
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'Неправильний email',
+                            },
+                            required: true,
+                        }}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
@@ -110,26 +145,15 @@ const Component = () => {
                                         {...field}
                                     />
                                 </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Ім’я користувача (нікнейм)</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="text"
-                                        placeholder="Введіть Ваше ім’я"
-                                        {...field}
-                                    />
-                                </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
                         name="password"
+                        rules={{
+                            required: true,
+                        }}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Пароль</FormLabel>
@@ -141,12 +165,16 @@ const Component = () => {
                                     />
                                 </FormControl>
                                 <FormDescription>
-                                    Не менше 6 символів, не менше 2 літер.
+                                    Не менше 8 символів.
                                 </FormDescription>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
+                        rules={{
+                            required: true,
+                        }}
                         name="passwordConfirmation"
                         render={({ field }) => (
                             <FormItem>
@@ -158,6 +186,7 @@ const Component = () => {
                                         {...field}
                                     />
                                 </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />

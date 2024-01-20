@@ -12,7 +12,7 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
+    FormLabel, FormMessage,
 } from '@/app/_components/ui/form';
 import { Input } from '@/app/_components/ui/input';
 import { setCookie } from '@/app/actions';
@@ -76,6 +76,13 @@ const Component = () => {
                     className="space-y-4 w-full text-left"
                 >
                     <FormField
+                        rules={{
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'Неправильний email',
+                            },
+                            required: true,
+                        }}
                         name="email"
                         render={({ field }) => (
                             <FormItem>
@@ -88,10 +95,14 @@ const Component = () => {
                                         {...field}
                                     />
                                 </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
+                        rules={{
+                            required: true
+                        }}
                         name="password"
                         render={({ field }) => (
                             <FormItem>
@@ -117,8 +128,9 @@ const Component = () => {
                                     />
                                 </FormControl>
                                 <FormDescription>
-                                    Не менше 6 символів, не менше 2 літер.
+                                    Не менше 8 символів.
                                 </FormDescription>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
