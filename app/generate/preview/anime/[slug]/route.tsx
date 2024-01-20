@@ -73,19 +73,22 @@ export async function GET(
                             </h1>
                         </div>
                         <div tw="flex" style={{ gap: 16 }}>
-                            {anime.genres.map((genre) => (
-                                <div
-                                    key={genre.slug}
-                                    style={{
-                                        fontFamily: 'Inter',
-                                        borderColor: 'rgba(39,39,42,0.6)',
-                                        backgroundColor: 'rgba(39,39,42,0.3)',
-                                    }}
-                                    tw="flex rounded-full border py-1 px-4"
-                                >
-                                    {genre.name_ua || genre.name_en}
-                                </div>
-                            ))}
+                            {anime.genres.map((genre, i) =>
+                                i < 8 ? (
+                                    <div
+                                        key={genre.slug}
+                                        style={{
+                                            fontFamily: 'Inter',
+                                            borderColor: 'rgba(39,39,42,0.6)',
+                                            backgroundColor:
+                                                'rgba(39,39,42,0.3)',
+                                        }}
+                                        tw="flex rounded-full border py-1 px-4"
+                                    >
+                                        {genre.name_ua || genre.name_en}
+                                    </div>
+                                ) : null,
+                            )}
                         </div>
                         <div
                             tw="flex rounded-lg border py-4 px-4"
