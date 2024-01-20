@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     };
 
     const headers = {
-        'X-Forwarded-For': request.headers.get('x-real-ip')!,
+        'X-Forwarded-For': request.headers.get('x-forwarded-for')!,
         'User-Agent': request.headers.get('User-Agent')!,
         'Content-Type': 'application/json',
     };

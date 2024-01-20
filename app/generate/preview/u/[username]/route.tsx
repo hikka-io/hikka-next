@@ -40,7 +40,7 @@ export async function GET(
                     alignItems: 'flex-start',
                 }}
             >
-                <div style={{ display: 'flex', gap: 32 }}>
+                <div style={{ display: 'flex', gap: 32, width: '100%' }}>
                     <img
                         src={user.avatar}
                         width={256}
@@ -55,6 +55,8 @@ export async function GET(
                             gap: 0,
                             justifyContent: 'flex-start',
                             alignItems: 'flex-start',
+                            width: '100%',
+                            flex: 1,
                         }}
                     >
                         <h1
@@ -75,7 +77,9 @@ export async function GET(
                                 fontFamily: 'Inter',
                                 color: 'white',
                                 opacity: 0.6,
-                                lineHeight: '12px',
+                                textAlign: 'left',
+                                width: '100%',
+                                flex: 1
                             }}
                         >
                             {user.description}
@@ -86,12 +90,9 @@ export async function GET(
                     <div
                         style={{
                             display: 'flex',
-                            overflow: 'hidden',
-                            borderRadius: 8,
-                            borderWidth: 1,
+                            gap: 16,
                             width: '100%',
-                            borderColor: 'rgba(39,39,42,0.6)',
-                            backgroundColor: 'rgba(39,39,42,0.3)',
+
                         }}
                     >
                         {Object.keys(watchStats).map((stat, index) => (
@@ -101,58 +102,54 @@ export async function GET(
                                     display: 'flex',
                                     flex: 1,
                                     flexDirection: 'column',
-                                    padding: '8px 32px',
+                                    padding: '8px 16px',
+                                    borderColor: 'rgba(39,39,42,0.6)',
+                                    backgroundColor: 'rgba(39,39,42,0.3)',
                                     borderLeftWidth: 1,
-                                    borderColor:
-                                        index !== 0
-                                            ? 'rgba(39,39,42,0.6)'
-                                            : 'transparent',
+                                    borderRadius: 8,
+                                    borderWidth: 1,
                                 }}
                             >
-                                <p
-                                    style={{
-                                        fontSize: 24,
-                                        fontWeight: 400,
-                                        fontFamily: 'Inter',
-                                        color: 'white',
-                                        opacity: 0.6,
-                                        lineHeight: '12px',
-                                    }}
-                                >
-                                    {
-                                        WATCH_STATUS[stat as Hikka.WatchStatus]
-                                            .title_ua
-                                    }
-                                </p>
+
                                 <div
                                     style={{
                                         display: 'flex',
-                                        justifyContent: 'space-between',
                                         alignItems: 'center',
+                                        gap: 8
                                     }}
                                 >
-                                    <h2
+                                    <div style={{
+                                        display: 'flex',
+                                        width: 8,
+                                        height: 8,
+                                        borderRadius: '100%',
+                                        backgroundColor: WATCH_STATUS[stat as Hikka.WatchStatus].color
+                                    }} />
+                                    <p
                                         style={{
-                                            fontSize: 40,
-                                            fontWeight: 600,
-                                            fontFamily: 'Fixel',
+                                            fontSize: 16,
+                                            fontWeight: 400,
+                                            fontFamily: 'Inter',
                                             color: 'white',
-                                            lineHeight: '24px',
+                                            opacity: 0.6,
+                                            lineHeight: '12px',
+                                            flex: 1,
                                         }}
                                     >
-                                        {watchStats[stat as Hikka.WatchStatus]}
-                                    </h2>
+                                        {
+                                            WATCH_STATUS[stat as Hikka.WatchStatus]
+                                                .title_ua
+                                        }
+                                    </p>
                                     <div
                                         style={{
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             fontSize: 24,
-                                            width: 32,
-                                            height: 32,
-                                            borderRadius: 8,
-                                            backgroundColor: '#27272a',
-                                            padding: 4,
+                                            width: 16,
+                                            height: 16,
+
                                         }}
                                     >
                                         {createElement(
@@ -162,6 +159,17 @@ export async function GET(
                                         )}
                                     </div>
                                 </div>
+                                <h2
+                                    style={{
+                                        fontSize: 40,
+                                        fontWeight: 600,
+                                        fontFamily: 'Fixel',
+                                        color: 'white',
+                                        lineHeight: '24px',
+                                    }}
+                                >
+                                    {watchStats[stat as Hikka.WatchStatus]}
+                                </h2>
                             </div>
                         ))}
                     </div>

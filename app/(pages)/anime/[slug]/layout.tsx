@@ -72,12 +72,12 @@ export async function generateMetadata(
             siteName: parentMetadata.openGraph?.siteName,
             title: { default: title, template: title + ' / %s / Hikka' },
             description: synopsis,
-            images: anime.poster,
+            images: 'https://hikka.io/generate/preview/anime/' + slug,
         },
         twitter: {
             title: { default: title, template: title + ' / %s / Hikka' },
             description: synopsis,
-            images: anime.poster,
+            images: 'https://hikka.io/generate/preview/anime/' + slug,
         },
     };
 }

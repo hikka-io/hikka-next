@@ -4,15 +4,9 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
-
-
 import { usePathname, useSearchParams } from 'next/navigation';
 
-
-
 import { useQuery } from '@tanstack/react-query';
-
-
 
 import AnimeCard from '@/app/_components/anime-card';
 import NotFound from '@/app/_components/not-found';
@@ -22,9 +16,8 @@ import { Button } from '@/app/_components/ui/button';
 import getAnimeCatalog from '@/utils/api/anime/getAnimeCatalog';
 import useDebounce from '@/utils/hooks/useDebounce';
 import { useAuthContext } from '@/utils/providers/auth-provider';
-import useRouter from '@/utils/useRouter';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
-
+import useRouter from '@/utils/useRouter';
 
 const Component = () => {
     const { titleLanguage } = useSettingsContext();
@@ -173,7 +166,12 @@ const Component = () => {
                             <AnimeCard
                                 href={`/anime/${x.slug}`}
                                 poster={x.poster}
-                                title={x[titleLanguage!] || x.title_ua || x.title_en || x.title_ja}
+                                title={
+                                    x[titleLanguage!] ||
+                                    x.title_ua ||
+                                    x.title_en ||
+                                    x.title_ja
+                                }
                                 key={x.slug}
                                 slug={x.slug}
                                 watch={
