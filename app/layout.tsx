@@ -101,6 +101,7 @@ export default async function RootLayout({
         >
             <head>
                 <PlausibleProvider
+                    trackLocalhost
                     enabled
                     selfHosted
                     customDomain="https://analytics.hikka.io"
