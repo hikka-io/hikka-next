@@ -173,7 +173,7 @@ declare global {
             title_ja?: string;
             synopsis_en?: string;
             synopsis_ua?: string;
-            synonyms?: string;
+            synonyms?: string[];
         };
 
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';

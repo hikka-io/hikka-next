@@ -19,7 +19,6 @@ import { Label } from '@/app/_components/ui/label';
 import { Textarea } from '@/app/_components/ui/textarea';
 import getEdit from '@/utils/api/edit/getEdit';
 
-
 type Param = {
     param: keyof Hikka.EditParams;
     title: string;
@@ -137,8 +136,45 @@ const Component = () => {
                         </Collapsible>
                     )}
 
+                    {edit.after.synonyms && (
+                        <Collapsible className="w-full space-y-2 border border-accent rounded-lg p-4">
+                            <CollapsibleTrigger asChild>
+                                <div className="flex items-center justify-between">
+                                    <h5>Синоніми</h5>
+                                    <Button
+                                        id="title-collapse"
+                                        variant="ghost"
+                                        size="sm"
+                                        className="w-9 p-0"
+                                    >
+                                        <ChevronsUpDown className="h-4 w-4" />
+                                        <span className="sr-only">Toggle</span>
+                                    </Button>
+                                </div>
+                            </CollapsibleTrigger>
+
+                            <CollapsibleContent className="flex flex-col gap-6">
+                                <div className="flex gap-2 flex-wrap">
+                                    {edit.after.synonyms.map((synonym) => {
+                                        return (
+                                            <div
+                                                className="flex gap-2 items-center px-2 py-1 border border-secondary/30 text-sm rounded-md bg-secondary/30"
+                                                key={synonym}
+                                            >
+                                                {synonym}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </CollapsibleContent>
+                        </Collapsible>
+                    )}
+
                     {(edit.after.synopsis_ua || edit.after.synopsis_en) && (
-                        <Collapsible open className="w-full space-y-2 border border-accent  rounded-lg p-4">
+                        <Collapsible
+                            open
+                            className="w-full space-y-2 border border-accent  rounded-lg p-4"
+                        >
                             <CollapsibleTrigger asChild>
                                 <div className="flex items-center justify-between">
                                     <h5>Опис аніме</h5>
@@ -186,9 +222,7 @@ const Component = () => {
 
                     {edit.description && (
                         <div className="flex flex-col gap-4 w-full">
-                            <Label>
-                                Опис правки
-                            </Label>
+                            <Label>Опис правки</Label>
                             <Textarea
                                 disabled
                                 placeholder="Введіть причину правки"

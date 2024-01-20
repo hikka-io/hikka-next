@@ -2,8 +2,10 @@
 
 import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
+import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
 
 import { useParams } from 'next/navigation';
 
@@ -66,6 +68,27 @@ const SYNOPSIS_PARAMS: Param[] = [
     },
 ];
 
+const Synonyms = ({ data }: { data: string[] }) => {
+    return (
+        <div className="flex flex-col gap-4">
+            <Label>Синоніми</Label>
+            <div className="flex gap-2 flex-wrap">
+                {data.map((synonym) => (
+                    <div
+                        className="flex gap-2 items-center px-2 py-1 border border-secondary/30 text-sm rounded-md bg-secondary/30"
+                        key={synonym}
+                    >
+                        {synonym}
+                        <Button variant="ghost" size="icon-xs">
+                            <MaterialSymbolsCloseSmallRounded />
+                        </Button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const Component = () => {
     const captchaRef = useRef<TurnstileInstance>();
     const titleRef = useRef<HTMLInputElement>(null);
@@ -83,11 +106,15 @@ const Component = () => {
     });
 
     const {
+        control,
         register,
         reset,
         handleSubmit,
         formState: { isSubmitting },
     } = useForm<FormValues>();
+
+    const [synonyms, setSynonyms] = useState<string[]>([]);
+    const [newSynonym, setNewSynonym] = useState<string>();
 
     const getEditParams = (data: FormValues) => {
         return editParams.reduce(
@@ -111,7 +138,10 @@ const Component = () => {
                     secret: String(secret),
                     contentType: 'anime',
                     slug: String(params.slug),
-                    after: getEditParams(data),
+                    after: {
+                        ...getEditParams(data),
+                        synonyms: synonyms,
+                    },
                     description: data.description,
                     captcha: String(captchaRef.current.getResponse()),
                 });
@@ -132,6 +162,12 @@ const Component = () => {
                 : [...prev, param],
         );
     };
+
+    useEffect(() => {
+        if (anime) {
+            setSynonyms(anime.synonyms);
+        }
+    }, [anime]);
 
     if (!anime) {
         return null;
@@ -208,6 +244,81 @@ const Component = () => {
                             })}
                         </CollapsibleContent>
                     </Collapsible>
+
+                    <Collapsible className="w-full space-y-2 border border-accent rounded-lg p-4">
+                        <CollapsibleTrigger asChild>
+                            <div className="flex items-center justify-between">
+                                <h5>Синоніми</h5>
+                                <Button
+                                    id="title-collapse"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="w-9 p-0"
+                                >
+                                    <ChevronsUpDown className="h-4 w-4" />
+                                    <span className="sr-only">Toggle</span>
+                                </Button>
+                            </div>
+                        </CollapsibleTrigger>
+
+                        <CollapsibleContent className="flex flex-col gap-6">
+                            <div className="flex gap-2 flex-wrap">
+                                {synonyms.map((synonym) => {
+                                    return (
+                                        <div
+                                            className="flex gap-2 items-center px-2 py-1 border border-secondary/30 text-sm rounded-md bg-secondary/30"
+                                            key={synonym}
+                                        >
+                                            {synonym}
+                                            <Button
+                                                onClick={() =>
+                                                    setSynonyms((prev) =>
+                                                        prev.filter(
+                                                            (s) =>
+                                                                s !== synonym,
+                                                        ),
+                                                    )
+                                                }
+                                                variant="ghost"
+                                                size="icon-xs"
+                                            >
+                                                <MaterialSymbolsCloseSmallRounded />
+                                            </Button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <div className="flex flex-col gap-4 w-full">
+                                <Label>Новий синонім</Label>
+                                <div className="flex gap-2">
+                                    <Input
+                                        value={newSynonym}
+                                        onChange={(e) =>
+                                            setNewSynonym(e.target.value)
+                                        }
+                                        className="flex-1"
+                                    />
+                                    <Button
+                                        disabled={newSynonym?.length === 0}
+                                        onClick={() =>
+                                            {
+                                                setSynonyms((prev) => [
+                                                    ...prev,
+                                                    String(newSynonym),
+                                                ])
+                                                setNewSynonym("");
+                                            }
+                                        }
+                                        size="icon"
+                                        variant="secondary"
+                                    >
+                                        <MaterialSymbolsAddRounded />
+                                    </Button>
+                                </div>
+                            </div>
+                        </CollapsibleContent>
+                    </Collapsible>
+
                     <Collapsible className="w-full space-y-2 border border-accent  rounded-lg p-4">
                         <CollapsibleTrigger asChild>
                             <div className="flex items-center justify-between">
@@ -264,7 +375,7 @@ const Component = () => {
                                                 value:
                                                     (anime![
                                                         param.param
-                                                        ] as string) || undefined,
+                                                    ] as string) || undefined,
                                             })}
                                         />
                                     </div>
