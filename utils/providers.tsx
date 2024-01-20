@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import SnackbarItem from '@/app/_components/snackbar-item';
+import AnalyticsProvider from '@/utils/providers/analytics-provider';
 import AuthProvider from '@/utils/providers/auth-provider';
 import ModalProvider from '@/utils/providers/modal-provider';
 import PoppperProvider from '@/utils/providers/popper-provider';
@@ -43,40 +44,47 @@ function Providers({ children }: Props) {
     }, [pathname, searchParams]);
 
     return (
-        <SettingsProvider>
-            <ThemeProvider
-                attribute="class"
-                defaultTheme="dark"
-                enableSystem
-                disableTransitionOnChange
-            >
-                <SnackbarProvider
-                    Components={{
-                        default: SnackbarItem,
-                        success: SnackbarItem,
-                        error: SnackbarItem,
-                        warning: SnackbarItem,
-                        info: SnackbarItem,
-                    }}
-                    maxSnack={2}
-                    preventDuplicate
-                    autoHideDuration={3000}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        <AnalyticsProvider>
+            <SettingsProvider>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
                 >
-                    <SnackbarUtilsConfigurator />
-                    <PoppperProvider>
-                        <ModalProvider>
-                            <AuthProvider>
-                                <QueryClientProvider client={client}>
-                                    {children}
-                                    <ReactQueryDevtools initialIsOpen={false} />
-                                </QueryClientProvider>
-                            </AuthProvider>
-                        </ModalProvider>
-                    </PoppperProvider>
-                </SnackbarProvider>
-            </ThemeProvider>
-        </SettingsProvider>
+                    <SnackbarProvider
+                        Components={{
+                            default: SnackbarItem,
+                            success: SnackbarItem,
+                            error: SnackbarItem,
+                            warning: SnackbarItem,
+                            info: SnackbarItem,
+                        }}
+                        maxSnack={2}
+                        preventDuplicate
+                        autoHideDuration={3000}
+                        anchorOrigin={{
+                            horizontal: 'right',
+                            vertical: 'bottom',
+                        }}
+                    >
+                        <SnackbarUtilsConfigurator />
+                        <PoppperProvider>
+                            <ModalProvider>
+                                <AuthProvider>
+                                    <QueryClientProvider client={client}>
+                                        {children}
+                                        <ReactQueryDevtools
+                                            initialIsOpen={false}
+                                        />
+                                    </QueryClientProvider>
+                                </AuthProvider>
+                            </ModalProvider>
+                        </PoppperProvider>
+                    </SnackbarProvider>
+                </ThemeProvider>
+            </SettingsProvider>
+        </AnalyticsProvider>
     );
 }
 
