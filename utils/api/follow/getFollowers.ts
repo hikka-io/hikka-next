@@ -8,12 +8,14 @@ export interface Response {
 export default async function req({
     username,
     secret,
+    page = 1,
 }: {
     username: string;
     secret?: string;
+    page?: number;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI + '/follow/' + username + '/followers',
+        config.baseAPI + '/follow/' + username + '/followers?page=' + page,
         {
             method: 'get',
             ...config.config,

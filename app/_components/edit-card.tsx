@@ -49,7 +49,7 @@ const Component = ({ edit, href, ...props }: Props) => {
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-4">
                         <p className="text-xs text-muted-foreground">
-                            {format(edit.created * 1000, 'd MMM yyyy kk:mm')}
+                            {format(edit.created * 1000, 'd MMM yyyy H:mm')}
                         </p>
                     </div>
                 </div>

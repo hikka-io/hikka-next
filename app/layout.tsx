@@ -104,7 +104,7 @@ export default async function RootLayout({
                     trackLocalhost
                     enabled
                     selfHosted
-                    customDomain="https://hikka.io"
+                    customDomain=""
                     domain="hikka.io"
                 />
             </head>

@@ -135,7 +135,7 @@ const Component = () => {
                                                 <Label className="text-muted-foreground text-xs">
                                                     {format(
                                                         edit.created * 1000,
-                                                        'd MMM yyyy kk:mm',
+                                                        'd MMM yyyy H:mm',
                                                     )}
                                                 </Label>
                                             </div>

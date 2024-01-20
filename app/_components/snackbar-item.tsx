@@ -27,11 +27,11 @@ const icons: Record<
 };
 
 const colors: Record<
-    'default' | 'error' | 'success' | 'warning' | 'info',
+    'default' | 'destructive' | 'success' | 'warning' | 'info',
     string
 > = {
     default: 'bg-secondary text-secondary',
-    error: 'bg-error text-error',
+    destructive: 'bg-destructive text-destructive',
     success: 'bg-success text-success',
     warning: 'bg-warning text-warning',
     info: 'bg-info text-info',
@@ -48,6 +48,15 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
     (props, forwardedRef) => {
         const { message, variant, autoHideDuration } = props;
 
+        const getVariantColor = () => {
+            switch (variant) {
+                case "error":
+                    return "destructive";
+                default:
+                    return variant;
+            }
+        }
+
         return (
             <SnackbarContent
                 ref={forwardedRef}
@@ -56,20 +65,20 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
                 )}
             >
                 {icons[variant] !== null &&
-                    icons[variant]!({ className: `text-${variant} text-xl` })}
+                    icons[variant]!({ className: `text-${getVariantColor()} text-xl` })}
                 <div className="flex-1">{message}</div>
                 <div className="relative flex h-full items-end">
                     <div
                         className={clsx(
                             'absolute',
                             'h-full w-1 rounded-full opacity-30',
-                            `bg-${variant}`,
+                            `bg-${getVariantColor()}`,
                         )}
                     />
                     <div
                         className={clsx(
                             'snackbar-timer h-full w-1 rounded-full',
-                            `bg-${variant}`,
+                            `bg-${getVariantColor()}`,
                         )}
                     />
                 </div>

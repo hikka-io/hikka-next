@@ -54,7 +54,7 @@ const Component = () => {
                             <p className="text-xs text-muted-foreground">
                                 {format(
                                     edit.created * 1000,
-                                    'd MMM yyyy kk:mm',
+                                    'd MMM yyyy H:mm',
                                 )}
                             </p>
                         </div>
