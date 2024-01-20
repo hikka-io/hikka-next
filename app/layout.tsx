@@ -1,4 +1,5 @@
 import { Metadata, Viewport } from 'next';
+import PlausibleProvider from 'next-plausible';
 import React, { ReactNode } from 'react';
 
 import { Inter } from 'next/font/google';
@@ -98,6 +99,14 @@ export default async function RootLayout({
             lang="uk"
             data-theme="dark"
         >
+            <head>
+                <PlausibleProvider
+                    enabled
+                    selfHosted
+                    customDomain="https://analytics.hikka.io"
+                    domain="hikka.io"
+                />
+            </head>
             <body>
                 <Providers>{children}</Providers>
             </body>
