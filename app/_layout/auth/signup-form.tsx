@@ -73,6 +73,11 @@ const Component = () => {
             }
         } catch (e) {
             console.error(e);
+
+            if (captchaRef.current) {
+                captchaRef.current?.reset();
+            }
+
             return;
         }
     };
