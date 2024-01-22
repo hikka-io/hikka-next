@@ -1,22 +1,30 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
+
+
 import Link from 'next/link';
 
+
+
 import { dehydrate } from '@tanstack/query-core';
+
+
 
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import SubBar from '@/app/_components/sub-navbar';
 import RQHydrate from '@/utils/RQ-hydrate';
+import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
+import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import getCharacterAnime from '@/utils/api/characters/getCharacterAnime';
-import getCharacterInfo, {
-    Response as CharacterResponse,
-} from '@/utils/api/characters/getCharacterInfo';
+import getCharacterInfo, { Response as CharacterResponse } from '@/utils/api/characters/getCharacterInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
+
+
 import Cover from './_layout/cover';
-import NavBar from './_layout/navbar';
 import NavMenu from './_layout/nav-menu';
+import NavBar from './_layout/navbar';
 import Title from './_layout/title';
 
 
@@ -64,12 +72,17 @@ export async function generateMetadata(
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
 
-    await queryClient.prefetchQuery(['character', slug], () =>
-        getCharacterInfo({ slug }),
-    );
-    await queryClient.prefetchInfiniteQuery(['characterAnime', slug], () =>
-        getCharacterAnime({ slug }),
-    );
+    await queryClient.prefetchQuery({
+        queryKey: ['character', slug],
+        queryFn: () => getCharacterInfo({ slug }),
+    });
+
+    await queryClient.prefetchInfiniteQuery({
+        queryKey: ['characterAnime', slug],
+        queryFn: () =>
+            getCharacterAnime({ slug }),
+        initialPageParam: 1,
+    });
 
     const character: Hikka.Character | undefined = queryClient.getQueryData([
         'character',

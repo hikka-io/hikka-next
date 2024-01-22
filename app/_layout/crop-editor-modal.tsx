@@ -95,8 +95,12 @@ const Component = ({ file }: Props) => {
 
             await uploadImage(file);
 
-            await queryClient.invalidateQueries(['loggedUser']);
-            await queryClient.invalidateQueries(['user', params.username]);
+            await queryClient.invalidateQueries({
+                queryKey: ['loggedUser']
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['user', params.username]
+            });
 
             setIsLoading(false);
         } catch (e) {

@@ -1,5 +1,6 @@
 import config from '@/utils/api/config';
 
+
 interface Request {
     query?: string;
     sort?: string[];
@@ -19,12 +20,17 @@ interface Request {
     only_translated?: boolean;
 }
 
+export interface Response {
+    list: Hikka.Anime[];
+    pagination: Hikka.Pagination;
+}
+
 export default async function req({
     page = 1,
     size = 15,
     secret,
     ...params
-}: Request): Promise<{ list: Hikka.Anime[]; pagination: Hikka.Pagination }> {
+}: Request): Promise<Response> {
     const res = await fetch(
         config.baseAPI + '/anime?page=' + page + '&size=' + size,
         {

@@ -39,6 +39,7 @@ const Component = ({}: Props) => {
         isFetchingNextPage: isFetchingNextFollowers,
         hasNextPage: hasNextFollowers,
     } = useInfiniteQuery({
+        initialPageParam: 1,
         queryKey: ['followers', params.username, secret],
         queryFn: ({ pageParam = 1 }) =>
             getFollowers({
@@ -60,6 +61,7 @@ const Component = ({}: Props) => {
         isFetchingNextPage: isFetchingNextFollowings,
         hasNextPage: hasNextFollowings,
     } = useInfiniteQuery({
+        initialPageParam: 1,
         queryKey: ['followings', params.username, secret],
         queryFn: ({ pageParam = 1 }) =>
             getFollowings({

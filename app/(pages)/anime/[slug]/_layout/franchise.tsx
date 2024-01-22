@@ -39,6 +39,7 @@ const Component = ({ extended }: Props) => {
 
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
+            initialPageParam: 1,
             queryKey: ['franchise', params.slug, secret],
             getNextPageParam: (lastPage: AnimeFranchiseResponse, allPages) => {
                 const nextPage = lastPage.pagination.page + 1;
@@ -51,7 +52,7 @@ const Component = ({ extended }: Props) => {
                     slug: String(params.slug),
                     page: pageParam,
                     secret: String(secret),
-                }),
+                })
         });
 
     useEffect(() => {

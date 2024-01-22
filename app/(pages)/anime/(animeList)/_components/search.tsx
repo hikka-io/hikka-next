@@ -32,11 +32,12 @@ const Component = () => {
         [searchParams],
     );
 
-    useEffect(() => {
-        const query = createQueryString('search', search);
+    const handleChangeSearch = (value: string) => {
+        const query = createQueryString('search', value);
+        setSearch(value)
 
         router.replace(`${pathname}?${query}`);
-    }, [search]);
+    }
 
     return (
         <div className="flex flex-col gap-4 flex-1">
@@ -45,7 +46,7 @@ const Component = () => {
             </Label>
             <Input
                 value={search || ''}
-                onChange={(event) => setSearch(event.target.value)}
+                onChange={(event) => handleChangeSearch(event.target.value)}
                 type="text"
                 placeholder="Введіть назву аніме..."
             />

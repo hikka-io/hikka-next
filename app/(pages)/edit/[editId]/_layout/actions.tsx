@@ -31,6 +31,7 @@ const Component = () => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret,
     ]);
 
     const onAcceptSubmit = async () => {
@@ -40,7 +41,9 @@ const Component = () => {
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
             });
-            await queryClient.invalidateQueries(['edit', params.editId]);
+            await queryClient.invalidateQueries({
+                queryKey: ['edit', params.editId]
+            });
             // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
@@ -57,7 +60,9 @@ const Component = () => {
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
             });
-            await queryClient.invalidateQueries(['edit', params.editId]);
+            await queryClient.invalidateQueries({
+                queryKey: ['edit', params.editId]
+            });
             // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
@@ -74,7 +79,9 @@ const Component = () => {
                 secret: String(secret),
                 edit_id: Number(edit?.edit_id),
             });
-            await queryClient.invalidateQueries(['edit', params.editId]);
+            await queryClient.invalidateQueries({
+                queryKey: ['edit', params.editId]
+            });
             // router.refresh();
         } catch (e) {
             setIsSubmitting(false);

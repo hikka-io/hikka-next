@@ -15,7 +15,7 @@ export default async function req({
     page?: number;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI + '/edit/' + contentType + '/' + slug + '/list',
+        config.baseAPI + '/edit/' + contentType + '/' + slug + '/list?page=' + page,
         {
             method: 'get',
             ...config.config,

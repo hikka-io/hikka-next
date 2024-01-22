@@ -12,8 +12,8 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Modal from '@/app/_components/modal';
-import { Combobox } from '@/app/_components/ui/combobox';
 import { Button } from '@/app/_components/ui/button';
+import { Combobox } from '@/app/_components/ui/combobox';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
 import { Textarea } from '@/app/_components/ui/textarea';
@@ -45,7 +45,7 @@ const Component = ({ slug, setSlug }: Props) => {
         queryKey: ['watch', secret, slug],
         queryFn: () => getWatch({ slug: String(slug), secret: String(secret) }),
         staleTime: 0,
-        cacheTime: 0,
+        gcTime: 0,
     });
     const [selectedStatus, setSelectedStatus] = useState<
         Hikka.WatchStatus | undefined
@@ -56,7 +56,7 @@ const Component = ({ slug, setSlug }: Props) => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
-    const { mutate: addToList, isLoading: addToListLoading } = useMutation({
+    const { mutate: addToList, isPending: addToListLoading } = useMutation({
         mutationKey: ['addToList', secret, slug, selectedStatus],
         mutationFn: (mutationParams: {
             score?: number;
@@ -72,12 +72,12 @@ const Component = ({ slug, setSlug }: Props) => {
             }),
         onSuccess: async () => {
             onDismiss(false);
-            await queryClient.invalidateQueries(['list']);
-            await queryClient.invalidateQueries(['watch']);
+            await queryClient.invalidateQueries({ queryKey: ['list'] });
+            await queryClient.invalidateQueries({ queryKey: ['watch'] });
         },
     });
 
-    const { mutate: deleteFromList, isLoading: deleteFromListLoading } =
+    const { mutate: deleteFromList, isPending: deleteFromListLoading } =
         useMutation({
             mutationKey: ['deleteFromList', secret, slug],
             mutationFn: () =>
@@ -87,8 +87,8 @@ const Component = ({ slug, setSlug }: Props) => {
                 }),
             onSuccess: async () => {
                 onDismiss(false);
-                await queryClient.invalidateQueries(['list']);
-                await queryClient.invalidateQueries(['watch']);
+                await queryClient.invalidateQueries({ queryKey: ['list'] });
+                await queryClient.invalidateQueries({ queryKey: ['watch'] });
             },
         });
 
@@ -148,28 +148,28 @@ const Component = ({ slug, setSlug }: Props) => {
                                         value: status,
                                     }),
                                 )}
-                                onChange={(value) =>
-                                    {
-                                        setSelectedStatus(
-                                            value as Hikka.WatchStatus,
-                                        )
-                                    }
-                                }
+                                onChange={(value) => {
+                                    setSelectedStatus(
+                                        value as Hikka.WatchStatus,
+                                    );
+                                }}
                                 value={selectedStatus}
                                 renderValue={(option) => {
-                                    return <div className="flex gap-2 items-center">
-                                        {option &&
-                                            !Array.isArray(option) &&
-                                            createElement(
-                                                WATCH_STATUS[
-                                                    option.value as Hikka.WatchStatus
+                                    return (
+                                        <div className="flex gap-2 items-center">
+                                            {option &&
+                                                !Array.isArray(option) &&
+                                                createElement(
+                                                    WATCH_STATUS[
+                                                        option.value as Hikka.WatchStatus
                                                     ].icon,
-                                            )}
-                                        {(option &&
+                                                )}
+                                            {(option &&
                                                 !Array.isArray(option) &&
                                                 option?.label) ||
-                                            'Виберіть список'}
-                                    </div>
+                                                'Виберіть список'}
+                                        </div>
+                                    );
                                 }}
                             />
                         </div>

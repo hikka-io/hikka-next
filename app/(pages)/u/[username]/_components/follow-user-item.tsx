@@ -27,6 +27,7 @@ const Component = ({ user }: Props) => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret,
     ]);
 
     const { mutate: mutateFollow } = useMutation({

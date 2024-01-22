@@ -37,6 +37,7 @@ const Component = ({}: Props) => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret,
     ]);
 
     const { data: followStats } = useQuery({
@@ -60,7 +61,7 @@ const Component = ({}: Props) => {
         enabled: loggedUser && loggedUser.username !== params.username,
     });
 
-    const { mutate: mutateFollow, isLoading: followLoading } = useMutation({
+    const { mutate: mutateFollow, isPending: followLoading } = useMutation({
         mutationKey: ['follow', secret, params.username],
         mutationFn: () =>
             follow({
@@ -72,7 +73,7 @@ const Component = ({}: Props) => {
         },
     });
 
-    const { mutate: mutateUnfollow, isLoading: unfollowLoading } = useMutation({
+    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useMutation({
         mutationKey: ['unfollow', secret, params.username],
         mutationFn: () =>
             unfollow({

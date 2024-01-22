@@ -2,23 +2,19 @@
 
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import AnimeCard from '@/app/_components/anime-card';
 import NotFound from '@/app/_components/not-found';
-import { Response } from '@/utils/api/anime/getAnimeCharacters';
+import SubHeader from '@/app/_components/sub-header';
+import { Button } from '@/app/_components/ui/button';
 import getFavouriteList, {
     Response as FavouriteListResponse,
 } from '@/utils/api/favourite/getFavouriteList';
-import { WATCH_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/utils/providers/auth-provider';
-import { Button } from '@/app/_components/ui/button';
-import SubHeader from '@/app/_components/sub-header';
 
 interface Props {
     extended?: boolean;
@@ -30,6 +26,7 @@ const Component = ({ extended }: Props) => {
     const params = useParams();
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
+            initialPageParam: 1,
             queryKey: ['favorites', params.username, secret],
             getNextPageParam: (lastPage: FavouriteListResponse, allPages) => {
                 const nextPage = lastPage.pagination.page + 1;
@@ -66,7 +63,14 @@ const Component = ({ extended }: Props) => {
 
     return (
         <div className="flex flex-col gap-8">
-            <SubHeader title="Улюблені" href={!extended ? '/u/' + params.username + '/favorites' : undefined} />
+            <SubHeader
+                title="Улюблені"
+                href={
+                    !extended
+                        ? '/u/' + params.username + '/favorites'
+                        : undefined
+                }
+            />
             {filteredData.length > 0 && (
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                     {filteredData.map((res) => (

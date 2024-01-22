@@ -24,6 +24,7 @@ import getQueryClient from '@/utils/getQueryClient';
 
 import NavBar from './_layout/navbar';
 
+
 interface Props extends PropsWithChildren {
     params: {
         username: string;
@@ -77,22 +78,26 @@ const Component = async ({ params: { username }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
-    await queryClient.prefetchQuery(['user', username], () =>
-        getUserInfo({ username }),
-    );
+    await queryClient.prefetchQuery({
+        queryKey: ['user', username],
+        queryFn: () => getUserInfo({ username }),
+    });
 
-    await queryClient.prefetchInfiniteQuery(
-        ['favorites', username, secret],
-        () => getFavouriteList({ username }),
-    );
+    await queryClient.prefetchInfiniteQuery({
+        queryKey: ['favorites', username, secret],
+        queryFn: () => getFavouriteList({ username }),
+        initialPageParam: 1,
+    });
 
-    await queryClient.prefetchQuery(['watchStats', username], () =>
-        getWatchStats({ username }),
-    );
+    await queryClient.prefetchQuery({
+        queryKey: ['watchStats', username],
+        queryFn: () => getWatchStats({ username }),
+    });
 
-    await queryClient.prefetchQuery(['followStats', username], () =>
-        getFollowStats({ username }),
-    );
+    await queryClient.prefetchQuery({
+        queryKey: ['followStats', username],
+        queryFn: () => getFollowStats({ username }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
 

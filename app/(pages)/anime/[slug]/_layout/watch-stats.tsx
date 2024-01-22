@@ -13,6 +13,7 @@ import addWatch from '@/utils/api/watch/addWatch';
 import getWatch from '@/utils/api/watch/getWatch';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 
+
 const Component = () => {
     const queryClient = useQueryClient();
     const params = useParams();
@@ -27,7 +28,7 @@ const Component = () => {
         queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
     });
 
-    const { mutate: addToList, isLoading: addToListLoading } = useMutation({
+    const { mutate: addToList, isPending: addToListLoading } = useMutation({
         mutationKey: ['addToList', secret, params.slug],
         mutationFn: (mutationParams: {
             status: Hikka.WatchStatus;
@@ -40,7 +41,7 @@ const Component = () => {
                 ...mutationParams,
             }),
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['watch']);
+            await queryClient.invalidateQueries({ queryKey: ['watch'] });
         },
     });
 
@@ -87,15 +88,13 @@ const Component = () => {
             <div className="flex justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <Rating
                     // className="rating-md lg:flex"
-                    onChange={(value) =>
-                        {
-                            addToList({
-                                status: watch?.status,
-                                score: value * 2,
-                                episodes: watch?.episodes,
-                            })
-                        }
-                    }
+                    onChange={(value) => {
+                        addToList({
+                            status: watch?.status,
+                            score: value * 2,
+                            episodes: watch?.episodes,
+                        });
+                    }}
                     totalStars={5}
                     precision={0.5}
                     value={watch.score ? watch.score / 2 : 0}

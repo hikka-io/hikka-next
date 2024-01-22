@@ -33,10 +33,11 @@ interface Props {}
 const Component = ({}: Props) => {
     const queryClient = useQueryClient();
     const { switchModal } = useModalContext();
-    const { logout } = useAuthContext();
+    const { logout, secret } = useAuthContext();
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret
     ]);
 
     if (!loggedUser) {

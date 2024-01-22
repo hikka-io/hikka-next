@@ -17,9 +17,10 @@ interface Props {
 const Component = async ({ params: { slug } }: Props) => {
     const queryClient = getQueryClient();
 
-    await queryClient.prefetchQuery(['anime', slug], () =>
-        getAnimeInfo({ slug: String(slug) }),
-    );
+    await queryClient.prefetchQuery({
+        queryKey: ['anime', slug],
+        queryFn: () => getAnimeInfo({ slug: String(slug) }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
     return (

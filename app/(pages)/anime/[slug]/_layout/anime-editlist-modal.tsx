@@ -29,12 +29,10 @@ const Component = () => {
     const params = useParams();
     const { animeEditList, closeModals } = useModalContext();
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteQuery<
-            { list: Hikka.Edit[]; pagination: Hikka.Pagination },
-            Error
-        >({
+        useInfiniteQuery({
+            initialPageParam: 1,
             queryKey: ['editList', params.slug],
-            queryFn: ({ pageParam = 1 }) =>
+            queryFn: ({ pageParam }) =>
                 getContentEditList({
                     slug: String(params.slug),
                     contentType: 'anime',
@@ -66,15 +64,14 @@ const Component = () => {
             open={Boolean(animeEditList)}
             onOpenChange={(open) => !open && onDismiss()}
         >
-            <SheetContent side="left" className="!max-w-lg flex flex-col gap-0 pb-0">
+            <SheetContent
+                side="left"
+                className="!max-w-lg flex flex-col gap-0 pb-0"
+            >
                 <SheetHeader>
                     <SheetTitle>Список правок</SheetTitle>
                 </SheetHeader>
-                <div
-                    className={clsx(
-                        'relative py-6',
-                    )}
-                >
+                <div className={clsx('relative py-6')}>
                     <Button variant="secondary" className="w-full" asChild>
                         <Link href={`/edit/anime/` + params.slug}>
                             Створити правку

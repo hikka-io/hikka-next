@@ -6,11 +6,11 @@ import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rou
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { Button } from '@/app/_components/ui/button';
 import addFavourite from '@/utils/api/favourite/addFavourite';
 import deleteFavourite from '@/utils/api/favourite/deleteFavourite';
 import getFavourite from '@/utils/api/favourite/getFavourite';
 import { useAuthContext } from '@/utils/providers/auth-provider';
-import { Button } from '@/app/_components/ui/button';
 
 interface Props {
     slug: string;
@@ -27,7 +27,7 @@ const Component = ({ slug, disabled }: Props) => {
             getFavourite({ slug: String(slug), secret: String(secret) }),
     });
 
-    const { mutate: addToFavorite, isLoading: addToFavoriteLoading } =
+    const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
         useMutation({
             mutationKey: ['addToFavorite', secret, slug],
             mutationFn: () =>
@@ -36,11 +36,11 @@ const Component = ({ slug, disabled }: Props) => {
                     slug: String(slug),
                 }),
             onSuccess: async () => {
-                await queryClient.invalidateQueries(['favorite']);
+                await queryClient.invalidateQueries({ queryKey: ['favorite'] });
             },
         });
 
-    const { mutate: deleteFromFavorite, isLoading: deleteFromFavoriteLoading } =
+    const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
         useMutation({
             mutationKey: ['deleteFromFavorite', secret, slug],
             mutationFn: () =>
@@ -49,7 +49,7 @@ const Component = ({ slug, disabled }: Props) => {
                     slug: String(slug),
                 }),
             onSuccess: async () => {
-                await queryClient.invalidateQueries(['favorite']);
+                await queryClient.invalidateQueries({ queryKey: ['favorite'] });
             },
         });
 
@@ -63,9 +63,7 @@ const Component = ({ slug, disabled }: Props) => {
                     ? deleteFromFavorite()
                     : addToFavorite()
             }
-            className={clsx(
-                'absolute bottom-2 right-2 z-[1]',
-            )}
+            className={clsx('absolute bottom-2 right-2 z-[1]')}
         >
             {favorite && !favoriteError ? (
                 <MaterialSymbolsFavoriteRounded className="text-xl text-destructive" />

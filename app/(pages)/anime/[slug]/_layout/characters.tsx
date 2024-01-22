@@ -24,6 +24,7 @@ const Component = ({ extended }: Props) => {
     const params = useParams();
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
+            initialPageParam: 1,
             queryKey: ['characters', params.slug],
             getNextPageParam: (lastPage: Response, allPages) => {
                 const nextPage = lastPage.pagination.page + 1;

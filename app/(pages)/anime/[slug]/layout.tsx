@@ -1,9 +1,15 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
+
+
 import Link from 'next/link';
 
+
+
 import { dehydrate } from '@tanstack/query-core';
+
+
 
 import Actions from '@/app/(pages)/anime/[slug]/_layout/actions';
 import Cover from '@/app/(pages)/anime/[slug]/_layout/cover';
@@ -15,14 +21,15 @@ import { getCookie } from '@/app/actions';
 import RQHydrate from '@/utils/RQ-hydrate';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
-import getAnimeInfo, {
-    Response as AnimeResponse,
-} from '@/utils/api/anime/getAnimeInfo';
+import getAnimeInfo, { Response as AnimeResponse } from '@/utils/api/anime/getAnimeInfo';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
 import { RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
+
+
 import NavBar from './_layout/navbar';
+
 
 interface Props extends PropsWithChildren {
     params: {
@@ -86,19 +93,30 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
-    await queryClient.prefetchQuery(['anime', slug], () =>
-        getAnimeInfo({ slug }),
-    );
-    await queryClient.prefetchInfiniteQuery(['characters', slug], () =>
-        getAnimeCharacters({ slug }),
-    );
+    await queryClient.prefetchQuery({
+        queryKey: ['anime', slug],
+        queryFn: () => getAnimeInfo({ slug }),
+    });
 
-    await queryClient.prefetchInfiniteQuery(['franchise', slug, secret], () =>
-        getAnimeFranchise({ slug, secret }),
-    );
-    await queryClient.prefetchInfiniteQuery(['staff', slug], () =>
-        getAnimeStaff({ slug }),
-    );
+    await queryClient.prefetchInfiniteQuery({
+        queryKey: ['characters', slug],
+        queryFn: () => getAnimeCharacters({ slug }),
+        initialPageParam: 1,
+    });
+
+    await queryClient.prefetchInfiniteQuery({
+        queryKey: ['franchise', slug, secret],
+        queryFn: () =>
+            getAnimeFranchise({ slug, secret }),
+        initialPageParam: 1,
+    });
+
+    await queryClient.prefetchInfiniteQuery({
+        queryKey: ['staff', slug],
+        queryFn: () =>
+            getAnimeStaff({ slug }),
+        initialPageParam: 1,
+    });
 
     const anime: Hikka.Anime | undefined = queryClient.getQueryData([
         'anime',

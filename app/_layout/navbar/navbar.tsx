@@ -17,6 +17,7 @@ import { usePopperContext } from '@/utils/providers/popper-provider';
 
 import ProfileMenu from './_layout/profile-menu';
 import ThemeToggle from './_layout/theme-toggle';
+import { useAuthContext } from '@/utils/providers/auth-provider';
 
 
 interface Props extends PropsWithChildren {}
@@ -26,11 +27,13 @@ const Component = ({}: Props) => {
     const queryClient = useQueryClient();
     const isMobile = useIsMobile();
     const { switchModal } = useModalContext();
+    const { secret } = useAuthContext();
 
-    queryClient.setQueryDefaults(['loggedUser'], { cacheTime: Infinity });
+    queryClient.setQueryDefaults(['loggedUser'], { gcTime: Infinity });
 
     let loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret,
     ]);
 
     const trigger = useScrollTrigger({

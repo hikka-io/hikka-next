@@ -49,6 +49,7 @@ const Component = ({}: Props) => {
 
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
         useInfiniteQuery({
+            initialPageParam: 1,
             queryKey: ['list', params.username, watchStatus, order, sort],
             getNextPageParam: (lastPage: Response, allPages) => {
                 const nextPage = lastPage.pagination.page + 1;

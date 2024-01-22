@@ -31,6 +31,7 @@ const Component = () => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret,
     ]);
 
     if (

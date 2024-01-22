@@ -39,7 +39,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
         enabled: !disabled,
     });
 
-    const { mutate: addToList, isLoading: addToListLoading } = useMutation({
+    const { mutate: addToList, isPending: addToListLoading } = useMutation({
         mutationKey: ['addToList', secret, slug],
         mutationFn: ({
             status,
@@ -66,7 +66,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
         },
     });
 
-    const { mutate: deleteFromList, isLoading: deleteFromListLoading } =
+    const { mutate: deleteFromList, isPending: deleteFromListLoading } =
         useMutation({
             mutationKey: ['deleteFromList', secret, slug],
             mutationFn: () =>
@@ -80,10 +80,14 @@ const Component = ({ slug, additional, disabled }: Props) => {
         });
 
     const invalidateData = async () => {
-        await queryClient.invalidateQueries(['watch']);
-        await queryClient.invalidateQueries(['list']);
-        await queryClient.invalidateQueries(['favorites']);
-        await queryClient.invalidateQueries(['franchise']);
+        await queryClient.invalidateQueries({
+            queryKey: ['watch']
+        });
+        await queryClient.invalidateQueries({
+            queryKey: ['list']
+        });
+        await queryClient.invalidateQueries({ queryKey: ['favorites']});
+        await queryClient.invalidateQueries({ queryKey: ['franchise']});
     };
 
     return (

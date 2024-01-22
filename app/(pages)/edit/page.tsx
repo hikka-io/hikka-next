@@ -6,13 +6,22 @@ import getQueryClient from '@/utils/getQueryClient';
 
 import EditList from './_layout/editlist';
 
-const Component = async ({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) => {
+
+const Component = async ({
+    searchParams,
+}: {
+    searchParams?: {
+        [key: string]: string | string[] | undefined;
+    };
+}) => {
     const queryClient = getQueryClient();
     const page = Number(searchParams?.page) || 1;
 
-    await queryClient.prefetchQuery(['editList', page], () =>
-        getEditList({ page }),
-    );
+
+    await queryClient.prefetchQuery({
+        queryKey: ['editList', page],
+        queryFn: () => getEditList({ page }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
 

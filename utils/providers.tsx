@@ -28,7 +28,7 @@ function Providers({ children }: Props) {
             defaultOptions: {
                 queries: {
                     staleTime: 60 * 1000,
-                    cacheTime: Infinity,
+                    gcTime: Infinity,
                     retry: false,
                 },
             },

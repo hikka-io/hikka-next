@@ -1,7 +1,6 @@
 'use client';
 
 import clsx from 'clsx';
-import { Dispatch, SetStateAction } from 'react';
 import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
@@ -10,7 +9,7 @@ import { Button } from '@/app/_components/ui/button';
 interface Props {
     page: number;
     pages: number;
-    setPage: Dispatch<SetStateAction<number>>;
+    setPage: (page: number) => void;
 }
 
 const Component = ({ page, pages, setPage }: Props) => {
@@ -60,9 +59,9 @@ const Component = ({ page, pages, setPage }: Props) => {
             <Button
                 size="icon-md"
                 variant="outline"
-                onClick={() => setPage((prev) => prev - 1)}
+                onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                className={clsx('text-xs')}
+                className={clsx('text-xs h-9 w-9 sm:h-10 sm:w-10')}
             >
                 <AntDesignArrowLeftOutlined />
             </Button>
@@ -74,6 +73,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                         disabled={!v}
                         onClick={() => v && setPage(v)}
                         key={index}
+                        className="h-9 w-9 sm:h-10 sm:w-10"
                     >
                         {v ? v : '...'}
                     </Button>
@@ -82,9 +82,9 @@ const Component = ({ page, pages, setPage }: Props) => {
             <Button
                 size="icon-md"
                 variant="outline"
-                onClick={() => setPage((prev) => prev + 1)}
+                onClick={() => setPage(page + 1)}
                 disabled={page === pages}
-                className={clsx('text-xs')}
+                className={clsx('text-xs h-9 w-9 sm:h-10 sm:w-10')}
             >
                 <AntDesignArrowRightOutlined />
             </Button>

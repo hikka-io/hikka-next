@@ -5,15 +5,9 @@ import { useCallback, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-
-
 import { usePathname, useSearchParams } from 'next/navigation';
 
-
-
 import { useQuery } from '@tanstack/react-query';
-
-
 
 import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
@@ -22,7 +16,6 @@ import { Label } from '@/app/_components/ui/label';
 import { Slider } from '@/app/_components/ui/slider';
 import { Switch } from '@/app/_components/ui/switch';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
-import importAnilistWatch from '@/utils/api/settings/importAnilistWatch';
 import {
     AGE_RATING,
     MEDIA_TYPE,
@@ -30,7 +23,6 @@ import {
     SEASON,
 } from '@/utils/constants';
 import useRouter from '@/utils/useRouter';
-
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
@@ -60,6 +52,7 @@ const Component = () => {
         (name: string, value: string | string[] | boolean) => {
             const params = new URLSearchParams(searchParams);
             params.set('page', '1');
+            params.set('iPage', '1');
 
             if (value) {
                 if (Array.isArray(value)) {

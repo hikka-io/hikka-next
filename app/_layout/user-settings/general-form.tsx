@@ -29,6 +29,7 @@ const Component = () => {
     const { secret } = useAuthContext();
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret,
     ]);
 
     const onSubmit = async (data: FormValues) => {
