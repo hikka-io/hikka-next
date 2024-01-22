@@ -15,12 +15,14 @@ import getFavouriteList, {
     Response as FavouriteListResponse,
 } from '@/utils/api/favourite/getFavouriteList';
 import { useAuthContext } from '@/utils/providers/auth-provider';
+import { useSettingsContext } from '@/utils/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
     const { ref, inView } = useInView();
     const params = useParams();
@@ -82,6 +84,7 @@ const Component = ({ extended }: Props) => {
                                     : undefined
                             }
                             title={
+                                res.anime[titleLanguage!] ||
                                 res.anime.title_ua ||
                                 res.anime.title_en ||
                                 res.anime.title_ja

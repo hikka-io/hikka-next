@@ -157,12 +157,12 @@ export const Combobox = forwardRef(
                                     <CommandInput
                                         placeholder={
                                             props.searchPlaceholder ??
-                                            'Search for an option'
+                                            'Пошук опції'
                                         }
                                     />
                                 )}
                                 <CommandEmpty>
-                                    {props.emptyText ?? 'No results found'}
+                                    {props.emptyText ?? 'Результатів не знайдено'}
                                 </CommandEmpty>
                                 <CommandGroup>
                                     <ScrollArea>

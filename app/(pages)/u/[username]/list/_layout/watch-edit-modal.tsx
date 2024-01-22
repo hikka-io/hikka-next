@@ -23,6 +23,7 @@ import getWatch from '@/utils/api/watch/getWatch';
 import { WATCH_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
+import { useSettingsContext } from '@/utils/providers/settings-provider';
 
 
 type FormValues = {
@@ -38,6 +39,7 @@ interface Props {
 }
 
 const Component = ({ slug, setSlug }: Props) => {
+    const { titleLanguage } = useSettingsContext();
     const { animeSettings, closeModals, switchModal } = useModalContext();
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
@@ -92,6 +94,7 @@ const Component = ({ slug, setSlug }: Props) => {
             },
         });
 
+
     const onSaveSubmit = async (data: FormValues) => {
         if (data.score && (data.score > 10 || data.score < 0)) {
             return;
@@ -128,6 +131,7 @@ const Component = ({ slug, setSlug }: Props) => {
             id="watchEditModal"
             boxClassName="!max-w-xl"
             title={
+                watch?.anime[titleLanguage!] ||
                 watch?.anime.title_ua ||
                 watch?.anime.title_en ||
                 watch?.anime.title_ja ||

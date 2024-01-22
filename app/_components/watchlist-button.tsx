@@ -153,7 +153,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                               WATCH_STATUS[
                                                   value as Hikka.WatchStatus
                                               ].title_en
-                                            : 'Додати У Список'}
+                                            : 'Додати у список'}
                                     </span>
                                     {!watchError &&
                                     watch?.score &&

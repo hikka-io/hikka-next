@@ -14,6 +14,7 @@ import { useAuthContext } from '@/utils/providers/auth-provider';
 
 import Tooltip from './tooltip';
 import { Label } from '@/app/_components/ui/label';
+import { useSettingsContext } from '@/utils/providers/settings-provider';
 
 
 interface Props extends PropsWithChildren {
@@ -21,6 +22,7 @@ interface Props extends PropsWithChildren {
 }
 
 const TooltipData = ({ slug }: { slug: string }) => {
+    const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
     const { data } = useQuery({
         queryKey: ['anime', slug],
@@ -54,7 +56,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
         );
     }
 
-    const title = data.title_ua || data.title_en || data.title_ja;
+    const title = data[titleLanguage!] || data.title_ua || data.title_en || data.title_ja;
     const synopsis = data.synopsis_ua || data.synopsis_en;
 
     return (

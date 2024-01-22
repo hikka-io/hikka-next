@@ -146,7 +146,7 @@ const Component = () => {
                     sort,
                     page,
                 ],
-            })
+            });
             const query = createQueryString(
                 'iPage',
                 String(newPage),

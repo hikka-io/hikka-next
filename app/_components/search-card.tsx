@@ -14,6 +14,7 @@ import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 
 import { Label } from './ui/label';
+import { useSettingsContext } from '@/utils/providers/settings-provider';
 
 
 interface Props {
@@ -22,6 +23,8 @@ interface Props {
 }
 
 const Component = ({ anime, onClick }: Props) => {
+    const { titleLanguage } = useSettingsContext();
+
     return (
         <Link
             href={'/anime/' + anime.slug}
@@ -33,7 +36,7 @@ const Component = ({ anime, onClick }: Props) => {
             </div>
             <div className="flex w-full flex-col gap-2">
                 <h5>
-                    {anime.title_ua || anime.title_en}{' '}
+                    {anime[titleLanguage!] || anime.title_ua || anime.title_en}{' '}
                     <Label className="text-muted-foreground">/ {anime.title_ja}</Label>
                 </h5>
                 <div className="flex flex-col gap-1">

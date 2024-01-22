@@ -44,7 +44,7 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <SubHeader title="У Списках" />
+            <SubHeader title="У списках" />
             <div className="relative overflow-hidden rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex flex-col justify-center gap-2">
                     {Object.keys(data.stats)

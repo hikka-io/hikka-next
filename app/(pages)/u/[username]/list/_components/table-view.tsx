@@ -3,20 +3,15 @@
 import clsx from 'clsx';
 import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
-
-
 import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import WatchEditModal from '@/app/(pages)/u/[username]/list/_layout/watch-edit-modal';
 import BaseCard from '@/app/_components/base-card';
-import Image from '@/app/_components/image';
+import { Badge } from '@/app/_components/ui/badge';
+import { Label } from '@/app/_components/ui/label';
 import {
     Table,
     TableBody,
@@ -26,13 +21,10 @@ import {
     TableRow,
 } from '@/app/_components/ui/table';
 import { MEDIA_TYPE } from '@/utils/constants';
-import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
-import useRouter from '@/utils/useRouter';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
-import { Label } from '@/app/_components/ui/label';
-import { Badge } from '@/app/_components/ui/badge';
-
+import useRouter from '@/utils/useRouter';
+import { useAuthContext } from '@/utils/providers/auth-provider';
 
 interface Props {
     data: Hikka.Watch[];
@@ -40,6 +32,7 @@ interface Props {
 
 const Component = ({ data }: Props) => {
     const { titleLanguage } = useSettingsContext();
+    const { secret } = useAuthContext();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -54,6 +47,7 @@ const Component = ({ data }: Props) => {
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
+        secret
     ]);
 
     const createQueryString = useCallback(
@@ -160,7 +154,11 @@ const Component = ({ data }: Props) => {
                             key={res.reference}
                             onClick={() => !go && setSlug(res.anime.slug)}
                         >
-                            <TableHead className="w-8"><Label className="text-muted-foreground">{i + 1}</Label></TableHead>
+                            <TableHead className="w-8">
+                                <Label className="text-muted-foreground">
+                                    {i + 1}
+                                </Label>
+                            </TableHead>
                             <TableCell>
                                 <div className="flex gap-4">
                                     <div className="hidden w-12 lg:block">
@@ -173,11 +171,16 @@ const Component = ({ data }: Props) => {
                                                 href={`/anime/${res.anime.slug}`}
                                                 onClick={() => setGo(true)}
                                             >
-                                                {res.anime[titleLanguage!] || res.anime.title_ua ||
+                                                {res.anime[titleLanguage!] ||
+                                                    res.anime.title_ua ||
                                                     res.anime.title_en ||
                                                     res.anime.title_ja}
                                             </Link>
-                                            {res.rewatches > 0 && <Badge variant="outline">{res.rewatches}</Badge>}
+                                            {res.rewatches > 0 && (
+                                                <Badge variant="outline">
+                                                    {res.rewatches}
+                                                </Badge>
+                                            )}
                                         </div>
                                         {res.note && (
                                             <p className="text-xs text-muted-foreground">
@@ -194,11 +197,10 @@ const Component = ({ data }: Props) => {
                                 className="hidden w-32 lg:table-cell"
                                 align="center"
                             >
-                                {
-                                    res.anime.media_type && MEDIA_TYPE[
+                                {res.anime.media_type &&
+                                    MEDIA_TYPE[
                                         res.anime.media_type as Hikka.MediaType
-                                    ].title_ua
-                                }
+                                    ].title_ua}
                             </TableCell>
                             <TableCell className="w-20" align="center">
                                 <div
