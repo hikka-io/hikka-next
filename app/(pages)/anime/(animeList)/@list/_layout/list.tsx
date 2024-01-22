@@ -74,7 +74,7 @@ const Component = () => {
             sort,
             page,
         ],
-        initialPageParam: iPage ? iPage : page,
+        initialPageParam: iPage || page,
         getNextPageParam: (lastPage: AnimeCatalogResponse, allPages) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
@@ -170,16 +170,6 @@ const Component = () => {
             fetchNextPage();
         }
     }, [inView]);
-
-    useEffect(() => {
-        if (page !== iPage) {
-            const query = createQueryString('iPage', String(page));
-
-            router.replace(`${pathname}?${query.toString()}`, {
-                scroll: false,
-            });
-        }
-    }, [page]);
 
     if (isLoading && !isFetchingNextPage) {
         return (

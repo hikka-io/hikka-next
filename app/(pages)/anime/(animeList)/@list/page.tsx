@@ -5,7 +5,7 @@ const Component = ({ searchParams }: {  searchParams: { [key: string]: string | 
     const page = searchParams.page;
 
     if (!page) {
-        redirect('/anime?page=1');
+        redirect('/anime?page=1&iPage=1');
     }
 
     return <List />;
