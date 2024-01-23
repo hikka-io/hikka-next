@@ -39,8 +39,7 @@ const Component = ({}: Props) => {
     const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
-    const [selectedAvatarFile, setSelectedAvatarFile] = useState<File>();
-    const [selectedCoverFile, setSelectedCoverFile] = useState<File>();
+    const [selectedFile, setSelectedFile] = useState<File>();
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
@@ -56,10 +55,11 @@ const Component = ({}: Props) => {
     const handleUploadImageSelected = (e: ChangeEvent<HTMLInputElement>, type: 'avatar' | 'cover') => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
+            setSelectedFile(file);
 
             switch (type) {
                 case 'avatar':
-                    setSelectedAvatarFile(file);
+
                     switchModal('uploadAvatar');
 
                     if (uploadAvatarRef.current) {
@@ -67,7 +67,6 @@ const Component = ({}: Props) => {
                     }
                     return;
                 case 'cover':
-                    setSelectedCoverFile(file);
                     switchModal('uploadCover');
 
                     if (uploadCoverRef.current) {
@@ -201,7 +200,7 @@ const Component = ({}: Props) => {
                 </div>
             </div>
 
-            <CropEditorModal file={selectedAvatarFile || selectedCoverFile} />
+            <CropEditorModal file={selectedFile} />
         </>
     );
 };
