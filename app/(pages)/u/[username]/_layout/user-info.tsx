@@ -201,7 +201,7 @@ const Component = ({}: Props) => {
                 </div>
             </div>
 
-            <CropEditorModal file={selectedAvatarFile} />
+            <CropEditorModal file={selectedAvatarFile || selectedCoverFile} />
         </>
     );
 };
