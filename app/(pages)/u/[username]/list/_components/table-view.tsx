@@ -112,7 +112,7 @@ const Component = ({ data }: Props) => {
     return (
         <div className="overflow-x-auto">
             <Table className="table">
-                <TableHeader className="overflow-hidden rounded-lg bg-secondary/30 [&_tr]:border-b-0">
+                <TableHeader className="overflow-hidden rounded-lg bg-secondary/30 backdrop-blur [&_tr]:border-b-0">
                     <TableRow className="border-b-0">
                         <TableHead className="w-8">#</TableHead>
                         <TableHead>Деталі</TableHead>

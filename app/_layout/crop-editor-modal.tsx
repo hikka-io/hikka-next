@@ -6,24 +6,39 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import MaterialSymbolsZoomInRounded from '~icons/material-symbols/zoom-in-rounded';
-import MaterialSymbolsZoomOut from '~icons/material-symbols/zoom-out'
+import MaterialSymbolsZoomOut from '~icons/material-symbols/zoom-out';
 
 import { useParams } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
 import Modal from '@/app/_components/modal';
+import { Button } from '@/app/_components/ui/button';
 import { Slider } from '@/app/_components/ui/slider';
-import uploadAvatar from '@/utils/api/upload/uploadAvatar';
+import uploadImage from '@/utils/api/upload/uploadImage';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
-import { Button } from '@/app/_components/ui/button';
+import useRouter from '@/utils/useRouter';
 
 interface Props {
     file?: File;
 }
 
+const CROP_PARAMS = {
+    uploadCover: {
+        width: 1500,
+        height: 500,
+        border: [50, 400],
+    },
+    uploadAvatar: {
+        width: 400,
+        height: 400,
+        border: 50,
+    },
+};
+
 const Component = ({ file }: Props) => {
+    const router = useRouter();
     const queryClient = useQueryClient();
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
@@ -31,19 +46,24 @@ const Component = ({ file }: Props) => {
     const { secret } = useAuthContext();
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
-    const { uploadAvatar: uploadAvatarModal, closeModals, switchModal } = useModalContext();
+    const {
+        uploadAvatar: uploadAvatarModal,
+        uploadCover: uploadCoverModal,
+        closeModals,
+        switchModal,
+    } = useModalContext();
 
-    const onDismiss = (open: boolean) => {
+    const onDismiss = () => {
         closeModals();
-        switchModal("uploadAvatar", open);
         setScale(100);
     };
 
-    const uploadImage = async (file: File) => {
+    const uploadFile = async (file: File) => {
         if (uploadAvatarModal) {
             try {
-                const res = await uploadAvatar({
+                const res = await uploadImage({
                     file,
+                    upload_type: 'avatar',
                     secret: String(secret),
                 });
 
@@ -55,6 +75,29 @@ const Component = ({ file }: Props) => {
             } catch (e) {
                 enqueueSnackbar(
                     'Щось пішло не так. Перевірте файл та спробуйте завантажити аватар ще раз.',
+                    { variant: 'error' },
+                );
+
+                throw e;
+            }
+        }
+
+        if (uploadCoverModal) {
+            try {
+                const res = await uploadImage({
+                    file,
+                    upload_type: 'cover',
+                    secret: String(secret),
+                });
+
+                enqueueSnackbar('Ви успішно оновили свою обкладинку.', {
+                    variant: 'success',
+                });
+
+                return res;
+            } catch (e) {
+                enqueueSnackbar(
+                    'Щось пішло не так. Перевірте файл та спробуйте завантажити обкладинку ще раз.',
                     { variant: 'error' },
                 );
 
@@ -93,30 +136,47 @@ const Component = ({ file }: Props) => {
 
             const file = blobToFile(blob, 'avatar.jpg');
 
-            await uploadImage(file);
+            await uploadFile(file);
 
             await queryClient.invalidateQueries({
-                queryKey: ['loggedUser']
+                queryKey: ['loggedUser'],
             });
             await queryClient.invalidateQueries({
-                queryKey: ['user', params.username]
+                queryKey: ['user', params.username],
             });
+
+            router.refresh();
 
             setIsLoading(false);
         } catch (e) {
             setIsLoading(false);
         }
 
-        onDismiss(false);
+        onDismiss();
     };
+
+    const getCropParams = () => {
+        if (uploadAvatarModal) {
+            return CROP_PARAMS.uploadAvatar;
+        }
+
+        if (uploadCoverModal) {
+            return CROP_PARAMS.uploadCover;
+        }
+
+        return {};
+    }
 
     return (
         <Modal
-            open={Boolean(file) && Boolean(uploadAvatarModal)}
-            onOpenChange={onDismiss}
+            open={
+                Boolean(file) &&
+                (Boolean(uploadAvatarModal) || Boolean(uploadCoverModal))
+            }
+            onOpenChange={(open) => !open && onDismiss()}
             id="searchModal"
             boxClassName="!max-w-lg"
-            title="Аватар"
+            title="Редагувати медіафайл"
         >
             <div className="relative w-full  h-auto grid text-center place-content-center">
                 <AvatarEditor
@@ -127,17 +187,15 @@ const Component = ({ file }: Props) => {
                         isLoading && 'pointer-events-none',
                     )}
                     image={file!}
-                    width={400}
-                    height={400}
-                    border={50}
-                    color={[231, 121, 193, 0.3]} // RGBA
+                    {...(getCropParams())}
+                    color={[0, 0, 0, 0.7]}
                     scale={scale / 100}
                     rotate={0}
                 />
             </div>
             <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
-                    <MaterialSymbolsZoomOut className="text-muted-foreground"  />
+                    <MaterialSymbolsZoomOut className="text-muted-foreground" />
                     <Slider
                         disabled={isLoading}
                         onValueChange={(value) => setScale(value[0] as number)}

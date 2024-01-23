@@ -35,7 +35,7 @@ const Component = ({}: Props) => {
                         href={`${pathname}/list?status=${status}`}
                         key={status}
                         className={clsx(
-                            'flex-1 bg-secondary/30 border border-secondary/60 p-4 text-left transition lg:min-w-fit rounded-lg',
+                            'flex-1 bg-secondary/30 border backdrop-blur border-secondary/60 p-4 text-left transition lg:min-w-fit rounded-lg',
                             'hover:bg-secondary/10',
                         )}
                     >

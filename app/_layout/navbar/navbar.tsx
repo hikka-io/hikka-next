@@ -53,7 +53,7 @@ const Component = ({}: Props) => {
         <nav
             className={clsx(
                 'bg-transparent z-10 border-b w-full border-b-secondary/30 transition sticky top-0',
-                trigger && '!border-b-secondary !bg-background',
+                trigger ? '!border-b-secondary !bg-background' : 'backdrop-blur',
             )}
         >
             <div className="container min-h-16 flex items-center mx-auto max-w-[88rem] gap-4 px-4 md:gap-8">

@@ -26,6 +26,7 @@ declare global {
             username: string;
             created: number;
             avatar: string;
+            cover?: string;
             role: UserRole;
             active: boolean;
             is_followed?: boolean;

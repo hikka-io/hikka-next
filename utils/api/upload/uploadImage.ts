@@ -6,15 +6,17 @@ export interface Response {
 
 export default async function req({
     file,
+    upload_type,
     secret,
 }: {
     file: File;
+    upload_type: 'avatar' | 'cover';
     secret: string;
 }): Promise<Response> {
     let data = new FormData();
     data.append('file', file);
 
-    const res = await fetch(config.baseAPI + '/upload/avatar', {
+    const res = await fetch(config.baseAPI + '/upload/' + upload_type, {
         method: 'put',
         ...config.config,
         body: data,

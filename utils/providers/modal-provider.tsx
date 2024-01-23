@@ -26,6 +26,7 @@ interface State {
     followers?: boolean;
     followings?: boolean;
     uploadAvatar?: boolean;
+    uploadCover?: boolean;
 }
 
 interface ContextProps extends State {
@@ -59,6 +60,7 @@ function getInitialState(): State {
         followers: false,
         followings: false,
         uploadAvatar: false,
+        uploadCover: false,
     };
 }
 
