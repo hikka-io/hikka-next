@@ -3,28 +3,29 @@
 import clsx from 'clsx';
 import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
+
+
 import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import WatchEditModal from '@/app/(pages)/u/[username]/list/_layout/watch-edit-modal';
 import BaseCard from '@/app/_components/base-card';
 import { Badge } from '@/app/_components/ui/badge';
 import { Label } from '@/app/_components/ui/label';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/app/_components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/app/_components/ui/table';
 import { MEDIA_TYPE } from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
+import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
-import { useAuthContext } from '@/utils/providers/auth-provider';
+
 
 interface Props {
     data: Hikka.Watch[];
@@ -50,53 +51,26 @@ const Component = ({ data }: Props) => {
         secret
     ]);
 
-    const createQueryString = useCallback(
-        (
-            name: string,
-            value: string | string[] | boolean,
-            ownParams?: URLSearchParams,
-        ) => {
-            const params = ownParams
-                ? ownParams
-                : new URLSearchParams(searchParams);
-            // params.set('page', '1');
-
-            if (value) {
-                if (Array.isArray(value)) {
-                    params.delete(name);
-                    value.forEach((v) => params.append(name, String(v)));
-                } else {
-                    params.set(name, String(value));
-                }
-            } else {
-                params.delete(name);
-            }
-
-            return params;
-        },
-        [searchParams],
-    );
-
     const switchOrder = (newOrder: 'score' | 'episodes' | 'media_type') => {
         let query;
 
         if (order && order === newOrder) {
             if (sort) {
                 if (sort === 'asc') {
-                    query = createQueryString('sort', 'desc').toString();
+                    query = createQueryString('sort', 'desc', new URLSearchParams(searchParams)).toString();
                 } else if (sort === 'desc') {
-                    query = createQueryString('sort', 'asc').toString();
+                    query = createQueryString('sort', 'asc', new URLSearchParams(searchParams)).toString();
                 } else {
-                    query = createQueryString('sort', 'desc').toString();
+                    query = createQueryString('sort', 'desc', new URLSearchParams(searchParams)).toString();
                 }
             } else {
-                query = createQueryString('sort', 'desc').toString();
+                query = createQueryString('sort', 'desc', new URLSearchParams(searchParams)).toString();
             }
         } else {
             query = createQueryString(
                 'sort',
                 'desc',
-                createQueryString('order', newOrder),
+                createQueryString('order', newOrder, new URLSearchParams(searchParams)),
             ).toString();
         }
 

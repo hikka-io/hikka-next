@@ -17,11 +17,11 @@ import { Button } from '@/app/_components/ui/button';
 import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
 } from '@/utils/api/anime/getAnimeCatalog';
+import createQueryString from '@/utils/createQueryString';
 import useDebounce from '@/utils/hooks/useDebounce';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
-
 
 const Component = () => {
     const queryClient = useQueryClient();
@@ -96,29 +96,6 @@ const Component = () => {
             }),
     });
 
-    const createQueryString = (
-        name: string,
-        value: string | string[] | boolean,
-        ownParams?: URLSearchParams,
-    ) => {
-        const params = ownParams
-            ? ownParams
-            : new URLSearchParams(searchParams);
-
-        if (value) {
-            if (Array.isArray(value)) {
-                params.delete(name);
-                value.forEach((v) => params.append(name, String(v)));
-            } else {
-                params.set(name, String(value));
-            }
-        } else {
-            params.delete(name);
-        }
-
-        return params;
-    };
-
     const range = (min: number, max: number) => {
         const newArr = [];
 
@@ -150,7 +127,11 @@ const Component = () => {
             const query = createQueryString(
                 'iPage',
                 String(newPage),
-                createQueryString('page', String(newPage)),
+                createQueryString(
+                    'page',
+                    String(newPage),
+                    new URLSearchParams(searchParams),
+                ),
             );
             router.push(`${pathname}?${query.toString()}`, { scroll: true });
         }
@@ -161,6 +142,7 @@ const Component = () => {
             const query = createQueryString(
                 'iPage',
                 String(data.pages[data.pages.length - 1].pagination.page + 1),
+                new URLSearchParams(searchParams),
             );
 
             router.replace(`${pathname}?${query.toString()}`, {

@@ -191,6 +191,14 @@ table th:last-child {
     @apply -ml-4 inline-block w-4 font-bold text-accent;
 }
 
+.markdown ol {
+    @apply my-4 pl-6 list-decimal;
+}
+
+.markdown pre {
+    @apply overflow-scroll p-4 border border-secondary/60 bg-secondary/30 rounded-md mb-4;
+}
+
 .radial-progress {
     position: relative;
     display: inline-grid;

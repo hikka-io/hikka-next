@@ -1,18 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
 import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
 
 import Link from 'next/link';
 
 import { Button } from '@/app/_components/ui/button';
-import RightholderModal from '@/app/_layout/rightholder-modal/rightholder-modal';
-import { useModalContext } from '@/utils/providers/modal-provider';
 import { Label } from '@/app/_components/ui/label';
+import MarkdownModal from '@/app/_layout/markdown-modal';
+import Rightholder from '@/app/_layout/rightholder.mdx';
 
 
 const Component = () => {
-    const { switchModal } = useModalContext();
+    const [openRightholderModal, setOpenRightholderModal] = useState(false);
 
     return (
         <footer className="w-full border-t border-t-secondary md:mt-12">
@@ -37,19 +38,27 @@ const Component = () => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => switchModal('rightholder')}
+                            onClick={() => setOpenRightholderModal(true)}
                         >
                             Правовласникам
                         </Button>
                     </div>
                     <div className="flex items-center justify-center lg:justify-end">
-                        <Label id="hikka-footer-label" className="text-muted-foreground">
+                        <Label
+                            id="hikka-footer-label"
+                            className="text-muted-foreground"
+                        >
                             © {new Date().getFullYear()} Hikka
                         </Label>
                     </div>
                 </div>
             </div>
-            <RightholderModal />
+            <MarkdownModal
+                open={openRightholderModal}
+                setOpen={setOpenRightholderModal}
+                title="Правовласникам"
+                data={<Rightholder />}
+            />
         </footer>
     );
 };

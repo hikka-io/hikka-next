@@ -5,9 +5,15 @@ import { useCallback, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+
+
 import { usePathname, useSearchParams } from 'next/navigation';
 
+
+
 import { useQuery } from '@tanstack/react-query';
+
+
 
 import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
@@ -16,13 +22,10 @@ import { Label } from '@/app/_components/ui/label';
 import { Slider } from '@/app/_components/ui/slider';
 import { Switch } from '@/app/_components/ui/switch';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
-import {
-    AGE_RATING,
-    MEDIA_TYPE,
-    RELEASE_STATUS,
-    SEASON,
-} from '@/utils/constants';
+import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS, SEASON } from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
 import useRouter from '@/utils/useRouter';
+
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
@@ -48,28 +51,6 @@ const Component = () => {
         years.length > 0 ? years : YEARS.map((y) => String(y)),
     );
 
-    const createQueryString = useCallback(
-        (name: string, value: string | string[] | boolean) => {
-            const params = new URLSearchParams(searchParams);
-            params.set('page', '1');
-            params.set('iPage', '1');
-
-            if (value) {
-                if (Array.isArray(value)) {
-                    params.delete(name);
-                    value.forEach((v) => params.append(name, String(v)));
-                } else {
-                    params.set(name, String(value));
-                }
-            } else {
-                params.delete(name);
-            }
-
-            return params.toString();
-        },
-        [searchParams],
-    );
-
     const handleFilterSelect = (value: string, data: string[]) => {
         const newData = [...data];
 
@@ -91,7 +72,7 @@ const Component = () => {
         name: string,
         value: string | string[] | boolean,
     ) => {
-        const query = createQueryString(name, value);
+        const query = createQueryString(name, value, new URLSearchParams(searchParams));
         router.replace(`${pathname}?${query}`);
     };
 

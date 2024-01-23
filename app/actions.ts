@@ -3,7 +3,9 @@
 import { cookies, headers } from 'next/headers';
 
 export async function setCookie(name: string, value: string) {
-    cookies().set(name, value);
+    cookies().set(name, value, {
+        maxAge: 60 * 60 * 24 * 7,
+    });
 }
 
 export async function deleteCookie(name: string) {

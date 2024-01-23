@@ -50,7 +50,6 @@ const Component = ({ file }: Props) => {
         uploadAvatar: uploadAvatarModal,
         uploadCover: uploadCoverModal,
         closeModals,
-        switchModal,
     } = useModalContext();
 
     const onDismiss = () => {
@@ -165,7 +164,7 @@ const Component = ({ file }: Props) => {
         }
 
         return {};
-    }
+    };
 
     return (
         <Modal
@@ -187,7 +186,7 @@ const Component = ({ file }: Props) => {
                         isLoading && 'pointer-events-none',
                     )}
                     image={file!}
-                    {...(getCropParams())}
+                    {...getCropParams()}
                     color={[0, 0, 0, 0.7]}
                     scale={scale / 100}
                     rotate={0}

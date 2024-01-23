@@ -22,7 +22,10 @@ interface State {
     animeEditList?: boolean;
     forgotPassword?: boolean;
     passwordConfirm?: boolean;
+
     rightholder?: boolean;
+    editRules?: boolean;
+
     followers?: boolean;
     followings?: boolean;
     uploadAvatar?: boolean;
@@ -56,7 +59,10 @@ function getInitialState(): State {
         animeEditList: false,
         forgotPassword: false,
         passwordConfirm: false,
+
         rightholder: false,
+        editRules: false,
+
         followers: false,
         followings: false,
         uploadAvatar: false,

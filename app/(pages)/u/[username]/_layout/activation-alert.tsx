@@ -75,7 +75,7 @@ const Component = () => {
         <div>
             <div className="flex items-center gap-4 p-4 border rounded-md border-secondary/60 bg-secondary/30">
                 <MaterialSymbolsInfoRounded className="text-xl" />
-                <span className="text-sm">
+                <span className="text-sm flex-1">
                     На вашу пошту відправлено лист з активацією пошти. Будь
                     ласка, перейдіть за посилання у листі. Якщо Ваш лист не
                     прийшов, будь ласка,{' '}

@@ -1,15 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
-
-
 import Link from 'next/link';
 
-
-
 import { dehydrate } from '@tanstack/query-core';
-
-
 
 import Actions from '@/app/(pages)/anime/[slug]/_layout/actions';
 import Cover from '@/app/(pages)/anime/[slug]/_layout/cover';
@@ -21,12 +15,12 @@ import { getCookie } from '@/app/actions';
 import RQHydrate from '@/utils/RQ-hydrate';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
 import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
-import getAnimeInfo, { Response as AnimeResponse } from '@/utils/api/anime/getAnimeInfo';
+import getAnimeInfo, {
+    Response as AnimeResponse,
+} from '@/utils/api/anime/getAnimeInfo';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
 import { RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-
 
 import NavBar from './_layout/navbar';
 
@@ -106,15 +100,13 @@ const Component = async ({ params: { slug }, children }: Props) => {
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['franchise', slug, secret],
-        queryFn: () =>
-            getAnimeFranchise({ slug, secret }),
+        queryFn: () => getAnimeFranchise({ slug, secret }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['staff', slug],
-        queryFn: () =>
-            getAnimeStaff({ slug }),
+        queryFn: () => getAnimeStaff({ slug }),
         initialPageParam: 1,
     });
 

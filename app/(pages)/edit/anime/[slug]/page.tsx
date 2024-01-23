@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { dehydrate } from '@tanstack/query-core';
 
+import RulesAlert from '@/app/(pages)/edit/anime/[slug]/_layout/rules-alert';
 import SubHeader from '@/app/_components/sub-header';
 import RQHydrate from '@/utils/RQ-hydrate';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
@@ -11,7 +12,9 @@ import AnimeContent from './_layout/anime-content';
 import AnimeEditNew from './_layout/anime-edit-new';
 
 interface Props {
-    params: { slug: string };
+    params: {
+        slug: string;
+    };
 }
 
 const Component = async ({ params: { slug } }: Props) => {
@@ -28,6 +31,7 @@ const Component = async ({ params: { slug } }: Props) => {
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Нова правка`} />
+                    <RulesAlert />
                     <AnimeEditNew />
                 </div>
                 <div className="flex flex-col gap-12">

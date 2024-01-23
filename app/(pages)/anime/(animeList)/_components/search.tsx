@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import { Input } from '@/app/_components/ui/input';
-import useRouter from '@/utils/useRouter';
 import { Label } from '@/app/_components/ui/label';
-
+import createQueryString from '@/utils/createQueryString';
+import useRouter from '@/utils/useRouter';
 
 const Component = () => {
     const router = useRouter();
@@ -16,28 +16,16 @@ const Component = () => {
 
     const [search, setSearch] = useState(searchParams.get('search'));
 
-    const createQueryString = useCallback(
-        (name: string, value: string | null) => {
-            const params = new URLSearchParams(searchParams);
-            params.set('page', '1');
-
-            if (value) {
-                params.set(name, value);
-            } else {
-                params.delete(name);
-            }
-
-            return params.toString();
-        },
-        [searchParams],
-    );
-
     const handleChangeSearch = (value: string) => {
-        const query = createQueryString('search', value);
-        setSearch(value)
+        const query = createQueryString(
+            'search',
+            value,
+            new URLSearchParams(searchParams),
+        );
+        setSearch(value);
 
         router.replace(`${pathname}?${query}`);
-    }
+    };
 
     return (
         <div className="flex flex-col gap-4 flex-1">

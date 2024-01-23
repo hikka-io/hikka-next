@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import BaseCard from '@/app/_components/base-card';
 import Pagination from '@/app/_components/pagination';
+import { Label } from '@/app/_components/ui/label';
 import {
     Table,
     TableBody,
@@ -21,11 +22,11 @@ import {
     TableRow,
 } from '@/app/_components/ui/table';
 import getEditList from '@/utils/api/edit/getEditList';
+import createQueryString from '@/utils/createQueryString';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
 
 import EditStatus from '../_components/edit-status';
-import { Label } from '@/app/_components/ui/label';
 
 
 const Component = () => {
@@ -40,7 +41,10 @@ const Component = () => {
     const router = useRouter();
 
     const { data } = useQuery<
-        { list: Hikka.Edit[]; pagination: Hikka.Pagination },
+        {
+            list: Hikka.Edit[];
+            pagination: Hikka.Pagination;
+        },
         Error
     >({
         queryKey: ['editList', selectedPage],
@@ -50,23 +54,12 @@ const Component = () => {
             }),
     });
 
-    const createQueryString = useCallback(
-        (name: string, value: string | null) => {
-            const params = new URLSearchParams(searchParams);
-
-            if (value) {
-                params.set(name, value);
-            } else {
-                params.delete(name);
-            }
-
-            return params.toString();
-        },
-        [searchParams],
-    );
-
     useEffect(() => {
-        const query = createQueryString('page', String(selectedPage));
+        const query = createQueryString(
+            'page',
+            String(selectedPage),
+            new URLSearchParams(searchParams),
+        );
         router.push(`${pathname}?${query}`, { scroll: true });
     }, [selectedPage]);
 
@@ -110,9 +103,7 @@ const Component = () => {
                                     }
                                 >
                                     <TableHead className="w-8">
-                                        <Label>
-                                            {edit.edit_id}
-                                        </Label>
+                                        <Label>{edit.edit_id}</Label>
                                     </TableHead>
                                     <TableCell>
                                         <div className="flex gap-4">
