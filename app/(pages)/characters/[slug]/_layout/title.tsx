@@ -8,25 +8,15 @@ import { useParams, usePathname } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
+import { Button } from '@/app/_components/ui/button';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 import { useAuthContext } from '@/utils/providers/auth-provider';
-import { useModalContext } from '@/utils/providers/modal-provider';
-import { Button } from '@/app/_components/ui/button';
 
 
 const EditButton = ({ className }: { className?: string }) => {
-    const { switchModal } = useModalContext();
-
     return (
-        <Button
-            variant="outline"
-            size="icon-xs"
-            onClick={() => switchModal('animeEditList')}
-            className={clsx(
-                className,
-            )}
-        >
+        <Button variant="outline" size="icon-xs" className={clsx(className)}>
             <MaterialSymbolsEditRounded />
         </Button>
     );
