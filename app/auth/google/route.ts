@@ -14,7 +14,9 @@ export async function GET(request: Request) {
             provider: 'google',
         });
 
-        cookies().set('secret', res.secret);
+        cookies().set('secret', res.secret, {
+            maxAge: 60 * 60 * 24 * 7,
+        });
     } catch (e) {
         if ('code' in (e as Hikka.Error)) {
             return redirect(
