@@ -30,7 +30,7 @@ type FormValues = {
 const Component = () => {
     const searchParams = useSearchParams();
     const { enqueueSnackbar } = useSnackbar();
-    const { closeModals } = useModalContext();
+    const { closeModal } = useModalContext();
     const form = useForm<FormValues>();
     const { setState: setAuth } = useAuthContext();
     const router = useRouter();
@@ -50,7 +50,7 @@ const Component = () => {
             await setCookie('secret', res.secret);
             setAuth((prev) => res);
             form.reset();
-            closeModals();
+            closeModal();
             router.push('/anime');
             enqueueSnackbar('Ви успішно змінили Ваш пароль.', {
                 variant: 'success',

@@ -5,12 +5,13 @@ import { useForm } from 'react-hook-form';
 
 import { useQueryClient } from '@tanstack/react-query';
 
+import { Button } from '@/app/_components/ui/button';
+import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
 import changeUserEmail from '@/utils/api/settings/changeUserEmail';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { Input } from '@/app/_components/ui/input';
+
 
 type FormValues = {
     email: string;
@@ -19,12 +20,12 @@ type FormValues = {
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
-    const { switchModal } = useModalContext();
+    const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm<FormValues>();
     const { secret } = useAuthContext();
 
@@ -39,7 +40,7 @@ const Component = () => {
                 email: data.email,
             });
             await queryClient.invalidateQueries();
-            switchModal('userSettings');
+            closeModal();
             enqueueSnackbar('Ви успішно змінити поштову адресу.', {
                 variant: 'success',
             });
@@ -60,9 +61,7 @@ const Component = () => {
             </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex flex-col gap-2 w-full">
-                    <Label className="label">
-                        Новий email
-                    </Label>
+                    <Label className="label">Новий email</Label>
                     <Input
                         type="email"
                         placeholder="Введіть новий email"
@@ -70,9 +69,7 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex flex-col gap-2 w-full">
-                    <Label className="label">
-                        Підтвердити email
-                    </Label>
+                    <Label className="label">Підтвердити email</Label>
                     <Input
                         type="email"
                         placeholder="Підтвердіть новий email"
@@ -81,7 +78,12 @@ const Component = () => {
                 </div>
             </div>
             <div className="w-full">
-                <Button disabled={isSubmitting} variant="accent" type="submit" className="w-full">
+                <Button
+                    disabled={isSubmitting}
+                    variant="accent"
+                    type="submit"
+                    className="w-full"
+                >
                     {isSubmitting && (
                         <span className="loading loading-spinner"></span>
                     )}

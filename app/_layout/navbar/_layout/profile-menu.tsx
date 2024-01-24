@@ -25,6 +25,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import SettingsModal from '@/app/_layout/modals/user-settings-modal';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
 
@@ -32,12 +33,12 @@ interface Props {}
 
 const Component = ({}: Props) => {
     const queryClient = useQueryClient();
-    const { switchModal } = useModalContext();
+    const { openModal } = useModalContext();
     const { logout, secret } = useAuthContext();
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret
+        secret,
     ]);
 
     if (!loggedUser) {
@@ -45,7 +46,7 @@ const Component = ({}: Props) => {
     }
 
     return (
-        <DropdownMenu >
+        <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
@@ -53,7 +54,11 @@ const Component = ({}: Props) => {
                     className="relative h-10 w-10 rounded-md"
                 >
                     <Avatar className="rounded-md">
-                        <AvatarImage src={loggedUser.avatar} className="rounded-md" alt="avatar" />
+                        <AvatarImage
+                            src={loggedUser.avatar}
+                            className="rounded-md"
+                            alt="avatar"
+                        />
                         <AvatarFallback className="rounded-md">
                             {loggedUser.username[0]}
                         </AvatarFallback>
@@ -89,7 +94,11 @@ const Component = ({}: Props) => {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
-                            switchModal('userSettings');
+                            openModal({
+                                content: <SettingsModal />,
+                                type: 'sheet',
+                                className: '!max-w-3xl flex flex-col gap-0 p-0',
+                            });
                         }}
                     >
                         <MaterialSymbolsSettingsOutline className="mr-2 h-4 w-4" />

@@ -1,31 +1,31 @@
 'use client';
 
 import clsx from 'clsx';
-import { CSSProperties, useCallback, useEffect, useState } from 'react';
-
-
+import { CSSProperties, useState } from 'react';
 
 import Link from 'next/link';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
 
-
-
-import WatchEditModal from '@/app/(pages)/u/[username]/list/_layout/watch-edit-modal';
 import BaseCard from '@/app/_components/base-card';
 import { Badge } from '@/app/_components/ui/badge';
 import { Label } from '@/app/_components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/app/_components/ui/table';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/app/_components/ui/table';
+import WatchEditModal from '@/app/_layout/modals/watch-edit-modal';
 import { MEDIA_TYPE } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
-
 
 interface Props {
     data: Hikka.Watch[];
@@ -38,17 +38,16 @@ const Component = ({ data }: Props) => {
     const pathname = usePathname();
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { setState: setModalState } = useModalContext();
+    const { openModal } = useModalContext();
     const params = useParams();
     const [go, setGo] = useState(false);
-    const [slug, setSlug] = useState<string | null>(null);
 
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
 
     const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret
+        secret,
     ]);
 
     const switchOrder = (newOrder: 'score' | 'episodes' | 'media_type') => {
@@ -57,31 +56,45 @@ const Component = ({ data }: Props) => {
         if (order && order === newOrder) {
             if (sort) {
                 if (sort === 'asc') {
-                    query = createQueryString('sort', 'desc', new URLSearchParams(searchParams)).toString();
+                    query = createQueryString(
+                        'sort',
+                        'desc',
+                        new URLSearchParams(searchParams),
+                    ).toString();
                 } else if (sort === 'desc') {
-                    query = createQueryString('sort', 'asc', new URLSearchParams(searchParams)).toString();
+                    query = createQueryString(
+                        'sort',
+                        'asc',
+                        new URLSearchParams(searchParams),
+                    ).toString();
                 } else {
-                    query = createQueryString('sort', 'desc', new URLSearchParams(searchParams)).toString();
+                    query = createQueryString(
+                        'sort',
+                        'desc',
+                        new URLSearchParams(searchParams),
+                    ).toString();
                 }
             } else {
-                query = createQueryString('sort', 'desc', new URLSearchParams(searchParams)).toString();
+                query = createQueryString(
+                    'sort',
+                    'desc',
+                    new URLSearchParams(searchParams),
+                ).toString();
             }
         } else {
             query = createQueryString(
                 'sort',
                 'desc',
-                createQueryString('order', newOrder, new URLSearchParams(searchParams)),
+                createQueryString(
+                    'order',
+                    newOrder,
+                    new URLSearchParams(searchParams),
+                ),
             ).toString();
         }
 
         router.replace(`${pathname}?${query}`);
     };
-
-    useEffect(() => {
-        if (slug) {
-            setModalState((prev) => ({ ...prev, animeSettings: true }));
-        }
-    }, [slug]);
 
     return (
         <div className="overflow-x-auto">
@@ -126,7 +139,21 @@ const Component = ({ data }: Props) => {
                     {data.map((res, i) => (
                         <TableRow
                             key={res.reference}
-                            onClick={() => !go && setSlug(res.anime.slug)}
+                            onClick={() =>
+                                !go &&
+                                loggedUser?.username === params.username &&
+                                openModal({
+                                    content: (
+                                        <WatchEditModal slug={res.anime.slug} />
+                                    ),
+                                    className: '!max-w-xl',
+                                    title:
+                                        res.anime[titleLanguage!] ||
+                                        res.anime.title_ua ||
+                                        res.anime.title_en ||
+                                        res.anime.title_ja,
+                                })
+                            }
                         >
                             <TableHead className="w-8">
                                 <Label className="text-muted-foreground">
@@ -198,9 +225,6 @@ const Component = ({ data }: Props) => {
                     ))}
                 </TableBody>
             </Table>
-            {!go && slug && loggedUser?.username === params.username && (
-                <WatchEditModal slug={slug} setSlug={setSlug} />
-            )}
         </div>
     );
 };

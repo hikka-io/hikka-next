@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import * as React from 'react';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
 import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
 
@@ -8,12 +8,12 @@ import Link from 'next/link';
 
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
-import MarkdownModal from '@/app/_layout/markdown-modal';
 import Rightholder from '@/app/_layout/rightholder.mdx';
+import { useModalContext } from '@/utils/providers/modal-provider';
 
 
 const Component = () => {
-    const [openRightholderModal, setOpenRightholderModal] = useState(false);
+    const { openModal } = useModalContext();
 
     return (
         <footer className="w-full border-t border-t-secondary md:mt-12">
@@ -38,7 +38,13 @@ const Component = () => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => setOpenRightholderModal(true)}
+                            onClick={() =>
+                                openModal({
+                                    content: <Rightholder />,
+                                    className: 'max-w-xl',
+                                    title: 'Правовласникам',
+                                })
+                            }
                         >
                             Правовласникам
                         </Button>
@@ -53,12 +59,6 @@ const Component = () => {
                     </div>
                 </div>
             </div>
-            <MarkdownModal
-                open={openRightholderModal}
-                setOpen={setOpenRightholderModal}
-                title="Правовласникам"
-                data={<Rightholder />}
-            />
         </footer>
     );
 };

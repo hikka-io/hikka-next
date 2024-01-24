@@ -14,11 +14,12 @@ import unfollow from '@/utils/api/follow/unfollow';
 import getUserInfo from '@/utils/api/user/getUserInfo';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
+import AuthModal from '@/app/_layout/modals/auth-modal';
 
 interface Props {}
 
 const Component = ({}: Props) => {
-    const { switchModal } = useModalContext();
+    const { openModal } = useModalContext();
     const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
@@ -116,7 +117,7 @@ const Component = ({}: Props) => {
         ) : null
     ) : (
         <Button
-            onClick={() => switchModal('login')}
+            onClick={() => openModal({ content: <AuthModal type="login" /> })}
             className="w-full"
         >
             <CilUserFollow />

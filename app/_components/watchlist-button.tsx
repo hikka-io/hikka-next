@@ -5,19 +5,30 @@ import * as React from 'react';
 import { Fragment, createElement } from 'react';
 import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
 import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { Combobox } from '@/app/_components/ui/combobox';
 import Planned from '@/app/_components/icons/watch-status/planned';
 import { Button } from '@/app/_components/ui/button';
+import { Combobox } from '@/app/_components/ui/combobox';
 import { PopoverAnchor, PopoverTrigger } from '@/app/_components/ui/popover';
+import WatchEditModal from '@/app/_layout/modals/watch-edit-modal';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import addWatch from '@/utils/api/watch/addWatch';
 import deleteWatch from '@/utils/api/watch/deleteWatch';
 import getWatch from '@/utils/api/watch/getWatch';
 import { WATCH_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/utils/providers/auth-provider';
+import { useModalContext } from '@/utils/providers/modal-provider';
+import { useSettingsContext } from '@/utils/providers/settings-provider';
+
+import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from './ui/context-menu';
 
 interface Props {
     slug: string;
@@ -81,13 +92,13 @@ const Component = ({ slug, additional, disabled }: Props) => {
 
     const invalidateData = async () => {
         await queryClient.invalidateQueries({
-            queryKey: ['watch']
+            queryKey: ['watch'],
         });
         await queryClient.invalidateQueries({
-            queryKey: ['list']
+            queryKey: ['list'],
         });
-        await queryClient.invalidateQueries({ queryKey: ['favorites']});
-        await queryClient.invalidateQueries({ queryKey: ['franchise']});
+        await queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        await queryClient.invalidateQueries({ queryKey: ['franchise'] });
     };
 
     return (
@@ -112,7 +123,9 @@ const Component = ({ slug, additional, disabled }: Props) => {
                             episodes: anime?.episodes_total,
                         });
                     } else {
-                        addToList({ status: option as Hikka.WatchStatus });
+                        addToList({
+                            status: option as Hikka.WatchStatus,
+                        });
                     }
                 }
             }}
@@ -128,7 +141,9 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     variant="secondary"
                                     onClick={() =>
                                         !value
-                                            ? addToList({ status: 'planned' })
+                                            ? addToList({
+                                                  status: 'planned',
+                                              })
                                             : setOpen(!open)
                                     }
                                     disabled={disabled}
@@ -211,4 +226,44 @@ const Component = ({ slug, additional, disabled }: Props) => {
     );
 };
 
-export default Component;
+const ContextMenuOverlay = (props: Props) => {
+    const { titleLanguage } = useSettingsContext();
+    const { openModal } = useModalContext();
+    const { data: anime } = useQuery({
+        queryKey: ['anime', props.slug],
+        queryFn: () => getAnimeInfo({ slug: String(props.slug) }),
+        enabled: !props.disabled,
+    });
+
+    if (props.disabled) {
+        return <Component {...props} />;
+    }
+
+    return (
+        <ContextMenu>
+            <ContextMenuTrigger>
+                <Component {...props} />
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+                <ContextMenuItem
+                    onClick={() =>
+                        openModal({
+                            content: <WatchEditModal slug={props.slug} />,
+                            className: '!max-w-xl',
+                            title:
+                                anime?.[titleLanguage!] ||
+                                anime?.title_ua ||
+                                anime?.title_en ||
+                                anime?.title_ja,
+                        })
+                    }
+                >
+                    <MaterialSymbolsEditRounded className="mr-2" />
+                    Редагувати
+                </ContextMenuItem>
+            </ContextMenuContent>
+        </ContextMenu>
+    );
+};
+
+export default ContextMenuOverlay;

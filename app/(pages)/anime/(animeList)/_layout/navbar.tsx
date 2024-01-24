@@ -6,7 +6,7 @@ import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import Search from '@/app/(pages)/anime/(animeList)/_components/search';
-import FiltersModal from '@/app/(pages)/anime/(animeList)/_layout/filters-modal';
+import FiltersModal from '@/app/_layout/modals/filters-modal';
 import { Button } from '@/app/_components/ui/button';
 import createQueryString from '@/utils/createQueryString';
 import useRouter from '@/utils/useRouter';

@@ -15,6 +15,8 @@ import {
 import { Input } from '@/app/_components/ui/input';
 import passwordReset from '@/utils/api/auth/passwordReset';
 import { useModalContext } from '@/utils/providers/modal-provider';
+import AuthModal from '@/app/_layout/modals/auth-modal';
+import React from 'react';
 
 type FormValues = {
     email: string;
@@ -22,13 +24,13 @@ type FormValues = {
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
-    const { closeModals, switchModal } = useModalContext();
+    const { openModal, closeModal } = useModalContext();
     const form = useForm<FormValues>();
 
     const onSubmit = async (data: FormValues) => {
         try {
             const res = await passwordReset(data);
-            closeModals();
+            closeModal();
             enqueueSnackbar(
                 <span>
                     <span className="font-bold">{res.username}</span>, ми
@@ -95,7 +97,10 @@ const Component = () => {
                         <Button
                             variant="secondary"
                             disabled={form.formState.isSubmitting}
-                            onClick={() => switchModal('login')}
+                            onClick={() => openModal({
+                                content: <AuthModal type="login" />,
+                                className: 'p-0 max-w-3xl',
+                            })}
                             className="w-full"
                         >
                             Авторизація

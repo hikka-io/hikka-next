@@ -1,33 +1,30 @@
 'use client';
 
 import clsx from 'clsx';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
 import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded';
 import MaterialSymbolsPerson2OutlineRounded from '~icons/material-symbols/person-2-outline-rounded';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 
-
-
-import { useParams, usePathname } from 'next/navigation';
-
-
+import { useParams } from 'next/navigation';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
-
 
 import Image from '@/app/_components/image';
 import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/app/_components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/app/_components/ui/dropdown-menu';
 import { Input } from '@/app/_components/ui/input';
-import { Label } from '@/app/_components/ui/label';
-import CropEditorModal from '@/app/_layout/crop-editor-modal';
+import CropEditorModal from '@/app/_layout/modals/crop-editor-modal';
 import getUserInfo from '@/utils/api/user/getUserInfo';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
-
 
 interface Props {}
 
@@ -35,7 +32,7 @@ const Component = ({}: Props) => {
     // const pathname = usePathname();
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
-    const { switchModal } = useModalContext();
+    const { openModal } = useModalContext();
     const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
@@ -52,28 +49,32 @@ const Component = ({}: Props) => {
         staleTime: 0,
     });
 
-    const handleUploadImageSelected = (e: ChangeEvent<HTMLInputElement>, type: 'avatar' | 'cover') => {
+    const handleUploadImageSelected = (
+        e: ChangeEvent<HTMLInputElement>,
+        type: 'avatar' | 'cover',
+    ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
             setSelectedFile(file);
 
             switch (type) {
                 case 'avatar':
-
-                    switchModal('uploadAvatar');
-
                     if (uploadAvatarRef.current) {
                         uploadAvatarRef.current.value = '';
                     }
-                    return;
+                    break;
                 case 'cover':
-                    switchModal('uploadCover');
-
                     if (uploadCoverRef.current) {
                         uploadCoverRef.current.value = '';
                     }
-                    return;
+                    break;
             }
+
+            openModal({
+                content: <CropEditorModal file={selectedFile} type={type} />,
+                className: '!max-w-lg',
+                title: 'Редагувати медіафайл',
+            });
         }
     };
 
@@ -148,13 +149,17 @@ const Component = ({}: Props) => {
                                     <DropdownMenuItem asChild>
                                         <div>
                                             <MaterialSymbolsPerson2OutlineRounded className="mr-2" />
-                                            <label htmlFor="avatar-input">Оновити аватар</label>
+                                            <label htmlFor="avatar-input">
+                                                Оновити аватар
+                                            </label>
                                         </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <div>
                                             <MaterialSymbolsImageOutlineRounded className="mr-2" />
-                                            <label htmlFor="cover-input">Оновити обкладинку</label>
+                                            <label htmlFor="cover-input">
+                                                Оновити обкладинку
+                                            </label>
                                         </div>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
@@ -199,8 +204,6 @@ const Component = ({}: Props) => {
                     )}
                 </div>
             </div>
-
-            <CropEditorModal file={selectedFile} />
         </>
     );
 };

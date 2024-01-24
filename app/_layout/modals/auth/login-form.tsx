@@ -1,7 +1,6 @@
 'use client';
 
-import { useSnackbar } from 'notistack';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
@@ -17,8 +16,9 @@ import {
     FormMessage,
 } from '@/app/_components/ui/form';
 import { Input } from '@/app/_components/ui/input';
+import AuthModal from '@/app/_layout/modals/auth-modal';
 import { setCookie } from '@/app/actions';
-import signup from '@/utils/api/auth/signup';
+import login from '@/utils/api/auth/login';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
 import useRouter from '@/utils/useRouter';
@@ -26,14 +26,11 @@ import useRouter from '@/utils/useRouter';
 type FormValues = {
     email: string;
     password: string;
-    username: string;
-    passwordConfirmation: string;
 };
 
 const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const captchaRef = useRef<TurnstileInstance>();
-    const { closeModals, switchModal } = useModalContext();
+    const { openModal, closeModal } = useModalContext();
     const form = useForm<FormValues>();
     const { setState: setAuth } = useAuthContext();
     const router = useRouter();
@@ -41,46 +38,25 @@ const Component = () => {
     const onSubmit = async (data: FormValues) => {
         try {
             if (captchaRef.current) {
-                if (data.passwordConfirmation !== data.password) {
-                    form.setError('passwordConfirmation', {
-                        message: 'Пароль підтвердження не співпадає з паролем'
-                    });
-
-                    return;
-                }
-
-                const res = await signup({
-                    password: data.password,
-                    username: data.username,
-                    email: data.email,
+                const res = await login({
+                    ...data,
                     captcha: String(captchaRef.current.getResponse()),
                 });
-
-                setAuth((prev) => res);
+                setAuth(res);
                 await setCookie('secret', res.secret);
                 form.reset();
-                closeModals();
+                closeModal();
                 router.refresh();
-
-                enqueueSnackbar(
-                    <span>
-                        <span className="font-bold">{data.username}</span>, Ви
-                        успішно зареєструвались.
-                    </span>,
-                    { variant: 'success' },
-                );
-
                 return;
             } else {
                 throw Error('No captcha found');
             }
         } catch (e) {
-            console.error(e);
-
             if (captchaRef.current) {
                 captchaRef.current?.reset();
             }
 
+            console.error(e);
             return;
         }
     };
@@ -89,9 +65,9 @@ const Component = () => {
         <div className="w-full space-y-4">
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
-                    <h2 className="text-primary">✌️ Раді познайомитись!</h2>
+                    <h2 className="text-primary">👋 З поверненням!</h2>
                     <p className="text-xs mt-2 text-muted-foreground">
-                        Будь ласка, заповніть форму реєстрації.
+                        Будь ласка, зареєструйтесь, або авторизуйтесь.
                     </p>
                 </div>
             </div>
@@ -103,37 +79,12 @@ const Component = () => {
                     <FormField
                         rules={{
                             pattern: {
-                                value: /^[A-Za-z][A-Za-z0-9_]{4,63}$/i,
-                                message: 'Неправильне ім’я користувача',
-                            },
-                            required: true,
-                        }}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    Ім’я користувача (нікнейм)
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="text"
-                                        placeholder="Введіть Ваше ім’я"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        name="email"
-                        rules={{
-                            pattern: {
                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                 message: 'Неправильний email',
                             },
                             required: true,
                         }}
+                        name="email"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
@@ -150,13 +101,31 @@ const Component = () => {
                         )}
                     />
                     <FormField
-                        name="password"
                         rules={{
                             required: true,
                         }}
+                        name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Пароль</FormLabel>
+                                <div className="flex flex-nowrap justify-between items-center">
+                                    <FormLabel>Пароль</FormLabel>
+                                    <Button
+                                        variant="link"
+                                        type="button"
+                                        className="h-auto p-0"
+                                        tabIndex={-1}
+                                        onClick={() =>
+                                            openModal({
+                                                content: (
+                                                    <AuthModal type="forgotPassword" />
+                                                ),
+                                                className: 'p-0 max-w-3xl',
+                                            })
+                                        }
+                                    >
+                                        Забули пароль?
+                                    </Button>
+                                </div>
                                 <FormControl>
                                     <Input
                                         type="password"
@@ -167,25 +136,6 @@ const Component = () => {
                                 <FormDescription>
                                     Не менше 8 символів.
                                 </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        rules={{
-                            required: true,
-                        }}
-                        name="passwordConfirmation"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Підтвердження паролю</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="Повторіть пароль"
-                                        {...field}
-                                    />
-                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -204,15 +154,20 @@ const Component = () => {
                             {form.formState.isSubmitting && (
                                 <span className="loading loading-spinner"></span>
                             )}
-                            Зареєструватись
+                            Увійти
                         </Button>
                         <Button
                             variant="secondary"
                             disabled={form.formState.isSubmitting}
-                            onClick={() => switchModal('login')}
+                            onClick={() =>
+                                openModal({
+                                    content: <AuthModal type="signup" />,
+                                    className: 'p-0 max-w-3xl',
+                                })
+                            }
                             className="w-full"
                         >
-                            Авторизація
+                            Реєстрація
                         </Button>
                     </div>
                 </form>

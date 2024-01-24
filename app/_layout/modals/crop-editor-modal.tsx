@@ -12,7 +12,6 @@ import { useParams } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import Modal from '@/app/_components/modal';
 import { Button } from '@/app/_components/ui/button';
 import { Slider } from '@/app/_components/ui/slider';
 import uploadImage from '@/utils/api/upload/uploadImage';
@@ -22,22 +21,24 @@ import useRouter from '@/utils/useRouter';
 
 interface Props {
     file?: File;
+    type: 'cover' | 'avatar';
 }
 
 const CROP_PARAMS = {
-    uploadCover: {
+    cover: {
         width: 1500,
         height: 500,
         border: [50, 400],
     },
-    uploadAvatar: {
+    avatar: {
         width: 400,
         height: 400,
         border: 50,
     },
 };
 
-const Component = ({ file }: Props) => {
+const Component = ({ file, type }: Props) => {
+    const { closeModal } = useModalContext();
     const router = useRouter();
     const queryClient = useQueryClient();
     const params = useParams();
@@ -46,19 +47,9 @@ const Component = ({ file }: Props) => {
     const { secret } = useAuthContext();
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
-    const {
-        uploadAvatar: uploadAvatarModal,
-        uploadCover: uploadCoverModal,
-        closeModals,
-    } = useModalContext();
-
-    const onDismiss = () => {
-        closeModals();
-        setScale(100);
-    };
 
     const uploadFile = async (file: File) => {
-        if (uploadAvatarModal) {
+        if (type === 'avatar') {
             try {
                 const res = await uploadImage({
                     file,
@@ -81,7 +72,7 @@ const Component = ({ file }: Props) => {
             }
         }
 
-        if (uploadCoverModal) {
+        if (type === 'cover') {
             try {
                 const res = await uploadImage({
                     file,
@@ -151,33 +142,15 @@ const Component = ({ file }: Props) => {
             setIsLoading(false);
         }
 
-        onDismiss();
+        closeModal();
     };
 
-    const getCropParams = () => {
-        if (uploadAvatarModal) {
-            return CROP_PARAMS.uploadAvatar;
-        }
-
-        if (uploadCoverModal) {
-            return CROP_PARAMS.uploadCover;
-        }
-
-        return {};
-    };
+    // boxClassName="!max-w-lg"
+    // title="Редагувати медіафайл"
 
     return (
-        <Modal
-            open={
-                Boolean(file) &&
-                (Boolean(uploadAvatarModal) || Boolean(uploadCoverModal))
-            }
-            onOpenChange={(open) => !open && onDismiss()}
-            id="searchModal"
-            boxClassName="!max-w-lg"
-            title="Редагувати медіафайл"
-        >
-            <div className="relative w-full  h-auto grid text-center place-content-center">
+        <>
+            <div className="relative w-full h-auto grid text-center place-content-center">
                 <AvatarEditor
                     ref={editor}
                     className={clsx(
@@ -186,7 +159,7 @@ const Component = ({ file }: Props) => {
                         isLoading && 'pointer-events-none',
                     )}
                     image={file!}
-                    {...getCropParams()}
+                    {...CROP_PARAMS[type]}
                     color={[0, 0, 0, 0.7]}
                     scale={scale / 100}
                     rotate={0}
@@ -217,7 +190,7 @@ const Component = ({ file }: Props) => {
                     Зберегти
                 </Button>
             </div>
-        </Modal>
+        </>
     );
 };
 

@@ -1,47 +1,55 @@
 'use client';
 
-import {
-    Dispatch,
+import React, {
     ReactNode,
-    SetStateAction,
     createContext,
     useContext,
     useEffect,
     useState,
 } from 'react';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from '@/app/_components/ui/dialog';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+} from '@/app/_components/ui/sheet';
+import { cn } from '@/utils';
 
 interface State {
-    login?: boolean;
-    signup?: boolean;
-    userSettings?: boolean;
-    animeSettings?: boolean;
-    search?: boolean;
-    animeEdit?: boolean;
-    animeEditList?: boolean;
-    forgotPassword?: boolean;
-    passwordConfirm?: boolean;
-
-    rightholder?: boolean;
-    editRules?: boolean;
-
-    followers?: boolean;
-    followings?: boolean;
-    uploadAvatar?: boolean;
-    uploadCover?: boolean;
+    open: boolean;
+    className?: string;
+    title?: string;
+    content: ReactNode;
+    type?: 'dialog' | 'sheet';
 }
 
 interface ContextProps extends State {
-    setState: Dispatch<SetStateAction<State>>;
-    switchModal: (modal: keyof State, hierarchy?: boolean) => void;
-    closeModals: () => void;
+    openModal: ({
+        content,
+        title,
+        className,
+    }: {
+        content: State['content'];
+        title?: State['title'];
+        className?: State['className'];
+        type?: State['type'];
+    }) => void;
+    closeModal: () => void;
 }
 
 const ModalContext = createContext<ContextProps>({
-    setState: () => null,
-    switchModal: () => null,
-    closeModals: () => null,
+    ...getInitialState(),
+    openModal: ({}) => null,
+    closeModal: () => null,
 });
 
 interface Props {
@@ -50,23 +58,11 @@ interface Props {
 
 function getInitialState(): State {
     return {
-        login: false,
-        signup: false,
-        userSettings: false,
-        animeSettings: false,
-        search: false,
-        animeEdit: false,
-        animeEditList: false,
-        forgotPassword: false,
-        passwordConfirm: false,
-
-        rightholder: false,
-        editRules: false,
-
-        followers: false,
-        followings: false,
-        uploadAvatar: false,
-        uploadCover: false,
+        open: false,
+        className: '',
+        title: '',
+        content: null,
+        type: 'dialog',
     };
 }
 
@@ -76,44 +72,88 @@ export const useModalContext = () => {
 
 export default function ModalProvider({ children }: Props) {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
     const [state, setState] = useState<State>(getInitialState());
 
-    const modalParam = searchParams.get('modal');
-
-    const switchModal = (modal: keyof State, hierarchy: boolean = false) => {
+    const openModal = ({
+        content,
+        title,
+        className,
+        type,
+    }: {
+        content: State['content'];
+        title?: State['title'];
+        className?: State['className'];
+        type?: State['type'];
+    }) => {
         setState({
-            ...(hierarchy ? state : getInitialState()),
-            [modal]: !state[modal],
+            ...state,
+            open: true,
+            content,
+            title,
+            className,
+            type: type || 'dialog',
         });
     };
 
-    const closeModals = () => {
-        setState(getInitialState());
+    const closeModal = () => {
+        setState({
+            ...getInitialState(),
+            type: state.type,
+        });
     };
 
     useEffect(() => {
         if (pathname) {
-            closeModals();
+            closeModal();
         }
     }, [pathname]);
-
-    useEffect(() => {
-        if (modalParam && modalParam in state) {
-            switchModal(modalParam as keyof State);
-        }
-    }, [modalParam]);
 
     return (
         <ModalContext.Provider
             value={{
                 ...state,
-                setState,
-                switchModal,
-                closeModals,
+                openModal,
+                closeModal,
             }}
         >
             {children}
+
+            {state.type === 'sheet' && (
+                <Sheet open={state.open} onOpenChange={closeModal}>
+                    <SheetContent
+                        side="left"
+                        className={cn(
+                            '!max-w-lg flex flex-col pb-0 gap-0',
+                            state.className,
+                        )}
+                    >
+                        {state.title && (
+                            <SheetHeader>
+                                <SheetTitle>{state.title}</SheetTitle>
+                            </SheetHeader>
+                        )}
+                        {state.content}
+                    </SheetContent>
+                </Sheet>
+            )}
+
+            {state.type === 'dialog' && (
+                <Dialog open={state.open} onOpenChange={closeModal}>
+                    <DialogContent
+                        className={cn(
+                            'overflow-y-scroll max-h-screen no-scrollbar',
+                            state.className,
+                        )}
+                    >
+                        {state.title && (
+                            <DialogHeader>
+                                <DialogTitle>{state.title}</DialogTitle>
+                            </DialogHeader>
+                        )}
+                        {state.content}
+                    </DialogContent>
+                </Dialog>
+            )}
         </ModalContext.Provider>
     );
 }

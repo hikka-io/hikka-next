@@ -32,7 +32,7 @@ const Component = () => {
     const [aniListLoading, setAniListLoading] = useState(false);
     const [aniListUsername, setAniListUsername] = useState('');
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
-    const { switchModal } = useModalContext();
+    const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const [rewrite, setRewrite] = useState(true);
@@ -103,7 +103,7 @@ const Component = () => {
 
         if (watchList && watchList.length > 0) {
             try {
-                const res = await importWatch({
+                await importWatch({
                     overwrite: rewrite,
                     anime: watchList,
                     secret: String(secret),
@@ -119,7 +119,7 @@ const Component = () => {
                 );
 
                 await queryClient.invalidateQueries();
-                switchModal('userSettings');
+                closeModal();
             } catch (e) {}
         }
 
@@ -207,7 +207,9 @@ const Component = () => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <p className="text-muted-foreground text-sm">Перетягніть файл сюди...</p>
+                    <p className="text-muted-foreground text-sm">
+                        Перетягніть файл сюди...
+                    </p>
                 ) : watchList.length === 0 ? (
                     <p className="text-muted-foreground text-sm">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,

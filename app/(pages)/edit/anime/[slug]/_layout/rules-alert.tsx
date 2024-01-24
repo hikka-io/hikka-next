@@ -1,15 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import Rules from '@/app/(pages)/edit/anime/[slug]/_layout/rules.mdx';
 import { Button } from '@/app/_components/ui/button';
-import MarkdownModal from '@/app/_layout/markdown-modal';
+import { useModalContext } from '@/utils/providers/modal-provider';
 
 const Component = () => {
-    const [openEditRulesModal, setOpenEditRulesModal] = useState(false);
+    const { openModal } = useModalContext();
 
     return (
         <div>
@@ -19,7 +18,13 @@ const Component = () => {
                     Перш ніж почати редагування контенту, рекомендуємо
                     ознайомитись з{' '}
                     <Button
-                        onClick={() => setOpenEditRulesModal(true)}
+                        onClick={() =>
+                            openModal({
+                                content: <Rules />,
+                                className: 'max-w-xl',
+                                title: 'Правила редагування',
+                            })
+                        }
                         variant="link"
                         className="text-primary hover:underline p-0 h-auto"
                     >
@@ -28,13 +33,6 @@ const Component = () => {
                     редагування контенту.
                 </span>
             </div>
-            <MarkdownModal
-                className="max-w-xl"
-                setOpen={setOpenEditRulesModal}
-                open={openEditRulesModal}
-                title="Правила редагування"
-                data={<Rules />}
-            />
         </div>
     );
 };

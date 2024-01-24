@@ -5,14 +5,13 @@ import { useForm } from 'react-hook-form';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import changeUserEmail from '@/utils/api/settings/changeUserEmail';
+import { Button } from '@/app/_components/ui/button';
+import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
 import changeUserPassword from '@/utils/api/settings/changeUserPassword';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useModalContext } from '@/utils/providers/modal-provider';
-import useRouter from '@/utils/useRouter';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { Input } from '@/app/_components/ui/input';
+
 
 type FormValues = {
     password: string;
@@ -21,12 +20,12 @@ type FormValues = {
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
-    const { switchModal } = useModalContext();
+    const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm<FormValues>();
     const { secret } = useAuthContext();
 
@@ -41,7 +40,7 @@ const Component = () => {
                 password: data.password,
             });
             await queryClient.invalidateQueries();
-            switchModal('userSettings');
+            closeModal();
             enqueueSnackbar('Ви успішно змінили пароль.', {
                 variant: 'success',
             });
@@ -62,9 +61,7 @@ const Component = () => {
             </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex flex-col gap-2 w-full">
-                    <Label className="label">
-                        Новий пароль
-                    </Label>
+                    <Label className="label">Новий пароль</Label>
                     <Input
                         type="password"
                         placeholder="Введіть новий пароль"
@@ -72,9 +69,7 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex flex-col gap-2 w-full">
-                    <Label className="label">
-                        Підтвердити пароль
-                    </Label>
+                    <Label className="label">Підтвердити пароль</Label>
                     <Input
                         type="password"
                         placeholder="Підтвердіть новий пароль"
@@ -85,7 +80,12 @@ const Component = () => {
                 </div>
             </div>
             <div className="w-full">
-                <Button disabled={isSubmitting} variant="accent" type="submit" className="w-full">
+                <Button
+                    disabled={isSubmitting}
+                    variant="accent"
+                    type="submit"
+                    className="w-full"
+                >
                     {isSubmitting && (
                         <span className="loading loading-spinner"></span>
                     )}

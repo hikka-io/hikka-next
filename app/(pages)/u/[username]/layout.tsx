@@ -7,10 +7,12 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 
 import ActivationAlert from '@/app/(pages)/u/[username]/_layout/activation-alert';
-import FollowListModal from '@/app/(pages)/u/[username]/_layout/followlist-modal';
+import FollowButton from '@/app/(pages)/u/[username]/_layout/follow-button';
+import FollowStats from '@/app/(pages)/u/[username]/_layout/follow-stats';
 import NavMenu from '@/app/(pages)/u/[username]/_layout/nav-menu';
 import UserInfo from '@/app/(pages)/u/[username]/_layout/user-info';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
+import Image from '@/app/_components/image';
 import SubBar from '@/app/_components/sub-navbar';
 import { getCookie } from '@/app/actions';
 import RQHydrate from '@/utils/RQ-hydrate';
@@ -23,9 +25,6 @@ import getWatchStats from '@/utils/api/watch/getWatchStats';
 import getQueryClient from '@/utils/getQueryClient';
 
 import NavBar from './_layout/navbar';
-import FollowStats from '@/app/(pages)/u/[username]/_layout/follow-stats';
-import FollowButton from '@/app/(pages)/u/[username]/_layout/follow-button';
-import Image from '@/app/_components/image';
 
 
 interface Props extends PropsWithChildren {
@@ -120,11 +119,18 @@ const Component = async ({ params: { username }, children }: Props) => {
     return (
         <RQHydrate state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
-                {user.cover && <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden rounded-b-lg">
-                    <Image src={user.cover} className="relative w-full h-full object-cover" alt="cover" width={1500} height={500} />
-                    <div className="bg-gradient-to-b from-transparent dark:to-black to-white absolute bottom-0 left-0 w-full h-full z-30" />
-                </div>}
-                <FollowListModal />
+                {user.cover && (
+                    <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden rounded-b-lg">
+                        <Image
+                            src={user.cover}
+                            className="relative w-full h-full object-cover"
+                            alt="cover"
+                            width={1500}
+                            height={500}
+                        />
+                        <div className="bg-gradient-to-b from-transparent dark:to-black to-white absolute bottom-0 left-0 w-full h-full z-30" />
+                    </div>
+                )}
                 <Breadcrumbs>
                     <Link
                         href={'/u/' + user?.username}

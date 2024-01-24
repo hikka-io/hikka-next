@@ -50,34 +50,34 @@ function Providers({ children }: Props) {
                 enableSystem
                 disableTransitionOnChange
             >
-                <SnackbarProvider
-                    Components={{
-                        default: SnackbarItem,
-                        success: SnackbarItem,
-                        error: SnackbarItem,
-                        warning: SnackbarItem,
-                        info: SnackbarItem,
-                    }}
-                    maxSnack={2}
-                    preventDuplicate
-                    autoHideDuration={3000}
-                    anchorOrigin={{
-                        horizontal: 'right',
-                        vertical: 'bottom',
-                    }}
-                >
-                    <SnackbarUtilsConfigurator />
-                    <PoppperProvider>
-                        <ModalProvider>
+                <QueryClientProvider client={client}>
+                    <SnackbarProvider
+                        Components={{
+                            default: SnackbarItem,
+                            success: SnackbarItem,
+                            error: SnackbarItem,
+                            warning: SnackbarItem,
+                            info: SnackbarItem,
+                        }}
+                        maxSnack={2}
+                        preventDuplicate
+                        autoHideDuration={3000}
+                        anchorOrigin={{
+                            horizontal: 'right',
+                            vertical: 'bottom',
+                        }}
+                    >
+                        <SnackbarUtilsConfigurator />
+                        <PoppperProvider>
                             <AuthProvider>
-                                <QueryClientProvider client={client}>
+                                <ModalProvider>
                                     {children}
                                     <ReactQueryDevtools initialIsOpen={false} />
-                                </QueryClientProvider>
+                                </ModalProvider>
                             </AuthProvider>
-                        </ModalProvider>
-                    </PoppperProvider>
-                </SnackbarProvider>
+                        </PoppperProvider>
+                    </SnackbarProvider>
+                </QueryClientProvider>
             </ThemeProvider>
         </SettingsProvider>
     );

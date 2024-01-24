@@ -6,13 +6,15 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
+import FollowersModal from '@/app/_layout/modals/follow-list/followers-modal';
+import FollowingsModal from '@/app/_layout/modals/follow-list/followings-modal';
 import getFollowStats from '@/utils/api/follow/getFollowStats';
 import { useModalContext } from '@/utils/providers/modal-provider';
 
 interface Props {}
 
 const Component = ({}: Props) => {
-    const { switchModal } = useModalContext();
+    const { openModal } = useModalContext();
     const params = useParams();
 
     const { data: followStats } = useQuery({
@@ -27,7 +29,13 @@ const Component = ({}: Props) => {
     return (
         <div className="flex h-fit gap-2 rounded-lg border border-secondary/60 bg-secondary/30 p-2">
             <Button
-                onClick={() => switchModal('followers')}
+                onClick={() =>
+                    openModal({
+                        content: <FollowersModal />,
+                        title: 'Стежать',
+                        type: 'sheet',
+                    })
+                }
                 className="flex flex-1 flex-col items-center justify-center gap-2 p-2"
                 variant="ghost"
             >
@@ -40,7 +48,13 @@ const Component = ({}: Props) => {
             </Button>
             <Button
                 variant="ghost"
-                onClick={() => switchModal('followings')}
+                onClick={() =>
+                    openModal({
+                        content: <FollowingsModal />,
+                        title: 'Відстежується',
+                        type: 'sheet',
+                    })
+                }
                 className="flex flex-1 flex-col items-center justify-center gap-2 p-2"
             >
                 <Label>
