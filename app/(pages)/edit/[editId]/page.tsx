@@ -1,14 +1,8 @@
 import * as React from 'react';
 
-
-
 import Link from 'next/link';
 
-
-
 import { dehydrate } from '@tanstack/query-core';
-
-
 
 import AnimeContent from '@/app/(pages)/edit/[editId]/_layout/anime-content';
 import Moderator from '@/app/(pages)/edit/[editId]/_layout/moderator';
@@ -16,16 +10,13 @@ import EditStatus from '@/app/(pages)/edit/_components/edit-status';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import SubHeader from '@/app/_components/sub-header';
 import RQHydrate from '@/utils/RQ-hydrate';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import getEdit from '@/utils/api/edit/getEdit';
-import { RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-
 
 import Actions from './_layout/actions';
 import AnimeEditView from './_layout/anime-edit-view';
 import Author from './_layout/author';
+import Comments from '@/app/(pages)/edit/[editId]/_layout/comments';
 
 
 interface Props {
@@ -63,6 +54,7 @@ const Component = async ({ params: { editId } }: Props) => {
                     <div className="flex flex-col gap-12">
                         <AnimeEditView />
                         <Actions />
+                        <Comments />
                     </div>
                 </div>
                 <div className="flex flex-col gap-12">

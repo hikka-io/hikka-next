@@ -12,7 +12,7 @@ import FollowStats from '@/app/(pages)/u/[username]/_layout/follow-stats';
 import NavMenu from '@/app/(pages)/u/[username]/_layout/nav-menu';
 import UserInfo from '@/app/(pages)/u/[username]/_layout/user-info';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
-import Image from '@/app/_components/image';
+import Image from '@/app/_components/ui/image';
 import SubBar from '@/app/_components/sub-navbar';
 import { getCookie } from '@/app/actions';
 import RQHydrate from '@/utils/RQ-hydrate';

@@ -14,7 +14,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import SnackbarItem from '@/app/_components/snackbar-item';
 import AuthProvider from '@/utils/providers/auth-provider';
 import ModalProvider from '@/utils/providers/modal-provider';
-import PoppperProvider from '@/utils/providers/popper-provider';
 import SettingsProvider from '@/utils/providers/settings-provider';
 import ThemeProvider from '@/utils/providers/theme-provider';
 import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
@@ -68,14 +67,12 @@ function Providers({ children }: Props) {
                         }}
                     >
                         <SnackbarUtilsConfigurator />
-                        <PoppperProvider>
-                            <AuthProvider>
-                                <ModalProvider>
-                                    {children}
-                                    <ReactQueryDevtools initialIsOpen={false} />
-                                </ModalProvider>
-                            </AuthProvider>
-                        </PoppperProvider>
+                        <AuthProvider>
+                            <ModalProvider>
+                                {children}
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            </ModalProvider>
+                        </AuthProvider>
                     </SnackbarProvider>
                 </QueryClientProvider>
             </ThemeProvider>

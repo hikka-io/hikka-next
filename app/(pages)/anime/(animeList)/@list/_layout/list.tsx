@@ -11,7 +11,7 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import AnimeCard from '@/app/_components/anime-card';
 import NotFound from '@/app/_components/not-found';
-import Pagination from '@/app/_components/pagination';
+import Pagination from '@/app/_components/ui/pagination';
 import SkeletonCard from '@/app/_components/skeletons/entry-card';
 import { Button } from '@/app/_components/ui/button';
 import getAnimeCatalog, {
@@ -22,6 +22,7 @@ import useDebounce from '@/utils/hooks/useDebounce';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
+import NProgress from 'nprogress';
 
 const Component = () => {
     const queryClient = useQueryClient();
@@ -51,6 +52,7 @@ const Component = () => {
     const genres = searchParams.getAll('genres');
     const lang = searchParams.get('only_translated');
     const sort = searchParams.get('sort');
+
 
     const {
         data,

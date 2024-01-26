@@ -13,7 +13,7 @@ export default async function RootLayout({
 }) {
     return (
         <>
-            <NextTopLoader color="#e779c1" />
+            <NextTopLoader shadow={false} color="#e779c1" />
 
             <AuthGate>
                 <ScrollTop />

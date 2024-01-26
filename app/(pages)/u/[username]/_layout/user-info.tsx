@@ -11,7 +11,7 @@ import { useParams } from 'next/navigation';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import Image from '@/app/_components/image';
+import Image from '@/app/_components/ui/image';
 import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
 import {
@@ -204,6 +204,16 @@ const Component = ({}: Props) => {
                     )}
                 </div>
             </div>
+            <Button
+                onClick={() =>
+                    openModal({
+                        content: <></>,
+                        type: 'sheet',
+                    })
+                }
+            >
+                Полотно
+            </Button>
         </>
     );
 };

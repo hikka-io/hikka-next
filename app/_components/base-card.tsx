@@ -10,7 +10,7 @@ import { UrlObject } from 'url';
 
 import Link from 'next/link';
 
-import Image from '@/app/_components/image';
+import Image from '@/app/_components/ui/image';
 import { Label } from '@/app/_components/ui/label';
 
 interface Props {

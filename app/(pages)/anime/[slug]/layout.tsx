@@ -87,6 +87,8 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
+    console.log({ secret })
+
     await queryClient.prefetchQuery({
         queryKey: ['anime', slug],
         queryFn: () => getAnimeInfo({ slug }),

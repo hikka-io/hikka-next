@@ -194,11 +194,12 @@ declare global {
         };
 
         type Comment = {
-            comment_id: number;
-            user: Hikka.User;
-            created_at: number;
+            reference: string;
+            author: Hikka.User;
+            created: number;
             text: string;
-            comments: Comment[];
+            replies: Comment[];
+            total_replies: number;
         };
 
         type External = {
