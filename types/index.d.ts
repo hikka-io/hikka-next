@@ -1,6 +1,15 @@
+import { ReactNode } from 'react';
+
 export {};
 
 declare global {
+    namespace JSX {
+        // this merges with the existing intrinsic elements, adding 'my-custom-tag' and its props
+        interface IntrinsicElements {
+            'spoiler': {'children': ReactNode}
+        }
+    }
+
     interface Window {
         authModal: HTMLDialogElement;
         settingsModal: HTMLDialogElement;
@@ -200,6 +209,9 @@ declare global {
             text: string;
             replies: Comment[];
             total_replies: number;
+            depth: number;
+            score: number;
+            hidden: boolean;
         };
 
         type External = {

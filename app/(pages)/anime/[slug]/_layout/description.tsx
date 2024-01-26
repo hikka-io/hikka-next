@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Markdown from 'react-markdown';
-import rehypeExternalLinks from 'rehype-external-links';
 
 import { useParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
+import MDViewer from '@/app/_components/md/viewer/MD-viewer';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
@@ -63,12 +62,9 @@ const Component = () => {
                     )}
                 </div>
             </SubHeader>
-            <Markdown
-                rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
-                className="markdown"
-            >
+            <MDViewer>
                 {data[active] || data.synopsis_ua || data.synopsis_en}
-            </Markdown>
+            </MDViewer>
         </div>
     );
 };
