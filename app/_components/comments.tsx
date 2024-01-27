@@ -3,7 +3,7 @@ import Comment from './comment';
 interface Props {
     comments: Hikka.Comment[];
     slug: string;
-    content_type: 'edit';
+    content_type: Hikka.ContentType;
 }
 
 

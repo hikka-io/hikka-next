@@ -17,6 +17,7 @@ import Actions from './_layout/actions';
 import AnimeEditView from './_layout/anime-edit-view';
 import Author from './_layout/author';
 import Comments from '@/app/(pages)/edit/[editId]/_layout/comments';
+import { redirect } from 'next/navigation';
 
 
 interface Props {
@@ -35,6 +36,10 @@ const Component = async ({ params: { editId } }: Props) => {
         'edit',
         editId,
     ]);
+
+    if (!edit) {
+        redirect('/edit');
+    }
 
     const dehydratedState = dehydrate(queryClient);
 

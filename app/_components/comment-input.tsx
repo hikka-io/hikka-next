@@ -2,23 +2,24 @@
 
 import { useSnackbar } from 'notistack';
 import React, { ForwardedRef, forwardRef, useRef, useState } from 'react';
+import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import {
     MDXEditorMethods,
     directivesPlugin,
-    listsPlugin,
-    quotePlugin,
-    toolbarPlugin, headingsPlugin, linkPlugin,
+    linkDialogPlugin,
+    linkPlugin,
+    toolbarPlugin,
 } from '@mdxeditor/editor';
 import { useQueryClient } from '@tanstack/react-query';
-
-import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded'
 
 import { SpoilerDirectiveDescriptor } from '@/app/_components/md/editor/directives/spoiler-directive';
 import { ForwardRefEditor } from '@/app/_components/md/editor/forward-ref-editor';
 import BoldButton from '@/app/_components/md/editor/toolbar/bold-button';
 import ItalicButton from '@/app/_components/md/editor/toolbar/italic-button';
+import LinkButton from '@/app/_components/md/editor/toolbar/link-button';
+import { LinkDialog } from '@/app/_components/md/editor/toolbar/link-dialog';
 import SpoilerButton from '@/app/_components/md/editor/toolbar/spoiler-button';
 import { Avatar, AvatarImage } from '@/app/_components/ui/avatar';
 import { Badge } from '@/app/_components/ui/badge';
@@ -30,7 +31,7 @@ import { useCommentsContext } from '@/utils/providers/comments-provider';
 
 interface Props {
     slug: string;
-    content_type: 'edit';
+    content_type: Hikka.ContentType;
     comment?: Hikka.Comment;
     className?: string;
 }
@@ -69,7 +70,10 @@ const Component = forwardRef(
 
                     setText('');
                     editorRef.current?.setMarkdown('');
-                    setCommentsState!((prev) => ({ ...prev, currentReply: undefined }));
+                    setCommentsState!((prev) => ({
+                        ...prev,
+                        currentReply: undefined,
+                    }));
                 } catch (e) {
                     if (captchaRef.current) {
                         captchaRef.current?.reset();
@@ -86,15 +90,21 @@ const Component = forwardRef(
         };
 
         return (
-            <div ref={ref} className={cn('relative w-full', 'bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1', className)}>
+            <div
+                ref={ref}
+                className={cn(
+                    'relative w-full',
+                    'bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
+                    className,
+                )}
+            >
                 <ForwardRefEditor
                     autoFocus
                     placeholder="Напишіть повідомлення..."
-                    // onBlur={(e) => null}
                     ref={editorRef}
                     readOnly={isPosting}
-
                     plugins={[
+                        linkDialogPlugin({ LinkDialog: () => <LinkDialog /> }),
                         linkPlugin(),
                         directivesPlugin({
                             directiveDescriptors: [SpoilerDirectiveDescriptor],
@@ -105,6 +115,7 @@ const Component = forwardRef(
                                     <BoldButton />
                                     <ItalicButton />
                                     <SpoilerButton />
+                                    <LinkButton />
                                 </>
                             ),
                         }),
@@ -116,7 +127,6 @@ const Component = forwardRef(
                 <div className="p-2 flex justify-between items-center w-full">
                     {comment ? (
                         <Badge variant="secondary" className="p-0 pr-2 gap-2">
-
                             <Avatar className="w-6 h-6">
                                 <AvatarImage
                                     className="w-6 h-6"

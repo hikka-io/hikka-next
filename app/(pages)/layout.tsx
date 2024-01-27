@@ -1,4 +1,4 @@
-import NextTopLoader from 'nextjs-toploader';
+import HolyLoader from 'holy-loader';
 import React, { ReactNode } from 'react';
 
 import AuthGate from '@/app/_layout/auth-gate';
@@ -13,8 +13,7 @@ export default async function RootLayout({
 }) {
     return (
         <>
-            <NextTopLoader shadow={false} color="#e779c1" />
-
+            <HolyLoader color="#e779c1" />
             <AuthGate>
                 <ScrollTop />
                 <NavBar />

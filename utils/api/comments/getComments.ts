@@ -11,7 +11,7 @@ export default async function req({
     page = 1,
 }: {
     slug: string;
-    content_type: 'edit';
+    content_type: Hikka.ContentType;
     page?: number;
 }): Promise<Response> {
     const res = await fetch(

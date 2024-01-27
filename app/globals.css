@@ -280,6 +280,10 @@ table th:last-child {
     border-radius: 0;
 }
 
+.mdxeditor a {
+    @apply text-primary;
+}
+
 .markdown p:last-child, .markdown div:last-child {
     margin-bottom: 0;
 }

@@ -2,13 +2,18 @@
 
 import React from 'react';
 import Markdown, { Options } from 'react-markdown';
-import rehypeExternalLinks from 'rehype-external-links';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
+
+
 import Link from 'next/link';
 
+
+
 import Spoiler from './components/spoiler';
+import remarkMentions from './plugins/remark-mentions';
+
 
 interface Props extends Options {}
 
@@ -20,7 +25,7 @@ const Component = ({ children, ...props }: Props) => {
             remarkPlugins={[
                 remarkDirective,
                 remarkDirectiveRehype,
-                [rehypeExternalLinks, { target: '_blank', rel: ['nofollow'] }],
+                [remarkMentions, { usernameLink: (username: string) => '/u/' + username }],
             ]}
             components={{
                 spoiler: Spoiler,
@@ -33,11 +38,7 @@ const Component = ({ children, ...props }: Props) => {
                         {children}
                     </Link>
                 ),
-                code: ({ node, children }) => (
-                    <p>
-                        {children}
-                    </p>
-                ),
+                code: ({ node, children }) => <p>{children}</p>,
             }}
             {...props}
         >

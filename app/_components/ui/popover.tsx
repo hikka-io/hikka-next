@@ -13,6 +13,8 @@ const PopoverTrigger = PopoverPrimitive.Trigger
 
 const PopoverPortal = PopoverPrimitive.Portal
 
+const PopoverArrow = PopoverPrimitive.Arrow
+
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>

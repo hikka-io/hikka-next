@@ -219,5 +219,7 @@ declare global {
             text: string;
             type: 'general' | 'watch';
         }
+
+        type ContentType = 'edit';
     }
 }

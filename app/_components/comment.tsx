@@ -13,24 +13,20 @@ import {
 } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
+import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
 
 import Comments from './comments';
 import MDViewer from './md/viewer/MD-viewer';
-import { directivesPlugin, linkPlugin, toolbarPlugin } from '@mdxeditor/editor';
-import { SpoilerDirectiveDescriptor } from '@/app/_components/md/editor/directives/spoiler-directive';
-import BoldButton from '@/app/_components/md/editor/toolbar/bold-button';
-import ItalicButton from '@/app/_components/md/editor/toolbar/italic-button';
-import SpoilerButton from '@/app/_components/md/editor/toolbar/spoiler-button';
-import { ForwardRefEditor } from '@/app/_components/md/editor/forward-ref-editor';
 
 interface Props {
     comment: Hikka.Comment;
     slug: string;
-    content_type: 'edit';
+    content_type: Hikka.ContentType;
 }
 
 const Component = ({ comment, slug, content_type }: Props) => {
+    const { secret } = useAuthContext();
     const commentInputRef = useRef<HTMLDivElement>(null);
     const { currentReply, setState: setCommentsState } = useCommentsContext();
     const [expand, setExpand] = useState<boolean>(comment.depth < 2);
@@ -88,17 +84,12 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         </p>
                     </div>
                 </div>
-                {/*<ForwardRefEditor
-                    placeholder="Напишіть повідомлення..."
-                    readOnly
-                    className="dark-theme dark-editor"
-                    markdown={comment.text}
-                />*/}
                 <MDViewer>{comment.text}</MDViewer>
             </div>
             <div className="flex gap-2 w-full items-center">
                 <div className="flex gap-2 items-center">
                     <Button
+                        disabled={!secret}
                         variant="ghost"
                         size="icon-xs"
                         className="text-muted-foreground text-lg"
@@ -108,6 +99,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
                     <Label>{comment.score}</Label>
 
                     <Button
+                        disabled={!secret}
                         variant="ghost"
                         size="icon-xs"
                         className="text-muted-foreground text-lg"
@@ -117,6 +109,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
                 </div>
                 {comment.depth < 4 && (
                     <Button
+                        disabled={!secret}
                         variant="link"
                         className="p-0 text-muted-foreground hover:text-primary hover:no-underline"
                         size="sm"

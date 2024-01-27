@@ -3,7 +3,6 @@
 import { uk } from 'date-fns/locale';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { SnackbarProvider } from 'notistack';
-import NProgress from 'nprogress';
 import React, { PropsWithChildren, useEffect } from 'react';
 
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -38,9 +37,9 @@ function Providers({ children }: Props) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    useEffect(() => {
-        NProgress.done();
-    }, [pathname, searchParams]);
+    // useEffect(() => {
+    //     NProgress.done();
+    // }, [pathname, searchParams]);
 
     return (
         <SettingsProvider>
