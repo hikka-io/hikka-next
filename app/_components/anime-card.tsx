@@ -12,10 +12,11 @@ import { UrlObject } from 'url';
 import MaterialSymbolsArticle from '~icons/material-symbols/article';
 
 import BaseCard from '@/app/_components/base-card';
+import { Button } from '@/app/_components/ui/button';
 import { WATCH_STATUS } from '@/utils/constants';
 
 import AnimeTooltip from './anime-tooltip';
-import { Button } from '@/app/_components/ui/button';
+import { PopoverTrigger } from './ui/popover';
 
 interface Props {
     target?: string;
@@ -36,7 +37,7 @@ const Watch = ({ watch }: { watch: Hikka.Watch }) => (
             className="absolute right-2 top-2 z-[1] w-fit rounded-md border-white p-1 text-white"
             style={{
                 backgroundColor:
-                WATCH_STATUS[watch.status as Hikka.WatchStatus].color,
+                    WATCH_STATUS[watch.status as Hikka.WatchStatus].color,
             }}
         >
             {createElement(
@@ -78,17 +79,19 @@ const Card = forwardRef(
                 {watch && <Watch watch={watch} />}
 
                 {slug && (
-                    <Button
-                        size="icon-sm"
-                        variant="secondary"
-                        onMouseOver={(e) => {
-                            onMouseOver && onMouseOver(e);
-                            setOnCard(true);
-                        }}
-                        className="absolute bottom-2 right-2 hidden opacity-0 transition-opacity group-hover:opacity-100 lg:flex"
-                    >
-                        <MaterialSymbolsArticle />
-                    </Button>
+                    <PopoverTrigger asChild>
+                        <Button
+                            size="icon-sm"
+                            variant="secondary"
+                            onMouseOver={(e) => {
+                                onMouseOver && onMouseOver(e);
+                                setOnCard(true);
+                            }}
+                            className="absolute bottom-2 right-2 hidden opacity-0 transition-opacity group-hover:opacity-100 lg:flex"
+                        >
+                            <MaterialSymbolsArticle />
+                        </Button>
+                    </PopoverTrigger>
                 )}
             </BaseCard>
         );

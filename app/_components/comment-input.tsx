@@ -28,6 +28,7 @@ import { cn } from '@/utils';
 import addComment from '@/utils/api/comments/addComment';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
+import { Label } from '@/app/_components/ui/label';
 
 interface Props {
     slug: string;
@@ -133,6 +134,7 @@ const Component = forwardRef(
                                     src={comment.author.avatar}
                                 />
                             </Avatar>
+                            <Label>{comment.author.username}</Label>
                             <MaterialSymbolsReplyRounded />
                         </Badge>
                     ) : (

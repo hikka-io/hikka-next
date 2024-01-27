@@ -13,6 +13,7 @@ import {
 } from 'react';
 
 import { Popper, PopperPlacementType, PopperProps } from '@mui/base/Popper';
+import { Popover, PopoverAnchor, PopoverContent } from '@/app/_components/ui/popover';
 
 interface Props extends PropsWithChildren {
     popperClassName?: string;
@@ -40,25 +41,17 @@ const Component = ({
                 onMouseOver: () => setOpen(true),
                 onMouseOut: () => setOpen(false),
             })}
-            <Popper
-                className={clsx('z-50 hidden lg:block', popperClassName)}
+            <Popover
                 {...props}
-                onMouseOver={() => setOpen(true)}
-                onMouseOut={() => setOpen(false)}
-                open={openProp ? openProp : open}
-                anchorEl={anchorRef.current}
+                open={open}
             >
-                <div
-                    className={clsx(
-                        'z-50 rounded-lg border border-solid border-secondary bg-background shadow-md',
-                        className,
-                    )}
-                >
+                <PopoverContent className={clsx('z-50 hidden lg:block', popperClassName)}>
                     {data}
-                </div>
-            </Popper>
+                </PopoverContent>
+
+            </Popover>
         </>
     );
 };
 
-export default memo(Component);
+export default Component;

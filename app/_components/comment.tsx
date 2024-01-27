@@ -111,7 +111,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
                     <Button
                         disabled={!secret}
                         variant="link"
-                        className="p-0 text-muted-foreground hover:text-primary hover:no-underline"
+                        className="p-0 text-muted-foreground h-auto hover:text-primary hover:no-underline"
                         size="sm"
                         onClick={addReplyInput}
                     >
@@ -151,7 +151,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
             )}
             {isInputVisible && currentReply === comment.reference && (
                 <div className="flex gap-6">
-                    <div className="h-[calc(100%+0.5rem)] -mt-2 w-[1px] bg-white" />
+                    <div className="h-auto -mt-2 w-[1px] bg-white" />
                     <CommentInput
                         ref={commentInputRef}
                         slug={slug}

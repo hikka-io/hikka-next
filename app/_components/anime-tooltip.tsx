@@ -1,21 +1,30 @@
 'use client';
 
 import * as React from 'react';
-import { PropsWithChildren, memo } from 'react';
+import {
+    PropsWithChildren,
+    ReactElement,
+    cloneElement,
+    memo,
+    useEffect,
+    useState,
+} from 'react';
 
 import Link from 'next/link';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { Label } from '@/app/_components/ui/label';
+import {
+    Popover,
+    PopoverAnchor,
+    PopoverContent,
+} from '@/app/_components/ui/popover';
 import WatchListButton from '@/app/_components/watchlist-button';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/utils/providers/auth-provider';
-
-import Tooltip from './tooltip';
-import { Label } from '@/app/_components/ui/label';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
-
 
 interface Props extends PropsWithChildren {
     slug: string;
@@ -56,7 +65,8 @@ const TooltipData = ({ slug }: { slug: string }) => {
         );
     }
 
-    const title = data[titleLanguage!] || data.title_ua || data.title_en || data.title_ja;
+    const title =
+        data[titleLanguage!] || data.title_ua || data.title_en || data.title_ja;
     const synopsis = data.synopsis_ua || data.synopsis_en;
 
     return (
@@ -107,7 +117,9 @@ const TooltipData = ({ slug }: { slug: string }) => {
                     data.episodes_released !== null && (
                         <div className="flex">
                             <div className="w-1/4">
-                                <Label className="text-muted-foreground">Епізоди:</Label>
+                                <Label className="text-muted-foreground">
+                                    Епізоди:
+                                </Label>
                             </div>
                             <div className="flex-1">
                                 <Label className="text-sm">
@@ -146,14 +158,52 @@ const TooltipData = ({ slug }: { slug: string }) => {
 };
 
 const Component = ({ slug, children, ...props }: Props) => {
+    const [open, setOpen] = useState(false);
+    const openTimerRef = React.useRef(0);
+    const closeTimerRef = React.useRef(0);
+    const openDelay = 0;
+    const closeDelay = 200;
+
+    const handleOpen = React.useCallback(() => {
+        clearTimeout(closeTimerRef.current);
+        openTimerRef.current = window.setTimeout(
+            () => setOpen(true),
+            openDelay,
+        );
+    }, [openDelay, setOpen]);
+
+    const handleClose = React.useCallback(() => {
+        clearTimeout(openTimerRef.current);
+        closeTimerRef.current = window.setTimeout(
+            () => setOpen(false),
+            closeDelay,
+        );
+    }, [closeDelay, setOpen]);
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(openTimerRef.current);
+            clearTimeout(closeTimerRef.current);
+        };
+    }, []);
+
     return (
-        <Tooltip
-            placement="right-start"
-            data={<TooltipData slug={slug} />}
-            className="ml-4 flex w-80 flex-col gap-4 p-4"
-        >
-            {children}
-        </Tooltip>
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverAnchor asChild>
+                {cloneElement(children as ReactElement, {
+                    onMouseOver: handleOpen,
+                    onMouseOut: handleClose,
+                })}
+            </PopoverAnchor>
+            <PopoverContent
+                onMouseOver={handleOpen}
+                onMouseOut={handleClose}
+                side="right"
+                className="ml-4 flex w-80 flex-col gap-4 p-4"
+            >
+                <TooltipData slug={slug} />
+            </PopoverContent>
+        </Popover>
     );
 };
 
