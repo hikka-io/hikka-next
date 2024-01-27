@@ -1,5 +1,5 @@
 import { formatDistance } from 'date-fns';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import MaterialSymbolsKeyboardArrowUpRounded from '~icons/material-symbols/keyboard-arrow-up-rounded';
 
@@ -55,10 +55,16 @@ const Component = ({ comment, slug, content_type }: Props) => {
         return `${comment.replies.length} відповідей`;
     };
 
+    useEffect(() => {
+        if (currentReply && currentReply === comment.reference) {
+            setExpand(true);
+        }
+    }, [currentReply]);
+
     return (
         <div className="flex flex-col gap-2 w-full">
             <div className="flex flex-col gap-2 w-full items-start">
-                <div className="flex gap-3">
+                <div className="flex gap-3 w-full">
                     <Link href={`/u/${comment.author.username}`}>
                         <Avatar className="w-10 rounded-md">
                             <AvatarImage
@@ -71,8 +77,8 @@ const Component = ({ comment, slug, content_type }: Props) => {
                             </AvatarFallback>
                         </Avatar>
                     </Link>
-                    <div className="flex flex-col justify-between">
-                        <Link href={`/u/${comment.author.username}`}>
+                    <div className="flex flex-col justify-between flex-1">
+                        <Link href={`/u/${comment.author.username}`} className="w-fit">
                             <h5>{comment.author.username}</h5>
                         </Link>
                         <p className="text-xs text-muted-foreground">
@@ -83,30 +89,30 @@ const Component = ({ comment, slug, content_type }: Props) => {
                             )}
                         </p>
                     </div>
+                    <div className="flex gap-2 items-center opacity-60 hover:opacity-100">
+                        <Button
+                            disabled={!secret}
+                            variant="ghost"
+                            size="icon-xs"
+                            className="text-muted-foreground text-lg"
+                        >
+                            <MaterialSymbolsKeyboardArrowDownRounded />
+                        </Button>
+                        <Label>{comment.score}</Label>
+
+                        <Button
+                            disabled={!secret}
+                            variant="ghost"
+                            size="icon-xs"
+                            className="text-muted-foreground text-lg"
+                        >
+                            <MaterialSymbolsKeyboardArrowUpRounded />
+                        </Button>
+                    </div>
                 </div>
                 <MDViewer>{comment.text}</MDViewer>
             </div>
             <div className="flex gap-2 w-full items-center">
-                <div className="flex gap-2 items-center">
-                    <Button
-                        disabled={!secret}
-                        variant="ghost"
-                        size="icon-xs"
-                        className="text-muted-foreground text-lg"
-                    >
-                        <MaterialSymbolsKeyboardArrowDownRounded />
-                    </Button>
-                    <Label>{comment.score}</Label>
-
-                    <Button
-                        disabled={!secret}
-                        variant="ghost"
-                        size="icon-xs"
-                        className="text-muted-foreground text-lg"
-                    >
-                        <MaterialSymbolsKeyboardArrowUpRounded />
-                    </Button>
-                </div>
                 {comment.depth < 4 && (
                     <Button
                         disabled={!secret}

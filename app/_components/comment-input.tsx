@@ -24,11 +24,11 @@ import SpoilerButton from '@/app/_components/md/editor/toolbar/spoiler-button';
 import { Avatar, AvatarImage } from '@/app/_components/ui/avatar';
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
+import { Label } from '@/app/_components/ui/label';
 import { cn } from '@/utils';
 import addComment from '@/utils/api/comments/addComment';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
-import { Label } from '@/app/_components/ui/label';
 
 interface Props {
     slug: string;
@@ -140,18 +140,34 @@ const Component = forwardRef(
                     ) : (
                         <div />
                     )}
-                    <Button
-                        disabled={isPosting}
-                        onClick={onSubmit}
-                        size="sm"
-                        type="submit"
-                        variant="secondary"
-                    >
-                        {isPosting && (
-                            <span className="loading loading-spinner"></span>
+                    <div className="flex gap-2">
+                        {comment && (
+                            <Button
+                                onClick={() =>
+                                    setCommentsState!((prev) => ({
+                                        ...prev,
+                                        currentReply: undefined,
+                                    }))
+                                }
+                                size="sm"
+                                variant="outline"
+                            >
+                                Скасувати
+                            </Button>
                         )}
-                        Відправити
-                    </Button>
+                        <Button
+                            disabled={isPosting}
+                            onClick={onSubmit}
+                            size="sm"
+                            type="submit"
+                            variant="secondary"
+                        >
+                            {isPosting && (
+                                <span className="loading loading-spinner"></span>
+                            )}
+                            Відправити
+                        </Button>
+                    </div>
                 </div>
                 <Turnstile
                     options={{
