@@ -7,7 +7,6 @@ export default function useRouter() {
     const { push } = router;
 
     router.push = async (...args: [string, NavigateOptions]) => {
-        // NProgress.start();
         return push(...args);
     };
 
