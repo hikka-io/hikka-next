@@ -4,7 +4,6 @@ import { useSnackbar } from 'notistack';
 import React, { ForwardedRef, forwardRef, useRef, useState } from 'react';
 import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded';
 
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import {
     MDXEditorMethods,
     directivesPlugin,
@@ -48,43 +47,39 @@ const Component = forwardRef(
         const editorRef = useRef<MDXEditorMethods>(null);
         const queryClient = useQueryClient();
         const [text, setText] = useState('');
-        const captchaRef = useRef<TurnstileInstance>();
         const { secret } = useAuthContext();
 
         const onSubmit = async () => {
             setIsPosting(true);
 
-            if (captchaRef.current) {
-                try {
-                    await addComment({
-                        content_type: content_type,
-                        slug: slug,
-                        parent: comment?.reference || undefined,
-                        secret: String(secret),
-                        text: text,
-                        captcha: String(captchaRef.current.getResponse()),
-                    });
+            try {
+                await addComment({
+                    content_type: content_type,
+                    slug: slug,
+                    parent: comment?.reference || undefined,
+                    secret: String(secret),
+                    text: text,
+                });
 
-                    await queryClient.invalidateQueries({
-                        queryKey: ['comments', slug],
-                    });
+                await queryClient.invalidateQueries({
+                    queryKey: ['comments', slug],
+                });
 
-                    setText('');
-                    editorRef.current?.setMarkdown('');
+                setText('');
+                editorRef.current?.setMarkdown('');
+
+                if (comment) {
                     setCommentsState!((prev) => ({
                         ...prev,
                         currentReply: undefined,
                     }));
-                } catch (e) {
-                    if (captchaRef.current) {
-                        captchaRef.current?.reset();
-                    }
-
-                    enqueueSnackbar(
-                        'Виникла помилка при відправленні повідомлення. Спробуйте, будь ласка, ще раз',
-                        { variant: 'error' },
-                    );
                 }
+            } catch (e) {
+                console.log(e);
+                enqueueSnackbar(
+                    'Виникла помилка при відправленні повідомлення. Спробуйте, будь ласка, ще раз',
+                    { variant: 'error' },
+                );
             }
 
             setIsPosting(false);
@@ -156,7 +151,7 @@ const Component = forwardRef(
                             </Button>
                         )}
                         <Button
-                            disabled={isPosting}
+                            disabled={isPosting || text.length === 0}
                             onClick={onSubmit}
                             size="sm"
                             type="submit"
@@ -169,13 +164,6 @@ const Component = forwardRef(
                         </Button>
                     </div>
                 </div>
-                <Turnstile
-                    options={{
-                        size: 'invisible',
-                    }}
-                    ref={captchaRef}
-                    siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
-                />
             </div>
         );
     },

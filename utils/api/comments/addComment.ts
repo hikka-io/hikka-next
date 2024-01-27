@@ -6,14 +6,12 @@ export default async function req({
     secret,
     slug,
     content_type,
-    captcha,
     text,
     parent,
 }: {
     secret: string;
     slug: string;
     content_type: 'edit';
-    captcha: string;
     text: string;
     parent?: string;
 }): Promise<Response> {
@@ -26,7 +24,6 @@ export default async function req({
             headers: {
                 ...config.config.headers,
                 auth: secret || '',
-                Captcha: captcha,
             },
         },
     );
