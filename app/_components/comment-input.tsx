@@ -26,6 +26,7 @@ import { Button } from '@/app/_components/ui/button';
 import { cn } from '@/utils';
 import addComment from '@/utils/api/comments/addComment';
 import { useAuthContext } from '@/utils/providers/auth-provider';
+import { useCommentsContext } from '@/utils/providers/comments-provider';
 
 interface Props {
     slug: string;
@@ -39,6 +40,7 @@ const Component = forwardRef(
         { comment, slug, content_type, className }: Props,
         ref: ForwardedRef<HTMLDivElement>,
     ) => {
+        const { setState: setCommentsState } = useCommentsContext();
         const { enqueueSnackbar } = useSnackbar();
         const [isPosting, setIsPosting] = useState(false);
         const editorRef = useRef<MDXEditorMethods>(null);
@@ -67,6 +69,7 @@ const Component = forwardRef(
 
                     setText('');
                     editorRef.current?.setMarkdown('');
+                    setCommentsState!((prev) => ({ ...prev, currentReply: undefined }));
                 } catch (e) {
                     if (captchaRef.current) {
                         captchaRef.current?.reset();
