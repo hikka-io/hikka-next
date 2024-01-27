@@ -10,6 +10,8 @@ import {
 } from '@mdxeditor/editor';
 
 import { Button } from '@/app/_components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/app/_components/ui/tooltip';
+import MaterialSymbolsFormatBoldRounded from '~icons/*';
 
 export const IS_ITALIC = 0b10 as const;
 
@@ -23,13 +25,20 @@ const Component = () => {
     const italicIsOn = (currentFormat & IS_ITALIC) !== 0;
 
     return (
-        <Button
-            variant={italicIsOn ? 'secondary' : 'ghost'}
-            size="icon-sm"
-            onClick={() => applyFormat('italic')}
-        >
-            <MaterialSymbolsFormatItalicRounded />
-        </Button>
+        <Tooltip delayDuration={0}>
+            <TooltipTrigger>
+                <Button
+                    variant={italicIsOn ? 'secondary' : 'ghost'}
+                    size="icon-sm"
+                    onClick={() => applyFormat('italic')}
+                >
+                    <MaterialSymbolsFormatItalicRounded />
+                </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>Курсив</p>
+            </TooltipContent>
+        </Tooltip>
     );
 };
 

@@ -1,28 +1,31 @@
 'use client';
 
 import clsx from 'clsx';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-
-
 import { usePathname, useSearchParams } from 'next/navigation';
-
-
 
 import { useQuery } from '@tanstack/react-query';
 
-
-
-import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
 import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
 import { Slider } from '@/app/_components/ui/slider';
 import { Switch } from '@/app/_components/ui/switch';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/app/_components/ui/tooltip';
 import getAnimeGenres from '@/utils/api/anime/getAnimeGenres';
-import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS, SEASON } from '@/utils/constants';
+import {
+    AGE_RATING,
+    MEDIA_TYPE,
+    RELEASE_STATUS,
+    SEASON,
+} from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import useRouter from '@/utils/useRouter';
 
@@ -72,7 +75,11 @@ const Component = () => {
         name: string,
         value: string | string[] | boolean,
     ) => {
-        const query = createQueryString(name, value, new URLSearchParams(searchParams));
+        const query = createQueryString(
+            name,
+            value,
+            new URLSearchParams(searchParams),
+        );
         router.replace(`${pathname}?${query}`);
     };
 
@@ -222,10 +229,12 @@ const Component = () => {
                                 }
                             >
                                 {AGE_RATING[slug as Hikka.AgeRating].title_ua}
-                                <Tooltip
-                                    placement="top"
-                                    className="mr-1 p-1"
-                                    data={
+
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger>
+                                        <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
                                         <p className="text-sm">
                                             {
                                                 AGE_RATING[
@@ -233,11 +242,7 @@ const Component = () => {
                                                 ].description
                                             }
                                         </p>
-                                    }
-                                >
-                                    <div>
-                                        <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
-                                    </div>
+                                    </TooltipContent>
                                 </Tooltip>
                             </Button>
                         ))}

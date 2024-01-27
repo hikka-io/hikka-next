@@ -2,11 +2,13 @@
 
 import React from 'react';
 import Markdown, { Options } from 'react-markdown';
+import rehypeExternalLinks from 'rehype-external-links';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
+import Link from 'next/link';
+
 import Spoiler from './components/spoiler';
-import rehypeExternalLinks from 'rehype-external-links';
 
 interface Props extends Options {}
 
@@ -14,9 +16,23 @@ const Component = ({ children, ...props }: Props) => {
     return (
         <Markdown
             className="markdown w-full"
-            remarkPlugins={[remarkDirective, remarkDirectiveRehype, [rehypeExternalLinks, { target: '_blank' }]]}
+            disallowedElements={['code']}
+            remarkPlugins={[
+                remarkDirective,
+                remarkDirectiveRehype,
+                [rehypeExternalLinks, { target: '_blank', rel: ['nofollow'] }],
+            ]}
             components={{
                 spoiler: Spoiler,
+                a: ({ node, children }) => (
+                    <Link
+                        target="_blank"
+                        rel="nofollow"
+                        href={(node?.properties?.href as string) || ''}
+                    >
+                        {children}
+                    </Link>
+                ),
             }}
             {...props}
         >
