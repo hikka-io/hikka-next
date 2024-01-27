@@ -17,6 +17,12 @@ import { useCommentsContext } from '@/utils/providers/comments-provider';
 
 import Comments from './comments';
 import MDViewer from './md/viewer/MD-viewer';
+import { directivesPlugin, linkPlugin, toolbarPlugin } from '@mdxeditor/editor';
+import { SpoilerDirectiveDescriptor } from '@/app/_components/md/editor/directives/spoiler-directive';
+import BoldButton from '@/app/_components/md/editor/toolbar/bold-button';
+import ItalicButton from '@/app/_components/md/editor/toolbar/italic-button';
+import SpoilerButton from '@/app/_components/md/editor/toolbar/spoiler-button';
+import { ForwardRefEditor } from '@/app/_components/md/editor/forward-ref-editor';
 
 interface Props {
     comment: Hikka.Comment;
@@ -82,6 +88,12 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         </p>
                     </div>
                 </div>
+                {/*<ForwardRefEditor
+                    placeholder="Напишіть повідомлення..."
+                    readOnly
+                    className="dark-theme dark-editor"
+                    markdown={comment.text}
+                />*/}
                 <MDViewer>{comment.text}</MDViewer>
             </div>
             <div className="flex gap-2 w-full items-center">
@@ -145,11 +157,10 @@ const Component = ({ comment, slug, content_type }: Props) => {
                 </div>
             )}
             {isInputVisible && currentReply === comment.reference && (
-                <div className="flex gap-2">
-                    <div className="h-full w-[1px] bg-secondary" />
+                <div className="flex gap-6">
+                    <div className="h-[calc(100%+0.5rem)] -mt-2 w-[1px] bg-white" />
                     <CommentInput
                         ref={commentInputRef}
-                        className="pl-6"
                         slug={slug}
                         content_type={content_type}
                         comment={comment}

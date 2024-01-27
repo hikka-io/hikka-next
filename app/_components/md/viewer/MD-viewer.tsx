@@ -16,7 +16,7 @@ const Component = ({ children, ...props }: Props) => {
     return (
         <Markdown
             className="markdown w-full"
-            disallowedElements={['code']}
+            // disallowedElements={['code']}
             remarkPlugins={[
                 remarkDirective,
                 remarkDirectiveRehype,
@@ -32,6 +32,11 @@ const Component = ({ children, ...props }: Props) => {
                     >
                         {children}
                     </Link>
+                ),
+                code: ({ node, children }) => (
+                    <p>
+                        {children}
+                    </p>
                 ),
             }}
             {...props}

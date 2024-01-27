@@ -83,13 +83,14 @@ const Component = forwardRef(
         };
 
         return (
-            <div ref={ref} className={cn('relative w-full', className)}>
+            <div ref={ref} className={cn('relative w-full', 'bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1', className)}>
                 <ForwardRefEditor
                     autoFocus
                     placeholder="Напишіть повідомлення..."
                     // onBlur={(e) => null}
                     ref={editorRef}
                     readOnly={isPosting}
+
                     plugins={[
                         linkPlugin(),
                         directivesPlugin({
@@ -105,11 +106,11 @@ const Component = forwardRef(
                             ),
                         }),
                     ]}
-                    className="dark-theme dark-editor border border-b-0 border-secondary/60 bg-secondary/30 rounded-t-md"
+                    className="dark-theme dark-editor"
                     markdown={text}
                     onChange={setText}
                 />
-                <div className="p-2 flex justify-between items-center w-full bg-secondary/30 border-secondary/60 border border-t-0 rounded-b-md">
+                <div className="p-2 flex justify-between items-center w-full">
                     {comment ? (
                         <Badge variant="secondary" className="p-0 pr-2 gap-2">
 
