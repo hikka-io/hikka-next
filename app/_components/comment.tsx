@@ -1,7 +1,9 @@
 import { formatDistance } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import MaterialSymbolsKeyboardArrowUpRounded from '~icons/material-symbols/keyboard-arrow-up-rounded';
+import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import Link from 'next/link';
 
@@ -12,12 +14,19 @@ import {
     AvatarImage,
 } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/app/_components/ui/dropdown-menu';
 import { Label } from '@/app/_components/ui/label';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
 
 import Comments from './comments';
 import MDViewer from './md/viewer/MD-viewer';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
     comment: Hikka.Comment;
@@ -26,11 +35,21 @@ interface Props {
 }
 
 const Component = ({ comment, slug, content_type }: Props) => {
+    const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const commentInputRef = useRef<HTMLDivElement>(null);
-    const { currentReply, setState: setCommentsState } = useCommentsContext();
+    const {
+        currentReply,
+        currentEdit,
+        setState: setCommentsState,
+    } = useCommentsContext();
     const [expand, setExpand] = useState<boolean>(comment.depth < 2);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
+
+    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+        'loggedUser',
+        secret,
+    ]);
 
     const addReplyInput = () => {
         setCommentsState!((prev) => ({
@@ -78,7 +97,10 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         </Avatar>
                     </Link>
                     <div className="flex flex-col justify-between flex-1">
-                        <Link href={`/u/${comment.author.username}`} className="w-fit">
+                        <Link
+                            href={`/u/${comment.author.username}`}
+                            className="w-fit"
+                        >
                             <h5>{comment.author.username}</h5>
                         </Link>
                         <p className="text-xs text-muted-foreground">
@@ -110,7 +132,16 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         </Button>
                     </div>
                 </div>
-                <MDViewer>{comment.text}</MDViewer>
+                {currentEdit === comment.reference ? (
+                    <CommentInput
+                        slug={slug}
+                        content_type={content_type}
+                        comment={comment}
+                        isEdit
+                    />
+                ) : (
+                    <MDViewer>{comment.text}</MDViewer>
+                )}
             </div>
             <div className="flex gap-2 w-full items-center">
                 {comment.depth < 4 && (
@@ -124,6 +155,30 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         Відповісти
                     </Button>
                 )}
+                {loggedUser?.username === comment.author.username && <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon-xs"
+                            className="text-muted-foreground text-sm"
+                        >
+                            <MaterialSymbolsMoreHoriz />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                        <DropdownMenuItem
+                            onClick={() =>
+                                setCommentsState!((prev) => ({
+                                    ...prev,
+                                    currentEdit: comment.reference,
+                                }))
+                            }
+                        >
+                            <MaterialSymbolsEditRounded className="mr-2" />
+                            Редагувати
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>}
             </div>
             {comment.replies.length > 0 && (
                 <div className="flex w-full">

@@ -41,6 +41,7 @@ const Component = () => {
 
     const onDismiss = () => {
         setSearchValue('');
+        setOpen(false);
     };
 
     useEffect(() => {

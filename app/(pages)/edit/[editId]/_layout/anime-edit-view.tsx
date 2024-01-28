@@ -18,6 +18,7 @@ import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
 import { Textarea } from '@/app/_components/ui/textarea';
 import getEdit from '@/utils/api/edit/getEdit';
+import MDViewer from '@/app/_components/md/viewer/MD-viewer';
 
 type Param = {
     param: keyof Hikka.EditParams;
@@ -206,13 +207,8 @@ const Component = () => {
                                             className="flex flex-col gap-4 w-full"
                                         >
                                             <Label>{param.title}</Label>
-                                            <Textarea
-                                                disabled
-                                                placeholder={param.placeholder}
-                                                rows={5}
-                                                className="w-full disabled:opacity-100"
-                                                value={edit!.after[param.param]}
-                                            />
+
+                                            <MDViewer className="bg-secondary/30 border-secondary/60 border rounded-md p-4 markdown text-sm">{String(edit!.after[param.param])}</MDViewer>
                                         </div>
                                     );
                                 })}

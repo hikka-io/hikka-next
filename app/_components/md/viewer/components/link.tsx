@@ -19,9 +19,22 @@ interface Props {
     href: string;
 }
 
+const ALLOWED_HOSTS = [
+    'toloka.to',
+    'anitube.in.ua',
+    'watari-anime.com',
+    'aniage.net',
+    'myanimelist.net',
+    'anilist.co'
+]
+
 const Component = ({ children, href }: PropsWithChildren<Props>) => {
-    if (href.includes('hikka.io')) {
+    if (href.includes('hikka.io') || !href.includes('http')) {
         return <Link href={href}>{children}</Link>;
+    }
+
+    if (ALLOWED_HOSTS.some((host) => href.includes(host))) {
+        return <Link target="_blank" href={href}>{children}</Link>;
     }
 
     return (
@@ -39,7 +52,7 @@ const Component = ({ children, href }: PropsWithChildren<Props>) => {
                     <AlertDialogDescription>
                         <div className="flex gap-2 items-center">
                             <MaterialSymbolsLinkRounded />
-                            <p className="flex-1">{href}</p>
+                            <p className="flex-1 truncate">{href}</p>
                         </div>
                     </AlertDialogDescription>
                 </AlertDialogHeader>

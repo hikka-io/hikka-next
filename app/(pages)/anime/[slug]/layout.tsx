@@ -1,5 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
+import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
+import MaterialSymbolsReviewsRounded from '~icons/material-symbols/reviews-rounded'
 
 import Link from 'next/link';
 
@@ -11,6 +13,7 @@ import NavMenu from '@/app/(pages)/anime/[slug]/_layout/nav-menu';
 import Title from '@/app/(pages)/anime/[slug]/_layout/title';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import SubBar from '@/app/_components/sub-navbar';
+import { Button } from '@/app/_components/ui/button';
 import { getCookie } from '@/app/actions';
 import RQHydrate from '@/utils/RQ-hydrate';
 import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
@@ -23,6 +26,7 @@ import { RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
 import NavBar from './_layout/navbar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/app/_components/ui/tooltip';
 
 
 interface Props extends PropsWithChildren {
@@ -87,7 +91,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
-    console.log({ secret })
+    console.log({ secret });
 
     await queryClient.prefetchQuery({
         queryKey: ['anime', slug],
@@ -150,8 +154,16 @@ const Component = async ({ params: { slug }, children }: Props) => {
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <div className="flex flex-col gap-4">
                         <Cover />
-                        <div className="flex w-full flex-col gap-12 lg:sticky lg:top-20 lg:self-start">
+                        <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
                             <Actions />
+                            <div className="flex gap-2">
+                                <Button variant="outline" className="flex-1" asChild>
+                                    <Link href={`/anime/${slug}/comments`}>
+                                        <IconamoonCommentFill />
+                                        Обговорення
+                                    </Link>
+                                </Button>
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-col gap-12">

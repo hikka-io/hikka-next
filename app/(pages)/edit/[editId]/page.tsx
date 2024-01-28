@@ -16,7 +16,7 @@ import getQueryClient from '@/utils/getQueryClient';
 import Actions from './_layout/actions';
 import AnimeEditView from './_layout/anime-edit-view';
 import Author from './_layout/author';
-import Comments from '@/app/(pages)/edit/[editId]/_layout/comments';
+import Comments from '@/app/_layout/comments';
 import { redirect } from 'next/navigation';
 
 
@@ -59,7 +59,7 @@ const Component = async ({ params: { editId } }: Props) => {
                     <div className="flex flex-col gap-12">
                         <AnimeEditView />
                         <Actions />
-                        <Comments />
+                        <Comments slug={editId} content_type="edit" />
                     </div>
                 </div>
                 <div className="flex flex-col gap-12">

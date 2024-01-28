@@ -17,6 +17,11 @@ declare global {
     }
 
     namespace Hikka {
+        type WithPagination<T> = {
+            pagination: Hikka.Pagination;
+            list: T[];
+        }
+
         type Error = {
             code: string;
             message: string;
@@ -220,6 +225,6 @@ declare global {
             type: 'general' | 'watch';
         }
 
-        type ContentType = 'edit';
+        type ContentType = 'edit' | 'anime'
     }
 }

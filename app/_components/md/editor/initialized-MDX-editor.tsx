@@ -1,21 +1,25 @@
 'use client';
 
 // InitializedMDXEditor.tsx
-import { ContainerDirective } from 'mdast-util-directive';
 import type { ForwardedRef } from 'react';
+import React from 'react';
 
 import {
-    Button,
     MDXEditor,
     type MDXEditorMethods,
     type MDXEditorProps,
     directivesPlugin,
-    insertDirective$,
+    linkDialogPlugin,
+    linkPlugin,
     toolbarPlugin,
-    usePublisher,
 } from '@mdxeditor/editor';
 
-
+import { SpoilerDirectiveDescriptor } from '@/app/_components/md/editor/directives/spoiler-directive';
+import BoldButton from '@/app/_components/md/editor/toolbar/bold-button';
+import ItalicButton from '@/app/_components/md/editor/toolbar/italic-button';
+import LinkButton from '@/app/_components/md/editor/toolbar/link-button';
+import { LinkDialog } from '@/app/_components/md/editor/toolbar/link-dialog';
+import SpoilerButton from '@/app/_components/md/editor/toolbar/spoiler-button';
 
 // Only import this to the next file
 export default function InitializedMDXEditor({
@@ -24,6 +28,23 @@ export default function InitializedMDXEditor({
 }: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
     return (
         <MDXEditor
+            plugins={[
+                linkDialogPlugin({ LinkDialog: () => <LinkDialog /> }),
+                linkPlugin(),
+                directivesPlugin({
+                    directiveDescriptors: [SpoilerDirectiveDescriptor],
+                }),
+                toolbarPlugin({
+                    toolbarContents: () => (
+                        <>
+                            <BoldButton />
+                            <ItalicButton />
+                            <SpoilerButton />
+                            <LinkButton />
+                        </>
+                    ),
+                }),
+            ]}
             {...props}
             ref={editorRef}
         />

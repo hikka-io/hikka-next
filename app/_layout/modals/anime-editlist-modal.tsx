@@ -8,21 +8,17 @@ import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import EditCard from '@/app/_components/edit-card';
 import { Button } from '@/app/_components/ui/button';
-import getContentEditList, {
-    Response as EditListResponse,
-} from '@/utils/api/edit/getContentEditList';
+import getContentEditList from '@/utils/api/edit/getContentEditList';
+import useInfiniteList from '@/utils/hooks/useInfiniteList';
 
 
 const Component = () => {
     const { ref, inView } = useInView();
     const params = useParams();
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteQuery({
-            initialPageParam: 1,
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteList({
             queryKey: ['editList', params.slug],
             queryFn: ({ pageParam }) =>
                 getContentEditList({
@@ -30,21 +26,17 @@ const Component = () => {
                     contentType: 'anime',
                     page: pageParam,
                 }),
-            getNextPageParam: (lastPage: EditListResponse) => {
-                const nextPage = lastPage.pagination.page + 1;
-                return nextPage > lastPage.pagination.pages
-                    ? undefined
-                    : nextPage;
-            },
         });
 
-    const list = data && data.pages.map((data) => data.list).flat(1);
-
     useEffect(() => {
-        if (inView && data) {
+        if (inView) {
             fetchNextPage();
         }
     }, [inView]);
+
+    if (!list) {
+        return null;
+    }
 
     return (
         <>
@@ -56,7 +48,7 @@ const Component = () => {
                 </Button>
             </div>
             <hr className="h-[1px] w-auto -mx-6 bg-border" />
-            {data && list!.length > 0 && (
+            {list!.length > 0 && (
                 <div className="flex-1 overflow-y-scroll w-auto h-full -mx-6">
                     {list!.map((edit) => (
                         <EditCard

@@ -11,7 +11,7 @@ export default async function req({
 }: {
     secret: string;
     slug: string;
-    content_type: 'edit';
+    content_type: Hikka.ContentType;
     text: string;
     parent?: string;
 }): Promise<Response> {

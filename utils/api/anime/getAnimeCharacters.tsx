@@ -1,11 +1,11 @@
 import config from '@/utils/api/config';
 
-export interface Response {
-    pagination: Hikka.Pagination;
-    list: {
-        main: boolean;
-        character: Hikka.Character;
-    }[];
+export interface Response
+    extends Hikka.WithPagination<AnimeCharacter> {}
+
+export type AnimeCharacter = {
+    main: boolean;
+    character: Hikka.Character;
 }
 
 export default async function req({

@@ -6,12 +6,11 @@ import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import BaseCard from '@/app/_components/base-card';
 import SubHeader from '@/app/_components/sub-header';
-import getAnimeStaff, { Response as AnimeStuffResponse } from '@/utils/api/anime/getAnimeStaff';
 import { Button } from '@/app/_components/ui/button';
+import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
+import useInfiniteList from '@/utils/hooks/useInfiniteList';
 
 interface Props {
     extended?: boolean;
@@ -20,21 +19,16 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const { ref, inView } = useInView();
     const params = useParams();
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteQuery({
-            initialPageParam: 1,
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteList({
             queryKey: ['staff', params.slug],
-            getNextPageParam: (lastPage: AnimeStuffResponse, allPages) => {
-                const nextPage = lastPage.pagination.page + 1;
-                return nextPage > lastPage.pagination.pages
-                    ? undefined
-                    : nextPage;
-            },
             queryFn: ({ pageParam = 1 }) =>
                 getAnimeStaff({ slug: String(params.slug), page: pageParam }),
         });
 
-    const getRole = (roles: { name_ua: string, name_en: string, slug: string }[]) => {
+    const getRole = (
+        roles: { name_ua: string; name_en: string; slug: string }[],
+    ) => {
         if (roles.length === 0) {
             return undefined;
         }
@@ -43,23 +37,21 @@ const Component = ({ extended }: Props) => {
     };
 
     useEffect(() => {
-        if (inView && data) {
+        if (inView) {
             fetchNextPage();
         }
     }, [inView]);
 
-    if (!data || !data.pages || data.pages[0].list.length === 0) {
+    if (!list || list.length === 0) {
         return null;
     }
-
-    const list = data.pages.map((data) => data.list).flat(1);
 
     const filteredData = extended ? list : list.slice(0, 4);
 
     return (
-        <div className='flex flex-col gap-8'>
+        <div className="flex flex-col gap-8">
             <SubHeader
-                title='Автори'
+                title="Автори"
                 href={!extended ? params.slug + '/staff' : undefined}
             />
             <div
@@ -90,7 +82,7 @@ const Component = ({ extended }: Props) => {
                     onClick={() => fetchNextPage()}
                 >
                     {isFetchingNextPage && (
-                        <span className='loading loading-spinner'></span>
+                        <span className="loading loading-spinner"></span>
                     )}
                     Заванатажити ще
                 </Button>

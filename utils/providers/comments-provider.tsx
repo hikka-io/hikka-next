@@ -12,6 +12,7 @@ import {
 interface State {
     currentDepth: number;
     currentReply?: string;
+    currentEdit?: string;
 }
 
 interface ContextProps extends State {
@@ -28,6 +29,7 @@ function getInitialState(): State {
     return {
         currentDepth: 1,
         currentReply: undefined,
+        currentEdit: undefined,
     };
 }
 

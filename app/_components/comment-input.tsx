@@ -4,41 +4,36 @@ import { useSnackbar } from 'notistack';
 import React, { ForwardedRef, forwardRef, useRef, useState } from 'react';
 import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded';
 
-import {
-    MDXEditorMethods,
-    directivesPlugin,
-    linkDialogPlugin,
-    linkPlugin,
-    toolbarPlugin,
-} from '@mdxeditor/editor';
+
+
+import { MDXEditorMethods } from '@mdxeditor/editor';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { SpoilerDirectiveDescriptor } from '@/app/_components/md/editor/directives/spoiler-directive';
-import { ForwardRefEditor } from '@/app/_components/md/editor/forward-ref-editor';
-import BoldButton from '@/app/_components/md/editor/toolbar/bold-button';
-import ItalicButton from '@/app/_components/md/editor/toolbar/italic-button';
-import LinkButton from '@/app/_components/md/editor/toolbar/link-button';
-import { LinkDialog } from '@/app/_components/md/editor/toolbar/link-dialog';
-import SpoilerButton from '@/app/_components/md/editor/toolbar/spoiler-button';
+
+
+import MDEditor from '@/app/_components/md/editor/MD-editor';
 import { Avatar, AvatarImage } from '@/app/_components/ui/avatar';
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
 import { cn } from '@/utils';
 import addComment from '@/utils/api/comments/addComment';
+import editComment from '@/utils/api/comments/editComment';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
+
 
 interface Props {
     slug: string;
     content_type: Hikka.ContentType;
     comment?: Hikka.Comment;
     className?: string;
+    isEdit?: boolean;
 }
 
 const Component = forwardRef(
     (
-        { comment, slug, content_type, className }: Props,
+        { comment, slug, content_type, className, isEdit }: Props,
         ref: ForwardedRef<HTMLDivElement>,
     ) => {
         const { setState: setCommentsState } = useCommentsContext();
@@ -46,21 +41,29 @@ const Component = forwardRef(
         const [isPosting, setIsPosting] = useState(false);
         const editorRef = useRef<MDXEditorMethods>(null);
         const queryClient = useQueryClient();
-        const [text, setText] = useState('');
+        const [text, setText] = useState(isEdit ? comment!.text : '');
         const { secret } = useAuthContext();
 
         const onSubmit = async () => {
             setIsPosting(true);
 
             try {
-                await addComment({
-                    content_type: content_type,
-                    slug: slug,
-                    parent: comment?.reference || undefined,
-                    secret: String(secret),
-                    text: text,
-                });
-
+                if (isEdit) {
+                    await editComment({
+                        reference: comment!.reference,
+                        secret: String(secret),
+                        text: text,
+                    });
+                } else {
+                    await addComment({
+                        content_type: content_type,
+                        slug: slug,
+                        parent: comment?.reference || undefined,
+                        secret: String(secret),
+                        text: text,
+                    });
+                }
+                
                 await queryClient.invalidateQueries({
                     queryKey: ['comments', slug],
                 });
@@ -72,6 +75,7 @@ const Component = forwardRef(
                     setCommentsState!((prev) => ({
                         ...prev,
                         currentReply: undefined,
+                        currentEdit: undefined,
                     }));
                 }
             } catch (e) {
@@ -94,34 +98,17 @@ const Component = forwardRef(
                     className,
                 )}
             >
-                <ForwardRefEditor
-                    autoFocus
+                <MDEditor
+                    autoFocus={!isEdit && Boolean(comment)}
                     placeholder="Напишіть повідомлення..."
                     ref={editorRef}
                     readOnly={isPosting}
-                    plugins={[
-                        linkDialogPlugin({ LinkDialog: () => <LinkDialog /> }),
-                        linkPlugin(),
-                        directivesPlugin({
-                            directiveDescriptors: [SpoilerDirectiveDescriptor],
-                        }),
-                        toolbarPlugin({
-                            toolbarContents: () => (
-                                <>
-                                    <BoldButton />
-                                    <ItalicButton />
-                                    <SpoilerButton />
-                                    <LinkButton />
-                                </>
-                            ),
-                        }),
-                    ]}
                     className="dark-theme dark-editor"
                     markdown={text}
                     onChange={setText}
                 />
                 <div className="p-2 flex justify-between items-center w-full">
-                    {comment ? (
+                    {comment && !isEdit ? (
                         <Badge variant="secondary" className="p-0 pr-2 gap-2">
                             <Avatar className="w-6 h-6">
                                 <AvatarImage
@@ -141,7 +128,12 @@ const Component = forwardRef(
                                 onClick={() =>
                                     setCommentsState!((prev) => ({
                                         ...prev,
-                                        currentReply: undefined,
+                                        currentReply: isEdit
+                                            ? prev.currentReply
+                                            : undefined,
+                                        currentEdit: isEdit
+                                            ? undefined
+                                            : prev.currentEdit,
                                     }))
                                 }
                                 size="sm"
@@ -160,7 +152,7 @@ const Component = forwardRef(
                             {isPosting && (
                                 <span className="loading loading-spinner"></span>
                             )}
-                            Відправити
+                            {isEdit ? 'Зберегти' : 'Відправити'}
                         </Button>
                     </div>
                 </div>
