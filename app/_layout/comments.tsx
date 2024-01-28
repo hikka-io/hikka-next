@@ -3,8 +3,8 @@
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import CommentInput from '@/app/_components/comment-input';
-import Comments from '@/app/_components/comments';
+import CommentInput from '@/app/_components/comments/comment-input';
+import Comments from '@/app/_components/comments/comments';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
 import getComments from '@/utils/api/comments/getComments';

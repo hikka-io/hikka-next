@@ -1,32 +1,27 @@
 import { formatDistance } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import MaterialSymbolsKeyboardArrowUpRounded from '~icons/material-symbols/keyboard-arrow-up-rounded';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import Link from 'next/link';
 
-import CommentInput from '@/app/_components/comment-input';
+import { useQueryClient } from '@tanstack/react-query';
+
+import CommentInput from '@/app/_components/comments/comment-input';
+import CommentMenu from '@/app/_components/comments/comment-menu';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
 } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
 import { Label } from '@/app/_components/ui/label';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
 
+import MDViewer from '../md/viewer/MD-viewer';
 import Comments from './comments';
-import MDViewer from './md/viewer/MD-viewer';
-import { useQueryClient } from '@tanstack/react-query';
+
 
 interface Props {
     comment: Hikka.Comment;
@@ -132,15 +127,19 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         </Button>
                     </div>
                 </div>
-                {currentEdit === comment.reference ? (
-                    <CommentInput
-                        slug={slug}
-                        content_type={content_type}
-                        comment={comment}
-                        isEdit
-                    />
+                {!comment.hidden ? (
+                    currentEdit === comment.reference ? (
+                        <CommentInput
+                            slug={slug}
+                            content_type={content_type}
+                            comment={comment}
+                            isEdit
+                        />
+                    ) : (
+                        <MDViewer>{comment.text}</MDViewer>
+                    )
                 ) : (
-                    <MDViewer>{comment.text}</MDViewer>
+                    <p className="text-muted-foreground">Коментар видалено</p>
                 )}
             </div>
             <div className="flex gap-2 w-full items-center">
@@ -155,30 +154,10 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         Відповісти
                     </Button>
                 )}
-                {loggedUser?.username === comment.author.username && <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            size="icon-xs"
-                            className="text-muted-foreground text-sm"
-                        >
-                            <MaterialSymbolsMoreHoriz />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                        <DropdownMenuItem
-                            onClick={() =>
-                                setCommentsState!((prev) => ({
-                                    ...prev,
-                                    currentEdit: comment.reference,
-                                }))
-                            }
-                        >
-                            <MaterialSymbolsEditRounded className="mr-2" />
-                            Редагувати
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>}
+                {(loggedUser?.username === comment.author.username ||
+                    loggedUser?.role === 'admin' ||
+                    loggedUser?.role === 'moderator') &&
+                    !comment.hidden && <CommentMenu comment={comment} />}
             </div>
             {comment.replies.length > 0 && (
                 <div className="flex w-full">
