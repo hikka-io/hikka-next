@@ -24,7 +24,7 @@ const Component = () => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
 
-    const current = EDIT_NAV_ROUTES.find((r) => pathname === '/edit' + r.url);
+    const current = EDIT_NAV_ROUTES.find((r) => pathname == '/edit' + r.url) || EDIT_NAV_ROUTES[0];
 
     return (
         <div className="flex gap-2 place-items-center">

@@ -13,6 +13,7 @@ import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import SkeletonCard from '@/app/_components/skeletons/entry-card';
 import { range } from '@antfu/utils';
+import { Label } from '@/app/_components/ui/label';
 
 interface Props {
     extended?: boolean;
@@ -24,7 +25,7 @@ const Component = ({ extended }: Props) => {
     const { ref, inView } = useInView();
     const [param, setParam] = useState('title_ua');
 
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    const { list, data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
         useInfiniteList({
             queryKey: ['list', param, secret],
             queryFn: ({ pageParam = 1 }) =>
@@ -74,6 +75,9 @@ const Component = ({ extended }: Props) => {
                         option && (
                             <div className="flex items-center gap-2">
                                 <h3>{option.label}</h3>
+                                {data && <Label className="text-muted-foreground">
+                                    ({data?.pages[0].pagination.total})
+                                </Label>}
                             </div>
                         )
                     }
