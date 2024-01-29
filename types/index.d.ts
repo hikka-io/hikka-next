@@ -216,6 +216,7 @@ declare global {
             total_replies: number;
             depth: number;
             score: number;
+            my_score?: number;
             hidden: boolean;
         };
 

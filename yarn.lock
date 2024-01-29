@@ -989,10 +989,10 @@
     jju "^1.4.0"
     read-yaml-file "^1.1.0"
 
-"@marsidev/react-turnstile@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@marsidev/react-turnstile/-/react-turnstile-0.3.2.tgz#8811a63b64c0b4bd0a3fdd6ff7efaa1c524ed6ed"
-  integrity sha512-NTTmQdVgSFTHZlFRw/6RwG2kveT6J57U8JdjhbSdKcSBEbhqoe9L3wPMbq8g31KCDOm2cYTu/LNavAPbCY1vgA==
+"@marsidev/react-turnstile@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@marsidev/react-turnstile/-/react-turnstile-0.4.1.tgz#a31531643d23d6f3c056e37c490533f6eb46cffe"
+  integrity sha512-uZusUW9mPr0csWpls8bApe5iuRK0YK7H1PCKqfM4djW3OA9GB9rU68irjk7xRO8qlHyj0aDTeVu9tTLPExBO4Q==
 
 "@mdx-js/loader@^3.0.0":
   version "3.0.0"

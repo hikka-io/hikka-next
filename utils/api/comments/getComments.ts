@@ -8,11 +8,13 @@ export interface Response {
 export default async function req({
     slug,
     content_type,
+    secret,
     page = 1,
 }: {
     slug: string;
     content_type: Hikka.ContentType;
     page?: number;
+    secret?: string;
 }): Promise<Response> {
     const res = await fetch(
         config.baseAPI + `/comments/${content_type}/${slug}/list?page=` + page,
@@ -21,6 +23,7 @@ export default async function req({
             ...config.config,
             headers: {
                 ...config.config.headers,
+                auth: secret || '',
             },
         },
     );

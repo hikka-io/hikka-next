@@ -1,7 +1,6 @@
 import { formatDistance } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
-import MaterialSymbolsKeyboardArrowUpRounded from '~icons/material-symbols/keyboard-arrow-up-rounded';
 
 import Link from 'next/link';
 
@@ -9,13 +8,13 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import CommentInput from '@/app/_components/comments/comment-input';
 import CommentMenu from '@/app/_components/comments/comment-menu';
+import CommentVote from '@/app/_components/comments/comment-vote';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
 } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useCommentsContext } from '@/utils/providers/comments-provider';
 
@@ -106,26 +105,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
                             )}
                         </p>
                     </div>
-                    <div className="flex gap-2 items-center opacity-60 hover:opacity-100">
-                        <Button
-                            disabled={!secret}
-                            variant="ghost"
-                            size="icon-xs"
-                            className="text-muted-foreground text-lg"
-                        >
-                            <MaterialSymbolsKeyboardArrowDownRounded />
-                        </Button>
-                        <Label>{comment.score}</Label>
-
-                        <Button
-                            disabled={!secret}
-                            variant="ghost"
-                            size="icon-xs"
-                            className="text-muted-foreground text-lg"
-                        >
-                            <MaterialSymbolsKeyboardArrowUpRounded />
-                        </Button>
-                    </div>
+                    <CommentVote comment={comment} />
                 </div>
                 {!comment.hidden ? (
                     currentEdit === comment.reference ? (

@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "@hookform/resolvers": "^3.3.4",
-        "@marsidev/react-turnstile": "^0.3.2",
+        "@marsidev/react-turnstile": "^0.4.1",
         "@mdx-js/loader": "^3.0.0",
         "@mdx-js/react": "^3.0.0",
         "@mdxeditor/editor": "^2.3.6",

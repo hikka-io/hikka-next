@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 import CommentInput from '@/app/_components/comments/comment-input';
 import Comments from '@/app/_components/comments/comments';
+import NotFound from '@/app/_components/not-found';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
 import getComments from '@/utils/api/comments/getComments';
@@ -23,12 +24,13 @@ const Component = ({ slug, content_type }: Props) => {
 
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteList({
-            queryKey: ['comments', slug, content_type],
+            queryKey: ['comments', slug, content_type, secret],
             queryFn: ({ pageParam }) =>
                 getComments({
                     slug,
                     content_type,
                     page: pageParam,
+                    secret,
                 }),
         });
 
@@ -43,7 +45,15 @@ const Component = ({ slug, content_type }: Props) => {
             <SubHeader title="Обговорення" />
 
             <div className="flex flex-col gap-4">
-                {secret && <CommentInput slug={slug} content_type={content_type} />}
+                {secret && (
+                    <CommentInput slug={slug} content_type={content_type} />
+                )}
+                {list && list.length === 0 && (
+                    <NotFound
+                        title={<span>Коментарів не знайдено</span>}
+                        description="Ви можете розпочати обговорення першим"
+                    />
+                )}
                 {list && (
                     <CommentsProvider>
                         <Comments
