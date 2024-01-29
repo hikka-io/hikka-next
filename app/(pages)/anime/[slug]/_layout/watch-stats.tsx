@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import Rating from '@/app/_components/rating';
+import Rating from '@/app/_components/ui/rating';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
 import { Progress } from '@/app/_components/ui/progress';

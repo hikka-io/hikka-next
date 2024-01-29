@@ -71,6 +71,8 @@ const Component = () => {
                 return anime && anime.has_franchise;
             case 'general':
                 return true;
+            case 'comments':
+                return true;
         }
     });
 

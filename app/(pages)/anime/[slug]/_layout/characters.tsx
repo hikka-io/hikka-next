@@ -6,14 +6,11 @@ import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import BaseCard from '@/app/_components/base-card';
 import SubHeader from '@/app/_components/sub-header';
-import getAnimeCharacters, {
-    Response,
-} from '@/utils/api/anime/getAnimeCharacters';
 import { Button } from '@/app/_components/ui/button';
+import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
+import useInfiniteList from '@/utils/hooks/useInfiniteList';
 
 interface Props {
     extended?: boolean;
@@ -22,16 +19,9 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const { ref, inView } = useInView();
     const params = useParams();
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteQuery({
-            initialPageParam: 1,
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteList({
             queryKey: ['characters', params.slug],
-            getNextPageParam: (lastPage: Response, allPages) => {
-                const nextPage = lastPage.pagination.page + 1;
-                return nextPage > lastPage.pagination.pages
-                    ? undefined
-                    : nextPage;
-            },
             queryFn: ({ pageParam = 1 }) =>
                 getAnimeCharacters({
                     slug: String(params.slug),
@@ -40,16 +30,10 @@ const Component = ({ extended }: Props) => {
         });
 
     useEffect(() => {
-        if (inView && data) {
+        if (inView) {
             fetchNextPage();
         }
     }, [inView]);
-
-    if (!data || !data.pages) {
-        return null;
-    }
-
-    const list = data.pages.map((data) => data.list).flat(1);
 
     if (!list || list.length === 0) {
         return null;

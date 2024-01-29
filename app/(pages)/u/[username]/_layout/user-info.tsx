@@ -11,8 +11,6 @@ import { useParams } from 'next/navigation';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import Image from '@/app/_components/image';
-import Tooltip from '@/app/_components/tooltip';
 import { Button } from '@/app/_components/ui/button';
 import {
     DropdownMenu,
@@ -20,7 +18,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
+import Image from '@/app/_components/ui/image';
 import { Input } from '@/app/_components/ui/input';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/app/_components/ui/tooltip';
 import CropEditorModal from '@/app/_layout/modals/crop-editor-modal';
 import getUserInfo from '@/utils/api/user/getUserInfo';
 import { useAuthContext } from '@/utils/providers/auth-provider';
@@ -168,20 +172,19 @@ const Component = ({}: Props) => {
                         <div className="absolute right-2 top-2">
                             {(user.role === 'admin' ||
                                 user.role === 'moderator') && (
-                                <Tooltip
-                                    placement="left"
-                                    className="mr-1 p-1"
-                                    data={
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger>
+                                        <div className="rounded-md bg-primary p-1 text-xs font-bold text-primary-foreground">
+                                            <ClarityAdministratorSolid />
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
                                         <p className="text-sm">
                                             {user.role === 'admin'
                                                 ? 'Адміністратор'
                                                 : 'Модератор'}
                                         </p>
-                                    }
-                                >
-                                    <div className="rounded-md bg-primary p-1 text-xs font-bold text-primary-foreground">
-                                        <ClarityAdministratorSolid />
-                                    </div>
+                                    </TooltipContent>
                                 </Tooltip>
                             )}
                         </div>

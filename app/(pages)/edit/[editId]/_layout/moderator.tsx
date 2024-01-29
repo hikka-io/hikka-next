@@ -3,19 +3,16 @@
 import { format } from 'date-fns';
 import * as React from 'react';
 
-
-
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import { useQuery } from '@tanstack/react-query';
 
-
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-
-
-
-import BaseCard from '@/app/_components/base-card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/avatar';
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from '@/app/_components/ui/avatar';
 import { Label } from '@/app/_components/ui/label';
 import getEdit from '@/utils/api/edit/getEdit';
 
@@ -25,7 +22,7 @@ const Component = () => {
 
     const { data: edit } = useQuery({
         queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) })
+        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
     });
 
     if (!edit || !edit.moderator) {
@@ -38,10 +35,18 @@ const Component = () => {
             <div className="flex flex-col gap-4">
                 <Label className="text-muted-foreground">Модератор</Label>
                 <div className="flex w-full items-center gap-4">
-                    <Avatar className="rounded-md w-12 h-12">
-                        <AvatarImage className="rounded-md" src={edit.moderator.avatar} alt={edit.moderator.username} />
-                        <AvatarFallback className="rounded-md">{edit.moderator.username[0]}</AvatarFallback>
-                    </Avatar>
+                    <Link href={`/u/${edit.moderator.username}`}>
+                        <Avatar className="rounded-md w-12 h-12">
+                            <AvatarImage
+                                className="rounded-md"
+                                src={edit.moderator.avatar}
+                                alt={edit.moderator.username}
+                            />
+                            <AvatarFallback className="rounded-md">
+                                {edit.moderator.username[0]}
+                            </AvatarFallback>
+                        </Avatar>
+                    </Link>
                     <div className="flex flex-1 flex-col">
                         <Link href={'/u/' + edit.moderator.username}>
                             <h5>{edit.moderator.username}</h5>

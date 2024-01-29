@@ -11,9 +11,9 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import AnimeCard from '@/app/_components/anime-card';
 import NotFound from '@/app/_components/not-found';
-import Pagination from '@/app/_components/pagination';
 import SkeletonCard from '@/app/_components/skeletons/entry-card';
 import { Button } from '@/app/_components/ui/button';
+import Pagination from '@/app/_components/ui/pagination';
 import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
 } from '@/utils/api/anime/getAnimeCatalog';
@@ -22,6 +22,7 @@ import useDebounce from '@/utils/hooks/useDebounce';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 import useRouter from '@/utils/useRouter';
+
 
 const Component = () => {
     const queryClient = useQueryClient();

@@ -3,7 +3,7 @@
 import React from 'react';
 import LogosGoogleIcon from '~icons/logos/google-icon';
 
-import Image from '@/app/_components/image';
+import Image from '@/app/_components/ui/image';
 import { Button } from '@/app/_components/ui/button';
 import ForgotPasswordForm from '@/app/_layout/modals/auth/forgot-password-form';
 import LoginForm from '@/app/_layout/modals/auth/login-form';

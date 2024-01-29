@@ -1,9 +1,6 @@
 import config from '@/utils/api/config';
 
-export interface Response {
-    pagination: Hikka.Pagination;
-    list: Hikka.Edit[];
-}
+export interface Response extends Hikka.WithPagination<Hikka.Edit> {}
 
 export default async function req({
     contentType,
@@ -15,7 +12,13 @@ export default async function req({
     page?: number;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI + '/edit/' + contentType + '/' + slug + '/list?page=' + page,
+        config.baseAPI +
+            '/edit/' +
+            contentType +
+            '/' +
+            slug +
+            '/list?page=' +
+            page,
         {
             method: 'get',
             ...config.config,

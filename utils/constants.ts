@@ -395,6 +395,11 @@ export const ANIME_NAV_ROUTES: {
         title_ua: 'Посилання',
         url: '/links',
     },
+    {
+        slug: 'comments',
+        title_ua: 'Обговорення',
+        url: '/comments',
+    },
 ];
 
 export const CHARACTER_NAV_ROUTES: {

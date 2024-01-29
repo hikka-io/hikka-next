@@ -9,10 +9,15 @@ import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 import SubHeader from '@/app/_components/sub-header';
-import Tooltip from '@/app/_components/tooltip';
+import { Label } from '@/app/_components/ui/label';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/app/_components/ui/tooltip';
 import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
-import { Label } from '@/app/_components/ui/label';
+
 
 const Component = () => {
     const params = useParams();
@@ -32,16 +37,20 @@ const Component = () => {
         <div className="flex flex-col gap-8">
             <SubHeader title="Деталі" />
             <div className="flex flex-col gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
-                {data.media_type && <div className="flex flex-wrap">
-                    <div className="w-24">
-                        <Label className="text-muted-foreground">Тип:</Label>
+                {data.media_type && (
+                    <div className="flex flex-wrap">
+                        <div className="w-24">
+                            <Label className="text-muted-foreground">
+                                Тип:
+                            </Label>
+                        </div>
+                        <div className="flex-1">
+                            <Label>
+                                {MEDIA_TYPE[data.media_type].title_ua}
+                            </Label>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                        <Label>
-                            {MEDIA_TYPE[data.media_type].title_ua}
-                        </Label>
-                    </div>
-                </div>}
+                )}
                 <div className="flex flex-wrap items-center">
                     <div className="w-24">
                         <Label className="text-muted-foreground">Статус:</Label>
@@ -65,7 +74,9 @@ const Component = () => {
                 data.episodes_released !== null ? (
                     <div className="flex flex-wrap">
                         <div className="w-24">
-                            <Label className="text-muted-foreground">Епізоди:</Label>
+                            <Label className="text-muted-foreground">
+                                Епізоди:
+                            </Label>
                         </div>
                         <div className="flex-1">
                             <Label>
@@ -79,7 +90,9 @@ const Component = () => {
                 {data.duration ? (
                     <div className="flex flex-wrap">
                         <div className="w-24">
-                            <Label className="text-muted-foreground">Тривалість епізоду:</Label>
+                            <Label className="text-muted-foreground">
+                                Тривалість епізоду:
+                            </Label>
                         </div>
                         <div className="flex-1">
                             <Label>
@@ -97,43 +110,42 @@ const Component = () => {
                 {data.rating ? (
                     <div className="flex flex-wrap">
                         <div className="w-24">
-                            <Label className="text-muted-foreground">Рейтинг:</Label>
+                            <Label className="text-muted-foreground">
+                                Рейтинг:
+                            </Label>
                         </div>
                         <div className="flex-1">
-                            <Label>
-                                {AGE_RATING[data.rating].title_ua}
-                            </Label>
+                            <Label>{AGE_RATING[data.rating].title_ua}</Label>
                         </div>
                     </div>
                 ) : null}
                 {studio ? (
                     <div className="flex flex-wrap">
                         <div className="w-24">
-                            <Label className="text-muted-foreground">Студія:</Label>
+                            <Label className="text-muted-foreground">
+                                Студія:
+                            </Label>
                         </div>
                         <div className="flex-1">
                             {studio.company.image ? (
-                                <Tooltip
-                                    placement="top"
-                                    className="mr-1 p-1"
-                                    data={
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger>
+                                        <Image
+                                            src={studio.company.image}
+                                            alt="studio"
+                                            width={100}
+                                            height={50}
+                                            className="w-16 rounded-md object-cover"
+                                        />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
                                         <p className="text-sm">
                                             {studio.company.name}
                                         </p>
-                                    }
-                                >
-                                    <Image
-                                        src={studio.company.image}
-                                        alt="studio"
-                                        width={100}
-                                        height={50}
-                                        className="w-16 rounded-md object-cover"
-                                    />
+                                    </TooltipContent>
                                 </Tooltip>
                             ) : (
-                                <Label>
-                                    {studio.company.name}
-                                </Label>
+                                <Label>{studio.company.name}</Label>
                             )}
                         </div>
                     </div>

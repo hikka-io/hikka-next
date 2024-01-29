@@ -25,6 +25,7 @@ import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import addEdit from '@/utils/api/edit/addEdit';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import useRouter from '@/utils/useRouter';
+import MDEditor from '@/app/_components/md/editor/MD-editor';
 
 
 type FormValues = Hikka.EditParams & {
@@ -361,22 +362,22 @@ const Component = () => {
                                     return null;
                                 }
 
+                                const { onChange, ...registerParams } = register(param.param);
+
                                 return (
                                     <div
                                         key={param.param}
                                         className="flex flex-col gap-4 w-full"
                                     >
                                         <Label>{param.title}</Label>
-                                        <Textarea
+                                        <MDEditor
                                             placeholder={param.placeholder}
-                                            rows={5}
-                                            className="w-full disabled:text-secondary-foreground"
-                                            {...register(param.param, {
-                                                value:
-                                                    (anime![
-                                                        param.param
-                                                    ] as string) || undefined,
-                                            })}
+                                            className="dark-theme dark-editor bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1"
+                                            markdown={(anime![
+                                                param.param
+                                                ] as string) || ""}
+                                            onChange={(markdown) => onChange({ target: { value: markdown } })}
+                                            {...registerParams}
                                         />
                                     </div>
                                 );

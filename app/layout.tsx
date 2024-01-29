@@ -6,8 +6,9 @@ import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
 import Providers from '@/utils/providers';
-
+import '@mdxeditor/editor/style.css';
 import './globals.css';
+
 
 
 const inter = Inter({

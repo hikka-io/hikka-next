@@ -5,15 +5,12 @@ import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import AnimeCard from '@/app/_components/anime-card';
 import NotFound from '@/app/_components/not-found';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
-import getFavouriteList, {
-    Response as FavouriteListResponse,
-} from '@/utils/api/favourite/getFavouriteList';
+import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
+import useInfiniteList from '@/utils/hooks/useInfiniteList';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import { useSettingsContext } from '@/utils/providers/settings-provider';
 
@@ -26,42 +23,28 @@ const Component = ({ extended }: Props) => {
     const { secret } = useAuthContext();
     const { ref, inView } = useInView();
     const params = useParams();
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteQuery({
-            initialPageParam: 1,
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteList({
             queryKey: ['favorites', params.username, secret],
-            getNextPageParam: (lastPage: FavouriteListResponse, allPages) => {
-                const nextPage = lastPage.pagination.page + 1;
-                return nextPage > lastPage.pagination.pages
-                    ? undefined
-                    : nextPage;
-            },
             queryFn: ({ pageParam = 1 }) =>
                 getFavouriteList({
                     username: String(params.username),
                     page: pageParam,
                     secret: String(secret),
                 }),
-            staleTime: 0,
         });
 
     useEffect(() => {
-        if (inView && data) {
+        if (inView) {
             fetchNextPage();
         }
     }, [inView]);
 
-    if (!data || !data.pages) {
+    if ((!list || list.length === 0) && !extended) {
         return null;
     }
 
-    const list = data.pages.map((data) => data.list).flat(1);
-
-    if (list.length === 0 && !extended) {
-        return null;
-    }
-
-    const filteredData = extended ? list : list.slice(0, 5);
+    const filteredData = (extended ? list : list?.slice(0, 5)) || [];
 
     return (
         <div className="flex flex-col gap-8">

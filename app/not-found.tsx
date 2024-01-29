@@ -2,7 +2,7 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import Image from '@/app/_components/image';
+import Image from '@/app/_components/ui/image';
 
 import { Button } from './_components/ui/button';
 

@@ -11,7 +11,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 import BaseCard from '@/app/_components/base-card';
-import Pagination from '@/app/_components/pagination';
+import Pagination from '@/app/_components/ui/pagination';
 import { Label } from '@/app/_components/ui/label';
 import {
     Table,
@@ -161,12 +161,12 @@ const Component = () => {
                                         </Label>
                                     </TableCell>
                                     <TableCell
-                                        className=" hidden lg:table-cell"
+                                        className="hidden lg:table-cell"
                                         align="left"
                                     >
                                         <p
                                             className={clsx(
-                                                'text-sm',
+                                                'text-sm overflow-hidden overflow-ellipsis break-all',
                                                 !edit.description &&
                                                     'text-muted-foreground',
                                             )}

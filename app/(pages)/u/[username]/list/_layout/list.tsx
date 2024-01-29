@@ -20,8 +20,6 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import GridView from '@/app/(pages)/u/[username]/list/_components/grid-view';
 import TableView from '@/app/(pages)/u/[username]/list/_components/table-view';
 import NotFound from '@/app/_components/not-found';
@@ -30,8 +28,9 @@ import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
 import { PopoverTrigger } from '@/app/_components/ui/popover';
 import getRandomWatch from '@/utils/api/watch/getRandomWatch';
-import getWatchList, { Response } from '@/utils/api/watch/getWatchList';
+import getWatchList from '@/utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
+import useInfiniteList from '@/utils/hooks/useInfiniteList';
 
 interface Props {}
 
@@ -47,16 +46,9 @@ const Component = ({}: Props) => {
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
 
-    const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
-        useInfiniteQuery({
-            initialPageParam: 1,
+    const { list, data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+        useInfiniteList({
             queryKey: ['list', params.username, watchStatus, order, sort],
-            getNextPageParam: (lastPage: Response, allPages) => {
-                const nextPage = lastPage.pagination.page + 1;
-                return nextPage > lastPage.pagination.pages
-                    ? undefined
-                    : nextPage;
-            },
             queryFn: ({ pageParam = 1 }) =>
                 getWatchList({
                     username: String(params.username),
@@ -69,7 +61,6 @@ const Component = ({}: Props) => {
                         | undefined,
                     sort: sort as 'asc' | 'desc' | undefined,
                 }),
-            staleTime: 0,
         });
 
     const createQueryString = useCallback(
@@ -126,11 +117,9 @@ const Component = ({}: Props) => {
         }
     }, [inView]);
 
-    if (!data || !data.pages || !watchStatus) {
+    if (!list || !watchStatus) {
         return null;
     }
-
-    const list = data.pages.map((data) => data.list).flat(1);
 
     return (
         <div className="flex flex-col gap-8">
@@ -141,7 +130,7 @@ const Component = ({}: Props) => {
                             (watchStatus) => ({
                                 label: WATCH_STATUS[
                                     watchStatus as Hikka.WatchStatus
-                                    ].title_ua,
+                                ].title_ua,
                                 value: watchStatus,
                             }),
                         )}
@@ -165,19 +154,21 @@ const Component = ({}: Props) => {
                                             ].icon,
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <h3>{option.label}</h3>
-                                        {data?.pages.length > 0 && (
-                                            <Label className="text-muted-foreground">
-                                                (
-                                                {
-                                                    data?.pages[0].pagination
-                                                        .total
-                                                }
-                                                )
-                                            </Label>
-                                        )}
-                                    </div>
+                                    {data && (
+                                        <div className="flex items-center gap-2">
+                                            <h3>{option.label}</h3>
+                                            {data?.pages.length > 0 && (
+                                                <Label className="text-muted-foreground">
+                                                    (
+                                                    {
+                                                        data?.pages[0]
+                                                            .pagination.total
+                                                    }
+                                                    )
+                                                </Label>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             )
                         }
@@ -207,17 +198,19 @@ const Component = ({}: Props) => {
                         ]}
                         onChange={(value) => setView(value as 'table' | 'grid')}
                         value={view}
-                        renderToggle={(open, setOpen, value) => (
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon-sm">
-                                    {value === 'table' ? (
-                                        <MaterialSymbolsEventList />
-                                    ) : (
-                                        <IcRoundGridView />
-                                    )}
-                                </Button>
-                            </PopoverTrigger>
-                        )}
+                        renderToggle={(_open, _setOpen, value) => {
+                            return (
+                                <PopoverTrigger asChild>
+                                    <Button variant='ghost' size='icon-sm'>
+                                        {value === 'table' ? (
+                                            <MaterialSymbolsEventList />
+                                        ) : (
+                                            <IcRoundGridView />
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                            );
+                        }}
                     />
                     <Combobox
                         side="bottom"

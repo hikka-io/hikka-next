@@ -6,13 +6,10 @@ import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import FollowUserItem from '@/app/(pages)/u/[username]/_components/follow-user-item';
 import { Button } from '@/app/_components/ui/button';
-import getFollowers, {
-    Response as FollowersResponse,
-} from '@/utils/api/follow/getFollowers';
+import getFollowers from '@/utils/api/follow/getFollowers';
+import useInfiniteList from '@/utils/hooks/useInfiniteList';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 
 interface Props {}
@@ -23,12 +20,11 @@ const Component = ({}: Props) => {
     const { secret } = useAuthContext();
 
     const {
-        data: followersData,
+        list,
         fetchNextPage: fetchNextFollowers,
         isFetchingNextPage: isFetchingNextFollowers,
         hasNextPage: hasNextFollowers,
-    } = useInfiniteQuery({
-        initialPageParam: 1,
+    } = useInfiniteList({
         queryKey: ['followers', params.username, secret],
         queryFn: ({ pageParam = 1 }) =>
             getFollowers({
@@ -36,11 +32,6 @@ const Component = ({}: Props) => {
                 secret: String(secret),
                 page: pageParam,
             }),
-        getNextPageParam: (lastPage: FollowersResponse) => {
-            const nextPage = lastPage.pagination.page + 1;
-            return nextPage > lastPage.pagination.pages ? undefined : nextPage;
-        },
-        staleTime: 0,
     });
 
     useEffect(() => {
@@ -51,18 +42,15 @@ const Component = ({}: Props) => {
         }
     }, [inView]);
 
-    if (!followersData) {
+    if (!list) {
         return null;
     }
-
-    const followersList =
-        followersData && followersData!.pages.map((data) => data.list).flat(1);
 
     return (
         <>
             <hr className="h-[1px] w-auto -mx-6 bg-border mt-4" />
             <div className="flex-1 overflow-y-scroll w-auto h-full -mx-6">
-                {followersList.map((user) => {
+                {list.map((user) => {
                     return <FollowUserItem key={user.reference} user={user} />;
                 })}
                 {hasNextFollowers && (

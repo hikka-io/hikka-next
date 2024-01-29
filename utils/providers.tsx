@@ -3,18 +3,15 @@
 import { uk } from 'date-fns/locale';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { SnackbarProvider } from 'notistack';
-import NProgress from 'nprogress';
-import React, { PropsWithChildren, useEffect } from 'react';
-
-import { usePathname, useSearchParams } from 'next/navigation';
+import React, { PropsWithChildren } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import SnackbarItem from '@/app/_components/snackbar-item';
+import { TooltipProvider } from '@/app/_components/ui/tooltip';
 import AuthProvider from '@/utils/providers/auth-provider';
 import ModalProvider from '@/utils/providers/modal-provider';
-import PoppperProvider from '@/utils/providers/popper-provider';
 import SettingsProvider from '@/utils/providers/settings-provider';
 import ThemeProvider from '@/utils/providers/theme-provider';
 import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
@@ -34,13 +31,6 @@ function Providers({ children }: Props) {
             },
         }),
     );
-
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        NProgress.done();
-    }, [pathname, searchParams]);
 
     return (
         <SettingsProvider>
@@ -68,14 +58,14 @@ function Providers({ children }: Props) {
                         }}
                     >
                         <SnackbarUtilsConfigurator />
-                        <PoppperProvider>
-                            <AuthProvider>
+                        <AuthProvider>
+                            <TooltipProvider>
                                 <ModalProvider>
                                     {children}
                                     <ReactQueryDevtools initialIsOpen={false} />
                                 </ModalProvider>
-                            </AuthProvider>
-                        </PoppperProvider>
+                            </TooltipProvider>
+                        </AuthProvider>
                     </SnackbarProvider>
                 </QueryClientProvider>
             </ThemeProvider>

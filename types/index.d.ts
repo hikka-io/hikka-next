@@ -1,6 +1,15 @@
+import { ReactNode } from 'react';
+
 export {};
 
 declare global {
+    namespace JSX {
+        // this merges with the existing intrinsic elements, adding 'my-custom-tag' and its props
+        interface IntrinsicElements {
+            'spoiler': {'children': ReactNode}
+        }
+    }
+
     interface Window {
         authModal: HTMLDialogElement;
         settingsModal: HTMLDialogElement;
@@ -8,6 +17,11 @@ declare global {
     }
 
     namespace Hikka {
+        type WithPagination<T> = {
+            pagination: Hikka.Pagination;
+            list: T[];
+        }
+
         type Error = {
             code: string;
             message: string;
@@ -194,11 +208,16 @@ declare global {
         };
 
         type Comment = {
-            comment_id: number;
-            user: Hikka.User;
-            created_at: number;
+            reference: string;
+            author: Hikka.User;
+            created: number;
             text: string;
-            comments: Comment[];
+            replies: Comment[];
+            total_replies: number;
+            depth: number;
+            score: number;
+            my_score?: number;
+            hidden: boolean;
         };
 
         type External = {
@@ -206,5 +225,7 @@ declare global {
             text: string;
             type: 'general' | 'watch';
         }
+
+        type ContentType = 'edit' | 'anime'
     }
 }
