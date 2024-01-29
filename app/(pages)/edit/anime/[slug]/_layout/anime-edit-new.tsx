@@ -3,7 +3,7 @@
 import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
 
@@ -12,6 +12,7 @@ import { useParams } from 'next/navigation';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useQuery } from '@tanstack/react-query';
 
+import MDEditor from '@/app/_components/md/editor/MD-editor';
 import { Button } from '@/app/_components/ui/button';
 import {
     Collapsible,
@@ -25,7 +26,6 @@ import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
 import addEdit from '@/utils/api/edit/addEdit';
 import { useAuthContext } from '@/utils/providers/auth-provider';
 import useRouter from '@/utils/useRouter';
-import MDEditor from '@/app/_components/md/editor/MD-editor';
 
 
 type FormValues = Hikka.EditParams & {
@@ -69,31 +69,8 @@ const SYNOPSIS_PARAMS: Param[] = [
     },
 ];
 
-const Synonyms = ({ data }: { data: string[] }) => {
-    return (
-        <div className="flex flex-col gap-4">
-            <Label>Синоніми</Label>
-            <div className="flex gap-2 flex-wrap">
-                {data.map((synonym) => (
-                    <div
-                        className="flex gap-2 items-center px-2 py-1 border border-secondary/30 text-sm rounded-md bg-secondary/30"
-                        key={synonym}
-                    >
-                        {synonym}
-                        <Button variant="ghost" size="icon-xs">
-                            <MaterialSymbolsCloseSmallRounded />
-                        </Button>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
 const Component = () => {
     const captchaRef = useRef<TurnstileInstance>();
-    const titleRef = useRef<HTMLInputElement>(null);
-    const synopsisRef = useRef<HTMLInputElement>(null);
     const [editParams, setEditParams] = useState<(keyof Hikka.EditParams)[]>(
         [],
     );
@@ -237,7 +214,7 @@ const Component = () => {
                                                 value:
                                                     (anime![
                                                         param.param
-                                                    ] as string) || undefined,
+                                                        ] as string) || undefined,
                                             })}
                                         />
                                     </div>
@@ -301,15 +278,13 @@ const Component = () => {
                                     />
                                     <Button
                                         disabled={newSynonym?.length === 0}
-                                        onClick={() =>
-                                            {
-                                                setSynonyms((prev) => [
-                                                    ...prev,
-                                                    String(newSynonym),
-                                                ])
-                                                setNewSynonym("");
-                                            }
-                                        }
+                                        onClick={() => {
+                                            setSynonyms((prev) => [
+                                                ...prev,
+                                                String(newSynonym),
+                                            ]);
+                                            setNewSynonym('');
+                                        }}
                                         size="icon"
                                         variant="secondary"
                                     >
@@ -362,22 +337,37 @@ const Component = () => {
                                     return null;
                                 }
 
-                                const { onChange, ...registerParams } = register(param.param);
-
                                 return (
                                     <div
                                         key={param.param}
                                         className="flex flex-col gap-4 w-full"
                                     >
                                         <Label>{param.title}</Label>
-                                        <MDEditor
-                                            placeholder={param.placeholder}
-                                            className="dark-theme dark-editor bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1"
-                                            markdown={(anime![
-                                                param.param
-                                                ] as string) || ""}
-                                            onChange={(markdown) => onChange({ target: { value: markdown } })}
-                                            {...registerParams}
+                                        <Controller
+                                            control={control}
+                                            name={param.param}
+                                            render={({
+                                                         field: {
+                                                             onChange,
+                                                             onBlur,
+                                                             ref,
+                                                         },
+                                                     }) => (
+                                                <MDEditor
+                                                    ref={ref}
+                                                    placeholder={
+                                                        param.placeholder
+                                                    }
+                                                    className="dark-theme dark-editor bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1"
+                                                    markdown={
+                                                        (anime![
+                                                            param.param
+                                                            ] as string) || ''
+                                                    }
+                                                    onChange={onChange}
+                                                    onBlur={onBlur}
+                                                />
+                                            )}
                                         />
                                     </div>
                                 );
