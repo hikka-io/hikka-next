@@ -19,12 +19,12 @@ export async function GET(
             }
 
             return redirect(
-                '/anime?activation=error&error=' + (e as Hikka.Error).code,
+                '/anime?page=1&iPage=1&activation=error&error=' + (e as Hikka.Error).code,
             );
         }
 
-        return redirect('/anime?activation=error&error=' + e);
+        return redirect('/anime?page=1&iPage=1&activation=error&error=' + e);
     }
 
-    return redirect('/anime?activation=success');
+    return redirect('/anime?page=1&iPage=1&activation=success');
 }

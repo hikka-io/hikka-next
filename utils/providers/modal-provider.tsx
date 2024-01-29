@@ -8,7 +8,7 @@ import React, {
     useState,
 } from 'react';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import {
     Dialog,
@@ -23,6 +23,7 @@ import {
     SheetTitle,
 } from '@/app/_components/ui/sheet';
 import { cn } from '@/utils';
+import AuthModal from '@/app/_layout/modals/auth-modal';
 
 interface State {
     open: boolean;
@@ -71,6 +72,10 @@ export const useModalContext = () => {
 };
 
 export default function ModalProvider({ children }: Props) {
+    const searchParams = useSearchParams();
+    const modal = searchParams.get('modal');
+
+
     const pathname = usePathname();
     const [state, setState] = useState<State>(getInitialState());
 
@@ -107,6 +112,19 @@ export default function ModalProvider({ children }: Props) {
             closeModal();
         }
     }, [pathname]);
+
+    useEffect(() => {
+        if (modal) {
+            switch (modal) {
+                case 'passwordConfirm':
+                    openModal({
+                        content: <AuthModal type="passwordConfirm" />,
+                        className: 'p-0 max-w-3xl',
+                    })
+                    break;
+            }
+        }
+    }, [modal]);
 
     return (
         <ModalContext.Provider

@@ -20,13 +20,13 @@ export async function GET(request: Request) {
     } catch (e) {
         if ('code' in (e as Hikka.Error)) {
             return redirect(
-                '/anime?auth=error&provider=google&error=' +
+                '/anime?page=1&iPage=1&auth=error&provider=google&error=' +
                     (e as Hikka.Error).code,
             );
         }
 
-        return redirect('/anime?auth=error&provider=google&error=' + e);
+        return redirect('/anime?page=1&iPage=1&auth=error&provider=google&error=' + e);
     }
 
-    return redirect('/anime?auth=success&provider=google');
+    return redirect('/anime?page=1&iPage=1&auth=success&provider=google');
 }
