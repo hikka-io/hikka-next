@@ -31,6 +31,7 @@ const Component = ({ extended }: Props) => {
                 getTodoAnime({
                     param: param,
                     secret: String(secret),
+                    page: pageParam
                 }),
         });
 
