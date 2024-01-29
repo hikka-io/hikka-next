@@ -21,7 +21,7 @@ const Component = () => {
                         onClick={() =>
                             openModal({
                                 content: <Rules />,
-                                className: 'max-w-xl',
+                                className: 'max-w-xl markdown',
                                 title: 'Правила редагування',
                             })
                         }

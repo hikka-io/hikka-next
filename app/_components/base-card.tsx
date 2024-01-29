@@ -73,7 +73,7 @@ const Component = forwardRef(
                     <div className="mt-1">
                         {desc && <p className="text-xs text-muted-foreground mb-1">{desc}</p>}
                         {title && (
-                            <Label>
+                            <Label className="line-clamp-2 leading-5">
                                 {title}
                             </Label>
                         )}

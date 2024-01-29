@@ -360,11 +360,15 @@ export const ERRORS: Record<string, Record<string, string>> = {
     },
 };
 
-export const ANIME_NAV_ROUTES: {
+type NavRoute = {
     slug: string;
     title_ua: string;
     url: string;
-}[] = [
+    role?: Hikka.UserRole[];
+    internals?: NavRoute[];
+}
+
+export const ANIME_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -402,11 +406,7 @@ export const ANIME_NAV_ROUTES: {
     },
 ];
 
-export const CHARACTER_NAV_ROUTES: {
-    slug: string;
-    title_ua: string;
-    url: string;
-}[] = [
+export const CHARACTER_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -419,12 +419,7 @@ export const CHARACTER_NAV_ROUTES: {
     },
 ];
 
-export const USER_NAV_ROUTES: {
-    slug: string;
-    title_ua: string;
-    url: string;
-    role?: Hikka.UserRole[];
-}[] = [
+export const USER_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -439,5 +434,18 @@ export const USER_NAV_ROUTES: {
         slug: 'favorites',
         title_ua: 'Улюблені',
         url: '/favorites',
+    },
+];
+
+export const EDIT_NAV_ROUTES: NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'content',
+        title_ua: 'Контент',
+        url: '/content',
     },
 ];
