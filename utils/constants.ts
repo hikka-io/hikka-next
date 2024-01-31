@@ -360,15 +360,7 @@ export const ERRORS: Record<string, Record<string, string>> = {
     },
 };
 
-type NavRoute = {
-    slug: string;
-    title_ua: string;
-    url: string;
-    role?: Hikka.UserRole[];
-    internals?: NavRoute[];
-}
-
-export const ANIME_NAV_ROUTES: NavRoute[] = [
+export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -406,7 +398,7 @@ export const ANIME_NAV_ROUTES: NavRoute[] = [
     },
 ];
 
-export const CHARACTER_NAV_ROUTES: NavRoute[] = [
+export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -419,7 +411,7 @@ export const CHARACTER_NAV_ROUTES: NavRoute[] = [
     },
 ];
 
-export const USER_NAV_ROUTES: NavRoute[] = [
+export const USER_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -437,7 +429,7 @@ export const USER_NAV_ROUTES: NavRoute[] = [
     },
 ];
 
-export const EDIT_NAV_ROUTES: NavRoute[] = [
+export const EDIT_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',

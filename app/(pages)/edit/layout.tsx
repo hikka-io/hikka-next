@@ -1,8 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
-import NavMenu from './_layout/nav-menu';
+import NavMenu from '@/app/_components/nav-menu';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
+import { EDIT_NAV_ROUTES } from '@/utils/constants';
 
 interface Props extends PropsWithChildren {}
 
@@ -44,7 +45,7 @@ const Component = async ({ children }: Props) => {
     return (
         <>
             <Breadcrumbs>
-                <NavMenu />
+                <NavMenu routes={EDIT_NAV_ROUTES} urlPrefix='/edit' />
             </Breadcrumbs>
             {children}
         </>

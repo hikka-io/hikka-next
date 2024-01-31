@@ -15,9 +15,10 @@ import getCharacterInfo, {
 import getQueryClient from '@/utils/getQueryClient';
 
 import Cover from './_layout/cover';
-import NavMenu from './_layout/nav-menu';
-import NavBar from './_layout/navbar';
+import NavMenu from '@/app/_components/nav-menu';
+import InternalNavBar from '@/app/_components/internal-navbar';
 import Title from './_layout/title';
+import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -95,10 +96,10 @@ const Component = async ({ params: { slug }, children }: Props) => {
                                 character?.name_ja}
                         </Link>
                     </div>
-                    <NavMenu />
+                    <NavMenu routes={CHARACTER_NAV_ROUTES} urlPrefix={'/characters/' + slug} />
                 </Breadcrumbs>
                 <SubBar mobileOnly>
-                    <NavBar />
+                    <InternalNavBar routes={CHARACTER_NAV_ROUTES} urlPrefix={'/characters/' + slug} />
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <div className="flex flex-col gap-4">

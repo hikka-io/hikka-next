@@ -20,11 +20,16 @@ import {
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import useIsMobile from '@/utils/hooks/useIsMobile';
 
-const Component = () => {
+interface Props {
+    routes: Hikka.NavRoute[],
+    urlPrefix: string;
+}
+
+const Component = ({ routes, urlPrefix }: Props) => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
 
-    const current = EDIT_NAV_ROUTES.find((r) => pathname == '/edit' + r.url) || EDIT_NAV_ROUTES[0];
+    const current = routes.find((r) => pathname == urlPrefix + r.url) || routes[0];
 
     return (
         <div className="flex gap-2 place-items-center">
@@ -46,10 +51,10 @@ const Component = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56">
                         <DropdownMenuGroup>
-                            {EDIT_NAV_ROUTES.map((r) =>
+                            {routes.map((r) =>
                                 !r.internals ? (
                                     <DropdownMenuItem asChild key={r.slug}>
-                                        <Link href={'/edit' + r.url}>
+                                        <Link href={urlPrefix + r.url}>
                                             <span>{r.title_ua}</span>
                                         </Link>
                                     </DropdownMenuItem>
@@ -67,7 +72,7 @@ const Component = () => {
                                                     >
                                                         <Link
                                                             href={
-                                                                '/edit' +
+                                                                urlPrefix +
                                                                 r.url +
                                                                 sub.url
                                                             }

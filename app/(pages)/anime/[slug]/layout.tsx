@@ -1,7 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
-import MaterialSymbolsReviewsRounded from '~icons/material-symbols/reviews-rounded'
 
 import Link from 'next/link';
 
@@ -9,9 +8,10 @@ import { dehydrate } from '@tanstack/query-core';
 
 import Actions from '@/app/(pages)/anime/[slug]/_layout/actions';
 import Cover from '@/app/(pages)/anime/[slug]/_layout/cover';
-import NavMenu from '@/app/(pages)/anime/[slug]/_layout/nav-menu';
 import Title from '@/app/(pages)/anime/[slug]/_layout/title';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
+import InternalNavBar from '@/app/_components/internal-navbar';
+import NavMenu from '@/app/_components/nav-menu';
 import SubBar from '@/app/_components/sub-navbar';
 import { Button } from '@/app/_components/ui/button';
 import { getCookie } from '@/app/actions';
@@ -22,12 +22,8 @@ import getAnimeInfo, {
     Response as AnimeResponse,
 } from '@/utils/api/anime/getAnimeInfo';
 import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
-import { RELEASE_STATUS } from '@/utils/constants';
+import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-import NavBar from './_layout/navbar';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/app/_components/ui/tooltip';
-
 
 interface Props extends PropsWithChildren {
     params: {
@@ -87,11 +83,40 @@ export async function generateMetadata(
     };
 }
 
+/*const filteredRoutes = ANIME_NAV_ROUTES.filter((r) => {
+    switch (r.slug) {
+        case 'characters':
+            return (
+                characters !== undefined &&
+                characters.pages.length > 0 &&
+                characters.pages[0].list.length > 0
+            );
+        case 'staff':
+            return (
+                staff !== undefined &&
+                staff.pages.length > 0 &&
+                staff.pages[0].list.length > 0
+            );
+        case 'media':
+            return (
+                anime &&
+                (anime?.ost || anime?.videos) &&
+                (anime?.ost.length > 0 || anime?.videos.length > 0)
+            );
+        case 'links':
+            return anime && anime?.external && anime.external.length > 0;
+        case 'franchise':
+            return anime && anime.has_franchise;
+        case 'general':
+            return true;
+        case 'comments':
+            return true;
+    }
+});*/
+
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
-
-    console.log({ secret });
 
     await queryClient.prefetchQuery({
         queryKey: ['anime', slug],
@@ -146,10 +171,16 @@ const Component = async ({ params: { slug }, children }: Props) => {
                                 anime?.title_ja}
                         </Link>
                     </div>
-                    <NavMenu />
+                    <NavMenu
+                        routes={ANIME_NAV_ROUTES}
+                        urlPrefix={'/anime/' + slug}
+                    />
                 </Breadcrumbs>
                 <SubBar mobileOnly>
-                    <NavBar />
+                    <InternalNavBar
+                        routes={ANIME_NAV_ROUTES}
+                        urlPrefix={'/anime/' + slug}
+                    />
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <div className="flex flex-col gap-4">
@@ -157,7 +188,11 @@ const Component = async ({ params: { slug }, children }: Props) => {
                         <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
                             <Actions />
                             <div className="flex gap-2">
-                                <Button variant="outline" className="flex-1" asChild>
+                                <Button
+                                    variant="outline"
+                                    className="flex-1"
+                                    asChild
+                                >
                                     <Link href={`/anime/${slug}/comments`}>
                                         <IconamoonCommentFill />
                                         Обговорення

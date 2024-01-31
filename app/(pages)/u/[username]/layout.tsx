@@ -9,11 +9,12 @@ import { dehydrate } from '@tanstack/query-core';
 import ActivationAlert from '@/app/(pages)/u/[username]/_layout/activation-alert';
 import FollowButton from '@/app/(pages)/u/[username]/_layout/follow-button';
 import FollowStats from '@/app/(pages)/u/[username]/_layout/follow-stats';
-import NavMenu from '@/app/(pages)/u/[username]/_layout/nav-menu';
 import UserInfo from '@/app/(pages)/u/[username]/_layout/user-info';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
-import Image from '@/app/_components/ui/image';
+import InternalNavBar from '@/app/_components/internal-navbar';
+import NavMenu from '@/app/_components/nav-menu';
 import SubBar from '@/app/_components/sub-navbar';
+import Image from '@/app/_components/ui/image';
 import { getCookie } from '@/app/actions';
 import RQHydrate from '@/utils/RQ-hydrate';
 import getFavouriteList from '@/utils/api/favourite/getFavouriteList';
@@ -22,10 +23,8 @@ import getUserInfo, {
     Response as UserResponse,
 } from '@/utils/api/user/getUserInfo';
 import getWatchStats from '@/utils/api/watch/getWatchStats';
+import { USER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-import NavBar from './_layout/navbar';
-
 
 interface Props extends PropsWithChildren {
     params: {
@@ -138,10 +137,16 @@ const Component = async ({ params: { username }, children }: Props) => {
                     >
                         {user?.username}
                     </Link>
-                    <NavMenu />
+                    <NavMenu
+                        routes={USER_NAV_ROUTES}
+                        urlPrefix={'/u/' + username}
+                    />
                 </Breadcrumbs>
                 <SubBar mobileOnly>
-                    <NavBar />
+                    <InternalNavBar
+                        routes={USER_NAV_ROUTES}
+                        urlPrefix={'/u/' + username}
+                    />
                 </SubBar>
                 <div className="flex flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
                     <UserInfo />

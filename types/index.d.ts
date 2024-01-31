@@ -17,6 +17,15 @@ declare global {
     }
 
     namespace Hikka {
+        type NavRoute = {
+            slug: string;
+            title_ua: string;
+            url: string;
+            icon?: ReactNode;
+            role?: Hikka.UserRole[];
+            internals?: NavRoute[];
+        }
+
         type WithPagination<T> = {
             pagination: Hikka.Pagination;
             list: T[];
