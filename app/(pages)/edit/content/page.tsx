@@ -1,9 +1,9 @@
 import { dehydrate } from '@tanstack/query-core';
 
-import RQHydrate from '@/utils/RQ-hydrate';
-import getQueryClient from '@/utils/getQueryClient';
+import RQHydrate from '@/app/_utils/RQ-hydrate';
+import getQueryClient from '@/app/_utils/getQueryClient';
 
-import List from './_layout/list';
+import List from '@/app/(pages)/edit/content/_components/list';
 
 
 const Component = async ({

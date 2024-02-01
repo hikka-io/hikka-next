@@ -4,19 +4,19 @@ import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import AnimeContent from '@/app/(pages)/edit/[editId]/_layout/anime-content';
-import Moderator from '@/app/(pages)/edit/[editId]/_layout/moderator';
-import EditStatus from '@/app/(pages)/edit/_components/edit-status';
+import AnimeContent from '@/app/(pages)/edit/[editId]/_components/anime-content';
+import Moderator from '@/app/(pages)/edit/[editId]/_components/moderator';
+import EditStatus from '@/app/(pages)/edit/_components/ui/edit-status';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import SubHeader from '@/app/_components/sub-header';
-import RQHydrate from '@/utils/RQ-hydrate';
-import getEdit from '@/utils/api/edit/getEdit';
-import getQueryClient from '@/utils/getQueryClient';
+import RQHydrate from '@/app/_utils/RQ-hydrate';
+import getEdit from '@/app/_utils/api/edit/getEdit';
+import getQueryClient from '@/app/_utils/getQueryClient';
 
-import Actions from './_layout/actions';
-import AnimeEditView from './_layout/anime-edit-view';
-import Author from './_layout/author';
-import Comments from '@/app/_layout/comments';
+import Actions from '@/app/(pages)/edit/[editId]/_components/actions';
+import AnimeEditView from '@/app/(pages)/edit/[editId]/_components/anime-edit-view';
+import Author from '@/app/(pages)/edit/[editId]/_components/author';
+import Comments from '@/app/_components/comments/comments';
 import { redirect } from 'next/navigation';
 
 

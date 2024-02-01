@@ -7,18 +7,18 @@ import { dehydrate } from '@tanstack/query-core';
 
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import SubBar from '@/app/_components/sub-navbar';
-import RQHydrate from '@/utils/RQ-hydrate';
-import getCharacterAnime from '@/utils/api/characters/getCharacterAnime';
+import RQHydrate from '@/app/_utils/RQ-hydrate';
+import getCharacterAnime from '@/app/_utils/api/characters/getCharacterAnime';
 import getCharacterInfo, {
     Response as CharacterResponse,
-} from '@/utils/api/characters/getCharacterInfo';
-import getQueryClient from '@/utils/getQueryClient';
+} from '@/app/_utils/api/characters/getCharacterInfo';
+import getQueryClient from '@/app/_utils/getQueryClient';
 
-import Cover from './_layout/cover';
+import Cover from '@/app/(pages)/characters/[slug]/_components/cover';
 import NavMenu from '@/app/_components/nav-menu';
 import InternalNavBar from '@/app/_components/internal-navbar';
-import Title from './_layout/title';
-import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import Title from '@/app/(pages)/characters/[slug]/_components/title';
+import { CHARACTER_NAV_ROUTES } from '@/app/_utils/constants';
 
 interface Props extends PropsWithChildren {
     params: {

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import Filters from '@/app/(pages)/anime/(animeList)/_layout/filters';
-import NavBar from '@/app/(pages)/anime/(animeList)/_layout/navbar';
+import Filters from '@/app/(pages)/anime/(animeList)/_components/filters/filters';
+import NavBar from '@/app/(pages)/anime/(animeList)/_components/navbar/navbar';
 
 interface Props {
     list: ReactNode;

@@ -6,24 +6,24 @@ import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import Actions from '@/app/(pages)/anime/[slug]/_layout/actions';
-import Cover from '@/app/(pages)/anime/[slug]/_layout/cover';
-import Title from '@/app/(pages)/anime/[slug]/_layout/title';
+import Actions from '@/app/(pages)/anime/[slug]/_components/actions';
+import Cover from '@/app/(pages)/anime/[slug]/_components/cover';
+import Title from '@/app/(pages)/anime/[slug]/_components/title';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import InternalNavBar from '@/app/_components/internal-navbar';
 import NavMenu from '@/app/_components/nav-menu';
 import SubBar from '@/app/_components/sub-navbar';
 import { Button } from '@/app/_components/ui/button';
 import { getCookie } from '@/app/actions';
-import RQHydrate from '@/utils/RQ-hydrate';
-import getAnimeCharacters from '@/utils/api/anime/getAnimeCharacters';
-import getAnimeFranchise from '@/utils/api/anime/getAnimeFranchise';
+import RQHydrate from '@/app/_utils/RQ-hydrate';
+import getAnimeCharacters from '@/app/_utils/api/anime/getAnimeCharacters';
+import getAnimeFranchise from '@/app/_utils/api/anime/getAnimeFranchise';
 import getAnimeInfo, {
     Response as AnimeResponse,
-} from '@/utils/api/anime/getAnimeInfo';
-import getAnimeStaff from '@/utils/api/anime/getAnimeStaff';
-import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
-import getQueryClient from '@/utils/getQueryClient';
+} from '@/app/_utils/api/anime/getAnimeInfo';
+import getAnimeStaff from '@/app/_utils/api/anime/getAnimeStaff';
+import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/app/_utils/constants';
+import getQueryClient from '@/app/_utils/getQueryClient';
 
 interface Props extends PropsWithChildren {
     params: {

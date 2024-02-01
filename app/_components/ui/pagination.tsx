@@ -5,6 +5,7 @@ import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
 import { Button } from '@/app/_components/ui/button';
+import { range } from '@antfu/utils';
 
 interface Props {
     page: number;
@@ -13,16 +14,6 @@ interface Props {
 }
 
 const Component = ({ page, pages, setPage }: Props) => {
-    const range = (min: number, max: number) => {
-        const newArr = [];
-
-        for (let i = min; i <= max; i++) {
-            newArr.push(i);
-        }
-
-        return newArr;
-    };
-
     const generatePaginationArr = () => {
         const pagArr: (number | undefined)[] = [1];
 

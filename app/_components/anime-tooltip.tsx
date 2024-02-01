@@ -19,15 +19,17 @@ import {
     Popover,
     PopoverAnchor,
     PopoverContent,
+    PopoverTrigger,
 } from '@/app/_components/ui/popover';
 import WatchListButton from '@/app/_components/watchlist-button';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
-import { useAuthContext } from '@/utils/providers/auth-provider';
-import { useSettingsContext } from '@/utils/providers/settings-provider';
+import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
+import { MEDIA_TYPE, RELEASE_STATUS } from '@/app/_utils/constants';
+import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
 interface Props extends PropsWithChildren {
     slug: string;
+    withTrigger?: boolean;
 }
 
 const TooltipData = ({ slug }: { slug: string }) => {
@@ -157,7 +159,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
     );
 };
 
-const Component = ({ slug, children, ...props }: Props) => {
+const Component = ({ slug, children, withTrigger, ...props }: Props) => {
     const [open, setOpen] = useState(false);
     const openTimerRef = React.useRef(0);
     const closeTimerRef = React.useRef(0);
@@ -189,12 +191,22 @@ const Component = ({ slug, children, ...props }: Props) => {
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverAnchor asChild>
-                {cloneElement(children as ReactElement, {
-                    onMouseOver: handleOpen,
-                    onMouseOut: handleClose,
-                })}
-            </PopoverAnchor>
+            {withTrigger ? (
+                <PopoverTrigger asChild>
+                    {cloneElement(children as ReactElement, {
+                        onMouseOver: handleOpen,
+                        onMouseOut: handleClose,
+                    })}
+                </PopoverTrigger>
+            ) : (
+                <PopoverAnchor asChild>
+                    {cloneElement(children as ReactElement, {
+                        onMouseOver: handleOpen,
+                        onMouseOut: handleClose,
+                    })}
+                </PopoverAnchor>
+            )}
+
             <PopoverContent
                 onMouseOver={handleOpen}
                 onMouseOut={handleClose}

@@ -7,10 +7,10 @@ import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rou
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/app/_components/ui/button';
-import addFavourite from '@/utils/api/favourite/addFavourite';
-import deleteFavourite from '@/utils/api/favourite/deleteFavourite';
-import getFavourite from '@/utils/api/favourite/getFavourite';
-import { useAuthContext } from '@/utils/providers/auth-provider';
+import addFavourite from '@/app/_utils/api/favourite/addFavourite';
+import deleteFavourite from '@/app/_utils/api/favourite/deleteFavourite';
+import getFavourite from '@/app/_utils/api/favourite/getFavourite';
+import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
 interface Props {
     slug: string;

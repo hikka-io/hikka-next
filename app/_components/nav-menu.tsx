@@ -17,8 +17,8 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/app/_components/ui/dropdown-menu';
-import { EDIT_NAV_ROUTES } from '@/utils/constants';
-import useIsMobile from '@/utils/hooks/useIsMobile';
+import { EDIT_NAV_ROUTES } from '@/app/_utils/constants';
+import useIsMobile from '@/app/_utils/hooks/useIsMobile';
 
 interface Props {
     routes: Hikka.NavRoute[],

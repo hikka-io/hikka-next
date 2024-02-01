@@ -13,15 +13,15 @@ import Planned from '@/app/_components/icons/watch-status/planned';
 import { Button } from '@/app/_components/ui/button';
 import { Combobox } from '@/app/_components/ui/combobox';
 import { PopoverAnchor, PopoverTrigger } from '@/app/_components/ui/popover';
-import WatchEditModal from '@/app/_layout/modals/watch-edit-modal';
-import getAnimeInfo from '@/utils/api/anime/getAnimeInfo';
-import addWatch from '@/utils/api/watch/addWatch';
-import deleteWatch from '@/utils/api/watch/deleteWatch';
-import getWatch from '@/utils/api/watch/getWatch';
-import { WATCH_STATUS } from '@/utils/constants';
-import { useAuthContext } from '@/utils/providers/auth-provider';
-import { useModalContext } from '@/utils/providers/modal-provider';
-import { useSettingsContext } from '@/utils/providers/settings-provider';
+import WatchEditModal from '@/app/_components/modals/watch-edit-modal';
+import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
+import addWatch from '@/app/_utils/api/watch/addWatch';
+import deleteWatch from '@/app/_utils/api/watch/deleteWatch';
+import getWatch from '@/app/_utils/api/watch/getWatch';
+import { WATCH_STATUS } from '@/app/_utils/constants';
+import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
 import {
     ContextMenu,

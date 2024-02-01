@@ -17,6 +17,17 @@ declare global {
     }
 
     namespace Hikka {
+        type FilterProperty<T extends string> = Record<
+            T,
+            {
+                title_ua: string;
+                title_en: string;
+                icon?: ReactNode;
+                color?: string;
+                description?: string;
+            }
+        >;
+
         type NavRoute = {
             slug: string;
             title_ua: string;

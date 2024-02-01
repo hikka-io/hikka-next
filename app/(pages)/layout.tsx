@@ -1,10 +1,10 @@
 import HolyLoader from 'holy-loader';
 import React, { ReactNode } from 'react';
 
-import AuthGate from '@/app/_layout/auth-gate';
-import Footer from '@/app/_layout/footer';
-import NavBar from '@/app/_layout/navbar/navbar';
-import ScrollTop from '@/app/_layout/scroll-top';
+import AuthGate from '@/app/(pages)/_components/auth-gate';
+import Footer from '@/app/(pages)/_components/footer';
+import NavBar from '@/app/(pages)/_components/navbar/navbar';
+import ScrollTop from '@/app/(pages)/_components/scroll-top';
 
 export default async function RootLayout({
     children,

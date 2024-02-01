@@ -3,7 +3,7 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import useIsMobile from '@/utils/hooks/useIsMobile';
+import useIsMobile from '@/app/_utils/hooks/useIsMobile';
 
 interface Props extends PropsWithChildren {
     mobileOnly?: boolean;

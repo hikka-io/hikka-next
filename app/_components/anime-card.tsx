@@ -11,9 +11,9 @@ import {
 import { UrlObject } from 'url';
 import MaterialSymbolsArticle from '~icons/material-symbols/article';
 
-import BaseCard from '@/app/_components/base-card';
+import BaseCard from '@/app/_components/ui/base-card';
 import { Button } from '@/app/_components/ui/button';
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/app/_utils/constants';
 
 import AnimeTooltip from './anime-tooltip';
 import { PopoverTrigger } from './ui/popover';

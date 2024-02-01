@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import List from '@/app/(pages)/u/[username]/list/_layout/list';
+import List from '@/app/(pages)/u/[username]/list/_components/list/list';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },
