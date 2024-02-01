@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
-import Rightholder from '@/app/(pages)/_components/rightholder.mdx';
+import Rightholder from './rightholder.mdx';
 import { useModalContext } from '@/app/_utils/providers/modal-provider';
 
 

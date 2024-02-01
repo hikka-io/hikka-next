@@ -12,6 +12,7 @@ import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import { WATCH_STATUS } from '@/app/_utils/constants';
 import useSize from '@/app/_utils/hooks/useSize';
 
+
 const Component = () => {
     const ref = useRef<HTMLDivElement>(null);
     const maxSize = useSize(ref);

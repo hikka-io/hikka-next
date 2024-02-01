@@ -6,16 +6,11 @@ import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
-import FollowButton from '@/app/(pages)/u/[username]/_components/follow-button';
-import FollowStats from '@/app/(pages)/u/[username]/_components/follow-stats';
-import UserInfo from '@/app/(pages)/u/[username]/_components/user-info';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import InternalNavBar from '@/app/_components/internal-navbar';
 import NavMenu from '@/app/_components/nav-menu';
 import SubBar from '@/app/_components/sub-navbar';
 import Image from '@/app/_components/ui/image';
-import { getCookie } from '@/app/actions';
 import RQHydrate from '@/app/_utils/RQ-hydrate';
 import getFavouriteList from '@/app/_utils/api/favourite/getFavouriteList';
 import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
@@ -25,6 +20,13 @@ import getUserInfo, {
 import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
 import { USER_NAV_ROUTES } from '@/app/_utils/constants';
 import getQueryClient from '@/app/_utils/getQueryClient';
+import { getCookie } from '@/app/actions';
+
+import ActivationAlert from './_components/activation-alert';
+import FollowButton from './_components/follow-button';
+import FollowStats from './_components/follow-stats';
+import UserInfo from './_components/user-info';
+
 
 interface Props extends PropsWithChildren {
     params: {

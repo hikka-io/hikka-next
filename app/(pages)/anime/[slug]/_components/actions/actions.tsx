@@ -1,15 +1,15 @@
 'use client';
 
-import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
-import WatchStats from '@/app/(pages)/anime/[slug]/_components/watch-stats';
-import FavoriteButton from '@/app/_components/favorite-button';
 import WatchListButton from '@/app/_components/watchlist-button';
 import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+
+import WatchStats from '../watch-stats';
+
 
 const Component = () => {
     const { secret } = useAuthContext();

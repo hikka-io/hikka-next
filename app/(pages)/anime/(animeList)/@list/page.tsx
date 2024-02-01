@@ -1,4 +1,4 @@
-import List from '@/app/(pages)/anime/(animeList)/@list/_components/list';
+import List from './_components/list';
 import { redirect } from 'next/navigation';
 
 const Component = ({ searchParams }: {  searchParams: { [key: string]: string | string[] | undefined } }) => {

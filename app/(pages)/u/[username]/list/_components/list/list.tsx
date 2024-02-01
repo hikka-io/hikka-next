@@ -20,17 +20,18 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import GridView from '@/app/(pages)/u/[username]/list/_components/list/_components/grid-view';
-import TableView from '@/app/(pages)/u/[username]/list/_components/list/_components/table-view';
-import NotFound from '@/app/_components/ui/not-found';
 import { Button } from '@/app/_components/ui/button';
 import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
+import NotFound from '@/app/_components/ui/not-found';
 import { PopoverTrigger } from '@/app/_components/ui/popover';
 import getRandomWatch from '@/app/_utils/api/watch/getRandomWatch';
 import getWatchList from '@/app/_utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/app/_utils/constants';
 import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
+
+import GridView from './_components/grid-view';
+import TableView from './_components/table-view';
 
 interface Props {}
 
@@ -201,7 +202,7 @@ const Component = ({}: Props) => {
                         renderToggle={(_open, _setOpen, value) => {
                             return (
                                 <PopoverTrigger asChild>
-                                    <Button variant='ghost' size='icon-sm'>
+                                    <Button variant="ghost" size="icon-sm">
                                         {value === 'table' ? (
                                             <MaterialSymbolsEventList />
                                         ) : (

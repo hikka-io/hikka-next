@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
-import Filters from '@/app/(pages)/anime/(animeList)/_components/filters/filters';
+import Filters from './filters/filters';
 import { Button } from '@/app/_components/ui/button';
 import {
     Sheet,

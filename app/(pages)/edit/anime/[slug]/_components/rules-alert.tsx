@@ -3,7 +3,7 @@
 import * as React from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-import Rules from '@/app/(pages)/edit/anime/[slug]/_components/rules.mdx';
+import Rules from './rules.mdx';
 import { Button } from '@/app/_components/ui/button';
 import { useModalContext } from '@/app/_utils/providers/modal-provider';
 

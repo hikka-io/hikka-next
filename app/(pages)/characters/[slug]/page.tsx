@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Anime from '@/app/(pages)/characters/[slug]/_components/anime';
+import Anime from './_components/anime';
 
 const Component = () => {
     return (

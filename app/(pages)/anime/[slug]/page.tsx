@@ -1,13 +1,13 @@
 import React from 'react';
 
-import About from '@/app/(pages)/anime/[slug]/_components/about';
-import Characters from '@/app/(pages)/anime/[slug]/_components/characters';
-import Description from '@/app/(pages)/anime/[slug]/_components/description';
-import Franchise from '@/app/(pages)/anime/[slug]/_components/franchise';
-import Links from '@/app/(pages)/anime/[slug]/_components/links';
-import Media from '@/app/(pages)/anime/[slug]/_components/media';
-import Staff from '@/app/(pages)/anime/[slug]/_components/staff';
-import WatchListStats from '@/app/(pages)/anime/[slug]/_components/watchlist-stats';
+import About from './_components/about';
+import Characters from './_components/characters';
+import Description from './_components/description';
+import Franchise from './_components/franchise';
+import Links from './_components/links';
+import Media from './_components/media';
+import Staff from './_components/staff';
+import WatchListStats from './_components/actions/_components/watchlist-stats';
 
 const Component = () => {
     return (

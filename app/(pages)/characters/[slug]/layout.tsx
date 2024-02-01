@@ -6,19 +6,20 @@ import Link from 'next/link';
 import { dehydrate } from '@tanstack/query-core';
 
 import Breadcrumbs from '@/app/_components/breadcrumbs';
+import InternalNavBar from '@/app/_components/internal-navbar';
+import NavMenu from '@/app/_components/nav-menu';
 import SubBar from '@/app/_components/sub-navbar';
 import RQHydrate from '@/app/_utils/RQ-hydrate';
 import getCharacterAnime from '@/app/_utils/api/characters/getCharacterAnime';
 import getCharacterInfo, {
     Response as CharacterResponse,
 } from '@/app/_utils/api/characters/getCharacterInfo';
+import { CHARACTER_NAV_ROUTES } from '@/app/_utils/constants';
 import getQueryClient from '@/app/_utils/getQueryClient';
 
-import Cover from '@/app/(pages)/characters/[slug]/_components/cover';
-import NavMenu from '@/app/_components/nav-menu';
-import InternalNavBar from '@/app/_components/internal-navbar';
-import Title from '@/app/(pages)/characters/[slug]/_components/title';
-import { CHARACTER_NAV_ROUTES } from '@/app/_utils/constants';
+import Cover from './_components/cover';
+import Title from './_components/title';
+
 
 interface Props extends PropsWithChildren {
     params: {
@@ -96,10 +97,16 @@ const Component = async ({ params: { slug }, children }: Props) => {
                                 character?.name_ja}
                         </Link>
                     </div>
-                    <NavMenu routes={CHARACTER_NAV_ROUTES} urlPrefix={'/characters/' + slug} />
+                    <NavMenu
+                        routes={CHARACTER_NAV_ROUTES}
+                        urlPrefix={'/characters/' + slug}
+                    />
                 </Breadcrumbs>
                 <SubBar mobileOnly>
-                    <InternalNavBar routes={CHARACTER_NAV_ROUTES} urlPrefix={'/characters/' + slug} />
+                    <InternalNavBar
+                        routes={CHARACTER_NAV_ROUTES}
+                        urlPrefix={'/characters/' + slug}
+                    />
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <div className="flex flex-col gap-4">

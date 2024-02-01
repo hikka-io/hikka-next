@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import Filters from '@/app/(pages)/anime/(animeList)/_components/filters/filters';
-import NavBar from '@/app/(pages)/anime/(animeList)/_components/navbar/navbar';
+import Filters from './_components/filters';
+import NavBar from './_components/navbar';
 
 interface Props {
     list: ReactNode;
@@ -12,7 +12,7 @@ interface Props {
 const Component = async ({ list }: Props) => {
     return (
         <div>
-            <div className="drawer-content grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
+            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                 <div className="flex flex-col gap-8">
                     <NavBar />
                     {list}

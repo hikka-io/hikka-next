@@ -6,15 +6,11 @@ import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import Actions from '@/app/(pages)/anime/[slug]/_components/actions';
-import Cover from '@/app/(pages)/anime/[slug]/_components/cover';
-import Title from '@/app/(pages)/anime/[slug]/_components/title';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import InternalNavBar from '@/app/_components/internal-navbar';
 import NavMenu from '@/app/_components/nav-menu';
 import SubBar from '@/app/_components/sub-navbar';
 import { Button } from '@/app/_components/ui/button';
-import { getCookie } from '@/app/actions';
 import RQHydrate from '@/app/_utils/RQ-hydrate';
 import getAnimeCharacters from '@/app/_utils/api/anime/getAnimeCharacters';
 import getAnimeFranchise from '@/app/_utils/api/anime/getAnimeFranchise';
@@ -24,6 +20,12 @@ import getAnimeInfo, {
 import getAnimeStaff from '@/app/_utils/api/anime/getAnimeStaff';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/app/_utils/constants';
 import getQueryClient from '@/app/_utils/getQueryClient';
+import { getCookie } from '@/app/actions';
+
+import Actions from './_components/actions';
+import Cover from './_components/cover';
+import Title from './_components/title';
+
 
 interface Props extends PropsWithChildren {
     params: {

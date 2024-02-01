@@ -2,14 +2,14 @@ import * as React from 'react';
 
 import { dehydrate } from '@tanstack/query-core';
 
-import RulesAlert from '@/app/(pages)/edit/anime/[slug]/_components/rules-alert';
 import SubHeader from '@/app/_components/sub-header';
 import RQHydrate from '@/app/_utils/RQ-hydrate';
 import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import getQueryClient from '@/app/_utils/getQueryClient';
 
-import AnimeContent from '@/app/(pages)/edit/anime/[slug]/_components/anime-content';
-import AnimeEditNew from '@/app/(pages)/edit/anime/[slug]/_components/anime-edit-new';
+import AnimeContent from './_components/anime-content';
+import AnimeEditNew from './_components/anime-edit-new';
+import RulesAlert from './_components/rules-alert';
 
 interface Props {
     params: {

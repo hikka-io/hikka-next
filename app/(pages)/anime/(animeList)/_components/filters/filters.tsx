@@ -8,7 +8,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
-import BadgeFilter from '@/app/(pages)/anime/(animeList)/_components/filters/_components/ui/badge-filter';
 import { Button } from '@/app/_components/ui/button';
 import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
@@ -22,6 +21,8 @@ import {
     SEASON,
 } from '@/app/_utils/constants';
 import createQueryString from '@/app/_utils/createQueryString';
+
+import BadgeFilter from './_components/ui/badge-filter';
 
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];

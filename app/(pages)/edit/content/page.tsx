@@ -3,7 +3,7 @@ import { dehydrate } from '@tanstack/query-core';
 import RQHydrate from '@/app/_utils/RQ-hydrate';
 import getQueryClient from '@/app/_utils/getQueryClient';
 
-import List from '@/app/(pages)/edit/content/_components/list';
+import List from './_components/list';
 
 
 const Component = async ({
