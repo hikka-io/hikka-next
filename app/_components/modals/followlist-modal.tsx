@@ -9,35 +9,36 @@ import { useParams } from 'next/navigation';
 import FollowUserItem from '@/app/(pages)/u/[username]/_components/ui/follow-user-item';
 import { Button } from '@/app/_components/ui/button';
 import getFollowers from '@/app/_utils/api/follow/getFollowers';
+import getFollowings from '@/app/_utils/api/follow/getFollowings';
 import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
-interface Props {}
+interface Props {
+    type: 'followers' | 'followings';
+}
 
-const Component = ({}: Props) => {
+const Component = ({ type }: Props) => {
     const { ref, inView } = useInView();
     const params = useParams();
     const { secret } = useAuthContext();
 
-    const {
-        list,
-        fetchNextPage: fetchNextFollowers,
-        isFetchingNextPage: isFetchingNextFollowers,
-        hasNextPage: hasNextFollowers,
-    } = useInfiniteList({
-        queryKey: ['followers', params.username, secret],
-        queryFn: ({ pageParam = 1 }) =>
-            getFollowers({
-                username: String(params.username),
-                secret: String(secret),
-                page: pageParam,
-            }),
-    });
+    const func = type === 'followers' ? getFollowers : getFollowings;
+
+    const { list, fetchNextPage, isFetchingNextPage, hasNextPage } =
+        useInfiniteList({
+            queryKey: [type, params.username, secret],
+            queryFn: ({ pageParam = 1 }) =>
+                func({
+                    username: String(params.username),
+                    secret: String(secret),
+                    page: pageParam,
+                }),
+        });
 
     useEffect(() => {
         if (inView) {
-            if (hasNextFollowers) {
-                fetchNextFollowers();
+            if (hasNextPage) {
+                fetchNextPage();
             }
         }
     }, [inView]);
@@ -53,18 +54,16 @@ const Component = ({}: Props) => {
                 {list.map((user) => {
                     return <FollowUserItem key={user.reference} user={user} />;
                 })}
-                {hasNextFollowers && (
+                {hasNextPage && (
                     <div className="px-4">
                         <Button
                             variant="secondary"
                             ref={ref}
-                            disabled={isFetchingNextFollowers}
-                            onClick={() =>
-                                hasNextFollowers && fetchNextFollowers()
-                            }
+                            disabled={isFetchingNextPage}
+                            onClick={() => hasNextPage && fetchNextPage()}
                             className="w-full"
                         >
-                            {isFetchingNextFollowers && (
+                            {isFetchingNextPage && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Заванатажити ще

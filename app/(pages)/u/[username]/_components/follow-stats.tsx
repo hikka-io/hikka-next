@@ -4,10 +4,9 @@ import { useParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
+import FollowlistModal from '@/app/_components/modals/followlist-modal';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
-import FollowersModal from '@/app/_components/modals/followers-modal';
-import FollowingsModal from '@/app/_components/modals/followings-modal';
 import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
 import { useModalContext } from '@/app/_utils/providers/modal-provider';
 
@@ -31,7 +30,7 @@ const Component = ({}: Props) => {
             <Button
                 onClick={() =>
                     openModal({
-                        content: <FollowersModal />,
+                        content: <FollowlistModal type="followers" />,
                         title: 'Стежать',
                         type: 'sheet',
                     })
@@ -50,7 +49,7 @@ const Component = ({}: Props) => {
                 variant="ghost"
                 onClick={() =>
                     openModal({
-                        content: <FollowingsModal />,
+                        content: <FollowlistModal type="followings" />,
                         title: 'Відстежується',
                         type: 'sheet',
                     })
