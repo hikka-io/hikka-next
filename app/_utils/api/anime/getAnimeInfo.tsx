@@ -1,34 +1,6 @@
 import config from '@/app/_utils/api/config';
 
-export interface Response {
-    companies: Hikka.Company[];
-    genres: Hikka.Genre[];
-    start_date: number;
-    end_date: number;
-    episodes_released: number;
-    episodes_total: number;
-    synopsis_en: string;
-    synopsis_ua: string;
-    media_type: Hikka.MediaType;
-    title_ua: string;
-    title_en: string;
-    title_ja: string;
-    duration: number;
-    poster: string;
-    status: Hikka.Status;
-    source: Hikka.Source;
-    rating: Hikka.AgeRating;
-    has_franchise: boolean;
-    scored_by: number;
-    score: number;
-    nsfw: boolean;
-    slug: string;
-    synonyms: string[];
-    external: Hikka.External[];
-    videos: Hikka.Video[];
-    ost: Hikka.OST[];
-    stats: Hikka.Stats;
-}
+export interface Response extends Hikka.AnimeInfo {}
 
 export default async function req({
     slug,

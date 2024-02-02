@@ -179,6 +179,25 @@ declare global {
             watch: Watch[];
         };
 
+        type AnimeInfo = {
+            companies: Company[];
+            genres: Genre[];
+            start_date: number;
+            end_date: number;
+            synopsis_en: string;
+            synopsis_ua: string;
+            duration: number;
+            source: Source;
+            rating: AgeRating;
+            has_franchise: boolean;
+            nsfw: boolean;
+            synonyms: string[];
+            external: External[];
+            videos: Video[];
+            ost: OST[];
+            stats: Stats;
+        } & Anime;
+
         type Genre = {
             name_en: string;
             name_ua: string;
@@ -202,13 +221,25 @@ declare global {
             slug: string;
         };
 
-        type EditParams = {
+        type EditParam<T> = {
+            param: keyof T;
+            title: string;
+            placeholder: string;
+        };
+
+        type AnimeEditParams = {
             title_ua?: string;
             title_en?: string;
             title_ja?: string;
             synopsis_en?: string;
             synopsis_ua?: string;
             synonyms?: string[];
+        };
+
+        type CharacterEditParams = {
+            name_ua: string;
+            name_en: string;
+            name_ja: string;
         };
 
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
@@ -222,8 +253,8 @@ declare global {
             edit_id: number;
             moderator: Hikka.User | null;
             author?: Hikka.User;
-            after: EditParams;
-            before: EditParams | null;
+            after: AnimeEditParams;
+            before: AnimeEditParams | null;
             content: Hikka.Anime | Hikka.Person;
         };
 

@@ -11,7 +11,7 @@ export default async function req({
 }: {
     secret: string;
     description?: string;
-    after: Hikka.EditParams;
+    after: Hikka.AnimeEditParams;
     edit_id: number;
     captcha: string;
 }): Promise<Response> {

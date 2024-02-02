@@ -8,7 +8,7 @@ import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import getQueryClient from '@/app/_utils/getQueryClient';
 
 import AnimeContent from './_components/anime-content';
-import AnimeEditNew from './_components/anime-edit-new';
+import AnimeEditNew from './_components/edit-new/edit-new';
 import RulesAlert from './_components/rules-alert';
 
 interface Props {

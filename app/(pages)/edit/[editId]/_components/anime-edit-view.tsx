@@ -20,13 +20,8 @@ import { Textarea } from '@/app/_components/ui/textarea';
 import getEdit from '@/app/_utils/api/edit/getEdit';
 import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
 
-type Param = {
-    param: keyof Hikka.EditParams;
-    title: string;
-    placeholder: string;
-};
 
-const TITLE_PARAMS: Param[] = [
+const TITLE_PARAMS: Hikka.EditParam<Hikka.AnimeEditParams>[] = [
     {
         param: 'title_ua',
         title: 'Українською',
@@ -44,7 +39,7 @@ const TITLE_PARAMS: Param[] = [
     },
 ];
 
-const SYNOPSIS_PARAMS: Param[] = [
+const SYNOPSIS_PARAMS: Hikka.EditParam<Hikka.AnimeEditParams>[] = [
     {
         param: 'synopsis_ua',
         title: 'Українською',
@@ -56,10 +51,9 @@ const SYNOPSIS_PARAMS: Param[] = [
         placeholder: 'Введіть опис англійською',
     },
 ];
-
 const Component = () => {
     const params = useParams();
-    const [editParams, setEditParams] = useState<(keyof Hikka.EditParams)[]>(
+    const [editParams, setEditParams] = useState<(keyof Hikka.AnimeEditParams)[]>(
         [],
     );
 
@@ -71,7 +65,7 @@ const Component = () => {
     useEffect(() => {
         if (edit) {
             setEditParams(
-                Object.keys(edit.after) as (keyof Hikka.EditParams)[],
+                Object.keys(edit.after) as (keyof Hikka.AnimeEditParams)[],
             );
         }
     }, [edit]);

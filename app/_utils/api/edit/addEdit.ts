@@ -13,7 +13,7 @@ export default async function req({
     secret: string;
     description?: string;
     contentType: 'anime' | 'person';
-    after: Hikka.EditParams;
+    after: Hikka.AnimeEditParams;
     slug: string;
     captcha: string;
 }): Promise<Response> {
