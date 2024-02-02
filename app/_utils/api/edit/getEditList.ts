@@ -1,9 +1,6 @@
 import config from '@/app/_utils/api/config';
 
-export interface Response {
-    pagination: Hikka.Pagination;
-    list: Hikka.Edit[];
-}
+export interface Response extends Hikka.WithPagination<Hikka.Edit> {}
 
 export default async function req({
     page = 1,

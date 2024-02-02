@@ -15,14 +15,29 @@ import {
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
 
-interface Props {
+interface EditProps {
     title: string;
     inputTitle: string;
     selected: string[];
     setList: Dispatch<SetStateAction<string[]>>;
+    mode: 'edit';
 }
 
-const Component = ({ title, inputTitle, selected, setList }: Props) => {
+interface ViewProps {
+    title: string;
+    inputTitle?: string;
+    selected: string[];
+    setList?: Dispatch<SetStateAction<string[]>>;
+    mode: 'view';
+}
+
+const Component = ({
+    title,
+    inputTitle,
+    selected,
+    setList,
+    mode,
+}: EditProps | ViewProps) => {
     const [newItem, setNewItem] = useState<string>();
 
     return (
@@ -51,22 +66,24 @@ const Component = ({ title, inputTitle, selected, setList }: Props) => {
                                 key={item}
                             >
                                 {item}
-                                <Button
-                                    onClick={() =>
-                                        setList((prev) =>
-                                            prev.filter((s) => s !== item),
-                                        )
-                                    }
-                                    variant="ghost"
-                                    size="icon-xs"
-                                >
-                                    <MaterialSymbolsCloseSmallRounded />
-                                </Button>
+                                {mode === 'edit' && (
+                                    <Button
+                                        onClick={() =>
+                                            setList((prev) =>
+                                                prev.filter((s) => s !== item),
+                                            )
+                                        }
+                                        variant="ghost"
+                                        size="icon-xs"
+                                    >
+                                        <MaterialSymbolsCloseSmallRounded />
+                                    </Button>
+                                )}
                             </div>
                         );
                     })}
                 </div>
-                <div className="flex flex-col gap-4 w-full">
+                {mode === 'edit' && <div className="flex flex-col gap-4 w-full">
                     <Label>{inputTitle}</Label>
                     <div className="flex gap-2">
                         <Input
@@ -86,7 +103,7 @@ const Component = ({ title, inputTitle, selected, setList }: Props) => {
                             <MaterialSymbolsAddRounded />
                         </Button>
                     </div>
-                </div>
+                </div>}
             </CollapsibleContent>
         </Collapsible>
     );

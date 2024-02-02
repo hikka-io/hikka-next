@@ -6,24 +6,26 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 
-import EditCard from '@/app/_components/modals/anime-editlist-modal/_components/ui/edit-card';
+import EditCard from '@/app/_components/modals/editlist-modal/_components/ui/edit-card';
 import { Button } from '@/app/_components/ui/button';
 import getContentEditList from '@/app/_utils/api/edit/getContentEditList';
 import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
 
+interface Props {
+    content_type: Hikka.ContentType;
+    slug: string;
+}
 
-const Component = () => {
+const Component = ({ content_type, slug }: Props) => {
     const { ref, inView } = useInView();
-    const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteList({
-            queryKey: ['editList', params.slug],
+            queryKey: ['editList', slug, content_type],
             queryFn: ({ pageParam }) =>
                 getContentEditList({
-                    slug: String(params.slug),
-                    contentType: 'anime',
+                    slug: slug,
+                    content_type: content_type,
                     page: pageParam,
                 }),
         });
@@ -42,7 +44,9 @@ const Component = () => {
         <>
             <div className={clsx('relative py-6')}>
                 <Button variant="secondary" className="w-full" asChild>
-                    <Link href={`/edit/anime/` + params.slug}>
+                    <Link
+                        href={`/edit/new?slug=${slug}&content_type=${content_type}`}
+                    >
                         Створити правку
                     </Link>
                 </Button>

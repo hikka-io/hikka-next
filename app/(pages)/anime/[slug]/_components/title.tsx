@@ -10,7 +10,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 import { Button } from '@/app/_components/ui/button';
-import AnimeEditListModal from '@/app/_components/modals/anime-editlist-modal/anime-editlist-modal';
+import EditListModal from '@/app/_components/modals/editlist-modal';
 import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import { ANIME_NAV_ROUTES } from '@/app/_utils/constants';
 import useIsMobile from '@/app/_utils/hooks/useIsMobile';
@@ -21,6 +21,7 @@ import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
 const EditButton = ({ className }: { className?: string }) => {
     const { openModal } = useModalContext();
+    const params = useParams();
 
     return (
         <Button
@@ -28,7 +29,7 @@ const EditButton = ({ className }: { className?: string }) => {
             size="icon-xs"
             onClick={() =>
                 openModal({
-                    content: <AnimeEditListModal />,
+                    content: <EditListModal content_type="anime" slug={String(params.slug)} />,
                     type: 'sheet',
                     title: 'Список правок',
                 })

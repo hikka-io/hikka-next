@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Controller } from 'react-hook-form';
 
 import MDEditor from '@/app/_components/markdown/editor/MD-editor';
+import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
 import { Button } from '@/app/_components/ui/button';
 import {
     Collapsible,
@@ -14,7 +15,9 @@ import {
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
 
-interface Props<TEditParams> {
+interface EditProps<
+    TEditParams extends Hikka.AnimeEditParams | Hikka.CharacterEditParams,
+> {
     title: string;
     selected: (keyof TEditParams)[];
     params: Hikka.EditParam<TEditParams>[];
@@ -23,9 +26,29 @@ interface Props<TEditParams> {
     register: any;
     control?: any;
     editor?: 'input' | 'markdown';
+    mode: 'edit';
+    edit?: Hikka.Edit<TEditParams>;
 }
 
-const Component = <TEditParams,>({
+interface ViewProps<
+    TEditParams extends Hikka.AnimeEditParams | Hikka.CharacterEditParams,
+> {
+    title: string;
+    selected: (keyof TEditParams)[];
+    params: Hikka.EditParam<TEditParams>[];
+    editor?: 'input' | 'markdown';
+    mode: 'view';
+    edit: Hikka.Edit<TEditParams>;
+    content?: Record<string, any>;
+    onSwitchParam?: (param: keyof TEditParams) => void;
+    register?: any;
+    control?: any;
+}
+
+const Component = <
+    TEditParams extends Hikka.AnimeEditParams | Hikka.CharacterEditParams,
+>({
+    mode,
     title,
     content,
     params,
@@ -34,7 +57,8 @@ const Component = <TEditParams,>({
     onSwitchParam,
     editor,
     control,
-}: Props<TEditParams>) => {
+    edit,
+}: EditProps<TEditParams> | ViewProps<TEditParams>) => {
     return (
         <Collapsible className="w-full space-y-2 border border-accent rounded-lg p-4">
             <CollapsibleTrigger asChild>
@@ -53,22 +77,24 @@ const Component = <TEditParams,>({
             </CollapsibleTrigger>
 
             <CollapsibleContent className="flex flex-col gap-6">
-                <div className="flex flex-wrap gap-2">
-                    {params.map((param) => (
-                        <Button
-                            size="badge"
-                            variant={
-                                selected.includes(param.param)
-                                    ? 'default'
-                                    : 'outline'
-                            }
-                            key={param.param as string}
-                            onClick={() => onSwitchParam(param.param)}
-                        >
-                            {param.title}
-                        </Button>
-                    ))}
-                </div>
+                {mode === 'edit' && (
+                    <div className="flex flex-wrap gap-2">
+                        {params.map((param) => (
+                            <Button
+                                size="badge"
+                                variant={
+                                    selected.includes(param.param)
+                                        ? 'default'
+                                        : 'outline'
+                                }
+                                key={param.param as string}
+                                onClick={() => onSwitchParam(param.param)}
+                            >
+                                {param.title}
+                            </Button>
+                        ))}
+                    </div>
+                )}
                 {selected.map((eParam) => {
                     const param = params.find(
                         (tParam) => tParam.param === eParam,
@@ -86,17 +112,20 @@ const Component = <TEditParams,>({
                             <Label>{param.title}</Label>
                             {editor !== 'markdown' ? (
                                 <Input
+                                    disabled={mode === 'view'}
                                     type="text"
                                     placeholder={param.placeholder}
                                     className="w-full disabled:text-secondary-foreground"
-                                    {...register(param.param, {
-                                        value:
-                                            (content![
-                                                param.param as string
-                                            ] as string) || undefined,
-                                    })}
+                                    {...(mode === 'edit'
+                                        ? register(param.param, {
+                                              value:
+                                                  (content![
+                                                      param.param as string
+                                                  ] as string) || undefined,
+                                          })
+                                        : { value: edit!.after[param.param] })}
                                 />
-                            ) : (
+                            ) : mode === 'edit' ? (
                                 <Controller
                                     control={control}
                                     name={param.param as string}
@@ -117,6 +146,10 @@ const Component = <TEditParams,>({
                                         />
                                     )}
                                 />
+                            ) : (
+                                <MDViewer className="bg-secondary/30 border-secondary/60 border rounded-md p-4 markdown text-sm">
+                                    {String(edit!.after[param.param])}
+                                </MDViewer>
                             )}
                         </div>
                     );

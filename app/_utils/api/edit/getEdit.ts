@@ -2,11 +2,7 @@ import config from '@/app/_utils/api/config';
 
 export interface Response extends Hikka.Edit {}
 
-export default async function req({
-    edit_id,
-}: {
-    edit_id: number;
-}): Promise<Response> {
+export default async function req<TResponse = Response>({ edit_id }: { edit_id: number }): Promise<TResponse> {
     const res = await fetch(config.baseAPI + '/edit/' + edit_id, {
         method: 'get',
         ...config.config,

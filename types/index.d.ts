@@ -6,7 +6,7 @@ declare global {
     namespace JSX {
         // this merges with the existing intrinsic elements, adding 'my-custom-tag' and its props
         interface IntrinsicElements {
-            'spoiler': {'children': ReactNode}
+            spoiler: { children: ReactNode };
         }
     }
 
@@ -35,12 +35,12 @@ declare global {
             icon?: ReactNode;
             role?: Hikka.UserRole[];
             internals?: NavRoute[];
-        }
+        };
 
         type WithPagination<T> = {
             pagination: Hikka.Pagination;
             list: T[];
-        }
+        };
 
         type Error = {
             code: string;
@@ -209,6 +209,7 @@ declare global {
             name_ua: string;
             name_en: string;
             name_ja: string;
+            description_ua: string;
             image: string;
             slug: string;
         };
@@ -240,12 +241,18 @@ declare global {
             name_ua: string;
             name_en: string;
             name_ja: string;
+            description_ua: string;
         };
 
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
-        type Edit = {
-            content_type: 'anime' | 'person';
+        type Edit<
+            TEditParams extends AnimeEditParams | CharacterEditParams =
+                | Hikka.AnimeEditParams
+                | Hikka.CharacterEditParams,
+            TContent = Hikka.AnimeInfo | Hikka.Character,
+        > = {
+            content_type: ContentType;
             status: EditStatus;
             description: string | null;
             created: number;
@@ -253,9 +260,9 @@ declare global {
             edit_id: number;
             moderator: Hikka.User | null;
             author?: Hikka.User;
-            after: AnimeEditParams;
-            before: AnimeEditParams | null;
-            content: Hikka.Anime | Hikka.Person;
+            after: TEditParams;
+            before: TEditParams | null;
+            content: TContent;
         };
 
         type Comment = {
@@ -275,8 +282,13 @@ declare global {
             url: string;
             text: string;
             type: 'general' | 'watch';
-        }
+        };
 
-        type ContentType = 'edit' | 'anime'
+        type ContentType =
+            | 'edit'
+            | 'anime'
+            | 'character'
+            | 'person'
+            | 'comment';
     }
 }

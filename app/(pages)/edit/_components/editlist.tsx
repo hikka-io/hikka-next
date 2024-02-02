@@ -11,8 +11,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 import BaseCard from '@/app/_components/ui/base-card';
-import Pagination from '@/app/_components/ui/pagination';
 import { Label } from '@/app/_components/ui/label';
+import Pagination from '@/app/_components/ui/pagination';
 import {
     Table,
     TableBody,
@@ -22,6 +22,10 @@ import {
     TableRow,
 } from '@/app/_components/ui/table';
 import getEditList from '@/app/_utils/api/edit/getEditList';
+import {
+    CONTENT_TYPE_LINKS,
+    CONTENT_TYPE_TITLES,
+} from '@/app/_utils/constants';
 import createQueryString from '@/app/_utils/createQueryString';
 import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
@@ -39,13 +43,7 @@ const Component = () => {
     const [go, setGo] = useState(false);
     const router = useRouter();
 
-    const { data } = useQuery<
-        {
-            list: Hikka.Edit[];
-            pagination: Hikka.Pagination;
-        },
-        Error
-    >({
+    const { data } = useQuery({
         queryKey: ['editList', selectedPage],
         queryFn: () =>
             getEditList({
@@ -133,30 +131,32 @@ const Component = () => {
                                     </TableCell>
                                     <TableCell align="left">
                                         <div className="flex gap-4">
-                                            {edit.content_type === 'anime' &&
-                                            'title_en' in edit.content ? (
-                                                <Link
-                                                    className="hover:underline"
-                                                    href={`/anime/${edit.content.slug}`}
-                                                    onClick={() => setGo(true)}
-                                                >
-                                                    {edit.content[
-                                                        titleLanguage!
-                                                    ] ||
-                                                        edit.content.title_ua ||
-                                                        edit.content.title_en ||
-                                                        edit.content.title_ja}
-                                                </Link>
-                                            ) : (
-                                                'name_ua' in edit.content &&
-                                                (edit.content.name_ua ||
-                                                    edit.content.name_en)
-                                            )}
+                                            <Link
+                                                className="hover:underline"
+                                                href={`${
+                                                    CONTENT_TYPE_LINKS[
+                                                        edit.content_type
+                                                    ]
+                                                }/${edit.content.slug}`}
+                                                onClick={() => setGo(true)}
+                                            >
+                                                {'title_en' in edit.content
+                                                    ? edit.content[
+                                                          titleLanguage!
+                                                      ] ||
+                                                      edit.content.title_ua ||
+                                                      edit.content.title_en ||
+                                                      edit.content.title_ja
+                                                    : edit.content.name_ua ||
+                                                      edit.content.name_en}
+                                            </Link>
                                         </div>
                                         <Label className="text-xs text-muted-foreground">
-                                            {edit.content_type === 'anime'
-                                                ? 'Аніме'
-                                                : 'Автор'}
+                                            {
+                                                CONTENT_TYPE_TITLES[
+                                                    edit.content_type
+                                                ]
+                                            }
                                         </Label>
                                     </TableCell>
                                     <TableCell

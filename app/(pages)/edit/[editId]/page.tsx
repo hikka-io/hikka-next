@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 
+import EditView from '@/app/(pages)/edit/[editId]/_components/edit-view';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import Comments from '@/app/_components/comments/comments';
 import SubHeader from '@/app/_components/sub-header';
@@ -14,10 +15,9 @@ import getQueryClient from '@/app/_utils/getQueryClient';
 
 import EditStatus from '../_components/ui/edit-status';
 import Actions from './_components/actions';
-import AnimeContent from './_components/anime-content';
-import AnimeEditView from './_components/anime-edit-view';
 import Author from './_components/author';
 import Moderator from './_components/moderator';
+import Content from '../_components/ui/content';
 
 
 interface Props {
@@ -57,7 +57,7 @@ const Component = async ({ params: { editId } }: Props) => {
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Правка #` + editId} />
                     <div className="flex flex-col gap-12">
-                        <AnimeEditView />
+                        <EditView content_type={edit?.content_type} />
                         <Actions />
                         <Comments slug={editId} content_type="edit" />
                     </div>
@@ -76,8 +76,11 @@ const Component = async ({ params: { editId } }: Props) => {
                             <Moderator />
                         </div>
                     </div>
-
-                    <AnimeContent />
+                    <Content
+                        slug={edit.content.slug as string}
+                        content_type={edit.content_type as Hikka.ContentType}
+                        content={edit.content}
+                    />
                 </div>
             </div>
         </RQHydrate>

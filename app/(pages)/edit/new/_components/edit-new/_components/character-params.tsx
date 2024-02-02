@@ -1,72 +1,47 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useQuery } from '@tanstack/react-query';
 
-import ListParam from '@/app/(pages)/edit/anime/[slug]/_components/edit-new/_components/ui/list-param';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
 import { Textarea } from '@/app/_components/ui/textarea';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
+import getCharacterInfo from '@/app/_utils/api/characters/getCharacterInfo';
 import addEdit from '@/app/_utils/api/edit/addEdit';
+import {
+    CHARACTER_DESCRIPTION_PARAMS,
+    CHARACTER_TITLE_PARAMS,
+} from '@/app/_utils/constants';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
-import InputParam from './_components/ui/input-param';
+import InputParam from '../../../../_components/ui/input-param';
 
 
-type FormValues = Hikka.AnimeEditParams & {
+type FormValues = Hikka.CharacterEditParams & {
     description: string;
 };
 
-const TITLE_PARAMS: Hikka.EditParam<Hikka.AnimeEditParams>[] = [
-    {
-        param: 'title_ua',
-        title: 'Українською',
-        placeholder: 'Введіть назву українською',
-    },
-    {
-        param: 'title_en',
-        title: 'Англійською',
-        placeholder: 'Введіть назву англійською',
-    },
-    {
-        param: 'title_ja',
-        title: 'Японською',
-        placeholder: 'Введіть назву японською',
-    },
-];
+interface Props {
+    slug: string;
+}
 
-const SYNOPSIS_PARAMS: Hikka.EditParam<Hikka.AnimeEditParams>[] = [
-    {
-        param: 'synopsis_ua',
-        title: 'Українською',
-        placeholder: 'Введіть опис українською',
-    },
-    {
-        param: 'synopsis_en',
-        title: 'Англійською',
-        placeholder: 'Введіть опис англійською',
-    },
-];
-
-const Component = () => {
+const Component = ({ slug }: Props) => {
     const captchaRef = useRef<TurnstileInstance>();
     const [editParams, setEditParams] = useState<
-        (keyof Hikka.AnimeEditParams)[]
+        (keyof Hikka.CharacterEditParams)[]
     >([]);
-    const params = useParams();
     const { secret } = useAuthContext();
     const router = useRouter();
 
-    const { data: anime } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
+    const { data: character } = useQuery({
+        queryKey: ['character', slug],
+        queryFn: () => getCharacterInfo({ slug: slug }),
     });
 
     const {
@@ -76,8 +51,6 @@ const Component = () => {
         handleSubmit,
         formState: { isSubmitting },
     } = useForm<FormValues>();
-
-    const [synonyms, setSynonyms] = useState<string[]>([]);
 
     const getEditParams = (data: FormValues) => {
         return editParams.reduce(
@@ -99,11 +72,10 @@ const Component = () => {
             if (captchaRef.current) {
                 await addEdit({
                     secret: String(secret),
-                    contentType: 'anime',
-                    slug: String(params.slug),
+                    content_type: 'character',
+                    slug: slug,
                     after: {
                         ...getEditParams(data),
-                        synonyms: synonyms,
                     },
                     description: data.description,
                     captcha: String(captchaRef.current.getResponse()),
@@ -118,7 +90,7 @@ const Component = () => {
         }
     };
 
-    const switchParam = (param: keyof Hikka.AnimeEditParams) => {
+    const switchParam = (param: keyof Hikka.CharacterEditParams) => {
         setEditParams((prev) =>
             prev.includes(param)
                 ? prev.filter((p) => p !== param)
@@ -126,13 +98,7 @@ const Component = () => {
         );
     };
 
-    useEffect(() => {
-        if (anime) {
-            setSynonyms(anime.synonyms);
-        }
-    }, [anime]);
-
-    if (!anime) {
+    if (!character) {
         return null;
     }
 
@@ -143,33 +109,28 @@ const Component = () => {
                 className="flex flex-col gap-6"
             >
                 <div className="flex w-full flex-col gap-6">
-                    <InputParam<Hikka.AnimeEditParams>
-                        title="Назва аніме"
+                    <InputParam<Hikka.CharacterEditParams>
+                        title="Імʼя персонажа"
                         selected={editParams}
-                        params={TITLE_PARAMS}
-                        content={anime}
+                        params={CHARACTER_TITLE_PARAMS}
+                        content={character}
                         editor="input"
                         onSwitchParam={switchParam}
                         register={register}
                         control={control}
+                        mode="edit"
                     />
 
-                    <ListParam
-                        title="Синоніми"
-                        inputTitle="Новий синонім"
-                        selected={synonyms}
-                        setList={setSynonyms}
-                    />
-
-                    <InputParam<Hikka.AnimeEditParams>
-                        title="Опис аніме"
+                    <InputParam<Hikka.CharacterEditParams>
+                        title="Опис персонажа"
                         editor="markdown"
                         selected={editParams}
-                        params={SYNOPSIS_PARAMS}
-                        content={anime}
+                        params={CHARACTER_DESCRIPTION_PARAMS}
+                        content={character}
                         onSwitchParam={switchParam}
                         register={register}
                         control={control}
+                        mode="edit"
                     />
 
                     <div className="flex flex-col gap-4 w-full">

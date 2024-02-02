@@ -431,3 +431,76 @@ export const EDIT_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/content',
     },
 ];
+
+export const ANIME_TITLE_PARAMS: Hikka.EditParam<Hikka.AnimeEditParams>[] = [
+    {
+        param: 'title_ua',
+        title: 'Українською',
+        placeholder: 'Введіть назву українською',
+    },
+    {
+        param: 'title_en',
+        title: 'Англійською',
+        placeholder: 'Введіть назву англійською',
+    },
+    {
+        param: 'title_ja',
+        title: 'Японською',
+        placeholder: 'Введіть назву японською',
+    },
+];
+
+export const ANIME_SYNOPSIS_PARAMS: Hikka.EditParam<Hikka.AnimeEditParams>[] = [
+    {
+        param: 'synopsis_ua',
+        title: 'Українською',
+        placeholder: 'Введіть опис українською',
+    },
+    {
+        param: 'synopsis_en',
+        title: 'Англійською',
+        placeholder: 'Введіть опис англійською',
+    },
+];
+
+export const CHARACTER_TITLE_PARAMS: Hikka.EditParam<Hikka.CharacterEditParams>[] = [
+    {
+        param: 'name_ua',
+        title: 'Українською',
+        placeholder: 'Введіть імʼя українською',
+    },
+    {
+        param: 'name_en',
+        title: 'Англійською',
+        placeholder: 'Введіть імʼя англійською',
+    },
+    {
+        param: 'name_ja',
+        title: 'Японською',
+        placeholder: 'Введіть імʼя японською',
+    },
+];
+
+export const CHARACTER_DESCRIPTION_PARAMS: Hikka.EditParam<Hikka.CharacterEditParams>[] = [
+    {
+        param: 'description_ua',
+        title: 'Українською',
+        placeholder: 'Введіть опис українською',
+    },
+];
+
+export const CONTENT_TYPE_TITLES: Record<Hikka.ContentType, string> = {
+    person: 'Автор',
+    character: 'Персонаж',
+    anime: 'Аніме',
+    edit: 'Правка',
+    comment: 'Коментар',
+}
+
+export const CONTENT_TYPE_LINKS: Record<Hikka.ContentType, string> = {
+    person: '/person',
+    character: '/characters',
+    anime: '/anime',
+    edit: '/edit',
+    comment: '/comments',
+}

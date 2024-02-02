@@ -12,11 +12,27 @@ import { Button } from '@/app/_components/ui/button';
 import { CHARACTER_NAV_ROUTES } from '@/app/_utils/constants';
 import useIsMobile from '@/app/_utils/hooks/useIsMobile';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import EditListModal from '@/app/_components/modals/editlist-modal';
 
 
 const EditButton = ({ className }: { className?: string }) => {
+    const { openModal } = useModalContext();
+    const params = useParams();
+
     return (
-        <Button variant="outline" size="icon-xs" className={clsx(className)}>
+        <Button
+            variant="outline"
+            size="icon-xs"
+            onClick={() =>
+                openModal({
+                    content: <EditListModal content_type="character" slug={String(params.slug)} />,
+                    type: 'sheet',
+                    title: 'Список правок',
+                })
+            }
+            className={clsx(className)}
+        >
             <MaterialSymbolsEditRounded />
         </Button>
     );
@@ -68,7 +84,7 @@ const Component = () => {
                     <p className="mt-2">{character.name_ja}</p>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    {/*{secret && <EditButton className="flex lg:hidden" />}*/}
+                    {secret && <EditButton className="flex lg:hidden" />}
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
     <img src="public/logo.svg" alt="Logo" width="80" height="80">
   </a>
   <p align="center">
-    Ukrainian online anime encyclopedia. The entire list of anime, detailed information for each title, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
+    Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
     <br />
     <br />
     <a href="https://hikka.io">View Project</a>

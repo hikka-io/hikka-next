@@ -4,7 +4,7 @@ export interface Response extends Hikka.Edit {}
 
 export default async function req({
     secret,
-    contentType,
+    content_type,
     description,
     after,
     slug,
@@ -12,13 +12,13 @@ export default async function req({
 }: {
     secret: string;
     description?: string;
-    contentType: 'anime' | 'person';
+    content_type: Hikka.ContentType;
     after: Hikka.AnimeEditParams;
     slug: string;
     captcha: string;
 }): Promise<Response> {
     const res = await fetch(
-        config.baseAPI + '/edit/' + contentType + '/' + slug,
+        config.baseAPI + '/edit/' + content_type + '/' + slug,
         {
             method: 'put',
             body: JSON.stringify({ after, description }),
