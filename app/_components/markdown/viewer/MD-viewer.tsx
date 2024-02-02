@@ -7,13 +7,14 @@ import remarkDirectiveRehype from 'remark-directive-rehype';
 import Spoiler from './_components/spoiler';
 import Link from './_components/link';
 import remarkMentions from './plugins/remark-mentions';
+import { cn } from '@/utils';
 
 interface Props extends Options {}
 
-const Component = ({ children, ...props }: Props) => {
+const Component = ({ children, className, ...props }: Props) => {
     return (
         <Markdown
-            className="markdown w-full"
+            className={cn("markdown w-full", className)}
             // disallowedElements={['code']}
             remarkPlugins={[
                 remarkDirective,

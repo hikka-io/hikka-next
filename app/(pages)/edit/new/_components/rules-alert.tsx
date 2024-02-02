@@ -1,14 +1,24 @@
 'use client';
 
 import * as React from 'react';
+import { useEffect } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-import Rules from './rules.mdx';
 import { Button } from '@/app/_components/ui/button';
 import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
 
 const Component = () => {
+    const [rules, setRules] = React.useState('');
     const { openModal } = useModalContext();
+
+    useEffect(() => {
+        fetch(
+            'https://raw.githubusercontent.com/hikka-io/bug-reports/main/RULES.md',
+        )
+            .then((res) => res.text())
+            .then((res) => setRules(res));
+    }, []);
 
     return (
         <div>
@@ -20,8 +30,8 @@ const Component = () => {
                     <Button
                         onClick={() =>
                             openModal({
-                                content: <Rules />,
-                                className: 'max-w-xl markdown',
+                                content: <MDViewer className="overflow-hidden">{rules}</MDViewer>,
+                                className: 'max-w-xl',
                                 title: 'Правила редагування',
                             })
                         }
