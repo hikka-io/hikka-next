@@ -4,12 +4,17 @@ import clsx from 'clsx';
 import { CSSProperties, useState } from 'react';
 
 import Link from 'next/link';
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+    useParams,
+    usePathname,
+    useRouter,
+    useSearchParams,
+} from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
-
-import BaseCard from '@/app/_components/ui/base-card';
+import { useLoggedUser } from '@/app/(pages)/u/[username]/page.hooks';
+import WatchEditModal from '@/app/_components/modals/watch-edit-modal';
 import { Badge } from '@/app/_components/ui/badge';
+import BaseCard from '@/app/_components/ui/base-card';
 import { Label } from '@/app/_components/ui/label';
 import {
     Table,
@@ -19,7 +24,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/app/_components/ui/table';
-import WatchEditModal from '@/app/_components/modals/watch-edit-modal';
 import { MEDIA_TYPE } from '@/app/_utils/constants';
 import createQueryString from '@/app/_utils/createQueryString';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
@@ -36,7 +40,6 @@ const Component = ({ data }: Props) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
-    const queryClient = useQueryClient();
     const { openModal } = useModalContext();
     const params = useParams();
     const [go, setGo] = useState(false);
@@ -44,10 +47,7 @@ const Component = ({ data }: Props) => {
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    const { data: loggedUser } = useLoggedUser(String(secret));
 
     const switchOrder = (newOrder: 'score' | 'episodes' | 'media_type') => {
         let query;

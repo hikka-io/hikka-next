@@ -6,8 +6,7 @@ import intervalToDuration from 'date-fns/intervalToDuration';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
+import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
 import SubHeader from '@/app/_components/sub-header';
 import { Label } from '@/app/_components/ui/label';
 import {
@@ -15,17 +14,13 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/app/_components/ui/tooltip';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/app/_utils/constants';
 
 
 const Component = () => {
     const params = useParams();
 
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const { data } = useAnimeInfo(String(params.slug));
 
     if (!data) {
         return null;

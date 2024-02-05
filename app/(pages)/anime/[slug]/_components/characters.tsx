@@ -1,39 +1,22 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import BaseCard from '@/app/_components/ui/base-card';
+import { useCharacters } from '@/app/(pages)/anime/[slug]/page.hooks';
 import SubHeader from '@/app/_components/sub-header';
+import BaseCard from '@/app/_components/ui/base-card';
 import { Button } from '@/app/_components/ui/button';
-import getAnimeCharacters from '@/app/_utils/api/anime/getAnimeCharacters';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
-    const { ref, inView } = useInView();
     const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteList({
-            queryKey: ['characters', params.slug],
-            queryFn: ({ pageParam = 1 }) =>
-                getAnimeCharacters({
-                    slug: String(params.slug),
-                    page: pageParam,
-                }),
-        });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        useCharacters(String(params.slug));
 
     if (!list || list.length === 0) {
         return null;

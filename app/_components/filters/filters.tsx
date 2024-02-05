@@ -178,7 +178,7 @@ const Component = () => {
             </div>
             <Button
                 variant="outline"
-                className="shadow-md bg-background sticky bottom-4 lg:flex w-full"
+                className="shadow-md bg-background lg:bg-transparent sticky lg:relative bottom-4 lg:flex w-full"
                 onClick={clearFilters}
             >
                 <AntDesignClearOutlined /> Очистити

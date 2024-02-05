@@ -2,48 +2,31 @@
 
 import { useParams } from 'next/navigation';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-import Rating from '@/app/_components/ui/rating';
+import {
+    useAddToList,
+    useAnimeInfo,
+    useWatch,
+} from '@/app/(pages)/anime/[slug]/page.hooks';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
 import { Progress } from '@/app/_components/ui/progress';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
-import addWatch from '@/app/_utils/api/watch/addWatch';
-import getWatch from '@/app/_utils/api/watch/getWatch';
+import Rating from '@/app/_components/ui/rating';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
-
 const Component = () => {
-    const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
-    const { data: watch, isError: watchError } = useQuery({
-        queryKey: ['watch', secret, params.slug],
-        queryFn: () =>
-            getWatch({ slug: String(params.slug), secret: String(secret) }),
-    });
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
 
-    const { mutate: addToList, isPending: addToListLoading } = useMutation({
-        mutationKey: ['addToList', secret, params.slug],
-        mutationFn: (mutationParams: {
-            status: Hikka.WatchStatus;
-            score: number;
-            episodes: number;
-        }) =>
-            addWatch({
-                secret: String(secret),
-                slug: String(params.slug),
-                ...mutationParams,
-            }),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['watch'] });
-        },
-    });
+    const { data: watch, isError: watchError } = useWatch(
+        String(params.slug),
+        String(secret),
+    );
+    const { data } = useAnimeInfo(String(params.slug));
+
+    const { mutate: addToList, isPending: addToListLoading } = useAddToList(
+        String(params.slug),
+        String(secret),
+    );
 
     const changeEpisodes = (action: 'increase' | 'decrease') => {
         let status = watch!.status;

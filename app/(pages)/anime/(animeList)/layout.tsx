@@ -1,13 +1,12 @@
 import { ReactNode } from 'react';
 
-import Filters from './_components/filters';
+import Filters from '@/app/_components/filters';
+
 import NavBar from './_components/navbar';
 
 interface Props {
     list: ReactNode;
 }
-
-// export const runtime = 'edge';
 
 const Component = async ({ list }: Props) => {
     return (
@@ -17,7 +16,7 @@ const Component = async ({ list }: Props) => {
                     <NavBar />
                     {list}
                 </div>
-                <div className="order-1 hidden w-full lg:order-2 lg:block">
+                <div className="order-1 hidden w-full lg:order-2 lg:block bg-secondary/30 border border-secondary/60 p-4 rounded-md sticky top-20 opacity-60 hover:opacity-100 ">
                     <Filters />
                 </div>
             </div>

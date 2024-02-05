@@ -1,19 +1,16 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
-
+import {
+    useAnimeInfo,
+    useFranchise,
+} from '../page.hooks';
 import AnimeCard from '@/app/_components/anime-card';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
-import getAnimeFranchise from '@/app/_utils/api/anime/getAnimeFranchise';
-import { Response as AnimeInfoResponse } from '@/app/_utils/api/anime/getAnimeInfo';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
@@ -24,34 +21,15 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
-    const { ref, inView } = useInView();
     const params = useParams();
-    const queryClient = useQueryClient();
-    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
-        'anime',
-        params.slug,
-    ]);
+    const { data: anime } = useAnimeInfo(String(params.slug));
 
     if (!anime || !anime.has_franchise) {
         return null;
     }
 
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteList({
-            queryKey: ['franchise', params.slug, secret],
-            queryFn: ({ pageParam = 1 }) =>
-                getAnimeFranchise({
-                    slug: String(params.slug),
-                    page: pageParam,
-                    secret: String(secret),
-                }),
-        });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        useFranchise(String(params.slug), secret);
 
     if (!list || list.length === 0) {
         return null;

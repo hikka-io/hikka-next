@@ -31,7 +31,7 @@ const Component = ({}: Props) => {
         router.replace(`${pathname}?${query}`);
     };
 
-    const switchSort = () => {
+    const handleSwitchSort = () => {
         if (sort === 'asc') {
             handleChangeParam('sort', 'desc');
         } else {
@@ -46,7 +46,7 @@ const Component = ({}: Props) => {
             )}
         >
             <Search />
-            <Button variant="outline" size="icon" onClick={switchSort}>
+            <Button variant="outline" size="icon" onClick={handleSwitchSort}>
                 <MaterialSymbolsSortRounded
                     className={clsx(sort === 'asc' && '-scale-y-100')}
                 />

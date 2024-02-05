@@ -1,44 +1,30 @@
 'use client';
 
-import clsx from 'clsx';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { range } from '@antfu/utils';
 
 import AnimeCard from '@/app/_components/anime-card';
-import NotFound from '@/app/_components/ui/not-found';
 import SkeletonCard from '@/app/_components/skeletons/entry-card';
 import { Button } from '@/app/_components/ui/button';
+import NotFound from '@/app/_components/ui/not-found';
 import Pagination from '@/app/_components/ui/pagination';
-import getAnimeCatalog, {
-    Response as AnimeCatalogResponse,
-} from '@/app/_utils/api/anime/getAnimeCatalog';
-import createQueryString from '@/app/_utils/createQueryString';
-import useDebounce from '@/app/_utils/hooks/useDebounce';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
+import { useList, useLoadInfinitePage, useUpdatePage } from './list.hooks';
+
 
 const Component = () => {
-    const queryClient = useQueryClient();
-    const { ref, inView } = useInView();
     const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const search = useDebounce({
-        value:
-            searchParams.has('search') && searchParams.get('search')!.length > 3
-                ? searchParams.get('search')!
-                : undefined,
-        delay: 300,
-    });
+    const search = searchParams.get('search');
 
     const page = searchParams.get('page');
     const iPage = searchParams.get('iPage');
@@ -52,106 +38,33 @@ const Component = () => {
     const lang = searchParams.get('only_translated');
     const sort = searchParams.get('sort');
 
+    const dataKeys = {
+        page: Number(page),
+        iPage: Number(iPage),
+        search,
+        types,
+        statuses,
+        seasons,
+        ageRatings,
+        years,
+        lang,
+        genres,
+        secret,
+        sort,
+    };
+
     const {
-        data,
-        isLoading,
-        error,
-        hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
-    } = useInfiniteQuery<AnimeCatalogResponse, Error>({
-        queryKey: [
-            'list',
-            search,
-            types,
-            statuses,
-            seasons,
-            ageRatings,
-            years,
-            lang,
-            genres,
-            secret,
-            sort,
-            page,
-        ],
-        initialPageParam: iPage || page,
-        getNextPageParam: (lastPage: AnimeCatalogResponse, allPages) => {
-            const nextPage = lastPage.pagination.page + 1;
-            return nextPage > lastPage.pagination.pages ? undefined : nextPage;
-        },
-        queryFn: ({ pageParam = page }) =>
-            getAnimeCatalog({
-                query: search,
-                years: years.length == 2 ? years : undefined,
-                rating: ageRatings,
-                season: seasons,
-                status: statuses,
-                media_type: types,
-                sort: sort ? ['score:' + sort] : ['score:desc'],
-                genres,
-                only_translated: Boolean(lang),
-                page: pageParam as number,
-                secret: String(secret),
-                size: 20,
-            }),
-    });
+        isLoading,
+        hasNextPage,
+        list,
+        pagination,
+        data,
+    } = useList(dataKeys);
 
-    const range = (min: number, max: number) => {
-        const newArr = [];
-
-        for (let i = min; i <= max; i++) {
-            newArr.push(i);
-        }
-
-        return newArr;
-    };
-
-    const updatePage = (newPage: number) => {
-        if (newPage !== Number(page) || newPage !== Number(iPage)) {
-            queryClient.removeQueries({
-                queryKey: [
-                    'list',
-                    search,
-                    types,
-                    statuses,
-                    seasons,
-                    ageRatings,
-                    years,
-                    lang,
-                    genres,
-                    secret,
-                    sort,
-                    page,
-                ],
-            });
-            const query = createQueryString(
-                'iPage',
-                String(newPage),
-                createQueryString(
-                    'page',
-                    String(newPage),
-                    new URLSearchParams(searchParams),
-                ),
-            );
-            router.push(`${pathname}?${query.toString()}`, { scroll: true });
-        }
-    };
-
-    useEffect(() => {
-        if (inView && data) {
-            const query = createQueryString(
-                'iPage',
-                String(data.pages[data.pages.length - 1].pagination.page + 1),
-                new URLSearchParams(searchParams),
-            );
-
-            router.replace(`${pathname}?${query.toString()}`, {
-                scroll: false,
-            });
-
-            fetchNextPage();
-        }
-    }, [inView]);
+    const updatePage = useUpdatePage(dataKeys);
+    const { ref } = useLoadInfinitePage({ data, fetchNextPage });
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -162,8 +75,6 @@ const Component = () => {
             </div>
         );
     }
-
-    const list = data && data.pages.map((data) => data.list).flat(1);
 
     if (list === undefined || list.length == 0) {
         return (
@@ -185,11 +96,7 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <section
-                className={clsx(
-                    'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
-                )}
-            >
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                 {list &&
                     list.map((x: Hikka.Anime) => {
                         return (
@@ -210,21 +117,18 @@ const Component = () => {
                             />
                         );
                     })}
-                {error && <div>error</div>}
-            </section>
-            {list &&
-                data.pages[0].pagination &&
-                data.pages[0].pagination.pages > 1 && (
-                    <div className="sticky z-10 bottom-2 flex items-center justify-center">
-                        <div className="bg-background border p-2 border-secondary/60 rounded-lg shadow w-fit">
-                            <Pagination
-                                page={Number(iPage)}
-                                pages={data.pages[0].pagination.pages}
-                                setPage={updatePage}
-                            />
-                        </div>
+            </div>
+            {list && pagination && pagination.pages > 1 && (
+                <div className="sticky z-10 bottom-2 flex items-center justify-center">
+                    <div className="bg-background border p-2 border-secondary/60 rounded-lg shadow w-fit">
+                        <Pagination
+                            page={Number(iPage)}
+                            pages={pagination.pages}
+                            setPage={updatePage}
+                        />
                     </div>
-                )}
+                </div>
+            )}
             {hasNextPage && (
                 <Button
                     variant="secondary"

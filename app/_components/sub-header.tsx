@@ -37,7 +37,7 @@ const Component = ({
                 {children}
             </div>
             {href && (
-                <Button size="icon-sm" variant="ghost" asChild>
+                <Button size="icon-sm" variant="outline" asChild>
                     <Link
                         href={href}
                     >

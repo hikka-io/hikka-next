@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    Fragment,
-    createElement,
-    useCallback,
-    useEffect,
-    useState,
-} from 'react';
-import { useInView } from 'react-intersection-observer';
+import { Fragment, createElement, useEffect, useState } from 'react';
 import FeRandom from '~icons/fe/random';
 import IcRoundGridView from '~icons/ic/round-grid-view';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
@@ -20,15 +13,15 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
+import { useWatchList } from '@/app/(pages)/u/[username]/page.hooks';
 import { Button } from '@/app/_components/ui/button';
 import { Combobox } from '@/app/_components/ui/combobox';
 import { Label } from '@/app/_components/ui/label';
 import NotFound from '@/app/_components/ui/not-found';
 import { PopoverTrigger } from '@/app/_components/ui/popover';
 import getRandomWatch from '@/app/_utils/api/watch/getRandomWatch';
-import getWatchList from '@/app/_utils/api/watch/getWatchList';
 import { WATCH_STATUS } from '@/app/_utils/constants';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
+import createQueryString from '@/app/_utils/createQueryString';
 
 import GridView from './_components/grid-view';
 import TableView from './_components/table-view';
@@ -36,7 +29,6 @@ import TableView from './_components/table-view';
 interface Props {}
 
 const Component = ({}: Props) => {
-    const { ref, inView } = useInView();
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams()!;
@@ -47,43 +39,13 @@ const Component = ({}: Props) => {
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
 
-    const { list, data, fetchNextPage, isFetchingNextPage, hasNextPage } =
-        useInfiniteList({
-            queryKey: ['list', params.username, watchStatus, order, sort],
-            queryFn: ({ pageParam = 1 }) =>
-                getWatchList({
-                    username: String(params.username),
-                    status: watchStatus as Hikka.WatchStatus,
-                    page: pageParam,
-                    order: order as
-                        | 'score'
-                        | 'episodes'
-                        | 'media_type'
-                        | undefined,
-                    sort: sort as 'asc' | 'desc' | undefined,
-                }),
-        });
-
-    const createQueryString = useCallback(
-        (name: string, value: string | string[] | boolean) => {
-            const params = new URLSearchParams(searchParams);
-            // params.set('page', '1');
-
-            if (value) {
-                if (Array.isArray(value)) {
-                    params.delete(name);
-                    value.forEach((v) => params.append(name, String(v)));
-                } else {
-                    params.set(name, String(value));
-                }
-            } else {
-                params.delete(name);
-            }
-
-            return params.toString();
-        },
-        [searchParams],
-    );
+    const { list, data, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
+        useWatchList(
+            String(params.username),
+            String(watchStatus) as Hikka.WatchStatus,
+            String(order),
+            String(sort),
+        );
 
     const handleToolsChange = async (option: string) => {
         if (option === 'random') {
@@ -112,12 +74,6 @@ const Component = ({}: Props) => {
         }
     }, [watchStatus]);
 
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
-
     if (!list || !watchStatus) {
         return null;
     }
@@ -141,6 +97,7 @@ const Component = ({}: Props) => {
                             const query = createQueryString(
                                 'status',
                                 value as string,
+                                searchParams,
                             );
                             router.replace(`${pathname}?${query}`);
                         }}

@@ -7574,6 +7574,11 @@ svg-parser@^2.0.4:
   resolved "https://registry.yarnpkg.com/svg-parser/-/svg-parser-2.0.4.tgz#fdc2e29e13951736140b76cb122c8ee6630eb6b5"
   integrity sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==
 
+tailwind-gradient-mask-image@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tailwind-gradient-mask-image/-/tailwind-gradient-mask-image-1.1.0.tgz#ee6ea2b0fbbd21f1942ebf694bf3d838c67190fe"
+  integrity sha512-sUhik6Srts8XvSpCFEelxF0hRud+eQI1TYgVH2sREtAavP+wEVE65JQCiDj/XBoTwCo+ElVAVNljjpfm2mCkKw==
+
 tailwind-merge@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-2.2.0.tgz#b6bb1c63ef26283c9e6675ba237df83bbd554688"

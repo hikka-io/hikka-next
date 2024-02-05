@@ -7,27 +7,19 @@ import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
 
 import { useParams } from 'next/navigation';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-
-import BaseCard from '@/app/_components/ui/base-card';
+import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
 import SubHeader from '@/app/_components/sub-header';
-import getAnimeInfo, {
-    Response as AnimeInfoResponse,
-} from '@/app/_utils/api/anime/getAnimeInfo';
-import { OST, VIDEO } from '@/app/_utils/constants';
+import BaseCard from '@/app/_components/ui/base-card';
 import { Button } from '@/app/_components/ui/button';
+import { OST, VIDEO } from '@/app/_utils/constants';
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
-    const queryClient = useQueryClient();
     const params = useParams();
-    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
-        'anime',
-        params.slug,
-    ]);
+    const { data: anime } = useAnimeInfo(String(params.slug));
     const [active, setActive] = useState<'video' | 'music'>(
         anime?.videos && anime.videos.length === 0 ? 'music' : 'video',
     );
@@ -63,7 +55,9 @@ const Component = ({ extended }: Props) => {
                     {anime.videos.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'video' ? "secondary" : "outline"}
+                            variant={
+                                active === 'video' ? 'secondary' : 'outline'
+                            }
                             onClick={() => setActive('video')}
                         >
                             Відео
@@ -72,7 +66,9 @@ const Component = ({ extended }: Props) => {
                     {anime.ost.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'music' ? "secondary" : "outline"}
+                            variant={
+                                active === 'music' ? 'secondary' : 'outline'
+                            }
                             onClick={() => setActive('music')}
                         >
                             Музика

@@ -6,6 +6,8 @@ import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 
+import ListStats from '@/app/(pages)/u/[username]/_components/list-stats';
+import UserTitle from '@/app/(pages)/u/[username]/_components/user-title';
 import Breadcrumbs from '@/app/_components/breadcrumbs';
 import InternalNavBar from '@/app/_components/internal-navbar';
 import NavMenu from '@/app/_components/nav-menu';
@@ -119,9 +121,9 @@ const Component = async ({ params: { username }, children }: Props) => {
 
     return (
         <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
+            <div className="flex flex-col gap-12 lg:gap-16">
                 {user.cover && (
-                    <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden rounded-b-lg">
+                    <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden gradient-mask-b-0">
                         <Image
                             src={user.cover}
                             className="relative w-full h-full object-cover"
@@ -129,7 +131,6 @@ const Component = async ({ params: { username }, children }: Props) => {
                             width={1500}
                             height={500}
                         />
-                        <div className="bg-gradient-to-b from-transparent dark:to-black to-white absolute bottom-0 left-0 w-full h-full z-30" />
                     </div>
                 )}
                 <Breadcrumbs>
@@ -150,13 +151,29 @@ const Component = async ({ params: { username }, children }: Props) => {
                         urlPrefix={'/u/' + username}
                     />
                 </SubBar>
-                <div className="flex flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                    <UserInfo />
-                    <FollowStats />
-                    <FollowButton />
+
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+                    <div className="flex flex-col lg:gap-8 gap-4">
+                        <div className="flex lg:gap-8 gap-4">
+                            <UserInfo />
+                            <div className="flex flex-col gap-2">
+                                <UserTitle />
+                                <FollowStats className="hidden lg:flex" />
+                                <div className="flex-col gap-2 flex-1 justify-end hidden lg:flex">
+                                    <FollowButton />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg:hidden flex flex-col gap-4">
+                            <FollowStats />
+                            <FollowButton className="w-full" />
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <ListStats />
+                    </div>
                 </div>
                 <div className="flex flex-col gap-12">
-                    <ActivationAlert />
                     {children}
                 </div>
             </div>

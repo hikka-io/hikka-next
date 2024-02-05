@@ -2,10 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
+import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
 import WatchListButton from '@/app/_components/watchlist-button';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
 import WatchStats from '../watch-stats';
@@ -14,10 +12,7 @@ import WatchStats from '../watch-stats';
 const Component = () => {
     const { secret } = useAuthContext();
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const { data } = useAnimeInfo(String(params.slug));
 
     if (!data) {
         return null;

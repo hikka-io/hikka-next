@@ -1,76 +1,93 @@
 'use client';
 
-import clsx from 'clsx';
-import { createElement } from 'react';
-
 import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
-import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
-import { WATCH_STATUS } from '@/app/_utils/constants';
+import { useWatchStats } from '@/app/(pages)/u/[username]/page.hooks';
 import { Label } from '@/app/_components/ui/label';
+import RadialProgress from '@/app/_components/ui/radial-progress';
+import { Tabs, TabsList, TabsTrigger } from '@/app/_components/ui/tabs';
+import { WATCH_STATUS } from '@/app/_utils/constants';
+import { cn } from '@/utils';
 
 interface Props {}
 
 const Component = ({}: Props) => {
-    const pathname = usePathname();
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['watchStats', params.username],
-        queryFn: () => getWatchStats({ username: String(params.username) }),
-        staleTime: 0,
-    });
+    const { data } = useWatchStats(String(params.username));
 
     if (!data) {
         return null;
     }
 
+    const sum = Object.values(data).reduce((acc, cur) => acc + cur, 0);
+
     return (
-        <div className="flex gap-4 overflow-x-scroll no-scrollbar -mx-4 md:mx-0 px-4 md:px-0">
-            {Object.keys(data).map((status) => {
-                return (
-                    <Link
-                        href={`${pathname}/list?status=${status}`}
-                        key={status}
-                        className={clsx(
-                            'flex-1 bg-secondary/30 border backdrop-blur border-secondary/60 p-4 text-left transition lg:min-w-fit rounded-lg',
-                            'hover:bg-secondary/10',
-                        )}
+        <div className="flex flex-col gap-2">
+            <Tabs value="anime" className="overflow-hidden w-full">
+                <TabsList className="w-full overflow-x-scroll items-center justify-start no-scrollbar bg-secondary/80 border border-secondary/60 backdrop-blur">
+                    <TabsTrigger value="anime">Аніме</TabsTrigger>
+                </TabsList>
+            </Tabs>
+            <div className="flex gap-2 w-full h-fit items-center rounded-md bg-secondary/30 border backdrop-blur border-secondary/60 p-2">
+                <Link
+                    href={`/u/${params.username}/list?status=completed`}
+                    className="flex flex-col gap-2 items-center p-2 rounded-md hover:bg-secondary/60 hover:cursor-pointer"
+                >
+                    <RadialProgress
+                        style={{
+                            color: WATCH_STATUS.completed.color,
+                        }}
+                        thickness={8}
+                        value={(data.completed * 100) / sum}
                     >
-                        <div className="flex justify-between gap-4 mb-2">
-                            <div className="flex items-center gap-2">
-                                <div
-                                    className="w-2 h-2 bg-secondary rounded-full"
-                                    style={{
-                                        backgroundColor:
-                                            WATCH_STATUS[
-                                                status as Hikka.WatchStatus
-                                            ].color,
-                                    }}
-                                />
-                                <Label className="text-muted-foreground">
-                                    {WATCH_STATUS[status as Hikka.WatchStatus]
-                                        .title_ua ||
-                                        WATCH_STATUS[
-                                            status as Hikka.WatchStatus
-                                        ].title_en}
-                                </Label>
-                            </div>
-                            <div className="stat-figure text-lg !text-neutral">
-                                {createElement(
-                                    WATCH_STATUS[status as Hikka.WatchStatus]
-                                        .icon,
+                        {data.completed}
+                    </RadialProgress>
+                    <Label className="text-muted-foreground">Завершено</Label>
+                </Link>
+                <div className="flex flex-1 flex-col gap-0 w-full overflow-x-scroll no-scrollbar">
+                    {Object.keys(data).map((status) => {
+                        if (status === 'completed') {
+                            return null;
+                        }
+
+                        return (
+                            <Link
+                                href={`/u/${params.username}/list?status=${status}`}
+                                key={status}
+                                className={cn(
+                                    'rounded-md p-2 hover:bg-secondary/60',
                                 )}
-                            </div>
-                        </div>
-                        <h2 className="text-4xl font-display">
-                            {data[status as Hikka.WatchStatus]}
-                        </h2>
-                    </Link>
-                );
-            })}
+                            >
+                                <div className="flex justify-between gap-4">
+                                    <div className="flex items-center gap-2 min-w-0">
+                                        <div
+                                            className="w-2 h-2 bg-secondary rounded-full"
+                                            style={{
+                                                backgroundColor:
+                                                    WATCH_STATUS[
+                                                        status as Hikka.WatchStatus
+                                                    ].color,
+                                            }}
+                                        />
+                                        <Label className="text-muted-foreground truncate">
+                                            {WATCH_STATUS[
+                                                status as Hikka.WatchStatus
+                                            ].title_ua ||
+                                                WATCH_STATUS[
+                                                    status as Hikka.WatchStatus
+                                                ].title_en}
+                                        </Label>
+                                    </div>
+                                    <Label>
+                                        {data[status as Hikka.WatchStatus]}
+                                    </Label>
+                                </div>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
     );
 };

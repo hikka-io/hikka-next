@@ -1,16 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-
 import { useParams } from 'next/navigation';
 
+import { useFavorites } from '@/app/(pages)/u/[username]/page.hooks';
 import AnimeCard from '@/app/_components/anime-card';
-import NotFound from '@/app/_components/ui/not-found';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
-import getFavouriteList from '@/app/_utils/api/favourite/getFavouriteList';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
+import NotFound from '@/app/_components/ui/not-found';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
@@ -21,30 +17,15 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
-    const { ref, inView } = useInView();
     const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteList({
-            queryKey: ['favorites', params.username, secret],
-            queryFn: ({ pageParam = 1 }) =>
-                getFavouriteList({
-                    username: String(params.username),
-                    page: pageParam,
-                    secret: String(secret),
-                }),
-        });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        useFavorites(String(params.username), String(secret));
 
     if ((!list || list.length === 0) && !extended) {
         return null;
     }
 
-    const filteredData = (extended ? list : list?.slice(0, 5)) || [];
+    const filteredData = (extended ? list : list?.slice(0, 6)) || [];
 
     return (
         <div className="flex flex-col gap-8">
@@ -57,7 +38,7 @@ const Component = ({ extended }: Props) => {
                 }
             />
             {filteredData.length > 0 && (
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8">
                     {filteredData.map((res) => (
                         <AnimeCard
                             key={res.reference}

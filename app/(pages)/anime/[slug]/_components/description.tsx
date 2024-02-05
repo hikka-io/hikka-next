@@ -4,12 +4,10 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
+import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
 import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 
 
 const Component = () => {
@@ -17,10 +15,7 @@ const Component = () => {
         'synopsis_ua',
     );
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const { data } = useAnimeInfo(String(params.slug));
 
     if (!data || (!data.synopsis_ua && !data.synopsis_en)) {
         return null;

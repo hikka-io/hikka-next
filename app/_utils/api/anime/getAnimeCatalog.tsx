@@ -2,7 +2,7 @@ import config from '@/app/_utils/api/config';
 
 
 interface Request {
-    query?: string;
+    query?: string | null;
     sort?: string[];
     page?: number;
     years?: string[];

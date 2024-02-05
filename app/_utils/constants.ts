@@ -26,7 +26,7 @@ export const WATCH_STATUS = {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
-        color: '#518146',
+        color: '#399A54',
     },
     on_hold: {
         title_ua: 'Відкладено',

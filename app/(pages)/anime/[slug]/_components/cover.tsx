@@ -2,20 +2,14 @@
 
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
-import BaseCard from '@/app/_components/ui/base-card';
+import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
 import FavoriteButton from '@/app/_components/favorite-button';
-import Image from '@/app/_components/ui/image';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
+import BaseCard from '@/app/_components/ui/base-card';
 
 const Component = () => {
     const params = useParams();
 
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const { data } = useAnimeInfo(String(params.slug));
 
     if (!data) {
         return null;

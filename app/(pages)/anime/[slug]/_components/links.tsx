@@ -6,10 +6,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
-
+import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
 import SubHeader from '@/app/_components/sub-header';
-import { Response as AnimeInfoResponse } from '@/app/_utils/api/anime/getAnimeInfo';
 import { Button } from '@/app/_components/ui/button';
 
 interface Props {
@@ -19,18 +17,18 @@ interface Props {
 const ExternalLink = ({ link }: { link: Hikka.External }) => {
     return (
         <Button variant="outline" className="p-6" asChild>
-        <Link
-            href={link.url}
-            target="_blank"
-            className="flex h-auto flex-col items-center justify-center text-center gap-2 overflow-hidden rounded-lg"
-        >
-            <h4 className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-                {link.text}
-            </h4>
-            <p className="lowercase w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
-                {link.url}
-            </p>
-        </Link>
+            <Link
+                href={link.url}
+                target="_blank"
+                className="flex h-auto flex-col items-center justify-center text-center gap-2 overflow-hidden rounded-lg"
+            >
+                <h4 className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                    {link.text}
+                </h4>
+                <p className="lowercase w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
+                    {link.url}
+                </p>
+            </Link>
         </Button>
     );
 };
@@ -38,11 +36,7 @@ const ExternalLink = ({ link }: { link: Hikka.External }) => {
 const Component = ({ extended }: Props) => {
     const [active, setActive] = useState<Hikka.External['type']>('general');
     const params = useParams();
-    const queryClient = useQueryClient();
-    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData([
-        'anime',
-        params.slug,
-    ]);
+    const { data: anime } = useAnimeInfo(String(params.slug));
 
     if (!anime) {
         return null;
@@ -68,7 +62,9 @@ const Component = ({ extended }: Props) => {
                     {generalLinksData.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'general' ? "secondary" : "outline"}
+                            variant={
+                                active === 'general' ? 'secondary' : 'outline'
+                            }
                             onClick={() => setActive('general')}
                             className={clsx(
                                 'rounded-full overflow-hidden flex-1',
@@ -82,7 +78,9 @@ const Component = ({ extended }: Props) => {
                     {watchLinksData.length > 0 && (
                         <Button
                             size="badge"
-                            variant={active === 'watch' ? "secondary" : "outline"}
+                            variant={
+                                active === 'watch' ? 'secondary' : 'outline'
+                            }
                             onClick={() => setActive('watch')}
                         >
                             <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
