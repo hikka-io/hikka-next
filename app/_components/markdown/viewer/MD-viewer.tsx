@@ -28,7 +28,7 @@ const Component = ({ children, className, ...props }: Props) => {
             components={{
                 spoiler: Spoiler,
                 a: ({ node, children }) => (
-                    <a href={(node?.properties?.href as string) || ''}>
+                    <a href={(node?.properties?.href as string) || ''} className="break-all">
                         {children}
                     </a>
                 ),
