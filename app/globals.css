@@ -175,7 +175,7 @@ table th:last-child {
 }
 
 .markdown p {
-    @apply mb-4 break-words;
+    @apply mb-4 break-all;
 }
 
 .markdown a {
