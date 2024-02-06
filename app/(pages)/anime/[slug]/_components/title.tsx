@@ -7,7 +7,7 @@ import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import EditListModal from '@/app/_components/modals/editlist-modal';
 import { Button } from '@/app/_components/ui/button';
 import { ANIME_NAV_ROUTES } from '@/app/_utils/constants';

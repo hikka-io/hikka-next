@@ -5,7 +5,6 @@ import checkFollow from '@/app/_utils/api/follow/checkFollow';
 import follow from '@/app/_utils/api/follow/follow';
 import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
 import unfollow from '@/app/_utils/api/follow/unfollow';
-import getLoggedUserInfo from '@/app/_utils/api/user/getLoggedUserInfo';
 import getUserInfo from '@/app/_utils/api/user/getUserInfo';
 import getWatchList from '@/app/_utils/api/watch/getWatchList';
 import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
@@ -15,13 +14,6 @@ export const useUser = (username: string) => {
     return useQuery({
         queryKey: ['user', username],
         queryFn: () => getUserInfo({ username }),
-    });
-};
-
-export const useLoggedUser = (secret: string) => {
-    return useQuery({
-        queryKey: ['loggedUser', secret],
-        queryFn: () => getLoggedUserInfo({ secret }),
     });
 };
 
@@ -99,18 +91,23 @@ export const useWatchStats = (username: string) => {
     });
 };
 
-export const useWatchList = (
-    username: string,
-    watchStatus: Hikka.WatchStatus,
-    order: string,
-    sort: string,
-) => {
+export const useWatchList = ({
+    username,
+    status,
+    order,
+    sort,
+}: {
+    username: string;
+    status: string;
+    order?: string;
+    sort?: string;
+}) => {
     return useInfiniteList({
-        queryKey: ['watchList', username, { watchStatus, order, sort }],
+        queryKey: ['watchList', username, { status, order, sort }],
         queryFn: ({ pageParam = 1 }) =>
             getWatchList({
                 username: username,
-                status: watchStatus as Hikka.WatchStatus,
+                status: status as Hikka.WatchStatus,
                 page: pageParam,
                 order: order as 'score' | 'episodes' | 'media_type' | undefined,
                 sort: sort as 'asc' | 'desc' | undefined,

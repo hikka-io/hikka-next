@@ -26,7 +26,7 @@ const Component = ({ page, pages, setPage }: Props) => {
             }
 
             if (page < 5) {
-                pagArr.push(...range(2, 5));
+                pagArr.push(...range(2, 6));
                 pagArr.push(undefined);
                 pagArr.push(pages);
 
@@ -34,7 +34,7 @@ const Component = ({ page, pages, setPage }: Props) => {
             }
 
             pagArr.push(undefined);
-            pagArr.push(...range(page - 1, page + 1));
+            pagArr.push(...range(page - 1, page + 2));
             pagArr.push(undefined);
             pagArr.push(pages);
 

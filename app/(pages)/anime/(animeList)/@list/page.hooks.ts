@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
@@ -83,7 +80,7 @@ export const useList = ({
     const pagination =
         query.data &&
         query.data.pages.length > 0 &&
-        query.data.pages[0].pagination;
+        query.data.pages[query.data.pages.length - 1].pagination;
 
     return {
         ...query,
@@ -101,7 +98,7 @@ export const useUpdatePage = ({ page, iPage, ...props }: Props) => {
     return (newPage: number) => {
         if (newPage !== Number(page) || newPage !== Number(iPage)) {
             queryClient.removeQueries({
-                queryKey: ['list', props, page],
+                queryKey: ['list', page, props],
             });
             const query = createQueryString(
                 'iPage',
@@ -118,24 +115,23 @@ export const useUpdatePage = ({ page, iPage, ...props }: Props) => {
 };
 
 interface UseLoadInfinitePageProps {
-    data: ReturnType<typeof useList>['data'];
+    pagination?: ReturnType<typeof useList>['pagination'];
     fetchNextPage: ReturnType<typeof useList>['fetchNextPage'];
 }
 
-export const useLoadInfinitePage = ({
-    data,
+export const useNextPage = ({
     fetchNextPage,
+    pagination,
 }: UseLoadInfinitePageProps) => {
-    const { ref, inView } = useInView();
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    useEffect(() => {
-        if (inView && data) {
+    return () => {
+        if (pagination) {
             const query = createQueryString(
                 'iPage',
-                String(data.pages[data.pages.length - 1].pagination.page + 1),
+                String(pagination.page + 1),
                 new URLSearchParams(searchParams),
             );
 
@@ -145,7 +141,5 @@ export const useLoadInfinitePage = ({
 
             fetchNextPage();
         }
-    }, [inView]);
-
-    return { ref };
+    };
 };

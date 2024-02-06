@@ -8,7 +8,6 @@ import { useParams } from 'next/navigation';
 import {
     useFollow,
     useFollowChecker,
-    useLoggedUser,
     useUnfollow,
     useUser,
 } from '@/app/(pages)/u/[username]/page.hooks';
@@ -17,6 +16,7 @@ import { Button } from '@/app/_components/ui/button';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 import { useModalContext } from '@/app/_utils/providers/modal-provider';
 import { cn } from '@/utils';
+import { useLoggedUser } from '@/app/page.hooks';
 
 interface Props {
     className?: string;

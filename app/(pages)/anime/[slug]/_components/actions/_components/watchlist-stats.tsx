@@ -5,7 +5,7 @@ import { NumericFormat } from 'react-number-format';
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import SubHeader from '@/app/_components/sub-header';
 import { WATCH_STATUS } from '@/app/_utils/constants';
 import useSize from '@/app/_utils/hooks/useSize';

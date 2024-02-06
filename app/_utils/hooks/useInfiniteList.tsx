@@ -26,6 +26,7 @@ function useInfiniteList<T>({ queryFn, queryKey }: Props<T>) {
     });
 
     const list = query.data?.pages.map((data) => data.list).flat(1);
+    const pagination = query.data?.pages[0].pagination;
 
     useEffect(() => {
         if (inView) {
@@ -33,7 +34,7 @@ function useInfiniteList<T>({ queryFn, queryKey }: Props<T>) {
         }
     }, [inView]);
 
-    return { ...query, list, ref };
+    return { ...query, list, pagination, ref };
 }
 
 export default useInfiniteList;

@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 import { dehydrate } from '@tanstack/query-core';
 
 import RQHydrate from '@/app/_utils/RQ-hydrate';
@@ -8,19 +10,19 @@ import EditList from './_components/editlist';
 
 
 const Component = async ({
-    searchParams,
+    searchParams: { page },
 }: {
-    searchParams?: {
-        [key: string]: string | string[] | undefined;
-    };
+    searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-    const queryClient = getQueryClient();
-    const page = Number(searchParams?.page) || 1;
+    if (!page) {
+        redirect('/edit?page=1');
+    }
 
+    const queryClient = getQueryClient();
 
     await queryClient.prefetchQuery({
         queryKey: ['editList', page],
-        queryFn: () => getEditList({ page }),
+        queryFn: () => getEditList({ page: Number(page) }),
     });
 
     const dehydratedState = dehydrate(queryClient);

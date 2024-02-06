@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';

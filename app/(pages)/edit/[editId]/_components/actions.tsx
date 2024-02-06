@@ -5,13 +5,14 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
+import { useEdit } from '@/app/(pages)/edit/page.hooks';
+import { useLoggedUser } from '@/app/page.hooks';
 import { Button } from '@/app/_components/ui/button';
 import acceptEdit from '@/app/_utils/api/edit/acceptEdit';
 import closeEdit from '@/app/_utils/api/edit/closeEdit';
 import denyEdit from '@/app/_utils/api/edit/denyEdit';
-import getEdit from '@/app/_utils/api/edit/getEdit';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
 
@@ -22,15 +23,9 @@ const Component = () => {
 
     const { secret } = useAuthContext();
 
-    const { data: edit } = useQuery({
-        queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
-    });
+    const { data: edit } = useEdit(String(params.editId));
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    const { data: loggedUser } = useLoggedUser(String(secret));
 
     const onAcceptSubmit = async () => {
         try {

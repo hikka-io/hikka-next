@@ -5,11 +5,9 @@ import { useEffect, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
+import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import { Label } from '@/app/_components/ui/label';
 import { Textarea } from '@/app/_components/ui/textarea';
-import getEdit from '@/app/_utils/api/edit/getEdit';
 import {
     CHARACTER_DESCRIPTION_PARAMS,
     CHARACTER_TITLE_PARAMS,
@@ -24,13 +22,9 @@ const Component = () => {
         (keyof Hikka.CharacterEditParams)[]
     >([]);
 
-    const { data: edit } = useQuery<
-        Hikka.Edit<Hikka.CharacterEditParams, Hikka.Character>,
-        Error
-    >({
-        queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
-    });
+    const { data: edit } = useEdit<
+        Hikka.Edit<Hikka.CharacterEditParams, Hikka.Character>
+    >(String(params.editId));
 
     useEffect(() => {
         if (edit) {

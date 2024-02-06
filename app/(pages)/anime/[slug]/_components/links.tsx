@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import SubHeader from '@/app/_components/sub-header';
 import { Button } from '@/app/_components/ui/button';
 

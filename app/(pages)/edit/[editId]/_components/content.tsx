@@ -5,20 +5,15 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
+import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import AnimeCard from '@/app/_components/anime-card';
 import SubHeader from '@/app/_components/sub-header';
-import getEdit from '@/app/_utils/api/edit/getEdit';
 
 
 const Component = () => {
     const params = useParams();
 
-    const { data: edit } = useQuery({
-        queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
-    });
+    const { data: edit } = useEdit(String(params.editId));
 
     if (!edit || edit.content_type !== 'anime') {
         return null;

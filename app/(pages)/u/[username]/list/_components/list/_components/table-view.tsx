@@ -11,7 +11,6 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import { useLoggedUser } from '@/app/(pages)/u/[username]/page.hooks';
 import WatchEditModal from '@/app/_components/modals/watch-edit-modal';
 import { Badge } from '@/app/_components/ui/badge';
 import BaseCard from '@/app/_components/ui/base-card';
@@ -29,6 +28,7 @@ import createQueryString from '@/app/_utils/createQueryString';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 import { useModalContext } from '@/app/_utils/providers/modal-provider';
 import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import { useLoggedUser } from '@/app/page.hooks';
 
 interface Props {
     data: Hikka.Watch[];

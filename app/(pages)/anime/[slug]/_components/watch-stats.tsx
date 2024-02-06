@@ -4,9 +4,9 @@ import { useParams } from 'next/navigation';
 
 import {
     useAddToList,
-    useAnimeInfo,
     useWatch,
 } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
 import { Progress } from '@/app/_components/ui/progress';

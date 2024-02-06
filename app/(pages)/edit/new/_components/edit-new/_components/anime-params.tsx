@@ -22,6 +22,7 @@ import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 
 import InputParam from '../../../../_components/ui/input-param';
 import ListParam from '../../../../_components/ui/list-param';
+import { useAnimeInfo } from '@/app/page.hooks';
 
 
 type FormValues = Hikka.AnimeEditParams & {
@@ -40,10 +41,7 @@ const Component = ({ slug }: Props) => {
     const { secret } = useAuthContext();
     const router = useRouter();
 
-    const { data: anime } = useQuery({
-        queryKey: ['anime', slug],
-        queryFn: () => getAnimeInfo({ slug: slug }),
-    });
+    const { data: anime } = useAnimeInfo(slug);
 
     const {
         control,

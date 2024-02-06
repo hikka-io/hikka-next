@@ -14,7 +14,7 @@ import Pagination from '@/app/_components/ui/pagination';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
 
-import { useList, useLoadInfinitePage, useUpdatePage } from './list.hooks';
+import { useList, useNextPage, useUpdatePage } from '../page.hooks';
 
 
 const Component = () => {
@@ -60,11 +60,10 @@ const Component = () => {
         hasNextPage,
         list,
         pagination,
-        data,
     } = useList(dataKeys);
 
     const updatePage = useUpdatePage(dataKeys);
-    const { ref } = useLoadInfinitePage({ data, fetchNextPage });
+    const nextPage = useNextPage({ fetchNextPage, pagination });
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -118,6 +117,18 @@ const Component = () => {
                         );
                     })}
             </div>
+            {hasNextPage && (
+                <Button
+                    variant="secondary"
+                    disabled={isFetchingNextPage}
+                    onClick={nextPage}
+                >
+                    {isFetchingNextPage && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Заванатажити ще
+                </Button>
+            )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky z-10 bottom-2 flex items-center justify-center">
                     <div className="bg-background border p-2 border-secondary/60 rounded-lg shadow w-fit">
@@ -128,19 +139,6 @@ const Component = () => {
                         />
                     </div>
                 </div>
-            )}
-            {hasNextPage && (
-                <Button
-                    variant="secondary"
-                    ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Заванатажити ще
-                </Button>
             )}
         </div>
     );

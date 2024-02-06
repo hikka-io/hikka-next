@@ -7,12 +7,11 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useQuery } from '@tanstack/react-query';
 
+import { useCharacterInfo } from '@/app/page.hooks';
 import { Button } from '@/app/_components/ui/button';
 import { Label } from '@/app/_components/ui/label';
 import { Textarea } from '@/app/_components/ui/textarea';
-import getCharacterInfo from '@/app/_utils/api/characters/getCharacterInfo';
 import addEdit from '@/app/_utils/api/edit/addEdit';
 import {
     CHARACTER_DESCRIPTION_PARAMS,
@@ -39,10 +38,7 @@ const Component = ({ slug }: Props) => {
     const { secret } = useAuthContext();
     const router = useRouter();
 
-    const { data: character } = useQuery({
-        queryKey: ['character', slug],
-        queryFn: () => getCharacterInfo({ slug: slug }),
-    });
+    const { data: character } = useCharacterInfo(slug);
 
     const {
         control,

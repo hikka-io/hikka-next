@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import FavoriteButton from '@/app/_components/favorite-button';
 import BaseCard from '@/app/_components/ui/base-card';
 

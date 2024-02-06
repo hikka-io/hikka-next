@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAnimeInfo } from '@/app/page.hooks';
 import WatchListButton from '@/app/_components/watchlist-button';
 import { useAuthContext } from '@/app/_utils/providers/auth-provider';
 

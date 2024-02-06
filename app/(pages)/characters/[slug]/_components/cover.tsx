@@ -2,18 +2,13 @@
 
 import { useParams } from 'next/navigation';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-
+import { useCharacterInfo } from '@/app/page.hooks';
 import BaseCard from '@/app/_components/ui/base-card';
-import FavoriteButton from '@/app/_components/favorite-button';
-import Image from '@/app/_components/ui/image';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
 
 const Component = () => {
     const params = useParams();
-    const queryClient = useQueryClient();
 
-    const character: Hikka.Character | undefined = queryClient.getQueryData(['character', params.slug])
+    const { data: character } = useCharacterInfo(String(params.slug));
 
     if (!character) {
         return null;
@@ -21,8 +16,7 @@ const Component = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <BaseCard poster={character.image}>
-            </BaseCard>
+            <BaseCard poster={character.image}></BaseCard>
         </div>
     );
 };

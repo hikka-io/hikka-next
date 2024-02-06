@@ -1,12 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 
-import { useQueryClient } from '@tanstack/react-query';
-
+import { useLoggedUser } from '@/app/page.hooks';
 import AuthModal from '@/app/_components/modals/auth-modal/auth-modal';
 import SearchModal from '@/app/_components/modals/search-modal/search-modal';
 import { Button } from '@/app/_components/ui/button';
@@ -18,31 +17,19 @@ import { useModalContext } from '@/app/_utils/providers/modal-provider';
 import NavMenu from './_components/nav-menu';
 import ProfileMenu from './_components/profile-menu';
 
-
 interface Props extends PropsWithChildren {}
 
 const Component = ({}: Props) => {
-    const [isMounted, setIsMounted] = useState(false);
-    const queryClient = useQueryClient();
     const isMobile = useIsMobile();
     const { openModal } = useModalContext();
     const { secret } = useAuthContext();
 
-    queryClient.setQueryDefaults(['loggedUser'], { gcTime: Infinity });
-
-    let loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    let { data: loggedUser } = useLoggedUser(String(secret));
 
     const trigger = useScrollTrigger({
         threshold: isMobile ? 0 : 40,
         disableHysteresis: true,
     });
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     return (
         <nav
