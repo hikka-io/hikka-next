@@ -108,15 +108,6 @@ const Component = ({ slug }: Props) => {
         }
     }, [watch]);
 
-    /*boxClassName="!max-w-xl"
-    title={
-            watch?.anime[titleLanguage!] ||
-        watch?.anime.title_ua ||
-        watch?.anime.title_en ||
-        watch?.anime.title_ja ||
-        ''
-}*/
-
     return (
         watch && (
             <div className="flex flex-col gap-6">
