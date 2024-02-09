@@ -96,15 +96,15 @@ export const createWatchEvents = (history_type: Hikka.HistoryType, data?: Hikka.
         events.push(convertDeleteWatch());
     }
 
-    if (data?.before.status || data?.after.status) {
+    if (data?.before?.status || data?.after?.status) {
         events.push(convertStatus(data.before.status, data.after.status));
     }
 
-    if (data?.before.episodes || data?.after.episodes) {
+    if (data?.before?.episodes || data?.after?.episodes) {
         events.push(convertEpisodes(data.before.episodes, data.after.episodes));
     }
 
-    if (data?.before.score || data?.after.score) {
+    if (data?.before?.score || data?.after?.score) {
         events.push(convertScore(data.before.score, data.after.score));
     }
 
