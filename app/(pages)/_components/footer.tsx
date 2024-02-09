@@ -6,10 +6,10 @@ import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
 
 import Link from 'next/link';
 
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import Rightholder from './rightholder.mdx';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 
 const Component = () => {

@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import { useWatchStats } from '@/app/(pages)/u/[username]/page.hooks';
-import { Label } from '@/app/_components/ui/label';
-import RadialProgress from '@/app/_components/ui/radial-progress';
-import { Tabs, TabsList, TabsTrigger } from '@/app/_components/ui/tabs';
-import { WATCH_STATUS } from '@/app/_utils/constants';
+import { Label } from '@/components/ui/label';
+import RadialProgress from '@/components/ui/radial-progress';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils';
 
 interface Props {}

@@ -7,11 +7,11 @@ import {
     useWatch,
 } from '@/app/(pages)/anime/[slug]/page.hooks';
 import { useAnimeInfo } from '@/app/page.hooks';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { Progress } from '@/app/_components/ui/progress';
-import Rating from '@/app/_components/ui/rating';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import Rating from '@/components/ui/rating';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 const Component = () => {
     const params = useParams();

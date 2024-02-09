@@ -1,23 +1,31 @@
 import * as React from 'react';
 
+
+
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
+
+
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
+
+
 
 import EditView from '@/app/(pages)/edit/[editId]/_components/edit-view';
-import Breadcrumbs from '@/app/_components/breadcrumbs';
-import Comments from '@/app/_components/comments/comments';
-import SubHeader from '@/app/_components/sub-header';
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getEdit from '@/app/_utils/api/edit/getEdit';
-import getQueryClient from '@/app/_utils/getQueryClient';
+import Breadcrumbs from '@/components/breadcrumbs';
+import Comments from '@/components/comments/comments';
+import SubHeader from '@/components/sub-header';
+import getEdit from '@/services/api/edit/getEdit';
+import getQueryClient from '@/utils/getQueryClient';
 
+
+
+import Content from '../_components/ui/content';
 import EditStatus from '../_components/ui/edit-status';
 import Actions from './_components/actions';
 import Author from './_components/author';
 import Moderator from './_components/moderator';
-import Content from '../_components/ui/content';
 
 
 interface Props {
@@ -44,7 +52,7 @@ const Component = async ({ params: { editId } }: Props) => {
     const dehydratedState = dehydrate(queryClient);
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Breadcrumbs>
                     <Link
@@ -83,7 +91,7 @@ const Component = async ({ params: { editId } }: Props) => {
                     />
                 </div>
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

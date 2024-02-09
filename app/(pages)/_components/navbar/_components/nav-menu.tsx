@@ -7,7 +7,7 @@ import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Button } from '@/app/_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -16,7 +16,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 
 interface Props {
     className?: string;

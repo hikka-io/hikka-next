@@ -4,18 +4,18 @@ import React, { PropsWithChildren } from 'react';
 import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 
-import Breadcrumbs from '@/app/_components/breadcrumbs';
-import InternalNavBar from '@/app/_components/internal-navbar';
-import NavMenu from '@/app/_components/nav-menu';
-import SubBar from '@/app/_components/sub-navbar';
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getCharacterAnime from '@/app/_utils/api/characters/getCharacterAnime';
+import Breadcrumbs from '@/components/breadcrumbs';
+import InternalNavBar from '@/components/internal-navbar';
+import NavMenu from '@/components/nav-menu';
+import SubBar from '@/components/sub-navbar';
+import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
 import getCharacterInfo, {
     Response as CharacterResponse,
-} from '@/app/_utils/api/characters/getCharacterInfo';
-import { CHARACTER_NAV_ROUTES } from '@/app/_utils/constants';
-import getQueryClient from '@/app/_utils/getQueryClient';
+} from '@/services/api/characters/getCharacterInfo';
+import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import getQueryClient from '@/utils/getQueryClient';
 
 import Cover from './_components/cover';
 import Title from './_components/title';
@@ -84,7 +84,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const dehydratedState = dehydrate(queryClient);
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <>
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
@@ -118,7 +118,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                     </div>
                 </div>
             </>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

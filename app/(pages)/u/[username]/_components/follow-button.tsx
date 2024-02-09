@@ -11,10 +11,10 @@ import {
     useUnfollow,
     useUser,
 } from '@/app/(pages)/u/[username]/page.hooks';
-import AuthModal from '@/app/_components/modals/auth-modal/auth-modal';
-import { Button } from '@/app/_components/ui/button';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import AuthModal from '@/components/modals/auth-modal/auth-modal';
+import { Button } from '@/components/ui/button';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
 import { useLoggedUser } from '@/app/page.hooks';
 

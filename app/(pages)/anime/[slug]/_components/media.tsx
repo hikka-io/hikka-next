@@ -8,10 +8,10 @@ import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
 import { useParams } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import SubHeader from '@/app/_components/sub-header';
-import BaseCard from '@/app/_components/ui/base-card';
-import { Button } from '@/app/_components/ui/button';
-import { OST, VIDEO } from '@/app/_utils/constants';
+import SubHeader from '@/components/sub-header';
+import BaseCard from '@/components/ui/base-card';
+import { Button } from '@/components/ui/button';
+import { OST, VIDEO } from '@/utils/constants';
 
 interface Props {
     extended?: boolean;

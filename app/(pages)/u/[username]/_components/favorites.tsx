@@ -3,12 +3,12 @@
 import { useParams } from 'next/navigation';
 
 import { useFavorites } from '@/app/(pages)/u/[username]/page.hooks';
-import AnimeCard from '@/app/_components/anime-card';
-import SubHeader from '@/app/_components/sub-header';
-import { Button } from '@/app/_components/ui/button';
-import NotFound from '@/app/_components/ui/not-found';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import AnimeCard from '@/components/anime-card';
+import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
+import NotFound from '@/components/ui/not-found';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;

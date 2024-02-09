@@ -10,10 +10,10 @@ import {
 } from 'next/navigation';
 
 import { useWatchList } from '@/app/(pages)/u/[username]/page.hooks';
-import { Combobox } from '@/app/_components/ui/combobox';
-import { Label } from '@/app/_components/ui/label';
-import { WATCH_STATUS } from '@/app/_utils/constants';
-import createQueryString from '@/app/_utils/createQueryString';
+import { Combobox } from '@/components/ui/combobox';
+import { Label } from '@/components/ui/label';
+import { WATCH_STATUS } from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
 
 
 const Component = () => {
@@ -52,7 +52,7 @@ const Component = () => {
                         <div className="stat-figure rounded-md border border-secondary bg-secondary/60 p-1 text-xl text-base-content">
                             {createElement(
                                 WATCH_STATUS[option.value as Hikka.WatchStatus]
-                                    .icon,
+                                    .icon!,
                             )}
                         </div>
                         <div className="flex items-center gap-2">

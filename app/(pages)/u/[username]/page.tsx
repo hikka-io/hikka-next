@@ -2,7 +2,7 @@ import React from 'react';
 
 import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 
-import Activity from './_components/activity';
+import Activity from './_components/activity/activity';
 import Favorites from './_components/favorites';
 import Statistics from './_components/statistics';
 

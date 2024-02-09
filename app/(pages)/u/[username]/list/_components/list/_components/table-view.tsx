@@ -11,10 +11,10 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import WatchEditModal from '@/app/_components/modals/watch-edit-modal';
-import { Badge } from '@/app/_components/ui/badge';
-import BaseCard from '@/app/_components/ui/base-card';
-import { Label } from '@/app/_components/ui/label';
+import WatchEditModal from '@/components/modals/watch-edit-modal';
+import { Badge } from '@/components/ui/badge';
+import BaseCard from '@/components/ui/base-card';
+import { Label } from '@/components/ui/label';
 import {
     Table,
     TableBody,
@@ -22,12 +22,12 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/app/_components/ui/table';
-import { MEDIA_TYPE } from '@/app/_utils/constants';
-import createQueryString from '@/app/_utils/createQueryString';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+} from '@/components/ui/table';
+import { MEDIA_TYPE } from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 import { useLoggedUser } from '@/app/page.hooks';
 
 interface Props {

@@ -6,13 +6,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { range } from '@antfu/utils';
 
-import AnimeCard from '@/app/_components/anime-card';
-import SkeletonCard from '@/app/_components/skeletons/entry-card';
-import { Button } from '@/app/_components/ui/button';
-import NotFound from '@/app/_components/ui/not-found';
-import Pagination from '@/app/_components/ui/pagination';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import AnimeCard from '@/components/anime-card';
+import SkeletonCard from '@/components/skeletons/entry-card';
+import { Button } from '@/components/ui/button';
+import NotFound from '@/components/ui/not-found';
+import Pagination from '@/components/ui/pagination';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import { useList, useNextPage, useUpdatePage } from '../page.hooks';
 

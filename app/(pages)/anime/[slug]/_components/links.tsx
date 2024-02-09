@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import SubHeader from '@/app/_components/sub-header';
-import { Button } from '@/app/_components/ui/button';
+import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     extended?: boolean;

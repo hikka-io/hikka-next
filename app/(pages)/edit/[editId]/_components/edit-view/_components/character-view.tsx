@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
-import { Label } from '@/app/_components/ui/label';
-import { Textarea } from '@/app/_components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
     CHARACTER_DESCRIPTION_PARAMS,
     CHARACTER_TITLE_PARAMS,
-} from '@/app/_utils/constants';
+} from '@/utils/constants';
 
 import InputParam from '../../../../_components/ui/input-param';
 

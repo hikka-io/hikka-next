@@ -1,11 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
-import InternalNavBar from '@/app/_components/internal-navbar';
-import NavMenu from '@/app/_components/nav-menu';
-import SubBar from '@/app/_components/sub-navbar';
-import Breadcrumbs from '@/app/_components/breadcrumbs';
-import { EDIT_NAV_ROUTES } from '@/app/_utils/constants';
+import InternalNavBar from '@/components/internal-navbar';
+import NavMenu from '@/components/nav-menu';
+import SubBar from '@/components/sub-navbar';
+import Breadcrumbs from '@/components/breadcrumbs';
+import { EDIT_NAV_ROUTES } from '@/utils/constants';
 
 interface Props extends PropsWithChildren {}
 

@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import Link from 'next/link';
 
-import SubHeader from '@/app/_components/sub-header';
-import BaseCard from '@/app/_components/ui/base-card';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
-import { CONTENT_TYPE_LINKS } from '@/app/_utils/constants';
+import SubHeader from '@/components/sub-header';
+import BaseCard from '@/components/ui/base-card';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 interface Props {
     slug: string;

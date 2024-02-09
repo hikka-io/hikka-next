@@ -6,9 +6,9 @@ import { NumericFormat } from 'react-number-format';
 import { useParams } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import SubHeader from '@/app/_components/sub-header';
-import { WATCH_STATUS } from '@/app/_utils/constants';
-import useSize from '@/app/_utils/hooks/useSize';
+import SubHeader from '@/components/sub-header';
+import { WATCH_STATUS } from '@/utils/constants';
+import useSize from '@/services/hooks/useSize';
 
 
 const Component = () => {
@@ -59,7 +59,7 @@ const Component = () => {
                                 >
                                     <div className="flex items-center gap-2">
                                         <div className="rounded-md bg-secondary p-1">
-                                            {createElement(status.icon)}
+                                            {createElement(status.icon!)}
                                         </div>
                                         <p className="text-xs text-muted-foreground w-10 text-right">
                                             <NumericFormat

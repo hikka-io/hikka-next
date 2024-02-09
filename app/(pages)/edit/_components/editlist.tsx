@@ -9,9 +9,9 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useEditList } from '@/app/(pages)/edit/page.hooks';
-import BaseCard from '@/app/_components/ui/base-card';
-import { Label } from '@/app/_components/ui/label';
-import Pagination from '@/app/_components/ui/pagination';
+import BaseCard from '@/components/ui/base-card';
+import { Label } from '@/components/ui/label';
+import Pagination from '@/components/ui/pagination';
 import {
     Table,
     TableBody,
@@ -19,13 +19,13 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/app/_components/ui/table';
+} from '@/components/ui/table';
 import {
     CONTENT_TYPE_LINKS,
     CONTENT_TYPE_TITLES,
-} from '@/app/_utils/constants';
-import createQueryString from '@/app/_utils/createQueryString';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+} from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import EditStatus from './ui/edit-status';
 

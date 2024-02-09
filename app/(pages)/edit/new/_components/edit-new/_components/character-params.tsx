@@ -9,15 +9,15 @@ import { useRouter } from 'next/navigation';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 import { useCharacterInfo } from '@/app/page.hooks';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { Textarea } from '@/app/_components/ui/textarea';
-import addEdit from '@/app/_utils/api/edit/addEdit';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import addEdit from '@/services/api/edit/addEdit';
 import {
     CHARACTER_DESCRIPTION_PARAMS,
     CHARACTER_TITLE_PARAMS,
-} from '@/app/_utils/constants';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+} from '@/utils/constants';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 import InputParam from '../../../../_components/ui/input-param';
 

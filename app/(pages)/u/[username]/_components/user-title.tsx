@@ -6,12 +6,12 @@ import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
 import { useParams } from 'next/navigation';
 
 import { useUser } from '@/app/(pages)/u/[username]/page.hooks';
-import { Badge } from '@/app/_components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '@/app/_components/ui/tooltip';
+} from '@/components/ui/tooltip';
 
 interface Props {}
 

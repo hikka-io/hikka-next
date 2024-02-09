@@ -1,5 +1,5 @@
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
-import getCharacterAnime from '@/app/_utils/api/characters/getCharacterAnime';
+import useInfiniteList from '@/services/hooks/useInfiniteList';
+import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
 
 export const useCharacterAnime = (slug: string) => {
     return useInfiniteList({

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
-import getLoggedUserInfo from '@/app/_utils/api/user/getLoggedUserInfo';
+import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
 
-import getCharacterInfo from './_utils/api/characters/getCharacterInfo';
+import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 
 export const useLoggedUser = (secret: string) => {
     return useQuery({

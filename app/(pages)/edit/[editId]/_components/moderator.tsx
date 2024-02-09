@@ -11,8 +11,8 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Label } from '@/app/_components/ui/label';
+} from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
 
 
 const Component = () => {

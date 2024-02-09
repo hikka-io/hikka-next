@@ -5,9 +5,9 @@ import clsx from 'clsx';
 import { useParams } from 'next/navigation';
 
 import { useStaff } from '@/app/(pages)/anime/[slug]/page.hooks';
-import SubHeader from '@/app/_components/sub-header';
-import BaseCard from '@/app/_components/ui/base-card';
-import { Button } from '@/app/_components/ui/button';
+import SubHeader from '@/components/sub-header';
+import BaseCard from '@/components/ui/base-card';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     extended?: boolean;

@@ -6,10 +6,10 @@ import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
-import { Button } from '@/app/_components/ui/button';
-import { Combobox } from '@/app/_components/ui/combobox';
-import { PopoverTrigger } from '@/app/_components/ui/popover';
-import getRandomWatch from '@/app/_utils/api/watch/getRandomWatch';
+import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combobox';
+import { PopoverTrigger } from '@/components/ui/popover';
+import getRandomWatch from '@/services/api/watch/getRandomWatch';
 
 
 const Component = () => {

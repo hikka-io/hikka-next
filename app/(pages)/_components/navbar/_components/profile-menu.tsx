@@ -15,8 +15,8 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
+} from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -24,10 +24,10 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/app/_components/ui/dropdown-menu';
-import SettingsModal from '@/app/_components/modals/user-settings-modal/user-settings-modal';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
+} from '@/components/ui/dropdown-menu';
+import SettingsModal from '@/components/modals/user-settings-modal/user-settings-modal';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 interface Props {}
 

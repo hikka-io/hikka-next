@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
-import AnimeCard from '@/app/_components/anime-card';
-import SubHeader from '@/app/_components/sub-header';
+import AnimeCard from '@/components/anime-card';
+import SubHeader from '@/components/sub-header';
 
 
 const Component = () => {

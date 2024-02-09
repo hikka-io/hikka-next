@@ -1,7 +1,7 @@
 import toDate from 'date-fns/toDate';
 import { getServerSideSitemap } from 'next-sitemap';
 
-import getAnimeSitemap from '@/app/_utils/api/sitemap/getAnimeSitemap';
+import getAnimeSitemap from '@/services/api/sitemap/getAnimeSitemap';
 import format from 'date-fns/format';
 
 export async function GET(request: Request) {

@@ -7,8 +7,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import Search from './_components/search';
 import FiltersModal from '@/app/(pages)/anime/(animeList)/_components/filters-modal';
-import { Button } from '@/app/_components/ui/button';
-import createQueryString from '@/app/_utils/createQueryString';
+import { Button } from '@/components/ui/button';
+import createQueryString from '@/utils/createQueryString';
 
 interface Props {}
 

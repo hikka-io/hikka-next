@@ -1,5 +1,5 @@
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
-import getTodoAnime from '@/app/_utils/api/edit/todo/getTodoAnime';
+import useInfiniteList from '@/services/hooks/useInfiniteList';
+import getTodoAnime from '@/services/api/edit/todo/getTodoAnime';
 
 export const useTodoAnime = (param: string, secret: string) => {
     return useInfiniteList({

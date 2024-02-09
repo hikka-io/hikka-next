@@ -3,15 +3,15 @@
 import * as React from 'react';
 
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
-import Filters from '@/app/_components/filters/filters';
-import { Button } from '@/app/_components/ui/button';
+import Filters from '@/components/filters/filters';
+import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-} from '@/app/_components/ui/sheet';
+} from '@/components/ui/sheet';
 
 
 const Component = () => {

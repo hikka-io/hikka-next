@@ -11,11 +11,11 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
-import follow from '@/app/_utils/api/follow/follow';
-import unfollow from '@/app/_utils/api/follow/unfollow';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+} from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import follow from '@/services/api/follow/follow';
+import unfollow from '@/services/api/follow/unfollow';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 interface Props {
     user: Hikka.User;

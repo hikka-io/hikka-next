@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Label } from '@/app/_components/ui/label';
-import { Progress } from '@/app/_components/ui/progress';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 
 const Component = () => {
     return (

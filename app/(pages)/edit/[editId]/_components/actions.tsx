@@ -9,11 +9,11 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import { useLoggedUser } from '@/app/page.hooks';
-import { Button } from '@/app/_components/ui/button';
-import acceptEdit from '@/app/_utils/api/edit/acceptEdit';
-import closeEdit from '@/app/_utils/api/edit/closeEdit';
-import denyEdit from '@/app/_utils/api/edit/denyEdit';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { Button } from '@/components/ui/button';
+import acceptEdit from '@/services/api/edit/acceptEdit';
+import closeEdit from '@/services/api/edit/closeEdit';
+import denyEdit from '@/services/api/edit/denyEdit';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 
 const Component = () => {

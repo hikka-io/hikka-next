@@ -7,14 +7,14 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import SubHeader from '@/app/_components/sub-header';
-import { Label } from '@/app/_components/ui/label';
+import SubHeader from '@/components/sub-header';
+import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '@/app/_components/ui/tooltip';
-import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/app/_utils/constants';
+} from '@/components/ui/tooltip';
+import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 
 const Component = () => {

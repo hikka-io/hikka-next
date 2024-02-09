@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SubHeader from '@/app/_components/sub-header';
+import SubHeader from '@/components/sub-header';
 
 import Activity from './_components/activity';
 import Watch from './_components/watch';

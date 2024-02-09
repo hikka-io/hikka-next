@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import getAnimeCharacters from '@/app/_utils/api/anime/getAnimeCharacters';
-import getAnimeFranchise from '@/app/_utils/api/anime/getAnimeFranchise';
-import getAnimeStaff from '@/app/_utils/api/anime/getAnimeStaff';
-import addWatch from '@/app/_utils/api/watch/addWatch';
-import getWatch from '@/app/_utils/api/watch/getWatch';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
+import getAnimeCharacters from '@/services/api/anime/getAnimeCharacters';
+import getAnimeFranchise from '@/services/api/anime/getAnimeFranchise';
+import getAnimeStaff from '@/services/api/anime/getAnimeStaff';
+import addWatch from '@/services/api/watch/addWatch';
+import getWatch from '@/services/api/watch/getWatch';
+import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 export const useCharacters = (slug: string) => {
     return useInfiniteList({

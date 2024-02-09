@@ -5,26 +5,26 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 
 import ListStats from '@/app/(pages)/u/[username]/_components/list-stats';
 import UserTitle from '@/app/(pages)/u/[username]/_components/user-title';
-import Breadcrumbs from '@/app/_components/breadcrumbs';
-import InternalNavBar from '@/app/_components/internal-navbar';
-import NavMenu from '@/app/_components/nav-menu';
-import SubBar from '@/app/_components/sub-navbar';
-import Image from '@/app/_components/ui/image';
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getFavouriteList from '@/app/_utils/api/favourite/getFavouriteList';
-import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
+import { getCookie } from '@/app/actions';
+import Breadcrumbs from '@/components/breadcrumbs';
+import InternalNavBar from '@/components/internal-navbar';
+import NavMenu from '@/components/nav-menu';
+import SubBar from '@/components/sub-navbar';
+import Image from '@/components/ui/image';
+import getFavouriteList from '@/services/api/favourite/getFavouriteList';
+import getFollowStats from '@/services/api/follow/getFollowStats';
+import getUserHistory from '@/services/api/user/getUserHistory';
 import getUserInfo, {
     Response as UserResponse,
-} from '@/app/_utils/api/user/getUserInfo';
-import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
-import { USER_NAV_ROUTES } from '@/app/_utils/constants';
-import getQueryClient from '@/app/_utils/getQueryClient';
-import { getCookie } from '@/app/actions';
+} from '@/services/api/user/getUserInfo';
+import getWatchStats from '@/services/api/watch/getWatchStats';
+import { USER_NAV_ROUTES } from '@/utils/constants';
+import getQueryClient from '@/utils/getQueryClient';
 
-import ActivationAlert from './_components/activation-alert';
 import FollowButton from './_components/follow-button';
 import FollowStats from './_components/follow-stats';
 import UserInfo from './_components/user-info';
@@ -89,8 +89,16 @@ const Component = async ({ params: { username }, children }: Props) => {
     });
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', username, secret],
-        queryFn: () => getFavouriteList({ username }),
+        queryKey: ['favorites', { username, secret }],
+        queryFn: ({ pageParam }) =>
+            getFavouriteList({ username, page: pageParam }),
+        initialPageParam: 1,
+    });
+
+    await queryClient.prefetchInfiniteQuery({
+        queryKey: ['activity', username],
+        queryFn: ({ pageParam }) =>
+            getUserHistory({ username, page: pageParam }),
         initialPageParam: 1,
     });
 
@@ -120,7 +128,7 @@ const Component = async ({ params: { username }, children }: Props) => {
     }
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12 lg:gap-16">
                 {user.cover && (
                     <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden gradient-mask-b-0">
@@ -173,11 +181,9 @@ const Component = async ({ params: { username }, children }: Props) => {
                         <ListStats />
                     </div>
                 </div>
-                <div className="flex flex-col gap-12">
-                    {children}
-                </div>
+                <div className="flex flex-col gap-12">{children}</div>
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

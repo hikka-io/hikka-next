@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import WatchListButton from '@/app/_components/watchlist-button';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import WatchListButton from '@/components/watchlist-button';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 import WatchStats from '../watch-stats';
 

@@ -6,14 +6,14 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
 
-import { Button } from '@/app/_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from '@/app/_components/ui/collapsible';
-import { Input } from '@/app/_components/ui/input';
-import { Label } from '@/app/_components/ui/label';
+} from '@/components/ui/collapsible';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface EditProps {
     title: string;

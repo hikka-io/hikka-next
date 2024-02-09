@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { Input } from '@/app/_components/ui/input';
-import { Label } from '@/app/_components/ui/label';
-import createQueryString from '@/app/_utils/createQueryString';
+import { Input } from '@/components/ui/input';
+import createQueryString from '@/utils/createQueryString';
+
 
 const Component = () => {
     const router = useRouter();
@@ -28,9 +28,6 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-4 flex-1">
-            <Label className="text-muted-foreground hidden lg:flex">
-                Пошук по назві
-            </Label>
             <Input
                 value={search || ''}
                 onChange={(event) => handleChangeSearch(event.target.value)}

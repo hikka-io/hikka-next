@@ -6,9 +6,9 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import { useParams } from 'next/navigation';
 
 import {  useUser } from '@/app/(pages)/u/[username]/page.hooks';
-import { Button } from '@/app/_components/ui/button';
-import resendActivation from '@/app/_utils/api/auth/resendActivation';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { Button } from '@/components/ui/button';
+import resendActivation from '@/services/api/auth/resendActivation';
+import { useAuthContext } from '@/services/providers/auth-provider';
 import { useLoggedUser } from '@/app/page.hooks';
 
 

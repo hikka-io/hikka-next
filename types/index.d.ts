@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export {};
 
@@ -22,7 +22,7 @@ declare global {
             {
                 title_ua: string;
                 title_en: string;
-                icon?: ReactNode;
+                icon?: (props: any) => ReactElement | ReactNode;
                 color?: string;
                 description?: string;
             }
@@ -290,5 +290,38 @@ declare global {
             | 'character'
             | 'person'
             | 'comment';
+
+        type HistoryType = 'watch' | 'watch_delete' | "watch_import" | "favourite_anime_add" | "favourite_anime_remove";
+
+        type HistoryWatchData = {
+            after: {
+                score: number | null;
+                status: Hikka.WatchStatus | null;
+                episodes: number | null;
+                rewatches: number | null;
+            };
+            before: {
+                score: number | null;
+                status: Hikka.WatchStatus | null;
+                episodes: number | null;
+                rewatches: number | null;
+            };
+            new_watch: boolean;
+        }
+
+        type HistoryFavoriteData = {}
+
+        type HistoryImportData = {
+            imported: boolean;
+        }
+
+        type History<TData extends HistoryWatchData | HistoryFavoriteData | HistoryImportData = HistoryWatchData> = {
+            reference: string;
+            content?: Hikka.Anime,
+            history_type: HistoryType;
+            created: number;
+            updated: number;
+            data: TData;
+        }
     }
 }

@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import getFavouriteList from '@/app/_utils/api/favourite/getFavouriteList';
-import checkFollow from '@/app/_utils/api/follow/checkFollow';
-import follow from '@/app/_utils/api/follow/follow';
-import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
-import unfollow from '@/app/_utils/api/follow/unfollow';
-import getUserInfo from '@/app/_utils/api/user/getUserInfo';
-import getWatchList from '@/app/_utils/api/watch/getWatchList';
-import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
+import getFavouriteList from '@/services/api/favourite/getFavouriteList';
+import checkFollow from '@/services/api/follow/checkFollow';
+import follow from '@/services/api/follow/follow';
+import getFollowStats from '@/services/api/follow/getFollowStats';
+import unfollow from '@/services/api/follow/unfollow';
+import getUserHistory from '@/services/api/user/getUserHistory';
+import getUserInfo from '@/services/api/user/getUserInfo';
+import getWatchList from '@/services/api/watch/getWatchList';
+import getWatchStats from '@/services/api/watch/getWatchStats';
+import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 export const useUser = (username: string) => {
     return useQuery({
@@ -19,13 +20,14 @@ export const useUser = (username: string) => {
 
 export const useFavorites = (username: string, secret: string) => {
     return useInfiniteList({
-        queryKey: ['favorites', username, secret],
+        queryKey: ['favorites', { username, secret }],
         queryFn: ({ pageParam = 1 }) =>
             getFavouriteList({
                 username: username,
                 page: pageParam,
                 secret: secret,
             }),
+        staleTime: 0,
     });
 };
 
@@ -111,6 +113,17 @@ export const useWatchList = ({
                 page: pageParam,
                 order: order as 'score' | 'episodes' | 'media_type' | undefined,
                 sort: sort as 'asc' | 'desc' | undefined,
+            }),
+    });
+};
+
+export const useActivityList = ({ username }: { username: string }) => {
+    return useInfiniteList({
+        queryKey: ['activity', username],
+        queryFn: ({ pageParam }) =>
+            getUserHistory({
+                username: username,
+                page: pageParam,
             }),
     });
 };

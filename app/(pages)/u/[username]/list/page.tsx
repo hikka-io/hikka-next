@@ -3,7 +3,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import StatusCombobox from '@/app/(pages)/u/[username]/list/_components/status-combobox';
 import ToolsCombobox from '@/app/(pages)/u/[username]/list/_components/tools-combobox';
 import ViewCombobox from '@/app/(pages)/u/[username]/list/_components/view-combobox';
-import Filters from '@/app/_components/filters';
+import Filters from '@/components/filters';
 import List from '@/app/(pages)/u/[username]/list/_components/list/list';
 
 export async function generateMetadata(
@@ -44,7 +44,7 @@ const Component = () => {
                 </div>
                 <List />
             </div>
-            <div className="bg-secondary/30 border border-secondary/60 p-4 rounded-md h-fit opacity-60 hover:opacity-100 sticky top-20">
+            <div className="bg-secondary/30 border border-secondary/60 p-4 rounded-md h-fit opacity-60 hover:opacity-100 transition-opacity sticky top-20">
                 <Filters />
             </div>
         </div>

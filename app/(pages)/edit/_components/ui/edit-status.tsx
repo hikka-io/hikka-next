@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useParams } from 'next/navigation';
 
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
-import { EDIT_STATUS } from '@/app/_utils/constants';
+import { EDIT_STATUS } from '@/utils/constants';
 
 interface Props {
     status?: Hikka.EditStatus;

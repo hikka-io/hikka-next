@@ -6,13 +6,13 @@ import { useState } from 'react';
 import { range } from '@antfu/utils';
 
 import { useTodoAnime } from '@/app/(pages)/edit/content/page.hooks';
-import AnimeCard from '@/app/_components/anime-card';
-import SkeletonCard from '@/app/_components/skeletons/entry-card';
-import { Button } from '@/app/_components/ui/button';
-import { Combobox } from '@/app/_components/ui/combobox';
-import { Label } from '@/app/_components/ui/label';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import AnimeCard from '@/components/anime-card';
+import SkeletonCard from '@/components/skeletons/entry-card';
+import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combobox';
+import { Label } from '@/components/ui/label';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;

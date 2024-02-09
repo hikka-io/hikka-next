@@ -4,8 +4,8 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
-} from '@/app/_utils/api/anime/getAnimeCatalog';
-import createQueryString from '@/app/_utils/createQueryString';
+} from '@/services/api/anime/getAnimeCatalog';
+import createQueryString from '@/utils/createQueryString';
 
 interface Props {
     page: number;

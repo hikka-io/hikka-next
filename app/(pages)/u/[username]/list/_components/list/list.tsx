@@ -10,9 +10,9 @@ import {
 } from 'next/navigation';
 
 import { useWatchList } from '@/app/(pages)/u/[username]/page.hooks';
-import { Button } from '@/app/_components/ui/button';
-import NotFound from '@/app/_components/ui/not-found';
-import { WATCH_STATUS } from '@/app/_utils/constants';
+import { Button } from '@/components/ui/button';
+import NotFound from '@/components/ui/not-found';
+import { WATCH_STATUS } from '@/utils/constants';
 
 import GridView from './_components/grid-view';
 import TableView from './_components/table-view';

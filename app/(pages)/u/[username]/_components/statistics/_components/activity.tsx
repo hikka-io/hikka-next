@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Label } from '@/app/_components/ui/label';
+import { Label } from '@/components/ui/label';
 
 const Component = () => {
     return (

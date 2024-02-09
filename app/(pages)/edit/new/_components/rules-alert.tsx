@@ -4,9 +4,9 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-import { Button } from '@/app/_components/ui/button';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
-import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
+import { Button } from '@/components/ui/button';
+import { useModalContext } from '@/services/providers/modal-provider';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 
 const Component = () => {
     const [rules, setRules] = React.useState('');

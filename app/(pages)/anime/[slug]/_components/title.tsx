@@ -8,13 +8,13 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import EditListModal from '@/app/_components/modals/editlist-modal';
-import { Button } from '@/app/_components/ui/button';
-import { ANIME_NAV_ROUTES } from '@/app/_utils/constants';
-import useIsMobile from '@/app/_utils/hooks/useIsMobile';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import EditListModal from '@/components/modals/editlist-modal';
+import { Button } from '@/components/ui/button';
+import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import useIsMobile from '@/services/hooks/useIsMobile';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 
 const EditButton = ({ className }: { className?: string }) => {

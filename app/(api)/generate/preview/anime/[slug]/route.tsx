@@ -4,8 +4,8 @@ import { uk } from 'date-fns/locale';
 
 import { ImageResponse } from 'next/og';
 
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
-import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/app/_utils/constants';
+import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 export const runtime = 'edge';
 

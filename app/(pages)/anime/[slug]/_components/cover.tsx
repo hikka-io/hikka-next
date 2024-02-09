@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 
 import { useAnimeInfo } from '@/app/page.hooks';
-import FavoriteButton from '@/app/_components/favorite-button';
-import BaseCard from '@/app/_components/ui/base-card';
+import FavoriteButton from '@/components/favorite-button';
+import BaseCard from '@/components/ui/base-card';
 
 const Component = () => {
     const params = useParams();

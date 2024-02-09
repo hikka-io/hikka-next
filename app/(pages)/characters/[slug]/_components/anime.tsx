@@ -5,10 +5,10 @@ import clsx from 'clsx';
 import { useParams } from 'next/navigation';
 
 import { useCharacterAnime } from '@/app/(pages)/characters/[slug]/page.hooks';
-import AnimeCard from '@/app/_components/anime-card';
-import SubHeader from '@/app/_components/sub-header';
-import { Button } from '@/app/_components/ui/button';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import AnimeCard from '@/components/anime-card';
+import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;

@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getEditList from '@/app/_utils/api/edit/getEditList';
-import getQueryClient from '@/app/_utils/getQueryClient';
+import getEditList from '@/services/api/edit/getEditList';
+import getQueryClient from '@/utils/getQueryClient';
 
 import EditList from './_components/editlist';
 
@@ -28,11 +28,11 @@ const Component = async ({
     const dehydratedState = dehydrate(queryClient);
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:gap-16">
                 <EditList />
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

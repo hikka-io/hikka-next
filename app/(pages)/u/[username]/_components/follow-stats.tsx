@@ -3,10 +3,10 @@
 import { useParams } from 'next/navigation';
 
 import { useFollowStats } from '@/app/(pages)/u/[username]/page.hooks';
-import FollowlistModal from '@/app/_components/modals/followlist-modal';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import FollowlistModal from '@/components/modals/followlist-modal';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
 
 interface Props {
