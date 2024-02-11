@@ -9,6 +9,7 @@ import { cn } from '@/utils';
 
 import Spoiler from './_components/spoiler';
 import remarkMentions from './plugins/remark-mentions';
+import Link from './_components/link';
 
 interface Props extends Options {}
 
@@ -28,9 +29,9 @@ const Component = ({ children, className, ...props }: Props) => {
             components={{
                 spoiler: Spoiler,
                 a: ({ node, children }) => (
-                    <a href={(node?.properties?.href as string) || ''} className="break-all">
+                    <Link href={(node?.properties?.href as string) || ''} className="break-all">
                         {children}
-                    </a>
+                    </Link>
                 ),
                 code: ({ node, children }) => <p>{children}</p>,
             }}

@@ -51,7 +51,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
     };
 
     const getDeclensedReplyCount = () => {
-        return comment.replies.length + getDeclensionWord(comment.replies.length, [
+        return comment.replies.length + " " + getDeclensionWord(comment.replies.length, [
             'відповідь',
             'відповіді',
             'відповідей',

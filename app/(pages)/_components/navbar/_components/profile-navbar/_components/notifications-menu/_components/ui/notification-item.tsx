@@ -5,44 +5,27 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
+import { useSeenNotification } from '@/app/(pages)/_components/navbar/_components/profile-navbar/_components/notifications-menu/hooks';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import seenNotification from '@/services/api/notifications/seenNotification';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import { Label } from '@/components/ui/label';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 interface Props {
     data: Hikka.TextNotification;
 }
 
 const Component = ({ data }: Props) => {
-    const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const router = useRouter();
 
-    const { mutate: asSeen } = useMutation({
-        mutationFn: () =>
-            seenNotification({
-                reference: data.reference,
-                secret: String(secret),
-            }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['notifications', secret],
-            });
-
-            queryClient.invalidateQueries({
-                queryKey: ['notificationsCount', secret],
-            });
-        },
-    });
+    const { mutate: asSeen } = useSeenNotification(String(secret));
 
     const handleOnClick = () => {
         if (!data.seen) {
-            asSeen();
+            asSeen({
+                reference: data.reference,
+            });
         }
-
         router.push(data.href);
     };
 

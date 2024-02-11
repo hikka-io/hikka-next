@@ -1,32 +1,26 @@
 'use client';
 
 import * as React from 'react';
-import {
-    PropsWithChildren,
-    ReactElement,
-    cloneElement,
-    memo,
-    useEffect,
-    useState,
-} from 'react';
+import { PropsWithChildren, memo } from 'react';
 
 import Link from 'next/link';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { Label } from '@/components/ui/label';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import {
-    Popover,
-    PopoverAnchor,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
+    HoverCard,
+    HoverCardArrow,
+    HoverCardContent,
+    HoverCardPortal,
+    HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Label } from '@/components/ui/label';
 import WatchListButton from '@/components/watchlist-button';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
-import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 interface Props extends PropsWithChildren {
     slug: string;
@@ -84,15 +78,14 @@ const TooltipData = ({ slug }: { slug: string }) => {
                     ) : null}
                 </div>
                 {synopsis && (
-                    <p className="text-sm">
+                    <MDViewer className="text-sm">
                         {synopsis.length > 150
                             ? synopsis.substring(
                                   0,
                                   150 + synopsis.substring(150).indexOf(' '),
-                              )
-                            : synopsis}
-                        ...
-                    </p>
+                              ) + '...'
+                            : synopsis + '...'}
+                    </MDViewer>
                 )}
                 <div className="flex items-center">
                     <div className="w-1/4">
@@ -161,47 +154,18 @@ const TooltipData = ({ slug }: { slug: string }) => {
 };
 
 const Component = ({ slug, children, withTrigger, ...props }: Props) => {
-    const [open, setOpen] = useState(false);
-    const openTimerRef = React.useRef(0);
-    const closeTimerRef = React.useRef(0);
-    const openDelay = 0;
-    const closeDelay = 200;
-
-    const handleOpen = React.useCallback(() => {
-        clearTimeout(closeTimerRef.current);
-        openTimerRef.current = window.setTimeout(
-            () => setOpen(true),
-            openDelay,
-        );
-    }, [openDelay, setOpen]);
-
-    const handleClose = React.useCallback(() => {
-        clearTimeout(openTimerRef.current);
-        closeTimerRef.current = window.setTimeout(
-            () => setOpen(false),
-            closeDelay,
-        );
-    }, [closeDelay, setOpen]);
-
-    useEffect(() => {
-        return () => {
-            clearTimeout(openTimerRef.current);
-            clearTimeout(closeTimerRef.current);
-        };
-    }, []);
-
     return (
         <HoverCard openDelay={400} closeDelay={100}>
-            <HoverCardTrigger asChild>
-                {children}
-            </HoverCardTrigger>
-            <HoverCardContent
-                side="right"
-                className="flex w-80 flex-col gap-4 p-4"
-            >
-                <HoverCardArrow />
-                <TooltipData slug={slug} />
-            </HoverCardContent>
+            <HoverCardTrigger asChild>{children}</HoverCardTrigger>
+            <HoverCardPortal>
+                <HoverCardContent
+                    side="right"
+                    className="flex w-80 flex-col gap-4 p-4"
+                >
+                    <HoverCardArrow />
+                    <TooltipData slug={slug} />
+                </HoverCardContent>
+            </HoverCardPortal>
         </HoverCard>
     );
 };

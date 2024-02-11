@@ -3,8 +3,14 @@
 import React from 'react';
 import MaterialSymbolsNotificationsRounded from '~icons/material-symbols/notifications-rounded';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
+import {
+    useInvalidateNotifications,
+    useNotifications,
+    useNotificationsCount,
+    useSeenNotification,
+} from '@/app/(pages)/_components/navbar/_components/profile-navbar/_components/notifications-menu/hooks';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,10 +20,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import getNotifications from '@/services/api/notifications/getNotifications';
-import getNotificationsCount from '@/services/api/notifications/getNotificationsCount';
-import seenNotification from '@/services/api/notifications/seenNotification';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { convertNotification } from '@/utils/convertNotification';
 
@@ -30,39 +32,13 @@ const Component = ({}: Props) => {
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
 
-    const { data: countData } = useQuery({
-        queryFn: () => getNotificationsCount({ secret: String(secret) }),
-        queryKey: ['notificationsCount', secret],
-        staleTime: 0,
-        refetchInterval: 30000,
-    });
+    const { data: countData } = useNotificationsCount(String(secret));
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
-        useInfiniteList({
-            queryFn: ({ pageParam }) =>
-                getNotifications({ page: pageParam, secret: String(secret) }),
-            queryKey: ['notifications', secret],
-            staleTime: 0,
-        });
+        useNotifications(String(secret));
 
-    const { mutate: asSeen } = useMutation({
-        mutationFn: ({ reference }: { reference: string }) =>
-            seenNotification({
-                reference: reference,
-                secret: String(secret),
-            }),
-        onSuccess: () => invalidate(),
-    });
-
-    const invalidate = () => {
-        queryClient.invalidateQueries({
-            queryKey: ['notifications', secret],
-        });
-
-        queryClient.invalidateQueries({
-            queryKey: ['notificationsCount', secret],
-        });
-    };
+    const { mutate: asSeen } = useSeenNotification(String(secret));
+    const invalidate = useInvalidateNotifications(String(secret));
 
     return (
         <DropdownMenu onOpenChange={(open) => open && invalidate()}>
