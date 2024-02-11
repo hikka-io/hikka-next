@@ -3,7 +3,7 @@
 import React from 'react';
 import MaterialSymbolsNotificationsRounded from '~icons/material-symbols/notifications-rounded';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import getNotifications from '@/services/api/notifications/getNotifications';
 import getNotificationsCount from '@/services/api/notifications/getNotificationsCount';
+import seenNotification from '@/services/api/notifications/seenNotification';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { convertNotification } from '@/utils/convertNotification';
@@ -44,15 +45,27 @@ const Component = ({}: Props) => {
             staleTime: 0,
         });
 
+    const { mutate: asSeen } = useMutation({
+        mutationFn: ({ reference }: { reference: string }) =>
+            seenNotification({
+                reference: reference,
+                secret: String(secret),
+            }),
+        onSuccess: () => invalidate(),
+    });
+
+    const invalidate = () => {
+        queryClient.invalidateQueries({
+            queryKey: ['notifications', secret],
+        });
+
+        queryClient.invalidateQueries({
+            queryKey: ['notificationsCount', secret],
+        });
+    };
+
     return (
-        <DropdownMenu
-            onOpenChange={(open) =>
-                open &&
-                queryClient.invalidateQueries({
-                    queryKey: ['notifications', secret],
-                })
-            }
-        >
+        <DropdownMenu onOpenChange={(open) => open && invalidate()}>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />
@@ -63,12 +76,25 @@ const Component = ({}: Props) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align="end"
-                className="w-96 max-h-96 flex flex-col"
+                className="w-full sm:w-96 max-h-96 flex flex-col"
             >
-                <DropdownMenuLabel className="inline-flex gap-2">
-                    Сповіщення
+                <DropdownMenuLabel className="flex gap-2 items-center justify-between">
+                    <div className="flex gap-2">
+                        Сповіщення
+                        {countData && countData.unseen > 0 && (
+                            <Badge variant="warning">{countData.unseen}</Badge>
+                        )}
+                    </div>
                     {countData && countData.unseen > 0 && (
-                        <Badge variant="warning">{countData.unseen}</Badge>
+                        <Button
+                            size="badge"
+                            variant="outline"
+                            onClick={() =>
+                                asSeen({ reference: list![0].reference })
+                            }
+                        >
+                            Прочитати
+                        </Button>
                     )}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
