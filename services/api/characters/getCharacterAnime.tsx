@@ -1,4 +1,4 @@
-import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response extends Hikka.WithPagination<Anime> {}
 
@@ -10,28 +10,16 @@ export type Anime = {
 export default async function req({
     slug,
     page = 1,
+    size = 15,
 }: {
     slug: string;
+    size?: number;
     page?: number;
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI +
-            `/characters/${slug}/anime?` +
-            new URLSearchParams({
-                page: String(page),
-            }),
-        {
-            method: 'get',
-            ...config.config,
-        },
-    );
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
+    return fetchRequest<Response>({
+        path: `/characters/${slug}/anime`,
+        method: 'get',
+        page,
+        size,
+    });
 }

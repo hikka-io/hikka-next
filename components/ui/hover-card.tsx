@@ -11,6 +11,8 @@ const HoverCardTrigger = HoverCardPrimitive.Trigger
 
 const HoverCardPortal = HoverCardPrimitive.Portal
 
+const HoverCardArrow = HoverCardPrimitive.Arrow
+
 const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
@@ -28,4 +30,4 @@ const HoverCardContent = React.forwardRef<
 ))
 HoverCardContent.displayName = HoverCardPrimitive.Content.displayName
 
-export { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardPortal }
+export { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardPortal, HoverCardArrow }

@@ -1,4 +1,5 @@
 import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 interface Response {
     secret: string;
@@ -13,18 +14,9 @@ export default async function req({
     provider: 'google';
     code: string;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + '/auth/oauth/' + provider, {
+    return fetchRequest<Response>({
+        path: `/auth/oauth/${provider}`,
         method: 'post',
-        body: JSON.stringify({ code }),
-        ...config.config,
+        params: { code },
     });
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
 }

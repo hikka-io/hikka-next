@@ -119,14 +119,14 @@ const Component = () => {
             </div>
             {hasNextPage && (
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     disabled={isFetchingNextPage}
                     onClick={nextPage}
                 >
                     {isFetchingNextPage && (
                         <span className="loading loading-spinner"></span>
                     )}
-                    Заванатажити ще
+                    Завантажити ще
                 </Button>
             )}
             {list && pagination && pagination.pages > 1 && (

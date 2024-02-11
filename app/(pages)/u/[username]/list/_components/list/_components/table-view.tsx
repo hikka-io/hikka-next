@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, MouseEvent } from 'react';
 
 import Link from 'next/link';
 import {
@@ -11,6 +11,7 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
+import { useLoggedUser } from '@/app/page.hooks';
 import WatchEditModal from '@/components/modals/watch-edit-modal';
 import { Badge } from '@/components/ui/badge';
 import BaseCard from '@/components/ui/base-card';
@@ -23,12 +24,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { MEDIA_TYPE } from '@/utils/constants';
-import createQueryString from '@/utils/createQueryString';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { useLoggedUser } from '@/app/page.hooks';
+import { MEDIA_TYPE } from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
 
 interface Props {
     data: Hikka.Watch[];
@@ -42,7 +42,6 @@ const Component = ({ data }: Props) => {
     const router = useRouter();
     const { openModal } = useModalContext();
     const params = useParams();
-    const [go, setGo] = useState(false);
 
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
@@ -95,6 +94,30 @@ const Component = ({ data }: Props) => {
         router.replace(`${pathname}?${query}`);
     };
 
+    const openWatchEditModal = (
+        e: MouseEvent<HTMLElement>,
+        anime: Hikka.Anime,
+    ) => {
+        const target = e.target as HTMLElement;
+
+        if (
+            target &&
+            'getAttribute' in target &&
+            (target.getAttribute('href') || target.getAttribute('src'))
+        )
+            return;
+
+        openModal({
+            content: <WatchEditModal slug={anime.slug} />,
+            className: '!max-w-xl',
+            title:
+                anime[titleLanguage!] ||
+                anime.title_ua ||
+                anime.title_en ||
+                anime.title_ja,
+        });
+    };
+
     return (
         <div className="overflow-x-auto">
             <Table className="table">
@@ -138,20 +161,9 @@ const Component = ({ data }: Props) => {
                     {data.map((res, i) => (
                         <TableRow
                             key={res.reference}
-                            onClick={() =>
-                                !go &&
+                            onClick={(e) =>
                                 loggedUser?.username === params.username &&
-                                openModal({
-                                    content: (
-                                        <WatchEditModal slug={res.anime.slug} />
-                                    ),
-                                    className: '!max-w-xl',
-                                    title:
-                                        res.anime[titleLanguage!] ||
-                                        res.anime.title_ua ||
-                                        res.anime.title_en ||
-                                        res.anime.title_ja,
-                                })
+                                openWatchEditModal(e, res.anime)
                             }
                         >
                             <TableHead className="w-8">
@@ -162,14 +174,16 @@ const Component = ({ data }: Props) => {
                             <TableCell>
                                 <div className="flex gap-4">
                                     <div className="hidden w-12 lg:block">
-                                        <BaseCard poster={res.anime.poster} />
+                                        <BaseCard
+                                            poster={res.anime.poster}
+                                            href={`/anime/${res.anime.slug}`}
+                                        />
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex gap-2 items-center">
                                             <Link
                                                 className="hover:underline"
                                                 href={`/anime/${res.anime.slug}`}
-                                                onClick={() => setGo(true)}
                                             >
                                                 {res.anime[titleLanguage!] ||
                                                     res.anime.title_ua ||

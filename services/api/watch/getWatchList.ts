@@ -1,4 +1,5 @@
 import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
     pagination: Hikka.Pagination;
@@ -9,38 +10,22 @@ export default async function req({
     username,
     status,
     page = 1,
+    size = 15,
     order = 'score',
     sort = 'desc',
 }: {
     username: string;
     status: Hikka.WatchStatus;
     page?: number;
+    size?: number;
     order?: 'score' | 'episodes' | 'media_type';
     sort?: 'asc' | 'desc';
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI +
-            '/watch/' +
-            username +
-            '/list?' +
-            new URLSearchParams({
-                status: status,
-                page: String(page),
-                order: order || '',
-                sort: sort || '',
-            }),
-        {
-            method: 'get',
-            ...config.config,
-        },
-    );
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
+    return fetchRequest<Response>({
+        path: `/watch/${username}/list`,
+        method: 'get',
+        params: { status, order: order || '', sort: sort || '' },
+        page,
+        size,
+    });
 }

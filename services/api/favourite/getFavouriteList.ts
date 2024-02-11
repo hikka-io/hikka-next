@@ -1,50 +1,28 @@
-import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response {
-    pagination: Hikka.Pagination;
-    list: {
+export interface Response
+    extends Hikka.WithPagination<{
         reference: string;
         created: number;
         anime: Hikka.Anime;
-    }[];
-}
+    }> {}
 
 export default async function req({
     username,
     page = 1,
+    size = 15,
     secret,
 }: {
     username: string;
     page?: number;
+    size?: number;
     secret?: string;
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI +
-            '/favourite/anime/' +
-            username +
-            '/list?' +
-            new URLSearchParams({
-                page: String(page),
-            }),
-        {
-            method: 'get',
-            ...config.config,
-            headers: {
-                ...config.config.headers,
-                auth: secret || '',
-            },
-            next: {
-                revalidate: 0,
-            },
-        },
-    );
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
+    return fetchRequest<Response>({
+        path: `/favourite/anime/${username}/list`,
+        method: 'get',
+        secret,
+        page,
+        size,
+    });
 }

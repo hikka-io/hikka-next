@@ -1,4 +1,4 @@
-import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response extends Hikka.Edit {}
 
@@ -17,26 +17,11 @@ export default async function req({
     slug: string;
     captcha: string;
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI + '/edit/' + content_type + '/' + slug,
-        {
-            method: 'put',
-            body: JSON.stringify({ after, description }),
-            ...config.config,
-            headers: {
-                ...config.config.headers,
-                auth: secret || '',
-                Captcha: captcha,
-            },
-        },
-    );
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
+    return fetchRequest<Response>({
+        path: `/edit/${content_type}/${slug}`,
+        method: 'put',
+        params: { after, description },
+        secret,
+        captcha,
+    });
 }

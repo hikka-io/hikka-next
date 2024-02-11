@@ -1,4 +1,4 @@
-import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response extends Hikka.Comment {}
 
@@ -15,25 +15,10 @@ export default async function req({
     text: string;
     parent?: string;
 }): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI + `/comments/${content_type}/${slug}`,
-        {
-            method: 'put',
-            body: JSON.stringify({ text, parent }),
-            ...config.config,
-            headers: {
-                ...config.config.headers,
-                auth: secret || '',
-            },
-        },
-    );
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
+    return fetchRequest<Response>({
+        path: `/comments/${content_type}/${slug}`,
+        method: 'put',
+        params: { text, parent },
+        secret,
+    });
 }

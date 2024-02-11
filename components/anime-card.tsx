@@ -77,22 +77,6 @@ const Card = forwardRef(
                 {...props}
             >
                 {watch && <Watch watch={watch} />}
-
-                {slug && (
-                    <PopoverTrigger asChild>
-                        <Button
-                            size="icon-sm"
-                            variant="secondary"
-                            onMouseOver={(e) => {
-                                onMouseOver && onMouseOver(e);
-                                setOnCard(true);
-                            }}
-                            className="absolute bottom-2 right-2 hidden opacity-0 transition-opacity group-hover:opacity-100 lg:flex"
-                        >
-                            <MaterialSymbolsArticle />
-                        </Button>
-                    </PopoverTrigger>
-                )}
             </BaseCard>
         );
     },

@@ -15,7 +15,7 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import NavMenu from './_components/nav-menu';
-import ProfileMenu from './_components/profile-menu';
+import ProfileNavbar from './_components/profile-navbar';
 
 interface Props extends PropsWithChildren {}
 
@@ -55,7 +55,7 @@ const Component = ({}: Props) => {
                 <div className="flex gap-4">
                     <SearchModal />
                     {loggedUser ? (
-                        <ProfileMenu />
+                        <ProfileNavbar />
                     ) : (
                         <>
                             <Button

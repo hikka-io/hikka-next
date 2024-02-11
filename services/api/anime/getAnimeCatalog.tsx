@@ -1,5 +1,4 @@
-import config from '@/services/api/config';
-
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 interface Request {
     query?: string | null;
@@ -31,25 +30,12 @@ export default async function req({
     secret,
     ...params
 }: Request): Promise<Response> {
-    const res = await fetch(
-        config.baseAPI + '/anime?page=' + page + '&size=' + size,
-        {
-            method: 'post',
-            body: JSON.stringify(params),
-            ...config.config,
-            headers: {
-                ...config.config.headers,
-                auth: secret || '',
-            },
-        },
-    );
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
+    return fetchRequest<Response>({
+        path: '/anime',
+        method: 'post',
+        params,
+        page,
+        size,
+        secret,
+    });
 }

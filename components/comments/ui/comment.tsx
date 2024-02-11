@@ -9,16 +9,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import CommentInput from '@/components/comments/ui/comment-input';
 import CommentMenu from '@/components/comments/ui/comment-menu';
 import CommentVote from '@/components/comments/ui/comment-vote';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import getDeclensionWord from '@/utils/getDeclensionWord';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import Comments from './comments';
 
 
@@ -54,18 +51,11 @@ const Component = ({ comment, slug, content_type }: Props) => {
     };
 
     const getDeclensedReplyCount = () => {
-        if (comment.replies.length % 10 === 1) {
-            return `${comment.replies.length} відповідь`;
-        }
-
-        if (
-            comment.replies.length % 10 > 1 &&
-            comment.replies.length % 10 < 5
-        ) {
-            return `${comment.replies.length} відповіді`;
-        }
-
-        return `${comment.replies.length} відповідей`;
+        return comment.replies.length + getDeclensionWord(comment.replies.length, [
+            'відповідь',
+            'відповіді',
+            'відповідей',
+        ]);
     };
 
     useEffect(() => {

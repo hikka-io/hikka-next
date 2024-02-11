@@ -1,4 +1,5 @@
 import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
     follow: boolean;
@@ -11,21 +12,9 @@ export default async function req({
     username: string;
     secret: string;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + '/follow/' + username, {
+    return fetchRequest<Response>({
+        path: `/follow/${username}`,
         method: 'put',
-        ...config.config,
-        headers: {
-            ...config.config.headers,
-            auth: secret || '',
-        },
+        secret,
     });
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
 }

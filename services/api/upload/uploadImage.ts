@@ -1,4 +1,4 @@
-import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
     url: string;
@@ -16,21 +16,11 @@ export default async function req({
     let data = new FormData();
     data.append('file', file);
 
-    const res = await fetch(config.baseAPI + '/upload/' + upload_type, {
+    return fetchRequest<Response>({
+        path: `/upload/${upload_type}`,
         method: 'put',
-        ...config.config,
-        body: data,
-        headers: {
-            auth: secret || '',
-        },
+        secret: secret,
+        params: data,
+        formData: true,
     });
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
 }

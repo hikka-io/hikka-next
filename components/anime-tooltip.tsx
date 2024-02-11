@@ -26,6 +26,7 @@ import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 interface Props extends PropsWithChildren {
     slug: string;
@@ -190,32 +191,18 @@ const Component = ({ slug, children, withTrigger, ...props }: Props) => {
     }, []);
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
-            {withTrigger ? (
-                <PopoverTrigger asChild>
-                    {cloneElement(children as ReactElement, {
-                        onMouseOver: handleOpen,
-                        onMouseOut: handleClose,
-                    })}
-                </PopoverTrigger>
-            ) : (
-                <PopoverAnchor asChild>
-                    {cloneElement(children as ReactElement, {
-                        onMouseOver: handleOpen,
-                        onMouseOut: handleClose,
-                    })}
-                </PopoverAnchor>
-            )}
-
-            <PopoverContent
-                onMouseOver={handleOpen}
-                onMouseOut={handleClose}
+        <HoverCard openDelay={400} closeDelay={100}>
+            <HoverCardTrigger asChild>
+                {children}
+            </HoverCardTrigger>
+            <HoverCardContent
                 side="right"
-                className="ml-4 flex w-80 flex-col gap-4 p-4"
+                className="flex w-80 flex-col gap-4 p-4"
             >
+                <HoverCardArrow />
                 <TooltipData slug={slug} />
-            </PopoverContent>
-        </Popover>
+            </HoverCardContent>
+        </HoverCard>
     );
 };
 

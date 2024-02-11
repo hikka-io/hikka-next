@@ -1,3 +1,5 @@
+'use client';
+
 import { OptionsObject, ProviderContext, useSnackbar } from 'notistack';
 import React from 'react';
 

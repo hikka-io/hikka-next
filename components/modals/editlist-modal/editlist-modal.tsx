@@ -73,7 +73,7 @@ const Component = ({ content_type, slug }: Props) => {
                                 {isFetchingNextPage && (
                                     <span className="loading loading-spinner"></span>
                                 )}
-                                Заванатажити ще
+                                Завантажити ще
                             </Button>
                         </div>
                     )}

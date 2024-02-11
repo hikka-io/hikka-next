@@ -66,7 +66,7 @@ const Component = ({ type }: Props) => {
                             {isFetchingNextPage && (
                                 <span className="loading loading-spinner"></span>
                             )}
-                            Заванатажити ще
+                            Завантажити ще
                         </Button>
                     </div>
                 )}

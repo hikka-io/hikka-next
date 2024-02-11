@@ -82,7 +82,7 @@ const Component = ({}: Props) => {
             )}
             {hasNextPage && (
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     ref={ref}
                     disabled={isFetchingNextPage}
                     onClick={() => fetchNextPage()}
@@ -90,7 +90,7 @@ const Component = ({}: Props) => {
                     {isFetchingNextPage && (
                         <span className="loading loading-spinner"></span>
                     )}
-                    Заванатажити ще
+                    Завантажити ще
                 </Button>
             )}
         </div>

@@ -1,5 +1,4 @@
-import config from '@/services/api/config';
-
+import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
     note: string;
@@ -25,22 +24,10 @@ export default async function req({
     rewatches?: number;
     status: Hikka.WatchStatus;
 }): Promise<Response> {
-    const res = await fetch(config.baseAPI + '/watch/' + slug, {
+    return fetchRequest<Response>({
+        path: `/watch/${slug}`,
         method: 'put',
-        body: JSON.stringify({ note, score, episodes, status, rewatches }),
-        ...config.config,
-        headers: {
-            ...config.config.headers,
-            auth: secret || '',
-        },
+        params: { note, score, episodes, status, rewatches },
+        secret,
     });
-
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            throw await res.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-
-    return await res.json();
 }
