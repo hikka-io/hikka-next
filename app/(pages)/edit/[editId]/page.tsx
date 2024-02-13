@@ -1,16 +1,10 @@
 import * as React from 'react';
 
-
-
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
-
-
 
 import EditView from '@/app/(pages)/edit/[editId]/_components/edit-view';
 import Breadcrumbs from '@/components/breadcrumbs';
@@ -18,8 +12,6 @@ import Comments from '@/components/comments/comments';
 import SubHeader from '@/components/sub-header';
 import getEdit from '@/services/api/edit/getEdit';
 import getQueryClient from '@/utils/getQueryClient';
-
-
 
 import Content from '../_components/ui/content';
 import EditStatus from '../_components/ui/edit-status';

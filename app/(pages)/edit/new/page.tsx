@@ -1,22 +1,14 @@
 import * as React from 'react';
 
-
-
 import { redirect } from 'next/navigation';
-
-
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
-
-
 
 import SubHeader from '@/components/sub-header';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getQueryClient from '@/utils/getQueryClient';
-
-
 
 import Content from '../_components/ui/content';
 import EditNew from './_components/edit-new';
@@ -53,10 +45,8 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
         });
     }
 
-    const content: Hikka.AnimeInfo | Hikka.Character | undefined = queryClient.getQueryData([
-        content_type,
-        slug,
-    ]);
+    const content: Hikka.AnimeInfo | Hikka.Character | undefined =
+        queryClient.getQueryData([content_type, slug]);
 
     const dehydratedState = dehydrate(queryClient);
 

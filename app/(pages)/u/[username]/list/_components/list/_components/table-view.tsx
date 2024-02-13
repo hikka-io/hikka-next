@@ -1,9 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import { CSSProperties, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 
-import Link from 'next/link';
 import {
     useParams,
     usePathname,
@@ -13,13 +12,9 @@ import {
 
 import { useLoggedUser } from '@/app/page.hooks';
 import WatchEditModal from '@/components/modals/watch-edit-modal';
-import { Badge } from '@/components/ui/badge';
-import BaseCard from '@/components/ui/base-card';
-import { Label } from '@/components/ui/label';
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
     TableRow,
@@ -27,8 +22,13 @@ import {
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { MEDIA_TYPE } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
+
+import DetailsCell from './ui/details-cell';
+import EpisodesCell from './ui/episodes-cell';
+import MediaCell from './ui/media-cell';
+import NumberCell from './ui/number-cell';
+import ScoreCell from './ui/score-cell';
 
 interface Props {
     data: Hikka.Watch[];
@@ -49,47 +49,15 @@ const Component = ({ data }: Props) => {
     const { data: loggedUser } = useLoggedUser(String(secret));
 
     const switchOrder = (newOrder: 'score' | 'episodes' | 'media_type') => {
-        let query;
-
-        if (order && order === newOrder) {
-            if (sort) {
-                if (sort === 'asc') {
-                    query = createQueryString(
-                        'sort',
-                        'desc',
-                        new URLSearchParams(searchParams),
-                    ).toString();
-                } else if (sort === 'desc') {
-                    query = createQueryString(
-                        'sort',
-                        'asc',
-                        new URLSearchParams(searchParams),
-                    ).toString();
-                } else {
-                    query = createQueryString(
-                        'sort',
-                        'desc',
-                        new URLSearchParams(searchParams),
-                    ).toString();
-                }
-            } else {
-                query = createQueryString(
-                    'sort',
-                    'desc',
-                    new URLSearchParams(searchParams),
-                ).toString();
-            }
-        } else {
-            query = createQueryString(
-                'sort',
-                'desc',
-                createQueryString(
-                    'order',
-                    newOrder,
-                    new URLSearchParams(searchParams),
-                ),
-            ).toString();
-        }
+        const query = createQueryString(
+            'sort',
+            sort && newOrder !== order ? sort : sort === 'asc' ? 'desc' : 'asc',
+            createQueryString(
+                'order',
+                newOrder,
+                new URLSearchParams(searchParams),
+            ),
+        ).toString();
 
         router.replace(`${pathname}?${query}`);
     };
@@ -166,74 +134,17 @@ const Component = ({ data }: Props) => {
                                 openWatchEditModal(e, res.anime)
                             }
                         >
-                            <TableHead className="w-8">
-                                <Label className="text-muted-foreground">
-                                    {i + 1}
-                                </Label>
-                            </TableHead>
-                            <TableCell>
-                                <div className="flex gap-4">
-                                    <div className="hidden w-12 lg:block">
-                                        <BaseCard
-                                            poster={res.anime.poster}
-                                            href={`/anime/${res.anime.slug}`}
-                                        />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex gap-2 items-center">
-                                            <Link
-                                                className="hover:underline"
-                                                href={`/anime/${res.anime.slug}`}
-                                            >
-                                                {res.anime[titleLanguage!] ||
-                                                    res.anime.title_ua ||
-                                                    res.anime.title_en ||
-                                                    res.anime.title_ja}
-                                            </Link>
-                                            {res.rewatches > 0 && (
-                                                <Badge variant="outline">
-                                                    {res.rewatches}
-                                                </Badge>
-                                            )}
-                                        </div>
-                                        {res.note && (
-                                            <p className="text-xs text-muted-foreground">
-                                                {res.note}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            </TableCell>
-                            <TableCell className="w-20" align="center">
-                                {res.episodes} / {res.anime.episodes_total}
-                            </TableCell>
-                            <TableCell
-                                className="hidden w-32 lg:table-cell"
-                                align="center"
-                            >
-                                {res.anime.media_type &&
-                                    MEDIA_TYPE[
-                                        res.anime.media_type as Hikka.MediaType
-                                    ].title_ua}
-                            </TableCell>
-                            <TableCell className="w-20" align="center">
-                                <div
-                                    className={clsx(
-                                        'radial-progress border border-secondary text-primary',
-                                    )}
-                                    style={
-                                        {
-                                            '--value': res.score * 10,
-                                            '--size': '2.5rem',
-                                            '--thickness':
-                                                res.score > 0 ? '2px' : '0px',
-                                        } as CSSProperties
-                                    }
-                                    role="progressbar"
-                                >
-                                    {res.score}
-                                </div>
-                            </TableCell>
+                            <NumberCell number={i + 1} />
+                            <DetailsCell
+                                anime={res.anime}
+                                titleLanguage={titleLanguage!}
+                            />
+                            <EpisodesCell
+                                episodes={res.episodes}
+                                total={res.anime.episodes_total}
+                            />
+                            <MediaCell media_type={res.anime.media_type} />
+                            <ScoreCell score={res.score} />
                         </TableRow>
                     ))}
                 </TableBody>

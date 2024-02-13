@@ -47,7 +47,7 @@ const Component = ({}: Props) => {
                 </Link>
                 <div className="flex flex-1 flex-col gap-0 w-full overflow-x-scroll no-scrollbar">
                     {Object.keys(data).map((status) => {
-                        if (status === 'completed') {
+                        if (status === 'completed' || !(status in WATCH_STATUS)) {
                             return null;
                         }
 
