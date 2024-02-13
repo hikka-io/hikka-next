@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
 import { createFavoriteEvents } from '@/utils/convertFavoriteActivity';
 import { createWatchEvents } from '@/utils/convertWatchActivity';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     data: Hikka.History;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const Component = ({ data, className }: Props) => {
+    const { titleLanguage } = useSettingsContext();
+
     if (!data.content) return null;
 
     const createEvent = data.history_type.includes('watch')
@@ -31,7 +34,7 @@ const Component = ({ data, className }: Props) => {
             <div className="flex flex-col gap-2 flex-1">
                 <Label asChild className="line-clamp-1">
                     <Link href={`/anime/${data.content.slug}`}>
-                        {data.content.title_ua}
+                        {data.content[titleLanguage!] || data.content.title_ua || data.content.title_en || data.content.title_ja}
                     </Link>
                 </Label>
                 <p className="text-xs leading-normal text-muted-foreground">

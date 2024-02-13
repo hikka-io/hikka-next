@@ -22,7 +22,7 @@ interface EditProps<
     selected: (keyof TEditParams)[];
     params: Hikka.EditParam<TEditParams>[];
     content: Record<string, any>;
-    onSwitchParam: (param: keyof TEditParams) => void;
+    onSwitchParam?: (param: keyof TEditParams) => void;
     register: any;
     control?: any;
     editor?: 'input' | 'markdown';
@@ -77,7 +77,7 @@ const Component = <
             </CollapsibleTrigger>
 
             <CollapsibleContent className="flex flex-col gap-6">
-                {mode === 'edit' && (
+                {mode === 'edit' && onSwitchParam && (
                     <div className="flex flex-wrap gap-2">
                         {params.map((param) => (
                             <Button

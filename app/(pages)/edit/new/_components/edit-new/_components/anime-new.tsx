@@ -1,28 +1,25 @@
 'use client';
 
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
-import { useCharacterInfo } from '@/app/page.hooks';
+import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
+import { useAnimeInfo } from '@/app/page.hooks';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import addEdit from '@/services/api/edit/addEdit';
-import {
-    CHARACTER_DESCRIPTION_PARAMS,
-    CHARACTER_TITLE_PARAMS,
-} from '@/utils/constants';
 import { useAuthContext } from '@/services/providers/auth-provider';
+import { ANIME_SYNOPSIS_PARAMS, ANIME_TITLE_PARAMS } from '@/utils/constants';
 
 import InputParam from '../../../../_components/ui/input-param';
+import ListParam from '../../../../_components/ui/list-param';
 
 
-type FormValues = Hikka.CharacterEditParams & {
+type FormValues = Hikka.AnimeEditParams & {
     description: string;
 };
 
@@ -33,12 +30,12 @@ interface Props {
 const Component = ({ slug }: Props) => {
     const captchaRef = useRef<TurnstileInstance>();
     const [editParams, setEditParams] = useState<
-        (keyof Hikka.CharacterEditParams)[]
+        (keyof Hikka.AnimeEditParams)[]
     >([]);
     const { secret } = useAuthContext();
     const router = useRouter();
 
-    const { data: character } = useCharacterInfo(slug);
+    const { data: anime } = useAnimeInfo(slug);
 
     const {
         control,
@@ -46,7 +43,10 @@ const Component = ({ slug }: Props) => {
         reset,
         handleSubmit,
         formState: { isSubmitting },
+        setValue,
     } = useForm<FormValues>();
+
+    const [synonyms, setSynonyms] = useState<string[]>([]);
 
     const getEditParams = (data: FormValues) => {
         return editParams.reduce(
@@ -58,26 +58,27 @@ const Component = ({ slug }: Props) => {
         );
     };
 
-    const onDismiss = () => {
+    const onDismiss = (editId: number) => {
         reset();
-        router.push('/edit');
+        router.push('/edit/' + editId);
     };
 
     const onSaveSubmit = async (data: FormValues) => {
         try {
             if (captchaRef.current) {
-                await addEdit({
+                const res = await addEdit({
                     secret: String(secret),
-                    content_type: 'character',
+                    content_type: 'anime',
                     slug: slug,
                     after: {
                         ...getEditParams(data),
+                        synonyms: synonyms,
                     },
                     description: data.description,
                     captcha: String(captchaRef.current.getResponse()),
                 });
 
-                onDismiss();
+                onDismiss(res.edit_id);
             } else {
                 throw Error('No captcha found');
             }
@@ -86,7 +87,7 @@ const Component = ({ slug }: Props) => {
         }
     };
 
-    const switchParam = (param: keyof Hikka.CharacterEditParams) => {
+    const switchParam = (param: keyof Hikka.AnimeEditParams) => {
         setEditParams((prev) =>
             prev.includes(param)
                 ? prev.filter((p) => p !== param)
@@ -94,7 +95,13 @@ const Component = ({ slug }: Props) => {
         );
     };
 
-    if (!character) {
+    useEffect(() => {
+        if (anime) {
+            setSynonyms(anime.synonyms);
+        }
+    }, [anime]);
+
+    if (!anime) {
         return null;
     }
 
@@ -105,11 +112,11 @@ const Component = ({ slug }: Props) => {
                 className="flex flex-col gap-6"
             >
                 <div className="flex w-full flex-col gap-6">
-                    <InputParam<Hikka.CharacterEditParams>
-                        title="Імʼя персонажа"
+                    <InputParam<Hikka.AnimeEditParams>
+                        title="Назва аніме"
                         selected={editParams}
-                        params={CHARACTER_TITLE_PARAMS}
-                        content={character}
+                        params={ANIME_TITLE_PARAMS}
+                        content={anime}
                         editor="input"
                         onSwitchParam={switchParam}
                         register={register}
@@ -117,32 +124,30 @@ const Component = ({ slug }: Props) => {
                         mode="edit"
                     />
 
-                    <InputParam<Hikka.CharacterEditParams>
-                        title="Опис персонажа"
+                    <ListParam
+                        title="Синоніми"
+                        inputTitle="Новий синонім"
+                        selected={synonyms}
+                        setList={setSynonyms}
+                        mode="edit"
+                    />
+
+                    <InputParam<Hikka.AnimeEditParams>
+                        title="Опис аніме"
                         editor="markdown"
                         selected={editParams}
-                        params={CHARACTER_DESCRIPTION_PARAMS}
-                        content={character}
+                        params={ANIME_SYNOPSIS_PARAMS}
+                        content={anime}
                         onSwitchParam={switchParam}
                         register={register}
                         control={control}
                         mode="edit"
                     />
 
-                    <div className="flex flex-col gap-4 w-full">
-                        <Label className="flex justify-between">
-                            <span>Опис правки</span>
-                            <span className="text-muted-foreground">
-                                Необов’язково
-                            </span>
-                        </Label>
-                        <Textarea
-                            placeholder="Введіть причину правки"
-                            rows={3}
-                            className="w-full disabled:text-secondary-foreground"
-                            {...register('description')}
-                        />
-                    </div>
+                    <EditDescription
+                        register={register}
+                        setValue={setValue}
+                    />
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Turnstile

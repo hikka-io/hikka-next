@@ -40,7 +40,7 @@ const Component = () => {
     const [go, setGo] = useState(false);
     const router = useRouter();
 
-    const { data } = useEditList(page);
+    const { data } = useEditList({ page, staleTime: 0 });
 
     const updatePage = (newPage: number) => {
         const query = createQueryString(
@@ -81,7 +81,7 @@ const Component = () => {
                                     )}
                                     onClick={() =>
                                         !go &&
-                                        router.push('/edit/' + edit.edit_id)
+                                        router.push(`/edit/${edit.edit_id}?mode=view`)
                                     }
                                 >
                                     <TableHead className="w-8">

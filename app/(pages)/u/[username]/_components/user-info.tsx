@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded';
 import MaterialSymbolsPerson2OutlineRounded from '~icons/material-symbols/person-2-outline-rounded';
 import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
@@ -8,6 +8,7 @@ import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded
 import { useParams } from 'next/navigation';
 
 import { useUser } from '@/app/(pages)/u/[username]/page.hooks';
+import { useLoggedUser } from '@/app/page.hooks';
 import CropEditorModal from '@/components/modals/crop-editor-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +21,6 @@ import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useLoggedUser } from '@/app/page.hooks';
 
 interface Props {}
 
@@ -31,7 +31,6 @@ const Component = ({}: Props) => {
     const { openModal } = useModalContext();
     const params = useParams();
     const { secret } = useAuthContext();
-    const [selectedFile, setSelectedFile] = useState<File>();
 
     const { data: user } = useUser(String(params.username));
     const { data: loggedUser } = useLoggedUser(String(secret));
@@ -42,7 +41,6 @@ const Component = ({}: Props) => {
     ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
-            setSelectedFile(file);
 
             switch (type) {
                 case 'avatar':
@@ -58,7 +56,7 @@ const Component = ({}: Props) => {
             }
 
             openModal({
-                content: <CropEditorModal file={selectedFile} type={type} />,
+                content: <CropEditorModal file={file} type={type} />,
                 className: '!max-w-lg',
                 title: 'Редагувати медіафайл',
             });

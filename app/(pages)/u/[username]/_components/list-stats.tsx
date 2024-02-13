@@ -7,8 +7,8 @@ import { useWatchStats } from '@/app/(pages)/u/[username]/page.hooks';
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils';
+import { WATCH_STATUS } from '@/utils/constants';
 
 interface Props {}
 
@@ -20,7 +20,10 @@ const Component = ({}: Props) => {
         return null;
     }
 
-    const sum = Object.values(data).reduce((acc, cur) => acc + cur, 0);
+    const sum = Object.values({ ...data, duration: 0 }).reduce(
+        (acc, cur) => acc + cur,
+        0,
+    );
 
     return (
         <div className="flex flex-col gap-2">
@@ -47,7 +50,10 @@ const Component = ({}: Props) => {
                 </Link>
                 <div className="flex flex-1 flex-col gap-0 w-full overflow-x-scroll no-scrollbar">
                     {Object.keys(data).map((status) => {
-                        if (status === 'completed' || !(status in WATCH_STATUS)) {
+                        if (
+                            status === 'completed' ||
+                            !(status in WATCH_STATUS)
+                        ) {
                             return null;
                         }
 

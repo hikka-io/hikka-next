@@ -14,6 +14,7 @@ import acceptEdit from '@/services/api/edit/acceptEdit';
 import closeEdit from '@/services/api/edit/closeEdit';
 import denyEdit from '@/services/api/edit/denyEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
+import Link from 'next/link';
 
 
 const Component = () => {
@@ -101,40 +102,55 @@ const Component = () => {
     }
 
     return (
-        <div className="grid auto-cols-min grid-flow-col items-center gap-2">
+        <div className="flex items-center gap-2 justify-between">
+            {loggedUser?.username === edit.author.username &&
+                edit.status === 'pending' && (
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={isSubmitting}
+                            onClick={onCloseSubmit}
+                        >
+                            Закрити
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            disabled={isSubmitting}
+                            asChild
+                        >
+                            <Link href={`/edit/${params.editId}?mode=update`}>
+                                Редагувати
+                            </Link>
+                        </Button>
+                    </div>
+                )}
             {(loggedUser?.role === 'moderator' ||
                 loggedUser?.role === 'admin') &&
             edit.status === 'pending' ? (
-                <>
+                <div className='flex items-center gap-2'>
                     <Button
-                        variant="success"
-                        size="sm"
-                        disabled={isSubmitting}
-                        onClick={onAcceptSubmit}
-                    >
-                        Прийняти
-                    </Button>
-                    <Button
-                        variant="destructive"
-                        size="sm"
+                        variant='destructive'
+                        size='sm'
                         disabled={isSubmitting}
                         onClick={onDenySubmit}
                     >
                         Відхилити
                     </Button>
-                </>
-            ) : null}
-            {loggedUser?.username === edit.author.username &&
-                edit.status === 'pending' && (
+
                     <Button
-                        variant="warning"
-                        size="sm"
+                        variant='success'
+                        size='sm'
                         disabled={isSubmitting}
-                        onClick={onCloseSubmit}
+                        onClick={onAcceptSubmit}
                     >
-                        Закрити
+                        Прийняти
                     </Button>
-                )}
+
+                </div>
+            ) : null}
+
         </div>
     );
 };

@@ -13,10 +13,9 @@ import { Textarea } from '@/components/ui/textarea';
 import addWatch from '@/services/api/watch/addWatch';
 import deleteWatch from '@/services/api/watch/deleteWatch';
 import getWatch from '@/services/api/watch/getWatch';
-import { WATCH_STATUS } from '@/utils/constants';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useSettingsContext } from '@/services/providers/settings-provider';
+import { WATCH_STATUS } from '@/utils/constants';
 
 
 type FormValues = {
@@ -32,7 +31,6 @@ interface Props {
 
 const Component = ({ slug }: Props) => {
     const { closeModal } = useModalContext();
-    const { titleLanguage } = useSettingsContext();
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const { data: watch, isError: watchError } = useQuery({
@@ -67,6 +65,10 @@ const Component = ({ slug }: Props) => {
             closeModal();
             await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.invalidateQueries({ queryKey: ['watch'] });
+            await queryClient.invalidateQueries({
+                queryKey: ['watchList'],
+                exact: false,
+            });
         },
     });
 

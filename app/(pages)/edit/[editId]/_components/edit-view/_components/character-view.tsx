@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
+import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import {
     CHARACTER_DESCRIPTION_PARAMS,
     CHARACTER_TITLE_PARAMS,
@@ -66,16 +65,11 @@ const Component = () => {
                     )}
 
                     {edit.description && (
-                        <div className="flex flex-col gap-4 w-full">
-                            <Label>Опис правки</Label>
-                            <Textarea
-                                disabled
-                                placeholder="Введіть причину правки"
-                                rows={3}
-                                className="w-full disabled:opacity-100"
-                                value={edit!.description}
-                            />
-                        </div>
+                        <EditDescription
+                            disabled
+                            className="w-full disabled:opacity-100"
+                            value={edit!.description}
+                        />
                     )}
                 </div>
             </div>

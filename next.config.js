@@ -2,6 +2,9 @@ const withMDX = require('@next/mdx')();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
     reactStrictMode: true,
     pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     images: {

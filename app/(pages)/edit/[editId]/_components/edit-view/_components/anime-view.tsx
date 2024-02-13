@@ -15,6 +15,7 @@ import {
 
 import InputParam from '../../../../_components/ui/input-param';
 import ListParam from '../../../../_components/ui/list-param';
+import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
 
 
 const Component = () => {
@@ -75,16 +76,11 @@ const Component = () => {
                     )}
 
                     {edit.description && (
-                        <div className="flex flex-col gap-4 w-full">
-                            <Label>Опис правки</Label>
-                            <Textarea
-                                disabled
-                                placeholder="Введіть причину правки"
-                                rows={3}
-                                className="w-full disabled:opacity-100"
-                                value={edit!.description}
-                            />
-                        </div>
+                        <EditDescription
+                            disabled
+                            className="w-full disabled:opacity-100"
+                            value={edit!.description}
+                        />
                     )}
                 </div>
             </div>
