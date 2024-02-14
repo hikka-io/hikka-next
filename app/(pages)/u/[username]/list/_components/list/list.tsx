@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import {
     useParams,
@@ -26,26 +26,18 @@ const Component = ({}: Props) => {
     const params = useParams();
 
     const watchStatus = searchParams.get('status');
-    const order = searchParams.get('order');
-    const sort = searchParams.get('sort');
-    const view = searchParams.get('view') || 'table'
+    const view = searchParams.get('view') || 'table';
 
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useWatchList({
             username: String(params.username),
-            status: String(watchStatus),
-            order: String(order),
-            sort: String(sort),
+            watch_status: String(watchStatus) as Hikka.WatchStatus,
         });
 
     useEffect(() => {
         if (!watchStatus) {
             router.replace(
-                pathname + '/?status=completed&order=score&sort=desc',
-            );
-        } else if (!order || !sort) {
-            router.replace(
-                pathname + '/?status=' + watchStatus + '&order=score&sort=desc',
+                pathname + '/?status=completed',
             );
         }
     }, [watchStatus]);

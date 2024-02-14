@@ -1,3 +1,5 @@
+import { useSearchParams } from 'next/navigation';
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
@@ -95,24 +97,51 @@ export const useWatchStats = (username: string) => {
 
 export const useWatchList = ({
     username,
-    status,
-    order,
-    sort,
+    watch_status,
 }: {
     username: string;
-    status: string;
-    order?: string;
-    sort?: string;
+    watch_status: Hikka.WatchStatus;
 }) => {
+    const searchParams = useSearchParams();
+
+    const types = searchParams.getAll('types');
+    const statuses = searchParams.getAll('statuses');
+    const seasons = searchParams.getAll('seasons');
+    const ageRatings = searchParams.getAll('ratings');
+    const years = searchParams.getAll('years');
+    const genres = searchParams.getAll('genres');
+
+    const order = searchParams.get('order') || 'desc';
+    const sort = searchParams.get('sort') || 'watch_score';
+
     return useInfiniteList({
-        queryKey: ['watchList', username, { status, order, sort }],
+        queryKey: [
+            'watchList',
+            username,
+            {
+                watch_status,
+                types,
+                statuses,
+                seasons,
+                ageRatings,
+                genres,
+                order,
+                sort,
+                years,
+            },
+        ],
         queryFn: ({ pageParam = 1 }) =>
             getWatchList({
                 username: username,
-                status: status as Hikka.WatchStatus,
+                watch_status: watch_status,
                 page: pageParam,
-                order: order as 'score' | 'episodes' | 'media_type' | undefined,
-                sort: sort as 'asc' | 'desc' | undefined,
+                media_type: types,
+                season: seasons,
+                rating: ageRatings,
+                status: statuses,
+                sort: [`${sort}:${order}`],
+                genres,
+                years: years && years.length == 2 ? years : undefined,
             }),
     });
 };

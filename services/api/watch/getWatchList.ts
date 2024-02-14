@@ -1,30 +1,36 @@
-import config from '@/services/api/config';
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response {
-    pagination: Hikka.Pagination;
-    list: Hikka.Watch[];
+export interface Response extends Hikka.WithPagination<Hikka.Watch> {}
+
+export interface Request {
+    sort?: string[];
+    page?: number;
+    years?: string[];
+    score?: string[];
+    media_type?: string[];
+    rating?: string[];
+    status?: string[];
+    source?: string[];
+    season?: string[];
+    producers?: string[];
+    studios?: string[];
+    genres?: string[];
+    size?: number;
+    username: string;
+    watch_status: Hikka.WatchStatus;
 }
+
 
 export default async function req({
     username,
-    status,
     page = 1,
     size = 15,
-    order = 'score',
-    sort = 'desc',
-}: {
-    username: string;
-    status: Hikka.WatchStatus;
-    page?: number;
-    size?: number;
-    order?: 'score' | 'episodes' | 'media_type';
-    sort?: 'asc' | 'desc';
-}): Promise<Response> {
+    ...params
+}: Request): Promise<Response> {
     return fetchRequest<Response>({
         path: `/watch/${username}/list`,
-        method: 'get',
-        params: { status, order: order || '', sort: sort || '' },
+        method: 'post',
+        params: params,
         page,
         size,
     });

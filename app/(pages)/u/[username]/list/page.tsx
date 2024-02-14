@@ -44,8 +44,8 @@ const Component = () => {
                 </div>
                 <List />
             </div>
-            <div className="bg-secondary/30 border border-secondary/60 p-4 rounded-md h-fit opacity-60 hover:opacity-100 transition-opacity sticky top-20">
-                <Filters />
+            <div className="hidden lg:block bg-secondary/30 border border-secondary/60 rounded-md h-fit opacity-60 hover:opacity-100 transition-opacity sticky top-20">
+                <Filters className="px-4" type="watchlist" />
             </div>
         </div>
     );

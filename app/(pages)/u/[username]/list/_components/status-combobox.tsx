@@ -26,7 +26,7 @@ const Component = () => {
 
     const { pagination } = useWatchList({
         username: String(params.username),
-        status: String(watchStatus),
+        watch_status: String(watchStatus) as Hikka.WatchStatus,
     });
 
     return (

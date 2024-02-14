@@ -24,33 +24,13 @@ const Component = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const search = searchParams.get('search');
-
     const page = searchParams.get('page');
     const iPage = searchParams.get('iPage');
-
-    const types = searchParams.getAll('types');
-    const statuses = searchParams.getAll('statuses');
-    const seasons = searchParams.getAll('seasons');
-    const ageRatings = searchParams.getAll('ratings');
-    const years = searchParams.getAll('years');
-    const genres = searchParams.getAll('genres');
-    const lang = searchParams.get('only_translated');
-    const sort = searchParams.get('sort');
 
     const dataKeys = {
         page: Number(page),
         iPage: Number(iPage),
-        search,
-        types,
-        statuses,
-        seasons,
-        ageRatings,
-        years,
-        lang,
-        genres,
         secret,
-        sort,
     };
 
     const {

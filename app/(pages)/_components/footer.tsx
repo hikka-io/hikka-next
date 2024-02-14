@@ -3,13 +3,23 @@
 import * as React from 'react';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
 import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
+import ArcticonsMonobank from '~icons/arcticons/monobank'
 
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
-import Rightholder from './rightholder.mdx';
 import { useModalContext } from '@/services/providers/modal-provider';
+
+import Rightholder from './rightholder.mdx';
+import { PopoverTrigger } from '@/components/ui/popover';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 
 const Component = () => {
@@ -20,21 +30,6 @@ const Component = () => {
             <div className="container mx-auto max-w-screen-xl p-4">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
-                        <Button variant="ghost" size="sm" asChild>
-                            <Link href="https://t.me/hikka_io" target="_blank">
-                                <MingcuteTelegramFill />
-                                Telegram
-                            </Link>
-                        </Button>
-                        <Button variant="ghost" size="sm" asChild>
-                            <Link
-                                href="https://www.buymeacoffee.com/hikka"
-                                target="_blank"
-                            >
-                                <SimpleIconsBuymeacoffee />
-                                Buy Me a Coffee
-                            </Link>
-                        </Button>
                         <Button
                             variant="ghost"
                             size="sm"
@@ -48,6 +43,44 @@ const Component = () => {
                         >
                             Правовласникам
                         </Button>
+                        <Button variant="ghost" size="sm" asChild>
+                            <Link href="https://t.me/hikka_io" target="_blank">
+                                <MingcuteTelegramFill />
+                                Telegram
+                            </Link>
+                        </Button>
+
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                >
+                                    Підтримати нас
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem asChild>
+                                    <Link
+                                        href="https://www.buymeacoffee.com/hikka"
+                                        target="_blank"
+                                    >
+                                        <SimpleIconsBuymeacoffee className="mr-2 h-4 w-4" />
+                                        BuyMeACoffee
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link
+                                        href="https://www.buymeacoffee.com/hikka"
+                                        target="_blank"
+                                    >
+                                        <ArcticonsMonobank className="mr-2 h-4 w-4" />
+                                        Монобанка
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                     <div className="flex items-center justify-center lg:justify-end">
                         <Label

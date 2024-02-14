@@ -28,12 +28,16 @@ export default async function req({
     page = 1,
     size = 15,
     secret,
+    query,
     ...params
 }: Request): Promise<Response> {
     return fetchRequest<Response>({
         path: '/anime',
         method: 'post',
-        params,
+        params: {
+            ...params,
+            ...(query && query.length > 2 ? { query } : {}),
+        },
         page,
         size,
         secret,

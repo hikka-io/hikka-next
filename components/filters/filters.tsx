@@ -1,7 +1,9 @@
 'use client';
 
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
+import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
@@ -23,15 +25,48 @@ import {
 import createQueryString from '@/utils/createQueryString';
 
 import BadgeFilter from './_components/ui/badge-filter';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
 
 interface Props {
     className?: string;
+    type: 'anime' | 'watchlist';
 }
 
-const Component = ({ className }: Props) => {
+const SORT_ANIME = [
+    {
+        label: 'Загальна оцінка',
+        value: 'score',
+    },
+    {
+        label: 'Дата релізу',
+        value: 'start_date',
+    },
+    {
+        label: 'Тип',
+        value: 'media_type',
+    },
+];
+
+const SORT_WATCHLIST = [
+    ...SORT_ANIME,
+    {
+        label: 'К-сть епізодів',
+        value: 'watch_episodes',
+    },
+    {
+        label: 'Дата додавання',
+        value: 'watch_created',
+    },
+    {
+        label: 'Власна оцінка',
+        value: 'watch_score',
+    },
+];
+
+const Component = ({ className, type }: Props) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
@@ -43,6 +78,8 @@ const Component = ({ className }: Props) => {
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
     const lang = searchParams.get('only_translated');
+    const order = searchParams.get('order');
+    const sort = searchParams.get('sort');
 
     const { data: genresList } = useQuery({
         queryKey: ['animeGenres'],
@@ -79,16 +116,50 @@ const Component = ({ className }: Props) => {
     }, [searchParams]);
 
     return (
-        <div
+        <ScrollArea
             className={cn(
                 'flex flex-col items-start gap-8',
                 // 'lg:absolute lg:top-0',
                 'border-t border-t-transparent',
                 'transition',
-                className,
+                'lg:max-h-[calc(100vh-6rem)] h-full',
+                className,4
             )}
         >
-            <div className="flex w-full flex-col items-start gap-8">
+            <div className="flex w-full flex-col items-start gap-8 py-4">
+                <div className="w-full flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Сортування</Label>
+                    <div className="flex gap-2">
+                        <Combobox
+                            className="flex-1"
+                            selectPlaceholder="Виберіть тип сортування..."
+                            options={
+                                type === 'anime' ? SORT_ANIME : SORT_WATCHLIST
+                            }
+                            multiple={false}
+                            value={sort || 'score'}
+                            onChange={(value) =>
+                                handleChangeParam('sort', value)
+                            }
+                        />
+                        <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() =>
+                                handleChangeParam(
+                                    'order',
+                                    order === 'asc' ? 'desc' : 'asc',
+                                )
+                            }
+                        >
+                            <MaterialSymbolsSortRounded
+                                className={clsx(
+                                    order === 'asc' && '-scale-y-100',
+                                )}
+                            />
+                        </Button>
+                    </div>
+                </div>
                 <div className="w-full flex flex-col gap-4">
                     <Label className="text-muted-foreground">Жанр</Label>
                     {genresList && genresList.list.length > 0 ? (
@@ -110,23 +181,26 @@ const Component = ({ className }: Props) => {
                         <div className="animate-pulse h-12 w-full rounded-lg bg-secondary/60" />
                     )}
                 </div>
-                <div className="w-full">
-                    <div className="flex items-center gap-2">
-                        <Switch
-                            checked={Boolean(lang)}
-                            onCheckedChange={() =>
-                                handleChangeParam(
-                                    'only_translated',
-                                    !Boolean(lang),
-                                )
-                            }
-                            id="uk-translated"
-                        />
-                        <Label htmlFor="uk-translated">
-                            Перекладено українською
-                        </Label>
+
+                {type !== 'watchlist' && (
+                    <div className="w-full">
+                        <div className="flex items-center gap-2">
+                            <Switch
+                                checked={Boolean(lang)}
+                                onCheckedChange={() =>
+                                    handleChangeParam(
+                                        'only_translated',
+                                        !Boolean(lang),
+                                    )
+                                }
+                                id="uk-translated"
+                            />
+                            <Label htmlFor="uk-translated">
+                                Перекладено українською
+                            </Label>
+                        </div>
                     </div>
-                </div>
+                )}
                 <BadgeFilter
                     title="Статус"
                     properties={RELEASE_STATUS}
@@ -182,13 +256,13 @@ const Component = ({ className }: Props) => {
                 </div>
             </div>
             <Button
-                variant="outline"
-                className="shadow-md bg-background lg:bg-transparent sticky lg:relative bottom-4 lg:flex w-full"
+                variant="secondary"
+                className="shadow-md sticky bottom-4 lg:flex w-full mt-8"
                 onClick={clearFilters}
             >
                 <AntDesignClearOutlined /> Очистити
             </Button>
-        </div>
+        </ScrollArea>
     );
 };
 

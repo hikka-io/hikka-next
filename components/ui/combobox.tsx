@@ -26,6 +26,7 @@ import {
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { Checkbox } from './checkbox';
+import { cn } from '@/utils';
 
 export interface ComboboxOption {
     value: string;
@@ -65,6 +66,7 @@ export type ComboboxProps = (ComboboxPropsSingle | ComboboxPropsMultiple) & {
     disableCheckbox?: boolean;
     align?: "center" | "start" | "end";
     side?: "top" | "right" | "bottom" | "left";
+    className?: string;
 };
 
 export const handleSingleSelect = (
@@ -104,7 +106,7 @@ export const Combobox = forwardRef(
         }
 
         return (
-            <div data-select={true} className="relative" ref={rootRef}>
+            <div data-select={true} className={cn("relative", props.className)} ref={rootRef}>
                 <Popover open={open} onOpenChange={setOpen}>
                     {props.renderToggle ? (
                         props.renderToggle(open, setOpen, props.value)

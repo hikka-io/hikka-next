@@ -48,13 +48,13 @@ const Component = ({ data }: Props) => {
 
     const { data: loggedUser } = useLoggedUser(String(secret));
 
-    const switchOrder = (newOrder: 'score' | 'episodes' | 'media_type') => {
+    const switchSort = (newSort: 'watch_score' | 'watch_episodes' | 'media_type') => {
         const query = createQueryString(
-            'sort',
-            sort && newOrder !== order ? sort : sort === 'asc' ? 'desc' : 'asc',
+            'order',
+            order && newSort !== sort ? order : order === 'asc' ? 'desc' : 'asc',
             createQueryString(
-                'order',
-                newOrder,
+                'sort',
+                newSort,
                 new URLSearchParams(searchParams),
             ),
         ).toString();
@@ -96,30 +96,30 @@ const Component = ({ data }: Props) => {
                         <TableHead
                             className={clsx(
                                 'w-20 cursor-pointer select-none hover:underline',
-                                order === 'episodes' && 'text-primary',
+                                sort === 'watch_episodes' && 'text-primary',
                             )}
                             align="center"
-                            onClick={() => switchOrder('episodes')}
+                            onClick={() => switchSort('watch_episodes')}
                         >
                             Епізоди
                         </TableHead>
                         <TableHead
                             className={clsx(
                                 'hidden w-32 cursor-pointer select-none hover:underline lg:table-cell text-center',
-                                order === 'media_type' && 'text-primary',
+                                sort === 'media_type' && 'text-primary',
                             )}
                             align="center"
-                            onClick={() => switchOrder('media_type')}
+                            onClick={() => switchSort('media_type')}
                         >
                             Тип
                         </TableHead>
                         <TableHead
                             className={clsx(
                                 'w-20 cursor-pointer select-none hover:underline',
-                                order === 'score' && 'text-primary',
+                                sort === 'watch_score' && 'text-primary',
                             )}
                             align="center"
-                            onClick={() => switchOrder('score')}
+                            onClick={() => switchSort('watch_score')}
                         >
                             Оцінка
                         </TableHead>

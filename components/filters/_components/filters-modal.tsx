@@ -1,8 +1,9 @@
 'use client';
 
 import * as React from 'react';
-
+import { ReactNode } from 'react';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
+
 import Filters from '@/components/filters/filters';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,12 +14,20 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 
+interface Props {
+    type: 'anime' | 'watchlist';
+    children?: ReactNode;
+}
 
-const Component = () => {
+const Component = ({ type, children }: Props) => {
     return (
         <Sheet>
-            <SheetTrigger>
-                <Button variant="outline" size="icon"><AntDesignFilterFilled /></Button>
+            <SheetTrigger asChild>
+                {children || (
+                    <Button variant="outline" size="icon">
+                        <AntDesignFilterFilled />
+                    </Button>
+                )}
             </SheetTrigger>
             <SheetContent
                 side="left"
@@ -28,9 +37,7 @@ const Component = () => {
                     <SheetTitle>Фільтри</SheetTitle>
                 </SheetHeader>
                 <hr className="h-[1px] w-auto -mx-6 bg-border mt-4" />
-                <div className="flex-1 overflow-y-scroll w-auto h-full px-6 pt-4 -mx-6">
-                    <Filters />
-                </div>
+                <Filters type={type} className="px-6 -mx-6" />
             </SheetContent>
         </Sheet>
     );

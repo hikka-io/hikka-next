@@ -10,32 +10,27 @@ import createQueryString from '@/utils/createQueryString';
 interface Props {
     page: number;
     iPage: number;
-    search?: string | null;
-    types?: string[];
-    statuses?: string[];
-    seasons?: string[];
-    ageRatings?: string[];
-    years: string[];
-    lang?: string | null;
-    genres?: string[];
     secret?: string | null;
-    sort?: string | null;
 }
 
 export const useList = ({
     page,
     iPage,
-    search,
-    types,
-    statuses,
-    seasons,
-    ageRatings,
-    years,
-    lang,
-    genres,
     secret,
-    sort,
 }: Props) => {
+    const searchParams = useSearchParams();
+
+    const search = searchParams.get('search');
+    const types = searchParams.getAll('types');
+    const statuses = searchParams.getAll('statuses');
+    const seasons = searchParams.getAll('seasons');
+    const ageRatings = searchParams.getAll('ratings');
+    const years = searchParams.getAll('years');
+    const genres = searchParams.getAll('genres');
+    const lang = searchParams.get('only_translated');
+    const sort = searchParams.get('sort') || 'score';
+    const order = searchParams.get('order') || 'desc';
+
     const query = useInfiniteQuery<AnimeCatalogResponse, Error>({
         queryKey: [
             'list',
@@ -51,6 +46,7 @@ export const useList = ({
                 genres,
                 secret,
                 sort,
+                order,
             },
         ],
         initialPageParam: iPage || page,
@@ -66,10 +62,10 @@ export const useList = ({
                 season: seasons,
                 status: statuses,
                 media_type: types,
-                sort: sort ? ['score:' + sort] : ['score:desc'],
+                sort: [`${sort}:${order}`],
                 genres,
                 only_translated: Boolean(lang),
-                page: pageParam as number,
+                page: Number(pageParam),
                 secret: String(secret),
                 size: 20,
             }),
@@ -89,7 +85,7 @@ export const useList = ({
     };
 };
 
-export const useUpdatePage = ({ page, iPage, ...props }: Props) => {
+export const useUpdatePage = ({ page, iPage }: Props) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const pathname = usePathname();
@@ -98,7 +94,8 @@ export const useUpdatePage = ({ page, iPage, ...props }: Props) => {
     return (newPage: number) => {
         if (newPage !== Number(page) || newPage !== Number(iPage)) {
             queryClient.removeQueries({
-                queryKey: ['list', page, props],
+                queryKey: ['list', page, {}],
+                exact: false,
             });
             const query = createQueryString(
                 'iPage',
