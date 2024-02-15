@@ -73,7 +73,14 @@ export const convertEpisodes = (
     }
 
     if (before !== null && after !== null) {
-        if (after - before === 1 || before === 0 || before > after) {
+        if (before === after) {
+            return (
+                <>
+                    Переглянуто <span className="font-bold">{after}</span>{' '}
+                    {getDeclensionWord(after, EPISODES_DECLENSION)}
+                </>
+            );
+        } else if (after - before === 1 || before === 0 || before > after) {
             return (
                 <>
                     Переглянуто <span className="font-bold">{after}</span>{' '}
