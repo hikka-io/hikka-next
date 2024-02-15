@@ -160,7 +160,7 @@ const Component = ({ slug, children, withTrigger, ...props }: Props) => {
             <HoverCardPortal>
                 <HoverCardContent
                     side="right"
-                    className="flex w-80 flex-col gap-4 p-4"
+                    className="w-80 flex-col gap-4 p-4 md:flex hidden"
                 >
                     <HoverCardArrow />
                     <TooltipData slug={slug} />
