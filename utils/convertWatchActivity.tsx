@@ -1,7 +1,11 @@
 import { WATCH_STATUS } from '@/utils/constants';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
-const EPISODES_DECLENSION: [string, string, string] = ['епізод', 'епізоди', 'епізодів'];
+const EPISODES_DECLENSION: [string, string, string] = [
+    'епізод',
+    'епізоди',
+    'епізодів',
+];
 const TIMES_DECLENSION: [string, string, string] = ['раз', 'рази', 'разів'];
 
 export const convertStatus = (
@@ -29,7 +33,7 @@ export const convertStatus = (
 };
 
 export const convertScore = (before: number | null, after: number | null) => {
-    if (before === null && after) {
+    if (before === null && after !== null) {
         return (
             <>
                 Оцінено на <span className="font-bold">{after}</span>
@@ -37,7 +41,7 @@ export const convertScore = (before: number | null, after: number | null) => {
         );
     }
 
-    if (before !== null && after) {
+    if (before !== null && after !== null) {
         if (before === after || before === 0) {
             return (
                 <>
@@ -59,34 +63,30 @@ export const convertEpisodes = (
     before: number | null,
     after: number | null,
 ) => {
-    if (before === null && after) {
+    if (before === null && after !== null) {
         return (
             <>
-                Переглянуто <span className="font-bold">{after}</span> {getDeclensionWord(after, EPISODES_DECLENSION)}
+                Переглянуто <span className="font-bold">{after}</span>{' '}
+                {getDeclensionWord(after, EPISODES_DECLENSION)}
             </>
         );
     }
 
-    if (before !== null && after) {
-        if (after - before === 1 || before === 0) {
+    if (before !== null && after !== null) {
+        if (after - before === 1 || before === 0 || before > after) {
             return (
                 <>
                     Переглянуто <span className="font-bold">{after}</span>{' '}
-                    {getDeclensionWord(after, EPISODES_DECLENSION)}
-                </>
-            );
-        } else if (before > after) {
-            return (
-                <>
-                    Переглянуто <span className="font-bold">{after}</span>{' '}
-                    {getDeclensionWord(after, EPISODES_DECLENSION)}
+                    {EPISODES_DECLENSION[0]}
                 </>
             );
         } else {
             return (
                 <>
-                    Переглянуто з <span className="font-bold">{before}</span> по{' '}
-                    <span className="font-bold">{after}</span> {getDeclensionWord(after, EPISODES_DECLENSION)}
+                    Переглянуто з{' '}
+                    <span className="font-bold">{before + 1}</span> по{' '}
+                    <span className="font-bold">{after}</span>{' '}
+                    {getDeclensionWord(after, EPISODES_DECLENSION)}
                 </>
             );
         }
@@ -97,14 +97,14 @@ export const convertRewatches = (
     before: number | null,
     after: number | null,
 ) => {
-    if (after) {
+    if (after !== null) {
         return (
             <>
-                Повторно переглянуто <span className="font-bold">{after}</span> {getDeclensionWord(after, TIMES_DECLENSION)}
+                Повторно переглянуто <span className="font-bold">{after}</span>{' '}
+                {getDeclensionWord(after, TIMES_DECLENSION)}
             </>
         );
     }
-
 };
 
 export const convertDeleteWatch = () => {
@@ -134,7 +134,9 @@ export const createWatchEvents = (
     }
 
     if (data?.before?.rewatches || data?.after?.rewatches) {
-        events.push(convertRewatches(data.before.rewatches, data.after.rewatches));
+        events.push(
+            convertRewatches(data.before.rewatches, data.after.rewatches),
+        );
     }
 
     return events;
