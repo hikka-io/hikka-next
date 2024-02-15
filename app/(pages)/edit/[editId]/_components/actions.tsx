@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,7 +15,6 @@ import acceptEdit from '@/services/api/edit/acceptEdit';
 import closeEdit from '@/services/api/edit/closeEdit';
 import denyEdit from '@/services/api/edit/denyEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
-import Link from 'next/link';
 
 
 const Component = () => {
@@ -103,9 +103,9 @@ const Component = () => {
 
     return (
         <div className="flex items-center gap-2 justify-between">
-            {loggedUser?.username === edit.author.username &&
-                edit.status === 'pending' && (
-                    <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+                {loggedUser?.username === edit.author.username &&
+                    edit.status === 'pending' && (
                         <Button
                             variant="outline"
                             size="sm"
@@ -114,6 +114,10 @@ const Component = () => {
                         >
                             Закрити
                         </Button>
+                    )}
+                {(loggedUser?.role === 'moderator' ||
+                    loggedUser?.role === 'admin') &&
+                    edit.status === 'pending' && (
                         <Button
                             variant="secondary"
                             size="sm"
@@ -124,15 +128,16 @@ const Component = () => {
                                 Редагувати
                             </Link>
                         </Button>
-                    </div>
-                )}
+                    )}
+            </div>
+
             {(loggedUser?.role === 'moderator' ||
                 loggedUser?.role === 'admin') &&
             edit.status === 'pending' ? (
-                <div className='flex items-center gap-2'>
+                <div className="flex items-center gap-2">
                     <Button
-                        variant='destructive'
-                        size='sm'
+                        variant="destructive"
+                        size="sm"
                         disabled={isSubmitting}
                         onClick={onDenySubmit}
                     >
@@ -140,17 +145,15 @@ const Component = () => {
                     </Button>
 
                     <Button
-                        variant='success'
-                        size='sm'
+                        variant="success"
+                        size="sm"
                         disabled={isSubmitting}
                         onClick={onAcceptSubmit}
                     >
                         Прийняти
                     </Button>
-
                 </div>
             ) : null}
-
         </div>
     );
 };

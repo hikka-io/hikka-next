@@ -45,9 +45,8 @@ const Component = ({ setValue, register, value, disabled }: Props) => {
                 placeholder="Введіть причину правки"
                 rows={3}
                 className="w-full"
-                value={value}
                 disabled={disabled}
-                {...(register ? register('description', { value: value }) : {})}
+                {...(register ? register('description', { value: value }) : { value: value })}
             />
         </div>
     );
