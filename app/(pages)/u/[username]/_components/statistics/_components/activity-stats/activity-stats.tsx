@@ -26,7 +26,7 @@ const Component = () => {
                 <MaterialSymbolsBarChartRounded />
                 <Label>Активність</Label>
             </div>
-            <div className="flex gap-4 items-end flex-1">
+            <div className="flex gap-2 md:gap-4 justify-between items-end flex-1">
                 {convertedData.map((item, index) => (
                     <ActivityItem
                         key={item.timestamp !== 0 ? item.timestamp : index}

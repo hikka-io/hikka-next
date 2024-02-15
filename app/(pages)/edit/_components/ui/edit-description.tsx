@@ -28,17 +28,19 @@ const Component = ({ setValue, register, value, disabled }: Props) => {
                 <span className="text-muted-foreground">Необов’язково</span>
             </Label>
             {setValue && (
-                <ScrollArea className="flex gap-2 w-full whitespace-nowrap">
-                    {TAGS.map((tag) => (
-                        <Button
-                            size="badge"
-                            variant="outline"
-                            key={tag}
-                            onClick={() => setValue('description', tag)}
-                        >
-                            {tag}
-                        </Button>
-                    ))}
+                <ScrollArea className="w-full whitespace-nowrap">
+                    <div className="flex gap-2 w-full">
+                        {TAGS.map((tag) => (
+                            <Button
+                                size="badge"
+                                variant="outline"
+                                key={tag}
+                                onClick={() => setValue('description', tag)}
+                            >
+                                {tag}
+                            </Button>
+                        ))}
+                    </div>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
             )}
