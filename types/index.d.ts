@@ -340,7 +340,8 @@ declare global {
             | 'comment_tag'
             | 'edit_comment'
             | 'edit_accepted'
-            | 'edit_denied';
+            | 'edit_denied'
+            | 'edit_updated';
 
         type NotificationCommentData = {
             slug: string;
@@ -380,10 +381,10 @@ declare global {
         };
 
         type TextNotification = {
-            type: 'comment' | 'vote' | 'tag' | 'edit';
-            icon: JSX.Element;
+            type: NotificationType;
+            icon: ReactNode;
             title: string;
-            description: JSX.Element;
+            description: ReactNode;
             reference: string;
             created: number;
             href: string;

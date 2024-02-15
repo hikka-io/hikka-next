@@ -1,31 +1,88 @@
+import { ReactNode } from 'react';
 import FeMention from '~icons/fe/mention';
 import MaterialSymbolsAddCommentRounded from '~icons/material-symbols/add-comment-rounded';
 import MaterialSymbolsCheckCircleRounded from '~icons/material-symbols/check-circle-rounded';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
+import MaterialSymbolsChangeCircleRounded from '~icons/material-symbols/change-circle-rounded'
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+
+const TITLES: Record<Hikka.NotificationType, string> = {
+    edit_accepted: 'Правка прийнята',
+    edit_denied: 'Правка відхилена',
+    edit_updated: 'Правка оновлена',
+    comment_reply: 'Новий коментар',
+    comment_vote: 'Нова оцінка',
+    comment_tag: 'Нова згадка',
+    edit_comment: 'Новий коментар у правці',
+};
+
+const DESCRIPTIONS: Record<
+    Hikka.NotificationType,
+    (args?: any) => string | ReactNode
+> = {
+    edit_accepted: () => 'Ваша правка була прийнята',
+    edit_denied: () => 'Ваша правка була відхилена',
+    edit_updated: () => 'Ваша правка була оновлена',
+    comment_reply: (comment_author: string) => (
+        <>
+            <span className="font-bold">@{comment_author}</span> відповів на Ваш
+            коментар
+        </>
+    ),
+    comment_vote: () => 'Ваш коментар оцінили',
+    comment_tag: (comment_author: string) => (
+        <>
+            <span className="font-bold">@{comment_author}</span> згадав Вас у
+            коментарі
+        </>
+    ),
+    edit_comment: (comment_author: string) => (
+        <>
+            <span className="font-bold">@{comment_author}</span> залишив
+            коментар
+        </>
+    ),
+};
+
+const ICONS: Record<Hikka.NotificationType, ReactNode> = {
+    edit_accepted: <MaterialSymbolsCheckCircleRounded />,
+    edit_denied: <MaterialSymbolsFlagCircleRounded />,
+    edit_updated: <MaterialSymbolsChangeCircleRounded />,
+    comment_reply: <MaterialSymbolsAddCommentRounded />,
+    comment_vote: <MaterialSymbolsFavoriteRounded />,
+    comment_tag: <FeMention />,
+    edit_comment: <MaterialSymbolsAddCommentRounded />,
+};
+
+const getInitialData = (
+    notification: Hikka.Notification<
+        | Hikka.NotificationCommentData
+        | Hikka.NotificationCommentVoteData
+        | Hikka.NotificationEditData
+    >,
+) => {
+    return {
+        icon: ICONS[notification.notification_type],
+        type: notification.notification_type,
+        title: TITLES[notification.notification_type],
+        reference: notification.reference,
+        created: notification.created,
+        seen: notification.seen,
+    };
+};
 
 const commentReply = (
     notification: Hikka.Notification<Hikka.NotificationCommentData>,
 ): Hikka.TextNotification => {
     const { comment_author, slug, content_type } = notification.data;
-    const { reference, created, seen } = notification;
 
     return {
-        icon: <MaterialSymbolsAddCommentRounded />,
-        type: 'comment',
-        title: 'Новий коментар',
-        description: (
-            <>
-                <span className="font-bold">@{comment_author}</span> відповів на
-                Ваш коментар
-            </>
-        ),
-        reference: reference,
-        created: created,
+        ...getInitialData(notification),
+        description:
+            DESCRIPTIONS[notification.notification_type](comment_author),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
-        seen: seen,
     };
 };
 
@@ -33,17 +90,11 @@ const commentVote = (
     notification: Hikka.Notification<Hikka.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
     const { slug, content_type } = notification.data;
-    const { reference, created, seen } = notification;
 
     return {
-        icon: <MaterialSymbolsFavoriteRounded />,
-        type: 'vote',
-        title: 'Нова оцінка',
-        description: <>Ваш коментар оцінили</>,
-        reference: reference,
-        created: created,
+        ...getInitialData(notification),
+        description: DESCRIPTIONS[notification.notification_type](),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
-        seen: seen,
     };
 };
 
@@ -51,22 +102,12 @@ const commentTag = (
     notification: Hikka.Notification<Hikka.NotificationCommentData>,
 ): Hikka.TextNotification => {
     const { comment_author, slug, content_type } = notification.data;
-    const { reference, created, seen } = notification;
 
     return {
-        icon: <FeMention />,
-        type: 'tag',
-        title: 'Нова згадка',
-        description: (
-            <>
-                <span className="font-bold">@{comment_author}</span> згадав Вас
-                у коментарі
-            </>
-        ),
-        reference: reference,
-        created: created,
+        ...getInitialData(notification),
+        description:
+            DESCRIPTIONS[notification.notification_type](comment_author),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
-        seen: seen,
     };
 };
 
@@ -74,58 +115,24 @@ const editComment = (
     notification: Hikka.Notification<Hikka.NotificationCommentData>,
 ): Hikka.TextNotification => {
     const { comment_author, slug, content_type } = notification.data;
-    const { reference, created, seen } = notification;
 
     return {
-        icon: <MaterialSymbolsAddCommentRounded />,
-        type: 'comment',
-        title: 'Новий коментар у правці',
-        description: (
-            <>
-                <span className="font-bold">@{comment_author}</span> залишив
-                коментар
-            </>
-        ),
-        reference: reference,
-        created: created,
+        ...getInitialData(notification),
+        description:
+            DESCRIPTIONS[notification.notification_type](comment_author),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
-        seen: seen,
     };
 };
 
-const editAccepted = (
+const editActions = (
     notification: Hikka.Notification<Hikka.NotificationEditData>,
 ): Hikka.TextNotification => {
     const { edit_id } = notification.data;
-    const { reference, created, seen } = notification;
 
     return {
-        icon: <MaterialSymbolsCheckCircleRounded />,
-        type: 'edit',
-        title: 'Правка прийнята',
-        description: <>Ваша правка була прийнята</>,
-        reference: reference,
-        created: created,
+        ...getInitialData(notification),
+        description: DESCRIPTIONS[notification.notification_type](),
         href: `/edit/${edit_id}`,
-        seen: seen,
-    };
-};
-
-const editDenied = (
-    notification: Hikka.Notification<Hikka.NotificationEditData>,
-): Hikka.TextNotification => {
-    const { edit_id } = notification.data;
-    const { reference, created, seen } = notification;
-
-    return {
-        icon: <MaterialSymbolsFlagCircleRounded />,
-        type: 'edit',
-        title: 'Правка відхилена',
-        description: <>Ваша правка була відхилена</>,
-        reference: reference,
-        created: created,
-        href: `/edit/${edit_id}`,
-        seen: seen,
     };
 };
 
@@ -154,11 +161,15 @@ export const convertNotification = (
                 notification as Hikka.Notification<Hikka.NotificationCommentData>,
             );
         case 'edit_accepted':
-            return editAccepted(
+            return editActions(
                 notification as Hikka.Notification<Hikka.NotificationEditData>,
             );
         case 'edit_denied':
-            return editDenied(
+            return editActions(
+                notification as Hikka.Notification<Hikka.NotificationEditData>,
+            );
+        case 'edit_updated':
+            return editActions(
                 notification as Hikka.Notification<Hikka.NotificationEditData>,
             );
     }

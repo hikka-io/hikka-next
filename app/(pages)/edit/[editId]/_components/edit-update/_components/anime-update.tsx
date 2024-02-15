@@ -9,7 +9,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useQueryClient } from '@tanstack/react-query';
 
-import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
+import EditDescription from '@/app/(pages)/edit/_components/ui/edit-description';
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';

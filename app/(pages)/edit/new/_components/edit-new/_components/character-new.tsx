@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
-import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
+import EditDescription from '@/app/(pages)/edit/_components/ui/edit-description';
 import { useCharacterInfo } from '@/app/page.hooks';
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
@@ -19,10 +19,12 @@ import {
 } from '@/utils/constants';
 
 import InputParam from '../../../../_components/ui/input-param';
+import AutoButton from '@/app/(pages)/edit/_components/ui/auto-button';
 
 
 type FormValues = Hikka.CharacterEditParams & {
     description: string;
+    auto?: boolean;
 };
 
 interface Props {
@@ -73,6 +75,7 @@ const Component = ({ slug }: Props) => {
                     after: {
                         ...getEditParams(data),
                     },
+                    auto: data.auto || false,
                     description: data.description,
                     captcha: String(captchaRef.current.getResponse()),
                 });
@@ -139,17 +142,20 @@ const Component = ({ slug }: Props) => {
                         ref={captchaRef}
                         siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
                     />
-                    <Button
-                        disabled={isSubmitting}
-                        onClick={handleSubmit(onSaveSubmit)}
-                        type="submit"
-                        className="w-fit"
-                    >
-                        {isSubmitting && (
-                            <span className="loading loading-spinner"></span>
-                        )}
-                        Створити
-                    </Button>
+                    <div className="flex gap-2 items-center">
+                        <Button
+                            disabled={isSubmitting}
+                            onClick={handleSubmit(onSaveSubmit)}
+                            type="submit"
+                            className="w-fit"
+                        >
+                            {isSubmitting && (
+                                <span className="loading loading-spinner"></span>
+                            )}
+                            Створити
+                        </Button>
+                        <AutoButton onSaveSubmit={onSaveSubmit} handleSubmit={handleSubmit} />
+                    </div>
                 </div>
             </form>
         </div>

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
+import EditDescription from '@/app/(pages)/edit/_components/ui/edit-description';
 import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import {
     CHARACTER_DESCRIPTION_PARAMS,

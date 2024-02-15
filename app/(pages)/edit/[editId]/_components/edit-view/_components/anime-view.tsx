@@ -15,7 +15,7 @@ import {
 
 import InputParam from '../../../../_components/ui/input-param';
 import ListParam from '../../../../_components/ui/list-param';
-import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
+import EditDescription from '@/app/(pages)/edit/_components/ui/edit-description';
 
 
 const Component = () => {

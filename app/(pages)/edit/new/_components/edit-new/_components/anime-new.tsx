@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
-import EditDescription from '@/app/(pages)/edit/[editId]/_components/ui/edit-description';
+import EditDescription from '@/app/(pages)/edit/_components/ui/edit-description';
 import { useAnimeInfo } from '@/app/page.hooks';
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
@@ -17,10 +17,12 @@ import { ANIME_SYNOPSIS_PARAMS, ANIME_TITLE_PARAMS } from '@/utils/constants';
 
 import InputParam from '../../../../_components/ui/input-param';
 import ListParam from '../../../../_components/ui/list-param';
+import AutoButton from '@/app/(pages)/edit/_components/ui/auto-button';
 
 
 type FormValues = Hikka.AnimeEditParams & {
     description: string;
+    auto?: boolean;
 };
 
 interface Props {
@@ -63,6 +65,10 @@ const Component = ({ slug }: Props) => {
         router.push('/edit/' + editId);
     };
 
+    const onAcceptSubmit = async (data: FormValues) => {
+        return await onSaveSubmit({ ...data, auto: true });
+    };
+
     const onSaveSubmit = async (data: FormValues) => {
         try {
             if (captchaRef.current) {
@@ -74,6 +80,7 @@ const Component = ({ slug }: Props) => {
                         ...getEditParams(data),
                         synonyms: synonyms,
                     },
+                    auto: data.auto || false,
                     description: data.description,
                     captcha: String(captchaRef.current.getResponse()),
                 });
@@ -144,27 +151,27 @@ const Component = ({ slug }: Props) => {
                         mode="edit"
                     />
 
-                    <EditDescription
-                        register={register}
-                        setValue={setValue}
-                    />
+                    <EditDescription register={register} setValue={setValue} />
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Turnstile
                         ref={captchaRef}
                         siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
                     />
-                    <Button
-                        disabled={isSubmitting}
-                        onClick={handleSubmit(onSaveSubmit)}
-                        type="submit"
-                        className="w-fit"
-                    >
-                        {isSubmitting && (
-                            <span className="loading loading-spinner"></span>
-                        )}
-                        Створити
-                    </Button>
+                    <div className="flex gap-2 items-center">
+                        <Button
+                            disabled={isSubmitting}
+                            onClick={handleSubmit(onSaveSubmit)}
+                            type="submit"
+                            className="w-fit"
+                        >
+                            {isSubmitting && (
+                                <span className="loading loading-spinner"></span>
+                            )}
+                            Створити
+                        </Button>
+                        <AutoButton onSaveSubmit={onSaveSubmit} handleSubmit={handleSubmit} />
+                    </div>
                 </div>
             </form>
         </div>

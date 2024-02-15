@@ -8,6 +8,7 @@ export default async function req({
     description,
     after,
     slug,
+    auto,
     captcha,
 }: {
     secret: string;
@@ -15,12 +16,13 @@ export default async function req({
     content_type: Hikka.ContentType;
     after: Hikka.AnimeEditParams;
     slug: string;
+    auto?: boolean;
     captcha: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/edit/${content_type}/${slug}`,
         method: 'put',
-        params: { after, description },
+        params: { after, description, auto },
         secret,
         captcha,
     });
