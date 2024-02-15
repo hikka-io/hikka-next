@@ -341,7 +341,8 @@ declare global {
             | 'edit_comment'
             | 'edit_accepted'
             | 'edit_denied'
-            | 'edit_updated';
+            | 'edit_updated'
+            | 'hikka_update';
 
         type NotificationCommentData = {
             slug: string;
@@ -368,10 +369,20 @@ declare global {
         type NotificationEditData = {
             description: string;
             edit_id: number;
-        }
+        };
+
+        type NotificationHikkaData = {
+            description: string;
+            title: string;
+            link: string;
+        };
 
         type Notification<
-            TData extends NotificationCommentData | NotificationCommentVoteData | NotificationEditData = NotificationCommentData,
+            TData extends
+                | NotificationCommentData
+                | NotificationCommentVoteData
+                | NotificationEditData
+                | NotificationHikkaData = NotificationCommentData,
         > = {
             notification_type: NotificationType;
             created: number;
@@ -394,6 +405,6 @@ declare global {
         type Activity = {
             timestamp: number;
             actions: number;
-        }
+        };
     }
 }

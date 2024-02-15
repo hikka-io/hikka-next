@@ -1,26 +1,23 @@
 'use client';
 
 import * as React from 'react';
+import ArcticonsMonobank from '~icons/arcticons/monobank';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
 import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
-import ArcticonsMonobank from '~icons/arcticons/monobank'
 
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
-import { Label } from '@/components/ui/label';
-import { useModalContext } from '@/services/providers/modal-provider';
-
-import Rightholder from './rightholder.mdx';
-import { PopoverTrigger } from '@/components/ui/popover';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Label } from '@/components/ui/label';
+import { useModalContext } from '@/services/providers/modal-provider';
 
+import Rightholder from './rightholder.mdx';
 
 const Component = () => {
     const { openModal } = useModalContext();
@@ -50,13 +47,9 @@ const Component = () => {
                             </Link>
                         </Button>
 
-
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button
-                                    size="sm"
-                                    variant="ghost"
-                                >
+                                <Button size="sm" variant="ghost">
                                     Підтримати нас
                                 </Button>
                             </DropdownMenuTrigger>
@@ -72,8 +65,9 @@ const Component = () => {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <Link
-                                        href="https://www.buymeacoffee.com/hikka"
+                                        href="https://send.monobank.ua/jar/UejmZHk4B"
                                         target="_blank"
+                                        rel="noreferrer"
                                     >
                                         <ArcticonsMonobank className="mr-2 h-4 w-4" />
                                         Монобанка
