@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {
-    Control,
-    UseFormRegister,
-    UseFormSetValue,
-} from 'react-hook-form/dist/types/form';
+import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form/dist/types/form';
+
+
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
+
 
 interface Props {
     setValue?: UseFormSetValue<any>;
@@ -28,7 +28,7 @@ const Component = ({ setValue, register, value, disabled }: Props) => {
                 <span className="text-muted-foreground">Необов’язково</span>
             </Label>
             {setValue && (
-                <div className="flex gap-2 w-full overflow-x-scroll">
+                <ScrollArea className="flex gap-2 w-full whitespace-nowrap">
                     {TAGS.map((tag) => (
                         <Button
                             size="badge"
@@ -39,7 +39,8 @@ const Component = ({ setValue, register, value, disabled }: Props) => {
                             {tag}
                         </Button>
                     ))}
-                </div>
+                    <ScrollBar orientation="horizontal" />
+                </ScrollArea>
             )}
             <Textarea
                 placeholder="Введіть причину правки"

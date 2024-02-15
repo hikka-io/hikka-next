@@ -25,6 +25,7 @@ import { convertNotification } from '@/utils/convertNotification';
 
 import NotFoundNotifications from './_components/not-found-notifications';
 import NotificationItem from './_components/ui/notification-item';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface Props {}
 
@@ -74,7 +75,7 @@ const Component = ({}: Props) => {
                     )}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <div className="overflow-scroll h-full">
+                <ScrollArea className="h-96">
                     {list &&
                         list.length > 0 &&
                         list.map((item) => (
@@ -99,7 +100,7 @@ const Component = ({}: Props) => {
                             </Button>
                         </div>
                     )}
-                </div>
+                </ScrollArea>
             </DropdownMenuContent>
         </DropdownMenu>
     );
