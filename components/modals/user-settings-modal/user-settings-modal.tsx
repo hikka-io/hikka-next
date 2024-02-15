@@ -11,6 +11,7 @@ import PasswordForm from '@/components/modals/user-settings-modal/_components/pa
 import UsernameForm from '@/components/modals/user-settings-modal/_components/username-form';
 import WatchListForm from '@/components/modals/user-settings-modal/_components/watchlist-form';
 import useIsMobile from '@/services/hooks/useIsMobile';
+import { cn } from '@/utils';
 
 type Tab =
     | 'general'
@@ -75,10 +76,12 @@ const Tabs = ({ setActiveTab, activeTab }: { activeTab?: Tab, setActiveTab: Disp
                     <li key={tab.slug}>
                         <a
                             onClick={() => setActiveTab(tab.slug)}
-                            className={clsx(
+                            className={cn(
                                 'flex flex-col items-start justify-center gap-0 px-8 py-4',
-                                activeTab === tab.slug &&
-                                'active !bg-secondary',
+                                activeTab === tab.slug ?
+                                'active bg-secondary' :
+                                'hover:bg-secondary/30',
+                                'hover:cursor-pointer',
                             )}
                         >
                             <p>{tab.title}</p>
@@ -104,7 +107,7 @@ const Component = () => {
     return (
         <div className='grid grid-cols-1 md:grid-cols-[40%_1fr] h-full'>
             {isMobile && !activeTab && <Tabs setActiveTab={setActiveTab} />}
-            {!isMobile && <Tabs setActiveTab={setActiveTab} />}
+            {!isMobile && <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />}
             {activeForm?.form}
         </div>
     );

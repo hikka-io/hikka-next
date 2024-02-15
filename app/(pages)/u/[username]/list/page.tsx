@@ -1,10 +1,12 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
+import { redirect } from 'next/navigation';
+
+import List from '@/app/(pages)/u/[username]/list/_components/list/list';
 import StatusCombobox from '@/app/(pages)/u/[username]/list/_components/status-combobox';
 import ToolsCombobox from '@/app/(pages)/u/[username]/list/_components/tools-combobox';
 import ViewCombobox from '@/app/(pages)/u/[username]/list/_components/view-combobox';
 import Filters from '@/components/filters';
-import List from '@/app/(pages)/u/[username]/list/_components/list/list';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },
@@ -29,7 +31,23 @@ export async function generateMetadata(
     };
 }
 
-const Component = () => {
+interface Props {
+    searchParams: { [key: string]: string | string[] | undefined };
+    params: { username: string };
+}
+
+const Component = ({
+    searchParams: { status, sort },
+    params: { username },
+}: Props) => {
+    if (!status || !sort) {
+        if (!status) {
+            redirect(`/u/${username}/list?status=completed&sort=watch_score`);
+        }
+
+        redirect(`/u/${username}/list?status=${status}&sort=watch_score`);
+    }
+
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
             <div className="flex flex-col gap-8">

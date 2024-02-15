@@ -12,6 +12,7 @@ import getUserInfo from '@/services/api/user/getUserInfo';
 import getWatchList from '@/services/api/watch/getWatchList';
 import getWatchStats from '@/services/api/watch/getWatchStats';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+import getUserActivity from '@/services/api/user/getUserActivity';
 
 export const useUser = (username: string) => {
     return useQuery({
@@ -154,5 +155,12 @@ export const useActivityList = ({ username }: { username: string }) => {
                 username: username,
                 page: pageParam,
             }),
+    });
+};
+
+export const useActivityStats = ({ username }: { username: string }) => {
+    return useQuery({
+        queryKey: ['activityStats', username],
+        queryFn: () => getUserActivity({ username: username }),
     });
 };

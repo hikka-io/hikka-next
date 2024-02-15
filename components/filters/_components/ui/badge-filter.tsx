@@ -16,7 +16,13 @@ interface Props {
     onParamChange: (key: string, value: string | string[]) => void;
 }
 
-const Component = ({ title, properties, selected, onParamChange, property }: Props) => {
+const Component = ({
+    title,
+    properties,
+    selected,
+    onParamChange,
+    property,
+}: Props) => {
     const handleFilterSelect = (value: string, data: string[]) => {
         const newData = [...data];
 
@@ -51,8 +57,10 @@ const Component = ({ title, properties, selected, onParamChange, property }: Pro
 
                         {properties[slug].description && (
                             <Tooltip delayDuration={0}>
-                                <TooltipTrigger>
-                                    <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
+                                <TooltipTrigger asChild>
+                                    <div>
+                                        <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
+                                    </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p className="text-sm">

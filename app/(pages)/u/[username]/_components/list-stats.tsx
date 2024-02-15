@@ -1,5 +1,7 @@
 'use client';
 
+import MaterialSymbolsOpenInNewRounded from '~icons/material-symbols/open-in-new-rounded';
+
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -28,8 +30,13 @@ const Component = ({}: Props) => {
     return (
         <div className="flex flex-col gap-2">
             <Tabs value="anime" className="overflow-hidden w-full">
-                <TabsList className="w-full overflow-x-scroll items-center justify-start no-scrollbar bg-secondary/80 border border-secondary/60 backdrop-blur">
-                    <TabsTrigger value="anime">Аніме</TabsTrigger>
+                <TabsList className="w-full items-center justify-start no-scrollbar bg-secondary/80 border border-secondary/60 backdrop-blur">
+                    <TabsTrigger value="anime" className="gap-2">
+                        Аніме{' '}
+                        <Link href={`/u/${params.username}/list`}>
+                            <MaterialSymbolsOpenInNewRounded />
+                        </Link>
+                    </TabsTrigger>
                 </TabsList>
             </Tabs>
             <div className="flex gap-2 w-full h-fit items-center rounded-md bg-secondary/30 border backdrop-blur border-secondary/60 p-2">
@@ -62,7 +69,7 @@ const Component = ({}: Props) => {
                                 href={`/u/${params.username}/list?status=${status}`}
                                 key={status}
                                 className={cn(
-                                    'rounded-md p-2 hover:bg-secondary/60',
+                                    'rounded-md p-2 hover:bg-secondary/60 hover:cursor-pointer',
                                 )}
                             >
                                 <div className="flex justify-between gap-4">
@@ -76,7 +83,7 @@ const Component = ({}: Props) => {
                                                     ].color,
                                             }}
                                         />
-                                        <Label className="text-muted-foreground truncate">
+                                        <Label className="text-muted-foreground truncate cursor-pointer">
                                             {WATCH_STATUS[
                                                 status as Hikka.WatchStatus
                                             ].title_ua ||
@@ -85,7 +92,7 @@ const Component = ({}: Props) => {
                                                 ].title_en}
                                         </Label>
                                     </div>
-                                    <Label>
+                                    <Label className="cursor-pointer">
                                         {data[status as Hikka.WatchStatus]}
                                     </Label>
                                 </div>

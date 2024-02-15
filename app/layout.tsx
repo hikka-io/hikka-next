@@ -99,6 +99,7 @@ export default async function RootLayout({
             className={`${inter.variable} ${fixelDisplay.variable}`}
             lang="uk"
             data-theme="dark"
+            suppressHydrationWarning
         >
             <head>
                 <PlausibleProvider

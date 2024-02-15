@@ -13,11 +13,7 @@ interface Props {
     secret?: string | null;
 }
 
-export const useList = ({
-    page,
-    iPage,
-    secret,
-}: Props) => {
+export const useList = ({ page, iPage, secret }: Props) => {
     const searchParams = useSearchParams();
 
     const search = searchParams.get('search');
@@ -62,7 +58,10 @@ export const useList = ({
                 season: seasons,
                 status: statuses,
                 media_type: types,
-                sort: [`${sort}:${order}`],
+                sort: [
+                    `${sort}:${order}`,
+                    ...(sort === 'score' ? ['scored_by:desc'] : []),
+                ],
                 genres,
                 only_translated: Boolean(lang),
                 page: Number(pageParam),

@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import {
     ForwardedRef,
     MouseEventHandler,
@@ -9,14 +10,21 @@ import {
     useState,
 } from 'react';
 import { UrlObject } from 'url';
-import MaterialSymbolsArticle from '~icons/material-symbols/article';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+
+import Link from 'next/link';
 
 import BaseCard from '@/components/ui/base-card';
-import { Button } from '@/components/ui/button';
+import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from '@/components/ui/context-menu';
+import { useAuthContext } from '@/services/providers/auth-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 
 import AnimeTooltip from './anime-tooltip';
-import { PopoverTrigger } from './ui/popover';
 
 interface Props {
     target?: string;
@@ -94,4 +102,28 @@ const Component = ({ watch, slug, ...props }: Props) => {
     return <BaseCard {...props}>{watch && <Watch watch={watch} />}</BaseCard>;
 };
 
-export default Component;
+const ContextMenuOverlay = (props: Props) => {
+    const { secret } = useAuthContext();
+
+    if (!secret) {
+        return <Component {...props} />;
+    }
+
+    return (
+        <ContextMenu>
+            <ContextMenuTrigger>
+                <Component {...props} />
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+                <ContextMenuItem asChild>
+                    <Link href={`/edit/new?content_type=anime&slug=${props.slug}`}>
+                        <MaterialSymbolsEditRounded className="mr-2" />
+                        Створити правку
+                    </Link>
+                </ContextMenuItem>
+            </ContextMenuContent>
+        </ContextMenu>
+    );
+};
+
+export default ContextMenuOverlay;

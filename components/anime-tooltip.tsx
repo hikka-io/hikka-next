@@ -155,7 +155,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
 
 const Component = ({ slug, children, withTrigger, ...props }: Props) => {
     return (
-        <HoverCard openDelay={400} closeDelay={100}>
+        <HoverCard openDelay={500} closeDelay={100}>
             <HoverCardTrigger asChild>{children}</HoverCardTrigger>
             <HoverCardPortal>
                 <HoverCardContent

@@ -1,13 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-
-import {
-    useParams,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 import { useWatchList } from '@/app/(pages)/u/[username]/page.hooks';
 import { Button } from '@/components/ui/button';
@@ -20,8 +13,6 @@ import TableView from './_components/table-view';
 interface Props {}
 
 const Component = ({}: Props) => {
-    const pathname = usePathname();
-    const router = useRouter();
     const searchParams = useSearchParams()!;
     const params = useParams();
 
@@ -33,14 +24,6 @@ const Component = ({}: Props) => {
             username: String(params.username),
             watch_status: String(watchStatus) as Hikka.WatchStatus,
         });
-
-    useEffect(() => {
-        if (!watchStatus) {
-            router.replace(
-                pathname + '/?status=completed',
-            );
-        }
-    }, [watchStatus]);
 
     if (!list || !watchStatus) {
         return null;

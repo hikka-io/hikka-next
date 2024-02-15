@@ -81,25 +81,10 @@ export async function generateMetadata(
 
 const Component = async ({ params: { username }, children }: Props) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
 
     await queryClient.prefetchQuery({
         queryKey: ['user', username],
         queryFn: () => getUserInfo({ username }),
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', { username, secret }],
-        queryFn: ({ pageParam }) =>
-            getFavouriteList({ username, page: pageParam }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['activity', username],
-        queryFn: ({ pageParam }) =>
-            getUserHistory({ username, page: pageParam }),
-        initialPageParam: 1,
     });
 
     await queryClient.prefetchQuery({

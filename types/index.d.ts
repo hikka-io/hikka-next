@@ -389,5 +389,10 @@ declare global {
             href: string;
             seen: boolean;
         };
+
+        type Activity = {
+            timestamp: number;
+            actions: number;
+        }
     }
 }

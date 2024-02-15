@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
@@ -25,7 +26,6 @@ import {
 import createQueryString from '@/utils/createQueryString';
 
 import BadgeFilter from './_components/ui/badge-filter';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];
@@ -102,7 +102,15 @@ const Component = ({ className, type }: Props) => {
         const query = createQueryString(
             name,
             value,
-            new URLSearchParams(searchParams),
+            createQueryString(
+                'page',
+                '1',
+                createQueryString(
+                    'iPage',
+                    '1',
+                    new URLSearchParams(searchParams),
+                ),
+            ),
         );
         router.replace(`${pathname}?${query}`);
     };
@@ -119,11 +127,10 @@ const Component = ({ className, type }: Props) => {
         <ScrollArea
             className={cn(
                 'flex flex-col items-start gap-8',
-                // 'lg:absolute lg:top-0',
                 'border-t border-t-transparent',
                 'transition',
                 'lg:max-h-[calc(100vh-6rem)] h-full',
-                className,4
+                className,
             )}
         >
             <div className="flex w-full flex-col items-start gap-8 py-4">

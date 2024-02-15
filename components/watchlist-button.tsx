@@ -227,17 +227,23 @@ const Component = ({ slug, additional, disabled }: Props) => {
 };
 
 const ContextMenuOverlay = (props: Props) => {
-    const { titleLanguage } = useSettingsContext();
-    const { openModal } = useModalContext();
-    const { data: anime } = useQuery({
-        queryKey: ['anime', props.slug],
-        queryFn: () => getAnimeInfo({ slug: String(props.slug) }),
-        enabled: !props.disabled,
-    });
+    const { secret } = useAuthContext();
 
-    if (props.disabled) {
+    if (!secret || props.disabled) {
         return <Component {...props} />;
     }
+
+    const { data: watch, isError: watchError } = useQuery({
+        queryKey: ['watch', secret, props.slug],
+        queryFn: () => getWatch({ slug: String(props.slug), secret: String(secret) }),
+    });
+
+    if (!watch || watchError) {
+        return <Component {...props} />;
+    }
+
+    const { titleLanguage } = useSettingsContext();
+    const { openModal } = useModalContext();
 
     return (
         <ContextMenu>
@@ -251,10 +257,10 @@ const ContextMenuOverlay = (props: Props) => {
                             content: <WatchEditModal slug={props.slug} />,
                             className: '!max-w-xl',
                             title:
-                                anime?.[titleLanguage!] ||
-                                anime?.title_ua ||
-                                anime?.title_en ||
-                                anime?.title_ja,
+                                watch.anime?.[titleLanguage!] ||
+                                watch.anime?.title_ua ||
+                                watch.anime?.title_en ||
+                                watch.anime?.title_ja,
                         })
                     }
                 >
