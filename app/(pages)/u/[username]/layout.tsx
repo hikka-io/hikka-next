@@ -5,24 +5,26 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 
-import Breadcrumbs from '@/app/_components/breadcrumbs';
-import InternalNavBar from '@/app/_components/internal-navbar';
-import NavMenu from '@/app/_components/nav-menu';
-import SubBar from '@/app/_components/sub-navbar';
-import Image from '@/app/_components/ui/image';
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getFavouriteList from '@/app/_utils/api/favourite/getFavouriteList';
-import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
+import ListStats from '@/app/(pages)/u/[username]/_components/list-stats';
+import UserTitle from '@/app/(pages)/u/[username]/_components/user-title';
+import { getCookie } from '@/app/actions';
+import Breadcrumbs from '@/components/breadcrumbs';
+import InternalNavBar from '@/components/internal-navbar';
+import NavMenu from '@/components/nav-menu';
+import SubBar from '@/components/sub-navbar';
+import Image from '@/components/ui/image';
+import getFavouriteList from '@/services/api/favourite/getFavouriteList';
+import getFollowStats from '@/services/api/follow/getFollowStats';
+import getUserHistory from '@/services/api/user/getUserHistory';
 import getUserInfo, {
     Response as UserResponse,
-} from '@/app/_utils/api/user/getUserInfo';
-import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
-import { USER_NAV_ROUTES } from '@/app/_utils/constants';
-import getQueryClient from '@/app/_utils/getQueryClient';
-import { getCookie } from '@/app/actions';
+} from '@/services/api/user/getUserInfo';
+import getWatchStats from '@/services/api/watch/getWatchStats';
+import { USER_NAV_ROUTES } from '@/utils/constants';
+import getQueryClient from '@/utils/getQueryClient';
 
-import ActivationAlert from './_components/activation-alert';
 import FollowButton from './_components/follow-button';
 import FollowStats from './_components/follow-stats';
 import UserInfo from './_components/user-info';
@@ -79,17 +81,10 @@ export async function generateMetadata(
 
 const Component = async ({ params: { username }, children }: Props) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
 
     await queryClient.prefetchQuery({
         queryKey: ['user', username],
         queryFn: () => getUserInfo({ username }),
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', username, secret],
-        queryFn: () => getFavouriteList({ username }),
-        initialPageParam: 1,
     });
 
     await queryClient.prefetchQuery({
@@ -118,10 +113,10 @@ const Component = async ({ params: { username }, children }: Props) => {
     }
 
     return (
-        <RQHydrate state={dehydratedState}>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
+        <HydrationBoundary state={dehydratedState}>
+            <div className="flex flex-col gap-12 lg:gap-16">
                 {user.cover && (
-                    <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden rounded-b-lg">
+                    <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden gradient-mask-b-0">
                         <Image
                             src={user.cover}
                             className="relative w-full h-full object-cover"
@@ -129,7 +124,6 @@ const Component = async ({ params: { username }, children }: Props) => {
                             width={1500}
                             height={500}
                         />
-                        <div className="bg-gradient-to-b from-transparent dark:to-black to-white absolute bottom-0 left-0 w-full h-full z-30" />
                     </div>
                 )}
                 <Breadcrumbs>
@@ -150,17 +144,31 @@ const Component = async ({ params: { username }, children }: Props) => {
                         urlPrefix={'/u/' + username}
                     />
                 </SubBar>
-                <div className="flex flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                    <UserInfo />
-                    <FollowStats />
-                    <FollowButton />
+
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+                    <div className="flex flex-col lg:gap-8 gap-4">
+                        <div className="flex lg:gap-8 gap-4">
+                            <UserInfo />
+                            <div className="flex flex-col gap-2">
+                                <UserTitle />
+                                <FollowStats className="hidden lg:flex" />
+                                <div className="flex-col gap-2 flex-1 justify-end hidden lg:flex">
+                                    <FollowButton />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg:hidden flex flex-col gap-4">
+                            <FollowStats />
+                            <FollowButton className="w-full" />
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <ListStats />
+                    </div>
                 </div>
-                <div className="flex flex-col gap-12">
-                    <ActivationAlert />
-                    {children}
-                </div>
+                <div className="flex flex-col gap-12">{children}</div>
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

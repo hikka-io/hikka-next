@@ -4,23 +4,18 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
-
-import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
-import SubHeader from '@/app/_components/sub-header';
-import { Button } from '@/app/_components/ui/button';
+import { useCharacterInfo } from '@/app/page.hooks';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
 
 
 const Component = () => {
-    const queryClient = useQueryClient();
     const [active, setActive] = useState<'description_ua'>('description_ua');
     const params = useParams();
-    const character: Hikka.Character | undefined = queryClient.getQueryData([
-        'character',
-        params.slug,
-    ]);
+    const { data: character } = useCharacterInfo(String(params.slug));
 
-    if (!character || (!character.description_ua)) {
+    if (!character || !character.description_ua) {
         return null;
     }
 

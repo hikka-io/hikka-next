@@ -4,16 +4,16 @@ import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { Controller } from 'react-hook-form';
 
-import MDEditor from '@/app/_components/markdown/editor/MD-editor';
-import MDViewer from '@/app/_components/markdown/viewer/MD-viewer';
-import { Button } from '@/app/_components/ui/button';
+import MDEditor from '@/components/markdown/editor/MD-editor';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import { Button } from '@/components/ui/button';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from '@/app/_components/ui/collapsible';
-import { Input } from '@/app/_components/ui/input';
-import { Label } from '@/app/_components/ui/label';
+} from '@/components/ui/collapsible';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface EditProps<
     TEditParams extends Hikka.AnimeEditParams | Hikka.CharacterEditParams,
@@ -22,7 +22,7 @@ interface EditProps<
     selected: (keyof TEditParams)[];
     params: Hikka.EditParam<TEditParams>[];
     content: Record<string, any>;
-    onSwitchParam: (param: keyof TEditParams) => void;
+    onSwitchParam?: (param: keyof TEditParams) => void;
     register: any;
     control?: any;
     editor?: 'input' | 'markdown';
@@ -77,7 +77,7 @@ const Component = <
             </CollapsibleTrigger>
 
             <CollapsibleContent className="flex flex-col gap-6">
-                {mode === 'edit' && (
+                {mode === 'edit' && onSwitchParam && (
                     <div className="flex flex-wrap gap-2">
                         {params.map((param) => (
                             <Button

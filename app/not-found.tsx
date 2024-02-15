@@ -2,9 +2,9 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import Image from '@/app/_components/ui/image';
+import Image from '@/components/ui/image';
 
-import { Button } from './_components/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
     return (

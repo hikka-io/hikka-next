@@ -1,30 +1,22 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import BaseCard from '@/app/_components/ui/base-card';
-import SubHeader from '@/app/_components/sub-header';
-import { Button } from '@/app/_components/ui/button';
-import getAnimeStaff from '@/app/_utils/api/anime/getAnimeStaff';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
+import { useStaff } from '@/app/(pages)/anime/[slug]/page.hooks';
+import SubHeader from '@/components/sub-header';
+import BaseCard from '@/components/ui/base-card';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
-    const { ref, inView } = useInView();
     const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteList({
-            queryKey: ['staff', params.slug],
-            queryFn: ({ pageParam = 1 }) =>
-                getAnimeStaff({ slug: String(params.slug), page: pageParam }),
-        });
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        useStaff(String(params.slug));
 
     const getRole = (
         roles: { name_ua: string; name_en: string; slug: string }[],
@@ -35,12 +27,6 @@ const Component = ({ extended }: Props) => {
 
         return roles[0].name_ua || roles[0].name_en;
     };
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
 
     if (!list || list.length === 0) {
         return null;
@@ -76,7 +62,7 @@ const Component = ({ extended }: Props) => {
             </div>
             {extended && hasNextPage && (
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     ref={ref}
                     disabled={isFetchingNextPage}
                     onClick={() => fetchNextPage()}
@@ -84,7 +70,7 @@ const Component = ({ extended }: Props) => {
                     {isFetchingNextPage && (
                         <span className="loading loading-spinner"></span>
                     )}
-                    Заванатажити ще
+                    Завантажити ще
                 </Button>
             )}
         </div>

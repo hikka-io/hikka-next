@@ -3,36 +3,22 @@
 import { useSnackbar } from 'notistack';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-
-
 import { useParams } from 'next/navigation';
 
-
-
-import { useQueryClient } from '@tanstack/react-query';
-
-
-
-import { Button } from '@/app/_components/ui/button';
-import resendActivation from '@/app/_utils/api/auth/resendActivation';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import {  useUser } from '@/app/(pages)/u/[username]/page.hooks';
+import { Button } from '@/components/ui/button';
+import resendActivation from '@/services/api/auth/resendActivation';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useLoggedUser } from '@/app/page.hooks';
 
 
 const Component = () => {
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
     const { secret } = useAuthContext();
-    const queryClient = useQueryClient();
 
-    const user: Hikka.User | undefined = queryClient.getQueryData([
-        'user',
-        params.username,
-    ]);
-
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    const { data: user } = useUser(String(params.username));
+    const { data: loggedUser } = useLoggedUser(String(secret));
 
     if (
         !loggedUser ||

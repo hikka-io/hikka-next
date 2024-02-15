@@ -3,11 +3,11 @@ module.exports = {
     darkMode: ['class'],
     content: [
         './pages/**/*.{ts,tsx}',
-        './_components/**/*.{ts,tsx}',
         './components/**/*.{ts,tsx}',
         './app/**/*.{ts,tsx}',
         './src/**/*.{ts,tsx}',
         './utils/**/*.{ts,tsx}',
+        './services/**/*.{ts,tsx}',
     ],
     prefix: '',
     theme: {
@@ -91,5 +91,5 @@ module.exports = {
             },
         },
     },
-    plugins: [require('tailwindcss-animate')],
+    plugins: [require('tailwindcss-animate'), require("tailwind-gradient-mask-image")],
 };

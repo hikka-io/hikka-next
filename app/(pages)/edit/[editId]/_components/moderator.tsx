@@ -6,24 +6,19 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
+import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Label } from '@/app/_components/ui/label';
-import getEdit from '@/app/_utils/api/edit/getEdit';
+} from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
 
 
 const Component = () => {
     const params = useParams();
 
-    const { data: edit } = useQuery({
-        queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
-    });
+    const { data: edit } = useEdit(String(params.editId));
 
     if (!edit || !edit.moderator) {
         return null;

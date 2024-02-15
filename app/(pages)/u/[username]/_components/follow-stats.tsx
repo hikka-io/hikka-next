@@ -2,32 +2,31 @@
 
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
+import { useFollowStats } from '@/app/(pages)/u/[username]/page.hooks';
+import FollowlistModal from '@/components/modals/followlist-modal';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils';
 
-import FollowlistModal from '@/app/_components/modals/followlist-modal';
-import { Button } from '@/app/_components/ui/button';
-import { Label } from '@/app/_components/ui/label';
-import getFollowStats from '@/app/_utils/api/follow/getFollowStats';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
+interface Props {
+    className?: string;
+}
 
-interface Props {}
-
-const Component = ({}: Props) => {
+const Component = ({ className }: Props) => {
     const { openModal } = useModalContext();
     const params = useParams();
 
-    const { data: followStats } = useQuery({
-        queryKey: ['followStats', params.username],
-        queryFn: () => getFollowStats({ username: String(params.username) }),
-    });
+    const { data: followStats } = useFollowStats(String(params.username));
 
     if (!followStats) {
         return null;
     }
 
     return (
-        <div className="flex h-fit gap-2 rounded-lg border border-secondary/60 bg-secondary/30 p-2">
+        <div className={cn('flex h-fit gap-6', className)}>
             <Button
+                size="sm"
                 onClick={() =>
                     openModal({
                         content: <FollowlistModal type="followers" />,
@@ -35,18 +34,17 @@ const Component = ({}: Props) => {
                         type: 'sheet',
                     })
                 }
-                className="flex flex-1 flex-col items-center justify-center gap-2 p-2"
-                variant="ghost"
+                variant="link"
+                className="p-0 text-foreground"
             >
-                <Label>
-                    <span className="font-bold">
-                        {followStats ? followStats.followers : 0}
-                    </span>
-                </Label>
-                <Label className="text-muted-foreground">стежать</Label>
+                <span className="font-bold">
+                    {followStats ? followStats.followers : 0}
+                    <Label className="text-muted-foreground"> стежать</Label>
+                </span>
             </Button>
             <Button
-                variant="ghost"
+                size="sm"
+                variant="link"
                 onClick={() =>
                     openModal({
                         content: <FollowlistModal type="followings" />,
@@ -54,14 +52,17 @@ const Component = ({}: Props) => {
                         type: 'sheet',
                     })
                 }
-                className="flex flex-1 flex-col items-center justify-center gap-2 p-2"
+                className="p-0 text-foreground"
             >
                 <Label>
                     <span className="font-bold">
                         {followStats ? followStats.following : 0}
+                        <Label className="text-muted-foreground">
+                            {' '}
+                            відстежується
+                        </Label>
                     </span>
                 </Label>
-                <Label className="text-muted-foreground">відстежується</Label>
             </Button>
         </div>
     );

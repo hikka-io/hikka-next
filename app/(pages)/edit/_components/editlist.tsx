@@ -3,16 +3,15 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
-import BaseCard from '@/app/_components/ui/base-card';
-import { Label } from '@/app/_components/ui/label';
-import Pagination from '@/app/_components/ui/pagination';
+import { useEditList } from '@/app/(pages)/edit/page.hooks';
+import BaseCard from '@/components/ui/base-card';
+import { Label } from '@/components/ui/label';
+import Pagination from '@/components/ui/pagination';
 import {
     Table,
     TableBody,
@@ -20,14 +19,13 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/app/_components/ui/table';
-import getEditList from '@/app/_utils/api/edit/getEditList';
+} from '@/components/ui/table';
 import {
     CONTENT_TYPE_LINKS,
     CONTENT_TYPE_TITLES,
-} from '@/app/_utils/constants';
-import createQueryString from '@/app/_utils/createQueryString';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+} from '@/utils/constants';
+import createQueryString from '@/utils/createQueryString';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import EditStatus from './ui/edit-status';
 
@@ -37,34 +35,21 @@ const Component = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const page = searchParams.get('page');
-    const [selectedPage, setSelectedPage] = useState(page ? Number(page) : 1);
+    const page = searchParams.get('page')!;
 
     const [go, setGo] = useState(false);
     const router = useRouter();
 
-    const { data } = useQuery({
-        queryKey: ['editList', selectedPage],
-        queryFn: () =>
-            getEditList({
-                page: selectedPage,
-            }),
-    });
+    const { data } = useEditList({ page, staleTime: 0 });
 
-    useEffect(() => {
+    const updatePage = (newPage: number) => {
         const query = createQueryString(
             'page',
-            String(selectedPage),
+            String(newPage),
             new URLSearchParams(searchParams),
         );
         router.push(`${pathname}?${query}`, { scroll: true });
-    }, [selectedPage]);
-
-    useEffect(() => {
-        if (page) {
-            setSelectedPage(Number(page));
-        }
-    }, [page]);
+    };
 
     return (
         <div className="flex flex-col gap-8">
@@ -96,7 +81,7 @@ const Component = () => {
                                     )}
                                     onClick={() =>
                                         !go &&
-                                        router.push('/edit/' + edit.edit_id)
+                                        router.push(`/edit/${edit.edit_id}?mode=view`)
                                     }
                                 >
                                     <TableHead className="w-8">
@@ -187,9 +172,9 @@ const Component = () => {
             </div>
             {data && data.pagination.pages > 1 && (
                 <Pagination
-                    page={selectedPage}
+                    page={Number(page)}
                     pages={data.pagination.pages}
-                    setPage={setSelectedPage}
+                    setPage={updatePage}
                 />
             )}
         </div>

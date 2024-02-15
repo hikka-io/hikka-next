@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import AnimeParams from './_components/anime-params';
-import CharacterParams from './_components/character-params';
+import AnimeNew from './_components/anime-new';
+import CharacterNew from './_components/character-new';
 
 interface Props {
     content_type: Hikka.ContentType;
@@ -10,11 +10,11 @@ interface Props {
 
 const Component = ({ content_type, slug }: Props) => {
     if (content_type === 'anime') {
-        return <AnimeParams slug={slug} />;
+        return <AnimeNew slug={slug} />;
     }
 
     if (content_type === 'character') {
-        return <CharacterParams slug={slug} />;
+        return <CharacterNew slug={slug} />;
     }
 
     return null;

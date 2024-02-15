@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import activation from '@/app/_utils/api/auth/activation';
+import activation from '@/services/api/auth/activation';
 
 export const dynamic = 'force-dynamic';
 

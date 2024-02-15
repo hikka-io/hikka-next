@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import Providers from '@/app/_utils/providers';
+import Providers from '@/components/providers';
 import '@mdxeditor/editor/style.css';
 import './globals.css';
 
@@ -99,6 +99,7 @@ export default async function RootLayout({
             className={`${inter.variable} ${fixelDisplay.variable}`}
             lang="uk"
             data-theme="dark"
+            suppressHydrationWarning
         >
             <head>
                 <PlausibleProvider

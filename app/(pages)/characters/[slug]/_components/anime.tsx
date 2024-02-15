@@ -1,17 +1,14 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
-import AnimeCard from '@/app/_components/anime-card';
-import SubHeader from '@/app/_components/sub-header';
-import { Button } from '@/app/_components/ui/button';
-import getCharacterAnime from '@/app/_utils/api/characters/getCharacterAnime';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import { useCharacterAnime } from '@/app/(pages)/characters/[slug]/page.hooks';
+import AnimeCard from '@/components/anime-card';
+import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
@@ -19,23 +16,9 @@ interface Props {
 
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
-    const { ref, inView } = useInView();
     const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteList({
-            queryKey: ['characterAnime', params.slug],
-            queryFn: ({ pageParam = 1 }) =>
-                getCharacterAnime({
-                    slug: String(params.slug),
-                    page: pageParam,
-                }),
-        });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        useCharacterAnime(String(params.slug));
 
     if (!list || list.length === 0) {
         return null;
@@ -70,7 +53,7 @@ const Component = ({ extended }: Props) => {
             </div>
             {extended && hasNextPage && (
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     ref={ref}
                     disabled={isFetchingNextPage}
                     onClick={() => fetchNextPage()}
@@ -78,7 +61,7 @@ const Component = ({ extended }: Props) => {
                     {isFetchingNextPage && (
                         <span className="loading loading-spinner"></span>
                     )}
-                    Заванатажити ще
+                    Завантажити ще
                 </Button>
             )}
         </div>

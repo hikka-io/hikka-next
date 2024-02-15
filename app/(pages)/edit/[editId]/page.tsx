@@ -4,27 +4,36 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 
 import EditView from '@/app/(pages)/edit/[editId]/_components/edit-view';
-import Breadcrumbs from '@/app/_components/breadcrumbs';
-import Comments from '@/app/_components/comments/comments';
-import SubHeader from '@/app/_components/sub-header';
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getEdit from '@/app/_utils/api/edit/getEdit';
-import getQueryClient from '@/app/_utils/getQueryClient';
+import Breadcrumbs from '@/components/breadcrumbs';
+import Comments from '@/components/comments/comments';
+import SubHeader from '@/components/sub-header';
+import getEdit from '@/services/api/edit/getEdit';
+import getQueryClient from '@/utils/getQueryClient';
 
+import Content from '../_components/ui/content';
 import EditStatus from '../_components/ui/edit-status';
 import Actions from './_components/actions';
 import Author from './_components/author';
+import EditUpdate from './_components/edit-update';
 import Moderator from './_components/moderator';
-import Content from '../_components/ui/content';
 
 
 interface Props {
     params: { editId: string };
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const Component = async ({ params: { editId } }: Props) => {
+const Component = async ({
+    params: { editId },
+    searchParams: { mode },
+}: Props) => {
+    if (!mode) {
+        redirect(`/edit/${editId}/?mode=view`);
+    }
+
     const queryClient = getQueryClient();
 
     await queryClient.prefetchQuery({
@@ -44,7 +53,7 @@ const Component = async ({ params: { editId } }: Props) => {
     const dehydratedState = dehydrate(queryClient);
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Breadcrumbs>
                     <Link
@@ -57,9 +66,16 @@ const Component = async ({ params: { editId } }: Props) => {
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Правка #` + editId} />
                     <div className="flex flex-col gap-12">
-                        <EditView content_type={edit?.content_type} />
-                        <Actions />
-                        <Comments slug={editId} content_type="edit" />
+                        {mode === 'update' && (
+                            <EditUpdate content_type={edit?.content_type} />
+                        )}
+                        {mode === 'view' && (
+                            <>
+                                <EditView content_type={edit?.content_type} />
+                                <Actions />
+                                <Comments slug={editId} content_type="edit" />
+                            </>
+                        )}
                     </div>
                 </div>
                 <div className="flex flex-col gap-12">
@@ -83,7 +99,7 @@ const Component = async ({ params: { editId } }: Props) => {
                     />
                 </div>
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

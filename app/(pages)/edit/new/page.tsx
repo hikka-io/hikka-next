@@ -3,16 +3,17 @@ import * as React from 'react';
 import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 
-import SubHeader from '@/app/_components/sub-header';
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
-import getCharacterInfo from '@/app/_utils/api/characters/getCharacterInfo';
-import getQueryClient from '@/app/_utils/getQueryClient';
+import SubHeader from '@/components/sub-header';
+import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
+import getQueryClient from '@/utils/getQueryClient';
 
 import Content from '../_components/ui/content';
 import EditNew from './_components/edit-new';
 import RulesAlert from './_components/rules-alert';
+
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
@@ -44,15 +45,13 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
         });
     }
 
-    const content: Hikka.AnimeInfo | Hikka.Character | undefined = queryClient.getQueryData([
-        content_type,
-        slug,
-    ]);
+    const content: Hikka.AnimeInfo | Hikka.Character | undefined =
+        queryClient.getQueryData([content_type, slug]);
 
     const dehydratedState = dehydrate(queryClient);
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Нова правка`} />
@@ -70,7 +69,7 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
                     />
                 </div>
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

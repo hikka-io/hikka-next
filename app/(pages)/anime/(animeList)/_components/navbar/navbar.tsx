@@ -1,44 +1,11 @@
-'use client';
-
 import clsx from 'clsx';
-import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import FiltersModal from '@/components/filters/_components/filters-modal';
 
 import Search from './_components/search';
-import FiltersModal from '@/app/(pages)/anime/(animeList)/_components/filters-modal';
-import { Button } from '@/app/_components/ui/button';
-import createQueryString from '@/app/_utils/createQueryString';
 
 interface Props {}
-
 const Component = ({}: Props) => {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams()!;
-
-    const sort = searchParams.get('sort');
-
-    const handleChangeParam = (
-        name: string,
-        value: string | string[] | boolean,
-    ) => {
-        const query = createQueryString(
-            name,
-            value,
-            new URLSearchParams(searchParams),
-        );
-        router.replace(`${pathname}?${query}`);
-    };
-
-    const switchSort = () => {
-        if (sort === 'asc') {
-            handleChangeParam('sort', 'desc');
-        } else {
-            handleChangeParam('sort', 'asc');
-        }
-    };
-
     return (
         <div
             className={clsx(
@@ -46,13 +13,8 @@ const Component = ({}: Props) => {
             )}
         >
             <Search />
-            <Button variant="outline" size="icon" onClick={switchSort}>
-                <MaterialSymbolsSortRounded
-                    className={clsx(sort === 'asc' && '-scale-y-100')}
-                />
-            </Button>
             <div className="lg:hidden">
-                <FiltersModal />
+                <FiltersModal type="anime" />
             </div>
         </div>
     );

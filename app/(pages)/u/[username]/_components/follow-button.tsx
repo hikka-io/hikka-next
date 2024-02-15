@@ -5,69 +5,46 @@ import CilUserUnfollow from '~icons/cil/user-unfollow';
 
 import { useParams } from 'next/navigation';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+    useFollow,
+    useFollowChecker,
+    useUnfollow,
+    useUser,
+} from '@/app/(pages)/u/[username]/page.hooks';
+import AuthModal from '@/components/modals/auth-modal/auth-modal';
+import { Button } from '@/components/ui/button';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils';
+import { useLoggedUser } from '@/app/page.hooks';
 
-import { Button } from '@/app/_components/ui/button';
-import checkFollow from '@/app/_utils/api/follow/checkFollow';
-import follow from '@/app/_utils/api/follow/follow';
-import unfollow from '@/app/_utils/api/follow/unfollow';
-import getUserInfo from '@/app/_utils/api/user/getUserInfo';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
-import AuthModal from '@/app/_components/modals/auth-modal/auth-modal';
+interface Props {
+    className?: string;
+}
 
-interface Props {}
-
-const Component = ({}: Props) => {
+const Component = ({ className }: Props) => {
     const { openModal } = useModalContext();
-    const queryClient = useQueryClient();
     const params = useParams();
     const { secret } = useAuthContext();
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: user } = useUser(String(params.username));
 
-    const { data: user } = useQuery({
-        queryKey: ['user', params.username],
-        queryFn: () => getUserInfo({ username: String(params.username) }),
-        staleTime: 0,
-    });
+    const { data: followChecker } = useFollowChecker(
+        String(params.username),
+        String(secret),
+        loggedUser && loggedUser.username !== params.username,
+    );
 
-    const { data: followChecker } = useQuery({
-        queryKey: ['followChecker', secret, params.username],
-        queryFn: () =>
-            checkFollow({
-                secret: String(secret),
-                username: String(params.username),
-            }),
-        enabled: loggedUser && loggedUser.username !== params.username,
-    });
+    const { mutate: mutateFollow, isPending: followLoading } = useFollow(
+        String(secret),
+        String(params.username),
+    );
 
-    const { mutate: mutateFollow, isPending: followLoading } = useMutation({
-        mutationKey: ['follow', secret, params.username],
-        mutationFn: () =>
-            follow({
-                secret: String(secret),
-                username: String(params.username),
-            }),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries();
-        },
-    });
-
-    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useMutation({
-        mutationKey: ['unfollow', secret, params.username],
-        mutationFn: () =>
-            unfollow({
-                secret: String(secret),
-                username: String(params.username),
-            }),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries();
-        },
-    });
+    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow(
+        String(secret),
+        String(params.username),
+    );
 
     const handleFollowAction = async (action: 'follow' | 'unfollow') => {
         switch (action) {
@@ -90,7 +67,7 @@ const Component = ({}: Props) => {
                     disabled={unfollowLoading}
                     onClick={() => handleFollowAction('unfollow')}
                     variant="outline"
-                    className="w-full"
+                    className={cn('w-fit', className)}
                 >
                     {unfollowLoading ? (
                         <span className="loading loading-spinner"></span>
@@ -104,7 +81,7 @@ const Component = ({}: Props) => {
                     variant="secondary"
                     disabled={followLoading}
                     onClick={() => handleFollowAction('follow')}
-                    className="btn w-full"
+                    className={cn('w-fit', className)}
                 >
                     {followLoading ? (
                         <span className="loading loading-spinner"></span>
@@ -118,7 +95,7 @@ const Component = ({}: Props) => {
     ) : (
         <Button
             onClick={() => openModal({ content: <AuthModal type="login" /> })}
-            className="w-full"
+            className={cn('w-fit', className)}
         >
             <CilUserFollow />
             Відстежувати

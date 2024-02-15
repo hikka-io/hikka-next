@@ -3,16 +3,18 @@
 import * as React from 'react';
 import { useState } from 'react';
 
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Button } from '@/app/_components/ui/button';
-import acceptEdit from '@/app/_utils/api/edit/acceptEdit';
-import closeEdit from '@/app/_utils/api/edit/closeEdit';
-import denyEdit from '@/app/_utils/api/edit/denyEdit';
-import getEdit from '@/app/_utils/api/edit/getEdit';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+import { useEdit } from '@/app/(pages)/edit/page.hooks';
+import { useLoggedUser } from '@/app/page.hooks';
+import { Button } from '@/components/ui/button';
+import acceptEdit from '@/services/api/edit/acceptEdit';
+import closeEdit from '@/services/api/edit/closeEdit';
+import denyEdit from '@/services/api/edit/denyEdit';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 
 const Component = () => {
@@ -22,15 +24,9 @@ const Component = () => {
 
     const { secret } = useAuthContext();
 
-    const { data: edit } = useQuery({
-        queryKey: ['edit', params.editId],
-        queryFn: () => getEdit({ edit_id: Number(params.editId) }),
-    });
+    const { data: edit } = useEdit(String(params.editId));
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    const { data: loggedUser } = useLoggedUser(String(secret));
 
     const onAcceptSubmit = async () => {
         try {
@@ -106,19 +102,39 @@ const Component = () => {
     }
 
     return (
-        <div className="grid auto-cols-min grid-flow-col items-center gap-2">
+        <div className="flex items-center gap-2 justify-between">
+            <div className="flex items-center gap-2">
+                {loggedUser?.username === edit.author.username &&
+                    edit.status === 'pending' && (
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={isSubmitting}
+                            onClick={onCloseSubmit}
+                        >
+                            Закрити
+                        </Button>
+                    )}
+                {(loggedUser?.role === 'moderator' ||
+                    loggedUser?.role === 'admin') &&
+                    edit.status === 'pending' && (
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            disabled={isSubmitting}
+                            asChild
+                        >
+                            <Link href={`/edit/${params.editId}?mode=update`}>
+                                Редагувати
+                            </Link>
+                        </Button>
+                    )}
+            </div>
+
             {(loggedUser?.role === 'moderator' ||
                 loggedUser?.role === 'admin') &&
             edit.status === 'pending' ? (
-                <>
-                    <Button
-                        variant="success"
-                        size="sm"
-                        disabled={isSubmitting}
-                        onClick={onAcceptSubmit}
-                    >
-                        Прийняти
-                    </Button>
+                <div className="flex items-center gap-2">
                     <Button
                         variant="destructive"
                         size="sm"
@@ -127,19 +143,17 @@ const Component = () => {
                     >
                         Відхилити
                     </Button>
-                </>
-            ) : null}
-            {loggedUser?.username === edit.author.username &&
-                edit.status === 'pending' && (
+
                     <Button
-                        variant="warning"
+                        variant="success"
                         size="sm"
                         disabled={isSubmitting}
-                        onClick={onCloseSubmit}
+                        onClick={onAcceptSubmit}
                     >
-                        Закрити
+                        Прийняти
                     </Button>
-                )}
+                </div>
+            ) : null}
         </div>
     );
 };

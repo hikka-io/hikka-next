@@ -7,16 +7,14 @@ import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
-import { Button } from '@/app/_components/ui/button';
-import EditListModal from '@/app/_components/modals/editlist-modal';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
-import { ANIME_NAV_ROUTES } from '@/app/_utils/constants';
-import useIsMobile from '@/app/_utils/hooks/useIsMobile';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import { useAnimeInfo } from '@/app/page.hooks';
+import EditListModal from '@/components/modals/editlist-modal';
+import { Button } from '@/components/ui/button';
+import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import useIsMobile from '@/services/hooks/useIsMobile';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 
 const EditButton = ({ className }: { className?: string }) => {
@@ -29,7 +27,12 @@ const EditButton = ({ className }: { className?: string }) => {
             size="icon-xs"
             onClick={() =>
                 openModal({
-                    content: <EditListModal content_type="anime" slug={String(params.slug)} />,
+                    content: (
+                        <EditListModal
+                            content_type="anime"
+                            slug={String(params.slug)}
+                        />
+                    ),
                     type: 'sheet',
                     title: 'Список правок',
                 })
@@ -48,10 +51,7 @@ const Component = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const { secret } = useAuthContext();
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const { data } = useAnimeInfo(String(params.slug));
 
     useEffect(() => {
         if (

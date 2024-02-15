@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Comments from '@/app/_components/comments/comments';
+import Comments from '@/components/comments/comments';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

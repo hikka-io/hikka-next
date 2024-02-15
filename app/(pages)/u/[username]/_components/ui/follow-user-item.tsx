@@ -11,11 +11,11 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/app/_components/ui/avatar';
-import { Button } from '@/app/_components/ui/button';
-import follow from '@/app/_utils/api/follow/follow';
-import unfollow from '@/app/_utils/api/follow/unfollow';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
+} from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import follow from '@/services/api/follow/follow';
+import unfollow from '@/services/api/follow/unfollow';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 interface Props {
     user: Hikka.User;
@@ -64,17 +64,18 @@ const Component = ({ user }: Props) => {
                     {user.active && (
                         <span className="indicator-item indicator-bottom badge badge-success h-2 w-2 p-0"></span>
                     )}
-                    <Link href={'/u/' + user.username}>
-                        <Avatar className="rounded-md w-12 h-12">
+                    <Link href={'/u/' + user.username} className="relative">
+                        <Avatar className='rounded-md w-12 h-12'>
                             <AvatarImage
                                 src={user.avatar}
-                                className="rounded-md"
-                                alt="avatar"
+                                className='rounded-md'
+                                alt='avatar'
                             />
-                            <AvatarFallback className="rounded-md">
-                                <MaterialSymbolsShieldRounded className="text-xl flex-1 text-neutral" />
+                            <AvatarFallback className='rounded-md'>
+                                <MaterialSymbolsShieldRounded className='text-xl flex-1 text-neutral' />
                             </AvatarFallback>
                         </Avatar>
+                        {user.active && <div className='absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-md border-2 border-secondary' />}
                     </Link>
                 </div>
                 <div className="flex flex-col justify-between min-w-0">

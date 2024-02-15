@@ -1,36 +1,38 @@
-import { dehydrate } from '@tanstack/query-core';
+import { redirect } from 'next/navigation';
 
-import RQHydrate from '@/app/_utils/RQ-hydrate';
-import getEditList from '@/app/_utils/api/edit/getEditList';
-import getQueryClient from '@/app/_utils/getQueryClient';
+import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
+
+import getEditList from '@/services/api/edit/getEditList';
+import getQueryClient from '@/utils/getQueryClient';
 
 import EditList from './_components/editlist';
 
 
 const Component = async ({
-    searchParams,
+    searchParams: { page },
 }: {
-    searchParams?: {
-        [key: string]: string | string[] | undefined;
-    };
+    searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-    const queryClient = getQueryClient();
-    const page = Number(searchParams?.page) || 1;
+    if (!page) {
+        redirect('/edit?page=1');
+    }
 
+    const queryClient = getQueryClient();
 
     await queryClient.prefetchQuery({
         queryKey: ['editList', page],
-        queryFn: () => getEditList({ page }),
+        queryFn: () => getEditList({ page: Number(page) }),
     });
 
     const dehydratedState = dehydrate(queryClient);
 
     return (
-        <RQHydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:gap-16">
                 <EditList />
             </div>
-        </RQHydrate>
+        </HydrationBoundary>
     );
 };
 

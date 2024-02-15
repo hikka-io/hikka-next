@@ -5,22 +5,17 @@ import { NumericFormat } from 'react-number-format';
 
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
-
-import SubHeader from '@/app/_components/sub-header';
-import getAnimeInfo from '@/app/_utils/api/anime/getAnimeInfo';
-import { WATCH_STATUS } from '@/app/_utils/constants';
-import useSize from '@/app/_utils/hooks/useSize';
+import { useAnimeInfo } from '@/app/page.hooks';
+import SubHeader from '@/components/sub-header';
+import { WATCH_STATUS } from '@/utils/constants';
+import useSize from '@/services/hooks/useSize';
 
 
 const Component = () => {
     const ref = useRef<HTMLDivElement>(null);
     const maxSize = useSize(ref);
     const params = useParams();
-    const { data } = useQuery({
-        queryKey: ['anime', params.slug],
-        queryFn: () => getAnimeInfo({ slug: String(params.slug) }),
-    });
+    const { data } = useAnimeInfo(String(params.slug));
 
     const maxWidth = maxSize?.width || 120;
 
@@ -64,7 +59,7 @@ const Component = () => {
                                 >
                                     <div className="flex items-center gap-2">
                                         <div className="rounded-md bg-secondary p-1">
-                                            {createElement(status.icon)}
+                                            {createElement(status.icon!)}
                                         </div>
                                         <p className="text-xs text-muted-foreground w-10 text-right">
                                             <NumericFormat

@@ -1,7 +1,7 @@
 'use client';
 
-import AnimeCard from '@/app/_components/anime-card';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
+import AnimeCard from '@/components/anime-card';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     data: Hikka.Watch[];

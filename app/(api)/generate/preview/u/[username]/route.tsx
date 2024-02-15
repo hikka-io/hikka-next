@@ -2,9 +2,9 @@ import { createElement } from 'react';
 
 import { ImageResponse } from 'next/og';
 
-import getUserInfo from '@/app/_utils/api/user/getUserInfo';
-import getWatchStats from '@/app/_utils/api/watch/getWatchStats';
-import { WATCH_STATUS } from '@/app/_utils/constants';
+import getUserInfo from '@/services/api/user/getUserInfo';
+import getWatchStats from '@/services/api/watch/getWatchStats';
+import { WATCH_STATUS } from '@/utils/constants';
 
 export const runtime = 'edge';
 
@@ -155,7 +155,7 @@ export async function GET(
                                         {createElement(
                                             WATCH_STATUS[
                                                 stat as Hikka.WatchStatus
-                                            ].icon,
+                                            ].icon!,
                                         )}
                                     </div>
                                 </div>

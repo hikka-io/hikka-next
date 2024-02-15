@@ -1,19 +1,18 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useState } from 'react';
 
-import AnimeCard from '@/app/_components/anime-card';
-import { Button } from '@/app/_components/ui/button';
-import { Combobox } from '@/app/_components/ui/combobox';
-import getTodoAnime from '@/app/_utils/api/edit/todo/getTodoAnime';
-import useInfiniteList from '@/app/_utils/hooks/useInfiniteList';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useSettingsContext } from '@/app/_utils/providers/settings-provider';
-import SkeletonCard from '@/app/_components/skeletons/entry-card';
 import { range } from '@antfu/utils';
-import { Label } from '@/app/_components/ui/label';
+
+import { useTodoAnime } from '@/app/(pages)/edit/content/page.hooks';
+import AnimeCard from '@/components/anime-card';
+import SkeletonCard from '@/components/skeletons/entry-card';
+import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combobox';
+import { Label } from '@/components/ui/label';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
@@ -22,25 +21,17 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
-    const { ref, inView } = useInView();
     const [param, setParam] = useState('title_ua');
 
-    const { list, data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-        useInfiniteList({
-            queryKey: ['list', param, secret],
-            queryFn: ({ pageParam = 1 }) =>
-                getTodoAnime({
-                    param: param,
-                    secret: String(secret),
-                    page: pageParam
-                }),
-        });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
+    const {
+        list,
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        ref,
+    } = useTodoAnime(param, String(secret));
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -75,9 +66,11 @@ const Component = ({ extended }: Props) => {
                         option && (
                             <div className="flex items-center gap-2">
                                 <h3>{option.label}</h3>
-                                {data && <Label className="text-muted-foreground">
-                                    ({data?.pages[0].pagination.total})
-                                </Label>}
+                                {data && (
+                                    <Label className="text-muted-foreground">
+                                        ({data?.pages[0].pagination.total})
+                                    </Label>
+                                )}
                             </div>
                         )
                     }
@@ -110,7 +103,7 @@ const Component = ({ extended }: Props) => {
             </div>
             {hasNextPage && (
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     ref={ref}
                     disabled={isFetchingNextPage}
                     onClick={() => fetchNextPage()}
@@ -118,7 +111,7 @@ const Component = ({ extended }: Props) => {
                     {isFetchingNextPage && (
                         <span className="loading loading-spinner"></span>
                     )}
-                    Заванатажити ще
+                    Завантажити ще
                 </Button>
             )}
         </div>

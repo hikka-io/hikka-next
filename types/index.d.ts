@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export {};
 
@@ -22,7 +22,7 @@ declare global {
             {
                 title_ua: string;
                 title_en: string;
-                icon?: ReactNode;
+                icon?: (props: any) => ReactElement | ReactNode;
                 color?: string;
                 description?: string;
             }
@@ -290,5 +290,121 @@ declare global {
             | 'character'
             | 'person'
             | 'comment';
+
+        type HistoryType =
+            | 'watch'
+            | 'watch_delete'
+            | 'watch_import'
+            | 'favourite_anime_add'
+            | 'favourite_anime_remove';
+
+        type HistoryWatchData = {
+            after: {
+                score: number | null;
+                status: Hikka.WatchStatus | null;
+                episodes: number | null;
+                rewatches: number | null;
+            };
+            before: {
+                score: number | null;
+                status: Hikka.WatchStatus | null;
+                episodes: number | null;
+                rewatches: number | null;
+            };
+            new_watch: boolean;
+        };
+
+        type HistoryFavoriteData = {};
+
+        type HistoryImportData = {
+            imported: boolean;
+        };
+
+        type History<
+            TData extends
+                | HistoryWatchData
+                | HistoryFavoriteData
+                | HistoryImportData = HistoryWatchData,
+        > = {
+            reference: string;
+            content?: Hikka.Anime;
+            history_type: HistoryType;
+            created: number;
+            updated: number;
+            data: TData;
+        };
+
+        type NotificationType =
+            | 'comment_reply'
+            | 'comment_vote'
+            | 'comment_tag'
+            | 'edit_comment'
+            | 'edit_accepted'
+            | 'edit_denied'
+            | 'edit_updated'
+            | 'hikka_update';
+
+        type NotificationCommentData = {
+            slug: string;
+            comment_text: string;
+            content_type: ContentType;
+            comment_depth: number;
+            comment_author: string;
+            comment_reference: string;
+            base_comment_reference: string;
+        };
+
+        type NotificationCommentVoteData = {
+            slug: string;
+            content_type: ContentType;
+            comment_reference: string;
+            comment_depth: number;
+            comment_text: string;
+            base_comment_reference: string;
+            user_score: number;
+            old_score: number;
+            new_score: number;
+        };
+
+        type NotificationEditData = {
+            description: string;
+            edit_id: number;
+        };
+
+        type NotificationHikkaData = {
+            description: string;
+            title: string;
+            link: string;
+        };
+
+        type Notification<
+            TData extends
+                | NotificationCommentData
+                | NotificationCommentVoteData
+                | NotificationEditData
+                | NotificationHikkaData = NotificationCommentData,
+        > = {
+            notification_type: NotificationType;
+            created: number;
+            reference: string;
+            seen: boolean;
+            data: TData;
+        };
+
+        type TextNotification = {
+            type: NotificationType;
+            icon: ReactNode;
+            title: string;
+            description: ReactNode;
+            reference: string;
+            created: number;
+            href: string;
+            seen: boolean;
+        };
+
+        type Activity = {
+            timestamp: number;
+            actions: number;
+        };
     }
 }

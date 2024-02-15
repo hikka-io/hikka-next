@@ -1,48 +1,35 @@
 'use client';
 
 import clsx from 'clsx';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 
-import { useQueryClient } from '@tanstack/react-query';
-
-import AuthModal from '@/app/_components/modals/auth-modal/auth-modal';
-import SearchModal from '@/app/_components/modals/search-modal/search-modal';
-import { Button } from '@/app/_components/ui/button';
-import useIsMobile from '@/app/_utils/hooks/useIsMobile';
-import useScrollTrigger from '@/app/_utils/hooks/useScrollTrigger';
-import { useAuthContext } from '@/app/_utils/providers/auth-provider';
-import { useModalContext } from '@/app/_utils/providers/modal-provider';
+import { useLoggedUser } from '@/app/page.hooks';
+import AuthModal from '@/components/modals/auth-modal/auth-modal';
+import SearchModal from '@/components/modals/search-modal/search-modal';
+import { Button } from '@/components/ui/button';
+import useIsMobile from '@/services/hooks/useIsMobile';
+import useScrollTrigger from '@/services/hooks/useScrollTrigger';
+import { useAuthContext } from '@/services/providers/auth-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 import NavMenu from './_components/nav-menu';
-import ProfileMenu from './_components/profile-menu';
-
+import ProfileNavbar from './_components/profile-navbar';
 
 interface Props extends PropsWithChildren {}
 
 const Component = ({}: Props) => {
-    const [isMounted, setIsMounted] = useState(false);
-    const queryClient = useQueryClient();
     const isMobile = useIsMobile();
     const { openModal } = useModalContext();
     const { secret } = useAuthContext();
 
-    queryClient.setQueryDefaults(['loggedUser'], { gcTime: Infinity });
-
-    let loggedUser: Hikka.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-        secret,
-    ]);
+    let { data: loggedUser } = useLoggedUser(String(secret));
 
     const trigger = useScrollTrigger({
         threshold: isMobile ? 0 : 40,
         disableHysteresis: true,
     });
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     return (
         <nav
@@ -68,7 +55,7 @@ const Component = ({}: Props) => {
                 <div className="flex gap-4">
                     <SearchModal />
                     {loggedUser ? (
-                        <ProfileMenu />
+                        <ProfileNavbar />
                     ) : (
                         <>
                             <Button
