@@ -33,18 +33,20 @@ const Component = ({ className }: Props) => {
     const { data: followChecker } = useFollowChecker(
         String(params.username),
         String(secret),
-        Boolean(secret) && loggedUser && loggedUser.username !== params.username,
+        Boolean(secret) &&
+            loggedUser &&
+            loggedUser.username !== params.username,
     );
 
-    const { mutate: mutateFollow, isPending: followLoading } = useFollow(
-        String(secret),
-        String(params.username),
-    );
+    const { mutate: mutateFollow, isPending: followLoading } = useFollow({
+        secret: String(secret),
+        username: String(params.username),
+    });
 
-    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow(
-        String(secret),
-        String(params.username),
-    );
+    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow({
+        secret: String(secret),
+        username: String(params.username),
+    });
 
     const handleFollowAction = async (action: 'follow' | 'unfollow') => {
         switch (action) {

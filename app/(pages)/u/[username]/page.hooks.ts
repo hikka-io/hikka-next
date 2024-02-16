@@ -7,12 +7,12 @@ import checkFollow from '@/services/api/follow/checkFollow';
 import follow from '@/services/api/follow/follow';
 import getFollowStats from '@/services/api/follow/getFollowStats';
 import unfollow from '@/services/api/follow/unfollow';
+import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';
 import getUserInfo from '@/services/api/user/getUserInfo';
 import getWatchList from '@/services/api/watch/getWatchList';
 import getWatchStats from '@/services/api/watch/getWatchStats';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-import getUserActivity from '@/services/api/user/getUserActivity';
 
 export const useUser = (username: string) => {
     return useQuery({
@@ -50,7 +50,13 @@ export const useFollowChecker = (
     });
 };
 
-export const useFollow = (username: string, secret: string) => {
+export const useFollow = ({
+    username,
+    secret,
+}: {
+    username: string;
+    secret: string;
+}) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -66,7 +72,13 @@ export const useFollow = (username: string, secret: string) => {
     });
 };
 
-export const useUnfollow = (username: string, secret: string) => {
+export const useUnfollow = ({
+    username,
+    secret,
+}: {
+    username: string;
+    secret: string;
+}) => {
     const queryClient = useQueryClient();
 
     return useMutation({
