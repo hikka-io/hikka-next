@@ -55,7 +55,9 @@ export async function fetchRequest<TResponse>({
                     : undefined,
             ...config.config,
             headers: {
-                ...config.config.headers,
+                ...(formData
+                    ? {}
+                    : config.config.headers),
                 auth: secret || '',
                 captcha: captcha || '',
             },

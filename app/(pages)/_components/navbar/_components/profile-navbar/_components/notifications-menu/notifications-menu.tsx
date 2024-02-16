@@ -53,7 +53,7 @@ const Component = ({}: Props) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align="end"
-                className="w-full sm:w-96 max-h-96 flex flex-col"
+                className="w-80 sm:w-96 max-h-96 flex flex-col"
             >
                 <DropdownMenuLabel className="flex gap-2 items-center justify-between">
                     <div className="flex gap-2">
@@ -75,7 +75,7 @@ const Component = ({}: Props) => {
                     )}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <ScrollArea className="h-96">
+                <div className='overflow-scroll h-full no-scrollbar'>
                     {list &&
                         list.length > 0 &&
                         list.map((item) => (
@@ -86,21 +86,21 @@ const Component = ({}: Props) => {
                         ))}
                     {list && list.length === 0 && <NotFoundNotifications />}
                     {hasNextPage && (
-                        <div className="py-3 px-2">
+                        <div className='py-3 px-2'>
                             <Button
-                                variant="outline"
+                                variant='outline'
                                 disabled={isFetchingNextPage}
                                 onClick={() => hasNextPage && fetchNextPage()}
-                                className="w-full"
+                                className='w-full'
                             >
                                 {isFetchingNextPage && (
-                                    <span className="loading loading-spinner"></span>
+                                    <span className='loading loading-spinner'></span>
                                 )}
                                 Завантажити ще
                             </Button>
                         </div>
                     )}
-                </ScrollArea>
+                </div>
             </DropdownMenuContent>
         </DropdownMenu>
     );
