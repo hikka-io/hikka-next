@@ -21,6 +21,7 @@ import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import * as React from 'react';
 
 interface Props {}
 
@@ -33,7 +34,7 @@ const Component = ({}: Props) => {
     const { secret } = useAuthContext();
 
     const { data: user } = useUser(String(params.username));
-    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: loggedUser } = useLoggedUser();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
@@ -133,6 +134,7 @@ const Component = ({}: Props) => {
                     </DropdownMenu>
                 )}
             </div>
+            {user.active && <div className='absolute z-10 -bottom-2 -right-2 w-6 h-6 bg-success rounded-full border-4 border-secondary sm:hidden block' />}
         </div>
     );
 };

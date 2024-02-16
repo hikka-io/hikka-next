@@ -4,11 +4,15 @@ import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
 
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
-export const useLoggedUser = (secret: string) => {
+export const useLoggedUser = () => {
+    const { secret } = useAuthContext();
+
     return useQuery({
         queryKey: ['loggedUser', secret],
         queryFn: () => getLoggedUserInfo({ secret }),
+        enabled: Boolean(secret),
     });
 };
 

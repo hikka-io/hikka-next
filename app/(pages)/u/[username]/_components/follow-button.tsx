@@ -11,12 +11,12 @@ import {
     useUnfollow,
     useUser,
 } from '@/app/(pages)/u/[username]/page.hooks';
+import { useLoggedUser } from '@/app/page.hooks';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
-import { useLoggedUser } from '@/app/page.hooks';
 
 interface Props {
     className?: string;
@@ -27,13 +27,13 @@ const Component = ({ className }: Props) => {
     const params = useParams();
     const { secret } = useAuthContext();
 
-    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: loggedUser } = useLoggedUser();
     const { data: user } = useUser(String(params.username));
 
     const { data: followChecker } = useFollowChecker(
         String(params.username),
         String(secret),
-        loggedUser && loggedUser.username !== params.username,
+        Boolean(secret) && loggedUser && loggedUser.username !== params.username,
     );
 
     const { mutate: mutateFollow, isPending: followLoading } = useFollow(

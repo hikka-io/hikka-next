@@ -60,11 +60,8 @@ const Component = ({ user }: Props) => {
             className="flex items-center justify-between gap-4 px-6 py-4"
         >
             <div className="flex gap-3 min-w-0">
-                <div className="indicator">
-                    {user.active && (
-                        <span className="indicator-item indicator-bottom badge badge-success h-2 w-2 p-0"></span>
-                    )}
-                    <Link href={'/u/' + user.username} className="relative">
+                <div className="relative">
+                    <Link href={'/u/' + user.username}>
                         <Avatar className='rounded-md w-12 h-12'>
                             <AvatarImage
                                 src={user.avatar}
@@ -75,8 +72,8 @@ const Component = ({ user }: Props) => {
                                 <MaterialSymbolsShieldRounded className='text-xl flex-1 text-neutral' />
                             </AvatarFallback>
                         </Avatar>
-                        {user.active && <div className='absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-md border-2 border-secondary' />}
                     </Link>
+                    {user.active && <div className='absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-md border-2 border-secondary' />}
                 </div>
                 <div className="flex flex-col justify-between min-w-0">
                     <Link

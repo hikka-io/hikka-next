@@ -14,9 +14,8 @@ interface Props {
 }
 
 const Component = ({ onSaveSubmit, handleSubmit }: Props) => {
-    const { secret } = useAuthContext();
 
-    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: loggedUser } = useLoggedUser();
 
     if (!loggedUser || loggedUser.role === 'user') {
         return null;

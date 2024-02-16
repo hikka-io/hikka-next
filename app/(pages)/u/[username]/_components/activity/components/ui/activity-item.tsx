@@ -8,6 +8,7 @@ import { cn } from '@/utils';
 import { createFavoriteEvents } from '@/utils/convertFavoriteActivity';
 import { createWatchEvents } from '@/utils/convertWatchActivity';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { Fragment } from 'react';
 
 interface Props {
     data: Hikka.History;
@@ -41,10 +42,10 @@ const Component = ({ data, className }: Props) => {
                     {createEvent(data.history_type, data.data).map(
                         (event, i, arr) =>
                             event ? (
-                                <>
+                                <Fragment key={i}>
                                     {event}
                                     {i !== arr.length - 1 && ', '}
-                                </>
+                                </Fragment>
                             ) : null,
                     )}
                 </p>

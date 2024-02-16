@@ -6,6 +6,7 @@ import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined'
 
 import { Button } from '@/components/ui/button';
 import { range } from '@antfu/utils';
+import { cn } from '@/utils';
 
 interface Props {
     page: number;
@@ -64,7 +65,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                         disabled={!v}
                         onClick={() => v && setPage(v)}
                         key={index}
-                        className="h-9 w-9 sm:h-10 sm:w-10"
+                        className={cn("h-9 w-9 sm:h-10 sm:w-10", !v && 'w-auto')}
                     >
                         {v ? v : '...'}
                     </Button>

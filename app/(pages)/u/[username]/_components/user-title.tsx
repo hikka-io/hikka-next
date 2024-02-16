@@ -45,7 +45,7 @@ const Component = ({}: Props) => {
                         </TooltipContent>
                     </Tooltip>
                 )}
-                {user.active && <Badge variant="success">Онлайн</Badge>}
+                {user.active && <Badge variant="success" className="hidden sm:flex">Онлайн</Badge>}
             </div>
             {user.description && (
                 <p className="text-sm text-muted-foreground">

@@ -18,7 +18,7 @@ const Component = () => {
     const { secret } = useAuthContext();
 
     const { data: user } = useUser(String(params.username));
-    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: loggedUser } = useLoggedUser();
 
     if (
         !loggedUser ||

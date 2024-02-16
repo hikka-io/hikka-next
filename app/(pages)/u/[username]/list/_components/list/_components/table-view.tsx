@@ -46,7 +46,7 @@ const Component = ({ data }: Props) => {
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
 
-    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: loggedUser } = useLoggedUser();
 
     const switchSort = (newSort: 'watch_score' | 'watch_episodes' | 'media_type') => {
         const query = createQueryString(

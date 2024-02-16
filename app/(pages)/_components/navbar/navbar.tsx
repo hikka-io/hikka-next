@@ -22,9 +22,8 @@ interface Props extends PropsWithChildren {}
 const Component = ({}: Props) => {
     const isMobile = useIsMobile();
     const { openModal } = useModalContext();
-    const { secret } = useAuthContext();
 
-    let { data: loggedUser } = useLoggedUser(String(secret));
+    let { data: loggedUser } = useLoggedUser();
 
     const trigger = useScrollTrigger({
         threshold: isMobile ? 0 : 40,

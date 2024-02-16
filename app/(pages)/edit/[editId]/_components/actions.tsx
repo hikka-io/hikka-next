@@ -26,7 +26,7 @@ const Component = () => {
 
     const { data: edit } = useEdit(String(params.editId));
 
-    const { data: loggedUser } = useLoggedUser(String(secret));
+    const { data: loggedUser } = useLoggedUser();
 
     const onAcceptSubmit = async () => {
         try {
