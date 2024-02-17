@@ -41,7 +41,13 @@ const Component = ({
                     titleClassName,
                 )}
             >
-                <Title>{title}</Title>
+                {href ? (
+                    <Link href={href} className="hover:underline">
+                        <Title>{title}</Title>
+                    </Link>
+                ) : (
+                    <Title>{title}</Title>
+                )}
                 {children}
             </div>
             {href && (
