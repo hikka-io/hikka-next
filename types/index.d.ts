@@ -317,7 +317,7 @@ declare global {
         type HistoryFavoriteData = {};
 
         type HistoryImportData = {
-            imported: boolean;
+            imported: number;
         };
 
         type History<

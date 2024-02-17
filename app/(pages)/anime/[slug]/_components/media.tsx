@@ -95,14 +95,14 @@ const Component = ({ extended }: Props) => {
                             key={ost.spotify}
                             href={ost.spotify || '#'}
                             title={ost.title}
-                            containerClassName="!pt-[100%] !bg-secondary/30"
+                            containerClassName="pt-[100%]"
                             desc={
                                 OST[ost.ost_type].title_ua ||
                                 OST[ost.ost_type].title_en
                             }
                         >
                             <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
-                                <IcBaselineLibraryMusic className="text-neutral" />
+                                <IcBaselineLibraryMusic className="text-muted-foreground" />
                             </div>
                         </BaseCard>
                     ))}
@@ -117,7 +117,7 @@ const Component = ({ extended }: Props) => {
                                 href={video.url || '#'}
                                 title={video.title}
                                 poster={thumb}
-                                containerClassName="!bg-secondary/30 !pt-[70%]"
+                                containerClassName="pt-[70%]"
                                 desc={
                                     VIDEO[video.video_type].title_ua ||
                                     VIDEO[video.video_type].title_en
@@ -125,7 +125,7 @@ const Component = ({ extended }: Props) => {
                             >
                                 {!thumb && (
                                     <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
-                                        <IcBaselineOndemandVideo className="text-neutral" />
+                                        <IcBaselineOndemandVideo className="text-muted-foreground" />
                                     </div>
                                 )}
                             </BaseCard>

@@ -34,12 +34,12 @@ const Component = ({ data }: Props) => {
             className="flex gap-4 items-start py-3"
             onClick={handleOnClick}
         >
-            <div className="border-secondary/60 bg-secondary/30 p-2 rounded-md">
+            <div className="bg-muted text-muted-foreground p-2 rounded-md">
                 {data.icon}
             </div>
             <div className="flex flex-col gap-2 flex-1">
                 <div className="flex gap-2 items-center">
-                    <Label>{data.title}</Label>
+                    <Label className="leading-normal">{data.title}</Label>
                     {!data.seen && (
                         <div className="w-2 h-2 bg-warning rounded-full" />
                     )}

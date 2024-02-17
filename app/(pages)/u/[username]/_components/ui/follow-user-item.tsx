@@ -69,7 +69,7 @@ const Component = ({ user }: Props) => {
                                 alt='avatar'
                             />
                             <AvatarFallback className='rounded-md'>
-                                <MaterialSymbolsShieldRounded className='text-xl flex-1 text-neutral' />
+                                <MaterialSymbolsShieldRounded className='text-xl flex-1 text-muted-foreground' />
                             </AvatarFallback>
                         </Avatar>
                     </Link>

@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import {
     ForwardedRef,
     MouseEventHandler,
@@ -12,6 +11,7 @@ import Link from 'next/link';
 
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/utils';
 
 interface Props {
     target?: string;
@@ -43,8 +43,8 @@ const Component = forwardRef(
         const content = (
             <>
                 <div
-                    className={clsx(
-                        'relative w-full overflow-hidden rounded-lg bg-gray-400 pt-[140%]',
+                    className={cn(
+                        'relative w-full overflow-hidden rounded-lg bg-muted pt-[140%]',
                         containerClassName,
                     )}
                 >
@@ -56,7 +56,7 @@ const Component = forwardRef(
                                         src={poster}
                                         width={184}
                                         height={259}
-                                        className={clsx(
+                                        className={cn(
                                             'h-full w-full object-cover',
                                             posterClassName,
                                         )}
@@ -71,7 +71,11 @@ const Component = forwardRef(
                 </div>
                 {(title || desc) && (
                     <div className="mt-1">
-                        {desc && <p className="text-xs text-muted-foreground mb-1">{desc}</p>}
+                        {desc && (
+                            <p className="text-xs text-muted-foreground mb-1">
+                                {desc}
+                            </p>
+                        )}
                         {title && (
                             <Label className="line-clamp-2 leading-5">
                                 {title}
