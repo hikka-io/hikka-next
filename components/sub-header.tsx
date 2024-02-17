@@ -45,6 +45,10 @@ const Component = ({
                     <Link href={href} className="hover:underline">
                         <Title>{title}</Title>
                     </Link>
+                ) : onClick ? (
+                    <button onClick={onClick} className="hover:underline">
+                        <Title>{title}</Title>
+                    </button>
                 ) : (
                     <Title>{title}</Title>
                 )}
