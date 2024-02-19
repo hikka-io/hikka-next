@@ -3,8 +3,6 @@
 import React from 'react';
 import MaterialSymbolsNotificationsRounded from '~icons/material-symbols/notifications-rounded';
 
-import { useQueryClient } from '@tanstack/react-query';
-
 import {
     useInvalidateNotifications,
     useNotifications,
@@ -25,12 +23,10 @@ import { convertNotification } from '@/utils/convertNotification';
 
 import NotFoundNotifications from './_components/not-found-notifications';
 import NotificationItem from './_components/ui/notification-item';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface Props {}
 
 const Component = ({}: Props) => {
-    const queryClient = useQueryClient();
     const { secret } = useAuthContext();
 
     const { data: countData } = useNotificationsCount(String(secret));
@@ -75,7 +71,7 @@ const Component = ({}: Props) => {
                     )}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <div className='overflow-scroll h-full no-scrollbar'>
+                <div className="overflow-scroll h-full no-scrollbar">
                     {list &&
                         list.length > 0 &&
                         list.map((item) => (
@@ -86,15 +82,15 @@ const Component = ({}: Props) => {
                         ))}
                     {list && list.length === 0 && <NotFoundNotifications />}
                     {hasNextPage && (
-                        <div className='py-3 px-2'>
+                        <div className="py-3 px-2">
                             <Button
-                                variant='outline'
+                                variant="outline"
                                 disabled={isFetchingNextPage}
                                 onClick={() => hasNextPage && fetchNextPage()}
-                                className='w-full'
+                                className="w-full"
                             >
                                 {isFetchingNextPage && (
-                                    <span className='loading loading-spinner'></span>
+                                    <span className="loading loading-spinner"></span>
                                 )}
                                 Завантажити ще
                             </Button>

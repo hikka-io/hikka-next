@@ -27,7 +27,7 @@ const CROP_PARAMS = {
     cover: {
         width: 1500,
         height: 500,
-        border: [50, 400],
+        border: [50, 300],
     },
     avatar: {
         width: 400,
