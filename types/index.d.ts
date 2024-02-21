@@ -10,12 +10,6 @@ declare global {
         }
     }
 
-    interface Window {
-        authModal: HTMLDialogElement;
-        settingsModal: HTMLDialogElement;
-        watchEditModal: HTMLDialogElement;
-    }
-
     namespace Hikka {
         type FilterProperty<T extends string> = Record<
             T,
@@ -222,11 +216,20 @@ declare global {
             slug: string;
         };
 
-        type EditParam<T> = {
-            param: keyof T;
+        type EditParamGroup = {
             title: string;
-            placeholder: string;
-        };
+            slug: string;
+        }
+
+        type EditParamType = "input" | "markdown" | "list"
+
+
+        type EditParam = {
+            title: string;
+            slug: string;
+            placeholder?: string;
+            type: EditParamType;
+        }
 
         type AnimeEditParams = {
             title_ua?: string;
@@ -234,7 +237,9 @@ declare global {
             title_ja?: string;
             synopsis_en?: string;
             synopsis_ua?: string;
-            synonyms?: string[];
+            synonyms?: {
+                value: string;
+            }[];
         };
 
         type CharacterEditParams = {
@@ -247,9 +252,7 @@ declare global {
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
         type Edit<
-            TEditParams extends AnimeEditParams | CharacterEditParams =
-                | Hikka.AnimeEditParams
-                | Hikka.CharacterEditParams,
+            TEditParams extends Record<string, any> = Record<string, any>,
             TContent = Hikka.AnimeInfo | Hikka.Character,
         > = {
             content_type: ContentType;

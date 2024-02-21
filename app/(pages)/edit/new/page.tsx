@@ -11,7 +11,7 @@ import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Content from '../_components/ui/content';
-import EditNew from './_components/edit-new';
+import EditForm from '../_components/edit-form';
 import RulesAlert from './_components/rules-alert';
 
 
@@ -56,7 +56,7 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
                 <div className="flex flex-col gap-8">
                     <SubHeader title={`Нова правка`} />
                     <RulesAlert />
-                    <EditNew
+                    <EditForm
                         slug={slug as string}
                         content_type={content_type as Hikka.ContentType}
                     />

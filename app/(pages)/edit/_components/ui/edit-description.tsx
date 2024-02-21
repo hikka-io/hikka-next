@@ -7,20 +7,19 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
+import { Controller } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
 
 
 interface Props {
     setValue?: UseFormSetValue<any>;
-    control?: Control<any>;
-    register?: UseFormRegister<any>;
+    control: Control<any>;
     disabled?: boolean;
-    value?: string;
-    [x: string]: any;
 }
 
 const TAGS = ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'];
 
-const Component = ({ setValue, register, value, disabled }: Props) => {
+const Component = ({ setValue, control, disabled }: Props) => {
     return (
         <div className="flex flex-col gap-4 w-full">
             <Label className="flex justify-between">
@@ -44,13 +43,23 @@ const Component = ({ setValue, register, value, disabled }: Props) => {
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
             )}
-            <Textarea
-                placeholder="Введіть причину правки"
-                rows={3}
-                className="w-full"
-                disabled={disabled}
-                {...(register ? register('description', { value: value }) : { value: value })}
+            <Controller
+                control={control}
+                name="description"
+                render={({ field: { onChange, onBlur, ref, value } }) => (
+                    <Textarea
+                        placeholder="Введіть причину правки"
+                        rows={3}
+                        className="w-full disabled:opacity-100 disabled:cursor-text"
+                        disabled={disabled}
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        ref={ref}
+                    />
+                )}
             />
+
         </div>
     );
 };

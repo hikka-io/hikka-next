@@ -6,18 +6,17 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import EditView from '@/app/(pages)/edit/[editId]/_components/edit-view';
 import Breadcrumbs from '@/components/breadcrumbs';
 import Comments from '@/components/comments/comments';
 import SubHeader from '@/components/sub-header';
 import getEdit from '@/services/api/edit/getEdit';
 import getQueryClient from '@/utils/getQueryClient';
 
+import EditView from '../_components/edit-view';
 import Content from '../_components/ui/content';
 import EditStatus from '../_components/ui/edit-status';
 import Actions from './_components/actions';
 import Author from './_components/author';
-import EditUpdate from './_components/edit-update';
 import Moderator from './_components/moderator';
 
 
@@ -67,11 +66,19 @@ const Component = async ({
                     <SubHeader title={`Правка #` + editId} />
                     <div className="flex flex-col gap-12">
                         {mode === 'update' && (
-                            <EditUpdate content_type={edit?.content_type} />
+                            <EditView
+                                editId={Number(editId)}
+                                mode="edit"
+                                content_type={edit?.content_type}
+                            />
                         )}
                         {mode === 'view' && (
                             <>
-                                <EditView content_type={edit?.content_type} />
+                                <EditView
+                                    editId={Number(editId)}
+                                    mode="view"
+                                    content_type={edit?.content_type}
+                                />
                                 <Actions />
                                 <Comments slug={editId} content_type="edit" />
                             </>
