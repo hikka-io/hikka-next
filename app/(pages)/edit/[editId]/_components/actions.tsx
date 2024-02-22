@@ -116,7 +116,7 @@ const Component = () => {
                         </Button>
                     )}
                 {(loggedUser?.role === 'moderator' ||
-                    loggedUser?.role === 'admin') &&
+                    loggedUser?.role === 'admin' || loggedUser?.username === edit.author.username) &&
                     edit.status === 'pending' && (
                         <Button
                             variant="secondary"
