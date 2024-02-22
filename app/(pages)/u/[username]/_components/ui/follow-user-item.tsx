@@ -104,7 +104,7 @@ const Component = ({ user }: Props) => {
                             size="sm"
                             onClick={() => mutateUnfollow(user.username)}
                         >
-                            Не Стежити
+                            Не стежити
                         </Button>
                     )
                 ) : null)}

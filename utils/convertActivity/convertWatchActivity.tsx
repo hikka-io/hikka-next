@@ -80,6 +80,8 @@ export const convertEpisodes = (
                     {getDeclensionWord(after, EPISODES_DECLENSION)}
                 </>
             );
+        } else if (after === 0) {
+            return null;
         } else if (after - before === 1 || before === 0 || before > after) {
             return (
                 <>
@@ -146,5 +148,5 @@ export const createWatchEvents = (
         );
     }
 
-    return events;
+    return events.filter((event) => event !== null);
 };

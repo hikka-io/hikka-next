@@ -22,6 +22,10 @@ const Component = ({ data, className }: Props) => {
 
     const activity = convertActivity(data);
 
+    if (activity.length === 0) {
+        return null;
+    }
+
     return (
         <div className={cn('flex gap-4 items-center', className)}>
             <div className="w-12">
