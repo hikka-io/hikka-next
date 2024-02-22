@@ -1,7 +1,11 @@
-const withMDX = require('@next/mdx')()
+const withMDX = require('@next/mdx')();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
+    reactStrictMode: true,
     pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     images: {
         unoptimized: true,
@@ -20,14 +24,14 @@ const nextConfig = {
                 compiler: 'jsx',
                 jsx: 'react',
             }),
-        )
+        );
 
-        return config
+        return config;
     },
 };
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
-})
+});
 
-module.exports = withBundleAnalyzer(withMDX(nextConfig))
+module.exports = withBundleAnalyzer(withMDX(nextConfig));

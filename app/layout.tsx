@@ -1,19 +1,27 @@
-import './globals.css';
-import Providers from '@/utils/Providers';
-import { Inter } from 'next/font/google';
-import Footer from '@/app/_layout/Footer';
-import { ReactNode } from 'react';
-import ScrollTop from '@/app/_layout/ScrollTop';
-import AuthGate from '@/app/_layout/AuthGate';
-import NavBar from '@/app/_layout/NavBar';
-import NextTopLoader from 'nextjs-toploader';
-import { Metadata } from 'next';
-import MobileNavBar from '@/app/_layout/MobileNavBar';
-import Script from 'next/script';
-import setDefaultOptions from "date-fns/setDefaultOptions";
-import {uk} from "date-fns/locale";
+import { Metadata, Viewport } from 'next';
+import PlausibleProvider from 'next-plausible';
+import React, { ReactNode } from 'react';
 
-const inter = Inter({ subsets: ['latin'] });
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+
+import Providers from '@/components/providers';
+import '@mdxeditor/editor/style.css';
+import './globals.css';
+
+
+
+const inter = Inter({
+    subsets: ['latin', 'cyrillic'],
+    display: 'swap',
+    variable: '--font-inter',
+});
+
+const fixelDisplay = localFont({
+    src: '../fonts/FixelDisplay-SemiBold.woff2',
+    display: 'swap',
+    variable: '--font-fixel-display',
+});
 
 export const metadata: Metadata = {
     title: {
@@ -52,6 +60,7 @@ export const metadata: Metadata = {
         'аніме культура',
     ],
     openGraph: {
+        siteName: 'Hikka',
         images: '/preview.jpg',
         title: {
             default: 'Hikka - енциклопедія аніме українською',
@@ -72,43 +81,37 @@ export const metadata: Metadata = {
     metadataBase: new URL('https://hikka.io'),
 };
 
+export const viewport: Viewport = {
+    colorScheme: 'dark',
+    themeColor: 'black',
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+};
+
 export default async function RootLayout({
     children,
 }: {
     children: ReactNode;
 }) {
     return (
-        <html lang="uk" data-theme="dark">
-            <body className={inter.className}>
-                <NextTopLoader color="#e779c1" />
-                <Providers>
-                    <AuthGate>
-                        <ScrollTop />
-
-                        <div className="drawer drawer-end top-0 left-0 right-0 sticky z-10">
-                            <input
-                                id="mobileNavDrawer"
-                                type="checkbox"
-                                className="drawer-toggle"
-                            />
-                            <div className="drawer-content">
-                                <NavBar />
-                            </div>
-                            <div className="drawer-side overflow-y-visible z-10 lg:hidden">
-                                <label
-                                    htmlFor="mobileNavDrawer"
-                                    aria-label="close sidebar"
-                                    className="drawer-overlay"
-                                ></label>
-                                <MobileNavBar />
-                            </div>
-                        </div>
-                        <main className="container max-w-screen-xl mx-auto px-4 lg:mt-20 mt-8">
-                            {children}
-                        </main>
-                        <Footer />
-                    </AuthGate>
-                </Providers>
+        <html
+            className={`${inter.variable} ${fixelDisplay.variable}`}
+            lang="uk"
+            data-theme="dark"
+            suppressHydrationWarning
+        >
+            <head>
+                <PlausibleProvider
+                    trackLocalhost
+                    enabled
+                    selfHosted
+                    customDomain=""
+                    domain="hikka.io"
+                />
+            </head>
+            <body>
+                <Providers>{children}</Providers>
             </body>
         </html>
     );

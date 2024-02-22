@@ -1,0 +1,18 @@
+import config from '@/services/api/config';
+import { fetchRequest } from '@/services/api/fetchRequest';
+
+export interface Response extends Hikka.Edit {}
+
+export default async function req({
+    secret,
+    edit_id,
+}: {
+    secret: string;
+    edit_id: number;
+}): Promise<Response> {
+    return fetchRequest<Response>({
+        path: `/edit/${edit_id}/deny`,
+        method: 'post',
+        secret,
+    });
+}

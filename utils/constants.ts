@@ -1,53 +1,48 @@
-import Completed from '@/app/_components/icons/watchStatus/Completed';
-import Dropped from '@/app/_components/icons/watchStatus/Dropped';
-import OnHold from '@/app/_components/icons/watchStatus/OnHold';
-import Planned from '@/app/_components/icons/watchStatus/Planned';
-import Watching from '@/app/_components/icons/watchStatus/Watching';
-import { Property } from 'csstype';
 import { ReactNode } from 'react';
 
-type Property<T extends string> = Record<
-    T,
-    {
-        title_ua: string;
-        title_en: string;
-        icon?: ReactNode;
-        color?: string;
-        description?: string;
-    }
->;
+import Completed from '@/components/icons/watch-status/completed';
+import Dropped from '@/components/icons/watch-status/dropped';
+import OnHold from '@/components/icons/watch-status/on-hold';
+import Planned from '@/components/icons/watch-status/planned';
+import Watching from '@/components/icons/watch-status/watching';
+
 
 export const CDN_ENDPOINT = 'https://cdn.hikka.io';
 
-export const WATCH_STATUS = {
+export const WATCH_STATUS: Hikka.FilterProperty<Hikka.WatchStatus> = {
     planned: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
         icon: Planned,
+        color: '#AB872B',
     },
     watching: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
         icon: Watching,
+        color: '#2B94AB',
     },
     completed: {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
+        color: '#399A54',
     },
     on_hold: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
         icon: OnHold,
+        color: '#5C5C5C',
     },
     dropped: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
         icon: Dropped,
+        color: '#952828',
     },
 };
 
-export const SEASON: Property<Hikka.Season> = {
+export const SEASON: Hikka.FilterProperty<Hikka.Season> = {
     winter: {
         title_ua: 'Зима',
         title_en: 'Winter',
@@ -66,7 +61,7 @@ export const SEASON: Property<Hikka.Season> = {
     },
 };
 
-export const RELEASE_STATUS: Property<Hikka.Status> = {
+export const RELEASE_STATUS: Hikka.FilterProperty<Hikka.Status> = {
     /*discontinued: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
@@ -95,7 +90,7 @@ export const RELEASE_STATUS: Property<Hikka.Status> = {
     },*/
 };
 
-export const MEDIA_TYPE: Property<Hikka.MediaType> = {
+export const MEDIA_TYPE: Hikka.FilterProperty<Hikka.MediaType> = {
     special: {
         title_ua: 'Спешл',
         title_en: 'Special',
@@ -122,7 +117,7 @@ export const MEDIA_TYPE: Property<Hikka.MediaType> = {
     },
 };
 
-export const AGE_RATING: Property<Hikka.AgeRating> = {
+export const AGE_RATING: Hikka.FilterProperty<Hikka.AgeRating> = {
     g: {
         title_ua: 'G',
         title_en: 'G',
@@ -155,7 +150,7 @@ export const AGE_RATING: Property<Hikka.AgeRating> = {
     },
 };
 
-export const VIDEO: Property<Hikka.VideoType> = {
+export const VIDEO: Hikka.FilterProperty<Hikka.VideoType> = {
     video_promo: {
         title_ua: 'Промо-відео',
         title_en: 'Promo Video',
@@ -166,18 +161,18 @@ export const VIDEO: Property<Hikka.VideoType> = {
     },
 };
 
-export const OST: Property<Hikka.OSTType> = {
+export const OST: Hikka.FilterProperty<Hikka.OSTType> = {
     opening: {
-        title_ua: 'Опенінг',
+        title_ua: 'Опенінґ',
         title_en: 'Opening',
     },
     ending: {
-        title_ua: 'Ендінг',
+        title_ua: 'Ендінґ',
         title_en: 'Ending',
     },
 };
 
-export const SOURCE: Property<Hikka.Source> = {
+export const SOURCE: Hikka.FilterProperty<Hikka.Source> = {
     digital_manga: {
         title_ua: 'Цифрова Манга',
         title_en: 'Digital Manga',
@@ -240,7 +235,7 @@ export const SOURCE: Property<Hikka.Source> = {
     },
 };
 
-export const EDIT_STATUS: Property<Hikka.EditStatus> = {
+export const EDIT_STATUS: Hikka.FilterProperty<Hikka.EditStatus> = {
     pending: {
         title_ua: 'На Розгляді',
         title_en: 'Pending',
@@ -290,12 +285,13 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_available: 'Signup not available',
     },
     settings: {
-        username_cooldown: 'Імʼя користувача можна змінювати один раз в годину.',
+        username_cooldown:
+            'Імʼя користувача можна змінювати один раз в годину.',
         email_cooldown: 'Поштову скриньку можна змінювати один раз на день.',
         username_taken: 'Імʼя користувача вже зайнято.',
     },
     permission: {
-        denied: "Ви не маєте дозволу для виконання цієї дії.",
+        denied: 'Ви не маєте дозволу для виконання цієї дії.',
     },
     anime: {
         no_franchise: "This anime doesn't have franchise",
@@ -353,3 +349,191 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_found: 'Person not found',
     },
 };
+
+export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
+    },
+    {
+        slug: 'franchise',
+        title_ua: "Пов'язане",
+        url: '/franchise',
+    },
+    {
+        slug: 'media',
+        title_ua: 'Медіа',
+        url: '/media',
+    },
+    {
+        slug: 'staff',
+        title_ua: 'Автори',
+        url: '/staff',
+    },
+    {
+        slug: 'links',
+        title_ua: 'Посилання',
+        url: '/links',
+    },
+    {
+        slug: 'comments',
+        title_ua: 'Обговорення',
+        url: '/comments',
+    },
+];
+
+export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'anime',
+        title_ua: 'Аніме',
+        url: '/anime',
+    },
+];
+
+export const USER_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'list',
+        title_ua: 'Список',
+        url: '/list',
+    },
+    {
+        slug: 'favorites',
+        title_ua: 'Улюблені',
+        url: '/favorites',
+    },
+];
+
+export const EDIT_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'content',
+        title_ua: 'Контент',
+        url: '/content',
+    },
+];
+
+export const ANIME_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+    title: [
+        {
+            slug: 'title_ua',
+            title: 'Українською',
+            placeholder: 'Введіть назву українською',
+            type: 'input',
+        },
+        {
+            slug: 'title_en',
+            title: 'Англійською',
+            placeholder: 'Введіть назву англійською',
+            type: 'input',
+        },
+        {
+            slug: 'title_ja',
+            title: 'Японською',
+            placeholder: 'Введіть назву японською',
+            type: 'input',
+        },
+    ],
+
+    synopsis: [
+        {
+            slug: 'synopsis_ua',
+            title: 'Українською',
+            placeholder: 'Введіть опис українською',
+            type: 'markdown',
+        },
+        {
+            slug: 'synopsis_en',
+            title: 'Англійською',
+            placeholder: 'Введіть опис англійською',
+            type: 'markdown',
+        },
+    ],
+    synonyms: [
+        {
+            slug: 'synonyms',
+            title: 'Синонім',
+            placeholder: 'Введіть новий синонім',
+            type: 'list',
+        },
+    ],
+};
+
+export const ANIME_EDIT_GROUPS: Record<string, string> = {
+    title: 'Назва',
+    synopsis: 'Опис',
+    synonyms: 'Синоніми',
+};
+
+
+export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+    title: [
+        {
+            slug: 'name_ua',
+            title: 'Українською',
+            placeholder: 'Введіть імʼя українською',
+            type: 'input',
+        },
+        {
+            slug: 'name_en',
+            title: 'Англійською',
+            placeholder: 'Введіть імʼя англійською',
+            type: 'input',
+        },
+        {
+            slug: 'name_ja',
+            title: 'Японською',
+            placeholder: 'Введіть імʼя японською',
+            type: 'input',
+        },
+    ],
+
+    description: [
+        {
+            slug: 'description_ua',
+            title: 'Українською',
+            placeholder: 'Введіть опис українською',
+            type: 'markdown',
+        },
+    ],
+};
+
+export const CHARACTER_EDIT_GROUPS: Record<string, string> = {
+    title: 'Імʼя',
+    description: 'Опис',
+};
+
+export const CONTENT_TYPE_TITLES: Record<Hikka.ContentType, string> = {
+    person: 'Автор',
+    character: 'Персонаж',
+    anime: 'Аніме',
+    edit: 'Правка',
+    comment: 'Коментар',
+}
+
+export const CONTENT_TYPE_LINKS: Record<Hikka.ContentType, string> = {
+    person: '/person',
+    character: '/characters',
+    anime: '/anime',
+    edit: '/edit',
+    comment: '/comments',
+}

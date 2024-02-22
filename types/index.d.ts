@@ -1,21 +1,52 @@
-import {After} from "@/utils/api/edit/addEdit";
+import { ReactElement, ReactNode } from 'react';
 
 export {};
 
 declare global {
-    interface Window {
-        authModal: HTMLDialogElement;
-        settingsModal: HTMLDialogElement;
-        watchEditModal: HTMLDialogElement;
+    namespace JSX {
+        // this merges with the existing intrinsic elements, adding 'my-custom-tag' and its props
+        interface IntrinsicElements {
+            spoiler: { children: ReactNode };
+        }
     }
 
     namespace Hikka {
+        type FilterProperty<T extends string> = Record<
+            T,
+            {
+                title_ua: string;
+                title_en: string;
+                icon?: (props: any) => ReactElement | ReactNode;
+                color?: string;
+                description?: string;
+            }
+        >;
+
+        type NavRoute = {
+            slug: string;
+            title_ua: string;
+            url: string;
+            icon?: ReactNode;
+            role?: Hikka.UserRole[];
+            internals?: NavRoute[];
+        };
+
+        type WithPagination<T> = {
+            pagination: Hikka.Pagination;
+            list: T[];
+        };
+
         type Error = {
             code: string;
             message: string;
         };
 
-        type UserRole = 'admin' | 'moderator' | 'user' | 'banned' | 'not_activated';
+        type UserRole =
+            | 'admin'
+            | 'moderator'
+            | 'user'
+            | 'banned'
+            | 'not_activated';
 
         type User = {
             reference: string;
@@ -23,7 +54,10 @@ declare global {
             username: string;
             created: number;
             avatar: string;
+            cover?: string;
             role: UserRole;
+            active: boolean;
+            is_followed?: boolean;
         };
 
         type WatchStatus =
@@ -112,6 +146,18 @@ declare global {
             type: 'producer' | 'studio';
         };
 
+        type Watch = {
+            reference: string;
+            updated: number;
+            created: number;
+            note: string;
+            status: Hikka.WatchStatus;
+            rewatches: number;
+            episodes: number;
+            score: number;
+            anime: Hikka.Anime;
+        };
+
         type Anime = {
             media_type: MediaType;
             title_ua: string;
@@ -124,7 +170,27 @@ declare global {
             scored_by: number;
             score: number;
             slug: string;
+            watch: Watch[];
         };
+
+        type AnimeInfo = {
+            companies: Company[];
+            genres: Genre[];
+            start_date: number;
+            end_date: number;
+            synopsis_en: string;
+            synopsis_ua: string;
+            duration: number;
+            source: Source;
+            rating: AgeRating;
+            has_franchise: boolean;
+            nsfw: boolean;
+            synonyms: string[];
+            external: External[];
+            videos: Video[];
+            ost: OST[];
+            stats: Stats;
+        } & Anime;
 
         type Genre = {
             name_en: string;
@@ -137,6 +203,7 @@ declare global {
             name_ua: string;
             name_en: string;
             name_ja: string;
+            description_ua: string;
             image: string;
             slug: string;
         };
@@ -149,30 +216,198 @@ declare global {
             slug: string;
         };
 
-        type EditParams = {
+        type EditParamGroup = {
+            title: string;
+            slug: string;
+        }
+
+        type EditParamType = "input" | "markdown" | "list"
+
+
+        type EditParam = {
+            title: string;
+            slug: string;
+            placeholder?: string;
+            type: EditParamType;
+        }
+
+        type AnimeEditParams = {
             title_ua?: string;
             title_en?: string;
             title_ja?: string;
             synopsis_en?: string;
             synopsis_ua?: string;
-            synonyms?: string;
-        }
+            synonyms?: {
+                value: string;
+            }[];
+        };
+
+        type CharacterEditParams = {
+            name_ua: string;
+            name_en: string;
+            name_ja: string;
+            description_ua: string;
+        };
 
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
-        type Edit = {
-            content_type: 'anime' | 'person';
+        type Edit<
+            TEditParams extends Record<string, any> = Record<string, any>,
+            TContent = Hikka.AnimeInfo | Hikka.Character,
+        > = {
+            content_type: ContentType;
             status: EditStatus;
             description: string | null;
             created: number;
             updated: number;
             edit_id: number;
             moderator: Hikka.User | null;
-            author: Hikka.User;
-            after: EditParams;
-            before: EditParams | null;
-            content: Hikka.Anime | Hikka.Person;
-        }
+            author?: Hikka.User;
+            after: TEditParams;
+            before: TEditParams | null;
+            content: TContent;
+        };
 
+        type Comment = {
+            reference: string;
+            author: Hikka.User;
+            created: number;
+            text: string;
+            replies: Comment[];
+            total_replies: number;
+            depth: number;
+            score: number;
+            my_score?: number;
+            hidden: boolean;
+        };
+
+        type External = {
+            url: string;
+            text: string;
+            type: 'general' | 'watch';
+        };
+
+        type ContentType =
+            | 'edit'
+            | 'anime'
+            | 'character'
+            | 'person'
+            | 'comment';
+
+        type HistoryType =
+            | 'watch'
+            | 'watch_delete'
+            | 'watch_import'
+            | 'favourite_anime_add'
+            | 'favourite_anime_remove';
+
+        type HistoryWatchData = {
+            after: {
+                score: number | null;
+                status: Hikka.WatchStatus | null;
+                episodes: number | null;
+                rewatches: number | null;
+            };
+            before: {
+                score: number | null;
+                status: Hikka.WatchStatus | null;
+                episodes: number | null;
+                rewatches: number | null;
+            };
+            new_watch: boolean;
+        };
+
+        type HistoryFavoriteData = {};
+
+        type HistoryImportData = {
+            imported: number;
+        };
+
+        type History<
+            TData extends
+                | HistoryWatchData
+                | HistoryFavoriteData
+                | HistoryImportData = HistoryWatchData,
+        > = {
+            reference: string;
+            content?: Hikka.Anime;
+            history_type: HistoryType;
+            created: number;
+            updated: number;
+            data: TData;
+        };
+
+        type NotificationType =
+            | 'comment_reply'
+            | 'comment_vote'
+            | 'comment_tag'
+            | 'edit_comment'
+            | 'edit_accepted'
+            | 'edit_denied'
+            | 'edit_updated'
+            | 'hikka_update';
+
+        type NotificationCommentData = {
+            slug: string;
+            comment_text: string;
+            content_type: ContentType;
+            comment_depth: number;
+            comment_author: string;
+            comment_reference: string;
+            base_comment_reference: string;
+        };
+
+        type NotificationCommentVoteData = {
+            slug: string;
+            content_type: ContentType;
+            comment_reference: string;
+            comment_depth: number;
+            comment_text: string;
+            base_comment_reference: string;
+            user_score: number;
+            old_score: number;
+            new_score: number;
+        };
+
+        type NotificationEditData = {
+            description: string;
+            edit_id: number;
+        };
+
+        type NotificationHikkaData = {
+            description: string;
+            title: string;
+            link: string;
+        };
+
+        type Notification<
+            TData extends
+                | NotificationCommentData
+                | NotificationCommentVoteData
+                | NotificationEditData
+                | NotificationHikkaData = NotificationCommentData,
+        > = {
+            notification_type: NotificationType;
+            created: number;
+            reference: string;
+            seen: boolean;
+            data: TData;
+        };
+
+        type TextNotification = {
+            type: NotificationType;
+            icon: ReactNode;
+            title: string;
+            description: ReactNode;
+            reference: string;
+            created: number;
+            href: string;
+            seen: boolean;
+        };
+
+        type Activity = {
+            timestamp: number;
+            actions: number;
+        };
     }
 }
