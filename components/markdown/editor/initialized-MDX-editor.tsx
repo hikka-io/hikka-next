@@ -6,16 +6,7 @@ import React from 'react';
 
 
 
-import {
-    MDXEditor,
-    type MDXEditorMethods,
-    type MDXEditorProps,
-    directivesPlugin,
-    linkDialogPlugin,
-    linkPlugin,
-    listsPlugin,
-    toolbarPlugin,
-} from '@mdxeditor/editor';
+import { MDXEditor, type MDXEditorMethods, type MDXEditorProps, directivesPlugin, linkDialogPlugin, linkPlugin, listsPlugin, toolbarPlugin } from '@mdxeditor/editor';
 
 
 

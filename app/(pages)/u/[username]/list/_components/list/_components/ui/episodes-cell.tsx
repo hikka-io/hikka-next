@@ -7,7 +7,7 @@ interface Props {
 
 const Component = ({ episodes, total }: Props) => (
     <TableCell className="w-20" align="center">
-        {episodes} / {total}
+        {episodes} / {total || '?'}
     </TableCell>
 );
 

@@ -7,7 +7,7 @@ interface Props {
 
 const Component = ({ media_type }: Props) => (
     <TableCell className="hidden w-32 lg:table-cell" align="center">
-        {MEDIA_TYPE[media_type as Hikka.MediaType].title_ua}
+        {MEDIA_TYPE[media_type as Hikka.MediaType]?.title_ua || "-"}
     </TableCell>
 );
 

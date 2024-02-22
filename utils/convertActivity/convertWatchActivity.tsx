@@ -93,7 +93,7 @@ export const convertEpisodes = (
                     Переглянуто з{' '}
                     <span className="font-bold">{before + 1}</span> по{' '}
                     <span className="font-bold">{after}</span>{' '}
-                    {getDeclensionWord(after, EPISODES_DECLENSION)}
+                    {EPISODES_DECLENSION[0]}
                 </>
             );
         }
