@@ -29,7 +29,9 @@ import AnimeTooltip from './anime-tooltip';
 interface Props {
     target?: string;
     title?: string;
-    desc?: string;
+    description?: string;
+    leftSubtitle?: string;
+    rightSubtitle?: string;
     poster?: string;
     posterClassName?: string;
     containerClassName?: string;

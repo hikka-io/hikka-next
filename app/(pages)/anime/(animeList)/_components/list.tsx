@@ -15,6 +15,7 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import { useList, useNextPage, useUpdatePage } from '../page.hooks';
+import { MEDIA_TYPE } from '@/utils/constants';
 
 
 const Component = () => {
@@ -90,6 +91,8 @@ const Component = () => {
                                 }
                                 key={x.slug}
                                 slug={x.slug}
+                                rightSubtitle={"2019"}
+                                leftSubtitle={x.media_type && MEDIA_TYPE[x.media_type].title_ua}
                                 watch={
                                     x.watch.length > 0 ? x.watch[0] : undefined
                                 }
