@@ -27,7 +27,7 @@ jobs:
           host: ${{ secrets.HOST }} # server's IP address
           username: ${{ secrets.USERNAME }} # server's username
           key: ${{ secrets.SSH_PRIVATE_KEY }} # server's SSH private key
-          password: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
+          passphrase: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
           script: |
             cd /home/ubuntu/hikka-next
             git pull
