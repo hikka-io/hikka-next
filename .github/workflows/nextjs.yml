@@ -1,0 +1,36 @@
+name: Deployment Workflow
+
+# Trigger this workflow on pushes to the specified branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Next.js app
+        run: yarn run build
+
+      - name: SSH Deploy
+        # Use the 'appleboy/ssh-action' action for SSH deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }} # server's IP address
+          username: ${{ secrets.USERNAME }} # server's username
+          key: ${{ secrets.SSH_PRIVATE_KEY }} # server's SSH private key
+          password: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
+          script: |
+            cd /home/ubuntu/hikka-next
+            git pull
+            yarn install
+            yarn run build
+            pm2 restart hikka-next
