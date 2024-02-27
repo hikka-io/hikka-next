@@ -11,7 +11,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '**',
+                hostname: 'cdn.hikka.io',
                 port: '',
                 pathname: '**',
             },
