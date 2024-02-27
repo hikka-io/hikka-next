@@ -18,7 +18,7 @@ jobs:
         run: yarn install
 
       - name: Build Next.js app
-        run: yarn run build
+        run: yarn build
 
       - name: SSH Deploy
         # Use the 'appleboy/ssh-action' action for SSH deployment

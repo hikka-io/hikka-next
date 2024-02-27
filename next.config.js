@@ -2,6 +2,7 @@ const withMDX = require('@next/mdx')();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     experimental: {
         missingSuspenseWithCSRBailout: false,
     },
