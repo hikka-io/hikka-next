@@ -24,7 +24,7 @@ const Component = (
                 className,
             )}
             onLoad={() => setLoaded(true)}
-            // quality={85}
+            quality={85}
             alt={alt}
             {...props}
         />
