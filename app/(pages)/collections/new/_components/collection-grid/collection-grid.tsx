@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import {
     DndContext,
     DragEndEvent,
-    DragStartEvent,
     PointerSensor,
     TouchSensor,
     closestCenter,
@@ -20,32 +19,34 @@ import {
 } from '@dnd-kit/sortable';
 
 import SearchModal from '@/components/modals/search-modal';
+import SubHeader from '@/components/sub-header';
 import BaseCard from '@/components/ui/base-card';
+import {
+    Group as CollectionGroup,
+    Item as CollectionItem,
+    useCollectionContext,
+} from '@/services/providers/collection-provider';
 
 import SortableCard from './_components/ui/sortable-card';
 
-type SortableItem = {
-    id: string;
-    anime: Hikka.Anime;
-};
+interface Props {
+    group: CollectionGroup;
+}
 
-const Component = () => {
-    const [items, setItems] = useState<SortableItem[]>([]);
+const Component = ({ group }: Props) => {
+    const { groups, setState: setCollectionState } = useCollectionContext();
 
-    // for drag overlay
-    const [activeItem, setActiveItem] = useState<SortableItem>();
+    const items = groups.find((g) => g.id === group.id)?.items;
+
+    if (!items) {
+        return null;
+    }
 
     // for input methods detection
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(TouchSensor),
     );
-
-    // triggered when dragging starts
-    const handleDragStart = (event: DragStartEvent) => {
-        const { active } = event;
-        setActiveItem(items.find((item) => item.id === active.id));
-    };
 
     // triggered when dragging ends
     const handleDragEnd = (event: DragEndEvent) => {
@@ -63,57 +64,99 @@ const Component = () => {
         const overIndex = items.findIndex((item) => item.id === over.id);
 
         if (activeIndex !== overIndex) {
-            setItems((prev) =>
-                arrayMove<SortableItem>(prev, activeIndex, overIndex),
-            );
-        }
-        setActiveItem(undefined);
-    };
+            setCollectionState!((prev) => ({
+                ...prev,
+                groups: prev.groups.map((g) => {
+                    if (g.id === group.id) {
+                        return {
+                            ...g,
+                            items: arrayMove<CollectionItem>(
+                                g.items,
+                                activeIndex,
+                                overIndex,
+                            ),
+                        };
+                    }
 
-    const handleDragCancel = () => {
-        setActiveItem(undefined);
+                    return g;
+                }),
+            }));
+        }
     };
 
     const handleAddItem = (anime: Hikka.Anime) => {
-        setItems((prev) => [
-            ...prev.filter((item) => item.id !== anime.slug),
-            {
-                id: anime.slug,
-                anime,
-            },
-        ]);
+        if (JSON.stringify(groups).includes(anime.slug)) {
+            return;
+        }
+
+        setCollectionState!((prev) => ({
+            ...prev,
+            groups: prev.groups.map((g) => {
+                if (g.id === group.id) {
+                    return {
+                        ...g,
+                        items: [
+                            ...g.items,
+                            {
+                                id: anime.slug,
+                                content: anime,
+                            },
+                        ],
+                    };
+                }
+
+                return g;
+            }),
+        }));
     };
 
     const handleRemoveItem = (id: string) => {
-        setItems((prev) => prev.filter((item) => item.id !== id));
+        // setItems((prev) => prev.filter((item) => item.id !== id));
+
+        setCollectionState!((prev) => ({
+            ...prev,
+            groups: prev.groups.map((g) => {
+                if (g.id === group.id) {
+                    return {
+                        ...g,
+                        items: g.items.filter((item) => item.id !== id),
+                    };
+                }
+
+                return g;
+            }),
+        }));
     };
 
     return (
         <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
-            onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
-            onDragCancel={handleDragCancel}
         >
             <SortableContext items={items} strategy={rectSortingStrategy}>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
-                    {items.map((item) => (
-                        <SortableCard
-                            key={item.id}
-                            id={item.id}
-                            anime={item.anime}
-                            onRemove={() => handleRemoveItem(item.id)}
-                        />
-                    ))}
+                <div className="flex flex-col gap-4">
+                    {group.isGroup && (
+                        <SubHeader title={group.title && group.title.trim().length > 0 ? group.title : "Нова група"} variant="h5" />
+                    )}
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
+                        {items.map((item) => (
+                            <SortableCard
+                                key={item.id}
+                                id={item.id}
+                                anime={item.content}
+                                onRemove={() => handleRemoveItem(item.id)}
+                            />
+                        ))}
 
-                    <SearchModal onClick={handleAddItem} type="button">
-                        <BaseCard>
-                            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
-                                <MaterialSymbolsAddRounded className="text-muted-foreground" />
-                            </div>
-                        </BaseCard>
-                    </SearchModal>
+                        <SearchModal onClick={handleAddItem} type="button">
+                            <BaseCard>
+                                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
+                                    <MaterialSymbolsAddRounded className="text-muted-foreground" />
+                                </div>
+                            </BaseCard>
+                        </SearchModal>
+                    </div>
                 </div>
             </SortableContext>
         </DndContext>
