@@ -1,6 +1,6 @@
 export const convertToDays = (data: Hikka.Activity[]) => {
     if (data.length > 16) {
-        data.slice(data.length - 17, data.length - 1);
+        return data.slice(data.length - 16, data.length);
     }
 
     if (data.length < 16) {
