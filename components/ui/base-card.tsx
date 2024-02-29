@@ -3,7 +3,8 @@ import {
     MouseEventHandler,
     ReactNode,
     Ref,
-    forwardRef, memo,
+    forwardRef,
+    memo,
 } from 'react';
 import { UrlObject } from 'url';
 
@@ -82,17 +83,16 @@ const Component = forwardRef(
                                 {description}
                             </p>
                         )}
-                        {title && (
-                            <Label className="leading-5">
-                                {title}
-                            </Label>
-                        )}
+                        {title && <Label className="leading-5">{title}</Label>}
                         {(leftSubtitle || rightSubtitle) && (
-                            <div className="flex justify-between mt-1">
+                            <div className="flex gap-2 mt-1 items-center">
                                 {leftSubtitle && (
                                     <Label className="text-xs text-muted-foreground">
                                         {leftSubtitle}
                                     </Label>
+                                )}
+                                {leftSubtitle && rightSubtitle && (
+                                    <div className="w-1 h-1 bg-muted-foreground rounded-full" />
                                 )}
                                 {rightSubtitle && (
                                     <Label className="text-xs text-muted-foreground">
