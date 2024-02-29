@@ -82,7 +82,7 @@ export default function CollectionProvider({ children }: Props) {
                 return group.items.map((item, k) => {
                     return {
                         comment: '',
-                        label: group.title || '',
+                        label: group.title || null,
                         order: 0,
                         slug: item.content.slug,
                     };
