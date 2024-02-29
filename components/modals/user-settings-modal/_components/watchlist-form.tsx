@@ -270,7 +270,7 @@ const Component = () => {
 
             <div className="w-full">
                 <Button
-                    variant="accent"
+                    variant="default"
                     onClick={handleCompleteImport}
                     disabled={watchList.length === 0}
                     type="submit"

@@ -162,7 +162,7 @@ const Component = ({ mode = 'create' }: Props) => {
                     {mode === 'edit' && (
                         <Button
                             disabled={isUpdatePending}
-                            variant="secondary"
+                            variant="default"
                             onClick={() => mutateUpdateCollection()}
                         >
                             {isUpdatePending && (
@@ -174,7 +174,7 @@ const Component = ({ mode = 'create' }: Props) => {
                     {mode === 'create' && (
                         <Button
                             disabled={isCreatePending}
-                            variant="secondary"
+                            variant="default"
                             onClick={() => mutateCreateCollection()}
                         >
                             {isCreatePending && (
