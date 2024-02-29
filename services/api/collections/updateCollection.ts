@@ -7,7 +7,7 @@ type Request = {
     tags: string[];
     content: {
         comment: string;
-        label: string;
+        label: string | null;
         order: number;
         slug: string;
     }[];
