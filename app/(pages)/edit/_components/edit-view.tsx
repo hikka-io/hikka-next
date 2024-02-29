@@ -29,7 +29,7 @@ type FormValues = (Hikka.AnimeEditParams | Hikka.CharacterEditParams) & {
 };
 
 interface EditProps {
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
     mode?: 'view' | 'edit';
     editId: number;
 }

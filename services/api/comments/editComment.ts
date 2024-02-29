@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.Comment {}
+export interface Response extends API.Comment {}
 
 export default async function req({
     reference,

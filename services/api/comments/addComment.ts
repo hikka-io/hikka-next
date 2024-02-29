@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.Comment {}
+export interface Response extends API.Comment {}
 
 export default async function req({
     secret,
@@ -11,7 +11,7 @@ export default async function req({
 }: {
     secret: string;
     slug: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
     text: string;
     parent?: string;
 }): Promise<Response> {

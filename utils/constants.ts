@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+
+
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
 import OnHold from '@/components/icons/watch-status/on-hold';
@@ -9,7 +11,7 @@ import Watching from '@/components/icons/watch-status/watching';
 
 export const CDN_ENDPOINT = 'https://cdn.hikka.io';
 
-export const WATCH_STATUS: Hikka.FilterProperty<Hikka.WatchStatus> = {
+export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
     planned: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
@@ -42,7 +44,7 @@ export const WATCH_STATUS: Hikka.FilterProperty<Hikka.WatchStatus> = {
     },
 };
 
-export const SEASON: Hikka.FilterProperty<Hikka.Season> = {
+export const SEASON: Hikka.FilterProperty<API.Season> = {
     winter: {
         title_ua: 'Зима',
         title_en: 'Winter',
@@ -61,7 +63,7 @@ export const SEASON: Hikka.FilterProperty<Hikka.Season> = {
     },
 };
 
-export const RELEASE_STATUS: Hikka.FilterProperty<Hikka.Status> = {
+export const RELEASE_STATUS: Hikka.FilterProperty<API.Status> = {
     /*discontinued: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
@@ -90,7 +92,7 @@ export const RELEASE_STATUS: Hikka.FilterProperty<Hikka.Status> = {
     },*/
 };
 
-export const MEDIA_TYPE: Hikka.FilterProperty<Hikka.MediaType> = {
+export const MEDIA_TYPE: Hikka.FilterProperty<API.MediaType> = {
     special: {
         title_ua: 'Спешл',
         title_en: 'Special',
@@ -117,7 +119,7 @@ export const MEDIA_TYPE: Hikka.FilterProperty<Hikka.MediaType> = {
     },
 };
 
-export const AGE_RATING: Hikka.FilterProperty<Hikka.AgeRating> = {
+export const AGE_RATING: Hikka.FilterProperty<API.AgeRating> = {
     g: {
         title_ua: 'G',
         title_en: 'G',
@@ -150,7 +152,7 @@ export const AGE_RATING: Hikka.FilterProperty<Hikka.AgeRating> = {
     },
 };
 
-export const VIDEO: Hikka.FilterProperty<Hikka.VideoType> = {
+export const VIDEO: Hikka.FilterProperty<API.VideoType> = {
     video_promo: {
         title_ua: 'Промо-відео',
         title_en: 'Promo Video',
@@ -161,7 +163,7 @@ export const VIDEO: Hikka.FilterProperty<Hikka.VideoType> = {
     },
 };
 
-export const OST: Hikka.FilterProperty<Hikka.OSTType> = {
+export const OST: Hikka.FilterProperty<API.OSTType> = {
     opening: {
         title_ua: 'Опенінґ',
         title_en: 'Opening',
@@ -172,7 +174,7 @@ export const OST: Hikka.FilterProperty<Hikka.OSTType> = {
     },
 };
 
-export const SOURCE: Hikka.FilterProperty<Hikka.Source> = {
+export const SOURCE: Hikka.FilterProperty<API.Source> = {
     digital_manga: {
         title_ua: 'Цифрова Манга',
         title_en: 'Digital Manga',
@@ -235,7 +237,7 @@ export const SOURCE: Hikka.FilterProperty<Hikka.Source> = {
     },
 };
 
-export const EDIT_STATUS: Hikka.FilterProperty<Hikka.EditStatus> = {
+export const EDIT_STATUS: Hikka.FilterProperty<API.EditStatus> = {
     pending: {
         title_ua: 'На Розгляді',
         title_en: 'Pending',
@@ -522,18 +524,20 @@ export const CHARACTER_EDIT_GROUPS: Record<string, string> = {
     description: 'Опис',
 };
 
-export const CONTENT_TYPE_TITLES: Record<Hikka.ContentType, string> = {
+export const CONTENT_TYPE_TITLES: Record<API.ContentType, string> = {
     person: 'Автор',
     character: 'Персонаж',
     anime: 'Аніме',
     edit: 'Правка',
     comment: 'Коментар',
-}
+    collection: 'Колекція',
+};
 
-export const CONTENT_TYPE_LINKS: Record<Hikka.ContentType, string> = {
+export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     person: '/person',
     character: '/characters',
     anime: '/anime',
     edit: '/edit',
     comment: '/comments',
+    collection: '/collections',
 }

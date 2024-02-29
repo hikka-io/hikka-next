@@ -1,6 +1,6 @@
 import { ERRORS } from '@/utils/constants';
 
-export default function (error: Hikka.Error) {
+export default function (error: API.Error) {
     const splittedCode = error.code.split(':');
 
     if (splittedCode.length === 2) {

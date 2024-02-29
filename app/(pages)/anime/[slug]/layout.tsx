@@ -2,16 +2,10 @@ import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
-
-
 import Link from 'next/link';
-
-
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
-
-
 
 import { getCookie } from '@/app/actions';
 import Breadcrumbs from '@/components/breadcrumbs';
@@ -21,12 +15,13 @@ import SubBar from '@/components/sub-navbar';
 import { Button } from '@/components/ui/button';
 import getAnimeCharacters from '@/services/api/anime/getAnimeCharacters';
 import getAnimeFranchise from '@/services/api/anime/getAnimeFranchise';
-import getAnimeInfo, { Response as AnimeResponse } from '@/services/api/anime/getAnimeInfo';
+import getAnimeInfo, {
+    Response as AnimeResponse,
+} from '@/services/api/anime/getAnimeInfo';
 import getAnimeStaff from '@/services/api/anime/getAnimeStaff';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
+import getDeclensionWord from '@/utils/getDeclensionWord';
 import getQueryClient from '@/utils/getQueryClient';
-
-
 
 import Actions from './_components/actions';
 import Cover from './_components/cover';
@@ -149,7 +144,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
         initialPageParam: 1,
     });
 
-    const anime: Hikka.Anime | undefined = queryClient.getQueryData([
+    const anime: API.AnimeInfo | undefined = queryClient.getQueryData([
         'anime',
         slug,
     ]);
@@ -166,7 +161,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                             style={{
                                 backgroundColor:
                                     RELEASE_STATUS[
-                                        anime?.status as Hikka.Status
+                                        anime?.status as API.Status
                                     ].color,
                             }}
                         />
@@ -203,7 +198,15 @@ const Component = async ({ params: { slug }, children }: Props) => {
                                 >
                                     <Link href={`/anime/${slug}/comments`}>
                                         <IconamoonCommentFill />
-                                        Обговорення
+                                        {anime?.comments_count || 0}{' '}
+                                        {getDeclensionWord(
+                                            anime?.comments_count || 0,
+                                            [
+                                                'коментар',
+                                                'коментарі',
+                                                'коментарів',
+                                            ],
+                                        )}
                                     </Link>
                                 </Button>
                             </div>

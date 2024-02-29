@@ -66,7 +66,7 @@ export async function fetchRequest<TResponse>({
 
     if (!res.ok) {
         if (res.status >= 400 && res.status <= 499) {
-            const error: Hikka.Error = await res.json();
+            const error: API.Error = await res.json();
 
             if (enqueueError) {
                 const errorMessage = getApiErrorMessage(error);

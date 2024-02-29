@@ -84,7 +84,7 @@ const Component = ({ group }: Props) => {
         }
     };
 
-    const handleAddItem = (anime: Hikka.Anime) => {
+    const handleAddItem = (anime: API.Anime) => {
         if (JSON.stringify(groups).includes(anime.slug)) {
             return;
         }

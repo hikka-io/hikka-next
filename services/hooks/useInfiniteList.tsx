@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-query';
 
 interface Props<T> {
-    queryFn: QueryFunction<Hikka.WithPagination<T>, this['queryKey'], number>;
+    queryFn: QueryFunction<API.WithPagination<T>, this['queryKey'], number>;
     queryKey: QueryKey;
     staleTime?: number;
     gcTime?: number;
@@ -21,7 +21,7 @@ function useInfiniteList<T>({ queryFn, queryKey, staleTime, gcTime }: Props<T>) 
     const query = useInfiniteQuery({
         initialPageParam: 1,
         queryKey: queryKey,
-        getNextPageParam: (lastPage: Hikka.WithPagination<T>, allPages) => {
+        getNextPageParam: (lastPage: API.WithPagination<T>, allPages) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
         },

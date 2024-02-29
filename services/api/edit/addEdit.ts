@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.Edit {}
+export interface Response extends API.Edit {}
 
 export default async function req({
     secret,
@@ -13,7 +13,7 @@ export default async function req({
 }: {
     secret: string;
     description?: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
     after: Hikka.AnimeEditParams;
     slug: string;
     auto?: boolean;

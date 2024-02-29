@@ -22,7 +22,7 @@ const Component = ({}: Props) => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useWatchList({
             username: String(params.username),
-            watch_status: String(watchStatus) as Hikka.WatchStatus,
+            watch_status: String(watchStatus) as API.WatchStatus,
         });
 
     if (!list || !watchStatus) {
@@ -45,7 +45,7 @@ const Component = ({}: Props) => {
                             <span className="font-black">
                                 {
                                     WATCH_STATUS[
-                                        watchStatus as Hikka.WatchStatus
+                                        watchStatus as API.WatchStatus
                                     ].title_ua
                                 }
                             </span>{' '}

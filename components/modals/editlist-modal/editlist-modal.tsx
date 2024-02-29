@@ -13,7 +13,7 @@ import getContentEditList from '@/services/api/edit/getContentEditList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 interface Props {
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
     slug: string;
 }
 

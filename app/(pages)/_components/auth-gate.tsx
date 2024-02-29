@@ -25,7 +25,7 @@ const Component = async ({ children }: Props) => {
 
     const dehydratedState = dehydrate(queryClient);
 
-    const loggedUserData: Hikka.User | undefined = queryClient.getQueryData([
+    const loggedUserData: API.User | undefined = queryClient.getQueryData([
         'loggedUser', secret
     ]);
 

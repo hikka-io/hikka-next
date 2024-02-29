@@ -1,7 +1,7 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
 interface Response {
-    list: Hikka.Genre[];
+    list: API.Genre[];
 }
 
 export default async function req(): Promise<Response> {

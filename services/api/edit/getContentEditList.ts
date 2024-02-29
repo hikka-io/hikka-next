@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.WithPagination<Hikka.Edit> {}
+export interface Response extends API.WithPagination<API.Edit> {}
 
 export default async function req({
     content_type,
@@ -8,7 +8,7 @@ export default async function req({
     page = 1,
     size = 15,
 }: {
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
     slug: string;
     page?: number;
     size?: number;

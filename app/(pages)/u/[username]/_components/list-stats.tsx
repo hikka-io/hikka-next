@@ -79,21 +79,21 @@ const Component = ({}: Props) => {
                                             style={{
                                                 backgroundColor:
                                                     WATCH_STATUS[
-                                                        status as Hikka.WatchStatus
+                                                        status as API.WatchStatus
                                                     ].color,
                                             }}
                                         />
                                         <Label className="text-muted-foreground truncate cursor-pointer">
                                             {WATCH_STATUS[
-                                                status as Hikka.WatchStatus
+                                                status as API.WatchStatus
                                             ].title_ua ||
                                                 WATCH_STATUS[
-                                                    status as Hikka.WatchStatus
+                                                    status as API.WatchStatus
                                                 ].title_en}
                                         </Label>
                                     </div>
                                     <Label className="cursor-pointer">
-                                        {data[status as Hikka.WatchStatus]}
+                                        {data[status as API.WatchStatus]}
                                     </Label>
                                 </div>
                             </Link>

@@ -78,7 +78,7 @@ const Component = () => {
         <div className="flex flex-col gap-8">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                 {list &&
-                    list.map((x: Hikka.Anime) => {
+                    list.map((x: API.Anime) => {
                         return (
                             <AnimeCard
                                 href={`/anime/${x.slug}`}

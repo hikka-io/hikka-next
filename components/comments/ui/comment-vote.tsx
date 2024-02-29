@@ -11,7 +11,7 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { cn } from '@/utils';
 
 interface Props {
-    comment: Hikka.Comment;
+    comment: API.Comment;
 }
 
 const Component = ({ comment }: Props) => {

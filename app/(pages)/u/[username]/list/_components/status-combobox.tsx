@@ -26,13 +26,13 @@ const Component = () => {
 
     const { pagination } = useWatchList({
         username: String(params.username),
-        watch_status: String(watchStatus) as Hikka.WatchStatus,
+        watch_status: String(watchStatus) as API.WatchStatus,
     });
 
     return (
         <Combobox
             options={Object.keys(WATCH_STATUS).map((watchStatus) => ({
-                label: WATCH_STATUS[watchStatus as Hikka.WatchStatus].title_ua,
+                label: WATCH_STATUS[watchStatus as API.WatchStatus].title_ua,
                 value: watchStatus,
             }))}
             value={watchStatus}
@@ -51,7 +51,7 @@ const Component = () => {
                     <div className="flex items-center gap-4">
                         <div className="stat-figure rounded-md border border-secondary bg-secondary/60 p-1 text-xl text-base-content">
                             {createElement(
-                                WATCH_STATUS[option.value as Hikka.WatchStatus]
+                                WATCH_STATUS[option.value as API.WatchStatus]
                                     .icon!,
                             )}
                         </div>

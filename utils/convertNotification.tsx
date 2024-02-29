@@ -9,7 +9,7 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
-const TITLES: Record<Hikka.NotificationType, string> = {
+const TITLES: Record<API.NotificationType, string> = {
     edit_accepted: 'Правка прийнята',
     edit_denied: 'Правка відхилена',
     edit_updated: 'Правка оновлена',
@@ -21,7 +21,7 @@ const TITLES: Record<Hikka.NotificationType, string> = {
 };
 
 const DESCRIPTIONS: Record<
-    Hikka.NotificationType,
+    API.NotificationType,
     (args?: any) => string | ReactNode
 > = {
     edit_accepted: () => 'Ваша правка була прийнята',
@@ -49,7 +49,7 @@ const DESCRIPTIONS: Record<
     hikka_update: (description: string) => description,
 };
 
-const ICONS: Record<Hikka.NotificationType, ReactNode> = {
+const ICONS: Record<API.NotificationType, ReactNode> = {
     edit_accepted: <MaterialSymbolsCheckCircleRounded />,
     edit_denied: <MaterialSymbolsFlagCircleRounded />,
     edit_updated: <MaterialSymbolsChangeCircleRounded />,
@@ -61,11 +61,11 @@ const ICONS: Record<Hikka.NotificationType, ReactNode> = {
 };
 
 const getInitialData = (
-    notification: Hikka.Notification<
-        | Hikka.NotificationCommentData
-        | Hikka.NotificationCommentVoteData
-        | Hikka.NotificationEditData
-        | Hikka.NotificationHikkaData
+    notification: API.Notification<
+        | API.NotificationCommentData
+        | API.NotificationCommentVoteData
+        | API.NotificationEditData
+        | API.NotificationHikkaData
     >,
 ) => {
     return {
@@ -79,7 +79,7 @@ const getInitialData = (
 };
 
 const commentReply = (
-    notification: Hikka.Notification<Hikka.NotificationCommentData>,
+    notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
     const { comment_author, slug, content_type } = notification.data;
 
@@ -92,7 +92,7 @@ const commentReply = (
 };
 
 const commentVote = (
-    notification: Hikka.Notification<Hikka.NotificationCommentVoteData>,
+    notification: API.Notification<API.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
     const { slug, content_type } = notification.data;
 
@@ -104,7 +104,7 @@ const commentVote = (
 };
 
 const commentTag = (
-    notification: Hikka.Notification<Hikka.NotificationCommentData>,
+    notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
     const { comment_author, slug, content_type } = notification.data;
 
@@ -117,7 +117,7 @@ const commentTag = (
 };
 
 const editComment = (
-    notification: Hikka.Notification<Hikka.NotificationCommentData>,
+    notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
     const { comment_author, slug, content_type } = notification.data;
 
@@ -130,7 +130,7 @@ const editComment = (
 };
 
 const editActions = (
-    notification: Hikka.Notification<Hikka.NotificationEditData>,
+    notification: API.Notification<API.NotificationEditData>,
 ): Hikka.TextNotification => {
     const { edit_id } = notification.data;
 
@@ -142,7 +142,7 @@ const editActions = (
 };
 
 const hikkaUpdate = (
-    notification: Hikka.Notification<Hikka.NotificationHikkaData>,
+    notification: API.Notification<API.NotificationHikkaData>,
 ) => {
     return {
         ...getInitialData(notification),
@@ -155,45 +155,45 @@ const hikkaUpdate = (
 };
 
 export const convertNotification = (
-    notification: Hikka.Notification<
-        | Hikka.NotificationCommentVoteData
-        | Hikka.NotificationCommentData
-        | Hikka.NotificationEditData
-        | Hikka.NotificationHikkaData
+    notification: API.Notification<
+        | API.NotificationCommentVoteData
+        | API.NotificationCommentData
+        | API.NotificationEditData
+        | API.NotificationHikkaData
     >,
 ): Hikka.TextNotification => {
     switch (notification.notification_type) {
         case 'comment_reply':
             return commentReply(
-                notification as Hikka.Notification<Hikka.NotificationCommentData>,
+                notification as API.Notification<API.NotificationCommentData>,
             );
         case 'comment_vote':
             return commentVote(
-                notification as Hikka.Notification<Hikka.NotificationCommentVoteData>,
+                notification as API.Notification<API.NotificationCommentVoteData>,
             );
         case 'comment_tag':
             return commentTag(
-                notification as Hikka.Notification<Hikka.NotificationCommentData>,
+                notification as API.Notification<API.NotificationCommentData>,
             );
         case 'edit_comment':
             return editComment(
-                notification as Hikka.Notification<Hikka.NotificationCommentData>,
+                notification as API.Notification<API.NotificationCommentData>,
             );
         case 'edit_accepted':
             return editActions(
-                notification as Hikka.Notification<Hikka.NotificationEditData>,
+                notification as API.Notification<API.NotificationEditData>,
             );
         case 'edit_denied':
             return editActions(
-                notification as Hikka.Notification<Hikka.NotificationEditData>,
+                notification as API.Notification<API.NotificationEditData>,
             );
         case 'edit_updated':
             return editActions(
-                notification as Hikka.Notification<Hikka.NotificationEditData>,
+                notification as API.Notification<API.NotificationEditData>,
             );
         case 'hikka_update':
             return hikkaUpdate(
-                notification as Hikka.Notification<Hikka.NotificationHikkaData>,
+                notification as API.Notification<API.NotificationHikkaData>,
             );
     }
 };

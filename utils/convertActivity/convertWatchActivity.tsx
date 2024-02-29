@@ -9,8 +9,8 @@ const EPISODES_DECLENSION: [string, string, string] = [
 const TIMES_DECLENSION: [string, string, string] = ['раз', 'рази', 'разів'];
 
 export const convertStatus = (
-    before: Hikka.WatchStatus | null,
-    after: Hikka.WatchStatus | null,
+    before: API.WatchStatus | null,
+    after: API.WatchStatus | null,
 ) => {
     if (before === null && after) {
         return <>{WATCH_STATUS[after].title_ua}</>;
@@ -121,8 +121,8 @@ export const convertDeleteWatch = () => {
 };
 
 export const createWatchEvents = (
-    history_type: Hikka.HistoryType,
-    data?: Hikka.HistoryWatchData,
+    history_type: API.HistoryType,
+    data?: API.HistoryWatchData,
 ) => {
     const events = [];
 

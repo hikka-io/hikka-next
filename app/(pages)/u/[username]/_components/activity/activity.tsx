@@ -8,7 +8,7 @@ import NotFound from '@/components/ui/not-found';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
 
-import ActivityModal from './components/activityModal';
+import ActivityModal from './components/activity-modal';
 import ActivityItem from './components/ui/activity-item';
 
 interface Props {

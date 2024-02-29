@@ -1,7 +1,12 @@
 import { useSearchParams } from 'next/navigation';
 
+
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+
+
+import getUserCollections from '@/services/api/collections/getUserCollections';
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import checkFollow from '@/services/api/follow/checkFollow';
 import follow from '@/services/api/follow/follow';
@@ -13,6 +18,7 @@ import getUserInfo from '@/services/api/user/getUserInfo';
 import getWatchList from '@/services/api/watch/getWatchList';
 import getWatchStats from '@/services/api/watch/getWatchStats';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+
 
 export const useUser = (username: string) => {
     return useQuery({
@@ -113,7 +119,7 @@ export const useWatchList = ({
     watch_status,
 }: {
     username: string;
-    watch_status: Hikka.WatchStatus;
+    watch_status: API.WatchStatus;
 }) => {
     const searchParams = useSearchParams();
 
@@ -166,6 +172,18 @@ export const useActivityList = ({ username }: { username: string }) => {
             getUserHistory({
                 username: username,
                 page: pageParam,
+            }),
+    });
+};
+
+export const useCollectionsList = ({ username, secret }: { username: string, secret?: string }) => {
+    return useInfiniteList({
+        queryKey: ['collections', { username, secret }],
+        queryFn: ({ pageParam }) =>
+            getUserCollections({
+                username: username,
+                page: pageParam,
+                secret,
             }),
     });
 };

@@ -15,7 +15,7 @@ import CommentsProvider from '@/services/providers/comments-provider';
 
 interface Props {
     slug: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
 }
 
 const Component = ({ slug, content_type }: Props) => {

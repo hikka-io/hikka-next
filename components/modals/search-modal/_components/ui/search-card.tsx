@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 
 
 interface Props {
-    anime: Hikka.Anime;
+    anime: API.Anime;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 }

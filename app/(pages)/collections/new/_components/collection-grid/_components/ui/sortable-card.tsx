@@ -11,7 +11,7 @@ import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
     id: string;
-    anime: Hikka.Anime;
+    anime: API.Anime;
     onRemove: () => void;
 }
 

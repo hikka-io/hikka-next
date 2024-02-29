@@ -56,7 +56,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
             status,
             episodes,
         }: {
-            status: Hikka.WatchStatus;
+            status: API.WatchStatus;
             episodes?: number;
         }) =>
             addWatch({
@@ -108,10 +108,10 @@ const Component = ({ slug, additional, disabled }: Props) => {
                 label: (
                     <div className="flex gap-1 items-center">
                         {createElement(
-                            WATCH_STATUS[status as Hikka.WatchStatus].icon!,
+                            WATCH_STATUS[status as API.WatchStatus].icon!,
                         )}
-                        {WATCH_STATUS[status as Hikka.WatchStatus].title_ua ||
-                            WATCH_STATUS[status as Hikka.WatchStatus].title_en}
+                        {WATCH_STATUS[status as API.WatchStatus].title_ua ||
+                            WATCH_STATUS[status as API.WatchStatus].title_en}
                     </div>
                 ),
             }))}
@@ -124,7 +124,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                         });
                     } else {
                         addToList({
-                            status: option as Hikka.WatchStatus,
+                            status: option as API.WatchStatus,
                         });
                     }
                 }
@@ -154,7 +154,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     {value ? (
                                         createElement(
                                             WATCH_STATUS[
-                                                value as Hikka.WatchStatus
+                                                value as API.WatchStatus
                                             ].icon!,
                                         )
                                     ) : (
@@ -163,10 +163,10 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     <span className="overflow-hidden overflow-ellipsis whitespace-nowrap rounded-none">
                                         {value
                                             ? WATCH_STATUS[
-                                                  value as Hikka.WatchStatus
+                                                  value as API.WatchStatus
                                               ].title_ua ||
                                               WATCH_STATUS[
-                                                  value as Hikka.WatchStatus
+                                                  value as API.WatchStatus
                                               ].title_en
                                             : 'Додати у список'}
                                     </span>

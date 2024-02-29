@@ -21,7 +21,7 @@ import {
 } from '../../ui/command';
 
 interface Props {
-    onClick?: (anime: Hikka.Anime) => void;
+    onClick?: (anime: API.Anime) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
 }
@@ -33,7 +33,7 @@ const Component = ({ onClick, type, children }: Props) => {
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
     const { data } = useQuery<
-        { list: Hikka.Anime[]; pagination: Hikka.Pagination },
+        { list: API.Anime[]; pagination: API.Pagination },
         Error
     >({
         queryKey: ['searchList', value],
@@ -44,7 +44,7 @@ const Component = ({ onClick, type, children }: Props) => {
         enabled: value !== undefined && value.length >= 3,
     });
 
-    const onDismiss = (anime: Hikka.Anime) => {
+    const onDismiss = (anime: API.Anime) => {
         setSearchValue('');
         setOpen(false);
 

@@ -10,55 +10,13 @@ declare global {
         }
     }
 
-    namespace Hikka {
-        type FilterProperty<T extends string> = Record<
-            T,
-            {
-                title_ua: string;
-                title_en: string;
-                icon?: (props: any) => ReactElement | ReactNode;
-                color?: string;
-                description?: string;
-            }
-        >;
-
-        type NavRoute = {
-            slug: string;
-            title_ua: string;
-            url: string;
-            icon?: ReactNode;
-            role?: Hikka.UserRole[];
-            internals?: NavRoute[];
-        };
-
-        type WithPagination<T> = {
-            pagination: Hikka.Pagination;
-            list: T[];
-        };
-
-        type Error = {
-            code: string;
-            message: string;
-        };
-
+    namespace API {
         type UserRole =
             | 'admin'
             | 'moderator'
             | 'user'
             | 'banned'
             | 'not_activated';
-
-        type User = {
-            reference: string;
-            description: string | null;
-            username: string;
-            created: number;
-            avatar: string;
-            cover?: string;
-            role: UserRole;
-            active: boolean;
-            is_followed?: boolean;
-        };
 
         type WatchStatus =
             | 'completed'
@@ -80,14 +38,6 @@ declare global {
             | 'score_9'
             | 'score_10';
 
-        type Stats = Record<StatType, number>;
-
-        type Pagination = {
-            total: number;
-            pages: number;
-            page: number;
-        };
-
         type Season = 'summer' | 'winter' | 'fall' | 'spring';
 
         type MediaType = 'tv' | 'movie' | 'ova' | 'ona' | 'special' | 'music';
@@ -104,21 +54,6 @@ declare global {
         type VideoType = 'video_promo' | 'video_music';
 
         type OSTType = 'opening' | 'ending';
-
-        type Video = {
-            url: string;
-            title: string;
-            description: string;
-            video_type: VideoType;
-        };
-
-        type OST = {
-            index: number;
-            title: string;
-            author: string;
-            spotify: string;
-            ost_type: OSTType;
-        };
 
         type Source =
             | 'digital_manga'
@@ -137,13 +72,66 @@ declare global {
             | 'game'
             | 'book';
 
-        type Company = {
-            company: {
-                image: string;
-                slug: string;
-                name: string;
-            };
-            type: 'producer' | 'studio';
+        type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
+
+        type ContentType =
+            | 'edit'
+            | 'anime'
+            | 'character'
+            | 'person'
+            | 'comment'
+            | 'collection';
+
+        type HistoryType =
+            | 'watch'
+            | 'watch_delete'
+            | 'watch_import'
+            | 'favourite_anime_add'
+            | 'favourite_anime_remove';
+
+        type Error = {
+            code: string;
+            message: string;
+        };
+
+        type User = {
+            reference: string;
+            description: string | null;
+            username: string;
+            created: number;
+            avatar: string;
+            cover?: string;
+            role: UserRole;
+            active: boolean;
+            is_followed?: boolean;
+        };
+
+        type WithPagination<T> = {
+            pagination: Pagination;
+            list: T[];
+        };
+
+        type Stats = Record<StatType, number>;
+
+        type Pagination = {
+            total: number;
+            pages: number;
+            page: number;
+        };
+
+        type Video = {
+            url: string;
+            title: string;
+            description: string;
+            video_type: VideoType;
+        };
+
+        type OST = {
+            index: number;
+            title: string;
+            author: string;
+            spotify: string;
+            ost_type: OSTType;
         };
 
         type Watch = {
@@ -151,11 +139,11 @@ declare global {
             updated: number;
             created: number;
             note: string;
-            status: Hikka.WatchStatus;
+            status: API.WatchStatus;
             rewatches: number;
             episodes: number;
             score: number;
-            anime: Hikka.Anime;
+            anime: API.Anime;
         };
 
         type Anime = {
@@ -190,6 +178,7 @@ declare global {
             videos: Video[];
             ost: OST[];
             stats: Stats;
+            comments_count: number;
         } & Anime;
 
         type Genre = {
@@ -216,44 +205,18 @@ declare global {
             slug: string;
         };
 
-        type EditParamGroup = {
-            title: string;
-            slug: string;
-        }
-
-        type EditParamType = "input" | "markdown" | "list"
-
-
-        type EditParam = {
-            title: string;
-            slug: string;
-            placeholder?: string;
-            type: EditParamType;
-        }
-
-        type AnimeEditParams = {
-            title_ua?: string;
-            title_en?: string;
-            title_ja?: string;
-            synopsis_en?: string;
-            synopsis_ua?: string;
-            synonyms?: {
-                value: string;
-            }[];
+        type Company = {
+            company: {
+                image: string;
+                slug: string;
+                name: string;
+            };
+            type: 'producer' | 'studio';
         };
-
-        type CharacterEditParams = {
-            name_ua: string;
-            name_en: string;
-            name_ja: string;
-            description_ua: string;
-        };
-
-        type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
         type Edit<
             TEditParams extends Record<string, any> = Record<string, any>,
-            TContent = Hikka.AnimeInfo | Hikka.Character,
+            TContent = API.AnimeInfo | API.Character,
         > = {
             content_type: ContentType;
             status: EditStatus;
@@ -261,8 +224,8 @@ declare global {
             created: number;
             updated: number;
             edit_id: number;
-            moderator: Hikka.User | null;
-            author?: Hikka.User;
+            moderator: API.User | null;
+            author?: API.User;
             after: TEditParams;
             before: TEditParams | null;
             content: TContent;
@@ -270,7 +233,7 @@ declare global {
 
         type Comment = {
             reference: string;
-            author: Hikka.User;
+            author: API.User;
             created: number;
             text: string;
             replies: Comment[];
@@ -287,30 +250,16 @@ declare global {
             type: 'general' | 'watch';
         };
 
-        type ContentType =
-            | 'edit'
-            | 'anime'
-            | 'character'
-            | 'person'
-            | 'comment';
-
-        type HistoryType =
-            | 'watch'
-            | 'watch_delete'
-            | 'watch_import'
-            | 'favourite_anime_add'
-            | 'favourite_anime_remove';
-
         type HistoryWatchData = {
             after: {
                 score: number | null;
-                status: Hikka.WatchStatus | null;
+                status: API.WatchStatus | null;
                 episodes: number | null;
                 rewatches: number | null;
             };
             before: {
                 score: number | null;
-                status: Hikka.WatchStatus | null;
+                status: API.WatchStatus | null;
                 episodes: number | null;
                 rewatches: number | null;
             };
@@ -330,7 +279,7 @@ declare global {
                 | HistoryImportData = HistoryWatchData,
         > = {
             reference: string;
-            content?: Hikka.Anime;
+            content?: API.Anime;
             history_type: HistoryType;
             created: number;
             updated: number;
@@ -394,6 +343,93 @@ declare global {
             data: TData;
         };
 
+        type Activity = {
+            timestamp: number;
+            actions: number;
+        };
+
+        type CollectionItem<
+            TContent extends API.AnimeInfo | API.Character = API.AnimeInfo,
+        > = {
+            content: TContent;
+            comment: string | null;
+            label: string | null;
+            content_type: API.ContentType;
+            order: number;
+        };
+
+        type Collection<
+            TContent extends API.AnimeInfo | API.Character | API.Person = API.AnimeInfo,
+        > = {
+            author: API.User;
+            created: number;
+            updated: number;
+            content_type: API.ContentType;
+            description: string;
+            tags: string[];
+            reference: string;
+            private: boolean;
+            spoiler: boolean;
+            entries: number;
+            title: string;
+            nsfw: boolean;
+            collection: CollectionItem<TContent>[];
+        };
+    }
+
+    namespace Hikka {
+        type FilterProperty<T extends string> = Record<
+            T,
+            {
+                title_ua: string;
+                title_en: string;
+                icon?: (props: any) => ReactElement | ReactNode;
+                color?: string;
+                description?: string;
+            }
+        >;
+
+        type NavRoute = {
+            slug: string;
+            title_ua: string;
+            url: string;
+            icon?: ReactNode;
+            role?: API.UserRole[];
+            internals?: NavRoute[];
+        };
+
+        type EditParamGroup = {
+            title: string;
+            slug: string;
+        };
+
+        type EditParamType = 'input' | 'markdown' | 'list';
+
+        type EditParam = {
+            title: string;
+            slug: string;
+            placeholder?: string;
+            type: EditParamType;
+        };
+
+        type AnimeEditParams = {
+            title_ua?: string;
+            title_en?: string;
+            title_ja?: string;
+            synopsis_en?: string;
+            synopsis_ua?: string;
+            synonyms?: {
+                value: string;
+            }[];
+        };
+
+        type CharacterEditParams = {
+            name_ua: string;
+            name_en: string;
+            name_ja: string;
+            description_ua: string;
+        };
+
         type TextNotification = {
             type: NotificationType;
             icon: ReactNode;
@@ -403,11 +439,6 @@ declare global {
             created: number;
             href: string;
             seen: boolean;
-        };
-
-        type Activity = {
-            timestamp: number;
-            actions: number;
         };
     }
 }

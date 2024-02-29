@@ -3,7 +3,7 @@ import { fetchRequest } from '@/services/api/fetchRequest';
 export interface Response {
     reference: string;
     created: number;
-    anime: Hikka.Anime;
+    anime: API.Anime;
 }
 
 export default async function req({

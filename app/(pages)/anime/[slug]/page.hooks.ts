@@ -51,7 +51,7 @@ export const useAddToList = (slug: string, secret: string) => {
     return useMutation({
         mutationKey: ['addToList', secret, slug],
         mutationFn: (mutationParams: {
-            status: Hikka.WatchStatus;
+            status: API.WatchStatus;
             score: number;
             episodes: number;
         }) =>

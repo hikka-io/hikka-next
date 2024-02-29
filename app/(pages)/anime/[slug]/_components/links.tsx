@@ -14,7 +14,7 @@ interface Props {
     extended?: boolean;
 }
 
-const ExternalLink = ({ link }: { link: Hikka.External }) => {
+const ExternalLink = ({ link }: { link: API.External }) => {
     return (
         <Button variant="outline" className="p-6" asChild>
             <Link
@@ -34,7 +34,7 @@ const ExternalLink = ({ link }: { link: Hikka.External }) => {
 };
 
 const Component = ({ extended }: Props) => {
-    const [active, setActive] = useState<Hikka.External['type']>('general');
+    const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
     const { data: anime } = useAnimeInfo(String(params.slug));
 

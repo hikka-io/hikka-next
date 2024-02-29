@@ -14,7 +14,7 @@ export const convertAddFavorite = () => {
     );
 };
 
-export const createFavoriteEvents = (history_type: Hikka.HistoryType) => {
+export const createFavoriteEvents = (history_type: API.HistoryType) => {
     const events = [];
 
     if (history_type === 'favourite_anime_remove') {

@@ -1,8 +1,8 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
-    pagination: Hikka.Pagination;
-    list: Hikka.User[];
+    pagination: API.Pagination;
+    list: API.User[];
 }
 
 export default async function req({

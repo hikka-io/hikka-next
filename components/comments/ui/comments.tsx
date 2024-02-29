@@ -1,9 +1,9 @@
 import Comment from './comment';
 
 interface Props {
-    comments: Hikka.Comment[];
+    comments: API.Comment[];
     slug: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
 }
 
 

@@ -19,7 +19,7 @@ const Component = () => {
         return null;
     }
 
-    const content = edit.content as Hikka.Anime;
+    const content = edit.content as API.Anime;
 
     return (
         <div className="flex flex-col gap-8">

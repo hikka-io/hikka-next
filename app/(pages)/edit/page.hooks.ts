@@ -21,7 +21,7 @@ export const useEditList = ({
     });
 };
 
-export const useEdit = <T extends Hikka.Edit>(
+export const useEdit = <T extends API.Edit>(
     editId: string,
     select?: (data: T) => T,
 ) => {
@@ -37,7 +37,7 @@ export const useContentData = ({
     content_type,
 }: {
     slug: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
 }) => {
     switch (content_type) {
         case 'anime':

@@ -29,7 +29,7 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 interface Props {
-    comment: Hikka.Comment;
+    comment: API.Comment;
 }
 
 const Component = ({ comment }: Props) => {
@@ -38,7 +38,7 @@ const Component = ({ comment }: Props) => {
     const { secret } = useAuthContext();
     const { setState: setCommentsState } = useCommentsContext();
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+    const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
         secret,
     ]);

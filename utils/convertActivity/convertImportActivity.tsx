@@ -6,7 +6,7 @@ export const convertImportWatch = (imported: number) => {
     );
 };
 
-export const createImportEvents = (data: Hikka.HistoryImportData) => {
+export const createImportEvents = (data: API.HistoryImportData) => {
     const events = [];
 
     events.push(convertImportWatch(data.imported));

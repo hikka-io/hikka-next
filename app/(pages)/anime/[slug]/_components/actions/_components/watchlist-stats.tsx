@@ -33,7 +33,7 @@ const Component = () => {
     const max = Math.max(
         ...Object.keys(data.stats)
             .filter((stat) => !stat.includes('score'))
-            .map((s) => data.stats[s as Hikka.StatType]),
+            .map((s) => data.stats[s as API.StatType]),
     );
 
     const maxPercentage = (100 * max) / sumStats;
@@ -47,9 +47,9 @@ const Component = () => {
                         .filter((stat) => !stat.includes('score'))
                         .map((stat) => {
                             const status =
-                                WATCH_STATUS[stat as Hikka.WatchStatus];
+                                WATCH_STATUS[stat as API.WatchStatus];
                             const percentage =
-                                (100 * data.stats[stat as Hikka.StatType]) /
+                                (100 * data.stats[stat as API.StatType]) /
                                 sumStats;
 
                             return (

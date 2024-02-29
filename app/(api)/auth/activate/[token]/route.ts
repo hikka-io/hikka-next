@@ -13,13 +13,13 @@ export async function GET(
         const res = await activation({ token });
         cookies().set('secret', res.secret);
     } catch (e) {
-        if ('code' in (e as Hikka.Error)) {
-            if ((e as Hikka.Error).code === 'auth-modal:activation_expired') {
+        if ('code' in (e as API.Error)) {
+            if ((e as API.Error).code === 'auth-modal:activation_expired') {
                 return redirect('/anime?activation=resend');
             }
 
             return redirect(
-                '/anime?page=1&iPage=1&activation=error&error=' + (e as Hikka.Error).code,
+                '/anime?page=1&iPage=1&activation=error&error=' + (e as API.Error).code,
             );
         }
 

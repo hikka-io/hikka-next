@@ -18,10 +18,10 @@ export async function GET(request: Request) {
             maxAge: 60 * 60 * 24 * 7,
         });
     } catch (e) {
-        if ('code' in (e as Hikka.Error)) {
+        if ('code' in (e as API.Error)) {
             return redirect(
                 '/anime?page=1&iPage=1&auth=error&provider=google&error=' +
-                    (e as Hikka.Error).code,
+                    (e as API.Error).code,
             );
         }
 

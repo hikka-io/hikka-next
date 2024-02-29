@@ -31,7 +31,7 @@ import NumberCell from './ui/number-cell';
 import ScoreCell from './ui/score-cell';
 
 interface Props {
-    data: Hikka.Watch[];
+    data: API.Watch[];
 }
 
 const Component = ({ data }: Props) => {
@@ -64,7 +64,7 @@ const Component = ({ data }: Props) => {
 
     const openWatchEditModal = (
         e: MouseEvent<HTMLElement>,
-        anime: Hikka.Anime,
+        anime: API.Anime,
     ) => {
         const target = e.target as HTMLElement;
 

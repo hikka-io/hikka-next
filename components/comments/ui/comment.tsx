@@ -20,9 +20,9 @@ import Comments from './comments';
 
 
 interface Props {
-    comment: Hikka.Comment;
+    comment: API.Comment;
     slug: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
 }
 
 const Component = ({ comment, slug, content_type }: Props) => {
@@ -37,7 +37,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
     const [expand, setExpand] = useState<boolean>(comment.depth < 2);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+    const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
         secret,
     ]);

@@ -12,7 +12,7 @@ import { EDIT_STATUS } from '@/utils/constants';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../../ui/avatar';
 
 interface Props extends LinkProps {
-    edit: Hikka.Edit;
+    edit: API.Edit;
 }
 
 const Component = ({ edit, href, ...props }: Props) => {
@@ -61,7 +61,7 @@ const Component = ({ edit, href, ...props }: Props) => {
                 }}
             >
                 <p className="text-sm text-white">
-                    {EDIT_STATUS[edit.status as Hikka.EditStatus].title_ua}
+                    {EDIT_STATUS[edit.status as API.EditStatus].title_ua}
                 </p>
             </div>
         </Link>

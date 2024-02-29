@@ -11,8 +11,8 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 interface Props {
     slug: string;
-    content_type: Hikka.ContentType;
-    content?: Hikka.AnimeInfo | Hikka.Character;
+    content_type: API.ContentType;
+    content?: API.AnimeInfo | API.Character;
 }
 
 const Component = ({ slug, content_type, content }: Props) => {

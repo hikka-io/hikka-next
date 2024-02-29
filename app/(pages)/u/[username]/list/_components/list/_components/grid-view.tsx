@@ -4,7 +4,7 @@ import AnimeCard from '@/components/anime-card';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
-    data: Hikka.Watch[];
+    data: API.Watch[];
 }
 
 const Component = ({ data }: Props) => {

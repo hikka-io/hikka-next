@@ -50,7 +50,7 @@ const Component = ({ extended }: Props) => {
                     <BaseCard
                         key={staff.person.slug}
                         // href={`/person/${staff.person.slug}`}
-                        desc={getRole(staff.roles)}
+                        description={getRole(staff.roles)}
                         poster={staff.person.image}
                         title={
                             staff.person.name_ua ||

@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-interface Response extends Hikka.User {}
+interface Response extends API.User {}
 
 export default async function req(params: {
     email: string;
