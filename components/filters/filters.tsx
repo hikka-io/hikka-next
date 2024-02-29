@@ -191,7 +191,10 @@ const Component = ({ className, type }: Props) => {
 
                 {type !== 'watchlist' && (
                     <div className="w-full">
-                        <div className="flex items-center gap-2">
+                        <div className="flex justify-between items-center gap-2">
+                            <Label className="text-muted-foreground" htmlFor="uk-translated">
+                                Перекладено українською
+                            </Label>
                             <Switch
                                 checked={Boolean(lang)}
                                 onCheckedChange={() =>
@@ -202,9 +205,6 @@ const Component = ({ className, type }: Props) => {
                                 }
                                 id="uk-translated"
                             />
-                            <Label htmlFor="uk-translated">
-                                Перекладено українською
-                            </Label>
                         </div>
                     </div>
                 )}
