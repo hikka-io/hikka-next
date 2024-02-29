@@ -3,7 +3,7 @@ import {
     MouseEventHandler,
     ReactNode,
     Ref,
-    forwardRef,
+    forwardRef, memo,
 } from 'react';
 import { UrlObject } from 'url';
 
@@ -76,14 +76,14 @@ const Component = forwardRef(
                     {children}
                 </div>
                 {(title || description) && (
-                    <div className="mt-1">
+                    <div className="mt-1 truncate">
                         {description && (
                             <p className="text-xs text-muted-foreground mb-1">
                                 {description}
                             </p>
                         )}
                         {title && (
-                            <Label className="line-clamp-1 leading-5">
+                            <Label className="leading-5">
                                 {title}
                             </Label>
                         )}
@@ -135,4 +135,4 @@ const Component = forwardRef(
     },
 );
 
-export default Component;
+export default memo(Component);

@@ -158,6 +158,7 @@ declare global {
             scored_by: number;
             score: number;
             slug: string;
+            year: number;
             watch: Watch[];
         };
 

@@ -12,6 +12,10 @@ import getQueryClient from '@/utils/getQueryClient';
 import CollectionGroups from './_components/collection-groups';
 import CollectionInfo from './_components/collection-info';
 import CollectionTitle from './_components/collection-title';
+import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
+import Link from 'next/link';
+import NavMenu from '@/components/nav-menu';
+import Breadcrumbs from '@/components/breadcrumbs';
 
 
 const Component = async ({
@@ -27,12 +31,27 @@ const Component = async ({
         queryFn: () => getCollection({ reference, secret }),
     });
 
+    const collection: API.Collection | undefined = queryClient.getQueryData([
+        'collection',
+        { reference, secret }
+    ]);
+
     const dehydratedState = dehydrate(queryClient);
 
     return (
         <HydrationBoundary state={dehydratedState}>
             <CollectionProvider>
-                <div>
+                <>
+                    <Breadcrumbs>
+                        <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
+                            <Link
+                                href={'/collections/' + reference}
+                                className="flex-1 overflow-hidden overflow-ellipsis text-sm font-bold hover:underline"
+                            >
+                                {collection?.title}
+                            </Link>
+                        </div>
+                    </Breadcrumbs>
                     <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                         <div className="flex flex-col gap-12">
                             <div className="flex flex-col gap-8">
@@ -51,7 +70,7 @@ const Component = async ({
                             <CollectionInfo />
                         </div>
                     </div>
-                </div>
+                </>
             </CollectionProvider>
         </HydrationBoundary>
     );

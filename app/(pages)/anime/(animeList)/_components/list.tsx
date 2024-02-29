@@ -91,7 +91,7 @@ const Component = () => {
                                 }
                                 key={x.slug}
                                 slug={x.slug}
-                                rightSubtitle={"2019"}
+                                rightSubtitle={x.year ? String(x.year) : undefined}
                                 leftSubtitle={x.media_type && MEDIA_TYPE[x.media_type].title_ua}
                                 watch={
                                     x.watch.length > 0 ? x.watch[0] : undefined
