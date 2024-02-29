@@ -47,6 +47,7 @@ const Component = ({ group }: Props) => {
                             item.content.title_en ||
                             item.content.title_ja
                         }
+                        watch={item.content.watch.length > 0 ? item.content.watch[0] : undefined}
                     />
                 ))}
             </div>

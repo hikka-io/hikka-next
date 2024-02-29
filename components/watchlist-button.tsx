@@ -99,6 +99,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
         });
         await queryClient.invalidateQueries({ queryKey: ['favorites'] });
         await queryClient.invalidateQueries({ queryKey: ['franchise'] });
+        await queryClient.invalidateQueries({ queryKey: ['collection'] });
     };
 
     return (

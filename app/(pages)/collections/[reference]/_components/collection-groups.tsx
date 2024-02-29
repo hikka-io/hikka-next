@@ -27,7 +27,6 @@ const Component = () => {
 
     useEffect(() => {
         if (data) {
-            console.log(rawToState!(data))
             setCollectionState!(rawToState!(data));
         }
     }, [data]);

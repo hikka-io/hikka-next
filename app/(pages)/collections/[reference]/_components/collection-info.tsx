@@ -47,6 +47,11 @@ const Component = () => {
         secret: String(secret),
     });
 
+    const access =
+        collection?.author.username === loggedUser?.username ||
+        loggedUser?.role === 'admin' ||
+        loggedUser?.role === 'moderator';
+
     return (
         <div className="flex flex-col items-start gap-8 w-full">
             <SubHeader title="Деталі" />
@@ -94,7 +99,7 @@ const Component = () => {
                     </Label>
                     <Switch checked={spoiler} id="spoiler" />
                 </div>
-                {collection?.author.username === loggedUser?.username && (
+                {access && (
                     <div className="flex flex-col gap-4">
                         <Button asChild variant="secondary">
                             <Link
