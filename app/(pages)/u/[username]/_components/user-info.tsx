@@ -134,7 +134,7 @@ const Component = ({}: Props) => {
                     </DropdownMenu>
                 )}
             </div>
-            {user.active && <div className='absolute z-10 -bottom-2 -right-2 w-6 h-6 bg-success rounded-full border-4 border-secondary sm:hidden block' />}
+            {user.active && <div className='absolute z-[1] -bottom-2 -right-2 w-6 h-6 bg-success rounded-full border-4 border-secondary' />}
         </div>
     );
 };

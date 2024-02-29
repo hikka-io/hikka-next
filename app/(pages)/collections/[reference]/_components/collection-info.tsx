@@ -5,34 +5,46 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useCollection } from '@/app/(pages)/collections/page.hooks';
+import {
+    useCollection,
+    useDeleteCollection,
+} from '@/app/(pages)/collections/page.hooks';
 import { useLoggedUser } from '@/app/page.hooks';
 import SubHeader from '@/components/sub-header';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
-
 const Component = () => {
     const params = useParams();
     const { secret } = useAuthContext();
-    const {
-        description,
-        nsfw,
-        spoiler,
-        private: isPrivate,
-        setState: setCollectionState,
-    } = useCollectionContext();
+    const { nsfw, spoiler, tags } = useCollectionContext();
 
     const { data: loggedUser } = useLoggedUser();
 
     const { data: collection } = useCollection({
         reference: String(params.reference),
         secret,
+    });
+
+    const { mutate: mutateDeleteCollection } = useDeleteCollection({
+        reference: String(params.reference),
+        secret: String(secret),
     });
 
     return (
@@ -61,6 +73,15 @@ const Component = () => {
                         </div>
                     </div>
                 </div>
+                {tags.length > 0 && (
+                    <div className="flex items-center gap-2">
+                        {tags.map((tag) => (
+                            <Badge key={tag} variant="secondary">
+                                {tag.toLowerCase()}
+                            </Badge>
+                        ))}
+                    </div>
+                )}
                 <div className="flex justify-between items-center gap-4">
                     <Label htmlFor="nsfw" className="text-muted-foreground">
                         Контент +18
@@ -82,6 +103,38 @@ const Component = () => {
                                 Редагувати
                             </Link>
                         </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive">Видалити</Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Ви впевнені, що хочете видалити
+                                        колекцію?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        <p>
+                                            Колекція{' '}
+                                            <span className="font-bold">
+                                                {collection?.title}
+                                            </span>{' '}
+                                            буде видалена назавжди.
+                                        </p>
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>
+                                        Відмінити
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={() => mutateDeleteCollection()}
+                                    >
+                                        Підтвердити
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 )}
             </div>

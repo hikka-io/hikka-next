@@ -5,7 +5,7 @@ import React from 'react';
 import {
     DndContext,
     DragEndEvent,
-    PointerSensor,
+    MouseSensor,
     TouchSensor,
     closestCenter,
     useSensor,
@@ -29,10 +29,7 @@ const Component = () => {
         useCollectionContext();
 
     // for input methods detection
-    const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(TouchSensor),
-    );
+    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     // triggered when dragging ends
     const handleDragEnd = (event: DragEndEvent) => {
@@ -62,7 +59,7 @@ const Component = () => {
     };
 
     const handleGroupTitleChange = (
-        id: string,
+        id: string | number,
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
         setCollectionState!((state) => {
@@ -83,7 +80,7 @@ const Component = () => {
         });
     };
 
-    const handleRemoveGroup = (id: string) => {
+    const handleRemoveGroup = (id: string | number) => {
         if (items.length === 1 && items[0].isGroup) {
             setCollectionState!((state) => {
                 return {
@@ -122,7 +119,7 @@ const Component = () => {
                         key={group.id}
                         placeholder="Введіть назву"
                         value={group.title!}
-                        id={group.id}
+                        id={String(group.id)}
                         className="flex-1"
                         onChange={(e) => handleGroupTitleChange(group.id, e)}
                         onRemove={() => handleRemoveGroup(group.id)}

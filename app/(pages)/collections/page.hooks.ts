@@ -4,11 +4,14 @@ import { useRouter } from 'next/navigation';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { useLoggedUser } from '@/app/page.hooks';
 import createCollction, {
     Request as CollectionRequest,
 } from '@/services/api/collections/createCollection';
+import deleteCollection from '@/services/api/collections/deleteCollection';
 import getCollection from '@/services/api/collections/getCollection';
 import updateCollection from '@/services/api/collections/updateCollection';
+
 
 export const useCollection = ({
     reference,
@@ -79,6 +82,37 @@ export const useUpdateCollection = ({
                 variant: 'success',
             });
             router.push(`/collections/${data.reference}`);
+        },
+    });
+};
+
+export const useDeleteCollection = ({
+    secret,
+    reference,
+}: {
+    reference: string;
+    secret: string;
+}) => {
+    const queryClient = useQueryClient();
+    const router = useRouter();
+    const { enqueueSnackbar } = useSnackbar();
+    const { data: loggedUser } = useLoggedUser();
+
+    return useMutation({
+        mutationFn: () =>
+            deleteCollection({
+                secret: secret,
+                reference: reference,
+            }),
+        mutationKey: ['deleteCollection'],
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({
+                queryKey: ['collection', { reference: data.reference }],
+            });
+            enqueueSnackbar('Колекцію успішно видалено', {
+                variant: 'success',
+            });
+            router.push(`/u/${loggedUser?.username}`);
         },
     });
 };

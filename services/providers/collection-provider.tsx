@@ -9,15 +9,18 @@ import {
     useState,
 } from 'react';
 
-import { Request as CollectionRequest, Response as CollectionResponse } from '@/services/api/collections/createCollection';
+import {
+    Request as CollectionRequest,
+    Response as CollectionResponse,
+} from '@/services/api/collections/createCollection';
 
 export type Item = {
-    id: string;
+    id: string | number;
     content: API.Anime;
 };
 
 export type Group = {
-    id: string;
+    id: string | number;
     title: string | null;
     items: Item[];
     isGroup: boolean;
@@ -31,6 +34,7 @@ export interface State {
     nsfw: boolean;
     spoiler: boolean;
     private: boolean;
+    tags: string[];
 }
 
 interface ContextProps extends State {
@@ -53,6 +57,7 @@ function getInitialState(): State {
         nsfw: false,
         spoiler: false,
         private: false,
+        tags: [],
         groups: [
             {
                 id: String(Date.now()),
@@ -95,9 +100,11 @@ export default function CollectionProvider({ children }: Props) {
             nsfw: state.nsfw,
             spoiler: state.spoiler,
             private: state.private,
-            labels_order: state.groups.map((group) => group.title || '').filter((title) => title !== ''),
+            labels_order: state.groups
+                .map((group) => group.title || '')
+                .filter((title) => title !== ''),
             content: contentToArray(),
-            tags: [],
+            tags: state.tags,
             secret: '',
         };
     };
@@ -112,9 +119,9 @@ export default function CollectionProvider({ children }: Props) {
                 });
             } else {
                 acc.push({
-                    id: String(Date.now()),
+                    id: item.label || String(Date.now()),
                     title: item.label,
-                    isGroup: item.label !== null && item.label !== "",
+                    isGroup: item.label !== null && item.label !== '',
                     items: [
                         {
                             id: item.content.slug,
@@ -124,7 +131,7 @@ export default function CollectionProvider({ children }: Props) {
                 });
             }
             return acc;
-        }, [])
+        }, []);
 
         return {
             title: raw.title,
@@ -134,9 +141,9 @@ export default function CollectionProvider({ children }: Props) {
             spoiler: raw.spoiler,
             private: raw.private,
             groups: groups,
-        }
-
-    }
+            tags: raw.tags,
+        };
+    };
 
     return (
         <CollectionContext.Provider

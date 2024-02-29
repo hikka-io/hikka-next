@@ -11,10 +11,10 @@ import {
 } from '@/app/(pages)/collections/page.hooks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import {
     State as CollectionState,
@@ -30,11 +30,12 @@ const Component = ({ mode = 'create' }: Props) => {
     const {
         groups,
         title,
-        description,
         nsfw,
         spoiler,
         private: isPrivate,
         setState: setCollectionState,
+        description,
+        tags,
         stateToCreate,
     } = useCollectionContext();
 
@@ -148,6 +149,22 @@ const Component = ({ mode = 'create' }: Props) => {
                     />
                 </div>
 
+                <div className="flex flex-col gap-4">
+                    <Label htmlFor="tags" className="text-muted-foreground">
+                        Теги
+                    </Label>
+                    <InputTags
+                        id="tags"
+                        value={tags}
+                        onChange={(tags) =>
+                            setCollectionState!((state) => ({
+                                ...state,
+                                tags: tags as string[],
+                            }))
+                        }
+                    />
+                </div>
+
                 {groups.length > 0 && groups.some((group) => group.isGroup) && (
                     <div className="flex flex-col gap-4">
                         <Label className="text-muted-foreground">Групи</Label>
@@ -156,12 +173,16 @@ const Component = ({ mode = 'create' }: Props) => {
                 )}
 
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" onClick={handleAddNewGroup}>
+                    <Button variant="secondary" onClick={handleAddNewGroup}>
                         Додати групу
                     </Button>
                     {mode === 'edit' && (
                         <Button
-                            disabled={isUpdatePending}
+                            disabled={
+                                isUpdatePending ||
+                                title.trim().length === 0 ||
+                                description.trim().length === 0
+                            }
                             variant="default"
                             onClick={() => mutateUpdateCollection()}
                         >
@@ -173,7 +194,11 @@ const Component = ({ mode = 'create' }: Props) => {
                     )}
                     {mode === 'create' && (
                         <Button
-                            disabled={isCreatePending}
+                            disabled={
+                                isCreatePending ||
+                                title.trim().length === 0 ||
+                                description.trim().length === 0
+                            }
                             variant="default"
                             onClick={() => mutateCreateCollection()}
                         >

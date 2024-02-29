@@ -6,7 +6,7 @@ import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import {
     DndContext,
     DragEndEvent,
-    PointerSensor,
+    MouseSensor,
     TouchSensor,
     closestCenter,
     useSensor,
@@ -42,13 +42,8 @@ const Component = ({ group }: Props) => {
         return null;
     }
 
-    // for input methods detection
-    const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(TouchSensor),
-    );
+    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-    // triggered when dragging ends
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (!over) return;
@@ -110,9 +105,7 @@ const Component = ({ group }: Props) => {
         }));
     };
 
-    const handleRemoveItem = (id: string) => {
-        // setItems((prev) => prev.filter((item) => item.id !== id));
-
+    const handleRemoveItem = (id: string | number) => {
         setCollectionState!((prev) => ({
             ...prev,
             groups: prev.groups.map((g) => {
@@ -137,13 +130,20 @@ const Component = ({ group }: Props) => {
             <SortableContext items={items} strategy={rectSortingStrategy}>
                 <div className="flex flex-col gap-4">
                     {group.isGroup && (
-                        <SubHeader title={group.title && group.title.trim().length > 0 ? group.title : "Нова група"} variant="h5" />
+                        <SubHeader
+                            title={
+                                group.title && group.title.trim().length > 0
+                                    ? group.title
+                                    : 'Нова група'
+                            }
+                            variant="h5"
+                        />
                     )}
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                         {items.map((item) => (
                             <SortableCard
                                 key={item.id}
-                                id={item.id}
+                                id={String(item.id)}
                                 anime={item.content}
                                 onRemove={() => handleRemoveItem(item.id)}
                             />

@@ -31,7 +31,7 @@ const Component = ({ id, anime, onRemove }: Props) => {
                 title={anime.title_ua || anime.title_en || anime.title_ja}
             >
                 <div className="absolute left-0 bottom-0 w-full">
-                    <div className="absolute bottom-2 right-2 flex gap-2 z-10">
+                    <div className="absolute bottom-2 right-2 flex gap-2 z-[1]">
                         <Button size="icon-sm" variant="secondary" onClick={onRemove}>
                             <MaterialSymbolsDeleteForever />
                         </Button>
