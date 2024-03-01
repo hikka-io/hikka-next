@@ -6,7 +6,7 @@ export type Request = {
     title: string;
     tags: string[];
     content: {
-        comment: string;
+        comment: string | null;
         label: string | null;
         order: number;
         slug: string;
