@@ -180,8 +180,8 @@ const Component = ({ mode = 'create' }: Props) => {
                         <Button
                             disabled={
                                 isUpdatePending ||
-                                title.trim().length === 0 ||
-                                description.trim().length === 0
+                                title.trim().length < 3 ||
+                                description.trim().length < 3
                             }
                             variant="default"
                             onClick={() => mutateUpdateCollection()}
