@@ -374,6 +374,7 @@ declare global {
             entries: number;
             title: string;
             nsfw: boolean;
+            comments_count: number;
             collection: CollectionItem<TContent>[];
         };
     }

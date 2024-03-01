@@ -196,8 +196,8 @@ const Component = ({ mode = 'create' }: Props) => {
                         <Button
                             disabled={
                                 isCreatePending ||
-                                title.trim().length === 0 ||
-                                description.trim().length === 0
+                                title.trim().length < 3 ||
+                                description.trim().length < 3
                             }
                             variant="default"
                             onClick={() => mutateCreateCollection()}
