@@ -123,7 +123,7 @@ export async function GET(
                                         width: 8,
                                         height: 8,
                                         borderRadius: '100%',
-                                        backgroundColor: WATCH_STATUS[stat as Hikka.WatchStatus].color
+                                        backgroundColor: WATCH_STATUS[stat as API.WatchStatus].color
                                     }} />
                                     <p
                                         style={{
@@ -137,7 +137,7 @@ export async function GET(
                                         }}
                                     >
                                         {
-                                            WATCH_STATUS[stat as Hikka.WatchStatus]
+                                            WATCH_STATUS[stat as API.WatchStatus]
                                                 .title_ua
                                         }
                                     </p>
@@ -154,7 +154,7 @@ export async function GET(
                                     >
                                         {createElement(
                                             WATCH_STATUS[
-                                                stat as Hikka.WatchStatus
+                                                stat as API.WatchStatus
                                             ].icon!,
                                         )}
                                     </div>
@@ -168,7 +168,7 @@ export async function GET(
                                         lineHeight: '24px',
                                     }}
                                 >
-                                    {watchStats[stat as Hikka.WatchStatus]}
+                                    {watchStats[stat as API.WatchStatus]}
                                 </h2>
                             </div>
                         ))}

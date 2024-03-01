@@ -1,10 +1,10 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.WithPagination<AnimeCharacter> {}
+export interface Response extends API.WithPagination<AnimeCharacter> {}
 
 export type AnimeCharacter = {
     main: boolean;
-    character: Hikka.Character;
+    character: API.Character;
 };
 
 export default async function req({

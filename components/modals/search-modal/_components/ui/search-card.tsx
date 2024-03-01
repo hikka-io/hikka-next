@@ -15,21 +15,25 @@ import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 import { Label } from '../../../../ui/label';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { Button } from '@/components/ui/button';
 
 
 interface Props {
-    anime: Hikka.Anime;
-    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+    anime: API.Anime;
+    onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
+    type?: 'link' | 'button';
 }
 
-const Component = ({ anime, onClick }: Props) => {
+const Component = ({ anime, onClick, type }: Props) => {
     const { titleLanguage } = useSettingsContext();
 
+    const Comp = type === 'button' ? 'button' : Link;
+
     return (
-        <Link
+        <Comp
             href={'/anime/' + anime.slug}
             onClick={onClick}
-            className="flex w-full gap-4"
+            className="flex w-full gap-4 text-left"
         >
             <div className="w-20">
                 <BaseCard poster={anime.poster} />
@@ -63,7 +67,7 @@ const Component = ({ anime, onClick }: Props) => {
                     </div>
                 </div>
             </div>
-        </Link>
+        </Comp>
     );
 };
 

@@ -40,7 +40,7 @@ const Component = async ({
         queryFn: () => getEdit({ edit_id: Number(editId) }),
     });
 
-    const edit: Hikka.Edit | undefined = queryClient.getQueryData([
+    const edit: API.Edit | undefined = queryClient.getQueryData([
         'edit',
         editId,
     ]);
@@ -101,7 +101,7 @@ const Component = async ({
                     </div>
                     <Content
                         slug={edit.content.slug as string}
-                        content_type={edit.content_type as Hikka.ContentType}
+                        content_type={edit.content_type as API.ContentType}
                         content={edit.content}
                     />
                 </div>

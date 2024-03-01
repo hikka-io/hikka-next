@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.WithPagination<Hikka.Watch> {}
+export interface Response extends API.WithPagination<API.Watch> {}
 
 export interface Request {
     sort?: string[];
@@ -17,7 +17,7 @@ export interface Request {
     genres?: string[];
     size?: number;
     username: string;
-    watch_status: Hikka.WatchStatus;
+    watch_status: API.WatchStatus;
 }
 
 

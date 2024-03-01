@@ -1,9 +1,9 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
-    pagination: Hikka.Pagination;
+    pagination: API.Pagination;
     list: {
-        person: Hikka.Person;
+        person: API.Person;
         roles: {
             name_ua: string;
             name_en: string;

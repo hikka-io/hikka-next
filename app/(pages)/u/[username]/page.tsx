@@ -3,14 +3,15 @@ import React from 'react';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 import { getCookie } from '@/app/actions';
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';
 import getQueryClient from '@/utils/getQueryClient';
 
+import ActivationAlert from './_components/activation-alert';
 import Activity from './_components/activity/activity';
+import Collections from './_components/collections';
 import Favorites from './_components/favorites';
 import Statistics from './_components/statistics';
 
@@ -53,7 +54,10 @@ const Component = async ({ params: { username } }: Props) => {
                     <Statistics />
                     <Favorites />
                 </div>
-                <Activity className="order-1 lg:order-2" />
+                <div className="flex flex-col gap-12 lg:gap-16 order-1 lg:order-2">
+                    <Activity />
+                    <Collections />
+                </div>
             </div>
         </HydrationBoundary>
     );

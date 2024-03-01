@@ -20,7 +20,7 @@ export const getEditParamComponent = (type: Hikka.EditParamType) => {
 };
 
 export const getEditParams = (
-    content_type: Hikka.ContentType,
+    content_type: API.ContentType,
     filter?: string[],
 ) => {
     let params: Record<string, Hikka.EditParam[]> = {};
@@ -47,7 +47,7 @@ export const getEditParams = (
     return params;
 };
 
-export const getEditGroups = (content_type: Hikka.ContentType) => {
+export const getEditGroups = (content_type: API.ContentType) => {
     switch (content_type) {
         case 'anime':
             return ANIME_EDIT_GROUPS;

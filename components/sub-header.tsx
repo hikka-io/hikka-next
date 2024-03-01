@@ -37,7 +37,7 @@ const Component = ({
         >
             <div
                 className={clsx(
-                    'flex items-center gap-8 overflow-hidden',
+                    'flex items-center gap-4 overflow-hidden',
                     titleClassName,
                 )}
             >

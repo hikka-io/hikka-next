@@ -103,7 +103,7 @@ const Component = async ({ params: { username }, children }: Props) => {
         return redirect('/404');
     }
 
-    const user: Hikka.User | undefined = queryClient.getQueryData([
+    const user: API.User | undefined = queryClient.getQueryData([
         'user',
         username,
     ]);

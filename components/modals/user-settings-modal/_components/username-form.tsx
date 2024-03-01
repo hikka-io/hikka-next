@@ -69,7 +69,7 @@ const Component = () => {
                 </div>
             </div>
             <div className="w-full">
-                <Button variant="accent" type="submit" className="w-full">
+                <Button variant="default" type="submit" className="w-full">
                     {isSubmitting && (
                         <span className="loading loading-spinner"></span>
                     )}

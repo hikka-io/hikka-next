@@ -4,7 +4,7 @@ import BaseCard from '@/components/ui/base-card';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
-    anime: Hikka.Anime;
+    anime: API.Anime;
     titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
 }
 

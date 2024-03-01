@@ -56,7 +56,6 @@ const Component = ({ mode, control, param }: Props) => {
                     <MDEditor
                         ref={ref}
                         placeholder={param.placeholder}
-                        className="dark-theme dark-editor bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1"
                         markdown={value || ""}
                         onChange={onChange}
                         onBlur={onBlur}

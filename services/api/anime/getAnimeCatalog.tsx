@@ -20,8 +20,8 @@ interface Request {
 }
 
 export interface Response {
-    list: Hikka.Anime[];
-    pagination: Hikka.Pagination;
+    list: API.Anime[];
+    pagination: API.Pagination;
 }
 
 export default async function req({

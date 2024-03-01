@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { ReactNode, cloneElement, useEffect, useState } from 'react';
 import MaterialSymbolsSearch from '~icons/material-symbols/search';
 
 import { useQuery } from '@tanstack/react-query';
@@ -20,15 +20,20 @@ import {
     CommandList,
 } from '../../ui/command';
 
+interface Props {
+    onClick?: (anime: API.Anime) => void;
+    type?: 'link' | 'button';
+    children?: ReactNode;
+}
 
-const Component = () => {
+const Component = ({ onClick, type, children }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
     const { data } = useQuery<
-        { list: Hikka.Anime[]; pagination: Hikka.Pagination },
+        { list: API.Anime[]; pagination: API.Pagination },
         Error
     >({
         queryKey: ['searchList', value],
@@ -39,9 +44,11 @@ const Component = () => {
         enabled: value !== undefined && value.length >= 3,
     });
 
-    const onDismiss = () => {
+    const onDismiss = (anime: API.Anime) => {
         setSearchValue('');
         setOpen(false);
+
+        onClick && onClick(anime);
     };
 
     useEffect(() => {
@@ -52,37 +59,45 @@ const Component = () => {
             }
         }
 
-        document.addEventListener('keydown', handleKeyDown);
+        if (!onClick) {
+            document.addEventListener('keydown', handleKeyDown);
+        }
 
         return function cleanup() {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [onClick]);
 
     return (
         <>
-            <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setOpen(true)}
-                className={clsx(
-                    'bg-secondary/30 hover:!bg-secondary/60',
-                    'lg:w-48 lg:justify-between lg:font-normal lg:!text-foreground/60',
-                    'transition-all duration-200',
-                    'lg:hover:w-60',
-                    'items-center',
-                )}
-            >
-                <div className="flex items-center gap-2">
-                    <MaterialSymbolsSearch />{' '}
-                    <span className="hidden lg:block">Пошук...</span>
-                </div>
-                <div className="hidden items-center lg:flex">
-                    <kbd className="flex pointer-events-none select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
-                        <span className="text-xs">/</span>
-                    </kbd>
-                </div>
-            </Button>
+            {children ? (
+                cloneElement(children as React.ReactElement, {
+                    onClick: () => setOpen(true),
+                })
+            ) : (
+                <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setOpen(true)}
+                    className={clsx(
+                        'bg-secondary/30 hover:!bg-secondary/60',
+                        'lg:w-48 lg:justify-between lg:font-normal lg:!text-foreground/60',
+                        'transition-all duration-200',
+                        'lg:hover:w-60',
+                        'items-center',
+                    )}
+                >
+                    <div className="flex items-center gap-2">
+                        <MaterialSymbolsSearch />{' '}
+                        <span className="hidden lg:block">Пошук...</span>
+                    </div>
+                    <div className="hidden items-center lg:flex">
+                        <kbd className="flex pointer-events-none select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+                            <span className="text-xs">/</span>
+                        </kbd>
+                    </div>
+                </Button>
+            )}
             <CommandDialog
                 className="max-w-3xl"
                 open={open}
@@ -102,8 +117,9 @@ const Component = () => {
                                 data.list.map((anime) => (
                                     <CommandItem key={anime.slug}>
                                         <SearchCard
-                                            onClick={onDismiss}
+                                            onClick={() => onDismiss(anime)}
                                             anime={anime}
+                                            type={type}
                                         />
                                     </CommandItem>
                                 ))}

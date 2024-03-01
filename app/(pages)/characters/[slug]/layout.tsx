@@ -76,7 +76,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
         initialPageParam: 1,
     });
 
-    const character: Hikka.Character | undefined = queryClient.getQueryData([
+    const character: API.Character | undefined = queryClient.getQueryData([
         'character',
         slug,
     ]);

@@ -40,8 +40,8 @@ const Component = () => {
                 { variant: 'success' },
             );
         } catch (e) {
-            if ('code' in (e as Hikka.Error)) {
-                if ((e as Hikka.Error).code === 'auth-modal:activation_valid') {
+            if ('code' in (e as API.Error)) {
+                if ((e as API.Error).code === 'auth-modal:activation_valid') {
                     enqueueSnackbar(
                         <span>
                             <span className="font-bold">

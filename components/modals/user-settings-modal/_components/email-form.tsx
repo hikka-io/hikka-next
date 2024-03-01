@@ -80,7 +80,7 @@ const Component = () => {
             <div className="w-full">
                 <Button
                     disabled={isSubmitting}
-                    variant="accent"
+                    variant="default"
                     type="submit"
                     className="w-full"
                 >

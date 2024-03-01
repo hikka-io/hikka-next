@@ -11,7 +11,7 @@ import {
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
 interface Props {
-    item: Hikka.Activity;
+    item: API.Activity;
     max: number;
 }
 

@@ -4,7 +4,7 @@ export interface Response {
     note: string;
     score: number;
     episodes: number;
-    status: Hikka.WatchStatus;
+    status: API.WatchStatus;
 }
 
 export default async function req({
@@ -22,7 +22,7 @@ export default async function req({
     score?: number;
     episodes?: number;
     rewatches?: number;
-    status: Hikka.WatchStatus;
+    status: API.WatchStatus;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/watch/${slug}`,

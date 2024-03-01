@@ -27,7 +27,7 @@ const Component = () => {
         formState: { isSubmitting },
     } = useForm<FormValues>();
     const { secret } = useAuthContext();
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+    const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
         secret,
     ]);
@@ -74,7 +74,7 @@ const Component = () => {
             <div className="w-full">
                 <Button
                     disabled={isSubmitting}
-                    variant="accent"
+                    variant="default"
                     type="submit"
                     className="w-full"
                 >

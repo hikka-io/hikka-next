@@ -8,7 +8,7 @@ import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import { EDIT_STATUS } from '@/utils/constants';
 
 interface Props {
-    status?: Hikka.EditStatus;
+    status?: API.EditStatus;
 }
 
 const Component = ({ status }: Props) => {

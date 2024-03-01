@@ -1,8 +1,8 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response {
-    list: Hikka.Comment[];
-    pagination: Hikka.Pagination;
+    list: API.Comment[];
+    pagination: API.Pagination;
 }
 
 export default async function req({
@@ -13,7 +13,7 @@ export default async function req({
     size = 15,
 }: {
     slug: string;
-    content_type: Hikka.ContentType;
+    content_type: API.ContentType;
     page?: number;
     secret?: string;
     size?: number;

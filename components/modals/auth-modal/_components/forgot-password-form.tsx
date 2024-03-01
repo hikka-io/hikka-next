@@ -41,7 +41,7 @@ const Component = () => {
             );
             return;
         } catch (e) {
-            if ('code' in (e as Hikka.Error)) {
+            if ('code' in (e as API.Error)) {
                 form.setError('email', { message: 'Щось пішло не так' });
             }
             console.error(e);

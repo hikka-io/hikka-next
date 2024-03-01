@@ -1,10 +1,10 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
 export interface Response
-    extends Hikka.WithPagination<{
+    extends API.WithPagination<{
         reference: string;
         created: number;
-        anime: Hikka.Anime;
+        anime: API.Anime;
     }> {}
 
 export default async function req({

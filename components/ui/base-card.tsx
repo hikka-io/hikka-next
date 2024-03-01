@@ -4,6 +4,7 @@ import {
     ReactNode,
     Ref,
     forwardRef,
+    memo,
 } from 'react';
 import { UrlObject } from 'url';
 
@@ -13,10 +14,12 @@ import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
 
-interface Props {
+export interface Props {
     target?: string;
     title?: string;
-    desc?: string;
+    description?: string;
+    leftSubtitle?: string;
+    rightSubtitle?: string;
     poster?: string | ReactNode;
     href?: string | UrlObject;
     posterClassName?: string;
@@ -24,6 +27,7 @@ interface Props {
     onMouseOver?: MouseEventHandler<HTMLAnchorElement>;
     onMouseOut?: MouseEventHandler<HTMLAnchorElement>;
     children?: ReactNode;
+    onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const Component = forwardRef(
@@ -31,11 +35,14 @@ const Component = forwardRef(
         {
             poster,
             title,
-            desc,
+            description,
+            leftSubtitle,
+            rightSubtitle,
             posterClassName,
             containerClassName,
             children,
             href,
+            onClick,
             ...props
         }: Props,
         ref: ForwardedRef<HTMLAnchorElement>,
@@ -69,17 +76,30 @@ const Component = forwardRef(
                     </div>
                     {children}
                 </div>
-                {(title || desc) && (
-                    <div className="mt-1">
-                        {desc && (
+                {(title || description) && (
+                    <div className="mt-1 truncate">
+                        {description && (
                             <p className="text-xs text-muted-foreground mb-1">
-                                {desc}
+                                {description}
                             </p>
                         )}
-                        {title && (
-                            <Label className="line-clamp-2 leading-5">
-                                {title}
-                            </Label>
+                        {title && <Label className="leading-5">{title}</Label>}
+                        {(leftSubtitle || rightSubtitle) && (
+                            <div className="flex gap-2 mt-1 items-center">
+                                {leftSubtitle && (
+                                    <Label className="text-xs text-muted-foreground">
+                                        {leftSubtitle}
+                                    </Label>
+                                )}
+                                {leftSubtitle && rightSubtitle && (
+                                    <div className="w-1 h-1 bg-muted-foreground rounded-full" />
+                                )}
+                                {rightSubtitle && (
+                                    <Label className="text-xs text-muted-foreground">
+                                        {rightSubtitle}
+                                    </Label>
+                                )}
+                            </div>
                         )}
                     </div>
                 )}
@@ -89,8 +109,12 @@ const Component = forwardRef(
         if (!href) {
             return (
                 <div
+                    onClick={onClick}
                     ref={ref as Ref<HTMLDivElement>}
-                    className="relative group flex w-full flex-col gap-2"
+                    className={cn(
+                        'relative group flex w-full flex-col gap-2',
+                        onClick && 'cursor-pointer',
+                    )}
                 >
                     {content}
                 </div>
@@ -111,4 +135,4 @@ const Component = forwardRef(
     },
 );
 
-export default Component;
+export default memo(Component);

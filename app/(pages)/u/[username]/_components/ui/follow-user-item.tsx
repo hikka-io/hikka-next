@@ -18,14 +18,14 @@ import unfollow from '@/services/api/follow/unfollow';
 import { useAuthContext } from '@/services/providers/auth-provider';
 
 interface Props {
-    user: Hikka.User;
+    user: API.User;
 }
 
 const Component = ({ user }: Props) => {
     const { secret } = useAuthContext();
     const queryClient = useQueryClient();
 
-    const loggedUser: Hikka.User | undefined = queryClient.getQueryData([
+    const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
         secret,
     ]);

@@ -1,10 +1,10 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.WithPagination<Anime> {}
+export interface Response extends API.WithPagination<Anime> {}
 
 export type Anime = {
     main: boolean;
-    anime: Hikka.Anime;
+    anime: API.Anime;
 };
 
 export default async function req({

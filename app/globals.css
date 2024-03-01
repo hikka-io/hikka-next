@@ -246,7 +246,7 @@ table th:last-child {
 }
 
 .mdxeditor [role=textbox] {
-    @apply p-2;
+    @apply p-3;
     background: transparent;
     border-radius: 0;
 }

@@ -45,7 +45,7 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
         });
     }
 
-    const content: Hikka.AnimeInfo | Hikka.Character | undefined =
+    const content: API.AnimeInfo | API.Character | undefined =
         queryClient.getQueryData([content_type, slug]);
 
     const dehydratedState = dehydrate(queryClient);
@@ -58,13 +58,13 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
                     <RulesAlert />
                     <EditForm
                         slug={slug as string}
-                        content_type={content_type as Hikka.ContentType}
+                        content_type={content_type as API.ContentType}
                     />
                 </div>
                 <div className="flex flex-col gap-12">
                     <Content
                         slug={slug as string}
-                        content_type={content_type as Hikka.ContentType}
+                        content_type={content_type as API.ContentType}
                         content={content}
                     />
                 </div>

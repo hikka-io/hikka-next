@@ -15,6 +15,7 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import { useList, useNextPage, useUpdatePage } from '../page.hooks';
+import { MEDIA_TYPE } from '@/utils/constants';
 
 
 const Component = () => {
@@ -77,7 +78,7 @@ const Component = () => {
         <div className="flex flex-col gap-8">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                 {list &&
-                    list.map((x: Hikka.Anime) => {
+                    list.map((x: API.Anime) => {
                         return (
                             <AnimeCard
                                 href={`/anime/${x.slug}`}
@@ -90,6 +91,8 @@ const Component = () => {
                                 }
                                 key={x.slug}
                                 slug={x.slug}
+                                leftSubtitle={x.year ? String(x.year) : undefined}
+                                rightSubtitle={x.media_type && MEDIA_TYPE[x.media_type].title_ua}
                                 watch={
                                     x.watch.length > 0 ? x.watch[0] : undefined
                                 }

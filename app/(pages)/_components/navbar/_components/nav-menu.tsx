@@ -51,6 +51,13 @@ const ROUTES = [
         icon: null,
         visible: false,
     },
+    {
+        slug: 'characters',
+        title_ua: 'Колекції',
+        url: '/collections',
+        icon: null,
+        visible: false,
+    },
 ];
 
 const Component = ({ className }: Props) => {

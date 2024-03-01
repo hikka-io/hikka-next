@@ -96,7 +96,7 @@ const Component = ({ extended }: Props) => {
                             href={ost.spotify || '#'}
                             title={ost.title}
                             containerClassName="pt-[100%]"
-                            desc={
+                            description={
                                 OST[ost.ost_type].title_ua ||
                                 OST[ost.ost_type].title_en
                             }
@@ -118,7 +118,7 @@ const Component = ({ extended }: Props) => {
                                 title={video.title}
                                 poster={thumb}
                                 containerClassName="pt-[70%]"
-                                desc={
+                                description={
                                     VIDEO[video.video_type].title_ua ||
                                     VIDEO[video.video_type].title_en
                                 }

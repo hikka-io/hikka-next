@@ -40,7 +40,7 @@ const Component = ({ slug }: Props) => {
         gcTime: 0,
     });
     const [selectedStatus, setSelectedStatus] = useState<
-        Hikka.WatchStatus | undefined
+        API.WatchStatus | undefined
     >(watch?.status);
     const {
         register,
@@ -120,13 +120,13 @@ const Component = ({ slug }: Props) => {
                             options={Object.keys(WATCH_STATUS).map(
                                 (status) => ({
                                     label: WATCH_STATUS[
-                                        status as Hikka.WatchStatus
+                                        status as API.WatchStatus
                                     ].title_ua,
                                     value: status,
                                 }),
                             )}
                             onChange={(value) => {
-                                setSelectedStatus(value as Hikka.WatchStatus);
+                                setSelectedStatus(value as API.WatchStatus);
                             }}
                             value={selectedStatus}
                             renderValue={(option) => {
@@ -136,7 +136,7 @@ const Component = ({ slug }: Props) => {
                                             !Array.isArray(option) &&
                                             createElement(
                                                 WATCH_STATUS[
-                                                    option.value as Hikka.WatchStatus
+                                                    option.value as API.WatchStatus
                                                 ].icon!,
                                             )}
                                         {(option &&

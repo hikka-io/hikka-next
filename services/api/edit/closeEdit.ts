@@ -1,6 +1,6 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends Hikka.Edit {}
+export interface Response extends API.Edit {}
 
 export default async function req({
     secret,

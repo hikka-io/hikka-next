@@ -25,8 +25,8 @@ import { useCommentsContext } from '@/services/providers/comments-provider';
 
 interface Props {
     slug: string;
-    content_type: Hikka.ContentType;
-    comment?: Hikka.Comment;
+    content_type: API.ContentType;
+    comment?: API.Comment;
     className?: string;
     isEdit?: boolean;
 }

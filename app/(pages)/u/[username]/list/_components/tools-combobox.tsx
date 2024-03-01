@@ -28,7 +28,7 @@ const Component = () => {
         try {
             const randomAnime = await getRandomWatch({
                 username: String(params.username),
-                status: watchStatus as Hikka.WatchStatus,
+                status: watchStatus as API.WatchStatus,
             });
 
             router.push('/anime/' + randomAnime.slug);
