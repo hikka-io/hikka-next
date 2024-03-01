@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import MaterialSymbolsKeyboardArrowUpRounded from '~icons/material-symbols/keyboard-arrow-up-rounded';
 
@@ -40,23 +40,39 @@ const Component = ({ comment }: Props) => {
     return (
         <div className="flex gap-2 items-center opacity-60 hover:opacity-100">
             <Button
-                onClick={() => handleCommentVote(-1)}
-                disabled={!secret}
-                variant={comment.my_score === -1 ? "destructive" : "ghost"}
-                size="icon-xs"
-                className={cn("text-lg", comment.my_score === -1 ? "" : "text-muted-foreground")}
-            >
-                <MaterialSymbolsKeyboardArrowDownRounded />
-            </Button>
-            <Label className={comment.score > 0 ? "text-success" : comment.score === 0 ? "text-foreground" : "text-destructive"}>{comment.score}</Label>
-            <Button
                 onClick={() => handleCommentVote(1)}
                 disabled={!secret}
-                variant={comment.my_score === 1 ? "success" : "ghost"}
+                variant={comment.my_score === 1 ? 'success' : 'ghost'}
                 size="icon-xs"
-                className={cn("text-lg", comment.my_score === 1 ? "" : "text-muted-foreground")}
+                className={cn(
+                    'text-lg',
+                    comment.my_score === 1 ? '' : 'text-muted-foreground',
+                )}
             >
                 <MaterialSymbolsKeyboardArrowUpRounded />
+            </Button>
+            <Label
+                className={
+                    comment.score > 0
+                        ? 'text-success'
+                        : comment.score === 0
+                          ? 'text-foreground'
+                          : 'text-destructive'
+                }
+            >
+                {comment.score}
+            </Label>
+            <Button
+                onClick={() => handleCommentVote(-1)}
+                disabled={!secret}
+                variant={comment.my_score === -1 ? 'destructive' : 'ghost'}
+                size="icon-xs"
+                className={cn(
+                    'text-lg',
+                    comment.my_score === -1 ? '' : 'text-muted-foreground',
+                )}
+            >
+                <MaterialSymbolsKeyboardArrowDownRounded />
             </Button>
         </div>
     );

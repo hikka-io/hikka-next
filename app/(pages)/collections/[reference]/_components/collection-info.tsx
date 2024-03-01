@@ -10,6 +10,8 @@ import {
     useDeleteCollection,
 } from '@/app/(pages)/collections/page.hooks';
 import { useLoggedUser } from '@/app/page.hooks';
+import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
+
 import SubHeader from '@/components/sub-header';
 import {
     AlertDialog,
@@ -100,8 +102,8 @@ const Component = () => {
                     <Switch checked={spoiler} id="spoiler" />
                 </div>
                 {access && (
-                    <div className="flex flex-col gap-4">
-                        <Button asChild variant="secondary">
+                    <div className="flex gap-2">
+                        <Button asChild className="flex-1" variant="secondary">
                             <Link
                                 href={`/collections/${collection?.reference}/update`}
                             >
@@ -110,7 +112,7 @@ const Component = () => {
                         </Button>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive">Видалити</Button>
+                                <Button size="icon" variant="destructive"><MaterialSymbolsDeleteForeverRounded className="text-lg" /></Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
