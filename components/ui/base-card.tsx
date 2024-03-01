@@ -24,6 +24,7 @@ export interface Props {
     href?: string | UrlObject;
     posterClassName?: string;
     containerClassName?: string;
+    className?: string;
     onMouseOver?: MouseEventHandler<HTMLAnchorElement>;
     onMouseOut?: MouseEventHandler<HTMLAnchorElement>;
     children?: ReactNode;
@@ -40,6 +41,7 @@ const Component = forwardRef(
             rightSubtitle,
             posterClassName,
             containerClassName,
+            className,
             children,
             href,
             onClick,
@@ -114,6 +116,7 @@ const Component = forwardRef(
                     className={cn(
                         'relative group flex w-full flex-col gap-2',
                         onClick && 'cursor-pointer',
+                        className,
                     )}
                 >
                     {content}
@@ -124,7 +127,7 @@ const Component = forwardRef(
         return (
             <Link
                 href={href}
-                className="relative group flex w-full flex-col gap-2"
+                className={cn("relative group flex w-full flex-col gap-2", className)}
                 scroll
                 {...props}
                 ref={ref}

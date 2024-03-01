@@ -3,6 +3,7 @@
 import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
+import MaterialSymbolsStack from '~icons/material-symbols/stack'
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -55,8 +56,8 @@ const ROUTES = [
         slug: 'characters',
         title_ua: 'Колекції',
         url: '/collections',
-        icon: null,
-        visible: false,
+        icon: <MaterialSymbolsStack />,
+        visible: true,
     },
 ];
 

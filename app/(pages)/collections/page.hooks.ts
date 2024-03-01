@@ -10,8 +10,27 @@ import createCollction, {
 } from '@/services/api/collections/createCollection';
 import deleteCollection from '@/services/api/collections/deleteCollection';
 import getCollection from '@/services/api/collections/getCollection';
+import getCollections from '@/services/api/collections/getCollections';
 import updateCollection from '@/services/api/collections/updateCollection';
 
+
+export const useCollections = ({
+    page,
+    size,
+    secret,
+    enabled = true,
+}: {
+    page?: number;
+    size?: number;
+    secret?: string;
+    enabled?: boolean;
+}) => {
+    return useQuery({
+        queryKey: ['collections', { page, size, secret }],
+        queryFn: () => getCollections({ page, size, secret }),
+        enabled: enabled,
+    });
+};
 
 export const useCollection = ({
     reference,

@@ -35,6 +35,7 @@ interface Props {
     poster?: string;
     posterClassName?: string;
     containerClassName?: string;
+    className?: string;
     children?: ReactNode;
     slug?: string;
     href?: string | UrlObject;
@@ -50,9 +51,7 @@ const Watch = ({ watch }: { watch: API.Watch }) => (
                     WATCH_STATUS[watch.status as API.WatchStatus].color,
             }}
         >
-            {createElement(
-                WATCH_STATUS[watch.status as API.WatchStatus].icon!,
-            )}
+            {createElement(WATCH_STATUS[watch.status as API.WatchStatus].icon!)}
         </div>
         <div className="absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b from-black to-transparent" />
     </div>
@@ -118,7 +117,9 @@ const ContextMenuOverlay = (props: Props) => {
             </ContextMenuTrigger>
             <ContextMenuContent>
                 <ContextMenuItem asChild>
-                    <Link href={`/edit/new?content_type=anime&slug=${props.slug}`}>
+                    <Link
+                        href={`/edit/new?content_type=anime&slug=${props.slug}`}
+                    >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Створити правку
                     </Link>
