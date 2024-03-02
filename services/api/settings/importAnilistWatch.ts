@@ -180,7 +180,13 @@ export default async function req({
                     my_score: entry.score >= 1 ? Math.round(entry.score) : 0,
                     my_storage: {},
                     my_storage_value: 0,
-                    my_status: getWatchStatus(list.name === 'Rewatching' ? 'Watching' : list.name),
+                    my_status: getWatchStatus(
+                        list.name === 'Rewatching'
+                            ? 'Watching'
+                            : list.isCompletedList
+                              ? 'Completed'
+                              : list.name,
+                    ),
                     my_comments:
                         entry.notes && entry.notes.length > 0
                             ? String(entry.notes)
