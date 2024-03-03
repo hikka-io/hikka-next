@@ -22,9 +22,10 @@ const Component = ({ slug, disabled }: Props) => {
     const { secret } = useAuthContext();
 
     const { data: favorite, isError: favoriteError } = useQuery({
-        queryKey: ['favorite', secret, slug],
+        queryKey: ['favorite', slug, { secret }],
         queryFn: () =>
             getFavourite({ slug: String(slug), secret: String(secret) }),
+        enabled: Boolean(secret),
     });
 
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =

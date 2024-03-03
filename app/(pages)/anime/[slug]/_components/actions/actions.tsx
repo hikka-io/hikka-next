@@ -1,22 +1,18 @@
-'use client';
-
-import { useParams } from 'next/navigation';
-
-import { useAnimeInfo } from '@/app/page.hooks';
+import { getCookie } from '@/app/actions';
 import WatchListButton from '@/components/watchlist-button';
-import { useAuthContext } from '@/services/providers/auth-provider';
 
 import WatchStats from '../watch-stats';
 
+interface Props {
+    anime?: API.AnimeInfo;
+}
 
-const Component = () => {
-    const { secret } = useAuthContext();
-    const params = useParams();
-    const { data } = useAnimeInfo(String(params.slug));
-
-    if (!data) {
+const Component = async ({ anime }: Props) => {
+    if (!anime) {
         return null;
     }
+
+    const secret = await getCookie('secret');
 
     return (
         <div className="flex flex-col gap-12">
@@ -24,7 +20,7 @@ const Component = () => {
                 <WatchListButton
                     disabled={!secret}
                     additional
-                    slug={String(params.slug)}
+                    slug={String(anime.slug)}
                 />
                 <WatchStats />
             </div>

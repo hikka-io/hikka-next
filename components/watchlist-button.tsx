@@ -40,8 +40,9 @@ const Component = ({ slug, additional, disabled }: Props) => {
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const { data: watch, isError: watchError } = useQuery({
-        queryKey: ['watch', secret, slug],
+        queryKey: ['watch', slug, secret],
         queryFn: () => getWatch({ slug: String(slug), secret: String(secret) }),
+        enabled: Boolean(secret) && !disabled,
     });
 
     const { data: anime } = useQuery({
@@ -227,50 +228,4 @@ const Component = ({ slug, additional, disabled }: Props) => {
     );
 };
 
-const ContextMenuOverlay = (props: Props) => {
-    const { secret } = useAuthContext();
-
-    if (!secret || props.disabled) {
-        return <Component {...props} />;
-    }
-
-    const { data: watch, isError: watchError } = useQuery({
-        queryKey: ['watch', secret, props.slug],
-        queryFn: () => getWatch({ slug: String(props.slug), secret: String(secret) }),
-    });
-
-    if (!watch || watchError) {
-        return <Component {...props} />;
-    }
-
-    const { titleLanguage } = useSettingsContext();
-    const { openModal } = useModalContext();
-
-    return (
-        <ContextMenu>
-            <ContextMenuTrigger>
-                <Component {...props} />
-            </ContextMenuTrigger>
-            <ContextMenuContent>
-                <ContextMenuItem
-                    onClick={() =>
-                        openModal({
-                            content: <WatchEditModal slug={props.slug} />,
-                            className: '!max-w-xl',
-                            title:
-                                watch.anime?.[titleLanguage!] ||
-                                watch.anime?.title_ua ||
-                                watch.anime?.title_en ||
-                                watch.anime?.title_ja,
-                        })
-                    }
-                >
-                    <MaterialSymbolsEditRounded className="mr-2" />
-                    Редагувати
-                </ContextMenuItem>
-            </ContextMenuContent>
-        </ContextMenu>
-    );
-};
-
-export default ContextMenuOverlay;
+export default Component;

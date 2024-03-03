@@ -20,13 +20,14 @@ export const useCharacters = (slug: string) => {
 
 export const useFranchise = (slug: string, secret?: string) => {
     return useInfiniteList({
-        queryKey: ['franchise', slug, secret],
+        queryKey: ['franchise', slug, { secret }],
         queryFn: ({ pageParam = 1 }) =>
             getAnimeFranchise({
                 slug: String(slug),
                 page: pageParam,
                 secret: String(secret),
             }),
+        enabled: Boolean(secret),
     });
 };
 
@@ -38,10 +39,11 @@ export const useStaff = (slug: string) => {
     });
 };
 
-export const useWatch = (slug: string, secret: string) => {
+export const useWatch = (slug: string, secret?: string) => {
     return useQuery({
-        queryKey: ['watch', slug, secret],
-        queryFn: () => getWatch({ slug: slug, secret: secret }),
+        queryKey: ['watch', slug, { secret }],
+        queryFn: () => getWatch({ slug: slug, secret: String(secret) }),
+        enabled: Boolean(secret),
     });
 };
 
@@ -49,7 +51,7 @@ export const useAddToList = (slug: string, secret: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['addToList', secret, slug],
+        mutationKey: ['addToList', slug, { secret }],
         mutationFn: (mutationParams: {
             status: API.WatchStatus;
             score: number;

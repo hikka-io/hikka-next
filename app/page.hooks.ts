@@ -20,6 +20,7 @@ export const useAnimeInfo = (slug: string) => {
     return useQuery({
         queryKey: ['anime', slug],
         queryFn: () => getAnimeInfo({ slug }),
+        enabled: false,
     });
 };
 

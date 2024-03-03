@@ -4,6 +4,8 @@ import { getServerSideSitemap } from 'next-sitemap';
 import getAnimeSitemap from '@/services/api/sitemap/getAnimeSitemap';
 import format from 'date-fns/format';
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
     const anime = await getAnimeSitemap();
 

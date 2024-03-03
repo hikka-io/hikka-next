@@ -1,5 +1,5 @@
 export default {
-    baseAPI: 'https://api.hikka.io',
+    baseAPI: process.env.API_URL || process.env.NEXT_PUBLIC_API_URL,
     config: {
         headers: {
             'Content-type': 'application/json',

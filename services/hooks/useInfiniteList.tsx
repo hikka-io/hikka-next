@@ -14,9 +14,10 @@ interface Props<T> {
     queryKey: QueryKey;
     staleTime?: number;
     gcTime?: number;
+    enabled?: boolean;
 }
 
-function useInfiniteList<T>({ queryFn, queryKey, staleTime, gcTime }: Props<T>) {
+function useInfiniteList<T>({ queryFn, queryKey, staleTime, gcTime, enabled }: Props<T>) {
     const { ref, inView } = useInView();
     const query = useInfiniteQuery({
         initialPageParam: 1,
@@ -28,6 +29,7 @@ function useInfiniteList<T>({ queryFn, queryKey, staleTime, gcTime }: Props<T>) 
         queryFn: queryFn,
         staleTime,
         gcTime,
+        enabled,
     });
 
     const list = query.data?.pages.map((data) => data.list).flat(1);

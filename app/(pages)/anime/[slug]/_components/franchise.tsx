@@ -23,12 +23,12 @@ const Component = ({ extended }: Props) => {
     const params = useParams();
     const { data: anime } = useAnimeInfo(String(params.slug));
 
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        useFranchise(String(params.slug), secret);
+
     if (!anime || !anime.has_franchise) {
         return null;
     }
-
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useFranchise(String(params.slug), secret);
 
     if (!list || list.length === 0) {
         return null;

@@ -2,10 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import {
-    useAddToList,
-    useWatch,
-} from '@/app/(pages)/anime/[slug]/page.hooks';
+import { useAddToList, useWatch } from '@/app/(pages)/anime/[slug]/page.hooks';
 import { useAnimeInfo } from '@/app/page.hooks';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -19,7 +16,7 @@ const Component = () => {
 
     const { data: watch, isError: watchError } = useWatch(
         String(params.slug),
-        String(secret),
+        secret,
     );
     const { data } = useAnimeInfo(String(params.slug));
 

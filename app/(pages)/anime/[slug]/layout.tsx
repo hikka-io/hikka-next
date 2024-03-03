@@ -19,6 +19,8 @@ import getAnimeInfo, {
     Response as AnimeResponse,
 } from '@/services/api/anime/getAnimeInfo';
 import getAnimeStaff from '@/services/api/anime/getAnimeStaff';
+import getFavourite from '@/services/api/favourite/getFavourite';
+import getWatch from '@/services/api/watch/getWatch';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 import getQueryClient from '@/utils/getQueryClient';
@@ -121,33 +123,41 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
-    await queryClient.prefetchQuery({
+    const anime = await queryClient.fetchQuery({
         queryKey: ['anime', slug],
         queryFn: () => getAnimeInfo({ slug }),
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['characters', slug],
-        queryFn: () => getAnimeCharacters({ slug }),
+        queryFn: ({ pageParam }) =>
+            getAnimeCharacters({ slug, page: pageParam }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['franchise', slug, secret],
-        queryFn: () => getAnimeFranchise({ slug, secret }),
+        queryKey: ['franchise', slug, { secret }],
+        queryFn: ({ pageParam }) =>
+            getAnimeFranchise({ slug, secret, page: pageParam }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['staff', slug],
-        queryFn: () => getAnimeStaff({ slug }),
+        queryFn: ({ pageParam }) => getAnimeStaff({ slug, page: pageParam }),
         initialPageParam: 1,
     });
 
-    const anime: API.AnimeInfo | undefined = queryClient.getQueryData([
-        'anime',
-        slug,
-    ]);
+    await queryClient.prefetchQuery({
+        queryKey: ['watch', slug, { secret }],
+        queryFn: () => getWatch({ slug: slug, secret: String(secret) }),
+    });
+
+    await queryClient.prefetchQuery({
+        queryKey: ['favorite', slug, { secret }],
+        queryFn: () =>
+            getFavourite({ slug: String(slug), secret: String(secret) }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -160,9 +170,8 @@ const Component = async ({ params: { slug }, children }: Props) => {
                             className="h-2 w-2 rounded-full bg-white"
                             style={{
                                 backgroundColor:
-                                    RELEASE_STATUS[
-                                        anime?.status as API.Status
-                                    ].color,
+                                    RELEASE_STATUS[anime?.status as API.Status]
+                                        .color,
                             }}
                         />
                         <Link
@@ -187,9 +196,9 @@ const Component = async ({ params: { slug }, children }: Props) => {
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <div className="flex flex-col gap-4">
-                        <Cover />
+                        <Cover anime={anime} />
                         <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                            <Actions />
+                            <Actions anime={anime} />
                             <div className="flex gap-2">
                                 <Button
                                     variant="outline"

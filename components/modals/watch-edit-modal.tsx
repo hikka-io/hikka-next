@@ -34,10 +34,11 @@ const Component = ({ slug }: Props) => {
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
     const { data: watch, isError: watchError } = useQuery({
-        queryKey: ['watch', secret, slug],
+        queryKey: ['watch', slug, secret],
         queryFn: () => getWatch({ slug: String(slug), secret: String(secret) }),
         staleTime: 0,
         gcTime: 0,
+        enabled: Boolean(secret)
     });
     const [selectedStatus, setSelectedStatus] = useState<
         API.WatchStatus | undefined
