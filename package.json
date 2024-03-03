@@ -5,7 +5,6 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "postbuild": "tar -zcvf next.tar.gz .next/",
         "start": "next start",
         "lint": "next lint",
         "email": "email dev --dir emails"

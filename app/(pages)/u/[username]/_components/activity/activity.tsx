@@ -28,7 +28,7 @@ const Component = ({ className }: Props) => {
     return (
         <div className={cn('flex flex-col gap-8', className)}>
             <SubHeader
-                title={'Активність'}
+                title={'Історія'}
                 onClick={
                     activity && activity?.length > 0
                         ? () =>
