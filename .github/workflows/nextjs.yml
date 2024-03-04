@@ -23,7 +23,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} # server's SSH private key
           passphrase: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
           script: |
-            exec bash
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd /home/debian/hikka-next
             git pull
             yarn install
