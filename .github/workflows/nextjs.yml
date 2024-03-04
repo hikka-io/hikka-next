@@ -27,5 +27,5 @@ jobs:
             cd /home/debian/hikka-next
             git pull
             yarn install
-            yarn build
+            yarn start build
             pm2 reload hikka-next
