@@ -48,8 +48,8 @@ const Component = ({ className }: Props) => {
                     ))}
                 {activity && activity?.length === 0 && (
                     <NotFound
-                        title={'Активність відсутня'}
-                        description="Історія оновиться після змін у списку"
+                        title={'Історія відсутня'}
+                        description="Інформація оновиться після змін у списку"
                     />
                 )}
             </div>
