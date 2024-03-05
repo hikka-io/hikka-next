@@ -10,7 +10,7 @@ import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Content from '../_components/ui/content';
+import Content from '../_components/ui/content/content';
 import EditForm from '../_components/edit-form';
 import RulesAlert from './_components/rules-alert';
 
