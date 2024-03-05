@@ -10,7 +10,6 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import { useLoggedUser } from '@/app/page.hooks';
 import WatchEditModal from '@/components/modals/watch-edit-modal';
 import {
     Table,
@@ -19,6 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
@@ -48,10 +48,16 @@ const Component = ({ data }: Props) => {
 
     const { data: loggedUser } = useLoggedUser();
 
-    const switchSort = (newSort: 'watch_score' | 'watch_episodes' | 'media_type') => {
+    const switchSort = (
+        newSort: 'watch_score' | 'watch_episodes' | 'media_type',
+    ) => {
         const query = createQueryString(
             'order',
-            order && newSort !== sort ? order : order === 'asc' ? 'desc' : 'asc',
+            order && newSort !== sort
+                ? order
+                : order === 'asc'
+                  ? 'desc'
+                  : 'asc',
             createQueryString(
                 'sort',
                 newSort,

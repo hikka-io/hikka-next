@@ -4,10 +4,10 @@ import clsx from 'clsx';
 
 import { useParams } from 'next/navigation';
 
-import { useStaff } from '@/app/(pages)/anime/[slug]/page.hooks';
 import SubHeader from '@/components/sub-header';
 import BaseCard from '@/components/ui/base-card';
 import { Button } from '@/components/ui/button';
+import useStaff from '@/services/hooks/anime/useStaff';
 
 interface Props {
     extended?: boolean;

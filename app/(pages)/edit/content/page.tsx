@@ -1,14 +1,9 @@
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-
-
 import getQueryClient from '@/utils/getQueryClient';
 
-
-
 import List from './_components/list';
-
 
 const Component = async ({
     searchParams,

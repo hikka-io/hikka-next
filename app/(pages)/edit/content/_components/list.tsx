@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { useTodoAnime } from '@/app/(pages)/edit/content/page.hooks';
 import AnimeCard from '@/components/anime-card';
 import SkeletonCard from '@/components/skeletons/entry-card';
 import { Button } from '@/components/ui/button';
@@ -13,6 +12,7 @@ import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
 
 interface Props {
     extended?: boolean;

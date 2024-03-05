@@ -7,8 +7,6 @@ import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded
 
 import { useParams } from 'next/navigation';
 
-import { useUser } from '@/app/(pages)/u/[username]/page.hooks';
-import { useLoggedUser } from '@/app/page.hooks';
 import CropEditorModal from '@/components/modals/crop-editor-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +20,8 @@ import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import * as React from 'react';
+import useUser from '@/services/hooks/user/useUser';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 interface Props {}
 

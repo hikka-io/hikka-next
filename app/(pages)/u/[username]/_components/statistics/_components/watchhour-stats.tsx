@@ -7,7 +7,6 @@ import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-1
 
 import { useParams } from 'next/navigation';
 
-import { useWatchStats } from '@/app/(pages)/u/[username]/page.hooks';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import {
@@ -15,6 +14,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
 
 const Component = () => {

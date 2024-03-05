@@ -5,18 +5,16 @@ import CilUserUnfollow from '~icons/cil/user-unfollow';
 
 import { useParams } from 'next/navigation';
 
-import {
-    useFollow,
-    useFollowChecker,
-    useUnfollow,
-    useUser,
-} from '@/app/(pages)/u/[username]/page.hooks';
-import { useLoggedUser } from '@/app/page.hooks';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
+import useUser from '@/services/hooks/user/useUser';
+import useFollowChecker from '@/services/hooks/follow/useFollowChecker';
+import useFollow from '@/services/hooks/follow/useFollow';
+import useUnfollow from '@/services/hooks/follow/useUnfollow';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 interface Props {
     className?: string;

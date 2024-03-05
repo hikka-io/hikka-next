@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/page.hooks';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 
 const Component = () => {

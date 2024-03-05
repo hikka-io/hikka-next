@@ -4,8 +4,8 @@ import * as React from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import { EDIT_STATUS } from '@/utils/constants';
+import useEdit from '@/services/hooks/edit/useEdit';
 
 interface Props {
     status?: API.EditStatus;

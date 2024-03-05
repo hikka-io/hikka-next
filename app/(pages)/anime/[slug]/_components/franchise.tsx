@@ -4,14 +4,14 @@ import clsx from 'clsx';
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/page.hooks';
 import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
-import { useFranchise } from '../page.hooks';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useFranchise from '@/services/hooks/anime/useFranchise';
 
 interface Props {
     extended?: boolean;

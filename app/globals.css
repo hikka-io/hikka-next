@@ -103,6 +103,22 @@
     }
 }
 
+.logo {
+    -webkit-mask: url(/logo-mobile.svg) no-repeat center;
+    mask: url(/logo-mobile.svg) no-repeat center;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+}
+
+@media screen(md) {
+    .logo {
+        -webkit-mask: url(/logo.svg) no-repeat center;
+        mask: url(/logo.svg) no-repeat center;
+        mask-size: contain;
+        -webkit-mask-size: contain;
+    }
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -114,12 +130,6 @@
     scrollbar-width: none; /* Firefox */
 }
 
-.logo {
-    -webkit-mask: url(/logo.svg) no-repeat center;
-    mask: url(/logo.svg) no-repeat center;
-    mask-size: contain;
-    -webkit-mask-size: contain;
-}
 
 @keyframes snack-progress {
     0% {

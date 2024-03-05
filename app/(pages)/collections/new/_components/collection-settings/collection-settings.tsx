@@ -5,10 +5,6 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 
 import GroupInputs from '@/app/(pages)/collections/new/_components/collection-settings/_components/group-inputs';
-import {
-    useCreateCollection,
-    useUpdateCollection,
-} from '@/app/(pages)/collections/page.hooks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
@@ -20,6 +16,8 @@ import {
     State as CollectionState,
     useCollectionContext,
 } from '@/services/providers/collection-provider';
+import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
+import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
 
 interface Props {
     mode?: 'create' | 'edit';

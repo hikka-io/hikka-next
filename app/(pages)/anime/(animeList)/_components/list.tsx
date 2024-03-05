@@ -11,11 +11,12 @@ import SkeletonCard from '@/components/skeletons/entry-card';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import Pagination from '@/components/ui/pagination';
+import useAnimeCatalog from '@/services/hooks/anime/useAnimeCatalog';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-
-import { useList, useNextPage, useUpdatePage } from '../page.hooks';
 import { MEDIA_TYPE } from '@/utils/constants';
+
+import { useNextPage, useUpdatePage } from '../page.hooks';
 
 
 const Component = () => {
@@ -41,7 +42,7 @@ const Component = () => {
         hasNextPage,
         list,
         pagination,
-    } = useList(dataKeys);
+    } = useAnimeCatalog(dataKeys);
 
     const updatePage = useUpdatePage(dataKeys);
     const nextPage = useNextPage({ fetchNextPage, pagination });
@@ -91,8 +92,13 @@ const Component = () => {
                                 }
                                 key={x.slug}
                                 slug={x.slug}
-                                leftSubtitle={x.year ? String(x.year) : undefined}
-                                rightSubtitle={x.media_type && MEDIA_TYPE[x.media_type].title_ua}
+                                leftSubtitle={
+                                    x.year ? String(x.year) : undefined
+                                }
+                                rightSubtitle={
+                                    x.media_type &&
+                                    MEDIA_TYPE[x.media_type].title_ua
+                                }
                                 watch={
                                     x.watch.length > 0 ? x.watch[0] : undefined
                                 }

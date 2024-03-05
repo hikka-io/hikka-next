@@ -5,11 +5,6 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import {
-    useCollection,
-    useDeleteCollection,
-} from '@/app/(pages)/collections/page.hooks';
-import { useLoggedUser } from '@/app/page.hooks';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
 import SubHeader from '@/components/sub-header';
@@ -31,6 +26,9 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCollectionContext } from '@/services/providers/collection-provider';
+import useCollection from '@/services/hooks/collections/useCollection';
+import useDeleteCollection from '@/services/hooks/collections/useDeleteCollection';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 const Component = () => {
     const params = useParams();

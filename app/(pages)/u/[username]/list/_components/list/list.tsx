@@ -2,13 +2,13 @@
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-import { useWatchList } from '@/app/(pages)/u/[username]/page.hooks';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import { WATCH_STATUS } from '@/utils/constants';
 
 import GridView from './_components/grid-view';
 import TableView from './_components/table-view';
+import useWatchList from '@/services/hooks/watch/useWatchList';
 
 interface Props {}
 

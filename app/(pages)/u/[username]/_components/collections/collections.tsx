@@ -2,8 +2,6 @@
 
 import { useParams } from 'next/navigation';
 
-import { useCollectionsList } from '@/app/(pages)/u/[username]/page.hooks';
-import { useLoggedUser } from '@/app/page.hooks';
 import SubHeader from '@/components/sub-header';
 import NotFound from '@/components/ui/not-found';
 import { useAuthContext } from '@/services/providers/auth-provider';
@@ -16,6 +14,8 @@ import { Button } from '@/components/ui/button';
 
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded'
 import Link from 'next/link';
+import useUserCollections from '@/services/hooks/user/useUserCollections';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 interface Props {
     className?: string;
@@ -28,7 +28,7 @@ const Component = ({ className }: Props) => {
 
     const { data: loggedUser } = useLoggedUser();
 
-    const { list: collections } = useCollectionsList({
+    const { list: collections } = useUserCollections({
         username: String(params.username),
         secret: secret,
     });

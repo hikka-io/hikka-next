@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useCollection } from '@/app/(pages)/collections/page.hooks';
+import useCollection from '@/services/hooks/collections/useCollection';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 

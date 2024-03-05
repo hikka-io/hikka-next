@@ -5,11 +5,11 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import { useParams } from 'next/navigation';
 
-import {  useUser } from '@/app/(pages)/u/[username]/page.hooks';
 import { Button } from '@/components/ui/button';
 import resendActivation from '@/services/api/auth/resendActivation';
 import { useAuthContext } from '@/services/providers/auth-provider';
-import { useLoggedUser } from '@/app/page.hooks';
+import useUser from '@/services/hooks/user/useUser';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 
 const Component = () => {

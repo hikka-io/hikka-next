@@ -1,98 +1,76 @@
 'use client';
 
-import PhCaretUpDownThin from '~icons/ph/caret-up-down-thin';
+import { createElement } from 'react';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Button } from '@/components/ui/button';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuPortal,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { EDIT_NAV_ROUTES } from '@/utils/constants';
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
 import useIsMobile from '@/services/hooks/useIsMobile';
 
 interface Props {
-    routes: Hikka.NavRoute[],
+    routes: Hikka.NavRoute[];
     urlPrefix: string;
+    showOnMobile?: boolean;
+    isEqualPath?: boolean;
 }
 
-const Component = ({ routes, urlPrefix }: Props) => {
+const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Props) => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
 
-    const current = routes.find((r) => pathname == urlPrefix + r.url) || routes[0];
+    const current =
+        routes.find((r) =>
+            isEqualPath
+                ? pathname == urlPrefix + r.url
+                : pathname.includes(urlPrefix + r.url),
+        ) || routes[0];
+
+    if (isMobile && !showOnMobile) {
+        return current && <p className="text-sm">{current.title_ua}</p>;
+    }
 
     return (
-        <div className="flex gap-2 place-items-center">
-            {current && (
-                <Link
-                    href={'/edit' + current?.url}
-                    className="text-sm hover:underline"
-                >
-                    {current.title_ua}
-                </Link>
-            )}
-
-            {!isMobile && (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="p-0 px-1">
-                            <PhCaretUpDownThin />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-56">
-                        <DropdownMenuGroup>
-                            {routes.map((r) =>
-                                !r.internals ? (
-                                    <DropdownMenuItem asChild key={r.slug}>
-                                        <Link href={urlPrefix + r.url}>
-                                            <span>{r.title_ua}</span>
-                                        </Link>
-                                    </DropdownMenuItem>
-                                ) : (
-                                    <DropdownMenuSub key={r.slug}>
-                                        <DropdownMenuSubTrigger>
-                                            <span>{r.title_ua}</span>
-                                        </DropdownMenuSubTrigger>
-                                        <DropdownMenuPortal>
-                                            <DropdownMenuSubContent>
-                                                {r.internals.map((sub) => (
-                                                    <DropdownMenuItem
-                                                        asChild
-                                                        key={sub.slug}
-                                                    >
-                                                        <Link
-                                                            href={
-                                                                urlPrefix +
-                                                                r.url +
-                                                                sub.url
-                                                            }
-                                                        >
-                                                            <span>
-                                                                {sub.title_ua}
-                                                            </span>
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                ))}
-                                            </DropdownMenuSubContent>
-                                        </DropdownMenuPortal>
-                                    </DropdownMenuSub>
-                                ),
-                            )}
-                        </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )}
-        </div>
+        <NavigationMenu>
+            <NavigationMenuList>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>
+                        {current && (
+                            <p className="text-sm">{current.title_ua}</p>
+                        )}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="w-56 pt-1 pl-1 pb-1.5 pr-1.5">
+                            {routes.map((r) => {
+                                return (
+                                    (r.visible === undefined || r.visible) && (
+                                        <li key={r.slug}>
+                                            <NavigationMenuLink asChild>
+                                                <Link href={urlPrefix + r.url}>
+                                                    {r.icon &&
+                                                        createElement(r.icon, {
+                                                            className:
+                                                                'mr-2 h-4 w-4',
+                                                        })}
+                                                    {r.title_ua}
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </li>
+                                    )
+                                );
+                            })}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+        </NavigationMenu>
     );
 };
 

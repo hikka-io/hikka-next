@@ -1,13 +1,12 @@
-import { ReactNode } from 'react';
-
-
+import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
+import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+import MaterialSymbolsStack from '~icons/material-symbols/stack';
 
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
 import OnHold from '@/components/icons/watch-status/on-hold';
 import Planned from '@/components/icons/watch-status/planned';
 import Watching from '@/components/icons/watch-status/watching';
-
 
 export const CDN_ENDPOINT = 'https://cdn.hikka.io';
 
@@ -352,6 +351,42 @@ export const ERRORS: Record<string, Record<string, string>> = {
     },
 };
 
+export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'anime',
+        title_ua: 'Каталог',
+        url: '/anime',
+        icon: MaterialSymbolsLightGridViewRounded,
+        visible: true,
+    },
+    {
+        slug: 'edit',
+        title_ua: 'Правки',
+        url: '/edit',
+        icon: MaterialSymbolsEditRounded,
+        visible: true,
+    },
+    {
+        slug: 'users',
+        title_ua: 'Користувачі',
+        url: '/u',
+        visible: false,
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
+        visible: false,
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Колекції',
+        url: '/collections',
+        icon: MaterialSymbolsStack,
+        visible: true,
+    },
+];
+
 export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
@@ -486,7 +521,6 @@ export const ANIME_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-
 export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
     title: [
         {
@@ -540,4 +574,4 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     edit: '/edit',
     comment: '/comments',
     collection: '/collections',
-}
+};

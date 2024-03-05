@@ -3,18 +3,14 @@
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { useLoggedUser } from '@/app/page.hooks';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 interface Props {
     onSaveSubmit: (data: any) => Promise<void>;
-    handleSubmit: (
-        onSubmit: (data: any) => Promise<void>,
-    ) => () => void;
+    handleSubmit: (onSubmit: (data: any) => Promise<void>) => () => void;
 }
 
 const Component = ({ onSaveSubmit, handleSubmit }: Props) => {
-
     const { data: loggedUser } = useLoggedUser();
 
     if (!loggedUser || loggedUser.role === 'user') {

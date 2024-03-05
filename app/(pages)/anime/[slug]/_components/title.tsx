@@ -8,7 +8,6 @@ import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/page.hooks';
 import EditListModal from '@/components/modals/editlist-modal';
 import { Button } from '@/components/ui/button';
 import useIsMobile from '@/services/hooks/useIsMobile';
@@ -16,6 +15,7 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 
 const EditButton = ({ className }: { className?: string }) => {

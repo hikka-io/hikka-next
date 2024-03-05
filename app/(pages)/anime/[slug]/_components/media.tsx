@@ -7,11 +7,11 @@ import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/page.hooks';
 import SubHeader from '@/components/sub-header';
 import BaseCard from '@/components/ui/base-card';
 import { Button } from '@/components/ui/button';
 import { OST, VIDEO } from '@/utils/constants';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 interface Props {
     extended?: boolean;

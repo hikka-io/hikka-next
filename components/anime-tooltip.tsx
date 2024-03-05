@@ -5,8 +5,6 @@ import { PropsWithChildren, memo } from 'react';
 
 import Link from 'next/link';
 
-import { useQuery } from '@tanstack/react-query';
-
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import {
     HoverCard,
@@ -17,7 +15,7 @@ import {
 } from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
 import WatchListButton from '@/components/watchlist-button';
-import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
@@ -30,10 +28,7 @@ interface Props extends PropsWithChildren {
 const TooltipData = ({ slug }: { slug: string }) => {
     const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
-    const { data } = useQuery({
-        queryKey: ['anime', slug],
-        queryFn: () => getAnimeInfo({ slug: String(slug) }),
-    });
+    const { data } = useAnimeInfo(slug);
 
     if (!data) {
         return (

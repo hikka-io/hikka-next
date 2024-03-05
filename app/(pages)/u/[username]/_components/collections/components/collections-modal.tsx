@@ -4,11 +4,11 @@ import * as React from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useCollectionsList } from '@/app/(pages)/u/[username]/page.hooks';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/services/providers/auth-provider';
 
 import CollectionItem from './ui/collection-item';
+import useUserCollections from '@/services/hooks/user/useUserCollections';
 
 interface Props {
     className?: string;
@@ -24,7 +24,7 @@ const Component = ({ className }: Props) => {
         isFetchingNextPage,
         ref,
         fetchNextPage,
-    } = useCollectionsList({
+    } = useUserCollections({
         username: String(params.username),
         secret: secret,
     });

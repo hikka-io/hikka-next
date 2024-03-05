@@ -5,9 +5,9 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
+import useEdit from '@/services/hooks/edit/useEdit';
 
 
 const Component = () => {

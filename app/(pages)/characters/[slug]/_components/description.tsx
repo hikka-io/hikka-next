@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { useCharacterInfo } from '@/app/page.hooks';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
+import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 
 
 const Component = () => {

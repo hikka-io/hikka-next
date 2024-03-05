@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { JSXElementConstructor, ReactElement, ReactNode, SVGProps } from 'react';
 
 export {};
 
@@ -395,9 +395,10 @@ declare global {
             slug: string;
             title_ua: string;
             url: string;
-            icon?: ReactNode;
+            icon?:  (props: SVGProps<SVGSVGElement>) => ReactElement<any, string | JSXElementConstructor<any>>;
             role?: API.UserRole[];
             internals?: NavRoute[];
+            visible?: boolean;
         };
 
         type EditParamGroup = {

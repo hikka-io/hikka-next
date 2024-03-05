@@ -2,13 +2,13 @@
 
 import { useParams } from 'next/navigation';
 
-import { useFavorites } from '@/app/(pages)/u/[username]/page.hooks';
 import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import useFavorites from '@/services/hooks/favorite/useFavorites';
 
 interface Props {
     extended?: boolean;

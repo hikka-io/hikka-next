@@ -2,13 +2,14 @@
 
 import { useParams } from 'next/navigation';
 
-import { useAddToList, useWatch } from '@/app/(pages)/anime/[slug]/page.hooks';
-import { useAnimeInfo } from '@/app/page.hooks';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
 import { useAuthContext } from '@/services/providers/auth-provider';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useWatch from '@/services/hooks/watch/useWatch';
+import useAddWatch from '@/services/hooks/watch/useAddWatch';
 
 const Component = () => {
     const params = useParams();
@@ -20,7 +21,7 @@ const Component = () => {
     );
     const { data } = useAnimeInfo(String(params.slug));
 
-    const { mutate: addToList, isPending: addToListLoading } = useAddToList(
+    const { mutate: addToList, isPending: addToListLoading } = useAddWatch(
         String(params.slug),
         String(secret),
     );

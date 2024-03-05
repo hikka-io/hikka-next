@@ -5,12 +5,12 @@ import MaterialSymbolsOpenInNewRounded from '~icons/material-symbols/open-in-new
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useWatchStats } from '@/app/(pages)/u/[username]/page.hooks';
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/utils';
 import { WATCH_STATUS } from '@/utils/constants';
+import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
 interface Props {}
 

@@ -10,9 +10,9 @@ import getUserHistory from '@/services/api/user/getUserHistory';
 import getQueryClient from '@/utils/getQueryClient';
 
 import ActivationAlert from './_components/activation-alert';
-import Activity from './_components/activity/activity';
 import Collections from './_components/collections';
 import Favorites from './_components/favorites';
+import History from './_components/history/history';
 import Statistics from './_components/statistics';
 
 interface Props {
@@ -33,7 +33,7 @@ const Component = async ({ params: { username } }: Props) => {
     });
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['activity', username],
+        queryKey: ['history', username],
         queryFn: ({ pageParam }) =>
             getUserHistory({ username, page: pageParam }),
         initialPageParam: 1,
@@ -55,7 +55,7 @@ const Component = async ({ params: { username } }: Props) => {
                     <Favorites />
                 </div>
                 <div className="flex flex-col gap-12 lg:gap-16 order-1 lg:order-2">
-                    <Activity />
+                    <History />
                     <Collections />
                 </div>
             </div>

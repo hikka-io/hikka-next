@@ -8,13 +8,13 @@ import { useParams } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useEdit } from '@/app/(pages)/edit/page.hooks';
-import { useLoggedUser } from '@/app/page.hooks';
 import { Button } from '@/components/ui/button';
 import acceptEdit from '@/services/api/edit/acceptEdit';
 import closeEdit from '@/services/api/edit/closeEdit';
 import denyEdit from '@/services/api/edit/denyEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
+import useEdit from '@/services/hooks/edit/useEdit';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 
 const Component = () => {

@@ -6,13 +6,13 @@ import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import { useParams, usePathname } from 'next/navigation';
 
-import { useCharacterInfo } from '@/app/page.hooks';
 import EditListModal from '@/components/modals/editlist-modal';
 import { Button } from '@/components/ui/button';
-import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 import useIsMobile from '@/services/hooks/useIsMobile';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 
 
 const EditButton = ({ className }: { className?: string }) => {

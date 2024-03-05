@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import { useCharacterInfo } from '@/app/page.hooks';
 import BaseCard from '@/components/ui/base-card';
+import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 
 const Component = () => {
     const params = useParams();

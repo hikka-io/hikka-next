@@ -6,13 +6,13 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useEdit } from '@/app/(pages)/edit/page.hooks';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
 } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
+import useEdit from '@/services/hooks/edit/useEdit';
 
 
 const Component = () => {

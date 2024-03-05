@@ -8,7 +8,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { useEditList } from '@/app/(pages)/edit/page.hooks';
 import BaseCard from '@/components/ui/base-card';
 import { Label } from '@/components/ui/label';
 import Pagination from '@/components/ui/pagination';
@@ -28,6 +27,7 @@ import createQueryString from '@/utils/createQueryString';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import EditStatus from './ui/edit-status';
+import useEditList from '@/services/hooks/edit/useEditList';
 
 
 const Component = () => {

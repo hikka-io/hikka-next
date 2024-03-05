@@ -6,9 +6,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/page.hooks';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 interface Props {
     extended?: boolean;

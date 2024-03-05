@@ -5,10 +5,10 @@ import { NumericFormat } from 'react-number-format';
 
 import { useParams } from 'next/navigation';
 
-import { useAnimeInfo } from '@/app/page.hooks';
 import SubHeader from '@/components/sub-header';
-import { WATCH_STATUS } from '@/utils/constants';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useSize from '@/services/hooks/useSize';
+import { WATCH_STATUS } from '@/utils/constants';
 
 
 const Component = () => {

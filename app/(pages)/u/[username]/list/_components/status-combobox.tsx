@@ -9,11 +9,11 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import { useWatchList } from '@/app/(pages)/u/[username]/page.hooks';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
+import useWatchList from '@/services/hooks/watch/useWatchList';
 
 
 const Component = () => {

@@ -2,12 +2,12 @@
 
 import { useParams } from 'next/navigation';
 
-import { useFollowStats } from '@/app/(pages)/u/[username]/page.hooks';
 import FollowlistModal from '@/components/modals/followlist-modal';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
+import useFollowStats from '@/services/hooks/follow/useFollowStats';
 
 interface Props {
     className?: string;

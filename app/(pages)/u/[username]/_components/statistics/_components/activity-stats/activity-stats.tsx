@@ -5,17 +5,17 @@ import MaterialSymbolsBarChartRounded from '~icons/material-symbols/bar-chart-ro
 
 import { useParams } from 'next/navigation';
 
-import { useActivityStats } from '@/app/(pages)/u/[username]/page.hooks';
 import { Label } from '@/components/ui/label';
 import { convertToDays } from '@/utils/convertActivityStats';
 
 import ActivityItem from './_components/ui/activity-item';
+import useUserActivity from '@/services/hooks/user/useUserActivity';
 
 
 const Component = () => {
     const params = useParams();
 
-    const { data } = useActivityStats({ username: String(params.username) });
+    const { data } = useUserActivity({ username: String(params.username) });
 
     const convertedData = convertToDays(data || []);
     const max = Math.max(...convertedData.map((day) => day.actions));

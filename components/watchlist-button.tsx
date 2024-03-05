@@ -29,6 +29,8 @@ import {
     ContextMenuItem,
     ContextMenuTrigger,
 } from './ui/context-menu';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useWatch from '@/services/hooks/watch/useWatch';
 
 interface Props {
     slug: string;
@@ -39,17 +41,9 @@ interface Props {
 const Component = ({ slug, additional, disabled }: Props) => {
     const queryClient = useQueryClient();
     const { secret } = useAuthContext();
-    const { data: watch, isError: watchError } = useQuery({
-        queryKey: ['watch', slug, secret],
-        queryFn: () => getWatch({ slug: String(slug), secret: String(secret) }),
-        enabled: Boolean(secret) && !disabled,
-    });
+    const { data: watch, isError: watchError } = useWatch(slug, secret, !disabled);
 
-    const { data: anime } = useQuery({
-        queryKey: ['anime', slug],
-        queryFn: () => getAnimeInfo({ slug: String(slug) }),
-        enabled: !disabled,
-    });
+    const { data: anime } = useAnimeInfo(slug, !disabled);
 
     const { mutate: addToList, isPending: addToListLoading } = useMutation({
         mutationKey: ['addToList', secret, slug],
