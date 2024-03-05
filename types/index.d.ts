@@ -292,6 +292,7 @@ declare global {
             | 'comment_vote'
             | 'comment_tag'
             | 'edit_comment'
+            | 'collection_comment'
             | 'edit_accepted'
             | 'edit_denied'
             | 'edit_updated'

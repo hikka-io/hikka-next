@@ -54,7 +54,7 @@ const Component = ({ collection }: Props) => {
                                 );
                             }}
                         >
-                            <Label className={cn('line-clamp-1')}>
+                            <Label className={cn('line-clamp-1 cursor-pointer')}>
                                 {collection.title}
                             </Label>
                         </button>

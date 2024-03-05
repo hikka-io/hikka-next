@@ -17,6 +17,7 @@ const TITLES: Record<API.NotificationType, string> = {
     comment_vote: 'Нова оцінка',
     comment_tag: 'Нова згадка',
     edit_comment: 'Новий коментар у правці',
+    collection_comment: 'Новий коментар у колекції',
     hikka_update: 'Hikka',
 };
 
@@ -46,6 +47,12 @@ const DESCRIPTIONS: Record<
             коментар
         </>
     ),
+    collection_comment: (comment_author: string) => (
+        <>
+            <span className="font-bold">@{comment_author}</span> залишив
+            коментар
+        </>
+    ),
     hikka_update: (description: string) => description,
 };
 
@@ -57,6 +64,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     comment_vote: <MaterialSymbolsFavoriteRounded />,
     comment_tag: <FeMention />,
     edit_comment: <MaterialSymbolsAddCommentRounded />,
+    collection_comment: <MaterialSymbolsAddCommentRounded />,
     hikka_update: <MaterialSymbolsInfoRounded />,
 };
 
@@ -176,6 +184,10 @@ export const convertNotification = (
                 notification as API.Notification<API.NotificationCommentData>,
             );
         case 'edit_comment':
+            return editComment(
+                notification as API.Notification<API.NotificationCommentData>,
+            );
+        case 'collection_comment':
             return editComment(
                 notification as API.Notification<API.NotificationCommentData>,
             );
