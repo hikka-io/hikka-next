@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import AnimeCard from '@/components/anime-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,6 +20,9 @@ interface Props {
 }
 
 const Component = ({ collection }: Props) => {
+    const router = useRouter();
+    const [spoiler, setSpoiler] = React.useState(collection.spoiler);
+
     return (
         <div className="flex flex-col gap-4">
             <div className={cn('flex gap-2')}>
@@ -34,17 +40,25 @@ const Component = ({ collection }: Props) => {
                 </Link>
                 <div className="flex flex-col gap-2">
                     <div className="flex gap-4 items-center">
-                        <Label asChild className={cn('line-clamp-1')}>
-                            <Link
-                                className={cn(
-                                    collection.spoiler &&
-                                        'blur-sm hover:blur-none',
-                                )}
-                                href={`/collections/${collection.reference}`}
-                            >
+                        <button
+                            className={cn('text-left', spoiler && 'blur-sm')}
+                            onClick={(e) => {
+                                if (collection.spoiler && spoiler) {
+                                    e.preventDefault();
+                                    setSpoiler(false);
+                                    return;
+                                }
+
+                                router.push(
+                                    `/collections/${collection.reference}`,
+                                );
+                            }}
+                        >
+                            <Label className={cn('line-clamp-1')}>
                                 {collection.title}
-                            </Link>
-                        </Label>
+                            </Label>
+                        </button>
+
                         {collection.spoiler && (
                             <Badge variant="warning">Спойлери</Badge>
                         )}
@@ -73,10 +87,9 @@ const Component = ({ collection }: Props) => {
                     {collection.tags.map((tag) => (
                         <Badge
                             key={tag}
+                            onClick={() => setSpoiler(false)}
                             variant="secondary"
-                            className={cn(
-                                collection.spoiler && 'blur-sm hover:blur-none',
-                            )}
+                            className={cn(spoiler && 'blur-sm cursor-pointer')}
                         >
                             {tag.toLowerCase()}
                         </Badge>
@@ -84,7 +97,7 @@ const Component = ({ collection }: Props) => {
                 </div>
             )}
             <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-4 lg:gap-8 flex-nowrap">
-                {collection.collection.reverse().map((item, index) => (
+                {[...collection.collection].reverse().map((item, index) => (
                     <AnimeCard
                         containerClassName={cn(
                             collection.nsfw && 'blur-sm hover:blur-none',
