@@ -13,7 +13,7 @@ import getEdit from '@/services/api/edit/getEdit';
 import getQueryClient from '@/utils/getQueryClient';
 
 import EditView from '../_components/edit-view';
-import Content from '../_components/ui/content/content';
+import Content from '@/app/(pages)/edit/_components/content/content';
 import EditStatus from '../_components/ui/edit-status';
 import Actions from './_components/actions';
 import Author from './_components/author';

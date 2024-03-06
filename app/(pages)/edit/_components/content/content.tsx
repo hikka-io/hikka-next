@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import General from '@/app/(pages)/edit/_components/ui/content/_components/general';
+import General from '@/app/(pages)/edit/_components/content/_components/general';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import { useSettingsContext } from '@/services/providers/settings-provider';
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const Component = ({ slug, content_type, content }: Props) => {
-    const [type, setType] = React.useState<'general' | 'details'>('general');
+    const [type, setType] = React.useState<'general' | 'details'>('details');
     const { titleLanguage } = useSettingsContext();
 
     if (!content) {
@@ -39,18 +39,18 @@ const Component = ({ slug, content_type, content }: Props) => {
         <div className="flex flex-col gap-8">
             <SubHeader title="Контент" variant="h4">
                 <Button
-                    variant={type === 'general' ? 'secondary' : 'outline'}
-                    size="badge"
-                    onClick={() => setType('general')}
-                >
-                    Загальне
-                </Button>
-                <Button
                     variant={type === 'details' ? 'secondary' : 'outline'}
                     size="badge"
                     onClick={() => setType('details')}
                 >
                     Деталі
+                </Button>
+                <Button
+                    variant={type === 'general' ? 'secondary' : 'outline'}
+                    size="badge"
+                    onClick={() => setType('general')}
+                >
+                    Загальне
                 </Button>
             </SubHeader>
             {type === 'general' && (

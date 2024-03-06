@@ -1,15 +1,17 @@
+'use client';
+
 import * as React from 'react';
-import { Control, UseFormRegister, UseFormSetValue } from 'react-hook-form/dist/types/form';
-
-
+import { Controller } from 'react-hook-form';
+import { Control, UseFormSetValue } from 'react-hook-form/dist/types/form';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { Controller } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
+import { useModalContext } from '@/services/providers/modal-provider';
 
+import TagsModal from './_components/tags-modal';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     setValue?: UseFormSetValue<any>;
@@ -17,9 +19,11 @@ interface Props {
     disabled?: boolean;
 }
 
-const TAGS = ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'];
 
 const Component = ({ setValue, control, disabled }: Props) => {
+    const { openModal } = useModalContext();
+    const { editTags } = useSettingsContext();
+
     return (
         <div className="flex flex-col gap-4 w-full">
             <Label className="flex justify-between">
@@ -29,16 +33,28 @@ const Component = ({ setValue, control, disabled }: Props) => {
             {setValue && (
                 <ScrollArea className="w-full whitespace-nowrap">
                     <div className="flex gap-2 w-full">
-                        {TAGS.map((tag) => (
+                        {editTags?.slice(0, 3).map((tag) => (
                             <Button
                                 size="badge"
                                 variant="outline"
                                 key={tag}
                                 onClick={() => setValue('description', tag)}
                             >
-                                {tag}
+                                {tag.slice(0, 20).trim().concat(tag.length > 20 ? '...' : '')}
                             </Button>
                         ))}
+                        <Button
+                            size="badge"
+                            variant="secondary"
+                            onClick={() =>
+                                openModal({
+                                    title: 'Теги редагування',
+                                    content: <TagsModal setValue={setValue} />,
+                                })
+                            }
+                        >
+                            Усі теги
+                        </Button>
                     </div>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
@@ -59,7 +75,6 @@ const Component = ({ setValue, control, disabled }: Props) => {
                     />
                 )}
             />
-
         </div>
     );
 };

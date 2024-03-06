@@ -10,7 +10,7 @@ import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
 import EditGroup from '@/app/(pages)/edit/_components/edit-group';
 import AutoButton from '@/app/(pages)/edit/_components/ui/auto-button';
-import EditDescription from '@/app/(pages)/edit/_components/ui/edit-description';
+import EditDescription from '@/app/(pages)/edit/_components/edit-description/edit-description';
 import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';

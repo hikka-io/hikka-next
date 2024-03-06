@@ -12,6 +12,7 @@ import {
 
 interface State {
     titleLanguage?: 'title_en' | 'title_ua' | 'title_ja';
+    editTags?: string[];
 }
 
 interface ContextProps extends State {
@@ -35,6 +36,7 @@ async function getInitialState(): Promise<State> {
 
     return {
         titleLanguage: 'title_ua',
+        editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
     };
 }
 
