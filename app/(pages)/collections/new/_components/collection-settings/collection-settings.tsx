@@ -210,9 +210,9 @@ const Component = ({ mode = 'create' }: Props) => {
                                 )}
                                 Створити
                             </Button>
-                            <Button size="icon" variant="secondary">
+                           {/* <Button size="icon" variant="secondary">
                                 <SimpleIconsAnilist />
-                            </Button>
+                            </Button>*/}
                         </div>
                     )}
                 </div>
