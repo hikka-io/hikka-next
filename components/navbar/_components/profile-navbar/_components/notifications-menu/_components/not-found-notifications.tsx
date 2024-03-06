@@ -4,6 +4,7 @@ import React from 'react';
 import MaterialSymbolsNotificationImportantRounded from '~icons/material-symbols/notification-important-rounded';
 
 import { Label } from '@/components/ui/label';
+import P from '@/components/typography/p';
 
 interface Props {}
 
@@ -15,9 +16,9 @@ const Component = ({}: Props) => {
             </div>
             <div className="flex flex-col gap-2">
                 <Label>Сповіщень не знайдено</Label>
-                <p className="text-sm text-muted-foreground">
+                <P className="text-sm text-muted-foreground">
                     Тут будуть відображатись майбутні сповіщення
-                </p>
+                </P>
             </div>
         </div>
     );

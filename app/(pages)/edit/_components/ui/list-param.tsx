@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useState } from 'react';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
 
@@ -27,11 +27,11 @@ type EditParam = {
 
 interface Props {
     param: EditParam;
-    control: any;
     mode: 'edit' | 'view';
 }
 
-const Component = ({ param, mode, control }: Props) => {
+const Component = ({ param, mode }: Props) => {
+    const { control } = useFormContext();
     const { fields, append, remove } = useFieldArray({
         control,
         name: param.slug,
@@ -73,7 +73,11 @@ const Component = ({ param, mode, control }: Props) => {
                             className="flex-1"
                         />
                         <Button
-                            disabled={!newItem ||newItem?.length === 0 || newItem === ''}
+                            disabled={
+                                !newItem ||
+                                newItem?.length === 0 ||
+                                newItem === ''
+                            }
                             onClick={() => {
                                 append({ value: newItem });
                                 setNewItem('');

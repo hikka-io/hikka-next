@@ -16,6 +16,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { cn } from '@/utils';
+import P from '@/components/typography/p';
 
 interface Props {
     href: string;
@@ -72,7 +73,7 @@ const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
                     <AlertDialogDescription>
                         <div className="flex gap-2 items-center">
                             <MaterialSymbolsLinkRounded />
-                            <p className="flex-1 truncate">{href}</p>
+                            <P className="flex-1 truncate">{href}</P>
                         </div>
                     </AlertDialogDescription>
                 </AlertDialogHeader>

@@ -10,6 +10,7 @@ import { UrlObject } from 'url';
 
 import Link from 'next/link';
 
+import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
@@ -79,13 +80,29 @@ const Component = forwardRef(
                     {children}
                 </div>
                 {(title || description) && (
-                    <div className="mt-1 truncate">
-                        {description && (
-                            <p className="text-xs text-muted-foreground mb-1">
-                                {description}
-                            </p>
+                    <div
+                        className={cn(
+                            'mt-1',
+                            (leftSubtitle || rightSubtitle) && 'truncate',
                         )}
-                        {title && <Label className="leading-5">{title}</Label>}
+                    >
+                        {description && (
+                            <P className="text-xs text-muted-foreground mb-1">
+                                {description}
+                            </P>
+                        )}
+                        {title && (
+                            <Label
+                                className={cn(
+                                    'leading-5',
+                                    !leftSubtitle &&
+                                        !rightSubtitle &&
+                                        'line-clamp-2',
+                                )}
+                            >
+                                {title}
+                            </Label>
+                        )}
                         {(leftSubtitle || rightSubtitle) && (
                             <div className="flex gap-2 mt-1 items-center">
                                 {leftSubtitle && (
@@ -127,7 +144,10 @@ const Component = forwardRef(
         return (
             <Link
                 href={href}
-                className={cn("relative group flex w-full flex-col gap-2", className)}
+                className={cn(
+                    'relative group flex w-full flex-col gap-2',
+                    className,
+                )}
                 scroll
                 {...props}
                 ref={ref}

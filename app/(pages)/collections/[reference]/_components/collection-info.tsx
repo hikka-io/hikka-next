@@ -29,6 +29,8 @@ import { useCollectionContext } from '@/services/providers/collection-provider';
 import useCollection from '@/services/hooks/collections/useCollection';
 import useDeleteCollection from '@/services/hooks/collections/useDeleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
 
 const Component = () => {
     const params = useParams();
@@ -73,7 +75,7 @@ const Component = () => {
                         </Link>
                         <div className="flex flex-1 flex-col">
                             <Link href={'/u/' + collection?.author.username}>
-                                <h5>{collection?.author.username}</h5>
+                                <H5>{collection?.author.username}</H5>
                             </Link>
                         </div>
                     </div>
@@ -119,13 +121,13 @@ const Component = () => {
                                         колекцію?
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        <p>
+                                        <P>
                                             Колекція{' '}
                                             <span className="font-bold">
                                                 {collection?.title}
                                             </span>{' '}
                                             буде видалена назавжди.
-                                        </p>
+                                        </P>
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

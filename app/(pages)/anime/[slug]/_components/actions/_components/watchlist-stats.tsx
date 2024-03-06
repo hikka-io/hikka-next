@@ -3,9 +3,14 @@
 import { createElement, useRef } from 'react';
 import { NumericFormat } from 'react-number-format';
 
+
+
 import { useParams } from 'next/navigation';
 
+
+
 import SubHeader from '@/components/sub-header';
+import Small from '@/components/typography/small';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useSize from '@/services/hooks/useSize';
 import { WATCH_STATUS } from '@/utils/constants';
@@ -61,14 +66,14 @@ const Component = () => {
                                         <div className="rounded-md bg-secondary p-1">
                                             {createElement(status.icon!)}
                                         </div>
-                                        <p className="text-xs text-muted-foreground w-10 text-right">
+                                        <Small className="text-muted-foreground w-10 text-right">
                                             <NumericFormat
                                                 suffix="%"
                                                 displayType="text"
                                                 value={percentage}
                                                 decimalScale={1}
                                             />
-                                        </p>
+                                        </Small>
                                     </div>
                                     <div
                                         ref={ref}

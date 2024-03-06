@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import AnimeCard from '@/components/anime-card';
+import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import BaseCard from '@/components/ui/base-card';
@@ -54,7 +55,9 @@ const Component = ({ collection }: Props) => {
                                 );
                             }}
                         >
-                            <Label className={cn('line-clamp-1 cursor-pointer')}>
+                            <Label
+                                className={cn('line-clamp-1 cursor-pointer')}
+                            >
                                 {collection.title}
                             </Label>
                         </button>
@@ -69,15 +72,11 @@ const Component = ({ collection }: Props) => {
                     <div className="inline-flex gap-2 items-center text-muted-foreground text-xs">
                         <div className="flex gap-1">
                             <MaterialSymbolsGridViewRounded />
-                            <Label className="text-xs">
-                                {collection.entries}
-                            </Label>
+                            <Small>{collection.entries}</Small>
                         </div>
                         <div className="flex gap-1">
                             <IconamoonCommentFill />
-                            <Label className="text-xs">
-                                {collection.comments_count}
-                            </Label>
+                            <Small>{collection.comments_count}</Small>
                         </div>
                     </div>
                 </div>
@@ -97,7 +96,7 @@ const Component = ({ collection }: Props) => {
                 </div>
             )}
             <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-4 lg:gap-8 flex-nowrap">
-                {[...collection.collection].reverse().map((item, index) => (
+                {collection.collection.map((item, index) => (
                     <AnimeCard
                         containerClassName={cn(
                             collection.nsfw && 'blur-sm hover:blur-none',

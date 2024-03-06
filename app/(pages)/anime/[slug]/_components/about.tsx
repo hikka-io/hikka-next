@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/tooltip';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import P from '@/components/typography/p';
 
 
 const Component = () => {
@@ -58,9 +59,9 @@ const Component = () => {
                                     RELEASE_STATUS[data.status].color,
                             }}
                         >
-                            <p className="text-sm !text-white">
+                            <P className="text-sm text-white">
                                 {RELEASE_STATUS[data.status].title_ua}
-                            </p>
+                            </P>
                         </div>
                     </div>
                 </div>
@@ -134,9 +135,9 @@ const Component = () => {
                                         />
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p className="text-sm">
+                                        <P className="text-sm">
                                             {studio.company.name}
-                                        </p>
+                                        </P>
                                     </TooltipContent>
                                 </Tooltip>
                             ) : (

@@ -151,26 +151,6 @@ main {
     min-height: calc(100vh - 16.5rem);
 }
 
-h1 {
-    @apply font-display text-3xl font-bold;
-}
-
-h2 {
-    @apply font-display text-2xl font-bold;
-}
-
-h3 {
-    @apply font-display text-xl font-bold;
-}
-
-h4 {
-    @apply font-display text-lg font-bold;
-}
-
-h5 {
-    @apply font-display text-base font-bold;
-}
-
 [data-select] [data-radix-popper-content-wrapper] {
     position: absolute !important;
     width: 100%;

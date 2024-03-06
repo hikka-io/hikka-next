@@ -19,6 +19,8 @@ import { setCookie } from '@/app/actions';
 import confirmPasswordReset from '@/services/api/auth/confirmPasswordReset';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
 
 type FormValues = {
     password: string;
@@ -64,10 +66,10 @@ const Component = () => {
         <div className="w-full space-y-4">
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
-                    <h2 className="text-primary">🔓 Відновити пароль</h2>
-                    <p className="text-xs mt-2 text-muted-foreground">
+                    <H2 className="text-primary">🔓 Відновити пароль</H2>
+                    <Small className="mt-2 text-muted-foreground">
                         Будь ласка, введіть новий пароль.
-                    </p>
+                    </Small>
                 </div>
             </div>
             <Form {...form}>

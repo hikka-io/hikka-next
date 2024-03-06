@@ -6,6 +6,9 @@ import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-r
 
 import Link from 'next/link';
 
+import H3 from '@/components/typography/h3';
+import H4 from '@/components/typography/h4';
+import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
 
 interface Props extends PropsWithChildren {
@@ -26,7 +29,18 @@ const Component = ({
     className,
     titleClassName,
 }: Props) => {
-    const Title = variant ? variant : 'h3';
+    const getTitle = () => {
+        switch (variant) {
+            case 'h4':
+                return H4;
+            case 'h5':
+                return H5;
+            default:
+                return H3;
+        }
+    };
+
+    const Title = getTitle();
 
     return (
         <div

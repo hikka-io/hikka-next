@@ -14,6 +14,7 @@ import {
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import useIsMobile from '@/services/hooks/useIsMobile';
+import P from '@/components/typography/p';
 
 interface Props {
     routes: Hikka.NavRoute[];
@@ -34,7 +35,7 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
         ) || routes[0];
 
     if (isMobile && !showOnMobile) {
-        return current && <p className="text-sm">{current.title_ua}</p>;
+        return current && <P className="text-sm">{current.title_ua}</P>;
     }
 
     return (
@@ -43,7 +44,7 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>
                         {current && (
-                            <p className="text-sm">{current.title_ua}</p>
+                            <P className="text-sm">{current.title_ua}</P>
                         )}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>

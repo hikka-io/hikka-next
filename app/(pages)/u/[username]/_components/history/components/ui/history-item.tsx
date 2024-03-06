@@ -1,10 +1,11 @@
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { Fragment } from 'react';
-import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded'
+import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
+
 import Link from 'next/link';
 
+import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import BaseCard from '@/components/ui/base-card';
 import { Label } from '@/components/ui/label';
@@ -55,7 +56,7 @@ const Component = ({ data, className }: Props) => {
                         'Загальне'
                     )}
                 </Label>
-                <p className="text-xs leading-normal text-muted-foreground">
+                <Small className="leading-normal text-muted-foreground">
                     {activity.map((event, i, arr) =>
                         event ? (
                             <Fragment key={i}>
@@ -64,12 +65,12 @@ const Component = ({ data, className }: Props) => {
                             </Fragment>
                         ) : null,
                     )}
-                </p>
-                <p className="text-xs text-muted-foreground opacity-60">
+                </Small>
+                <Small className="text-muted-foreground opacity-60">
                     {formatDistance(data.created * 1000, Date.now(), {
                         addSuffix: true,
                     })}
-                </p>
+                </Small>
             </div>
         </div>
     );

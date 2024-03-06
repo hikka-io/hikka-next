@@ -10,15 +10,15 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { getEditParamComponent } from '@/utils/editParamUtils';
+import H5 from '@/components/typography/h5';
 
 interface Props {
     title: string;
     params: Hikka.EditParam[];
-    control: any;
     mode: 'view' | 'edit';
 }
 
-const Component = ({ title, params, control, mode }: Props) => {
+const Component = ({ title, params, mode }: Props) => {
     const [selected, setSelected] = React.useState<string[]>([]);
 
     const switchParam = (param: string) => {
@@ -33,7 +33,7 @@ const Component = ({ title, params, control, mode }: Props) => {
         <Collapsible open={mode === 'view' ? true : undefined} className="w-full space-y-2 border border-accent rounded-lg p-4">
             <CollapsibleTrigger asChild>
                 <div className="flex items-center justify-between">
-                    <h5>{title}</h5>
+                    <H5>{title}</H5>
                     <Button
                         id="title-collapse"
                         variant="ghost"
@@ -75,7 +75,6 @@ const Component = ({ title, params, control, mode }: Props) => {
                             key={param.slug}
                             param={param}
                             mode={mode}
-                            control={control}
                         />
                     );
                 })}

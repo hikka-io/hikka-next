@@ -5,6 +5,7 @@ import AuthGate from '@/components/auth-gate';
 import Footer from '@/components/footer';
 import NavBar from '@/components/navbar/navbar';
 import ScrollTop from '@/components/scroll-top';
+import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 
 export default async function RootLayout({
     children,
@@ -17,7 +18,8 @@ export default async function RootLayout({
             <AuthGate>
                 <ScrollTop />
                 <NavBar />
-                <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-20">
+
+                <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">
                     {children}
                 </main>
                 <div className="sticky bottom-4 mt-12 w-full">

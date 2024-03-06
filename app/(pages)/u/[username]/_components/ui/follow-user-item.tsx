@@ -3,19 +3,23 @@
 import * as React from 'react';
 import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
+
+
 import Link from 'next/link';
+
+
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+
+
+import Small from '@/components/typography/small';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import follow from '@/services/api/follow/follow';
 import unfollow from '@/services/api/follow/unfollow';
 import { useAuthContext } from '@/services/providers/auth-provider';
+
 
 interface Props {
     user: API.User;
@@ -82,9 +86,9 @@ const Component = ({ user }: Props) => {
                     >
                         {user.username}
                     </Link>
-                    <p className="text-xs text-muted-foreground truncate">
+                    <Small className="text-muted-foreground truncate">
                         {user.description}
-                    </p>
+                    </Small>
                 </div>
             </div>
             {secret &&

@@ -28,6 +28,8 @@ import { useSettingsContext } from '@/services/providers/settings-provider';
 
 import EditStatus from './ui/edit-status';
 import useEditList from '@/services/hooks/edit/useEditList';
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 
 
 const Component = () => {
@@ -105,12 +107,12 @@ const Component = () => {
                                                 >
                                                     {edit.author!.username}
                                                 </Link>
-                                                <Label className="text-muted-foreground text-xs">
+                                                <Small className="text-muted-foreground">
                                                     {format(
                                                         edit.created * 1000,
                                                         'd MMM yyyy H:mm',
                                                     )}
-                                                </Label>
+                                                </Small>
                                             </div>
                                         </div>
                                     </TableCell>
@@ -148,7 +150,7 @@ const Component = () => {
                                         className="hidden lg:table-cell"
                                         align="left"
                                     >
-                                        <p
+                                        <P
                                             className={clsx(
                                                 'text-sm overflow-hidden overflow-ellipsis break-all',
                                                 !edit.description &&
@@ -158,7 +160,7 @@ const Component = () => {
                                             {edit.description
                                                 ? edit.description
                                                 : 'Немає опису правки'}
-                                        </p>
+                                        </P>
                                     </TableCell>
                                     <TableCell align="center" className="w-20">
                                         <div className="flex justify-end">

@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import changeUserPassword from '@/services/api/settings/changeUserPassword';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import H3 from '@/components/typography/h3';
 
 
 type FormValues = {
@@ -57,7 +58,7 @@ const Component = () => {
             className="flex flex-col gap-6 p-6"
         >
             <div className="flex items-center">
-                <h3>Пароль</h3>
+                <H3>Пароль</H3>
             </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex flex-col gap-2 w-full">

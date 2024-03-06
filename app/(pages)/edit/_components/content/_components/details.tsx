@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Label } from '@/components/ui/label';
+import P from '@/components/typography/p';
 
 interface Props {
     content: API.AnimeInfo | API.Character;
@@ -13,21 +14,21 @@ const Component = ({ content }: Props) => {
 
     return (
         <div className="bg-secondary/30 border border-secondary/60 p-4 rounded-md flex flex-col gap-4">
-            <div className="flex-col gap-2">
+            <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     Назва українською
                 </Label>
-                <p className="text-sm">{title_ua || '-'}</p>
+                <P className="text-sm">{title_ua || '-'}</P>
             </div>
-            <div className="flex-col gap-2">
+            <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     Назва англійською
                 </Label>
-                <p className="text-sm">{title_en || '-'}</p>
+                <P className="text-sm">{title_en || '-'}</P>
             </div>
-            <div className="flex-col gap-2">
+            <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">Назва оригіналу</Label>
-                <p className="text-sm">{title_ja || '-'}</p>
+                <P className="text-sm">{title_ja || '-'}</P>
             </div>
         </div>
     );

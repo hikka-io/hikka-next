@@ -9,6 +9,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import getDeclensionWord from '@/utils/getDeclensionWord';
+import P from '@/components/typography/p';
 
 interface Props {
     item: API.Activity;
@@ -37,9 +38,9 @@ const Component = ({ item, max }: Props) => {
                         {item.actions}{' '}
                         {getDeclensionWord(item.actions, ACTION_DECLENSION)}
                     </Label>
-                    <p className="text-muted-foreground">
+                    <P className="text-muted-foreground">
                         {format(toDate(item.timestamp * 1000), 'd.MM.yyyy')}
-                    </p>
+                    </P>
                 </TooltipContent>
             )}
         </Tooltip>

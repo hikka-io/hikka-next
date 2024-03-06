@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import { useQueryClient } from '@tanstack/react-query';
 
+import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -57,7 +58,7 @@ const Component = () => {
             className="flex flex-col gap-6 p-6"
         >
             <div className="flex items-center">
-                <h3>Email</h3>
+                <H3>Email</H3>
             </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex flex-col gap-2 w-full">

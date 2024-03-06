@@ -28,6 +28,7 @@ import getQueryClient from '@/utils/getQueryClient';
 import FollowButton from './_components/follow-button';
 import FollowStats from './_components/follow-stats';
 import UserInfo from './_components/user-info';
+import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 
 
 interface Props extends PropsWithChildren {
@@ -115,6 +116,7 @@ const Component = async ({ params: { username }, children }: Props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12 lg:gap-16">
+                <ActivationAlert />
                 {user.cover && (
                     <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden gradient-mask-b-0">
                         <Image

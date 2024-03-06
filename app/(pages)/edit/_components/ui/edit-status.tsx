@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 
 import { EDIT_STATUS } from '@/utils/constants';
 import useEdit from '@/services/hooks/edit/useEdit';
+import P from '@/components/typography/p';
 
 interface Props {
     status?: API.EditStatus;
@@ -28,7 +29,7 @@ const Component = ({ status }: Props) => {
                 backgroundColor: EDIT_STATUS[currentStatus].color,
             }}
         >
-            <p className="text-sm">{EDIT_STATUS[currentStatus].title_ua}</p>
+            <P className="text-sm">{EDIT_STATUS[currentStatus].title_ua}</P>
         </div>
     );
 };

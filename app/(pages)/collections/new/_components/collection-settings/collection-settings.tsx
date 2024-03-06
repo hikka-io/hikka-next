@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useParams } from 'next/navigation';
 
-import GroupInputs from '@/app/(pages)/collections/new/_components/collection-settings/_components/group-inputs';
+import GroupInputs from './_components/group-inputs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
@@ -18,6 +18,8 @@ import {
 } from '@/services/providers/collection-provider';
 import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
 import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
+
+import SimpleIconsAnilist from '~icons/simple-icons/anilist'
 
 interface Props {
     mode?: 'create' | 'edit';
@@ -152,6 +154,7 @@ const Component = ({ mode = 'create' }: Props) => {
                         Теги
                     </Label>
                     <InputTags
+                        disabled={tags.length === 3}
                         id="tags"
                         value={tags}
                         onChange={(tags) =>
@@ -191,20 +194,26 @@ const Component = ({ mode = 'create' }: Props) => {
                         </Button>
                     )}
                     {mode === 'create' && (
-                        <Button
-                            disabled={
-                                isCreatePending ||
-                                title.trim().length < 3 ||
-                                description.trim().length < 3
-                            }
-                            variant="default"
-                            onClick={() => mutateCreateCollection()}
-                        >
-                            {isCreatePending && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Створити
-                        </Button>
+                        <div className="flex gap-4">
+                            <Button
+                                className="flex-1"
+                                disabled={
+                                    isCreatePending ||
+                                    title.trim().length < 3 ||
+                                    description.trim().length < 3
+                                }
+                                variant="default"
+                                onClick={() => mutateCreateCollection()}
+                            >
+                                {isCreatePending && (
+                                    <span className="loading loading-spinner"></span>
+                                )}
+                                Створити
+                            </Button>
+                            <Button size="icon" variant="secondary">
+                                <SimpleIconsAnilist />
+                            </Button>
+                        </div>
                     )}
                 </div>
             </div>

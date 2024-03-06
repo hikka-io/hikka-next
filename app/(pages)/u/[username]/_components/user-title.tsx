@@ -5,12 +5,14 @@ import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
 
 import { useParams } from 'next/navigation';
 
+import H3 from '@/components/typography/h3';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import useUser from '@/services/hooks/user/useUser';
+import P from '@/components/typography/p';
 
 interface Props {}
 
@@ -25,9 +27,9 @@ const Component = ({}: Props) => {
     return (
         <div className="flex w-full flex-col gap-2">
             <div className="flex gap-2 items-center">
-                <h3 className="overflow-hidden overflow-ellipsis">
+                <H3 className="overflow-hidden overflow-ellipsis">
                     {user.username}
-                </h3>
+                </H3>
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
@@ -36,19 +38,19 @@ const Component = ({}: Props) => {
                             </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p className="text-sm">
+                            <P className="text-sm">
                                 {user.role === 'admin'
                                     ? 'Адміністратор'
                                     : 'Модератор'}
-                            </p>
+                            </P>
                         </TooltipContent>
                     </Tooltip>
                 )}
             </div>
             {user.description && (
-                <p className="text-sm text-muted-foreground">
+                <P className="text-sm text-muted-foreground">
                     {user.description}
-                </p>
+                </P>
             )}
         </div>
     );

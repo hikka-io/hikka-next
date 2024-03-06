@@ -7,20 +7,24 @@ import { useDropzone } from 'react-dropzone';
 import { xml2json } from 'xml-js';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
 
+
+
 import Link from 'next/link';
+
+
 
 import { useQueryClient } from '@tanstack/react-query';
 
+
+
+import H3 from '@/components/typography/h3';
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import importAnilistWatch from '@/services/api/settings/importAnilistWatch';
 import importWatch from '@/services/api/settings/importWatch';
 import { useAuthContext } from '@/services/providers/auth-provider';
@@ -146,13 +150,13 @@ const Component = () => {
 
     const found = (
         <div>
-            <p>
+            <P>
                 У вашому списку знайдено{' '}
                 <span className="rounded-sm bg-primary px-1 text-primary-foreground">
                     {watchList.length}
                 </span>{' '}
                 аніме, що готові до імпорту
-            </p>
+            </P>
         </div>
     );
 
@@ -207,19 +211,19 @@ const Component = () => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <p className="text-muted-foreground text-sm">
+                    <P className="text-muted-foreground text-sm">
                         Перетягніть файл сюди...
-                    </p>
+                    </P>
                 ) : watchList.length === 0 ? (
-                    <p className="text-muted-foreground text-sm">
+                    <P className="text-muted-foreground text-sm">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
-                    </p>
+                    </P>
                 ) : (
                     found
                 )}
             </div>
-            <Label className="text-xs text-muted-foreground">
+            <Small className="text-muted-foreground">
                 <span>
                     Ви можете імпортувати свій список з{' '}
                     <Link
@@ -234,14 +238,14 @@ const Component = () => {
                         Shikimori
                     </span>
                 </span>
-            </Label>
+            </Small>
         </div>
     );
 
     return (
         <div className="flex flex-col gap-6 p-6">
             <div className="flex items-center">
-                <h3>Імпорт</h3>
+                <H3>Імпорт</H3>
             </div>
 
             <Tabs

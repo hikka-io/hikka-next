@@ -9,6 +9,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import P from '@/components/typography/p';
 
 
 const SpoilerButton = () => {
@@ -31,7 +32,7 @@ const SpoilerButton = () => {
                 </Button>
             </TooltipTrigger>
             <TooltipContent>
-                <p>Спойлер</p>
+                <P>Спойлер</P>
             </TooltipContent>
         </Tooltip>
     );

@@ -4,6 +4,7 @@ import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-ro
 
 import Link from 'next/link';
 
+import Small from '@/components/typography/small';
 import BaseCard from '@/components/ui/base-card';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
@@ -45,22 +46,22 @@ const Component = ({ data, className }: Props) => {
                         <div className="w-2 h-2 rounded-full bg-destructive" />
                     )}
                 </div>
-                <p
+                <Small
                     className={cn(
-                        'text-muted-foreground text-xs line-clamp-1',
+                        'text-muted-foreground line-clamp-1',
                         data.spoiler && 'blur-sm hover:blur-none',
                     )}
                 >
                     {data.description}
-                </p>
+                </Small>
                 <div className="inline-flex gap-2 items-center text-muted-foreground text-xs">
                     <div className="flex gap-1">
                         <MaterialSymbolsGridViewRounded />
-                        <Label className="text-xs">{data.entries}</Label>
+                        <Small>{data.entries}</Small>
                     </div>
                     <div className="flex gap-1">
                         <IconamoonCommentFill />
-                        <Label className="text-xs">{data.comments_count}</Label>
+                        <Small>{data.comments_count}</Small>
                     </div>
                 </div>
             </div>

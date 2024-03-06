@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import useEdit from '@/services/hooks/edit/useEdit';
+import H5 from '@/components/typography/h5';
+import Small from '@/components/typography/small';
 
 
 const Component = () => {
@@ -42,13 +44,13 @@ const Component = () => {
                 </Link>
                 <div className="flex flex-1 flex-col">
                     <Link href={'/u/' + edit.author!.username}>
-                        <h5>{edit.author!.username}</h5>
+                        <H5>{edit.author!.username}</H5>
                     </Link>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-4">
-                            <p className="text-xs text-muted-foreground">
+                            <Small className="text-muted-foreground">
                                 {format(edit.created * 1000, 'd MMM yyyy H:mm')}
-                            </p>
+                            </Small>
                         </div>
                     </div>
                 </div>

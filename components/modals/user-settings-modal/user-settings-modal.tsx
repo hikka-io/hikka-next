@@ -4,14 +4,20 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 
+
+
 import CustomizationForm from '@/components/modals/user-settings-modal/_components/customization-form';
 import EmailForm from '@/components/modals/user-settings-modal/_components/email-form';
 import GeneralForm from '@/components/modals/user-settings-modal/_components/general-form';
 import PasswordForm from '@/components/modals/user-settings-modal/_components/password-form';
 import UsernameForm from '@/components/modals/user-settings-modal/_components/username-form';
 import WatchListForm from '@/components/modals/user-settings-modal/_components/watchlist-form';
+import H3 from '@/components/typography/h3';
+import Small from '@/components/typography/small';
 import useIsMobile from '@/services/hooks/useIsMobile';
 import { cn } from '@/utils';
+import P from '@/components/typography/p';
+
 
 type Tab =
     | 'general'
@@ -69,7 +75,7 @@ const Tabs = ({ setActiveTab, activeTab }: { activeTab?: Tab, setActiveTab: Disp
     return (
         <div className='flex h-full w-full flex-col gap-4 border-r-secondary/60 py-6 lg:border-r'>
             <div className='flex items-center'>
-                <h3 className='px-6'>Налаштування</h3>
+                <H3 className='px-6'>Налаштування</H3>
             </div>
             <ul className='menu w-full p-0 [&_li>*]:rounded-none'>
                 {DATA.map((tab) => (
@@ -84,10 +90,10 @@ const Tabs = ({ setActiveTab, activeTab }: { activeTab?: Tab, setActiveTab: Disp
                                 'hover:cursor-pointer',
                             )}
                         >
-                            <p>{tab.title}</p>
-                            <p className='text-xs text-muted-foreground'>
+                            <P>{tab.title}</P>
+                            <Small className='text-muted-foreground'>
                                 {tab.description}
-                            </p>
+                            </Small>
                         </a>
                     </li>
                 ))}

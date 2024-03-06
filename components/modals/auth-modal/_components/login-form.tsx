@@ -22,6 +22,8 @@ import login from '@/services/api/auth/login';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useRouter } from 'next/navigation';
+import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
 
 type FormValues = {
     email: string;
@@ -65,10 +67,10 @@ const Component = () => {
         <div className="w-full space-y-4">
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
-                    <h2 className="text-primary">👋 З поверненням!</h2>
-                    <p className="text-xs mt-2 text-muted-foreground">
+                    <H2 className="text-primary">👋 З поверненням!</H2>
+                    <Small className="mt-2 text-muted-foreground">
                         Будь ласка, зареєструйтесь, або авторизуйтесь.
-                    </p>
+                    </Small>
                 </div>
             </div>
             <Form {...form}>

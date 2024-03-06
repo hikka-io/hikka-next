@@ -7,6 +7,8 @@ import CollectionSettings from './_components/collection-settings';
 import CollectionTitle from './_components/collection-title';
 import Breadcrumbs from '@/components/breadcrumbs';
 import Link from 'next/link';
+import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 
 
 const Component = () => {
@@ -15,11 +17,10 @@ const Component = () => {
             <>
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                        <p
-                            className="text-sm"
+                        <Label
                         >
                             Нова колекція
-                        </p>
+                        </Label>
                     </div>
                 </Breadcrumbs>
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">

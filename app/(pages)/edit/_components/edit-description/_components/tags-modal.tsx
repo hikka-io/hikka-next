@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import P from '@/components/typography/p';
 
 
 interface Props {
@@ -71,7 +72,7 @@ const Component = ({ setValue }: Props) => {
                         key={tag + index}
                         className="flex gap-2 items-center justify-between px-6 py-2"
                     >
-                        <p className="text-sm line-clamp-2">{tag}</p>
+                        <P className="text-sm line-clamp-2">{tag}</P>
                         <div className="flex gap-2 items-center">
                             <Button
                                 size="icon-md"
@@ -93,9 +94,9 @@ const Component = ({ setValue }: Props) => {
 
                 {editTags?.length === 0 && (
                     <div className="px-6">
-                        <p className="text-sm text-muted-foreground text-center">
+                        <P className="text-sm text-muted-foreground text-center">
                             Не знайдено збережених тегів редагування
-                        </p>
+                        </P>
                     </div>
                 )}
             </div>

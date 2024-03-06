@@ -10,6 +10,9 @@ import Link, { LinkProps } from 'next/link';
 import { EDIT_STATUS } from '@/utils/constants';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../../../../ui/avatar';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 
 interface Props extends LinkProps {
     edit: API.Edit;
@@ -40,17 +43,17 @@ const Component = ({ edit, href, ...props }: Props) => {
 
             <div className="flex flex-1 flex-col w-full overflow-hidden">
                 {edit.author ? (
-                    <h5 className="truncate min-w-0">{edit.author.username}</h5>
+                    <H5 className="truncate min-w-0">{edit.author.username}</H5>
                 ) : (
-                    <h5 className="text-muted-foreground truncate min-w-0">
+                    <H5 className="text-muted-foreground truncate min-w-0">
                         Системна правка
-                    </h5>
+                    </H5>
                 )}
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-4">
-                        <p className="text-xs text-muted-foreground">
+                        <Small className="text-muted-foreground">
                             {format(edit.created * 1000, 'd MMM yyyy H:mm')}
-                        </p>
+                        </Small>
                     </div>
                 </div>
             </div>
@@ -60,9 +63,9 @@ const Component = ({ edit, href, ...props }: Props) => {
                     backgroundColor: EDIT_STATUS[edit.status].color,
                 }}
             >
-                <p className="text-sm text-white">
+                <P className="text-sm text-white">
                     {EDIT_STATUS[edit.status as API.EditStatus].title_ua}
-                </p>
+                </P>
             </div>
         </Link>
     );

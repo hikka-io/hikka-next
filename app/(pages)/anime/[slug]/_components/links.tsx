@@ -9,6 +9,9 @@ import { useParams } from 'next/navigation';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import H4 from '@/components/typography/h4';
+import Small from '@/components/typography/small';
+import P from '@/components/typography/p';
 
 interface Props {
     extended?: boolean;
@@ -22,12 +25,12 @@ const ExternalLink = ({ link }: { link: API.External }) => {
                 target="_blank"
                 className="flex h-auto flex-col items-center justify-center text-center gap-2 overflow-hidden rounded-lg"
             >
-                <h4 className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                <H4 className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
                     {link.text}
-                </h4>
-                <p className="lowercase w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
+                </H4>
+                <P className="text-xs lowercase w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
                     {link.url}
-                </p>
+                </P>
             </Link>
         </Button>
     );

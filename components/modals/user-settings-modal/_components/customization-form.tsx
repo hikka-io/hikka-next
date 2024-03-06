@@ -9,6 +9,7 @@ import MaterialSymbolsSunnyOutlineRounded from '~icons/material-symbols/sunny-ou
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import H3 from '@/components/typography/h3';
 
 const Component = () => {
     const { titleLanguage, setState: setSettingsState } = useSettingsContext();
@@ -17,7 +18,7 @@ const Component = () => {
     return (
         <div className="w-full p-6 flex flex-col gap-6">
             <div className="flex items-center">
-                <h3>Кастомізація</h3>
+                <H3>Кастомізація</H3>
             </div>
             <div className="w-full flex flex-col gap-2">
                 <Label>Тема сайту</Label>

@@ -7,6 +7,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import P from '@/components/typography/p';
 
 interface Props {
     property: string;
@@ -63,9 +64,9 @@ const Component = ({
                                     </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p className="text-sm">
+                                    <P className="text-sm">
                                         {properties[slug].description}
-                                    </p>
+                                    </P>
                                 </TooltipContent>
                             </Tooltip>
                         )}

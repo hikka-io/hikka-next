@@ -9,7 +9,6 @@ import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';
 import getQueryClient from '@/utils/getQueryClient';
 
-import ActivationAlert from './_components/activation-alert';
 import Collections from './_components/collections';
 import Favorites from './_components/favorites';
 import History from './_components/history/history';
@@ -50,7 +49,6 @@ const Component = async ({ params: { username } }: Props) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <div className="flex flex-col gap-12 lg:gap-16 order-2 lg:order-1">
-                    <ActivationAlert />
                     <Statistics />
                     <Favorites />
                 </div>

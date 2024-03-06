@@ -9,6 +9,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import P from '@/components/typography/p';
 
 
 const Component = () => {
@@ -26,7 +27,7 @@ const Component = () => {
                 </Button>
             </TooltipTrigger>
             <TooltipContent>
-                <p>Посилання</p>
+                <P>Посилання</P>
             </TooltipContent>
         </Tooltip>
     );

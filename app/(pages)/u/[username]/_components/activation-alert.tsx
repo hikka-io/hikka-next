@@ -7,9 +7,9 @@ import { useParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import resendActivation from '@/services/api/auth/resendActivation';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import useUser from '@/services/hooks/user/useUser';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useUser from '@/services/hooks/user/useUser';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 
 const Component = () => {
@@ -58,23 +58,21 @@ const Component = () => {
     };
 
     return (
-        <div>
-            <div className="flex items-center gap-4 p-4 border rounded-md border-secondary/60 bg-secondary/30">
-                <MaterialSymbolsInfoRounded className="text-xl" />
-                <span className="text-sm flex-1">
-                    На вашу пошту відправлено лист з активацією пошти. Будь
-                    ласка, перейдіть за посилання у листі. Якщо Ваш лист не
-                    прийшов, будь ласка,{' '}
-                    <Button
-                        onClick={resend}
-                        variant="link"
-                        className="text-primary hover:underline p-0 h-auto"
-                    >
-                        відправте його повторно
-                    </Button>
-                    .
-                </span>
-            </div>
+        <div className="flex items-center gap-4 p-4 border rounded-md border-secondary/60 bg-secondary/30">
+            <MaterialSymbolsInfoRounded className="text-xl" />
+            <span className="text-sm flex-1">
+                На вашу пошту відправлено лист з активацією пошти. Будь ласка,
+                перейдіть за посилання у листі. Якщо Ваш лист не прийшов, будь
+                ласка,{' '}
+                <Button
+                    onClick={resend}
+                    variant="link"
+                    className="text-primary hover:underline p-0 h-auto"
+                >
+                    відправте його повторно
+                </Button>
+                .
+            </span>
         </div>
     );
 };

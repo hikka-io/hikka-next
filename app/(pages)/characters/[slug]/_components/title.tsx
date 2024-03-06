@@ -13,6 +13,8 @@ import useIsMobile from '@/services/hooks/useIsMobile';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import H2 from '@/components/typography/h2';
+import P from '@/components/typography/p';
 
 
 const EditButton = ({ className }: { className?: string }) => {
@@ -73,15 +75,15 @@ const Component = () => {
             <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
                     <div className="flex gap-4">
-                        <h2>
+                        <H2>
                             {character.name_ua ||
                                 character.name_en ||
                                 character.name_ja ||
                                 ''}{' '}
-                        </h2>
+                        </H2>
                         {secret && <EditButton className="hidden lg:flex" />}
                     </div>
-                    <p className="mt-2">{character.name_ja}</p>
+                    <P className="mt-2">{character.name_ja}</P>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                     {secret && <EditButton className="flex lg:hidden" />}

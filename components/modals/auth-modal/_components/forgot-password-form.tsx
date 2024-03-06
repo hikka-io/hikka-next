@@ -1,8 +1,11 @@
 'use client';
 
 import { useSnackbar } from 'notistack';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import AuthModal from '@/components/modals/auth-modal/auth-modal';
+import H2 from '@/components/typography/h2';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -15,8 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import passwordReset from '@/services/api/auth/passwordReset';
 import { useModalContext } from '@/services/providers/modal-provider';
-import AuthModal from '@/components/modals/auth-modal/auth-modal';
-import React from 'react';
+import Small from '@/components/typography/small';
 
 type FormValues = {
     email: string;
@@ -53,11 +55,11 @@ const Component = () => {
         <div className="w-full space-y-4">
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
-                    <h2 className="text-primary">🔐 Відновити пароль</h2>
-                    <p className="text-xs mt-2 text-muted-foreground">
+                    <H2 className="text-primary">🔐 Відновити пароль</H2>
+                    <Small className="mt-2 text-muted-foreground">
                         Будь ласка, введіть дані для отримання листа
                         відновлення.
-                    </p>
+                    </Small>
                 </div>
             </div>
             <Form {...form}>
@@ -97,10 +99,12 @@ const Component = () => {
                         <Button
                             variant="secondary"
                             disabled={form.formState.isSubmitting}
-                            onClick={() => openModal({
-                                content: <AuthModal type="login" />,
-                                className: 'p-0 max-w-3xl',
-                            })}
+                            onClick={() =>
+                                openModal({
+                                    content: <AuthModal type="login" />,
+                                    className: 'p-0 max-w-3xl',
+                                })
+                            }
                             className="w-full"
                         >
                             Авторизація

@@ -2,14 +2,15 @@
 
 import { useParams } from 'next/navigation';
 
+import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useWatch from '@/services/hooks/watch/useWatch';
 import useAddWatch from '@/services/hooks/watch/useAddWatch';
+import useWatch from '@/services/hooks/watch/useWatch';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 const Component = () => {
     const params = useParams();
@@ -80,12 +81,12 @@ const Component = () => {
                     precision={0.5}
                     value={watch.score ? watch.score / 2 : 0}
                 />
-                <h3>
+                <H3>
                     {watch.score}
                     <Label className="text-sm font-normal text-muted-foreground">
                         /10
                     </Label>
-                </h3>
+                </H3>
             </div>
             <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
@@ -111,12 +112,12 @@ const Component = () => {
                         </Button>
                     </div>
                 </div>
-                <h3>
+                <H3>
                     {watch.episodes}
                     <Label className="text-sm font-normal text-muted-foreground">
                         /{watch.anime.episodes_total || '?'}
                     </Label>
-                </h3>
+                </H3>
                 <Progress
                     className="h-2 mt-2"
                     max={watch.anime.episodes_total || watch.episodes}

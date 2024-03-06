@@ -1,10 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
+import { useParams } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import useEdit from '@/services/hooks/edit/useEdit';
+
 
 type EditParamGroup = {
     title: string;
@@ -23,14 +28,29 @@ type EditParam = {
 
 interface Props {
     param: EditParam;
-    control: any;
     mode: 'view' | 'edit';
 }
 
-const Component = ({ mode, control, param }: Props) => {
+const Component = ({ mode, param }: Props) => {
+    const { control } = useFormContext();
+    const params = useParams();
+    const [showDiff, setShowDiff] = React.useState(false);
+    const { data: edit } = useEdit(String(params.editId), mode === 'view');
+
     return (
         <div className="flex flex-col gap-4 w-full">
-            <Label>{param.title}</Label>
+            <div className="flex gap-4 items-center">
+                <Label>{param.title}</Label>
+                {mode === 'view' && edit && edit.before![param.slug] && (
+                    <Button
+                        size="badge"
+                        variant={showDiff ? 'secondary' : 'outline'}
+                        onClick={() => setShowDiff(!showDiff)}
+                    >
+                        Різниця
+                    </Button>
+                )}
+            </div>
 
             <Controller
                 control={control}
@@ -47,6 +67,17 @@ const Component = ({ mode, control, param }: Props) => {
                     />
                 )}
             />
+
+            {mode === 'view' &&
+                edit &&
+                edit.before![param.slug] &&
+                showDiff && (
+                    <Input
+                        className="w-full disabled:cursor-text hover:disabled:opacity-100"
+                        value={edit.before![param.slug]}
+                        disabled
+                    />
+                )}
         </div>
     );
 };

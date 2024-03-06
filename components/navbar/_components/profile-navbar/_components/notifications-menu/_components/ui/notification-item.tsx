@@ -9,6 +9,8 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
 import { useAuthContext } from '@/services/providers/auth-provider';
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 
 interface Props {
     data: Hikka.TextNotification;
@@ -44,14 +46,14 @@ const Component = ({ data }: Props) => {
                         <div className="w-2 h-2 bg-warning rounded-full" />
                     )}
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <P className="text-sm text-muted-foreground">
                     {data.description}
-                </p>
-                <p className="text-xs text-muted-foreground opacity-60">
+                </P>
+                <Small className="text-muted-foreground opacity-60">
                     {formatDistance(data.created * 1000, Date.now(), {
                         addSuffix: true,
                     })}
-                </p>
+                </Small>
             </div>
         </DropdownMenuItem>
     );

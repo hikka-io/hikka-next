@@ -1,26 +1,23 @@
 'use client';
 
 import * as React from 'react';
-import { Controller } from 'react-hook-form';
-import { Control, UseFormSetValue } from 'react-hook-form/dist/types/form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { useModalContext } from '@/services/providers/modal-provider';
-
-import TagsModal from './_components/tags-modal';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
+import TagsModal from './_components/tags-modal';
+
 interface Props {
-    setValue?: UseFormSetValue<any>;
-    control: Control<any>;
-    disabled?: boolean;
+    mode: 'edit' | 'view';
 }
 
-
-const Component = ({ setValue, control, disabled }: Props) => {
+const Component = ({ mode }: Props) => {
+    const { control, setValue } = useFormContext();
     const { openModal } = useModalContext();
     const { editTags } = useSettingsContext();
 
@@ -30,7 +27,7 @@ const Component = ({ setValue, control, disabled }: Props) => {
                 <span>Опис правки</span>
                 <span className="text-muted-foreground">Необов’язково</span>
             </Label>
-            {setValue && (
+            {mode === 'edit' && (
                 <ScrollArea className="w-full whitespace-nowrap">
                     <div className="flex gap-2 w-full">
                         {editTags?.slice(0, 3).map((tag) => (
@@ -40,7 +37,10 @@ const Component = ({ setValue, control, disabled }: Props) => {
                                 key={tag}
                                 onClick={() => setValue('description', tag)}
                             >
-                                {tag.slice(0, 20).trim().concat(tag.length > 20 ? '...' : '')}
+                                {tag
+                                    .slice(0, 20)
+                                    .trim()
+                                    .concat(tag.length > 20 ? '...' : '')}
                             </Button>
                         ))}
                         <Button
@@ -67,7 +67,7 @@ const Component = ({ setValue, control, disabled }: Props) => {
                         placeholder="Введіть причину правки"
                         rows={3}
                         className="w-full disabled:opacity-100 disabled:cursor-text"
-                        disabled={disabled}
+                        disabled={mode === 'view'}
                         value={value}
                         onChange={onChange}
                         onBlur={onBlur}

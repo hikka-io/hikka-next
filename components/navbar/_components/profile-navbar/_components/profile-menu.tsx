@@ -28,6 +28,7 @@ import {
 import SettingsModal from '@/components/modals/user-settings-modal/user-settings-modal';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import H5 from '@/components/typography/h5';
 
 interface Props {}
 
@@ -70,7 +71,7 @@ const Component = ({}: Props) => {
                     <Avatar className="avatar w-10 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>
-                    <h5 className="truncate">{loggedUser.username}</h5>
+                    <H5 className="truncate">{loggedUser.username}</H5>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>

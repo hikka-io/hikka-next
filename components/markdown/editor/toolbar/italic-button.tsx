@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import MaterialSymbolsFormatBoldRounded from '~icons/*';
+import P from '@/components/typography/p';
 
 export const IS_ITALIC = 0b10 as const;
 
@@ -36,7 +37,7 @@ const Component = () => {
                 </Button>
             </TooltipTrigger>
             <TooltipContent>
-                <p>Курсив</p>
+                <P>Курсив</P>
             </TooltipContent>
         </Tooltip>
     );

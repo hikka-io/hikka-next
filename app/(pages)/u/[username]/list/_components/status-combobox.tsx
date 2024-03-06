@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import useWatchList from '@/services/hooks/watch/useWatchList';
+import H3 from '@/components/typography/h3';
 
 
 const Component = () => {
@@ -56,7 +57,7 @@ const Component = () => {
                             )}
                         </div>
                         <div className="flex items-center gap-2">
-                            <h3>{option.label}</h3>
+                            <H3>{option.label}</H3>
                             {pagination && (
                                 <Label className="text-muted-foreground">
                                     ({pagination.total})

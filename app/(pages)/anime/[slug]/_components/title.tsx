@@ -5,17 +5,23 @@ import { useEffect, useRef } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
+
+
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
+
+
 import EditListModal from '@/components/modals/editlist-modal';
+import H2 from '@/components/typography/h2';
 import { Button } from '@/components/ui/button';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useIsMobile from '@/services/hooks/useIsMobile';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import P from '@/components/typography/p';
 
 
 const EditButton = ({ className }: { className?: string }) => {
@@ -77,7 +83,7 @@ const Component = () => {
             <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
                     <div className="flex gap-4">
-                        <h2>
+                        <H2>
                             {data[titleLanguage!] ||
                                 data.title_ua ||
                                 data.title_en ||
@@ -92,17 +98,17 @@ const Component = () => {
                                     )
                                 </span>
                             )}
-                        </h2>
+                        </H2>
                         {secret && <EditButton className="hidden lg:flex" />}
                     </div>
-                    <p className="mt-2">{data.title_ja}</p>
+                    <P className="mt-2">{data.title_ja}</P>
                 </div>
                 <div className="flex flex-col gap-2">
                     {data.score > 0 && (
                         <div className="flex gap-2 items-start">
-                            <p className="font-display text-4xl font-bold">
+                            <div className="font-display text-4xl font-bold">
                                 {data.score}
-                            </p>
+                            </div>
 
                             <MaterialSymbolsStarRounded className="text-2xl" />
                         </div>

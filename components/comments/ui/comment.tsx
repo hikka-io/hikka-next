@@ -17,6 +17,9 @@ import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
 import Comments from './comments';
+import H5 from '@/components/typography/h5';
+import Small from '@/components/typography/small';
+import P from '@/components/typography/p';
 
 
 interface Props {
@@ -85,15 +88,15 @@ const Component = ({ comment, slug, content_type }: Props) => {
                             href={`/u/${comment.author.username}`}
                             className="w-fit"
                         >
-                            <h5>{comment.author.username}</h5>
+                            <H5>{comment.author.username}</H5>
                         </Link>
-                        <p className="text-xs text-muted-foreground">
+                        <Small className="text-muted-foreground">
                             {formatDistance(
                                 comment.created * 1000,
                                 Date.now(),
                                 { addSuffix: true },
                             )}
-                        </p>
+                        </Small>
                     </div>
                     <CommentVote comment={comment} />
                 </div>
@@ -109,7 +112,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         <MDViewer>{comment.text}</MDViewer>
                     )
                 ) : (
-                    <p className="text-muted-foreground">Коментар видалено</p>
+                    <P className="text-muted-foreground">Коментар видалено</P>
                 )}
             </div>
             <div className="flex gap-2 w-full items-center">

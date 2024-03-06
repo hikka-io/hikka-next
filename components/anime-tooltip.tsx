@@ -19,6 +19,8 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
 
 interface Props extends PropsWithChildren {
     slug: string;
@@ -65,7 +67,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
         <>
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between gap-2">
-                    <h5>{title}</h5>
+                    <H5>{title}</H5>
                     {data.score > 0 ? (
                         <div className="h-fit w-fit rounded-md  border border-accent bg-accent px-2 text-sm text-accent-foreground">
                             {data.score}
@@ -73,13 +75,8 @@ const TooltipData = ({ slug }: { slug: string }) => {
                     ) : null}
                 </div>
                 {synopsis && (
-                    <MDViewer className="text-sm">
-                        {synopsis.length > 150
-                            ? synopsis.substring(
-                                  0,
-                                  150 + synopsis.substring(150).indexOf(' '),
-                              ) + '...'
-                            : synopsis + '...'}
+                    <MDViewer className="text-sm line-clamp-4 mb-2">
+                        {synopsis}
                     </MDViewer>
                 )}
                 <div className="flex items-center">
@@ -88,7 +85,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
                     </div>
                     <div className="flex flex-1 flex-wrap gap-2">
                         {data.media_type && (
-                            <Label className="text-sm">
+                            <Label>
                                 {MEDIA_TYPE[data.media_type].title_ua}
                             </Label>
                         )}
@@ -99,7 +96,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
                                     RELEASE_STATUS[data.status].color,
                             }}
                         >
-                            <p>{RELEASE_STATUS[data.status].title_ua}</p>
+                            <P>{RELEASE_STATUS[data.status].title_ua}</P>
                         </div>
                     </div>
                 </div>
@@ -113,7 +110,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
                                 </Label>
                             </div>
                             <div className="flex-1">
-                                <Label className="text-sm">
+                                <Label>
                                     {data.status === 'finished'
                                         ? data.episodes_total
                                         : `${data.episodes_released} / ${data.episodes_total}`}

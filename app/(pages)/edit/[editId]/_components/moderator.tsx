@@ -3,14 +3,16 @@
 import { format } from 'date-fns';
 import * as React from 'react';
 
+
+
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+
+
+import H5 from '@/components/typography/h5';
+import Small from '@/components/typography/small';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import useEdit from '@/services/hooks/edit/useEdit';
 
@@ -44,16 +46,16 @@ const Component = () => {
                     </Link>
                     <div className="flex flex-1 flex-col">
                         <Link href={'/u/' + edit.moderator.username}>
-                            <h5>{edit.moderator.username}</h5>
+                            <H5>{edit.moderator.username}</H5>
                         </Link>
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-4">
-                                <p className="text-xs text-muted-foreground">
+                                <Small className="text-muted-foreground">
                                     {format(
                                         edit.updated * 1000,
                                         'd MMM yyyy H:mm',
                                     )}
-                                </p>
+                                </Small>
                             </div>
                         </div>
                     </div>

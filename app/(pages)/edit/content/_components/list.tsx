@@ -7,12 +7,13 @@ import { range } from '@antfu/utils';
 
 import AnimeCard from '@/components/anime-card';
 import SkeletonCard from '@/components/skeletons/entry-card';
+import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
 
 interface Props {
     extended?: boolean;
@@ -65,7 +66,7 @@ const Component = ({ extended }: Props) => {
                         !Array.isArray(option) &&
                         option && (
                             <div className="flex items-center gap-2">
-                                <h3>{option.label}</h3>
+                                <H3>{option.label}</H3>
                                 {data && (
                                     <Label className="text-muted-foreground">
                                         ({data?.pages[0].pagination.total})

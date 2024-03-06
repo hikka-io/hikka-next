@@ -5,15 +5,17 @@ import intervalToDuration from 'date-fns/intervalToDuration';
 import React from 'react';
 import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-10';
 
+
+
 import { useParams } from 'next/navigation';
 
+
+
+import H5 from '@/components/typography/h5';
+import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
 
@@ -29,7 +31,7 @@ const Component = () => {
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex gap-2 justify-between items-end">
-                    <h5>
+                    <H5>
                         {(stats?.duration &&
                             formatDuration(
                                 intervalToDuration({
@@ -39,15 +41,15 @@ const Component = () => {
                                 { format: ['years', 'months', 'days'] },
                             )) ||
                             '0 днів'}
-                    </h5>
-                    <p className="text-muted-foreground text-xs">
+                    </H5>
+                    <Small className="text-muted-foreground">
                         {(stats?.duration &&
                             formatDuration(
                                 { hours: Math.round(stats?.duration / 60) },
                                 { format: ['hours'] },
                             )) ||
                             '0 годин'}
-                    </p>
+                    </Small>
                 </div>
                 <Tooltip delayDuration={0}>
                     <TooltipTrigger>
