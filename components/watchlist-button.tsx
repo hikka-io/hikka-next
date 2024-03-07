@@ -36,11 +36,13 @@ const SETTINGS_BUTTON = {
     value: 'settings',
     disableCheckbox: true,
     separator: true,
+    title: 'Налаштування',
 };
 
 const OPTIONS = [
     ...Object.keys(WATCH_STATUS).map((status) => ({
         value: status,
+        title: WATCH_STATUS[status as API.WatchStatus].title_ua,
         label: (
             <div className="flex gap-2 items-center">
                 {createElement(WATCH_STATUS[status as API.WatchStatus].icon!)}

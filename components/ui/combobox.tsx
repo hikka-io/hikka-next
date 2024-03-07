@@ -35,6 +35,7 @@ export interface ComboboxOption {
     label: React.ReactNode;
     separator?: boolean;
     disableCheckbox?: boolean;
+    title?: string;
 }
 
 type ComboboxPropsSingle = {
@@ -219,7 +220,7 @@ export const Combobox = forwardRef(
                                                     <CommandItem
                                                         className="gap-2"
                                                         title={
-                                                            option.label as string
+                                                            option.title || option.label as string
                                                         }
                                                         value={option.value}
                                                         onSelect={(
