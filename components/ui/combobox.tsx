@@ -211,7 +211,7 @@ export const Combobox = forwardRef(
                                 <CommandGroup>
                                     <ScrollArea>
                                         <ScrollBar orientation="vertical" />
-                                        <div className="max-h-60">
+                                        <div className="max-h-72">
                                             {props.options.map((option) => (
                                                 <Fragment key={option.value}>
                                                     {option.separator && (

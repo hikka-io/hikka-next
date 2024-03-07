@@ -66,6 +66,11 @@ const Component = ({ slug }: Props) => {
         closeModal();
     };
 
+    const onDeleteSubmit = async () => {
+        deleteFromList();
+        closeModal();
+    };
+
     useEffect(() => {
         if (watch?.status) {
             setSelectedStatus(watch.status);
@@ -159,7 +164,7 @@ const Component = ({ slug }: Props) => {
                 <div className="grid w-full grid-cols-2 gap-8">
                     <Button
                         variant="destructive"
-                        onClick={handleSubmit(() => deleteFromList())}
+                        onClick={handleSubmit(onDeleteSubmit)}
                         disabled={
                             isSubmitting ||
                             addToListLoading ||

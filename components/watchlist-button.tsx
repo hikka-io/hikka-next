@@ -50,7 +50,6 @@ const OPTIONS = [
             </div>
         ),
     })),
-    SETTINGS_BUTTON,
 ];
 
 const Component = ({ slug, additional, disabled }: Props) => {
@@ -114,7 +113,10 @@ const Component = ({ slug, additional, disabled }: Props) => {
 
     return (
         <Combobox
-            options={OPTIONS}
+            options={[
+                ...OPTIONS,
+                ...(watch && !watchError ? [SETTINGS_BUTTON] : []),
+            ]}
             onChange={handleChangeStatus}
             value={watch && !watchError ? watch.status : undefined}
             renderToggle={(open, setOpen, value) => {
