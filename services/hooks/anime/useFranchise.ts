@@ -1,7 +1,10 @@
 import getAnimeFranchise from '@/services/api/anime/getAnimeFranchise';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
-const useFranchise = (slug: string, secret?: string) => {
+const useFranchise = ({ slug }: { slug: string }) => {
+    const { secret } = useAuthContext();
+
     return useInfiniteList({
         queryKey: ['franchise', slug, { secret }],
         queryFn: ({ pageParam = 1 }) =>

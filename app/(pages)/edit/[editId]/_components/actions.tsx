@@ -24,7 +24,7 @@ const Component = () => {
 
     const { secret } = useAuthContext();
 
-    const { data: edit } = useEdit(String(params.editId));
+    const { data: edit } = useEdit({ editId: Number(params.editId) });
 
     const { data: loggedUser } = useLoggedUser();
 

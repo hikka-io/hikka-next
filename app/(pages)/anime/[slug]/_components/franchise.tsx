@@ -7,11 +7,9 @@ import { useParams } from 'next/navigation';
 import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { useSettingsContext } from '@/services/providers/settings-provider';
-
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useFranchise from '@/services/hooks/anime/useFranchise';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
@@ -19,12 +17,11 @@ interface Props {
 
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
-    const { secret } = useAuthContext();
     const params = useParams();
-    const { data: anime } = useAnimeInfo(String(params.slug));
+    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
 
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useFranchise(String(params.slug), secret);
+        useFranchise({ slug: String(params.slug) });
 
     if (!anime || !anime.has_franchise) {
         return null;

@@ -3,20 +3,16 @@
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import addWatch from '@/services/api/watch/addWatch';
-import deleteWatch from '@/services/api/watch/deleteWatch';
-import getWatch from '@/services/api/watch/getWatch';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAddToList from '@/services/hooks/watch/useAddToList';
+import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
+import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
-
 
 type FormValues = {
     score: number;
@@ -31,62 +27,24 @@ interface Props {
 
 const Component = ({ slug }: Props) => {
     const { closeModal } = useModalContext();
-    const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
-    const { data: watch, isError: watchError } = useQuery({
-        queryKey: ['watch', slug, secret],
-        queryFn: () => getWatch({ slug: String(slug), secret: String(secret) }),
-        staleTime: 0,
-        gcTime: 0,
-        enabled: Boolean(secret)
+    const { data: watch, isError: watchError } = useWatch({ slug });
+
+    const { mutate: addToList, isPending: addToListLoading } = useAddToList({
+        slug,
     });
+
+    const { mutate: deleteFromList, isPending: deleteFromListLoading } =
+        useDeleteFromList({ slug });
+
     const [selectedStatus, setSelectedStatus] = useState<
         API.WatchStatus | undefined
     >(watch?.status);
+
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<FormValues>();
-    const { mutate: addToList, isPending: addToListLoading } = useMutation({
-        mutationKey: ['addToList', secret, slug, selectedStatus],
-        mutationFn: (mutationParams: {
-            score?: number;
-            episodes?: number;
-            note?: string;
-            rewatches?: number;
-        }) =>
-            addWatch({
-                secret: String(secret),
-                slug: String(slug),
-                status: selectedStatus!,
-                ...mutationParams,
-            }),
-        onSuccess: async () => {
-            closeModal();
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
-            await queryClient.invalidateQueries({ queryKey: ['watch'] });
-            await queryClient.invalidateQueries({
-                queryKey: ['watchList'],
-                exact: false,
-            });
-        },
-    });
-
-    const { mutate: deleteFromList, isPending: deleteFromListLoading } =
-        useMutation({
-            mutationKey: ['deleteFromList', secret, slug],
-            mutationFn: () =>
-                deleteWatch({
-                    secret: String(secret),
-                    slug: String(slug),
-                }),
-            onSuccess: async () => {
-                closeModal();
-                await queryClient.invalidateQueries({ queryKey: ['list'] });
-                await queryClient.invalidateQueries({ queryKey: ['watch'] });
-            },
-        });
 
     const onSaveSubmit = async (data: FormValues) => {
         if (data.score && (data.score > 10 || data.score < 0)) {
@@ -98,11 +56,14 @@ const Component = ({ slug }: Props) => {
         }
 
         addToList({
+            status: selectedStatus!,
             score: data.score || undefined,
             episodes: data.episodes || undefined,
             note: data.note || undefined,
             rewatches: data.rewatches || undefined,
         });
+
+        closeModal();
     };
 
     useEffect(() => {

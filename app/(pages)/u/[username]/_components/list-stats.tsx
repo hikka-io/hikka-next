@@ -8,15 +8,15 @@ import { useParams } from 'next/navigation';
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import useWatchStats from '@/services/hooks/watch/useWatchStats';
 import { cn } from '@/utils';
 import { WATCH_STATUS } from '@/utils/constants';
-import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
 interface Props {}
 
 const Component = ({}: Props) => {
     const params = useParams();
-    const { data } = useWatchStats(String(params.username));
+    const { data } = useWatchStats({ username: String(params.username) });
 
     if (!data) {
         return null;

@@ -10,8 +10,8 @@ import { useParams } from 'next/navigation';
 import SubHeader from '@/components/sub-header';
 import BaseCard from '@/components/ui/base-card';
 import { Button } from '@/components/ui/button';
-import { OST, VIDEO } from '@/utils/constants';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import { OST, VIDEO } from '@/utils/constants';
 
 interface Props {
     extended?: boolean;
@@ -19,7 +19,7 @@ interface Props {
 
 const Component = ({ extended }: Props) => {
     const params = useParams();
-    const { data: anime } = useAnimeInfo(String(params.slug));
+    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
     const [active, setActive] = useState<'video' | 'music'>(
         anime?.videos && anime.videos.length === 0 ? 'music' : 'video',
     );

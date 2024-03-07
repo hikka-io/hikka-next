@@ -5,23 +5,25 @@ import intervalToDuration from 'date-fns/intervalToDuration';
 import React from 'react';
 import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-10';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
 
 const Component = () => {
     const params = useParams();
-    const { data: stats } = useWatchStats(String(params.username));
+    const { data: stats } = useWatchStats({
+        username: String(params.username),
+    });
 
     return (
         <div className="flex flex-col gap-4 flex-1 bg-secondary/30 border border-secondary/60 p-4 rounded-md">

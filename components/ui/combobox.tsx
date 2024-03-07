@@ -1,6 +1,7 @@
 import { ChevronsUpDown } from 'lucide-react';
 import {
     Dispatch,
+    Fragment,
     ReactNode,
     SetStateAction,
     forwardRef,
@@ -16,6 +17,7 @@ import {
     CommandGroup,
     CommandInput,
     CommandItem,
+    CommandSeparator,
 } from '@/components/ui/command';
 import {
     Popover,
@@ -24,13 +26,15 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { cn } from '@/utils';
 
 import { Checkbox } from './checkbox';
-import { cn } from '@/utils';
 
 export interface ComboboxOption {
     value: string;
     label: React.ReactNode;
+    separator?: boolean;
+    disableCheckbox?: boolean;
 }
 
 type ComboboxPropsSingle = {
@@ -61,11 +65,13 @@ export type ComboboxProps = (ComboboxPropsSingle | ComboboxPropsMultiple) & {
         setOpen: Dispatch<SetStateAction<boolean>>,
         value: string | string[] | undefined,
     ) => ReactNode;
-    renderValue?: (option: ComboboxOption | ComboboxOption[] | undefined) => ReactNode;
+    renderValue?: (
+        option: ComboboxOption | ComboboxOption[] | undefined,
+    ) => ReactNode;
     toggleProps?: ButtonProps;
     disableCheckbox?: boolean;
-    align?: "center" | "start" | "end";
-    side?: "top" | "right" | "bottom" | "left";
+    align?: 'center' | 'start' | 'end';
+    side?: 'top' | 'right' | 'bottom' | 'left';
     className?: string;
 };
 
@@ -99,14 +105,20 @@ export const Combobox = forwardRef(
 
         const getOptionsByValue = () => {
             if (props.multiple) {
-                return props.options.filter((o) => props.value?.some(v => v === o.value));
+                return props.options.filter(
+                    (o) => props.value?.some((v) => v === o.value),
+                );
             }
 
             return props.options.filter((o) => o.value === props.value);
-        }
+        };
 
         return (
-            <div data-select={true} className={cn("relative", props.className)} ref={rootRef}>
+            <div
+                data-select={true}
+                className={cn('relative', props.className)}
+                ref={rootRef}
+            >
                 <Popover open={open} onOpenChange={setOpen}>
                     {props.renderToggle ? (
                         props.renderToggle(open, setOpen, props.value)
@@ -119,28 +131,54 @@ export const Combobox = forwardRef(
                                 className="w-full justify-between"
                                 {...props.toggleProps}
                             >
-                                {!props.renderValue ? (props.multiple ?
-                                    (props.value && props.value?.length > 0 && (
-                                        <div className="inline-flex gap-2">
-                                            {getOptionsByValue().map((v, i) => i < 1 ? (
-                                                <Badge variant="outline" key={v.value}>{v.label}</Badge>
-                                            ) : (i === 1 ? (<Badge variant="outline" key="final-badge">...</Badge>) : null))}
-                                        </div>
-                                        )) : (props.value && <div className="inline-flex gap-2">{getOptionsByValue()[0].label}</div>)) : props.renderValue(getOptionsByValue()[0])}
-
+                                {!props.renderValue
+                                    ? props.multiple
+                                        ? props.value &&
+                                          props.value?.length > 0 && (
+                                              <div className="inline-flex gap-2">
+                                                  {getOptionsByValue().map(
+                                                      (v, i) =>
+                                                          i < 1 ? (
+                                                              <Badge
+                                                                  variant="outline"
+                                                                  key={v.value}
+                                                              >
+                                                                  {v.label}
+                                                              </Badge>
+                                                          ) : i === 1 ? (
+                                                              <Badge
+                                                                  variant="outline"
+                                                                  key="final-badge"
+                                                              >
+                                                                  ...
+                                                              </Badge>
+                                                          ) : null,
+                                                  )}
+                                              </div>
+                                          )
+                                        : props.value && (
+                                              <div className="inline-flex gap-2">
+                                                  {getOptionsByValue()[0].label}
+                                              </div>
+                                          )
+                                    : props.renderValue(getOptionsByValue()[0])}
 
                                 {(!props.value || props.value.length === 0) && (
-                                        <span className="line-clamp-1 text-left font-normal text-muted-foreground">
-                                            {props.selectPlaceholder ??
-                                                'Виберіть опцію'}
-                                        </span>
-                                    )}
+                                    <span className="line-clamp-1 text-left font-normal text-muted-foreground">
+                                        {props.selectPlaceholder ??
+                                            'Виберіть опцію'}
+                                    </span>
+                                )}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                     )}
                     <PopoverPortal container={rootRef.current}>
-                        <PopoverContent side={props.side} align={props.align || "start"} className="p-0">
+                        <PopoverContent
+                            side={props.side}
+                            align={props.align || 'start'}
+                            className="p-0"
+                        >
                             <Command
                                 filter={(value, search) => {
                                     const label =
@@ -149,7 +187,9 @@ export const Combobox = forwardRef(
                                         )?.label || '';
                                     if (
                                         typeof label === 'string' &&
-                                        label.toLowerCase().includes(search.toLowerCase())
+                                        label
+                                            .toLowerCase()
+                                            .includes(search.toLowerCase())
                                     )
                                         return 1;
                                     return 0;
@@ -164,65 +204,76 @@ export const Combobox = forwardRef(
                                     />
                                 )}
                                 <CommandEmpty>
-                                    {props.emptyText ?? 'Результатів не знайдено'}
+                                    {props.emptyText ??
+                                        'Результатів не знайдено'}
                                 </CommandEmpty>
                                 <CommandGroup>
                                     <ScrollArea>
                                         <ScrollBar orientation="vertical" />
                                         <div className="max-h-60">
                                             {props.options.map((option) => (
-                                                <CommandItem
-                                                    className="gap-2"
-                                                    title={
-                                                        option.label as string
-                                                    }
-                                                    key={option.value}
-                                                    value={option.value}
-                                                    onSelect={(
-                                                        selectedValue,
-                                                    ) => {
-                                                        console.log(selectedValue);
-                                                        const option =
-                                                            props.options.find(
-                                                                (option) =>
-                                                                    option.value
-                                                                        .toLowerCase()
-                                                                        .trim() ===
-                                                                    selectedValue,
-                                                            );
-
-                                                        if (!option)
-                                                            return null;
-
-                                                        if (props.multiple) {
-                                                            handleMultipleSelect(
-                                                                props,
-                                                                option,
-                                                            );
-                                                        } else {
-                                                            handleSingleSelect(
-                                                                props,
-                                                                option,
-                                                            );
-
-                                                            setOpen(false);
+                                                <Fragment key={option.value}>
+                                                    {option.separator && (
+                                                        <CommandSeparator />
+                                                    )}
+                                                    <CommandItem
+                                                        className="gap-2"
+                                                        title={
+                                                            option.label as string
                                                         }
-                                                    }}
-                                                >
-                                                    {!props.disableCheckbox && <Checkbox
-                                                        className="border-secondary"
-                                                        checked={
-                                                            (!props.multiple &&
-                                                                props.value ===
-                                                                    option.value) ||
-                                                            (props.multiple &&
-                                                                props.value?.includes(
-                                                                    option.value,
-                                                                ))
-                                                        }
-                                                    />}
-                                                    {option.label}
-                                                </CommandItem>
+                                                        value={option.value}
+                                                        onSelect={(
+                                                            selectedValue,
+                                                        ) => {
+                                                            console.log(
+                                                                selectedValue,
+                                                            );
+                                                            const option =
+                                                                props.options.find(
+                                                                    (option) =>
+                                                                        option.value
+                                                                            .toLowerCase()
+                                                                            .trim() ===
+                                                                        selectedValue,
+                                                                );
+
+                                                            if (!option)
+                                                                return null;
+
+                                                            if (
+                                                                props.multiple
+                                                            ) {
+                                                                handleMultipleSelect(
+                                                                    props,
+                                                                    option,
+                                                                );
+                                                            } else {
+                                                                handleSingleSelect(
+                                                                    props,
+                                                                    option,
+                                                                );
+
+                                                                setOpen(false);
+                                                            }
+                                                        }}
+                                                    >
+                                                        {!props.disableCheckbox && !option.disableCheckbox && (
+                                                            <Checkbox
+                                                                className="border-secondary"
+                                                                checked={
+                                                                    (!props.multiple &&
+                                                                        props.value ===
+                                                                            option.value) ||
+                                                                    (props.multiple &&
+                                                                        props.value?.includes(
+                                                                            option.value,
+                                                                        ))
+                                                                }
+                                                            />
+                                                        )}
+                                                        {option.label}
+                                                    </CommandItem>
+                                                </Fragment>
                                             ))}
                                         </div>
                                     </ScrollArea>

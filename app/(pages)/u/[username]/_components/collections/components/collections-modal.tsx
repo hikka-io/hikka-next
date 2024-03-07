@@ -5,10 +5,9 @@ import * as React from 'react';
 import { useParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useUserCollections from '@/services/hooks/user/useUserCollections';
 
 import CollectionItem from './ui/collection-item';
-import useUserCollections from '@/services/hooks/user/useUserCollections';
 
 interface Props {
     className?: string;
@@ -16,7 +15,6 @@ interface Props {
 
 const Component = ({ className }: Props) => {
     const params = useParams();
-    const { secret } = useAuthContext();
 
     const {
         list: collections,
@@ -26,7 +24,6 @@ const Component = ({ className }: Props) => {
         fetchNextPage,
     } = useUserCollections({
         username: String(params.username),
-        secret: secret,
     });
 
     return (

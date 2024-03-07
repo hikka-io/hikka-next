@@ -1,13 +1,14 @@
 'use client';
 
 import React from 'react';
+import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
-
 import SubHeader from '@/components/sub-header';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -24,29 +25,23 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { useCollectionContext } from '@/services/providers/collection-provider';
 import useCollection from '@/services/hooks/collections/useCollection';
 import useDeleteCollection from '@/services/hooks/collections/useDeleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
+import { useCollectionContext } from '@/services/providers/collection-provider';
 
 const Component = () => {
     const params = useParams();
-    const { secret } = useAuthContext();
     const { nsfw, spoiler, tags } = useCollectionContext();
 
     const { data: loggedUser } = useLoggedUser();
 
     const { data: collection } = useCollection({
         reference: String(params.reference),
-        secret,
     });
 
     const { mutate: mutateDeleteCollection } = useDeleteCollection({
         reference: String(params.reference),
-        secret: String(secret),
     });
 
     const access =
@@ -112,7 +107,9 @@ const Component = () => {
                         </Button>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button size="icon" variant="destructive"><MaterialSymbolsDeleteForeverRounded className="text-lg" /></Button>
+                                <Button size="icon" variant="destructive">
+                                    <MaterialSymbolsDeleteForeverRounded className="text-lg" />
+                                </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>

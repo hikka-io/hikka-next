@@ -7,8 +7,8 @@ import { useParams } from 'next/navigation';
 import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import useCharacterAnime from '@/services/hooks/characters/useCharacterAnime';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
@@ -18,7 +18,7 @@ const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useCharacterAnime(String(params.slug));
+        useCharacterAnime({ slug: String(params.slug) });
 
     if (!list || list.length === 0) {
         return null;

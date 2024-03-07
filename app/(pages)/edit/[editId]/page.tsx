@@ -35,15 +35,10 @@ const Component = async ({
 
     const queryClient = getQueryClient();
 
-    await queryClient.prefetchQuery({
+    const edit = await queryClient.fetchQuery({
         queryKey: ['edit', editId],
         queryFn: () => getEdit({ edit_id: Number(editId) }),
     });
-
-    const edit: API.Edit | undefined = queryClient.getQueryData([
-        'edit',
-        editId,
-    ]);
 
     if (!edit) {
         redirect('/edit');
@@ -56,10 +51,10 @@ const Component = async ({
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Breadcrumbs>
                     <Link
-                        href={'/edit/' + edit?.edit_id}
+                        href={'/edit/' + edit.edit_id}
                         className="text-sm font-bold hover:underline"
                     >
-                        Правка #{edit?.edit_id}
+                        Правка #{edit.edit_id}
                     </Link>
                 </Breadcrumbs>
                 <div className="flex flex-col gap-8">
@@ -67,17 +62,17 @@ const Component = async ({
                     <div className="flex flex-col gap-12">
                         {mode === 'update' && (
                             <EditView
-                                editId={Number(editId)}
+                                edit={edit}
                                 mode="edit"
-                                content_type={edit?.content_type}
+                                content_type={edit.content_type}
                             />
                         )}
                         {mode === 'view' && (
                             <>
                                 <EditView
-                                    editId={Number(editId)}
+                                    edit={edit}
                                     mode="view"
-                                    content_type={edit?.content_type}
+                                    content_type={edit.content_type}
                                 />
                                 <Actions />
                                 <Comments slug={editId} content_type="edit" />
@@ -95,7 +90,7 @@ const Component = async ({
                             <EditStatus />
                         </SubHeader>
                         <div className="flex flex-col justify-between rounded-lg border border-secondary/60 bg-secondary/30 p-4">
-                            {edit?.author && <Author />}
+                            {edit.author && <Author />}
                             <Moderator />
                         </div>
                     </div>

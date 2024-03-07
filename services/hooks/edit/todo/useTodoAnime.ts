@@ -3,7 +3,7 @@ import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 const useTodoAnime = (param: string, secret: string) => {
     return useInfiniteList({
-        queryKey: ['list', param, secret],
+        queryKey: ['list', param, { secret }],
         queryFn: ({ pageParam = 1 }) =>
             getTodoAnime({
                 param: param,

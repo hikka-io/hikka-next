@@ -5,9 +5,9 @@ import { useParams } from 'next/navigation';
 import FollowlistModal from '@/components/modals/followlist-modal';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import useFollowStats from '@/services/hooks/follow/useFollowStats';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
-import useFollowStats from '@/services/hooks/follow/useFollowStats';
 
 interface Props {
     className?: string;
@@ -17,7 +17,9 @@ const Component = ({ className }: Props) => {
     const { openModal } = useModalContext();
     const params = useParams();
 
-    const { data: followStats } = useFollowStats(String(params.username));
+    const { data: followStats } = useFollowStats({
+        username: String(params.username),
+    });
 
     if (!followStats) {
         return null;

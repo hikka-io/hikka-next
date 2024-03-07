@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { ChangeEvent, useRef } from 'react';
 import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded';
 import MaterialSymbolsPerson2OutlineRounded from '~icons/material-symbols/person-2-outline-rounded';
@@ -17,23 +18,19 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { useModalContext } from '@/services/providers/modal-provider';
-import * as React from 'react';
-import useUser from '@/services/hooks/user/useUser';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useUser from '@/services/hooks/user/useUser';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 interface Props {}
 
 const Component = ({}: Props) => {
-    // const pathname = usePathname();
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const { openModal } = useModalContext();
     const params = useParams();
-    const { secret } = useAuthContext();
 
-    const { data: user } = useUser(String(params.username));
+    const { data: user } = useUser({ username: String(params.username) });
     const { data: loggedUser } = useLoggedUser();
 
     const handleUploadImageSelected = (
@@ -65,10 +62,6 @@ const Component = ({}: Props) => {
     };
 
     if (!user) {
-        return null;
-    }
-
-    if (secret && !loggedUser) {
         return null;
     }
 
@@ -134,7 +127,9 @@ const Component = ({}: Props) => {
                     </DropdownMenu>
                 )}
             </div>
-            {user.active && <div className='absolute z-[1] -bottom-2 -right-2 w-6 h-6 bg-success rounded-full border-4 border-secondary' />}
+            {user.active && (
+                <div className="absolute z-[1] -bottom-2 -right-2 w-6 h-6 bg-success rounded-full border-4 border-secondary" />
+            )}
         </div>
     );
 };

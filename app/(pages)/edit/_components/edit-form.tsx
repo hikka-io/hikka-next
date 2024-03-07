@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
-import { useContentData } from '@/app/(pages)/edit/page.hooks';
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
@@ -33,19 +32,14 @@ interface Props {
     slug: string;
     content_type: API.ContentType;
     mode?: 'view' | 'edit';
+    content: API.AnimeInfo | API.Character;
 }
 
-const Component = ({ slug, content_type, mode = 'edit' }: Props) => {
+const Component = ({ slug, content_type, content, mode = 'edit' }: Props) => {
     const captchaRef = useRef<TurnstileInstance>();
 
     const { secret } = useAuthContext();
     const router = useRouter();
-
-    const { data: content } = useContentData({ slug, content_type })!;
-
-    if (!content) {
-        return null;
-    }
 
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;

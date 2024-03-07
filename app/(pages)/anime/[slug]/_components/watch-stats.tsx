@@ -10,22 +10,18 @@ import Rating from '@/components/ui/rating';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAddWatch from '@/services/hooks/watch/useAddWatch';
 import useWatch from '@/services/hooks/watch/useWatch';
-import { useAuthContext } from '@/services/providers/auth-provider';
 
 const Component = () => {
     const params = useParams();
-    const { secret } = useAuthContext();
 
-    const { data: watch, isError: watchError } = useWatch(
-        String(params.slug),
-        secret,
-    );
-    const { data } = useAnimeInfo(String(params.slug));
+    const { data: watch, isError: watchError } = useWatch({
+        slug: String(params.slug),
+    });
+    const { data } = useAnimeInfo({ slug: String(params.slug) });
 
-    const { mutate: addToList, isPending: addToListLoading } = useAddWatch(
-        String(params.slug),
-        String(secret),
-    );
+    const { mutate: addToList, isPending: addToListLoading } = useAddWatch({
+        slug: String(params.slug),
+    });
 
     const changeEpisodes = (action: 'increase' | 'decrease') => {
         let status = watch!.status;

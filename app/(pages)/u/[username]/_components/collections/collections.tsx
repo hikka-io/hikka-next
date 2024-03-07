@@ -1,21 +1,20 @@
 'use client';
 
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
+
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useUserCollections from '@/services/hooks/user/useUserCollections';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils';
 
 import CollectionsModal from './components/collections-modal';
 import CollectionItem from './components/ui/collection-item';
-import { Button } from '@/components/ui/button';
-
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded'
-import Link from 'next/link';
-import useUserCollections from '@/services/hooks/user/useUserCollections';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 interface Props {
     className?: string;
@@ -24,13 +23,11 @@ interface Props {
 const Component = ({ className }: Props) => {
     const params = useParams();
     const { openModal } = useModalContext();
-    const { secret } = useAuthContext();
 
     const { data: loggedUser } = useLoggedUser();
 
     const { list: collections } = useUserCollections({
         username: String(params.username),
-        secret: secret,
     });
 
     if (!collections) {

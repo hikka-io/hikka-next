@@ -6,19 +6,19 @@ import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
 import { useParams } from 'next/navigation';
 
 import H3 from '@/components/typography/h3';
+import P from '@/components/typography/p';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import useUser from '@/services/hooks/user/useUser';
-import P from '@/components/typography/p';
 
 interface Props {}
 
 const Component = ({}: Props) => {
     const params = useParams();
-    const { data: user } = useUser(String(params.username));
+    const { data: user } = useUser({ username: String(params.username) });
 
     if (!user) {
         return null;

@@ -6,21 +6,17 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
-import { Label } from '@/components/ui/label';
-import useEdit from '@/services/hooks/edit/useEdit';
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
+import useEdit from '@/services/hooks/edit/useEdit';
 
 
 const Component = () => {
     const params = useParams();
 
-    const { data: edit } = useEdit(String(params.editId));
+    const { data: edit } = useEdit({ editId: Number(params.editId) });
 
     if (!edit) {
         return null;

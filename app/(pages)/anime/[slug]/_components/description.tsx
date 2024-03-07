@@ -15,7 +15,7 @@ const Component = () => {
         'synopsis_ua',
     );
     const params = useParams();
-    const { data } = useAnimeInfo(String(params.slug));
+    const { data } = useAnimeInfo({ slug: String(params.slug) });
 
     if (!data || (!data.synopsis_ua && !data.synopsis_en)) {
         return null;

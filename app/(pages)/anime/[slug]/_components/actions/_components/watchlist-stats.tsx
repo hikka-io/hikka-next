@@ -3,11 +3,7 @@
 import { createElement, useRef } from 'react';
 import { NumericFormat } from 'react-number-format';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import SubHeader from '@/components/sub-header';
 import Small from '@/components/typography/small';
@@ -20,7 +16,7 @@ const Component = () => {
     const ref = useRef<HTMLDivElement>(null);
     const maxSize = useSize(ref);
     const params = useParams();
-    const { data } = useAnimeInfo(String(params.slug));
+    const { data } = useAnimeInfo({ slug: String(params.slug) });
 
     const maxWidth = maxSize?.width || 120;
 

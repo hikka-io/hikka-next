@@ -6,9 +6,8 @@ import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
@@ -16,10 +15,9 @@ interface Props {
 
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
-    const { secret } = useAuthContext();
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useFavorites(String(params.username), String(secret));
+        useFavorites({ username: String(params.username) });
 
     if ((!list || list.length === 0) && !extended) {
         return null;

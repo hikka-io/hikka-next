@@ -7,21 +7,21 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
+import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import P from '@/components/typography/p';
+import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 
 const Component = () => {
     const params = useParams();
 
-    const { data } = useAnimeInfo(String(params.slug));
+    const { data } = useAnimeInfo({ slug: String(params.slug) });
 
     if (!data) {
         return null;

@@ -1,18 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import getFavourite from '@/services/api/favourite/getFavourite';
-import addFavourite from '@/services/api/favourite/addFavourite';
 import deleteFavourite from '@/services/api/favourite/deleteFavourite';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
-const useDeleteFavorite = (slug: string, secret?: string) => {
+const useDeleteFavorite = ({ slug }: { slug: string }) => {
+    const { secret } = useAuthContext();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['deleteFromFavorite', secret, slug],
+        mutationKey: ['deleteFromFavorite', slug, { secret }],
         mutationFn: () =>
             deleteFavourite({
-                secret: String(secret),
-                slug: String(slug),
+                secret: secret!,
+                slug: slug,
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['favorite'] });

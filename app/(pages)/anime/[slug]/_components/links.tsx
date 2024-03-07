@@ -39,7 +39,7 @@ const ExternalLink = ({ link }: { link: API.External }) => {
 const Component = ({ extended }: Props) => {
     const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
-    const { data: anime } = useAnimeInfo(String(params.slug));
+    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
 
     if (!anime) {
         return null;

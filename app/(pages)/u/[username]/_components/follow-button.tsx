@@ -7,14 +7,13 @@ import { useParams } from 'next/navigation';
 
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import { Button } from '@/components/ui/button';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils';
-import useUser from '@/services/hooks/user/useUser';
-import useFollowChecker from '@/services/hooks/follow/useFollowChecker';
 import useFollow from '@/services/hooks/follow/useFollow';
+import useFollowChecker from '@/services/hooks/follow/useFollowChecker';
 import useUnfollow from '@/services/hooks/follow/useUnfollow';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useUser from '@/services/hooks/user/useUser';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils';
 
 interface Props {
     className?: string;
@@ -23,26 +22,20 @@ interface Props {
 const Component = ({ className }: Props) => {
     const { openModal } = useModalContext();
     const params = useParams();
-    const { secret } = useAuthContext();
 
     const { data: loggedUser } = useLoggedUser();
-    const { data: user } = useUser(String(params.username));
+    const { data: user } = useUser({ username: String(params.username) });
 
-    const { data: followChecker } = useFollowChecker(
-        String(params.username),
-        String(secret),
-        Boolean(secret) &&
-            loggedUser &&
-            loggedUser.username !== params.username,
-    );
+    const { data: followChecker } = useFollowChecker({
+        username: String(params.username),
+        enabled: loggedUser && loggedUser.username !== params.username,
+    });
 
     const { mutate: mutateFollow, isPending: followLoading } = useFollow({
-        secret: String(secret),
         username: String(params.username),
     });
 
     const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow({
-        secret: String(secret),
         username: String(params.username),
     });
 

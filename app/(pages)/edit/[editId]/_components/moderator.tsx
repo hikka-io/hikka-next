@@ -3,12 +3,8 @@
 import { format } from 'date-fns';
 import * as React from 'react';
 
-
-
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-
-
 
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
@@ -20,7 +16,7 @@ import useEdit from '@/services/hooks/edit/useEdit';
 const Component = () => {
     const params = useParams();
 
-    const { data: edit } = useEdit(String(params.editId));
+    const { data: edit } = useEdit({ editId: Number(params.editId) });
 
     if (!edit || !edit.moderator) {
         return null;

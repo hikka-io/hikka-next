@@ -6,6 +6,8 @@ import { PropsWithChildren, memo } from 'react';
 import Link from 'next/link';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
 import {
     HoverCard,
     HoverCardArrow,
@@ -19,8 +21,6 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
-import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
 
 interface Props extends PropsWithChildren {
     slug: string;
@@ -30,7 +30,7 @@ interface Props extends PropsWithChildren {
 const TooltipData = ({ slug }: { slug: string }) => {
     const { titleLanguage } = useSettingsContext();
     const { secret } = useAuthContext();
-    const { data } = useAnimeInfo(slug);
+    const { data } = useAnimeInfo({ slug });
 
     if (!data) {
         return (

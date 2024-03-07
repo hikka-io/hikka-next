@@ -29,8 +29,8 @@ const useAnimeCatalog = ({ page, iPage, secret }: Props) => {
     const query = useInfiniteQuery<AnimeCatalogResponse, Error>({
         queryKey: [
             'list',
-            page,
             {
+                page,
                 search,
                 types,
                 statuses,

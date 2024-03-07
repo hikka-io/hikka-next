@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import useAddFavorite from '@/services/hooks/favorite/useAddFavorite';
 import useDeleteFavorite from '@/services/hooks/favorite/useDeleteFavorite';
 import useFavorite from '@/services/hooks/favorite/useFavorite';
-import { useAuthContext } from '@/services/providers/auth-provider';
 
 interface Props {
     slug: string;
@@ -16,18 +15,13 @@ interface Props {
 }
 
 const Component = ({ slug, disabled }: Props) => {
-    const { secret } = useAuthContext();
-
-    const { data: favorite, isError: favoriteError } = useFavorite(
-        slug,
-        secret,
-    );
+    const { data: favorite, isError: favoriteError } = useFavorite({ slug });
 
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
-        useAddFavorite(slug, secret);
+        useAddFavorite({ slug });
 
     const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
-        useDeleteFavorite(slug, secret);
+        useDeleteFavorite({ slug });
 
     return (
         <Button

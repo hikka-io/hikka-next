@@ -6,15 +6,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import deleteCollection from '@/services/api/collections/deleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 
-const useDeleteCollection = ({
-    secret,
-    reference,
-}: {
-    reference: string;
-    secret: string;
-}) => {
+const useDeleteCollection = ({ reference }: { reference: string }) => {
+    const { secret } = useAuthContext();
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
@@ -23,7 +19,7 @@ const useDeleteCollection = ({
     return useMutation({
         mutationFn: () =>
             deleteCollection({
-                secret: secret,
+                secret: secret!,
                 reference: reference,
             }),
         mutationKey: ['deleteCollection'],

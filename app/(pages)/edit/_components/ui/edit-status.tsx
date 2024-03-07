@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import { useParams } from 'next/navigation';
 
-import { EDIT_STATUS } from '@/utils/constants';
-import useEdit from '@/services/hooks/edit/useEdit';
 import P from '@/components/typography/p';
+import useEdit from '@/services/hooks/edit/useEdit';
+import { EDIT_STATUS } from '@/utils/constants';
 
 interface Props {
     status?: API.EditStatus;
@@ -14,7 +14,7 @@ interface Props {
 
 const Component = ({ status }: Props) => {
     const params = useParams();
-    const { data: edit } = useEdit(String(params.editId));
+    const { data: edit } = useEdit({ editId: Number(params.editId) });
 
     if (!status && (!edit || !edit.status)) {
         return null;

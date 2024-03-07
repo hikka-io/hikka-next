@@ -13,7 +13,6 @@ import EditGroup from '@/app/(pages)/edit/_components/edit-group';
 import AutoButton from '@/app/(pages)/edit/_components/ui/auto-button';
 import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';
-import useEdit from '@/services/hooks/edit/useEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import {
     getEditGroups,
@@ -31,20 +30,14 @@ type FormValues = (Hikka.AnimeEditParams | Hikka.CharacterEditParams) & {
 interface EditProps {
     content_type: API.ContentType;
     mode?: 'view' | 'edit';
-    editId: number;
+    edit: API.Edit;
 }
 
-const Component = ({ content_type, editId, mode = 'view' }: EditProps) => {
+const Component = ({ content_type, edit, mode = 'view' }: EditProps) => {
     const captchaRef = useRef<TurnstileInstance>();
 
     const { secret } = useAuthContext();
     const router = useRouter();
-
-    const { data: edit } = useEdit(String(editId));
-
-    if (!edit) {
-        return null;
-    }
 
     const params = getEditParams(content_type, Object.keys(edit.after))!;
 
@@ -73,7 +66,7 @@ const Component = ({ content_type, editId, mode = 'view' }: EditProps) => {
             if (captchaRef.current) {
                 const res = await updateEdit({
                     secret: String(secret),
-                    edit_id: editId,
+                    edit_id: edit.edit_id,
                     after: {
                         ...getFilteredEditParams(paramSlugs, data),
                     },

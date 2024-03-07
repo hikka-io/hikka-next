@@ -16,7 +16,7 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useCharacters(String(params.slug));
+        useCharacters({ slug: String(params.slug) });
 
     if (!list || list.length === 0) {
         return null;

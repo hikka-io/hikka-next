@@ -5,12 +5,12 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import Content from '@/app/(pages)/edit/_components/content/content';
 import SubHeader from '@/components/sub-header';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Content from '@/app/(pages)/edit/_components/content/content';
 import EditForm from '../_components/edit-form';
 import RulesAlert from './_components/rules-alert';
 
@@ -48,6 +48,10 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
     const content: API.AnimeInfo | API.Character | undefined =
         queryClient.getQueryData([content_type, slug]);
 
+    if (!content) {
+        redirect('/edit');
+    }
+
     const dehydratedState = dehydrate(queryClient);
 
     return (
@@ -59,6 +63,7 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
                     <EditForm
                         slug={slug as string}
                         content_type={content_type as API.ContentType}
+                        content={content}
                     />
                 </div>
                 <div className="flex flex-col gap-12">

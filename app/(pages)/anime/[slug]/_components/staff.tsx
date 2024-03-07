@@ -16,7 +16,7 @@ interface Props {
 const Component = ({ extended }: Props) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useStaff(String(params.slug));
+        useStaff({ slug: String(params.slug) });
 
     const getRole = (
         roles: { name_ua: string; name_en: string; slug: string }[],

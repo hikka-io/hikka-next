@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import addWatch from '@/services/api/watch/addWatch';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
-const useAddWatch = (slug: string, secret: string) => {
+const useAddWatch = ({ slug }: { slug: string }) => {
+    const { secret } = useAuthContext();
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -13,7 +15,7 @@ const useAddWatch = (slug: string, secret: string) => {
             episodes: number;
         }) =>
             addWatch({
-                secret: secret,
+                secret: secret!,
                 slug: slug,
                 ...mutationParams,
             }),

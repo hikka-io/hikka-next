@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
 import useCollection from '@/services/hooks/collections/useCollection';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 import CollectionGrid from './collection-grid';
@@ -13,7 +12,6 @@ import CollectionGrid from './collection-grid';
 
 const Component = () => {
     const params = useParams();
-    const { secret } = useAuthContext();
     const {
         groups,
         rawToState,
@@ -22,7 +20,6 @@ const Component = () => {
 
     const { data } = useCollection({
         reference: String(params.reference),
-        secret,
     });
 
     useEffect(() => {

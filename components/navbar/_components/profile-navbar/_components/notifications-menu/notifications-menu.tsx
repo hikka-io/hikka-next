@@ -15,7 +15,6 @@ import {
 import useNotifications from '@/services/hooks/notifications/useNotifications';
 import useNotificationsCount from '@/services/hooks/notifications/useNotificationsCount';
 import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import { convertNotification } from '@/utils/convertNotification';
 
 import NotFoundNotifications from './_components/not-found-notifications';
@@ -24,19 +23,12 @@ import NotificationItem from './_components/ui/notification-item';
 interface Props {}
 
 const Component = ({}: Props) => {
-    const { secret } = useAuthContext();
+    const { data: countData } = useNotificationsCount();
 
-    const { data: countData } = useNotificationsCount(String(secret));
+    const { list, hasNextPage, isFetchingNextPage, fetchNextPage, refetch } =
+        useNotifications();
 
-    const {
-        list,
-        hasNextPage,
-        isFetchingNextPage,
-        fetchNextPage,
-        refetch,
-    } = useNotifications(String(secret));
-
-    const { mutate: asSeen } = useSeenNotification(String(secret));
+    const { mutate: asSeen } = useSeenNotification();
 
     return (
         <DropdownMenu onOpenChange={(open) => open && refetch()}>

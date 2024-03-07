@@ -5,22 +5,20 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import P from '@/components/typography/p';
-import Small from '@/components/typography/small';
 
 interface Props {
     data: Hikka.TextNotification;
 }
 
 const Component = ({ data }: Props) => {
-    const { secret } = useAuthContext();
     const router = useRouter();
 
-    const { mutate: asSeen } = useSeenNotification(String(secret));
+    const { mutate: asSeen } = useSeenNotification();
 
     const handleOnClick = () => {
         if (!data.seen) {

@@ -8,7 +8,7 @@ import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 const Component = () => {
     const params = useParams();
 
-    const { data: character } = useCharacterInfo(String(params.slug));
+    const { data: character } = useCharacterInfo({ slug: String(params.slug) });
 
     if (!character) {
         return null;

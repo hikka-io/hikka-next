@@ -6,16 +6,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Request as CollectionRequest } from '@/services/api/collections/createCollection';
 import updateCollection from '@/services/api/collections/updateCollection';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 
 const useUpdateCollection = ({
-    secret,
     reference,
     ...params
 }: {
     reference: string;
-    secret?: string;
 } & CollectionRequest) => {
+    const { secret } = useAuthContext();
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
@@ -24,7 +24,7 @@ const useUpdateCollection = ({
         mutationFn: () =>
             updateCollection({
                 ...params,
-                secret: secret,
+                secret: secret!,
                 reference: reference,
             }),
         mutationKey: ['updateCollection'],

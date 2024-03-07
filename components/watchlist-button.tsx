@@ -5,32 +5,20 @@ import * as React from 'react';
 import { Fragment, createElement } from 'react';
 import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
 import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import Planned from '@/components/icons/watch-status/planned';
+import WatchEditModal from '@/components/modals/watch-edit-modal';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { PopoverAnchor, PopoverTrigger } from '@/components/ui/popover';
-import WatchEditModal from '@/components/modals/watch-edit-modal';
-import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
-import addWatch from '@/services/api/watch/addWatch';
-import deleteWatch from '@/services/api/watch/deleteWatch';
-import getWatch from '@/services/api/watch/getWatch';
-import { WATCH_STATUS } from '@/utils/constants';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useAddToList from '@/services/hooks/watch/useAddToList';
+import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
+import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-
-import {
-    ContextMenu,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuTrigger,
-} from './ui/context-menu';
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useWatch from '@/services/hooks/watch/useWatch';
+import { WATCH_STATUS } from '@/utils/constants';
 
 interface Props {
     slug: string;
@@ -38,93 +26,94 @@ interface Props {
     disabled?: boolean;
 }
 
+const SETTINGS_BUTTON = {
+    label: (
+        <div className="flex gap-2">
+            <MaterialSymbolsSettingsOutline />
+            Налаштування
+        </div>
+    ),
+    value: 'settings',
+    disableCheckbox: true,
+    separator: true,
+};
+
+const OPTIONS = [
+    ...Object.keys(WATCH_STATUS).map((status) => ({
+        value: status,
+        label: (
+            <div className="flex gap-2 items-center">
+                {createElement(WATCH_STATUS[status as API.WatchStatus].icon!)}
+                {WATCH_STATUS[status as API.WatchStatus].title_ua}
+            </div>
+        ),
+    })),
+    SETTINGS_BUTTON,
+];
+
 const Component = ({ slug, additional, disabled }: Props) => {
-    const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
-    const { data: watch, isError: watchError } = useWatch(slug, secret, !disabled);
+    const { titleLanguage } = useSettingsContext();
+    const { openModal } = useModalContext();
 
-    const { data: anime } = useAnimeInfo(slug, !disabled);
-
-    const { mutate: addToList, isPending: addToListLoading } = useMutation({
-        mutationKey: ['addToList', secret, slug],
-        mutationFn: ({
-            status,
-            episodes,
-        }: {
-            status: API.WatchStatus;
-            episodes?: number;
-        }) =>
-            addWatch({
-                secret: String(secret),
-                slug: String(slug),
-                status: status,
-                rewatches: watch ? watch.rewatches : 0,
-                note: watch && watch.note ? watch.note : undefined,
-                score: !watchError ? watch?.score : 0,
-                episodes: episodes
-                    ? episodes
-                    : !watchError
-                      ? watch?.episodes
-                      : 0,
-            }),
-        onSuccess: async () => {
-            await invalidateData();
-        },
+    const { data: watch, isError: watchError } = useWatch({
+        slug,
+        enabled: !disabled,
     });
+    const { data: anime } = useAnimeInfo({
+        slug,
+        enabled: !disabled,
+    });
+    const { mutate: addToList } = useAddToList({ slug });
+    const { mutate: deleteFromList } = useDeleteFromList({ slug });
 
-    const { mutate: deleteFromList, isPending: deleteFromListLoading } =
-        useMutation({
-            mutationKey: ['deleteFromList', secret, slug],
-            mutationFn: () =>
-                deleteWatch({
-                    secret: String(secret),
-                    slug: String(slug),
-                }),
-            onSuccess: async () => {
-                await invalidateData();
-            },
-        });
+    const openWatchEditModal = () => {
+        if (anime) {
+            openModal({
+                content: <WatchEditModal slug={anime.slug} />,
+                className: '!max-w-xl',
+                title:
+                    anime[titleLanguage!] ||
+                    anime.title_ua ||
+                    anime.title_en ||
+                    anime.title_ja,
+            });
+        }
+    };
 
-    const invalidateData = async () => {
-        await queryClient.invalidateQueries({
-            queryKey: ['watch'],
-        });
-        await queryClient.invalidateQueries({
-            queryKey: ['list'],
-        });
-        await queryClient.invalidateQueries({ queryKey: ['favorites'] });
-        await queryClient.invalidateQueries({ queryKey: ['franchise'] });
-        await queryClient.invalidateQueries({ queryKey: ['collection'] });
+    const handleChangeStatus = (option: string) => {
+        const params =
+            watch && !watchError
+                ? {
+                      episodes: watch?.episodes || undefined,
+                      score: watch?.score || undefined,
+                      note: watch?.note || undefined,
+                      rewatches: watch?.rewatches || undefined,
+                  }
+                : {};
+
+        if (option === 'settings') {
+            openWatchEditModal();
+            return;
+        }
+
+        if (option === 'completed') {
+            addToList({
+                status: 'completed',
+                ...params,
+                episodes: anime?.episodes_total,
+            });
+        } else {
+            addToList({
+                status: option as API.WatchStatus,
+                ...params,
+            });
+        }
     };
 
     return (
         <Combobox
-            options={Object.keys(WATCH_STATUS).map((status) => ({
-                value: status,
-                label: (
-                    <div className="flex gap-1 items-center">
-                        {createElement(
-                            WATCH_STATUS[status as API.WatchStatus].icon!,
-                        )}
-                        {WATCH_STATUS[status as API.WatchStatus].title_ua ||
-                            WATCH_STATUS[status as API.WatchStatus].title_en}
-                    </div>
-                ),
-            }))}
-            onChange={(option) => {
-                if (option && typeof option === 'string') {
-                    if (option === 'completed') {
-                        addToList({
-                            status: 'completed',
-                            episodes: anime?.episodes_total,
-                        });
-                    } else {
-                        addToList({
-                            status: option as API.WatchStatus,
-                        });
-                    }
-                }
-            }}
+            options={OPTIONS}
+            onChange={handleChangeStatus}
             value={watch && !watchError ? watch.status : undefined}
             renderToggle={(open, setOpen, value) => {
                 return (

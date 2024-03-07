@@ -17,7 +17,7 @@ const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { secret } = useAuthContext();
 
-    const { data: user } = useUser(String(params.username));
+    const { data: user } = useUser({ username: String(params.username) });
     const { data: loggedUser } = useLoggedUser();
 
     if (

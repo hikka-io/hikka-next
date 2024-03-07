@@ -5,15 +5,12 @@ import { useEffect, useRef } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
-
-
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-
-
 import EditListModal from '@/components/modals/editlist-modal';
 import H2 from '@/components/typography/h2';
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useIsMobile from '@/services/hooks/useIsMobile';
@@ -21,7 +18,6 @@ import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
-import P from '@/components/typography/p';
 
 
 const EditButton = ({ className }: { className?: string }) => {
@@ -58,7 +54,7 @@ const Component = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const { secret } = useAuthContext();
     const params = useParams();
-    const { data } = useAnimeInfo(String(params.slug));
+    const { data } = useAnimeInfo({ slug: String(params.slug) });
 
     useEffect(() => {
         if (

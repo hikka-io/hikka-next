@@ -13,7 +13,7 @@ import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 const Component = () => {
     const [active, setActive] = useState<'description_ua'>('description_ua');
     const params = useParams();
-    const { data: character } = useCharacterInfo(String(params.slug));
+    const { data: character } = useCharacterInfo({ slug: String(params.slug) });
 
     if (!character || !character.description_ua) {
         return null;
