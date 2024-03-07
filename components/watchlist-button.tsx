@@ -28,7 +28,7 @@ interface Props {
 
 const SETTINGS_BUTTON = {
     label: (
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
             <MaterialSymbolsSettingsOutline />
             Налаштування
         </div>
