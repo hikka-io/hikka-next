@@ -7,7 +7,7 @@ import Franchise from './_components/franchise';
 import Links from './_components/links';
 import Media from './_components/media';
 import Staff from './_components/staff';
-import WatchListStats from './_components/actions/_components/watchlist-stats';
+import WatchListStats from './_components/watchlist-stats';
 
 const Component = () => {
     return (
