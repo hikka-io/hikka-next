@@ -60,7 +60,7 @@ const Component = () => {
                                                         }}
                                                     />
                                                     <div
-                                                        className="absolute bottom-0 left-0 flex w-full items-end justify-center p-2"
+                                                        className="absolute bottom-0 left-0 flex w-full items-end justify-center h-2"
                                                         style={{
                                                             backgroundColor:
                                                             status.color,
