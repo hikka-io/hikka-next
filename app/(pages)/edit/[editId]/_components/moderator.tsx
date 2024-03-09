@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 import * as React from 'react';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
@@ -12,11 +11,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import useEdit from '@/services/hooks/edit/useEdit';
 
+interface Props {
+    editId: string;
+}
 
-const Component = () => {
-    const params = useParams();
-
-    const { data: edit } = useEdit({ editId: Number(params.editId) });
+const Component = ({ editId }: Props) => {
+    const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit || !edit.moderator) {
         return null;

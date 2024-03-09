@@ -3,7 +3,7 @@
 import { uk } from 'date-fns/locale';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { SnackbarProvider } from 'notistack';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -15,22 +15,13 @@ import ModalProvider from '@/services/providers/modal-provider';
 import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
+import { createQueryClient } from '@/utils/getQueryClient';
 
 interface Props extends PropsWithChildren {}
 
 function Providers({ children }: Props) {
     setDefaultOptions({ locale: uk });
-    const [client] = React.useState(
-        new QueryClient({
-            defaultOptions: {
-                queries: {
-                    staleTime: 60 * 1000,
-                    gcTime: Infinity,
-                    retry: false,
-                },
-            },
-        }),
-    );
+    const [client] = useState(() => createQueryClient());
 
     return (
         <SettingsProvider>

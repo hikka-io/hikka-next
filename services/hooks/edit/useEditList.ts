@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getEditList from '@/services/api/edit/getEditList';
+import getEditList, { Response } from '@/services/api/edit/getEditList';
 
 const useEditList = ({
     page,

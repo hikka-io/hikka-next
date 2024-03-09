@@ -8,14 +8,10 @@ import Pagination from '@/components/ui/pagination';
 import createQueryString from '@/utils/createQueryString';
 
 interface Props {
-    collections?: API.WithPagination<API.Collection>;
+    pagination: API.Pagination;
 }
 
-const Component = ({ collections }: Props) => {
-    if (!collections || collections.pagination.pages < 2) {
-        return null;
-    }
-
+const Component = ({ pagination }: Props) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -26,13 +22,17 @@ const Component = ({ collections }: Props) => {
             String(newPage),
             new URLSearchParams(searchParams),
         );
-        router.push(`${pathname}?${query}`, { scroll: true });
+        router.push(`${pathname}?${query}`);
     };
+
+    if (pagination.pages < 2) {
+        return null;
+    }
 
     return (
         <Pagination
-            page={collections.pagination.page}
-            pages={collections.pagination.pages}
+            page={pagination.page}
+            pages={pagination.pages}
             setPage={updatePage}
         />
     );

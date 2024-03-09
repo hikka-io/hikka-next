@@ -5,9 +5,8 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import CollectionPagination from '@/app/(pages)/collections/(collections)/_components/collection-pagination';
 import { getCookie } from '@/app/actions';
-import SubHeader from '@/components/sub-header';
+import PagePagination from '@/components/page-pagination';
 import getCollections from '@/services/api/collections/getCollections';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -46,7 +45,9 @@ const Component = async ({
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-8">
                 <CollectionList collections={collections} />
-                <CollectionPagination collections={collections} />
+                {collections && (
+                    <PagePagination pagination={collections.pagination} />
+                )}
             </div>
         </HydrationBoundary>
     );

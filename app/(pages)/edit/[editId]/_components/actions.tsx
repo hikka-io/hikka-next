@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -12,19 +12,22 @@ import { Button } from '@/components/ui/button';
 import acceptEdit from '@/services/api/edit/acceptEdit';
 import closeEdit from '@/services/api/edit/closeEdit';
 import denyEdit from '@/services/api/edit/denyEdit';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import useEdit from '@/services/hooks/edit/useEdit';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
+interface Props {
+    editId: string;
+}
 
-const Component = () => {
+const Component = ({ editId }: Props) => {
+    const { data: edit } = useEdit({ editId: Number(editId) });
+    const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { secret } = useAuthContext();
-
-    const { data: edit } = useEdit({ editId: Number(params.editId) });
 
     const { data: loggedUser } = useLoggedUser();
 
@@ -38,7 +41,6 @@ const Component = () => {
             await queryClient.invalidateQueries({
                 queryKey: ['edit', params.editId],
             });
-            // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
             return;
@@ -57,7 +59,6 @@ const Component = () => {
             await queryClient.invalidateQueries({
                 queryKey: ['edit', params.editId],
             });
-            // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
             return;
@@ -76,7 +77,6 @@ const Component = () => {
             await queryClient.invalidateQueries({
                 queryKey: ['edit', params.editId],
             });
-            // router.refresh();
         } catch (e) {
             setIsSubmitting(false);
             return;
@@ -116,7 +116,8 @@ const Component = () => {
                         </Button>
                     )}
                 {(loggedUser?.role === 'moderator' ||
-                    loggedUser?.role === 'admin' || loggedUser?.username === edit.author.username) &&
+                    loggedUser?.role === 'admin' ||
+                    loggedUser?.username === edit.author.username) &&
                     edit.status === 'pending' && (
                         <Button
                             variant="secondary"
@@ -124,7 +125,7 @@ const Component = () => {
                             disabled={isSubmitting}
                             asChild
                         >
-                            <Link href={`/edit/${params.editId}?mode=update`}>
+                            <Link href={`/edit/${params.editId}/update`}>
                                 Редагувати
                             </Link>
                         </Button>

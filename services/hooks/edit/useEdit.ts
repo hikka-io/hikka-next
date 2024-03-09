@@ -10,7 +10,7 @@ const useEdit = <T extends API.Edit>({
     enabled?: boolean;
 }) => {
     return useQuery<T, Error>({
-        queryKey: ['edit', editId],
+        queryKey: ['edit', String(editId)],
         queryFn: () => getEdit({ edit_id: editId }),
         enabled,
     });

@@ -2,34 +2,29 @@
 
 import * as React from 'react';
 
-import { useParams } from 'next/navigation';
-
 import P from '@/components/typography/p';
 import useEdit from '@/services/hooks/edit/useEdit';
 import { EDIT_STATUS } from '@/utils/constants';
 
 interface Props {
-    status?: API.EditStatus;
+    editId: string;
 }
 
-const Component = ({ status }: Props) => {
-    const params = useParams();
-    const { data: edit } = useEdit({ editId: Number(params.editId) });
+const Component = ({ editId }: Props) => {
+    const { data: edit } = useEdit({ editId: Number(editId) });
 
-    if (!status && (!edit || !edit.status)) {
+    if (!edit || !edit.status) {
         return null;
     }
-
-    const currentStatus = status ? status : edit!.status;
 
     return (
         <div
             className="whitespace-nowrap rounded-md px-2"
             style={{
-                backgroundColor: EDIT_STATUS[currentStatus].color,
+                backgroundColor: EDIT_STATUS[edit.status].color,
             }}
         >
-            <P className="text-sm">{EDIT_STATUS[currentStatus].title_ua}</P>
+            <P className="text-sm">{EDIT_STATUS[edit.status].title_ua}</P>
         </div>
     );
 };

@@ -5,7 +5,6 @@ import AuthGate from '@/components/auth-gate';
 import Footer from '@/components/footer';
 import NavBar from '@/components/navbar/navbar';
 import ScrollTop from '@/components/scroll-top';
-import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 
 export default async function RootLayout({
     children,

@@ -7,12 +7,14 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { useQueryClient } from '@tanstack/react-query';
 
 import EditDescription from '@/app/(pages)/edit/_components/edit-description/edit-description';
 import EditGroup from '@/app/(pages)/edit/_components/edit-group';
 import AutoButton from '@/app/(pages)/edit/_components/ui/auto-button';
 import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';
+import useEdit from '@/services/hooks/edit/useEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import {
     getEditGroups,
@@ -28,36 +30,42 @@ type FormValues = (Hikka.AnimeEditParams | Hikka.CharacterEditParams) & {
 };
 
 interface EditProps {
-    content_type: API.ContentType;
     mode?: 'view' | 'edit';
-    edit: API.Edit;
+    editId: string;
 }
 
-const Component = ({ content_type, edit, mode = 'view' }: EditProps) => {
+const Component = ({ editId, mode = 'view' }: EditProps) => {
+    const queryClient = useQueryClient();
+    const { data: edit } = useEdit({ editId: Number(editId) });
     const captchaRef = useRef<TurnstileInstance>();
 
     const { secret } = useAuthContext();
     const router = useRouter();
 
-    const params = getEditParams(content_type, Object.keys(edit.after))!;
+    const params = getEditParams(edit!.content_type, Object.keys(edit!.after))!;
 
-    const groups = getEditGroups(content_type)!;
+    const groups = getEditGroups(edit!.content_type)!;
     const paramSlugs = getEditParamSlugs(params);
 
     const form = useForm<FormValues>({
         values: {
-            description: edit.description || '',
-            ...edit.after,
+            description: edit!.description || '',
+            ...edit!.after,
             synonyms:
-                edit.after?.synonyms?.map((v: string) => ({
+                edit!.after?.synonyms?.map((v: string) => ({
                     value: v,
                 })) || [],
             auto: false,
         },
     });
 
-    const onDismiss = (editId: number) => {
+    const onDismiss = async () => {
         form.reset();
+
+        await queryClient.refetchQueries({
+            queryKey: ['edit', editId],
+        });
+
         router.push('/edit/' + editId);
     };
 
@@ -66,7 +74,7 @@ const Component = ({ content_type, edit, mode = 'view' }: EditProps) => {
             if (captchaRef.current) {
                 const res = await updateEdit({
                     secret: String(secret),
-                    edit_id: edit.edit_id,
+                    edit_id: edit!.edit_id,
                     after: {
                         ...getFilteredEditParams(paramSlugs, data),
                     },
@@ -74,7 +82,7 @@ const Component = ({ content_type, edit, mode = 'view' }: EditProps) => {
                     captcha: String(captchaRef.current.getResponse()),
                 });
 
-                onDismiss(res.edit_id);
+                onDismiss();
             } else {
                 throw Error('No captcha found');
             }
