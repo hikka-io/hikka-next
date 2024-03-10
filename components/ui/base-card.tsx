@@ -25,6 +25,7 @@ export interface Props {
     href?: string | UrlObject;
     posterClassName?: string;
     containerClassName?: string;
+    titleClassName?: string;
     className?: string;
     onMouseOver?: MouseEventHandler<HTMLAnchorElement>;
     onMouseOut?: MouseEventHandler<HTMLAnchorElement>;
@@ -42,6 +43,7 @@ const Component = forwardRef(
             rightSubtitle,
             posterClassName,
             containerClassName,
+            titleClassName,
             className,
             children,
             href,
@@ -98,6 +100,7 @@ const Component = forwardRef(
                                     !leftSubtitle &&
                                         !rightSubtitle &&
                                         'line-clamp-2',
+                                    titleClassName,
                                 )}
                             >
                                 {title}

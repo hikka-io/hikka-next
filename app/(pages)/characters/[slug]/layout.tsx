@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import { getCookie } from '@/app/actions';
 import Breadcrumbs from '@/components/breadcrumbs';
 import InternalNavBar from '@/components/internal-navbar';
 import NavMenu from '@/components/nav-menu';
@@ -14,6 +15,7 @@ import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
 import getCharacterInfo, {
     Response as CharacterResponse,
 } from '@/services/api/characters/getCharacterInfo';
+import getFavourite from '@/services/api/favourite/getFavourite';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -64,6 +66,7 @@ export async function generateMetadata(
 
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
+    const secret = await getCookie('secret');
 
     await queryClient.prefetchQuery({
         queryKey: ['character', slug],
@@ -74,6 +77,16 @@ const Component = async ({ params: { slug }, children }: Props) => {
         queryKey: ['characterAnime', slug],
         queryFn: () => getCharacterAnime({ slug }),
         initialPageParam: 1,
+    });
+
+    await queryClient.prefetchQuery({
+        queryKey: ['favorite', slug, { secret, content_type: 'character' }],
+        queryFn: () =>
+            getFavourite({
+                slug: String(slug),
+                secret: String(secret),
+                content_type: 'character',
+            }),
     });
 
     const character: API.Character | undefined = queryClient.getQueryData([

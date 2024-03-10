@@ -6,6 +6,7 @@ import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import FavoriteButton from '@/components/favorite-button';
 import SubHeader from '@/components/sub-header';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
@@ -96,51 +97,70 @@ const Component = () => {
                     </Label>
                     <Switch checked={spoiler} id="spoiler" />
                 </div>
-                {access && (
-                    <div className="flex gap-2">
-                        <Button asChild className="flex-1" variant="secondary">
-                            <Link
-                                href={`/collections/${collection?.reference}/update`}
+                <div className="flex flex-col gap-4">
+                    {access && (
+                        <div className="flex gap-2">
+                            <Button
+                                asChild
+                                className="flex-1"
+                                variant="secondary"
                             >
-                                Редагувати
-                            </Link>
-                        </Button>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button size="icon" variant="destructive">
-                                    <MaterialSymbolsDeleteForeverRounded className="text-lg" />
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                        Ви впевнені, що хочете видалити
-                                        колекцію?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        <P>
-                                            Колекція{' '}
-                                            <span className="font-bold">
-                                                {collection?.title}
-                                            </span>{' '}
-                                            буде видалена назавжди.
-                                        </P>
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>
-                                        Відмінити
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                        onClick={() => mutateDeleteCollection()}
-                                    >
-                                        Підтвердити
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </div>
-                )}
+                                <Link
+                                    href={`/collections/${collection?.reference}/update`}
+                                >
+                                    Редагувати
+                                </Link>
+                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button size="icon" variant="destructive">
+                                        <MaterialSymbolsDeleteForeverRounded className="text-lg" />
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Ви впевнені, що хочете видалити
+                                            колекцію?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            <P>
+                                                Колекція{' '}
+                                                <span className="font-bold">
+                                                    {collection?.title}
+                                                </span>{' '}
+                                                буде видалена назавжди.
+                                            </P>
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Відмінити
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() =>
+                                                mutateDeleteCollection()
+                                            }
+                                        >
+                                            Підтвердити
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
+                    )}
+                    {collection && (
+                        <FavoriteButton
+                            slug={collection.reference}
+                            content_type="collection"
+                            size="default"
+                            variant="secondary"
+                            className=""
+                        >
+                            Улюблене
+                        </FavoriteButton>
+                    )}
+                </div>
             </div>
         </div>
     );

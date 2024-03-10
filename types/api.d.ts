@@ -208,7 +208,7 @@ declare global {
 
         type Edit<
             TEditParams extends Record<string, any> = Record<string, any>,
-            TContent = API.AnimeInfo | API.Character,
+            TContent extends API.Content = API.Content<'anime'> | API.Content<'character'>,
         > = {
             content_type: ContentType;
             status: EditStatus;
@@ -341,9 +341,7 @@ declare global {
             actions: number;
         };
 
-        type CollectionItem<
-            TContent extends API.AnimeInfo | API.Character = API.AnimeInfo,
-        > = {
+        type CollectionItem<TContent extends Content> = {
             content: TContent;
             comment: string | null;
             label: string | null;
@@ -351,12 +349,7 @@ declare global {
             order: number;
         };
 
-        type Collection<
-            TContent extends
-                | API.AnimeInfo
-                | API.Character
-                | API.Person = API.AnimeInfo,
-        > = {
+        type Collection<TContent extends API.Content = API.Content<'anime'>> = {
             author: API.User;
             created: number;
             updated: number;
@@ -372,5 +365,16 @@ declare global {
             comments_count: number;
             collection: CollectionItem<TContent>[];
         };
+
+        type Contents = {
+            anime: API.AnimeInfo;
+            character: API.Character;
+            collection: API.Collection;
+            comment: API.Comment;
+            edit: API.Edit;
+            person: API.Person;
+        };
+
+        type Content<K extends keyof Contents = keyof Contents> = Contents[K]
     }
 }

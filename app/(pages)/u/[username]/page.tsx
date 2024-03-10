@@ -10,7 +10,7 @@ import getUserHistory from '@/services/api/user/getUserHistory';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Collections from './_components/collections';
-import Favorites from './_components/favorites';
+import Favorites from './_components/favorites/favorites';
 import History from './_components/history/history';
 import Statistics from './_components/statistics';
 
@@ -25,9 +25,14 @@ const Component = async ({ params: { username } }: Props) => {
     const secret = await getCookie('secret');
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', { username, secret }],
-        queryFn: ({ pageParam }) =>
-            getFavouriteList({ username, page: pageParam }),
+        queryKey: ['favorites', username, { secret, content_type: 'anime' }],
+        queryFn: ({ pageParam= 1 }) =>
+            getFavouriteList({
+                username,
+                page: pageParam,
+                content_type: 'anime',
+                secret,
+            }),
         initialPageParam: 1,
     });
 

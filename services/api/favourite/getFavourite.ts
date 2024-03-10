@@ -9,12 +9,14 @@ export interface Response {
 export default async function req({
     slug,
     secret,
+    content_type,
 }: {
     slug: string;
     secret: string;
+    content_type: API.ContentType;
 }): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/favourite/anime/${slug}`,
+        path: `/favourite/${content_type}/${slug}`,
         method: 'get',
         secret,
     });

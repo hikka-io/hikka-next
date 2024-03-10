@@ -154,9 +154,9 @@ const Component = async ({ params: { slug }, children }: Props) => {
     });
 
     await queryClient.prefetchQuery({
-        queryKey: ['favorite', slug, { secret }],
+        queryKey: ['favorite', slug, { secret, content_type: 'anime' }],
         queryFn: () =>
-            getFavourite({ slug: String(slug), secret: String(secret) }),
+            getFavourite({ slug: String(slug), secret: String(secret), content_type: 'anime' }),
     });
 
     const dehydratedState = dehydrate(queryClient);

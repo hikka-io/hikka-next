@@ -7,12 +7,14 @@ export interface Response {
 export default async function req({
     secret,
     slug,
+    content_type,
 }: {
     secret: string;
     slug: string;
+    content_type: API.ContentType;
 }): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/favourite/anime/${slug}`,
+        path: `/favourite/${content_type}/${slug}`,
         method: 'delete',
         secret,
     });
