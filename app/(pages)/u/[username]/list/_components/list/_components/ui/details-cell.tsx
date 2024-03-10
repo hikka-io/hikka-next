@@ -1,14 +1,16 @@
 import Link from 'next/link';
 
+import { Badge } from '@/components/ui/badge';
 import BaseCard from '@/components/ui/base-card';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
     anime: API.Anime;
+    rewatches: number;
     titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
 }
 
-const Component = ({ anime, titleLanguage }: Props) => (
+const Component = ({ anime, rewatches, titleLanguage }: Props) => (
     <TableCell>
         <div className="flex gap-4">
             <div className="hidden w-12 lg:block">
@@ -25,6 +27,9 @@ const Component = ({ anime, titleLanguage }: Props) => (
                             anime.title_en ||
                             anime.title_ja}
                     </Link>
+                    {rewatches > 0 && (
+                        <Badge variant="outline">{rewatches}</Badge>
+                    )}
                 </div>
             </div>
         </div>

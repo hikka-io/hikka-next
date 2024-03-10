@@ -18,7 +18,7 @@ import { Switch } from '@/components/ui/switch';
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
 import { cn } from '@/utils';
 import {
-    AGE_RATING,
+    AGE_RATING, GENRE_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
@@ -177,6 +177,10 @@ const Component = ({ className, type }: Props) => {
                             options={genresList.list.map((genre) => ({
                                 value: genre.slug,
                                 label: genre.name_ua || genre.name_en,
+                                group: {
+                                    label: GENRE_TYPES[genre.type].title_ua,
+                                    value: genre.type,
+                                }
                             }))}
                             multiple
                             value={genres}

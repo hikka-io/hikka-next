@@ -1,6 +1,7 @@
 import { ChevronsUpDown } from 'lucide-react';
 import {
     Dispatch,
+    ForwardedRef,
     Fragment,
     ReactNode,
     SetStateAction,
@@ -32,10 +33,13 @@ import { Checkbox } from './checkbox';
 
 export interface ComboboxOption {
     value: string;
-    label: React.ReactNode;
-    separator?: boolean;
+    label: ReactNode;
     disableCheckbox?: boolean;
     title?: string;
+    group?: {
+        label?: string;
+        value: string;
+    };
 }
 
 type ComboboxPropsSingle = {
@@ -100,29 +104,77 @@ export const handleMultipleSelect = (
 };
 
 export const Combobox = forwardRef(
-    (props: ComboboxProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    (props: ComboboxProps, ref: ForwardedRef<HTMLInputElement>) => {
+        const {
+            options,
+            multiple,
+            value,
+            className,
+            renderToggle,
+            toggleProps,
+            renderValue,
+            selectPlaceholder,
+            searchPlaceholder,
+            side,
+            align,
+            emptyText,
+            disableCheckbox,
+        } = props;
+
         const rootRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
 
         const getOptionsByValue = () => {
-            if (props.multiple) {
-                return props.options.filter(
-                    (o) => props.value?.some((v) => v === o.value),
-                );
+            if (multiple) {
+                return options.filter((o) => value?.some((v) => v === o.value));
             }
 
-            return props.options.filter((o) => o.value === props.value);
+            return options.filter((o) => o.value === value);
         };
+
+        const getOptionsByGroup = () => {
+            return options.reduce(
+                (acc, option) => {
+                    if (option.group) {
+                        if (!acc[option.group.value]) {
+                            acc[option.group.value] = {
+                                label: option.group.label,
+                                options: [],
+                            };
+                        }
+
+                        acc[option.group.value].options.push(option);
+                    } else {
+                        if (!acc.default) {
+                            acc.default = {
+                                label: undefined,
+                                options: [],
+                            };
+                        }
+
+                        acc.default.options.push(option);
+                    }
+
+                    return acc;
+                },
+                {} as Record<
+                    string,
+                    { label?: string; options: ComboboxOption[] }
+                >,
+            );
+        };
+
+        const optionsByGroup = getOptionsByGroup();
 
         return (
             <div
                 data-select={true}
-                className={cn('relative', props.className)}
+                className={cn('relative', className)}
                 ref={rootRef}
             >
                 <Popover open={open} onOpenChange={setOpen}>
-                    {props.renderToggle ? (
-                        props.renderToggle(open, setOpen, props.value)
+                    {renderToggle ? (
+                        renderToggle(open, setOpen, value)
                     ) : (
                         <PopoverTrigger asChild>
                             <Button
@@ -130,12 +182,12 @@ export const Combobox = forwardRef(
                                 variant="outline"
                                 aria-expanded={open}
                                 className="w-full justify-between"
-                                {...props.toggleProps}
+                                {...toggleProps}
                             >
-                                {!props.renderValue
-                                    ? props.multiple
-                                        ? props.value &&
-                                          props.value?.length > 0 && (
+                                {!renderValue
+                                    ? multiple
+                                        ? value &&
+                                          value?.length > 0 && (
                                               <div className="inline-flex gap-2">
                                                   {getOptionsByValue().map(
                                                       (v, i) =>
@@ -157,17 +209,16 @@ export const Combobox = forwardRef(
                                                   )}
                                               </div>
                                           )
-                                        : props.value && (
+                                        : value && (
                                               <div className="inline-flex gap-2">
                                                   {getOptionsByValue()[0].label}
                                               </div>
                                           )
-                                    : props.renderValue(getOptionsByValue()[0])}
+                                    : renderValue(getOptionsByValue()[0])}
 
-                                {(!props.value || props.value.length === 0) && (
+                                {(!value || value.length === 0) && (
                                     <span className="line-clamp-1 text-left font-normal text-muted-foreground">
-                                        {props.selectPlaceholder ??
-                                            'Виберіть опцію'}
+                                        {selectPlaceholder ?? 'Виберіть опцію'}
                                     </span>
                                 )}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -176,14 +227,14 @@ export const Combobox = forwardRef(
                     )}
                     <PopoverPortal container={rootRef.current}>
                         <PopoverContent
-                            side={props.side}
-                            align={props.align || 'start'}
+                            side={side}
+                            align={align || 'start'}
                             className="p-0"
                         >
                             <Command
                                 filter={(value, search) => {
                                     const label =
-                                        props.options?.find(
+                                        options?.find(
                                             (option) => option.value === value,
                                         )?.label || '';
                                     if (
@@ -196,89 +247,124 @@ export const Combobox = forwardRef(
                                     return 0;
                                 }}
                             >
-                                {props.multiple && (
+                                {multiple && (
                                     <CommandInput
                                         placeholder={
-                                            props.searchPlaceholder ??
-                                            'Пошук опції'
+                                            searchPlaceholder ?? 'Пошук опції'
                                         }
                                     />
                                 )}
                                 <CommandEmpty>
-                                    {props.emptyText ??
-                                        'Результатів не знайдено'}
+                                    {emptyText ?? 'Результатів не знайдено'}
                                 </CommandEmpty>
-                                <CommandGroup>
-                                    <ScrollArea>
-                                        <ScrollBar orientation="vertical" />
-                                        <div className="max-h-72">
-                                            {props.options.map((option) => (
-                                                <Fragment key={option.value}>
-                                                    {option.separator && (
-                                                        <CommandSeparator />
-                                                    )}
-                                                    <CommandItem
-                                                        className="gap-2"
-                                                        title={
-                                                            option.title || option.label as string
-                                                        }
-                                                        value={option.value}
-                                                        onSelect={(
-                                                            selectedValue,
-                                                        ) => {
-                                                            console.log(
-                                                                selectedValue,
-                                                            );
-                                                            const option =
-                                                                props.options.find(
-                                                                    (option) =>
-                                                                        option.value
-                                                                            .toLowerCase()
-                                                                            .trim() ===
-                                                                        selectedValue,
-                                                                );
-
-                                                            if (!option)
-                                                                return null;
-
-                                                            if (
-                                                                props.multiple
-                                                            ) {
-                                                                handleMultipleSelect(
-                                                                    props,
-                                                                    option,
-                                                                );
-                                                            } else {
-                                                                handleSingleSelect(
-                                                                    props,
-                                                                    option,
-                                                                );
-
-                                                                setOpen(false);
-                                                            }
-                                                        }}
-                                                    >
-                                                        {!props.disableCheckbox && !option.disableCheckbox && (
-                                                            <Checkbox
-                                                                className="border-secondary"
-                                                                checked={
-                                                                    (!props.multiple &&
-                                                                        props.value ===
-                                                                            option.value) ||
-                                                                    (props.multiple &&
-                                                                        props.value?.includes(
-                                                                            option.value,
-                                                                        ))
-                                                                }
-                                                            />
+                                <ScrollArea>
+                                    <ScrollBar orientation="vertical" />
+                                    <div className="max-h-72">
+                                        {Object.keys(optionsByGroup).map(
+                                            (group, index) => {
+                                                const groupOptions =
+                                                    optionsByGroup[group]
+                                                        .options;
+                                                return (
+                                                    <Fragment key={group}>
+                                                        {index !== 0 && (
+                                                            <CommandSeparator />
                                                         )}
-                                                        {option.label}
-                                                    </CommandItem>
-                                                </Fragment>
-                                            ))}
-                                        </div>
-                                    </ScrollArea>
-                                </CommandGroup>
+                                                        <CommandGroup
+                                                            title={
+                                                                optionsByGroup[
+                                                                    group
+                                                                ].label
+                                                            }
+                                                            heading={
+                                                                optionsByGroup[
+                                                                    group
+                                                                ].label
+                                                            }
+                                                        >
+                                                            {groupOptions.map(
+                                                                (option) => (
+                                                                    <CommandItem
+                                                                        key={
+                                                                            option.value
+                                                                        }
+                                                                        className="gap-2"
+                                                                        title={
+                                                                            option.title ||
+                                                                            (option.label as string)
+                                                                        }
+                                                                        value={
+                                                                            option.value
+                                                                        }
+                                                                        onSelect={(
+                                                                            selectedValue,
+                                                                        ) => {
+                                                                            console.log(
+                                                                                selectedValue,
+                                                                            );
+                                                                            const option =
+                                                                                options.find(
+                                                                                    (
+                                                                                        option,
+                                                                                    ) =>
+                                                                                        option.value
+                                                                                            .toLowerCase()
+                                                                                            .trim() ===
+                                                                                        selectedValue,
+                                                                                );
+
+                                                                            if (
+                                                                                !option
+                                                                            )
+                                                                                return null;
+
+                                                                            if (
+                                                                                multiple
+                                                                            ) {
+                                                                                handleMultipleSelect(
+                                                                                    props,
+                                                                                    option,
+                                                                                );
+                                                                            } else {
+                                                                                handleSingleSelect(
+                                                                                    props,
+                                                                                    option,
+                                                                                );
+
+                                                                                setOpen(
+                                                                                    false,
+                                                                                );
+                                                                            }
+                                                                        }}
+                                                                    >
+                                                                        {!disableCheckbox &&
+                                                                            !option.disableCheckbox && (
+                                                                                <Checkbox
+                                                                                    className="border-secondary"
+                                                                                    checked={
+                                                                                        (!multiple &&
+                                                                                            value ===
+                                                                                                option.value) ||
+                                                                                        (multiple &&
+                                                                                            value?.includes(
+                                                                                                option.value,
+                                                                                            ))
+                                                                                    }
+                                                                                />
+                                                                            )}
+                                                                        {
+                                                                            option.label
+                                                                        }
+                                                                    </CommandItem>
+                                                                ),
+                                                            )}
+                                                        </CommandGroup>
+                                                    </Fragment>
+                                                );
+                                            },
+                                        )}
+                                    </div>
+                                </ScrollArea>
                             </Command>
                         </PopoverContent>
                     </PopoverPortal>

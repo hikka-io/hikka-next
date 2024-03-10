@@ -143,6 +143,7 @@ const Component = ({ data }: Props) => {
                             <NumberCell number={i + 1} />
                             <DetailsCell
                                 anime={res.anime}
+                                rewatches={res.rewatches}
                                 titleLanguage={titleLanguage!}
                             />
                             <EpisodesCell

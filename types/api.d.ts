@@ -173,11 +173,13 @@ declare global {
             comments_count: number;
         } & Anime;
 
+        type GenreType = 'theme' | 'explicit' | 'demographic' | 'genre';
+
         type Genre = {
             name_en: string;
             name_ua: string;
             slug: string;
-            type: string;
+            type: GenreType;
         };
 
         type Character = {

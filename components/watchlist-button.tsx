@@ -37,6 +37,9 @@ const SETTINGS_BUTTON = {
     disableCheckbox: true,
     separator: true,
     title: 'Налаштування',
+    group: {
+        value: 'settings',
+    }
 };
 
 const OPTIONS = [

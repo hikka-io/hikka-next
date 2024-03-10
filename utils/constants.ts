@@ -259,6 +259,25 @@ export const EDIT_STATUS: Hikka.FilterProperty<API.EditStatus> = {
     },
 };
 
+export const GENRE_TYPES: Hikka.FilterProperty<API.GenreType> = {
+    theme: {
+        title_ua: 'Тематичне',
+        title_en: 'Theme',
+    },
+    explicit: {
+        title_ua: 'Для дорослих',
+        title_en: 'Explicit',
+    },
+    genre: {
+        title_ua: 'Основне',
+        title_en: 'General',
+    },
+    demographic: {
+        title_ua: 'Демографічне',
+        title_en: 'Demographic',
+    },
+};
+
 export const ERRORS: Record<string, Record<string, string>> = {
     auth: {
         activation_valid:
