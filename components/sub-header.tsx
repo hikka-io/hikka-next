@@ -51,7 +51,7 @@ const Component = ({
         >
             <div
                 className={clsx(
-                    'flex items-center gap-4 overflow-hidden',
+                    'flex flex-1 items-center gap-4 overflow-hidden',
                     titleClassName,
                 )}
             >
@@ -66,7 +66,9 @@ const Component = ({
                 ) : (
                     <Title>{title}</Title>
                 )}
-                {children}
+                <div className="inline-flex gap-4 overflow-x-scroll">
+                    {children}
+                </div>
             </div>
             {href && (
                 <Button size="icon-sm" variant="outline" asChild>
