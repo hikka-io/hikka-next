@@ -577,13 +577,54 @@ export const CHARACTER_EDIT_GROUPS: Record<string, string> = {
     description: 'Опис',
 };
 
-export const CONTENT_TYPE_TITLES: Record<API.ContentType, string> = {
-    person: 'Автор',
-    character: 'Персонаж',
-    anime: 'Аніме',
-    edit: 'Правка',
-    comment: 'Коментар',
-    collection: 'Колекція',
+export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
+    anime: {
+        title_ua: 'Аніме',
+        title_en: 'Anime',
+    },
+    character: {
+        title_ua: 'Персонаж',
+        title_en: 'Character',
+    },
+    person: {
+        title_ua: 'Автор',
+        title_en: 'Person',
+    },
+    edit: {
+        title_ua: 'Правка',
+        title_en: 'Edit',
+    },
+    comment: {
+        title_ua: 'Коментар',
+        title_en: 'Comment',
+    },
+    collection: {
+        title_ua: 'Колекція',
+        title_en: 'Collection',
+    },
+}
+
+export const EDIT_STATUSES: Hikka.FilterProperty<API.EditStatus> = {
+    pending: {
+        title_ua: 'На розгляді',
+        title_en: 'Pending',
+        color: '#AB872B',
+    },
+    accepted: {
+        title_ua: 'Прийнято',
+        title_en: 'Accepted',
+        color: '#518146',
+    },
+    denied: {
+        title_ua: 'Відхилено',
+        title_en: 'Denied',
+        color: '#952828',
+    },
+    closed: {
+        title_ua: 'Закрито',
+        title_en: 'Closed',
+        color: '#5C5C5C',
+    },
 };
 
 export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {

@@ -2,14 +2,12 @@
 
 import * as React from 'react';
 
+import { range } from '@antfu/utils';
+
+import EditHead from '@/app/(pages)/edit/_components/edit-list/_components/edit-head';
 import PagePagination from '@/components/page-pagination';
-import {
-    Table,
-    TableBody,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
+import EntryTableRow from '@/components/skeletons/entry-table-row';
+import { Table, TableBody } from '@/components/ui/table';
 import useEditList from '@/services/hooks/edit/useEditList';
 
 import EditRow from './_components/edit-row';
@@ -19,7 +17,24 @@ interface Props {
 }
 
 const Component = ({ page }: Props) => {
-    const { data: edits } = useEditList({ page: page });
+    const { data: edits, isLoading } = useEditList({ page: page });
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col gap-8">
+                <div className="overflow-x-auto">
+                    <Table className="table">
+                        <EditHead />
+                        <TableBody>
+                            {range(1, 20).map((v) => (
+                                <EntryTableRow key={v} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
+        );
+    }
 
     if (!edits) return null;
 
@@ -27,22 +42,7 @@ const Component = ({ page }: Props) => {
         <div className="flex flex-col gap-8">
             <div className="overflow-x-auto">
                 <Table className="table">
-                    <TableHeader className="overflow-hidden rounded-lg bg-secondary/30">
-                        <TableRow>
-                            <TableHead className="w-8">#</TableHead>
-                            <TableHead>Автор</TableHead>
-                            <TableHead align="left">Контент</TableHead>
-                            <TableHead
-                                className=" hidden lg:table-cell"
-                                align="left"
-                            >
-                                Опис
-                            </TableHead>
-                            <TableHead align="center" className="w-20">
-                                Статус
-                            </TableHead>
-                        </TableRow>
-                    </TableHeader>
+                    <EditHead />
                     <TableBody>
                         {edits.list.map((edit) => (
                             <EditRow key={edit.edit_id} edit={edit} />

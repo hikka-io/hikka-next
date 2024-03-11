@@ -6,7 +6,7 @@ import List from '@/app/(pages)/u/[username]/list/_components/list/list';
 import StatusCombobox from '@/app/(pages)/u/[username]/list/_components/status-combobox';
 import ToolsCombobox from '@/app/(pages)/u/[username]/list/_components/tools-combobox';
 import ViewCombobox from '@/app/(pages)/u/[username]/list/_components/view-combobox';
-import Filters from '@/components/filters';
+import Filters from '../../../../../components/filters/anime-filters';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },

@@ -9,13 +9,13 @@ import { useRouter } from 'next/navigation';
 
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
-import BaseCard from '@/components/ui/base-card';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
-import { TableCell, TableHead, TableRow } from '@/components/ui/table';
+import { TableCell, TableRow } from '@/components/ui/table';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import {
+    CONTENT_TYPES,
     CONTENT_TYPE_LINKS,
-    CONTENT_TYPE_TITLES,
     EDIT_STATUS,
 } from '@/utils/constants';
 
@@ -33,17 +33,14 @@ const Component = ({ edit }: Props) => {
             className={clsx('hover:cursor-pointer hover:bg-secondary/60')}
             onClick={() => router.push(`/edit/${edit.edit_id}`)}
         >
-            <TableHead className="w-8">
+            <TableCell className="w-8">
                 <Label>{edit.edit_id}</Label>
-            </TableHead>
-            <TableCell>
+            </TableCell>
+            <TableCell className="w-40">
                 <div className="flex gap-4">
-                    <div className="w-10 h-10">
-                        <BaseCard
-                            containerClassName="!pt-[100%]"
-                            poster={edit.author!.avatar}
-                        />
-                    </div>
+                    <Avatar className="w-10 h-10 rounded-md">
+                        <AvatarImage src={edit.author!.avatar} />
+                    </Avatar>
                     <div className="flex flex-col">
                         <Link
                             className="hover:underline"
@@ -60,7 +57,7 @@ const Component = ({ edit }: Props) => {
             <TableCell align="left" className="md:w-1/4">
                 <div className="flex gap-4">
                     <Link
-                        className="hover:underline"
+                        className="hover:underline line-clamp-2"
                         href={`${CONTENT_TYPE_LINKS[edit.content_type]}/${
                             edit.content.slug
                         }`}
@@ -74,13 +71,13 @@ const Component = ({ edit }: Props) => {
                     </Link>
                 </div>
                 <Label className="text-xs text-muted-foreground">
-                    {CONTENT_TYPE_TITLES[edit.content_type]}
+                    {CONTENT_TYPES[edit.content_type].title_ua}
                 </Label>
             </TableCell>
             <TableCell className="hidden lg:table-cell md:w-1/3" align="left">
                 <P
                     className={clsx(
-                        'text-sm overflow-hidden overflow-ellipsis break-all',
+                        'text-sm overflow-hidden overflow-ellipsis break-all line-clamp-2',
                         !edit.description && 'text-muted-foreground',
                     )}
                 >

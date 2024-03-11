@@ -7,11 +7,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
-import { Button } from '@/components/ui/button';
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import H4 from '@/components/typography/h4';
-import Small from '@/components/typography/small';
 import P from '@/components/typography/p';
+import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 interface Props {
     extended?: boolean;
@@ -61,37 +61,30 @@ const Component = ({ extended }: Props) => {
                 title="Посилання"
                 href={!extended ? params.slug + '/links' : undefined}
             >
-                <div className="flex gap-4 flex-wrap">
-                    {generalLinksData.length > 0 && (
-                        <Button
-                            size="badge"
-                            variant={
-                                active === 'general' ? 'secondary' : 'outline'
-                            }
-                            onClick={() => setActive('general')}
-                            className={clsx(
-                                'rounded-full overflow-hidden flex-1',
-                            )}
-                        >
-                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                Загальне
-                            </span>
-                        </Button>
-                    )}
+                <ToggleGroup
+                    type="single"
+                    value={active}
+                    onValueChange={(value: API.External['type']) =>
+                        setActive(value)
+                    }
+                    variant="outline"
+                    size="badge"
+                >
+                    <ToggleGroupItem
+                        value="general"
+                        aria-label="Загальні посилання"
+                    >
+                        Загальне
+                    </ToggleGroupItem>
                     {watchLinksData.length > 0 && (
-                        <Button
-                            size="badge"
-                            variant={
-                                active === 'watch' ? 'secondary' : 'outline'
-                            }
-                            onClick={() => setActive('watch')}
+                        <ToggleGroupItem
+                            value="watch"
+                            aria-label="Посилання для перегляду"
                         >
-                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                Перегляд
-                            </span>
-                        </Button>
+                            Перегляд
+                        </ToggleGroupItem>
                     )}
-                </div>
+                </ToggleGroup>
             </SubHeader>
             <div
                 className={clsx(

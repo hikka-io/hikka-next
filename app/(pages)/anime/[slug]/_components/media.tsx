@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
 import BaseCard from '@/components/ui/base-card';
-import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { OST, VIDEO } from '@/utils/constants';
 
@@ -51,30 +51,26 @@ const Component = ({ extended }: Props) => {
                 title="Медіа"
                 href={!extended ? params.slug + '/media' : undefined}
             >
-                <div className="flex gap-4">
+                <ToggleGroup
+                    type="single"
+                    value={active}
+                    onValueChange={(value: 'video' | 'music') =>
+                        setActive(value)
+                    }
+                    variant="outline"
+                    size="badge"
+                >
                     {anime.videos.length > 0 && (
-                        <Button
-                            size="badge"
-                            variant={
-                                active === 'video' ? 'secondary' : 'outline'
-                            }
-                            onClick={() => setActive('video')}
-                        >
+                        <ToggleGroupItem value="video" aria-label="Відео">
                             Відео
-                        </Button>
+                        </ToggleGroupItem>
                     )}
                     {anime.ost.length > 0 && (
-                        <Button
-                            size="badge"
-                            variant={
-                                active === 'music' ? 'secondary' : 'outline'
-                            }
-                            onClick={() => setActive('music')}
-                        >
+                        <ToggleGroupItem value="music" aria-label="Музика">
                             Музика
-                        </Button>
+                        </ToggleGroupItem>
                     )}
-                </div>
+                </ToggleGroup>
             </SubHeader>
             <div
                 className={clsx(
@@ -93,7 +89,7 @@ const Component = ({ extended }: Props) => {
                         <BaseCard
                             target="_blank"
                             key={ost.spotify}
-                            href={ost.spotify || '#'}
+                            href={ost.spotify || undefined}
                             title={ost.title}
                             containerClassName="pt-[100%]"
                             description={

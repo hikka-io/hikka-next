@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 import EditCard from '@/components/modals/editlist-modal/_components/ui/edit-card';
 import { Button } from '@/components/ui/button';
-import getContentEditList from '@/services/api/edit/getContentEditList';
+import getEditList from '@/services/api/edit/getEditList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 interface Props {
@@ -23,7 +23,7 @@ const Component = ({ content_type, slug }: Props) => {
         useInfiniteList({
             queryKey: ['editList', slug, content_type],
             queryFn: ({ pageParam }) =>
-                getContentEditList({
+                getEditList({
                     slug: slug,
                     content_type: content_type,
                     page: pageParam,

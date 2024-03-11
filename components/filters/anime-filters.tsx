@@ -25,7 +25,7 @@ import {
 } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 
-import BadgeFilter from './_components/ui/badge-filter';
+import BadgeFilter from '@/components/filters/_components/ui/badge-filter';
 
 
 const YEARS: [number, number] = [1980, new Date().getFullYear()];

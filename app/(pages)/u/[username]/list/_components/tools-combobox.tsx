@@ -7,7 +7,7 @@ import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
-import FiltersModal from '@/components/filters/_components/filters-modal';
+import FiltersModal from '@/components/modals/anime-filters-modal';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,

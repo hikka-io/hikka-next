@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
-import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 
@@ -24,38 +24,32 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="Опис">
-                <div className="flex gap-4 flex-wrap">
+                <ToggleGroup
+                    type="single"
+                    value={active}
+                    onValueChange={(value: 'synopsis_ua' | 'synopsis_en') =>
+                        setActive(value)
+                    }
+                    variant="outline"
+                    size="badge"
+                >
                     {data.synopsis_ua && (
-                        <Button
-                            size="badge"
-                            variant={
-                                active === 'synopsis_ua'
-                                    ? 'secondary'
-                                    : 'outline'
-                            }
-                            onClick={() => setActive('synopsis_ua')}
+                        <ToggleGroupItem
+                            value="synopsis_ua"
+                            aria-label="Опис українскою"
                         >
-                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                UA
-                            </span>
-                        </Button>
+                            UA
+                        </ToggleGroupItem>
                     )}
                     {data.synopsis_en && (
-                        <Button
-                            size="badge"
-                            variant={
-                                active === 'synopsis_en'
-                                    ? 'secondary'
-                                    : 'outline'
-                            }
-                            onClick={() => setActive('synopsis_en')}
+                        <ToggleGroupItem
+                            value="synopsis_en"
+                            aria-label="Опис англійською"
                         >
-                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                EN
-                            </span>
-                        </Button>
+                            EN
+                        </ToggleGroupItem>
                     )}
-                </div>
+                </ToggleGroup>
             </SubHeader>
             <MDViewer>
                 {data[active] || data.synopsis_ua || data.synopsis_en}

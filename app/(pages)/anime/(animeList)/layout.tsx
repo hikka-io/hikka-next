@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import Filters from '@/components/filters';
+import Filters from '../../../../components/filters/anime-filters';
 
 import NavBar from './_components/navbar';
 

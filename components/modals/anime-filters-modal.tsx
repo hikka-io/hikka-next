@@ -1,10 +1,8 @@
-'use client';
-
 import * as React from 'react';
 import { ReactNode } from 'react';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
-import Filters from '@/components/filters/filters';
+import Filters from '@/components/filters/anime-filters';
 import { Button } from '@/components/ui/button';
 import {
     Sheet,

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import FiltersModal from '@/components/filters/_components/filters-modal';
+import FiltersModal from '@/components/modals/anime-filters-modal';
 
 import Search from './_components/search';
 

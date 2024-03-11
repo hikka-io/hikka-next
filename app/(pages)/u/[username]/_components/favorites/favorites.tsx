@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
-import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import Anime from './_components/anime';
 import Character from './_components/characters';
@@ -42,27 +42,31 @@ const Component = ({ extended }: Props) => {
                         : undefined
                 }
             >
-                <Button
-                    variant={content === 'anime' ? 'secondary' : 'outline'}
+                <ToggleGroup
+                    type="single"
+                    value={content}
+                    onValueChange={(value: API.ContentType) =>
+                        setContent(value)
+                    }
+                    variant="outline"
                     size="badge"
-                    onClick={() => setContent('anime')}
                 >
-                    Аніме
-                </Button>
-                <Button
-                    variant={content === 'character' ? 'secondary' : 'outline'}
-                    size="badge"
-                    onClick={() => setContent('character')}
-                >
-                    Персонажі
-                </Button>
-                <Button
-                    variant={content === 'collection' ? 'secondary' : 'outline'}
-                    size="badge"
-                    onClick={() => setContent('collection')}
-                >
-                    Колекції
-                </Button>
+                    <ToggleGroupItem value="anime" aria-label="Улюблені аніме">
+                        Аніме
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                        value="character"
+                        aria-label="Улюблені персонажі"
+                    >
+                        Персонажі
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                        value="collection"
+                        aria-label="Улюблені колекції"
+                    >
+                        Колекції
+                    </ToggleGroupItem>
+                </ToggleGroup>
             </SubHeader>
             {getComponent()}
         </div>
