@@ -11,7 +11,7 @@ export default function H5({ children, className }: Props) {
     return (
         <h5
             className={cn(
-                'scroll-m-20 text-base font-display font-bold tracking-tight',
+                'scroll-m-20 text-base font-display font-bold tracking-normal',
                 className,
             )}
         >

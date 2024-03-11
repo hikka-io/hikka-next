@@ -11,7 +11,7 @@ export default function H4({ children, className }: Props) {
     return (
         <h4
             className={cn(
-                'scroll-m-20 text-lg font-display font-bold tracking-tight',
+                'scroll-m-20 text-lg font-display font-bold tracking-normal',
                 className,
             )}
         >
