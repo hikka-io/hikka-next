@@ -53,7 +53,14 @@ const Component = ({ onClick, type, children }: Props) => {
 
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
-            if (e.key === '/') {
+            const _focused = document.activeElement;
+
+            const _inputting =
+                _focused?.tagName.toLowerCase() === 'textarea' ||
+                _focused?.tagName.toLowerCase() === 'input' ||
+                _focused?.role === 'textbox';
+
+            if (!_inputting && e.key === '/') {
                 e.preventDefault();
                 setOpen((prev) => !prev);
             }

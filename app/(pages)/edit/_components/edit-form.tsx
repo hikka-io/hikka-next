@@ -110,6 +110,9 @@ const Component = ({ slug, content_type, content, mode = 'edit' }: Props) => {
                 {mode === 'edit' && (
                     <div className="flex w-full flex-col gap-4">
                         <Turnstile
+                            options={{
+                                refreshExpired: 'manual',
+                            }}
                             ref={captchaRef}
                             siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
                         />

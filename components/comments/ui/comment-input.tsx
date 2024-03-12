@@ -116,7 +116,7 @@ const Component = forwardRef(
                                     src={comment.author.avatar}
                                 />
                             </Avatar>
-                            <Label>{comment.author.username}</Label>
+                            <Label className="hidden md:block">{comment.author.username}</Label>
                             <MaterialSymbolsReplyRounded />
                         </Badge>
                     ) : (
