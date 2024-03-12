@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
 import Link from 'next/link';
@@ -7,28 +7,26 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 import ListStats from '@/app/(pages)/u/[username]/_components/list-stats';
 import UserTitle from '@/app/(pages)/u/[username]/_components/user-title';
-import { getCookie } from '@/app/actions';
 import Breadcrumbs from '@/components/breadcrumbs';
 import InternalNavBar from '@/components/internal-navbar';
 import NavMenu from '@/components/nav-menu';
 import SubBar from '@/components/sub-navbar';
 import Image from '@/components/ui/image';
-import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getFollowStats from '@/services/api/follow/getFollowStats';
-import getUserHistory from '@/services/api/user/getUserHistory';
 import getUserInfo, {
     Response as UserResponse,
 } from '@/services/api/user/getUserInfo';
 import getWatchStats from '@/services/api/watch/getWatchStats';
 import { USER_NAV_ROUTES } from '@/utils/constants';
+import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
 import FollowButton from './_components/follow-button';
 import FollowStats from './_components/follow-stats';
 import UserInfo from './_components/user-info';
-import ActivationAlert from '@/app/(pages)/u/[username]/_components/activation-alert';
 
 
 interface Props extends PropsWithChildren {
@@ -39,45 +37,25 @@ interface Props extends PropsWithChildren {
 
 // export const runtime = 'edge';
 
-export async function generateMetadata(
-    {
-        params,
-    }: {
-        params: {
-            username: string;
-        };
-    },
-    parent: ResolvingMetadata,
-): Promise<Metadata> {
-    const parentMetadata = await parent;
+export async function generateMetadata({
+    params,
+}: {
+    params: {
+        username: string;
+    };
+}): Promise<Metadata> {
     const username = params.username;
 
     const user: UserResponse = await getUserInfo({ username });
 
-    return {
+    return _generateMetadata({
         title: {
             default: user.username,
             template: user.username + ' / %s / Hikka',
         },
         description: user.description,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            title: {
-                default: user.username,
-                template: user.username + ' / %s / Hikka',
-            },
-            description: user.description || '',
-            images: 'https://hikka.io/generate/preview/u/' + username,
-        },
-        twitter: {
-            title: {
-                default: user.username,
-                template: user.username + ' / %s / Hikka',
-            },
-            description: user.description || '',
-            images: 'https://hikka.io/generate/preview/u/' + username,
-        },
-    };
+        images: 'https://hikka.io/generate/preview/u/' + username,
+    });
 }
 
 const Component = async ({ params: { username }, children }: Props) => {

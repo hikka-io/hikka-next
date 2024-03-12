@@ -5,10 +5,12 @@ import React, { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import Providers from '@/components/providers';
 import '@mdxeditor/editor/style.css';
-import './globals.css';
 
+import Providers from '@/components/providers';
+import generateMetadata from '@/utils/generateMetadata';
+
+import './globals.css';
 
 
 const inter = Inter({
@@ -24,12 +26,7 @@ const fixelDisplay = localFont({
 });
 
 export const metadata: Metadata = {
-    title: {
-        default: 'Hikka - енциклопедія аніме українською',
-        template: '%s / Hikka',
-    },
-    description:
-        'Hikka - українська онлайн енциклопедія аніме. Весь список аніме, детальна інформація до кожного тайтлу та зручний інтерфейс. Заповнюй власний список переглянутого, кастомізуй профіль та ділись з друзями.',
+    ...generateMetadata({}),
     keywords: [
         'онлайн перегляд аніме',
         'аніме',
@@ -59,25 +56,6 @@ export const metadata: Metadata = {
         'Аніме Портал',
         'аніме культура',
     ],
-    openGraph: {
-        siteName: 'Hikka',
-        images: '/preview.jpg',
-        title: {
-            default: 'Hikka - енциклопедія аніме українською',
-            template: '%s / Hikka',
-        },
-        description:
-            'Hikka - українська онлайн енциклопедія аніме. Весь список аніме, детальна інформація до кожного тайтлу та зручний інтерфейс. Заповнюй власний список переглянутого, кастомізуй профіль та ділись з друзями.',
-    },
-    twitter: {
-        images: '/preview.jpg',
-        title: {
-            default: 'Hikka - енциклопедія аніме українською',
-            template: '%s / Hikka',
-        },
-        description:
-            'Hikka - українська онлайн енциклопедія аніме. Весь список аніме, детальна інформація до кожного тайтлу та зручний інтерфейс. Заповнюй власний список переглянутого, кастомізуй профіль та ділись з друзями.',
-    },
     metadataBase: new URL('https://hikka.io'),
 };
 
@@ -103,7 +81,7 @@ export default async function RootLayout({
         >
             <head>
                 <PlausibleProvider
-                    trackLocalhost
+                    trackLocalhost={false}
                     enabled
                     selfHosted
                     customDomain=""

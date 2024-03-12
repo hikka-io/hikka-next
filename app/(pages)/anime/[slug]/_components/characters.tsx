@@ -76,20 +76,20 @@ const Component = ({ extended }: Props) => {
                             />
                         ))}
                     </div>
-                    {hasNextPage && (
-                        <Button
-                            variant="outline"
-                            ref={ref}
-                            disabled={isFetchingNextPage}
-                            onClick={() => fetchNextPage()}
-                        >
-                            {isFetchingNextPage && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Завантажити ще
-                        </Button>
-                    )}
                 </div>
+            )}
+            {hasNextPage && (
+                <Button
+                    variant="outline"
+                    ref={ref}
+                    disabled={isFetchingNextPage}
+                    onClick={() => fetchNextPage()}
+                >
+                    {isFetchingNextPage && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Завантажити ще
+                </Button>
             )}
         </div>
     );

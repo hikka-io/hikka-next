@@ -2,15 +2,14 @@
 
 import * as React from 'react';
 
-import { range } from '@antfu/utils';
-
 import EditHead from '@/app/(pages)/edit/_components/edit-list/_components/edit-head';
+import FiltersNotFound from '@/components/filters/_components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
-import EntryTableRow from '@/components/skeletons/entry-table-row';
 import { Table, TableBody } from '@/components/ui/table';
 import useEditList from '@/services/hooks/edit/useEditList';
 
 import EditRow from './_components/edit-row';
+import EditSkeleton from './_components/edit-skeleton';
 
 interface Props {
     page: string;
@@ -20,23 +19,14 @@ const Component = ({ page }: Props) => {
     const { data: edits, isLoading } = useEditList({ page: page });
 
     if (isLoading) {
-        return (
-            <div className="flex flex-col gap-8">
-                <div className="overflow-x-auto">
-                    <Table className="table">
-                        <EditHead />
-                        <TableBody>
-                            {range(1, 20).map((v) => (
-                                <EntryTableRow key={v} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            </div>
-        );
+        return <EditSkeleton />;
     }
 
     if (!edits) return null;
+
+    if (edits.list.length === 0) {
+        return <FiltersNotFound />;
+    }
 
     return (
         <div className="flex flex-col gap-8">

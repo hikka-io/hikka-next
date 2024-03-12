@@ -2,11 +2,14 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import { redirect } from 'next/navigation';
 
-import List from '@/app/(pages)/u/[username]/list/_components/list/list';
-import StatusCombobox from '@/app/(pages)/u/[username]/list/_components/status-combobox';
-import ToolsCombobox from '@/app/(pages)/u/[username]/list/_components/tools-combobox';
-import ViewCombobox from '@/app/(pages)/u/[username]/list/_components/view-combobox';
-import Filters from '../../../../../components/filters/anime-filters';
+import Filters from '@/components/filters/anime-filters';
+import _generateMetadata from '@/utils/generateMetadata';
+
+import List from './_components/list/list';
+import StatusCombobox from './_components/status-combobox';
+import ToolsCombobox from './_components/tools-combobox';
+import ViewCombobox from './_components/view-combobox';
+
 
 export async function generateMetadata(
     { params }: { params: { username: string } },
@@ -14,21 +17,11 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const parentMetadata = await parent;
 
-    return {
+    return _generateMetadata({
         title: 'Список',
         description: parentMetadata.openGraph?.description,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            description: parentMetadata.openGraph?.description,
-            images: parentMetadata.openGraph?.images,
-            title: 'Список',
-        },
-        twitter: {
-            description: parentMetadata.openGraph?.description,
-            images: parentMetadata.twitter?.images,
-            title: 'Список',
-        },
-    };
+        images: parentMetadata.openGraph?.images,
+    });
 }
 
 interface Props {

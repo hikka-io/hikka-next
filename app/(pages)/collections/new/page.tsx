@@ -1,15 +1,23 @@
+import { Metadata } from 'next';
 import React from 'react';
 
+import Breadcrumbs from '@/components/breadcrumbs';
+import { Label } from '@/components/ui/label';
 import CollectionProvider from '@/services/providers/collection-provider';
+import _generateMetadata from '@/utils/generateMetadata';
 
 import CollectionGroups from './_components/collection-groups';
 import CollectionSettings from './_components/collection-settings';
 import CollectionTitle from './_components/collection-title';
-import Breadcrumbs from '@/components/breadcrumbs';
-import Link from 'next/link';
-import P from '@/components/typography/p';
-import { Label } from '@/components/ui/label';
 
+export async function generateMetadata(): Promise<Metadata> {
+    return _generateMetadata({
+        title: {
+            template: 'Колекції / %s / Hikka',
+            default: 'Колекції',
+        },
+    });
+}
 
 const Component = () => {
     return (
@@ -17,10 +25,7 @@ const Component = () => {
             <>
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                        <Label
-                        >
-                            Нова колекція
-                        </Label>
+                        <Label>Нова колекція</Label>
                     </div>
                 </Breadcrumbs>
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">

@@ -25,19 +25,20 @@ export async function GET(
     return new ImageResponse(
         (
             <div
+                tw="p-16"
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
                     fontSize: 16,
                     gap: 32,
                     color: 'white',
-                    background: 'linear-gradient(180deg, #160820 0%, #000 60%, #000 100%)',
+                    background:
+                        'linear-gradient(180deg, #160820 0%, #000 60%, #000 100%)',
                     width: '100%',
                     height: '100%',
-                    padding: '32px',
                     textAlign: 'center',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 }}
             >
                 <div style={{ display: 'flex', gap: 32, width: '100%' }}>
@@ -59,28 +60,12 @@ export async function GET(
                             flex: 1,
                         }}
                     >
-                        <h1
-                            style={{
-                                fontSize: 36,
-                                fontWeight: 600,
-                                fontFamily: 'Fixel',
-                                color: 'white',
-                                lineHeight: '28px',
-                            }}
-                        >
+                        <h1 tw="text-4xl font-semibold leading-snug text-left m-0">
                             {user.username}
                         </h1>
                         <p
-                            style={{
-                                fontSize: 24,
-                                fontWeight: 400,
-                                fontFamily: 'Inter',
-                                color: 'white',
-                                opacity: 0.6,
-                                textAlign: 'left',
-                                width: '100%',
-                                flex: 1
-                            }}
+                            style={{ fontFamily: 'Inter' }}
+                            tw="text-2xl text-zinc-400 text-left m-0"
                         >
                             {user.description}
                         </p>
@@ -92,93 +77,98 @@ export async function GET(
                             display: 'flex',
                             gap: 16,
                             width: '100%',
-
                         }}
                     >
-                        {Object.keys(watchStats).map((stat, index) => (
-                            <div
-                                key={stat}
-                                style={{
-                                    display: 'flex',
-                                    flex: 1,
-                                    flexDirection: 'column',
-                                    padding: '8px 16px',
-                                    borderColor: 'rgba(39,39,42,0.6)',
-                                    backgroundColor: 'rgba(39,39,42,0.3)',
-                                    borderLeftWidth: 1,
-                                    borderRadius: 8,
-                                    borderWidth: 1,
-                                }}
-                            >
-
+                        {Object.keys(watchStats)
+                            .filter((stat) => stat in WATCH_STATUS)
+                            .map((stat, index) => (
                                 <div
+                                    key={stat}
                                     style={{
                                         display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 8
+                                        flex: 1,
+                                        flexDirection: 'column',
+                                        padding: '8px 16px',
+                                        borderColor: 'rgba(39,39,42,0.6)',
+                                        backgroundColor: 'rgba(39,39,42,0.3)',
+                                        borderLeftWidth: 1,
+                                        borderRadius: 8,
+                                        borderWidth: 1,
                                     }}
                                 >
-                                    <div style={{
-                                        display: 'flex',
-                                        width: 8,
-                                        height: 8,
-                                        borderRadius: '100%',
-                                        backgroundColor: WATCH_STATUS[stat as API.WatchStatus].color
-                                    }} />
-                                    <p
-                                        style={{
-                                            fontSize: 16,
-                                            fontWeight: 400,
-                                            fontFamily: 'Inter',
-                                            color: 'white',
-                                            opacity: 0.6,
-                                            lineHeight: '12px',
-                                            flex: 1,
-                                        }}
-                                    >
-                                        {
-                                            WATCH_STATUS[stat as API.WatchStatus]
-                                                .title_ua
-                                        }
-                                    </p>
                                     <div
                                         style={{
                                             display: 'flex',
-                                            justifyContent: 'center',
                                             alignItems: 'center',
-                                            fontSize: 24,
-                                            width: 16,
-                                            height: 16,
-
+                                            gap: 8,
                                         }}
                                     >
-                                        {createElement(
-                                            WATCH_STATUS[
-                                                stat as API.WatchStatus
-                                            ].icon!,
-                                        )}
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                width: 8,
+                                                height: 8,
+                                                borderRadius: '100%',
+                                                backgroundColor:
+                                                    WATCH_STATUS[
+                                                        stat as API.WatchStatus
+                                                    ].color,
+                                            }}
+                                        />
+                                        <p
+                                            style={{
+                                                fontSize: 16,
+                                                fontWeight: 400,
+                                                fontFamily: 'Inter',
+                                                color: 'white',
+                                                opacity: 0.6,
+                                                lineHeight: '12px',
+                                                flex: 1,
+                                            }}
+                                        >
+                                            {
+                                                WATCH_STATUS[
+                                                    stat as API.WatchStatus
+                                                ].title_ua
+                                            }
+                                        </p>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                fontSize: 24,
+                                                width: 16,
+                                                height: 16,
+                                            }}
+                                        >
+                                            {createElement(
+                                                WATCH_STATUS[
+                                                    stat as API.WatchStatus
+                                                ].icon!,
+                                            )}
+                                        </div>
                                     </div>
+                                    <h2
+                                        style={{
+                                            fontSize: 40,
+                                            fontWeight: 600,
+                                            fontFamily: 'Fixel',
+                                            color: 'white',
+                                            lineHeight: '24px',
+                                        }}
+                                    >
+                                        {watchStats[stat as API.WatchStatus]}
+                                    </h2>
                                 </div>
-                                <h2
-                                    style={{
-                                        fontSize: 40,
-                                        fontWeight: 600,
-                                        fontFamily: 'Fixel',
-                                        color: 'white',
-                                        lineHeight: '24px',
-                                    }}
-                                >
-                                    {watchStats[stat as API.WatchStatus]}
-                                </h2>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 )}
             </div>
         ),
         {
-            width: 1112,
-            height: 480,
+            width: 1200,
+            height: 630,
             fonts: [
                 {
                     name: 'Fixel',

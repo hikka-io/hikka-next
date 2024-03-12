@@ -1,22 +1,35 @@
+import { Metadata } from 'next';
 import React from 'react';
+
+import Link from 'next/link';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import { getCookie } from '@/app/actions';
+import Breadcrumbs from '@/components/breadcrumbs';
 import Comments from '@/components/comments/comments';
 import getCollection from '@/services/api/collections/getCollection';
 import CollectionProvider from '@/services/providers/collection-provider';
+import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
 import CollectionGroups from './_components/collection-groups';
 import CollectionInfo from './_components/collection-info';
 import CollectionTitle from './_components/collection-title';
-import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
-import Link from 'next/link';
-import NavMenu from '@/components/nav-menu';
-import Breadcrumbs from '@/components/breadcrumbs';
 
+
+export async function generateMetadata({
+    params: { reference },
+}: {
+    params: Record<string, any>;
+}): Promise<Metadata> {
+    const collection = await getCollection({ reference });
+
+    return _generateMetadata({
+        title: `Колекції / ${collection.title}`,
+    });
+}
 
 const Component = async ({
     params: { reference },
@@ -33,7 +46,7 @@ const Component = async ({
 
     const collection: API.Collection | undefined = queryClient.getQueryData([
         'collection',
-        { reference, secret }
+        { reference, secret },
     ]);
 
     const dehydratedState = dehydrate(queryClient);

@@ -7,6 +7,7 @@ import {
     memo,
 } from 'react';
 import { UrlObject } from 'url';
+import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symbols/image-not-supported-outline-rounded';
 
 import Link from 'next/link';
 
@@ -79,7 +80,13 @@ const Component = forwardRef(
                                 poster
                             ))}
                     </div>
-                    {children}
+                    {children || poster ? (
+                        children
+                    ) : (
+                        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
+                            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground" />
+                        </div>
+                    )}
                 </div>
                 {(title || description) && (
                     <div

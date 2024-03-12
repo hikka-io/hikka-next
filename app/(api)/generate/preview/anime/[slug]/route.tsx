@@ -1,11 +1,9 @@
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
-import { uk } from 'date-fns/locale';
+import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import { ImageResponse } from 'next/og';
 
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
-import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 export const runtime = 'edge';
 
@@ -26,17 +24,19 @@ export async function GET(
     return new ImageResponse(
         (
             <div
-                tw="flex flex-col text-sm text-white w-full h-full p-8 text-center justify-center items-center"
+                tw="flex flex-col text-sm text-white w-full h-full p-16 text-center justify-center items-center bg-black"
                 style={{
                     background:
                         'linear-gradient(180deg, #160820 0%, #000 60%, #000 100%)',
                 }}
             >
                 <div
-                    tw="flex w-full h-full items-start gap-8"
-                    style={{ gap: 32 }}
+                    tw="flex w-full items-center justify-center"
+                    style={{
+                        gap: 32,
+                    }}
                 >
-                    <div tw="flex gap-8 w-[297px]">
+                    <div tw="flex w-[297px]">
                         <div
                             tw="flex relative w-full rounded-lg overflow-hidden bg-zinc-900"
                             style={{
@@ -53,27 +53,51 @@ export async function GET(
                         </div>
                     </div>
                     <div
-                        tw="flex flex-col w-full h-full flex-1"
-                        style={{ gap: 16 }}
+                        tw="flex flex-col w-full flex-1 border rounded-lg"
+                        style={{
+                            gap: 16,
+                        }}
                     >
-                        <div tw="flex" style={{ gap: 32 }}>
-                            <h1
-                                tw="text-2xl font-semibold flex-1 text-left"
-                                style={{ fontFamily: 'Fixel' }}
+                        <div
+                            tw="flex flex-col items-start justify-start"
+                            style={{ gap: 16 }}
+                        >
+                            <div
+                                tw="flex items-start justify-between w-full"
+                                style={{ gap: 16 }}
                             >
-                                {anime.title_ua ||
-                                    anime.title_en ||
-                                    anime.title_ja}
-                            </h1>
-                            <h1
-                                tw="text-4xl font-semibold text-right"
-                                style={{ fontFamily: 'Fixel' }}
-                            >
-                                {anime.score ? anime.score : null}
-                            </h1>
+                                <h1
+                                    tw="text-4xl font-semibold leading-snug text-left m-0"
+                                    style={{ fontFamily: 'Fixel' }}
+                                >
+                                    {anime.title_ua ||
+                                        anime.title_en ||
+                                        anime.title_ja}{' '}
+                                </h1>
+                                {anime.score > 0 && (
+                                    <div
+                                        tw="flex items-start justify-start leading-none m-0 p-0 "
+                                        style={{ gap: 4 }}
+                                    >
+                                        <h1
+                                            tw="font-semibold text-6xl text-right m-0 p-0"
+                                            style={{
+                                                fontFamily: 'Fixel',
+                                            }}
+                                        >
+                                            {anime.score}
+                                        </h1>
+                                        <MaterialSymbolsStarRounded
+                                            style={{ width: 36, height: 36 }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <h2 tw="text-zinc-400 m-0">{anime.title_ja}</h2>
                         </div>
-                        <div tw="flex" style={{ gap: 16 }}>
-                            {anime.genres.map((genre, i) =>
+
+                        <div tw="flex items-center" style={{ gap: 16 }}>
+                            {anime.genres.slice(0, 5).map((genre, i) =>
                                 i < 8 ? (
                                     <div
                                         key={genre.slug}
@@ -83,7 +107,7 @@ export async function GET(
                                             backgroundColor:
                                                 'rgba(39,39,42,0.3)',
                                         }}
-                                        tw="flex rounded-full border py-1 px-4"
+                                        tw="flex rounded-full border py-1 px-4 text-lg"
                                     >
                                         {genre.name_ua || genre.name_en}
                                     </div>
@@ -91,18 +115,18 @@ export async function GET(
                             )}
                         </div>
                         <div
-                            tw="flex rounded-lg border py-4 px-4"
+                            tw="flex border rounded-lg p-4 items-center"
                             style={{
                                 borderColor: 'rgba(39,39,42,0.6)',
                                 backgroundColor: 'rgba(39,39,42,0.3)',
                             }}
                         >
-                            <div tw="flex flex-col flex-1">
+                            <div tw="flex flex-col flex-1" style={{ gap: 16 }}>
                                 {anime.media_type && (
                                     <div tw="flex flex-nowrap items-center">
                                         <div tw="flex w-26">
                                             <p
-                                                tw="text-zinc-400 text-base"
+                                                tw="text-zinc-400 text-xl m-0"
                                                 style={{ fontFamily: 'Inter' }}
                                             >
                                                 Тип:
@@ -111,7 +135,7 @@ export async function GET(
                                         <div tw="flex">
                                             <p
                                                 style={{ fontFamily: 'Inter' }}
-                                                tw="text-base font-bold"
+                                                tw="text-xl font-bold m-0"
                                             >
                                                 {
                                                     MEDIA_TYPE[anime.media_type]
@@ -120,7 +144,7 @@ export async function GET(
                                             </p>
                                         </div>
                                         <div
-                                            tw="flex rounded-lg h-6 px-2 ml-4 items-center justify-center text-base"
+                                            tw="flex rounded-lg h-6 px-2 ml-4 items-center justify-center text-xl"
                                             style={{
                                                 fontFamily: 'Inter',
                                                 backgroundColor:
@@ -144,14 +168,14 @@ export async function GET(
                                                     style={{
                                                         fontFamily: 'Inter',
                                                     }}
-                                                    tw="text-left text-zinc-400 text-base"
+                                                    tw="text-left text-zinc-400 text-xl m-0"
                                                 >
                                                     Епізоди:
                                                 </p>
                                             </div>
                                             <div tw="flex flex-1">
                                                 <p
-                                                    tw="text-base"
+                                                    tw="text-xl m-0"
                                                     style={{
                                                         fontFamily: 'Inter',
                                                     }}
@@ -163,68 +187,14 @@ export async function GET(
                                             </div>
                                         </div>
                                     )}
-                                {anime.rating && (
-                                    <div tw="flex flex-nowrap items-center">
-                                        <div tw="flex w-26">
-                                            <p
-                                                style={{ fontFamily: 'Inter' }}
-                                                tw="text-left text-zinc-400 text-base"
-                                            >
-                                                Рейтинг:
-                                            </p>
-                                        </div>
-                                        <div tw="flex">
-                                            <p
-                                                style={{ fontFamily: 'Inter' }}
-                                                tw="text-base"
-                                            >
-                                                {
-                                                    AGE_RATING[anime.rating]
-                                                        .title_ua
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
-                                {anime.duration && (
-                                    <div tw="flex flex-nowrap items-start">
-                                        <div tw="flex w-26 text-left">
-                                            <p
-                                                style={{ fontFamily: 'Inter' }}
-                                                tw="text-left text-zinc-400 text-base"
-                                            >
-                                                Тривалість епізоду:
-                                            </p>
-                                        </div>
-                                        <div tw="flex">
-                                            <p
-                                                style={{ fontFamily: 'Inter' }}
-                                                tw="text-base"
-                                            >
-                                                {formatDuration(
-                                                    intervalToDuration({
-                                                        start: 0,
-                                                        end:
-                                                            anime.duration *
-                                                            60 *
-                                                            1000,
-                                                    }),
-                                                    {
-                                                        locale: uk,
-                                                    },
-                                                )}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                             {studio && studio.company.image && (
-                                <div tw="flex overflow-hidden rounded-lg w-[200px] h-[200px]">
+                                <div tw="flex overflow-hidden rounded-lg w-[100px] h-[100px]">
                                     <img
                                         src={studio.company.image}
                                         alt="studio"
-                                        width={200}
-                                        height={200}
+                                        width={100}
+                                        height={100}
                                         className="object-cover"
                                     />
                                 </div>
@@ -235,8 +205,8 @@ export async function GET(
             </div>
         ),
         {
-            width: 1112,
-            height: 480,
+            width: 1200,
+            height: 630,
             fonts: [
                 {
                     name: 'Fixel',

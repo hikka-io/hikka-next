@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import * as React from 'react';
 
 import Link from 'next/link';
@@ -10,6 +11,7 @@ import Content from '@/app/(pages)/edit/_components/content/content';
 import Breadcrumbs from '@/components/breadcrumbs';
 import SubHeader from '@/components/sub-header';
 import getEdit from '@/services/api/edit/getEdit';
+import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
 import EditStatus from '../_components/ui/edit-status';
@@ -21,6 +23,21 @@ interface Props {
     params: { editId: string };
     searchParams: { [key: string]: string | string[] | undefined };
     children: React.ReactNode;
+}
+
+export async function generateMetadata({
+    params,
+}: {
+    params: {
+        editId: string;
+    };
+}): Promise<Metadata> {
+    const edit = await getEdit({ edit_id: Number(params.editId) });
+
+    return _generateMetadata({
+        title: `#${params.editId}`,
+        description: edit.description,
+    });
 }
 
 const Component = async ({ params: { editId }, children }: Props) => {
