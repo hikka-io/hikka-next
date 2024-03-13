@@ -81,7 +81,7 @@ export default async function RootLayout({
         >
             <head>
                 <PlausibleProvider
-                    trackLocalhost={false}
+                    trackLocalhost
                     enabled
                     selfHosted
                     customDomain=""
