@@ -26,7 +26,7 @@ const Component = ({ data, className }: Props) => {
                     poster={data.collection[0].content.poster}
                 />
             </div>
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="flex flex-col gap-2 flex-1 min-w-0">
                 <div className="flex gap-2 items-center">
                     <Label
                         asChild
@@ -48,7 +48,7 @@ const Component = ({ data, className }: Props) => {
                 </div>
                 <Small
                     className={cn(
-                        'text-muted-foreground line-clamp-1',
+                        'text-muted-foreground line-clamp-1 truncate',
                         data.spoiler && 'blur-sm hover:blur-none',
                     )}
                 >
