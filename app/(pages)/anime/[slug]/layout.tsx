@@ -28,6 +28,8 @@ import getQueryClient from '@/utils/getQueryClient';
 import Actions from './_components/actions';
 import Cover from './_components/cover';
 import Title from './_components/title';
+import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
+import _generateMetadata from '@/utils/generateMetadata';
 
 
 interface Props extends PropsWithChildren {
@@ -58,7 +60,7 @@ export async function generateMetadata(
     const title =
         (anime.title_ua || anime.title_en || anime.title_ja) +
         (startDate ? ` (${startDate})` : '');
-    let synopsis: string | undefined = anime.synopsis_ua || anime.synopsis_en;
+    let synopsis: string | undefined = await parseTextFromMarkDown(anime.synopsis_ua || anime.synopsis_en);
 
     synopsis =
         synopsis &&
@@ -71,21 +73,14 @@ export async function generateMetadata(
               ? synopsis + '...'
               : undefined);
 
-    return {
-        title: { default: title, template: title + ' / %s / Hikka' },
+    return _generateMetadata({
+        title: {
+            default: title,
+            template: title + ' / %s / Hikka'
+        },
         description: synopsis,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: synopsis,
-            images: 'https://hikka.io/generate/preview/anime/' + slug,
-        },
-        twitter: {
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: synopsis,
-            images: 'https://hikka.io/generate/preview/anime/' + slug,
-        },
-    };
+        images: `https://hikka.io/generate/preview/anime/${slug}?date=${anime.updated}`,
+    });
 }
 
 /*const filteredRoutes = ANIME_NAV_ROUTES.filter((r) => {

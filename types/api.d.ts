@@ -95,6 +95,7 @@ declare global {
             role: UserRole;
             active: boolean;
             is_followed?: boolean;
+            updated: number;
         };
 
         type WithPagination<T> = {
@@ -171,6 +172,7 @@ declare global {
             ost: OST[];
             stats: Stats;
             comments_count: number;
+            updated: number;
         } & Anime;
 
         type GenreType = 'theme' | 'explicit' | 'demographic' | 'genre';

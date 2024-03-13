@@ -74,22 +74,22 @@ export async function GET(
                 tw="flex flex-col text-sm text-white w-full h-full p-16 text-center justify-center items-end bg-black"
                 style={{
                     background:
-                        'linear-gradient(270deg, #160820 0%, #000 90%, #000 100%)',
+                        'linear-gradient(253deg, #230538 0%, #000 100%)',
                     gap: 32,
                 }}
             >
                 <div
-                    tw="flex flex-col w-full items-center justify-center border-2 bg-black rounded-xl p-4"
+                    tw="flex flex-col w-full items-center justify-center border-2 bg-black rounded-xl shadow-2xl"
                     style={{
                         borderColor: 'rgba(39,39,42,0.6)',
                     }}
                 >
-                    <div style={{ display: 'flex', gap: 32, width: '100%' }}>
+                    <div tw="flex w-full">
                         <img
                             src={user.avatar}
-                            width={256}
-                            height={256}
-                            style={{ borderRadius: 16 }}
+                            width={297}
+                            height={297}
+                            tw="rounded-xl rounded-r-none"
                             alt="avatar"
                         />
                         <div
@@ -101,7 +101,7 @@ export async function GET(
                                 width: '100%',
                                 flex: 1,
                             }}
-                            tw="justify-between"
+                            tw="justify-between p-8"
                         >
                             <div tw="flex flex-col w-full" style={{ gap: 16 }}>
                                 <h1 tw="text-4xl font-semibold leading-snug text-left m-0">
@@ -114,7 +114,7 @@ export async function GET(
                             <div tw="flex w-full" style={{ gap: 16 }}>
                                 {watchStats && (
                                     <div
-                                        tw="flex border w-full p-4 py-2 rounded-lg items-center"
+                                        tw="flex border w-full p-4 rounded-lg items-center"
                                         style={{
                                             gap: 16,
                                             backgroundColor:
@@ -166,7 +166,7 @@ export async function GET(
                                                                     fontFamily:
                                                                         'Inter',
                                                                 }}
-                                                                tw="text-lg m-0"
+                                                                tw="text-xl m-0"
                                                             >
                                                                 {
                                                                     WATCH_STATUS[
@@ -179,7 +179,7 @@ export async function GET(
                                                             tw="flex items-center"
                                                             style={{ gap: 16 }}
                                                         >
-                                                            <p tw="text-right m-0 text-lg h-5">
+                                                            <p tw="text-right m-0 text-xl h-4">
                                                                 {
                                                                     watchStats[
                                                                         stat as API.WatchStatus
@@ -188,7 +188,7 @@ export async function GET(
                                                             </p>
                                                             {index !==
                                                                 filteredStats.length - 1 && (
-                                                                <p tw="text-zinc-400">
+                                                                <p tw="text-zinc-400 text-xl m-0" style={{ fontFamily: 'Inter' }}>
                                                                     /
                                                                 </p>
                                                             )}
