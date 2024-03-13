@@ -21,6 +21,10 @@ export async function GET(
     const anime = await getAnimeInfo({ slug });
     const studio = anime.companies.find((c) => c.type === 'studio');
 
+    let title = anime.title_ua || anime.title_en || anime.title_ja;
+
+    title = title.length > 30 ? title.substring(0, 60) + '...' : title;
+
     return new ImageResponse(
         (
             <div
@@ -54,7 +58,7 @@ export async function GET(
                         </div>
                     </div>
                     <div
-                        tw="flex flex-col justify-between w-full h-full flex-1 py-8 px-8"
+                        tw="flex flex-col justify-between w-full h-full flex-1 p-8"
                         style={{
                             gap: 24,
                         }}
@@ -74,85 +78,91 @@ export async function GET(
                                     style={{ gap: 16 }}
                                 >
                                     <h1
-                                        tw="text-4xl font-semibold leading-snug text-left m-0"
+                                        tw="text-5xl font-semibold leading-snug text-left m-0"
                                         style={{ fontFamily: 'Fixel' }}
                                     >
-                                        {anime.title_ua ||
-                                            anime.title_en ||
-                                            anime.title_ja}
+                                        {title}
                                     </h1>
-                                    {anime.score > 0 && (
-                                        <div
-                                            tw="flex items-start justify-start leading-none m-0 p-0 "
-                                            style={{ gap: 4 }}
-                                        >
-                                            <h1
-                                                tw="font-semibold text-6xl text-right m-0 p-0"
-                                                style={{
-                                                    fontFamily: 'Fixel',
-                                                }}
-                                            >
-                                                {anime.score}
-                                            </h1>
-                                            <MaterialSymbolsStarRounded
-                                                style={{
-                                                    width: 36,
-                                                    height: 36,
-                                                }}
-                                            />
-                                        </div>
-                                    )}
                                 </div>
-                                <h2 tw="text-zinc-400 m-0">{anime.title_ja}</h2>
                             </div>
-
                             <div tw="flex items-center" style={{ gap: 16 }}>
-                                {anime.genres.slice(0, 4).map((genre, i) =>
+                                {anime.genres.slice(0, 3).map((genre, i) =>
                                     i < 8 ? (
                                         <div
                                             key={genre.slug}
-                                            style={{
-                                                fontFamily: 'Inter',
-                                                borderColor:
-                                                    'rgba(39,39,42,0.6)',
-                                                backgroundColor:
-                                                    'rgba(39,39,42,0.3)',
-                                            }}
-                                            tw="flex rounded-full border py-1 px-4 text-2xl"
+                                            tw="flex items-center rounded-full bg-zinc-800 py-2 px-4"
                                         >
-                                            {genre.name_ua || genre.name_en}
+                                            <p tw="text-2xl m-0 h-5">
+                                                {genre.name_ua || genre.name_en}
+                                            </p>
                                         </div>
                                     ) : null,
                                 )}
                             </div>
                         </div>
-                        <div tw="flex items-center" style={{ gap: 16 }}>
-                            {anime.start_date && (
-                                <p tw="m-0 text-2xl text-zinc-400 h-5">
-                                    {new Date(
-                                        anime.start_date * 1000,
-                                    ).getFullYear()}
-                                </p>
-                            )}
-                            {anime.media_type && (
-                                <div tw="flex bg-zinc-400 h-3 w-3 rounded-full" />
-                            )}
-                            {anime.media_type && (
-                                <p tw="m-0 text-2xl text-zinc-400 h-5">
-                                    {
-                                        MEDIA_TYPE[
-                                            anime.media_type as API.MediaType
-                                        ].title_ua
-                                    }
-                                </p>
-                            )}
-                            {anime.episodes_total && (
-                                <div tw="flex bg-zinc-400 h-3 w-3 rounded-full" />
-                            )}
-                            {anime.episodes_total && (
-                                <p tw="m-0 text-2xl text-zinc-400 h-5">
-                                    {anime.episodes_total} епізодів
-                                </p>
+                        <div
+                            tw="flex items-center justify-between"
+                            style={{ gap: 16 }}
+                        >
+                            <div tw="flex items-center" style={{ gap: 16 }}>
+                                {studio && (
+                                    <p tw="m-0 text-2xl text-amber-300 h-5">
+                                        {studio?.company.name}
+                                    </p>
+                                )}
+                                {anime.start_date && (
+                                    <div tw="flex bg-zinc-400 h-3 w-3 rounded-full" />
+                                )}
+                                {anime.start_date && (
+                                    <p tw="m-0 text-2xl text-zinc-400 h-5">
+                                        {new Date(
+                                            anime.start_date * 1000,
+                                        ).getFullYear()}
+                                    </p>
+                                )}
+                                {anime.media_type && (
+                                    <div tw="flex bg-zinc-400 h-3 w-3 rounded-full" />
+                                )}
+                                {anime.media_type && (
+                                    <p tw="m-0 text-2xl text-zinc-400 h-5">
+                                        {
+                                            MEDIA_TYPE[
+                                                anime.media_type as API.MediaType
+                                            ].title_ua
+                                        }
+                                    </p>
+                                )}
+                                {anime.episodes_total && (
+                                    <div tw="flex bg-zinc-400 h-3 w-3 rounded-full" />
+                                )}
+                                {anime.episodes_total && (
+                                    <p tw="m-0 text-2xl text-zinc-400 h-5">
+                                        {anime.episodes_total} еп.
+                                    </p>
+                                )}
+                            </div>
+                            {anime.score > 0 && (
+                                <div
+                                    tw="flex items-center justify-center leading-none m-0 p-0"
+                                    style={{ gap: 4 }}
+                                >
+                                    <h1
+                                        tw="font-semibold text-5xl text-right m-0 p-0 h-5"
+                                        style={{
+                                            fontFamily: 'Fixel',
+                                        }}
+                                    >
+                                        {anime.score}
+                                    </h1>
+                                    <div tw="flex text-amber-300">
+                                        <MaterialSymbolsStarRounded
+                                            style={{
+                                                width: 36,
+                                                height: 36,
+                                            }}
+                                        />
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>
