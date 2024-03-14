@@ -1,7 +1,7 @@
 import { marked } from 'marked';
 
 const htmlEscapeToText = (text: string) => {
-    return text.replace(/\&\#[0-9]*;|&amp;/g,  (escapeCode: string) => {
+    return text.replace(/\&\#[0-9]*;|&amp;/g, (escapeCode: string) => {
         if (escapeCode.match(/amp/)) {
             return '&';
         }
@@ -33,11 +33,20 @@ const renderPlain = () => {
         return '';
     };
 
+    render.em = function (text) {
+        return text;
+    };
+
+    render.strong = function (text) {
+        return text;
+    };
+
     return render;
 };
 
-export default async function parseTextFromMarkDown(mdString: string) {
+export default function parseTextFromMarkDown(mdString: string) {
     return marked(mdString, {
         renderer: renderPlain(),
+        async: false,
     });
 }

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 
@@ -8,6 +7,7 @@ import Small from '@/components/typography/small';
 import BaseCard from '@/components/ui/base-card';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
+import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 
 interface Props {
     data: API.Collection;
@@ -15,6 +15,8 @@ interface Props {
 }
 
 const Component = ({ data, className }: Props) => {
+    const description = parseTextFromMarkDown(data.description);
+
     return (
         <div className={cn('flex gap-4', className)}>
             <div className="w-12">
@@ -52,7 +54,7 @@ const Component = ({ data, className }: Props) => {
                         data.spoiler && 'blur-sm hover:blur-none',
                     )}
                 >
-                    {data.description}
+                    {description}
                 </Small>
                 <div className="inline-flex gap-2 items-center text-muted-foreground text-xs">
                     <div className="flex gap-1">
