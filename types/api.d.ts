@@ -199,6 +199,9 @@ declare global {
             name_en: string;
             image: string;
             slug: string;
+            synonyms: string[];
+            characters_count: number;
+            anime_count: number;
         };
 
         type Company = {
@@ -212,7 +215,9 @@ declare global {
 
         type Edit<
             TEditParams extends Record<string, any> = Record<string, any>,
-            TContent extends API.Content = API.Content<'anime'> | API.Content<'character'>,
+            TContent extends API.Content =
+                | API.Content<'anime'>
+                | API.Content<'character'>,
         > = {
             content_type: ContentType;
             status: EditStatus;
@@ -379,6 +384,6 @@ declare global {
             person: API.Person;
         };
 
-        type Content<K extends keyof Contents = keyof Contents> = Contents[K]
+        type Content<K extends keyof Contents = keyof Contents> = Contents[K];
     }
 }

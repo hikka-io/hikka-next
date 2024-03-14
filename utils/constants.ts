@@ -398,6 +398,12 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         visible: false,
     },
     {
+        slug: 'people',
+        title_ua: 'Люди',
+        url: '/people',
+        visible: false,
+    },
+    {
         slug: 'characters',
         title_ua: 'Колекції',
         url: '/collections',
@@ -451,9 +457,32 @@ export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '',
     },
     {
+        slug: 'voices',
+        title_ua: 'Сейю',
+        url: '/voices',
+    },
+    {
         slug: 'anime',
         title_ua: 'Аніме',
         url: '/anime',
+    },
+];
+
+export const PERSON_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'anime',
+        title_ua: 'Аніме',
+        url: '/anime',
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
     },
 ];
 

@@ -4,59 +4,51 @@ import clsx from 'clsx';
 
 import { useParams } from 'next/navigation';
 
+import AnimeCard from '@/components/anime-card';
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
 import { Button } from '@/components/ui/button';
-import useStaff from '@/services/hooks/anime/useStaff';
+import usePersonAnime from '@/services/hooks/people/usePersonAnime';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
 }
 
 const Component = ({ extended }: Props) => {
+    const { titleLanguage } = useSettingsContext();
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useStaff({ slug: String(params.slug) });
-
-    const getRole = (
-        roles: { name_ua: string; name_en: string; slug: string }[],
-    ) => {
-        if (roles.length === 0) {
-            return undefined;
-        }
-
-        return roles[0].name_ua || roles[0].name_en;
-    };
+        usePersonAnime({ slug: String(params.slug) });
 
     if (!list || list.length === 0) {
         return null;
     }
 
-    const filteredData = extended ? list : list.slice(0, 4);
-
     return (
         <div className="flex flex-col gap-8">
             <SubHeader
-                title="Автори"
-                href={!extended ? params.slug + '/staff' : undefined}
+                title={'Аніме'}
+                href={!extended ? params.slug + '/anime' : undefined}
             />
             <div
                 className={clsx(
-                    'grid grid-cols-3 gap-4 md:grid-cols-4 lg:gap-8',
-                    extended && 'md:grid-cols-6',
+                    'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
                 )}
             >
-                {filteredData.map((staff) => (
-                    <BaseCard
-                        key={staff.person.slug}
-                        href={`/people/${staff.person.slug}`}
-                        description={getRole(staff.roles)}
-                        poster={staff.person.image}
+                {(extended ? list : list.slice(0, 5)).map((ch) => (
+                    <AnimeCard
+                        slug={ch.anime.slug}
+                        key={ch.anime.slug}
+                        href={`/anime/${ch.anime.slug}`}
+                        poster={ch.anime.poster}
                         title={
-                            staff.person.name_ua ||
-                            staff.person.name_en ||
-                            staff.person.name_native
+                            ch.anime[titleLanguage!] ||
+                            ch.anime.title_ua ||
+                            ch.anime.title_ua ||
+                            ch.anime.title_ja
                         }
+                        description={ch.roles[0]?.name_ua || ch.roles[0]?.name_en}
+                        posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
                     />
                 ))}
             </div>

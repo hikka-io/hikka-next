@@ -7,7 +7,6 @@ import {
     ReactNode,
     createElement,
     forwardRef,
-    useState,
 } from 'react';
 import { UrlObject } from 'url';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
@@ -69,22 +68,10 @@ const Card = forwardRef(
             onMouseOver?: MouseEventHandler<HTMLElement>;
             onMouseOut?: MouseEventHandler<HTMLElement>;
         },
-        ref: ForwardedRef<HTMLAnchorElement>,
+        ref: ForwardedRef<HTMLDivElement>,
     ) => {
-        const [onCard, setOnCard] = useState<boolean>(false);
-
         return (
-            <BaseCard
-                onMouseOver={(e) => {
-                    onCard && onMouseOver && onMouseOver(e);
-                }}
-                onMouseOut={(e) => {
-                    onMouseOut && onMouseOut(e);
-                    setOnCard(false);
-                }}
-                ref={ref}
-                {...props}
-            >
+            <BaseCard ref={ref} {...props}>
                 {watch && <Watch watch={watch} />}
             </BaseCard>
         );

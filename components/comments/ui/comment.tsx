@@ -10,6 +10,9 @@ import CommentInput from '@/components/comments/ui/comment-input';
 import CommentMenu from '@/components/comments/ui/comment-menu';
 import CommentVote from '@/components/comments/ui/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuthContext } from '@/services/providers/auth-provider';
@@ -17,9 +20,6 @@ import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
 import Comments from './comments';
-import H5 from '@/components/typography/h5';
-import Small from '@/components/typography/small';
-import P from '@/components/typography/p';
 
 
 interface Props {
@@ -54,11 +54,15 @@ const Component = ({ comment, slug, content_type }: Props) => {
     };
 
     const getDeclensedReplyCount = () => {
-        return comment.replies.length + " " + getDeclensionWord(comment.replies.length, [
-            'відповідь',
-            'відповіді',
-            'відповідей',
-        ]);
+        return (
+            comment.replies.length +
+            ' ' +
+            getDeclensionWord(comment.replies.length, [
+                'відповідь',
+                'відповіді',
+                'відповідей',
+            ])
+        );
     };
 
     useEffect(() => {
@@ -116,17 +120,16 @@ const Component = ({ comment, slug, content_type }: Props) => {
                 )}
             </div>
             <div className="flex gap-2 w-full items-center">
-                {comment.depth < 4 && (
-                    <Button
-                        disabled={!secret}
-                        variant="link"
-                        className="p-0 text-muted-foreground h-auto hover:text-primary hover:no-underline"
-                        size="sm"
-                        onClick={addReplyInput}
-                    >
-                        Відповісти
-                    </Button>
-                )}
+                <Button
+                    disabled={!secret}
+                    variant="link"
+                    className="p-0 text-muted-foreground h-auto hover:text-primary hover:no-underline"
+                    size="sm"
+                    onClick={addReplyInput}
+                >
+                    Відповісти
+                </Button>
+
                 {(loggedUser?.username === comment.author.username ||
                     loggedUser?.role === 'admin' ||
                     loggedUser?.role === 'moderator') &&

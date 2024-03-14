@@ -1,14 +1,12 @@
 import React from 'react';
 
 import Anime from './_components/anime';
-import Description from './_components/description';
-import Voices from './_components/voices';
+import Characters from './_components/characters';
 
 const Component = () => {
     return (
         <div className="relative flex flex-col gap-12 ">
-            <Description />
-            <Voices />
+            <Characters />
             <Anime />
         </div>
     );

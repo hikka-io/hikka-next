@@ -150,11 +150,7 @@ const Component = ({ group }: Props) => {
                         ))}
 
                         <SearchModal onClick={handleAddItem} type="button">
-                            <BaseCard>
-                                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
-                                    <MaterialSymbolsAddRounded className="text-muted-foreground" />
-                                </div>
-                            </BaseCard>
+                            <BaseCard poster={<MaterialSymbolsAddRounded className="text-muted-foreground text-4xl" />} />
                         </SearchModal>
                     </div>
                 </div>

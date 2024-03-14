@@ -2,7 +2,6 @@ import {
     ForwardedRef,
     MouseEventHandler,
     ReactNode,
-    Ref,
     forwardRef,
     memo,
 } from 'react';
@@ -28,10 +27,10 @@ export interface Props {
     containerClassName?: string;
     titleClassName?: string;
     className?: string;
-    onMouseOver?: MouseEventHandler<HTMLAnchorElement>;
-    onMouseOut?: MouseEventHandler<HTMLAnchorElement>;
+    disableChildrenLink?: boolean;
     children?: ReactNode;
-    onClick?: MouseEventHandler<HTMLDivElement>;
+    onClick?: MouseEventHandler<HTMLAnchorElement> &
+        MouseEventHandler<HTMLDivElement>;
 }
 
 const Component = forwardRef(
@@ -48,22 +47,37 @@ const Component = forwardRef(
             className,
             children,
             href,
+            disableChildrenLink,
             onClick,
             ...props
         }: Props,
-        ref: ForwardedRef<HTMLAnchorElement>,
+        ref: ForwardedRef<HTMLDivElement>,
     ) => {
-        const content = (
-            <>
+        const Comp = href ? Link : 'div';
+
+        return (
+            <div
+                ref={ref}
+                className={cn(
+                    'relative group flex w-full flex-col gap-2',
+                    onClick && 'cursor-pointer',
+                    className,
+                )}
+                onClick={onClick}
+                {...props}
+            >
                 <div
                     className={cn(
-                        'relative w-full overflow-hidden rounded-lg bg-muted pt-[140%]',
+                        'relative w-full overflow-hidden rounded-md bg-muted pt-[140%]',
                         containerClassName,
                     )}
                 >
-                    <div className="absolute left-0 top-0 h-full w-full flex place-items-center bg-secondary/60">
-                        {poster &&
-                            (typeof poster === 'string' ? (
+                    <Comp
+                        href={href || ''}
+                        className="absolute left-0 top-0 h-full w-full flex items-center justify-center bg-secondary/60"
+                    >
+                        {poster ? (
+                            typeof poster === 'string' ? (
                                 <figure className="relative h-full w-full flex place-items-center">
                                     <Image
                                         src={poster}
@@ -78,32 +92,31 @@ const Component = forwardRef(
                                 </figure>
                             ) : (
                                 poster
-                            ))}
-                    </div>
-                    {children || poster ? (
-                        children
-                    ) : (
-                        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
-                            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground" />
-                        </div>
-                    )}
+                            )
+                        ) : (
+                            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground text-4xl" />
+                        )}
+                        {!disableChildrenLink && children}
+                    </Comp>
+                    {disableChildrenLink && children}
                 </div>
                 {(title || description) && (
-                    <div
+                    <Comp
+                        href={href || ''}
                         className={cn(
                             'mt-1',
                             (leftSubtitle || rightSubtitle) && 'truncate',
                         )}
                     >
                         {description && (
-                            <P className="text-xs text-muted-foreground mb-1">
+                            <P className="text-xs text-muted-foreground mb-1 truncate">
                                 {description}
                             </P>
                         )}
                         {title && (
                             <Label
                                 className={cn(
-                                    'leading-5',
+                                    'leading-5 cursor-pointer',
                                     !leftSubtitle &&
                                         !rightSubtitle &&
                                         'line-clamp-2',
@@ -114,9 +127,9 @@ const Component = forwardRef(
                             </Label>
                         )}
                         {(leftSubtitle || rightSubtitle) && (
-                            <div className="flex gap-2 mt-1 items-center">
+                            <div className="flex gap-2 mt-1 items-center cursor-pointer">
                                 {leftSubtitle && (
-                                    <Label className="text-xs text-muted-foreground">
+                                    <Label className="text-xs text-muted-foreground cursor-pointer">
                                         {leftSubtitle}
                                     </Label>
                                 )}
@@ -124,46 +137,15 @@ const Component = forwardRef(
                                     <div className="w-1 h-1 bg-muted-foreground rounded-full" />
                                 )}
                                 {rightSubtitle && (
-                                    <Label className="text-xs text-muted-foreground">
+                                    <Label className="text-xs text-muted-foreground cursor-pointer">
                                         {rightSubtitle}
                                     </Label>
                                 )}
                             </div>
                         )}
-                    </div>
+                    </Comp>
                 )}
-            </>
-        );
-
-        if (!href) {
-            return (
-                <div
-                    onClick={onClick}
-                    ref={ref as Ref<HTMLDivElement>}
-                    className={cn(
-                        'relative group flex w-full flex-col gap-2',
-                        onClick && 'cursor-pointer',
-                        className,
-                    )}
-                >
-                    {content}
-                </div>
-            );
-        }
-
-        return (
-            <Link
-                href={href}
-                className={cn(
-                    'relative group flex w-full flex-col gap-2',
-                    className,
-                )}
-                scroll
-                {...props}
-                ref={ref}
-            >
-                {content}
-            </Link>
+            </div>
         );
     },
 );

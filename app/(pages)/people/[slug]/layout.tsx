@@ -6,18 +6,14 @@ import Link from 'next/link';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/app/actions';
 import Breadcrumbs from '@/components/breadcrumbs';
 import InternalNavBar from '@/components/internal-navbar';
 import NavMenu from '@/components/nav-menu';
 import SubBar from '@/components/sub-navbar';
-import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
-import getCharacterInfo, {
-    Response as CharacterResponse,
-} from '@/services/api/characters/getCharacterInfo';
-import getCharacterVoices from '@/services/api/characters/getCharacterVoices';
-import getFavourite from '@/services/api/favourite/getFavourite';
-import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import getPersonAnime from '@/services/api/people/getPersonAnime';
+import getPersonCharacters from '@/services/api/people/getPersonCharacters';
+import getPersonInfo from '@/services/api/people/getPersonInfo';
+import { PERSON_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Cover from './_components/cover';
@@ -46,8 +42,8 @@ export async function generateMetadata(
     const parentMetadata = await parent;
     const slug = params.slug;
 
-    const character: CharacterResponse = await getCharacterInfo({ slug });
-    const title = character.name_ua || character.name_en || character.name_ja;
+    const person = await getPersonInfo({ slug });
+    const title = person.name_ua || person.name_en || person.name_native;
 
     return {
         title: { default: title, template: title + ' / %s / Hikka' },
@@ -56,49 +52,38 @@ export async function generateMetadata(
             siteName: parentMetadata.openGraph?.siteName,
             title: { default: title, template: title + ' / %s / Hikka' },
             description: undefined,
-            images: character.image,
+            images: person.image,
         },
         twitter: {
             title: { default: title, template: title + ' / %s / Hikka' },
             description: undefined,
-            images: character.image,
+            images: person.image,
         },
     };
 }
 
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
 
-    const character = await queryClient.fetchQuery({
-        queryKey: ['character', slug],
-        queryFn: () => getCharacterInfo({ slug }),
+    const person = await queryClient.fetchQuery({
+        queryKey: ['person', slug],
+        queryFn: () => getPersonInfo({ slug }),
     });
 
-    if (!character) {
+    if (!person) {
         return redirect('/');
     }
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['characterAnime', slug],
-        queryFn: () => getCharacterAnime({ slug }),
+        queryKey: ['personAnime', slug],
+        queryFn: () => getPersonAnime({ slug }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['characterVoices', slug],
-        queryFn: () => getCharacterVoices({ slug }),
+        queryKey: ['personCharacters', slug],
+        queryFn: () => getPersonCharacters({ slug }),
         initialPageParam: 1,
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['favorite', slug, { secret, content_type: 'character' }],
-        queryFn: () =>
-            getFavourite({
-                slug: String(slug),
-                secret: String(secret),
-                content_type: 'character',
-            }),
     });
 
     const dehydratedState = dehydrate(queryClient);
@@ -109,23 +94,23 @@ const Component = async ({ params: { slug }, children }: Props) => {
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <Link
-                            href={'/characters/' + character?.slug}
+                            href={'/people/' + person?.slug}
                             className="flex-1 overflow-hidden overflow-ellipsis text-sm font-bold hover:underline"
                         >
-                            {character?.name_ua ||
-                                character?.name_en ||
-                                character?.name_ja}
+                            {person?.name_ua ||
+                                person?.name_en ||
+                                person?.name_native}
                         </Link>
                     </div>
                     <NavMenu
-                        routes={CHARACTER_NAV_ROUTES}
-                        urlPrefix={'/characters/' + slug}
+                        routes={PERSON_NAV_ROUTES}
+                        urlPrefix={'/people/' + slug}
                     />
                 </Breadcrumbs>
                 <SubBar mobileOnly>
                     <InternalNavBar
-                        routes={CHARACTER_NAV_ROUTES}
-                        urlPrefix={'/characters/' + slug}
+                        routes={PERSON_NAV_ROUTES}
+                        urlPrefix={'/people/' + slug}
                     />
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">

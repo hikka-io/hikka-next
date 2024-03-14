@@ -31,7 +31,7 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
         routes.find((r) =>
             isEqualPath
                 ? pathname == urlPrefix + r.url
-                : pathname.includes(urlPrefix + r.url),
+                : pathname.startsWith(urlPrefix + r.url),
         ) || routes[0];
 
     if (isMobile && !showOnMobile) {

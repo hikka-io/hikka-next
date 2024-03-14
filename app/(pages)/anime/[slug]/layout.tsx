@@ -30,6 +30,7 @@ import Cover from './_components/cover';
 import Title from './_components/title';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import _generateMetadata from '@/utils/generateMetadata';
+import { redirect } from 'next/navigation';
 
 
 interface Props extends PropsWithChildren {
@@ -83,37 +84,6 @@ export async function generateMetadata(
     });
 }
 
-/*const filteredRoutes = ANIME_NAV_ROUTES.filter((r) => {
-    switch (r.slug) {
-        case 'characters':
-            return (
-                characters !== undefined &&
-                characters.pages.length > 0 &&
-                characters.pages[0].list.length > 0
-            );
-        case 'staff':
-            return (
-                staff !== undefined &&
-                staff.pages.length > 0 &&
-                staff.pages[0].list.length > 0
-            );
-        case 'media':
-            return (
-                anime &&
-                (anime?.ost || anime?.videos) &&
-                (anime?.ost.length > 0 || anime?.videos.length > 0)
-            );
-        case 'links':
-            return anime && anime?.external && anime.external.length > 0;
-        case 'franchise':
-            return anime && anime.has_franchise;
-        case 'general':
-            return true;
-        case 'comments':
-            return true;
-    }
-});*/
-
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
@@ -122,6 +92,10 @@ const Component = async ({ params: { slug }, children }: Props) => {
         queryKey: ['anime', slug],
         queryFn: () => getAnimeInfo({ slug }),
     });
+
+    if (!anime) {
+        return redirect('/');
+    }
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['characters', slug],

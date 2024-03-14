@@ -117,11 +117,12 @@ const Component = ({ collection }: Props) => {
                         }
                     />
                 ))}
-                <BaseCard href={`/collections/${collection.reference}`}>
-                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-4xl">
-                        <MaterialSymbolsMoreHoriz className="text-muted-foreground" />
-                    </div>
-                </BaseCard>
+                <BaseCard
+                    href={`/collections/${collection.reference}`}
+                    poster={
+                        <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                    }
+                />
             </div>
         </div>
     );
