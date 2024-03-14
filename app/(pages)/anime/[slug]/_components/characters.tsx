@@ -78,7 +78,7 @@ const Component = ({ extended }: Props) => {
                     </div>
                 </div>
             )}
-            {hasNextPage && (
+            {extended && hasNextPage && (
                 <Button
                     variant="outline"
                     ref={ref}
