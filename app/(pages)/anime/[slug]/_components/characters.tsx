@@ -77,6 +77,7 @@ const Component = ({ extended }: Props) => {
                         ))}
                     </div>
                 </div>
+
             )}
             {extended && hasNextPage && (
                 <Button
