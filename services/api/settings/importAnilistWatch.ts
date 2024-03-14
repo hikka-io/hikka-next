@@ -127,8 +127,10 @@ const getWatchStatus = (
 
 export default async function req({
     username,
+    isCustomList,
 }: {
     username: string;
+    isCustomList?: boolean;
 }): Promise<Record<string, any>[]> {
     const res = await fetch('https://graphql.anilist.co', {
         method: 'POST',
@@ -161,7 +163,7 @@ export default async function req({
     const reformatted: Record<string, any>[] = [];
 
     data.data.MediaListCollection.lists.forEach((list) => {
-        if (!list.isCustomList) {
+        if (isCustomList ? list.isCustomList : !list.isCustomList) {
             list.entries.forEach((entry) => {
                 if (!Number.isInteger(entry.media.idMal)) {
                     return;
@@ -180,13 +182,15 @@ export default async function req({
                     my_score: entry.score >= 1 ? Math.round(entry.score) : 0,
                     my_storage: {},
                     my_storage_value: 0,
-                    my_status: getWatchStatus(
-                        list.name === 'Rewatching'
-                            ? 'Watching'
-                            : list.isCompletedList
-                              ? 'Completed'
-                              : list.name,
-                    ),
+                    my_status: isCustomList
+                        ? list.name
+                        : getWatchStatus(
+                              list.name === 'Rewatching'
+                                  ? 'Watching'
+                                  : list.isCompletedList
+                                    ? 'Completed'
+                                    : list.name,
+                          ),
                     my_comments:
                         entry.notes && entry.notes.length > 0
                             ? String(entry.notes)

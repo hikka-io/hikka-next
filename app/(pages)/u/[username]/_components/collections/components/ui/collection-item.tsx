@@ -48,7 +48,7 @@ const Component = ({ data, className }: Props) => {
                 </div>
                 <Small
                     className={cn(
-                        'text-muted-foreground line-clamp-1 truncate',
+                        'text-muted-foreground truncate',
                         data.spoiler && 'blur-sm hover:blur-none',
                     )}
                 >

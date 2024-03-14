@@ -1,31 +1,34 @@
 'use client';
 
 import React from 'react';
+import SimpleIconsAnilist from '~icons/simple-icons/anilist';
 
 import { useParams } from 'next/navigation';
 
-import GroupInputs from './_components/group-inputs';
+import AnilistCollection from '@/app/(pages)/collections/new/_components/anilist-collection';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
+import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
+import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import {
     State as CollectionState,
     useCollectionContext,
 } from '@/services/providers/collection-provider';
-import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
-import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
+import { useModalContext } from '@/services/providers/modal-provider';
 
-import SimpleIconsAnilist from '~icons/simple-icons/anilist'
+import GroupInputs from './_components/group-inputs';
 
 interface Props {
     mode?: 'create' | 'edit';
 }
 
 const Component = ({ mode = 'create' }: Props) => {
+    const { openModal } = useModalContext();
     const params = useParams();
     const {
         groups,
@@ -114,6 +117,35 @@ const Component = ({ mode = 'create' }: Props) => {
                         }
                     />
                 </div>
+
+                <div className="flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Групи</Label>
+                    {groups.length > 0 &&
+                        groups.some((group) => group.isGroup) && (
+                            <GroupInputs />
+                        )}
+                    <Button variant="secondary" onClick={handleAddNewGroup}>
+                        Додати групу
+                    </Button>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                    <Label htmlFor="tags" className="text-muted-foreground">
+                        Теги
+                    </Label>
+                    <InputTags
+                        disabled={tags.length === 3}
+                        id="tags"
+                        value={tags}
+                        onChange={(tags) =>
+                            setCollectionState!((state) => ({
+                                ...state,
+                                tags: tags as string[],
+                            }))
+                        }
+                    />
+                </div>
+
                 <div className="flex justify-between items-center gap-4">
                     <Label htmlFor="nsfw" className="text-muted-foreground">
                         Контент +18
@@ -150,33 +182,6 @@ const Component = ({ mode = 'create' }: Props) => {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <Label htmlFor="tags" className="text-muted-foreground">
-                        Теги
-                    </Label>
-                    <InputTags
-                        disabled={tags.length === 3}
-                        id="tags"
-                        value={tags}
-                        onChange={(tags) =>
-                            setCollectionState!((state) => ({
-                                ...state,
-                                tags: tags as string[],
-                            }))
-                        }
-                    />
-                </div>
-
-                {groups.length > 0 && groups.some((group) => group.isGroup) && (
-                    <div className="flex flex-col gap-4">
-                        <Label className="text-muted-foreground">Групи</Label>
-                        <GroupInputs />
-                    </div>
-                )}
-
-                <div className="flex flex-col gap-4">
-                    <Button variant="secondary" onClick={handleAddNewGroup}>
-                        Додати групу
-                    </Button>
                     {mode === 'edit' && (
                         <Button
                             disabled={
@@ -194,7 +199,7 @@ const Component = ({ mode = 'create' }: Props) => {
                         </Button>
                     )}
                     {mode === 'create' && (
-                        <div className="flex gap-4">
+                        <div className="flex gap-2">
                             <Button
                                 className="flex-1"
                                 disabled={
@@ -210,9 +215,24 @@ const Component = ({ mode = 'create' }: Props) => {
                                 )}
                                 Створити
                             </Button>
-                           {/* <Button size="icon" variant="secondary">
+                            <Button
+                                size="icon"
+                                variant="secondary"
+                                onClick={() =>
+                                    openModal({
+                                        content: (
+                                            <AnilistCollection
+                                                setCollectionState={
+                                                    setCollectionState!
+                                                }
+                                            />
+                                        ),
+                                        title: 'Імпорт з AniList',
+                                    })
+                                }
+                            >
                                 <SimpleIconsAnilist />
-                            </Button>*/}
+                            </Button>
                         </div>
                     )}
                 </div>

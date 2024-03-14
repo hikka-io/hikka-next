@@ -1,15 +1,14 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-export interface Response extends API.WithPagination<API.AnimeInfo> {}
 
 export default async function req({
     mal_ids,
 }: {
     mal_ids: number[];
-}): Promise<Response> {
-    return fetchRequest<Response>({
+}): Promise<API.AnimeInfo[]> {
+    return fetchRequest<API.AnimeInfo[]>({
         path: `/integrations/mal/anime`,
-        method: 'get',
+        method: 'post',
         params: { mal_ids },
     });
 }
