@@ -41,8 +41,8 @@ const Component = ({ mode, param }: Props) => {
     });
 
     return (
-        <div className="flex flex-col gap-4 w-full">
-            <div className="flex gap-4 items-center">
+        <div className="flex w-full flex-col gap-4">
+            <div className="flex items-center gap-4">
                 <Label>{param.title}</Label>
                 {mode === 'view' && edit && edit.before![param.slug] && (
                     <Button
@@ -63,7 +63,7 @@ const Component = ({ mode, param }: Props) => {
                         disabled={mode === 'view'}
                         type="text"
                         placeholder={param.placeholder}
-                        className="w-full disabled:opacity-100 disabled:cursor-text"
+                        className="w-full disabled:cursor-text disabled:opacity-100"
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}

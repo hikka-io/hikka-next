@@ -26,13 +26,13 @@ const Component = () => {
     });
 
     return (
-        <div className="flex flex-col gap-4 flex-1 bg-secondary/30 border border-secondary/60 p-4 rounded-md">
-            <div className="flex gap-2 items-center text-muted-foreground">
+        <div className="flex flex-1 flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <MaterialSymbolsClockLoader10 />
                 <Label>Час аніме</Label>
             </div>
             <div className="flex flex-col gap-2">
-                <div className="flex gap-2 justify-between items-end">
+                <div className="flex items-end justify-between gap-2">
                     <H5>
                         {(stats?.duration &&
                             formatDuration(

@@ -36,15 +36,15 @@ const Component = ({}: Props) => {
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />
                     {countData && countData.unseen > 0 && (
-                        <div className="w-2 h-2 rounded-full absolute top-0 right-0 bg-warning" />
+                        <div className="absolute right-0 top-0 size-2 rounded-full bg-warning" />
                     )}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align="end"
-                className="w-80 sm:w-96 max-h-96 flex flex-col"
+                className="flex max-h-96 w-80 flex-col sm:w-96"
             >
-                <DropdownMenuLabel className="flex gap-2 items-center justify-between">
+                <DropdownMenuLabel className="flex items-center justify-between gap-2">
                     <div className="flex gap-2">
                         Сповіщення
                         {countData && countData.unseen > 0 && (
@@ -64,7 +64,7 @@ const Component = ({}: Props) => {
                     )}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <div className="overflow-scroll h-full no-scrollbar">
+                <div className="no-scrollbar h-full overflow-scroll">
                     {list &&
                         list.length > 0 &&
                         list.map((item) => (
@@ -75,7 +75,7 @@ const Component = ({}: Props) => {
                         ))}
                     {list && list.length === 0 && <NotFoundNotifications />}
                     {hasNextPage && (
-                        <div className="py-3 px-2">
+                        <div className="px-2 py-3">
                             <Button
                                 variant="outline"
                                 disabled={isFetchingNextPage}

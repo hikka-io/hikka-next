@@ -22,14 +22,14 @@ const Component = ({ item, max }: Props) => {
     return (
         <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
-                <div className="relative h-full flex items-end">
+                <div className="relative flex h-full items-end">
                     <div
                         style={{
                             height: `${(100 * item.actions) / max}%`,
                         }}
                         className="w-2 rounded-full bg-primary"
                     />
-                    <div className="absolute w-2 rounded-full bg-secondary/30 h-full -z-10" />
+                    <div className="absolute -z-10 h-full w-2 rounded-full bg-secondary/30" />
                 </div>
             </TooltipTrigger>
             {item.timestamp !== 0 && (

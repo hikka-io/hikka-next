@@ -28,8 +28,8 @@ const Component = ({ className }: Props) => {
 
     return (
         <>
-            <hr className="h-[1px] w-auto -mx-6 bg-border mt-4" />
-            <div className="flex-1 overflow-y-scroll w-auto h-full -mx-6">
+            <hr className="-mx-6 mt-4 h-px w-auto bg-border" />
+            <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {collections &&
                     collections.map((item) => (
                         <CollectionItem

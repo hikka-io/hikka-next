@@ -51,14 +51,14 @@ const Component = () => {
         loggedUser?.role === 'moderator';
 
     return (
-        <div className="flex flex-col items-start gap-8 w-full">
+        <div className="flex w-full flex-col items-start gap-8">
             <SubHeader title="Деталі" />
-            <div className="flex p-4 flex-col gap-6 bg-secondary/30 border border-secondary/60 rounded-md w-full">
+            <div className="flex w-full flex-col gap-6 rounded-md border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex flex-col gap-4">
                     <Label className="text-muted-foreground">Автор</Label>
                     <div className="flex w-full gap-4">
                         <Link href={`/u/${collection?.author.username}`}>
-                            <Avatar className="rounded-md w-12 h-12">
+                            <Avatar className="size-12 rounded-md">
                                 <AvatarImage
                                     className="rounded-md"
                                     src={collection?.author.avatar}
@@ -85,13 +85,13 @@ const Component = () => {
                         ))}
                     </div>
                 )}
-                <div className="flex justify-between items-center gap-4">
+                <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="nsfw" className="text-muted-foreground">
                         Контент +18
                     </Label>
                     <Switch checked={nsfw} id="nsfw" />
                 </div>
-                <div className="flex justify-between items-center gap-4">
+                <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="spoiler" className="text-muted-foreground">
                         Спойлери
                     </Label>

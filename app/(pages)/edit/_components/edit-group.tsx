@@ -30,7 +30,7 @@ const Component = ({ title, params, mode }: Props) => {
     };
 
     return (
-        <Collapsible open={mode === 'view' ? true : undefined} className="w-full space-y-2 border border-accent rounded-lg p-4">
+        <Collapsible open={mode === 'view' ? true : undefined} className="w-full space-y-2 rounded-lg border border-accent p-4">
             <CollapsibleTrigger asChild>
                 <div className="flex items-center justify-between">
                     <H5>{title}</H5>
@@ -40,7 +40,7 @@ const Component = ({ title, params, mode }: Props) => {
                         size="sm"
                         className="w-9 p-0"
                     >
-                        <ChevronsUpDown className="h-4 w-4" />
+                        <ChevronsUpDown className="size-4" />
                         <span className="sr-only">Toggle</span>
                     </Button>
                 </div>

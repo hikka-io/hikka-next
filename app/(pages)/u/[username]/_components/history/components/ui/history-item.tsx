@@ -36,14 +36,14 @@ const Component = ({ data, className }: Props) => {
                         poster={data.content.poster}
                     />
                 ) : (
-                    <Avatar className="rounded-md w-12 h-12">
+                    <Avatar className="size-12 rounded-md">
                         <AvatarFallback className="rounded-md">
-                            <MaterialSymbolsInfoRounded className="text-xl flex-1 text-muted-foreground" />
+                            <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
                         </AvatarFallback>
                     </Avatar>
                 )}
             </div>
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="flex flex-1 flex-col gap-2">
                 <Label asChild={Boolean(data.content)} className="line-clamp-1">
                     {data.content ? (
                         <Link href={`/anime/${data.content.slug}`}>

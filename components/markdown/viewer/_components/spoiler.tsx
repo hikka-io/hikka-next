@@ -5,13 +5,13 @@ import { ChevronsUpDown } from 'lucide-react';
 
 const Component = ({ children }: PropsWithChildren) => {
     return (
-        <Collapsible className="w-full space-y-2  mb-4">
+        <Collapsible className="mb-4 w-full  space-y-2">
             <CollapsibleTrigger asChild>
                 <Button variant="secondary" size="badge">
-                    Спойлер <ChevronsUpDown className="h-3 w-3" />
+                    Спойлер <ChevronsUpDown className="size-3" />
                 </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="border border-secondary/60 bg-secondary/30 p-2 rounded-md">
+            <CollapsibleContent className="rounded-md border border-secondary/60 bg-secondary/30 p-2">
                 {children}
             </CollapsibleContent>
         </Collapsible>

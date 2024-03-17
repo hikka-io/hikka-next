@@ -101,7 +101,7 @@ const Component = () => {
                 </div>
                 <div className="flex flex-col gap-2">
                     {data.score > 0 && (
-                        <div className="flex gap-2 items-start">
+                        <div className="flex items-start gap-2">
                             <div className="font-display text-4xl font-bold">
                                 {data.score}
                             </div>

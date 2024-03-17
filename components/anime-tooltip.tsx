@@ -54,7 +54,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
                     <div className="h-3 w-1/4 rounded-lg bg-secondary/60" />
                     <div className="h-3 w-2/4 rounded-lg bg-secondary/60" />
                 </div>
-                <div className="rounded-md h-12 w-full bg-secondary/60" />
+                <div className="h-12 w-full rounded-md bg-secondary/60" />
             </div>
         );
     }
@@ -69,13 +69,13 @@ const TooltipData = ({ slug }: { slug: string }) => {
                 <div className="flex justify-between gap-2">
                     <H5>{title}</H5>
                     {data.score > 0 ? (
-                        <div className="h-fit w-fit rounded-md  border border-accent bg-accent px-2 text-sm text-accent-foreground">
+                        <div className="size-fit rounded-md border  border-accent bg-accent px-2 text-sm text-accent-foreground">
                             {data.score}
                         </div>
                     ) : null}
                 </div>
                 {synopsis && (
-                    <MDViewer className="text-sm line-clamp-4 mb-2">
+                    <MDViewer className="mb-2 line-clamp-4 text-sm">
                         {synopsis}
                     </MDViewer>
                 )}
@@ -152,7 +152,7 @@ const Component = ({ slug, children, withTrigger, ...props }: Props) => {
             <HoverCardPortal>
                 <HoverCardContent
                     side="right"
-                    className="w-80 flex-col gap-4 p-4 md:flex hidden"
+                    className="hidden w-80 flex-col gap-4 p-4 md:flex"
                 >
                     <HoverCardArrow />
                     <TooltipData slug={slug} />

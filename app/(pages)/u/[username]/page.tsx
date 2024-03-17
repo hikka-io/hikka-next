@@ -53,11 +53,11 @@ const Component = async ({ params: { username } }: Props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-                <div className="flex flex-col gap-12 lg:gap-16 order-2 lg:order-1">
+                <div className="order-2 flex flex-col gap-12 lg:order-1 lg:gap-16">
                     <Statistics />
                     <Favorites />
                 </div>
-                <div className="flex flex-col gap-12 lg:gap-16 order-1 lg:order-2">
+                <div className="order-1 flex flex-col gap-12 lg:order-2 lg:gap-16">
                     <History />
                     <Collections />
                 </div>

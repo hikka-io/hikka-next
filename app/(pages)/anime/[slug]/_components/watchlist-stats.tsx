@@ -45,7 +45,7 @@ const Component = () => {
                                 <Tooltip key={stat} delayDuration={0}>
                                     <TooltipTrigger>
                                         <div className="flex items-center justify-between gap-2">
-                                            <div className="flex items-center gap-2 w-full flex-1">
+                                            <div className="flex w-full flex-1 items-center gap-2">
                                                 <div className="rounded-md bg-secondary p-1">
                                                     {createElement(
                                                         status.icon!,
@@ -53,14 +53,14 @@ const Component = () => {
                                                 </div>
                                                 <div className="relative h-2 w-full overflow-hidden rounded-md">
                                                     <div
-                                                        className="absolute bottom-0 left-0 h-full w-full opacity-10"
+                                                        className="absolute bottom-0 left-0 size-full opacity-10"
                                                         style={{
                                                             backgroundColor:
                                                             status.color,
                                                         }}
                                                     />
                                                     <div
-                                                        className="absolute bottom-0 left-0 flex w-full items-end justify-center h-2"
+                                                        className="absolute bottom-0 left-0 flex h-2 w-full items-end justify-center"
                                                         style={{
                                                             backgroundColor:
                                                             status.color,
@@ -70,7 +70,7 @@ const Component = () => {
                                                 </div>
 
                                             </div>
-                                            <Small className="text-muted-foreground w-14 text-right">
+                                            <Small className="w-14 text-right text-muted-foreground">
                                                 <NumericFormat
                                                     thousandSeparator
                                                     displayType="text"

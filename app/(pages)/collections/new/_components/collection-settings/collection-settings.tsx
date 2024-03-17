@@ -104,7 +104,7 @@ const Component = ({ mode = 'create' }: Props) => {
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
-            <div className="flex p-4 flex-col gap-6 h-full">
+            <div className="flex h-full flex-col gap-6 p-4">
                 <div className="flex flex-col gap-4">
                     <Label className="text-muted-foreground">
                         Назва колекції
@@ -146,7 +146,7 @@ const Component = ({ mode = 'create' }: Props) => {
                     />
                 </div>
 
-                <div className="flex justify-between items-center gap-4">
+                <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="nsfw" className="text-muted-foreground">
                         Контент +18
                     </Label>
@@ -156,7 +156,7 @@ const Component = ({ mode = 'create' }: Props) => {
                         id="nsfw"
                     />
                 </div>
-                <div className="flex justify-between items-center gap-4">
+                <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="spoiler" className="text-muted-foreground">
                         Спойлери
                     </Label>
@@ -168,7 +168,7 @@ const Component = ({ mode = 'create' }: Props) => {
                         id="spoiler"
                     />
                 </div>
-                <div className="flex justify-between items-center gap-4">
+                <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="private" className="text-muted-foreground">
                         Приватна колекція
                     </Label>

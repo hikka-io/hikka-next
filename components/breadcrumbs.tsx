@@ -24,7 +24,7 @@ const Component = ({ children }: Props) => {
 
     if (isMobile) {
         return createPortal(
-            <div className="flex h-auto min-h-[2.5rem] flex-1 items-center gap-4 overflow-hidden px-4 md:hidden">
+            <div className="flex h-auto min-h-10 flex-1 items-center gap-4 overflow-hidden px-4 md:hidden">
                 {Children.map(arrayChildren, (child, index) => {
                     return (
                         <>

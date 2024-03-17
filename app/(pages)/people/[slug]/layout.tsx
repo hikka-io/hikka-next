@@ -95,7 +95,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <Link
                             href={'/people/' + person?.slug}
-                            className="flex-1 overflow-hidden overflow-ellipsis text-sm font-bold hover:underline"
+                            className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                         >
                             {person?.name_ua ||
                                 person?.name_en ||

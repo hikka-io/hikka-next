@@ -5,7 +5,7 @@ import ProfileMenu from './_components/profile-menu';
 
 const Component = () => {
     return (
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
             <NotificationsMenu />
             <ProfileMenu />
         </div>

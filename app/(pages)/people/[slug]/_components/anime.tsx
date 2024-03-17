@@ -1,7 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
-
 import { useParams } from 'next/navigation';
 
 import AnimeCard from '@/components/anime-card';
@@ -9,6 +7,7 @@ import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import usePersonAnime from '@/services/hooks/people/usePersonAnime';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -31,7 +30,7 @@ const Component = ({ extended }: Props) => {
                 href={!extended ? params.slug + '/anime' : undefined}
             />
             <div
-                className={clsx(
+                className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
                 )}
             >
@@ -47,7 +46,9 @@ const Component = ({ extended }: Props) => {
                             ch.anime.title_ua ||
                             ch.anime.title_ja
                         }
-                        description={ch.roles[0]?.name_ua || ch.roles[0]?.name_en}
+                        description={
+                            ch.roles[0]?.name_ua || ch.roles[0]?.name_en
+                        }
                         posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
                     />
                 ))}

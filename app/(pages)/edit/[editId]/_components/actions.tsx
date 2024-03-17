@@ -102,7 +102,7 @@ const Component = ({ editId }: Props) => {
     }
 
     return (
-        <div className="flex items-center gap-2 justify-between">
+        <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
                 {loggedUser?.username === edit.author.username &&
                     edit.status === 'pending' && (

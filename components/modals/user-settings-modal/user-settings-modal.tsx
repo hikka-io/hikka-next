@@ -77,7 +77,7 @@ const Tabs = ({
     setActiveTab: Dispatch<SetStateAction<Tab | undefined>>;
 }) => {
     return (
-        <div className="flex h-full w-full flex-col gap-4 border-r-secondary/60 py-6 lg:border-r">
+        <div className="flex size-full flex-col gap-4 border-r-secondary/60 py-6 lg:border-r">
             <div className="flex items-center">
                 <H3 className="px-6">Налаштування</H3>
             </div>
@@ -115,7 +115,7 @@ const Component = () => {
     const activeForm = DATA.find((tab) => tab.slug === activeTab);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] h-full">
+        <div className="grid h-full grid-cols-1 md:grid-cols-[40%_1fr]">
             {isMobile && !activeTab && <Tabs setActiveTab={setActiveTab} />}
             {!isMobile && (
                 <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />

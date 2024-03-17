@@ -29,8 +29,8 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex flex-col gap-2">
-            <Tabs value="anime" className="overflow-hidden w-full">
-                <TabsList className="w-full items-center justify-start no-scrollbar bg-secondary/80 border border-secondary/60 backdrop-blur">
+            <Tabs value="anime" className="w-full overflow-hidden">
+                <TabsList className="no-scrollbar w-full items-center justify-start border border-secondary/60 bg-secondary/80 backdrop-blur">
                     <TabsTrigger value="anime" className="gap-2">
                         Аніме{' '}
                         <Link href={`/u/${params.username}/list`}>
@@ -39,10 +39,10 @@ const Component = ({}: Props) => {
                     </TabsTrigger>
                 </TabsList>
             </Tabs>
-            <div className="flex gap-2 w-full h-fit items-center rounded-md bg-secondary/30 border backdrop-blur border-secondary/60 p-2">
+            <div className="flex h-fit w-full items-center gap-2 rounded-md border border-secondary/60 bg-secondary/30 p-2 backdrop-blur">
                 <Link
                     href={`/u/${params.username}/list?status=completed`}
-                    className="flex flex-col gap-2 items-center p-2 rounded-md hover:bg-secondary/60 hover:cursor-pointer"
+                    className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60"
                 >
                     <RadialProgress
                         style={{
@@ -55,7 +55,7 @@ const Component = ({}: Props) => {
                     </RadialProgress>
                     <Label className="text-muted-foreground">Завершено</Label>
                 </Link>
-                <div className="flex flex-1 flex-col gap-0 w-full overflow-x-scroll no-scrollbar">
+                <div className="no-scrollbar flex w-full flex-1 flex-col gap-0 overflow-x-scroll">
                     {Object.keys(data).map((status) => {
                         if (
                             status === 'completed' ||
@@ -69,13 +69,13 @@ const Component = ({}: Props) => {
                                 href={`/u/${params.username}/list?status=${status}`}
                                 key={status}
                                 className={cn(
-                                    'rounded-md p-2 hover:bg-secondary/60 hover:cursor-pointer',
+                                    'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60',
                                 )}
                             >
                                 <div className="flex justify-between gap-4">
-                                    <div className="flex items-center gap-2 min-w-0">
+                                    <div className="flex min-w-0 items-center gap-2">
                                         <div
-                                            className="w-2 h-2 bg-secondary rounded-full"
+                                            className="size-2 rounded-full bg-secondary"
                                             style={{
                                                 backgroundColor:
                                                     WATCH_STATUS[
@@ -83,7 +83,7 @@ const Component = ({}: Props) => {
                                                     ].color,
                                             }}
                                         />
-                                        <Label className="text-muted-foreground truncate cursor-pointer">
+                                        <Label className="cursor-pointer truncate text-muted-foreground">
                                             {WATCH_STATUS[
                                                 status as API.WatchStatus
                                             ].title_ua ||

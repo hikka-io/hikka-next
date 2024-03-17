@@ -67,7 +67,7 @@ const Component = () => {
             </div>
 
             <Tabs
-                className="flex flex-col w-full gap-6"
+                className="flex w-full flex-col gap-6"
                 value={tab}
                 onValueChange={(v) => setTab(v as 'general' | 'aniList')}
             >
@@ -90,7 +90,7 @@ const Component = () => {
                 </TabsContent>
             </Tabs>
 
-            <div className="flex items-center justify-between space-x-2 w-full">
+            <div className="flex w-full items-center justify-between space-x-2">
                 <Label htmlFor="rewrite">
                     Переписати аніме, які вже додані до списку
                 </Label>

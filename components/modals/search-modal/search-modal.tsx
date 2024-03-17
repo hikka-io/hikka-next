@@ -99,7 +99,7 @@ const Component = ({ onClick, type, children }: Props) => {
                         <span className="hidden lg:block">Пошук...</span>
                     </div>
                     <div className="hidden items-center lg:flex">
-                        <kbd className="flex pointer-events-none select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+                        <kbd className="pointer-events-none flex select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
                             <span className="text-xs">/</span>
                         </kbd>
                     </div>

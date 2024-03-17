@@ -29,7 +29,7 @@ export default async function RootLayout({
                 </div>
                 <div
                     id="subbar-mobile"
-                    className="no-scrollbar sticky bottom-2 px-2 mb-2 z-10 mt-12 block w-full overflow-auto bg-base-100 md:hidden"
+                    className="no-scrollbar bg-base-100 sticky bottom-2 z-10 mb-2 mt-12 block w-full overflow-auto px-2 md:hidden"
                 />
                 <Footer />
             </AuthGate>

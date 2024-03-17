@@ -55,7 +55,7 @@ const Component = ({
                 </div>
                 <List />
             </div>
-            <div className="hidden lg:block bg-secondary/30 border border-secondary/60 rounded-md h-fit opacity-60 hover:opacity-100 transition-opacity sticky top-20">
+            <div className="sticky top-20 hidden h-fit rounded-md border border-secondary/60 bg-secondary/30 opacity-60 transition-opacity hover:opacity-100 lg:block">
                 <Filters className="px-4" type="watchlist" />
             </div>
         </div>

@@ -51,7 +51,7 @@ const Component = ({ setValue }: Props) => {
                     <Input
                         value={newTag}
                         onChange={(e) => setNewTag(e.target.value)}
-                        className="flex-1 w-full"
+                        className="w-full flex-1"
                     />
                     <Button
                         disabled={!newTag || newTag.trim().length === 0}
@@ -64,16 +64,16 @@ const Component = ({ setValue }: Props) => {
                 </div>
             </div>
 
-            <hr className="h-[1px] w-auto -mx-6 bg-border" />
+            <hr className="-mx-6 h-px w-auto bg-border" />
 
-            <div className="flex-1 overflow-y-scroll w-auto h-full -mx-6">
+            <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {editTags?.map((tag, index) => (
                     <div
                         key={tag + index}
-                        className="flex gap-2 items-center justify-between px-6 py-2"
+                        className="flex items-center justify-between gap-2 px-6 py-2"
                     >
-                        <P className="text-sm line-clamp-2">{tag}</P>
-                        <div className="flex gap-2 items-center">
+                        <P className="line-clamp-2 text-sm">{tag}</P>
+                        <div className="flex items-center gap-2">
                             <Button
                                 size="icon-md"
                                 variant="outline"
@@ -94,7 +94,7 @@ const Component = ({ setValue }: Props) => {
 
                 {editTags?.length === 0 && (
                     <div className="px-6">
-                        <P className="text-sm text-muted-foreground text-center">
+                        <P className="text-center text-sm text-muted-foreground">
                             Не знайдено збережених тегів редагування
                         </P>
                     </div>

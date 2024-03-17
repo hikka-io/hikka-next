@@ -9,7 +9,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title={`Статистика`} />
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col gap-8 md:flex-row">
                 <ActivityStats />
                 <WatchhourStats />
             </div>

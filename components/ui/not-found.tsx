@@ -14,11 +14,11 @@ const Component = ({ title, description, children }: Props) => {
     return (
         <div className="flex flex-col items-center justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-6 lg:flex-row">
             <div className="flex items-center gap-4">
-                <MaterialSymbolsFeatureSearch className="text-muted-foreground text-4xl" />
-                <div className="flex flex-col gap-1 flex-1">
+                <MaterialSymbolsFeatureSearch className="text-4xl text-muted-foreground" />
+                <div className="flex flex-1 flex-col gap-1">
                     <H3 className="text-xl">{title}</H3>
                     {description && (
-                        <P className="text-muted-foreground text-sm">{description}</P>
+                        <P className="text-sm text-muted-foreground">{description}</P>
                     )}
                 </div>
             </div>

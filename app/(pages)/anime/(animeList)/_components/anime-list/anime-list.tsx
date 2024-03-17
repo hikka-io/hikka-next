@@ -90,8 +90,8 @@ const Component = () => {
                 </Button>
             )}
             {list && pagination && pagination.pages > 1 && (
-                <div className="sticky z-10 bottom-2 flex items-center justify-center">
-                    <div className="bg-background border p-2 border-secondary/60 rounded-lg shadow w-fit">
+                <div className="sticky bottom-2 z-10 flex items-center justify-center">
+                    <div className="w-fit rounded-lg border border-secondary/60 bg-background p-2 shadow">
                         <Pagination
                             page={Number(iPage)}
                             pages={pagination.pages}

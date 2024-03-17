@@ -129,12 +129,12 @@ const Component = ({ className, type }: Props) => {
                 'flex flex-col items-start gap-8',
                 'border-t border-t-transparent',
                 'transition',
-                'lg:max-h-[calc(100vh-6rem)] h-full',
+                'h-full lg:max-h-[calc(100vh-6rem)]',
                 className,
             )}
         >
             <div className="flex w-full flex-col items-start gap-8 py-4">
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Сортування</Label>
                     <div className="flex gap-2">
                         <Combobox
@@ -167,7 +167,7 @@ const Component = ({ className, type }: Props) => {
                         </Button>
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Жанр</Label>
                     {genresList && genresList.list.length > 0 ? (
                         <Combobox
@@ -189,13 +189,13 @@ const Component = ({ className, type }: Props) => {
                             }
                         />
                     ) : (
-                        <div className="animate-pulse h-12 w-full rounded-lg bg-secondary/60" />
+                        <div className="h-12 w-full animate-pulse rounded-lg bg-secondary/60" />
                     )}
                 </div>
 
                 {type !== 'watchlist' && (
                     <div className="w-full">
-                        <div className="flex justify-between items-center gap-2">
+                        <div className="flex items-center justify-between gap-2">
                             <Label className="text-muted-foreground" htmlFor="uk-translated">
                                 Перекладено українською
                             </Label>
@@ -240,7 +240,7 @@ const Component = ({ className, type }: Props) => {
                     property="ratings"
                     onParamChange={handleChangeParam}
                 />
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
                     <div className="flex items-center gap-4">
                         <Label className="badge w-9">{selectingYears[0]}</Label>
@@ -268,7 +268,7 @@ const Component = ({ className, type }: Props) => {
             </div>
             <Button
                 variant="secondary"
-                className="shadow-md sticky bottom-4 lg:flex w-full mt-8"
+                className="sticky bottom-4 mt-8 w-full shadow-md lg:flex"
                 onClick={clearFilters}
             >
                 <AntDesignClearOutlined /> Очистити

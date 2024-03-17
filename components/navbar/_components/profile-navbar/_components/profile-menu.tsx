@@ -52,7 +52,7 @@ const Component = ({}: Props) => {
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="relative h-10 w-10 rounded-md"
+                    className="relative size-10 rounded-md"
                 >
                     <Avatar className="rounded-md">
                         <AvatarImage
@@ -77,19 +77,19 @@ const Component = ({}: Props) => {
                 <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
                         <Link href={'/u/' + loggedUser.username}>
-                            <MaterialSymbolsPerson className="mr-2 h-4 w-4" />
+                            <MaterialSymbolsPerson className="mr-2 size-4" />
                             Профіль
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link href={'/u/' + loggedUser.username + '/list'}>
-                            <MaterialSymbolsEventList className="mr-2 h-4 w-4" />
+                            <MaterialSymbolsEventList className="mr-2 size-4" />
                             Список аніме
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link href={'/u/' + loggedUser.username + '/favorites'}>
-                            <MaterialSymbolsFavoriteRounded className="mr-2 h-4 w-4" />
+                            <MaterialSymbolsFavoriteRounded className="mr-2 size-4" />
                             Улюблене
                         </Link>
                     </DropdownMenuItem>
@@ -102,7 +102,7 @@ const Component = ({}: Props) => {
                             });
                         }}
                     >
-                        <MaterialSymbolsSettingsOutline className="mr-2 h-4 w-4" />
+                        <MaterialSymbolsSettingsOutline className="mr-2 size-4" />
                         Налаштування
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -110,7 +110,7 @@ const Component = ({}: Props) => {
                             logout();
                         }}
                     >
-                        <MaterialSymbolsLogoutRounded className="text-error mr-2 h-4 w-4" />
+                        <MaterialSymbolsLogoutRounded className="text-error mr-2 size-4" />
                         Вийти
                     </DropdownMenuItem>
                 </DropdownMenuGroup>

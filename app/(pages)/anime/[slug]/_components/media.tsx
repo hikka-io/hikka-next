@@ -97,7 +97,7 @@ const Component = ({ extended }: Props) => {
                                 OST[ost.ost_type].title_en
                             }
                         >
-                            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
+                            <div className="absolute left-0 top-0 flex size-full items-center justify-center text-4xl">
                                 <IcBaselineLibraryMusic className="text-muted-foreground" />
                             </div>
                         </BaseCard>
@@ -120,7 +120,7 @@ const Component = ({ extended }: Props) => {
                                 }
                             >
                                 {!thumb && (
-                                    <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center text-4xl">
+                                    <div className="absolute left-0 top-0 flex size-full items-center justify-center text-4xl">
                                         <IcBaselineOndemandVideo className="text-muted-foreground" />
                                     </div>
                                 )}

@@ -11,7 +11,7 @@ export default function H3({ children, className }: Props) {
     return (
         <h3
             className={cn(
-                'scroll-m-20 text-xl font-display font-bold tracking-normal',
+                'scroll-m-20 font-display text-xl font-bold tracking-normal',
                 className,
             )}
         >

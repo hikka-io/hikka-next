@@ -38,7 +38,7 @@ const Component = ({ edit }: Props) => {
             </TableCell>
             <TableCell className="w-40">
                 <div className="flex gap-4">
-                    <Avatar className="w-10 h-10 rounded-md">
+                    <Avatar className="size-10 rounded-md">
                         <AvatarImage src={edit.author!.avatar} />
                     </Avatar>
                     <div className="flex flex-col">
@@ -57,7 +57,7 @@ const Component = ({ edit }: Props) => {
             <TableCell align="left" className="md:w-1/4">
                 <div className="flex gap-4">
                     <Link
-                        className="hover:underline line-clamp-2"
+                        className="line-clamp-2 hover:underline"
                         href={`${CONTENT_TYPE_LINKS[edit.content_type]}/${
                             edit.content.slug
                         }`}
@@ -74,7 +74,7 @@ const Component = ({ edit }: Props) => {
                     {CONTENT_TYPES[edit.content_type].title_ua}
                 </Label>
             </TableCell>
-            <TableCell className="hidden lg:table-cell md:w-1/3" align="left">
+            <TableCell className="hidden md:w-1/3 lg:table-cell" align="left">
                 <P
                     className={clsx(
                         'text-sm overflow-hidden overflow-ellipsis break-all line-clamp-2',

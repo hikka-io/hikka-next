@@ -48,7 +48,7 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
                         )}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                        <ul className="w-56 pt-1 pl-1 pb-1.5 pr-1.5">
+                        <ul className="w-56 pb-1.5 pl-1 pr-1.5 pt-1">
                             {routes.map((r) => {
                                 return (
                                     (r.visible === undefined || r.visible) && (

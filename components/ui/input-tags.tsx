@@ -27,13 +27,13 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
         return (
             <>
                 {value.length > 0 && (
-                    <div className="rounded-md overflow-y-auto flex gap-2 flex-wrap items-center">
+                    <div className="flex flex-wrap items-center gap-2 overflow-y-auto rounded-md">
                         {value.map((item, idx) => (
                             <Badge key={idx} variant="secondary">
                                 {item}
                                 <button
                                     type="button"
-                                    className="w-3 ml-2"
+                                    className="ml-2 w-3"
                                     onClick={() => {
                                         onChange(
                                             value.filter((i) => i !== item),

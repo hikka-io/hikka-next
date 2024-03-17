@@ -66,7 +66,7 @@ const Component = ({
                 ) : (
                     <Title>{title}</Title>
                 )}
-                <div className="inline-flex gap-4 overflow-x-scroll no-scrollbar">
+                <div className="no-scrollbar inline-flex gap-4 overflow-x-scroll">
                     {children}
                 </div>
             </div>

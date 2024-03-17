@@ -96,10 +96,10 @@ const Component = async ({ params: { username }, children }: Props) => {
             <div className="flex flex-col gap-12 lg:gap-16">
                 <ActivationAlert />
                 {user.cover && (
-                    <div className="absolute top-0 left-0 w-full h-80 -z-20 opacity-40 overflow-hidden gradient-mask-b-0">
+                    <div className="absolute left-0 top-0 -z-20 h-80 w-full overflow-hidden opacity-40 gradient-mask-b-0">
                         <Image
                             src={user.cover}
-                            className="relative w-full h-full object-cover"
+                            className="relative size-full object-cover"
                             alt="cover"
                             width={1500}
                             height={500}
@@ -126,18 +126,18 @@ const Component = async ({ params: { username }, children }: Props) => {
                 </SubBar>
 
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-                    <div className="flex flex-col lg:gap-8 gap-4">
-                        <div className="flex lg:gap-8 gap-4">
+                    <div className="flex flex-col gap-4 lg:gap-8">
+                        <div className="flex gap-4 lg:gap-8">
                             <UserInfo />
                             <div className="flex flex-col gap-2">
                                 <UserTitle />
                                 <FollowStats className="hidden lg:flex" />
-                                <div className="flex-col gap-2 flex-1 justify-end hidden lg:flex">
+                                <div className="hidden flex-1 flex-col justify-end gap-2 lg:flex">
                                     <FollowButton />
                                 </div>
                             </div>
                         </div>
-                        <div className="lg:hidden flex flex-col gap-4">
+                        <div className="flex flex-col gap-4 lg:hidden">
                             <FollowStats />
                             <FollowButton className="w-full" />
                         </div>

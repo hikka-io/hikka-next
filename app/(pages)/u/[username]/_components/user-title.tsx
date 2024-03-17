@@ -26,14 +26,14 @@ const Component = ({}: Props) => {
 
     return (
         <div className="flex w-full flex-col gap-2">
-            <div className="flex gap-2 items-center">
-                <H3 className="overflow-hidden overflow-ellipsis">
+            <div className="flex items-center gap-2">
+                <H3 className="overflow-hidden text-ellipsis">
                     {user.username}
                 </H3>
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="rounded-md bg-secondary/30 border border-secondary/60 backdrop-blur p-1 text-xs font-bold text-secondary-foreground">
+                            <div className="rounded-md border border-secondary/60 bg-secondary/30 p-1 text-xs font-bold text-secondary-foreground backdrop-blur">
                                 <ClarityAdministratorSolid />
                             </div>
                         </TooltipTrigger>

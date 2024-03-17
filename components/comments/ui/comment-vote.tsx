@@ -38,7 +38,7 @@ const Component = ({ comment }: Props) => {
     }, [comment]);*/
 
     return (
-        <div className="flex gap-2 items-center opacity-60 hover:opacity-100">
+        <div className="flex items-center gap-2 opacity-60 hover:opacity-100">
             <Button
                 onClick={() => handleCommentVote(1)}
                 disabled={!secret}

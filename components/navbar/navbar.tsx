@@ -39,13 +39,13 @@ const Component = ({}: Props) => {
                     : 'backdrop-blur',
             )}
         >
-            <div className="container min-h-16 flex items-center mx-auto max-w-[88rem] gap-4 px-4 md:gap-8">
-                <div className="flex items-center gap-4 min-w-0 flex-1 md:gap-8">
-                    <Link href="/" className="h-full bg-secondary/30 md:bg-transparent rounded-md p-2 md:p-0">
-                        <div className="logo h-[24px] w-[24px] md:w-[80px] bg-foreground" />
+            <div className="container mx-auto flex min-h-16 max-w-[88rem] items-center gap-4 px-4 md:gap-8">
+                <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
+                    <Link href="/" className="h-full rounded-md bg-secondary/30 p-2 md:bg-transparent md:p-0">
+                        <div className="logo size-[24px] bg-foreground md:w-[80px]" />
                     </Link>
                     <div
-                        className="flex flex-1 items-center gap-4 min-w-0"
+                        className="flex min-w-0 flex-1 items-center gap-4"
                         id="breadcrumbs"
                     >
                         <NavMenu isEqualPath={false} showOnMobile routes={GENERAL_NAV_ROUTES} urlPrefix="" />

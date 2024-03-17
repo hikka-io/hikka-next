@@ -30,22 +30,22 @@ const Component = ({ edit, href, ...props }: Props) => {
                     : 'pointer-events-none',
             )}
         >
-            <Avatar className="rounded-md w-12 h-12">
+            <Avatar className="size-12 rounded-md">
                 <AvatarImage
                     src={edit.author?.avatar}
                     className="rounded-md"
                     alt="avatar"
                 />
                 <AvatarFallback className="rounded-md">
-                    <MaterialSymbolsShieldRounded className="text-xl flex-1 text-muted-foreground" />
+                    <MaterialSymbolsShieldRounded className="flex-1 text-xl text-muted-foreground" />
                 </AvatarFallback>
             </Avatar>
 
-            <div className="flex flex-1 flex-col w-full overflow-hidden">
+            <div className="flex w-full flex-1 flex-col overflow-hidden">
                 {edit.author ? (
-                    <H5 className="truncate min-w-0">{edit.author.username}</H5>
+                    <H5 className="min-w-0 truncate">{edit.author.username}</H5>
                 ) : (
-                    <H5 className="text-muted-foreground truncate min-w-0">
+                    <H5 className="min-w-0 truncate text-muted-foreground">
                         Системна правка
                     </H5>
                 )}

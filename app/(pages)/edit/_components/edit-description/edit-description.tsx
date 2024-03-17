@@ -22,14 +22,14 @@ const Component = ({ mode }: Props) => {
     const { editTags } = useSettingsContext();
 
     return (
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4">
             <Label className="flex justify-between">
                 <span>Опис правки</span>
                 <span className="text-muted-foreground">Необов’язково</span>
             </Label>
             {mode === 'edit' && (
                 <ScrollArea className="w-full whitespace-nowrap">
-                    <div className="flex gap-2 w-full">
+                    <div className="flex w-full gap-2">
                         {editTags?.slice(0, 3).map((tag) => (
                             <Button
                                 size="badge"
@@ -66,7 +66,7 @@ const Component = ({ mode }: Props) => {
                     <Textarea
                         placeholder="Введіть причину правки"
                         rows={3}
-                        className="w-full disabled:opacity-100 disabled:cursor-text"
+                        className="w-full disabled:cursor-text disabled:opacity-100"
                         disabled={mode === 'view'}
                         value={value}
                         onChange={onChange}

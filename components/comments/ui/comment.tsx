@@ -72,9 +72,9 @@ const Component = ({ comment, slug, content_type }: Props) => {
     }, [currentReply]);
 
     return (
-        <div className="flex flex-col gap-2 w-full">
-            <div className="flex flex-col gap-2 w-full items-start">
-                <div className="flex gap-3 w-full">
+        <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full flex-col items-start gap-2">
+                <div className="flex w-full gap-3">
                     <Link href={`/u/${comment.author.username}`}>
                         <Avatar className="w-10 rounded-md">
                             <AvatarImage
@@ -87,7 +87,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
                             </AvatarFallback>
                         </Avatar>
                     </Link>
-                    <div className="flex flex-col justify-between flex-1">
+                    <div className="flex flex-1 flex-col justify-between">
                         <Link
                             href={`/u/${comment.author.username}`}
                             className="w-fit"
@@ -119,11 +119,11 @@ const Component = ({ comment, slug, content_type }: Props) => {
                     <P className="text-muted-foreground">Коментар видалено</P>
                 )}
             </div>
-            <div className="flex gap-2 w-full items-center">
+            <div className="flex w-full items-center gap-2">
                 <Button
                     disabled={!secret}
                     variant="link"
-                    className="p-0 text-muted-foreground h-auto hover:text-primary hover:no-underline"
+                    className="h-auto p-0 text-muted-foreground hover:text-primary hover:no-underline"
                     size="sm"
                     onClick={addReplyInput}
                 >
@@ -139,10 +139,10 @@ const Component = ({ comment, slug, content_type }: Props) => {
                 <div className="flex w-full">
                     {expand && (
                         <button
-                            className="pr-6 relative group"
+                            className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="h-full w-[1px] bg-secondary transition-colors duration-100 group-hover:bg-primary" />
+                            <div className="h-full w-px bg-secondary transition-colors duration-100 group-hover:bg-primary" />
                         </button>
                     )}
                     {!expand && (
@@ -167,7 +167,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
             )}
             {isInputVisible && currentReply === comment.reference && (
                 <div className="flex gap-6">
-                    <div className="h-auto -mt-2 w-[1px] bg-white" />
+                    <div className="-mt-2 h-auto w-px bg-white" />
                     <CommentInput
                         ref={commentInputRef}
                         slug={slug}

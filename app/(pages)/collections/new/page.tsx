@@ -31,12 +31,12 @@ const Component = () => {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                     <div className="flex flex-col gap-8">
                         <CollectionTitle />
-                        <div className="block lg:hidden bg-secondary/30 border border-secondary/60 rounded-md">
+                        <div className="block rounded-md border border-secondary/60 bg-secondary/30 lg:hidden">
                             <CollectionSettings />
                         </div>
                         <CollectionGroups />
                     </div>
-                    <div className="order-1 hidden w-full lg:order-2 lg:block bg-secondary/30 border border-secondary/60 rounded-md sticky top-20">
+                    <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 lg:order-2 lg:block">
                         <CollectionSettings />
                     </div>
                 </div>

@@ -38,7 +38,7 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
 
     return (
         <div className="flex w-full flex-col gap-6">
-            <div className="flex flex-col gap-2 w-full">
+            <div className="flex w-full flex-col gap-2">
                 <Label>Ім’я користувача AniList</Label>
                 <div className="flex gap-2">
                     <Input

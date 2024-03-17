@@ -22,10 +22,10 @@ const Component = ({
     role = 'progressbar',
 }: Props) => {
     return (
-        <div className={cn("relative w-24 h-24", containerClassName)} role={role}>
-            <svg className="w-full h-full" viewBox="0 0 100 100">
+        <div className={cn("relative size-24", containerClassName)} role={role}>
+            <svg className="size-full" viewBox="0 0 100 100">
                 <circle
-                    className="text-secondary stroke-current"
+                    className="stroke-current text-secondary"
                     strokeWidth={thickness || 10}
                     cx="50"
                     cy="50"
@@ -34,7 +34,7 @@ const Component = ({
                 ></circle>
                 <circle
                     className={cn(
-                        'text-primary progress-ring__circle stroke-current',
+                        'progress-ring__circle stroke-current text-primary',
                         className,
                     )}
                     style={style}
@@ -53,7 +53,7 @@ const Component = ({
                     }
                 ></circle>
                 <text
-                    className="fill-foreground text-base font-bold font-display"
+                    className="fill-foreground font-display text-base font-bold"
                     x="50%"
                     y="50%"
                     textAnchor="middle"

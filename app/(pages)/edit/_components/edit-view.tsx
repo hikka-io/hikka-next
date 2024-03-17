@@ -115,7 +115,7 @@ const Component = ({ editId, mode = 'view' }: EditProps) => {
                             ref={captchaRef}
                             siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
                         />
-                        <div className="flex gap-2 items-center">
+                        <div className="flex items-center gap-2">
                             <Button
                                 disabled={form.formState.isSubmitting}
                                 onClick={form.handleSubmit(onSaveSubmit)}

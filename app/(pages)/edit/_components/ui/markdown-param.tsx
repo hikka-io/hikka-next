@@ -43,8 +43,8 @@ const Component = ({ mode, param }: Props) => {
 
     if (mode === 'view') {
         return (
-            <div className="flex flex-col gap-4 w-full">
-                <div className="flex gap-4 items-center">
+            <div className="flex w-full flex-col gap-4">
+                <div className="flex items-center gap-4">
                     <Label>{param.title}</Label>
                     {mode === 'view' && edit && edit.before![param.slug] && (
                         <Button
@@ -60,7 +60,7 @@ const Component = ({ mode, param }: Props) => {
                     control={control}
                     name={param.slug}
                     render={({ field: { value } }) => (
-                        <MDViewer className="bg-secondary/30 border-secondary/60 border rounded-md p-4 markdown text-sm">
+                        <MDViewer className="markdown rounded-md border border-secondary/60 bg-secondary/30 p-4 text-sm">
                             {value}
                         </MDViewer>
                     )}
@@ -69,7 +69,7 @@ const Component = ({ mode, param }: Props) => {
                     edit &&
                     edit.before![param.slug] &&
                     showDiff && (
-                        <MDViewer className="bg-secondary/30 border-secondary/60 border rounded-md p-4 markdown text-sm opacity-50 hover:opacity-100">
+                        <MDViewer className="markdown rounded-md border border-secondary/60 bg-secondary/30 p-4 text-sm opacity-50 hover:opacity-100">
                             {edit.before![param.slug]}
                         </MDViewer>
                     )}
@@ -78,7 +78,7 @@ const Component = ({ mode, param }: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4">
             <Label>{param.title}</Label>
             <Controller
                 control={control}

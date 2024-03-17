@@ -94,7 +94,7 @@ const Component = forwardRef(
                 ref={ref}
                 className={cn(
                     'relative w-full',
-                    'bg-secondary/30 border-secondary/60 border rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
+                    'rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
                     className,
                 )}
             >
@@ -107,12 +107,12 @@ const Component = forwardRef(
                     markdown={text}
                     onChange={setText}
                 />
-                <div className="p-2 flex justify-between items-center w-full">
+                <div className="flex w-full items-center justify-between p-2">
                     {comment && !isEdit ? (
-                        <Badge variant="secondary" className="p-0 pr-2 gap-2">
-                            <Avatar className="w-6 h-6">
+                        <Badge variant="secondary" className="gap-2 p-0 pr-2">
+                            <Avatar className="size-6">
                                 <AvatarImage
-                                    className="w-6 h-6"
+                                    className="size-6"
                                     src={comment.author.avatar}
                                 />
                             </Avatar>

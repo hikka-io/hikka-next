@@ -49,8 +49,8 @@ const Component = ({ extended }: Props) => {
                         disableChildrenLink
                         description={ch.anime[titleLanguage!] || ch.anime.title_ua || ch.anime.title_en || ch.anime.title_ja}
                     >
-                        <div className="absolute left-0 bottom-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
-                        <div className="absolute transition-all w-16 hover:w-28 h-auto z-[1] shadow-lg rounded-lg border-secondary/60 border flex right-2 bottom-2">
+                        <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
+                        <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-secondary/60 shadow-lg transition-all hover:w-28">
                             <BaseCard
                                 href={`/anime/${ch.anime.slug}`}
                                 poster={ch.anime.poster}

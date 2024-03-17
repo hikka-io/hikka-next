@@ -149,7 +149,7 @@ const Component = ({ file, type }: Props) => {
 
     return (
         <>
-            <div className="relative w-full h-auto grid text-center place-content-center">
+            <div className="relative grid h-auto w-full place-content-center text-center">
                 <AvatarEditor
                     ref={editor}
                     className={clsx(

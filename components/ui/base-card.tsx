@@ -59,7 +59,7 @@ const Component = forwardRef(
             <div
                 ref={ref}
                 className={cn(
-                    'relative group flex w-full flex-col gap-2',
+                    'group relative flex w-full flex-col gap-2',
                     onClick && 'cursor-pointer',
                     className,
                 )}
@@ -74,17 +74,17 @@ const Component = forwardRef(
                 >
                     <Comp
                         href={href || ''}
-                        className="absolute left-0 top-0 h-full w-full flex items-center justify-center bg-secondary/60"
+                        className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/60"
                     >
                         {poster ? (
                             typeof poster === 'string' ? (
-                                <figure className="relative h-full w-full flex place-items-center">
+                                <figure className="relative flex size-full place-items-center">
                                     <Image
                                         src={poster}
                                         width={184}
                                         height={259}
                                         className={cn(
-                                            'h-full w-full object-cover',
+                                            'size-full object-cover',
                                             posterClassName,
                                         )}
                                         alt="Poster"
@@ -94,7 +94,7 @@ const Component = forwardRef(
                                 poster
                             )
                         ) : (
-                            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground text-4xl" />
+                            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-4xl text-muted-foreground" />
                         )}
                         {!disableChildrenLink && children}
                     </Comp>
@@ -109,14 +109,14 @@ const Component = forwardRef(
                         )}
                     >
                         {description && (
-                            <P className="text-xs text-muted-foreground mb-1 truncate">
+                            <P className="mb-1 truncate text-xs text-muted-foreground">
                                 {description}
                             </P>
                         )}
                         {title && (
                             <Label
                                 className={cn(
-                                    'leading-5 cursor-pointer',
+                                    'cursor-pointer leading-5',
                                     !leftSubtitle &&
                                         !rightSubtitle &&
                                         'line-clamp-2',
@@ -127,17 +127,17 @@ const Component = forwardRef(
                             </Label>
                         )}
                         {(leftSubtitle || rightSubtitle) && (
-                            <div className="flex gap-2 mt-1 items-center cursor-pointer">
+                            <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {leftSubtitle && (
-                                    <Label className="text-xs text-muted-foreground cursor-pointer">
+                                    <Label className="cursor-pointer text-xs text-muted-foreground">
                                         {leftSubtitle}
                                     </Label>
                                 )}
                                 {leftSubtitle && rightSubtitle && (
-                                    <div className="w-1 h-1 bg-muted-foreground rounded-full" />
+                                    <div className="size-1 rounded-full bg-muted-foreground" />
                                 )}
                                 {rightSubtitle && (
-                                    <Label className="text-xs text-muted-foreground cursor-pointer">
+                                    <Label className="cursor-pointer text-xs text-muted-foreground">
                                         {rightSubtitle}
                                     </Label>
                                 )}

@@ -65,7 +65,7 @@ const Component = () => {
             <Form {...form}>
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="space-y-4 w-full text-left"
+                    className="w-full space-y-4 text-left"
                 >
                     <FormField
                         name="email"

@@ -76,7 +76,7 @@ const Component = () => {
             <Form {...form}>
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="space-y-4 w-full text-left"
+                    className="w-full space-y-4 text-left"
                 >
                     <FormField
                         rules={{
@@ -109,7 +109,7 @@ const Component = () => {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <div className="flex flex-nowrap justify-between items-center">
+                                <div className="flex flex-nowrap items-center justify-between">
                                     <FormLabel>Пароль</FormLabel>
                                     <Button
                                         variant="link"

@@ -16,7 +16,7 @@ const Component = async ({ children }: Props) => {
                     <NavBar />
                     {children}
                 </div>
-                <div className="order-1 hidden w-full lg:order-2 lg:block bg-secondary/30 border border-secondary/60 rounded-md sticky top-20 opacity-60 hover:opacity-100 transition-opacity">
+                <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
                     <Filters type="anime" className="px-4" />
                 </div>
             </div>

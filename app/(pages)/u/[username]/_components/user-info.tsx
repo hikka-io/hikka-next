@@ -73,7 +73,7 @@ const Component = ({}: Props) => {
                 onChange={(e) => handleUploadImageSelected(e, 'avatar')}
                 ref={uploadAvatarRef}
                 multiple={false}
-                className="absolute left-0 top-0 h-full w-full opacity-0"
+                className="absolute left-0 top-0 size-full opacity-0"
                 accept="image/png, image/jpeg"
             />
             <Input
@@ -82,14 +82,14 @@ const Component = ({}: Props) => {
                 onChange={(e) => handleUploadImageSelected(e, 'cover')}
                 ref={uploadCoverRef}
                 multiple={false}
-                className="absolute left-0 top-0 h-full w-full opacity-0"
+                className="absolute left-0 top-0 size-full opacity-0"
                 accept="image/png, image/jpeg"
             />
-            <div className="group relative z-[1] h-32 w-32 overflow-hidden rounded-lg pt-[100%] lg:h-48 lg:w-48">
+            <div className="group relative z-[1] size-32 overflow-hidden rounded-lg pt-[100%] lg:size-48">
                 <div className="absolute top-0 w-full rounded-lg">
                     <Image
                         alt="avatar"
-                        className="h-full w-full object-contain"
+                        className="size-full object-contain"
                         width={287}
                         height={287}
                         src={user.avatar}
@@ -128,7 +128,7 @@ const Component = ({}: Props) => {
                 )}
             </div>
             {user.active && (
-                <div className="absolute z-[1] -bottom-2 -right-2 w-6 h-6 bg-success rounded-full border-4 border-secondary" />
+                <div className="absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4 border-secondary bg-success" />
             )}
         </div>
     );

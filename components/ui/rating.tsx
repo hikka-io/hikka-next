@@ -73,7 +73,7 @@ const Rating = ({
 
     return (
         <div
-            className="inline-flex relative cursor-pointer text-left"
+            className="relative inline-flex cursor-pointer text-left"
             onClick={handleClick}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -97,7 +97,7 @@ const Rating = ({
                 return (
                     <div className="relative cursor-pointer" key={index}>
                         <div
-                            className="overflow-hidden absolute text-xl"
+                            className="absolute overflow-hidden text-xl"
                             style={{
                                 width: showRatingWithPrecision
                                     ? `${(activeState % 1) * 100}%`

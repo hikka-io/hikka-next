@@ -31,17 +31,17 @@ const Component = ({ data }: Props) => {
 
     return (
         <DropdownMenuItem
-            className="flex gap-4 items-start py-3"
+            className="flex items-start gap-4 py-3"
             onClick={handleOnClick}
         >
-            <div className="bg-muted text-muted-foreground p-2 rounded-md">
+            <div className="rounded-md bg-muted p-2 text-muted-foreground">
                 {data.icon}
             </div>
-            <div className="flex flex-col gap-2 flex-1">
-                <div className="flex gap-2 items-center">
+            <div className="flex flex-1 flex-col gap-2">
+                <div className="flex items-center gap-2">
                     <Label className="leading-normal">{data.title}</Label>
                     {!data.seen && (
-                        <div className="w-2 h-2 bg-warning rounded-full" />
+                        <div className="size-2 rounded-full bg-warning" />
                     )}
                 </div>
                 <P className="text-sm text-muted-foreground">

@@ -27,7 +27,7 @@ const Component = ({ editId }: Props) => {
             <Label className="text-muted-foreground">Автор</Label>
             <div className="flex w-full items-center gap-4">
                 <Link href={`/u/${edit.author!.username}`}>
-                    <Avatar className="rounded-md w-12 h-12">
+                    <Avatar className="size-12 rounded-md">
                         <AvatarImage
                             className="rounded-md"
                             src={edit.author!.avatar}

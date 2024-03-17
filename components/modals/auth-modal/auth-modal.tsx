@@ -34,11 +34,11 @@ const Component = ({
                     src="/hikka.art.jpg"
                     width={200}
                     height={200}
-                    className="h-full w-full object-cover"
+                    className="size-full object-cover"
                     alt="test"
                 />
             </div>
-            <div className="flex w-full flex-col items-center gap-4 px-8 py-8 text-center">
+            <div className="flex w-full flex-col items-center gap-4 p-8 text-center">
                 <div className="flex h-12 items-center">
                     <div className="logo h-[24px] w-[80px] bg-foreground" />
                 </div>

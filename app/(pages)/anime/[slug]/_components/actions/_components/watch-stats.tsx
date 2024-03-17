@@ -86,7 +86,7 @@ const Component = () => {
             </div>
             <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
-                    <Label className="min-h-[24px] overflow-hidden overflow-ellipsis">
+                    <Label className="min-h-[24px] overflow-hidden text-ellipsis">
                         Епізоди
                     </Label>
                     <div className="inline-flex">
@@ -115,7 +115,7 @@ const Component = () => {
                     </Label>
                 </H3>
                 <Progress
-                    className="h-2 mt-2"
+                    className="mt-2 h-2"
                     max={watch.anime.episodes_total || watch.episodes}
                     value={watch.episodes}
                 />

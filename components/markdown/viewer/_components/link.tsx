@@ -71,7 +71,7 @@ const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
                         Ви впевнені, що хочете відкрити посилання?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex items-center gap-2">
                             <MaterialSymbolsLinkRounded />
                             <P className="flex-1 truncate">{href}</P>
                         </div>

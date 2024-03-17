@@ -47,11 +47,11 @@ const Component = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem onClick={handleRandomAnime}>
-                        <FeRandom className="mr-2 h-4 w-4" /> Випадкове аніме
+                        <FeRandom className="mr-2 size-4" /> Випадкове аніме
                     </DropdownMenuItem>
                     <FiltersModal type={'watchlist'}>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                            <AntDesignFilterFilled className="mr-2 h-4 w-4" />{' '}
+                            <AntDesignFilterFilled className="mr-2 size-4" />{' '}
                             Фільтри
                         </DropdownMenuItem>
                     </FiltersModal>

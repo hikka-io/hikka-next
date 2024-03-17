@@ -7,7 +7,10 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "email": "email dev --dir emails"
+        "lint:fix": "next lint --fix",
+        "email": "email dev --dir emails",
+        "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+        "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
     },
     "dependencies": {
         "@dnd-kit/core": "^6.1.0",
@@ -102,6 +105,7 @@
         "@typescript-eslint/eslint-plugin": "^6.7.0",
         "@typescript-eslint/parser": "^6.7.0",
         "eslint-plugin-functional": "^6.0.0",
+        "eslint-plugin-tailwindcss": "^3.15.1",
         "prettier-plugin-tailwindcss": "^0.5.9",
         "unplugin-icons": "^0.17.4"
     }

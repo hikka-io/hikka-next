@@ -28,13 +28,13 @@ const Component = ({ children }: Props) => {
             </SheetTrigger>
             <SheetContent
                 side="left"
-                className="!max-w-lg flex flex-col pb-0 gap-0"
+                className="flex !max-w-lg flex-col gap-0 pb-0"
             >
                 <SheetHeader>
                     <SheetTitle>Фільтри</SheetTitle>
                 </SheetHeader>
-                <hr className="h-[1px] w-auto -mx-6 bg-border mt-4" />
-                <Filters className="px-6 -mx-6" />
+                <hr className="-mx-6 mt-4 h-px w-auto bg-border" />
+                <Filters className="-mx-6 px-6" />
             </SheetContent>
         </Sheet>
     );

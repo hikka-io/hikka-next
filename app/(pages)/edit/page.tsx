@@ -35,14 +35,14 @@ const Component = async ({
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16 gap-8">
+            <div className="grid grid-cols-1 justify-center gap-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                 <EditFiltersModal>
-                    <Button variant="outline" className="lg:hidden flex">
+                    <Button variant="outline" className="flex lg:hidden">
                         <AntDesignFilterFilled /> Фільтри
                     </Button>
                 </EditFiltersModal>
                 <EditList page={page as string} />
-                <div className="order-1 hidden w-full lg:order-2 lg:block bg-secondary/30 border border-secondary/60 rounded-md sticky top-20 opacity-60 hover:opacity-100 transition-opacity">
+                <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
                     <Filters className="px-4" />
                 </div>
             </div>

@@ -51,9 +51,9 @@ const Component = ({ content_type, slug }: Props) => {
                     </Link>
                 </Button>
             </div>
-            <hr className="h-[1px] w-auto -mx-6 bg-border" />
+            <hr className="-mx-6 h-px w-auto bg-border" />
             {list!.length > 0 && (
-                <div className="flex-1 overflow-y-scroll w-auto h-full -mx-6">
+                <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                     {list!.map((edit) => (
                         <EditCard
                             href={`/edit/` + edit.edit_id}

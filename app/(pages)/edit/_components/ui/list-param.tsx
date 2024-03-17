@@ -42,11 +42,11 @@ const Component = ({ param, mode }: Props) => {
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex flex-wrap gap-2">
                 {fields.map((item: Record<any, string>, index) => {
                     return (
                         <div
-                            className="flex gap-2 items-center px-2 py-1 border border-secondary/30 text-sm rounded-md bg-secondary/30"
+                            className="flex items-center gap-2 rounded-md border border-secondary/30 bg-secondary/30 px-2 py-1 text-sm"
                             key={item.id}
                         >
                             {item.value}
@@ -64,7 +64,7 @@ const Component = ({ param, mode }: Props) => {
                 })}
             </div>
             {mode === 'edit' && (
-                <div className="flex flex-col gap-4 w-full">
+                <div className="flex w-full flex-col gap-4">
                     <Label>{param.title}</Label>
                     <div className="flex gap-2">
                         <Input

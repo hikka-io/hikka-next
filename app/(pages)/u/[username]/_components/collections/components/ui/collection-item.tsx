@@ -28,8 +28,8 @@ const Component = ({ data, className }: Props) => {
                     poster={data.collection[0].content.poster}
                 />
             </div>
-            <div className="flex flex-col gap-2 flex-1 min-w-0">
-                <div className="flex gap-2 items-center">
+            <div className="flex min-w-0 flex-1 flex-col gap-2">
+                <div className="flex items-center gap-2">
                     <Label
                         asChild
                         className={cn(
@@ -42,21 +42,21 @@ const Component = ({ data, className }: Props) => {
                         </Link>
                     </Label>
                     {data.spoiler && (
-                        <div className="w-2 h-2 rounded-full bg-warning" />
+                        <div className="size-2 rounded-full bg-warning" />
                     )}
                     {data.nsfw && (
-                        <div className="w-2 h-2 rounded-full bg-destructive" />
+                        <div className="size-2 rounded-full bg-destructive" />
                     )}
                 </div>
                 <Small
                     className={cn(
-                        'text-muted-foreground truncate',
+                        'truncate text-muted-foreground',
                         data.spoiler && 'blur-sm hover:blur-none',
                     )}
                 >
                     {description}
                 </Small>
-                <div className="inline-flex gap-2 items-center text-muted-foreground text-xs">
+                <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                     <div className="flex gap-1">
                         <MaterialSymbolsGridViewRounded />
                         <Small>{data.entries}</Small>

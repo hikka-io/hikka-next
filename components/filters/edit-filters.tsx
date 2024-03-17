@@ -80,12 +80,12 @@ const Component = ({ className }: Props) => {
                 'flex flex-col items-start gap-8',
                 'border-t border-t-transparent',
                 'transition',
-                'lg:max-h-[calc(100vh-6rem)] h-full',
+                'h-full lg:max-h-[calc(100vh-6rem)]',
                 className,
             )}
         >
             <div className="flex w-full flex-col items-start gap-8 py-4">
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Сортування</Label>
                     <div className="flex gap-2">
                         <Combobox
@@ -116,7 +116,7 @@ const Component = ({ className }: Props) => {
                         </Button>
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Статус</Label>
                     <Combobox
                         className="flex-1"
@@ -133,7 +133,7 @@ const Component = ({ className }: Props) => {
                         }
                     />
                 </div>
-                <div className="w-full flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">
                         Тип контенту
                     </Label>
@@ -156,7 +156,7 @@ const Component = ({ className }: Props) => {
             </div>
             <Button
                 variant="secondary"
-                className="shadow-md sticky bottom-4 lg:flex w-full mt-8"
+                className="sticky bottom-4 mt-8 w-full shadow-md lg:flex"
                 onClick={clearFilters}
             >
                 <AntDesignClearOutlined /> Очистити

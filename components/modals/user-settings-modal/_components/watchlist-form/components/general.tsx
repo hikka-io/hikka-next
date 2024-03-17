@@ -40,7 +40,12 @@ const Component = ({ watchList, setWatchList }: Props) => {
             try {
                 let keyNo = Object.keys(parentElement._parent).length;
                 let keyName = Object.keys(parentElement._parent)[keyNo - 1];
-                parentElement._parent[keyName] = nativeType(value);
+
+                if (keyName === 'my_comments') {
+                    parentElement._parent[keyName] = String(value);
+                } else {
+                    parentElement._parent[keyName] = nativeType(value);
+                }
             } catch (e) {}
         };
 
@@ -78,7 +83,7 @@ const Component = ({ watchList, setWatchList }: Props) => {
     });
 
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex w-full flex-col gap-2">
             <Label>Файл списку</Label>
             <div
                 {...getRootProps({
@@ -94,11 +99,11 @@ const Component = ({ watchList, setWatchList }: Props) => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <P className="text-muted-foreground text-sm">
+                    <P className="text-sm text-muted-foreground">
                         Перетягніть файл сюди...
                     </P>
                 ) : watchList.length === 0 ? (
-                    <P className="text-muted-foreground text-sm">
+                    <P className="text-sm text-muted-foreground">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
                     </P>

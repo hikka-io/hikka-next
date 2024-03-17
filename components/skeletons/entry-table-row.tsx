@@ -12,9 +12,9 @@ const Component = ({}: Props) => {
                 <div className="h-3 w-10 rounded-lg bg-secondary/60" />
             </TableCell>
             <TableCell className="w-40">
-                <div className="flex gap-4 items-center">
-                    <Avatar className="w-10 h-10 rounded-md">
-                        <AvatarFallback className="w-10 h-10 rounded-md" />
+                <div className="flex items-center gap-4">
+                    <Avatar className="size-10 rounded-md">
+                        <AvatarFallback className="size-10 rounded-md" />
                     </Avatar>
                     <div className="flex flex-col gap-2">
                         <div className="h-3 w-12 rounded-lg bg-secondary/60" />
@@ -28,7 +28,7 @@ const Component = ({}: Props) => {
                     <div className="h-2 w-12 rounded-lg bg-secondary/60" />
                 </div>
             </TableCell>
-            <TableCell className="hidden lg:table-cell md:w-1/3" align="left">
+            <TableCell className="hidden md:w-1/3 lg:table-cell" align="left">
                 <div className="flex flex-col gap-2">
                     <div className="h-3 w-full rounded-lg bg-secondary/60" />
                     <div className="h-3 w-1/2 rounded-lg bg-secondary/60" />

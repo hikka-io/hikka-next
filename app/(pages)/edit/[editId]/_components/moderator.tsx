@@ -24,12 +24,12 @@ const Component = ({ editId }: Props) => {
 
     return (
         <>
-            <hr className="h-[1px] text-muted-foreground w-full my-4" />
+            <hr className="my-4 h-px w-full text-muted-foreground" />
             <div className="flex flex-col gap-4">
                 <Label className="text-muted-foreground">Модератор</Label>
                 <div className="flex w-full items-center gap-4">
                     <Link href={`/u/${edit.moderator.username}`}>
-                        <Avatar className="rounded-md w-12 h-12">
+                        <Avatar className="size-12 rounded-md">
                             <AvatarImage
                                 className="rounded-md"
                                 src={edit.moderator.avatar}

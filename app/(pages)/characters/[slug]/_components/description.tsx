@@ -22,7 +22,7 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="Опис">
-                <div className="flex gap-4 flex-wrap">
+                <div className="flex flex-wrap gap-4">
                     {character.description_ua && (
                         <Button
                             size="badge"
@@ -33,7 +33,7 @@ const Component = () => {
                             }
                             onClick={() => setActive('description_ua')}
                         >
-                            <span className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                            <span className="w-full truncate">
                                 UA
                             </span>
                         </Button>

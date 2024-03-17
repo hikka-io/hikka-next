@@ -13,7 +13,7 @@ const Component = ({ content }: Props) => {
     const title_ja = 'title_ja' in content ? content.title_ja : content.name_ja;
 
     return (
-        <div className="bg-secondary/30 border border-secondary/60 p-4 rounded-md flex flex-col gap-4">
+        <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     Назва українською

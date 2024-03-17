@@ -30,8 +30,8 @@ const Component = ({ id, anime, onRemove }: Props) => {
                 poster={anime.poster}
                 title={anime.title_ua || anime.title_en || anime.title_ja}
             >
-                <div className="absolute left-0 bottom-0 w-full">
-                    <div className="absolute bottom-2 right-2 flex gap-2 z-[1]">
+                <div className="absolute bottom-0 left-0 w-full">
+                    <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
                         <Button size="icon-sm" variant="secondary" onClick={onRemove}>
                             <MaterialSymbolsDeleteForever />
                         </Button>
@@ -39,7 +39,7 @@ const Component = ({ id, anime, onRemove }: Props) => {
                             <MaterialSymbolsDragIndicator />
                         </Button>
                     </div>
-                    <div className="absolute left-0 bottom-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
+                    <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
                 </div>
             </BaseCard>
         </div>

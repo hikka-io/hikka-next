@@ -59,7 +59,7 @@ const Component = () => {
                                         href="https://www.buymeacoffee.com/hikka"
                                         target="_blank"
                                     >
-                                        <SimpleIconsBuymeacoffee className="mr-2 h-4 w-4" />
+                                        <SimpleIconsBuymeacoffee className="mr-2 size-4" />
                                         BuyMeACoffee
                                     </Link>
                                 </DropdownMenuItem>
@@ -69,7 +69,7 @@ const Component = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        <ArcticonsMonobank className="mr-2 h-4 w-4" />
+                                        <ArcticonsMonobank className="mr-2 size-4" />
                                         Монобанка
                                     </Link>
                                 </DropdownMenuItem>

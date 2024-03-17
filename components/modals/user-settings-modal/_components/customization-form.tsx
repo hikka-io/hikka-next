@@ -16,11 +16,11 @@ const Component = () => {
     const { setTheme, theme } = useTheme();
 
     return (
-        <div className="w-full p-6 flex flex-col gap-6">
+        <div className="flex w-full flex-col gap-6 p-6">
             <div className="flex items-center">
                 <H3>Кастомізація</H3>
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <Label>Тема сайту</Label>
                 <Combobox
                     value={theme}
@@ -47,7 +47,7 @@ const Component = () => {
                     ]}
                 />
             </div>
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <Label>Мова назв контенту</Label>
                 <Combobox
                     value={titleLanguage}

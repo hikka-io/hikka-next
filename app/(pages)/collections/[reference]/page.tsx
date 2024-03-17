@@ -59,7 +59,7 @@ const Component = async ({
                         <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                             <Link
                                 href={'/collections/' + reference}
-                                className="flex-1 overflow-hidden overflow-ellipsis text-sm font-bold hover:underline"
+                                className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                             >
                                 {collection?.title}
                             </Link>
@@ -69,7 +69,7 @@ const Component = async ({
                         <div className="flex flex-col gap-12">
                             <div className="flex flex-col gap-8">
                                 <CollectionTitle />
-                                <div className="lg:hidden block">
+                                <div className="block lg:hidden">
                                     <CollectionInfo />
                                 </div>
                                 <CollectionGroups />

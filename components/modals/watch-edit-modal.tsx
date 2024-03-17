@@ -81,7 +81,7 @@ const Component = ({ slug }: Props) => {
         watch && (
             <div className="flex flex-col gap-6">
                 <div className="flex w-full flex-col gap-6">
-                    <div className="w-full flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2">
                         <Label>Список</Label>
                         <Combobox
                             options={Object.keys(WATCH_STATUS).map(
@@ -98,7 +98,7 @@ const Component = ({ slug }: Props) => {
                             value={selectedStatus}
                             renderValue={(option) => {
                                 return (
-                                    <div className="flex gap-2 items-center">
+                                    <div className="flex items-center gap-2">
                                         {option &&
                                             !Array.isArray(option) &&
                                             createElement(
@@ -116,7 +116,7 @@ const Component = ({ slug }: Props) => {
                         />
                     </div>
                     <div className="flex gap-8">
-                        <div className="w-full flex flex-col gap-2">
+                        <div className="flex w-full flex-col gap-2">
                             <Label>Оцінка</Label>
                             <Input
                                 type="number"
@@ -127,7 +127,7 @@ const Component = ({ slug }: Props) => {
                                 })}
                             />
                         </div>
-                        <div className="w-full flex flex-col gap-2">
+                        <div className="flex w-full flex-col gap-2">
                             <Label>Епізоди</Label>
                             <Input
                                 type="number"
@@ -139,7 +139,7 @@ const Component = ({ slug }: Props) => {
                             />
                         </div>
                     </div>
-                    <div className="w-full flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2">
                         <Label>Повторні перегляди</Label>
                         <Input
                             type="number"
@@ -150,7 +150,7 @@ const Component = ({ slug }: Props) => {
                             })}
                         />
                     </div>
-                    <div className="w-full flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2">
                         <Label>Нотатки</Label>
                         <Textarea
                             placeholder="Залиште нотатку до аніме"

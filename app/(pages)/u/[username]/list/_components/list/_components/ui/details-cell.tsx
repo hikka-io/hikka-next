@@ -25,12 +25,12 @@ const Component = ({ anime, rewatches, note, titleLanguage }: Props) => {
     
     return (
         <TableCell>
-            <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-4">
                 <div className="hidden w-12 lg:block">
                     <BaseCard poster={anime.poster} href={`/anime/${anime.slug}`} />
                 </div>
-                <div className="flex-1 flex flex-col gap-2">
-                    <div className="flex gap-2 items-center">
+                <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex items-center gap-2">
                         <Link
                             className="hover:underline"
                             href={`/anime/${anime.slug}`}
@@ -44,7 +44,7 @@ const Component = ({ anime, rewatches, note, titleLanguage }: Props) => {
                             <Badge variant="outline">{rewatches}</Badge>
                         )}
                     </div>
-                    {note && <MDViewer className="text-muted-foreground text-xs">{note}</MDViewer>}
+                    {note && <MDViewer className="text-xs text-muted-foreground">{note}</MDViewer>}
                 </div>
             </div>
         </TableCell>

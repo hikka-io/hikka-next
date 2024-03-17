@@ -63,30 +63,30 @@ const Component = ({ user }: Props) => {
             key={user.reference}
             className="flex items-center justify-between gap-4 px-6 py-4"
         >
-            <div className="flex gap-3 min-w-0">
+            <div className="flex min-w-0 gap-3">
                 <div className="relative">
                     <Link href={'/u/' + user.username}>
-                        <Avatar className='rounded-md w-12 h-12'>
+                        <Avatar className='size-12 rounded-md'>
                             <AvatarImage
                                 src={user.avatar}
                                 className='rounded-md'
                                 alt='avatar'
                             />
                             <AvatarFallback className='rounded-md'>
-                                <MaterialSymbolsShieldRounded className='text-xl flex-1 text-muted-foreground' />
+                                <MaterialSymbolsShieldRounded className='flex-1 text-xl text-muted-foreground' />
                             </AvatarFallback>
                         </Avatar>
                     </Link>
-                    {user.active && <div className='absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-md border-2 border-secondary' />}
+                    {user.active && <div className='absolute -bottom-1 -right-1 size-3 rounded-md border-2 border-secondary bg-success' />}
                 </div>
-                <div className="flex flex-col justify-between min-w-0">
+                <div className="flex min-w-0 flex-col justify-between">
                     <Link
                         href={'/u/' + user.username}
                         className="font-bold"
                     >
                         {user.username}
                     </Link>
-                    <Small className="text-muted-foreground truncate">
+                    <Small className="truncate text-muted-foreground">
                         {user.description}
                     </Small>
                 </div>

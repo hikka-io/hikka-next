@@ -61,7 +61,7 @@ const Component = () => {
                 <H3>Загальне</H3>
             </div>
             <div className="w-full">
-                <div className="flex flex-col gap-2 w-full">
+                <div className="flex w-full flex-col gap-2">
                     <Label>Опис</Label>
                     <Textarea
                         placeholder="Введіть опис"

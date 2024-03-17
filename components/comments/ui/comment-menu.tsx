@@ -67,7 +67,7 @@ const Component = ({ comment }: Props) => {
                 <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="text-muted-foreground text-sm"
+                    className="text-sm text-muted-foreground"
                 >
                     <MaterialSymbolsMoreHoriz />
                 </Button>

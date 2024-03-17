@@ -136,7 +136,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <div
-                            className="h-2 w-2 rounded-full bg-white"
+                            className="size-2 rounded-full bg-white"
                             style={{
                                 backgroundColor:
                                     RELEASE_STATUS[anime?.status as API.Status]
@@ -145,7 +145,7 @@ const Component = async ({ params: { slug }, children }: Props) => {
                         />
                         <Link
                             href={'/anime/' + anime?.slug}
-                            className="flex-1 overflow-hidden overflow-ellipsis text-sm font-bold hover:underline"
+                            className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                         >
                             {anime?.title_ua ||
                                 anime?.title_en ||

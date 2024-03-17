@@ -28,7 +28,7 @@ interface Props {
 
 const SETTINGS_BUTTON = {
     label: (
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
             <MaterialSymbolsSettingsOutline />
             Налаштування
         </div>
@@ -47,7 +47,7 @@ const OPTIONS = [
         value: status,
         title: WATCH_STATUS[status as API.WatchStatus].title_ua,
         label: (
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
                 {createElement(WATCH_STATUS[status as API.WatchStatus].icon!)}
                 {WATCH_STATUS[status as API.WatchStatus].title_ua}
             </div>
@@ -152,7 +152,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     ) : (
                                         <Planned />
                                     )}
-                                    <span className="overflow-hidden overflow-ellipsis whitespace-nowrap rounded-none">
+                                    <span className="truncate rounded-none">
                                         {value
                                             ? WATCH_STATUS[
                                                   value as API.WatchStatus

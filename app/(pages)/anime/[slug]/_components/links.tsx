@@ -23,12 +23,12 @@ const ExternalLink = ({ link }: { link: API.External }) => {
             <Link
                 href={link.url}
                 target="_blank"
-                className="flex h-auto flex-col items-center justify-center text-center gap-2 overflow-hidden rounded-lg"
+                className="flex h-auto flex-col items-center justify-center gap-2 overflow-hidden rounded-lg text-center"
             >
-                <H4 className="w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                <H4 className="w-full truncate">
                     {link.text}
                 </H4>
-                <P className="text-xs lowercase w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+                <P className="w-full truncate text-xs lowercase">
                     {link.url}
                 </P>
             </Link>

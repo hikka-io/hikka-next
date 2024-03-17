@@ -22,9 +22,9 @@ const Component = ({ routes, urlPrefix }: Props) => {
                     ? pathname
                     : urlPrefix + routes[0].url
             }
-            className="overflow-hidden w-full"
+            className="w-full overflow-hidden"
         >
-            <TabsList className="w-full overflow-x-scroll items-center justify-start no-scrollbar bg-secondary/80 border border-secondary/60 backdrop-blur">
+            <TabsList className="no-scrollbar w-full items-center justify-start overflow-x-scroll border border-secondary/60 bg-secondary/80 backdrop-blur">
                 {routes.map((r) => (
                     <TabsTrigger asChild key={r.slug} value={urlPrefix + r.url}>
                         <Link

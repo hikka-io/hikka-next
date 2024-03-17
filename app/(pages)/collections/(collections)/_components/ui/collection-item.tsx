@@ -40,7 +40,7 @@ const Component = ({ collection }: Props) => {
                     </Avatar>
                 </Link>
                 <div className="flex flex-col gap-2">
-                    <div className="flex gap-4 items-center">
+                    <div className="flex items-center gap-4">
                         <button
                             className={cn('text-left', spoiler && 'blur-sm')}
                             onClick={(e) => {
@@ -69,7 +69,7 @@ const Component = ({ collection }: Props) => {
                             <Badge variant="destructive">+18</Badge>
                         )}
                     </div>
-                    <div className="inline-flex gap-2 items-center text-muted-foreground text-xs">
+                    <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                         <div className="flex gap-1">
                             <MaterialSymbolsGridViewRounded />
                             <Small>{collection.entries}</Small>
@@ -88,14 +88,14 @@ const Component = ({ collection }: Props) => {
                             key={tag}
                             onClick={() => setSpoiler(false)}
                             variant="secondary"
-                            className={cn(spoiler && 'blur-sm cursor-pointer')}
+                            className={cn(spoiler && 'cursor-pointer blur-sm')}
                         >
                             {tag.toLowerCase()}
                         </Badge>
                     ))}
                 </div>
             )}
-            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-4 lg:gap-8 flex-nowrap">
+            <div className="grid grid-cols-3 flex-nowrap gap-4 md:grid-cols-5 lg:grid-cols-7 lg:gap-8">
                 {collection.collection.map((item, index) => (
                     <AnimeCard
                         containerClassName={cn(
@@ -120,7 +120,7 @@ const Component = ({ collection }: Props) => {
                 <BaseCard
                     href={`/collections/${collection.reference}`}
                     poster={
-                        <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                        <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                     }
                 />
             </div>

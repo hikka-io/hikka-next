@@ -221,7 +221,7 @@ export const Combobox = forwardRef(
                                         {selectPlaceholder ?? 'Виберіть опцію'}
                                     </span>
                                 )}
-                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                     )}

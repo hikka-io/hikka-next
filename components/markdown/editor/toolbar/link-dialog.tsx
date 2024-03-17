@@ -73,13 +73,13 @@ export function LinkEditForm({
             className="flex flex-col gap-6"
         >
             {url.length === 0 && (
-                <div className="w-full flex flex-col gap-2">
+                <div className="flex w-full flex-col gap-2">
                     <Label htmlFor="link-title">Назва</Label>
                     <Input id="link-title" size={40} {...register('title')} />
                 </div>
             )}
 
-            <div className="w-full flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2">
                 <Label htmlFor="link-url">URL</Label>
                 <Input id="link-url" size={40} {...register('url')} />
             </div>

@@ -65,7 +65,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                         disabled={!v}
                         onClick={() => v && setPage(v)}
                         key={index}
-                        className={cn("h-9 w-9 sm:h-10 sm:w-10", !v && 'w-auto')}
+                        className={cn("size-9 sm:size-10", !v && 'w-auto')}
                     >
                         {v ? v : '...'}
                     </Button>
