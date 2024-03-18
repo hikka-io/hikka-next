@@ -45,6 +45,8 @@ const renderPlain = () => {
 };
 
 export default function parseTextFromMarkDown(mdString: string) {
+    if (!mdString) return mdString;
+
     return marked(mdString, {
         renderer: renderPlain(),
         async: false,
