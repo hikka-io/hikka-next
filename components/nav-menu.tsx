@@ -39,12 +39,12 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
     }
 
     return (
-        <NavigationMenu>
+        <NavigationMenu className="min-w-0">
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="min-w-0">
                         {current && (
-                            <P className="text-sm">{current.title_ua}</P>
+                            <P className="truncate text-sm">{current.title_ua}</P>
                         )}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>

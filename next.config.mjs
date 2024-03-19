@@ -1,4 +1,6 @@
-const withMDX = require('@next/mdx')();
+import million from 'million/compiler';
+import bundleAnalyzer from '@next/bundle-analyzer';
+import Icons from 'unplugin-icons/webpack'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -6,7 +8,7 @@ const nextConfig = {
         missingSuspenseWithCSRBailout: false,
     },
     reactStrictMode: false,
-    pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+    pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
         unoptimized: true,
         remotePatterns: [
@@ -20,18 +22,19 @@ const nextConfig = {
     },
     webpack(config) {
         config.plugins.push(
-            require('unplugin-icons/webpack')({
-                compiler: 'jsx',
-                jsx: 'react',
-            }),
-        );
+            Icons({
+              compiler: 'jsx',
+              jsx: 'react'
+            })
+          )
 
         return config;
     },
 };
-
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+const withBundleAnalyzer = bundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
 });
 
-module.exports = withBundleAnalyzer(withMDX(nextConfig));
+const millionConfig = { rsc: true }
+
+export default million.next(withBundleAnalyzer(nextConfig), millionConfig);

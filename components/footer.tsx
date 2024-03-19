@@ -17,7 +17,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import Rightholder from './rightholder.mdx';
+import RightHolder from './rightholder';
 
 const Component = () => {
     const { openModal } = useModalContext();
@@ -32,7 +32,7 @@ const Component = () => {
                             size="sm"
                             onClick={() =>
                                 openModal({
-                                    content: <Rightholder />,
+                                    content: <RightHolder />,
                                     className: 'max-w-xl',
                                     title: 'Правовласникам',
                                 })
