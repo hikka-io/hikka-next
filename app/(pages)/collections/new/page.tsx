@@ -10,6 +10,7 @@ import CollectionGroups from './_components/collection-groups';
 import CollectionSettings from './_components/collection-settings';
 import CollectionTitle from './_components/collection-title';
 
+
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
         title: {

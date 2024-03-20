@@ -18,7 +18,7 @@ import EditList from './_components/edit-list/edit-list';
 
 
 const Component = async ({
-    searchParams: { page },
+    searchParams: { page, content_type, order, sort, edit_status },
 }: {
     searchParams: { [key: string]: string | string[] | undefined };
 }) => {
@@ -29,7 +29,16 @@ const Component = async ({
     const queryClient = getQueryClient();
 
     await queryClient.prefetchQuery({
-        queryKey: ['editList', { page }],
+        queryKey: [
+            'editList',
+            {
+                page,
+                content_type: content_type || null,
+                order: order || 'desc',
+                sort: sort || 'edit_id',
+                edit_status: edit_status || null,
+            },
+        ],
         queryFn: () => getEditList({ page: Number(page) }),
     });
 
@@ -48,7 +57,10 @@ const Component = async ({
                     <div className="flex flex-col gap-12">
                         <EditTopStats />
                         <EditFiltersModal>
-                            <Button variant="outline" className="flex lg:hidden">
+                            <Button
+                                variant="outline"
+                                className="flex lg:hidden"
+                            >
                                 <AntDesignFilterFilled /> Фільтри
                             </Button>
                         </EditFiltersModal>

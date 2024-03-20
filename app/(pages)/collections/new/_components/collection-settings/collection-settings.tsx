@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 
 import AnilistCollection from '@/app/(pages)/collections/new/_components/anilist-collection';
 import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combobox';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
@@ -27,6 +28,21 @@ interface Props {
     mode?: 'create' | 'edit';
 }
 
+const COLLECTION_VISIBILITY_OPTIONS = [
+    {
+        value: 'public',
+        label: 'Публічна',
+    },
+    {
+        value: 'private',
+        label: 'Приватна',
+    },
+    {
+        value: 'unlisted',
+        label: 'Лише у профілі',
+    },
+];
+
 const Component = ({ mode = 'create' }: Props) => {
     const { openModal } = useModalContext();
     const params = useParams();
@@ -35,7 +51,7 @@ const Component = ({ mode = 'create' }: Props) => {
         title,
         nsfw,
         spoiler,
-        private: isPrivate,
+        visibility,
         setState: setCollectionState,
         description,
         tags,
@@ -102,6 +118,15 @@ const Component = ({ mode = 'create' }: Props) => {
         });
     };
 
+    const handleImportAnilistModal = () => {
+        openModal({
+            content: (
+                <AnilistCollection setCollectionState={setCollectionState!} />
+            ),
+            title: 'Імпорт з AniList',
+        });
+    };
+
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
             <div className="flex h-full flex-col gap-6 p-4">
@@ -146,6 +171,25 @@ const Component = ({ mode = 'create' }: Props) => {
                     />
                 </div>
 
+                <div className="flex flex-col gap-4">
+                    <Label htmlFor="private" className="text-muted-foreground">
+                        Відображення
+                    </Label>
+                    <Combobox
+                        value={visibility}
+                        onChange={(value) =>
+                            setCollectionState!((state) => ({
+                                ...state,
+                                visibility: value as
+                                    | 'private'
+                                    | 'public'
+                                    | 'unlisted',
+                            }))
+                        }
+                        options={COLLECTION_VISIBILITY_OPTIONS}
+                    />
+                </div>
+
                 <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="nsfw" className="text-muted-foreground">
                         Контент +18
@@ -156,6 +200,7 @@ const Component = ({ mode = 'create' }: Props) => {
                         id="nsfw"
                     />
                 </div>
+
                 <div className="flex items-center justify-between gap-4">
                     <Label htmlFor="spoiler" className="text-muted-foreground">
                         Спойлери
@@ -166,18 +211,6 @@ const Component = ({ mode = 'create' }: Props) => {
                             handleParamChange('spoiler', !spoiler)
                         }
                         id="spoiler"
-                    />
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                    <Label htmlFor="private" className="text-muted-foreground">
-                        Приватна колекція
-                    </Label>
-                    <Switch
-                        checked={isPrivate}
-                        onCheckedChange={() =>
-                            handleParamChange('private', !isPrivate)
-                        }
-                        id="private"
                     />
                 </div>
 
@@ -218,18 +251,7 @@ const Component = ({ mode = 'create' }: Props) => {
                             <Button
                                 size="icon"
                                 variant="secondary"
-                                onClick={() =>
-                                    openModal({
-                                        content: (
-                                            <AnilistCollection
-                                                setCollectionState={
-                                                    setCollectionState!
-                                                }
-                                            />
-                                        ),
-                                        title: 'Імпорт з AniList',
-                                    })
-                                }
+                                onClick={handleImportAnilistModal}
                             >
                                 <SimpleIconsAnilist />
                             </Button>

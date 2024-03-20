@@ -569,6 +569,22 @@ export const ANIME_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
+export const EDIT_PARAMS: Record<
+    keyof Hikka.AnimeEditParams | keyof Hikka.CharacterEditParams,
+    string
+> = {
+    name_ua: 'Назва UA',
+    name_en: 'Назва EN',
+    name_ja: 'Назва JA',
+    description_ua: 'Опис UA',
+    synonyms: 'Синоніми',
+    title_ua: 'Назва UA',
+    title_en: 'Назва EN',
+    title_ja: 'Назва JA',
+    synopsis_ua: 'Опис UA',
+    synopsis_en: 'Опис EN',
+};
+
 export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
     title: [
         {
@@ -631,7 +647,7 @@ export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
         title_ua: 'Колекція',
         title_en: 'Collection',
     },
-}
+};
 
 export const EDIT_STATUSES: Hikka.FilterProperty<API.EditStatus> = {
     pending: {

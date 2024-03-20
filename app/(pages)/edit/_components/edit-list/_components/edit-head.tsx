@@ -10,7 +10,7 @@ const Component = () => {
                 <TableHead>Автор</TableHead>
                 <TableHead align="left">Контент</TableHead>
                 <TableHead className=" hidden lg:table-cell" align="left">
-                    Опис
+                    Зміни
                 </TableHead>
                 <TableHead align="center" className="w-20">
                     Статус

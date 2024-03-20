@@ -16,6 +16,7 @@ const useCollection = ({
         queryKey: ['collection', reference, { secret }],
         queryFn: () => getCollection({ reference: reference, secret }),
         enabled: enabled,
+        staleTime: 0,
     });
 };
 

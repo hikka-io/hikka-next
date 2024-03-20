@@ -22,6 +22,7 @@ const useCreateCollection = (params: CollectionRequest) => {
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({
                 queryKey: ['collection', { reference: data.reference }],
+                exact: false,
             });
             enqueueSnackbar('Колекцію успішно створено', {
                 variant: 'success',

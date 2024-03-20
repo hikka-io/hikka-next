@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { Children, PropsWithChildren, useEffect, useState } from 'react';
+import { Children, Fragment, PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
 
@@ -27,7 +27,7 @@ const Component = ({ children }: Props) => {
             <div className="flex h-auto min-h-10 flex-1 items-center gap-4 overflow-hidden px-4 md:hidden">
                 {Children.map(arrayChildren, (child, index) => {
                     return (
-                        <>
+                        <Fragment key={child.toString() + "-" + index}>
                             <IconamoonSignDivisionSlashThin
                                 className={clsx(
                                     'opacity-30',
@@ -35,7 +35,7 @@ const Component = ({ children }: Props) => {
                                 )}
                             />
                             {child}
-                        </>
+                        </Fragment>
                     );
                 })}
             </div>,

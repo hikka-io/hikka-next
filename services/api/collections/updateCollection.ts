@@ -14,7 +14,7 @@ type Request = {
     content_type: API.ContentType;
     description: string;
     labels_order: string[];
-    private: boolean;
+    visibility: 'private' | 'public' | 'unlisted';
     spoiler: boolean;
     nsfw: boolean;
     secret: string;

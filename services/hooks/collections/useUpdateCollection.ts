@@ -31,6 +31,7 @@ const useUpdateCollection = ({
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({
                 queryKey: ['collection', { reference: data.reference }],
+                exact: false,
             });
             enqueueSnackbar('Колекцію успішно оновлено', {
                 variant: 'success',

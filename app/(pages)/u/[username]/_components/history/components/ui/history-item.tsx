@@ -67,7 +67,7 @@ const Component = ({ data, className }: Props) => {
                     )}
                 </Small>
                 <Small className="text-muted-foreground opacity-60">
-                    {formatDistance(data.created * 1000, Date.now(), {
+                    {formatDistance(data.updated * 1000, Date.now(), {
                         addSuffix: true,
                     })}
                 </Small>

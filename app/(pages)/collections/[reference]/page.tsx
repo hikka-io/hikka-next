@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import React from 'react';
 
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
@@ -24,11 +25,19 @@ export async function generateMetadata({
 }: {
     params: Record<string, any>;
 }): Promise<Metadata> {
-    const collection = await getCollection({ reference });
+    const secret = await getCookie('secret');
 
-    return _generateMetadata({
-        title: `Колекції / ${collection.title}`,
-    });
+    try {
+        const collection = await getCollection({ reference, secret });
+
+        return _generateMetadata({
+            title: `Колекції / ${collection.title}`,
+        });
+    } catch (e) {
+        return _generateMetadata({
+            title: `Колекції`,
+        });
+    }
 }
 
 const Component = async ({
@@ -39,15 +48,16 @@ const Component = async ({
     const queryClient = getQueryClient();
     const secret = await getCookie('secret');
 
-    await queryClient.prefetchQuery({
-        queryKey: ['collection', { reference, secret }],
-        queryFn: () => getCollection({ reference, secret }),
-    });
+    let collection;
 
-    const collection: API.Collection | undefined = queryClient.getQueryData([
-        'collection',
-        { reference, secret },
-    ]);
+    try {
+        collection = await queryClient.fetchQuery({
+            queryKey: ['collection', reference, { secret }],
+            queryFn: () => getCollection({ reference, secret }),
+        });
+    } catch (e) {
+        return redirect('/collections');
+    }
 
     const dehydratedState = dehydrate(queryClient);
 

@@ -366,7 +366,7 @@ declare global {
             description: string;
             tags: string[];
             reference: string;
-            private: boolean;
+            visibility: 'private' | 'public' | 'unlisted';
             spoiler: boolean;
             entries: number;
             title: string;

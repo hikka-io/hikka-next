@@ -33,7 +33,7 @@ export interface State {
     groups: Group[];
     nsfw: boolean;
     spoiler: boolean;
-    private: boolean;
+    visibility: 'private' | 'public' | 'unlisted';
     tags: string[];
 }
 
@@ -56,7 +56,7 @@ function getInitialState(): State {
         content_type: 'anime',
         nsfw: false,
         spoiler: false,
-        private: false,
+        visibility: 'public',
         tags: [],
         groups: [
             {
@@ -99,7 +99,7 @@ export default function CollectionProvider({ children }: Props) {
             content_type: state.content_type,
             nsfw: state.nsfw,
             spoiler: state.spoiler,
-            private: state.private,
+            visibility: state.visibility,
             labels_order: state.groups
                 .map((group) => group.title || '')
                 .filter((title) => title !== ''),
@@ -139,7 +139,7 @@ export default function CollectionProvider({ children }: Props) {
             content_type: raw.content_type,
             nsfw: raw.nsfw,
             spoiler: raw.spoiler,
-            private: raw.private,
+            visibility: raw.visibility,
             groups: groups,
             tags: raw.tags,
         };

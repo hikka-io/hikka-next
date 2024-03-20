@@ -10,12 +10,14 @@ import { useRouter } from 'next/navigation';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import {
     CONTENT_TYPES,
     CONTENT_TYPE_LINKS,
+    EDIT_PARAMS,
     EDIT_STATUS,
 } from '@/utils/constants';
 
@@ -75,14 +77,13 @@ const Component = ({ edit }: Props) => {
                 </Label>
             </TableCell>
             <TableCell className="hidden md:w-1/3 lg:table-cell" align="left">
-                <P
-                    className={clsx(
-                        'text-sm overflow-hidden overflow-ellipsis break-all line-clamp-2',
-                        !edit.description && 'text-muted-foreground',
-                    )}
-                >
-                    {edit.description ? edit.description : 'Немає опису правки'}
-                </P>
+                <div className="flex flex-wrap gap-2">
+                    {Object.keys(edit.after).map((key) => (
+                        <Badge variant="outline" key={key}>
+                            {EDIT_PARAMS[key as keyof typeof EDIT_PARAMS]}
+                        </Badge>
+                    ))}
+                </div>
             </TableCell>
             <TableCell align="center" className="w-20">
                 <div className="flex justify-end">
