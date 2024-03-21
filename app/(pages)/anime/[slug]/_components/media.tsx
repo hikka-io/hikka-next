@@ -91,7 +91,7 @@ const Component = ({ extended }: Props) => {
                             key={ost.spotify}
                             href={ost.spotify || undefined}
                             title={ost.title}
-                            containerClassName="pt-[100%]"
+                            containerRatio={1}
                             description={
                                 OST[ost.ost_type].title_ua ||
                                 OST[ost.ost_type].title_en
@@ -113,7 +113,7 @@ const Component = ({ extended }: Props) => {
                                 href={video.url || '#'}
                                 title={video.title}
                                 poster={thumb}
-                                containerClassName="pt-[70%]"
+                                containerRatio={1.7}
                                 description={
                                     VIDEO[video.video_type].title_ua ||
                                     VIDEO[video.video_type].title_en

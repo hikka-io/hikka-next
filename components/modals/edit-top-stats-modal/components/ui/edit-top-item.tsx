@@ -45,7 +45,7 @@ const Component = ({ user, rank, accepted, denied, closed }: Props) => {
                         <Small>{denied}</Small>
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground">
-                        <div className="flex size-2 items-center justify-center rounded-full bg-warning" />
+                        <div className="flex size-2 items-center justify-center rounded-full bg-muted-foreground" />
                         <Small>{closed}</Small>
                     </div>
                 </div>

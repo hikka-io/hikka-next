@@ -4,26 +4,29 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+
+
 import { useRouter } from 'next/navigation';
 
+
+
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+
+
 
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
 import { useAuthContext } from '@/services/providers/auth-provider';
-import {
-    getEditGroups,
-    getEditParamSlugs,
-    getEditParams,
-    getFilteredEditParams,
-} from '@/utils/editParamUtils';
+import { getEditGroups, getEditParamSlugs, getEditParams, getFilteredEditParams } from '@/utils/editParamUtils';
+
+
 
 import EditGroup from '../_components/edit-group';
 import AutoButton from '../_components/ui/auto-button';
 import EditDescription from './edit-description';
 
 
-type FormValues = (Hikka.AnimeEditParams | Hikka.CharacterEditParams) & {
+type FormValues = Record<string, unknown> & {
     description: string;
     auto?: boolean;
 };
@@ -32,7 +35,7 @@ interface Props {
     slug: string;
     content_type: API.ContentType;
     mode?: 'view' | 'edit';
-    content: API.AnimeInfo | API.Character;
+    content: API.AnimeInfo | API.Character | API.Person;
 }
 
 const Component = ({ slug, content_type, content, mode = 'edit' }: Props) => {

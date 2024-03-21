@@ -1,51 +1,20 @@
 'use client';
 
-import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-import EditListModal from '@/components/modals/editlist-modal';
+import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
-import { Button } from '@/components/ui/button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useIsMobile from '@/services/hooks/useIsMobile';
 import { useAuthContext } from '@/services/providers/auth-provider';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
 
-
-const EditButton = ({ className }: { className?: string }) => {
-    const { openModal } = useModalContext();
-    const params = useParams();
-
-    return (
-        <Button
-            variant="outline"
-            size="icon-xs"
-            onClick={() =>
-                openModal({
-                    content: (
-                        <EditListModal
-                            content_type="anime"
-                            slug={String(params.slug)}
-                        />
-                    ),
-                    type: 'sheet',
-                    title: 'Список правок',
-                })
-            }
-            className={clsx(className)}
-        >
-            <MaterialSymbolsEditRounded />
-        </Button>
-    );
-};
 
 const Component = () => {
     const { titleLanguage } = useSettingsContext();
@@ -95,7 +64,14 @@ const Component = () => {
                                 </span>
                             )}
                         </H2>
-                        {secret && <EditButton className="hidden lg:flex" />}
+                        {secret && (
+                            <EditButton
+                                key={String(params.slug)}
+                                slug={String(params.slug)}
+                                content_type="anime"
+                                className="hidden lg:flex"
+                            />
+                        )}
                     </div>
                     <P className="mt-2">{data.title_ja}</P>
                 </div>
@@ -109,7 +85,14 @@ const Component = () => {
                             <MaterialSymbolsStarRounded className="text-2xl" />
                         </div>
                     )}
-                    {secret && <EditButton className="flex lg:hidden" />}
+                    {secret && (
+                        <EditButton
+                            key={String(params.slug)}
+                            slug={String(params.slug)}
+                            content_type="anime"
+                            className="flex lg:hidden"
+                        />
+                    )}
                 </div>
             </div>
             {data.genres.length > 0 && (

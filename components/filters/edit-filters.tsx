@@ -38,6 +38,10 @@ const CONTENT_TYPES: Record<string, any> = {
         title_ua: 'Персонаж',
         title_en: 'Character',
     },
+    person: {
+        title_ua: 'Людина',
+        title_en: 'Person',
+    },
 };
 
 const Component = ({ className }: Props) => {

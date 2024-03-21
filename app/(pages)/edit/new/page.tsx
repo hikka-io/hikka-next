@@ -9,6 +9,7 @@ import Content from '@/app/(pages)/edit/_components/content/content';
 import SubHeader from '@/components/sub-header';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
+import getPersonInfo from '@/services/api/people/getPersonInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
 import EditForm from '../_components/edit-form';
@@ -45,7 +46,14 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
         });
     }
 
-    const content: API.AnimeInfo | API.Character | undefined =
+    if (content_type === 'person') {
+        await queryClient.prefetchQuery({
+            queryKey: ['person', slug],
+            queryFn: () => getPersonInfo({ slug: String(slug) }),
+        });
+    }
+
+    const content: API.AnimeInfo | API.Character | API.Person | undefined =
         queryClient.getQueryData([content_type, slug]);
 
     if (!content) {

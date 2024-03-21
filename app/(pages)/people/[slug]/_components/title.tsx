@@ -7,9 +7,16 @@ import { useParams } from 'next/navigation';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 import usePersonInfo from '@/services/hooks/people/usePersonInfo';
-
+import { useModalContext } from '@/services/providers/modal-provider';
+import { Button } from '@/components/ui/button';
+import EditListModal from '@/components/modals/editlist-modal';
+import clsx from 'clsx';
+import MaterialSymbolsEditRounded from '~icons/*';
+import EditButton from '@/components/edit-button';
+import { useAuthContext } from '@/services/providers/auth-provider';
 
 const Component = () => {
+    const { secret } = useAuthContext();
     const divRef = useRef<HTMLDivElement>(null);
     const params = useParams();
     const { data: person } = usePersonInfo({ slug: String(params.slug) });
@@ -28,8 +35,26 @@ const Component = () => {
                                 person.name_en ||
                                 person.name_native}
                         </H2>
+                        {secret && (
+                            <EditButton
+                                key={String(params.slug)}
+                                slug={String(params.slug)}
+                                content_type="person"
+                                className="hidden lg:flex"
+                            />
+                        )}
                     </div>
                     <P className="mt-2">{person.name_native}</P>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                    {secret && (
+                        <EditButton
+                            key={String(params.slug)}
+                            slug={String(params.slug)}
+                            content_type="person"
+                            className="flex lg:hidden"
+                        />
+                    )}
                 </div>
             </div>
         </div>

@@ -1,16 +1,21 @@
 import * as React from 'react';
 
-import { Label } from '@/components/ui/label';
 import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 
 interface Props {
-    content: API.AnimeInfo | API.Character;
+    content: API.AnimeInfo | API.Character | API.Person;
 }
 
 const Component = ({ content }: Props) => {
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
     const title_en = 'title_en' in content ? content.title_en : content.name_en;
-    const title_ja = 'title_ja' in content ? content.title_ja : content.name_ja;
+    const title_ja =
+        'title_ja' in content
+            ? content.title_ja
+            : 'name_ja' in content
+              ? content.name_ja
+              : content.name_native;
 
     return (
         <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">

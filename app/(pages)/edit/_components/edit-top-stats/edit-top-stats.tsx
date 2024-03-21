@@ -25,7 +25,7 @@ function Component() {
     const handleOpenModal = () => {
         openModal({
             content: <EditTopStatsModal />,
-            title: 'Топ контрибуторів',
+            title: 'Топ авторів',
             type: 'sheet',
         });
     };

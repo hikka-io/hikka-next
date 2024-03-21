@@ -24,7 +24,7 @@ import {
 } from '@/utils/editParamUtils';
 
 
-type FormValues = (Hikka.AnimeEditParams | Hikka.CharacterEditParams) & {
+type FormValues = Record<string, unknown> & {
     description: string;
     auto?: boolean;
 };

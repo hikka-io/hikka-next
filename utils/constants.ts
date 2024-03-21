@@ -615,12 +615,56 @@ export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
             type: 'markdown',
         },
     ],
+
+    synonyms: [
+        {
+            slug: 'synonyms',
+            title: 'Синонім',
+            placeholder: 'Введіть новий синонім',
+            type: 'list',
+        },
+    ],
 };
 
 export const CHARACTER_EDIT_GROUPS: Record<string, string> = {
     title: 'Імʼя',
     description: 'Опис',
+    synonyms: 'Синоніми',
 };
+
+
+
+export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+    title: [
+        {
+            slug: 'name_ua',
+            title: 'Українською',
+            placeholder: 'Введіть імʼя українською',
+            type: 'input',
+        },
+        {
+            slug: 'name_en',
+            title: 'Англійською',
+            placeholder: 'Введіть імʼя англійською',
+            type: 'input',
+        },
+    ],
+
+    synonyms: [
+        {
+            slug: 'synonyms',
+            title: 'Синонім',
+            placeholder: 'Введіть новий синонім',
+            type: 'list',
+        },
+    ],
+};
+
+export const PERSON_EDIT_GROUPS: Record<string, string> = {
+    title: 'Імʼя',
+    synonyms: 'Синоніми',
+};
+
 
 export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
     anime: {
@@ -673,7 +717,7 @@ export const EDIT_STATUSES: Hikka.FilterProperty<API.EditStatus> = {
 };
 
 export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
-    person: '/person',
+    person: '/people',
     character: '/characters',
     anime: '/anime',
     edit: '/edit',

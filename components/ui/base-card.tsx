@@ -15,6 +15,8 @@ import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
 
+import { AspectRatio } from './aspect-ratio';
+
 export interface Props {
     target?: string;
     title?: string;
@@ -23,6 +25,7 @@ export interface Props {
     rightSubtitle?: string;
     poster?: string | ReactNode;
     href?: string | UrlObject;
+    containerRatio?: number;
     posterClassName?: string;
     containerClassName?: string;
     titleClassName?: string;
@@ -43,6 +46,7 @@ const Component = forwardRef(
             rightSubtitle,
             posterClassName,
             containerClassName,
+            containerRatio,
             titleClassName,
             className,
             children,
@@ -66,9 +70,10 @@ const Component = forwardRef(
                 onClick={onClick}
                 {...props}
             >
-                <div
+                <AspectRatio
+                    ratio={containerRatio || 0.7}
                     className={cn(
-                        'relative w-full overflow-hidden rounded-md bg-muted pt-[140%]',
+                        'relative w-full overflow-hidden rounded-md bg-muted',
                         containerClassName,
                     )}
                 >
@@ -78,28 +83,26 @@ const Component = forwardRef(
                     >
                         {poster ? (
                             typeof poster === 'string' ? (
-                                <figure className="relative flex size-full place-items-center">
-                                    <Image
-                                        src={poster}
-                                        width={184}
-                                        height={259}
-                                        className={cn(
-                                            'size-full object-cover',
-                                            posterClassName,
-                                        )}
-                                        alt="Poster"
-                                    />
-                                </figure>
+                                <Image
+                                    src={poster}
+                                    fill
+                                    className={cn(
+                                        'size-full object-cover',
+                                        posterClassName,
+                                    )}
+                                    alt="Poster"
+                                />
                             ) : (
                                 poster
                             )
                         ) : (
                             <MaterialSymbolsImageNotSupportedOutlineRounded className="text-4xl text-muted-foreground" />
                         )}
+
                         {!disableChildrenLink && children}
                     </Comp>
                     {disableChildrenLink && children}
-                </div>
+                </AspectRatio>
                 {(title || description) && (
                     <Comp
                         href={href || ''}

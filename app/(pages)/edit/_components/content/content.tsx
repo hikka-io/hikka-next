@@ -13,7 +13,7 @@ import Details from './_components/details';
 interface Props {
     slug: string;
     content_type: API.ContentType;
-    content?: API.AnimeInfo | API.Character;
+    content?: API.AnimeInfo | API.Character | API.Person;
 }
 
 const Component = ({ slug, content_type, content }: Props) => {

@@ -8,8 +8,8 @@ const Component = () => {
     return (
         <div className="relative flex flex-col gap-12 ">
             <Description />
-            <Voices />
             <Anime />
+            <Voices />
         </div>
     );
 };
