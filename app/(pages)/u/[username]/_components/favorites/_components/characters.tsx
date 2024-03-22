@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
@@ -35,7 +35,7 @@ const Component = ({ extended }: Props) => {
             {filteredData.length > 0 && (
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8">
                     {filteredData.map((res) => (
-                        <BaseCard
+                        <EntryCard
                             key={res.slug}
                             title={res.name_ua || res.name_en || res.name_ja}
                             poster={res.image}

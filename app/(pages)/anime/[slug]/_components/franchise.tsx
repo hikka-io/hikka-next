@@ -4,12 +4,13 @@ import clsx from 'clsx';
 
 import { useParams } from 'next/navigation';
 
-import AnimeCard from '@/components/anime-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useFranchise from '@/services/hooks/anime/useFranchise';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { MEDIA_TYPE } from '@/utils/constants';
 
 interface Props {
     extended?: boolean;
@@ -47,12 +48,13 @@ const Component = ({ extended }: Props) => {
                 )}
             >
                 {filteredData.map((anime) => (
-                    <AnimeCard
+                    <EntryCard
                         key={anime.slug}
                         watch={
                             anime.watch.length > 0 ? anime.watch[0] : undefined
                         }
                         slug={anime.slug}
+                        content_type="anime"
                         href={`/anime/${anime.slug}`}
                         poster={anime.poster}
                         title={
@@ -61,7 +63,13 @@ const Component = ({ extended }: Props) => {
                             anime.title_en ||
                             anime.title_ja
                         }
-                        posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
+                        leftSubtitle={
+                            anime.year ? String(anime.year) : undefined
+                        }
+                        rightSubtitle={
+                            anime.media_type &&
+                            MEDIA_TYPE[anime.media_type].title_ua
+                        }
                     />
                 ))}
             </div>

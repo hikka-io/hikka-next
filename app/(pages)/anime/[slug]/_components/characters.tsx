@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import useCharacters from '@/services/hooks/anime/useCharacters';
 
@@ -39,7 +39,7 @@ const Component = ({ extended }: Props) => {
                     )}
                 >
                     {(extended ? main : main.slice(0, 5)).map((ch) => (
-                        <BaseCard
+                        <EntryCard
                             key={ch.character.slug}
                             href={`/characters/${ch.character.slug}`}
                             poster={ch.character.image}
@@ -63,7 +63,7 @@ const Component = ({ extended }: Props) => {
                         )}
                     >
                         {other.map((ch) => (
-                            <BaseCard
+                            <EntryCard
                                 key={ch.character.slug}
                                 href={`/characters/${ch.character.slug}`}
                                 poster={ch.character.image}

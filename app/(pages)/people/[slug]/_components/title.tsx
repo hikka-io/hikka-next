@@ -4,16 +4,12 @@ import { useRef } from 'react';
 
 import { useParams } from 'next/navigation';
 
+import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 import usePersonInfo from '@/services/hooks/people/usePersonInfo';
-import { useModalContext } from '@/services/providers/modal-provider';
-import { Button } from '@/components/ui/button';
-import EditListModal from '@/components/modals/editlist-modal';
-import clsx from 'clsx';
-import MaterialSymbolsEditRounded from '~icons/*';
-import EditButton from '@/components/edit-button';
 import { useAuthContext } from '@/services/providers/auth-provider';
+
 
 const Component = () => {
     const { secret } = useAuthContext();

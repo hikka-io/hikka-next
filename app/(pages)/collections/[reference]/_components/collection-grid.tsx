@@ -3,12 +3,11 @@
 import React from 'react';
 
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import {
     Group as CollectionGroup,
     useCollectionContext,
 } from '@/services/providers/collection-provider';
-import AnimeCard from '@/components/anime-card';
 
 interface Props {
     group: CollectionGroup;
@@ -37,8 +36,9 @@ const Component = ({ group }: Props) => {
             )}
             <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                 {items.map((item) => (
-                    <AnimeCard
+                    <EntryCard
                         slug={item.content.slug}
+                        content_type="anime"
                         href={`/anime/${item.content.slug}`}
                         key={item.id}
                         poster={item.content.poster}

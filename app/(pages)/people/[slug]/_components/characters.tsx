@@ -6,7 +6,7 @@ import * as React from 'react';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import usePersonCharacters from '@/services/hooks/people/usePersonCharacters';
 import { useSettingsContext } from '@/services/providers/settings-provider';
@@ -37,7 +37,7 @@ const Component = ({ extended }: Props) => {
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (
-                    <BaseCard
+                    <EntryCard
                         key={ch.character.slug + ch.anime.slug}
                         href={`/characters/${ch.character.slug}`}
                         poster={ch.character.image}
@@ -51,12 +51,12 @@ const Component = ({ extended }: Props) => {
                     >
                         <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
                         <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-secondary/60 shadow-lg transition-all hover:w-28">
-                            <BaseCard
+                            <EntryCard
                                 href={`/anime/${ch.anime.slug}`}
                                 poster={ch.anime.poster}
                             />
                         </div>
-                    </BaseCard>
+                    </EntryCard>
                 ))}
             </div>
             {extended && hasNextPage && (

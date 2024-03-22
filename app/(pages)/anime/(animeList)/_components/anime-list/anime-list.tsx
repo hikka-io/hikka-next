@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
-import AnimeCard from '@/components/anime-card';
 import FiltersNotFound from '@/components/filters/_components/filters-not-found';
 import { Button } from '@/components/ui/button';
 import Pagination from '@/components/ui/pagination';
@@ -15,6 +14,7 @@ import { MEDIA_TYPE } from '@/utils/constants';
 
 import AnimeListSkeleton from './_components/anime-list-skeleton';
 import { useNextPage, useUpdatePage } from './anime-list.hooks';
+import EntryCard from '@/components/entry-card/entry-card';
 
 
 const Component = () => {
@@ -54,25 +54,26 @@ const Component = () => {
     return (
         <div className="flex flex-col gap-8">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
-                {list.map((x: API.Anime) => {
+                {list.map((anime: API.Anime) => {
                     return (
-                        <AnimeCard
-                            href={`/anime/${x.slug}`}
-                            poster={x.poster}
+                        <EntryCard
+                            href={`/anime/${anime.slug}`}
+                            poster={anime.poster}
                             title={
-                                x[titleLanguage!] ||
-                                x.title_ua ||
-                                x.title_en ||
-                                x.title_ja
+                                anime[titleLanguage!] ||
+                                anime.title_ua ||
+                                anime.title_en ||
+                                anime.title_ja
                             }
-                            key={x.slug}
-                            slug={x.slug}
-                            leftSubtitle={x.year ? String(x.year) : undefined}
+                            key={anime.slug}
+                            slug={anime.slug}
+                            content_type="anime"
+                            leftSubtitle={anime.year ? String(anime.year) : undefined}
                             rightSubtitle={
-                                x.media_type &&
-                                MEDIA_TYPE[x.media_type].title_ua
+                                anime.media_type &&
+                                MEDIA_TYPE[anime.media_type].title_ua
                             }
-                            watch={x.watch.length > 0 ? x.watch[0] : undefined}
+                            watch={anime.watch.length > 0 ? anime.watch[0] : undefined}
                         />
                     );
                 })}

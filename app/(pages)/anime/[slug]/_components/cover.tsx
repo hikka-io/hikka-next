@@ -1,5 +1,5 @@
 import FavoriteButton from '@/components/favorite-button';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 
 interface Props {
     anime?: API.AnimeInfo;
@@ -12,10 +12,10 @@ const Component = ({ anime }: Props) => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <BaseCard poster={anime.poster}>
+            <EntryCard poster={anime.poster}>
                 <FavoriteButton slug={anime.slug} content_type="anime" />
                 <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-black to-transparent" />
-            </BaseCard>
+            </EntryCard>
         </div>
     );
 };

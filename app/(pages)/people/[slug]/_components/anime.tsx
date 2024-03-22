@@ -2,12 +2,15 @@
 
 import { useParams } from 'next/navigation';
 
-import AnimeCard from '@/components/anime-card';
+
+
+import EntryCard from '@/components/entry-card/entry-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import usePersonAnime from '@/services/hooks/people/usePersonAnime';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { cn } from '@/utils';
+
 
 interface Props {
     extended?: boolean;
@@ -35,7 +38,7 @@ const Component = ({ extended }: Props) => {
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (
-                    <AnimeCard
+                    <EntryCard
                         slug={ch.anime.slug}
                         key={ch.anime.slug}
                         href={`/anime/${ch.anime.slug}`}

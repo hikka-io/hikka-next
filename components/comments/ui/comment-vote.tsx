@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import voteComment from '@/services/api/comments/voteComment';
+import vote from '@/services/api/vote/vote';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { cn } from '@/utils';
 
@@ -24,10 +24,11 @@ const Component = ({ comment }: Props) => {
 
         // setNewScore(comment.score + updated);
 
-        await voteComment({
+        await vote({
             secret: String(secret),
-            reference: comment.reference,
+            slug: comment.reference,
             score: updated,
+            content_type: 'comment',
         });
 
         await queryClient.invalidateQueries({ queryKey: ['comments'] });
@@ -53,14 +54,14 @@ const Component = ({ comment }: Props) => {
             </Button>
             <Label
                 className={
-                    comment.score > 0
+                    comment.vote_score > 0
                         ? 'text-success'
-                        : comment.score === 0
+                        : comment.vote_score === 0
                           ? 'text-foreground'
                           : 'text-destructive'
                 }
             >
-                {comment.score}
+                {comment.vote_score}
             </Label>
             <Button
                 onClick={() => handleCommentVote(-1)}

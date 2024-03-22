@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 
 import FavoriteButton from '@/components/favorite-button';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 
 const Component = () => {
@@ -17,13 +17,13 @@ const Component = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <BaseCard poster={character.image}>
+            <EntryCard poster={character.image}>
                 <FavoriteButton
                     slug={character.slug}
                     content_type="character"
                 />
                 <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-black to-transparent" />
-            </BaseCard>
+            </EntryCard>
         </div>
     );
 };

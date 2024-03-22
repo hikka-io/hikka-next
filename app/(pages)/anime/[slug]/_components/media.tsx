@@ -8,7 +8,7 @@ import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { OST, VIDEO } from '@/utils/constants';
@@ -86,7 +86,7 @@ const Component = ({ extended }: Props) => {
             >
                 {active === 'music' &&
                     filteredOSTData.map((ost) => (
-                        <BaseCard
+                        <EntryCard
                             target="_blank"
                             key={ost.spotify}
                             href={ost.spotify || undefined}
@@ -100,14 +100,14 @@ const Component = ({ extended }: Props) => {
                             <div className="absolute left-0 top-0 flex size-full items-center justify-center text-4xl">
                                 <IcBaselineLibraryMusic className="text-muted-foreground" />
                             </div>
-                        </BaseCard>
+                        </EntryCard>
                     ))}
                 {active === 'video' &&
                     filteredVideoData.map((video) => {
                         const thumb = getYoutubeThumb(video.url);
 
                         return (
-                            <BaseCard
+                            <EntryCard
                                 target="_blank"
                                 key={video.url}
                                 href={video.url || '#'}
@@ -124,7 +124,7 @@ const Component = ({ extended }: Props) => {
                                         <IcBaselineOndemandVideo className="text-muted-foreground" />
                                     </div>
                                 )}
-                            </BaseCard>
+                            </EntryCard>
                         );
                     })}
             </div>

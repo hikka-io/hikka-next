@@ -4,7 +4,7 @@ import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-ro
 import Link from 'next/link';
 
 import Small from '@/components/typography/small';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
@@ -20,7 +20,7 @@ const Component = ({ data, className }: Props) => {
     return (
         <div className={cn('flex gap-4', className)}>
             <div className="w-12">
-                <BaseCard
+                <EntryCard
                     containerClassName={cn(
                         data.nsfw && 'blur-sm hover:blur-none',
                     )}

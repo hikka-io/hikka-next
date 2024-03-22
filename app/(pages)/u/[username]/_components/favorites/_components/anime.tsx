@@ -2,11 +2,14 @@
 
 import { useParams } from 'next/navigation';
 
-import AnimeCard from '@/components/anime-card';
+
+
+import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+
 
 interface Props {
     extended?: boolean;
@@ -42,7 +45,7 @@ const Component = ({ extended }: Props) => {
             {filteredData.length > 0 && (
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8">
                     {filteredData.map((res) => (
-                        <AnimeCard
+                        <EntryCard
                             key={res.slug}
                             watch={
                                 res.watch.length > 0 ? res.watch[0] : undefined
@@ -56,6 +59,7 @@ const Component = ({ extended }: Props) => {
                             poster={res.poster}
                             href={`/anime/${res.slug}`}
                             slug={res.slug}
+                            content_type="anime"
                         />
                     ))}
                 </div>

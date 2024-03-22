@@ -20,7 +20,7 @@ import {
 
 import SearchModal from '@/components/modals/search-modal';
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import {
     Group as CollectionGroup,
     Item as CollectionItem,
@@ -150,7 +150,7 @@ const Component = ({ group }: Props) => {
                         ))}
 
                         <SearchModal onClick={handleAddItem} type="button">
-                            <BaseCard poster={<MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />} />
+                            <EntryCard poster={<MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />} />
                         </SearchModal>
                     </div>
                 </div>

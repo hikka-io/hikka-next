@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { Label } from '@/components/ui/label';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { cn } from '@/utils';
@@ -31,7 +31,7 @@ const Component = ({ data, className }: Props) => {
         <div className={cn('flex gap-4 items-center', className)}>
             <div className="w-12">
                 {data.content ? (
-                    <BaseCard
+                    <EntryCard
                         href={`/anime/${data.content.slug}`}
                         poster={data.content.poster}
                     />

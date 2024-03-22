@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 
 
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 
@@ -38,7 +38,7 @@ const Component = ({ anime, onClick, type }: Props) => {
             className="flex w-full gap-4 text-left"
         >
             <div className="w-20">
-                <BaseCard poster={anime.poster} />
+                <EntryCard poster={anime.poster} />
             </div>
             <div className="flex w-full flex-col gap-2">
                 <H5>

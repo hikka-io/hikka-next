@@ -573,9 +573,9 @@ export const EDIT_PARAMS: Record<
     keyof Hikka.AnimeEditParams | keyof Hikka.CharacterEditParams,
     string
 > = {
-    name_ua: 'Назва UA',
-    name_en: 'Назва EN',
-    name_ja: 'Назва JA',
+    name_ua: 'Імʼя UA',
+    name_en: 'Імʼя EN',
+    name_ja: 'Імʼя JA',
     description_ua: 'Опис UA',
     synonyms: 'Синоніми',
     title_ua: 'Назва UA',

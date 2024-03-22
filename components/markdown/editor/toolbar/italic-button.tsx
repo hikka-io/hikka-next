@@ -9,10 +9,13 @@ import {
     usePublisher,
 } from '@mdxeditor/editor';
 
-import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import MaterialSymbolsFormatBoldRounded from '~icons/*';
 import P from '@/components/typography/p';
+import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export const IS_ITALIC = 0b10 as const;
 

@@ -240,7 +240,7 @@ declare global {
             replies: Comment[];
             total_replies: number;
             depth: number;
-            score: number;
+            vote_score: number;
             my_score?: number;
             hidden: boolean;
         };

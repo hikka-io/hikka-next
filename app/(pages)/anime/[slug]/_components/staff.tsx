@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useParams } from 'next/navigation';
 
 import SubHeader from '@/components/sub-header';
-import BaseCard from '@/components/ui/base-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import useStaff from '@/services/hooks/anime/useStaff';
 
@@ -47,7 +47,7 @@ const Component = ({ extended }: Props) => {
                 )}
             >
                 {filteredData.map((staff) => (
-                    <BaseCard
+                    <EntryCard
                         key={staff.person.slug}
                         href={`/people/${staff.person.slug}`}
                         description={getRole(staff.roles)}

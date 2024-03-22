@@ -12,7 +12,7 @@ const Component = () => {
                 <TableHead className=" hidden lg:table-cell" align="left">
                     Зміни
                 </TableHead>
-                <TableHead align="center" className="w-20">
+                <TableHead align="right">
                     Статус
                 </TableHead>
             </TableRow>

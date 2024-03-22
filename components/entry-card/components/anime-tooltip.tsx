@@ -23,7 +23,7 @@ import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 interface Props extends PropsWithChildren {
-    slug: string;
+    slug?: string;
     withTrigger?: boolean;
 }
 
@@ -146,6 +146,10 @@ const TooltipData = ({ slug }: { slug: string }) => {
 };
 
 const Component = ({ slug, children, withTrigger, ...props }: Props) => {
+    if (!slug) {
+        return null;
+    }
+
     return (
         <HoverCard openDelay={500} closeDelay={100}>
             <HoverCardTrigger asChild>{children}</HoverCardTrigger>

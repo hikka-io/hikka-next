@@ -1,7 +1,7 @@
 'use client';
 
-import AnimeCard from '@/components/anime-card';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import EntryCard from '@/components/entry-card/entry-card';
 
 interface Props {
     data: API.Watch[];
@@ -13,8 +13,9 @@ const Component = ({ data }: Props) => {
     return (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
             {data.map((res) => (
-                <AnimeCard
+                <EntryCard
                     slug={res.anime.slug}
+                    content_type="anime"
                     key={res.reference}
                     title={
                         res.anime[titleLanguage!] ||

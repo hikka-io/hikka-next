@@ -3,9 +3,13 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
+
+
 import { range } from '@antfu/utils';
 
-import AnimeCard from '@/components/anime-card';
+
+
+import EntryCard from '@/components/entry-card/entry-card';
 import SkeletonCard from '@/components/skeletons/entry-card';
 import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
@@ -14,6 +18,7 @@ import { Label } from '@/components/ui/label';
 import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
 import { useAuthContext } from '@/services/providers/auth-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+
 
 interface Props {
     extended?: boolean;
@@ -84,7 +89,8 @@ const Component = ({ extended }: Props) => {
                 )}
             >
                 {list.map((anime) => (
-                    <AnimeCard
+                    <EntryCard
+                        content_type="anime"
                         key={anime.slug}
                         watch={
                             anime.watch.length > 0 ? anime.watch[0] : undefined
