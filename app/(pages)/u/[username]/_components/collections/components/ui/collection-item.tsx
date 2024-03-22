@@ -1,5 +1,6 @@
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
 
 import Link from 'next/link';
 
@@ -8,6 +9,7 @@ import EntryCard from '@/components/entry-card/entry-card';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
+import React from 'react';
 
 interface Props {
     data: API.Collection;
@@ -64,6 +66,10 @@ const Component = ({ data, className }: Props) => {
                     <div className="flex gap-1">
                         <IconamoonCommentFill />
                         <Small>{data.comments_count}</Small>
+                    </div>
+                    <div className="flex gap-1">
+                        <BxBxsUpvote />
+                        <Small>{data.vote_score}</Small>
                     </div>
                 </div>
             </div>

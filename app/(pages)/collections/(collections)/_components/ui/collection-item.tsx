@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
 
 import Link from 'next/link';
 
@@ -62,6 +63,10 @@ const Component = ({ collection }: Props) => {
                         <div className="flex gap-1">
                             <IconamoonCommentFill />
                             <Small>{collection.comments_count}</Small>
+                        </div>
+                        <div className="flex gap-1">
+                            <BxBxsUpvote />
+                            <Small>{collection.vote_score}</Small>
                         </div>
                     </div>
                 </div>

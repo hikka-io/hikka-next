@@ -1,6 +1,8 @@
 import React from 'react';
-import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
-import MaterialSymbolsKeyboardArrowUpRounded from '~icons/material-symbols/keyboard-arrow-up-rounded';
+import BxBxsDownvote from '~icons/bx/bxs-downvote';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
+import BxDownvote from '~icons/bx/downvote';
+import BxUpvote from '~icons/bx/upvote';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -39,18 +41,22 @@ const Component = ({ comment }: Props) => {
     }, [comment]);*/
 
     return (
-        <div className="flex items-center gap-2 opacity-60 hover:opacity-100">
+        <div className="group flex items-center gap-2">
             <Button
                 onClick={() => handleCommentVote(1)}
                 disabled={!secret}
-                variant={comment.my_score === 1 ? 'success' : 'ghost'}
+                variant={'ghost'}
                 size="icon-xs"
                 className={cn(
-                    'text-lg',
+                    ' opacity-60 group-hover:opacity-100',
                     comment.my_score === 1 ? '' : 'text-muted-foreground',
                 )}
             >
-                <MaterialSymbolsKeyboardArrowUpRounded />
+                {comment.my_score === 1 ? (
+                    <BxBxsUpvote className="text-success" />
+                ) : (
+                    <BxUpvote />
+                )}
             </Button>
             <Label
                 className={
@@ -66,14 +72,18 @@ const Component = ({ comment }: Props) => {
             <Button
                 onClick={() => handleCommentVote(-1)}
                 disabled={!secret}
-                variant={comment.my_score === -1 ? 'destructive' : 'ghost'}
+                variant={'ghost'}
                 size="icon-xs"
                 className={cn(
-                    'text-lg',
+                    'opacity-60 group-hover:opacity-100',
                     comment.my_score === -1 ? '' : 'text-muted-foreground',
                 )}
             >
-                <MaterialSymbolsKeyboardArrowDownRounded />
+                {comment.my_score === -1 ? (
+                    <BxBxsDownvote className="text-destructive" />
+                ) : (
+                    <BxDownvote />
+                )}
             </Button>
         </div>
     );

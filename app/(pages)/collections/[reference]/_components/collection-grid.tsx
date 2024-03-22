@@ -1,13 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 
-import SubHeader from '@/components/sub-header';
+
+
 import EntryCard from '@/components/entry-card/entry-card';
-import {
-    Group as CollectionGroup,
-    useCollectionContext,
-} from '@/services/providers/collection-provider';
+import SubHeader from '@/components/sub-header';
+import { Group as CollectionGroup, useCollectionContext } from '@/services/providers/collection-provider';
+
 
 interface Props {
     group: CollectionGroup;
@@ -16,11 +16,7 @@ interface Props {
 const Component = ({ group }: Props) => {
     const { groups, setState: setCollectionState } = useCollectionContext();
 
-    const items = groups.find((g) => g.id === group.id)?.items;
-
-    if (!items) {
-        return null;
-    }
+    const items = groups.find((g) => g.id === group.id)?.items || []
 
     return (
         <div className="flex flex-col gap-4">
@@ -55,4 +51,4 @@ const Component = ({ group }: Props) => {
     );
 };
 
-export default Component;
+export default memo(Component);

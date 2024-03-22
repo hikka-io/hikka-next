@@ -1,10 +1,16 @@
 'use client';
 
 import React from 'react';
+import BxBxsDownvote from '~icons/bx/bxs-downvote';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
+import BxDownvote from '~icons/bx/downvote';
+import BxUpvote from '~icons/bx/upvote';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import FavoriteButton from '@/components/favorite-button';
 import SubHeader from '@/components/sub-header';
@@ -26,12 +32,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import vote from '@/services/api/vote/vote';
 import useCollection from '@/services/hooks/collections/useCollection';
 import useDeleteCollection from '@/services/hooks/collections/useDeleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import { useAuthContext } from '@/services/providers/auth-provider';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 const Component = () => {
+    const queryClient = useQueryClient();
+    const { secret } = useAuthContext();
     const params = useParams();
     const { nsfw, spoiler, tags } = useCollectionContext();
 
@@ -50,54 +60,82 @@ const Component = () => {
         loggedUser?.role === 'admin' ||
         loggedUser?.role === 'moderator';
 
+    const handleCollectionVote = async (score: -1 | 1) => {
+        if (!collection) return;
+
+        const updated = collection?.my_score === score ? 0 : score;
+
+        await vote({
+            secret: String(secret),
+            slug: collection.reference,
+            score: updated,
+            content_type: 'collection',
+        });
+
+        await queryClient.invalidateQueries({
+            queryKey: ['collection', collection.reference, { secret }],
+            exact: false,
+        });
+    };
+
+    if (!collection) {
+        return null;
+    }
+
     return (
         <div className="flex w-full flex-col items-start gap-8">
             <SubHeader title="Деталі" />
-            <div className="flex w-full flex-col gap-6 rounded-md border border-secondary/60 bg-secondary/30 p-4">
-                <div className="flex flex-col gap-4">
-                    <Label className="text-muted-foreground">Автор</Label>
-                    <div className="flex w-full gap-4">
-                        <Link href={`/u/${collection?.author.username}`}>
-                            <Avatar className="size-12 rounded-md">
-                                <AvatarImage
-                                    className="rounded-md"
-                                    src={collection?.author.avatar}
-                                    alt={collection?.author.username}
-                                />
-                                <AvatarFallback className="rounded-md">
-                                    {collection?.author.username[0]}
-                                </AvatarFallback>
-                            </Avatar>
-                        </Link>
-                        <div className="flex flex-1 flex-col">
-                            <Link href={'/u/' + collection?.author.username}>
-                                <H5>{collection?.author.username}</H5>
+            <div className="flex w-full flex-col gap-4">
+                <div className="flex w-full flex-col gap-6 rounded-md border border-secondary/60 bg-secondary/30 p-4">
+                    <div className="flex flex-col gap-4">
+                        <Label className="text-muted-foreground">Автор</Label>
+                        <div className="flex w-full gap-4">
+                            <Link href={`/u/${collection?.author.username}`}>
+                                <Avatar className="size-12 rounded-md">
+                                    <AvatarImage
+                                        className="rounded-md"
+                                        src={collection?.author.avatar}
+                                        alt={collection?.author.username}
+                                    />
+                                    <AvatarFallback className="rounded-md">
+                                        {collection?.author.username[0]}
+                                    </AvatarFallback>
+                                </Avatar>
                             </Link>
+                            <div className="flex flex-1 flex-col">
+                                <Link
+                                    href={'/u/' + collection?.author.username}
+                                >
+                                    <H5>{collection?.author.username}</H5>
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {tags.length > 0 && (
-                    <div className="flex items-center gap-2">
-                        {tags.map((tag) => (
-                            <Badge key={tag} variant="secondary">
-                                {tag.toLowerCase()}
-                            </Badge>
-                        ))}
+                    {tags.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            {tags.map((tag) => (
+                                <Badge key={tag} variant="secondary">
+                                    {tag.toLowerCase()}
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
+                    <div className="flex items-center justify-between gap-4">
+                        <Label htmlFor="nsfw" className="text-muted-foreground">
+                            Контент +18
+                        </Label>
+                        <Switch checked={nsfw} id="nsfw" />
                     </div>
-                )}
-                <div className="flex items-center justify-between gap-4">
-                    <Label htmlFor="nsfw" className="text-muted-foreground">
-                        Контент +18
-                    </Label>
-                    <Switch checked={nsfw} id="nsfw" />
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                    <Label htmlFor="spoiler" className="text-muted-foreground">
-                        Спойлери
-                    </Label>
-                    <Switch checked={spoiler} id="spoiler" />
-                </div>
-                <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between gap-4">
+                        <Label
+                            htmlFor="spoiler"
+                            className="text-muted-foreground"
+                        >
+                            Спойлери
+                        </Label>
+                        <Switch checked={spoiler} id="spoiler" />
+                    </div>
+
                     {access && (
                         <div className="flex gap-2">
                             <Button
@@ -149,17 +187,43 @@ const Component = () => {
                             </AlertDialog>
                         </div>
                     )}
-                    {collection && (
-                        <FavoriteButton
-                            slug={collection.reference}
-                            content_type="collection"
-                            size="default"
+                </div>
+
+                <div className="flex w-full items-center gap-2">
+                    <div className="flex flex-1 items-center justify-between gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-1">
+                        <Button
+                            onClick={() => handleCollectionVote(1)}
+                            size="icon-md"
                             variant="secondary"
-                            className=""
+                            disabled={!secret}
                         >
-                            Улюблене
-                        </FavoriteButton>
-                    )}
+                            {collection?.my_score === 1 ? (
+                                <BxBxsUpvote className="text-success" />
+                            ) : (
+                                <BxUpvote />
+                            )}
+                        </Button>
+                        <Label>{collection?.vote_score}</Label>
+                        <Button
+                            onClick={() => handleCollectionVote(-1)}
+                            size="icon-md"
+                            variant="secondary"
+                            disabled={!secret}
+                        >
+                            {collection?.my_score === -1 ? (
+                                <BxBxsDownvote className="text-destructive" />
+                            ) : (
+                                <BxDownvote />
+                            )}
+                        </Button>
+                    </div>
+                    <FavoriteButton
+                        disabled={!secret}
+                        slug={collection.reference}
+                        content_type="collection"
+                        size="icon"
+                        variant="secondary"
+                    />
                 </div>
             </div>
         </div>

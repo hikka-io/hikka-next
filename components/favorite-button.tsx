@@ -5,6 +5,7 @@ import MaterialSymbolsFavoriteOutlineRounded from '~icons/material-symbols/favor
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 
 import { Button, ButtonProps } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import useAddFavorite from '@/services/hooks/favorite/useAddFavorite';
 import useDeleteFavorite from '@/services/hooks/favorite/useDeleteFavorite';
 import useFavorite from '@/services/hooks/favorite/useFavorite';
@@ -34,25 +35,31 @@ const Component = ({
         useDeleteFavorite({ slug, content_type });
 
     return (
-        <Button
-            variant="ghost"
-            size="icon-md"
-            disabled={disabled}
-            onClick={() =>
-                favorite && !favoriteError
-                    ? deleteFromFavorite()
-                    : addToFavorite()
-            }
-            className={clsx('absolute bottom-2 right-2 z-[1]')}
-            {...props}
-        >
-            {favorite && !favoriteError ? (
-                <MaterialSymbolsFavoriteRounded className="text-xl text-destructive" />
-            ) : (
-                <MaterialSymbolsFavoriteOutlineRounded className="text-xl text-white" />
-            )}
-            {children}
-        </Button>
+        <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+                <Button
+                    variant="ghost"
+                    size="icon-md"
+                    disabled={disabled}
+                    onClick={() =>
+                        favorite && !favoriteError
+                            ? deleteFromFavorite()
+                            : addToFavorite()
+                    }
+                    {...props}
+                >
+                    {favorite && !favoriteError ? (
+                        <MaterialSymbolsFavoriteRounded className="text-xl text-destructive" />
+                    ) : (
+                        <MaterialSymbolsFavoriteOutlineRounded className="text-xl text-white" />
+                    )}
+                    {children}
+                </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+                В улюблене
+            </TooltipContent>
+        </Tooltip>
     );
 };
 

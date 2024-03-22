@@ -243,6 +243,7 @@ declare global {
             vote_score: number;
             my_score?: number;
             hidden: boolean;
+            parent: string | null;
         };
 
         type External = {
@@ -372,6 +373,8 @@ declare global {
             title: string;
             nsfw: boolean;
             comments_count: number;
+            vote_score: number;
+            my_score: number | null;
             collection: CollectionItem<TContent>[];
         };
 
