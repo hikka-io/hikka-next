@@ -7,19 +7,19 @@ export interface Response {
 
 export default async function req({
     username,
-    secret,
+    auth,
     page = 1,
     size = 15,
 }: {
     username: string;
-    secret?: string;
+    auth?: string;
     page?: number;
     size?: number;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/follow/${username}/followers`,
         method: 'get',
-        secret,
+        auth,
         page,
         size,
     });

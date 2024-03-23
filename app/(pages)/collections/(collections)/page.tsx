@@ -34,11 +34,11 @@ const Component = async ({
     }
 
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     await queryClient.prefetchQuery({
-        queryKey: ['collections', { page: Number(page), secret }],
-        queryFn: () => getCollections({ page: Number(page), secret }),
+        queryKey: ['collections', { page: Number(page), auth }],
+        queryFn: () => getCollections({ page: Number(page), auth }),
     });
 
     const collections: API.WithPagination<API.Collection> | undefined =
@@ -46,7 +46,7 @@ const Component = async ({
             'collections',
             {
                 page: Number(page),
-                secret,
+                auth,
             },
         ]);
 

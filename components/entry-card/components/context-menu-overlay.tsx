@@ -2,15 +2,15 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
+
+
 import Link from 'next/link';
 
-import {
-    ContextMenu,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuTrigger,
-} from '@/components/ui/context-menu';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 
 
 const ContextMenuOverlay = ({
@@ -22,9 +22,9 @@ const ContextMenuOverlay = ({
     slug: string;
     content_type: API.ContentType;
 }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
-    if (!secret) {
+    if (!auth) {
         return children;
     }
 

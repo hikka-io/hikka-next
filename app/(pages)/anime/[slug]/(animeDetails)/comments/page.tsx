@@ -1,5 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
+import { getCookie } from '@/app/actions';
 import Comments from '@/components/comments/comments';
 
 export async function generateMetadata(
@@ -30,7 +31,9 @@ interface Props {
 }
 
 const Component = async ({ params: { slug } }: Props) => {
-    return <Comments slug={slug} content_type="anime" />;
+    const auth = await getCookie('auth');
+
+    return <Comments auth={auth} slug={slug} content_type="anime" />;
 };
 
 export default Component;

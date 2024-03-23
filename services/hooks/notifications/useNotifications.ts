@@ -1,14 +1,19 @@
 import getNotifications from '@/services/api/notifications/getNotifications';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useNotifications = () => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useInfiniteList({
         queryFn: ({ pageParam }) =>
-            getNotifications({ page: pageParam, secret: secret }),
-        queryKey: ['notifications', { secret }],
+            getNotifications({ page: pageParam, auth: auth }),
+        queryKey: ['notifications', { auth }],
         staleTime: 0,
     });
 };

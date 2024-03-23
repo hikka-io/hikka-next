@@ -2,14 +2,19 @@
 
 import { useEffect, useRef } from 'react';
 
+
+
 import { useParams, usePathname } from 'next/navigation';
+
+
 
 import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
+import useAuth from '@/services/hooks/auth/useAuth';
 import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 import useIsMobile from '@/services/hooks/useIsMobile';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 
 
@@ -17,7 +22,7 @@ const Component = () => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
     const divRef = useRef<HTMLDivElement>(null);
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const params = useParams();
     const { data: character } = useCharacterInfo({ slug: String(params.slug) });
 
@@ -50,7 +55,7 @@ const Component = () => {
                                 character.name_ja ||
                                 ''}{' '}
                         </H2>
-                        {secret && (
+                        {auth && (
                             <EditButton
                                 key={String(params.slug)}
                                 slug={String(params.slug)}
@@ -62,7 +67,7 @@ const Component = () => {
                     <P className="mt-2">{character.name_ja}</P>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    {secret && (
+                    {auth && (
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

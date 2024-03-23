@@ -6,14 +6,14 @@ export interface Response {
 
 export default async function req({
     reference,
-    secret,
+    auth,
 }: {
     reference: string;
-    secret?: string;
+    auth?: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/notifications/${reference}/seen`,
         method: 'post',
-        secret,
+        auth,
     });
 }

@@ -25,10 +25,10 @@ export async function generateMetadata({
 }: {
     params: Record<string, any>;
 }): Promise<Metadata> {
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     try {
-        const collection = await getCollection({ reference, secret });
+        const collection = await getCollection({ reference, auth });
 
         return _generateMetadata({
             title: `Колекції / ${collection.title}`,
@@ -46,14 +46,14 @@ const Component = async ({
     params: Record<string, any>;
 }) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     let collection;
 
     try {
         collection = await queryClient.fetchQuery({
-            queryKey: ['collection', reference, { secret }],
-            queryFn: () => getCollection({ reference, secret }),
+            queryKey: ['collection', reference, { auth }],
+            queryFn: () => getCollection({ reference, auth }),
         });
     } catch (e) {
         return redirect('/collections');
@@ -85,6 +85,7 @@ const Component = async ({
                                 <CollectionGroups />
                             </div>
                             <Comments
+                                auth={auth}
                                 slug={reference}
                                 content_type="collection"
                             />

@@ -5,17 +5,17 @@ export interface Response {
 }
 
 export default async function req({
-    secret,
+    auth,
     slug,
     content_type,
 }: {
-    secret: string;
+    auth: string;
     slug: string;
     content_type: API.ContentType;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/favourite/${content_type}/${slug}`,
         method: 'delete',
-        secret,
+        auth,
     });
 }

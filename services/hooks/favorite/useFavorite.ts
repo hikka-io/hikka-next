@@ -1,15 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 
+
+
 import getFavourite from '@/services/api/favourite/getFavourite';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useFavorite = ({ slug, content_type }: { slug: string; content_type: API.ContentType }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useQuery({
-        queryKey: ['favorite', slug, { secret, content_type }],
-        queryFn: () => getFavourite({ slug: slug, secret: secret!, content_type }),
-        enabled: Boolean(secret),
+        queryKey: ['favorite', slug, { auth, content_type }],
+        queryFn: () => getFavourite({ slug: slug, auth: auth!, content_type }),
+        enabled: Boolean(auth),
     });
 };
 

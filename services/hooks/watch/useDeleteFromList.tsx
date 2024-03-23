@@ -1,23 +1,24 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import deleteWatch from '@/services/api/watch/deleteWatch';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+import useAuth from '@/services/hooks/auth/useAuth';
 
 const useDeleteFromList = ({ slug }: { slug: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['deleteFromList', secret, slug],
+        mutationKey: ['deleteFromList', auth, slug],
         mutationFn: () =>
             deleteWatch({
-                secret: secret!,
+                auth: auth!,
                 slug: slug,
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.refetchQueries({
-                queryKey: ['watch', slug, { secret }],
+                queryKey: ['watch', slug, { auth }],
             });
             await queryClient.invalidateQueries({
                 queryKey: ['watchList'],

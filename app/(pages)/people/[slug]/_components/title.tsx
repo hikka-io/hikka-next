@@ -2,17 +2,22 @@
 
 import { useRef } from 'react';
 
+
+
 import { useParams } from 'next/navigation';
+
+
 
 import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
+import useAuth from '@/services/hooks/auth/useAuth';
 import usePersonInfo from '@/services/hooks/people/usePersonInfo';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 
 
 const Component = () => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const divRef = useRef<HTMLDivElement>(null);
     const params = useParams();
     const { data: person } = usePersonInfo({ slug: String(params.slug) });
@@ -31,7 +36,7 @@ const Component = () => {
                                 person.name_en ||
                                 person.name_native}
                         </H2>
-                        {secret && (
+                        {auth && (
                             <EditButton
                                 key={String(params.slug)}
                                 slug={String(params.slug)}
@@ -43,7 +48,7 @@ const Component = () => {
                     <P className="mt-2">{person.name_native}</P>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    {secret && (
+                    {auth && (
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

@@ -3,18 +3,26 @@
 import * as React from 'react';
 import { useState } from 'react';
 
+
+
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import { Button } from '@/components/ui/button';
 import acceptEdit from '@/services/api/edit/acceptEdit';
 import closeEdit from '@/services/api/edit/closeEdit';
 import denyEdit from '@/services/api/edit/denyEdit';
+import useAuth from '@/services/hooks/auth/useAuth';
 import useEdit from '@/services/hooks/edit/useEdit';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
 
 interface Props {
     editId: string;
@@ -27,7 +35,7 @@ const Component = ({ editId }: Props) => {
     const queryClient = useQueryClient();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     const { data: loggedUser } = useLoggedUser();
 
@@ -35,7 +43,7 @@ const Component = ({ editId }: Props) => {
         try {
             setIsSubmitting(true);
             await acceptEdit({
-                secret: String(secret),
+                auth: String(auth),
                 edit_id: Number(edit?.edit_id),
             });
             await queryClient.invalidateQueries({
@@ -53,7 +61,7 @@ const Component = ({ editId }: Props) => {
         try {
             setIsSubmitting(true);
             await closeEdit({
-                secret: String(secret),
+                auth: String(auth),
                 edit_id: Number(edit?.edit_id),
             });
             await queryClient.invalidateQueries({
@@ -71,7 +79,7 @@ const Component = ({ editId }: Props) => {
         try {
             setIsSubmitting(true);
             await denyEdit({
-                secret: String(secret),
+                auth: String(auth),
                 edit_id: Number(edit?.edit_id),
             });
             await queryClient.invalidateQueries({

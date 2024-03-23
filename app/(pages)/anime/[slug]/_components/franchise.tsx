@@ -24,6 +24,8 @@ const Component = ({ extended }: Props) => {
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useFranchise({ slug: String(params.slug) });
 
+    console.log(list);
+
     if (!anime || !anime.has_franchise) {
         return null;
     }
@@ -55,6 +57,7 @@ const Component = ({ extended }: Props) => {
                         }
                         slug={anime.slug}
                         content_type="anime"
+                        withContextMenu
                         href={`/anime/${anime.slug}`}
                         poster={anime.poster}
                         title={

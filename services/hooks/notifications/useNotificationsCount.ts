@@ -1,14 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 
+
+
 import getNotificationsCount from '@/services/api/notifications/getNotificationsCount';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useNotificationsCount = () => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useQuery({
-        queryFn: () => getNotificationsCount({ secret: secret }),
-        queryKey: ['notificationsCount', { secret }],
+        queryFn: () => getNotificationsCount({ auth: auth }),
+        queryKey: ['notificationsCount', { auth }],
         staleTime: 0,
         refetchInterval: 30000,
     });

@@ -3,14 +3,19 @@
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import changeUserDescription from '@/services/api/settings/changeUserDescription';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 
 
@@ -27,16 +32,16 @@ const Component = () => {
         handleSubmit,
         formState: { isSubmitting },
     } = useForm<FormValues>();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
+        auth,
     ]);
 
     const onSubmit = async (data: FormValues) => {
         try {
             await changeUserDescription({
-                secret: String(secret),
+                auth: String(auth),
                 description: data.description,
             });
             await queryClient.invalidateQueries();

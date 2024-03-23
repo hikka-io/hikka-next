@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { setCookie } from '@/app/actions';
 import confirmPasswordReset from '@/services/api/auth/confirmPasswordReset';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
@@ -32,7 +32,6 @@ const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const form = useForm<FormValues>();
-    const { setState: setAuth } = useAuthContext();
     const router = useRouter();
 
     const token = searchParams.get('token');
@@ -47,8 +46,7 @@ const Component = () => {
                 password: data.password,
                 token: String(token),
             });
-            await setCookie('secret', res.secret);
-            setAuth((prev) => res);
+            await setCookie('auth', res.secret);
             form.reset();
             closeModal();
             router.push('/anime');

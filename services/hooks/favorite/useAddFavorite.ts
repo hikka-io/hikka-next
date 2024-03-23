@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import addFavourite from '@/services/api/favourite/addFavourite';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+import useAuth from '@/services/hooks/auth/useAuth';
 
 const useAddFavorite = ({
     slug,
@@ -10,14 +11,14 @@ const useAddFavorite = ({
     slug: string;
     content_type: API.ContentType;
 }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['addToFavorite', slug, { secret, content_type }],
+        mutationKey: ['addToFavorite', slug, { auth, content_type }],
         mutationFn: () =>
             addFavourite({
-                secret: secret!,
+                auth: auth!,
                 slug: slug,
                 content_type,
             }),

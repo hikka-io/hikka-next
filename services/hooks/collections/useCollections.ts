@@ -1,7 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
+
+
 import getCollections from '@/services/api/collections/getCollections';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useCollections = ({
     page,
@@ -12,11 +17,11 @@ const useCollections = ({
     size?: number;
     enabled?: boolean;
 }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useQuery({
-        queryKey: ['collections', { page, size, secret }],
-        queryFn: () => getCollections({ page, size, secret }),
+        queryKey: ['collections', { page, size, auth }],
+        queryFn: () => getCollections({ page, size, auth }),
         enabled: enabled,
     });
 };

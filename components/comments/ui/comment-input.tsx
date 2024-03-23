@@ -16,11 +16,12 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils';
 import addComment from '@/services/api/comments/addComment';
 import editComment from '@/services/api/comments/editComment';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import { cn } from '@/utils';
 
 
 interface Props {
@@ -42,7 +43,7 @@ const Component = forwardRef(
         const editorRef = useRef<MDXEditorMethods>(null);
         const queryClient = useQueryClient();
         const [text, setText] = useState(isEdit ? comment!.text : '');
-        const { secret } = useAuthContext();
+        const { auth } = useAuth();
 
         const onSubmit = async () => {
             setIsPosting(true);
@@ -51,19 +52,26 @@ const Component = forwardRef(
                 if (isEdit) {
                     await editComment({
                         reference: comment!.reference,
-                        secret: String(secret),
+                        auth: String(auth),
                         text: text,
                     });
                 } else {
                     await addComment({
                         content_type: content_type,
                         slug: slug,
-                        parent: comment?.reference || undefined,
-                        secret: String(secret),
-                        text: text,
+                        parent: comment?.depth
+                            ? comment?.depth < 5
+                                ? comment?.reference
+                                : comment?.parent!
+                            : undefined,
+                        auth: String(auth),
+                        text:
+                            comment?.depth && comment?.depth >= 5
+                                ? `@${comment.author.username} ${text}`
+                                : text,
                     });
                 }
-                
+
                 await queryClient.invalidateQueries({
                     queryKey: ['comments', slug],
                 });
@@ -116,7 +124,9 @@ const Component = forwardRef(
                                     src={comment.author.avatar}
                                 />
                             </Avatar>
-                            <Label className="hidden md:block">{comment.author.username}</Label>
+                            <Label className="hidden md:block">
+                                {comment.author.username}
+                            </Label>
                             <MaterialSymbolsReplyRounded />
                         </Badge>
                     ) : (

@@ -1,12 +1,22 @@
 import { useSnackbar } from 'notistack';
 
+
+
 import { useRouter } from 'next/navigation';
+
+
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import { Request as CollectionRequest } from '@/services/api/collections/createCollection';
 import updateCollection from '@/services/api/collections/updateCollection';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+
+
+import useAuth from '../auth/useAuth';
 
 
 const useUpdateCollection = ({
@@ -15,7 +25,7 @@ const useUpdateCollection = ({
 }: {
     reference: string;
 } & CollectionRequest) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
@@ -24,7 +34,7 @@ const useUpdateCollection = ({
         mutationFn: () =>
             updateCollection({
                 ...params,
-                secret: secret!,
+                auth: auth!,
                 reference: reference,
             }),
         mutationKey: ['updateCollection'],

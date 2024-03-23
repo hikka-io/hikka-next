@@ -4,22 +4,19 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-
-
 import { useRouter } from 'next/navigation';
-
-
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
-
-
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import { getEditGroups, getEditParamSlugs, getEditParams, getFilteredEditParams } from '@/utils/editParamUtils';
-
-
+import useAuth from '@/services/hooks/auth/useAuth';
+import {
+    getEditGroups,
+    getEditParamSlugs,
+    getEditParams,
+    getFilteredEditParams,
+} from '@/utils/editParamUtils';
 
 import EditGroup from '../_components/edit-group';
 import AutoButton from '../_components/ui/auto-button';
@@ -41,7 +38,7 @@ interface Props {
 const Component = ({ slug, content_type, content, mode = 'edit' }: Props) => {
     const captchaRef = useRef<TurnstileInstance>();
 
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const router = useRouter();
 
     const params = getEditParams(content_type)!;
@@ -72,7 +69,7 @@ const Component = ({ slug, content_type, content, mode = 'edit' }: Props) => {
         try {
             if (captchaRef.current) {
                 const res = await addEdit({
-                    secret: String(secret),
+                    auth: String(auth),
                     content_type: content_type,
                     slug: slug,
                     after: {

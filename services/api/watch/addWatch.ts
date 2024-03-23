@@ -8,7 +8,7 @@ export interface Response {
 }
 
 export default async function req({
-    secret,
+    auth,
     slug,
     note,
     status,
@@ -16,7 +16,7 @@ export default async function req({
     rewatches,
     episodes,
 }: {
-    secret: string;
+    auth: string;
     slug: string;
     note?: string;
     score?: number;
@@ -28,6 +28,6 @@ export default async function req({
         path: `/watch/${slug}`,
         method: 'put',
         params: { note, score, episodes, status, rewatches },
-        secret,
+        auth,
     });
 }

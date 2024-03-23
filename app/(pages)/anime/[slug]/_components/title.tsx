@@ -11,9 +11,10 @@ import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useIsMobile from '@/services/hooks/useIsMobile';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { ANIME_NAV_ROUTES } from '@/utils/constants';
+import useAuth from '@/services/hooks/auth/useAuth';
 
 
 const Component = () => {
@@ -21,7 +22,7 @@ const Component = () => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
     const divRef = useRef<HTMLDivElement>(null);
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const params = useParams();
     const { data } = useAnimeInfo({ slug: String(params.slug) });
 
@@ -64,7 +65,7 @@ const Component = () => {
                                 </span>
                             )}
                         </H2>
-                        {secret && (
+                        {auth && (
                             <EditButton
                                 key={String(params.slug)}
                                 slug={String(params.slug)}
@@ -85,7 +86,7 @@ const Component = () => {
                             <MaterialSymbolsStarRounded className="text-2xl" />
                         </div>
                     )}
-                    {secret && (
+                    {auth && (
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

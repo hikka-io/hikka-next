@@ -1,6 +1,11 @@
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useFavorites = <TContent extends API.Content>({
     username,
@@ -9,16 +14,16 @@ const useFavorites = <TContent extends API.Content>({
     username: string;
     content_type: API.ContentType;
 }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useInfiniteList({
-        queryKey: ['favorites', username, { secret, content_type }],
+        queryKey: ['favorites', username, { auth, content_type }],
         queryFn: ({ pageParam = 1 }) =>
             getFavouriteList<TContent>({
                 username: username,
                 page: pageParam,
                 size: 18,
-                secret: secret,
+                auth: auth,
                 content_type: content_type,
             }),
         staleTime: 0,

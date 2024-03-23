@@ -18,7 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import follow from '@/services/api/follow/follow';
 import unfollow from '@/services/api/follow/unfollow';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 
 
 interface Props {
@@ -26,19 +27,19 @@ interface Props {
 }
 
 const Component = ({ user }: Props) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
+        auth,
     ]);
 
     const { mutate: mutateFollow } = useMutation({
-        mutationKey: ['follow', secret],
+        mutationKey: ['follow', auth],
         mutationFn: (username: string) =>
             follow({
-                secret: String(secret),
+                auth: String(auth),
                 username: String(username),
             }),
         onSuccess: async () => {
@@ -47,10 +48,10 @@ const Component = ({ user }: Props) => {
     });
 
     const { mutate: mutateUnfollow } = useMutation({
-        mutationKey: ['unfollow', secret],
+        mutationKey: ['unfollow', auth],
         mutationFn: (username: string) =>
             unfollow({
-                secret: String(secret),
+                auth: String(auth),
                 username: String(username),
             }),
         onSuccess: async () => {
@@ -91,7 +92,7 @@ const Component = ({ user }: Props) => {
                     </Small>
                 </div>
             </div>
-            {secret &&
+            {auth &&
                 user.username !== loggedUser?.username &&
                 ('is_followed' in user ? (
                     !user.is_followed ? (

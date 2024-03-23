@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import { setCookie } from '@/app/actions';
 import login from '@/services/api/auth/login';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useRouter } from 'next/navigation';
 import H2 from '@/components/typography/h2';
@@ -34,7 +34,6 @@ const Component = () => {
     const captchaRef = useRef<TurnstileInstance>();
     const { openModal, closeModal } = useModalContext();
     const form = useForm<FormValues>();
-    const { setState: setAuth } = useAuthContext();
     const router = useRouter();
 
     const onSubmit = async (data: FormValues) => {
@@ -44,8 +43,7 @@ const Component = () => {
                     ...data,
                     captcha: String(captchaRef.current.getResponse()),
                 });
-                setAuth(res);
-                await setCookie('secret', res.secret);
+                await setCookie('auth', res.secret);
                 form.reset();
                 closeModal();
                 router.refresh();

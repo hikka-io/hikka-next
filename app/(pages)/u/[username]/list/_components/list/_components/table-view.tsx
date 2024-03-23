@@ -19,7 +19,6 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import createQueryString from '@/utils/createQueryString';
@@ -36,7 +35,6 @@ interface Props {
 
 const Component = ({ data }: Props) => {
     const { titleLanguage } = useSettingsContext();
-    const { secret } = useAuthContext();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();

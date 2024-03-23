@@ -17,7 +17,7 @@ const Component = ({
         );
     }
 
-    return <List />;
+    return <List searchParams={searchParams} />;
 };
 
 export default Component;

@@ -8,8 +8,10 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import Content from '@/app/(pages)/edit/_components/content/content';
+import { getCookie } from '@/app/actions';
 import Breadcrumbs from '@/components/breadcrumbs';
 import SubHeader from '@/components/sub-header';
+import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
@@ -42,10 +44,23 @@ export async function generateMetadata({
 
 const Component = async ({ params: { editId }, children }: Props) => {
     const queryClient = getQueryClient();
+    const auth = await getCookie('auth');
 
     const edit = await queryClient.fetchQuery({
         queryKey: ['edit', editId],
         queryFn: () => getEdit({ edit_id: Number(editId) }),
+    });
+
+    await queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: ['comments', editId, 'edit', { auth: auth }],
+        queryFn: ({ pageParam }) =>
+            getComments({
+                slug: editId,
+                content_type: 'edit',
+                page: pageParam,
+                auth: auth,
+            }),
     });
 
     if (!edit) {

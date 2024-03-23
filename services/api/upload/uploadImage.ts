@@ -7,11 +7,11 @@ export interface Response {
 export default async function req({
     file,
     upload_type,
-    secret,
+    auth,
 }: {
     file: File;
     upload_type: 'avatar' | 'cover';
-    secret: string;
+    auth: string;
 }): Promise<Response> {
     let data = new FormData();
     data.append('file', file);
@@ -19,7 +19,7 @@ export default async function req({
     return fetchRequest<Response>({
         path: `/upload/${upload_type}`,
         method: 'put',
-        secret: secret,
+        auth: auth,
         params: data,
         formData: true,
     });

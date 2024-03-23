@@ -1,10 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import addWatch from '@/services/api/watch/addWatch';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useAddToList = ({ slug }: { slug: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -17,14 +22,14 @@ const useAddToList = ({ slug }: { slug: string }) => {
             rewatches?: number;
         }) =>
             addWatch({
-                secret: secret!,
+                auth: auth!,
                 slug: slug,
                 ...mutationParams,
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.refetchQueries({
-                queryKey: ['watch', slug, { secret }],
+                queryKey: ['watch', slug, { auth }],
                 exact: false,
             });
             await queryClient.invalidateQueries({

@@ -9,10 +9,10 @@ import getAnimeCatalog, {
 export interface Props {
     page: number;
     iPage: number;
-    secret?: string | null;
+    auth?: string | null;
 }
 
-const useAnimeCatalog = ({ page, iPage, secret }: Props) => {
+const useAnimeCatalog = ({ page, iPage, auth }: Props) => {
     const searchParams = useSearchParams();
 
     const search = searchParams.get('search');
@@ -39,7 +39,7 @@ const useAnimeCatalog = ({ page, iPage, secret }: Props) => {
                 years,
                 lang,
                 genres,
-                secret,
+                auth,
                 sort,
                 order,
             },
@@ -64,7 +64,7 @@ const useAnimeCatalog = ({ page, iPage, secret }: Props) => {
                 genres,
                 only_translated: Boolean(lang),
                 page: Number(pageParam),
-                secret: String(secret),
+                auth: String(auth),
                 size: 20,
             }),
     });

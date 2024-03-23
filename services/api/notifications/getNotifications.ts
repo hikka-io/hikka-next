@@ -5,17 +5,17 @@ export interface Response extends API.WithPagination<API.Notification> {}
 export default async function req({
     page = 1,
     size = 15,
-    secret,
+    auth,
 }: {
     page?: number;
     size?: number;
-    secret?: string;
+    auth?: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/notifications`,
         method: 'get',
         page,
         size,
-        secret,
+        auth,
     });
 }

@@ -1,51 +1,42 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React from 'react';
 
 import CommentInput from '@/components/comments/ui/comment-input';
 import Comments from '@/components/comments/ui/comments';
-import NotFound from '@/components/ui/not-found';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
+import NotFound from '@/components/ui/not-found';
 import getComments from '@/services/api/comments/getComments';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import CommentsProvider from '@/services/providers/comments-provider';
 
 interface Props {
     slug: string;
     content_type: API.ContentType;
+    auth?: string;
 }
 
-const Component = ({ slug, content_type }: Props) => {
-    const { secret } = useAuthContext();
-    const { ref, inView } = useInView();
-
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
+const Component = ({ slug, content_type, auth }: Props) => {
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList({
-            queryKey: ['comments', slug, content_type, secret],
+            queryKey: ['comments', slug, content_type, { auth }],
             queryFn: ({ pageParam }) =>
                 getComments({
                     slug,
                     content_type,
                     page: pageParam,
-                    secret,
+                    auth,
                 }),
         });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
 
     return (
         <div className="flex flex-col gap-8">
             <SubHeader title="Обговорення" />
 
             <div className="flex flex-col gap-4">
-                {secret && (
+                {auth && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}
                 {list && list.length === 0 && (

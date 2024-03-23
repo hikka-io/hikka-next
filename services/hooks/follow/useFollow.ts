@@ -1,17 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import follow from '@/services/api/follow/follow';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useFollow = ({ username }: { username: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['follow', username, { secret }],
+        mutationKey: ['follow', username, { auth }],
         mutationFn: () =>
             follow({
-                secret: secret!,
+                auth: auth!,
                 username: username,
             }),
         onSuccess: async () => {

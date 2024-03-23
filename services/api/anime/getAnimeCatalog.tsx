@@ -14,7 +14,7 @@ interface Request {
     producers?: string[];
     studios?: string[];
     genres?: string[];
-    secret?: string;
+    auth?: string;
     size?: number;
     only_translated?: boolean;
 }
@@ -27,7 +27,7 @@ export interface Response {
 export default async function req({
     page = 1,
     size = 15,
-    secret,
+    auth,
     query,
     ...params
 }: Request): Promise<Response> {
@@ -40,6 +40,6 @@ export default async function req({
         },
         page,
         size,
-        secret,
+        auth,
     });
 }

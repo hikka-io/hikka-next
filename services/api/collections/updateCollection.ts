@@ -17,12 +17,12 @@ type Request = {
     visibility: 'private' | 'public' | 'unlisted';
     spoiler: boolean;
     nsfw: boolean;
-    secret: string;
+    auth: string;
     reference: string;
 };
 
 export default async function req({
-    secret,
+    auth,
     reference,
     ...params
 }: Request): Promise<Response> {
@@ -30,6 +30,6 @@ export default async function req({
         path: `/collections/${reference}`,
         method: 'put',
         params: params,
-        secret,
+        auth,
     });
 }

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 export async function GET() {
-    cookies().delete('secret');
+    cookies().delete('auth');
 
     return Response.json({ result: true });
 }

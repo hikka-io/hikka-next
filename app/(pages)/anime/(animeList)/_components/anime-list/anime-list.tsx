@@ -2,33 +2,35 @@
 
 import * as React from 'react';
 
-import { useSearchParams } from 'next/navigation';
+import { ReadonlyURLSearchParams } from 'next/navigation';
 
+import EntryCard from '@/components/entry-card/entry-card';
 import FiltersNotFound from '@/components/filters/_components/filters-not-found';
 import { Button } from '@/components/ui/button';
 import Pagination from '@/components/ui/pagination';
 import useAnimeCatalog from '@/services/hooks/anime/useAnimeCatalog';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE } from '@/utils/constants';
 
 import AnimeListSkeleton from './_components/anime-list-skeleton';
 import { useNextPage, useUpdatePage } from './anime-list.hooks';
-import EntryCard from '@/components/entry-card/entry-card';
 
+interface Props {
+    searchParams: Record<string, string>;
+}
 
-const Component = () => {
+const Component = ({ searchParams }: Props) => {
     const { titleLanguage } = useSettingsContext();
-    const { secret } = useAuthContext();
-    const searchParams = useSearchParams();
+    const { auth } = useAuth();
 
-    const page = searchParams.get('page');
-    const iPage = searchParams.get('iPage');
+    const page = searchParams.page;
+    const iPage = searchParams.iPage;
 
     const dataKeys = {
         page: Number(page),
         iPage: Number(iPage),
-        secret,
+        auth,
     };
 
     const {
@@ -67,13 +69,20 @@ const Component = () => {
                             }
                             key={anime.slug}
                             slug={anime.slug}
+                            withContextMenu
                             content_type="anime"
-                            leftSubtitle={anime.year ? String(anime.year) : undefined}
+                            leftSubtitle={
+                                anime.year ? String(anime.year) : undefined
+                            }
                             rightSubtitle={
                                 anime.media_type &&
                                 MEDIA_TYPE[anime.media_type].title_ua
                             }
-                            watch={anime.watch.length > 0 ? anime.watch[0] : undefined}
+                            watch={
+                                anime.watch.length > 0
+                                    ? anime.watch[0]
+                                    : undefined
+                            }
                         />
                     );
                 })}

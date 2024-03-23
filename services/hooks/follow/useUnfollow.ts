@@ -1,17 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import unfollow from '@/services/api/follow/unfollow';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useUnfollow = ({ username }: { username: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['unfollow', username, { secret }],
+        mutationKey: ['unfollow', username, { auth }],
         mutationFn: () =>
             unfollow({
-                secret: String(secret),
+                auth: String(auth),
                 username: String(username),
             }),
         onSuccess: async () => {

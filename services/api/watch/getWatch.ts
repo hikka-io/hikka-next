@@ -4,14 +4,14 @@ export interface Response extends API.Watch {}
 
 export default async function req({
     slug,
-    secret,
+    auth,
 }: {
     slug: string;
-    secret: string;
+    auth: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/watch/${slug}`,
         method: 'get',
-        secret,
+        auth,
     });
 }

@@ -6,7 +6,7 @@ interface Props {
     path: string;
     method: string;
     params?: Record<string, unknown> | FormData;
-    secret?: string;
+    auth?: string;
     page?: number;
     size?: number;
     captcha?: string;
@@ -18,7 +18,7 @@ export async function fetchRequest<TResponse>({
     path,
     method,
     params,
-    secret,
+    auth,
     page,
     size,
     captcha,
@@ -58,7 +58,7 @@ export async function fetchRequest<TResponse>({
                 ...(formData
                     ? {}
                     : config.config.headers),
-                auth: secret || '',
+                auth: auth || '',
                 captcha: captcha || '',
             },
         },

@@ -191,7 +191,6 @@ const Content = memo(
 
 const Component = forwardRef(
     (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-        console.log('rerender');
 
         if (props.withContextMenu && props.slug && props.content_type) {
             return (

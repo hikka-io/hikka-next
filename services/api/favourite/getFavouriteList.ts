@@ -11,19 +11,19 @@ export default async function req<TContent extends API.Content>({
     username,
     page = 1,
     size = 15,
-    secret,
+    auth,
     content_type,
 }: {
     username: string;
     page?: number;
     size?: number;
-    secret?: string;
+    auth?: string;
     content_type: API.ContentType;
 }): Promise<Response<TContent>> {
     return fetchRequest<Response<TContent>>({
         path: `/favourite/${content_type}/${username}/list`,
         method: 'post',
-        secret,
+        auth,
         page,
         size,
     });

@@ -4,13 +4,13 @@ import { fetchRequest } from '@/services/api/fetchRequest';
 export interface Response extends API.Edit {}
 
 export default async function req({
-    secret,
+    auth,
     description,
     after,
     edit_id,
     captcha,
 }: {
-    secret: string;
+    auth: string;
     description?: string;
     after: Hikka.AnimeEditParams;
     edit_id: number;
@@ -20,7 +20,7 @@ export default async function req({
         path: `/edit/${edit_id}/update`,
         method: 'post',
         params: { after, description },
-        secret,
+        auth,
         captcha,
     });
 }

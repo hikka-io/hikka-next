@@ -86,7 +86,7 @@ export async function generateMetadata(
 
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     const anime = await queryClient.fetchQuery({
         queryKey: ['anime', slug],
@@ -99,33 +99,33 @@ const Component = async ({ params: { slug }, children }: Props) => {
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['characters', slug],
-        queryFn: ({ pageParam }) =>
+        queryFn: ({ pageParam = 1 }) =>
             getAnimeCharacters({ slug, page: pageParam }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['franchise', slug, { secret }],
-        queryFn: ({ pageParam }) =>
-            getAnimeFranchise({ slug, secret, page: pageParam }),
+        queryKey: ['franchise', slug, { auth }],
+        queryFn: ({ pageParam = 1 }) =>
+            getAnimeFranchise({ slug, auth, page: pageParam }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['staff', slug],
-        queryFn: ({ pageParam }) => getAnimeStaff({ slug, page: pageParam }),
+        queryFn: ({ pageParam = 1 }) => getAnimeStaff({ slug, page: pageParam }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchQuery({
-        queryKey: ['watch', slug, { secret }],
-        queryFn: () => getWatch({ slug: slug, secret: String(secret) }),
+        queryKey: ['watch', slug, { auth }],
+        queryFn: () => getWatch({ slug: slug, auth: String(auth) }),
     });
 
     await queryClient.prefetchQuery({
-        queryKey: ['favorite', slug, { secret, content_type: 'anime' }],
+        queryKey: ['favorite', slug, { auth, content_type: 'anime' }],
         queryFn: () =>
-            getFavourite({ slug: String(slug), secret: String(secret), content_type: 'anime' }),
+            getFavourite({ slug: String(slug), auth: String(auth), content_type: 'anime' }),
     });
 
     const dehydratedState = dehydrate(queryClient);

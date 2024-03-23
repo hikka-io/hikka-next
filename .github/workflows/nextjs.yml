@@ -24,10 +24,10 @@ jobs:
         # Use the 'appleboy/ssh-action' action for SSH deployment
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }} # server's IP address
-          username: ${{ secrets.USERNAME }} # server's username
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # server's SSH private key
-          passphrase: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
+          host: ${{ auths.HOST }} # server's IP address
+          username: ${{ auths.USERNAME }} # server's username
+          key: ${{ auths.SSH_PRIVATE_KEY }} # server's SSH private key
+          passphrase: ${{ auths.SSH_PASSWORD }} # server's SSH key password
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh

@@ -8,15 +8,23 @@ import AvatarEditor from 'react-avatar-editor';
 import MaterialSymbolsZoomInRounded from '~icons/material-symbols/zoom-in-rounded';
 import MaterialSymbolsZoomOut from '~icons/material-symbols/zoom-out';
 
+
+
 import { useParams, useRouter } from 'next/navigation';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import uploadImage from '@/services/api/upload/uploadImage';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+
 
 interface Props {
     file?: File;
@@ -43,7 +51,7 @@ const Component = ({ file, type }: Props) => {
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
     const [isLoading, setIsLoading] = useState(false);
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
 
@@ -53,7 +61,7 @@ const Component = ({ file, type }: Props) => {
                 const res = await uploadImage({
                     file,
                     upload_type: 'avatar',
-                    secret: String(secret),
+                    auth: String(auth),
                 });
 
                 enqueueSnackbar('Ви успішно оновили свій аватар.', {
@@ -76,7 +84,7 @@ const Component = ({ file, type }: Props) => {
                 const res = await uploadImage({
                     file,
                     upload_type: 'cover',
-                    secret: String(secret),
+                    auth: String(auth),
                 });
 
                 enqueueSnackbar('Ви успішно оновили свою обкладинку.', {

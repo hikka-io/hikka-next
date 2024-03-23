@@ -46,6 +46,9 @@ const Component = ({ extended }: Props) => {
                             ch.character.name_en ||
                             ch.character.name_ja
                         }
+                        slug={ch.character.slug}
+                        withContextMenu
+                        content_type="character"
                         disableChildrenLink
                         description={ch.anime[titleLanguage!] || ch.anime.title_ua || ch.anime.title_en || ch.anime.title_ja}
                     >

@@ -2,9 +2,15 @@ import { formatDistance } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 
+
+
 import Link from 'next/link';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import CommentInput from '@/components/comments/ui/comment-input';
 import CommentMenu from '@/components/comments/ui/comment-menu';
@@ -15,9 +21,12 @@ import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/getDeclensionWord';
+
+
 
 import Comments from './comments';
 
@@ -30,7 +39,7 @@ interface Props {
 
 const Component = ({ comment, slug, content_type }: Props) => {
     const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const commentInputRef = useRef<HTMLDivElement>(null);
     const {
         currentReply,
@@ -42,7 +51,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
+        auth,
     ]);
 
     const addReplyInput = () => {
@@ -72,7 +81,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
     }, [currentReply]);
 
     return (
-        <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full flex-col gap-2" id={comment.reference}>
             <div className="flex w-full flex-col items-start gap-2">
                 <div className="flex w-full gap-3">
                     <Link href={`/u/${comment.author.username}`}>
@@ -121,7 +130,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
             </div>
             <div className="flex w-full items-center gap-2">
                 <Button
-                    disabled={!secret}
+                    disabled={!auth}
                     variant="link"
                     className="h-auto p-0 text-muted-foreground hover:text-primary hover:no-underline"
                     size="sm"

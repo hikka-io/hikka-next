@@ -7,16 +7,16 @@ export interface Response {
 export default async function req({
     overwrite,
     anime,
-    secret,
+    auth,
 }: {
     overwrite: boolean;
     anime: Record<string, any>[];
-    secret: string;
+    auth: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/settings/import/watch`,
         method: 'post',
-        secret,
+        auth,
         params: { anime, overwrite },
         enqueueError: true,
     });

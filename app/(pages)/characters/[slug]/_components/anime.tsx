@@ -2,18 +2,13 @@
 
 import clsx from 'clsx';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import EntryCard from '@/components/entry-card/entry-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import useCharacterAnime from '@/services/hooks/characters/useCharacterAnime';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-
 
 interface Props {
     extended?: boolean;
@@ -47,13 +42,13 @@ const Component = ({ extended }: Props) => {
                         key={ch.anime.slug}
                         href={`/anime/${ch.anime.slug}`}
                         poster={ch.anime.poster}
+                        withContextMenu
                         title={
                             ch.anime[titleLanguage!] ||
                             ch.anime.title_ua ||
                             ch.anime.title_ua ||
                             ch.anime.title_ja
                         }
-                        posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
                     />
                 ))}
             </div>

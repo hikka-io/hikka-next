@@ -52,6 +52,9 @@ const Component = ({ extended }: Props) => {
                         href={`/people/${staff.person.slug}`}
                         description={getRole(staff.roles)}
                         poster={staff.person.image}
+                        slug={staff.person.slug}
+                        content_type="person"
+                        withContextMenu
                         title={
                             staff.person.name_ua ||
                             staff.person.name_en ||

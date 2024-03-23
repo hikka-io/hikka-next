@@ -68,7 +68,7 @@ export async function generateMetadata(
 
 const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     const character = await queryClient.fetchQuery({
         queryKey: ['character', slug],
@@ -92,11 +92,11 @@ const Component = async ({ params: { slug }, children }: Props) => {
     });
 
     await queryClient.prefetchQuery({
-        queryKey: ['favorite', slug, { secret, content_type: 'character' }],
+        queryKey: ['favorite', slug, { auth, content_type: 'character' }],
         queryFn: () =>
             getFavourite({
                 slug: String(slug),
-                secret: String(secret),
+                auth: String(auth),
                 content_type: 'character',
             }),
     });

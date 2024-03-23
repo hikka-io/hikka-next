@@ -5,17 +5,16 @@ import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { SnackbarProvider } from 'notistack';
 import React, { PropsWithChildren, useState } from 'react';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import SnackbarItem from '@/components/snackbar-item';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import AuthProvider from '@/services/providers/auth-provider';
 import ModalProvider from '@/services/providers/modal-provider';
 import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
-import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
 import { createQueryClient } from '@/utils/getQueryClient';
+import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
 
 interface Props extends PropsWithChildren {}
 
@@ -49,14 +48,12 @@ function Providers({ children }: Props) {
                         }}
                     >
                         <SnackbarUtilsConfigurator />
-                        <AuthProvider>
-                            <TooltipProvider>
-                                <ModalProvider>
-                                    {children}
-                                    <ReactQueryDevtools initialIsOpen={false} />
-                                </ModalProvider>
-                            </TooltipProvider>
-                        </AuthProvider>
+                        <TooltipProvider>
+                            <ModalProvider>
+                                {children}
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            </ModalProvider>
+                        </TooltipProvider>
                     </SnackbarProvider>
                 </QueryClientProvider>
             </ThemeProvider>

@@ -4,8 +4,14 @@ import { useSnackbar } from 'notistack';
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useRouter } from 'next/navigation';
+
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
+import { setCookie } from '@/app/actions';
+import AuthModal from '@/components/modals/auth-modal/auth-modal';
+import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -17,14 +23,9 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import AuthModal from '@/components/modals/auth-modal/auth-modal';
-import { setCookie } from '@/app/actions';
 import signup from '@/services/api/auth/signup';
-import { useAuthContext } from '@/services/providers/auth-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useRouter } from 'next/navigation';
-import H2 from '@/components/typography/h2';
-import Small from '@/components/typography/small';
+
 
 type FormValues = {
     email: string;
@@ -38,7 +39,6 @@ const Component = () => {
     const captchaRef = useRef<TurnstileInstance>();
     const { closeModal, openModal } = useModalContext();
     const form = useForm<FormValues>();
-    const { setState: setAuth } = useAuthContext();
     const router = useRouter();
 
     const onSubmit = async (data: FormValues) => {
@@ -59,8 +59,7 @@ const Component = () => {
                     captcha: String(captchaRef.current.getResponse()),
                 });
 
-                setAuth(res);
-                await setCookie('secret', res.secret);
+                await setCookie('auth', res.secret);
                 form.reset();
                 closeModal();
                 router.refresh();

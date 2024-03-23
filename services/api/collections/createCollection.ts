@@ -17,17 +17,17 @@ export type Request = {
     visibility: 'private' | 'public' | 'unlisted';
     spoiler: boolean;
     nsfw: boolean;
-    secret: string;
+    auth: string;
 };
 
 export default async function req({
-    secret,
+    auth,
     ...params
 }: Request): Promise<Response> {
     return fetchRequest<Response>({
         path: `/collections/create`,
         method: 'post',
         params: params,
-        secret,
+        auth,
     });
 }

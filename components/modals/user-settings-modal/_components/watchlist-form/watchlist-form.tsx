@@ -3,7 +3,11 @@
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
@@ -11,8 +15,11 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import importWatch from '@/services/api/settings/importWatch';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+
+
 
 import Anilist from './components/anilist';
 import General from './components/general';
@@ -23,7 +30,7 @@ const Component = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const [rewrite, setRewrite] = useState(true);
     const [watchList, setWatchList] = useState<Record<string, any>[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
@@ -36,7 +43,7 @@ const Component = () => {
                 await importWatch({
                     overwrite: rewrite,
                     anime: watchList,
-                    secret: String(secret),
+                    auth: String(auth),
                 });
 
                 enqueueSnackbar(

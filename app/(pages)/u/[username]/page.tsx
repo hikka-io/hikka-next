@@ -22,16 +22,16 @@ interface Props {
 
 const Component = async ({ params: { username } }: Props) => {
     const queryClient = getQueryClient();
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', username, { secret, content_type: 'anime' }],
+        queryKey: ['favorites', username, { auth, content_type: 'anime' }],
         queryFn: ({ pageParam= 1 }) =>
             getFavouriteList({
                 username,
                 page: pageParam,
                 content_type: 'anime',
-                secret,
+                auth,
             }),
         initialPageParam: 1,
     });

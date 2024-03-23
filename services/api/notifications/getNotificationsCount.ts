@@ -5,13 +5,13 @@ export interface Response {
 }
 
 export default async function req({
-    secret,
+    auth,
 }: {
-    secret?: string;
+    auth?: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/notifications/count`,
         method: 'get',
-        secret,
+        auth,
     });
 }

@@ -105,7 +105,7 @@ export default function CollectionProvider({ children }: Props) {
                 .filter((title) => title !== ''),
             content: contentToArray(),
             tags: state.tags,
-            secret: '',
+            auth: '',
         };
     };
 

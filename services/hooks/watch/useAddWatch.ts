@@ -1,21 +1,26 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import addWatch from '@/services/api/watch/addWatch';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useAddWatch = ({ slug }: { slug: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['addToList', slug, { secret }],
+        mutationKey: ['addToList', slug, { auth }],
         mutationFn: (mutationParams: {
             status: API.WatchStatus;
             score: number;
             episodes: number;
         }) =>
             addWatch({
-                secret: secret!,
+                auth: auth!,
                 slug: slug,
                 ...mutationParams,
             }),

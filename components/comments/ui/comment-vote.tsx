@@ -4,13 +4,19 @@ import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import BxDownvote from '~icons/bx/downvote';
 import BxUpvote from '~icons/bx/upvote';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import vote from '@/services/api/vote/vote';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { cn } from '@/utils';
+
 
 interface Props {
     comment: API.Comment;
@@ -18,7 +24,7 @@ interface Props {
 
 const Component = ({ comment }: Props) => {
     const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     // const [newScore, setNewScore] = useState(comment.score);
 
     const handleCommentVote = async (score: -1 | 1) => {
@@ -27,7 +33,7 @@ const Component = ({ comment }: Props) => {
         // setNewScore(comment.score + updated);
 
         await vote({
-            secret: String(secret),
+            auth: String(auth),
             slug: comment.reference,
             score: updated,
             content_type: 'comment',
@@ -44,7 +50,7 @@ const Component = ({ comment }: Props) => {
         <div className="group flex items-center gap-2">
             <Button
                 onClick={() => handleCommentVote(1)}
-                disabled={!secret}
+                disabled={!auth}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(
@@ -71,7 +77,7 @@ const Component = ({ comment }: Props) => {
             </Label>
             <Button
                 onClick={() => handleCommentVote(-1)}
-                disabled={!secret}
+                disabled={!auth}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(

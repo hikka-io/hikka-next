@@ -3,7 +3,11 @@
 import React from 'react';
 import SimpleIconsAnilist from '~icons/simple-icons/anilist';
 
+
+
 import { useParams } from 'next/navigation';
+
+
 
 import AnilistCollection from '@/app/(pages)/collections/new/_components/anilist-collection';
 import { Button } from '@/components/ui/button';
@@ -13,16 +17,17 @@ import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
+import useAuth from '@/services/hooks/auth/useAuth';
 import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
 import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
-import { useAuthContext } from '@/services/providers/auth-provider';
-import {
-    State as CollectionState,
-    useCollectionContext,
-} from '@/services/providers/collection-provider';
+
+import { State as CollectionState, useCollectionContext } from '@/services/providers/collection-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 
+
+
 import GroupInputs from './_components/group-inputs';
+
 
 interface Props {
     mode?: 'create' | 'edit';
@@ -58,18 +63,18 @@ const Component = ({ mode = 'create' }: Props) => {
         stateToCreate,
     } = useCollectionContext();
 
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     const { mutate: mutateCreateCollection, isPending: isCreatePending } =
         useCreateCollection({
             ...stateToCreate!(),
-            secret: String(secret),
+            auth: String(auth),
         });
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useUpdateCollection({
             ...stateToCreate!(),
-            secret: String(secret),
+            auth: String(auth),
             reference: String(params.reference),
         });
 

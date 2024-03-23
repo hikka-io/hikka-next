@@ -3,7 +3,7 @@ import { fetchRequest } from '@/services/api/fetchRequest';
 export interface Response extends API.Edit {}
 
 export default async function req({
-    secret,
+    auth,
     content_type,
     description,
     after,
@@ -11,7 +11,7 @@ export default async function req({
     auto,
     captcha,
 }: {
-    secret: string;
+    auth: string;
     description?: string;
     content_type: API.ContentType;
     after: Hikka.AnimeEditParams;
@@ -23,7 +23,7 @@ export default async function req({
         path: `/edit/${content_type}/${slug}`,
         method: 'put',
         params: { after, description, auto },
-        secret,
+        auth,
         captcha,
     });
 }

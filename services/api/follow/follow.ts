@@ -7,14 +7,14 @@ export interface Response {
 
 export default async function req({
     username,
-    secret,
+    auth,
 }: {
     username: string;
-    secret: string;
+    auth: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/follow/${username}`,
         method: 'put',
-        secret,
+        auth,
     });
 }

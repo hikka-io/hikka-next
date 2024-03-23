@@ -15,8 +15,9 @@ import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import useAuth from '@/services/hooks/auth/useAuth';
 import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 
@@ -26,7 +27,7 @@ interface Props {
 
 const Component = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const [param, setParam] = useState('title_ua');
 
     const {
@@ -37,7 +38,7 @@ const Component = ({ extended }: Props) => {
         isFetchingNextPage,
         isLoading,
         ref,
-    } = useTodoAnime(param, String(secret));
+    } = useTodoAnime(param, String(auth));
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -90,6 +91,7 @@ const Component = ({ extended }: Props) => {
             >
                 {list.map((anime) => (
                     <EntryCard
+                        withContextMenu
                         content_type="anime"
                         key={anime.slug}
                         watch={

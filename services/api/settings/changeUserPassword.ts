@@ -6,15 +6,15 @@ export interface Response {
 
 export default async function req({
     password,
-    secret,
+    auth,
 }: {
     password: string;
-    secret: string;
+    auth: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/settings/password`,
         method: 'put',
-        secret,
+        auth,
         params: { password },
         enqueueError: true,
     });

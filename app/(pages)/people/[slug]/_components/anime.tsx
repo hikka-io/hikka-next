@@ -43,6 +43,8 @@ const Component = ({ extended }: Props) => {
                         key={ch.anime.slug}
                         href={`/anime/${ch.anime.slug}`}
                         poster={ch.anime.poster}
+                        withContextMenu
+                        content_type="anime"
                         title={
                             ch.anime[titleLanguage!] ||
                             ch.anime.title_ua ||

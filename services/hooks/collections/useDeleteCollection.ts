@@ -1,16 +1,26 @@
 import { useSnackbar } from 'notistack';
 
+
+
 import { useRouter } from 'next/navigation';
+
+
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import deleteCollection from '@/services/api/collections/deleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+
+
+import useAuth from '../auth/useAuth';
 
 
 const useDeleteCollection = ({ reference }: { reference: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
@@ -19,7 +29,7 @@ const useDeleteCollection = ({ reference }: { reference: string }) => {
     return useMutation({
         mutationFn: () =>
             deleteCollection({
-                secret: secret!,
+                auth: auth!,
                 reference: reference,
             }),
         mutationKey: ['deleteCollection'],

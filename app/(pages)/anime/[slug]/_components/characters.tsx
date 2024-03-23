@@ -40,6 +40,9 @@ const Component = ({ extended }: Props) => {
                 >
                     {(extended ? main : main.slice(0, 5)).map((ch) => (
                         <EntryCard
+                            slug={ch.character.slug}
+                            withContextMenu
+                            content_type="character"
                             key={ch.character.slug}
                             href={`/characters/${ch.character.slug}`}
                             poster={ch.character.image}

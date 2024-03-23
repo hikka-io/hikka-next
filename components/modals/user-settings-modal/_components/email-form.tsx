@@ -10,8 +10,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import changeUserEmail from '@/services/api/settings/changeUserEmail';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
 
 
 type FormValues = {
@@ -28,7 +29,7 @@ const Component = () => {
         handleSubmit,
         formState: { isSubmitting },
     } = useForm<FormValues>();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     const onSubmit = async (data: FormValues) => {
         if (data.email !== data.emailConfirmation) {
@@ -37,7 +38,7 @@ const Component = () => {
 
         try {
             await changeUserEmail({
-                secret: String(secret),
+                auth: String(auth),
                 email: data.email,
             });
             await queryClient.invalidateQueries();

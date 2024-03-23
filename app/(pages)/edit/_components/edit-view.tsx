@@ -4,18 +4,25 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+
+
 import { useRouter } from 'next/navigation';
+
+
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useQueryClient } from '@tanstack/react-query';
+
+
 
 import EditDescription from '@/app/(pages)/edit/_components/edit-description/edit-description';
 import EditGroup from '@/app/(pages)/edit/_components/edit-group';
 import AutoButton from '@/app/(pages)/edit/_components/ui/auto-button';
 import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';
+import useAuth from '@/services/hooks/auth/useAuth';
 import useEdit from '@/services/hooks/edit/useEdit';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 import {
     getEditGroups,
     getEditParamSlugs,
@@ -39,7 +46,7 @@ const Component = ({ editId, mode = 'view' }: EditProps) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
     const captchaRef = useRef<TurnstileInstance>();
 
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const router = useRouter();
 
     const params = getEditParams(edit!.content_type, Object.keys(edit!.after))!;
@@ -73,7 +80,7 @@ const Component = ({ editId, mode = 'view' }: EditProps) => {
         try {
             if (captchaRef.current) {
                 const res = await updateEdit({
-                    secret: String(secret),
+                    auth: String(auth),
                     edit_id: edit!.edit_id,
                     after: {
                         ...getFilteredEditParams(paramSlugs, data),

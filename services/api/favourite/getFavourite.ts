@@ -8,16 +8,16 @@ export interface Response {
 
 export default async function req({
     slug,
-    secret,
+    auth,
     content_type,
 }: {
     slug: string;
-    secret: string;
+    auth: string;
     content_type: API.ContentType;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/favourite/${content_type}/${slug}`,
         method: 'get',
-        secret,
+        auth,
     });
 }

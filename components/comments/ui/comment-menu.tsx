@@ -4,28 +4,18 @@ import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
 
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+
+
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import deleteComment from '@/services/api/comments/deleteComment';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 interface Props {
@@ -35,18 +25,18 @@ interface Props {
 const Component = ({ comment }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
     const queryClient = useQueryClient();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const { setState: setCommentsState } = useCommentsContext();
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        secret,
+        auth,
     ]);
 
     const handleDeleteComment = async () => {
         try {
             await deleteComment({
-                secret: String(secret),
+                auth: String(auth),
                 reference: comment.reference,
             });
 

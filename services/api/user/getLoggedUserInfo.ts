@@ -3,13 +3,13 @@ import { fetchRequest } from '@/services/api/fetchRequest';
 interface Response extends API.User {}
 
 export default async function req({
-    secret,
+    auth,
 }: {
-    secret?: string;
+    auth?: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/user/me`,
         method: 'get',
-        secret: secret,
+        auth: auth,
     });
 }

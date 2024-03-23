@@ -89,51 +89,51 @@ const getInitialData = (
 const commentReply = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type } = notification.data;
+    const { comment_author, slug, content_type, comment_reference } = notification.data;
 
     return {
         ...getInitialData(notification),
         description:
             DESCRIPTIONS[notification.notification_type](comment_author),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
+        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
     };
 };
 
 const commentVote = (
     notification: API.Notification<API.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, content_type } = notification.data;
+    const { slug, content_type, comment_reference } = notification.data;
 
     return {
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
+        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
     };
 };
 
 const commentTag = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type } = notification.data;
+    const { comment_author, slug, content_type, comment_reference } = notification.data;
 
     return {
         ...getInitialData(notification),
         description:
             DESCRIPTIONS[notification.notification_type](comment_author),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
+        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
     };
 };
 
 const editComment = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type } = notification.data;
+    const { comment_author, slug, content_type, comment_reference } = notification.data;
 
     return {
         ...getInitialData(notification),
         description:
             DESCRIPTIONS[notification.notification_type](comment_author),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
+        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
     };
 };
 

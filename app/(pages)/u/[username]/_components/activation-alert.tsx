@@ -3,19 +3,24 @@
 import { useSnackbar } from 'notistack';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+
+
 import { useParams } from 'next/navigation';
+
+
 
 import { Button } from '@/components/ui/button';
 import resendActivation from '@/services/api/auth/resendActivation';
+import useAuth from '@/services/hooks/auth/useAuth';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import useUser from '@/services/hooks/user/useUser';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
 
 
 const Component = () => {
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     const { data: user } = useUser({ username: String(params.username) });
     const { data: loggedUser } = useLoggedUser();
@@ -30,7 +35,7 @@ const Component = () => {
 
     const resend = async () => {
         try {
-            await resendActivation({ secret: String(secret) });
+            await resendActivation({ auth: String(auth) });
             enqueueSnackbar(
                 <span>
                     <span className="font-bold">{loggedUser.username}</span>, ми

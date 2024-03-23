@@ -1,26 +1,31 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 import seenNotification from '@/services/api/notifications/seenNotification';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useSeenNotification = () => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['seenNotification', { secret }],
+        mutationKey: ['seenNotification', { auth }],
         mutationFn: ({ reference }: { reference: string }) =>
             seenNotification({
                 reference: reference,
-                secret: secret,
+                auth: auth,
             }),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['notifications', secret],
+                queryKey: ['notifications', auth],
             });
 
             queryClient.invalidateQueries({
-                queryKey: ['notificationsCount', secret],
+                queryKey: ['notificationsCount', auth],
             });
         },
     });

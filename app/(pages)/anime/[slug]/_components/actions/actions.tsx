@@ -12,13 +12,13 @@ const Component = async ({ anime }: Props) => {
         return null;
     }
 
-    const secret = await getCookie('secret');
+    const auth = await getCookie('auth');
 
     return (
         <div className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
                 <WatchListButton
-                    disabled={!secret}
+                    disabled={!auth}
                     additional
                     slug={String(anime.slug)}
                 />

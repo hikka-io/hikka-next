@@ -1,18 +1,21 @@
-import clsx from 'clsx';
+import { Suspense } from 'react';
 
 import FiltersModal from '@/components/modals/anime-filters-modal';
+import { cn } from '@/utils';
 
 import Search from './_components/search';
 
-interface Props {}
-const Component = ({}: Props) => {
+
+const Component = () => {
     return (
         <div
-            className={clsx(
-                'flex items-end gap-2 md:gap-4 border-b border-b-transparent bg-transparent transition',
+            className={cn(
+                'flex items-end gap-2 border-b border-b-transparent bg-transparent transition md:gap-4',
             )}
         >
-            <Search />
+            <Suspense>
+                <Search />
+            </Suspense>
             <div className="lg:hidden">
                 <FiltersModal type="anime" />
             </div>

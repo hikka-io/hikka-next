@@ -1,19 +1,19 @@
 import getAnimeFranchise from '@/services/api/anime/getAnimeFranchise';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+import useAuth from '../auth/useAuth';
 
 const useFranchise = ({ slug }: { slug: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useInfiniteList({
-        queryKey: ['franchise', slug, { secret }],
+        queryKey: ['franchise', slug, { auth }],
         queryFn: ({ pageParam = 1 }) =>
             getAnimeFranchise({
                 slug: String(slug),
                 page: pageParam,
-                secret: String(secret),
+                auth: String(auth),
             }),
-        enabled: Boolean(secret),
     });
 };
 

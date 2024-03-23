@@ -3,15 +3,20 @@
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
+
+
 import { useQueryClient } from '@tanstack/react-query';
 
+
+
+import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import changeUserPassword from '@/services/api/settings/changeUserPassword';
-import { useAuthContext } from '@/services/providers/auth-provider';
+import useAuth from '@/services/hooks/auth/useAuth';
+
 import { useModalContext } from '@/services/providers/modal-provider';
-import H3 from '@/components/typography/h3';
 
 
 type FormValues = {
@@ -28,7 +33,7 @@ const Component = () => {
         handleSubmit,
         formState: { isSubmitting },
     } = useForm<FormValues>();
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     const onSubmit = async (data: FormValues) => {
         if (data.password !== data.passwordConfirmation) {
@@ -37,7 +42,7 @@ const Component = () => {
 
         try {
             await changeUserPassword({
-                secret: String(secret),
+                auth: String(auth),
                 password: data.password,
             });
             await queryClient.invalidateQueries();

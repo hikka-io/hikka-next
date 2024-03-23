@@ -1,17 +1,22 @@
 import getUserCollections from '@/services/api/collections/getUserCollections';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useUserCollections = ({ username }: { username: string }) => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useInfiniteList({
-        queryKey: ['collections', username, { secret }],
+        queryKey: ['collections', username, { auth }],
         queryFn: ({ pageParam }) =>
             getUserCollections({
                 username: username,
                 page: pageParam,
-                secret,
+                auth,
             }),
     });
 };

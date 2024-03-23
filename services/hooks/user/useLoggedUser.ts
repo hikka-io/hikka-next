@@ -1,15 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 
+
+
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
-import { useAuthContext } from '@/services/providers/auth-provider';
+
+
+import useAuth from '../auth/useAuth';
+
 
 const useLoggedUser = () => {
-    const { secret } = useAuthContext();
+    const { auth } = useAuth();
 
     return useQuery({
-        queryKey: ['loggedUser', secret],
-        queryFn: () => getLoggedUserInfo({ secret }),
-        enabled: Boolean(secret),
+        queryKey: ['loggedUser', auth],
+        queryFn: () => getLoggedUserInfo({ auth }),
+        enabled: Boolean(auth),
     });
 };
 

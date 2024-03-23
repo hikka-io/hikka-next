@@ -4,17 +4,17 @@ export interface Response extends API.Comment {}
 
 export default async function req({
     reference,
-    secret,
+    auth,
     text,
 }: {
-    secret: string;
+    auth: string;
     reference: string;
     text: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/comments/${reference}`,
         method: 'put',
-        secret,
+        auth,
         params: { text },
     });
 }

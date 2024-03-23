@@ -5,15 +5,15 @@ export interface Response {
 }
 
 export default async function req({
-    secret,
+    auth,
     slug,
 }: {
-    secret: string;
+    auth: string;
     slug: string;
 }): Promise<Response> {
     return fetchRequest<Response>({
         path: `/watch/${slug}`,
         method: 'delete',
-        secret,
+        auth,
     });
 }
