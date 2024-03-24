@@ -88,12 +88,14 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
-    const anime = await queryClient.fetchQuery({
-        queryKey: ['anime', slug],
-        queryFn: () => getAnimeInfo({ slug }),
-    });
+    let anime: AnimeResponse | undefined = undefined;
 
-    if (!anime) {
+    try {
+        anime = await queryClient.fetchQuery({
+            queryKey: ['anime', slug],
+            queryFn: () => getAnimeInfo({ slug }),
+        });
+    } catch (e) {
         return redirect('/');
     }
 

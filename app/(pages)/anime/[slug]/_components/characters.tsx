@@ -67,6 +67,9 @@ const Component = ({ extended }: Props) => {
                     >
                         {other.map((ch) => (
                             <EntryCard
+                                withContextMenu
+                                content_type="character"
+                                slug={ch.character.slug}
                                 key={ch.character.slug}
                                 href={`/characters/${ch.character.slug}`}
                                 poster={ch.character.image}
