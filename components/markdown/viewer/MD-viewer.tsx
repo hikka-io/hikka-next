@@ -26,6 +26,7 @@ const Component = ({ children, className, ...props }: Props) => {
                     { usernameLink: (username: string) => '/u/' + username },
                 ],
             ]}
+
             components={{
                 spoiler: Spoiler,
                 a: ({ node, children }) => (
@@ -34,6 +35,7 @@ const Component = ({ children, className, ...props }: Props) => {
                     </Link>
                 ),
                 code: ({ node, children }) => <p>{children}</p>,
+                u: ({ children }) => <u>{children}</u>,
             }}
             {...props}
         >

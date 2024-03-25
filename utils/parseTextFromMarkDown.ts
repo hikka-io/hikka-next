@@ -11,7 +11,7 @@ const htmlEscapeToText = (text: string) => {
 };
 
 const renderPlain = () => {
-    let render = new marked.Renderer();
+    let render = new marked.Renderer({ breaks: true });
 
     // render just the text of a link
     render.link = function (href, title, text) {
@@ -47,8 +47,11 @@ const renderPlain = () => {
 export default function parseTextFromMarkDown(mdString: string) {
     if (!mdString) return mdString;
 
-    return marked(mdString, {
+    const parsed = marked(mdString, {
         renderer: renderPlain(),
         async: false,
-    });
+        breaks: true,
+    })
+
+    return (parsed as string).replaceAll('&#x20;', " ");
 }

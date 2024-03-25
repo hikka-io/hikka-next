@@ -122,7 +122,7 @@ const Component = ({ onClick, type, children }: Props) => {
                         <CommandGroup>
                             {data.list.length > 0 &&
                                 data.list.map((anime) => (
-                                    <CommandItem key={anime.slug}>
+                                    <CommandItem key={anime.slug} value={anime.slug}>
                                         <SearchCard
                                             onClick={() => onDismiss(anime)}
                                             anime={anime}
