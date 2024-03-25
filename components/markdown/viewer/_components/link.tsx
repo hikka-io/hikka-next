@@ -36,7 +36,7 @@ const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
         if (href.includes('/anime')) {
             return (
-                <AnimeTooltip slug={href.split('/anime/')[1]}>
+                <AnimeTooltip slug={href.split('/anime/')[1].split('/')[0]}>
                     <Link href={href}>{children}</Link>
                 </AnimeTooltip>
             );
