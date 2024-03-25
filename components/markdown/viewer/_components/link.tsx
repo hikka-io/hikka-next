@@ -35,11 +35,16 @@ const ALLOWED_HOSTS = [
 const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
         if (href.includes('/anime')) {
-            return (
-                <AnimeTooltip slug={href.split('/anime/')[1].split('/')[0]}>
-                    <Link href={href}>{children}</Link>
-                </AnimeTooltip>
-            );
+            const link = href.split('/anime/')[1]?.split('/')[0]
+
+            if (link) {
+                return (
+                    <AnimeTooltip slug={link}>
+                        <Link href={href}>{children}</Link>
+                    </AnimeTooltip>
+                );
+            }
+
         }
 
         return <Link href={href}>{children}</Link>;
