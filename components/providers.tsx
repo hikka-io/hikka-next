@@ -48,7 +48,7 @@ function Providers({ children }: Props) {
                         }}
                     >
                         <SnackbarUtilsConfigurator />
-                        <TooltipProvider>
+                        <TooltipProvider delayDuration={0}>
                             <ModalProvider>
                                 {children}
                                 <ReactQueryDevtools initialIsOpen={false} />

@@ -138,6 +138,11 @@ declare global {
             anime: API.Anime;
         };
 
+        type Schedule = {
+            episode: number;
+            airing_at: number;
+        };
+
         type Anime = {
             media_type: MediaType;
             title_ua: string;
@@ -173,6 +178,7 @@ declare global {
             stats: Stats;
             comments_count: number;
             updated: number;
+            schedule: Schedule[];
         } & Anime;
 
         type GenreType = 'theme' | 'explicit' | 'demographic' | 'genre';

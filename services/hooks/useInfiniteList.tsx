@@ -30,6 +30,7 @@ function useInfiniteList<T>({ queryFn, queryKey, staleTime, gcTime, enabled }: P
         staleTime,
         gcTime,
         enabled,
+        refetchOnMount: false,
     });
 
     const list = query.data?.pages.map((data) => data.list).flat(1);

@@ -3,24 +3,24 @@
 import * as React from 'react';
 import { PropsWithChildren, memo } from 'react';
 
-
-
 import Link from 'next/link';
-
-
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
-import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardTrigger } from '@/components/ui/hover-card';
+import {
+    HoverCard,
+    HoverCardArrow,
+    HoverCardContent,
+    HoverCardPortal,
+    HoverCardTrigger,
+} from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
 import WatchListButton from '@/components/watchlist-button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
-
 
 interface Props extends PropsWithChildren {
     slug?: string;

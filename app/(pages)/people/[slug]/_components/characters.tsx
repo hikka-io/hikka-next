@@ -10,6 +10,7 @@ import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import usePersonCharacters from '@/services/hooks/people/usePersonCharacters';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -32,8 +33,10 @@ const Component = ({ extended }: Props) => {
                 href={!extended ? params.slug + '/characters' : undefined}
             />
             <div
-                className={clsx(
+                className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
+                    !extended && 'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll-5 overflow-x-auto px-4'
+
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (

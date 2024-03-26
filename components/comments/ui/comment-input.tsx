@@ -87,7 +87,6 @@ const Component = forwardRef(
                     }));
                 }
             } catch (e) {
-                console.log(e);
                 enqueueSnackbar(
                     'Виникла помилка при відправленні повідомлення. Спробуйте, будь ласка, ще раз',
                     { variant: 'error' },

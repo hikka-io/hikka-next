@@ -11,6 +11,7 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useFranchise from '@/services/hooks/anime/useFranchise';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE } from '@/utils/constants';
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -23,8 +24,6 @@ const Component = ({ extended }: Props) => {
 
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useFranchise({ slug: String(params.slug) });
-
-    console.log(list);
 
     if (!anime || !anime.has_franchise) {
         return null;
@@ -44,10 +43,11 @@ const Component = ({ extended }: Props) => {
                 href={!extended ? params.slug + '/franchise' : undefined}
             />
             <div
-                className={clsx(
+                className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-8',
                     extended && 'md:grid-cols-5',
-                )}
+                    !extended && 'grid-flow-col grid-cols-scroll-4 overflow-x-auto no-scrollbar -mx-4 px-4 grid-min-10',
+                )}/*repeat(2, minmax(0, 1fr))*/
             >
                 {filteredData.map((anime) => (
                     <EntryCard

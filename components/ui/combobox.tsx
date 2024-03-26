@@ -299,9 +299,6 @@ export const Combobox = forwardRef(
                                                                         onSelect={(
                                                                             selectedValue,
                                                                         ) => {
-                                                                            console.log(
-                                                                                selectedValue,
-                                                                            );
                                                                             const option =
                                                                                 options.find(
                                                                                     (

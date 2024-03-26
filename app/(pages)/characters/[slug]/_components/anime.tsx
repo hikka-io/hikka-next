@@ -9,6 +9,7 @@ import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import useCharacterAnime from '@/services/hooks/characters/useCharacterAnime';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -31,8 +32,9 @@ const Component = ({ extended }: Props) => {
                 href={!extended ? params.slug + '/anime' : undefined}
             />
             <div
-                className={clsx(
+                className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
+                    !extended && 'grid-flow-col grid-cols-scroll-5 grid-min-10 overflow-x-auto no-scrollbar -mx-4 px-4'
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (

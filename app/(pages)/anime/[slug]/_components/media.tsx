@@ -1,16 +1,16 @@
 'use client';
 
-import clsx from 'clsx';
 import { useState } from 'react';
 import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
 
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
 import EntryCard from '@/components/entry-card/entry-card';
+import SubHeader from '@/components/sub-header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import { cn } from '@/utils';
 import { OST, VIDEO } from '@/utils/constants';
 
 interface Props {
@@ -73,15 +73,13 @@ const Component = ({ extended }: Props) => {
                 </ToggleGroup>
             </SubHeader>
             <div
-                className={clsx(
+                className={cn(
                     'grid gap-4 lg:gap-8',
-                    active === 'music'
-                        ? extended
-                            ? 'grid-cols-3 md:grid-cols-6'
-                            : 'grid-cols-3 md:grid-cols-4'
-                        : extended
-                          ? 'grid-cols-2 md:grid-cols-4'
-                          : 'grid-cols-2 md:grid-cols-3',
+                    !extended && 'grid-flow-col overflow-x-auto no-scrollbar -mx-4 px-4',
+                    active === 'music' && extended && 'grid-cols-3 md:grid-cols-6',
+                    active === 'music' && !extended && 'grid-cols-scroll-4 md:grid-cols-4',
+                    active === 'video' && extended && 'grid-cols-2 md:grid-cols-4',
+                    active === 'video' && !extended &&  'grid-cols-scroll-3 grid-min-10 md:grid-cols-3',
                 )}
             >
                 {active === 'music' &&

@@ -19,6 +19,14 @@ module.exports = {
             },
         },
         extend: {
+            gridTemplateColumns: {
+                'scroll-2': 'repeat(2, minmax(var(--grid-min, 7rem), 1fr))',
+                'scroll-3': 'repeat(3, minmax(var(--grid-min, 7rem), 1fr))',
+                'scroll-4': 'repeat(4, minmax(var(--grid-min, 7rem), 1fr))',
+                'scroll-5': 'repeat(5, minmax(var(--grid-min, 7rem), 1fr))',
+                'scroll-6': 'repeat(6, minmax(var(--grid-min, 7rem), 1fr))',
+                'scroll-7': 'repeat(7, minmax(var(--grid-min, 7rem), 1fr))',
+            },
             fontFamily: {
                 sans: ['var(--font-inter)'],
                 display: ['var(--font-fixel-display)'],

@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { useState } from 'react';
 
 import Link from 'next/link';
@@ -12,6 +11,7 @@ import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -25,12 +25,8 @@ const ExternalLink = ({ link }: { link: API.External }) => {
                 target="_blank"
                 className="flex h-auto flex-col items-center justify-center gap-2 overflow-hidden rounded-lg text-center"
             >
-                <H4 className="w-full truncate">
-                    {link.text}
-                </H4>
-                <P className="w-full truncate text-xs lowercase">
-                    {link.url}
-                </P>
+                <H4 className="w-full truncate">{link.text}</H4>
+                <P className="w-full truncate text-xs lowercase">{link.url}</P>
             </Link>
         </Button>
     );
@@ -87,11 +83,10 @@ const Component = ({ extended }: Props) => {
                 </ToggleGroup>
             </SubHeader>
             <div
-                className={clsx(
-                    'grid gap-4 lg:gap-8',
-                    extended
-                        ? 'grid-cols-2 md:grid-cols-3'
-                        : 'grid-cols-2 md:grid-cols-3',
+                className={cn(
+                    'grid md:grid-cols-3 gap-4 lg:gap-8',
+                    !extended &&
+                        'no-scrollbar grid-min-14 -mx-4 grid-flow-col grid-cols-scroll-3 overflow-x-auto px-4',
                 )}
             >
                 {active === 'general' &&

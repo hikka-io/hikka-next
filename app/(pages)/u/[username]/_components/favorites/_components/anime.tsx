@@ -2,14 +2,12 @@
 
 import { useParams } from 'next/navigation';
 
-
-
 import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -43,7 +41,13 @@ const Component = ({ extended }: Props) => {
     return (
         <>
             {filteredData.length > 0 && (
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8">
+                <div
+                    className={cn(
+                        'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
+                        !extended &&
+                            'grid-flow-col grid-cols-scroll-6 overflow-x-auto grid-min-10 no-scrollbar -mx-4 px-4',
+                    )}
+                >
                     {filteredData.map((res) => (
                         <EntryCard
                             key={res.slug}
@@ -68,8 +72,8 @@ const Component = ({ extended }: Props) => {
                 <NotFound
                     title={
                         <span>
-                            У списку{' '}
-                            <span className="font-black">Аніме</span> пусто
+                            У списку <span className="font-black">Аніме</span>{' '}
+                            пусто
                         </span>
                     }
                     description="Цей список оновиться після як сюди буде додано аніме"

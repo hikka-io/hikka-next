@@ -10,6 +10,7 @@ import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import useCharacterVoices from '@/services/hooks/characters/useCharacterVoices';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { cn } from '@/utils';
 
 interface Props {
     extended?: boolean;
@@ -32,8 +33,9 @@ const Component = ({ extended }: Props) => {
                 href={!extended ? params.slug + '/voices' : undefined}
             />
             <div
-                className={clsx(
+                className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
+                    !extended && 'grid-flow-col grid-cols-scroll-5 grid-min-10 overflow-x-auto no-scrollbar -mx-4 px-4'
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (

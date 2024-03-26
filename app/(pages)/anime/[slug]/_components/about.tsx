@@ -1,5 +1,6 @@
 'use client';
 
+import format from 'date-fns/format';
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
 
@@ -28,6 +29,9 @@ const Component = () => {
     }
 
     const studio = data.companies.find((c) => c.type === 'studio');
+    const nextEpisodeSchedule = data.schedule?.find(
+        (s) => s.airing_at * 1000 > Date.now(),
+    );
 
     return (
         <div className="flex flex-col gap-8">
@@ -80,6 +84,42 @@ const Component = () => {
                                     ? data.episodes_total
                                     : `${data.episodes_released} / ${data.episodes_total}`}
                             </Label>
+                        </div>
+                    </div>
+                ) : null}
+                {nextEpisodeSchedule ? (
+                    <div className="flex flex-wrap">
+                        <div className="w-24">
+                            <Label className="text-muted-foreground">
+                                Наступний епізод:
+                            </Label>
+                        </div>
+                        <div className="flex-1">
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Label>
+                                        {format(
+                                            new Date(
+                                                nextEpisodeSchedule.airing_at *
+                                                    1000,
+                                            ),
+                                            'd MMMM HH:mm',
+                                        )}
+                                    </Label>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <P>
+                                        {formatDuration(
+                                            intervalToDuration({
+                                                start:
+                                                    nextEpisodeSchedule.airing_at *
+                                                    1000,
+                                                end: Date.now(),
+                                            }),
+                                        )}
+                                    </P>
+                                </TooltipContent>
+                            </Tooltip>
                         </div>
                     </div>
                 ) : null}

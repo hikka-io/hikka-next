@@ -80,7 +80,6 @@ const Component = ({ setCollectionState }: Props) => {
 
             closeModal();
         } catch (e) {
-            console.log(e);
             enqueueSnackbar('Не вдалось завантажити список аніме зі списку', {
                 variant: 'error',
             });

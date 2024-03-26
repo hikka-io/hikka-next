@@ -1,10 +1,10 @@
 'use client';
 
 import React, { memo } from 'react';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
 
 import Link from 'next/link';
 
@@ -80,7 +80,12 @@ const Component = ({ collection }: Props) => {
                     ))}
                 </div>
             )}
-            <div className="grid grid-cols-3 flex-nowrap gap-4 md:grid-cols-5 lg:grid-cols-7 lg:gap-8">
+            <div
+                className={cn(
+                    'grid flex-nowrap gap-4 md:grid-cols-5 lg:grid-cols-7 lg:gap-8',
+                    'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll-7 overflow-x-auto px-4',
+                )}
+            >
                 {collection.collection.map((item) => (
                     <EntryCard
                         containerClassName={cn(

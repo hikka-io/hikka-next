@@ -103,6 +103,56 @@
     }
 }
 
+@layer utilities {
+    .grid-min-1 {
+        --grid-min: 1rem;
+    }
+
+    .grid-min-2 {
+        --grid-min: 2rem;
+    }
+
+    .grid-min-3 {
+        --grid-min: 3rem;
+    }
+
+    .grid-min-4 {
+        --grid-min: 4rem;
+    }
+
+    .grid-min-5 {
+        --grid-min: 5rem;
+    }
+
+    .grid-min-6 {
+        --grid-min: 6rem;
+    }
+
+    .grid-min-7 {
+        --grid-min: 7rem;
+    }
+
+    .grid-min-8 {
+        --grid-min: 8rem;
+    }
+
+    .grid-min-9 {
+        --grid-min: 8rem;
+    }
+
+    .grid-min-10 {
+        --grid-min: 10rem;
+    }
+
+    .grid-min-12 {
+        --grid-min: 12rem;
+    }
+
+    .grid-min-14 {
+        --grid-min: 14rem;
+    }
+}
+
 .logo {
     -webkit-mask: url(/logo-mobile.svg) no-repeat center;
     mask: url(/logo-mobile.svg) no-repeat center;
@@ -119,12 +169,10 @@
     }
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
@@ -163,8 +211,6 @@ table th:first-child {
 table th:last-child {
     @apply rounded-r-md;
 }
-
-
 
 .radial-progress {
     position: relative;
