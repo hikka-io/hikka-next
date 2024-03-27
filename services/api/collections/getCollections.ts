@@ -7,6 +7,7 @@ type Request = {
     content_type?: string;
     author?: string;
     sort: 'system_ranking' | 'created';
+    only_public?: boolean;
     page?: number;
     size?: number;
 };
@@ -17,6 +18,7 @@ export default async function req({
     size = 15,
     content_type,
     author,
+    only_public,
     sort,
 }: Request): Promise<Response> {
     return fetchRequest<Response>({
@@ -26,6 +28,7 @@ export default async function req({
             content_type,
             author,
             sort: [`${sort}:desc`],
+            only_public,
         },
         auth,
         page,

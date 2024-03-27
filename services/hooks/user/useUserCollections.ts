@@ -14,7 +14,8 @@ const useUserCollections = ({ username }: { username: string }) => {
                 page: pageParam,
                 auth,
                 sort: 'created',
-            }),
+                only_public: false
+}),
     });
 };
 

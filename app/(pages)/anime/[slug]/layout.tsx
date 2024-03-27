@@ -62,7 +62,7 @@ export async function generateMetadata(
     const title =
         (anime.title_ua || anime.title_en || anime.title_ja) +
         (startDate ? ` (${startDate})` : '');
-    let synopsis: string | undefined = await parseTextFromMarkDown(
+    let synopsis: string | undefined = parseTextFromMarkDown(
         anime.synopsis_ua || anime.synopsis_en,
     );
 
