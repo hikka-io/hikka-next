@@ -3,6 +3,7 @@
 import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
+import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
 import {
     Collapsible,
@@ -10,12 +11,11 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { getEditParamComponent } from '@/utils/editParamUtils';
-import H5 from '@/components/typography/h5';
 
 interface Props {
     title: string;
     params: Hikka.EditParam[];
-    mode: 'view' | 'edit';
+    mode: 'view' | 'edit' | 'update';
 }
 
 const Component = ({ title, params, mode }: Props) => {
@@ -30,7 +30,10 @@ const Component = ({ title, params, mode }: Props) => {
     };
 
     return (
-        <Collapsible open={mode === 'view' ? true : undefined} className="w-full space-y-2 rounded-lg border border-accent p-4">
+        <Collapsible
+            open={mode === 'view' || mode === 'update' ? true : undefined}
+            className="w-full space-y-2 rounded-lg border border-accent p-4"
+        >
             <CollapsibleTrigger asChild>
                 <div className="flex items-center justify-between">
                     <H5>{title}</H5>
@@ -47,26 +50,32 @@ const Component = ({ title, params, mode }: Props) => {
             </CollapsibleTrigger>
 
             <CollapsibleContent className="flex flex-col gap-6">
-                {mode === 'edit' && params.length > 1 && (
-                    <div className="flex flex-wrap gap-2">
-                        {params.map((param) => (
-                            <Button
-                                size="badge"
-                                variant={
-                                    selected.includes(param.slug)
-                                        ? 'default'
-                                        : 'outline'
-                                }
-                                key={param.slug}
-                                onClick={() => switchParam(param.slug)}
-                            >
-                                {param.title}
-                            </Button>
-                        ))}
-                    </div>
-                )}
+                {(mode === 'edit' || mode === 'update') &&
+                    params.length > 1 && (
+                        <div className="flex flex-wrap gap-2">
+                            {params.map((param) => (
+                                <Button
+                                    size="badge"
+                                    variant={
+                                        selected.includes(param.slug)
+                                            ? 'default'
+                                            : 'outline'
+                                    }
+                                    key={param.slug}
+                                    onClick={() => switchParam(param.slug)}
+                                >
+                                    {param.title}
+                                </Button>
+                            ))}
+                        </div>
+                    )}
                 {params.map((param) => {
-                    if (mode !== 'view' && params.length > 1 && !selected.includes(param.slug)) return null;
+                    if (
+                        mode !== 'view' &&
+                        params.length > 1 &&
+                        !selected.includes(param.slug)
+                    )
+                        return null;
 
                     const Component = getEditParamComponent(param.type);
 
@@ -74,7 +83,7 @@ const Component = ({ title, params, mode }: Props) => {
                         <Component
                             key={param.slug}
                             param={param}
-                            mode={mode}
+                            mode={mode === 'update' ? 'edit' : mode}
                         />
                     );
                 })}

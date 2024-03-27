@@ -11,7 +11,7 @@ const Component = async ({ params: { editId } }: Props) => {
         <div className="flex flex-col gap-12">
             <EditView
                 editId={editId}
-                mode="edit"
+                mode="update"
             />
         </div>
     );

@@ -4,16 +4,10 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-
-
 import { useRouter } from 'next/navigation';
-
-
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import EditDescription from '@/app/(pages)/edit/_components/edit-description/edit-description';
 import EditGroup from '@/app/(pages)/edit/_components/edit-group';
@@ -22,7 +16,6 @@ import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useEdit from '@/services/hooks/edit/useEdit';
-
 import {
     getEditGroups,
     getEditParamSlugs,
@@ -37,7 +30,7 @@ type FormValues = Record<string, unknown> & {
 };
 
 interface EditProps {
-    mode?: 'view' | 'edit';
+    mode?: 'view' | 'edit' | 'update';
     editId: string;
 }
 
@@ -114,33 +107,34 @@ const Component = ({ editId, mode = 'view' }: EditProps) => {
                         />
                     ))}
 
-                    <EditDescription mode={mode} />
+                    <EditDescription mode={mode === 'update' ? 'edit' : mode} />
                 </div>
-                {mode === 'edit' && (
-                    <div className="flex w-full flex-col gap-4">
-                        <Turnstile
-                            ref={captchaRef}
-                            siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
-                        />
-                        <div className="flex items-center gap-2">
-                            <Button
-                                disabled={form.formState.isSubmitting}
-                                onClick={form.handleSubmit(onSaveSubmit)}
-                                type="submit"
-                                className="w-fit"
-                            >
-                                {form.formState.isSubmitting && (
-                                    <span className="loading loading-spinner"></span>
-                                )}
-                                Оновити
-                            </Button>
-                            <AutoButton
-                                onSaveSubmit={onSaveSubmit}
-                                handleSubmit={form.handleSubmit}
+                {mode === 'edit' ||
+                    (mode === 'update' && (
+                        <div className="flex w-full flex-col gap-4">
+                            <Turnstile
+                                ref={captchaRef}
+                                siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
                             />
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    disabled={form.formState.isSubmitting}
+                                    onClick={form.handleSubmit(onSaveSubmit)}
+                                    type="submit"
+                                    className="w-fit"
+                                >
+                                    {form.formState.isSubmitting && (
+                                        <span className="loading loading-spinner"></span>
+                                    )}
+                                    Оновити
+                                </Button>
+                                <AutoButton
+                                    onSaveSubmit={onSaveSubmit}
+                                    handleSubmit={form.handleSubmit}
+                                />
+                            </div>
                         </div>
-                    </div>
-                )}
+                    ))}
             </form>
         </FormProvider>
     );
