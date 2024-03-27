@@ -6,8 +6,10 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import CollectionSort from '@/app/(pages)/collections/(collections)/_components/collection-sort';
 import { getCookie } from '@/app/actions';
 import PagePagination from '@/components/page-pagination';
+import SubHeader from '@/components/sub-header';
 import getCollections from '@/services/api/collections/getCollections';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
@@ -25,37 +27,40 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Component = async ({
-    searchParams: { page },
+    searchParams,
 }: {
     searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-    if (!page) {
+    const page = searchParams.page;
+    const sort = searchParams.sort as 'system_ranking' | 'created' || 'system_ranking';
+
+    if (!searchParams.page) {
         redirect('/collections?page=1');
     }
 
     const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
-    await queryClient.prefetchQuery({
-        queryKey: ['collections', { page: Number(page), auth }],
-        queryFn: () => getCollections({ page: Number(page), auth }),
-    });
-
-    const collections: API.WithPagination<API.Collection> | undefined =
-        queryClient.getQueryData([
-            'collections',
-            {
+    const collections = await queryClient.fetchQuery({
+        queryKey: ['collections', { page: Number(page), auth, sort }],
+        queryFn: () =>
+            getCollections({
                 page: Number(page),
                 auth,
-            },
-        ]);
+                sort: sort,
+            }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
 
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-8">
-                <CollectionList collections={collections} />
+                <div className="flex items-center justify-between gap-4">
+                    <SubHeader title="Колекції" />
+                    <CollectionSort />
+                </div>
+                <CollectionList page={Number(page)} sort={sort} />
                 {collections && (
                     <PagePagination pagination={collections.pagination} />
                 )}

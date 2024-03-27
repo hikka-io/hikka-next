@@ -1,20 +1,24 @@
+'use client';
+
 import * as React from 'react';
-
-
-
-import { Separator } from '@/components/ui/separator';
-
-
-
-import CollectionItem from './ui/collection-item';
 import { Fragment } from 'react';
 
+import { Separator } from '@/components/ui/separator';
+import useCollections from '@/services/hooks/collections/useCollections';
+
+import CollectionItem from './ui/collection-item';
 
 interface Props {
-    collections?: API.WithPagination<API.Collection>;
+    page: number;
+    sort: 'system_ranking' | 'created';
 }
 
-const Component = ({ collections }: Props) => {
+const Component = ({ page, sort }: Props) => {
+    const { data: collections } = useCollections({
+        page,
+        sort
+    });
+
     if (!collections) {
         return null;
     }
@@ -24,10 +28,7 @@ const Component = ({ collections }: Props) => {
             {collections.list.map((collection, index) => (
                 <Fragment key={collection.reference}>
                     {index !== 0 && <Separator />}
-                    <CollectionItem
-                        collection={collection}
-
-                    />
+                    <CollectionItem collection={collection} />
                 </Fragment>
             ))}
         </div>
