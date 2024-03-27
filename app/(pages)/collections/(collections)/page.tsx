@@ -15,6 +15,9 @@ import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
 import CollectionList from './_components/collection-list';
+import Link from 'next/link';
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
+import { Button } from '@/components/ui/button';
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,7 +60,13 @@ const Component = async ({
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-8">
                 <div className="flex items-center justify-between gap-4">
-                    <SubHeader title="Колекції" />
+                    <SubHeader title="Колекції">
+                        {auth && <Button asChild size="icon-sm" variant="outline">
+                            <Link href="/collections/new">
+                                <MaterialSymbolsAddRounded />
+                            </Link>
+                        </Button>}
+                    </SubHeader>
                     <CollectionSort />
                 </div>
                 <CollectionList page={Number(page)} sort={sort} />
