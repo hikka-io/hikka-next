@@ -3,6 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
@@ -22,15 +23,14 @@ import getAnimeStaff from '@/services/api/anime/getAnimeStaff';
 import getFavourite from '@/services/api/favourite/getFavourite';
 import getWatch from '@/services/api/watch/getWatch';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
+import _generateMetadata from '@/utils/generateMetadata';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 import getQueryClient from '@/utils/getQueryClient';
+import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 
 import Actions from './_components/actions';
 import Cover from './_components/cover';
 import Title from './_components/title';
-import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
-import _generateMetadata from '@/utils/generateMetadata';
-import { redirect } from 'next/navigation';
 
 
 interface Props extends PropsWithChildren {
@@ -62,7 +62,9 @@ export async function generateMetadata(
     const title =
         (anime.title_ua || anime.title_en || anime.title_ja) +
         (startDate ? ` (${startDate})` : '');
-    let synopsis: string | undefined = await parseTextFromMarkDown(anime.synopsis_ua || anime.synopsis_en);
+    let synopsis: string | undefined = await parseTextFromMarkDown(
+        anime.synopsis_ua || anime.synopsis_en,
+    );
 
     synopsis =
         synopsis &&
@@ -78,7 +80,7 @@ export async function generateMetadata(
     return _generateMetadata({
         title: {
             default: title,
-            template: title + ' / %s / Hikka'
+            template: title + ' / %s / Hikka',
         },
         description: synopsis,
         images: `https://hikka.io/generate/preview/anime/${slug}/${anime.updated}`,
@@ -89,47 +91,53 @@ const Component = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
-    let anime: AnimeResponse | undefined = undefined;
+    await queryClient.prefetchQuery({
+        queryKey: ['anime', slug],
+        queryFn: () => getAnimeInfo({ slug }),
+    });
 
-    try {
-        anime = await queryClient.fetchQuery({
-            queryKey: ['anime', slug],
-            queryFn: () => getAnimeInfo({ slug }),
-        });
-    } catch (e) {
+    const anime: API.AnimeInfo | undefined = queryClient.getQueryData([
+        'anime',
+        slug,
+    ]);
+
+    if (!anime) {
         return redirect('/');
     }
 
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['characters', slug],
-        queryFn: ({ pageParam = 1 }) =>
-            getAnimeCharacters({ slug, page: pageParam }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['franchise', slug, { auth }],
-        queryFn: ({ pageParam = 1 }) =>
-            getAnimeFranchise({ slug, auth, page: pageParam }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['staff', slug],
-        queryFn: ({ pageParam = 1 }) => getAnimeStaff({ slug, page: pageParam }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['watch', slug, { auth }],
-        queryFn: () => getWatch({ slug: slug, auth: String(auth) }),
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['favorite', slug, { auth, content_type: 'anime' }],
-        queryFn: () =>
-            getFavourite({ slug: String(slug), auth: String(auth), content_type: 'anime' }),
-    });
+    await Promise.all([
+        queryClient.prefetchInfiniteQuery({
+            queryKey: ['characters', slug],
+            queryFn: ({ pageParam = 1 }) =>
+                getAnimeCharacters({ slug, page: pageParam }),
+            initialPageParam: 1,
+        }),
+        queryClient.prefetchInfiniteQuery({
+            queryKey: ['franchise', slug, { auth }],
+            queryFn: ({ pageParam = 1 }) =>
+                getAnimeFranchise({ slug, auth, page: pageParam }),
+            initialPageParam: 1,
+        }),
+        queryClient.prefetchInfiniteQuery({
+            queryKey: ['staff', slug],
+            queryFn: ({ pageParam = 1 }) =>
+                getAnimeStaff({ slug, page: pageParam }),
+            initialPageParam: 1,
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ['watch', slug, { auth }],
+            queryFn: () => getWatch({ slug: slug, auth: String(auth) }),
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ['favorite', slug, { auth, content_type: 'anime' }],
+            queryFn: () =>
+                getFavourite({
+                    slug: String(slug),
+                    auth: String(auth),
+                    content_type: 'anime',
+                }),
+        }),
+    ]);
 
     const dehydratedState = dehydrate(queryClient);
 
