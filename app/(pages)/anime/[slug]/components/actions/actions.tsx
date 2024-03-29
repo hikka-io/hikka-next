@@ -1,7 +1,7 @@
 import { getCookie } from '@/app/actions';
 import WatchListButton from '@/components/watchlist-button';
 
-import WatchStats from './_components/watch-stats';
+import WatchStats from '@/app/(pages)/anime/[slug]/components/actions/components/watch-stats';
 
 interface Props {
     anime?: API.AnimeInfo;

@@ -66,5 +66,12 @@ declare global {
             href: string;
             seen: boolean;
         };
+
+        type WatchStat = {
+            percentage: number;
+            value: number;
+            icon?: ReactNode;
+            color?: string;
+        }
     }
 }

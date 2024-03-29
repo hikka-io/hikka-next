@@ -1,13 +1,13 @@
 import React from 'react';
 
-import About from './_components/about';
-import Characters from './_components/characters';
-import Description from './_components/description';
-import Franchise from './_components/franchise';
-import Links from './_components/links';
-import Media from './_components/media';
-import Staff from './_components/staff';
-import WatchListStats from './_components/watchlist-stats';
+import About from './components/about';
+import Characters from './components/characters';
+import Description from './components/description';
+import Franchise from './components/franchise';
+import Links from './components/links';
+import Media from './components/media';
+import Staff from './components/staff';
+import WatchStats from './components/watch-stats/watch-stats';
 
 const AnimePage = () => {
     return (
@@ -20,13 +20,13 @@ const AnimePage = () => {
                 <Staff />
                 <Links />
                 <div className="block lg:hidden">
-                    <WatchListStats />
+                    <WatchStats />
                 </div>
             </div>
             <div className="order-1 flex flex-col gap-12 lg:order-2">
                 <About />
                 <div className="hidden flex-1 lg:block">
-                    <WatchListStats />
+                    <WatchStats />
                 </div>
             </div>
         </div>

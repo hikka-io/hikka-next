@@ -28,9 +28,9 @@ import getDeclensionWord from '@/utils/getDeclensionWord';
 import getQueryClient from '@/utils/getQueryClient';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 
-import Actions from './_components/actions';
-import Cover from './_components/cover';
-import Title from './_components/title';
+import Actions from '@/app/(pages)/anime/[slug]/components/actions';
+import Cover from '@/app/(pages)/anime/[slug]/components/cover';
+import Title from '@/app/(pages)/anime/[slug]/components/title';
 
 
 interface Props extends PropsWithChildren {

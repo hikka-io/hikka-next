@@ -18,10 +18,11 @@ interface Props {
     item: API.AnimeSchedule;
 }
 
-type Tokens = 'xSeconds' | 'xMinutes' | 'xHours' | 'xDays';
+type Tokens = 'xSeconds' | 'xMinutes' | 'xHours' | 'xDays' | 'xMonths';
 
 const formatDistanceLocale = {
     uk: {
+        xMonths: '{{count}} міс.',
         xDays: '{{count}} дн.',
         xSeconds: '{{count}} сек.',
         xMinutes: '{{count}} хв.',
@@ -64,20 +65,29 @@ const ScheduleItem = ({ item }: Props) => {
                 <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
                     <div className="flex flex-1 flex-col">
                         <div className="flex justify-between gap-4">
-                            <H5 className={cn(item.time_left <= 0 && 'text-muted-foreground')}>
-                                {item.time_left > 0 ? formatDuration(
-                                    intervalToDuration({
-                                        start: item.airing_at * 1000,
-                                        end: Date.now(),
-                                    }),
-                                    {
-                                        format:
-                                            item.time_left > 86400
-                                                ? ['days', 'hours']
-                                                : ['hours', 'minutes'],
-                                        locale: getShortLocale(),
-                                    },
-                                ) : "Вийшло"}
+                            <H5
+                                className={cn(
+                                    item.time_left <= 0 &&
+                                        'text-muted-foreground',
+                                )}
+                            >
+                                {item.time_left > 0
+                                    ? formatDuration(
+                                          intervalToDuration({
+                                              start: item.airing_at * 1000,
+                                              end: Date.now(),
+                                          }),
+                                          {
+                                              format:
+                                                  item.time_left > 2592000
+                                                      ? ['months', 'days']
+                                                      : item.time_left > 86400
+                                                        ? ['days', 'hours']
+                                                        : ['hours', 'minutes'],
+                                              locale: getShortLocale(),
+                                          },
+                                      )
+                                    : 'Вийшло'}
                             </H5>
                             <P className="text-sm text-muted-foreground">
                                 <span className="font-bold">

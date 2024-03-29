@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Franchise from '../../_components/franchise';
+import Franchise from '@/app/(pages)/anime/[slug]/components/franchise';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },
