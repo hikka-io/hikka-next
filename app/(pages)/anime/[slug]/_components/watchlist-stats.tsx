@@ -12,7 +12,7 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { WATCH_STATUS } from '@/utils/constants';
 
 
-const Component = () => {
+const WatchlistStats = () => {
     const params = useParams();
     const { data } = useAnimeInfo({ slug: String(params.slug) });
 
@@ -92,4 +92,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default WatchlistStats;

@@ -10,7 +10,7 @@ import { useParams } from 'next/navigation';
 
 
 
-import FollowUserItem from '@/app/(pages)/u/[username]/_components/ui/follow-user-item';
+import FollowUserItem from '@/app/(pages)/u/[username]/components/ui/follow-user-item';
 import { Button } from '@/components/ui/button';
 import getFollowers from '@/services/api/follow/getFollowers';
 import getFollowings from '@/services/api/follow/getFollowings';

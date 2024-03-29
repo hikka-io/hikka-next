@@ -39,6 +39,7 @@ const useAddToList = ({ slug }: { slug: string }) => {
             await queryClient.invalidateQueries({ queryKey: ['favorites'] });
             await queryClient.invalidateQueries({ queryKey: ['franchise'] });
             await queryClient.invalidateQueries({ queryKey: ['collection'] });
+            await queryClient.invalidateQueries({ queryKey: ['animeSchedule', {}], exact: false });
         },
     });
 };

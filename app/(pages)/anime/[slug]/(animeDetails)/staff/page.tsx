@@ -25,7 +25,7 @@ export async function generateMetadata(
     };
 }
 
-const Component = async () => {
+const AnimeStaffPage = async () => {
     return (
         <div className="flex flex-col gap-12">
             <Staff extended />
@@ -33,4 +33,4 @@ const Component = async () => {
     );
 };
 
-export default Component;
+export default AnimeStaffPage;

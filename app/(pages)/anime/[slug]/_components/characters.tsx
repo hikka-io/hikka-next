@@ -13,7 +13,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Characters = ({ extended }: Props) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useCharacters({ slug: String(params.slug) });
@@ -103,4 +103,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Characters;

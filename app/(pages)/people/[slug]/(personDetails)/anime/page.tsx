@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Anime from '../../_components/anime';
+import Anime from '@/app/(pages)/people/[slug]/components/anime';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },
@@ -25,7 +25,7 @@ export async function generateMetadata(
     };
 }
 
-const Component = async () => {
+const PersonAnimePage = async () => {
     return (
         <div className="flex flex-col gap-12">
             <Anime extended />
@@ -33,4 +33,4 @@ const Component = async () => {
     );
 };
 
-export default Component;
+export default PersonAnimePage;

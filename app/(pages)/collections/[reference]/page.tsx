@@ -15,9 +15,9 @@ import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
-import CollectionGroups from './_components/collection-groups';
-import CollectionInfo from './_components/collection-info';
-import CollectionTitle from './_components/collection-title';
+import CollectionGroups from '@/app/(pages)/collections/[reference]/components/collection-groups';
+import CollectionInfo from '@/app/(pages)/collections/[reference]/components/collection-info';
+import CollectionTitle from '@/app/(pages)/collections/[reference]/components/collection-title';
 
 
 export async function generateMetadata({
@@ -40,7 +40,7 @@ export async function generateMetadata({
     }
 }
 
-const Component = async ({
+const CollectionPage = async ({
     params: { reference },
 }: {
     params: Record<string, any>;
@@ -100,4 +100,4 @@ const Component = async ({
     );
 };
 
-export default Component;
+export default CollectionPage;

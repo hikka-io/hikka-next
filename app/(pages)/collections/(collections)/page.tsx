@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import CollectionSort from '@/app/(pages)/collections/(collections)/_components/collection-sort';
+import CollectionSort from '@/app/(pages)/collections/(collections)/components/collection-sort';
 import { getCookie } from '@/app/actions';
 import PagePagination from '@/components/page-pagination';
 import SubHeader from '@/components/sub-header';
@@ -14,7 +14,7 @@ import getCollections from '@/services/api/collections/getCollections';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
-import CollectionList from './_components/collection-list';
+import CollectionList from '@/app/(pages)/collections/(collections)/components/collection-list';
 import Link from 'next/link';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import { Button } from '@/components/ui/button';
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     });
 }
 
-const Component = async ({
+const CollectionsPage = async ({
     searchParams,
 }: {
     searchParams: { [key: string]: string | string[] | undefined };
@@ -78,4 +78,4 @@ const Component = async ({
     );
 };
 
-export default Component;
+export default CollectionsPage;

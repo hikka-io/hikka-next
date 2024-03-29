@@ -6,7 +6,7 @@ import Footer from '@/components/footer';
 import NavBar from '@/components/navbar/navbar';
 import ScrollTop from '@/components/scroll-top';
 
-export default async function RootLayout({
+export default async function Layout({
     children,
 }: {
     children: ReactNode;

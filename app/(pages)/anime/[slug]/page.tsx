@@ -9,7 +9,7 @@ import Media from './_components/media';
 import Staff from './_components/staff';
 import WatchListStats from './_components/watchlist-stats';
 
-const Component = () => {
+const AnimePage = () => {
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
@@ -33,4 +33,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default AnimePage;

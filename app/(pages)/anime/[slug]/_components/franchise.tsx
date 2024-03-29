@@ -17,7 +17,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Franchise = ({ extended }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const params = useParams();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
@@ -93,4 +93,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Franchise;

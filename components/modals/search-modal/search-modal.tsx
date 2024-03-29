@@ -7,7 +7,7 @@ import MaterialSymbolsSearch from '~icons/material-symbols/search';
 
 import { useQuery } from '@tanstack/react-query';
 
-import SearchCard from '@/components/modals/search-modal/_components/ui/search-card';
+import SearchCard from '@/components/modals/search-modal/components/ui/search-card';
 import { Button } from '@/components/ui/button';
 import getAnimeCatalog from '@/services/api/anime/getAnimeCatalog';
 import useDebounce from '@/services/hooks/useDebounce';

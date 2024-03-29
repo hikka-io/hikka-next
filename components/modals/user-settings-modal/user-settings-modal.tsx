@@ -9,12 +9,12 @@ import Small from '@/components/typography/small';
 import useIsMobile from '@/services/hooks/useIsMobile';
 import { cn } from '@/utils';
 
-import CustomizationForm from './_components/customization-form';
-import EmailForm from './_components/email-form';
-import GeneralForm from './_components/general-form';
-import PasswordForm from './_components/password-form';
-import UsernameForm from './_components/username-form';
-import WatchListForm from './_components/watchlist-form';
+import CustomizationForm from '@/components/modals/user-settings-modal/components/customization-form';
+import EmailForm from '@/components/modals/user-settings-modal/components/email-form';
+import GeneralForm from '@/components/modals/user-settings-modal/components/general-form';
+import PasswordForm from '@/components/modals/user-settings-modal/components/password-form';
+import UsernameForm from '@/components/modals/user-settings-modal/components/username-form';
+import WatchListForm from '@/components/modals/user-settings-modal/components/watchlist-form';
 
 
 type Tab =

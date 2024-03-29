@@ -1,13 +1,13 @@
 import { ReactNode } from 'react';
 
 import Filters from '../../../../components/filters/anime-filters';
-import NavBar from './_components/navbar';
+import NavBar from '@/app/(pages)/anime/(animeList)/components/navbar';
 
 interface Props {
     children: ReactNode;
 }
 
-const Component = async ({ children }: Props) => {
+const AnimeListLayout = async ({ children }: Props) => {
     return (
         <div>
             <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
@@ -23,4 +23,4 @@ const Component = async ({ children }: Props) => {
     );
 };
 
-export default Component;
+export default AnimeListLayout;

@@ -331,3 +331,7 @@ table th:last-child {
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
 }
+
+._placeholder_19o4e_1034  {
+    @apply text-muted-foreground;
+}

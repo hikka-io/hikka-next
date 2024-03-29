@@ -7,9 +7,9 @@ import remarkDirectiveRehype from 'remark-directive-rehype';
 
 import { cn } from '@/utils';
 
-import Spoiler from './_components/spoiler';
+import Spoiler from '@/components/markdown/viewer/components/spoiler';
 import remarkMentions from './plugins/remark-mentions';
-import Link from './_components/link';
+import Link from '@/components/markdown/viewer/components/link';
 
 interface Props extends Options {}
 

@@ -1,6 +1,6 @@
-import InputParam from '@/app/(pages)/edit/_components/ui/input-param';
-import ListParam from '@/app/(pages)/edit/_components/ui/list-param';
-import MarkdownParam from '@/app/(pages)/edit/_components/ui/markdown-param';
+import InputParam from '@/app/(pages)/edit/components/ui/input-param';
+import ListParam from '@/app/(pages)/edit/components/ui/list-param';
+import MarkdownParam from '@/app/(pages)/edit/components/ui/markdown-param';
 import {
     ANIME_EDIT_GROUPS,
     ANIME_EDIT_PARAMS,

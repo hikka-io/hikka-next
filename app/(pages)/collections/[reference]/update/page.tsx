@@ -2,12 +2,12 @@ import React from 'react';
 
 import CollectionProvider from '@/services/providers/collection-provider';
 
-import CollectionGroups from '../../new/_components/collection-groups';
-import CollectionSettings from '../../new/_components/collection-settings';
-import CollectionTitle from '../../new/_components/collection-title';
+import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
+import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
+import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
 
 
-const Component = () => {
+const CollectionUpdatePage = () => {
     return (
         <CollectionProvider>
             <div>
@@ -29,4 +29,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default CollectionUpdatePage;

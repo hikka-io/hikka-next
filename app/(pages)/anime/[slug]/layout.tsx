@@ -87,7 +87,7 @@ export async function generateMetadata(
     });
 }
 
-const Component = async ({ params: { slug }, children }: Props) => {
+const AnimeLayout = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
@@ -211,4 +211,4 @@ const Component = async ({ params: { slug }, children }: Props) => {
     );
 };
 
-export default Component;
+export default AnimeLayout;

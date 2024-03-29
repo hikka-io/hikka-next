@@ -7,7 +7,7 @@ interface Props {
     anime?: API.AnimeInfo;
 }
 
-const Component = async ({ anime }: Props) => {
+const Actions = async ({ anime }: Props) => {
     if (!anime) {
         return null;
     }
@@ -28,4 +28,4 @@ const Component = async ({ anime }: Props) => {
     );
 };
 
-export default Component;
+export default Actions;

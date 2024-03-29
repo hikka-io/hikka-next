@@ -110,7 +110,7 @@ const Component = forwardRef(
                     placeholder="Напишіть повідомлення..."
                     ref={editorRef}
                     readOnly={isPosting}
-                    className="dark-theme dark-editor"
+                    className="text-muted-foreground"
                     markdown={text}
                     onChange={setText}
                 />

@@ -38,8 +38,6 @@ declare global {
         type Status =
             | 'ongoing'
             | 'finished'
-            // | 'discontinued'
-            // | 'paused'
             | 'announced';
 
         type VideoType = 'video_promo' | 'video_music';
@@ -142,6 +140,11 @@ declare global {
             episode: number;
             airing_at: number;
         };
+
+        type AnimeSchedule = {
+            anime: API.AnimeInfo;
+            time_left: number;
+        } & API.Schedule;
 
         type Anime = {
             media_type: MediaType;

@@ -1,6 +1,7 @@
 import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
+import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded'
 
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
@@ -410,7 +411,16 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         icon: MaterialSymbolsStack,
         visible: true,
     },
+    {
+        slug: 'schedule',
+        title_ua: 'Календар',
+        url: '/schedule',
+        icon: MaterialSymbolsCalendarClockRounded,
+        visible: true,
+    },
 ];
+
+
 
 export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
     {

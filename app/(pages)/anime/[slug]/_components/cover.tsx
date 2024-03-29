@@ -5,7 +5,7 @@ interface Props {
     anime?: API.AnimeInfo;
 }
 
-const Component = ({ anime }: Props) => {
+const Cover = ({ anime }: Props) => {
     if (!anime) {
         return null;
     }
@@ -23,4 +23,4 @@ const Component = ({ anime }: Props) => {
     );
 };
 
-export default Component;
+export default Cover;

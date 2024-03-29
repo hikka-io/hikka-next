@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Characters from '../../_components/characters';
+import Characters from '@/app/(pages)/people/[slug]/components/characters';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },
@@ -25,7 +25,7 @@ export async function generateMetadata(
     };
 }
 
-const Component = async () => {
+const PersonCharactersPage = async () => {
     return (
         <div className="flex flex-col gap-12">
             <Characters extended />
@@ -33,4 +33,4 @@ const Component = async () => {
     );
 };
 
-export default Component;
+export default PersonCharactersPage;

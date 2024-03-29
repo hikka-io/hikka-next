@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Anime from './_components/anime';
-import Characters from './_components/characters';
+import Anime from '@/app/(pages)/people/[slug]/components/anime';
+import Characters from '@/app/(pages)/people/[slug]/components/characters';
 
-const Component = () => {
+const PersonPage = () => {
     return (
         <div className="relative flex flex-col gap-12 ">
             <Characters />
@@ -12,4 +12,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default PersonPage;

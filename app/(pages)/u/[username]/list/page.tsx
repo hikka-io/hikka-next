@@ -5,10 +5,10 @@ import { redirect } from 'next/navigation';
 import Filters from '@/components/filters/anime-filters';
 import _generateMetadata from '@/utils/generateMetadata';
 
-import List from './_components/list/list';
-import StatusCombobox from './_components/status-combobox';
-import ToolsCombobox from './_components/tools-combobox';
-import ViewCombobox from './_components/view-combobox';
+import List from '@/app/(pages)/u/[username]/list/components/list/list';
+import StatusCombobox from '@/app/(pages)/u/[username]/list/components/status-combobox';
+import ToolsCombobox from '@/app/(pages)/u/[username]/list/components/tools-combobox';
+import ViewCombobox from '@/app/(pages)/u/[username]/list/components/view-combobox';
 
 
 export async function generateMetadata(

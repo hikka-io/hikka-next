@@ -19,7 +19,7 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 
-const Component = () => {
+const About = () => {
     const params = useParams();
 
     const { data } = useAnimeInfo({ slug: String(params.slug) });
@@ -57,7 +57,7 @@ const Component = () => {
                     </div>
                     <div className="flex-1">
                         <div
-                            className="w-fit rounded-md px-2"
+                            className="w-fit rounded-sm px-2"
                             style={{
                                 backgroundColor:
                                     RELEASE_STATUS[data.status].color,
@@ -191,4 +191,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default About;

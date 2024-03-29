@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 
-import List from './_components/anime-list';
+import AnimeList from './components/anime-list';
 
-const Component = ({
+const AnimeListPage = ({
     searchParams,
 }: {
     searchParams: Record<string, string>;
@@ -17,7 +17,7 @@ const Component = ({
         );
     }
 
-    return <List searchParams={searchParams} />;
+    return <AnimeList searchParams={searchParams} />;
 };
 
-export default Component;
+export default AnimeListPage;

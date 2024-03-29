@@ -10,7 +10,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 
-const Component = () => {
+const Description = () => {
     const [active, setActive] = useState<'synopsis_ua' | 'synopsis_en'>(
         'synopsis_ua',
     );
@@ -58,4 +58,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default Description;

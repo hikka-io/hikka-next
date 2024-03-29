@@ -5,22 +5,22 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import Content from '@/app/(pages)/edit/_components/content/content';
+import Content from '@/app/(pages)/edit/components/content/content';
 import SubHeader from '@/components/sub-header';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import getQueryClient from '@/utils/getQueryClient';
 
-import EditForm from '../_components/edit-form';
-import RulesAlert from './_components/rules-alert';
+import EditForm from '@/app/(pages)/edit/components/edit-form';
+import RulesAlert from '@/app/(pages)/edit/new/components/rules-alert';
 
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const Component = async ({ searchParams: { content_type, slug } }: Props) => {
+const EditNewPage = async ({ searchParams: { content_type, slug } }: Props) => {
     const queryClient = getQueryClient();
 
     if (
@@ -86,4 +86,4 @@ const Component = async ({ searchParams: { content_type, slug } }: Props) => {
     );
 };
 
-export default Component;
+export default EditNewPage;

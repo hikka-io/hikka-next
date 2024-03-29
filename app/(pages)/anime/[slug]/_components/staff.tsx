@@ -13,7 +13,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Staff = ({ extended }: Props) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useStaff({ slug: String(params.slug) });
@@ -81,4 +81,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Staff;

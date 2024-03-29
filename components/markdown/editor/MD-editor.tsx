@@ -13,7 +13,8 @@ const Editor = dynamic(() => import('./initialized-MDX-editor'), {
 
 const MDEditor = forwardRef<MDXEditorMethods, MDXEditorProps>((props, ref) => (
     <Editor
-        className="dark-theme dark-editor rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1"
+        contentEditableClassName="text-foreground"
+        className="rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1"
         {...props}
         editorRef={ref}
     />

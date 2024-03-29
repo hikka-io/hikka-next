@@ -5,10 +5,10 @@ import LogosGoogleIcon from '~icons/logos/google-icon';
 
 import Image from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
-import ForgotPasswordForm from '@/components/modals/auth-modal/_components/forgot-password-form';
-import LoginForm from '@/components/modals/auth-modal/_components/login-form';
-import PasswordConfirmForm from '@/components/modals/auth-modal/_components/password-confirm-form';
-import SignUpForm from '@/components/modals/auth-modal/_components/signup-form';
+import ForgotPasswordForm from '@/components/modals/auth-modal/components/forgot-password-form';
+import LoginForm from '@/components/modals/auth-modal/components/login-form';
+import PasswordConfirmForm from '@/components/modals/auth-modal/components/password-confirm-form';
+import SignUpForm from '@/components/modals/auth-modal/components/signup-form';
 import getOAuth from '@/services/api/auth/getOAuth';
 
 const Component = ({

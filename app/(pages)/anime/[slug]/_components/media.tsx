@@ -17,7 +17,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Media = ({ extended }: Props) => {
     const params = useParams();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
     const [active, setActive] = useState<'video' | 'music'>(
@@ -130,4 +130,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Media;

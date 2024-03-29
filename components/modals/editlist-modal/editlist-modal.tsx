@@ -7,7 +7,7 @@ import { useInView } from 'react-intersection-observer';
 
 import Link from 'next/link';
 
-import EditCard from '@/components/modals/editlist-modal/_components/ui/edit-card';
+import EditCard from '@/components/modals/editlist-modal/components/ui/edit-card';
 import { Button } from '@/components/ui/button';
 import getEditList from '@/services/api/edit/getEditList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';

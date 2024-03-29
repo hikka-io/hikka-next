@@ -6,9 +6,9 @@ import { Label } from '@/components/ui/label';
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';
 
-import CollectionGroups from './_components/collection-groups';
-import CollectionSettings from './_components/collection-settings';
-import CollectionTitle from './_components/collection-title';
+import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
+import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
+import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     });
 }
 
-const Component = () => {
+const CollectionNewPage = () => {
     return (
         <CollectionProvider>
             <>
@@ -46,4 +46,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default CollectionNewPage;

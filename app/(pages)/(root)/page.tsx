@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
-const Component = () => {
+const Page = () => {
     return redirect('/anime');
 };
 
-export default Component;
+export default Page;

@@ -11,7 +11,7 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAddWatch from '@/services/hooks/watch/useAddWatch';
 import useWatch from '@/services/hooks/watch/useWatch';
 
-const Component = () => {
+const WatchStats = () => {
     const params = useParams();
 
     const { data: watch, isError: watchError } = useWatch({
@@ -124,4 +124,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default WatchStats;

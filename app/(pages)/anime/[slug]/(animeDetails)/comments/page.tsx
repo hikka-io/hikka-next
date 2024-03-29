@@ -30,10 +30,10 @@ interface Props {
     params: { slug: string };
 }
 
-const Component = async ({ params: { slug } }: Props) => {
+const AnimeCommentsPage = async ({ params: { slug } }: Props) => {
     const auth = await getCookie('auth');
 
     return <Comments auth={auth} slug={slug} content_type="anime" />;
 };
 
-export default Component;
+export default AnimeCommentsPage;

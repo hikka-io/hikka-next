@@ -90,7 +90,7 @@ const TooltipData = ({ slug }: { slug: string }) => {
                             </Label>
                         )}
                         <div
-                            className="w-fit rounded-md px-2 text-sm text-white"
+                            className="w-fit rounded-sm px-2 text-sm text-white"
                             style={{
                                 backgroundColor:
                                     RELEASE_STATUS[data.status].color,

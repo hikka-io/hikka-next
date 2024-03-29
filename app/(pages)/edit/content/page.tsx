@@ -6,7 +6,7 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
-import List from './_components/list';
+import ContentList from './components/content-list';
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,22 +15,16 @@ export async function generateMetadata(): Promise<Metadata> {
     });
 }
 
-const Component = async ({
-    searchParams,
-}: {
-    searchParams?: {
-        [key: string]: string | string[] | undefined;
-    };
-}) => {
+const ContentPage = async () => {
     const queryClient = getQueryClient();
 
     const dehydratedState = dehydrate(queryClient);
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <List />
+            <ContentList />
         </HydrationBoundary>
     );
 };
 
-export default Component;
+export default ContentPage;

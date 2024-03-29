@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import Content from '@/app/(pages)/edit/_components/content/content';
+import Content from '@/app/(pages)/edit/components/content/content';
 import { getCookie } from '@/app/actions';
 import Breadcrumbs from '@/components/breadcrumbs';
 import SubHeader from '@/components/sub-header';
@@ -16,9 +16,9 @@ import getEdit from '@/services/api/edit/getEdit';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
-import EditStatus from '../_components/ui/edit-status';
-import Author from './_components/author';
-import Moderator from './_components/moderator';
+import EditStatus from '@/app/(pages)/edit/components/ui/edit-status';
+import Author from '@/app/(pages)/edit/[editId]/components/author';
+import Moderator from '@/app/(pages)/edit/[editId]/components/moderator';
 
 
 interface Props {
@@ -42,7 +42,7 @@ export async function generateMetadata({
     });
 }
 
-const Component = async ({ params: { editId }, children }: Props) => {
+const EditLayout = async ({ params: { editId }, children }: Props) => {
     const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
@@ -111,4 +111,4 @@ const Component = async ({ params: { editId }, children }: Props) => {
     );
 };
 
-export default Component;
+export default EditLayout;

@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import * as React from 'react';
 import { Fragment, createElement } from 'react';
 import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
@@ -18,6 +17,7 @@ import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
 import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { cn } from '@/utils';
 import { WATCH_STATUS } from '@/utils/constants';
 
 interface Props {
@@ -39,7 +39,7 @@ const SETTINGS_BUTTON = {
     title: 'Налаштування',
     group: {
         value: 'settings',
-    }
+    },
 };
 
 const OPTIONS = [
@@ -125,7 +125,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
             renderToggle={(open, setOpen, value) => {
                 return (
                     <PopoverAnchor asChild>
-                        <div className={clsx('flex w-full')}>
+                        <div className={cn('flex w-full')}>
                             {createElement(
                                 value ? PopoverTrigger : Fragment,
                                 value ? { asChild: true } : {},
@@ -139,7 +139,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                             : setOpen(!open)
                                     }
                                     disabled={disabled}
-                                    className={clsx(
+                                    className={cn(
                                         'flex-1 rounded-r-none flex-nowrap overflow-hidden',
                                     )}
                                 >
@@ -176,7 +176,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     ) : null}
                                     {!additional && (
                                         <div
-                                            className={clsx(
+                                            className={cn(
                                                 'absolute right-2 text-2xl',
                                                 /*listboxVisible &&
                                                     '-scale-y-100 transform',*/
@@ -198,7 +198,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                             value && deleteFromList()
                                         }
                                         disabled={disabled}
-                                        className={clsx(
+                                        className={cn(
                                             'text-xl rounded-l-none',
                                             value && 'hover:bg-red-500',
                                         )}

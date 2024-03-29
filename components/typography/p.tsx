@@ -9,7 +9,7 @@ interface Props {
 
 export default function P({ children, className }: Props) {
     return (
-        <p className={cn( className)}>
+        <p className={cn(className)}>
             {children}
         </p>
     );

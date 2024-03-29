@@ -15,7 +15,7 @@ import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { GENERAL_NAV_ROUTES } from '@/utils/constants';
 
-import ProfileNavbar from './_components/profile-navbar';
+import ProfileNavbar from '@/components/navbar/components/profile-navbar';
 
 interface Props extends PropsWithChildren {}
 

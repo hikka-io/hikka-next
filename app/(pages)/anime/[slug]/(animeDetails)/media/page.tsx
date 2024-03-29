@@ -25,7 +25,7 @@ export async function generateMetadata(
     };
 }
 
-const Component = async () => {
+const AnimeMediaPage = async () => {
     return (
         <div className="flex flex-col gap-12">
             <Media extended />
@@ -33,4 +33,4 @@ const Component = async () => {
     );
 };
 
-export default Component;
+export default AnimeMediaPage;

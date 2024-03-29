@@ -32,7 +32,7 @@ const ExternalLink = ({ link }: { link: API.External }) => {
     );
 };
 
-const Component = ({ extended }: Props) => {
+const Links = ({ extended }: Props) => {
     const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
@@ -102,4 +102,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Links;

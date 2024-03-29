@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
     });
 }
 
-const Component = ({ children }: Props) => {
+const EditListLayout = ({ children }: Props) => {
     return (
         <>
             <Breadcrumbs>
@@ -35,4 +35,4 @@ const Component = ({ children }: Props) => {
     );
 };
 
-export default Component;
+export default EditListLayout;

@@ -17,7 +17,7 @@ import { ANIME_NAV_ROUTES } from '@/utils/constants';
 import useAuth from '@/services/hooks/auth/useAuth';
 
 
-const Component = () => {
+const Title = () => {
     const { titleLanguage } = useSettingsContext();
     const isMobile = useIsMobile();
     const pathname = usePathname();
@@ -114,4 +114,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default Title;

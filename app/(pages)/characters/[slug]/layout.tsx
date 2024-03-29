@@ -20,8 +20,8 @@ import getFavourite from '@/services/api/favourite/getFavourite';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Cover from './_components/cover';
-import Title from './_components/title';
+import Cover from '@/app/(pages)/characters/[slug]/components/cover';
+import Title from '@/app/(pages)/characters/[slug]/components/title';
 import { redirect } from 'next/navigation';
 
 
@@ -66,7 +66,7 @@ export async function generateMetadata(
     };
 }
 
-const Component = async ({ params: { slug }, children }: Props) => {
+const CharacterLayout = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
@@ -142,4 +142,4 @@ const Component = async ({ params: { slug }, children }: Props) => {
     );
 };
 
-export default Component;
+export default CharacterLayout;

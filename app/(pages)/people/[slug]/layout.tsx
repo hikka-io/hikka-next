@@ -16,8 +16,8 @@ import getPersonInfo from '@/services/api/people/getPersonInfo';
 import { PERSON_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Cover from './_components/cover';
-import Title from './_components/title';
+import Cover from '@/app/(pages)/people/[slug]/components/cover';
+import Title from '@/app/(pages)/people/[slug]/components/title';
 import { redirect } from 'next/navigation';
 
 
@@ -62,7 +62,7 @@ export async function generateMetadata(
     };
 }
 
-const Component = async ({ params: { slug }, children }: Props) => {
+const PersonLayout = async ({ params: { slug }, children }: Props) => {
     const queryClient = getQueryClient();
 
     const person = await queryClient.fetchQuery({
@@ -127,4 +127,4 @@ const Component = async ({ params: { slug }, children }: Props) => {
     );
 };
 
-export default Component;
+export default PersonLayout;

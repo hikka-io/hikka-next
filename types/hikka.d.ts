@@ -1,9 +1,8 @@
 import { JSXElementConstructor, ReactElement, ReactNode, SVGProps } from 'react';
 
-export {};
-
 declare global {
     namespace Hikka {
+
         type FilterProperty<T extends string> = Record<
             T,
             {

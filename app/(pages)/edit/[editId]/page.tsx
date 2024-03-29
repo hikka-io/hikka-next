@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import Comments from '@/components/comments/comments';
 
-import EditView from '../_components/edit-view';
-import Actions from './_components/actions';
+import EditView from '@/app/(pages)/edit/components/edit-view';
+import Actions from '@/app/(pages)/edit/[editId]/components/actions';
 import { getCookie } from '@/app/actions';
 
 interface Props {
     params: { editId: string };
 }
 
-const Component = async ({ params: { editId } }: Props) => {
+const EditPage = async ({ params: { editId } }: Props) => {
     const auth = await getCookie('auth');
 
     return (
@@ -22,4 +22,4 @@ const Component = async ({ params: { editId } }: Props) => {
     );
 };
 
-export default Component;
+export default EditPage;
