@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsMobile from '@/services/hooks/useIsMobile';
@@ -11,15 +11,6 @@ interface Props extends PropsWithChildren {
 
 const Component = ({ children, mobileOnly }: Props) => {
     const isMobile = useIsMobile();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return null;
-    }
 
     if (isMobile) {
         return createPortal(

@@ -243,7 +243,7 @@ const Component = ({ className, type }: Props) => {
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
                     <div className="flex items-center gap-4">
-                        <Label className="badge w-9">{selectingYears[0]}</Label>
+                        <Label className="w-9">{selectingYears[0]}</Label>
                         <Slider
                             className="flex-1"
                             onValueCommit={(value) =>
@@ -262,7 +262,7 @@ const Component = ({ className, type }: Props) => {
                             minStepsBetweenThumbs={0}
                             value={selectingYears.map((y) => Number(y))}
                         />
-                        <Label className="badge w-9">{selectingYears[1]}</Label>
+                        <Label className="w-9">{selectingYears[1]}</Label>
                     </div>
                 </div>
             </div>

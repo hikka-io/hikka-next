@@ -84,7 +84,7 @@ const Links = ({ extended }: Props) => {
             </SubHeader>
             <div
                 className={cn(
-                    'grid md:grid-cols-3 gap-4 lg:gap-8',
+                    'grid gap-4 md:grid-cols-3 lg:gap-8',
                     !extended &&
                         'no-scrollbar grid-min-14 -mx-4 grid-flow-col grid-cols-scroll-3 overflow-x-auto px-4',
                 )}

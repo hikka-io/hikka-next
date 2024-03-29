@@ -1,7 +1,7 @@
 import React from 'react';
 
-import NotificationsMenu from '@/components/navbar/components/profile-navbar/components/notifications-menu';
-import ProfileMenu from '@/components/navbar/components/profile-navbar/components/profile-menu';
+import NotificationsMenu from './notifications-menu';
+import ProfileMenu from './profile-menu';
 
 const Component = () => {
     return (

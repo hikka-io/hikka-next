@@ -227,7 +227,8 @@ export const Combobox = forwardRef(
                     )}
                     <PopoverPortal container={rootRef.current}>
                         <PopoverContent
-                            side={side}
+                            avoidCollisions={false}
+                            side={side || 'bottom'}
                             align={align || 'start'}
                             className="p-0"
                         >

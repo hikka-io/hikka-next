@@ -81,7 +81,7 @@ const Tabs = ({
             <div className="flex items-center">
                 <H3 className="px-6">Налаштування</H3>
             </div>
-            <ul className="menu w-full p-0 [&_li>*]:rounded-none">
+            <ul className="w-full p-0 [&_li>*]:rounded-none">
                 {DATA.map((tab) => (
                     <li key={tab.slug}>
                         <a
@@ -89,7 +89,7 @@ const Tabs = ({
                             className={cn(
                                 'flex flex-col items-start justify-center gap-0 px-8 py-4',
                                 activeTab === tab.slug
-                                    ? 'active bg-secondary'
+                                    ? 'bg-secondary'
                                     : 'hover:bg-secondary/30',
                                 'hover:cursor-pointer',
                             )}

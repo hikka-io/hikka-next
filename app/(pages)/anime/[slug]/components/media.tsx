@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
-import IcBaselineOndemandVideo from '~icons/ic/baseline-ondemand-video';
 
 import { useParams } from 'next/navigation';
 
@@ -75,11 +74,20 @@ const Media = ({ extended }: Props) => {
             <div
                 className={cn(
                     'grid gap-4 lg:gap-8',
-                    !extended && 'grid-flow-col overflow-x-auto no-scrollbar -mx-4 px-4',
-                    active === 'music' && extended && 'grid-cols-3 md:grid-cols-6',
-                    active === 'music' && !extended && 'grid-cols-scroll-4 md:grid-cols-4',
-                    active === 'video' && extended && 'grid-cols-2 md:grid-cols-4',
-                    active === 'video' && !extended &&  'grid-cols-scroll-3 grid-min-10 md:grid-cols-3',
+                    !extended &&
+                        'no-scrollbar -mx-4 grid-flow-col overflow-x-auto px-4',
+                    active === 'music' &&
+                        extended &&
+                        'grid-cols-3 md:grid-cols-6',
+                    active === 'music' &&
+                        !extended &&
+                        'grid-cols-scroll-4 md:grid-cols-4',
+                    active === 'video' &&
+                        extended &&
+                        'grid-cols-2 md:grid-cols-4',
+                    active === 'video' &&
+                        !extended &&
+                        'grid-min-10 grid-cols-scroll-3 md:grid-cols-3',
                 )}
             >
                 {active === 'music' &&
@@ -94,11 +102,10 @@ const Media = ({ extended }: Props) => {
                                 OST[ost.ost_type].title_ua ||
                                 OST[ost.ost_type].title_en
                             }
-                        >
-                            <div className="absolute left-0 top-0 flex size-full items-center justify-center text-4xl">
-                                <IcBaselineLibraryMusic className="text-muted-foreground" />
-                            </div>
-                        </EntryCard>
+                            poster={
+                                <IcBaselineLibraryMusic className="text-4xl text-muted-foreground" />
+                            }
+                        />
                     ))}
                 {active === 'video' &&
                     filteredVideoData.map((video) => {
@@ -116,13 +123,7 @@ const Media = ({ extended }: Props) => {
                                     VIDEO[video.video_type].title_ua ||
                                     VIDEO[video.video_type].title_en
                                 }
-                            >
-                                {!thumb && (
-                                    <div className="absolute left-0 top-0 flex size-full items-center justify-center text-4xl">
-                                        <IcBaselineOndemandVideo className="text-muted-foreground" />
-                                    </div>
-                                )}
-                            </EntryCard>
+                            />
                         );
                     })}
             </div>

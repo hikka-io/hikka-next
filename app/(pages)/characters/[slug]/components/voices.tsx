@@ -35,7 +35,7 @@ const Voices = ({ extended }: Props) => {
             <div
                 className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
-                    !extended && 'grid-flow-col grid-cols-scroll-5 grid-min-10 overflow-x-auto no-scrollbar -mx-4 px-4'
+                    !extended && 'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll-5 overflow-x-auto px-4'
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (

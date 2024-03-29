@@ -50,7 +50,7 @@ const Component = () => {
                 !Array.isArray(option) &&
                 option && (
                     <div className="flex items-center gap-4">
-                        <div className="stat-figure text-base-content rounded-md border border-secondary bg-secondary/60 p-1 text-xl">
+                        <div className="rounded-md border border-secondary bg-secondary/60 p-1 text-xl">
                             {createElement(
                                 WATCH_STATUS[option.value as API.WatchStatus]
                                     .icon!,

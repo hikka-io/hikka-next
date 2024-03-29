@@ -63,7 +63,7 @@ const Component = () => {
             </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex w-full flex-col gap-2">
-                    <Label className="label">Новий email</Label>
+                    <Label>Новий email</Label>
                     <Input
                         type="email"
                         placeholder="Введіть новий email"
@@ -71,7 +71,7 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-2">
-                    <Label className="label">Підтвердити email</Label>
+                    <Label>Підтвердити email</Label>
                     <Input
                         type="email"
                         placeholder="Підтвердіть новий email"

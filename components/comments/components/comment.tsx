@@ -12,9 +12,9 @@ import { useQueryClient } from '@tanstack/react-query';
 
 
 
-import CommentInput from '@/components/comments/ui/comment-input';
-import CommentMenu from '@/components/comments/ui/comment-menu';
-import CommentVote from '@/components/comments/ui/comment-vote';
+import CommentInput from '@/components/comments/components/comment-input';
+import CommentMenu from '@/components/comments/components/comment-menu';
+import CommentVote from '@/components/comments/components/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';

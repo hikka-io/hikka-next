@@ -140,7 +140,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                     }
                                     disabled={disabled}
                                     className={cn(
-                                        'flex-1 rounded-r-none flex-nowrap overflow-hidden',
+                                        'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                                     )}
                                 >
                                     {value ? (
@@ -199,7 +199,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                                         }
                                         disabled={disabled}
                                         className={cn(
-                                            'text-xl rounded-l-none',
+                                            'rounded-l-none text-xl',
                                             value && 'hover:bg-red-500',
                                         )}
                                     >

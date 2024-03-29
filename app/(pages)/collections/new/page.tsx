@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import React from 'react';
 
-import Breadcrumbs from '@/components/breadcrumbs';
+import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
 import { Label } from '@/components/ui/label';
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';

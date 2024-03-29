@@ -20,7 +20,6 @@ export default function NotFound() {
                             width={80}
                             height={24}
                         />
-                        <div className="divider divider-horizontal" />
                         <H1 className="text-center text-[3rem]">404</H1>
                     </div>
                     <P>На жаль, такої сторінки не існує 😢</P>

@@ -1,4 +1,10 @@
 import React from 'react';
+import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
+
+import SubHeader from '@/components/sub-header';
+import P from '@/components/typography/p';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
 
 import About from './components/about';
 import Characters from './components/characters';
@@ -8,6 +14,7 @@ import Links from './components/links';
 import Media from './components/media';
 import Staff from './components/staff';
 import WatchStats from './components/watch-stats/watch-stats';
+
 
 const AnimePage = () => {
     return (
@@ -25,7 +32,7 @@ const AnimePage = () => {
             </div>
             <div className="order-1 flex flex-col gap-12 lg:order-2">
                 <About />
-                <div className="hidden flex-1 lg:block">
+                <div className="hidden lg:block">
                     <WatchStats />
                 </div>
             </div>

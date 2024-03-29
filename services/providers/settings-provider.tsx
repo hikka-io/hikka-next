@@ -36,7 +36,12 @@ async function getInitialState(): Promise<State> {
 
     return {
         titleLanguage: 'title_ua',
-        editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
+        editTags: [
+            'Додано назву',
+            'Додано синоніми',
+            'Додано опис',
+            'Додано імʼя',
+        ],
     };
 }
 

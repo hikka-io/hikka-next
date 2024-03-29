@@ -17,8 +17,8 @@ import useNotificationsCount from '@/services/hooks/notifications/useNotificatio
 import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
 import { convertNotification } from '@/utils/convertNotification';
 
-import NotFoundNotifications from '@/components/navbar/components/profile-navbar/components/notifications-menu/components/not-found-notifications';
-import NotificationItem from '@/components/navbar/components/profile-navbar/components/notifications-menu/components/ui/notification-item';
+import NotFoundNotifications from '@/components/navbar/components/notifications-menu/components/not-found-notifications';
+import NotificationItem from '@/components/navbar/components/notifications-menu/components/ui/notification-item';
 
 interface Props {}
 

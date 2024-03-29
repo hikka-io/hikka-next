@@ -67,7 +67,7 @@ const Component = () => {
             </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex w-full flex-col gap-2">
-                    <Label className="label">Новий пароль</Label>
+                    <Label>Новий пароль</Label>
                     <Input
                         type="password"
                         placeholder="Введіть новий пароль"
@@ -75,7 +75,7 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-2">
-                    <Label className="label">Підтвердити пароль</Label>
+                    <Label>Підтвердити пароль</Label>
                     <Input
                         type="password"
                         placeholder="Підтвердіть новий пароль"

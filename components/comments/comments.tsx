@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import CommentInput from '@/components/comments/ui/comment-input';
-import Comments from '@/components/comments/ui/comments';
+import CommentInput from '@/components/comments/components/comment-input';
+import Comments from '@/components/comments/components/comments';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';

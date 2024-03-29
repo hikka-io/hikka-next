@@ -1,20 +1,18 @@
 'use client';
 
-import { createElement } from 'react';
+import { createElement, memo } from 'react';
+
+
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
-import useIsMobile from '@/services/hooks/useIsMobile';
+
+
 import P from '@/components/typography/p';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
+import useIsMobile from '@/services/hooks/useIsMobile';
+
 
 interface Props {
     routes: Hikka.NavRoute[];
@@ -75,4 +73,4 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
     );
 };
 
-export default Component;
+export default memo(Component);

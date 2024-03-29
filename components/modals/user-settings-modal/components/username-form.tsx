@@ -3,15 +3,9 @@
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-
-
 import { useRouter } from 'next/navigation';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
@@ -19,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import changeUserUsername from '@/services/api/settings/changeUserUsername';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useModalContext } from '@/services/providers/modal-provider';
 
 
@@ -68,7 +61,7 @@ const Component = () => {
             </div>
             <div className="w-full">
                 <div className="flex w-full flex-col gap-2">
-                    <Label className="label">Нове ім’я користувача</Label>
+                    <Label>Нове ім’я користувача</Label>
                     <Input
                         type="text"
                         placeholder="Введіть нове імʼя"

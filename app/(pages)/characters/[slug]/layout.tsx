@@ -7,10 +7,10 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import { getCookie } from '@/app/actions';
-import Breadcrumbs from '@/components/breadcrumbs';
-import InternalNavBar from '@/components/internal-navbar';
-import NavMenu from '@/components/nav-menu';
-import SubBar from '@/components/sub-navbar';
+import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
+import InternalNavBar from '@/components/navbar/nav-tabs';
+import NavMenu from '@/components/navbar/nav-dropdown';
+import SubBar from '@/components/navbar/sub-nav';
 import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
 import getCharacterInfo, {
     Response as CharacterResponse,

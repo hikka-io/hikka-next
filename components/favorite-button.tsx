@@ -1,11 +1,14 @@
 'use client';
 
-import clsx from 'clsx';
 import MaterialSymbolsFavoriteOutlineRounded from '~icons/material-symbols/favorite-outline-rounded';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 
 import { Button, ButtonProps } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import useAddFavorite from '@/services/hooks/favorite/useAddFavorite';
 import useDeleteFavorite from '@/services/hooks/favorite/useDeleteFavorite';
 import useFavorite from '@/services/hooks/favorite/useFavorite';
@@ -56,9 +59,7 @@ const Component = ({
                     {children}
                 </Button>
             </TooltipTrigger>
-            <TooltipContent>
-                В улюблене
-            </TooltipContent>
+            <TooltipContent>В улюблене</TooltipContent>
         </Tooltip>
     );
 };

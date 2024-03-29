@@ -1,12 +1,9 @@
-import million from 'million/compiler';
 import bundleAnalyzer from '@next/bundle-analyzer';
-import Icons from 'unplugin-icons/webpack'
+import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        missingSuspenseWithCSRBailout: false,
-    },
+
     reactStrictMode: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
@@ -23,10 +20,10 @@ const nextConfig = {
     webpack(config) {
         config.plugins.push(
             Icons({
-              compiler: 'jsx',
-              jsx: 'react'
-            })
-          )
+                compiler: 'jsx',
+                jsx: 'react',
+            }),
+        );
 
         return config;
     },
@@ -35,6 +32,5 @@ const withBundleAnalyzer = bundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
 });
 
-const millionConfig = { rsc: true }
 
-export default million.next(withBundleAnalyzer(nextConfig), millionConfig);
+export default withBundleAnalyzer(nextConfig);

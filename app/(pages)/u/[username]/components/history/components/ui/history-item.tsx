@@ -28,7 +28,7 @@ const Component = ({ data, className }: Props) => {
     }
 
     return (
-        <div className={cn('flex gap-4 items-center', className)}>
+        <div className={cn('flex items-center gap-4', className)}>
             <div className="w-12">
                 {data.content ? (
                     <EntryCard
