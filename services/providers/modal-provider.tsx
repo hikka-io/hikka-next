@@ -147,7 +147,7 @@ export default function ModalProvider({ children }: Props) {
                     <SheetContent
                         side={state.side}
                         className={cn(
-                            '!max-w-lg flex flex-col pb-0 gap-0',
+                            'flex !max-w-lg flex-col gap-0 pb-0',
                             state.className,
                         )}
                     >

@@ -31,6 +31,7 @@ import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import Actions from '@/app/(pages)/anime/[slug]/components/actions';
 import Cover from '@/app/(pages)/anime/[slug]/components/cover';
 import Title from '@/app/(pages)/anime/[slug]/components/title';
+import jsonSchema from '@/app/(pages)/anime/[slug]/anime.schema';
 
 
 interface Props extends PropsWithChildren {
@@ -56,6 +57,7 @@ export async function generateMetadata(
     const slug = params.slug;
 
     const anime: AnimeResponse = await getAnimeInfo({ slug });
+
     const startDate = anime.start_date
         ? new Date(anime.start_date * 1000).getFullYear()
         : null;
@@ -65,6 +67,7 @@ export async function generateMetadata(
     let synopsis: string | undefined = parseTextFromMarkDown(
         anime.synopsis_ua || anime.synopsis_en,
     );
+
 
     synopsis =
         synopsis &&
@@ -105,6 +108,8 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
         return redirect('/');
     }
 
+    const jsonLd = jsonSchema({ anime });
+
     await Promise.all([
         queryClient.prefetchInfiniteQuery({
             queryKey: ['characters', slug],
@@ -144,14 +149,18 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <div
                             className="size-2 rounded-full bg-white"
                             style={{
                                 backgroundColor:
-                                    RELEASE_STATUS[anime?.status as API.Status]
-                                        .color,
+                                RELEASE_STATUS[anime?.status as API.Status]
+                                    .color,
                             }}
                         />
                         <Link
