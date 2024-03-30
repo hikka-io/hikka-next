@@ -16,10 +16,10 @@ const useDeleteFromList = ({ slug }: { slug: string }) => {
                 slug: slug,
             }),
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.refetchQueries({
                 queryKey: ['watch', slug, { auth }],
             });
+            await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.invalidateQueries({
                 queryKey: ['watchList'],
                 exact: false,

@@ -40,22 +40,18 @@ const Component = ({ className }: Props) => {
 
     const filteredCollections = collections?.slice(0, 3);
 
+    const handleOpenCollectionsModal = () => {
+        openModal({
+            type: 'sheet',
+            title: 'Колекції',
+            side: 'right',
+            content: <CollectionsModal />,
+        });
+    };
+
     return (
         <div className={cn('flex flex-col gap-8', className)}>
-            <SubHeader
-                title={'Колекції'}
-                onClick={
-                    collections && collections?.length > 0
-                        ? () =>
-                              openModal({
-                                  type: 'sheet',
-                                  title: 'Колекції',
-                                  side: 'right',
-                                  content: <CollectionsModal />,
-                              })
-                        : undefined
-                }
-            >
+            <SubHeader title={'Колекції'} onClick={collections && collections?.length > 0 ? handleOpenCollectionsModal : undefined}>
                 {loggedUser?.username === params.username && (
                     <Button asChild size="icon-sm" variant="outline">
                         <Link href="/collections/new">

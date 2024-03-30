@@ -8,10 +8,13 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/utils/actions';
+import jsonSchema from '@/app/(pages)/anime/[slug]/anime.schema';
+import Actions from '@/app/(pages)/anime/[slug]/components/actions';
+import Cover from '@/app/(pages)/anime/[slug]/components/cover';
+import Title from '@/app/(pages)/anime/[slug]/components/title';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import InternalNavBar from '@/components/navbar/nav-tabs';
 import NavMenu from '@/components/navbar/nav-dropdown';
+import InternalNavBar from '@/components/navbar/nav-tabs';
 import SubBar from '@/components/navbar/sub-nav';
 import { Button } from '@/components/ui/button';
 import getAnimeCharacters from '@/services/api/anime/getAnimeCharacters';
@@ -21,18 +24,14 @@ import getAnimeInfo, {
 } from '@/services/api/anime/getAnimeInfo';
 import getAnimeStaff from '@/services/api/anime/getAnimeStaff';
 import getFavourite from '@/services/api/favourite/getFavourite';
+import getFollowingWatchList from '@/services/api/watch/getFollowingWatchList';
 import getWatch from '@/services/api/watch/getWatch';
+import { getCookie } from '@/utils/actions';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 import getQueryClient from '@/utils/getQueryClient';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
-
-import Actions from '@/app/(pages)/anime/[slug]/components/actions';
-import Cover from '@/app/(pages)/anime/[slug]/components/cover';
-import Title from '@/app/(pages)/anime/[slug]/components/title';
-import jsonSchema from '@/app/(pages)/anime/[slug]/anime.schema';
-
 
 interface Props extends PropsWithChildren {
     params: {
@@ -67,7 +66,6 @@ export async function generateMetadata(
     let synopsis: string | undefined = parseTextFromMarkDown(
         anime.synopsis_ua || anime.synopsis_en,
     );
-
 
     synopsis =
         synopsis &&
@@ -129,19 +127,35 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
                 getAnimeStaff({ slug, page: pageParam }),
             initialPageParam: 1,
         }),
-        queryClient.prefetchQuery({
-            queryKey: ['watch', slug, { auth }],
-            queryFn: () => getWatch({ slug: slug, auth: String(auth) }),
-        }),
-        queryClient.prefetchQuery({
-            queryKey: ['favorite', slug, { auth, content_type: 'anime' }],
-            queryFn: () =>
-                getFavourite({
-                    slug: String(slug),
-                    auth: String(auth),
-                    content_type: 'anime',
-                }),
-        }),
+        auth
+            ? queryClient.prefetchQuery({
+                  queryKey: ['watch', slug, { auth }],
+                  queryFn: () => getWatch({ slug: slug, auth: String(auth) }),
+              })
+            : undefined,
+        auth
+            ? queryClient.prefetchQuery({
+                  queryKey: ['favorite', slug, { auth, content_type: 'anime' }],
+                  queryFn: () =>
+                      getFavourite({
+                          slug: String(slug),
+                          auth: String(auth),
+                          content_type: 'anime',
+                      }),
+              })
+            : undefined,
+        auth
+            ? queryClient.prefetchInfiniteQuery({
+                  initialPageParam: 1,
+                  queryKey: ['followingWatchList', slug, { auth }],
+                  queryFn: ({ pageParam = 1 }) =>
+                      getFollowingWatchList({
+                          slug: slug,
+                          auth: String(auth),
+                          page: pageParam,
+                      }),
+              })
+            : undefined,
     ]);
 
     const dehydratedState = dehydrate(queryClient);
@@ -159,8 +173,8 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
                             className="size-2 rounded-full bg-white"
                             style={{
                                 backgroundColor:
-                                RELEASE_STATUS[anime?.status as API.Status]
-                                    .color,
+                                    RELEASE_STATUS[anime?.status as API.Status]
+                                        .color,
                             }}
                         />
                         <Link
