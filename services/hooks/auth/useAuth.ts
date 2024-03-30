@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 
-import { deleteCookie } from '@/app/actions';
+import { deleteCookie } from '@/utils/actions';
 
 const useAuth = () => {
     const queryClient = useQueryClient();

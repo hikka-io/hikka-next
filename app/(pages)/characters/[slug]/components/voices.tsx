@@ -10,7 +10,7 @@ import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 import useCharacterVoices from '@/services/hooks/characters/useCharacterVoices';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;

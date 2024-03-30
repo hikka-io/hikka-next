@@ -27,7 +27,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 import { Checkbox } from './checkbox';
 

@@ -13,7 +13,7 @@ import useUnfollow from '@/services/hooks/follow/useUnfollow';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import useUser from '@/services/hooks/user/useUser';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     className?: string;

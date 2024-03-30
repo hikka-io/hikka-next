@@ -6,8 +6,10 @@ import MaterialSymbolsCheckCircleRounded from '~icons/material-symbols/check-cir
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
+import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded'
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import EntryCard from '@/components/entry-card/entry-card';
 
 const TITLES: Record<API.NotificationType, string> = {
     edit_accepted: 'Правка прийнята',
@@ -19,11 +21,12 @@ const TITLES: Record<API.NotificationType, string> = {
     edit_comment: 'Новий коментар у правці',
     collection_comment: 'Новий коментар у колекції',
     hikka_update: 'Hikka',
+    schedule_anime: 'Новий епізод',
 };
 
 const DESCRIPTIONS: Record<
     API.NotificationType,
-    (args?: any) => string | ReactNode
+    (...args: any) => string | ReactNode
 > = {
     edit_accepted: () => 'Ваша правка була прийнята',
     edit_denied: () => 'Ваша правка була відхилена',
@@ -34,7 +37,11 @@ const DESCRIPTIONS: Record<
             коментар
         </>
     ),
-    comment_vote: () => 'Ваш коментар оцінили',
+    comment_vote: (username: string) => (
+        <>
+            Ваш коментар оцінили
+        </>
+    ),
     comment_tag: (comment_author: string) => (
         <>
             <span className="font-bold">@{comment_author}</span> згадав Вас у
@@ -54,6 +61,11 @@ const DESCRIPTIONS: Record<
         </>
     ),
     hikka_update: (description: string) => description,
+    schedule_anime: (episode: number) => (
+        <>
+            Вийшов <span className="font-bold">{episode}</span> епізод аніме
+        </>
+    ),
 };
 
 const ICONS: Record<API.NotificationType, ReactNode> = {
@@ -66,6 +78,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     edit_comment: <MaterialSymbolsAddCommentRounded />,
     collection_comment: <MaterialSymbolsAddCommentRounded />,
     hikka_update: <MaterialSymbolsInfoRounded />,
+    schedule_anime: <MaterialSymbolsLiveTvRounded />,
 };
 
 const getInitialData = (
@@ -74,6 +87,7 @@ const getInitialData = (
         | API.NotificationCommentVoteData
         | API.NotificationEditData
         | API.NotificationHikkaData
+        | API.NotificationScheduleAnimeData
     >,
 ) => {
     return {
@@ -89,7 +103,8 @@ const getInitialData = (
 const commentReply = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type, comment_reference } = notification.data;
+    const { comment_author, slug, content_type, comment_reference } =
+        notification.data;
 
     return {
         ...getInitialData(notification),
@@ -102,11 +117,11 @@ const commentReply = (
 const commentVote = (
     notification: API.Notification<API.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, content_type, comment_reference } = notification.data;
+    const { slug, content_type, comment_reference,  } = notification.data;
 
     return {
         ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](),
+        description: DESCRIPTIONS[notification.notification_type](""),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
     };
 };
@@ -114,7 +129,8 @@ const commentVote = (
 const commentTag = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type, comment_reference } = notification.data;
+    const { comment_author, slug, content_type, comment_reference } =
+        notification.data;
 
     return {
         ...getInitialData(notification),
@@ -127,7 +143,8 @@ const commentTag = (
 const editComment = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type, comment_reference } = notification.data;
+    const { comment_author, slug, content_type, comment_reference } =
+        notification.data;
 
     return {
         ...getInitialData(notification),
@@ -154,11 +171,29 @@ const hikkaUpdate = (
 ) => {
     return {
         ...getInitialData(notification),
-        title: notification.data.title || TITLES[notification.notification_type],
+        title:
+            notification.data.title || TITLES[notification.notification_type],
         description: DESCRIPTIONS[notification.notification_type](
             notification.data.description,
         ),
         href: notification.data.link,
+    };
+};
+
+const scheduleAnime = (
+    notification: API.Notification<API.NotificationScheduleAnimeData>,
+) => {
+    return {
+        ...getInitialData(notification),
+        title:
+            notification.data.title_ua ||
+            notification.data.title_en ||
+            notification.data.title_ja,
+        description: DESCRIPTIONS[notification.notification_type](
+            notification.data.after.episodes_released,
+        ),
+        href: `/anime/${notification.data.slug}`,
+        poster: <EntryCard containerRatio={1} className="w-10" poster={notification.data.poster} />
     };
 };
 
@@ -168,6 +203,7 @@ export const convertNotification = (
         | API.NotificationCommentData
         | API.NotificationEditData
         | API.NotificationHikkaData
+        | API.NotificationScheduleAnimeData
     >,
 ): Hikka.TextNotification => {
     switch (notification.notification_type) {
@@ -206,6 +242,10 @@ export const convertNotification = (
         case 'hikka_update':
             return hikkaUpdate(
                 notification as API.Notification<API.NotificationHikkaData>,
+            );
+        case 'schedule_anime':
+            return scheduleAnime(
+                notification as API.Notification<API.NotificationScheduleAnimeData>,
             );
     }
 };

@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Small from '@/components/typography/small';
 import EntryCard from '@/components/entry-card/entry-card';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import React from 'react';
 

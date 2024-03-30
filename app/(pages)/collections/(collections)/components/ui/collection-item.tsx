@@ -13,7 +13,7 @@ import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     collection: API.Collection;

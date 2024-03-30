@@ -8,7 +8,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import Content from '@/app/(pages)/edit/components/content/content';
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
 import SubHeader from '@/components/sub-header';
 import getComments from '@/services/api/comments/getComments';

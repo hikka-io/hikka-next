@@ -16,7 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import {
     AGE_RATING, GENRE_TYPES,
     MEDIA_TYPE,

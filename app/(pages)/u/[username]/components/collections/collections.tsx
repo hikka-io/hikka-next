@@ -11,7 +11,7 @@ import NotFound from '@/components/ui/not-found';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import useUserCollections from '@/services/hooks/user/useUserCollections';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 import CollectionsModal from './components/collections-modal';
 import CollectionItem from './components/ui/collection-item';

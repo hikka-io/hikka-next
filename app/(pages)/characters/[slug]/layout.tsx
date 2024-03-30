@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
 import InternalNavBar from '@/components/navbar/nav-tabs';
 import NavMenu from '@/components/navbar/nav-dropdown';

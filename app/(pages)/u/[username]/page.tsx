@@ -3,7 +3,7 @@ import React from 'react';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';

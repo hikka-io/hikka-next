@@ -5,7 +5,7 @@ import { headers } from 'next/headers';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
 import getQueryClient from '@/utils/getQueryClient';
 

@@ -1,29 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
 import MaterialSymbolsPerson from '~icons/material-symbols/person';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
+
+
 import Link from 'next/link';
 
+
+
 import SettingsModal from '@/components/modals/user-settings-modal/user-settings-modal';
-import H5 from '@/components/typography/h5';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Label } from '@/components/ui/label';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import { useModalContext } from '@/services/providers/modal-provider';
+
 
 interface Props {}
 
@@ -39,7 +37,9 @@ const Component = ({}: Props) => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger
+                asChild
+            >
                 <Button
                     variant="ghost"
                     size="sm"
@@ -58,11 +58,15 @@ const Component = ({}: Props) => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-                <div className="flex items-center gap-4 p-1">
-                    <Avatar className="w-10 rounded-md">
+                <div className="-m-1 flex items-center gap-2 bg-secondary/30 p-1">
+                    <Avatar className="size-9 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>
-                    <H5 className="truncate">{loggedUser.username}</H5>
+                    <div className="flex flex-col">
+                        <Label className="truncate">
+                            {loggedUser.username}
+                        </Label>
+                    </div>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>

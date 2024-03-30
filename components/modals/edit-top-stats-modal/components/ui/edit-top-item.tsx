@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     user: API.User;

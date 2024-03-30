@@ -4,7 +4,7 @@ import Comments from '@/components/comments/comments';
 
 import EditView from '@/app/(pages)/edit/components/edit-view';
 import Actions from '@/app/(pages)/edit/[editId]/components/actions';
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 
 interface Props {
     params: { editId: string };

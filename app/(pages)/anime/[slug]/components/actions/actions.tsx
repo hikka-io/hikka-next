@@ -1,4 +1,4 @@
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import WatchListButton from '@/components/watchlist-button';
 
 import WatchStats from '@/app/(pages)/anime/[slug]/components/actions/components/watch-stats';

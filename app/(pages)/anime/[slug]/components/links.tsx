@@ -11,7 +11,7 @@ import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;

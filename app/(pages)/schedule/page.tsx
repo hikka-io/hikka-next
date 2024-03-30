@@ -5,7 +5,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import ScheduleList from '@/app/(pages)/schedule/components/schedule-list';
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';

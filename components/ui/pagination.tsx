@@ -6,7 +6,7 @@ import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined'
 
 import { Button } from '@/components/ui/button';
 import { range } from '@antfu/utils';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     page: number;

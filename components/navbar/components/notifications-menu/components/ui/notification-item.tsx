@@ -27,14 +27,14 @@ const Component = ({ data }: Props) => {
     };
 
     return (
-        <DropdownMenuItem className="flex items-start gap-4 py-3" asChild>
+        <DropdownMenuItem className="flex items-center gap-4 py-3" asChild>
             <Link href={data.href} onClick={handleOnClick}>
                 <div className="rounded-md bg-muted p-2 text-muted-foreground">
                     {data.icon}
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                        <Label className="leading-normal">{data.title}</Label>
+                    <div className="inline-flex items-center gap-2">
+                        <Label className="line-clamp-1 leading-normal w-fit">{data.title}</Label>
                         {!data.seen && (
                             <div className="size-2 rounded-full bg-warning" />
                         )}
@@ -48,6 +48,7 @@ const Component = ({ data }: Props) => {
                         })}
                     </Small>
                 </div>
+                {data.poster && data.poster}
             </Link>
         </DropdownMenuItem>
     );

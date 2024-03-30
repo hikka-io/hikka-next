@@ -9,7 +9,7 @@ import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import usePersonAnime from '@/services/hooks/people/usePersonAnime';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 
 interface Props {

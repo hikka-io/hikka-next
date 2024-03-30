@@ -11,7 +11,7 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useFranchise from '@/services/hooks/anime/useFranchise';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE } from '@/utils/constants';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;

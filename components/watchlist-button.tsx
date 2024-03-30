@@ -17,7 +17,7 @@ import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
 import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import { WATCH_STATUS } from '@/utils/constants';
 
 interface Props {

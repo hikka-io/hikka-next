@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
-import { setCookie } from '@/app/actions';
+import { setCookie } from '@/utils/actions';
 import login from '@/services/api/auth/login';
 
 import { useModalContext } from '@/services/providers/modal-provider';

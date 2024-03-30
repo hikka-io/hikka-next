@@ -7,7 +7,7 @@ import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import useIsMobile from '@/services/hooks/useIsMobile';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 import CustomizationForm from '@/components/modals/user-settings-modal/components/customization-form';
 import EmailForm from '@/components/modals/user-settings-modal/components/email-form';

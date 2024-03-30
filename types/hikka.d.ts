@@ -65,6 +65,7 @@ declare global {
             created: number;
             href: string;
             seen: boolean;
+            poster?: ReactNode;
         };
 
         type WatchStat = {

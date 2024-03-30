@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import SubHeader from '@/components/sub-header';
 import NotFound from '@/components/ui/not-found';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 import ActivityModal from './components/history-modal';
 import ActivityItem from './components/ui/history-item';

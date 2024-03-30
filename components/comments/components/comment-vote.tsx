@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import vote from '@/services/api/vote/vote';
 import useAuth from '@/services/hooks/auth/useAuth';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 
 interface Props {

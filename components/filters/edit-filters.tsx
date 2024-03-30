@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import { EDIT_STATUSES } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 

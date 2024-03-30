@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import EntryCard from '@/components/entry-card/entry-card';
 import { Label } from '@/components/ui/label';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import { convertActivity } from '@/utils/convertActivity';
 
 interface Props {

@@ -5,7 +5,7 @@ import Markdown, { Options } from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 import Spoiler from '@/components/markdown/viewer/components/spoiler';
 import remarkMentions from './plugins/remark-mentions';

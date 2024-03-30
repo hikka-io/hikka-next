@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;

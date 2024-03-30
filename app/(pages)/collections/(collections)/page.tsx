@@ -7,7 +7,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import CollectionSort from '@/app/(pages)/collections/(collections)/components/collection-sort';
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import PagePagination from '@/components/page-pagination';
 import SubHeader from '@/components/sub-header';
 import getCollections from '@/services/api/collections/getCollections';

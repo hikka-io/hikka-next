@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { getCookie } from '@/app/actions';
+import { getCookie } from '@/utils/actions';
 import Comments from '@/components/comments/comments';
 
 export async function generateMetadata(

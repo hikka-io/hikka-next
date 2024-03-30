@@ -44,7 +44,7 @@ const Component = ({}: Props) => {
                 align="end"
                 className="flex max-h-96 w-80 flex-col sm:w-96"
             >
-                <DropdownMenuLabel className="flex items-center justify-between gap-2">
+                <DropdownMenuLabel className="-m-1 flex items-center justify-between gap-2 bg-secondary/30 px-3 py-3.5">
                     <div className="flex gap-2">
                         Сповіщення
                         {countData && countData.unseen > 0 && (

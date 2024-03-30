@@ -16,7 +16,7 @@ import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
 import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 import { AspectRatio } from '../ui/aspect-ratio';
 import ContextMenuOverlay from './components/context-menu-overlay';

@@ -15,7 +15,7 @@ import {
     FormLabel,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { setCookie } from '@/app/actions';
+import { setCookie } from '@/utils/actions';
 import confirmPasswordReset from '@/services/api/auth/confirmPasswordReset';
 
 import { useModalContext } from '@/services/providers/modal-provider';

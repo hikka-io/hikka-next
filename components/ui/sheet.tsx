@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import * as SheetPrimitive from '@radix-ui/react-dialog';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 
 const Sheet = SheetPrimitive.Root;

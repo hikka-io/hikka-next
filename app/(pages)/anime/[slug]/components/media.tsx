@@ -9,7 +9,7 @@ import EntryCard from '@/components/entry-card/entry-card';
 import SubHeader from '@/components/sub-header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import { OST, VIDEO } from '@/utils/constants';
 
 interface Props {

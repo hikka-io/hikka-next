@@ -21,7 +21,7 @@ import editComment from '@/services/api/comments/editComment';
 import useAuth from '@/services/hooks/auth/useAuth';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 
 interface Props {

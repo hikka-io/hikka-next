@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import useFollowStats from '@/services/hooks/follow/useFollowStats';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     className?: string;

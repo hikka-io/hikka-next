@@ -23,7 +23,7 @@ import {
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface State {
     open: boolean;

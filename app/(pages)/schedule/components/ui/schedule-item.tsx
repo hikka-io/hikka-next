@@ -12,7 +12,7 @@ import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 
 interface Props {
     item: API.AnimeSchedule;

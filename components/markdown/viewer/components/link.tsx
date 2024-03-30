@@ -15,7 +15,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { cn } from '@/utils';
+import { cn } from '@/utils/utils';
 import P from '@/components/typography/p';
 
 interface Props {

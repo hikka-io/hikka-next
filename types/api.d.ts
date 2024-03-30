@@ -35,10 +35,7 @@ declare global {
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
-        type Status =
-            | 'ongoing'
-            | 'finished'
-            | 'announced';
+        type Status = 'ongoing' | 'finished' | 'announced';
 
         type VideoType = 'video_promo' | 'video_music';
 
@@ -306,7 +303,8 @@ declare global {
             | 'edit_accepted'
             | 'edit_denied'
             | 'edit_updated'
-            | 'hikka_update';
+            | 'hikka_update'
+            | 'schedule_anime';
 
         type NotificationCommentData = {
             slug: string;
@@ -341,12 +339,29 @@ declare global {
             link: string;
         };
 
+        type NotificationScheduleAnimeData = {
+            slug: string;
+            after: {
+                status: API.Status;
+                episodes_released: number;
+            };
+            before: {
+                status: API.Status;
+                episodes_released: number;
+            };
+            poster: string;
+            title_en: string;
+            title_ja: string;
+            title_ua: string;
+        };
+
         type Notification<
             TData extends
                 | NotificationCommentData
                 | NotificationCommentVoteData
                 | NotificationEditData
-                | NotificationHikkaData = NotificationCommentData,
+                | NotificationHikkaData
+                | NotificationScheduleAnimeData,
         > = {
             notification_type: NotificationType;
             created: number;
