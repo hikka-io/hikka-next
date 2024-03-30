@@ -70,8 +70,8 @@ const About = () => {
                     </div>
                 </div>
                 {data.media_type !== 'movie' &&
-                data.episodes_total &&
-                data.episodes_released !== null ? (
+                (data.episodes_total ||
+                    data.episodes_released) ? (
                     <div className="flex flex-wrap">
                         <div className="w-24">
                             <Label className="text-muted-foreground">
@@ -81,8 +81,8 @@ const About = () => {
                         <div className="flex-1">
                             <Label>
                                 {data.status === 'finished'
-                                    ? data.episodes_total
-                                    : `${data.episodes_released} / ${data.episodes_total}`}
+                                    ? data.episodes_total || "?"
+                                    : `${data.episodes_released || "?"} / ${data.episodes_total || "?"}`}
                             </Label>
                         </div>
                     </div>
