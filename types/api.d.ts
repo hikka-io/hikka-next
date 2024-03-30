@@ -361,7 +361,7 @@ declare global {
                 | NotificationCommentVoteData
                 | NotificationEditData
                 | NotificationHikkaData
-                | NotificationScheduleAnimeData,
+                | NotificationScheduleAnimeData = NotificationCommentData,
         > = {
             notification_type: NotificationType;
             created: number;
