@@ -6,10 +6,11 @@ import MaterialSymbolsCheckCircleRounded from '~icons/material-symbols/check-cir
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
-import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded'
+import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded';
+import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded'
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import EntryCard from '@/components/entry-card/entry-card';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 const TITLES: Record<API.NotificationType, string> = {
     edit_accepted: 'Правка прийнята',
@@ -22,6 +23,7 @@ const TITLES: Record<API.NotificationType, string> = {
     collection_comment: 'Новий коментар у колекції',
     hikka_update: 'Hikka',
     schedule_anime: 'Новий епізод',
+    follow: 'Нова підписка'
 };
 
 const DESCRIPTIONS: Record<
@@ -37,11 +39,7 @@ const DESCRIPTIONS: Record<
             коментар
         </>
     ),
-    comment_vote: (username: string) => (
-        <>
-            Ваш коментар оцінили
-        </>
-    ),
+    comment_vote: (username: string) => <>Ваш коментар оцінили</>,
     comment_tag: (comment_author: string) => (
         <>
             <span className="font-bold">@{comment_author}</span> згадав Вас у
@@ -66,6 +64,11 @@ const DESCRIPTIONS: Record<
             Вийшов <span className="font-bold">{episode}</span> епізод аніме
         </>
     ),
+    follow: (username: string) => (
+        <>
+            <span className="font-bold">@{username}</span> підписався на ваш профіль
+        </>
+    ),
 };
 
 const ICONS: Record<API.NotificationType, ReactNode> = {
@@ -79,6 +82,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     collection_comment: <MaterialSymbolsAddCommentRounded />,
     hikka_update: <MaterialSymbolsInfoRounded />,
     schedule_anime: <MaterialSymbolsLiveTvRounded />,
+    follow: <MaterialSymbolsPersonAddRounded />,
 };
 
 const getInitialData = (
@@ -88,6 +92,7 @@ const getInitialData = (
         | API.NotificationEditData
         | API.NotificationHikkaData
         | API.NotificationScheduleAnimeData
+        | API.NotificationFollowData
     >,
 ) => {
     return {
@@ -117,11 +122,11 @@ const commentReply = (
 const commentVote = (
     notification: API.Notification<API.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, content_type, comment_reference,  } = notification.data;
+    const { slug, content_type, comment_reference } = notification.data;
 
     return {
         ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](""),
+        description: DESCRIPTIONS[notification.notification_type](''),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
     };
 };
@@ -193,7 +198,32 @@ const scheduleAnime = (
             notification.data.after.episodes_released,
         ),
         href: `/anime/${notification.data.slug}`,
-        poster: <EntryCard containerRatio={1} className="w-10" poster={notification.data.poster} />
+        poster: (
+            <EntryCard
+                containerRatio={1}
+                className="w-10"
+                poster={notification.data.poster}
+            />
+        ),
+    };
+};
+
+const follow = (
+    notification: API.Notification<API.NotificationFollowData>,
+): Hikka.TextNotification => {
+    const { username, avatar } = notification.data;
+
+    return {
+        ...getInitialData(notification),
+        description: DESCRIPTIONS[notification.notification_type](username),
+        href: `/u/${username}`,
+        poster: (
+            <EntryCard
+                containerRatio={1}
+                className="w-10"
+                poster={avatar}
+            />
+        ),
     };
 };
 
@@ -204,6 +234,7 @@ export const convertNotification = (
         | API.NotificationEditData
         | API.NotificationHikkaData
         | API.NotificationScheduleAnimeData
+        | API.NotificationFollowData
     >,
 ): Hikka.TextNotification => {
     switch (notification.notification_type) {
@@ -246,6 +277,10 @@ export const convertNotification = (
         case 'schedule_anime':
             return scheduleAnime(
                 notification as API.Notification<API.NotificationScheduleAnimeData>,
+            );
+        case 'follow':
+            return follow(
+                notification as API.Notification<API.NotificationFollowData>,
             );
     }
 };

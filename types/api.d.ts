@@ -304,7 +304,13 @@ declare global {
             | 'edit_denied'
             | 'edit_updated'
             | 'hikka_update'
-            | 'schedule_anime';
+            | 'schedule_anime'
+            | 'follow';
+
+        type NotificationFollowData = {
+            username: string;
+            avatar: string;
+        };
 
         type NotificationCommentData = {
             slug: string;
@@ -361,7 +367,8 @@ declare global {
                 | NotificationCommentVoteData
                 | NotificationEditData
                 | NotificationHikkaData
-                | NotificationScheduleAnimeData = NotificationCommentData,
+                | NotificationScheduleAnimeData
+                | NotificationFollowData = NotificationCommentData,
         > = {
             notification_type: NotificationType;
             created: number;
