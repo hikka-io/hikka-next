@@ -252,7 +252,7 @@ const collectionVote = (
     return {
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
-        href: `collections/${slug}`,
+        href: `/collections/${slug}`,
         poster: (
             <EntryCard containerRatio={1} className="w-10" poster={avatar} />
         ),
