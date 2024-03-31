@@ -7,7 +7,7 @@ import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rou
 import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded';
-import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded'
+import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded';
 
 import EntryCard from '@/components/entry-card/entry-card';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
@@ -23,7 +23,7 @@ const TITLES: Record<API.NotificationType, string> = {
     collection_comment: 'Новий коментар у колекції',
     hikka_update: 'Hikka',
     schedule_anime: 'Новий епізод',
-    follow: 'Нова підписка'
+    follow: 'Нова підписка',
 };
 
 const DESCRIPTIONS: Record<
@@ -35,27 +35,29 @@ const DESCRIPTIONS: Record<
     edit_updated: () => 'Ваша правка була оновлена',
     comment_reply: (comment_author: string) => (
         <>
-            <span className="font-bold">@{comment_author}</span> відповів на Ваш
+            Користувач <span className="font-bold">@{comment_author}</span> відповів на Ваш
             коментар
         </>
     ),
-    comment_vote: (username: string) => <>Ваш коментар оцінили</>,
+    comment_vote: (username: string) => (
+        <>
+            Користувач <span className="font-bold">@{username}</span> оцінив Ваш коментар
+        </>
+    ),
     comment_tag: (comment_author: string) => (
         <>
-            <span className="font-bold">@{comment_author}</span> згадав Вас у
+            Користувач <span className="font-bold">@{comment_author}</span> згадав Вас у
             коментарі
         </>
     ),
-    edit_comment: (comment_author: string) => (
+    edit_comment: (username: string) => (
         <>
-            <span className="font-bold">@{comment_author}</span> залишив
-            коментар
+            Користувач <span className="font-bold">@{username}</span> залишив коментар
         </>
     ),
-    collection_comment: (comment_author: string) => (
+    collection_comment: (username: string) => (
         <>
-            <span className="font-bold">@{comment_author}</span> залишив
-            коментар
+            Користувач <span className="font-bold">@{username}</span> залишив коментар
         </>
     ),
     hikka_update: (description: string) => description,
@@ -66,7 +68,8 @@ const DESCRIPTIONS: Record<
     ),
     follow: (username: string) => (
         <>
-            <span className="font-bold">@{username}</span> підписався на ваш профіль
+            Користувач <span className="font-bold">@{username}</span> підписався на Ваш
+            профіль
         </>
     ),
 };
@@ -108,54 +111,64 @@ const getInitialData = (
 const commentReply = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type, comment_reference } =
+    const { username, slug, content_type, comment_reference, avatar } =
         notification.data;
 
     return {
         ...getInitialData(notification),
-        description:
-            DESCRIPTIONS[notification.notification_type](comment_author),
+        description: DESCRIPTIONS[notification.notification_type](username),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        poster: (
+            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+        ),
     };
 };
 
 const commentVote = (
     notification: API.Notification<API.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, content_type, comment_reference } = notification.data;
+    const { slug, content_type, comment_reference, username, avatar } =
+        notification.data;
 
     return {
         ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](''),
+        description: DESCRIPTIONS[notification.notification_type](username),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        poster: (
+            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+        ),
     };
 };
 
 const commentTag = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type, comment_reference } =
+    const { username, slug, content_type, comment_reference, avatar } =
         notification.data;
 
     return {
         ...getInitialData(notification),
-        description:
-            DESCRIPTIONS[notification.notification_type](comment_author),
+        description: DESCRIPTIONS[notification.notification_type](username),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        poster: (
+            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+        ),
     };
 };
 
 const editComment = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { comment_author, slug, content_type, comment_reference } =
+    const { username, slug, content_type, comment_reference, avatar } =
         notification.data;
 
     return {
         ...getInitialData(notification),
-        description:
-            DESCRIPTIONS[notification.notification_type](comment_author),
+        description: DESCRIPTIONS[notification.notification_type](username),
         href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        poster: (
+            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+        ),
     };
 };
 
@@ -218,11 +231,7 @@ const follow = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: `/u/${username}`,
         poster: (
-            <EntryCard
-                containerRatio={1}
-                className="w-10"
-                poster={avatar}
-            />
+            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };

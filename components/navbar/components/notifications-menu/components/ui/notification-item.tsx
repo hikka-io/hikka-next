@@ -34,12 +34,12 @@ const Component = ({ data }: Props) => {
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="inline-flex items-center gap-2">
-                        <Label className="line-clamp-1 leading-normal w-fit">{data.title}</Label>
+                        <Label className="line-clamp-1 w-fit leading-normal">{data.title}</Label>
                         {!data.seen && (
                             <div className="size-2 rounded-full bg-warning" />
                         )}
                     </div>
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-xs text-muted-foreground">
                         {data.description}
                     </P>
                     <Small className="text-muted-foreground opacity-60">

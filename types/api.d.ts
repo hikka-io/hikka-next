@@ -317,9 +317,10 @@ declare global {
             comment_text: string;
             content_type: ContentType;
             comment_depth: number;
-            comment_author: string;
             comment_reference: string;
             base_comment_reference: string;
+            username: string;
+            avatar: string;
         };
 
         type NotificationCommentVoteData = {
@@ -332,6 +333,8 @@ declare global {
             user_score: number;
             old_score: number;
             new_score: number;
+            username: string;
+            avatar: string;
         };
 
         type NotificationEditData = {
