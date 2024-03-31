@@ -24,6 +24,7 @@ const TITLES: Record<API.NotificationType, string> = {
     hikka_update: 'Hikka',
     schedule_anime: 'Новий епізод',
     follow: 'Нова підписка',
+    collection_vote: 'Нова оцінка у колекції',
 };
 
 const DESCRIPTIONS: Record<
@@ -72,6 +73,11 @@ const DESCRIPTIONS: Record<
             профіль
         </>
     ),
+    collection_vote: (username: string) => (
+        <>
+            Користувач <span className="font-bold">@{username}</span> оцінив Вашу колекцію
+        </>
+    ),
 };
 
 const ICONS: Record<API.NotificationType, ReactNode> = {
@@ -86,6 +92,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     hikka_update: <MaterialSymbolsInfoRounded />,
     schedule_anime: <MaterialSymbolsLiveTvRounded />,
     follow: <MaterialSymbolsPersonAddRounded />,
+    collection_vote: <MaterialSymbolsFavoriteRounded />,
 };
 
 const getInitialData = (
@@ -236,6 +243,22 @@ const follow = (
     };
 };
 
+const collectionVote = (
+    notification: API.Notification<API.NotificationVoteData>,
+): Hikka.TextNotification => {
+    const { slug, username, avatar } =
+        notification.data;
+
+    return {
+        ...getInitialData(notification),
+        description: DESCRIPTIONS[notification.notification_type](username),
+        href: `collections/${slug}`,
+        poster: (
+            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+        ),
+    };
+};
+
 export const convertNotification = (
     notification: API.Notification<
         | API.NotificationCommentVoteData
@@ -244,6 +267,7 @@ export const convertNotification = (
         | API.NotificationHikkaData
         | API.NotificationScheduleAnimeData
         | API.NotificationFollowData
+        | API.NotificationVoteData
     >,
 ): Hikka.TextNotification => {
     switch (notification.notification_type) {
@@ -254,6 +278,10 @@ export const convertNotification = (
         case 'comment_vote':
             return commentVote(
                 notification as API.Notification<API.NotificationCommentVoteData>,
+            );
+        case 'collection_vote':
+            return collectionVote(
+                notification as API.Notification<API.NotificationVoteData>,
             );
         case 'comment_tag':
             return commentTag(

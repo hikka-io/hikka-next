@@ -305,7 +305,8 @@ declare global {
             | 'edit_updated'
             | 'hikka_update'
             | 'schedule_anime'
-            | 'follow';
+            | 'follow'
+            | 'collection_vote';
 
         type NotificationFollowData = {
             username: string;
@@ -323,19 +324,22 @@ declare global {
             avatar: string;
         };
 
-        type NotificationCommentVoteData = {
+        type NotificationVoteData = {
             slug: string;
-            content_type: ContentType;
-            comment_reference: string;
-            comment_depth: number;
-            comment_text: string;
-            base_comment_reference: string;
             user_score: number;
             old_score: number;
             new_score: number;
             username: string;
             avatar: string;
-        };
+        }
+
+        type NotificationCommentVoteData = {
+            content_type: ContentType;
+            comment_reference: string;
+            comment_depth: number;
+            comment_text: string;
+            base_comment_reference: string;
+        } & NotificationVoteData;
 
         type NotificationEditData = {
             description: string;
@@ -371,6 +375,7 @@ declare global {
                 | NotificationEditData
                 | NotificationHikkaData
                 | NotificationScheduleAnimeData
+                | NotificationVoteData
                 | NotificationFollowData = NotificationCommentData,
         > = {
             notification_type: NotificationType;
