@@ -20,6 +20,13 @@ interface Props {
 }
 
 const CollectionItem = ({ collection }: Props) => {
+    const poster = (content: API.Anime | API.Character | API.Person) =>
+        'poster' in content ? content.poster : content.image;
+    const title = (content: API.Anime | API.Character | API.Person) =>
+        'title_ua' in content
+            ? content.title_ua || content.title_en || content.title_ja
+            : content.name_ua || content.name_en;
+
     return (
         <div className="flex flex-col gap-4">
             <div className={cn('flex gap-2')}>
@@ -98,15 +105,12 @@ const CollectionItem = ({ collection }: Props) => {
                         )}
                         href={`/anime/${item.content.slug}`}
                         key={item.content.slug}
-                        poster={item.content.poster}
-                        title={
-                            item.content.title_ua ||
-                            item.content.title_en ||
-                            item.content.title_ja
-                        }
+                        poster={poster(item.content)}
+                        title={title(item.content)}
                         slug={item.content.slug}
-                        content_type="anime"
+                        content_type={item.content_type}
                         watch={
+                            'watch' in item.content &&
                             item.content.watch.length > 0
                                 ? item.content.watch[0]
                                 : undefined

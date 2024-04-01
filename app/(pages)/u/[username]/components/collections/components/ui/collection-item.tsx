@@ -18,6 +18,8 @@ interface Props {
 
 const Component = ({ data, className }: Props) => {
     const description = parseTextFromMarkDown(data.description);
+    const poster = (content: API.Anime | API.Character | API.Person) =>
+        'poster' in content ? content.poster : content.image;
 
     return (
         <div className={cn('flex gap-4', className)}>
@@ -27,7 +29,7 @@ const Component = ({ data, className }: Props) => {
                         data.nsfw && 'blur-sm hover:blur-none',
                     )}
                     href={`/collections/${data.reference}`}
-                    poster={data.collection[0].content.poster}
+                    poster={poster(data.collection[0].content)}
                 />
             </div>
             <div className="flex min-w-0 flex-1 flex-col gap-2">
