@@ -18,7 +18,7 @@ const Component = async ({ children }: Props) => {
     try {
         const auth = await queryClient.fetchQuery({
             queryKey: ['auth'],
-            queryFn: async () => await getCookie('auth'),
+            queryFn: async () => (await getCookie('auth')),
         });
 
         await queryClient.fetchQuery({

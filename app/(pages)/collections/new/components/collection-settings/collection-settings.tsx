@@ -3,13 +3,10 @@
 import React from 'react';
 import SimpleIconsAnilist from '~icons/simple-icons/anilist';
 
-
-
 import { useParams } from 'next/navigation';
 
-
-
 import AnilistCollection from '@/app/(pages)/collections/new/components/anilist-collection';
+import GroupInputs from '@/app/(pages)/collections/new/components/collection-settings/components/group-inputs';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Input } from '@/components/ui/input';
@@ -20,18 +17,30 @@ import { Switch } from '@/components/ui/switch';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
 import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
-
-import { State as CollectionState, useCollectionContext } from '@/services/providers/collection-provider';
+import {
+    State as CollectionState,
+    useCollectionContext,
+} from '@/services/providers/collection-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
-
-
-
-import GroupInputs from '@/app/(pages)/collections/new/components/collection-settings/components/group-inputs';
-
 
 interface Props {
     mode?: 'create' | 'edit';
 }
+
+const COLLECTION_CONTENT_TYPE_OPTIONS = [
+    {
+        value: 'anime',
+        label: 'Аніме',
+    },
+    {
+        value: 'character',
+        label: 'Персонаж',
+    },
+    {
+        value: 'person',
+        label: 'Людина',
+    },
+];
 
 const COLLECTION_VISIBILITY_OPTIONS = [
     {
@@ -57,6 +66,7 @@ const CollectionSettings = ({ mode = 'create' }: Props) => {
         nsfw,
         spoiler,
         visibility,
+        content_type,
         setState: setCollectionState,
         description,
         tags,
@@ -175,6 +185,28 @@ const CollectionSettings = ({ mode = 'create' }: Props) => {
                         }
                     />
                 </div>
+
+                {mode === 'create' && (
+                    <div className="flex flex-col gap-4">
+                        <Label
+                            htmlFor="private"
+                            className="text-muted-foreground"
+                        >
+                            Тип
+                        </Label>
+                        <Combobox
+                            disabled={groups.some((g) => g.items.length > 0)}
+                            value={content_type}
+                            onChange={(value) =>
+                                setCollectionState!((state) => ({
+                                    ...state,
+                                    content_type: value as API.ContentType,
+                                }))
+                            }
+                            options={COLLECTION_CONTENT_TYPE_OPTIONS}
+                        />
+                    </div>
+                )}
 
                 <div className="flex flex-col gap-4">
                     <Label htmlFor="private" className="text-muted-foreground">

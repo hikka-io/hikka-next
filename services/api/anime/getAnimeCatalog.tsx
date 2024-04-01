@@ -19,10 +19,7 @@ interface Request {
     only_translated?: boolean;
 }
 
-export interface Response {
-    list: API.Anime[];
-    pagination: API.Pagination;
-}
+export interface Response extends API.WithPagination<API.Anime>{}
 
 export default async function req({
     page = 1,

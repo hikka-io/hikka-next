@@ -28,7 +28,7 @@ import createQueryString from '@/utils/createQueryString';
 import BadgeFilter from '@/components/filters/components/ui/badge-filter';
 
 
-const YEARS: [number, number] = [1980, new Date().getFullYear()];
+const YEARS: [number, number] = [1965, new Date().getFullYear()];
 
 interface Props {
     className?: string;

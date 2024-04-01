@@ -78,6 +78,7 @@ export type ComboboxProps = (ComboboxPropsSingle | ComboboxPropsMultiple) & {
     align?: 'center' | 'start' | 'end';
     side?: 'top' | 'right' | 'bottom' | 'left';
     className?: string;
+    disabled?: boolean;
 };
 
 export const handleSingleSelect = (
@@ -119,6 +120,7 @@ export const Combobox = forwardRef(
             align,
             emptyText,
             disableCheckbox,
+            disabled,
         } = props;
 
         const rootRef = useRef<HTMLDivElement>(null);
@@ -178,6 +180,7 @@ export const Combobox = forwardRef(
                     ) : (
                         <PopoverTrigger asChild>
                             <Button
+                                disabled={disabled}
                                 role="combobox"
                                 variant="outline"
                                 aria-expanded={open}

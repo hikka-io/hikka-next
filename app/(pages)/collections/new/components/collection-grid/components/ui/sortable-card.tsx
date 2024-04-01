@@ -8,13 +8,13 @@ import { CSS } from '@dnd-kit/utilities';
 import EntryCard from '@/components/entry-card/entry-card';
 import { Button } from '@/components/ui/button';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props {
     id: string;
-    anime: API.Anime;
+    content: API.Anime | API.Character | API.Person;
     onRemove: () => void;
 }
 
-const SortableCard = ({ id, anime, onRemove }: Props) => {
+const SortableCard = ({ id, content, onRemove }: Props) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id });
 
@@ -23,15 +23,16 @@ const SortableCard = ({ id, anime, onRemove }: Props) => {
         transition,
     };
 
+    const poster = "poster" in content ? content.poster : content.image;
+    const title = "title_ua" in content ? content.title_ua || content.title_en || content.title_ja : content.name_ua || content.name_en;
+
     return (
         <div ref={setNodeRef} style={style} {...attributes}>
             {useMemo(
                 () => (
                     <EntryCard
-                        poster={anime.poster}
-                        title={
-                            anime.title_ua || anime.title_en || anime.title_ja
-                        }
+                        poster={poster}
+                        title={title}
                     >
                         <div className="absolute bottom-0 left-0 w-full">
                             <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
@@ -54,7 +55,7 @@ const SortableCard = ({ id, anime, onRemove }: Props) => {
                         </div>
                     </EntryCard>
                 ),
-                [anime],
+                [content],
             )}
         </div>
     );

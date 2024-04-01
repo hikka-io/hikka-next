@@ -28,7 +28,7 @@ const Description = () => {
                     type="single"
                     value={active}
                     onValueChange={(value: 'synopsis_ua' | 'synopsis_en') =>
-                        setActive(value)
+                        value && setActive(value)
                     }
                     variant="outline"
                     size="badge"

@@ -46,7 +46,7 @@ const Component = ({ extended }: Props) => {
                     type="single"
                     value={content}
                     onValueChange={(value: API.ContentType) =>
-                        setContent(value)
+                        value && setContent(value)
                     }
                     variant="outline"
                     size="badge"

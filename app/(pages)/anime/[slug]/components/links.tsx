@@ -61,7 +61,7 @@ const Links = ({ extended }: Props) => {
                     type="single"
                     value={active}
                     onValueChange={(value: API.External['type']) =>
-                        setActive(value)
+                        value && setActive(value)
                     }
                     variant="outline"
                     size="badge"

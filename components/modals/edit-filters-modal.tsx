@@ -11,6 +11,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 
 interface Props {
     children?: ReactNode;
@@ -30,10 +31,10 @@ const Component = ({ children }: Props) => {
                 side="left"
                 className="flex !max-w-lg flex-col gap-0 pb-0"
             >
-                <SheetHeader>
+                <SheetHeader className="pb-4">
                     <SheetTitle>Фільтри</SheetTitle>
                 </SheetHeader>
-                <hr className="-mx-6 mt-4 h-px w-auto bg-border" />
+                <Separator className="-mx-6 w-auto" />
                 <Filters className="-mx-6 px-6" />
             </SheetContent>
         </Sheet>

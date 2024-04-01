@@ -18,23 +18,26 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import SortableCard from '@/app/(pages)/collections/new/components/collection-grid/components/ui/sortable-card';
+import EntryCard from '@/components/entry-card/entry-card';
 import SearchModal from '@/components/modals/search-modal';
 import SubHeader from '@/components/sub-header';
-import EntryCard from '@/components/entry-card/entry-card';
 import {
     Group as CollectionGroup,
     Item as CollectionItem,
     useCollectionContext,
 } from '@/services/providers/collection-provider';
 
-import SortableCard from '@/app/(pages)/collections/new/components/collection-grid/components/ui/sortable-card';
-
 interface Props {
     group: CollectionGroup;
 }
 
 const CollectionGrid = ({ group }: Props) => {
-    const { groups, setState: setCollectionState } = useCollectionContext();
+    const {
+        groups,
+        setState: setCollectionState,
+        content_type,
+    } = useCollectionContext();
 
     const items = groups.find((g) => g.id === group.id)?.items;
 
@@ -79,8 +82,8 @@ const CollectionGrid = ({ group }: Props) => {
         }
     };
 
-    const handleAddItem = (anime: API.Anime) => {
-        if (JSON.stringify(groups).includes(anime.slug)) {
+    const handleAddItem = (content: API.Anime | API.Character | API.Person) => {
+        if (JSON.stringify(groups).includes(content.slug)) {
             return;
         }
 
@@ -93,8 +96,8 @@ const CollectionGrid = ({ group }: Props) => {
                         items: [
                             ...g.items,
                             {
-                                id: anime.slug,
-                                content: anime,
+                                id: content.slug,
+                                content: content,
                             },
                         ],
                     };
@@ -144,13 +147,23 @@ const CollectionGrid = ({ group }: Props) => {
                             <SortableCard
                                 key={item.id}
                                 id={String(item.id)}
-                                anime={item.content}
+                                content={item.content}
                                 onRemove={() => handleRemoveItem(item.id)}
                             />
                         ))}
 
-                        <SearchModal onClick={handleAddItem} type="button">
-                            <EntryCard poster={<MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />} />
+                        <SearchModal
+                            content_type={content_type}
+                            onClick={(value) =>
+                                handleAddItem(value)
+                            }
+                            type="button"
+                        >
+                            <EntryCard
+                                poster={
+                                    <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
+                                }
+                            />
                         </SearchModal>
                     </div>
                 </div>

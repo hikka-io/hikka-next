@@ -54,7 +54,7 @@ const Media = ({ extended }: Props) => {
                     type="single"
                     value={active}
                     onValueChange={(value: 'video' | 'music') =>
-                        setActive(value)
+                        value && setActive(value)
                     }
                     variant="outline"
                     size="badge"

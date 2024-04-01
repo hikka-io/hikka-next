@@ -1,141 +1,94 @@
 'use client';
 
-import clsx from 'clsx';
 import * as React from 'react';
-import { ReactNode, cloneElement, useEffect, useState } from 'react';
-import MaterialSymbolsSearch from '~icons/material-symbols/search';
+import { ReactNode, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
-
-import SearchCard from '@/components/modals/search-modal/components/ui/search-card';
-import { Button } from '@/components/ui/button';
-import getAnimeCatalog from '@/services/api/anime/getAnimeCatalog';
+import CharacterSearchList from '@/components/modals/search-modal/components/character-search-list';
+import PersonSearchList from '@/components/modals/search-modal/components/person-search-list';
+import SearchToggle from '@/components/modals/search-modal/components/search-toggle';
+import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/useDebounce';
 
-import {
-    CommandDialog,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from '../../ui/command';
+import AnimeSearchList from './components/anime-search-list';
+import SearchButton from './components/search-button';
+import useSearchModal from './components/useSearchModal';
 
 interface Props {
-    onClick?: (anime: API.Anime) => void;
+    onClick?: (content: API.Anime | API.Character | API.Person) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
+    content_type?: API.ContentType;
 }
 
-const Component = ({ onClick, type, children }: Props) => {
+const SearchModal = ({ onClick, type, content_type, children }: Props) => {
+    const [searchType, setSearchType] = useState<API.ContentType>(
+        content_type || 'anime',
+    );
     const [open, setOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
-    const { data } = useQuery<
-        { list: API.Anime[]; pagination: API.Pagination },
-        Error
-    >({
-        queryKey: ['searchList', value],
-        queryFn: () =>
-            getAnimeCatalog({
-                query: value,
-            }),
-        enabled: value !== undefined && value.length >= 3,
-    });
 
-    const onDismiss = (anime: API.Anime) => {
+    const onDismiss = (content: API.Anime | API.Character | API.Person) => {
         setSearchValue('');
         setOpen(false);
 
-        onClick && onClick(anime);
+        onClick && onClick(content);
     };
 
-    useEffect(() => {
-        function handleKeyDown(e: KeyboardEvent) {
-            const _focused = document.activeElement;
-
-            const _inputting =
-                _focused?.tagName.toLowerCase() === 'textarea' ||
-                _focused?.tagName.toLowerCase() === 'input' ||
-                _focused?.role === 'textbox';
-
-            if (!_inputting && e.key === '/') {
-                e.preventDefault();
-                setOpen((prev) => !prev);
-            }
-        }
-
-        if (!onClick) {
-            document.addEventListener('keydown', handleKeyDown);
-        }
-
-        return function cleanup() {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [onClick]);
+    useSearchModal({ setOpen, onClick, content_type, setSearchType });
 
     return (
         <>
-            {children ? (
-                cloneElement(children as React.ReactElement, {
-                    onClick: () => setOpen(true),
-                })
-            ) : (
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setOpen(true)}
-                    className={clsx(
-                        'bg-secondary/30 hover:!bg-secondary/60',
-                        'lg:w-48 lg:justify-between lg:font-normal lg:!text-foreground/60',
-                        'transition-all duration-200',
-                        'lg:hover:w-60',
-                        'items-center',
-                    )}
-                >
-                    <div className="flex items-center gap-2">
-                        <MaterialSymbolsSearch />{' '}
-                        <span className="hidden lg:block">Пошук...</span>
-                    </div>
-                    <div className="hidden items-center lg:flex">
-                        <kbd className="pointer-events-none flex select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
-                            <span className="text-xs">/</span>
-                        </kbd>
-                    </div>
-                </Button>
-            )}
+            <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
-                className="max-w-3xl"
+                className="flex max-h-[90%] max-w-3xl"
                 open={open}
                 onOpenChange={setOpen}
                 shouldFilter={false}
             >
+                <div className="flex p-3 dark:bg-secondary/30">
+                    <SearchToggle
+                        disabled={Boolean(content_type)}
+                        setType={setSearchType}
+                        type={searchType}
+                    />
+                </div>
                 <CommandInput
                     value={searchValue}
                     onValueChange={(value) => setSearchValue(value)}
                     placeholder="Пошук..."
-                    containerClassName={data ? '' : 'border-b-0'}
+                    autoFocus
+                    containerClassName="dark:bg-secondary/30"
                 />
-                {data && (
-                    <CommandList className="max-h-[calc(100vh-6rem)]">
-                        <CommandGroup>
-                            {data.list.length > 0 &&
-                                data.list.map((anime) => (
-                                    <CommandItem key={anime.slug} value={anime.slug}>
-                                        <SearchCard
-                                            onClick={() => onDismiss(anime)}
-                                            anime={anime}
-                                            type={type}
-                                        />
-                                    </CommandItem>
-                                ))}
-                        </CommandGroup>
-                    </CommandList>
+
+                {searchType === 'anime' && (
+                    <AnimeSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'character' && (
+                    <CharacterSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'person' && (
+                    <PersonSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
                 )}
             </CommandDialog>
         </>
     );
 };
 
-export default Component;
+export default SearchModal;

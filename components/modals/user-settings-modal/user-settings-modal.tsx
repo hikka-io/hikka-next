@@ -15,6 +15,7 @@ import GeneralForm from '@/components/modals/user-settings-modal/components/gene
 import PasswordForm from '@/components/modals/user-settings-modal/components/password-form';
 import UsernameForm from '@/components/modals/user-settings-modal/components/username-form';
 import WatchListForm from '@/components/modals/user-settings-modal/components/watchlist-form';
+import { Label } from '@/components/ui/label';
 
 
 type Tab =
@@ -87,14 +88,14 @@ const Tabs = ({
                         <a
                             onClick={() => setActiveTab(tab.slug)}
                             className={cn(
-                                'flex flex-col items-start justify-center gap-0 px-8 py-4',
+                                'flex flex-col items-start justify-center px-8 py-4',
                                 activeTab === tab.slug
-                                    ? 'bg-secondary'
+                                    ? 'bg-muted'
                                     : 'hover:bg-secondary/30',
                                 'hover:cursor-pointer',
                             )}
                         >
-                            <P>{tab.title}</P>
+                            <Label>{tab.title}</Label>
                             <Small className="text-muted-foreground">
                                 {tab.description}
                             </Small>

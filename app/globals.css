@@ -160,6 +160,12 @@
     -webkit-mask-size: contain;
 }
 
+.logo-full {
+    -webkit-mask: url(/logo.svg) no-repeat center;
+    mask: url(/logo.svg) no-repeat center;
+    mask-size: contain;
+}
+
 @media screen(md) {
     .logo {
         -webkit-mask: url(/logo.svg) no-repeat center;
