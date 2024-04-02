@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/utils';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 interface Props {
     collection: API.Collection;
@@ -98,12 +99,12 @@ const CollectionItem = ({ collection }: Props) => {
                         containerClassName={cn(
                             collection.nsfw &&
                                 !collection.spoiler &&
-                                'blur-sm hover:blur-none',
+                                'blur-md transition-all duration-500 hover:blur-none',
                         )}
                         className={cn(
-                            collection.spoiler && 'blur-md hover:blur-none',
+                            collection.spoiler && 'blur-md transition-all duration-500 hover:blur-none',
                         )}
-                        href={`/anime/${item.content.slug}`}
+                        href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         key={item.content.slug}
                         poster={poster(item.content)}
                         title={title(item.content)}

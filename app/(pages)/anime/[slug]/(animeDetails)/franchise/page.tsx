@@ -1,6 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
 import Franchise from '@/app/(pages)/anime/[slug]/components/franchise';
+import _generateMetadata from '@/utils/generateMetadata';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },
@@ -8,21 +9,11 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const parentMetadata = await parent;
 
-    return {
+    return _generateMetadata({
         title: 'Пов’язане',
         description: parentMetadata.openGraph?.description,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            description: parentMetadata.openGraph?.description,
-            images: parentMetadata.openGraph?.images,
-            title: 'Пов’язане',
-        },
-        twitter: {
-            description: parentMetadata.openGraph?.description,
-            images: parentMetadata.twitter?.images,
-            title: 'Пов’язане',
-        },
-    };
+        images: parentMetadata.openGraph?.images,
+    });
 }
 
 const AnimeFranchisePage = async () => {

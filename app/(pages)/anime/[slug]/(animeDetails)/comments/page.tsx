@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import { getCookie } from '@/utils/actions';
 import Comments from '@/components/comments/comments';
+import _generateMetadata from '@/utils/generateMetadata';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },
@@ -9,21 +10,11 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const parentMetadata = await parent;
 
-    return {
+    return _generateMetadata({
         title: 'Коментарі',
         description: parentMetadata.openGraph?.description,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            description: parentMetadata.openGraph?.description,
-            images: parentMetadata.openGraph?.images,
-            title: 'Коментарі',
-        },
-        twitter: {
-            description: parentMetadata.openGraph?.description,
-            images: parentMetadata.twitter?.images,
-            title: 'Коментарі',
-        },
-    };
+        images: parentMetadata.openGraph?.images,
+    });
 }
 
 interface Props {

@@ -1,5 +1,10 @@
 import React from 'react';
 
+import jsonSchema from './anime.schema';
+import getAnimeInfo, {
+    Response as AnimeResponse,
+} from '@/services/api/anime/getAnimeInfo';
+
 import About from './components/about';
 import Characters from './components/characters';
 import Description from './components/description';
@@ -10,9 +15,23 @@ import Media from './components/media';
 import Staff from './components/staff';
 import WatchStats from './components/watch-stats/watch-stats';
 
-const AnimePage = () => {
+
+const AnimePage = async ({
+    params,
+}: {
+    params: {
+        slug: string;
+    };
+}) => {
+    const anime: AnimeResponse = await getAnimeInfo({ slug: params.slug });
+    const jsonLd = jsonSchema({ anime });
+
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />

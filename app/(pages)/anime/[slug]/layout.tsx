@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
@@ -8,7 +8,6 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import jsonSchema from '@/app/(pages)/anime/[slug]/anime.schema';
 import Actions from '@/app/(pages)/anime/[slug]/components/actions';
 import Cover from '@/app/(pages)/anime/[slug]/components/cover';
 import Title from '@/app/(pages)/anime/[slug]/components/title';
@@ -32,6 +31,7 @@ import _generateMetadata from '@/utils/generateMetadata';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 import getQueryClient from '@/utils/getQueryClient';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
+import truncateText from '@/utils/truncateText';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -42,17 +42,13 @@ interface Props extends PropsWithChildren {
 // export const runtime = 'edge';
 export const revalidate = 60;
 
-export async function generateMetadata(
-    {
-        params,
-    }: {
-        params: {
-            slug: string;
-        };
-    },
-    parent: ResolvingMetadata,
-): Promise<Metadata> {
-    const parentMetadata = await parent;
+export async function generateMetadata({
+    params,
+}: {
+    params: {
+        slug: string;
+    };
+}): Promise<Metadata> {
     const slug = params.slug;
 
     const anime: AnimeResponse = await getAnimeInfo({ slug });
@@ -63,20 +59,11 @@ export async function generateMetadata(
     const title =
         (anime.title_ua || anime.title_en || anime.title_ja) +
         (startDate ? ` (${startDate})` : '');
-    let synopsis: string | undefined = parseTextFromMarkDown(
-        anime.synopsis_ua || anime.synopsis_en,
+    let synopsis: string | null = truncateText(
+        parseTextFromMarkDown(anime.synopsis_ua || anime.synopsis_en),
+        150,
+        true,
     );
-
-    synopsis =
-        synopsis &&
-        (synopsis.length > 150
-            ? synopsis.substring(
-                  0,
-                  150 + synopsis.substring(150).indexOf(' '),
-              ) + '...'
-            : synopsis.length > 0
-              ? synopsis + '...'
-              : undefined);
 
     return _generateMetadata({
         title: {
@@ -105,8 +92,6 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
     if (!anime) {
         return redirect('/');
     }
-
-    const jsonLd = jsonSchema({ anime });
 
     await Promise.all([
         queryClient.prefetchInfiniteQuery({
@@ -163,10 +148,6 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <div
