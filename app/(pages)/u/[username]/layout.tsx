@@ -54,7 +54,7 @@ export async function generateMetadata({
             template: user.username + ' / %s / Hikka',
         },
         description: user.description,
-        images: `https://hikka.io/generate/preview/u/${username}/${user.updated}`,
+        images: `https://preview.hikka.io/u/${username}/${user.updated}`,
     });
 }
 

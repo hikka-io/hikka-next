@@ -71,7 +71,7 @@ export async function generateMetadata({
             template: title + ' / %s / Hikka',
         },
         description: synopsis,
-        images: `https://hikka.io/generate/preview/anime/${slug}/${anime.updated}`,
+        images: `https://preview.hikka.io/anime/${slug}/${anime.updated}`,
     });
 }
 
