@@ -27,7 +27,7 @@ const EditListLayout = ({ children }: Props) => {
             <Breadcrumbs>
                 <NavMenu routes={EDIT_NAV_ROUTES} urlPrefix="/edit" />
             </Breadcrumbs>
-            <SubBar mobileOnly>
+            <SubBar>
                 <InternalNavBar routes={EDIT_NAV_ROUTES} urlPrefix="/edit" />
             </SubBar>
             {children}

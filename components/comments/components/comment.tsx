@@ -2,31 +2,23 @@ import { formatDistance } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 
-
-
 import Link from 'next/link';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import CommentInput from '@/components/comments/components/comment-input';
 import CommentMenu from '@/components/comments/components/comment-menu';
 import CommentVote from '@/components/comments/components/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import TextExpand from '@/components/text-expand';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/getDeclensionWord';
-
-
 
 import Comments from './comments';
 
@@ -122,7 +114,9 @@ const Component = ({ comment, slug, content_type }: Props) => {
                             isEdit
                         />
                     ) : (
-                        <MDViewer>{comment.text}</MDViewer>
+                        <TextExpand>
+                            <MDViewer>{comment.text}</MDViewer>
+                        </TextExpand>
                     )
                 ) : (
                     <P className="text-muted-foreground">Коментар видалено</P>

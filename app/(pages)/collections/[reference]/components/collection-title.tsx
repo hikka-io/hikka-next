@@ -4,6 +4,7 @@ import React from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
+import TextExpand from '@/components/text-expand';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 const CollectionTitle = () => {
@@ -13,9 +14,9 @@ const CollectionTitle = () => {
         <div className="flex flex-col gap-2">
             <SubHeader title={title || 'Нова колекція'} />
             {description && (
-                <MDViewer className="text-muted-foreground">
-                    {description}
-                </MDViewer>
+                <TextExpand>
+                    <MDViewer>{description}</MDViewer>
+                </TextExpand>
             )}
         </div>
     );

@@ -40,7 +40,7 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="max-w-32 sm:max-w-none">
                         {current && (
                             <P className="truncate text-sm">{current.title_ua}</P>
                         )}

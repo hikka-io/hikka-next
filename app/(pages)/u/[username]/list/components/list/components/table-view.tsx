@@ -1,16 +1,9 @@
 'use client';
 
 import clsx from 'clsx';
-import { MouseEvent } from 'react';
 
-import {
-    useParams,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import WatchEditModal from '@/components/modals/watch-edit-modal';
 import {
     Table,
     TableBody,
@@ -18,10 +11,9 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import createQueryString from '@/utils/createQueryString';
+import { cn } from '@/utils/utils';
 
 import DetailsCell from './ui/details-cell';
 import EpisodesCell from './ui/episodes-cell';
@@ -38,13 +30,9 @@ const Component = ({ data }: Props) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
-    const { openModal } = useModalContext();
-    const params = useParams();
 
     const order = searchParams.get('order');
     const sort = searchParams.get('sort');
-
-    const { data: loggedUser } = useLoggedUser();
 
     const switchSort = (
         newSort: 'watch_score' | 'watch_episodes' | 'media_type',
@@ -66,96 +54,68 @@ const Component = ({ data }: Props) => {
         router.replace(`${pathname}?${query}`);
     };
 
-    const openWatchEditModal = (
-        e: MouseEvent<HTMLElement>,
-        anime: API.Anime,
-    ) => {
-        const target = e.target as HTMLElement;
-
-        if (
-            target &&
-            'getAttribute' in target &&
-            (target.getAttribute('href') || target.getAttribute('src'))
-        )
-            return;
-
-        openModal({
-            content: <WatchEditModal slug={anime.slug} />,
-            className: '!max-w-xl',
-            title:
-                anime[titleLanguage!] ||
-                anime.title_ua ||
-                anime.title_en ||
-                anime.title_ja,
-        });
-    };
-
     return (
-        <div className="overflow-x-auto">
-            <Table className="table">
-                <TableHeader className="overflow-hidden rounded-lg bg-secondary/30 backdrop-blur [&_tr]:border-b-0">
-                    <TableRow className="border-b-0">
-                        <TableHead className="w-8">#</TableHead>
-                        <TableHead>Деталі</TableHead>
-                        <TableHead
-                            className={clsx(
-                                'w-20 cursor-pointer select-none hover:underline',
-                                sort === 'watch_episodes' && 'text-primary',
-                            )}
-                            align="center"
-                            onClick={() => switchSort('watch_episodes')}
-                        >
-                            Епізоди
-                        </TableHead>
-                        <TableHead
-                            className={clsx(
-                                'hidden w-32 cursor-pointer select-none hover:underline lg:table-cell text-center',
-                                sort === 'media_type' && 'text-primary',
-                            )}
-                            align="center"
-                            onClick={() => switchSort('media_type')}
-                        >
-                            Тип
-                        </TableHead>
-                        <TableHead
-                            className={clsx(
-                                'w-20 cursor-pointer select-none hover:underline',
-                                sort === 'watch_score' && 'text-primary',
-                            )}
-                            align="center"
-                            onClick={() => switchSort('watch_score')}
-                        >
-                            Оцінка
-                        </TableHead>
+        <Table className="table">
+            <TableHeader className="overflow-hidden rounded-lg bg-secondary/30 backdrop-blur [&_tr]:border-b-0">
+                <TableRow>
+                    <TableHead>#</TableHead>
+                    <TableHead>Деталі</TableHead>
+                    <TableHead
+                        className={cn(
+                            'cursor-pointer select-none text-center hover:underline',
+                            sort === 'watch_episodes' && 'text-primary',
+                        )}
+                        align="center"
+                        onClick={() => switchSort('watch_episodes')}
+                    >
+                        Епізоди
+                    </TableHead>
+                    <TableHead
+                        className={cn(
+                            'hidden w-32 cursor-pointer select-none text-center hover:underline lg:table-cell',
+                            sort === 'media_type' && 'text-primary',
+                        )}
+                        align="center"
+                        onClick={() => switchSort('media_type')}
+                    >
+                        Тип
+                    </TableHead>
+                    <TableHead
+                        className={clsx(
+                            'w-20 cursor-pointer select-none hover:underline',
+                            sort === 'watch_score' && 'text-primary',
+                        )}
+                        align="center"
+                        onClick={() => switchSort('watch_score')}
+                    >
+                        Оцінка
+                    </TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {data.map((res, i) => (
+                    <TableRow key={res.reference} className="group">
+                        <NumberCell
+                            anime={res.anime}
+                            titleLanguage={titleLanguage!}
+                            number={i + 1}
+                        />
+                        <DetailsCell
+                            note={res.note}
+                            anime={res.anime}
+                            rewatches={res.rewatches}
+                            titleLanguage={titleLanguage!}
+                        />
+                        <EpisodesCell
+                            episodes={res.episodes}
+                            total={res.anime.episodes_total}
+                        />
+                        <MediaCell media_type={res.anime.media_type} />
+                        <ScoreCell score={res.score} />
                     </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {data.map((res, i) => (
-                        <TableRow
-                            key={res.reference}
-                            onClick={(e) =>
-                                loggedUser?.username === params.username &&
-                                openWatchEditModal(e, res.anime)
-                            }
-                        >
-                            <NumberCell number={i + 1} />
-                            <DetailsCell
-                                note={res.note}
-                                anime={res.anime}
-                                rewatches={res.rewatches}
-                                titleLanguage={titleLanguage!}
-                            />
-                            <EpisodesCell
-                                episodes={res.episodes}
-                                total={res.anime.episodes_total}
-                            />
-                            <MediaCell media_type={res.anime.media_type} />
-                            <ScoreCell score={res.score} />
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
+                ))}
+            </TableBody>
+        </Table>
     );
 };
 

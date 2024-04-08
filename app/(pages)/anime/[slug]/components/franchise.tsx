@@ -46,7 +46,7 @@ const Franchise = ({ extended }: Props) => {
                 className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-8',
                     extended && 'md:grid-cols-5',
-                    !extended && 'no-scrollbar grid-min-10 -mx-4 grid-flow-col grid-cols-scroll-4 overflow-x-auto px-4',
+                    !extended && 'no-scrollbar grid-min-10 -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4',
                 )}/*repeat(2, minmax(0, 1fr))*/
             >
                 {filteredData.map((anime) => (

@@ -107,7 +107,7 @@ const PersonLayout = async ({ params: { slug }, children }: Props) => {
                         urlPrefix={'/people/' + slug}
                     />
                 </Breadcrumbs>
-                <SubBar mobileOnly>
+                <SubBar>
                     <InternalNavBar
                         routes={PERSON_NAV_ROUTES}
                         urlPrefix={'/people/' + slug}

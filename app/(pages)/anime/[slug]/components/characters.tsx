@@ -36,7 +36,7 @@ const Characters = ({ extended }: Props) => {
                     className={clsx(
                         'grid grid-cols-3 gap-4 md:grid-cols-5 lg:gap-8',
                         extended && 'md:grid-cols-6',
-                        !extended && 'grid-flow-col grid-cols-scroll-5 overflow-x-auto no-scrollbar -mx-4 px-4'
+                        !extended && 'grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto no-scrollbar -mx-4 px-4'
                     )}
                 >
                     {(extended ? main : main.slice(0, 5)).map((ch) => (

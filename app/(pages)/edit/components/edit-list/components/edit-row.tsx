@@ -32,7 +32,7 @@ const EditRow = ({ edit }: Props) => {
     return (
         <TableRow
             key={edit.edit_id}
-            className={clsx('hover:cursor-pointer hover:bg-secondary/60')}
+            className={clsx('hover:cursor-pointer')}
             onClick={() => router.push(`/edit/${edit.edit_id}`)}
         >
             <TableCell className="w-8">

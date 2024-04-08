@@ -2,10 +2,15 @@
 
 import { useState } from 'react';
 
+
+
 import { useParams } from 'next/navigation';
+
+
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
+import TextExpand from '@/components/text-expand';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
@@ -51,9 +56,11 @@ const Description = () => {
                     )}
                 </ToggleGroup>
             </SubHeader>
-            <MDViewer>
-                {data[active] || data.synopsis_ua || data.synopsis_en}
-            </MDViewer>
+            <TextExpand>
+                <MDViewer>
+                    {data[active] || data.synopsis_ua || data.synopsis_en}
+                </MDViewer>
+            </TextExpand>
         </div>
     );
 };

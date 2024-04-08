@@ -99,7 +99,7 @@
 
     body {
         @apply bg-background text-foreground bg-no-repeat;
-        background-size: 100% 100vh;
+        background-size: 100% 50vh;
     }
 }
 
@@ -210,11 +210,11 @@ main {
     width: 100%;
 }
 
-table th:first-child {
+table th:first-child, td:first-child {
     @apply rounded-l-md;
 }
 
-table th:last-child {
+table th:last-child, td:last-child {
     @apply rounded-r-md;
 }
 
@@ -341,3 +341,4 @@ table th:last-child {
 ._placeholder_19o4e_1034  {
     @apply text-muted-foreground;
 }
+

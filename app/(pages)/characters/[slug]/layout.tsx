@@ -122,7 +122,7 @@ const CharacterLayout = async ({ params: { slug }, children }: Props) => {
                         urlPrefix={'/characters/' + slug}
                     />
                 </Breadcrumbs>
-                <SubBar mobileOnly>
+                <SubBar>
                     <InternalNavBar
                         routes={CHARACTER_NAV_ROUTES}
                         urlPrefix={'/characters/' + slug}

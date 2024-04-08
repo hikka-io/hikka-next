@@ -8,9 +8,15 @@ interface Props {
     type?: API.ContentType;
     setType: (type: API.ContentType) => void;
     disabled?: boolean;
+    inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const SearchToggle = ({ type, setType, disabled }: Props) => {
+const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
+    const handleOnValueChange = (value: API.ContentType) => {
+        value && setType(value);
+        inputRef.current?.focus();
+    }
+
     return (
         <ToggleGroup
             disabled={disabled}
@@ -19,7 +25,7 @@ const SearchToggle = ({ type, setType, disabled }: Props) => {
             size="badge"
             variant="default"
             value={type}
-            onValueChange={(value: API.ContentType) => value && setType(value)}
+            onValueChange={handleOnValueChange}
         >
             <ToggleGroupItem value="anime">Аніме</ToggleGroupItem>
             <ToggleGroupItem value="character">Персонаж</ToggleGroupItem>

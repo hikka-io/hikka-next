@@ -10,6 +10,7 @@ import {
 import { UrlObject } from 'url';
 import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symbols/image-not-supported-outline-rounded';
 
+import { ImageProps } from 'next/image';
 import Link from 'next/link';
 
 import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
@@ -43,6 +44,9 @@ export interface Props {
     slug?: string;
     content_type?: API.ContentType;
     withContextMenu?: boolean;
+    posterProps?: {
+        priority?: boolean;
+    };
 }
 
 const Tooltip = ({
@@ -84,6 +88,7 @@ const Content = memo(
                 slug,
                 content_type,
                 withContextMenu,
+                posterProps,
                 ...props
             }: Props,
             ref: ForwardedRef<HTMLDivElement>,
@@ -117,12 +122,14 @@ const Content = memo(
                                     typeof poster === 'string' ? (
                                         <Image
                                             src={poster}
-                                            fill
+                                            width={150}
+                                            height={225}
                                             className={cn(
                                                 'size-full object-cover',
                                                 posterClassName,
                                             )}
                                             alt="Poster"
+                                            {...posterProps}
                                         />
                                     ) : (
                                         poster
@@ -191,7 +198,6 @@ const Content = memo(
 
 const Component = forwardRef(
     (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-
         if (props.withContextMenu && props.slug && props.content_type) {
             return (
                 <ContextMenuOverlay

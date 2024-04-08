@@ -81,13 +81,13 @@ const Media = ({ extended }: Props) => {
                         'grid-cols-3 md:grid-cols-6',
                     active === 'music' &&
                         !extended &&
-                        'grid-cols-scroll-4 md:grid-cols-4',
+                        'grid-cols-scroll auto-cols-scroll md:grid-cols-4',
                     active === 'video' &&
                         extended &&
                         'grid-cols-2 md:grid-cols-4',
                     active === 'video' &&
                         !extended &&
-                        'grid-min-10 grid-cols-scroll-3 md:grid-cols-3',
+                        'grid-min-10 grid-cols-scroll auto-cols-scroll md:grid-cols-3',
                 )}
             >
                 {active === 'music' &&

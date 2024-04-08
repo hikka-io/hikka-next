@@ -1,34 +1,28 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsMobile from '@/services/hooks/useIsMobile';
 
-interface Props extends PropsWithChildren {
-    mobileOnly?: boolean;
-}
+interface Props extends PropsWithChildren {}
 
-const Component = ({ children, mobileOnly }: Props) => {
+const Component = ({ children }: Props) => {
+    const [isMounted, setIsMounted] = useState(false);
     const isMobile = useIsMobile();
 
-    if (isMobile) {
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (isMounted && isMobile) {
         return createPortal(
             <>{children}</>,
             document.getElementById('subbar-mobile')!,
         );
     }
 
-    if (mobileOnly) {
-        return null;
-    }
-
-    return createPortal(
-        <div className="overflow-hidden rounded-full px-4 shadow-lg">
-            {children}
-        </div>,
-        document.getElementById('subbar')!,
-    );
+    return null;
 };
 
 export default Component;

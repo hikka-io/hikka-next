@@ -12,7 +12,7 @@ const Cover = ({ anime }: Props) => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <EntryCard poster={anime.poster}>
+            <EntryCard posterProps={{ priority: true }} poster={anime.poster}>
                 <div className="absolute bottom-2 right-2 z-[1]">
                     <FavoriteButton slug={anime.slug} content_type="anime" />
                 </div>

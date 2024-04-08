@@ -172,7 +172,7 @@ const AnimeLayout = async ({ params: { slug }, children }: Props) => {
                         urlPrefix={'/anime/' + slug}
                     />
                 </Breadcrumbs>
-                <SubBar mobileOnly>
+                <SubBar>
                     <InternalNavBar
                         routes={ANIME_NAV_ROUTES}
                         urlPrefix={'/anime/' + slug}

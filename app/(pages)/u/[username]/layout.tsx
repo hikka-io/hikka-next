@@ -101,8 +101,8 @@ const Component = async ({ params: { username }, children }: Props) => {
                             src={user.cover}
                             className="relative size-full object-cover"
                             alt="cover"
-                            width={1500}
-                            height={500}
+                            fill
+                            priority
                         />
                     </div>
                 )}
@@ -118,7 +118,7 @@ const Component = async ({ params: { username }, children }: Props) => {
                         urlPrefix={'/u/' + username}
                     />
                 </Breadcrumbs>
-                <SubBar mobileOnly>
+                <SubBar>
                     <InternalNavBar
                         routes={USER_NAV_ROUTES}
                         urlPrefix={'/u/' + username}

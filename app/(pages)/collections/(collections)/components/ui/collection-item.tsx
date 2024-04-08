@@ -91,7 +91,7 @@ const CollectionItem = ({ collection }: Props) => {
             <div
                 className={cn(
                     'grid flex-nowrap gap-4 md:grid-cols-5 lg:grid-cols-7 lg:gap-8',
-                    'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll-7 overflow-x-auto px-4',
+                    'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4',
                 )}
             >
                 {collection.collection.map((item) => (

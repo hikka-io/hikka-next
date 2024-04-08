@@ -1,7 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
+
+
 
 import CharacterSearchList from '@/components/modals/search-modal/components/character-search-list';
 import PersonSearchList from '@/components/modals/search-modal/components/person-search-list';
@@ -9,9 +11,12 @@ import SearchToggle from '@/components/modals/search-modal/components/search-tog
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/useDebounce';
 
+
+
 import AnimeSearchList from './components/anime-search-list';
 import SearchButton from './components/search-button';
 import useSearchModal from './components/useSearchModal';
+
 
 interface Props {
     onClick?: (content: API.Anime | API.Character | API.Person) => void;
@@ -21,6 +26,7 @@ interface Props {
 }
 
 const SearchModal = ({ onClick, type, content_type, children }: Props) => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [searchType, setSearchType] = useState<API.ContentType>(
         content_type || 'anime',
     );
@@ -50,12 +56,14 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
             >
                 <div className="flex p-3 dark:bg-secondary/30">
                     <SearchToggle
+                        inputRef={inputRef}
                         disabled={Boolean(content_type)}
                         setType={setSearchType}
                         type={searchType}
                     />
                 </div>
                 <CommandInput
+                    ref={inputRef}
                     value={searchValue}
                     onValueChange={(value) => setSearchValue(value)}
                     placeholder="Пошук..."

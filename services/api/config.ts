@@ -4,8 +4,5 @@ export default {
         headers: {
             'Content-type': 'application/json',
         },
-        next: {
-            revalidate: 0,
-        },
     },
 };
