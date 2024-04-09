@@ -2,10 +2,15 @@
 
 import { useState } from 'react';
 
+
+
 import { useParams } from 'next/navigation';
+
+
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
+import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 
@@ -33,14 +38,16 @@ const Description = () => {
                             }
                             onClick={() => setActive('description_ua')}
                         >
-                            <span className="w-full truncate">
-                                UA
-                            </span>
+                            <span className="w-full truncate">UA</span>
                         </Button>
                     )}
                 </div>
             </SubHeader>
-            <MDViewer>{character[active] || character.description_ua}</MDViewer>
+            <TextExpand>
+                <MDViewer>
+                    {character[active] || character.description_ua}
+                </MDViewer>
+            </TextExpand>
         </div>
     );
 };

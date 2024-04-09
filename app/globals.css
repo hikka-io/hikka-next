@@ -99,7 +99,7 @@
 
     body {
         @apply bg-background text-foreground bg-no-repeat;
-        background-size: 100% 50vh;
+        background-size: 100% 100vh;
     }
 }
 
@@ -342,3 +342,7 @@ table th:last-child, td:last-child {
     @apply text-muted-foreground;
 }
 
+.unexpanded-text {
+    mask-image: linear-gradient(to bottom, white 50%, transparent);
+    -webkit-mask-image: -webkit-linear-gradient(to bottom, white 50%, transparent);
+}

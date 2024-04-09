@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import EntryCard from '@/components/entry-card/entry-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
@@ -38,9 +39,11 @@ const Component = ({ anime, rewatches, note, titleLanguage }: Props) => {
                         )}
                     </div>
                     {note && (
-                        <MDViewer className="text-xs text-muted-foreground">
-                            {note}
-                        </MDViewer>
+                        <TextExpand>
+                            <MDViewer className="text-xs text-muted-foreground">
+                                {note}
+                            </MDViewer>
+                        </TextExpand>
                     )}
                 </div>
             </div>
