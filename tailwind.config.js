@@ -23,7 +23,7 @@ module.exports = {
               'scroll': 'minmax(var(--grid-min, 7rem), 1fr)',
             },
             gridTemplateColumns: {
-                'scroll': 'repeat(auto-fit, minmax(var(--grid-min, 7rem), 1fr))',
+                'scroll': 'repeat(auto-fill, minmax(var(--grid-min, 7rem), 1fr))',
             },
             fontFamily: {
                 sans: ['var(--font-inter)'],
