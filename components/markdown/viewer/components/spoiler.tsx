@@ -1,7 +1,12 @@
-import React, { PropsWithChildren } from 'react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Button } from '@/components/ui/button';
 import { ChevronsUpDown } from 'lucide-react';
+import React, { PropsWithChildren } from 'react';
+
+import { Button } from '@/components/ui/button';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 
 const Component = ({ children }: PropsWithChildren) => {
     return (

@@ -7,7 +7,6 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 
 import Stats from './ui/stats';
 
-
 const Score = () => {
     const params = useParams();
     const { data } = useAnimeInfo({ slug: String(params.slug) });

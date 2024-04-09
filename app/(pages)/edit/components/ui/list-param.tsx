@@ -6,12 +6,9 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
 
-
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
 
 interface Props {
     param: Hikka.EditParam;

@@ -4,8 +4,9 @@ import clsx from 'clsx';
 import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
-import { Button } from '@/components/ui/button';
 import { range } from '@antfu/utils';
+
+import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -65,7 +66,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                         disabled={!v}
                         onClick={() => v && setPage(v)}
                         key={index}
-                        className={cn("size-9 sm:size-10", !v && 'w-auto')}
+                        className={cn('size-9 sm:size-10', !v && 'w-auto')}
                     >
                         {v ? v : '...'}
                     </Button>

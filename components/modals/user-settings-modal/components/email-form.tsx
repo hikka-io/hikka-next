@@ -5,15 +5,12 @@ import { useForm } from 'react-hook-form';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import changeUserEmail from '@/services/api/settings/changeUserEmail';
-
-import { useModalContext } from '@/services/providers/modal-provider';
 import useAuth from '@/services/hooks/auth/useAuth';
-
+import { useModalContext } from '@/services/providers/modal-provider';
 
 type FormValues = {
     email: string;
@@ -58,9 +55,6 @@ const Component = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-6 p-6"
         >
-            <div className="flex items-center">
-                <H3>Email</H3>
-            </div>
             <div className="flex w-full flex-col gap-6">
                 <div className="flex w-full flex-col gap-2">
                     <Label>Новий email</Label>

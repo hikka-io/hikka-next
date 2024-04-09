@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
+import EditGroup from '@/app/(pages)/edit/components/edit-group';
+import AutoButton from '@/app/(pages)/edit/components/ui/auto-button';
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
 import useAuth from '@/services/hooks/auth/useAuth';
@@ -18,10 +20,7 @@ import {
     getFilteredEditParams,
 } from '@/utils/editParamUtils';
 
-import EditGroup from '@/app/(pages)/edit/components/edit-group';
-import AutoButton from '@/app/(pages)/edit/components/ui/auto-button';
 import EditDescription from './edit-description';
-
 
 type FormValues = Record<string, unknown> & {
     description: string;

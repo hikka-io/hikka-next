@@ -3,21 +3,14 @@
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
 
-
-
-import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import changeUserDescription from '@/services/api/settings/changeUserDescription';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useModalContext } from '@/services/providers/modal-provider';
-
 
 type FormValues = {
     description: string;
@@ -62,9 +55,6 @@ const Component = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-6 p-6"
         >
-            <div className="flex items-center">
-                <H3>Загальне</H3>
-            </div>
             <div className="w-full">
                 <div className="flex w-full flex-col gap-2">
                     <Label>Опис</Label>

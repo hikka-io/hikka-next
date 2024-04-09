@@ -3,14 +3,13 @@
 import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import TagsModal from '@/app/(pages)/edit/components/edit-description/components/tags-modal';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-
-import TagsModal from '@/app/(pages)/edit/components/edit-description/components/tags-modal';
 
 interface Props {
     mode: 'edit' | 'view';

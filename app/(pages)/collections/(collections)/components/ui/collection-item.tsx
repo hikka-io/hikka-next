@@ -13,8 +13,8 @@ import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils/utils';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import { cn } from '@/utils/utils';
 
 interface Props {
     collection: API.Collection;
@@ -91,7 +91,7 @@ const CollectionItem = ({ collection }: Props) => {
             <div
                 className={cn(
                     'grid flex-nowrap gap-4 md:grid-cols-5 lg:grid-cols-7 lg:gap-8',
-                    'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4',
+                    'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
                 )}
             >
                 {collection.collection.map((item) => (
@@ -102,7 +102,8 @@ const CollectionItem = ({ collection }: Props) => {
                                 'blur-md transition-all duration-500 hover:blur-none',
                         )}
                         className={cn(
-                            collection.spoiler && 'blur-md transition-all duration-500 hover:blur-none',
+                            collection.spoiler &&
+                                'blur-md transition-all duration-500 hover:blur-none',
                         )}
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         key={item.content.slug}

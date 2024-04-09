@@ -8,7 +8,6 @@ import getQueryClient from '@/utils/getQueryClient';
 
 import ContentList from './components/content-list';
 
-
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
         title: `Контент`,

@@ -2,6 +2,7 @@
 
 import { PropsWithChildren, ReactNode } from 'react';
 import MaterialSymbolsFeatureSearch from '~icons/material-symbols/feature-search';
+
 import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';
 
@@ -18,7 +19,9 @@ const Component = ({ title, description, children }: Props) => {
                 <div className="flex flex-1 flex-col gap-1">
                     <H3 className="text-xl">{title}</H3>
                     {description && (
-                        <P className="text-sm text-muted-foreground">{description}</P>
+                        <P className="text-sm text-muted-foreground">
+                            {description}
+                        </P>
                     )}
                 </div>
             </div>

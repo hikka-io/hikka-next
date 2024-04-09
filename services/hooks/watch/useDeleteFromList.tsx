@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import deleteWatch from '@/services/api/watch/deleteWatch';
-
 import useAuth from '@/services/hooks/auth/useAuth';
 
 const useDeleteFromList = ({ slug }: { slug: string }) => {
@@ -27,7 +26,10 @@ const useDeleteFromList = ({ slug }: { slug: string }) => {
             await queryClient.invalidateQueries({ queryKey: ['favorites'] });
             await queryClient.invalidateQueries({ queryKey: ['franchise'] });
             await queryClient.invalidateQueries({ queryKey: ['collection'] });
-            await queryClient.invalidateQueries({ queryKey: ['animeSchedule', {}], exact: false });
+            await queryClient.invalidateQueries({
+                queryKey: ['animeSchedule', {}],
+                exact: false,
+            });
         },
     });
 };

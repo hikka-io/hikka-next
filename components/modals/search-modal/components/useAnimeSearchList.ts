@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import getAnimeCatalog from '@/services/api/anime/getAnimeCatalog';
 
 interface Props {
@@ -6,10 +7,7 @@ interface Props {
 }
 
 const useAnimeSearchList = ({ value }: Props) => {
-    return useQuery<
-        API.WithPagination<API.Anime>,
-        Error
-    >({
+    return useQuery<API.WithPagination<API.Anime>, Error>({
         queryKey: ['animeSearchList', value],
         queryFn: () =>
             getAnimeCatalog({
@@ -17,6 +15,6 @@ const useAnimeSearchList = ({ value }: Props) => {
             }),
         enabled: value !== undefined && value.length >= 3,
     });
-}
+};
 
 export default useAnimeSearchList;

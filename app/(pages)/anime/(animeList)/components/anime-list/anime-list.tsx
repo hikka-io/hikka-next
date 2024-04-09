@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
+import AnimeListSkeleton from '@/app/(pages)/anime/(animeList)/components/anime-list/components/anime-list-skeleton';
 import EntryCard from '@/components/entry-card/entry-card';
 import FiltersNotFound from '@/components/filters/components/filters-not-found';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,6 @@ import useAuth from '@/services/hooks/auth/useAuth';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE } from '@/utils/constants';
 
-import AnimeListSkeleton from '@/app/(pages)/anime/(animeList)/components/anime-list/components/anime-list-skeleton';
 import { useNextPage, useUpdatePage } from './anime-list.hooks';
 
 interface Props {

@@ -4,19 +4,13 @@ import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import BxDownvote from '~icons/bx/downvote';
 import BxUpvote from '~icons/bx/upvote';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import vote from '@/services/api/vote/vote';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { cn } from '@/utils/utils';
-
 
 interface Props {
     comment: API.Comment;

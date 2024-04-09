@@ -1,6 +1,7 @@
-import config from '@/services/api/config';
 import getApiErrorMessage from '@/utils/getApiErrorMessage';
 import SnackbarUtils from '@/utils/snackbar-utils';
+
+import config from './config';
 
 interface Props {
     path: string;
@@ -12,6 +13,7 @@ interface Props {
     captcha?: string;
     enqueueError?: boolean;
     formData?: boolean;
+    config?: Record<string, any>;
 }
 
 export async function fetchRequest<TResponse>({
@@ -24,6 +26,7 @@ export async function fetchRequest<TResponse>({
     captcha,
     enqueueError,
     formData,
+    config: myConfig,
 }: Props): Promise<TResponse> {
     const paginationParams = new URLSearchParams(
         Object.fromEntries(
@@ -54,10 +57,9 @@ export async function fetchRequest<TResponse>({
                         : JSON.stringify(params)
                     : undefined,
             ...config.config,
+            ...myConfig,
             headers: {
-                ...(formData
-                    ? {}
-                    : config.config.headers),
+                ...(formData ? {} : config.config.headers),
                 auth: auth || '',
                 captcha: captcha || '',
             },

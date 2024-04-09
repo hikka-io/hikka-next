@@ -1,5 +1,6 @@
 'use client';
 
+import { useSnackbar } from 'notistack';
 import React, { Fragment, createElement, memo } from 'react';
 
 import WatchEditModal from '@/components/modals/watch-edit-modal';
@@ -8,7 +9,6 @@ import useAuth from '@/services/hooks/auth/useAuth';
 import useAddToList from '@/services/hooks/watch/useAddToList';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
-import { useSnackbar } from 'notistack';
 
 interface Props {
     item: API.AnimeSchedule;
@@ -37,10 +37,9 @@ const ScheduleWatchButton = ({ item, title }: Props) => {
 
         addToList({ status: 'planned' });
 
-        enqueueSnackbar(
-            'Аніме додано до Вашого списку',
-            { variant: 'success' },
-        );
+        enqueueSnackbar('Аніме додано до Вашого списку', {
+            variant: 'success',
+        });
     };
 
     return (
@@ -49,7 +48,7 @@ const ScheduleWatchButton = ({ item, title }: Props) => {
                 <Button
                     className="hidden sm:flex"
                     style={{
-                        backgroundColor: watchStatus?.color
+                        backgroundColor: watchStatus?.color,
                     }}
                     onClick={handleWatch}
                     variant={watchStatus ? 'secondary' : 'outline'}

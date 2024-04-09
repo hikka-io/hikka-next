@@ -10,5 +10,10 @@ export default async function req({
     return fetchRequest<Response>({
         path: `/characters/${slug}`,
         method: 'get',
+        config: {
+            next: {
+                revalidate: 60,
+            },
+        },
     });
 }

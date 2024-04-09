@@ -4,6 +4,7 @@ import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 import Link from 'next/link';
 
 import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
+import P from '@/components/typography/p';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -16,7 +17,6 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { cn } from '@/utils/utils';
-import P from '@/components/typography/p';
 
 interface Props {
     href: string;
@@ -35,7 +35,7 @@ const ALLOWED_HOSTS = [
 const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
         if (href.includes('/anime')) {
-            const link = href.split('/anime/')[1]?.split('/')[0]
+            const link = href.split('/anime/')[1]?.split('/')[0];
 
             if (link) {
                 return (
@@ -44,7 +44,6 @@ const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
                     </AnimeTooltip>
                 );
             }
-
         }
 
         return <Link href={href}>{children}</Link>;

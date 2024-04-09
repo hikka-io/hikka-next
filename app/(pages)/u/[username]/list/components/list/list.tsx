@@ -2,13 +2,12 @@
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-import { Button } from '@/components/ui/button';
-import NotFound from '@/components/ui/not-found';
-import { WATCH_STATUS } from '@/utils/constants';
-
 import GridView from '@/app/(pages)/u/[username]/list/components/list/components/grid-view';
 import TableView from '@/app/(pages)/u/[username]/list/components/list/components/table-view';
+import { Button } from '@/components/ui/button';
+import NotFound from '@/components/ui/not-found';
 import useWatchList from '@/services/hooks/watch/useWatchList';
+import { WATCH_STATUS } from '@/utils/constants';
 
 interface Props {}
 
@@ -44,9 +43,8 @@ const Component = ({}: Props) => {
                             У списку{' '}
                             <span className="font-black">
                                 {
-                                    WATCH_STATUS[
-                                        watchStatus as API.WatchStatus
-                                    ].title_ua
+                                    WATCH_STATUS[watchStatus as API.WatchStatus]
+                                        .title_ua
                                 }
                             </span>{' '}
                             пусто

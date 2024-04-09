@@ -3,8 +3,8 @@
 import React from 'react';
 import MaterialSymbolsNotificationImportantRounded from '~icons/material-symbols/notification-important-rounded';
 
-import { Label } from '@/components/ui/label';
 import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 
 interface Props {}
 

@@ -6,14 +6,11 @@ import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
-
-
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import P from '@/components/typography/p';
-
 
 interface Props {
     setValue: UseFormSetValue<any>;

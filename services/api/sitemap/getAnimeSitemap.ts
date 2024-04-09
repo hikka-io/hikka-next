@@ -9,5 +9,10 @@ export default async function req(): Promise<Response[]> {
     return fetchRequest<Response[]>({
         path: `/sitemap/sitemap_anime.json`,
         method: 'get',
+        config: {
+            next: {
+                revalidate: false,
+            },
+        },
     });
 }

@@ -39,7 +39,9 @@ const FollowingItem = ({ data, className }: Props) => {
             </div>
             {data.watch[0].score > 0 && (
                 <div className="inline-flex gap-1">
-                    <Label className="leading-normal">{data.watch[0].score}</Label>
+                    <Label className="leading-normal">
+                        {data.watch[0].score}
+                    </Label>
                     <MaterialSymbolsStarRounded />
                 </div>
             )}

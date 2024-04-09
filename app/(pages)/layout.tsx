@@ -1,15 +1,18 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 
 import AuthGate from '@/components/auth-gate';
 import Footer from '@/components/footer';
+import ModalManager from '@/components/modal-manager';
 import NavBar from '@/components/navbar/navbar';
-import ScrollTop from '@/components/scroll-top';
 
 export default async function Layout({ children }: { children: ReactNode }) {
     return (
         <>
             <AuthGate>
-                <ScrollTop />
+                {/*<ScrollTop />*/}
+                <Suspense>
+                    <ModalManager />
+                </Suspense>
                 <NavBar />
 
                 <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">

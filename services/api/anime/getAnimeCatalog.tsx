@@ -19,7 +19,7 @@ interface Request {
     only_translated?: boolean;
 }
 
-export interface Response extends API.WithPagination<API.Anime>{}
+export interface Response extends API.WithPagination<API.Anime> {}
 
 export default async function req({
     page = 1,
@@ -38,5 +38,10 @@ export default async function req({
         page,
         size,
         auth,
+        config: {
+            next: {
+                revalidate: 3600,
+            },
+        },
     });
 }

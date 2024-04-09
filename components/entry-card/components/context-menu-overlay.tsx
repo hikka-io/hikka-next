@@ -2,16 +2,15 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
-
-
 import Link from 'next/link';
 
-
-
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
+import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from '@/components/ui/context-menu';
 import useAuth from '@/services/hooks/auth/useAuth';
-
-
 
 const ContextMenuOverlay = ({
     children,

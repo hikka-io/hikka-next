@@ -19,6 +19,11 @@ export default async function req({
         method: 'get',
         page,
         size,
-        auth
+        auth,
+        config: {
+            next: {
+                revalidate: 60,
+            },
+        },
     });
 }

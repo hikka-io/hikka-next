@@ -21,18 +21,22 @@ const Details = ({ content }: Props) => {
         <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    Назва українською
+                    {'title_ua' in content ? 'Назва' : 'Імʼя'} українською
                 </Label>
                 <P className="text-sm">{title_ua || '-'}</P>
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    Назва англійською
+                    {'title_ua' in content ? 'Назва' : 'Імʼя'} англійською
                 </Label>
                 <P className="text-sm">{title_en || '-'}</P>
             </div>
             <div className="flex flex-col gap-2">
-                <Label className="text-muted-foreground">Назва оригіналу</Label>
+                <Label className="text-muted-foreground">
+                    {'title_ua' in content
+                        ? 'Назва оригіналу'
+                        : 'Імʼя нативною'}
+                </Label>
                 <P className="text-sm">{title_ja || '-'}</P>
             </div>
         </div>

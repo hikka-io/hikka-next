@@ -3,6 +3,8 @@
 import React from 'react';
 import MaterialSymbolsNotificationsRounded from '~icons/material-symbols/notifications-rounded';
 
+import NotFoundNotifications from '@/components/navbar/components/notifications-menu/components/not-found-notifications';
+import NotificationItem from '@/components/navbar/components/notifications-menu/components/ui/notification-item';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,9 +18,6 @@ import useNotifications from '@/services/hooks/notifications/useNotifications';
 import useNotificationsCount from '@/services/hooks/notifications/useNotificationsCount';
 import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
 import { convertNotification } from '@/utils/convertNotification';
-
-import NotFoundNotifications from '@/components/navbar/components/notifications-menu/components/not-found-notifications';
-import NotificationItem from '@/components/navbar/components/notifications-menu/components/ui/notification-item';
 
 interface Props {}
 

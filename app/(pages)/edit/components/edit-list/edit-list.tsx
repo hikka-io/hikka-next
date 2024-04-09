@@ -3,13 +3,12 @@
 import * as React from 'react';
 
 import EditHead from '@/app/(pages)/edit/components/edit-list/components/edit-head';
+import EditRow from '@/app/(pages)/edit/components/edit-list/components/edit-row';
+import EditSkeleton from '@/app/(pages)/edit/components/edit-list/components/edit-skeleton';
 import FiltersNotFound from '@/components/filters/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import { Table, TableBody } from '@/components/ui/table';
 import useEditList from '@/services/hooks/edit/useEditList';
-
-import EditRow from '@/app/(pages)/edit/components/edit-list/components/edit-row';
-import EditSkeleton from '@/app/(pages)/edit/components/edit-list/components/edit-skeleton';
 
 interface Props {
     page: string;

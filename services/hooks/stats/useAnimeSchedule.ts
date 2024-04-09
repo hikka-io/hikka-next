@@ -1,8 +1,7 @@
 import getAnimeCharacters from '@/services/api/anime/getAnimeCharacters';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
 import useAuth from '@/services/hooks/auth/useAuth';
-
+import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 const useAnimeSchedule = ({
     season,

@@ -18,7 +18,10 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
 
         const addPendingDataPoint = () => {
             if (pendingDataPoint) {
-                const newDataPoints = new Set([...value, pendingDataPoint.toLowerCase()]);
+                const newDataPoints = new Set([
+                    ...value,
+                    pendingDataPoint.toLowerCase(),
+                ]);
                 onChange(Array.from(newDataPoints));
                 setPendingDataPoint('');
             }

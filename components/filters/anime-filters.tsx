@@ -9,6 +9,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
+import BadgeFilter from '@/components/filters/components/ui/badge-filter';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
@@ -16,17 +17,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
-import { cn } from '@/utils/utils';
 import {
-    AGE_RATING, GENRE_TYPES,
+    AGE_RATING,
+    GENRE_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
-
-import BadgeFilter from '@/components/filters/components/ui/badge-filter';
-
+import { cn } from '@/utils/utils';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 
@@ -180,7 +179,7 @@ const Component = ({ className, type }: Props) => {
                                 group: {
                                     label: GENRE_TYPES[genre.type].title_ua,
                                     value: genre.type,
-                                }
+                                },
                             }))}
                             multiple
                             value={genres}
@@ -196,7 +195,10 @@ const Component = ({ className, type }: Props) => {
                 {type !== 'watchlist' && (
                     <div className="w-full">
                         <div className="flex items-center justify-between gap-2">
-                            <Label className="text-muted-foreground" htmlFor="uk-translated">
+                            <Label
+                                className="text-muted-foreground"
+                                htmlFor="uk-translated"
+                            >
                                 Перекладено українською
                             </Label>
                             <Switch

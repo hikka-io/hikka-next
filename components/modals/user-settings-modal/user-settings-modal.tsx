@@ -2,27 +2,28 @@
 
 import * as React from 'react';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
-
-import H3 from '@/components/typography/h3';
-import P from '@/components/typography/p';
-import Small from '@/components/typography/small';
-import useIsMobile from '@/services/hooks/useIsMobile';
-import { cn } from '@/utils/utils';
+import MaterialSymbolsKeyboardBackspaceRounded from '~icons/material-symbols/keyboard-backspace-rounded';
 
 import CustomizationForm from '@/components/modals/user-settings-modal/components/customization-form';
 import EmailForm from '@/components/modals/user-settings-modal/components/email-form';
 import GeneralForm from '@/components/modals/user-settings-modal/components/general-form';
+import NotificationsForm from '@/components/modals/user-settings-modal/components/notifications-form';
 import PasswordForm from '@/components/modals/user-settings-modal/components/password-form';
 import UsernameForm from '@/components/modals/user-settings-modal/components/username-form';
 import WatchListForm from '@/components/modals/user-settings-modal/components/watchlist-form';
+import H3 from '@/components/typography/h3';
+import Small from '@/components/typography/small';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-
+import useIsMobile from '@/services/hooks/useIsMobile';
+import { cn } from '@/utils/utils';
 
 type Tab =
     | 'general'
     | 'password'
     | 'username'
     | 'email'
+    | 'notifications'
     | 'watchList'
     | 'customization';
 
@@ -63,12 +64,36 @@ const DATA: {
         form: <PasswordForm />,
     },
     {
+        title: 'Сповіщення',
+        description: 'Змінити налаштування сповіщень',
+        slug: 'notifications',
+        form: <NotificationsForm />,
+    },
+    {
         title: 'Кастомізація',
         description: 'Зміна налаштувань перегляду контенту на сайті',
         slug: 'customization',
         form: <CustomizationForm />,
     },
 ];
+
+const Header = ({ title, onBack }: { title: string; onBack?: () => void }) => {
+    return (
+        <div className="flex items-center justify-center gap-2 border-b px-6 pb-4 sm:justify-start">
+            {onBack && (
+                <Button
+                    onClick={onBack}
+                    variant="outline"
+                    size="icon-xs"
+                    className="flex sm:hidden"
+                >
+                    <MaterialSymbolsKeyboardBackspaceRounded />
+                </Button>
+            )}
+            <H3>{title}</H3>
+        </div>
+    );
+};
 
 const Tabs = ({
     setActiveTab,
@@ -78,10 +103,8 @@ const Tabs = ({
     setActiveTab: Dispatch<SetStateAction<Tab | undefined>>;
 }) => {
     return (
-        <div className="flex size-full flex-col gap-4 border-r-secondary/60 py-6 lg:border-r">
-            <div className="flex items-center">
-                <H3 className="px-6">Налаштування</H3>
-            </div>
+        <div className="flex size-full flex-col border-r-secondary/60 py-6 md:border-r">
+            <Header title="Налаштування" />
             <ul className="w-full p-0 [&_li>*]:rounded-none">
                 {DATA.map((tab) => (
                     <li key={tab.slug}>
@@ -121,7 +144,17 @@ const Component = () => {
             {!isMobile && (
                 <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
             )}
-            {activeForm?.form}
+            <div className="flex max-h-screen flex-col border-r-secondary/60 pt-6 md:border-r">
+                {activeForm && (
+                    <Header
+                        onBack={() => setActiveTab(undefined)}
+                        title={activeForm?.title}
+                    />
+                )}
+                <div className="flex-1 overflow-y-scroll">
+                    {activeForm?.form}
+                </div>
+            </div>
         </div>
     );
 };

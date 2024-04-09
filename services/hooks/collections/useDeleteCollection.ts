@@ -1,23 +1,13 @@
 import { useSnackbar } from 'notistack';
 
-
-
 import { useRouter } from 'next/navigation';
 
-
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-
 
 import deleteCollection from '@/services/api/collections/deleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
-
-
-
 import useAuth from '../auth/useAuth';
-
 
 const useDeleteCollection = ({ reference }: { reference: string }) => {
     const { auth } = useAuth();

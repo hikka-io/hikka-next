@@ -24,5 +24,10 @@ export default async function req({
         method: 'get',
         page,
         size,
+        config: {
+            next: {
+                revalidate: 60,
+            },
+        },
     });
 }

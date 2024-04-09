@@ -7,7 +7,6 @@ import useEditTop from '@/services/hooks/stats/edit/useEditTop';
 
 import EditTopItem from './components/ui/edit-top-item';
 
-
 const Component = () => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useEditTop();

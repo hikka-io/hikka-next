@@ -16,7 +16,7 @@ interface Props {
 const CollectionList = ({ page, sort }: Props) => {
     const { data: collections } = useCollections({
         page,
-        sort
+        sort,
     });
 
     if (!collections) {

@@ -4,12 +4,8 @@ import { useSnackbar } from 'notistack';
 import React, { ForwardedRef, forwardRef, useRef, useState } from 'react';
 import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded';
 
-
-
 import { MDXEditorMethods } from '@mdxeditor/editor';
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import MDEditor from '@/components/markdown/editor/MD-editor';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -19,10 +15,8 @@ import { Label } from '@/components/ui/label';
 import addComment from '@/services/api/comments/addComment';
 import editComment from '@/services/api/comments/editComment';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { cn } from '@/utils/utils';
-
 
 interface Props {
     slug: string;

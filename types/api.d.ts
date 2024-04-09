@@ -331,7 +331,7 @@ declare global {
             new_score: number;
             username: string;
             avatar: string;
-        }
+        };
 
         type NotificationCommentVoteData = {
             content_type: ContentType;

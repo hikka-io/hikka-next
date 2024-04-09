@@ -2,18 +2,13 @@
 
 import { useState } from 'react';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
 import TextExpand from '@/components/text-expand';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-
 
 const Description = () => {
     const [active, setActive] = useState<'synopsis_ua' | 'synopsis_en'>(

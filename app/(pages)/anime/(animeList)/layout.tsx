@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
-import Filters from '../../../../components/filters/anime-filters';
 import NavBar from '@/app/(pages)/anime/(animeList)/components/navbar';
+
+import Filters from '../../../../components/filters/anime-filters';
 
 interface Props {
     children: ReactNode;

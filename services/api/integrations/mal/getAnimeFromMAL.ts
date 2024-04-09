@@ -1,6 +1,5 @@
 import { fetchRequest } from '@/services/api/fetchRequest';
 
-
 export default async function req({
     mal_ids,
 }: {

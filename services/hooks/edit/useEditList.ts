@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import getEditList from '@/services/api/edit/getEditList';
 
-
 const useEditList = ({
     page,
     staleTime,
@@ -16,7 +15,7 @@ const useEditList = ({
 
     const content_type = searchParams.get('content_type');
     const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.get('sort')|| 'edit_id';
+    const sort = searchParams.get('sort') || 'edit_id';
     const edit_status = searchParams.get('edit_status');
 
     return useQuery({

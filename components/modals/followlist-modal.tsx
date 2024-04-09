@@ -4,11 +4,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import FollowUserItem from '@/app/(pages)/u/[username]/components/ui/follow-user-item';
 import { Button } from '@/components/ui/button';
@@ -16,8 +12,6 @@ import getFollowers from '@/services/api/follow/getFollowers';
 import getFollowings from '@/services/api/follow/getFollowings';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-
-
 
 interface Props {
     type: 'followers' | 'followings';

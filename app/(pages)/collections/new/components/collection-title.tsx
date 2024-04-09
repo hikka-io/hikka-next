@@ -8,7 +8,6 @@ import MDEditor from '@/components/markdown/editor/MD-editor';
 import SubHeader from '@/components/sub-header';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
-
 const CollectionTitle = () => {
     const ref = useRef<MDXEditorMethods>(null);
 

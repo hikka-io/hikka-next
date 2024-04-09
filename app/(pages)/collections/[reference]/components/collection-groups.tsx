@@ -9,7 +9,6 @@ import { useCollectionContext } from '@/services/providers/collection-provider';
 
 import CollectionGrid from './collection-grid';
 
-
 const CollectionGroups = () => {
     const params = useParams();
     const {

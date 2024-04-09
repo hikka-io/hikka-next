@@ -10,6 +10,7 @@ import H3 from '@/components/typography/h3';
 import H4 from '@/components/typography/h4';
 import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 interface Props extends PropsWithChildren {
     title: string;
@@ -51,7 +52,7 @@ const Component = ({
         >
             <div
                 className={clsx(
-                    'flex flex-1 items-center gap-4 overflow-hidden',
+                    'flex items-center gap-4 overflow-hidden',
                     titleClassName,
                 )}
             >

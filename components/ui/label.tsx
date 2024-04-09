@@ -7,7 +7,6 @@ import * as LabelPrimitive from '@radix-ui/react-label';
 
 import { cn } from '@/utils/utils';
 
-
 const labelVariants = cva(
     'text-sm font-medium leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
 );

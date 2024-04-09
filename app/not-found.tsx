@@ -2,11 +2,10 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import Image from '@/components/ui/image';
-
-import { Button } from '@/components/ui/button';
 import H1 from '@/components/typography/h1';
 import P from '@/components/typography/p';
+import { Button } from '@/components/ui/button';
+import Image from '@/components/ui/image';
 
 export default function NotFound() {
     return (

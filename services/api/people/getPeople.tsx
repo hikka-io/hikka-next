@@ -17,5 +17,10 @@ export default async function req({
         params: { query },
         page,
         size,
+        config: {
+            next: {
+                revalidate: 60,
+            },
+        },
     });
 }

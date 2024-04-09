@@ -12,9 +12,7 @@ const EditHead = () => {
                 <TableHead className=" hidden lg:table-cell" align="left">
                     Зміни
                 </TableHead>
-                <TableHead align="right">
-                    Статус
-                </TableHead>
+                <TableHead align="right">Статус</TableHead>
             </TableRow>
         </TableHeader>
     );

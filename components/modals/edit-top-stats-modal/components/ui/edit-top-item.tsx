@@ -31,9 +31,12 @@ const Component = ({ user, rank, accepted, denied, closed }: Props) => {
                 </Avatar>
             </Link>
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <Link className="truncate font-bold" href={`/u/${user.username}`}>
-                        {user.username}
-                    </Link>
+                <Link
+                    className="truncate font-bold"
+                    href={`/u/${user.username}`}
+                >
+                    {user.username}
+                </Link>
 
                 <div className="flex gap-3">
                     <div className="flex items-center gap-2 text-muted-foreground">

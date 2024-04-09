@@ -3,15 +3,9 @@
 import * as React from 'react';
 import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
-
-
 import Link from 'next/link';
 
-
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-
 
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -19,8 +13,6 @@ import { Button } from '@/components/ui/button';
 import follow from '@/services/api/follow/follow';
 import unfollow from '@/services/api/follow/unfollow';
 import useAuth from '@/services/hooks/auth/useAuth';
-
-
 
 interface Props {
     user: API.User;
@@ -67,24 +59,23 @@ const Component = ({ user }: Props) => {
             <div className="flex min-w-0 gap-3">
                 <div className="relative">
                     <Link href={'/u/' + user.username}>
-                        <Avatar className='size-12 rounded-md'>
+                        <Avatar className="size-12 rounded-md">
                             <AvatarImage
                                 src={user.avatar}
-                                className='rounded-md'
-                                alt='avatar'
+                                className="rounded-md"
+                                alt="avatar"
                             />
-                            <AvatarFallback className='rounded-md'>
-                                <MaterialSymbolsShieldRounded className='flex-1 text-xl text-muted-foreground' />
+                            <AvatarFallback className="rounded-md">
+                                <MaterialSymbolsShieldRounded className="flex-1 text-xl text-muted-foreground" />
                             </AvatarFallback>
                         </Avatar>
                     </Link>
-                    {user.active && <div className='absolute -bottom-1 -right-1 size-3 rounded-md border-2 border-secondary bg-success' />}
+                    {user.active && (
+                        <div className="absolute -bottom-1 -right-1 size-3 rounded-md border-2 border-secondary bg-success" />
+                    )}
                 </div>
                 <div className="flex min-w-0 flex-col justify-between">
-                    <Link
-                        href={'/u/' + user.username}
-                        className="font-bold"
-                    >
+                    <Link href={'/u/' + user.username} className="font-bold">
                         {user.username}
                     </Link>
                     <Small className="truncate text-muted-foreground">

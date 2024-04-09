@@ -24,7 +24,9 @@ const EditStatus = ({ editId }: Props) => {
                 backgroundColor: EDIT_STATUS[edit.status].color,
             }}
         >
-            <P className="text-sm text-white">{EDIT_STATUS[edit.status].title_ua}</P>
+            <P className="text-sm text-white">
+                {EDIT_STATUS[edit.status].title_ua}
+            </P>
         </div>
     );
 };

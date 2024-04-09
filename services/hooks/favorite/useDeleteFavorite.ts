@@ -1,12 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-
-
 import deleteFavourite from '@/services/api/favourite/deleteFavourite';
 
-
 import useAuth from '../auth/useAuth';
-
 
 const useDeleteFavorite = ({
     slug,

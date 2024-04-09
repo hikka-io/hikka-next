@@ -1,4 +1,10 @@
-import React, { memo, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, {
+    PropsWithChildren,
+    memo,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
@@ -19,7 +25,7 @@ const TextExpand = ({ children }: PropsWithChildren) => {
                 ref={ref}
                 className={cn(
                     'relative overflow-hidden',
-                    !isExpanded && 'max-h-52 unexpanded-text',
+                    !isExpanded && 'unexpanded-text max-h-52',
                 )}
             >
                 {children}

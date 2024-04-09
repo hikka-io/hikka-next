@@ -51,7 +51,7 @@ export default function parseTextFromMarkDown(mdString: string) {
         renderer: renderPlain(),
         async: false,
         breaks: true,
-    })
+    });
 
-    return (parsed as string).replaceAll('&#x20;', " ");
+    return (parsed as string).replaceAll('&#x20;', ' ');
 }

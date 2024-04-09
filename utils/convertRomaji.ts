@@ -137,7 +137,9 @@ export function romajiToKovalenko(romaji: string): string {
                         translated += 'є';
                     } else if (
                         checkStr === 'n' &&
-                        ['m', 'b', 'p'].includes(lowerRomaji.slice(i + 1, i + 2))
+                        ['m', 'b', 'p'].includes(
+                            lowerRomaji.slice(i + 1, i + 2),
+                        )
                     ) {
                         translated += 'м';
                     } else {

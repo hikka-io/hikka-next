@@ -1,12 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-
-
 import addWatch from '@/services/api/watch/addWatch';
 
-
 import useAuth from '../auth/useAuth';
-
 
 const useAddWatch = ({ slug }: { slug: string }) => {
     const { auth } = useAuth();

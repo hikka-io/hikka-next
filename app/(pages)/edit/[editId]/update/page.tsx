@@ -9,10 +9,7 @@ interface Props {
 const EditUpdatePage = async ({ params: { editId } }: Props) => {
     return (
         <div className="flex flex-col gap-12">
-            <EditView
-                editId={editId}
-                mode="update"
-            />
+            <EditView editId={editId} mode="update" />
         </div>
     );
 };

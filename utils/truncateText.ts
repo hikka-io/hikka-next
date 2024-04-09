@@ -1,4 +1,8 @@
-export default function truncateText(str: string, n: number, useWordBoundary: boolean) {
+export default function truncateText(
+    str: string,
+    n: number,
+    useWordBoundary: boolean,
+) {
     if (!str) return null;
 
     if (str.length <= n) {

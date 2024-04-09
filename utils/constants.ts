@@ -1,7 +1,7 @@
 import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
+import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
-import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded'
 
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
@@ -420,8 +420,6 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-
-
 export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
@@ -642,8 +640,6 @@ export const CHARACTER_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-
-
 export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
     title: [
         {
@@ -656,6 +652,12 @@ export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
             slug: 'name_en',
             title: 'Англійською',
             placeholder: 'Введіть імʼя англійською',
+            type: 'input',
+        },
+        {
+            slug: 'name_native',
+            title: 'Нативною',
+            placeholder: 'Введіть нативне імʼя',
             type: 'input',
         },
     ],
@@ -674,7 +676,6 @@ export const PERSON_EDIT_GROUPS: Record<string, string> = {
     title: 'Імʼя',
     synonyms: 'Синоніми',
 };
-
 
 export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
     anime: {

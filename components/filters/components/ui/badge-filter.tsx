@@ -1,5 +1,6 @@
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -7,7 +8,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import P from '@/components/typography/p';
 
 interface Props {
     property: string;

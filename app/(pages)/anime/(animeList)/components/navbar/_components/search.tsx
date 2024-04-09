@@ -7,7 +7,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import createQueryString from '@/utils/createQueryString';
 
-
 const Search = () => {
     const router = useRouter();
     const pathname = usePathname();

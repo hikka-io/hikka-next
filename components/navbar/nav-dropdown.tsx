@@ -2,17 +2,19 @@
 
 import { createElement, memo } from 'react';
 
-
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-
-
 import P from '@/components/typography/p';
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
 import useIsMobile from '@/services/hooks/useIsMobile';
-
 
 interface Props {
     routes: Hikka.NavRoute[];
@@ -21,7 +23,12 @@ interface Props {
     isEqualPath?: boolean;
 }
 
-const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Props) => {
+const Component = ({
+    routes,
+    urlPrefix,
+    showOnMobile,
+    isEqualPath = true,
+}: Props) => {
     const isMobile = useIsMobile();
     const pathname = usePathname();
 
@@ -42,7 +49,9 @@ const Component = ({ routes, urlPrefix, showOnMobile, isEqualPath = true }: Prop
                 <NavigationMenuItem>
                     <NavigationMenuTrigger className="max-w-32 sm:max-w-none">
                         {current && (
-                            <P className="truncate text-sm">{current.title_ua}</P>
+                            <P className="truncate text-sm">
+                                {current.title_ua}
+                            </P>
                         )}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>

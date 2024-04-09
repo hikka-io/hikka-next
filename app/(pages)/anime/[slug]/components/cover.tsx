@@ -16,7 +16,7 @@ const Cover = ({ anime }: Props) => {
                 <div className="absolute bottom-2 right-2 z-[1]">
                     <FavoriteButton slug={anime.slug} content_type="anime" />
                 </div>
-                
+
                 <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-black to-transparent" />
             </EntryCard>
         </div>

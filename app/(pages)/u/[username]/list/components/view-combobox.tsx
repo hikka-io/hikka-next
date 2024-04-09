@@ -4,10 +4,11 @@ import { Fragment } from 'react';
 import IcRoundGridView from '~icons/ic/round-grid-view';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
 import { PopoverTrigger } from '@/components/ui/popover';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import createQueryString from '@/utils/createQueryString';
 
 const Component = () => {

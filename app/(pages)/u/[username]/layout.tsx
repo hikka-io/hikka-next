@@ -8,11 +8,14 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import ActivationAlert from '@/app/(pages)/u/[username]/components/activation-alert';
+import FollowButton from '@/app/(pages)/u/[username]/components/follow-button';
+import FollowStats from '@/app/(pages)/u/[username]/components/follow-stats';
 import ListStats from '@/app/(pages)/u/[username]/components/list-stats';
+import UserInfo from '@/app/(pages)/u/[username]/components/user-info';
 import UserTitle from '@/app/(pages)/u/[username]/components/user-title';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import InternalNavBar from '@/components/navbar/nav-tabs';
 import NavMenu from '@/components/navbar/nav-dropdown';
+import InternalNavBar from '@/components/navbar/nav-tabs';
 import SubBar from '@/components/navbar/sub-nav';
 import Image from '@/components/ui/image';
 import getFollowStats from '@/services/api/follow/getFollowStats';
@@ -23,11 +26,6 @@ import getWatchStats from '@/services/api/watch/getWatchStats';
 import { USER_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import FollowButton from '@/app/(pages)/u/[username]/components/follow-button';
-import FollowStats from '@/app/(pages)/u/[username]/components/follow-stats';
-import UserInfo from '@/app/(pages)/u/[username]/components/user-info';
-
 
 interface Props extends PropsWithChildren {
     params: {

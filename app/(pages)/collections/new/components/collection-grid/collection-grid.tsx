@@ -154,9 +154,7 @@ const CollectionGrid = ({ group }: Props) => {
 
                         <SearchModal
                             content_type={content_type}
-                            onClick={(value) =>
-                                handleAddItem(value)
-                            }
+                            onClick={(value) => handleAddItem(value)}
                             type="button"
                         >
                             <EntryCard

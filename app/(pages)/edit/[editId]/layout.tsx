@@ -7,19 +7,17 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import Author from '@/app/(pages)/edit/[editId]/components/author';
+import Moderator from '@/app/(pages)/edit/[editId]/components/moderator';
 import Content from '@/app/(pages)/edit/components/content/content';
-import { getCookie } from '@/utils/actions';
+import EditStatus from '@/app/(pages)/edit/components/ui/edit-status';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
 import SubHeader from '@/components/sub-header';
 import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
+import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import EditStatus from '@/app/(pages)/edit/components/ui/edit-status';
-import Author from '@/app/(pages)/edit/[editId]/components/author';
-import Moderator from '@/app/(pages)/edit/[editId]/components/moderator';
-
 
 interface Props {
     params: { editId: string };

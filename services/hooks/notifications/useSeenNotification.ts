@@ -1,12 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-
-
 import seenNotification from '@/services/api/notifications/seenNotification';
 
-
 import useAuth from '../auth/useAuth';
-
 
 const useSeenNotification = () => {
     const { auth } = useAuth();
@@ -20,12 +16,14 @@ const useSeenNotification = () => {
                 auth: auth,
             }),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['notifications', auth],
+            queryClient.refetchQueries({
+                queryKey: ['notifications', { auth }],
+                exact: false,
             });
 
-            queryClient.invalidateQueries({
-                queryKey: ['notificationsCount', auth],
+            queryClient.refetchQueries({
+                queryKey: ['notificationsCount', { auth }],
+                exact: false,
             });
         },
     });

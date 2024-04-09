@@ -7,18 +7,16 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/utils/actions';
-import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import Comments from '@/components/comments/comments';
-import getCollection from '@/services/api/collections/getCollection';
-import CollectionProvider from '@/services/providers/collection-provider';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
-
 import CollectionGroups from '@/app/(pages)/collections/[reference]/components/collection-groups';
 import CollectionInfo from '@/app/(pages)/collections/[reference]/components/collection-info';
 import CollectionTitle from '@/app/(pages)/collections/[reference]/components/collection-title';
-
+import Comments from '@/components/comments/comments';
+import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
+import getCollection from '@/services/api/collections/getCollection';
+import CollectionProvider from '@/services/providers/collection-provider';
+import { getCookie } from '@/utils/actions';
+import _generateMetadata from '@/utils/generateMetadata';
+import getQueryClient from '@/utils/getQueryClient';
 
 export async function generateMetadata({
     params: { reference },

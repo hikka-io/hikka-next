@@ -4,8 +4,8 @@ import clsx from 'clsx';
 
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
 import EntryCard from '@/components/entry-card/entry-card';
+import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import useStaff from '@/services/hooks/anime/useStaff';
 
@@ -44,7 +44,8 @@ const Staff = ({ extended }: Props) => {
                 className={clsx(
                     'grid grid-cols-3 gap-4 md:grid-cols-4 lg:gap-8',
                     extended && 'md:grid-cols-6',
-                    !extended && 'grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto no-scrollbar -mx-4 px-4'
+                    !extended &&
+                        'grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto no-scrollbar -mx-4 px-4',
                 )}
             >
                 {filteredData.map((staff) => (

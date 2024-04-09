@@ -9,8 +9,8 @@ import EntryCard from '@/components/entry-card/entry-card';
 import SubHeader from '@/components/sub-header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import { cn } from '@/utils/utils';
 import { OST, VIDEO } from '@/utils/constants';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;
@@ -81,13 +81,13 @@ const Media = ({ extended }: Props) => {
                         'grid-cols-3 md:grid-cols-6',
                     active === 'music' &&
                         !extended &&
-                        'grid-cols-scroll auto-cols-scroll md:grid-cols-4',
+                        'auto-cols-scroll grid-cols-scroll md:grid-cols-4',
                     active === 'video' &&
                         extended &&
                         'grid-cols-2 md:grid-cols-4',
                     active === 'video' &&
                         !extended &&
-                        'grid-min-10 grid-cols-scroll auto-cols-scroll md:grid-cols-3',
+                        'grid-min-10 auto-cols-scroll grid-cols-scroll md:grid-cols-3',
                 )}
             >
                 {active === 'music' &&

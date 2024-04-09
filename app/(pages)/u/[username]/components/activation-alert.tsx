@@ -3,19 +3,13 @@
 import { useSnackbar } from 'notistack';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import { Button } from '@/components/ui/button';
 import resendActivation from '@/services/api/auth/resendActivation';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import useUser from '@/services/hooks/user/useUser';
-
-
 
 const Component = () => {
     const params = useParams();

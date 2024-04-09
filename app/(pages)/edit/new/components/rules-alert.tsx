@@ -4,9 +4,9 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 import { useModalContext } from '@/services/providers/modal-provider';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
 
 const RulesAlert = () => {
     const [rules, setRules] = React.useState('');
@@ -30,7 +30,11 @@ const RulesAlert = () => {
                     <Button
                         onClick={() =>
                             openModal({
-                                content: <MDViewer className="overflow-hidden">{rules}</MDViewer>,
+                                content: (
+                                    <MDViewer className="overflow-hidden">
+                                        {rules}
+                                    </MDViewer>
+                                ),
                                 className: 'max-w-xl',
                                 title: 'Правила редагування',
                             })

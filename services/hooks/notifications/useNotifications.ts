@@ -1,11 +1,7 @@
 import getNotifications from '@/services/api/notifications/getNotifications';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
-
-
-
 import useAuth from '../auth/useAuth';
-
 
 const useNotifications = () => {
     const { auth } = useAuth();

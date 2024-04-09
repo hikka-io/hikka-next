@@ -51,7 +51,14 @@ const Component = ({ className }: Props) => {
 
     return (
         <div className={cn('flex flex-col gap-8', className)}>
-            <SubHeader title={'Колекції'} onClick={collections && collections?.length > 0 ? handleOpenCollectionsModal : undefined}>
+            <SubHeader
+                title={'Колекції'}
+                onClick={
+                    collections && collections?.length > 0
+                        ? handleOpenCollectionsModal
+                        : undefined
+                }
+            >
                 {loggedUser?.username === params.username && (
                     <Button asChild size="icon-sm" variant="outline">
                         <Link href="/collections/new">

@@ -7,21 +7,23 @@ import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded
 import MaterialSymbolsPerson from '~icons/material-symbols/person';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
-
-
 import Link from 'next/link';
-
-
 
 import SettingsModal from '@/components/modals/user-settings-modal/user-settings-modal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import { useModalContext } from '@/services/providers/modal-provider';
-
 
 interface Props {}
 
@@ -37,9 +39,7 @@ const Component = ({}: Props) => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger
-                asChild
-            >
+            <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
                     size="sm"

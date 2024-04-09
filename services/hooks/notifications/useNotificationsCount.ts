@@ -1,12 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-
-
 import getNotificationsCount from '@/services/api/notifications/getNotificationsCount';
 
-
 import useAuth from '../auth/useAuth';
-
 
 const useNotificationsCount = () => {
     const { auth } = useAuth();

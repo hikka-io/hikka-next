@@ -1,24 +1,22 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import CollectionList from '@/app/(pages)/collections/(collections)/components/collection-list';
 import CollectionSort from '@/app/(pages)/collections/(collections)/components/collection-sort';
-import { getCookie } from '@/utils/actions';
 import PagePagination from '@/components/page-pagination';
 import SubHeader from '@/components/sub-header';
+import { Button } from '@/components/ui/button';
 import getCollections from '@/services/api/collections/getCollections';
+import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import CollectionList from '@/app/(pages)/collections/(collections)/components/collection-list';
-import Link from 'next/link';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import { Button } from '@/components/ui/button';
-
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
@@ -35,7 +33,8 @@ const CollectionsPage = async ({
     searchParams: { [key: string]: string | string[] | undefined };
 }) => {
     const page = searchParams.page;
-    const sort = searchParams.sort as 'system_ranking' | 'created' || 'system_ranking';
+    const sort =
+        (searchParams.sort as 'system_ranking' | 'created') || 'system_ranking';
 
     if (!searchParams.page) {
         redirect('/collections?page=1');
@@ -61,11 +60,13 @@ const CollectionsPage = async ({
             <div className="flex flex-col gap-8">
                 <div className="flex items-center justify-between gap-4">
                     <SubHeader title="Колекції">
-                        {auth && <Button asChild size="icon-sm" variant="outline">
-                            <Link href="/collections/new">
-                                <MaterialSymbolsAddRounded />
-                            </Link>
-                        </Button>}
+                        {auth && (
+                            <Button asChild size="icon-sm" variant="outline">
+                                <Link href="/collections/new">
+                                    <MaterialSymbolsAddRounded />
+                                </Link>
+                            </Button>
+                        )}
                     </SubHeader>
                     <CollectionSort />
                 </div>

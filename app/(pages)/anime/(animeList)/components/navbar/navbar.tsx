@@ -5,7 +5,6 @@ import { cn } from '@/utils/utils';
 
 import Search from './_components/search';
 
-
 const Navbar = () => {
     return (
         <div

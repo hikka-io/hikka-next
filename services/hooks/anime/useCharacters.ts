@@ -9,7 +9,6 @@ const useCharacters = ({ slug }: { slug: string }) => {
                 slug: String(slug),
                 page: pageParam,
             }),
-
     });
 };
 

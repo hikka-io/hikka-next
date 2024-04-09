@@ -21,11 +21,17 @@ interface Props {
 }
 
 const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
-    const { data, isFetching, isRefetching } = useCharacterSearchList({ value });
+    const { data, isFetching, isRefetching } = useCharacterSearchList({
+        value,
+    });
 
     return (
         <CommandList className="max-h-screen">
-            <SearchPlaceholders data={data} isFetching={isFetching} isRefetching={isRefetching} />
+            <SearchPlaceholders
+                data={data}
+                isFetching={isFetching}
+                isRefetching={isRefetching}
+            />
             {data && data.list.length > 0 && (
                 <CommandGroup>
                     {data.list.map((character) => (

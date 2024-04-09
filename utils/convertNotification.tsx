@@ -36,29 +36,32 @@ const DESCRIPTIONS: Record<
     edit_updated: () => 'Ваша правка була оновлена',
     comment_reply: (comment_author: string) => (
         <>
-            Користувач <span className="font-bold">@{comment_author}</span> відповів на Ваш
-            коментар
+            Користувач <span className="font-bold">@{comment_author}</span>{' '}
+            відповів на Ваш коментар
         </>
     ),
     comment_vote: (username: string) => (
         <>
-            Користувач <span className="font-bold">@{username}</span> оцінив Ваш коментар
+            Користувач <span className="font-bold">@{username}</span> оцінив Ваш
+            коментар
         </>
     ),
     comment_tag: (comment_author: string) => (
         <>
-            Користувач <span className="font-bold">@{comment_author}</span> згадав Вас у
-            коментарі
+            Користувач <span className="font-bold">@{comment_author}</span>{' '}
+            згадав Вас у коментарі
         </>
     ),
     edit_comment: (username: string) => (
         <>
-            Користувач <span className="font-bold">@{username}</span> залишив коментар
+            Користувач <span className="font-bold">@{username}</span> залишив
+            коментар
         </>
     ),
     collection_comment: (username: string) => (
         <>
-            Користувач <span className="font-bold">@{username}</span> залишив коментар
+            Користувач <span className="font-bold">@{username}</span> залишив
+            коментар
         </>
     ),
     hikka_update: (description: string) => description,
@@ -69,13 +72,14 @@ const DESCRIPTIONS: Record<
     ),
     follow: (username: string) => (
         <>
-            Користувач <span className="font-bold">@{username}</span> підписався на Ваш
-            профіль
+            Користувач <span className="font-bold">@{username}</span> підписався
+            на Ваш профіль
         </>
     ),
     collection_vote: (username: string) => (
         <>
-            Користувач <span className="font-bold">@{username}</span> оцінив Вашу колекцію
+            Користувач <span className="font-bold">@{username}</span> оцінив
+            Вашу колекцію
         </>
     ),
 };
@@ -246,8 +250,7 @@ const follow = (
 const collectionVote = (
     notification: API.Notification<API.NotificationVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, username, avatar } =
-        notification.data;
+    const { slug, username, avatar } = notification.data;
 
     return {
         ...getInitialData(notification),

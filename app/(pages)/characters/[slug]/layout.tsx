@@ -2,14 +2,16 @@ import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/utils/actions';
+import Cover from '@/app/(pages)/characters/[slug]/components/cover';
+import Title from '@/app/(pages)/characters/[slug]/components/title';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import InternalNavBar from '@/components/navbar/nav-tabs';
 import NavMenu from '@/components/navbar/nav-dropdown';
+import InternalNavBar from '@/components/navbar/nav-tabs';
 import SubBar from '@/components/navbar/sub-nav';
 import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
 import getCharacterInfo, {
@@ -17,13 +19,9 @@ import getCharacterInfo, {
 } from '@/services/api/characters/getCharacterInfo';
 import getCharacterVoices from '@/services/api/characters/getCharacterVoices';
 import getFavourite from '@/services/api/favourite/getFavourite';
+import { getCookie } from '@/utils/actions';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-import Cover from '@/app/(pages)/characters/[slug]/components/cover';
-import Title from '@/app/(pages)/characters/[slug]/components/title';
-import { redirect } from 'next/navigation';
-
 
 interface Props extends PropsWithChildren {
     params: {

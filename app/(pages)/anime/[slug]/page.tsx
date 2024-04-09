@@ -1,10 +1,10 @@
 import React from 'react';
 
-import jsonSchema from './anime.schema';
 import getAnimeInfo, {
     Response as AnimeResponse,
 } from '@/services/api/anime/getAnimeInfo';
 
+import jsonSchema from './anime.schema';
 import About from './components/about';
 import Characters from './components/characters';
 import Description from './components/description';
@@ -14,7 +14,6 @@ import Links from './components/links';
 import Media from './components/media';
 import Staff from './components/staff';
 import WatchStats from './components/watch-stats/watch-stats';
-
 
 const AnimePage = async ({
     params,

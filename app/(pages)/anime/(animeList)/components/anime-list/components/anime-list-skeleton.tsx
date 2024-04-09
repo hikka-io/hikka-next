@@ -4,7 +4,6 @@ import { range } from '@antfu/utils';
 
 import SkeletonCard from '@/components/skeletons/entry-card';
 
-
 const AnimeListSkeleton = () => {
     return (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">

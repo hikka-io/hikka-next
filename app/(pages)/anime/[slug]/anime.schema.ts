@@ -32,7 +32,9 @@ const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
         name: anime.title_ua || anime.title_en || anime.title_ja,
         alternateName: anime.synonyms,
         image: anime.poster,
-        description: parseTextFromMarkDown(anime.synopsis_ua || anime.synopsis_en),
+        description: parseTextFromMarkDown(
+            anime.synopsis_ua || anime.synopsis_en,
+        ),
         startDate: anime.start_date,
         endDate: anime.end_date,
         genre: anime.genres.map((genre) => genre.name_ua),

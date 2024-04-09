@@ -1,8 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import _generateMetadata from '@/utils/generateMetadata';
-
 import Favorites from '@/app/(pages)/u/[username]/components/favorites/favorites';
+import _generateMetadata from '@/utils/generateMetadata';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },

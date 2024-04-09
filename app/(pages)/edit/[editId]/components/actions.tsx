@@ -3,16 +3,10 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-
-
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import { Button } from '@/components/ui/button';
 import acceptEdit from '@/services/api/edit/acceptEdit';
@@ -21,8 +15,6 @@ import denyEdit from '@/services/api/edit/denyEdit';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useEdit from '@/services/hooks/edit/useEdit';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-
-
 
 interface Props {
     editId: string;

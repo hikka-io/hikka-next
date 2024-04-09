@@ -3,20 +3,15 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-
-
+import SearchPlaceholders from '@/components/modals/search-modal/components/ui/search-placeholders';
 import {
     CommandGroup,
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
 
-
-
 import AnimeCard from './ui/anime-card';
 import useAnimeSearchList from './useAnimeSearchList';
-import SearchPlaceholders from '@/components/modals/search-modal/components/ui/search-placeholders';
-
 
 interface Props {
     onDismiss: (anime: API.Anime) => void;
@@ -30,7 +25,11 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
 
     return (
         <CommandList className="max-h-none">
-            <SearchPlaceholders data={data} isFetching={isFetching} isRefetching={isRefetching} />
+            <SearchPlaceholders
+                data={data}
+                isFetching={isFetching}
+                isRefetching={isRefetching}
+            />
             {data && data.list.length > 0 && (
                 <CommandGroup>
                     {data.list.map((anime) => (

@@ -5,7 +5,8 @@ import { useInView } from 'react-intersection-observer';
 
 import {
     QueryFunction,
-    QueryKey, UndefinedInitialDataInfiniteOptions,
+    QueryKey,
+    UndefinedInitialDataInfiniteOptions,
     useInfiniteQuery,
 } from '@tanstack/react-query';
 
@@ -17,7 +18,13 @@ interface Props<T> {
     enabled?: boolean;
 }
 
-function useInfiniteList<T>({ queryFn, queryKey, staleTime, gcTime, enabled }: Props<T>) {
+function useInfiniteList<T>({
+    queryFn,
+    queryKey,
+    staleTime,
+    gcTime,
+    enabled,
+}: Props<T>) {
     const { ref, inView } = useInView();
     const query = useInfiniteQuery({
         initialPageParam: 1,

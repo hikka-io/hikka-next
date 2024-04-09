@@ -1,15 +1,15 @@
+import React from 'react';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
 
 import Link from 'next/link';
 
-import Small from '@/components/typography/small';
 import EntryCard from '@/components/entry-card/entry-card';
+import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils/utils';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
-import React from 'react';
+import { cn } from '@/utils/utils';
 
 interface Props {
     data: API.Collection;

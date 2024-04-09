@@ -239,13 +239,13 @@ table th:last-child, td:last-child {
     background-color: transparent
 }
 
-.radial-progress::-webkit-progress-bar,.radial-progress::-webkit-progress-value {
+.radial-progress::-webkit-progress-bar, .radial-progress::-webkit-progress-value {
     -webkit-appearance: none;
     appearance: none;
     background-color: transparent
 }
 
-.radial-progress:after,.radial-progress:before {
+.radial-progress:after, .radial-progress:before {
     position: absolute;
     border-radius: 9999px;
     content: ""
@@ -253,9 +253,9 @@ table th:last-child, td:last-child {
 
 .radial-progress:before {
     inset: 0;
-    background: radial-gradient(farthest-side,currentColor 98%,#0000) top/var(--thickness) var(--thickness) no-repeat,conic-gradient(currentColor calc(var(--value) * 1%),#0000 0);
-    -webkit-mask: radial-gradient(farthest-side,#0000 calc(99% - var(--thickness)),#000 calc(100% - var(--thickness)));
-    mask: radial-gradient(farthest-side,#0000 calc(99% - var(--thickness)),#000 calc(100% - var(--thickness)))
+    background: radial-gradient(farthest-side, currentColor 98%, #0000) top/var(--thickness) var(--thickness) no-repeat, conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - var(--thickness)), #000 calc(100% - var(--thickness)));
+    mask: radial-gradient(farthest-side, #0000 calc(99% - var(--thickness)), #000 calc(100% - var(--thickness)))
 }
 
 .radial-progress:after {
@@ -278,7 +278,7 @@ table th:last-child, td:last-child {
     mask-position: center
 }
 
-.loading,.loading-spinner {
+.loading, .loading-spinner {
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E")
 }
@@ -338,11 +338,10 @@ table th:last-child, td:last-child {
     transform-origin: 50% 50%;
 }
 
-._placeholder_19o4e_1034  {
+._placeholder_19o4e_1034 {
     @apply text-muted-foreground;
 }
 
 .unexpanded-text {
     mask-image: linear-gradient(to bottom, white 50%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, white 50%, transparent);
 }

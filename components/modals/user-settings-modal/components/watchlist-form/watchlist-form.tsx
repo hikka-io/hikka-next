@@ -3,27 +3,18 @@
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
 
-
-
-import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import importWatch from '@/services/api/settings/importWatch';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useModalContext } from '@/services/providers/modal-provider';
-
-
 
 import Anilist from './components/anilist';
 import General from './components/general';
-
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -69,10 +60,6 @@ const Component = () => {
 
     return (
         <div className="flex flex-col gap-6 p-6">
-            <div className="flex items-center">
-                <H3>Імпорт</H3>
-            </div>
-
             <Tabs
                 className="flex w-full flex-col gap-6"
                 value={tab}

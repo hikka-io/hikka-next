@@ -2,19 +2,13 @@
 
 import { useRef } from 'react';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 import useAuth from '@/services/hooks/auth/useAuth';
 import usePersonInfo from '@/services/hooks/people/usePersonInfo';
-
-
 
 const Title = () => {
     const { auth } = useAuth();

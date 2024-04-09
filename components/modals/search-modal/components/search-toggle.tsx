@@ -15,7 +15,7 @@ const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
     const handleOnValueChange = (value: API.ContentType) => {
         value && setType(value);
         inputRef.current?.focus();
-    }
+    };
 
     return (
         <ToggleGroup

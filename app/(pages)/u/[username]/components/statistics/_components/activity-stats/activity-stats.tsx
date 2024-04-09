@@ -6,11 +6,10 @@ import MaterialSymbolsBarChartRounded from '~icons/material-symbols/bar-chart-ro
 import { useParams } from 'next/navigation';
 
 import { Label } from '@/components/ui/label';
+import useUserActivity from '@/services/hooks/user/useUserActivity';
 import { convertToDays } from '@/utils/convertActivityStats';
 
 import ActivityItem from './_components/ui/activity-item';
-import useUserActivity from '@/services/hooks/user/useUserActivity';
-
 
 const Component = () => {
     const params = useParams();

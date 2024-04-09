@@ -3,20 +3,15 @@
 import * as React from 'react';
 import { ReactNode, useRef, useState } from 'react';
 
-
-
 import CharacterSearchList from '@/components/modals/search-modal/components/character-search-list';
 import PersonSearchList from '@/components/modals/search-modal/components/person-search-list';
 import SearchToggle from '@/components/modals/search-modal/components/search-toggle';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/useDebounce';
 
-
-
 import AnimeSearchList from './components/anime-search-list';
 import SearchButton from './components/search-button';
 import useSearchModal from './components/useSearchModal';
-
 
 interface Props {
     onClick?: (content: API.Anime | API.Character | API.Person) => void;

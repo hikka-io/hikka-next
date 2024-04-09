@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import getComments from '@/services/api/comments/getComments';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
-
 import CommentsProvider from '@/services/providers/comments-provider';
 
 interface Props {

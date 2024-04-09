@@ -23,7 +23,6 @@ import {
     getFilteredEditParams,
 } from '@/utils/editParamUtils';
 
-
 type FormValues = Record<string, unknown> & {
     description: string;
     auto?: boolean;

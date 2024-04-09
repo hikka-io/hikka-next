@@ -6,15 +6,13 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import Content from '@/app/(pages)/edit/components/content/content';
+import EditForm from '@/app/(pages)/edit/components/edit-form';
+import RulesAlert from '@/app/(pages)/edit/new/components/rules-alert';
 import SubHeader from '@/components/sub-header';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import getQueryClient from '@/utils/getQueryClient';
-
-import EditForm from '@/app/(pages)/edit/components/edit-form';
-import RulesAlert from '@/app/(pages)/edit/new/components/rules-alert';
-
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };

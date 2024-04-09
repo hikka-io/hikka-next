@@ -1,11 +1,7 @@
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
-
-
-
 import useAuth from '../auth/useAuth';
-
 
 const useFavorites = <TContent extends API.Content>({
     username,

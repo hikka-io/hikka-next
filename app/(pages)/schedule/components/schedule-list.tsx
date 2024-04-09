@@ -10,7 +10,6 @@ import useAnimeSchedule from '@/services/hooks/stats/useAnimeSchedule';
 
 import ScheduleItem from './ui/schedule-item';
 
-
 const ScheduleList = () => {
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
         useAnimeSchedule({ status: 'ongoing' });
@@ -40,7 +39,10 @@ const ScheduleList = () => {
                     />
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                         {sortedList[day].map((item) => (
-                            <ScheduleItem key={item.airing_at + item.anime.slug} item={item} />
+                            <ScheduleItem
+                                key={item.airing_at + item.anime.slug}
+                                item={item}
+                            />
                         ))}
                     </div>
                 </div>

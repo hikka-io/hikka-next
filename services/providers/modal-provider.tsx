@@ -8,9 +8,8 @@ import React, {
     useState,
 } from 'react';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
-import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import {
     Dialog,
     DialogContent,
@@ -75,9 +74,6 @@ export const useModalContext = () => {
 };
 
 export default function ModalProvider({ children }: Props) {
-    const searchParams = useSearchParams();
-    const modal = searchParams.get('modal');
-
     const pathname = usePathname();
     const [state, setState] = useState<State>(getInitialState());
 
@@ -119,19 +115,6 @@ export default function ModalProvider({ children }: Props) {
         }
     }, [pathname]);
 
-    useEffect(() => {
-        if (modal) {
-            switch (modal) {
-                case 'passwordConfirm':
-                    openModal({
-                        content: <AuthModal type="passwordConfirm" />,
-                        className: 'p-0 max-w-3xl',
-                    });
-                    break;
-            }
-        }
-    }, [modal]);
-
     return (
         <ModalContext.Provider
             value={{
@@ -165,7 +148,7 @@ export default function ModalProvider({ children }: Props) {
                 <Dialog open={state.open} onOpenChange={closeModal}>
                     <DialogContent
                         className={cn(
-                            'overflow-y-scroll max-h-screen no-scrollbar',
+                            'no-scrollbar max-h-screen overflow-y-scroll',
                             state.className,
                         )}
                     >

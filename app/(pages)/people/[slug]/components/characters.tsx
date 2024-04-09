@@ -5,8 +5,8 @@ import * as React from 'react';
 
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
 import EntryCard from '@/components/entry-card/entry-card';
+import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import usePersonCharacters from '@/services/hooks/people/usePersonCharacters';
 import { useSettingsContext } from '@/services/providers/settings-provider';
@@ -35,8 +35,8 @@ const Characters = ({ extended }: Props) => {
             <div
                 className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
-                    !extended && 'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4'
-
+                    !extended &&
+                        'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (
@@ -53,7 +53,12 @@ const Characters = ({ extended }: Props) => {
                         withContextMenu
                         content_type="character"
                         disableChildrenLink
-                        description={ch.anime[titleLanguage!] || ch.anime.title_ua || ch.anime.title_en || ch.anime.title_ja}
+                        description={
+                            ch.anime[titleLanguage!] ||
+                            ch.anime.title_ua ||
+                            ch.anime.title_en ||
+                            ch.anime.title_ja
+                        }
                     >
                         <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
                         <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-secondary/60 shadow-lg transition-all hover:w-28">

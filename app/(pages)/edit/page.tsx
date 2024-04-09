@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import EditList from '@/app/(pages)/edit/components/edit-list/edit-list';
 import EditTopStats from '@/app/(pages)/edit/components/edit-top-stats/edit-top-stats';
 import EditFiltersModal from '@/components/modals/edit-filters-modal';
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,6 @@ import getEditTop from '@/services/api/stats/edit/getEditTop';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Filters from '../../../components/filters/edit-filters';
-import EditList from '@/app/(pages)/edit/components/edit-list/edit-list';
-
 
 const EditListPage = async ({
     searchParams: { page, content_type, order, sort, edit_status },

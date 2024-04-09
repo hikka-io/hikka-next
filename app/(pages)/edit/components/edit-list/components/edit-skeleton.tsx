@@ -6,7 +6,6 @@ import EditHead from '@/app/(pages)/edit/components/edit-list/components/edit-he
 import EntryTableRow from '@/components/skeletons/entry-table-row';
 import { Table, TableBody } from '@/components/ui/table';
 
-
 const EditSkeleton = () => {
     return (
         <div className="flex flex-col gap-8">

@@ -9,7 +9,6 @@ import { WATCH_STATUS } from '@/utils/constants';
 
 import Stats from './ui/stats';
 
-
 const Watchlist = () => {
     const params = useParams();
     const { data } = useAnimeInfo({ slug: String(params.slug) });

@@ -22,7 +22,7 @@ const Component = ({
     role = 'progressbar',
 }: Props) => {
     return (
-        <div className={cn("relative size-24", containerClassName)} role={role}>
+        <div className={cn('relative size-24', containerClassName)} role={role}>
             <svg className="size-full" viewBox="0 0 100 100">
                 <circle
                     className="stroke-current text-secondary"

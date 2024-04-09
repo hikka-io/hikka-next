@@ -3,14 +3,13 @@ import MaterialSymbolsAddLinkRounded from '~icons/material-symbols/add-link-roun
 
 import { openLinkEditDialog$, usePublisher } from '@mdxeditor/editor';
 
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import P from '@/components/typography/p';
-
 
 const Component = () => {
     const openLinkDialog = usePublisher(openLinkEditDialog$);

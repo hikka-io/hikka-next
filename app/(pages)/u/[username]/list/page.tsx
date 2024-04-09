@@ -2,14 +2,12 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import { redirect } from 'next/navigation';
 
-import Filters from '@/components/filters/anime-filters';
-import _generateMetadata from '@/utils/generateMetadata';
-
 import List from '@/app/(pages)/u/[username]/list/components/list/list';
 import StatusCombobox from '@/app/(pages)/u/[username]/list/components/status-combobox';
 import ToolsCombobox from '@/app/(pages)/u/[username]/list/components/tools-combobox';
 import ViewCombobox from '@/app/(pages)/u/[username]/list/components/view-combobox';
-
+import Filters from '@/components/filters/anime-filters';
+import _generateMetadata from '@/utils/generateMetadata';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },

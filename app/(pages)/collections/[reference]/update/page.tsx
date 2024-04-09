@@ -1,11 +1,9 @@
 import React from 'react';
 
-import CollectionProvider from '@/services/providers/collection-provider';
-
 import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
 import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
 import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
-
+import CollectionProvider from '@/services/providers/collection-provider';
 
 const CollectionUpdatePage = () => {
     return (
@@ -15,12 +13,11 @@ const CollectionUpdatePage = () => {
                     <div className="flex flex-col gap-8">
                         <CollectionTitle />
                         <div className="block rounded-md border border-secondary/60 bg-secondary/30 lg:hidden">
-                            <CollectionSettings mode="edit"  />
+                            <CollectionSettings mode="edit" />
                         </div>
                         <CollectionGroups mode="edit" />
                     </div>
-                    <div
-                        className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 lg:order-2 lg:block">
+                    <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 lg:order-2 lg:block">
                         <CollectionSettings mode="edit" />
                     </div>
                 </div>

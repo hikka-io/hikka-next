@@ -22,7 +22,6 @@ import getDeclensionWord from '@/utils/getDeclensionWord';
 
 import Comments from './comments';
 
-
 interface Props {
     comment: API.Comment;
     slug: string;

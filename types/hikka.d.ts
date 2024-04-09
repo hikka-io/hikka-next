@@ -1,8 +1,12 @@
-import { JSXElementConstructor, ReactElement, ReactNode, SVGProps } from 'react';
+import {
+    JSXElementConstructor,
+    ReactElement,
+    ReactNode,
+    SVGProps,
+} from 'react';
 
 declare global {
     namespace Hikka {
-
         type FilterProperty<T extends string> = Record<
             T,
             {
@@ -18,7 +22,9 @@ declare global {
             slug: string;
             title_ua: string;
             url: string;
-            icon?:  (props: SVGProps<SVGSVGElement>) => ReactElement<any, string | JSXElementConstructor<any>>;
+            icon?: (
+                props: SVGProps<SVGSVGElement>,
+            ) => ReactElement<any, string | JSXElementConstructor<any>>;
             role?: API.UserRole[];
             internals?: NavRoute[];
             visible?: boolean;
@@ -73,6 +79,6 @@ declare global {
             value: number;
             icon?: ReactNode;
             color?: string;
-        }
+        };
     }
 }

@@ -4,7 +4,6 @@ import getCollections from '@/services/api/collections/getCollections';
 
 import useAuth from '../auth/useAuth';
 
-
 const useCollections = ({
     page,
     sort = 'system_ranking',

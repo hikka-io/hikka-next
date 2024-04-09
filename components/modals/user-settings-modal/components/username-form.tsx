@@ -7,14 +7,12 @@ import { useRouter } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import changeUserUsername from '@/services/api/settings/changeUserUsername';
 import useAuth from '@/services/hooks/auth/useAuth';
 import { useModalContext } from '@/services/providers/modal-provider';
-
 
 type FormValues = {
     username: string;
@@ -56,9 +54,6 @@ const Component = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-6 p-6"
         >
-            <div className="flex items-center">
-                <H3>Ім’я користувача</H3>
-            </div>
             <div className="w-full">
                 <div className="flex w-full flex-col gap-2">
                     <Label>Нове ім’я користувача</Label>

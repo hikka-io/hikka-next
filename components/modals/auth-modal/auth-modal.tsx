@@ -3,12 +3,12 @@
 import React from 'react';
 import LogosGoogleIcon from '~icons/logos/google-icon';
 
-import Image from '@/components/ui/image';
-import { Button } from '@/components/ui/button';
 import ForgotPasswordForm from '@/components/modals/auth-modal/components/forgot-password-form';
 import LoginForm from '@/components/modals/auth-modal/components/login-form';
 import PasswordConfirmForm from '@/components/modals/auth-modal/components/password-confirm-form';
 import SignUpForm from '@/components/modals/auth-modal/components/signup-form';
+import { Button } from '@/components/ui/button';
+import Image from '@/components/ui/image';
 import getOAuth from '@/services/api/auth/getOAuth';
 
 const Component = ({
@@ -31,6 +31,7 @@ const Component = ({
         <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]">
             <div className="relative hidden lg:block">
                 <Image
+                    unoptimized
                     src="/hikka.art.jpg"
                     width={200}
                     height={200}

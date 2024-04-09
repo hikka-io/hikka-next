@@ -4,8 +4,8 @@ import clsx from 'clsx';
 
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
 import EntryCard from '@/components/entry-card/entry-card';
+import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import useCharacters from '@/services/hooks/anime/useCharacters';
 
@@ -36,7 +36,8 @@ const Characters = ({ extended }: Props) => {
                     className={clsx(
                         'grid grid-cols-3 gap-4 md:grid-cols-5 lg:gap-8',
                         extended && 'md:grid-cols-6',
-                        !extended && 'grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto no-scrollbar -mx-4 px-4'
+                        !extended &&
+                            'grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto no-scrollbar -mx-4 px-4',
                     )}
                 >
                     {(extended ? main : main.slice(0, 5)).map((ch) => (
@@ -84,7 +85,6 @@ const Characters = ({ extended }: Props) => {
                         ))}
                     </div>
                 </div>
-
             )}
             {extended && hasNextPage && (
                 <Button

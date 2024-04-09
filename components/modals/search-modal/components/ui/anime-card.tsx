@@ -63,7 +63,7 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                             className="rounded-sm px-1 text-xs text-white"
                             style={{
                                 backgroundColor:
-                                RELEASE_STATUS[anime.status].color,
+                                    RELEASE_STATUS[anime.status].color,
                             }}
                         >
                             {RELEASE_STATUS[anime.status].title_ua}

@@ -1,15 +1,13 @@
 import { Metadata } from 'next';
 import React from 'react';
 
+import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
+import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
+import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
 import { Label } from '@/components/ui/label';
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';
-
-import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
-import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
-import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
-
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

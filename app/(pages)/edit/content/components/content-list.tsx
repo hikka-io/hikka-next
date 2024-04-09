@@ -3,11 +3,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-
-
 import { range } from '@antfu/utils';
-
-
 
 import EntryCard from '@/components/entry-card/entry-card';
 import SkeletonCard from '@/components/skeletons/entry-card';
@@ -17,9 +13,7 @@ import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
-
 import { useSettingsContext } from '@/services/providers/settings-provider';
-
 
 interface Props {
     extended?: boolean;

@@ -1,14 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-
-
 import checkFollow from '@/services/api/follow/checkFollow';
 
-
-
-
 import useAuth from '../auth/useAuth';
-
 
 const useFollowChecker = ({
     username,
@@ -18,7 +12,7 @@ const useFollowChecker = ({
     enabled?: boolean;
 }) => {
     const { auth } = useAuth();
-    
+
     return useQuery({
         queryKey: ['followChecker', username, { auth }],
         queryFn: () =>

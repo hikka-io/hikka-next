@@ -86,7 +86,7 @@ const Links = ({ extended }: Props) => {
                 className={cn(
                     'grid gap-4 md:grid-cols-3 lg:gap-8',
                     !extended &&
-                        'no-scrollbar grid-min-14 -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4',
+                        'no-scrollbar grid-min-14 -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
                 )}
             >
                 {active === 'general' &&

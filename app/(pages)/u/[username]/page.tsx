@@ -3,16 +3,15 @@ import React from 'react';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import { getCookie } from '@/utils/actions';
-import getFavouriteList from '@/services/api/favourite/getFavouriteList';
-import getUserActivity from '@/services/api/user/getUserActivity';
-import getUserHistory from '@/services/api/user/getUserHistory';
-import getQueryClient from '@/utils/getQueryClient';
-
 import Collections from '@/app/(pages)/u/[username]/components/collections';
 import Favorites from '@/app/(pages)/u/[username]/components/favorites/favorites';
 import History from '@/app/(pages)/u/[username]/components/history/history';
 import Statistics from '@/app/(pages)/u/[username]/components/statistics';
+import getFavouriteList from '@/services/api/favourite/getFavouriteList';
+import getUserActivity from '@/services/api/user/getUserActivity';
+import getUserHistory from '@/services/api/user/getUserHistory';
+import { getCookie } from '@/utils/actions';
+import getQueryClient from '@/utils/getQueryClient';
 
 interface Props {
     params: {
@@ -26,7 +25,7 @@ const Component = async ({ params: { username } }: Props) => {
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['favorites', username, { auth, content_type: 'anime' }],
-        queryFn: ({ pageParam= 1 }) =>
+        queryFn: ({ pageParam = 1 }) =>
             getFavouriteList({
                 username,
                 page: pageParam,

@@ -50,12 +50,12 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
 
         const getVariantColor = () => {
             switch (variant) {
-                case "error":
-                    return "destructive";
+                case 'error':
+                    return 'destructive';
                 default:
                     return variant;
             }
-        }
+        };
 
         return (
             <SnackbarContent
@@ -65,7 +65,9 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
                 )}
             >
                 {icons[variant] !== null &&
-                    icons[variant]!({ className: `text-${getVariantColor()} text-xl` })}
+                    icons[variant]!({
+                        className: `text-${getVariantColor()} text-xl`,
+                    })}
                 <div className="flex-1">{message}</div>
                 <div className="relative flex h-full items-end">
                     <div

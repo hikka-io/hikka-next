@@ -2,24 +2,22 @@ import { Metadata, ResolvingMetadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
+import Cover from '@/app/(pages)/people/[slug]/components/cover';
+import Title from '@/app/(pages)/people/[slug]/components/title';
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import InternalNavBar from '@/components/navbar/nav-tabs';
 import NavMenu from '@/components/navbar/nav-dropdown';
+import InternalNavBar from '@/components/navbar/nav-tabs';
 import SubBar from '@/components/navbar/sub-nav';
 import getPersonAnime from '@/services/api/people/getPersonAnime';
 import getPersonCharacters from '@/services/api/people/getPersonCharacters';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import { PERSON_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-import Cover from '@/app/(pages)/people/[slug]/components/cover';
-import Title from '@/app/(pages)/people/[slug]/components/title';
-import { redirect } from 'next/navigation';
-
 
 interface Props extends PropsWithChildren {
     params: {

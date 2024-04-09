@@ -7,22 +7,26 @@ import BxDownvote from '~icons/bx/downvote';
 import BxUpvote from '~icons/bx/upvote';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
-
-
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import FavoriteButton from '@/components/favorite-button';
 import SubHeader from '@/components/sub-header';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -33,9 +37,7 @@ import useAuth from '@/services/hooks/auth/useAuth';
 import useCollection from '@/services/hooks/collections/useCollection';
 import useDeleteCollection from '@/services/hooks/collections/useDeleteCollection';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
-
 import { useCollectionContext } from '@/services/providers/collection-provider';
-
 
 const CollectionInfo = () => {
     const queryClient = useQueryClient();

@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import addFavourite from '@/services/api/favourite/addFavourite';
-
 import useAuth from '@/services/hooks/auth/useAuth';
 
 const useAddFavorite = ({

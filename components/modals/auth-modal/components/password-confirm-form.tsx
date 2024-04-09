@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -15,12 +17,9 @@ import {
     FormLabel,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { setCookie } from '@/utils/actions';
 import confirmPasswordReset from '@/services/api/auth/confirmPasswordReset';
-
 import { useModalContext } from '@/services/providers/modal-provider';
-import H2 from '@/components/typography/h2';
-import Small from '@/components/typography/small';
+import { setCookie } from '@/utils/actions';
 
 type FormValues = {
     password: string;

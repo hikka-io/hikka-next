@@ -18,7 +18,6 @@ import {
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import { AGE_RATING, MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
-
 const About = () => {
     const params = useParams();
 
@@ -70,8 +69,7 @@ const About = () => {
                     </div>
                 </div>
                 {data.media_type !== 'movie' &&
-                (data.episodes_total ||
-                    data.episodes_released) ? (
+                (data.episodes_total || data.episodes_released) ? (
                     <div className="flex flex-wrap">
                         <div className="w-24">
                             <Label className="text-muted-foreground">
@@ -81,8 +79,8 @@ const About = () => {
                         <div className="flex-1">
                             <Label>
                                 {data.status === 'finished'
-                                    ? data.episodes_total || "?"
-                                    : `${data.episodes_released || "?"} / ${data.episodes_total || "?"}`}
+                                    ? data.episodes_total || '?'
+                                    : `${data.episodes_released || '?'} / ${data.episodes_total || '?'}`}
                             </Label>
                         </div>
                     </div>

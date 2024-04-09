@@ -6,10 +6,10 @@ import { Fragment } from 'react';
 import MaterialSymbolsNightlightOutlineRounded from '~icons/material-symbols/nightlight-outline-rounded';
 import MaterialSymbolsSunnyOutlineRounded from '~icons/material-symbols/sunny-outline-rounded';
 
+import H3 from '@/components/typography/h3';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import H3 from '@/components/typography/h3';
 
 const Component = () => {
     const { titleLanguage, setState: setSettingsState } = useSettingsContext();
@@ -17,9 +17,6 @@ const Component = () => {
 
     return (
         <div className="flex w-full flex-col gap-6 p-6">
-            <div className="flex items-center">
-                <H3>Кастомізація</H3>
-            </div>
             <div className="flex w-full flex-col gap-2">
                 <Label>Тема сайту</Label>
                 <Combobox

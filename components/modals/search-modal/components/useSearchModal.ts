@@ -7,7 +7,12 @@ interface Props {
     content_type?: API.ContentType;
 }
 
-const useSearchModal = ({ onClick, setOpen, setSearchType, content_type }: Props) => {
+const useSearchModal = ({
+    onClick,
+    setOpen,
+    setSearchType,
+    content_type,
+}: Props) => {
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
             const _focused = document.activeElement;
@@ -37,6 +42,6 @@ const useSearchModal = ({ onClick, setOpen, setSearchType, content_type }: Props
             setSearchType(content_type);
         }
     }, [content_type]);
-}
+};
 
 export default useSearchModal;

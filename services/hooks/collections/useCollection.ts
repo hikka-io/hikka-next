@@ -1,12 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-
-
 import getCollection from '@/services/api/collections/getCollection';
 
-
 import useAuth from '../auth/useAuth';
-
 
 const useCollection = ({
     reference,

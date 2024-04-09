@@ -20,7 +20,6 @@ export interface Request {
     watch_status: API.WatchStatus;
 }
 
-
 export default async function req({
     username,
     page = 1,

@@ -7,12 +7,12 @@ import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded
 
 import Link, { LinkProps } from 'next/link';
 
-import { EDIT_STATUS } from '@/utils/constants';
-
-import { Avatar, AvatarFallback, AvatarImage } from '../../../../ui/avatar';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
+import { EDIT_STATUS } from '@/utils/constants';
+
+import { Avatar, AvatarFallback, AvatarImage } from '../../../../ui/avatar';
 
 interface Props extends LinkProps {
     edit: API.Edit;

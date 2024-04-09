@@ -4,15 +4,16 @@ import { createWatchEvents } from '@/utils/convertActivity/convertWatchActivity'
 
 export const convertActivity = (
     history: API.History<
-        | API.HistoryWatchData
-        | API.HistoryImportData
-        | API.HistoryFavoriteData
+        API.HistoryWatchData | API.HistoryImportData | API.HistoryFavoriteData
     >,
 ) => {
     switch (history.history_type) {
         case 'watch':
         case 'watch_delete':
-            return createWatchEvents(history.history_type, history.data as API.HistoryWatchData);
+            return createWatchEvents(
+                history.history_type,
+                history.data as API.HistoryWatchData,
+            );
         case 'watch_import':
             return createImportEvents(history.data as API.HistoryImportData);
         case 'favourite_anime_add':

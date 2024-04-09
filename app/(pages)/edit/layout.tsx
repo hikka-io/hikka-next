@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import InternalNavBar from '@/components/navbar/nav-tabs';
 import NavMenu from '@/components/navbar/nav-dropdown';
+import InternalNavBar from '@/components/navbar/nav-tabs';
 import SubBar from '@/components/navbar/sub-nav';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';

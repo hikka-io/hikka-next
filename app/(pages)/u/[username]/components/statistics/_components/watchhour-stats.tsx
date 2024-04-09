@@ -18,7 +18,6 @@ import {
 } from '@/components/ui/tooltip';
 import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
-
 const Component = () => {
     const params = useParams();
     const { data: stats } = useWatchStats({

@@ -2,15 +2,12 @@
 
 import { useParams } from 'next/navigation';
 
-
-
 import EntryCard from '@/components/entry-card/entry-card';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import usePersonAnime from '@/services/hooks/people/usePersonAnime';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { cn } from '@/utils/utils';
-
 
 interface Props {
     extended?: boolean;
@@ -35,7 +32,8 @@ const Anime = ({ extended }: Props) => {
             <div
                 className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8',
-                    !extended && 'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4'
+                    !extended &&
+                        'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
                 )}
             >
                 {(extended ? list : list.slice(0, 5)).map((ch) => (

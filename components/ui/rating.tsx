@@ -112,7 +112,11 @@ const Rating = ({
                                 color: showEmptyIcon ? 'gray' : 'inherit',
                             }}
                         >
-                            {showEmptyIcon ? <EmptyIcon /> : <FilledIcon className="text-yellow-400" />}
+                            {showEmptyIcon ? (
+                                <EmptyIcon />
+                            ) : (
+                                <FilledIcon className="text-yellow-400" />
+                            )}
                         </div>
                     </div>
                 );

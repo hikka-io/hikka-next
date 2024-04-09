@@ -5,7 +5,6 @@ import { Slot } from '@radix-ui/react-slot';
 
 import { cn } from '@/utils/utils';
 
-
 const buttonVariants = cva(
     'inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50',
     {
@@ -17,16 +16,14 @@ const buttonVariants = cva(
                     'border border-destructive bg-destructive text-destructive-foreground hover:bg-destructive/90',
                 success:
                     'border border-success bg-success text-success-foreground hover:bg-success/90',
-                info:
-                    'border border-info bg-info text-info-foreground hover:bg-info/90',
+                info: 'border border-info bg-info text-info-foreground hover:bg-info/90',
                 warning:
                     'border border-warning bg-warning text-warning-foreground hover:bg-warning/90',
                 outline:
                     'border border-secondary/60 hover:bg-secondary/30 hover:text-secondary-foreground',
                 secondary:
                     'border border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                accent:
-                    'border border-accent bg-accent text-accent-foreground hover:bg-accent/80',
+                accent: 'border border-accent bg-accent text-accent-foreground hover:bg-accent/80',
                 ghost: 'hover:bg-secondary/60 hover:text-accent-foreground focus-visible:ring-0 focus-visible:ring-offset-0',
                 link: 'text-primary underline-offset-4 hover:underline',
             },
@@ -36,9 +33,9 @@ const buttonVariants = cva(
                 lg: 'h-13 rounded-md px-8',
                 badge: 'px-3.5 py-1 text-xs rounded-full',
                 icon: 'h-12 w-12',
-                "icon-md": 'h-10 w-10',
-                "icon-sm": 'h-8 w-8',
-                "icon-xs": 'h-6 w-6'
+                'icon-md': 'h-10 w-10',
+                'icon-sm': 'h-8 w-8',
+                'icon-xs': 'h-6 w-6',
             },
         },
         defaultVariants: {

@@ -1,16 +1,21 @@
 import React from 'react';
 import MaterialSymbolsFormatBoldRounded from '~icons/material-symbols/format-bold-rounded';
 
+import {
+    applyFormat$,
+    currentFormat$,
+    iconComponentFor$,
+    useCellValues,
+    usePublisher,
+} from '@mdxeditor/editor';
 
-
-import { applyFormat$, currentFormat$, iconComponentFor$, useCellValues, usePublisher } from '@mdxeditor/editor';
-
-
-
-import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import P from '@/components/typography/p';
-
+import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export const IS_BOLD = 0b1 as const;
 

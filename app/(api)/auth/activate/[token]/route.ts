@@ -19,7 +19,8 @@ export async function GET(
             }
 
             return redirect(
-                '/anime?page=1&iPage=1&activation=error&error=' + (e as API.Error).code,
+                '/anime?page=1&iPage=1&activation=error&error=' +
+                    (e as API.Error).code,
             );
         }
 

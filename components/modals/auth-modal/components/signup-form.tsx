@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 
-import { setCookie } from '@/utils/actions';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
@@ -25,7 +24,7 @@ import {
 import { Input } from '@/components/ui/input';
 import signup from '@/services/api/auth/signup';
 import { useModalContext } from '@/services/providers/modal-provider';
-
+import { setCookie } from '@/utils/actions';
 
 type FormValues = {
     email: string;

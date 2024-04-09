@@ -1,7 +1,7 @@
 'use client';
 
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import EntryCard from '@/components/entry-card/entry-card';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     data: API.Watch[];

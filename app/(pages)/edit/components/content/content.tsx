@@ -2,13 +2,12 @@
 
 import * as React from 'react';
 
+import Details from '@/app/(pages)/edit/components/content/components/details';
 import General from '@/app/(pages)/edit/components/content/components/general';
 import SubHeader from '@/components/sub-header';
 import { Button } from '@/components/ui/button';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
-
-import Details from '@/app/(pages)/edit/components/content/components/details';
 
 interface Props {
     slug: string;

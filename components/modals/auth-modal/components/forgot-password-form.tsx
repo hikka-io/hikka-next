@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -18,7 +19,6 @@ import {
 import { Input } from '@/components/ui/input';
 import passwordReset from '@/services/api/auth/passwordReset';
 import { useModalContext } from '@/services/providers/modal-provider';
-import Small from '@/components/typography/small';
 
 type FormValues = {
     email: string;

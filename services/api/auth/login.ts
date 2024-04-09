@@ -1,7 +1,7 @@
-import SnackbarUtils from '@/utils/snackbar-utils';
 import config from '@/services/api/config';
-import getApiErrorMessage from '@/utils/getApiErrorMessage';
 import { fetchRequest } from '@/services/api/fetchRequest';
+import getApiErrorMessage from '@/utils/getApiErrorMessage';
+import SnackbarUtils from '@/utils/snackbar-utils';
 
 interface Response {
     secret: string;

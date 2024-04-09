@@ -3,9 +3,6 @@ import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        missingSuspenseWithCSRBailout: false,
-    },
     reactStrictMode: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {

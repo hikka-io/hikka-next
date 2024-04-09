@@ -9,13 +9,12 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
+import H3 from '@/components/typography/h3';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import useWatchList from '@/services/hooks/watch/useWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
-import useWatchList from '@/services/hooks/watch/useWatchList';
-import H3 from '@/components/typography/h3';
-
 
 const Component = () => {
     const searchParams = useSearchParams();

@@ -3,14 +3,13 @@ import MaterialSymbolsTextureAddRounded from '~icons/material-symbols/texture-ad
 
 import { insertDirective$, usePublisher } from '@mdxeditor/editor';
 
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import P from '@/components/typography/p';
-
 
 const SpoilerButton = () => {
     const insertDirective = usePublisher(insertDirective$);

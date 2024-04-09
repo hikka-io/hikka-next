@@ -2,18 +2,13 @@
 
 import { useState } from 'react';
 
-
-
 import { useParams } from 'next/navigation';
-
-
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import SubHeader from '@/components/sub-header';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
-
 
 const Description = () => {
     const [active, setActive] = useState<'description_ua'>('description_ua');

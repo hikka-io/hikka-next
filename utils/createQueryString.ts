@@ -15,6 +15,6 @@ const createQueryString = (
     }
 
     return params;
-}
+};
 
 export default createQueryString;

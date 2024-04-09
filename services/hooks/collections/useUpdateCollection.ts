@@ -1,23 +1,13 @@
 import { useSnackbar } from 'notistack';
 
-
-
 import { useRouter } from 'next/navigation';
 
-
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-
 
 import { Request as CollectionRequest } from '@/services/api/collections/createCollection';
 import updateCollection from '@/services/api/collections/updateCollection';
 
-
-
-
 import useAuth from '../auth/useAuth';
-
 
 const useUpdateCollection = ({
     reference,

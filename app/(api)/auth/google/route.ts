@@ -25,7 +25,9 @@ export async function GET(request: Request) {
             );
         }
 
-        return redirect('/anime?page=1&iPage=1&auth=error&provider=google&error=' + e);
+        return redirect(
+            '/anime?page=1&iPage=1&auth=error&provider=google&error=' + e,
+        );
     }
 
     return redirect('/anime?page=1&iPage=1&auth=success&provider=google');

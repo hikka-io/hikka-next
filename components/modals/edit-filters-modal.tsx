@@ -4,6 +4,7 @@ import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
 import Filters from '@/components/filters/edit-filters';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
     Sheet,
     SheetContent,
@@ -11,7 +12,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
 
 interface Props {
     children?: ReactNode;

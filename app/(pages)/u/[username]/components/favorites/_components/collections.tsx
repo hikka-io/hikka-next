@@ -43,7 +43,7 @@ const Component = ({ extended }: Props) => {
                     className={cn(
                         'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
                         !extended &&
-                            'grid-min-10 no-scrollbar -mx-4 grid-flow-col grid-cols-scroll auto-cols-scroll overflow-x-auto px-4',
+                            'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
                     )}
                 >
                     {filteredData.map((res) => (

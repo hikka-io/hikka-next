@@ -8,23 +8,15 @@ import AvatarEditor from 'react-avatar-editor';
 import MaterialSymbolsZoomInRounded from '~icons/material-symbols/zoom-in-rounded';
 import MaterialSymbolsZoomOut from '~icons/material-symbols/zoom-out';
 
-
-
 import { useParams, useRouter } from 'next/navigation';
 
-
-
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import uploadImage from '@/services/api/upload/uploadImage';
 import useAuth from '@/services/hooks/auth/useAuth';
-
 import { useModalContext } from '@/services/providers/modal-provider';
-
 
 interface Props {
     file?: File;

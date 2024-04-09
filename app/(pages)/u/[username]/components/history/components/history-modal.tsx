@@ -5,9 +5,9 @@ import * as React from 'react';
 import { useParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
+import useUserHistory from '@/services/hooks/user/useUserHistory';
 
 import ActivityItem from './ui/history-item';
-import useUserHistory from '@/services/hooks/user/useUserHistory';
 
 interface Props {
     className?: string;

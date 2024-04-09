@@ -1,9 +1,11 @@
-import { useModalContext } from '@/services/providers/modal-provider';
-import { useParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import EditListModal from '@/components/modals/editlist-modal';
 import clsx from 'clsx';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+
+import { useParams } from 'next/navigation';
+
+import EditListModal from '@/components/modals/editlist-modal';
+import { Button } from '@/components/ui/button';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 interface Props {
     slug: string;

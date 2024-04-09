@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import Comments from '@/components/comments/comments';
-
-import EditView from '@/app/(pages)/edit/components/edit-view';
 import Actions from '@/app/(pages)/edit/[editId]/components/actions';
+import EditView from '@/app/(pages)/edit/components/edit-view';
+import Comments from '@/components/comments/comments';
 import { getCookie } from '@/utils/actions';
 
 interface Props {

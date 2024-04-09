@@ -36,7 +36,7 @@ const PersonCard = ({ person, onClick, type }: Props) => {
                 </div>
             </div>
         </Comp>
-);
+    );
 };
 
 export default PersonCard;

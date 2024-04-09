@@ -11,7 +11,6 @@ import { useModalContext } from '@/services/providers/modal-provider';
 import FollowingsModal from './components/followings-modal';
 import FollowingItem from './components/ui/following-item';
 
-
 const Followings = () => {
     const params = useParams();
     const { openModal } = useModalContext();
