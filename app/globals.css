@@ -344,5 +344,5 @@ table th:last-child, td:last-child {
 
 .unexpanded-text {
     mask-image: linear-gradient(to bottom, white 50%, transparent);
-    -webkit-mask-image: -webkit-linear-gradient(to bottom, white 50%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, white 50%, transparent);
 }
