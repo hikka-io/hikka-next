@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 
 import Link from 'next/link';
@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 interface Props extends PropsWithChildren {
-    title: string;
+    title: string | ReactNode;
     href?: string;
     onClick?: () => void;
     variant?: 'h4' | 'h5';

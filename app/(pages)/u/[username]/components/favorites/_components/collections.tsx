@@ -35,6 +35,8 @@ const Component = ({ extended }: Props) => {
     }
 
     const filteredData = (extended ? list : list?.slice(0, 6)) || [];
+    const poster = (content: API.Anime | API.Character | API.Person) =>
+        'poster' in content ? content.poster : content.image;
 
     return (
         <>
@@ -50,7 +52,7 @@ const Component = ({ extended }: Props) => {
                         <EntryCard
                             key={res.reference}
                             title={res.title}
-                            poster={res.collection[0].content.poster}
+                            poster={poster(res.collection[0].content)}
                             href={`/collections/${res.reference}`}
                             titleClassName={cn(
                                 res.spoiler && 'blur hover:blur-none',

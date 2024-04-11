@@ -48,18 +48,30 @@ export const SEASON: Hikka.FilterProperty<API.Season> = {
     winter: {
         title_ua: 'Зима',
         title_en: 'Winter',
+        params: {
+            months: [1, 2, 3],
+        }
     },
     spring: {
         title_ua: 'Весна',
         title_en: 'Spring',
+        params: {
+            months: [4, 5, 6],
+        }
     },
     summer: {
         title_ua: 'Літо',
         title_en: 'Summer',
+        params: {
+            months: [7, 8, 9],
+        }
     },
     fall: {
         title_ua: 'Осінь',
         title_en: 'Fall',
+        params: {
+            months: [10, 11, 12],
+        }
     },
 };
 
@@ -578,7 +590,9 @@ export const ANIME_EDIT_GROUPS: Record<string, string> = {
 };
 
 export const EDIT_PARAMS: Record<
-    keyof Hikka.AnimeEditParams | keyof Hikka.CharacterEditParams,
+    | keyof Hikka.AnimeEditParams
+    | keyof Hikka.CharacterEditParams
+    | keyof Hikka.PersonEditParams,
     string
 > = {
     name_ua: 'Імʼя UA',
@@ -591,6 +605,7 @@ export const EDIT_PARAMS: Record<
     title_ja: 'Назва JA',
     synopsis_ua: 'Опис UA',
     synopsis_en: 'Опис EN',
+    name_native: 'Рідне імʼя',
 };
 
 export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
@@ -656,8 +671,8 @@ export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'name_native',
-            title: 'Нативною',
-            placeholder: 'Введіть нативне імʼя',
+            title: 'Рідною',
+            placeholder: 'Введіть рідне імʼя',
             type: 'input',
         },
     ],

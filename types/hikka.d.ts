@@ -15,6 +15,7 @@ declare global {
                 icon?: (props: any) => ReactElement | ReactNode;
                 color?: string;
                 description?: string;
+                params?: Record<string, any>;
             }
         >;
 
@@ -60,6 +61,12 @@ declare global {
             name_en: string;
             name_ja: string;
             description_ua: string;
+        };
+
+        type PersonEditParams = {
+            name_ua: string;
+            name_en: string;
+            name_native: string;
         };
 
         type TextNotification = {

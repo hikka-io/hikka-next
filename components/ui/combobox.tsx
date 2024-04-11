@@ -23,7 +23,6 @@ import {
 import {
     Popover,
     PopoverContent,
-    PopoverPortal,
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -79,6 +78,7 @@ export type ComboboxProps = (ComboboxPropsSingle | ComboboxPropsMultiple) & {
     side?: 'top' | 'right' | 'bottom' | 'left';
     className?: string;
     disabled?: boolean;
+    container?: HTMLElement | null;
 };
 
 export const handleSingleSelect = (
@@ -121,6 +121,7 @@ export const Combobox = forwardRef(
             emptyText,
             disableCheckbox,
             disabled,
+            container,
         } = props;
 
         const rootRef = useRef<HTMLDivElement>(null);
@@ -184,7 +185,7 @@ export const Combobox = forwardRef(
                                 role="combobox"
                                 variant="outline"
                                 aria-expanded={open}
-                                className="w-full justify-between"
+                                className="w-full justify-between bg-secondary/30 hover:bg-secondary/60"
                                 {...toggleProps}
                             >
                                 {!renderValue
@@ -228,147 +229,148 @@ export const Combobox = forwardRef(
                             </Button>
                         </PopoverTrigger>
                     )}
-                    <PopoverPortal container={rootRef.current}>
-                        <PopoverContent
-                            avoidCollisions={false}
-                            side={side || 'bottom'}
-                            align={align || 'start'}
-                            className="p-0"
+                    <PopoverContent
+                        container={container}
+                        avoidCollisions={false}
+                        side={side || 'bottom'}
+                        align={align || 'start'}
+                        className="!min-w-fit p-0"
+                        style={{
+                            width: rootRef.current?.clientWidth,
+                        }}
+                    >
+                        <Command
+                            filter={(value, search) => {
+                                const label =
+                                    options?.find(
+                                        (option) => option.value === value,
+                                    )?.label || '';
+                                if (
+                                    typeof label === 'string' &&
+                                    label
+                                        .toLowerCase()
+                                        .includes(search.toLowerCase())
+                                )
+                                    return 1;
+                                return 0;
+                            }}
                         >
-                            <Command
-                                filter={(value, search) => {
-                                    const label =
-                                        options?.find(
-                                            (option) => option.value === value,
-                                        )?.label || '';
-                                    if (
-                                        typeof label === 'string' &&
-                                        label
-                                            .toLowerCase()
-                                            .includes(search.toLowerCase())
-                                    )
-                                        return 1;
-                                    return 0;
-                                }}
-                            >
-                                {multiple && (
-                                    <CommandInput
-                                        placeholder={
-                                            searchPlaceholder ?? 'Пошук опції'
-                                        }
-                                    />
-                                )}
-                                <CommandEmpty>
-                                    {emptyText ?? 'Результатів не знайдено'}
-                                </CommandEmpty>
-                                <ScrollArea>
-                                    <ScrollBar orientation="vertical" />
-                                    <div className="max-h-72">
-                                        {Object.keys(optionsByGroup).map(
-                                            (group, index) => {
-                                                const groupOptions =
-                                                    optionsByGroup[group]
-                                                        .options;
-                                                return (
-                                                    <Fragment key={group}>
-                                                        {index !== 0 && (
-                                                            <CommandSeparator />
+                            {multiple && (
+                                <CommandInput
+                                    placeholder={
+                                        searchPlaceholder ?? 'Пошук опції'
+                                    }
+                                />
+                            )}
+                            <CommandEmpty>
+                                {emptyText ?? 'Результатів не знайдено'}
+                            </CommandEmpty>
+                            <ScrollArea>
+                                <ScrollBar orientation="vertical" />
+                                <div className="max-h-72">
+                                    {Object.keys(optionsByGroup).map(
+                                        (group, index) => {
+                                            const groupOptions =
+                                                optionsByGroup[group].options;
+                                            return (
+                                                <Fragment key={group}>
+                                                    {index !== 0 && (
+                                                        <CommandSeparator />
+                                                    )}
+                                                    <CommandGroup
+                                                        title={
+                                                            optionsByGroup[
+                                                                group
+                                                            ].label
+                                                        }
+                                                        heading={
+                                                            optionsByGroup[
+                                                                group
+                                                            ].label
+                                                        }
+                                                    >
+                                                        {groupOptions.map(
+                                                            (option) => (
+                                                                <CommandItem
+                                                                    key={
+                                                                        option.value
+                                                                    }
+                                                                    className="gap-2"
+                                                                    title={
+                                                                        option.title ||
+                                                                        (option.label as string)
+                                                                    }
+                                                                    value={
+                                                                        option.value
+                                                                    }
+                                                                    onSelect={(
+                                                                        selectedValue,
+                                                                    ) => {
+                                                                        const option =
+                                                                            options.find(
+                                                                                (
+                                                                                    option,
+                                                                                ) =>
+                                                                                    option.value
+                                                                                        .toLowerCase()
+                                                                                        .trim() ===
+                                                                                    selectedValue,
+                                                                            );
+
+                                                                        if (
+                                                                            !option
+                                                                        )
+                                                                            return null;
+
+                                                                        if (
+                                                                            multiple
+                                                                        ) {
+                                                                            handleMultipleSelect(
+                                                                                props,
+                                                                                option,
+                                                                            );
+                                                                        } else {
+                                                                            handleSingleSelect(
+                                                                                props,
+                                                                                option,
+                                                                            );
+
+                                                                            setOpen(
+                                                                                false,
+                                                                            );
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {!disableCheckbox &&
+                                                                        !option.disableCheckbox && (
+                                                                            <Checkbox
+                                                                                className="border-secondary"
+                                                                                checked={
+                                                                                    (!multiple &&
+                                                                                        value ===
+                                                                                            option.value) ||
+                                                                                    (multiple &&
+                                                                                        value?.includes(
+                                                                                            option.value,
+                                                                                        ))
+                                                                                }
+                                                                            />
+                                                                        )}
+                                                                    {
+                                                                        option.label
+                                                                    }
+                                                                </CommandItem>
+                                                            ),
                                                         )}
-                                                        <CommandGroup
-                                                            title={
-                                                                optionsByGroup[
-                                                                    group
-                                                                ].label
-                                                            }
-                                                            heading={
-                                                                optionsByGroup[
-                                                                    group
-                                                                ].label
-                                                            }
-                                                        >
-                                                            {groupOptions.map(
-                                                                (option) => (
-                                                                    <CommandItem
-                                                                        key={
-                                                                            option.value
-                                                                        }
-                                                                        className="gap-2"
-                                                                        title={
-                                                                            option.title ||
-                                                                            (option.label as string)
-                                                                        }
-                                                                        value={
-                                                                            option.value
-                                                                        }
-                                                                        onSelect={(
-                                                                            selectedValue,
-                                                                        ) => {
-                                                                            const option =
-                                                                                options.find(
-                                                                                    (
-                                                                                        option,
-                                                                                    ) =>
-                                                                                        option.value
-                                                                                            .toLowerCase()
-                                                                                            .trim() ===
-                                                                                        selectedValue,
-                                                                                );
-
-                                                                            if (
-                                                                                !option
-                                                                            )
-                                                                                return null;
-
-                                                                            if (
-                                                                                multiple
-                                                                            ) {
-                                                                                handleMultipleSelect(
-                                                                                    props,
-                                                                                    option,
-                                                                                );
-                                                                            } else {
-                                                                                handleSingleSelect(
-                                                                                    props,
-                                                                                    option,
-                                                                                );
-
-                                                                                setOpen(
-                                                                                    false,
-                                                                                );
-                                                                            }
-                                                                        }}
-                                                                    >
-                                                                        {!disableCheckbox &&
-                                                                            !option.disableCheckbox && (
-                                                                                <Checkbox
-                                                                                    className="border-secondary"
-                                                                                    checked={
-                                                                                        (!multiple &&
-                                                                                            value ===
-                                                                                                option.value) ||
-                                                                                        (multiple &&
-                                                                                            value?.includes(
-                                                                                                option.value,
-                                                                                            ))
-                                                                                    }
-                                                                                />
-                                                                            )}
-                                                                        {
-                                                                            option.label
-                                                                        }
-                                                                    </CommandItem>
-                                                                ),
-                                                            )}
-                                                        </CommandGroup>
-                                                    </Fragment>
-                                                );
-                                            },
-                                        )}
-                                    </div>
-                                </ScrollArea>
-                            </Command>
-                        </PopoverContent>
-                    </PopoverPortal>
+                                                    </CommandGroup>
+                                                </Fragment>
+                                            );
+                                        },
+                                    )}
+                                </div>
+                            </ScrollArea>
+                        </Command>
+                    </PopoverContent>
                 </Popover>
             </div>
         );

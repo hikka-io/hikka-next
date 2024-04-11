@@ -157,7 +157,7 @@ const Component = () => {
                     name="edit_comment"
                     control={form.control}
                     title="Коментар у правці"
-                    description="Ви отримаєте сповіщення, коли ваш коментар у правці"
+                    description="Ви отримаєте сповіщення, коли вам залишать коментар у правці"
                 />
                 <H5>Оцінки</H5>
                 <SwitchFormField

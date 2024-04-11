@@ -9,12 +9,13 @@ import {
     useSearchParams,
 } from 'next/navigation';
 
-import H3 from '@/components/typography/h3';
+import H5 from '@/components/typography/h5';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import useWatchList from '@/services/hooks/watch/useWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
+
 
 const Component = () => {
     const searchParams = useSearchParams();
@@ -36,7 +37,7 @@ const Component = () => {
                 value: watchStatus,
             }))}
             value={watchStatus}
-            toggleProps={{ variant: 'ghost' }}
+            toggleProps={{ variant: 'outline' }}
             onChange={(value) => {
                 const query = createQueryString(
                     'status',
@@ -49,14 +50,14 @@ const Component = () => {
                 !Array.isArray(option) &&
                 option && (
                     <div className="flex items-center gap-4">
-                        <div className="rounded-md border border-secondary bg-secondary/60 p-1 text-xl">
+                        <div className="rounded-md border border-secondary bg-secondary/60 p-1 hidden sm:block">
                             {createElement(
                                 WATCH_STATUS[option.value as API.WatchStatus]
                                     .icon!,
                             )}
                         </div>
                         <div className="flex items-center gap-2">
-                            <H3>{option.label}</H3>
+                            <H5>{option.label}</H5>
                             {pagination && (
                                 <Label className="text-muted-foreground">
                                     ({pagination.total})

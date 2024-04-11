@@ -27,15 +27,15 @@ const Details = ({ content }: Props) => {
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {'title_ua' in content ? 'Назва' : 'Імʼя'} англійською
+                    {'title_en' in content ? 'Назва' : 'Імʼя'} англійською
                 </Label>
                 <P className="text-sm">{title_en || '-'}</P>
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {'title_ua' in content
+                    {'title_ja' in content
                         ? 'Назва оригіналу'
-                        : 'Імʼя нативною'}
+                        : 'Рідне імʼя'}
                 </Label>
                 <P className="text-sm">{title_ja || '-'}</P>
             </div>
