@@ -5,8 +5,9 @@ import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import useUserCollections from '@/services/hooks/user/useUserCollections';
@@ -50,8 +51,8 @@ const Component = ({ className }: Props) => {
     };
 
     return (
-        <div className={cn('flex flex-col gap-8', className)}>
-            <SubHeader
+        <Block className={cn(className)}>
+            <Header
                 title={'Колекції'}
                 onClick={
                     collections && collections?.length > 0
@@ -66,7 +67,7 @@ const Component = ({ className }: Props) => {
                         </Link>
                     </Button>
                 )}
-            </SubHeader>
+            </Header>
             <div className="flex flex-col gap-6">
                 {filteredCollections &&
                     filteredCollections.map((item) => (
@@ -79,7 +80,7 @@ const Component = ({ className }: Props) => {
                     />
                 )}
             </div>
-        </div>
+        </Block>
     );
 };
 

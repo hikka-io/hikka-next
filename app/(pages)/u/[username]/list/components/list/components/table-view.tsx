@@ -26,7 +26,6 @@ interface Props {
 }
 
 const Component = ({ data }: Props) => {
-    const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -72,7 +71,7 @@ const Component = ({ data }: Props) => {
                     </TableHead>
                     <TableHead
                         className={cn(
-                            'hidden w-32 cursor-pointer select-none text-center hover:underline lg:table-cell',
+                            'hidden w-20 cursor-pointer select-none text-center hover:underline lg:table-cell',
                             sort === 'media_type' && 'text-primary',
                         )}
                         align="center"
@@ -81,11 +80,11 @@ const Component = ({ data }: Props) => {
                         Тип
                     </TableHead>
                     <TableHead
-                        className={clsx(
-                            'w-20 cursor-pointer select-none hover:underline',
+                        className={cn(
+                            'w-4 cursor-pointer select-none text-right hover:underline',
                             sort === 'watch_score' && 'text-primary',
                         )}
-                        align="center"
+                        align="right"
                         onClick={() => switchSort('watch_score')}
                     >
                         Оцінка
@@ -95,16 +94,11 @@ const Component = ({ data }: Props) => {
             <TableBody>
                 {data.map((res, i) => (
                     <TableRow key={res.reference} className="group">
-                        <NumberCell
-                            anime={res.anime}
-                            titleLanguage={titleLanguage!}
-                            number={i + 1}
-                        />
+                        <NumberCell anime={res.anime} number={i + 1} />
                         <DetailsCell
                             note={res.note}
                             anime={res.anime}
                             rewatches={res.rewatches}
-                            titleLanguage={titleLanguage!}
                         />
                         <EpisodesCell
                             episodes={res.episodes}

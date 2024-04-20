@@ -8,8 +8,6 @@ interface Props {
 }
 
 const Component = ({ data }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-
     return (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
             {data.map((res) => (
@@ -17,12 +15,7 @@ const Component = ({ data }: Props) => {
                     slug={res.anime.slug}
                     content_type="anime"
                     key={res.reference}
-                    title={
-                        res.anime[titleLanguage!] ||
-                        res.anime.title_ua ||
-                        res.anime.title_en ||
-                        res.anime.title_ja
-                    }
+                    title={res.anime.title}
                     poster={res.anime.poster}
                     href={`/anime/${res.anime.slug}`}
                 />

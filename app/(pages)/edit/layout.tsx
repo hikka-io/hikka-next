@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
-import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import NavMenu from '@/components/navbar/nav-dropdown';
-import InternalNavBar from '@/components/navbar/nav-tabs';
-import SubBar from '@/components/navbar/sub-nav';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
+import InternalNavBar from '@/components/navigation/nav-tabs';
+import SubBar from '@/components/navigation/sub-nav';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';
 

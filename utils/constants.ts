@@ -50,28 +50,28 @@ export const SEASON: Hikka.FilterProperty<API.Season> = {
         title_en: 'Winter',
         params: {
             months: [1, 2, 3],
-        }
+        },
     },
     spring: {
         title_ua: 'Весна',
         title_en: 'Spring',
         params: {
             months: [4, 5, 6],
-        }
+        },
     },
     summer: {
         title_ua: 'Літо',
         title_en: 'Summer',
         params: {
             months: [7, 8, 9],
-        }
+        },
     },
     fall: {
         title_ua: 'Осінь',
         title_en: 'Fall',
         params: {
             months: [10, 11, 12],
-        }
+        },
     },
 };
 
@@ -81,22 +81,23 @@ export const RELEASE_STATUS: Hikka.FilterProperty<API.Status> = {
         title_en: 'Discontinued',
         color: '#952828'
     },*/
-    announced: {
-        title_ua: 'Анонс',
-        title_en: 'Announced',
-        color: '#AB872B',
-    },
-    finished: {
-        title_ua: 'Завершено',
-        title_en: 'Finished',
-        color: '#518146',
-    },
     ongoing: {
         title_ua: 'Онґоінґ',
         title_en: 'Ongoing',
 
         color: '#2B94AB',
     },
+    finished: {
+        title_ua: 'Завершено',
+        title_en: 'Finished',
+        color: '#518146',
+    },
+    announced: {
+        title_ua: 'Анонс',
+        title_en: 'Announced',
+        color: '#AB872B',
+    },
+
     /*paused: {
         title_ua: 'Зупинено',
         title_en: 'Paused',

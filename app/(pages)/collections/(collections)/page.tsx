@@ -8,15 +8,17 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import CollectionList from '@/app/(pages)/collections/(collections)/components/collection-list';
-import CollectionSort from '@/app/(pages)/collections/(collections)/components/collection-sort';
 import PagePagination from '@/components/page-pagination';
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import Header from '@/components/ui/header';
 import getCollections from '@/services/api/collections/getCollections';
 import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
+
+import CollectionList from './components/collection-list';
+import CollectionSort from './components/collection-sort';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
@@ -57,9 +59,9 @@ const CollectionsPage = async ({
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="flex flex-col gap-8">
+            <Block>
                 <div className="flex items-center justify-between gap-4">
-                    <SubHeader title="Колекції">
+                    <Header title="Колекції">
                         {auth && (
                             <Button asChild size="icon-sm" variant="outline">
                                 <Link href="/collections/new">
@@ -67,14 +69,14 @@ const CollectionsPage = async ({
                                 </Link>
                             </Button>
                         )}
-                    </SubHeader>
+                    </Header>
                     <CollectionSort />
                 </div>
                 <CollectionList page={Number(page)} sort={sort} />
                 {collections && (
                     <PagePagination pagination={collections.pagination} />
                 )}
-            </div>
+            </Block>
         </HydrationBoundary>
     );
 };

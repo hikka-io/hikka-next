@@ -3,8 +3,8 @@
 import React from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
-import SubHeader from '@/components/sub-header';
 import TextExpand from '@/components/text-expand';
+import Header from '@/components/ui/header';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 const CollectionTitle = () => {
@@ -12,10 +12,12 @@ const CollectionTitle = () => {
 
     return (
         <div className="flex flex-col gap-2">
-            <SubHeader title={title || 'Нова колекція'} />
+            <Header title={title || 'Нова колекція'} />
             {description && (
                 <TextExpand>
-                    <MDViewer>{description}</MDViewer>
+                    <MDViewer className="text-sm text-muted-foreground">
+                        {description}
+                    </MDViewer>
                 </TextExpand>
             )}
         </div>

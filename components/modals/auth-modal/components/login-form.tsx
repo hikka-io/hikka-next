@@ -120,6 +120,7 @@ const Component = () => {
                                                     <AuthModal type="forgotPassword" />
                                                 ),
                                                 className: 'p-0 max-w-3xl',
+                                                forceModal: true,
                                             })
                                         }
                                     >
@@ -163,6 +164,7 @@ const Component = () => {
                                 openModal({
                                     content: <AuthModal type="signup" />,
                                     className: 'p-0 max-w-3xl',
+                                    forceModal: true,
                                 })
                             }
                             className="w-full"

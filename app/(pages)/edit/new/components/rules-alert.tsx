@@ -31,7 +31,7 @@ const RulesAlert = () => {
                         onClick={() =>
                             openModal({
                                 content: (
-                                    <MDViewer className="overflow-hidden">
+                                    <MDViewer className="overflow-y-scroll md:overflow-hidden">
                                         {rules}
                                     </MDViewer>
                                 ),

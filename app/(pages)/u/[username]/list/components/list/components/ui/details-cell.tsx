@@ -9,11 +9,10 @@ import { TableCell } from '@/components/ui/table';
 interface Props {
     anime: API.Anime;
     rewatches: number;
-    titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
     note?: string;
 }
 
-const Component = ({ anime, rewatches, note, titleLanguage }: Props) => {
+const Component = ({ anime, rewatches, note }: Props) => {
     return (
         <TableCell className="w-36">
             <div className="flex items-center gap-4">
@@ -29,10 +28,7 @@ const Component = ({ anime, rewatches, note, titleLanguage }: Props) => {
                             className="line-clamp-2 hover:underline"
                             href={`/anime/${anime.slug}`}
                         >
-                            {anime[titleLanguage] ||
-                                anime.title_ua ||
-                                anime.title_en ||
-                                anime.title_ja}
+                            {anime.title}
                         </Link>
                         {rewatches > 0 && (
                             <Badge variant="outline">{rewatches}</Badge>

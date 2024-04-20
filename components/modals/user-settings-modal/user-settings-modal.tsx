@@ -1,7 +1,13 @@
 'use client';
 
 import * as React from 'react';
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import {
+    Dispatch,
+    ReactNode,
+    SetStateAction,
+    useEffect,
+    useState,
+} from 'react';
 import MaterialSymbolsKeyboardBackspaceRounded from '~icons/material-symbols/keyboard-backspace-rounded';
 
 import CustomizationForm from '@/components/modals/user-settings-modal/components/customization-form';
@@ -15,7 +21,7 @@ import H3 from '@/components/typography/h3';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import useIsMobile from '@/services/hooks/useIsMobile';
+import { useMediaQuery } from '@/services/hooks/useMediaQuery';
 import { cn } from '@/utils/utils';
 
 type Tab =
@@ -131,29 +137,33 @@ const Tabs = ({
 };
 
 const Component = () => {
-    const isMobile = useIsMobile();
-    const [activeTab, setActiveTab] = useState<Tab | undefined>(
-        isMobile ? undefined : 'general',
-    );
+    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const [activeTab, setActiveTab] = useState<Tab | undefined>('general');
+
+    useEffect(() => {
+        if (!isDesktop) {
+            setActiveTab(undefined);
+        } else {
+            setActiveTab('general');
+        }
+    }, [isDesktop]);
 
     const activeForm = DATA.find((tab) => tab.slug === activeTab);
 
     return (
         <div className="grid h-full grid-cols-1 md:grid-cols-[40%_1fr]">
-            {isMobile && !activeTab && <Tabs setActiveTab={setActiveTab} />}
-            {!isMobile && (
+            {!isDesktop && !activeTab && <Tabs setActiveTab={setActiveTab} />}
+            {isDesktop && (
                 <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
             )}
-            <div className="flex max-h-screen flex-col border-r-secondary/60 pt-6 md:border-r">
+            <div className="flex flex-1 flex-col overflow-hidden border-r-secondary/60 pt-6 md:border-r">
                 {activeForm && (
                     <Header
                         onBack={() => setActiveTab(undefined)}
                         title={activeForm?.title}
                     />
                 )}
-                <div className="flex-1 overflow-y-scroll">
-                    {activeForm?.form}
-                </div>
+                {activeForm?.form}
             </div>
         </div>
     );

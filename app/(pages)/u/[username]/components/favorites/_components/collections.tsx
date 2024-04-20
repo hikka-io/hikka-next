@@ -1,8 +1,11 @@
 'use client';
 
+import React from 'react';
+
 import { useParams } from 'next/navigation';
 
 import EntryCard from '@/components/entry-card/entry-card';
+import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
@@ -76,21 +79,15 @@ const Component = ({ extended }: Props) => {
                             <span className="font-black">Колекції</span> пусто
                         </span>
                     }
-                    description="Цей список оновиться після як сюди буде додано колекції"
+                    description="Цей список оновиться після того як сюди буде додано колекції"
                 />
             )}
             {extended && hasNextPage && (
-                <Button
-                    variant="outline"
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
                     ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Завантажити ще
-                </Button>
+                />
             )}
         </>
     );

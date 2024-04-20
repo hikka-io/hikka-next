@@ -38,6 +38,7 @@ const EditTopItem = ({ user, rank, accepted, denied, closed }: Props) => {
                           ? 'text-slate-300'
                           : 'text-amber-700',
                     'right-2 top-2 lg:-right-2 lg:-top-2',
+                    rank > 3 && 'hidden',
                 )}
             />
             <Link href={`/u/${user.username}`}>

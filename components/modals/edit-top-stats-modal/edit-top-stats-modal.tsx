@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Button } from '@/components/ui/button';
+import LoadMoreButton from '@/components/load-more-button';
 import useEditTop from '@/services/hooks/stats/edit/useEditTop';
 
 import EditTopItem from './components/ui/edit-top-item';
@@ -33,18 +33,11 @@ const Component = () => {
                 })}
                 {hasNextPage && (
                     <div className="px-4">
-                        <Button
-                            variant="secondary"
+                        <LoadMoreButton
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
                             ref={ref}
-                            disabled={isFetchingNextPage}
-                            onClick={() => hasNextPage && fetchNextPage()}
-                            className="w-full"
-                        >
-                            {isFetchingNextPage && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Завантажити ще
-                        </Button>
+                        />
                     </div>
                 )}
             </div>

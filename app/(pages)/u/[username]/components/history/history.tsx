@@ -2,7 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
+import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import useUserHistory from '@/services/hooks/user/useUserHistory';
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -25,19 +26,22 @@ const Component = ({ className }: Props) => {
 
     const filteredActivity = activity?.slice(0, 3);
 
+    const handleOpenModal = () => {
+        openModal({
+            type: 'sheet',
+            title: 'Активність',
+            side: 'right',
+            content: <ActivityModal />,
+        });
+    };
+
     return (
-        <div className={cn('flex flex-col gap-8', className)}>
-            <SubHeader
+        <Block className={cn(className)}>
+            <Header
                 title={'Історія'}
                 onClick={
                     activity && activity?.length > 0
-                        ? () =>
-                              openModal({
-                                  type: 'sheet',
-                                  title: 'Активність',
-                                  side: 'right',
-                                  content: <ActivityModal />,
-                              })
+                        ? handleOpenModal
                         : undefined
                 }
             />
@@ -53,7 +57,7 @@ const Component = ({ className }: Props) => {
                     />
                 )}
             </div>
-        </div>
+        </Block>
     );
 };
 

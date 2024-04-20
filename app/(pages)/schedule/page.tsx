@@ -1,10 +1,15 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import SubHeader from '@/components/sub-header';
+import ScheduleFiltersModal from '@/components/modals/schedule-filters-modal';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import Header from '@/components/ui/header';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
 import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
@@ -13,7 +18,6 @@ import getQueryClient from '@/utils/getQueryClient';
 
 import ScheduleFilters from '../../../components/filters/schedule-filters';
 import ScheduleList from './components/schedule-list';
-
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
@@ -38,7 +42,7 @@ const ScheduleListPage = async ({
     const status =
         searchParams.status && searchParams.status.length > 0
             ? searchParams.status
-            : ['ongoing'];
+            : ['ongoing', 'announced'];
 
     await queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,
@@ -58,10 +62,22 @@ const ScheduleListPage = async ({
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12">
-                <div className="flex flex-col gap-8">
-                    <SubHeader title="Календар" />
-                    <ScheduleFilters />
-                </div>
+                <Block>
+                    <div className="flex items-center justify-between">
+                        <Header title="Календар" />
+                        <ScheduleFiltersModal>
+                            <Button
+                                variant="outline"
+                                className="flex lg:hidden"
+                            >
+                                <AntDesignFilterFilled /> Фільтри
+                            </Button>
+                        </ScheduleFiltersModal>
+                    </div>
+                    <Card className="hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:block">
+                        <ScheduleFilters />
+                    </Card>
+                </Block>
                 <ScheduleList />
             </div>
         </HydrationBoundary>

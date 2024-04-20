@@ -1,12 +1,13 @@
 'use client';
 
+import React from 'react';
+
 import { useParams } from 'next/navigation';
 
 import EntryCard from '@/components/entry-card/entry-card';
-import { Button } from '@/components/ui/button';
+import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -14,7 +15,6 @@ interface Props {
 }
 
 const Component = ({ extended }: Props) => {
-    const { titleLanguage } = useSettingsContext();
     const params = useParams();
     const {
         list,
@@ -23,7 +23,7 @@ const Component = ({ extended }: Props) => {
         isFetchingNextPage,
         isPending,
         ref,
-    } = useFavorites<API.Content<'anime'>>({
+    } = useFavorites<API.AnimeInfo>({
         username: String(params.username),
         content_type: 'anime',
     });
@@ -54,12 +54,7 @@ const Component = ({ extended }: Props) => {
                             watch={
                                 res.watch.length > 0 ? res.watch[0] : undefined
                             }
-                            title={
-                                res[titleLanguage!] ||
-                                res.title_ua ||
-                                res.title_en ||
-                                res.title_ja
-                            }
+                            title={res.title}
                             poster={res.poster}
                             href={`/anime/${res.slug}`}
                             slug={res.slug}
@@ -76,21 +71,15 @@ const Component = ({ extended }: Props) => {
                             пусто
                         </span>
                     }
-                    description="Цей список оновиться після як сюди буде додано аніме"
+                    description="Цей список оновиться після того як сюди буде додано аніме"
                 />
             )}
             {extended && hasNextPage && (
-                <Button
-                    variant="outline"
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
                     ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Завантажити ще
-                </Button>
+                />
             )}
         </>
     );

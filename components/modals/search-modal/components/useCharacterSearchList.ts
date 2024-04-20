@@ -12,6 +12,7 @@ const useCharacterSearchList = ({ value }: Props) => {
         queryFn: () =>
             getCharacters({
                 query: value,
+                size: 30,
             }),
         enabled: value !== undefined && value.length >= 3,
     });

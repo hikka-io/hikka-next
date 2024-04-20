@@ -4,6 +4,8 @@ import { useParams, useSearchParams } from 'next/navigation';
 
 import GridView from '@/app/(pages)/u/[username]/list/components/list/components/grid-view';
 import TableView from '@/app/(pages)/u/[username]/list/components/list/components/table-view';
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useWatchList from '@/services/hooks/watch/useWatchList';
@@ -29,7 +31,7 @@ const Component = ({}: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-8">
+        <Block>
             {list.length > 0 ? (
                 view === 'table' ? (
                     <TableView data={list} />
@@ -50,23 +52,17 @@ const Component = ({}: Props) => {
                             пусто
                         </span>
                     }
-                    description="Цей список оновиться після як сюди буде додано аніме з цим статусом"
+                    description="Цей список оновиться після того як сюди буде додано аніме з цим статусом"
                 />
             )}
             {hasNextPage && (
-                <Button
-                    variant="outline"
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
                     ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Завантажити ще
-                </Button>
+                />
             )}
-        </div>
+        </Block>
     );
 };
 

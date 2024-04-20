@@ -16,7 +16,6 @@ import useAddToList from '@/services/hooks/watch/useAddToList';
 import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
 import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
@@ -56,7 +55,6 @@ const OPTIONS = [
 ];
 
 const Component = ({ slug, additional, disabled }: Props) => {
-    const { titleLanguage } = useSettingsContext();
     const { openModal } = useModalContext();
 
     const { data: watch, isError: watchError } = useWatch({
@@ -75,11 +73,8 @@ const Component = ({ slug, additional, disabled }: Props) => {
             openModal({
                 content: <WatchEditModal slug={anime.slug} />,
                 className: '!max-w-xl',
-                title:
-                    anime[titleLanguage!] ||
-                    anime.title_ua ||
-                    anime.title_en ||
-                    anime.title_ja,
+                title: anime.title,
+                forceModal: true,
             });
         }
     };

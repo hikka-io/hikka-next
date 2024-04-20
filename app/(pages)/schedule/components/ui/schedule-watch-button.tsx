@@ -30,6 +30,7 @@ const ScheduleWatchButton = ({ item, title }: Props) => {
                 content: <WatchEditModal slug={item.anime.slug} />,
                 className: '!max-w-xl',
                 title: title,
+                forceModal: true,
             });
 
             return;

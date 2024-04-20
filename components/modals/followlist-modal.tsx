@@ -7,7 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { useParams } from 'next/navigation';
 
 import FollowUserItem from '@/app/(pages)/u/[username]/components/ui/follow-user-item';
-import { Button } from '@/components/ui/button';
+import LoadMoreButton from '@/components/load-more-button';
 import getFollowers from '@/services/api/follow/getFollowers';
 import getFollowings from '@/services/api/follow/getFollowings';
 import useAuth from '@/services/hooks/auth/useAuth';
@@ -56,18 +56,11 @@ const Component = ({ type }: Props) => {
                 })}
                 {hasNextPage && (
                     <div className="px-4">
-                        <Button
-                            variant="secondary"
+                        <LoadMoreButton
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
                             ref={ref}
-                            disabled={isFetchingNextPage}
-                            onClick={() => hasNextPage && fetchNextPage()}
-                            className="w-full"
-                        >
-                            {isFetchingNextPage && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Завантажити ще
-                        </Button>
+                        />
                     </div>
                 )}
             </div>

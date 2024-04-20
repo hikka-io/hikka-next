@@ -9,7 +9,10 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import EditList from '@/app/(pages)/edit/components/edit-list/edit-list';
 import EditTopStats from '@/app/(pages)/edit/components/edit-top-stats/edit-top-stats';
 import EditFiltersModal from '@/components/modals/edit-filters-modal';
+import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import Header from '@/components/ui/header';
 import getEditList from '@/services/api/edit/getEditList';
 import getEditTop from '@/services/api/stats/edit/getEditTop';
 import getQueryClient from '@/utils/getQueryClient';
@@ -52,22 +55,27 @@ const EditListPage = async ({
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12 lg:gap-12">
+                <EditTopStats />
                 <div className="grid grid-cols-1 justify-center gap-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                     <div className="flex flex-col gap-12">
-                        <EditTopStats />
-                        <EditFiltersModal>
-                            <Button
-                                variant="outline"
-                                className="flex lg:hidden"
-                            >
-                                <AntDesignFilterFilled /> Фільтри
-                            </Button>
-                        </EditFiltersModal>
-                        <EditList page={page as string} />
+                        <Block>
+                            <div className="flex items-center justify-between">
+                                <Header title="Правки" />
+                                <EditFiltersModal>
+                                    <Button
+                                        variant="outline"
+                                        className="flex lg:hidden"
+                                    >
+                                        <AntDesignFilterFilled /> Фільтри
+                                    </Button>
+                                </EditFiltersModal>
+                            </div>
+                            <EditList page={page as string} />
+                        </Block>
                     </div>
-                    <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
-                        <Filters className="px-4" />
-                    </div>
+                    <Card className="py-0 sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
+                        <Filters />
+                    </Card>
                 </div>
             </div>
         </HydrationBoundary>

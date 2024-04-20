@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import Details from '@/app/(pages)/edit/components/content/components/details';
 import General from '@/app/(pages)/edit/components/content/components/general';
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { useSettingsContext } from '@/services/providers/settings-provider';
+import Header from '@/components/ui/header';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
 
 const Content = ({ slug, content_type, content }: Props) => {
     const [type, setType] = React.useState<'general' | 'details'>('details');
-    const { titleLanguage } = useSettingsContext();
 
     if (!content) {
         return null;
@@ -28,15 +27,12 @@ const Content = ({ slug, content_type, content }: Props) => {
     const poster = 'poster' in content ? content.poster : content.image;
     const title =
         'title_en' in content
-            ? content[titleLanguage!] ||
-              content.title_ua ||
-              content.title_en ||
-              content.title_ja
+            ? content.title!
             : content.name_ua || content.name_en;
 
     return (
-        <div className="flex flex-col gap-8">
-            <SubHeader title="Контент" variant="h4">
+        <Block>
+            <Header title="Контент" variant="h4">
                 <Button
                     variant={type === 'details' ? 'secondary' : 'outline'}
                     size="badge"
@@ -51,12 +47,12 @@ const Content = ({ slug, content_type, content }: Props) => {
                 >
                     Загальне
                 </Button>
-            </SubHeader>
+            </Header>
             {type === 'general' && (
                 <General href={link} poster={poster} title={title} />
             )}
             {type === 'details' && <Details content={content} />}
-        </div>
+        </Block>
     );
 };
 

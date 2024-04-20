@@ -3,6 +3,8 @@ import React from 'react';
 import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
 import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
 import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import CollectionProvider from '@/services/providers/collection-provider';
 
 const CollectionUpdatePage = () => {
@@ -10,16 +12,16 @@ const CollectionUpdatePage = () => {
         <CollectionProvider>
             <div>
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
-                    <div className="flex flex-col gap-8">
+                    <Block>
                         <CollectionTitle />
                         <div className="block rounded-md border border-secondary/60 bg-secondary/30 lg:hidden">
                             <CollectionSettings mode="edit" />
                         </div>
                         <CollectionGroups mode="edit" />
-                    </div>
-                    <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 lg:order-2 lg:block">
+                    </Block>
+                    <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
                         <CollectionSettings mode="edit" />
-                    </div>
+                    </Card>
                 </div>
             </div>
         </CollectionProvider>

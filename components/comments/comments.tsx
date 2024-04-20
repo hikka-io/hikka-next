@@ -4,11 +4,12 @@ import React from 'react';
 
 import CommentInput from '@/components/comments/components/comment-input';
 import Comments from '@/components/comments/components/comments';
-import SubHeader from '@/components/sub-header';
-import { Button } from '@/components/ui/button';
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
+import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import getComments from '@/services/api/comments/getComments';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useAuth from '@/services/hooks/auth/useAuth';
+import useComments from '@/services/hooks/comments/useComments';
 import CommentsProvider from '@/services/providers/comments-provider';
 
 interface Props {
@@ -17,23 +18,14 @@ interface Props {
     auth?: string;
 }
 
-const Component = ({ slug, content_type, auth }: Props) => {
+const Component = ({ slug, content_type }: Props) => {
+    const { auth } = useAuth();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useInfiniteList({
-            queryKey: ['comments', slug, content_type, { auth }],
-            queryFn: ({ pageParam }) =>
-                getComments({
-                    slug,
-                    content_type,
-                    page: pageParam,
-                    auth,
-                }),
-        });
+        useComments({ slug, content_type });
 
     return (
-        <div className="flex flex-col gap-8">
-            <SubHeader title="Обговорення" />
-
+        <Block>
+            <Header title="Обговорення" />
             <div className="flex flex-col gap-4">
                 {auth && (
                     <CommentInput slug={slug} content_type={content_type} />
@@ -54,20 +46,14 @@ const Component = ({ slug, content_type, auth }: Props) => {
                     </CommentsProvider>
                 )}
                 {hasNextPage && (
-                    <Button
-                        variant="secondary"
+                    <LoadMoreButton
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
                         ref={ref}
-                        disabled={isFetchingNextPage}
-                        onClick={() => fetchNextPage()}
-                    >
-                        {isFetchingNextPage && (
-                            <span className="loading loading-spinner"></span>
-                        )}
-                        Завантажити ще
-                    </Button>
+                    />
                 )}
             </div>
-        </div>
+        </Block>
     );
 };
 

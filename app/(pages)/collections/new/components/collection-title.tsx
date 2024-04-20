@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 import { MDXEditorMethods } from '@mdxeditor/editor';
 
 import MDEditor from '@/components/markdown/editor/MD-editor';
-import SubHeader from '@/components/sub-header';
+import Header from '@/components/ui/header';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 const CollectionTitle = () => {
@@ -25,7 +25,7 @@ const CollectionTitle = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <SubHeader title={title || 'Нова колекція'} />
+            <Header title={title || 'Нова колекція'} />
             <MDEditor
                 onChange={(markdown) =>
                     setCollectionState!((state) => ({

@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { useParams } from 'next/navigation';
 
+import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
 import useUserHistory from '@/services/hooks/user/useUserHistory';
 
@@ -40,18 +41,11 @@ const Component = ({ className }: Props) => {
                     ))}
                 {hasNextPage && (
                     <div className="px-4">
-                        <Button
-                            variant="outline"
+                        <LoadMoreButton
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
                             ref={ref}
-                            disabled={isFetchingNextPage}
-                            onClick={() => hasNextPage && fetchNextPage()}
-                            className="w-full"
-                        >
-                            {isFetchingNextPage && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Завантажити ще
-                        </Button>
+                        />
                     </div>
                 )}
             </div>

@@ -78,7 +78,6 @@ export type ComboboxProps = (ComboboxPropsSingle | ComboboxPropsMultiple) & {
     side?: 'top' | 'right' | 'bottom' | 'left';
     className?: string;
     disabled?: boolean;
-    container?: HTMLElement | null;
 };
 
 export const handleSingleSelect = (
@@ -121,7 +120,6 @@ export const Combobox = forwardRef(
             emptyText,
             disableCheckbox,
             disabled,
-            container,
         } = props;
 
         const rootRef = useRef<HTMLDivElement>(null);
@@ -230,14 +228,10 @@ export const Combobox = forwardRef(
                         </PopoverTrigger>
                     )}
                     <PopoverContent
-                        container={container}
                         avoidCollisions={false}
                         side={side || 'bottom'}
                         align={align || 'start'}
-                        className="!min-w-fit p-0"
-                        style={{
-                            width: rootRef.current?.clientWidth,
-                        }}
+                        className="p-0"
                     >
                         <Command
                             filter={(value, search) => {

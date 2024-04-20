@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 
 import Link from 'next/link';
 
+import LoadMoreButton from '@/components/load-more-button';
 import EditCard from '@/components/modals/editlist-modal/components/ui/edit-card';
 import { Button } from '@/components/ui/button';
 import getEditList from '@/services/api/edit/getEditList';
@@ -63,18 +64,11 @@ const Component = ({ content_type, slug }: Props) => {
                     ))}
                     {hasNextPage && (
                         <div className="px-8 py-4">
-                            <Button
-                                variant="secondary"
+                            <LoadMoreButton
+                                isFetchingNextPage={isFetchingNextPage}
+                                fetchNextPage={fetchNextPage}
                                 ref={ref}
-                                disabled={isFetchingNextPage}
-                                onClick={() => fetchNextPage()}
-                                className="w-full"
-                            >
-                                {isFetchingNextPage && (
-                                    <span className="loading loading-spinner"></span>
-                                )}
-                                Завантажити ще
-                            </Button>
+                            />
                         </div>
                     )}
                 </div>

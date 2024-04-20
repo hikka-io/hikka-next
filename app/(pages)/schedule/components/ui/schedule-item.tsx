@@ -11,7 +11,6 @@ import EntryCard from '@/components/entry-card/entry-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -37,14 +36,6 @@ export const getShortLocale = () => ({
 });
 
 const ScheduleItem = ({ item }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-
-    const title =
-        item.anime[titleLanguage!] ||
-        item.anime.title_ua ||
-        item.anime.title_en ||
-        item.anime.title_ja;
-
     return (
         <div className="flex rounded-md border border-secondary/60 bg-secondary/30">
             <EntryCard
@@ -56,7 +47,9 @@ const ScheduleItem = ({ item }: Props) => {
             <div className="flex w-full flex-col justify-between p-4">
                 <div className="flex flex-col gap-2">
                     <H5 className="line-clamp-1 w-fit cursor-pointer sm:line-clamp-2">
-                        <Link href={`/anime/${item.anime.slug}`}>{title}</Link>
+                        <Link href={`/anime/${item.anime.slug}`}>
+                            {item.anime.title}
+                        </Link>
                     </H5>
                     <MDViewer className="line-clamp-2 text-xs text-muted-foreground lg:line-clamp-3">
                         {item.anime.synopsis_ua || item.anime.synopsis_en}
@@ -97,7 +90,10 @@ const ScheduleItem = ({ item }: Props) => {
                             </P>
                         </div>
                     </div>
-                    <ScheduleWatchButton title={title} item={item} />
+                    <ScheduleWatchButton
+                        title={item.anime.title!}
+                        item={item}
+                    />
                 </div>
             </div>
         </div>

@@ -6,7 +6,6 @@ import { useInView } from 'react-intersection-observer';
 import {
     QueryFunction,
     QueryKey,
-    UndefinedInitialDataInfiniteOptions,
     useInfiniteQuery,
 } from '@tanstack/react-query';
 
@@ -16,6 +15,13 @@ interface Props<T> {
     staleTime?: number;
     gcTime?: number;
     enabled?: boolean;
+    select?: (data: {
+        pages: API.WithPagination<T>[];
+        pageParams: Array<unknown>;
+    }) => {
+        pages: API.WithPagination<T>[];
+        pageParams: Array<unknown>;
+    };
 }
 
 function useInfiniteList<T>({
@@ -24,6 +30,7 @@ function useInfiniteList<T>({
     staleTime,
     gcTime,
     enabled,
+    select,
 }: Props<T>) {
     const { ref, inView } = useInView();
     const query = useInfiniteQuery({
@@ -38,6 +45,7 @@ function useInfiniteList<T>({
         gcTime,
         enabled,
         refetchOnMount: false,
+        select,
     });
 
     const list = query.data?.pages.map((data) => data.list).flat(1);

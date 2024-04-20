@@ -19,8 +19,6 @@ interface Props {
 }
 
 const Component = ({ data, className }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-
     const activity = convertActivity(data);
 
     if (activity.length === 0) {
@@ -47,10 +45,7 @@ const Component = ({ data, className }: Props) => {
                 <Label asChild={Boolean(data.content)} className="line-clamp-1">
                     {data.content ? (
                         <Link href={`/anime/${data.content.slug}`}>
-                            {data.content[titleLanguage!] ||
-                                data.content.title_ua ||
-                                data.content.title_en ||
-                                data.content.title_ja}
+                            {data.content.title}
                         </Link>
                     ) : (
                         'Загальне'

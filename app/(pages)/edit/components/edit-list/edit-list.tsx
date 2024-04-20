@@ -7,6 +7,7 @@ import EditRow from '@/app/(pages)/edit/components/edit-list/components/edit-row
 import EditSkeleton from '@/app/(pages)/edit/components/edit-list/components/edit-skeleton';
 import FiltersNotFound from '@/components/filters/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
+import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
 import useEditList from '@/services/hooks/edit/useEditList';
 
@@ -28,19 +29,17 @@ const EditList = ({ page }: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-8">
-            <div className="overflow-x-auto">
-                <Table className="table">
-                    <EditHead />
-                    <TableBody>
-                        {edits.list.map((edit) => (
-                            <EditRow key={edit.edit_id} edit={edit} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+        <Block>
+            <Table className="table">
+                <EditHead />
+                <TableBody>
+                    {edits.list.map((edit) => (
+                        <EditRow key={edit.edit_id} edit={edit} />
+                    ))}
+                </TableBody>
+            </Table>
             <PagePagination pagination={edits.pagination} />
-        </div>
+        </Block>
     );
 };
 

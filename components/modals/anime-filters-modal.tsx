@@ -4,14 +4,14 @@ import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
 import Filters from '@/components/filters/anime-filters';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
+import { Separator } from '@/components/ui/separator';
 
 interface Props {
     type: 'anime' | 'watchlist';
@@ -20,25 +20,22 @@ interface Props {
 
 const Component = ({ type, children }: Props) => {
     return (
-        <Sheet>
-            <SheetTrigger asChild>
+        <Drawer>
+            <DrawerTrigger asChild>
                 {children || (
                     <Button variant="outline" size="icon">
                         <AntDesignFilterFilled />
                     </Button>
                 )}
-            </SheetTrigger>
-            <SheetContent
-                side="left"
-                className="flex !max-w-lg flex-col gap-0 pb-0"
-            >
-                <SheetHeader className="pb-4">
-                    <SheetTitle>Фільтри</SheetTitle>
-                </SheetHeader>
+            </DrawerTrigger>
+            <DrawerContent className="h-[90dvh] p-4 pt-0">
+                <DrawerHeader className="px-0 text-left">
+                    <DrawerTitle>Фільтри</DrawerTitle>
+                </DrawerHeader>
                 <Separator className="-mx-6 w-auto" />
                 <Filters type={type} className="-mx-6 px-6" />
-            </SheetContent>
-        </Sheet>
+            </DrawerContent>
+        </Drawer>
     );
 };
 

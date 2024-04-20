@@ -1,12 +1,14 @@
 'use client';
 
+import React from 'react';
+
 import { useParams } from 'next/navigation';
 
 import EntryCard from '@/components/entry-card/entry-card';
-import { Button } from '@/components/ui/button';
+import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
+import Stack from '@/components/ui/stack';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
-import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;
@@ -21,7 +23,7 @@ const Component = ({ extended }: Props) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useFavorites<API.Content<'character'>>({
+    } = useFavorites<API.Character>({
         username: String(params.username),
         content_type: 'character',
     });
@@ -39,12 +41,11 @@ const Component = ({ extended }: Props) => {
     return (
         <>
             {filteredData.length > 0 && (
-                <div
-                    className={cn(
-                        'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
-                        !extended &&
-                            'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
-                    )}
+                <Stack
+                    extended={extended}
+                    size={6}
+                    extendedSize={6}
+                    className="grid-min-10"
                 >
                     {filteredData.map((res) => (
                         <EntryCard
@@ -54,7 +55,7 @@ const Component = ({ extended }: Props) => {
                             href={`/characters/${res.slug}`}
                         />
                     ))}
-                </div>
+                </Stack>
             )}
             {filteredData.length === 0 && (
                 <NotFound
@@ -64,21 +65,15 @@ const Component = ({ extended }: Props) => {
                             <span className="font-black">Персонажі</span> пусто
                         </span>
                     }
-                    description="Цей список оновиться після як сюди буде додано персонажей"
+                    description="Цей список оновиться після того як сюди буде додано персонажів"
                 />
             )}
             {extended && hasNextPage && (
-                <Button
-                    variant="outline"
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
                     ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Завантажити ще
-                </Button>
+                />
             )}
         </>
     );

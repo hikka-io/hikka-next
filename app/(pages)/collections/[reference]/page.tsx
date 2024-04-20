@@ -8,10 +8,11 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import CollectionGroups from '@/app/(pages)/collections/[reference]/components/collection-groups';
-import CollectionInfo from '@/app/(pages)/collections/[reference]/components/collection-info';
+import CollectionInfo from '@/app/(pages)/collections/[reference]/components/collection-info/collection-info';
 import CollectionTitle from '@/app/(pages)/collections/[reference]/components/collection-title';
 import Comments from '@/components/comments/comments';
-import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Block from '@/components/ui/block';
 import getCollection from '@/services/api/collections/getCollection';
 import CollectionProvider from '@/services/providers/collection-provider';
 import { getCookie } from '@/utils/actions';
@@ -75,13 +76,13 @@ const CollectionPage = async ({
                     </Breadcrumbs>
                     <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                         <div className="flex flex-col gap-12">
-                            <div className="flex flex-col gap-8">
+                            <Block>
                                 <CollectionTitle />
                                 <div className="block lg:hidden">
                                     <CollectionInfo />
                                 </div>
                                 <CollectionGroups />
-                            </div>
+                            </Block>
                             <Comments
                                 auth={auth}
                                 slug={reference}

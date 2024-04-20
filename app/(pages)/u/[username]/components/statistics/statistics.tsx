@@ -1,19 +1,20 @@
 import React from 'react';
 
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
+import Header from '@/components/ui/header';
 
 import ActivityStats from './_components/activity-stats/activity-stats';
 import WatchhourStats from './_components/watchhour-stats';
 
 const Component = () => {
     return (
-        <div className="flex flex-col gap-8">
-            <SubHeader title={`Статистика`} />
-            <div className="flex flex-col gap-8 md:flex-row">
+        <Block>
+            <Header title={`Статистика`} />
+            <Block className="md:flex-row">
                 <ActivityStats />
                 <WatchhourStats />
-            </div>
-        </div>
+            </Block>
+        </Block>
     );
 };
 

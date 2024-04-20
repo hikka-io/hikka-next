@@ -16,7 +16,6 @@ import useWatchList from '@/services/hooks/watch/useWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 
-
 const Component = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -50,7 +49,7 @@ const Component = () => {
                 !Array.isArray(option) &&
                 option && (
                     <div className="flex items-center gap-4">
-                        <div className="rounded-md border border-secondary bg-secondary/60 p-1 hidden sm:block">
+                        <div className="hidden rounded-md border border-secondary bg-secondary/60 p-1 sm:block">
                             {createElement(
                                 WATCH_STATUS[option.value as API.WatchStatus]
                                     .icon!,

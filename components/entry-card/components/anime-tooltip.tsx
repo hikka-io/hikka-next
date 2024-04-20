@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
+import { Badge } from '@/components/ui/badge';
 import {
     HoverCard,
     HoverCardArrow,
@@ -19,7 +19,6 @@ import { Label } from '@/components/ui/label';
 import WatchListButton from '@/components/watchlist-button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAuth from '@/services/hooks/auth/useAuth';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 interface Props extends PropsWithChildren {
@@ -28,7 +27,6 @@ interface Props extends PropsWithChildren {
 }
 
 const TooltipData = ({ slug }: { slug: string }) => {
-    const { titleLanguage } = useSettingsContext();
     const { auth } = useAuth();
     const { data } = useAnimeInfo({ slug });
 
@@ -59,15 +57,13 @@ const TooltipData = ({ slug }: { slug: string }) => {
         );
     }
 
-    const title =
-        data[titleLanguage!] || data.title_ua || data.title_en || data.title_ja;
     const synopsis = data.synopsis_ua || data.synopsis_en;
 
     return (
         <>
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between gap-2">
-                    <H5>{title}</H5>
+                    <H5>{data.title}</H5>
                     {data.score > 0 ? (
                         <div className="size-fit rounded-md border  border-accent bg-accent px-2 text-sm text-accent-foreground">
                             {data.score}
@@ -83,21 +79,18 @@ const TooltipData = ({ slug }: { slug: string }) => {
                     <div className="w-1/4">
                         <Label className="text-muted-foreground">Тип:</Label>
                     </div>
-                    <div className="flex flex-1 flex-wrap gap-2">
+                    <div className="flex flex-1 flex-wrap items-center gap-2">
                         {data.media_type && (
                             <Label>
                                 {MEDIA_TYPE[data.media_type].title_ua}
                             </Label>
                         )}
-                        <div
-                            className="w-fit rounded-sm px-2 text-sm text-white"
-                            style={{
-                                backgroundColor:
-                                    RELEASE_STATUS[data.status].color,
-                            }}
+                        <Badge
+                            variant="status"
+                            bgColor={RELEASE_STATUS[data.status].color}
                         >
-                            <P>{RELEASE_STATUS[data.status].title_ua}</P>
-                        </div>
+                            {RELEASE_STATUS[data.status].title_ua}
+                        </Badge>
                     </div>
                 </div>
                 {data.media_type !== 'movie' &&

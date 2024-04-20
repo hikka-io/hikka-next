@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import EntryCard from '@/components/entry-card/entry-card';
 import P from '@/components/typography/p';
-import { useSettingsContext } from '@/services/providers/settings-provider';
+import { Badge } from '@/components/ui/badge';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 import { Label } from '../../../../ui/label';
@@ -19,8 +19,6 @@ interface Props {
 }
 
 const AnimeCard = ({ anime, onClick, type }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-
     const Comp = type === 'button' ? 'button' : Link;
 
     return (
@@ -35,10 +33,7 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <Label className="line-clamp-2 font-bold">
-                        {anime[titleLanguage!] ||
-                            anime.title_ua ||
-                            anime.title_en ||
-                            anime.title_ja}{' '}
+                        {anime.title}{' '}
                         <Label className="text-muted-foreground">
                             / {anime.title_ja}
                         </Label>
@@ -59,15 +54,13 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                             </>
                         )}
                         <div className="size-1 rounded-full bg-muted-foreground" />
-                        <div
-                            className="rounded-sm px-1 text-xs text-white"
-                            style={{
-                                backgroundColor:
-                                    RELEASE_STATUS[anime.status].color,
-                            }}
+                        <Badge
+                            className="text-xs"
+                            variant="status"
+                            bgColor={RELEASE_STATUS[anime.status].color}
                         >
                             {RELEASE_STATUS[anime.status].title_ua}
-                        </div>
+                        </Badge>
                     </div>
                 </div>
             </div>

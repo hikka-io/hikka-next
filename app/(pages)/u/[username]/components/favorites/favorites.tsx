@@ -4,7 +4,8 @@ import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
+import Header from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import Anime from './_components/anime';
@@ -33,8 +34,8 @@ const Component = ({ extended }: Props) => {
     };
 
     return (
-        <div className="flex flex-col gap-8">
-            <SubHeader
+        <Block>
+            <Header
                 title="Улюблені"
                 href={
                     !extended
@@ -67,9 +68,9 @@ const Component = ({ extended }: Props) => {
                         Колекції
                     </ToggleGroupItem>
                 </ToggleGroup>
-            </SubHeader>
+            </Header>
             {getComponent()}
-        </div>
+        </Block>
     );
 };
 

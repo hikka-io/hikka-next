@@ -8,7 +8,8 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import Content from '@/app/(pages)/edit/components/content/content';
 import EditForm from '@/app/(pages)/edit/components/edit-form';
 import RulesAlert from '@/app/(pages)/edit/new/components/rules-alert';
-import SubHeader from '@/components/sub-header';
+import Block from '@/components/ui/block';
+import Header from '@/components/ui/header';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
@@ -63,15 +64,15 @@ const EditNewPage = async ({ searchParams: { content_type, slug } }: Props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-                <div className="flex flex-col gap-8">
-                    <SubHeader title={`Нова правка`} />
+                <Block>
+                    <Header title={`Нова правка`} />
                     <RulesAlert />
                     <EditForm
                         slug={slug as string}
                         content_type={content_type as API.ContentType}
                         content={content}
                     />
-                </div>
+                </Block>
                 <div className="flex flex-col gap-12">
                     <Content
                         slug={slug as string}

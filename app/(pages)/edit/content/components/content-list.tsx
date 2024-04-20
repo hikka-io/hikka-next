@@ -1,26 +1,26 @@
 'use client';
 
 import clsx from 'clsx';
+import * as React from 'react';
 import { useState } from 'react';
 
 import { range } from '@antfu/utils';
 
 import EntryCard from '@/components/entry-card/entry-card';
+import LoadMoreButton from '@/components/load-more-button';
 import SkeletonCard from '@/components/skeletons/entry-card';
 import H3 from '@/components/typography/h3';
-import { Button } from '@/components/ui/button';
+import Block from '@/components/ui/block';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import useAuth from '@/services/hooks/auth/useAuth';
 import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     extended?: boolean;
 }
 
 const ContentList = ({ extended }: Props) => {
-    const { titleLanguage } = useSettingsContext();
     const { auth } = useAuth();
     const [param, setParam] = useState('title_ua');
 
@@ -49,7 +49,7 @@ const ContentList = ({ extended }: Props) => {
     }
 
     return (
-        <div className="flex flex-col gap-8">
+        <Block>
             <div className="flex gap-2">
                 <Combobox
                     options={[
@@ -94,30 +94,18 @@ const ContentList = ({ extended }: Props) => {
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         poster={anime.poster}
-                        title={
-                            anime[titleLanguage!] ||
-                            anime.title_ua ||
-                            anime.title_en ||
-                            anime.title_ja
-                        }
-                        posterClassName="!h-[calc(100%+2rem)] absolute -top-1 left-0"
+                        title={anime.title}
                     />
                 ))}
             </div>
             {hasNextPage && (
-                <Button
-                    variant="outline"
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
                     ref={ref}
-                    disabled={isFetchingNextPage}
-                    onClick={() => fetchNextPage()}
-                >
-                    {isFetchingNextPage && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Завантажити ще
-                </Button>
+                />
             )}
-        </div>
+        </Block>
     );
 };
 

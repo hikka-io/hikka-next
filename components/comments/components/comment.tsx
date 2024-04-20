@@ -72,7 +72,10 @@ const Component = ({ comment, slug, content_type }: Props) => {
     }, [currentReply]);
 
     return (
-        <div className="flex w-full flex-col gap-2" id={comment.reference}>
+        <div
+            className="flex w-full scroll-mt-20 flex-col gap-2"
+            id={comment.reference}
+        >
             <div className="flex w-full flex-col items-start gap-2">
                 <div className="flex w-full gap-3">
                     <Link href={`/u/${comment.author.username}`}>
@@ -114,7 +117,9 @@ const Component = ({ comment, slug, content_type }: Props) => {
                         />
                     ) : (
                         <TextExpand>
-                            <MDViewer>{comment.text}</MDViewer>
+                            <MDViewer className="text-sm">
+                                {comment.text}
+                            </MDViewer>
                         </TextExpand>
                     )
                 ) : (

@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getCharacters from '@/services/api/characters/getCharacters';
 import getPeople from '@/services/api/people/getPeople';
 
 interface Props {
@@ -13,6 +12,7 @@ const usePersonSearchList = ({ value }: Props) => {
         queryFn: () =>
             getPeople({
                 query: value,
+                size: 30,
             }),
         enabled: value !== undefined && value.length >= 3,
     });

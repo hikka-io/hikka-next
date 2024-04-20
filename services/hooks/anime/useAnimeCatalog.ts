@@ -5,6 +5,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
 } from '@/services/api/anime/getAnimeCatalog';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertAnimeList } from '@/utils/animeAdapter';
 
 export interface Props {
     page: number;
@@ -13,6 +15,7 @@ export interface Props {
 }
 
 const useAnimeCatalog = ({ page, iPage, auth }: Props) => {
+    const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams();
 
     const search = searchParams.get('search');
@@ -67,6 +70,16 @@ const useAnimeCatalog = ({ page, iPage, auth }: Props) => {
                 auth: String(auth),
                 size: 20,
             }),
+        select: (data) => ({
+            ...data,
+            pages: data.pages.map((a) => ({
+                ...a,
+                list: convertAnimeList<API.Anime>({
+                    anime: a.list,
+                    titleLanguage: titleLanguage!,
+                }),
+            })),
+        }),
     });
 
     const list =

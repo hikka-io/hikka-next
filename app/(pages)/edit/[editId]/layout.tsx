@@ -11,8 +11,10 @@ import Author from '@/app/(pages)/edit/[editId]/components/author';
 import Moderator from '@/app/(pages)/edit/[editId]/components/moderator';
 import Content from '@/app/(pages)/edit/components/content/content';
 import EditStatus from '@/app/(pages)/edit/components/ui/edit-status';
-import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import SubHeader from '@/components/sub-header';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import Header from '@/components/ui/header';
 import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
 import { getCookie } from '@/utils/actions';
@@ -79,24 +81,24 @@ const EditLayout = async ({ params: { editId }, children }: Props) => {
                     </Link>
                 </Breadcrumbs>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-                    <div className="flex flex-col gap-8">
-                        <SubHeader title={`Правка #${edit.edit_id}`} />
+                    <Block>
+                        <Header title={`Правка #${edit.edit_id}`} />
                         {children}
-                    </div>
+                    </Block>
                     <div className="flex flex-col gap-12">
-                        <div className="flex flex-col gap-8">
-                            <SubHeader
+                        <Block>
+                            <Header
                                 title="Деталі"
                                 titleClassName="justify-between w-full"
                                 variant="h4"
                             >
                                 <EditStatus editId={editId} />
-                            </SubHeader>
-                            <div className="flex flex-col justify-between rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+                            </Header>
+                            <Card className="justify-between">
                                 {edit.author && <Author editId={editId} />}
                                 <Moderator editId={editId} />
-                            </div>
-                        </div>
+                            </Card>
+                        </Block>
                         <Content
                             slug={edit.content.slug as string}
                             content_type={edit.content_type as API.ContentType}

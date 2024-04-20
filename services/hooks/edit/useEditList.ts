@@ -3,6 +3,8 @@ import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 import getEditList from '@/services/api/edit/getEditList';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertAnime } from '@/utils/animeAdapter';
 
 const useEditList = ({
     page,
@@ -11,6 +13,7 @@ const useEditList = ({
     page: string;
     staleTime?: number;
 }) => {
+    const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams()!;
 
     const content_type = searchParams.get('content_type');
@@ -30,6 +33,19 @@ const useEditList = ({
                 status: edit_status as API.EditStatus,
                 content_type: content_type as API.ContentType,
             }),
+        select: (data) => ({
+            ...data,
+            list: data.list.map((e) => ({
+                ...e,
+                content:
+                    'title_ua' in e.content
+                        ? convertAnime({
+                              anime: e.content,
+                              titleLanguage: titleLanguage!,
+                          })
+                        : e.content,
+            })),
+        }),
         staleTime,
     });
 };

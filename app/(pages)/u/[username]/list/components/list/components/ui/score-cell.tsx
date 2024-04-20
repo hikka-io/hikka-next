@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Component = ({ score }: Props) => (
-    <TableCell className="w-20" align="center">
+    <TableCell className="w-4 text-right" align="right">
         <div
             className={clsx(
                 'radial-progress border border-secondary text-primary',

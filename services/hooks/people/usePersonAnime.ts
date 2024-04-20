@@ -1,7 +1,11 @@
 import getPersonAnime from '@/services/api/people/getPersonAnime';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertAnime } from '@/utils/animeAdapter';
 
 const usePersonAnime = ({ slug }: { slug: string }) => {
+    const { titleLanguage } = useSettingsContext();
+
     return useInfiniteList({
         queryKey: ['personAnime', slug],
         queryFn: ({ pageParam = 1 }) =>
@@ -9,6 +13,19 @@ const usePersonAnime = ({ slug }: { slug: string }) => {
                 slug: slug,
                 page: pageParam,
             }),
+        select: (data) => ({
+            ...data,
+            pages: data.pages.map((a) => ({
+                ...a,
+                list: a.list.map((p) => ({
+                    ...p,
+                    anime: convertAnime<API.AnimeInfo>({
+                        anime: p.anime,
+                        titleLanguage: titleLanguage!,
+                    }),
+                })),
+            })),
+        }),
     });
 };
 

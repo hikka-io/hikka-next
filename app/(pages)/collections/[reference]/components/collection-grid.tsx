@@ -3,7 +3,8 @@
 import React, { memo } from 'react';
 
 import EntryCard from '@/components/entry-card/entry-card';
-import SubHeader from '@/components/sub-header';
+import Header from '@/components/ui/header';
+import Stack from '@/components/ui/stack';
 import {
     Group as CollectionGroup,
     useCollectionContext,
@@ -33,7 +34,7 @@ const CollectionGrid = ({ group }: Props) => {
     return (
         <div className="flex flex-col gap-4">
             {group.isGroup && (
-                <SubHeader
+                <Header
                     title={
                         group.title && group.title.trim().length > 0
                             ? group.title
@@ -42,7 +43,7 @@ const CollectionGrid = ({ group }: Props) => {
                     variant="h5"
                 />
             )}
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
+            <Stack size={5} extendedSize={5} extended>
                 {items.map((item) => (
                     <EntryCard
                         slug={item.content.slug}
@@ -59,7 +60,7 @@ const CollectionGrid = ({ group }: Props) => {
                         }
                     />
                 ))}
-            </div>
+            </Stack>
         </div>
     );
 };

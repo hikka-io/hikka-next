@@ -4,7 +4,9 @@ import React from 'react';
 import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
 import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
 import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
-import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';
@@ -28,16 +30,16 @@ const CollectionNewPage = () => {
                     </div>
                 </Breadcrumbs>
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
-                    <div className="flex flex-col gap-8">
+                    <Block>
                         <CollectionTitle />
-                        <div className="block rounded-md border border-secondary/60 bg-secondary/30 lg:hidden">
+                        <Card className="block p-0 lg:hidden">
                             <CollectionSettings />
-                        </div>
+                        </Card>
                         <CollectionGroups />
-                    </div>
-                    <div className="sticky top-20 order-1 hidden w-full rounded-md border border-secondary/60 bg-secondary/30 lg:order-2 lg:block">
+                    </Block>
+                    <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
                         <CollectionSettings />
-                    </div>
+                    </Card>
                 </div>
             </>
         </CollectionProvider>

@@ -132,7 +132,7 @@ const Component = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-6 p-6"
+                className="flex flex-col gap-6 overflow-scroll p-6"
             >
                 <H5>Коментарі</H5>
                 <SwitchFormField

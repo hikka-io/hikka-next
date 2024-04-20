@@ -15,10 +15,9 @@ import { cn } from '@/utils/utils';
 interface Props {
     number: number;
     anime: API.Anime;
-    titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
 }
 
-const Component = ({ number, anime, titleLanguage }: Props) => {
+const Component = ({ number, anime }: Props) => {
     const params = useParams();
     const { openModal } = useModalContext();
     const { data: loggedUser } = useLoggedUser();
@@ -27,11 +26,8 @@ const Component = ({ number, anime, titleLanguage }: Props) => {
         openModal({
             content: <WatchEditModal slug={anime.slug} />,
             className: '!max-w-xl',
-            title:
-                anime[titleLanguage!] ||
-                anime.title_ua ||
-                anime.title_en ||
-                anime.title_ja,
+            title: anime.title,
+            forceModal: true,
         });
     };
 

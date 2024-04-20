@@ -157,6 +157,7 @@ declare global {
             slug: string;
             year: number;
             watch: Watch[];
+            title?: string;
         };
 
         type AnimeInfo = {

@@ -1,7 +1,11 @@
 import getCharacterVoices from '@/services/api/characters/getCharacterVoices';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertAnime } from '@/utils/animeAdapter';
 
 const usePersonCharacters = ({ slug }: { slug: string }) => {
+    const { titleLanguage } = useSettingsContext();
+
     return useInfiniteList({
         queryKey: ['characterVoices', slug],
         queryFn: ({ pageParam = 1 }) =>
@@ -9,6 +13,19 @@ const usePersonCharacters = ({ slug }: { slug: string }) => {
                 slug: slug,
                 page: pageParam,
             }),
+        select: (data) => ({
+            ...data,
+            pages: data.pages.map((a) => ({
+                ...a,
+                list: a.list.map((ch) => ({
+                    ...ch,
+                    anime: convertAnime<API.AnimeInfo>({
+                        anime: ch.anime,
+                        titleLanguage: titleLanguage!,
+                    }),
+                })),
+            })),
+        }),
     });
 };
 

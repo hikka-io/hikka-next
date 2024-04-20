@@ -99,6 +99,19 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     collection_vote: <MaterialSymbolsFavoriteRounded />,
 };
 
+const getCommentLink = (
+    content_type: API.ContentType,
+    slug: string,
+    comment_reference: string,
+) => {
+    switch (content_type) {
+        case 'anime':
+            return `${CONTENT_TYPE_LINKS[content_type]}/${slug}/comments#${comment_reference}`;
+        default:
+            return `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`;
+    }
+};
+
 const getInitialData = (
     notification: API.Notification<
         | API.NotificationCommentData
@@ -122,13 +135,13 @@ const getInitialData = (
 const commentReply = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { username, slug, content_type, comment_reference, avatar } =
+    const { username, slug, content_type, base_comment_reference, avatar } =
         notification.data;
 
     return {
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
             <EntryCard containerRatio={1} className="w-10" poster={avatar} />
         ),
@@ -138,13 +151,19 @@ const commentReply = (
 const commentVote = (
     notification: API.Notification<API.NotificationCommentVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, content_type, comment_reference, username, avatar } =
-        notification.data;
+    const {
+        slug,
+        content_type,
+        comment_reference,
+        base_comment_reference,
+        username,
+        avatar,
+    } = notification.data;
 
     return {
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
             <EntryCard containerRatio={1} className="w-10" poster={avatar} />
         ),
@@ -154,13 +173,13 @@ const commentVote = (
 const commentTag = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { username, slug, content_type, comment_reference, avatar } =
+    const { username, slug, content_type, base_comment_reference, avatar } =
         notification.data;
 
     return {
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
             <EntryCard containerRatio={1} className="w-10" poster={avatar} />
         ),
@@ -170,13 +189,13 @@ const commentTag = (
 const editComment = (
     notification: API.Notification<API.NotificationCommentData>,
 ): Hikka.TextNotification => {
-    const { username, slug, content_type, comment_reference, avatar } =
+    const { username, slug, content_type, base_comment_reference, avatar } =
         notification.data;
 
     return {
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
-        href: `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`,
+        href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
             <EntryCard containerRatio={1} className="w-10" poster={avatar} />
         ),

@@ -2,6 +2,8 @@ import { useSearchParams } from 'next/navigation';
 
 import getWatchList from '@/services/api/watch/getWatchList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertAnime } from '@/utils/animeAdapter';
 
 const useWatchList = ({
     username,
@@ -10,6 +12,7 @@ const useWatchList = ({
     username: string;
     watch_status: API.WatchStatus;
 }) => {
+    const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams();
 
     const types = searchParams.getAll('types');
@@ -51,6 +54,19 @@ const useWatchList = ({
                 genres,
                 years: years && years.length == 2 ? years : undefined,
             }),
+        select: (data) => ({
+            ...data,
+            pages: data.pages.map((a) => ({
+                ...a,
+                list: a.list.map((b) => ({
+                    ...b,
+                    anime: convertAnime<API.Anime>({
+                        anime: b.anime,
+                        titleLanguage: titleLanguage!,
+                    }),
+                })),
+            })),
+        }),
     });
 };
 

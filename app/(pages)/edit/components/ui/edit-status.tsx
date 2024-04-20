@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import P from '@/components/typography/p';
+import { Badge } from '@/components/ui/badge';
 import useEdit from '@/services/hooks/edit/useEdit';
 import { EDIT_STATUS } from '@/utils/constants';
 
@@ -18,16 +18,9 @@ const EditStatus = ({ editId }: Props) => {
     }
 
     return (
-        <div
-            className="whitespace-nowrap rounded-sm px-2"
-            style={{
-                backgroundColor: EDIT_STATUS[edit.status].color,
-            }}
-        >
-            <P className="text-sm text-white">
-                {EDIT_STATUS[edit.status].title_ua}
-            </P>
-        </div>
+        <Badge variant="status" bgColor={EDIT_STATUS[edit.status].color}>
+            {EDIT_STATUS[edit.status].title_ua}
+        </Badge>
     );
 };
 

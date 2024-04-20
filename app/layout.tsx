@@ -2,15 +2,25 @@ import { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
 import React, { ReactNode } from 'react';
 
+
+
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
+
+
 import '@mdxeditor/editor/style.css';
 
-import Providers from '@/components/providers';
+
+
+import Providers from '@/app/(pages)/components/providers';
+import { TailwindIndicator } from '@/components/tailwind-indicator';
 import generateMetadata from '@/utils/generateMetadata';
 
+
+
 import './globals.css';
+
 
 const inter = Inter({
     subsets: ['latin', 'cyrillic'],
@@ -89,6 +99,7 @@ export default async function RootLayout({
             </head>
             <body>
                 <Providers>{children}</Providers>
+                <TailwindIndicator />
             </body>
         </html>
     );

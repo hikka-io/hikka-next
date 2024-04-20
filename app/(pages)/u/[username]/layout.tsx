@@ -13,10 +13,10 @@ import FollowStats from '@/app/(pages)/u/[username]/components/follow-stats';
 import ListStats from '@/app/(pages)/u/[username]/components/list-stats';
 import UserInfo from '@/app/(pages)/u/[username]/components/user-info';
 import UserTitle from '@/app/(pages)/u/[username]/components/user-title';
-import Breadcrumbs from '@/components/navbar/nav-breadcrumbs';
-import NavMenu from '@/components/navbar/nav-dropdown';
-import InternalNavBar from '@/components/navbar/nav-tabs';
-import SubBar from '@/components/navbar/sub-nav';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
+import InternalNavBar from '@/components/navigation/nav-tabs';
+import SubBar from '@/components/navigation/sub-nav';
 import Image from '@/components/ui/image';
 import getFollowStats from '@/services/api/follow/getFollowStats';
 import getUserInfo, {

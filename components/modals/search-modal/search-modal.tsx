@@ -44,7 +44,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
         <>
             <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
-                className="flex max-h-[90%] max-w-3xl"
+                className="flex max-h-[90dvh] max-w-3xl"
                 open={open}
                 onOpenChange={setOpen}
                 shouldFilter={false}

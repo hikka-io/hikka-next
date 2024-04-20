@@ -87,7 +87,12 @@ const Component = ({ className }: Props) => {
         ) : null
     ) : (
         <Button
-            onClick={() => openModal({ content: <AuthModal type="login" /> })}
+            onClick={() =>
+                openModal({
+                    content: <AuthModal type="login" />,
+                    forceModal: true,
+                })
+            }
             className={cn('w-fit', className)}
         >
             <CilUserFollow />

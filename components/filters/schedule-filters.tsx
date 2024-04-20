@@ -9,6 +9,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { range } from '@antfu/utils';
 
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -16,23 +17,25 @@ import useAuth from '@/services/hooks/auth/useAuth';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import getCurrentSeason from '@/utils/getCurrentSeason';
-
+import { cn } from '@/utils/utils';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
 
-export default function ScheduleFilters() {
+export default function ScheduleFilters({ className }: { className?: string }) {
     const { auth } = useAuth();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
 
-    const only_watch = searchParams.get('only_watch') ? Boolean(searchParams.get('only_watch')) : undefined;
+    const only_watch = searchParams.get('only_watch')
+        ? Boolean(searchParams.get('only_watch'))
+        : undefined;
     const season = searchParams.get('season') || getCurrentSeason()!;
     const year = searchParams.get('year') || String(YEARS[0]);
     const status =
         searchParams.getAll('status').length > 0
             ? searchParams.getAll('status')
-            : ['ongoing'];
+            : ['ongoing', 'announced'];
 
     const getYears = () => {
         return YEARS.map((y) => ({
@@ -71,8 +74,13 @@ export default function ScheduleFilters() {
     };
 
     return (
-        <div className="flex items-end gap-4 overflow-x-scroll rounded-md border border-secondary/60 bg-secondary/30 p-4 opacity-60 transition-opacity hover:opacity-100">
-            <div className="grid-min-12 grid flex-1 auto-cols-scroll grid-flow-col grid-cols-scroll items-end gap-4 md:grid-cols-3">
+        <div
+            className={cn(
+                'flex flex-col items-end gap-8 lg:flex-row lg:gap-4',
+                className,
+            )}
+        >
+            <div className="grid w-full flex-1 grid-cols-1 items-end gap-8 lg:grid-cols-4 lg:gap-4">
                 <div className="flex flex-col gap-2">
                     <Label className="text-muted-foreground">Рік</Label>
                     <Combobox
@@ -100,7 +108,7 @@ export default function ScheduleFilters() {
                 </div>
                 {auth && (
                     <div className="flex h-12 items-center justify-between gap-2 rounded-md border border-secondary bg-secondary/30 p-4">
-                        <Label className="line-clamp-1 text-muted-foreground">
+                        <Label className="line-clamp-1 min-w-0 truncate text-muted-foreground">
                             Аніме у списку
                         </Label>
                         <Switch
@@ -112,7 +120,7 @@ export default function ScheduleFilters() {
                     </div>
                 )}
             </div>
-            <Button variant="secondary" asChild>
+            <Button variant="secondary" className="w-full lg:w-fit" asChild>
                 <Link href={pathname}>
                     <AntDesignClearOutlined />
                     Очистити

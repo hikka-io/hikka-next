@@ -38,26 +38,27 @@ const Component = () => {
     };
 
     return (
-        <>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon-sm">
-                        <MaterialSymbolsMoreVert />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onClick={handleRandomAnime}>
-                        <FeRandom className="mr-2 size-4" /> Випадкове аніме
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon-sm">
+                    <MaterialSymbolsMoreVert />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleRandomAnime}>
+                    <FeRandom className="mr-2 size-4" /> Випадкове аніме
+                </DropdownMenuItem>
+                <FiltersModal type={'watchlist'}>
+                    <DropdownMenuItem
+                        className="flex lg:hidden"
+                        onSelect={(e) => e.preventDefault()}
+                    >
+                        <AntDesignFilterFilled className="mr-2 size-4" />{' '}
+                        Фільтри
                     </DropdownMenuItem>
-                    <FiltersModal type={'watchlist'}>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                            <AntDesignFilterFilled className="mr-2 size-4" />{' '}
-                            Фільтри
-                        </DropdownMenuItem>
-                    </FiltersModal>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </>
+                </FiltersModal>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 };
 

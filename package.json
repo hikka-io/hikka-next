@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --experimental-debug-memory-usage",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "email": "email dev --dir emails",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
@@ -62,7 +64,7 @@
     "eslint-config-prettier": "^9.0.0",
     "lucide-react": "^0.309.0",
     "marked": "^12.0.1",
-    "next": "14.1.4",
+    "next": "14.2.2",
     "next-nprogress-bar": "^2.3.9",
     "next-plausible": "^3.12.0",
     "next-sitemap": "^4.2.3",
@@ -89,10 +91,20 @@
     "tailwindcss": "3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.2.2",
+    "vaul": "^0.9.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.3.2",
     "@iconify/json": "^2.2.142",
+    "@storybook/addon-essentials": "^8.0.8",
+    "@storybook/addon-interactions": "^8.0.8",
+    "@storybook/addon-links": "^8.0.8",
+    "@storybook/addon-onboarding": "^8.0.8",
+    "@storybook/blocks": "^8.0.8",
+    "@storybook/nextjs": "^8.0.8",
+    "@storybook/react": "^8.0.8",
+    "@storybook/test": "^8.0.8",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^4.34.1",
@@ -100,12 +112,15 @@
     "@types/react-avatar-editor": "^13.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
+    "autoprefixer": "10.4.15",
     "eslint-plugin-functional": "^6.0.0",
+    "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-tailwindcss": "^3.15.1",
     "postcss-import": "^16.1.0",
     "postcss-nesting": "^12.1.0",
     "prettier-plugin-tailwindcss": "^0.5.9",
-    "unplugin-icons": "^0.18.5",
-    "autoprefixer": "10.4.15"
-  }
+    "storybook": "^8.0.8",
+    "unplugin-icons": "^0.18.5"
+  },
+  "packageManager": "yarn@4.1.1"
 }

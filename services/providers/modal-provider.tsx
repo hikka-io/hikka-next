@@ -17,12 +17,20 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import {
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+} from '@/components/ui/drawer';
+import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
 import { cn } from '@/utils/utils';
+
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface State {
     open: boolean;
@@ -31,19 +39,17 @@ interface State {
     content: ReactNode;
     type?: 'dialog' | 'sheet';
     side?: 'left' | 'right';
+    forceModal?: boolean;
 }
 
 interface ContextProps extends State {
-    openModal: ({
-        content,
-        title,
-        className,
-    }: {
+    openModal: (props: {
         content: State['content'];
         title?: State['title'];
         className?: State['className'];
         type?: State['type'];
         side?: State['side'];
+        forceModal?: State['forceModal'];
     }) => void;
     closeModal: () => void;
 }
@@ -66,6 +72,7 @@ function getInitialState(): State {
         content: null,
         type: 'dialog',
         side: 'left',
+        forceModal: false,
     };
 }
 
@@ -74,6 +81,7 @@ export const useModalContext = () => {
 };
 
 export default function ModalProvider({ children }: Props) {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
     const pathname = usePathname();
     const [state, setState] = useState<State>(getInitialState());
 
@@ -83,12 +91,14 @@ export default function ModalProvider({ children }: Props) {
         className,
         type,
         side,
+        forceModal,
     }: {
         content: State['content'];
         title?: State['title'];
         className?: State['className'];
         type?: State['type'];
         side?: State['side'];
+        forceModal?: State['forceModal'];
     }) => {
         setState({
             ...state,
@@ -98,6 +108,7 @@ export default function ModalProvider({ children }: Props) {
             className,
             side: side || 'left',
             type: type || 'dialog',
+            forceModal,
         });
     };
 
@@ -125,7 +136,28 @@ export default function ModalProvider({ children }: Props) {
         >
             {children}
 
-            {state.type === 'sheet' && (
+            {!isDesktop && !state.forceModal && (
+                <Drawer
+                    open={state.open}
+                    onOpenChange={(open) => setState({ ...state, open })}
+                >
+                    <DrawerContent
+                        className={cn(
+                            'p-4 pt-0 max-h-[90dvh]',
+                            state.className,
+                        )}
+                    >
+                        {state.title && (
+                            <DrawerHeader className="px-0 text-left">
+                                <DrawerTitle>{state.title}</DrawerTitle>
+                            </DrawerHeader>
+                        )}
+                        {state.content}
+                    </DrawerContent>
+                </Drawer>
+            )}
+
+            {(isDesktop || state.forceModal) && state.type === 'sheet' && (
                 <Sheet open={state.open} onOpenChange={closeModal}>
                     <SheetContent
                         side={state.side}
@@ -144,11 +176,11 @@ export default function ModalProvider({ children }: Props) {
                 </Sheet>
             )}
 
-            {state.type === 'dialog' && (
+            {(isDesktop || state.forceModal) && state.type === 'dialog' && (
                 <Dialog open={state.open} onOpenChange={closeModal}>
                     <DialogContent
                         className={cn(
-                            'no-scrollbar max-h-screen overflow-y-scroll',
+                            'no-scrollbar max-h-[90dvh] overflow-y-scroll',
                             state.className,
                         )}
                     >

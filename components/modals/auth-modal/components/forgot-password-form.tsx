@@ -103,6 +103,7 @@ const Component = () => {
                                 openModal({
                                     content: <AuthModal type="login" />,
                                     className: 'p-0 max-w-3xl',
+                                    forceModal: true,
                                 })
                             }
                             className="w-full"

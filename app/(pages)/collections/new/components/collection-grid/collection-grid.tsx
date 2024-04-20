@@ -21,7 +21,7 @@ import {
 import SortableCard from '@/app/(pages)/collections/new/components/collection-grid/components/ui/sortable-card';
 import EntryCard from '@/components/entry-card/entry-card';
 import SearchModal from '@/components/modals/search-modal';
-import SubHeader from '@/components/sub-header';
+import Header from '@/components/ui/header';
 import {
     Group as CollectionGroup,
     Item as CollectionItem,
@@ -133,7 +133,7 @@ const CollectionGrid = ({ group }: Props) => {
             <SortableContext items={items} strategy={rectSortingStrategy}>
                 <div className="flex flex-col gap-4">
                     {group.isGroup && (
-                        <SubHeader
+                        <Header
                             title={
                                 group.title && group.title.trim().length > 0
                                     ? group.title
