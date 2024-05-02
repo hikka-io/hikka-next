@@ -1,4 +1,8 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     note: string;
@@ -7,27 +11,29 @@ export interface Response {
     status: API.WatchStatus;
 }
 
-export default async function req({
-    auth,
-    slug,
-    note,
-    status,
-    score,
-    rewatches,
-    episodes,
-}: {
-    auth: string;
+export interface Params {
     slug: string;
-    note?: string;
-    score?: number;
-    episodes?: number;
-    rewatches?: number;
+    note?: string | null;
+    score?: number | null;
+    episodes?: number | null;
+    rewatches?: number | null;
     status: API.WatchStatus;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/watch/${slug}`,
+        ...props,
+        path: `/watch/${params?.slug}`,
         method: 'put',
-        params: { note, score, episodes, status, rewatches },
-        auth,
+        params: {
+            note: params?.note,
+            score: params?.score,
+            episodes: params?.episodes,
+            status: params?.status,
+            rewatches: params?.rewatches,
+        },
     });
 }

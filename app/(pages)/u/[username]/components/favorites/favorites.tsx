@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -16,7 +16,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Favorites: FC<Props> = ({ extended }) => {
     const [content, setContent] = useState<API.ContentType>('anime');
     const params = useParams();
 
@@ -74,4 +74,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Favorites;

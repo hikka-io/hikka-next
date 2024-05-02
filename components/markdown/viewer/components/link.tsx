@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
-import Link from 'next/link';
+import NextLink from 'next/link';
 
 import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
 import P from '@/components/typography/p';
@@ -32,7 +32,7 @@ const ALLOWED_HOSTS = [
     'anilist.co',
 ];
 
-const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
+const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
         if (href.includes('/anime')) {
             const link = href.split('/anime/')[1]?.split('/')[0];
@@ -40,20 +40,20 @@ const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
             if (link) {
                 return (
                     <AnimeTooltip slug={link}>
-                        <Link href={href}>{children}</Link>
+                        <NextLink href={href}>{children}</NextLink>
                     </AnimeTooltip>
                 );
             }
         }
 
-        return <Link href={href}>{children}</Link>;
+        return <NextLink href={href}>{children}</NextLink>;
     }
 
     if (ALLOWED_HOSTS.some((host) => href.includes(host))) {
         return (
-            <Link target="_blank" className={className} href={href}>
+            <NextLink target="_blank" className={className} href={href}>
                 {children}
-            </Link>
+            </NextLink>
         );
     }
 
@@ -94,4 +94,4 @@ const Component = ({ children, href, className }: PropsWithChildren<Props>) => {
     );
 };
 
-export default Component;
+export default Link;

@@ -10,7 +10,9 @@ const useCharacterAnime = ({ slug }: { slug: string }) => {
         queryKey: ['characterAnime', slug],
         queryFn: ({ pageParam = 1 }) =>
             getCharacterAnime({
-                slug: slug,
+                params: {
+                    slug,
+                },
                 page: pageParam,
             }),
         select: (data) => ({

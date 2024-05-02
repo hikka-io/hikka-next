@@ -3,19 +3,15 @@ import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';
 
-import useAuth from '../auth/useAuth';
-
 const useFranchise = ({ slug }: { slug: string }) => {
     const { titleLanguage } = useSettingsContext();
-    const { auth } = useAuth();
 
     return useInfiniteList({
-        queryKey: ['franchise', slug, { auth }],
+        queryKey: ['franchise', slug],
         queryFn: ({ pageParam = 1 }) =>
             getAnimeFranchise({
-                slug: String(slug),
+                params: { slug },
                 page: pageParam,
-                auth: String(auth),
             }),
         select: (data) => ({
             ...data,

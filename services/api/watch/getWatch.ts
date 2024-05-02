@@ -1,17 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Watch {}
 
-export default async function req({
-    slug,
-    auth,
-}: {
+export interface Params {
     slug: string;
-    auth: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/watch/${slug}`,
+        ...props,
+        path: `/watch/${params?.slug}`,
         method: 'get',
-        auth,
     });
 }

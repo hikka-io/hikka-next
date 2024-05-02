@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import TagsModal from '@/app/(pages)/edit/components/edit-description/components/tags-modal';
@@ -15,7 +16,7 @@ interface Props {
     mode: 'edit' | 'view';
 }
 
-const EditDescription = ({ mode }: Props) => {
+const EditDescription: FC<Props> = ({ mode }) => {
     const { control, setValue } = useFormContext();
     const { openModal } = useModalContext();
     const { editTags } = useSettingsContext();

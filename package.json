@@ -1,6 +1,6 @@
 {
   "name": "hikka",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -50,7 +50,7 @@
     "@tanstack/react-query": "^5.17.19",
     "@tanstack/react-query-devtools": "^5.17.19",
     "@types/node": "20.6.0",
-    "@types/react": "18.2.42",
+    "@types/react": "^18.2.79",
     "@types/react-dom": "18.2.7",
     "@vercel/analytics": "^1.1.1",
     "@vercel/og": "^0.6.1",
@@ -62,12 +62,12 @@
     "eslint": "^8.49.0",
     "eslint-config-next": "13.4.19",
     "eslint-config-prettier": "^9.0.0",
+    "i18next": "^23.11.2",
     "lucide-react": "^0.309.0",
     "marked": "^12.0.1",
-    "next": "14.2.2",
+    "next": "14.2.3",
     "next-nprogress-bar": "^2.3.9",
     "next-plausible": "^3.12.0",
-    "next-sitemap": "^4.2.3",
     "next-themes": "^0.2.1",
     "notistack": "^3.0.1",
     "postcss": "8.4.38",
@@ -92,7 +92,9 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.2.2",
     "vaul": "^0.9.0",
-    "xml-js": "^1.6.11"
+    "xml-js": "^1.6.11",
+    "zod": "^3.23.4",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.3.2",

@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -12,31 +12,28 @@ import { Button } from '@/components/ui/button';
 import acceptEdit from '@/services/api/edit/acceptEdit';
 import closeEdit from '@/services/api/edit/closeEdit';
 import denyEdit from '@/services/api/edit/denyEdit';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import useEdit from '@/services/hooks/edit/useEdit';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 
 interface Props {
     editId: string;
 }
 
-const Actions = ({ editId }: Props) => {
+const Actions: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
-    const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { auth } = useAuth();
-
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
 
     const onAcceptSubmit = async () => {
         try {
             setIsSubmitting(true);
             await acceptEdit({
-                auth: String(auth),
-                edit_id: Number(edit?.edit_id),
+                params: {
+                    edit_id: Number(edit?.edit_id),
+                },
             });
             await queryClient.invalidateQueries({
                 queryKey: ['edit', params.editId],
@@ -53,8 +50,9 @@ const Actions = ({ editId }: Props) => {
         try {
             setIsSubmitting(true);
             await closeEdit({
-                auth: String(auth),
-                edit_id: Number(edit?.edit_id),
+                params: {
+                    edit_id: Number(edit?.edit_id),
+                },
             });
             await queryClient.invalidateQueries({
                 queryKey: ['edit', params.editId],
@@ -71,8 +69,9 @@ const Actions = ({ editId }: Props) => {
         try {
             setIsSubmitting(true);
             await denyEdit({
-                auth: String(auth),
-                edit_id: Number(edit?.edit_id),
+                params: {
+                    edit_id: Number(edit?.edit_id),
+                },
             });
             await queryClient.invalidateQueries({
                 queryKey: ['edit', params.editId],

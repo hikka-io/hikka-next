@@ -5,7 +5,7 @@ import getFollowStats from '@/services/api/follow/getFollowStats';
 const useFollowStats = ({ username }: { username: string }) => {
     return useQuery({
         queryKey: ['followStats', username],
-        queryFn: () => getFollowStats({ username: username }),
+        queryFn: () => getFollowStats({ params: { username } }),
     });
 };
 

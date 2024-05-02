@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever';
 import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator';
 
@@ -14,7 +14,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     onRemove: () => void;
 }
 
-const SortableInput = ({ id, value, onRemove, ...props }: Props) => {
+const SortableInput: FC<Props> = ({ id, value, onRemove, ...props }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id });
 

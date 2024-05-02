@@ -1,25 +1,23 @@
-import config from '@/services/api/config';
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.WithPagination<API.Anime> {}
 
-export default async function req({
-    slug,
-    page = 1,
-    size = 15,
-    auth,
-}: {
+export interface Params {
     slug: string;
-    page?: number;
-    size?: number;
-    auth?: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/anime/${slug}/franchise`,
+        ...props,
+        path: `/anime/${params?.slug}/franchise`,
         method: 'get',
-        page,
-        size,
-        auth,
         config: {
             next: {
                 revalidate: 60,

@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Label } from '@/components/ui/label';
 import { AGE_RATING } from '@/utils/constants';
 
@@ -5,7 +7,7 @@ interface Props {
     rating: API.AgeRating;
 }
 
-const Rating = ({ rating }: Props) => {
+const Rating: FC<Props> = ({ rating }) => {
     if (!rating) {
         return null;
     }

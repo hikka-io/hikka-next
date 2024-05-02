@@ -1,5 +1,5 @@
 import { formatDistance } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 
 import Link from 'next/link';
@@ -16,7 +16,6 @@ import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import useAuth from '@/services/hooks/auth/useAuth';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
@@ -28,10 +27,8 @@ interface Props {
     content_type: API.ContentType;
 }
 
-const Component = ({ comment, slug, content_type }: Props) => {
+const Comment: FC<Props> = ({ comment, slug, content_type }) => {
     const queryClient = useQueryClient();
-    const { auth } = useAuth();
-    const commentInputRef = useRef<HTMLDivElement>(null);
     const {
         currentReply,
         currentEdit,
@@ -42,7 +39,6 @@ const Component = ({ comment, slug, content_type }: Props) => {
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        auth,
     ]);
 
     const addReplyInput = () => {
@@ -128,7 +124,7 @@ const Component = ({ comment, slug, content_type }: Props) => {
             </div>
             <div className="flex w-full items-center gap-2">
                 <Button
-                    disabled={!auth}
+                    disabled={!loggedUser}
                     variant="link"
                     className="h-auto p-0 text-muted-foreground hover:text-primary hover:no-underline"
                     size="sm"
@@ -176,7 +172,6 @@ const Component = ({ comment, slug, content_type }: Props) => {
                 <div className="flex gap-6">
                     <div className="-mt-2 h-auto w-px bg-white" />
                     <CommentInput
-                        ref={commentInputRef}
                         slug={slug}
                         content_type={content_type}
                         comment={comment}
@@ -187,4 +182,4 @@ const Component = ({ comment, slug, content_type }: Props) => {
     );
 };
 
-export default Component;
+export default Comment;

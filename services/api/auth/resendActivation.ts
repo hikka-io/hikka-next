@@ -8,14 +8,9 @@ interface Response {
     avatar: string;
 }
 
-export default async function req({
-    auth,
-}: {
-    auth: string;
-}): Promise<Response> {
+export default async function req(): Promise<Response> {
     return fetchRequest<Response>({
         path: `/auth/activation/resend`,
         method: 'post',
-        auth,
     });
 }

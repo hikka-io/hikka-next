@@ -1,5 +1,4 @@
 import getComments from '@/services/api/comments/getComments';
-import useAuth from '@/services/hooks/auth/useAuth';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 const useComments = ({
@@ -9,16 +8,15 @@ const useComments = ({
     slug: string;
     content_type: API.ContentType;
 }) => {
-    const { auth } = useAuth();
-
     return useInfiniteList({
-        queryKey: ['comments', slug, content_type, { auth }],
+        queryKey: ['comments', slug, content_type],
         queryFn: ({ pageParam }) =>
             getComments({
-                slug,
-                content_type,
+                params: {
+                    slug,
+                    content_type,
+                },
                 page: pageParam,
-                auth,
             }),
     });
 };

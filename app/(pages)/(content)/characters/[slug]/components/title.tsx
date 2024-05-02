@@ -5,11 +5,11 @@ import { useParams } from 'next/navigation';
 import EditButton from '@/app/(pages)/(content)/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 
 const Title = () => {
-    const { auth } = useAuth();
+    const { user: loggedUser } = useSession();
     const params = useParams();
     const { data: character } = useCharacterInfo({ slug: String(params.slug) });
 
@@ -28,7 +28,7 @@ const Title = () => {
                                 character.name_ja ||
                                 ''}{' '}
                         </H2>
-                        {auth && (
+                        {loggedUser && (
                             <EditButton
                                 key={String(params.slug)}
                                 slug={String(params.slug)}
@@ -40,7 +40,7 @@ const Title = () => {
                     <P className="mt-2">{character.name_ja}</P>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    {auth && (
+                    {loggedUser && (
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

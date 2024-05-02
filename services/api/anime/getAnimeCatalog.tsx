@@ -1,9 +1,12 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
-interface Request {
+export interface Params {
     query?: string | null;
     sort?: string[];
-    page?: number;
     years?: string[];
     score?: string[];
     media_type?: string[];
@@ -14,30 +17,19 @@ interface Request {
     producers?: string[];
     studios?: string[];
     genres?: string[];
-    auth?: string;
     size?: number;
     only_translated?: boolean;
 }
 
 export interface Response extends API.WithPagination<API.Anime> {}
 
-export default async function req({
-    page = 1,
-    size = 15,
-    auth,
-    query,
-    ...params
-}: Request): Promise<Response> {
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: '/anime',
         method: 'post',
-        params: {
-            ...params,
-            ...(query && query.length > 2 ? { query } : {}),
-        },
-        page,
-        size,
-        auth,
         config: {
             next: {
                 revalidate: 3600,

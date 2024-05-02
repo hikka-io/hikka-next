@@ -5,7 +5,7 @@ import getPersonInfo from '@/services/api/people/getPersonInfo';
 const usePersonInfo = ({ slug }: { slug: string }) => {
     return useQuery({
         queryKey: ['person', slug],
-        queryFn: () => getPersonInfo({ slug }),
+        queryFn: () => getPersonInfo({ params: { slug } }),
     });
 };
 

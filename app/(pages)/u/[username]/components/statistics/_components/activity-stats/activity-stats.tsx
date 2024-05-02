@@ -11,7 +11,7 @@ import { convertToDays } from '@/utils/convertActivityStats';
 
 import ActivityItem from './_components/ui/activity-item';
 
-const Component = () => {
+const ActivityStats = () => {
     const params = useParams();
 
     const { data } = useUserActivity({ username: String(params.username) });
@@ -38,4 +38,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ActivityStats;

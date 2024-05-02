@@ -7,7 +7,7 @@ import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import Image from '@/components/ui/image';
 
-export default function NotFound() {
+const NotFound = () => {
     return (
         <div className="flex min-h-screen flex-col">
             <div className="flex grow flex-col items-center justify-center gap-8">
@@ -29,4 +29,6 @@ export default function NotFound() {
             </div>
         </div>
     );
-}
+};
+
+export default NotFound;

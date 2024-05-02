@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Fragment } from 'react';
+import { FC, Fragment } from 'react';
 
 import { Separator } from '@/components/ui/separator';
 import useCollections from '@/services/hooks/collections/useCollections';
@@ -13,7 +13,7 @@ interface Props {
     sort: 'system_ranking' | 'created';
 }
 
-const CollectionList = ({ page, sort }: Props) => {
+const CollectionList: FC<Props> = ({ page, sort }) => {
     const { data: collections } = useCollections({
         page,
         sort,

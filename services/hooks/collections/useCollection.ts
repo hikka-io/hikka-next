@@ -2,8 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import getCollection from '@/services/api/collections/getCollection';
 
-import useAuth from '../auth/useAuth';
-
 const useCollection = ({
     reference,
     enabled = true,
@@ -11,11 +9,9 @@ const useCollection = ({
     reference: string;
     enabled?: boolean;
 }) => {
-    const { auth } = useAuth();
-
     return useQuery({
-        queryKey: ['collection', reference, { auth }],
-        queryFn: () => getCollection({ reference: reference, auth }),
+        queryKey: ['collection', reference],
+        queryFn: () => getCollection({ params: { reference } }),
         enabled: enabled,
         staleTime: 0,
     });

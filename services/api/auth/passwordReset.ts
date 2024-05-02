@@ -1,13 +1,21 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 interface Response extends API.User {}
 
-export default async function req(params: {
+export interface Params {
     email: string;
-}): Promise<Response> {
+}
+
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/auth/password/reset`,
         method: 'post',
-        params,
     });
 }

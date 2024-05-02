@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import {
     Children,
     Fragment,
@@ -12,6 +11,7 @@ import { createPortal } from 'react-dom';
 import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
 
 import { useMediaQuery } from '@/services/hooks/useMediaQuery';
+import { cn } from '@/utils/utils';
 
 interface Props extends PropsWithChildren {}
 
@@ -30,12 +30,12 @@ const Component = ({ children }: Props) => {
 
     if (!isDesktop) {
         return createPortal(
-            <div className="flex h-auto min-h-10 flex-1 items-center gap-4 overflow-hidden px-4 md:hidden">
+            <>
                 {Children.map(arrayChildren, (child, index) => {
                     return (
-                        <Fragment key={child.toString() + '-' + index}>
+                        <Fragment key={index}>
                             <IconamoonSignDivisionSlashThin
-                                className={clsx(
+                                className={cn(
                                     'opacity-30',
                                     index === 0 && 'hidden md:block',
                                 )}
@@ -44,7 +44,7 @@ const Component = ({ children }: Props) => {
                         </Fragment>
                     );
                 })}
-            </div>,
+            </>,
             document.getElementById('breadcrumbs-mobile')!,
         );
     }
@@ -53,15 +53,15 @@ const Component = ({ children }: Props) => {
         <>
             {Children.map(arrayChildren, (child, index) => {
                 return (
-                    <>
+                    <Fragment key={index}>
                         <IconamoonSignDivisionSlashThin
-                            className={clsx(
+                            className={cn(
                                 'opacity-30',
                                 index === 0 && 'hidden md:block',
                             )}
                         />
                         {child}
-                    </>
+                    </Fragment>
                 );
             })}
         </>,

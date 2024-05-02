@@ -1,18 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation } from '@tanstack/react-query';
 
 import EditGroup from '@/app/(pages)/edit/components/edit-group';
 import AutoButton from '@/app/(pages)/edit/components/ui/auto-button';
 import { Button } from '@/components/ui/button';
 import addEdit from '@/services/api/edit/addEdit';
-import useAuth from '@/services/hooks/auth/useAuth';
 import {
     getEditGroups,
     getEditParamSlugs,
@@ -31,13 +31,17 @@ interface Props {
     slug: string;
     content_type: API.ContentType;
     mode?: 'view' | 'edit';
-    content: API.AnimeInfo | API.Character | API.Person;
+    content: API.MainContent;
 }
 
-const EditForm = ({ slug, content_type, content, mode = 'edit' }: Props) => {
+const EditForm: FC<Props> = ({
+    slug,
+    content_type,
+    content,
+    mode = 'edit',
+}) => {
     const captchaRef = useRef<TurnstileInstance>();
 
-    const { auth } = useAuth();
     const router = useRouter();
 
     const params = getEditParams(content_type)!;
@@ -59,33 +63,29 @@ const EditForm = ({ slug, content_type, content, mode = 'edit' }: Props) => {
         },
     });
 
+    const mutation = useMutation({
+        mutationFn: addEdit,
+        onSuccess: (data) => onDismiss(data.edit_id),
+    });
+
     const onDismiss = (editId: number) => {
         form.reset();
         router.push('/edit/' + editId);
     };
 
-    const onSaveSubmit = async (data: FormValues) => {
-        try {
-            if (captchaRef.current) {
-                const res = await addEdit({
-                    auth: String(auth),
-                    content_type: content_type,
-                    slug: slug,
-                    after: {
-                        ...getFilteredEditParams(paramSlugs, data),
-                    },
-                    auto: data.auto || false,
-                    description: data.description,
-                    captcha: String(captchaRef.current.getResponse()),
-                });
-
-                onDismiss(res.edit_id);
-            } else {
-                throw Error('No captcha found');
-            }
-        } catch (e) {
-            return;
-        }
+    const onSubmit = async (data: FormValues) => {
+        mutation.mutate({
+            params: {
+                content_type: content_type,
+                slug: slug,
+                after: {
+                    ...getFilteredEditParams(paramSlugs, data),
+                },
+                auto: data.auto || false,
+                description: data.description,
+            },
+            captcha: String(captchaRef.current?.getResponse()),
+        });
     };
 
     return (
@@ -117,18 +117,18 @@ const EditForm = ({ slug, content_type, content, mode = 'edit' }: Props) => {
                         />
                         <div className="flex items-center gap-2">
                             <Button
-                                disabled={form.formState.isSubmitting}
-                                onClick={form.handleSubmit(onSaveSubmit)}
+                                disabled={mutation.isPending}
+                                onClick={form.handleSubmit(onSubmit)}
                                 type="submit"
                                 className="w-fit"
                             >
-                                {form.formState.isSubmitting && (
+                                {mutation.isPending && (
                                     <span className="loading loading-spinner"></span>
                                 )}
                                 Створити
                             </Button>
                             <AutoButton
-                                onSaveSubmit={onSaveSubmit}
+                                onSubmit={onSubmit}
                                 handleSubmit={form.handleSubmit}
                             />
                         </div>

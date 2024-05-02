@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import EditHead from '@/app/(pages)/edit/components/edit-list/components/edit-head';
 import EditRow from '@/app/(pages)/edit/components/edit-list/components/edit-row';
@@ -15,7 +16,7 @@ interface Props {
     page: string;
 }
 
-const EditList = ({ page }: Props) => {
+const EditList: FC<Props> = ({ page }) => {
     const { data: edits, isLoading } = useEditList({ page: page });
 
     if (isLoading) {

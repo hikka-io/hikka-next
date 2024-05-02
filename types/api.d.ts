@@ -144,6 +144,7 @@ declare global {
         } & API.Schedule;
 
         type Anime = {
+            data_type: 'anime';
             media_type: MediaType;
             title_ua: string;
             title_en: string;
@@ -192,6 +193,7 @@ declare global {
         };
 
         type Character = {
+            data_type: 'character';
             name_ua: string;
             name_en: string;
             name_ja: string;
@@ -201,6 +203,7 @@ declare global {
         };
 
         type Person = {
+            data_type: 'person';
             name_native: string;
             name_ua: string;
             name_en: string;
@@ -220,12 +223,7 @@ declare global {
             type: 'producer' | 'studio';
         };
 
-        type Edit<
-            TEditParams extends Record<string, any> = Record<string, any>,
-            TContent extends API.Content =
-                | API.Content<'anime'>
-                | API.Content<'character'>,
-        > = {
+        type Edit<TEditParams = Record<string, any>, TContent = MainContent> = {
             content_type: ContentType;
             status: EditStatus;
             description: string | null;
@@ -282,10 +280,7 @@ declare global {
         };
 
         type History<
-            TData extends
-                | HistoryWatchData
-                | HistoryFavoriteData
-                | HistoryImportData = HistoryWatchData,
+            TData = HistoryWatchData | HistoryFavoriteData | HistoryImportData,
         > = {
             reference: string;
             content?: API.Anime;
@@ -370,14 +365,14 @@ declare global {
         };
 
         type Notification<
-            TData extends
+            TData =
                 | NotificationCommentData
                 | NotificationCommentVoteData
                 | NotificationEditData
                 | NotificationHikkaData
                 | NotificationScheduleAnimeData
                 | NotificationVoteData
-                | NotificationFollowData = NotificationCommentData,
+                | NotificationFollowData,
         > = {
             notification_type: NotificationType;
             created: number;
@@ -391,7 +386,7 @@ declare global {
             actions: number;
         };
 
-        type CollectionItem<TContent extends Content> = {
+        type CollectionItem<TContent extends API.MainContent = unknown> = {
             content: TContent;
             comment: string | null;
             label: string | null;
@@ -399,7 +394,8 @@ declare global {
             order: number;
         };
 
-        type Collection<TContent extends API.Content = API.Content<'anime'>> = {
+        type Collection<TContent extends API.MainContent = unknown> = {
+            data_type: 'collection';
             author: API.User;
             created: number;
             updated: number;
@@ -418,15 +414,13 @@ declare global {
             collection: CollectionItem<TContent>[];
         };
 
-        type Contents = {
-            anime: API.AnimeInfo;
-            character: API.Character;
-            collection: API.Collection;
-            comment: API.Comment;
-            edit: API.Edit;
-            person: API.Person;
-        };
+        type Content =
+            | API.Anime
+            | API.AnimeInfo
+            | API.Character
+            | API.Person
+            | API.Collection;
 
-        type Content<K extends keyof Contents = keyof Contents> = Contents[K];
+        type MainContent = Exclude<API.Content, API.Collection>;
     }
 }

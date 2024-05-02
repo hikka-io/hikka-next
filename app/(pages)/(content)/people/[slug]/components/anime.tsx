@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -15,7 +15,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Anime = ({ extended }: Props) => {
+const Anime: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         usePersonAnime({ slug: String(params.slug) });

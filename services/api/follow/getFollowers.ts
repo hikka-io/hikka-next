@@ -1,25 +1,28 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     pagination: API.Pagination;
     list: API.User[];
 }
 
+export interface Params {
+    username: string;
+}
+
 export default async function req({
-    username,
-    auth,
+    params,
     page = 1,
     size = 15,
-}: {
-    username: string;
-    auth?: string;
-    page?: number;
-    size?: number;
-}): Promise<Response> {
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/follow/${username}/followers`,
+        ...props,
+        path: `/follow/${params?.username}/followers`,
         method: 'get',
-        auth,
         page,
         size,
     });

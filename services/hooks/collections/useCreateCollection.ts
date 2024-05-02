@@ -5,19 +5,16 @@ import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import createCollction, {
-    Request as CollectionRequest,
+    Params as CollectionRequest,
 } from '@/services/api/collections/createCollection';
 
-import useAuth from '../auth/useAuth';
-
 const useCreateCollection = (params: CollectionRequest) => {
-    const { auth } = useAuth();
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
 
     return useMutation({
-        mutationFn: () => createCollction({ ...params, auth: auth! }),
+        mutationFn: () => createCollction({ params }),
         mutationKey: ['createCollection'],
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({

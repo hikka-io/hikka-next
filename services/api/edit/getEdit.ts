@@ -1,14 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Edit {}
 
-export default async function req<TResponse = Response>({
-    edit_id,
-}: {
+export interface Params {
     edit_id: number;
-}): Promise<TResponse> {
+}
+
+export default async function req<TResponse = Response>({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<TResponse> {
     return fetchRequest<TResponse>({
-        path: `/edit/${edit_id}`,
+        ...props,
+        path: `/edit/${params?.edit_id}`,
         method: 'get',
     });
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
@@ -12,14 +12,14 @@ import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    data: API.Collection;
+    data: API.Collection<API.MainContent>;
     className?: string;
 }
 
-const Component = ({ data, className }: Props) => {
+const CollectionItem: FC<Props> = ({ data, className }) => {
     const description = parseTextFromMarkDown(data.description);
-    const poster = (content: API.Anime | API.Character | API.Person) =>
-        'poster' in content ? content.poster : content.image;
+    const poster = (content: API.MainContent) =>
+        content.data_type === 'anime' ? content.poster : content.image;
 
     return (
         <div className={cn('flex gap-4', className)}>
@@ -79,4 +79,4 @@ const Component = ({ data, className }: Props) => {
     );
 };
 
-export default Component;
+export default CollectionItem;

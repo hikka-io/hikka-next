@@ -14,7 +14,7 @@ import SearchButton from './components/search-button';
 import useSearchModal from './components/useSearchModal';
 
 interface Props {
-    onClick?: (content: API.Anime | API.Character | API.Person) => void;
+    onClick?: (content: API.MainContent) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     content_type?: API.ContentType;
@@ -31,7 +31,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
 
-    const onDismiss = (content: API.Anime | API.Character | API.Person) => {
+    const onDismiss = (content: API.MainContent) => {
         setSearchValue('');
         setOpen(false);
 

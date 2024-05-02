@@ -1,4 +1,8 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response
     extends API.WithPagination<{
@@ -11,11 +15,10 @@ export interface Response
 export default async function req({
     page = 1,
     size = 15,
-}: {
-    page?: number;
-    size?: number;
-}): Promise<Response> {
+    ...props
+}: BaseFetchRequestProps): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/stats/edits/top`,
         method: 'get',
         page,

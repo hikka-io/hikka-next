@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
 import Link from 'next/link';
@@ -12,27 +13,25 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import follow from '@/services/api/follow/follow';
 import unfollow from '@/services/api/follow/unfollow';
-import useAuth from '@/services/hooks/auth/useAuth';
 
 interface Props {
     user: API.User;
 }
 
-const Component = ({ user }: Props) => {
-    const { auth } = useAuth();
+const FollowUserItem: FC<Props> = ({ user }) => {
     const queryClient = useQueryClient();
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        auth,
     ]);
 
     const { mutate: mutateFollow } = useMutation({
-        mutationKey: ['follow', auth],
+        mutationKey: ['follow'],
         mutationFn: (username: string) =>
             follow({
-                auth: String(auth),
-                username: String(username),
+                params: {
+                    username: String(username),
+                },
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries();
@@ -40,11 +39,12 @@ const Component = ({ user }: Props) => {
     });
 
     const { mutate: mutateUnfollow } = useMutation({
-        mutationKey: ['unfollow', auth],
+        mutationKey: ['unfollow'],
         mutationFn: (username: string) =>
             unfollow({
-                auth: String(auth),
-                username: String(username),
+                params: {
+                    username: String(username),
+                },
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries();
@@ -83,8 +83,7 @@ const Component = ({ user }: Props) => {
                     </Small>
                 </div>
             </div>
-            {auth &&
-                user.username !== loggedUser?.username &&
+            {user.username !== loggedUser?.username &&
                 ('is_followed' in user ? (
                     !user.is_followed ? (
                         <Button
@@ -108,4 +107,4 @@ const Component = ({ user }: Props) => {
     );
 };
 
-export default Component;
+export default FollowUserItem;

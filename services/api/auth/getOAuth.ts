@@ -1,16 +1,24 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     url: string;
 }
 
-export default async function req({
-    provider,
-}: {
+export interface Params {
     provider: 'google';
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/auth/oauth/${provider}`,
+        ...props,
+        path: `/auth/oauth/${params!.provider}`,
         method: 'get',
     });
 }

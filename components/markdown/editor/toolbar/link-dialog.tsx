@@ -1,5 +1,5 @@
 import { LexicalCommand, createCommand } from 'lexical';
-import React from 'react';
+import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -8,8 +8,6 @@ import {
     editorRootElementRef$,
     iconComponentFor$,
     linkDialogState$,
-    onWindowChange$,
-    removeLink$,
     updateLink$,
 } from '@mdxeditor/editor';
 import { useCellValues, usePublisher } from '@mdxeditor/gurx';
@@ -39,13 +37,13 @@ interface LinkFormFields {
     title: string;
 }
 
-export function LinkEditForm({
+export const LinkEditForm: FC<LinkEditFormProps> = ({
     url,
     title,
     onSubmit,
     onCancel,
     type,
-}: LinkEditFormProps) {
+}) => {
     const {
         register,
         handleSubmit,
@@ -89,10 +87,9 @@ export function LinkEditForm({
             </Button>
         </form>
     );
-}
+};
 
-/** @internal */
-export const LinkDialog: React.FC = () => {
+export const LinkDialog = () => {
     const [
         editorRootElementRef,
         activeEditor,

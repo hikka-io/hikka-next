@@ -1,11 +1,11 @@
 'use client';
 
 import { useSnackbar } from 'notistack';
-import React, { Fragment, createElement, memo } from 'react';
+import React, { FC, Fragment, createElement, memo } from 'react';
 
 import WatchEditModal from '@/components/modals/watch-edit-modal';
 import { Button } from '@/components/ui/button';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import useAddToList from '@/services/hooks/watch/useAddToList';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
@@ -15,9 +15,9 @@ interface Props {
     title: string;
 }
 
-const ScheduleWatchButton = ({ item, title }: Props) => {
+const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
+    const { user: loggedUser } = useSession();
     const { enqueueSnackbar } = useSnackbar();
-    const { auth } = useAuth();
     const { openModal } = useModalContext();
     const { mutate: addToList } = useAddToList({ slug: item.anime.slug });
 
@@ -43,36 +43,35 @@ const ScheduleWatchButton = ({ item, title }: Props) => {
         });
     };
 
+    if (!loggedUser) return null;
+
     return (
         <Fragment>
-            {auth && (
-                <Button
-                    className="hidden sm:flex"
-                    style={{
-                        backgroundColor: watchStatus?.color,
-                    }}
-                    onClick={handleWatch}
-                    variant={watchStatus ? 'secondary' : 'outline'}
-                    size="icon-sm"
-                >
-                    {watchStatus
-                        ? createElement(watchStatus.icon!)
-                        : createElement(WATCH_STATUS.planned.icon!)}
-                </Button>
-            )}
-            {auth && (
-                <Button
-                    className="flex sm:hidden"
-                    onClick={handleWatch}
-                    variant={watchStatus ? 'secondary' : 'outline'}
-                    size="sm"
-                >
-                    {watchStatus
-                        ? createElement(watchStatus.icon!)
-                        : createElement(WATCH_STATUS.planned.icon!)}
-                    {watchStatus ? watchStatus.title_ua : 'Додати у список'}
-                </Button>
-            )}
+            <Button
+                className="hidden sm:flex"
+                style={{
+                    backgroundColor: watchStatus?.color,
+                }}
+                onClick={handleWatch}
+                variant={watchStatus ? 'secondary' : 'outline'}
+                size="icon-sm"
+            >
+                {watchStatus
+                    ? createElement(watchStatus.icon!)
+                    : createElement(WATCH_STATUS.planned.icon!)}
+            </Button>
+
+            <Button
+                className="flex sm:hidden"
+                onClick={handleWatch}
+                variant={watchStatus ? 'secondary' : 'outline'}
+                size="sm"
+            >
+                {watchStatus
+                    ? createElement(watchStatus.icon!)
+                    : createElement(WATCH_STATUS.planned.icon!)}
+                {watchStatus ? watchStatus.title_ua : 'Додати у список'}
+            </Button>
         </Fragment>
     );
 };

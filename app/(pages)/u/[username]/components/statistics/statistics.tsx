@@ -6,7 +6,7 @@ import Header from '@/components/ui/header';
 import ActivityStats from './_components/activity-stats/activity-stats';
 import WatchhourStats from './_components/watchhour-stats';
 
-const Component = () => {
+const Statistics = () => {
     return (
         <Block>
             <Header title={`Статистика`} />
@@ -18,4 +18,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default Statistics;

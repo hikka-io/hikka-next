@@ -16,7 +16,7 @@ import useWatchList from '@/services/hooks/watch/useWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 
-const Component = () => {
+const StatusCombobox = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const params = useParams();
@@ -70,4 +70,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default StatusCombobox;

@@ -1,7 +1,6 @@
 import { useSearchParams } from 'next/navigation';
 
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
-import useAuth from '@/services/hooks/auth/useAuth';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
@@ -23,17 +22,16 @@ const useAnimeSchedule = () => {
             : ['ongoing', 'announced']
     ) as API.Status[];
 
-    const { auth } = useAuth();
-
     return useInfiniteList({
-        queryKey: ['animeSchedule', { season, status, auth, year, only_watch }],
+        queryKey: ['animeSchedule', { season, status, year, only_watch }],
         queryFn: ({ pageParam = 1 }) =>
             getAnimeSchedule({
-                airing_season: [season, year],
-                status,
+                params: {
+                    airing_season: [season, year],
+                    status,
+                    only_watch: only_watch,
+                },
                 page: pageParam,
-                auth,
-                only_watch: only_watch,
             }),
         select: (data) => ({
             ...data,

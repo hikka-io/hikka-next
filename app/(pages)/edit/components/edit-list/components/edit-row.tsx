@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import * as React from 'react';
+import { FC } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -23,7 +24,7 @@ interface Props {
     edit: API.Edit;
 }
 
-const EditRow = ({ edit }: Props) => {
+const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
 
     return (
@@ -61,7 +62,7 @@ const EditRow = ({ edit }: Props) => {
                             edit.content.slug
                         }`}
                     >
-                        {'title_en' in edit.content
+                        {edit.content.data_type === 'anime'
                             ? edit.content.title
                             : edit.content.name_ua || edit.content.name_en}
                     </Link>
@@ -86,7 +87,9 @@ const EditRow = ({ edit }: Props) => {
                         variant="status"
                         bgColor={EDIT_STATUS[edit.status].color}
                     >
-                        <span className="hidden md:block">{EDIT_STATUS[edit.status].title_ua}</span>
+                        <span className="hidden md:block">
+                            {EDIT_STATUS[edit.status].title_ua}
+                        </span>
                     </Badge>
                 </div>
             </TableCell>

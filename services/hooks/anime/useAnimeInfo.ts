@@ -15,7 +15,12 @@ const useAnimeInfo = ({
 
     return useQuery({
         queryKey: ['anime', slug],
-        queryFn: () => getAnimeInfo({ slug }),
+        queryFn: () =>
+            getAnimeInfo({
+                params: {
+                    slug,
+                },
+            }),
         enabled: enabled,
         select: (data) =>
             convertAnime<API.AnimeInfo>({

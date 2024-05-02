@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import P from '@/components/typography/p';
@@ -17,13 +18,13 @@ interface Props {
     onParamChange: (key: string, value: string | string[]) => void;
 }
 
-const Component = ({
+const BadgeFilter: FC<Props> = ({
     title,
     properties,
     selected,
     onParamChange,
     property,
-}: Props) => {
+}) => {
     const handleFilterSelect = (value: string, data: string[]) => {
         const newData = [...data];
 
@@ -77,4 +78,4 @@ const Component = ({
     );
 };
 
-export default Component;
+export default BadgeFilter;

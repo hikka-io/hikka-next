@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import { FC } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import Link from 'next/link';
@@ -13,7 +14,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import getCollections from '@/services/api/collections/getCollections';
-import { getCookie } from '@/utils/actions';
+import { getCookie } from '@/utils/cookies';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -29,11 +30,11 @@ export async function generateMetadata(): Promise<Metadata> {
     });
 }
 
-const CollectionsPage = async ({
-    searchParams,
-}: {
+interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}
+
+const CollectionsPage: FC<Props> = async ({ searchParams }) => {
     const page = searchParams.page;
     const sort =
         (searchParams.sort as 'system_ranking' | 'created') || 'system_ranking';
@@ -42,16 +43,18 @@ const CollectionsPage = async ({
         redirect('/collections?page=1');
     }
 
-    const queryClient = getQueryClient();
+    const queryClient = await getQueryClient();
     const auth = await getCookie('auth');
 
     const collections = await queryClient.fetchQuery({
-        queryKey: ['collections', { page: Number(page), auth, sort }],
-        queryFn: () =>
+        queryKey: ['collections', { page: Number(page), sort }],
+        queryFn: ({ meta }) =>
             getCollections({
                 page: Number(page),
-                auth,
-                sort: sort,
+                params: {
+                    sort: sort,
+                },
+                auth: meta?.auth,
             }),
     });
 

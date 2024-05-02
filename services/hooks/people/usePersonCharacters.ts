@@ -10,7 +10,7 @@ const usePersonCharacters = ({ slug }: { slug: string }) => {
         queryKey: ['personCharacters', slug],
         queryFn: ({ pageParam = 1 }) =>
             getPersonCharacters({
-                slug: slug,
+                params: { slug },
                 page: pageParam,
             }),
         select: (data) => ({

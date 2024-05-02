@@ -1,13 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
 import AnimeCard from '@/app/(pages)/(content)/components/anime-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
@@ -17,7 +17,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Franchise = ({ extended }: Props) => {
+const Franchise: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
 

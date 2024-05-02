@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import EntryCard, {
     Props as EntryCardProps,
 } from '@/components/entry-card/entry-card';
@@ -6,7 +8,7 @@ interface Props extends EntryCardProps {
     character: API.Character;
 }
 
-const CharacterCard = ({ character, ...props }: Props) => {
+const CharacterCard: FC<Props> = ({ character, ...props }) => {
     return (
         <EntryCard
             slug={character.slug}

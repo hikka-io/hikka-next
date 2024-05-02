@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -14,7 +14,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Anime: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
         list,
@@ -85,4 +85,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Anime;

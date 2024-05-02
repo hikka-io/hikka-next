@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 
 import EntryCard from '@/components/entry-card/entry-card';
 import Header from '@/components/ui/header';
@@ -15,7 +15,7 @@ interface Props {
     group: CollectionGroup;
 }
 
-const CollectionGrid = ({ group }: Props) => {
+const CollectionGrid: FC<Props> = ({ group }) => {
     const {
         groups,
         setState: setCollectionState,
@@ -24,9 +24,9 @@ const CollectionGrid = ({ group }: Props) => {
 
     const items = groups.find((g) => g.id === group.id)?.items || [];
 
-    const poster = (content: API.Anime | API.Character | API.Person) =>
+    const poster = (content: API.MainContent) =>
         'poster' in content ? content.poster : content.image;
-    const title = (content: API.Anime | API.Character | API.Person) =>
+    const title = (content: API.MainContent) =>
         'title_ua' in content
             ? content.title_ua || content.title_en || content.title_ja
             : content.name_ua || content.name_en;

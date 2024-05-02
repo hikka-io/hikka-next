@@ -1,11 +1,12 @@
 'use client';
 
-import { Fragment } from 'react';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 import FeRandom from '~icons/fe/random';
 import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+
+import { useMutation } from '@tanstack/react-query';
 
 import FiltersModal from '@/components/modals/anime-filters-modal';
 import { Button } from '@/components/ui/button';
@@ -17,24 +18,27 @@ import {
 } from '@/components/ui/dropdown-menu';
 import getRandomWatch from '@/services/api/watch/getRandomWatch';
 
-const Component = () => {
+const ToolsCombobox = () => {
     const searchParams = useSearchParams();
     const params = useParams();
     const router = useRouter();
 
     const watchStatus = searchParams.get('status')!;
 
+    const mutation = useMutation({
+        mutationFn: getRandomWatch,
+        onSuccess: (data) => {
+            router.push('/anime/' + data.slug);
+        },
+    });
+
     const handleRandomAnime = async () => {
-        try {
-            const randomAnime = await getRandomWatch({
+        mutation.mutate({
+            params: {
                 username: String(params.username),
                 status: watchStatus as API.WatchStatus,
-            });
-
-            router.push('/anime/' + randomAnime.slug);
-        } catch (e) {
-            return;
-        }
+            },
+        });
     };
 
     return (
@@ -62,4 +66,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ToolsCombobox;

@@ -1,32 +1,24 @@
 import { PropsWithChildren } from 'react';
 
-import { headers } from 'next/headers';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
-import { getCookie } from '@/utils/actions';
 import getQueryClient from '@/utils/getQueryClient';
 
 interface Props extends PropsWithChildren {}
 
-const Component = async ({ children }: Props) => {
-    const headersList = headers();
-    const queryClient = getQueryClient();
+const SessionManager = async ({ children }: Props) => {
+    const queryClient = await getQueryClient();
 
     try {
-        const auth = await queryClient.fetchQuery({
-            queryKey: ['auth'],
-            queryFn: async () => await getCookie('auth'),
-        });
-
         await queryClient.fetchQuery({
-            queryKey: ['loggedUser', auth],
-            queryFn: () => getLoggedUserInfo({ auth }),
+            queryKey: ['loggedUser'],
+            queryFn: ({ meta }) => getLoggedUserInfo({ auth: meta?.auth }),
         });
     } catch (e) {
-        await fetch(`http://${headersList.get('host')}/auth/logout`);
+        console.log(e);
+        // await deleteCookie('auth');
     }
 
     const dehydratedState = dehydrate(queryClient);
@@ -38,4 +30,4 @@ const Component = async ({ children }: Props) => {
     );
 };
 
-export default Component;
+export default SessionManager;

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import useEdit from '@/services/hooks/edit/useEdit';
@@ -10,7 +11,7 @@ interface Props {
     editId: string;
 }
 
-const EditStatus = ({ editId }: Props) => {
+const EditStatus: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit || !edit.status) {

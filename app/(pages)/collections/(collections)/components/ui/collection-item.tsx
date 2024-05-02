@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
@@ -18,13 +18,13 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    collection: API.Collection;
+    collection: API.Collection<API.MainContent>;
 }
 
-const CollectionItem = ({ collection }: Props) => {
-    const poster = (content: API.Anime | API.Character | API.Person) =>
+const CollectionItem: FC<Props> = ({ collection }) => {
+    const poster = (content: API.MainContent) =>
         'poster' in content ? content.poster : content.image;
-    const title = (content: API.Anime | API.Character | API.Person) =>
+    const title = (content: API.MainContent) =>
         'title_ua' in content
             ? content.title_ua || content.title_en || content.title_ja
             : content.name_ua || content.name_en;

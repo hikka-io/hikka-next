@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 import SimpleIconsAnilist from '~icons/simple-icons/anilist';
 
 import { useParams } from 'next/navigation';
@@ -14,7 +14,6 @@ import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
-import useAuth from '@/services/hooks/auth/useAuth';
 import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
 import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
 import {
@@ -22,42 +21,16 @@ import {
     useCollectionContext,
 } from '@/services/providers/collection-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import {
+    COLLECTION_CONTENT_TYPE_OPTIONS,
+    COLLECTION_VISIBILITY_OPTIONS,
+} from '@/utils/constants';
 
 interface Props {
     mode?: 'create' | 'edit';
 }
 
-const COLLECTION_CONTENT_TYPE_OPTIONS = [
-    {
-        value: 'anime',
-        label: 'Аніме',
-    },
-    {
-        value: 'character',
-        label: 'Персонаж',
-    },
-    {
-        value: 'person',
-        label: 'Людина',
-    },
-];
-
-const COLLECTION_VISIBILITY_OPTIONS = [
-    {
-        value: 'public',
-        label: 'Публічна',
-    },
-    {
-        value: 'private',
-        label: 'Приватна',
-    },
-    {
-        value: 'unlisted',
-        label: 'Лише у профілі',
-    },
-];
-
-const CollectionSettings = ({ mode = 'create' }: Props) => {
+const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const { openModal } = useModalContext();
     const params = useParams();
     const {
@@ -73,18 +46,14 @@ const CollectionSettings = ({ mode = 'create' }: Props) => {
         stateToCreate,
     } = useCollectionContext();
 
-    const { auth } = useAuth();
-
     const { mutate: mutateCreateCollection, isPending: isCreatePending } =
         useCreateCollection({
             ...stateToCreate!(),
-            auth: String(auth),
         });
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useUpdateCollection({
             ...stateToCreate!(),
-            auth: String(auth),
             reference: String(params.reference),
         });
 

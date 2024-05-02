@@ -11,7 +11,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-const Component = () => {
+const LinkButton = () => {
     const openLinkDialog = usePublisher(openLinkEditDialog$);
 
     return (
@@ -32,4 +32,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default LinkButton;

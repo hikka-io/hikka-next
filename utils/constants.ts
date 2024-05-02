@@ -9,8 +9,6 @@ import OnHold from '@/components/icons/watch-status/on-hold';
 import Planned from '@/components/icons/watch-status/planned';
 import Watching from '@/components/icons/watch-status/watching';
 
-export const CDN_ENDPOINT = 'https://cdn.hikka.io';
-
 export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
     planned: {
         title_ua: 'Заплановано',
@@ -751,3 +749,33 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     comment: '/comments',
     collection: '/collections',
 };
+
+export const COLLECTION_CONTENT_TYPE_OPTIONS = [
+    {
+        value: 'anime',
+        label: 'Аніме',
+    },
+    {
+        value: 'character',
+        label: 'Персонаж',
+    },
+    {
+        value: 'person',
+        label: 'Людина',
+    },
+];
+
+export const COLLECTION_VISIBILITY_OPTIONS = [
+    {
+        value: 'public',
+        label: 'Публічна',
+    },
+    {
+        value: 'private',
+        label: 'Приватна',
+    },
+    {
+        value: 'unlisted',
+        label: 'Лише у профілі',
+    },
+];

@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/tooltip';
 import useWatchStats from '@/services/hooks/watch/useWatchStats';
 
-const Component = () => {
+const WatchhourStats = () => {
     const params = useParams();
     const { data: stats } = useWatchStats({
         username: String(params.username),
@@ -77,4 +77,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default WatchhourStats;

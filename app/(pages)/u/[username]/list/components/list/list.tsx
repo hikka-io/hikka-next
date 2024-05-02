@@ -2,18 +2,16 @@
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-import GridView from '@/app/(pages)/u/[username]/list/components/list/components/grid-view';
-import TableView from '@/app/(pages)/u/[username]/list/components/list/components/table-view';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useWatchList from '@/services/hooks/watch/useWatchList';
 import { WATCH_STATUS } from '@/utils/constants';
 
-interface Props {}
+import GridView from './components/grid-view';
+import TableView from './components/table-view';
 
-const Component = ({}: Props) => {
+const List = () => {
     const searchParams = useSearchParams()!;
     const params = useParams();
 
@@ -66,4 +64,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default List;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FC } from 'react';
 import MaterialSymbolsKidStar from '~icons/material-symbols/kid-star';
 
 import Link from 'next/link';
@@ -21,7 +22,7 @@ interface Props {
     denied: number;
 }
 
-const EditTopItem = ({ user, rank, accepted, denied, closed }: Props) => {
+const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
     return (
         <div
             className={cn(

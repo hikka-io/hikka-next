@@ -1,4 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
+import { FC } from 'react';
 
 import { redirect } from 'next/navigation';
 
@@ -28,10 +29,10 @@ interface Props {
     params: { username: string };
 }
 
-const Component = ({
+const ListPage: FC<Props> = ({
     searchParams: { status, sort },
     params: { username },
-}: Props) => {
+}) => {
     if (!status || !sort) {
         if (!status) {
             redirect(`/u/${username}/list?status=completed&sort=watch_score`);
@@ -61,4 +62,4 @@ const Component = ({
     );
 };
 
-export default Component;
+export default ListPage;

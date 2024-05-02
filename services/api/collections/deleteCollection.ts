@@ -1,19 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Collection {}
 
-type Request = {
-    auth: string;
+export interface Params {
     reference: string;
-};
+}
 
 export default async function req({
-    auth,
-    reference,
-}: Request): Promise<Response> {
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/collections/${reference}`,
+        ...props,
+        path: `/collections/${params?.reference}`,
         method: 'delete',
-        auth,
     });
 }

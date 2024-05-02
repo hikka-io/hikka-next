@@ -2,6 +2,7 @@
 
 import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
+import { FC } from 'react';
 
 import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ interface Props {
     mode: 'view' | 'edit' | 'update';
 }
 
-const EditGroup = ({ title, params, mode }: Props) => {
+const EditGroup: FC<Props> = ({ title, params, mode }) => {
     const [selected, setSelected] = React.useState<string[]>([]);
 
     const switchParam = (param: string) => {

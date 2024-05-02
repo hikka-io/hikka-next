@@ -1,5 +1,6 @@
 'use client';
 
+import { FC } from 'react';
 import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
 
 import { useParams } from 'next/navigation';
@@ -8,7 +9,7 @@ import WatchEditModal from '@/components/modals/watch-edit-modal';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useSession from '@/services/hooks/auth/useSession';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
@@ -17,10 +18,10 @@ interface Props {
     anime: API.Anime;
 }
 
-const Component = ({ number, anime }: Props) => {
+const NumberCell: FC<Props> = ({ number, anime }) => {
     const params = useParams();
     const { openModal } = useModalContext();
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
 
     const openWatchEditModal = () => {
         openModal({
@@ -55,4 +56,4 @@ const Component = ({ number, anime }: Props) => {
     );
 };
 
-export default Component;
+export default NumberCell;

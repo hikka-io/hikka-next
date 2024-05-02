@@ -1,19 +1,24 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     result: boolean;
 }
 
-export default async function req({
-    reference,
-    auth,
-}: {
+export interface Params {
     reference: string;
-    auth?: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/notifications/${reference}/seen`,
+        ...props,
+        path: `/notifications/${params?.reference}/seen`,
         method: 'post',
-        auth,
     });
 }

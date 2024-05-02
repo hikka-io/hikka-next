@@ -1,14 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.User {}
 
-export default async function req({
-    username,
-}: {
+export interface Params {
     username: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/user/${username}`,
+        ...props,
+        path: `/user/${params?.username}`,
         method: 'get',
     });
 }

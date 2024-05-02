@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import { useParams } from 'next/navigation';
 
 import H3 from '@/components/typography/h3';
@@ -10,6 +12,7 @@ import Rating from '@/components/ui/rating';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAddWatch from '@/services/hooks/watch/useAddWatch';
 import useWatch from '@/services/hooks/watch/useWatch';
+
 
 const WatchStats = () => {
     const params = useParams();
@@ -43,6 +46,7 @@ const WatchStats = () => {
             case 'decrease':
                 addToList({
                     status,
+                    rewatches: watch?.rewatches,
                     score: watch!.score,
                     episodes: watch?.episodes ? watch.episodes - 1 : 0,
                 });
@@ -50,6 +54,7 @@ const WatchStats = () => {
             case 'increase':
                 addToList({
                     status,
+                    rewatches: watch?.rewatches,
                     score: watch!.score,
                     episodes: watch?.episodes ? watch.episodes + 1 : 1,
                 });

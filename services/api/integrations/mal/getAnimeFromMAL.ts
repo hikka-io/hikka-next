@@ -1,13 +1,19 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
-export default async function req({
-    mal_ids,
-}: {
+export interface Params {
     mal_ids: number[];
-}): Promise<API.AnimeInfo[]> {
+}
+
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<API.AnimeInfo[]> {
     return fetchRequest<API.AnimeInfo[]>({
+        ...props,
         path: `/integrations/mal/anime`,
         method: 'post',
-        params: { mal_ids },
     });
 }

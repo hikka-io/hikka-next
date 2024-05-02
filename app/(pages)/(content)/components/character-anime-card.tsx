@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FC } from 'react';
 
 import EntryCard, {
     Props as EntryCardProps,
@@ -9,7 +10,7 @@ interface Props extends EntryCardProps {
     anime: API.Anime | API.AnimeInfo;
 }
 
-const CharacterAnimeCard = ({ character, anime, ...props }: Props) => {
+const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
     return (
         <EntryCard
             key={character.slug + anime.slug}

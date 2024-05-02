@@ -1,6 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
+import { FC } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
@@ -11,7 +11,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';
 
@@ -25,7 +24,7 @@ interface Props {
     data: API.Watch[];
 }
 
-const Component = ({ data }: Props) => {
+const TableView: FC<Props> = ({ data }) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -113,4 +112,4 @@ const Component = ({ data }: Props) => {
     );
 };
 
-export default Component;
+export default TableView;

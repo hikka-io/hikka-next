@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import Collections from '@/app/(pages)/u/[username]/components/collections';
-import Favorites from '@/app/(pages)/u/[username]/components/favorites/favorites';
-import History from '@/app/(pages)/u/[username]/components/history/history';
-import Statistics from '@/app/(pages)/u/[username]/components/statistics';
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';
-import { getCookie } from '@/utils/actions';
 import getQueryClient from '@/utils/getQueryClient';
+
+import Collections from './components/collections';
+import Favorites from './components/favorites/favorites';
+import History from './components/history/history';
+import Statistics from './components/statistics';
 
 interface Props {
     params: {
@@ -19,32 +19,45 @@ interface Props {
     };
 }
 
-const Component = async ({ params: { username } }: Props) => {
-    const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+const UserPage: FC<Props> = async ({ params: { username } }) => {
+    const queryClient = await getQueryClient();
 
     await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', username, { auth, content_type: 'anime' }],
-        queryFn: ({ pageParam = 1 }) =>
+        queryKey: ['favorites', username, { content_type: 'anime' }],
+        queryFn: ({ pageParam = 1, meta }) =>
             getFavouriteList({
-                username,
                 page: pageParam,
-                content_type: 'anime',
-                auth,
+                params: {
+                    username,
+                    content_type: 'anime',
+                },
+                auth: meta?.auth,
             }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['history', username],
-        queryFn: ({ pageParam }) =>
-            getUserHistory({ username, page: pageParam }),
+        queryFn: ({ pageParam, meta }) =>
+            getUserHistory({
+                params: {
+                    username,
+                },
+                page: pageParam,
+                auth: meta?.auth,
+            }),
         initialPageParam: 1,
     });
 
     await queryClient.prefetchQuery({
         queryKey: ['activityStats', username],
-        queryFn: () => getUserActivity({ username }),
+        queryFn: ({ meta }) =>
+            getUserActivity({
+                params: {
+                    username,
+                },
+                auth: meta?.auth,
+            }),
     });
 
     const dehydratedState = dehydrate(queryClient);
@@ -65,4 +78,4 @@ const Component = async ({ params: { username } }: Props) => {
     );
 };
 
-export default Component;
+export default UserPage;

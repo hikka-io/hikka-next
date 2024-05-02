@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import EntryCard, {
     Props as EntryCardProps,
 } from '@/components/entry-card/entry-card';
@@ -7,7 +9,7 @@ interface Props extends EntryCardProps {
     anime: API.Anime | API.AnimeInfo;
 }
 
-const AnimeCard = ({ anime, ...props }: Props) => {
+const AnimeCard: FC<Props> = ({ anime, ...props }) => {
     return (
         <EntryCard
             watch={anime.watch ? anime.watch[0] : undefined}

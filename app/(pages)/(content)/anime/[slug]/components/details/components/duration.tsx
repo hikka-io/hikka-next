@@ -1,5 +1,6 @@
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
+import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 
@@ -7,7 +8,7 @@ interface Props {
     duration: number;
 }
 
-const Duration = ({ duration }: Props) => {
+const Duration: FC<Props> = ({ duration }) => {
     if (!duration) {
         return null;
     }

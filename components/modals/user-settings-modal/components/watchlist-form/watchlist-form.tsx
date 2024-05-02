@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import importWatch from '@/services/api/settings/importWatch';
-import useAuth from '@/services/hooks/auth/useAuth';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import Anilist from './components/anilist';
@@ -21,7 +20,6 @@ const Component = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
-    const { auth } = useAuth();
     const [rewrite, setRewrite] = useState(true);
     const [watchList, setWatchList] = useState<Record<string, any>[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
@@ -32,9 +30,10 @@ const Component = () => {
         if (watchList && watchList.length > 0) {
             try {
                 await importWatch({
-                    overwrite: rewrite,
-                    anime: watchList,
-                    auth: String(auth),
+                    params: {
+                        overwrite: rewrite,
+                        anime: watchList,
+                    },
                 });
 
                 enqueueSnackbar(

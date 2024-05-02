@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import {
@@ -32,7 +32,7 @@ interface Props {
     group: CollectionGroup;
 }
 
-const CollectionGrid = ({ group }: Props) => {
+const CollectionGrid: FC<Props> = ({ group }) => {
     const {
         groups,
         setState: setCollectionState,
@@ -82,7 +82,7 @@ const CollectionGrid = ({ group }: Props) => {
         }
     };
 
-    const handleAddItem = (content: API.Anime | API.Character | API.Person) => {
+    const handleAddItem = (content: API.MainContent) => {
         if (JSON.stringify(groups).includes(content.slug)) {
             return;
         }

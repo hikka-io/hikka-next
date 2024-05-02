@@ -1,5 +1,7 @@
 'use client';
 
+import { FC } from 'react';
+
 import { useParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
@@ -13,7 +15,7 @@ interface Props {
     extended?: boolean;
 }
 
-const MainCharacters = ({ extended }: Props) => {
+const MainCharacters: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useCharacters({ slug: String(params.slug) });

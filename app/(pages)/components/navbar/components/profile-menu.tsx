@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
@@ -21,17 +21,12 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
-import useAuth from '@/services/hooks/auth/useAuth';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useSession from '@/services/hooks/auth/useSession';
 import { useModalContext } from '@/services/providers/modal-provider';
 
-interface Props {}
-
-const Component = ({}: Props) => {
+const ProfileMenu = () => {
     const { openModal } = useModalContext();
-    const { logout } = useAuth();
-
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser, logout } = useSession();
 
     if (!loggedUser) {
         return null;
@@ -111,4 +106,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default ProfileMenu;

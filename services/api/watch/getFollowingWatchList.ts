@@ -1,4 +1,8 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response
     extends API.WithPagination<
@@ -7,24 +11,21 @@ export interface Response
         } & API.User
     > {}
 
-export interface Request {
-    page?: number;
-    size?: number;
+export interface Params {
     slug: string;
-    auth: string;
 }
 
 export default async function req({
-    slug,
+    params,
     page = 1,
     size = 15,
-    auth,
-}: Request): Promise<Response> {
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/watch/${slug}/following`,
+        ...props,
+        path: `/watch/${params?.slug}/following`,
         method: 'get',
         page,
         size,
-        auth,
     });
 }

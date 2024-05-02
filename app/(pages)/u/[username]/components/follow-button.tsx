@@ -1,5 +1,6 @@
 'use client';
 
+import { FC } from 'react';
 import CilUserFollow from '~icons/cil/user-follow';
 import CilUserUnfollow from '~icons/cil/user-unfollow';
 
@@ -7,10 +8,10 @@ import { useParams } from 'next/navigation';
 
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import { Button } from '@/components/ui/button';
+import useSession from '@/services/hooks/auth/useSession';
 import useFollow from '@/services/hooks/follow/useFollow';
 import useFollowChecker from '@/services/hooks/follow/useFollowChecker';
 import useUnfollow from '@/services/hooks/follow/useUnfollow';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import useUser from '@/services/hooks/user/useUser';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
@@ -19,11 +20,11 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ className }: Props) => {
+const FollowButton: FC<Props> = ({ className }) => {
     const { openModal } = useModalContext();
     const params = useParams();
 
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
     const { data: user } = useUser({ username: String(params.username) });
 
     const { data: followChecker } = useFollowChecker({
@@ -101,4 +102,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default FollowButton;

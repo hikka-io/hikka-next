@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -33,7 +33,7 @@ const ExternalLink = ({ link }: { link: API.External }) => {
     );
 };
 
-const Links = ({ extended }: Props) => {
+const Links: FC<Props> = ({ extended }) => {
     const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });

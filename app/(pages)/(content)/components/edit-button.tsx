@@ -1,7 +1,6 @@
 import clsx from 'clsx';
+import { FC } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-
-import { useParams } from 'next/navigation';
 
 import EditListModal from '@/components/modals/editlist-modal';
 import { Button } from '@/components/ui/button';
@@ -13,9 +12,8 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ className, slug, content_type }: Props) => {
+const EditButton: FC<Props> = ({ className, slug, content_type }) => {
     const { openModal } = useModalContext();
-    const params = useParams();
 
     return (
         <Button
@@ -40,4 +38,4 @@ const Component = ({ className, slug, content_type }: Props) => {
     );
 };
 
-export default Component;
+export default EditButton;

@@ -1,4 +1,8 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 interface Response {
     secret: string;
@@ -6,12 +10,16 @@ interface Response {
     created: number;
 }
 
-export default async function req(params: {
+export interface Params {
     token: string;
-}): Promise<Response> {
+}
+
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/auth/activation`,
         method: 'post',
-        params,
     });
 }

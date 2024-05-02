@@ -5,7 +5,7 @@ import getUserInfo from '@/services/api/user/getUserInfo';
 const useUser = ({ username }: { username: string }) => {
     return useQuery({
         queryKey: ['user', username],
-        queryFn: () => getUserInfo({ username }),
+        queryFn: () => getUserInfo({ params: { username } }),
     });
 };
 

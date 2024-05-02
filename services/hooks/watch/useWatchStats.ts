@@ -5,7 +5,7 @@ import getWatchStats from '@/services/api/watch/getWatchStats';
 const useWatchStats = ({ username }: { username: string }) => {
     return useQuery({
         queryKey: ['watchStats', username],
-        queryFn: () => getWatchStats({ username: username }),
+        queryFn: () => getWatchStats({ params: { username } }),
     });
 };
 

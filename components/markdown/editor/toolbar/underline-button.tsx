@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 
 export const IS_UNDERLINE = 0b1000 as const;
 
-const Component = () => {
+const UnderlineButton = () => {
     const [currentFormat, iconComponentFor] = useCellValues(
         currentFormat$,
         iconComponentFor$,
@@ -33,4 +33,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default UnderlineButton;

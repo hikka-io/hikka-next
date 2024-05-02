@@ -1,15 +1,17 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 interface Response extends API.User {}
 
-export default async function req({
-    auth,
-}: {
-    auth?: string;
-}): Promise<Response> {
+export default async function req(
+    props?: BaseFetchRequestProps,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/user/me`,
         method: 'get',
-        auth: auth,
     });
 }

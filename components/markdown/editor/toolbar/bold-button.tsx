@@ -19,7 +19,7 @@ import {
 
 export const IS_BOLD = 0b1 as const;
 
-const Component = () => {
+const BoldButton = () => {
     const [currentFormat, iconComponentFor] = useCellValues(
         currentFormat$,
         iconComponentFor$,
@@ -46,4 +46,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default BoldButton;

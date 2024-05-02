@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import Link from 'next/link';
@@ -16,7 +16,7 @@ interface Props {
     className?: string;
 }
 
-const FollowingItem = ({ data, className }: Props) => {
+const FollowingItem: FC<Props> = ({ data, className }) => {
     return (
         <div className={cn('flex items-center gap-4', className)}>
             <Avatar className="size-10 rounded-md" asChild>

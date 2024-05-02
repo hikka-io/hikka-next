@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import React, { PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -11,14 +11,15 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
-import getPersonAnime from '@/services/api/people/getPersonAnime';
-import getPersonCharacters from '@/services/api/people/getPersonCharacters';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import { PERSON_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Cover from './components/cover';
 import Title from './components/title';
+import _generateMetadata, { MetadataProps } from './layout.metadata';
+import prefetchQueries from './layout.queries';
+
 
 interface Props extends PropsWithChildren {
     params: {
@@ -26,64 +27,32 @@ interface Props extends PropsWithChildren {
     };
 }
 
-// export const runtime = 'edge';
-
 export async function generateMetadata(
-    {
-        params,
-    }: {
-        params: {
-            slug: string;
-        };
-    },
+    props: MetadataProps,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    const parentMetadata = await parent;
-    const slug = params.slug;
-
-    const person = await getPersonInfo({ slug });
-    const title = person.name_ua || person.name_en || person.name_native;
-
-    return {
-        title: { default: title, template: title + ' / %s / Hikka' },
-        description: undefined,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: undefined,
-            images: person.image,
-        },
-        twitter: {
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: undefined,
-            images: person.image,
-        },
-    };
+    return await _generateMetadata(props, parent);
 }
 
-const PersonLayout = async ({ params: { slug }, children }: Props) => {
-    const queryClient = getQueryClient();
+const PersonLayout: FC<Props> = async ({ params: { slug }, children }) => {
+    const queryClient = await getQueryClient();
 
     const person = await queryClient.fetchQuery({
         queryKey: ['person', slug],
-        queryFn: () => getPersonInfo({ slug }),
+        queryFn: ({ meta }) =>
+            getPersonInfo({
+                params: {
+                    slug,
+                },
+                auth: meta?.auth,
+            }),
     });
 
     if (!person) {
         return redirect('/');
     }
 
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['personAnime', slug],
-        queryFn: () => getPersonAnime({ slug }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['personCharacters', slug],
-        queryFn: () => getPersonCharacters({ slug }),
-        initialPageParam: 1,
-    });
+    await prefetchQueries({ queryClient, params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 

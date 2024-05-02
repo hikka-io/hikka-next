@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { PropsWithChildren, memo } from 'react';
+import { FC, PropsWithChildren, memo } from 'react';
 
 import Link from 'next/link';
 
@@ -18,16 +18,20 @@ import {
 import { Label } from '@/components/ui/label';
 import WatchListButton from '@/components/watchlist-button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+
+interface TooltipDataProps {
+    slug: string;
+}
 
 interface Props extends PropsWithChildren {
     slug?: string;
     withTrigger?: boolean;
 }
 
-const TooltipData = ({ slug }: { slug: string }) => {
-    const { auth } = useAuth();
+const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
+    const { user: loggedUser } = useSession();
     const { data } = useAnimeInfo({ slug });
 
     if (!data) {
@@ -133,12 +137,12 @@ const TooltipData = ({ slug }: { slug: string }) => {
                 </div>
             </div>
 
-            {auth && <WatchListButton slug={slug} additional />}
+            {loggedUser && <WatchListButton slug={slug} additional />}
         </>
     );
 };
 
-const Component = ({ slug, children, withTrigger, ...props }: Props) => {
+const AnimeTooltip: FC<Props> = ({ slug, children, withTrigger, ...props }) => {
     if (!slug) {
         return null;
     }
@@ -159,4 +163,4 @@ const Component = ({ slug, children, withTrigger, ...props }: Props) => {
     );
 };
 
-export default memo(Component);
+export default memo(AnimeTooltip);

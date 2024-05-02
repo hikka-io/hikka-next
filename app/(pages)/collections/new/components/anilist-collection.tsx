@@ -1,23 +1,33 @@
 'use client';
 
 import { useSnackbar } from 'notistack';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+
+import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import getAnimeFromMAL from '@/services/api/integrations/mal/getAnimeFromMAL';
 import importAnilistWatch from '@/services/api/settings/importAnilistWatch';
 import { State } from '@/services/providers/collection-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
 interface Props {
     setCollectionState: Dispatch<SetStateAction<State>>;
 }
 
-const AnilistCollection = ({ setCollectionState }: Props) => {
+const formSchema = z.object({
+    username: z.string(),
+});
+
+const AnilistCollection: FC<Props> = ({ setCollectionState }) => {
     const { closeModal } = useModalContext();
     const [selectedList, setSelectedList] = useState<string | undefined>(
         undefined,
@@ -25,24 +35,17 @@ const AnilistCollection = ({ setCollectionState }: Props) => {
     const [watchList, setWatchList] = useState<Record<string, any>[]>([]);
     const { enqueueSnackbar } = useSnackbar();
     const [aniListLoading, setAniListLoading] = useState(false);
-    const [aniListUsername, setAniListUsername] = useState('');
 
-    const getFromAniList = async () => {
-        setAniListLoading(true);
-        try {
-            const res = await importAnilistWatch({
-                username: aniListUsername,
-                isCustomList: true,
-            });
-            res.length > 0 && setWatchList(res);
-        } catch (e) {
-            enqueueSnackbar(
-                'Не вдалось завантажити список даного користувача',
-                { variant: 'error' },
-            );
-        }
-        setAniListLoading(false);
-    };
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    });
+
+    const mutation = useMutation({
+        mutationFn: importAnilistWatch,
+        onSuccess: (data) => {
+            data.length > 0 && setWatchList(data);
+        },
+    });
 
     const getListNames = () => {
         return watchList.reduce((acc: string[], val) => {
@@ -57,9 +60,11 @@ const AnilistCollection = ({ setCollectionState }: Props) => {
         setAniListLoading(true);
         try {
             const res = await getAnimeFromMAL({
-                mal_ids: watchList
-                    .filter((item) => item.my_status === selectedList)
-                    .map((item) => item.series_animedb_id),
+                params: {
+                    mal_ids: watchList
+                        .filter((item) => item.my_status === selectedList)
+                        .map((item) => item.series_animedb_id),
+                },
             });
 
             setCollectionState!((prev) => ({
@@ -94,31 +99,34 @@ const AnilistCollection = ({ setCollectionState }: Props) => {
 
     return (
         <div className="flex w-full flex-col gap-6">
-            <div className="flex w-full flex-col gap-2">
-                <Label>Ім’я користувача AniList</Label>
-                <div className="flex gap-2">
-                    <Input
+            <Form {...form}>
+                <form
+                    className="flex items-end gap-2"
+                    onSubmit={form.handleSubmit((data) =>
+                        mutation.mutate({ ...data, isCustomList: true }),
+                    )}
+                >
+                    <FormInput
+                        label="Ім’я користувача AniList"
                         type="text"
+                        name="username"
                         className="flex-1"
                         placeholder="Введіть імʼя користувача"
-                        onChange={(e) => setAniListUsername(e.target.value)}
                     />
                     <Button
                         size="icon"
+                        type="submit"
                         variant="secondary"
-                        onClick={getFromAniList}
-                        disabled={
-                            aniListUsername.length === 0 || aniListLoading
-                        }
+                        disabled={mutation.isPending}
                     >
-                        {aniListLoading ? (
+                        {mutation.isPending ? (
                             <span className="loading loading-spinner"></span>
                         ) : (
                             <MaterialSymbolsCheckSmallRounded className="text-2xl" />
                         )}
                     </Button>
-                </div>
-            </div>
+                </form>
+            </Form>
 
             <div className="flex w-full flex-col gap-2">
                 <Label>Список</Label>

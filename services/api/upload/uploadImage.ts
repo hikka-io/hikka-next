@@ -1,25 +1,29 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     url: string;
 }
 
-export default async function req({
-    file,
-    upload_type,
-    auth,
-}: {
+export interface Params {
     file: File;
     upload_type: 'avatar' | 'cover';
-    auth: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     let data = new FormData();
-    data.append('file', file);
+    data.append('file', params!.file);
 
     return fetchRequest<Response>({
-        path: `/upload/${upload_type}`,
+        ...props,
+        path: `/upload/${params?.upload_type}`,
         method: 'put',
-        auth: auth,
         params: data,
         formData: true,
     });

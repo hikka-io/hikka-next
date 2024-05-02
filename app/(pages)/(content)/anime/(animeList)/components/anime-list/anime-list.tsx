@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import AnimeCard from '@/app/(pages)/(content)/components/anime-card';
 import FiltersNotFound from '@/components/filters/components/filters-not-found';
@@ -9,7 +10,6 @@ import Block from '@/components/ui/block';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 import useAnimeCatalog from '@/services/hooks/anime/useAnimeCatalog';
-import useAuth from '@/services/hooks/auth/useAuth';
 
 import { useNextPage, useUpdatePage } from './anime-list.hooks';
 import AnimeListSkeleton from './components/anime-list-skeleton';
@@ -18,16 +18,13 @@ interface Props {
     searchParams: Record<string, string>;
 }
 
-const AnimeList = ({ searchParams }: Props) => {
-    const { auth } = useAuth();
-
+const AnimeList: FC<Props> = ({ searchParams }) => {
     const page = searchParams.page;
     const iPage = searchParams.iPage;
 
     const dataKeys = {
         page: Number(page),
         iPage: Number(iPage),
-        auth,
     };
 
     const {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -13,7 +13,7 @@ interface Props {
     mode?: 'create' | 'edit';
 }
 
-const CollectionGroups = ({ mode = 'create' }: Props) => {
+const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const params = useParams();
     const {
         groups,

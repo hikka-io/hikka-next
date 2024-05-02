@@ -1,20 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import EditDescription from '@/app/(pages)/edit/components/edit-description/edit-description';
 import EditGroup from '@/app/(pages)/edit/components/edit-group';
 import AutoButton from '@/app/(pages)/edit/components/ui/auto-button';
 import { Button } from '@/components/ui/button';
 import updateEdit from '@/services/api/edit/updateEdit';
-import useAuth from '@/services/hooks/auth/useAuth';
 import useEdit from '@/services/hooks/edit/useEdit';
 import {
     getEditGroups,
@@ -28,17 +27,16 @@ type FormValues = Record<string, unknown> & {
     auto?: boolean;
 };
 
-interface EditProps {
+interface Props {
     mode?: 'view' | 'edit' | 'update';
     editId: string;
 }
 
-const EditView = ({ editId, mode = 'view' }: EditProps) => {
+const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const queryClient = useQueryClient();
     const { data: edit } = useEdit({ editId: Number(editId) });
     const captchaRef = useRef<TurnstileInstance>();
 
-    const { auth } = useAuth();
     const router = useRouter();
 
     const params = getEditParams(edit!.content_type, Object.keys(edit!.after))!;
@@ -58,6 +56,11 @@ const EditView = ({ editId, mode = 'view' }: EditProps) => {
         },
     });
 
+    const mutation = useMutation({
+        mutationFn: updateEdit,
+        onSuccess: () => onDismiss,
+    });
+
     const onDismiss = async () => {
         form.reset();
 
@@ -68,26 +71,19 @@ const EditView = ({ editId, mode = 'view' }: EditProps) => {
         router.push('/edit/' + editId);
     };
 
-    const onSaveSubmit = async (data: FormValues) => {
-        try {
-            if (captchaRef.current) {
-                const res = await updateEdit({
-                    auth: String(auth),
-                    edit_id: edit!.edit_id,
-                    after: {
-                        ...getFilteredEditParams(paramSlugs, data),
-                    },
-                    description: data.description,
-                    captcha: String(captchaRef.current.getResponse()),
-                });
+    const onSubmit = async (data: FormValues) => {
+        mutation.mutate({
+            params: {
+                edit_id: edit!.edit_id,
+                after: {
+                    ...getFilteredEditParams(paramSlugs, data),
+                },
+                description: data.description,
 
-                onDismiss();
-            } else {
-                throw Error('No captcha found');
-            }
-        } catch (e) {
-            return;
-        }
+                auto: data.auto || false,
+            },
+            captcha: String(captchaRef.current?.getResponse()),
+        });
     };
 
     return (
@@ -117,18 +113,18 @@ const EditView = ({ editId, mode = 'view' }: EditProps) => {
                             />
                             <div className="flex items-center gap-2">
                                 <Button
-                                    disabled={form.formState.isSubmitting}
-                                    onClick={form.handleSubmit(onSaveSubmit)}
+                                    disabled={mutation.isPending}
+                                    onClick={form.handleSubmit(onSubmit)}
                                     type="submit"
                                     className="w-fit"
                                 >
-                                    {form.formState.isSubmitting && (
+                                    {mutation.isPending && (
                                         <span className="loading loading-spinner"></span>
                                     )}
                                     Оновити
                                 </Button>
                                 <AutoButton
-                                    onSaveSubmit={onSaveSubmit}
+                                    onSubmit={onSubmit}
                                     handleSubmit={form.handleSubmit}
                                 />
                             </div>

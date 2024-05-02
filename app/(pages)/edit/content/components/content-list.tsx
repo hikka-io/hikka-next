@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import * as React from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
@@ -13,15 +13,13 @@ import H3 from '@/components/typography/h3';
 import Block from '@/components/ui/block';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
-import useAuth from '@/services/hooks/auth/useAuth';
 import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
 
 interface Props {
     extended?: boolean;
 }
 
-const ContentList = ({ extended }: Props) => {
-    const { auth } = useAuth();
+const ContentList: FC<Props> = ({ extended }) => {
     const [param, setParam] = useState('title_ua');
 
     const {
@@ -32,7 +30,7 @@ const ContentList = ({ extended }: Props) => {
         isFetchingNextPage,
         isLoading,
         ref,
-    } = useTodoAnime(param, String(auth));
+    } = useTodoAnime({ param });
 
     if (isLoading && !isFetchingNextPage) {
         return (

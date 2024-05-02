@@ -11,7 +11,7 @@ const useEdit = <T extends API.Edit>({
 }) => {
     return useQuery<T, Error>({
         queryKey: ['edit', String(editId)],
-        queryFn: () => getEdit({ edit_id: editId }),
+        queryFn: () => getEdit({ params: { edit_id: editId } }),
         enabled,
     });
 };

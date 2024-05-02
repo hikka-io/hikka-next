@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, memo, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever';
 import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator';
 
@@ -14,7 +14,7 @@ interface Props {
     onRemove: () => void;
 }
 
-const SortableCard = ({ id, content, onRemove }: Props) => {
+const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id });
 

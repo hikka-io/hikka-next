@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import Link from 'next/link';
 
 import EntryCard from '@/components/entry-card/entry-card';
@@ -12,7 +14,7 @@ interface Props {
     note?: string;
 }
 
-const Component = ({ anime, rewatches, note }: Props) => {
+const DetailsCell: FC<Props> = ({ anime, rewatches, note }) => {
     return (
         <TableCell className="w-36">
             <div className="flex items-center gap-4">
@@ -47,4 +49,4 @@ const Component = ({ anime, rewatches, note }: Props) => {
     );
 };
 
-export default Component;
+export default DetailsCell;

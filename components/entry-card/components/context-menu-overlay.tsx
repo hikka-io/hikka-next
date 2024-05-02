@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import Link from 'next/link';
@@ -10,20 +10,18 @@ import {
     ContextMenuItem,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 
-const ContextMenuOverlay = ({
-    children,
-    slug,
-    content_type,
-}: {
+interface Props {
     children: ReactNode;
     slug: string;
     content_type: API.ContentType;
-}) => {
-    const { auth } = useAuth();
+}
 
-    if (!auth) {
+const ContextMenuOverlay: FC<Props> = ({ children, slug, content_type }) => {
+    const { user: loggedUser } = useSession();
+
+    if (!loggedUser) {
         return children;
     }
 

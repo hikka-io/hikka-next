@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 import { UseFormSetValue } from 'react-hook-form/dist/types/form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
@@ -16,7 +17,7 @@ interface Props {
     setValue: UseFormSetValue<any>;
 }
 
-const TagsModal = ({ setValue }: Props) => {
+const TagsModal: FC<Props> = ({ setValue }) => {
     const { closeModal } = useModalContext();
     const [newTag, setNewTag] = React.useState('');
     const { setState: setSettingsState, editTags } = useSettingsContext();

@@ -64,7 +64,7 @@ const Component = () => {
                     options={[
                         { label: 'Українська', value: 'title_ua' },
                         { label: 'Англійська', value: 'title_en' },
-                        { label: 'Нативна', value: 'title_ja' },
+                        { label: 'Рідна', value: 'title_ja' },
                     ]}
                 />
             </div>

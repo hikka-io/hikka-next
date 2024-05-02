@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { FC } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
@@ -44,7 +45,7 @@ const CONTENT_TYPES: Record<string, any> = {
     },
 };
 
-const Component = ({ className }: Props) => {
+const EditFilters: FC<Props> = ({ className }) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
@@ -169,4 +170,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default EditFilters;

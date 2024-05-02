@@ -4,51 +4,49 @@ import { useSnackbar } from 'notistack';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+
+import FormInput from '@/components/form/form-input';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import passwordReset from '@/services/api/auth/passwordReset';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
-type FormValues = {
-    email: string;
-};
+const formSchema = z.object({
+    email: z.string().email(),
+});
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { openModal, closeModal } = useModalContext();
-    const form = useForm<FormValues>();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    });
 
-    const onSubmit = async (data: FormValues) => {
-        try {
-            const res = await passwordReset(data);
+    const mutation = useMutation({
+        mutationFn: passwordReset,
+        onSuccess: (data) => {
             closeModal();
             enqueueSnackbar(
                 <span>
-                    <span className="font-bold">{res.username}</span>, ми
+                    <span className="font-bold">{data.username}</span>, ми
                     успішно надіслали Вам лист для відновлення паролю на вашу
                     поштову адресу.
                 </span>,
                 { variant: 'info' },
             );
-            return;
-        } catch (e) {
-            if ('code' in (e as API.Error)) {
-                form.setError('email', { message: 'Щось пішло не так' });
-            }
-            console.error(e);
-            return;
-        }
+        },
+    });
+
+    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+        mutation.mutate({
+            params: data,
+        });
     };
 
     return (
@@ -65,40 +63,30 @@ const Component = () => {
             <Form {...form}>
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="w-full space-y-4 text-left"
+                    className="flex w-full flex-col gap-4 text-left"
                 >
-                    <FormField
+                    <FormInput
+                        type="email"
                         name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="email"
-                                        placeholder="Введіть пошту"
-                                        autoFocus
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        placeholder="Введіть пошту"
+                        label="Email"
                     />
+
                     <div className="flex w-full flex-col gap-4">
                         <Button
-                            onClick={form.handleSubmit(onSubmit)}
-                            disabled={form.formState.isSubmitting}
+                            onClick={form.handleSubmit(handleFormSubmit)}
+                            disabled={mutation.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {form.formState.isSubmitting && (
+                            {mutation.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Відновити
                         </Button>
                         <Button
                             variant="secondary"
-                            disabled={form.formState.isSubmitting}
+                            disabled={mutation.isPending}
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="login" />,

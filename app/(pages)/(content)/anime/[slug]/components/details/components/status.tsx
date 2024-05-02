@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { RELEASE_STATUS } from '@/utils/constants';
@@ -6,7 +8,7 @@ interface Props {
     status: API.Status;
 }
 
-const Status = ({ status }: Props) => {
+const Status: FC<Props> = ({ status }) => {
     if (!status) {
         return null;
     }

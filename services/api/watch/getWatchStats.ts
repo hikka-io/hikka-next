@@ -1,12 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
+
+export interface Params {
+    username: string;
+}
 
 export default async function req({
-    username,
-}: {
-    username: string;
-}): Promise<Record<API.WatchStatus | 'duration', number>> {
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<
+    Record<API.WatchStatus | 'duration', number>
+> {
     return fetchRequest<Record<API.WatchStatus | 'duration', number>>({
-        path: `/watch/${username}/stats`,
+        ...props,
+        path: `/watch/${params?.username}/stats`,
         method: 'get',
     });
 }

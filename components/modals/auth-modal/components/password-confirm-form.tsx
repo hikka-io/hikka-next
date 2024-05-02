@@ -1,63 +1,64 @@
 'use client';
 
 import { useSnackbar } from 'notistack';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+
+import FormInput from '@/components/form/form-input';
 import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import confirmPasswordReset from '@/services/api/auth/confirmPasswordReset';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { setCookie } from '@/utils/actions';
+import { setCookie } from '@/utils/cookies';
+import { z } from '@/utils/zod';
 
-type FormValues = {
-    password: string;
-    passwordConfirmation: string;
-};
+const formSchema = z
+    .object({
+        password: z.string().min(6),
+        passwordConfirmation: z.string().min(6),
+    })
+    .refine((data) => data.password === data.passwordConfirmation, {
+        message: 'Паролі не збігаються',
+        path: ['passwordConfirmation'],
+    });
 
 const Component = () => {
     const searchParams = useSearchParams();
     const { enqueueSnackbar } = useSnackbar();
-    const { closeModal } = useModalContext();
-    const form = useForm<FormValues>();
     const router = useRouter();
+    const { closeModal } = useModalContext();
 
-    const token = searchParams.get('token');
+    const token = searchParams.get('token')!;
 
-    const onSubmit = async (data: FormValues) => {
-        try {
-            if (data.passwordConfirmation !== data.password) {
-                return;
-            }
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    });
 
-            const res = await confirmPasswordReset({
-                password: data.password,
-                token: String(token),
-            });
-            await setCookie('auth', res.secret);
+    const mutation = useMutation({
+        mutationFn: ({ password }: z.infer<typeof formSchema>) =>
+            confirmPasswordReset({
+                params: {
+                    password,
+                    token,
+                },
+            }),
+        onSuccess: async (data) => {
+            await setCookie('auth', data.secret);
             form.reset();
             closeModal();
             router.push('/anime');
             enqueueSnackbar('Ви успішно змінили Ваш пароль.', {
                 variant: 'success',
             });
-            return;
-        } catch (e) {
-            console.error(e);
-            return;
-        }
-    };
+        },
+    });
 
     return (
         <div className="w-full space-y-4">
@@ -72,49 +73,33 @@ const Component = () => {
             <Form {...form}>
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="w-full space-y-4 text-left"
+                    className="flex w-full flex-col gap-4 text-left"
                 >
-                    <FormField
+                    <FormInput
+                        type="password"
                         name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Пароль</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="Введіть пароль"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    Не менше 6 символів, не менше 2 літер.
-                                </FormDescription>
-                            </FormItem>
-                        )}
+                        placeholder="Введіть пароль"
+                        label="Пароль"
+                        description="Не менше 8 символів."
                     />
-                    <FormField
+
+                    <FormInput
+                        type="password"
                         name="passwordConfirmation"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Підтвердження паролю</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="Повторіть пароль"
-                                        {...field}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
+                        placeholder="Повторіть пароль"
+                        label="Підтвердження паролю"
                     />
+
                     <div className="flex w-full flex-col gap-4">
                         <Button
-                            onClick={form.handleSubmit(onSubmit)}
-                            disabled={form.formState.isSubmitting}
+                            onClick={form.handleSubmit((data) =>
+                                mutation.mutate(data),
+                            )}
+                            disabled={mutation.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {form.formState.isSubmitting && (
+                            {mutation.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Відновити

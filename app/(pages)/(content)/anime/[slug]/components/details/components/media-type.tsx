@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Label } from '@/components/ui/label';
 import { MEDIA_TYPE } from '@/utils/constants';
 
@@ -5,7 +7,7 @@ interface Props {
     media_type: API.MediaType;
 }
 
-const MediaType = ({ media_type }: Props) => {
+const MediaType: FC<Props> = ({ media_type }) => {
     if (!media_type) {
         return null;
     }

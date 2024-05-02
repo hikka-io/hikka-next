@@ -1,12 +1,14 @@
+import { FC } from 'react';
+
 import { redirect } from 'next/navigation';
 
 import AnimeList from './components/anime-list';
 
-const AnimeListPage = ({
-    searchParams,
-}: {
+interface Props {
     searchParams: Record<string, string>;
-}) => {
+}
+
+const AnimeListPage: FC<Props> = ({ searchParams }) => {
     const page = searchParams.page;
 
     if (!page) {

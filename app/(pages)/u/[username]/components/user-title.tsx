@@ -16,7 +16,7 @@ import useUser from '@/services/hooks/user/useUser';
 
 interface Props {}
 
-const Component = ({}: Props) => {
+const UserTitle = () => {
     const params = useParams();
     const { data: user } = useUser({ username: String(params.username) });
 
@@ -56,4 +56,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default UserTitle;

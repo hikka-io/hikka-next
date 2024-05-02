@@ -1,31 +1,25 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import addWatch from '@/services/api/watch/addWatch';
-
-import useAuth from '../auth/useAuth';
+import addWatch, { Params } from '@/services/api/watch/addWatch';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 const useAddToList = ({ slug }: { slug: string }) => {
-    const { auth } = useAuth();
+    const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationKey: ['addToList', slug],
-        mutationFn: (mutationParams: {
-            status: API.WatchStatus;
-            score?: number;
-            episodes?: number;
-            note?: string;
-            rewatches?: number;
-        }) =>
+        mutationFn: (mutationParams: Omit<Params, 'slug'>) =>
             addWatch({
-                auth: auth!,
-                slug: slug,
-                ...mutationParams,
+                params: {
+                    ...mutationParams,
+                    slug: slug,
+                },
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.refetchQueries({
-                queryKey: ['watch', slug, { auth }],
+                queryKey: ['watch', slug],
                 exact: false,
             });
             await queryClient.invalidateQueries({
@@ -39,6 +33,8 @@ const useAddToList = ({ slug }: { slug: string }) => {
                 queryKey: ['animeSchedule', {}],
                 exact: false,
             });
+
+            closeModal();
         },
     });
 };

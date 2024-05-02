@@ -4,7 +4,6 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
 import Comments from '@/components/comments/comments';
 import getComments from '@/services/api/comments/getComments';
-import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -26,24 +25,25 @@ interface Props {
 }
 
 const AnimeCommentsPage = async ({ params: { slug } }: Props) => {
-    const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+    const queryClient = await getQueryClient();
 
     await queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,
-        queryKey: ['comments', slug, 'anime', { auth }],
-        queryFn: ({ pageParam }) =>
+        queryKey: ['comments', slug, 'anime'],
+        queryFn: ({ pageParam, meta }) =>
             getComments({
-                slug,
-                content_type: 'anime',
+                params: {
+                    slug,
+                    content_type: 'anime',
+                },
                 page: pageParam,
-                auth,
+                auth: meta?.auth,
             }),
     });
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <Comments auth={auth} slug={slug} content_type="anime" />
+            <Comments slug={slug} content_type="anime" />
         </HydrationBoundary>
     );
 };

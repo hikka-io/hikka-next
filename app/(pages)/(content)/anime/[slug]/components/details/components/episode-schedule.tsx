@@ -1,6 +1,7 @@
 import format from 'date-fns/format';
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
+import { FC } from 'react';
 
 import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
@@ -14,7 +15,7 @@ interface Props {
     schedule: API.Schedule[];
 }
 
-const EpisodeSchedule = ({ schedule }: Props) => {
+const EpisodeSchedule: FC<Props> = ({ schedule }) => {
     if (!schedule) {
         return null;
     }

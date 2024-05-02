@@ -10,7 +10,7 @@ const usePersonAnime = ({ slug }: { slug: string }) => {
         queryKey: ['personAnime', slug],
         queryFn: ({ pageParam = 1 }) =>
             getPersonAnime({
-                slug: slug,
+                params: { slug },
                 page: pageParam,
             }),
         select: (data) => ({

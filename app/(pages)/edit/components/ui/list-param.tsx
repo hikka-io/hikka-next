@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
@@ -15,7 +15,7 @@ interface Props {
     mode: 'edit' | 'view';
 }
 
-const ListParam = ({ param, mode }: Props) => {
+const ListParam: FC<Props> = ({ param, mode }) => {
     const { control } = useFormContext();
     const { fields, append, remove } = useFieldArray({
         control,

@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import EntryCard from '@/components/entry-card/entry-card';
 import Stack from '@/components/ui/stack';
 import { VIDEO } from '@/utils/constants';
@@ -7,7 +9,7 @@ interface Props {
     videos: API.Video[];
 }
 
-const Video = ({ extended, videos }: Props) => {
+const Video: FC<Props> = ({ extended, videos }) => {
     if (!videos) {
         return null;
     }

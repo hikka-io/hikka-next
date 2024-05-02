@@ -1,20 +1,24 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.WithPagination<API.Person> {}
 
+export interface Params {
+    query?: string;
+}
+
 export default async function req({
-    query,
     page = 1,
     size = 15,
-}: {
-    query?: string;
-    size?: number;
-    page?: number;
-}): Promise<Response> {
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/people`,
         method: 'post',
-        params: { query },
         page,
         size,
         config: {

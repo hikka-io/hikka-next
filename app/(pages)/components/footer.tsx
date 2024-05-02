@@ -19,7 +19,7 @@ import { useModalContext } from '@/services/providers/modal-provider';
 
 import RightHolder from './rightholder';
 
-const Component = () => {
+const Footer = () => {
     const { openModal } = useModalContext();
 
     return (
@@ -90,4 +90,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default Footer;

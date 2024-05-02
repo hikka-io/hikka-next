@@ -11,10 +11,9 @@ import { convertAnimeList } from '@/utils/animeAdapter';
 export interface Props {
     page: number;
     iPage: number;
-    auth?: string | null;
 }
 
-const useAnimeCatalog = ({ page, iPage, auth }: Props) => {
+const useAnimeCatalog = ({ page, iPage }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams();
 
@@ -42,7 +41,6 @@ const useAnimeCatalog = ({ page, iPage, auth }: Props) => {
                 years,
                 lang,
                 genres,
-                auth,
                 sort,
                 order,
             },
@@ -54,20 +52,21 @@ const useAnimeCatalog = ({ page, iPage, auth }: Props) => {
         },
         queryFn: ({ pageParam = page }) =>
             getAnimeCatalog({
-                query: search,
-                years: years.length == 2 ? years : undefined,
-                rating: ageRatings,
-                season: seasons,
-                status: statuses,
-                media_type: types,
-                sort: [
-                    `${sort}:${order}`,
-                    ...(sort === 'score' ? ['scored_by:desc'] : []),
-                ],
-                genres,
-                only_translated: Boolean(lang),
+                params: {
+                    query: search,
+                    years: years.length == 2 ? years : undefined,
+                    rating: ageRatings,
+                    season: seasons,
+                    status: statuses,
+                    media_type: types,
+                    sort: [
+                        `${sort}:${order}`,
+                        ...(sort === 'score' ? ['scored_by:desc'] : []),
+                    ],
+                    genres,
+                    only_translated: Boolean(lang),
+                },
                 page: Number(pageParam),
-                auth: String(auth),
                 size: 20,
             }),
         select: (data) => ({

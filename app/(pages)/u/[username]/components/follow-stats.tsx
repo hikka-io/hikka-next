@@ -1,5 +1,7 @@
 'use client';
 
+import { FC } from 'react';
+
 import { useParams } from 'next/navigation';
 
 import FollowlistModal from '@/components/modals/followlist-modal';
@@ -13,7 +15,7 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ className }: Props) => {
+const FollowStats: FC<Props> = ({ className }) => {
     const { openModal } = useModalContext();
     const params = useParams();
 
@@ -70,4 +72,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default FollowStats;

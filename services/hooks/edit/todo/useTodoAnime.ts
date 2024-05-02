@@ -3,15 +3,14 @@ import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';
 
-const useTodoAnime = (param: string, auth: string) => {
+const useTodoAnime = ({ param }: { param: string }) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
-        queryKey: ['list', param, { auth }],
+        queryKey: ['list', param],
         queryFn: ({ pageParam = 1 }) =>
             getTodoAnime({
-                param: param,
-                auth: String(auth),
+                params: { param },
                 page: pageParam,
                 size: 18,
             }),

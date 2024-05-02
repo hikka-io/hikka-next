@@ -1,24 +1,25 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useSession from '@/services/hooks/auth/useSession';
 
 interface Props {
-    onSaveSubmit: (data: any) => Promise<void>;
+    onSubmit: (data: any) => Promise<void>;
     handleSubmit: (onSubmit: (data: any) => Promise<void>) => () => void;
 }
 
-const AutoButton = ({ onSaveSubmit, handleSubmit }: Props) => {
-    const { data: loggedUser } = useLoggedUser();
+const AutoButton: FC<Props> = ({ onSubmit, handleSubmit }) => {
+    const { user: loggedUser } = useSession();
 
     if (!loggedUser || loggedUser.role === 'user') {
         return null;
     }
 
     const onAcceptSubmit = async (data: any) => {
-        return await onSaveSubmit({ ...data, auto: true });
+        return await onSubmit({ ...data, auto: true });
     };
 
     return (

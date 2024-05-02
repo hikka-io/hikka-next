@@ -15,7 +15,6 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import getCollection from '@/services/api/collections/getCollection';
 import CollectionProvider from '@/services/providers/collection-provider';
-import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -24,10 +23,12 @@ export async function generateMetadata({
 }: {
     params: Record<string, any>;
 }): Promise<Metadata> {
-    const auth = await getCookie('auth');
-
     try {
-        const collection = await getCollection({ reference, auth });
+        const collection = await getCollection({
+            params: {
+                reference,
+            },
+        });
 
         return _generateMetadata({
             title: `Колекції / ${collection.title}`,
@@ -44,15 +45,20 @@ const CollectionPage = async ({
 }: {
     params: Record<string, any>;
 }) => {
-    const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+    const queryClient = await getQueryClient();
 
     let collection;
 
     try {
         collection = await queryClient.fetchQuery({
-            queryKey: ['collection', reference, { auth }],
-            queryFn: () => getCollection({ reference, auth }),
+            queryKey: ['collection', reference],
+            queryFn: ({ meta }) =>
+                getCollection({
+                    params: {
+                        reference,
+                    },
+                    auth: meta?.auth,
+                }),
         });
     } catch (e) {
         return redirect('/collections');
@@ -84,7 +90,6 @@ const CollectionPage = async ({
                                 <CollectionGroups />
                             </Block>
                             <Comments
-                                auth={auth}
                                 slug={reference}
                                 content_type="collection"
                             />

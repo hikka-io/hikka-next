@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import { FC } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -12,12 +13,13 @@ import Moderator from '@/app/(pages)/edit/[editId]/components/moderator';
 import Content from '@/app/(pages)/edit/components/content/content';
 import EditStatus from '@/app/(pages)/edit/components/ui/edit-status';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
-import { getCookie } from '@/utils/actions';
+import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -34,7 +36,11 @@ export async function generateMetadata({
         editId: string;
     };
 }): Promise<Metadata> {
-    const edit = await getEdit({ edit_id: Number(params.editId) });
+    const edit = await getEdit({
+        params: {
+            edit_id: Number(params.editId),
+        },
+    });
 
     return _generateMetadata({
         title: `#${params.editId}`,
@@ -42,24 +48,31 @@ export async function generateMetadata({
     });
 }
 
-const EditLayout = async ({ params: { editId }, children }: Props) => {
-    const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
+    const queryClient = await getQueryClient();
 
     const edit = await queryClient.fetchQuery({
         queryKey: ['edit', editId],
-        queryFn: () => getEdit({ edit_id: Number(editId) }),
+        queryFn: ({ meta }) =>
+            getEdit({
+                params: {
+                    edit_id: Number(editId),
+                },
+                auth: meta?.auth,
+            }),
     });
 
     await queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,
-        queryKey: ['comments', editId, 'edit', { auth: auth }],
-        queryFn: ({ pageParam }) =>
+        queryKey: ['comments', editId, 'edit'],
+        queryFn: ({ pageParam, meta }) =>
             getComments({
-                slug: editId,
-                content_type: 'edit',
+                params: {
+                    slug: editId,
+                    content_type: 'edit',
+                },
                 page: pageParam,
-                auth: auth,
+                auth: meta?.auth,
             }),
     });
 
@@ -71,42 +84,41 @@ const EditLayout = async ({ params: { editId }, children }: Props) => {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <>
-                <Breadcrumbs>
-                    <Link
-                        href={'/edit/' + edit.edit_id}
-                        className="text-sm font-bold hover:underline"
-                    >
-                        Правка #{edit.edit_id}
-                    </Link>
-                </Breadcrumbs>
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+            <Breadcrumbs>
+                <NavMenu routes={EDIT_NAV_ROUTES} urlPrefix="/edit" />
+                <Link
+                    href={'/edit/' + edit.edit_id}
+                    className="text-sm font-bold hover:underline"
+                >
+                    Правка #{edit.edit_id}
+                </Link>
+            </Breadcrumbs>
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+                <Block>
+                    <Header title={`Правка #${edit.edit_id}`} />
+                    {children}
+                </Block>
+                <div className="flex flex-col gap-12">
                     <Block>
-                        <Header title={`Правка #${edit.edit_id}`} />
-                        {children}
+                        <Header
+                            title="Деталі"
+                            titleClassName="justify-between w-full"
+                            variant="h4"
+                        >
+                            <EditStatus editId={editId} />
+                        </Header>
+                        <Card className="justify-between">
+                            {edit.author && <Author editId={editId} />}
+                            <Moderator editId={editId} />
+                        </Card>
                     </Block>
-                    <div className="flex flex-col gap-12">
-                        <Block>
-                            <Header
-                                title="Деталі"
-                                titleClassName="justify-between w-full"
-                                variant="h4"
-                            >
-                                <EditStatus editId={editId} />
-                            </Header>
-                            <Card className="justify-between">
-                                {edit.author && <Author editId={editId} />}
-                                <Moderator editId={editId} />
-                            </Card>
-                        </Block>
-                        <Content
-                            slug={edit.content.slug as string}
-                            content_type={edit.content_type as API.ContentType}
-                            content={edit.content}
-                        />
-                    </div>
+                    <Content
+                        slug={edit.content.slug as string}
+                        content_type={edit.content_type as API.ContentType}
+                        content={edit.content}
+                    />
                 </div>
-            </>
+            </div>
         </HydrationBoundary>
     );
 };

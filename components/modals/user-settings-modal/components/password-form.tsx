@@ -3,92 +3,82 @@
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Form } from '@/components/ui/form';
 import changeUserPassword from '@/services/api/settings/changeUserPassword';
-import useAuth from '@/services/hooks/auth/useAuth';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
-type FormValues = {
-    password: string;
-    passwordConfirmation: string;
-};
+const formSchema = z
+    .object({
+        password: z.string().min(6),
+        passwordConfirmation: z.string().min(6),
+    })
+    .refine((data) => data.password === data.passwordConfirmation, {
+        message: 'Паролі не збігаються',
+        path: ['passwordConfirmation'],
+    });
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
-    const {
-        register,
-        handleSubmit,
-        formState: { isSubmitting },
-    } = useForm<FormValues>();
-    const { auth } = useAuth();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    });
 
-    const onSubmit = async (data: FormValues) => {
-        if (data.password !== data.passwordConfirmation) {
-            return;
-        }
-
-        try {
-            await changeUserPassword({
-                auth: String(auth),
-                password: data.password,
-            });
+    const mutation = useMutation({
+        mutationFn: changeUserPassword,
+        onSuccess: async () => {
             await queryClient.invalidateQueries();
             closeModal();
             enqueueSnackbar('Ви успішно змінили пароль.', {
                 variant: 'success',
             });
-            return;
-        } catch (e) {
-            console.error(e);
-            return;
-        }
+        },
+    });
+
+    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+        mutation.mutate({
+            params: data,
+        });
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-6 p-6"
-        >
-            <div className="flex w-full flex-col gap-6">
-                <div className="flex w-full flex-col gap-2">
-                    <Label>Новий пароль</Label>
-                    <Input
-                        type="password"
-                        placeholder="Введіть новий пароль"
-                        {...register('password', { required: true })}
-                    />
-                </div>
-                <div className="flex w-full flex-col gap-2">
-                    <Label>Підтвердити пароль</Label>
-                    <Input
-                        type="password"
-                        placeholder="Підтвердіть новий пароль"
-                        {...register('passwordConfirmation', {
-                            required: true,
-                        })}
-                    />
-                </div>
-            </div>
-            <div className="w-full">
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(handleFormSubmit)}
+                className="flex flex-col gap-6 p-6"
+            >
+                <FormInput
+                    name="password"
+                    type="password"
+                    placeholder="Введіть новий пароль"
+                    label="Новий пароль"
+                />
+                <FormInput
+                    name="passwordConfirmation"
+                    type="password"
+                    placeholder="Підтвердіть новий пароль"
+                    label="Підтвердити пароль"
+                />
                 <Button
-                    disabled={isSubmitting}
+                    disabled={mutation.isPending}
                     variant="default"
                     type="submit"
                     className="w-full"
                 >
-                    {isSubmitting && (
+                    {mutation.isPending && (
                         <span className="loading loading-spinner"></span>
                     )}
                     Зберегти
                 </Button>
-            </div>
-        </form>
+            </form>
+        </Form>
     );
 };
 

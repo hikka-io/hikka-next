@@ -1,5 +1,7 @@
 'use client';
 
+import { FC } from 'react';
+
 import { useParams } from 'next/navigation';
 
 import CharacterCard from '@/app/(pages)/(content)/components/character-card';
@@ -12,7 +14,7 @@ interface Props {
     extended?: boolean;
 }
 
-const OtherCharacters = ({ extended }: Props) => {
+const OtherCharacters: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useCharacters({ slug: String(params.slug) });

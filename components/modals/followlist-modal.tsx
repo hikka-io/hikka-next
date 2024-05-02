@@ -1,8 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import { useParams } from 'next/navigation';
 
@@ -10,7 +8,6 @@ import FollowUserItem from '@/app/(pages)/u/[username]/components/ui/follow-user
 import LoadMoreButton from '@/components/load-more-button';
 import getFollowers from '@/services/api/follow/getFollowers';
 import getFollowings from '@/services/api/follow/getFollowings';
-import useAuth from '@/services/hooks/auth/useAuth';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
 interface Props {
@@ -18,30 +15,21 @@ interface Props {
 }
 
 const Component = ({ type }: Props) => {
-    const { ref, inView } = useInView();
     const params = useParams();
-    const { auth } = useAuth();
 
     const func = type === 'followers' ? getFollowers : getFollowings;
 
-    const { list, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useInfiniteList({
-            queryKey: [type, params.username, auth],
+            queryKey: [type, params.username],
             queryFn: ({ pageParam = 1 }) =>
                 func({
-                    username: String(params.username),
-                    auth: String(auth),
+                    params: {
+                        username: String(params.username),
+                    },
                     page: pageParam,
                 }),
         });
-
-    useEffect(() => {
-        if (inView) {
-            if (hasNextPage) {
-                fetchNextPage();
-            }
-        }
-    }, [inView]);
 
     if (!list) {
         return null;

@@ -1,5 +1,8 @@
-import config from '@/services/api/config';
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 interface Response {
     secret: string;
@@ -7,16 +10,19 @@ interface Response {
     created: number;
 }
 
-export default async function req({
-    provider,
-    code,
-}: {
+export interface Params {
     provider: 'google';
     code: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/auth/oauth/${provider}`,
+        ...props,
+        path: `/auth/oauth/${params?.provider}`,
         method: 'post',
-        params: { code },
+        params: { code: params?.code },
     });
 }

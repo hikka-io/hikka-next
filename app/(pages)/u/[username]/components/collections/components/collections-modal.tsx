@@ -1,11 +1,11 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
-import { Button } from '@/components/ui/button';
 import useUserCollections from '@/services/hooks/user/useUserCollections';
 
 import CollectionItem from './ui/collection-item';
@@ -14,7 +14,7 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ className }: Props) => {
+const CollectionModal: FC<Props> = ({ className }) => {
     const params = useParams();
 
     const {
@@ -53,4 +53,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default CollectionModal;

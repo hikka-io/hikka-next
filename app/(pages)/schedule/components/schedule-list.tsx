@@ -14,8 +14,14 @@ import useAnimeSchedule from '@/services/hooks/stats/useAnimeSchedule';
 import ScheduleItem from './ui/schedule-item';
 
 const ScheduleList = () => {
-    const { list, hasNextPage, isFetchingNextPage, fetchNextPage, isLoading, ref } =
-        useAnimeSchedule();
+    const {
+        list,
+        hasNextPage,
+        isFetchingNextPage,
+        fetchNextPage,
+        isLoading,
+        ref,
+    } = useAnimeSchedule();
 
     const sortedList = list?.reduce(
         (acc: Record<string, API.AnimeSchedule[]>, item) => {

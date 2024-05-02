@@ -1,9 +1,13 @@
-import { createElement } from 'react';
 import * as React from 'react';
+import { FC, createElement } from 'react';
 
 import { WATCH_STATUS } from '@/utils/constants';
 
-const WatchStatus = ({ watch }: { watch: API.Watch }) => (
+interface Props {
+    watch: API.Watch;
+}
+
+const WatchStatus: FC<Props> = ({ watch }) => (
     <div className="absolute left-0 top-0 w-full">
         <div
             className="absolute right-2 top-2 z-[1] w-fit rounded-md border-white p-1 text-white"

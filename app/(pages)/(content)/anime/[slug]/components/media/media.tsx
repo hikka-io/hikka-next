@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -16,7 +16,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Media = ({ extended }: Props) => {
+const Media: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
     const [active, setActive] = useState<'video' | 'music'>(

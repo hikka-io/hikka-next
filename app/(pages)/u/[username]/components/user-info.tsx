@@ -18,20 +18,18 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useSession from '@/services/hooks/auth/useSession';
 import useUser from '@/services/hooks/user/useUser';
 import { useModalContext } from '@/services/providers/modal-provider';
 
-interface Props {}
-
-const Component = ({}: Props) => {
+const UserInfo = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const { openModal } = useModalContext();
     const params = useParams();
 
     const { data: user } = useUser({ username: String(params.username) });
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
@@ -134,4 +132,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default UserInfo;

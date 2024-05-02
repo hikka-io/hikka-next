@@ -9,11 +9,7 @@ import useFollowingWatchList from '@/services/hooks/watch/useFollowingWatchList'
 
 import FollowingItem from './ui/following-item';
 
-interface Props {
-    className?: string;
-}
-
-const FollowingsModal = ({ className }: Props) => {
+const FollowingsModal = () => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =

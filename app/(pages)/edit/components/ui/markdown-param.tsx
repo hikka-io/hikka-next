@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { useParams } from 'next/navigation';
@@ -16,7 +17,7 @@ interface Props {
     mode: 'view' | 'edit';
 }
 
-const MarkdownParam = ({ mode, param }: Props) => {
+const MarkdownParam: FC<Props> = ({ mode, param }) => {
     const { control } = useFormContext();
     const params = useParams();
     const [showDiff, setShowDiff] = React.useState(false);

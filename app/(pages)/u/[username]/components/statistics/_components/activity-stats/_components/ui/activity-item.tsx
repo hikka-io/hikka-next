@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 import toDate from 'date-fns/toDate';
-import React from 'react';
+import React, { FC } from 'react';
 
 import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
@@ -18,7 +18,7 @@ interface Props {
 
 const ACTION_DECLENSION: [string, string, string] = ['дія', 'дії', 'дій'];
 
-const Component = ({ item, max }: Props) => {
+const ActivityItem: FC<Props> = ({ item, max }) => {
     return (
         <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
@@ -47,4 +47,4 @@ const Component = ({ item, max }: Props) => {
     );
 };
 
-export default Component;
+export default ActivityItem;

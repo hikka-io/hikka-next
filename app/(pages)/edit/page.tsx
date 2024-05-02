@@ -9,12 +9,15 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import EditList from '@/app/(pages)/edit/components/edit-list/edit-list';
 import EditTopStats from '@/app/(pages)/edit/components/edit-top-stats/edit-top-stats';
 import EditFiltersModal from '@/components/modals/edit-filters-modal';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 import getEditList from '@/services/api/edit/getEditList';
 import getEditTop from '@/services/api/stats/edit/getEditTop';
+import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Filters from '../../../components/filters/edit-filters';
@@ -28,7 +31,7 @@ const EditListPage = async ({
         return redirect('/edit?page=1');
     }
 
-    const queryClient = getQueryClient();
+    const queryClient = await getQueryClient();
 
     await queryClient.prefetchQuery({
         queryKey: [
@@ -41,12 +44,14 @@ const EditListPage = async ({
                 edit_status: edit_status || null,
             },
         ],
-        queryFn: () => getEditList({ page: Number(page) }),
+        queryFn: ({ meta }) =>
+            getEditList({ page: Number(page), auth: meta?.auth }),
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['editTopStats'],
-        queryFn: ({ pageParam }) => getEditTop({ page: Number(pageParam) }),
+        queryFn: ({ pageParam, meta }) =>
+            getEditTop({ page: Number(pageParam), auth: meta?.auth }),
         initialPageParam: 1,
     });
 
@@ -54,6 +59,9 @@ const EditListPage = async ({
 
     return (
         <HydrationBoundary state={dehydratedState}>
+            <Breadcrumbs>
+                <NavMenu routes={EDIT_NAV_ROUTES} urlPrefix="/edit" />
+            </Breadcrumbs>
             <div className="flex flex-col gap-12 lg:gap-12">
                 <EditTopStats />
                 <div className="grid grid-cols-1 justify-center gap-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
@@ -73,7 +81,7 @@ const EditListPage = async ({
                             <EditList page={page as string} />
                         </Block>
                     </div>
-                    <Card className="py-0 sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
+                    <Card className="sticky top-20 order-1 hidden w-full py-0 opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
                         <Filters />
                     </Card>
                 </div>

@@ -2,7 +2,7 @@
 
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 
 import Link from 'next/link';
 
@@ -35,7 +35,7 @@ export const getShortLocale = () => ({
     },
 });
 
-const ScheduleItem = ({ item }: Props) => {
+const ScheduleItem: FC<Props> = ({ item }) => {
     return (
         <div className="flex rounded-md border border-secondary/60 bg-secondary/30">
             <EntryCard

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { CSSProperties } from 'react';
+import { CSSProperties, FC } from 'react';
 
 import { TableCell } from '@/components/ui/table';
 
@@ -7,7 +7,7 @@ interface Props {
     score: number;
 }
 
-const Component = ({ score }: Props) => (
+const ScoreCell: FC<Props> = ({ score }) => (
     <TableCell className="w-4 text-right" align="right">
         <div
             className={clsx(
@@ -27,4 +27,4 @@ const Component = ({ score }: Props) => (
     </TableCell>
 );
 
-export default Component;
+export default ScoreCell;

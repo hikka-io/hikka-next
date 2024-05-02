@@ -1,23 +1,24 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     success: boolean;
 }
 
-export default async function req({
-    overwrite,
-    anime,
-    auth,
-}: {
+export interface Params {
     overwrite: boolean;
     anime: Record<string, any>[];
-    auth: string;
-}): Promise<Response> {
+}
+
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/settings/import/watch`,
         method: 'post',
-        auth,
-        params: { anime, overwrite },
-        enqueueError: true,
     });
 }

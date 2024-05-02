@@ -1,16 +1,23 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Anime {}
 
-export default async function req({
-    username,
-    status,
-}: {
+export interface Params {
     username: string;
     status: API.WatchStatus;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/watch/random/${username}/${status}`,
+        ...props,
+        path: `/watch/random/${params?.username}/${params?.status}`,
         method: 'get',
     });
 }

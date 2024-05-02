@@ -13,9 +13,8 @@ import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import useCollection from '@/services/hooks/collections/useCollection';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 import CollectionAuthor from './components/collection-author';
@@ -23,11 +22,10 @@ import CollectionDeleteModal from './components/collection-delete-modal';
 import CollectionVote from './components/collection-vote';
 
 const CollectionInfo = () => {
-    const { auth } = useAuth();
     const params = useParams();
     const { nsfw, spoiler, tags } = useCollectionContext();
 
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
 
     const { data: collection } = useCollection({
         reference: String(params.reference),
@@ -94,7 +92,7 @@ const CollectionInfo = () => {
                 <div className="flex w-full items-center gap-2">
                     <CollectionVote />
                     <FavoriteButton
-                        disabled={!auth}
+                        disabled={!loggedUser}
                         slug={collection.reference}
                         content_type="collection"
                         size="icon"

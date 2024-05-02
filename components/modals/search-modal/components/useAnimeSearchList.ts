@@ -15,7 +15,9 @@ const useAnimeSearchList = ({ value }: Props) => {
         queryKey: ['animeSearchList', value],
         queryFn: () =>
             getAnimeCatalog({
-                query: value,
+                params: {
+                    query: value,
+                },
                 size: 30,
             }),
         enabled: value !== undefined && value.length >= 3,

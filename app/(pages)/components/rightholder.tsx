@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const Component = () => {
+const Rightholder = () => {
     return (
         <div className="markdown">
             <p>
@@ -33,4 +33,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default Rightholder;

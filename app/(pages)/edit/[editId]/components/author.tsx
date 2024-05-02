@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns';
 import * as React from 'react';
+import { FC } from 'react';
 
 import Link from 'next/link';
 
@@ -15,7 +16,7 @@ interface Props {
     editId: string;
 }
 
-const Author = ({ editId }: Props) => {
+const Author: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit) {

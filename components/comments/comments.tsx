@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 
 import CommentInput from '@/components/comments/components/comment-input';
 import Comments from '@/components/comments/components/comments';
@@ -8,18 +8,17 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import useComments from '@/services/hooks/comments/useComments';
 import CommentsProvider from '@/services/providers/comments-provider';
 
 interface Props {
     slug: string;
     content_type: API.ContentType;
-    auth?: string;
 }
 
-const Component = ({ slug, content_type }: Props) => {
-    const { auth } = useAuth();
+const CommentsBlock: FC<Props> = ({ slug, content_type }) => {
+    const { user: loggedUser } = useSession();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useComments({ slug, content_type });
 
@@ -27,7 +26,7 @@ const Component = ({ slug, content_type }: Props) => {
         <Block>
             <Header title="Обговорення" />
             <div className="flex flex-col gap-4">
-                {auth && (
+                {loggedUser && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}
                 {list && list.length === 0 && (
@@ -57,4 +56,4 @@ const Component = ({ slug, content_type }: Props) => {
     );
 };
 
-export default Component;
+export default CommentsBlock;

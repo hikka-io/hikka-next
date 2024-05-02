@@ -16,7 +16,7 @@ export async function generateMetadata(
     });
 }
 
-const Component = async () => {
+const FavoritesPage = async () => {
     return (
         <div className="flex flex-col gap-12">
             <Favorites extended />
@@ -24,4 +24,4 @@ const Component = async () => {
     );
 };
 
-export default Component;
+export default FavoritesPage;

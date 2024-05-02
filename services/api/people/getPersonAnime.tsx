@@ -1,4 +1,8 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.WithPagination<PersonAnime> {}
 
@@ -10,17 +14,19 @@ type PersonAnime = {
     anime: API.AnimeInfo;
 };
 
+export interface Params {
+    slug: string;
+}
+
 export default async function req({
-    slug,
+    params,
     page = 1,
     size = 15,
-}: {
-    slug: string;
-    size?: number;
-    page?: number;
-}): Promise<Response> {
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/people/${slug}/anime`,
+        ...props,
+        path: `/people/${params?.slug}/anime`,
         method: 'get',
         page,
         size,

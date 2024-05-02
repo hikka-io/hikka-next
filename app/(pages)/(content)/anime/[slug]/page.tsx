@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import getAnimeInfo, {
     Response as AnimeResponse,
@@ -15,14 +15,18 @@ import Media from './components/media/media';
 import Staff from './components/staff';
 import WatchStats from './components/watch-stats/watch-stats';
 
-const AnimePage = async ({
-    params,
-}: {
+interface Props {
     params: {
         slug: string;
     };
-}) => {
-    const anime: AnimeResponse = await getAnimeInfo({ slug: params.slug });
+}
+
+const AnimePage: FC<Props> = async ({ params }) => {
+    const anime: AnimeResponse = await getAnimeInfo({
+        params: {
+            slug: params.slug,
+        },
+    });
     const jsonLd = jsonSchema({ anime });
 
     return (

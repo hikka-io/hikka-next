@@ -5,7 +5,7 @@ const useStaff = ({ slug }: { slug: string }) => {
     return useInfiniteList({
         queryKey: ['staff', slug],
         queryFn: ({ pageParam = 1 }) =>
-            getAnimeStaff({ slug: slug, page: pageParam }),
+            getAnimeStaff({ params: { slug }, page: pageParam }),
     });
 };
 

@@ -2,25 +2,16 @@ import { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
 import React, { ReactNode } from 'react';
 
-
-
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-
-
 import '@mdxeditor/editor/style.css';
-
-
 
 import Providers from '@/app/(pages)/components/providers';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import generateMetadata from '@/utils/generateMetadata';
 
-
-
 import './globals.css';
-
 
 const inter = Inter({
     subsets: ['latin', 'cyrillic'],
@@ -76,11 +67,11 @@ export const viewport: Viewport = {
     maximumScale: 1,
 };
 
-export default async function RootLayout({
-    children,
-}: {
+interface Props {
     children: ReactNode;
-}) {
+}
+
+const RootLayout = ({ children }: Props) => {
     return (
         <html
             className={`${inter.variable} ${fixelDisplay.variable}`}
@@ -103,4 +94,6 @@ export default async function RootLayout({
             </body>
         </html>
     );
-}
+};
+
+export default RootLayout;

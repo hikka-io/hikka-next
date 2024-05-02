@@ -1,14 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.AnimeInfo {}
 
-export default async function req({
-    slug,
-}: {
+export interface Params {
     slug: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/anime/${slug}`,
+        ...props,
+        path: `/anime/${params?.slug}`,
         method: 'get',
         config: {
             next: {

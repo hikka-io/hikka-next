@@ -8,22 +8,32 @@ import BxUpvote from '~icons/bx/upvote';
 
 import { useParams } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import vote from '@/services/api/vote/vote';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import useCollection from '@/services/hooks/collections/useCollection';
 
 const CollectionVote = () => {
+    const { user: loggedUser } = useSession();
     const queryClient = useQueryClient();
-    const { auth } = useAuth();
     const params = useParams();
 
     const { data: collection } = useCollection({
         reference: String(params.reference),
+    });
+
+    const mutation = useMutation({
+        mutationFn: vote,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['collection', collection?.reference],
+                exact: false,
+            });
+        },
     });
 
     const handleCollectionVote = async (score: -1 | 1) => {
@@ -31,16 +41,12 @@ const CollectionVote = () => {
 
         const updated = collection?.my_score === score ? 0 : score;
 
-        await vote({
-            auth: String(auth),
-            slug: collection.reference,
-            score: updated,
-            content_type: 'collection',
-        });
-
-        await queryClient.invalidateQueries({
-            queryKey: ['collection', collection.reference, { auth }],
-            exact: false,
+        mutation.mutate({
+            params: {
+                slug: collection.reference,
+                score: updated,
+                content_type: 'collection',
+            },
         });
     };
 
@@ -50,7 +56,7 @@ const CollectionVote = () => {
                 onClick={() => handleCollectionVote(1)}
                 size="icon-md"
                 variant="secondary"
-                disabled={!auth}
+                disabled={!loggedUser}
             >
                 {collection?.my_score === 1 ? (
                     <BxBxsUpvote className="text-success" />
@@ -63,7 +69,7 @@ const CollectionVote = () => {
                 onClick={() => handleCollectionVote(-1)}
                 size="icon-md"
                 variant="secondary"
-                disabled={!auth}
+                disabled={!loggedUser}
             >
                 {collection?.my_score === -1 ? (
                     <BxBxsDownvote className="text-destructive" />

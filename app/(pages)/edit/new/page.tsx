@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FC } from 'react';
 
 import { redirect } from 'next/navigation';
 
@@ -19,8 +20,10 @@ interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const EditNewPage = async ({ searchParams: { content_type, slug } }: Props) => {
-    const queryClient = getQueryClient();
+const EditNewPage: FC<Props> = async ({
+    searchParams: { content_type, slug },
+}) => {
+    const queryClient = await getQueryClient();
 
     if (
         !content_type &&
@@ -34,26 +37,46 @@ const EditNewPage = async ({ searchParams: { content_type, slug } }: Props) => {
     if (content_type === 'anime') {
         await queryClient.prefetchQuery({
             queryKey: ['anime', slug],
-            queryFn: () => getAnimeInfo({ slug: String(slug) }),
+            queryFn: ({ meta }) =>
+                getAnimeInfo({
+                    params: {
+                        slug: String(slug),
+                    },
+                    auth: meta?.auth,
+                }),
         });
     }
 
     if (content_type === 'character') {
         await queryClient.prefetchQuery({
             queryKey: ['character', slug],
-            queryFn: () => getCharacterInfo({ slug: String(slug) }),
+            queryFn: ({ meta }) =>
+                getCharacterInfo({
+                    params: {
+                        slug: String(slug),
+                    },
+                    auth: meta?.auth,
+                }),
         });
     }
 
     if (content_type === 'person') {
         await queryClient.prefetchQuery({
             queryKey: ['person', slug],
-            queryFn: () => getPersonInfo({ slug: String(slug) }),
+            queryFn: ({ meta }) =>
+                getPersonInfo({
+                    params: {
+                        slug: String(slug),
+                    },
+                    auth: meta?.auth,
+                }),
         });
     }
 
-    const content: API.AnimeInfo | API.Character | API.Person | undefined =
-        queryClient.getQueryData([content_type, slug]);
+    const content: API.MainContent | undefined = queryClient.getQueryData([
+        content_type,
+        slug,
+    ]);
 
     if (!content) {
         redirect('/edit');
@@ -65,7 +88,7 @@ const EditNewPage = async ({ searchParams: { content_type, slug } }: Props) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Block>
-                    <Header title={`Нова правка`} />
+                    <Header title="Нова правка" />
                     <RulesAlert />
                     <EditForm
                         slug={slug as string}

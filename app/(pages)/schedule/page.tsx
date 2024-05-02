@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import { FC } from 'react';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
 import { dehydrate } from '@tanstack/query-core';
@@ -11,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
-import { getCookie } from '@/utils/actions';
 import _generateMetadata from '@/utils/generateMetadata';
 import getCurrentSeason from '@/utils/getCurrentSeason';
 import getQueryClient from '@/utils/getQueryClient';
@@ -19,22 +19,20 @@ import getQueryClient from '@/utils/getQueryClient';
 import ScheduleFilters from '../../../components/filters/schedule-filters';
 import ScheduleList from './components/schedule-list';
 
-export async function generateMetadata(): Promise<Metadata> {
-    return _generateMetadata({
-        title: {
-            template: 'Календар / %s / Hikka',
-            default: 'Календар',
-        },
-    });
+
+export const metadata: Metadata = _generateMetadata({
+    title: {
+        template: 'Календар / %s / Hikka',
+        default: 'Календар',
+    },
+});
+
+interface Props {
+    searchParams: Record<string, any>;
 }
 
-const ScheduleListPage = async ({
-    searchParams,
-}: {
-    searchParams: Record<string, any>;
-}) => {
-    const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
+    const queryClient = await getQueryClient();
 
     const only_watch = searchParams.only_watch || undefined;
     const season = (searchParams.season as API.Season) || getCurrentSeason()!;
@@ -46,14 +44,16 @@ const ScheduleListPage = async ({
 
     await queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,
-        queryKey: ['animeSchedule', { season, status, auth, year, only_watch }],
-        queryFn: ({ pageParam = 1 }) =>
+        queryKey: ['animeSchedule', { season, status, year, only_watch }],
+        queryFn: ({ pageParam = 1, meta }) =>
             getAnimeSchedule({
-                status,
                 page: pageParam,
-                auth,
-                only_watch,
-                airing_season: [season, year],
+                params: {
+                    status,
+                    only_watch,
+                    airing_season: [season, year],
+                },
+                auth: meta?.auth,
             }),
     });
 

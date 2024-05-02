@@ -9,10 +9,10 @@ import EditButton from '@/app/(pages)/(content)/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 
 const Title = () => {
-    const { auth } = useAuth();
+    const { user: loggedUser } = useSession();
     const params = useParams();
     const { data } = useAnimeInfo({ slug: String(params.slug) });
 
@@ -37,7 +37,7 @@ const Title = () => {
                                 </span>
                             )}
                         </H2>
-                        {auth && (
+                        {loggedUser && (
                             <EditButton
                                 key={String(params.slug)}
                                 slug={String(params.slug)}
@@ -58,7 +58,7 @@ const Title = () => {
                             <MaterialSymbolsStarRounded className="text-2xl" />
                         </div>
                     )}
-                    {auth && (
+                    {loggedUser && (
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
@@ -69,11 +69,11 @@ const Title = () => {
                 </div>
             </div>
             {data.genres.length > 0 && (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1">
                     {data.genres.map((genre) => (
                         <span key={genre.slug} className="text-sm">
                             <Link
-                                className="rounded underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
+                                className="rounded px-1 underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
                                 href={`/anime?genres=${genre.slug}`}
                             >
                                 {genre.name_ua}

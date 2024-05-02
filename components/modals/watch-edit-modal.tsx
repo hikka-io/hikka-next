@@ -3,23 +3,27 @@
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import FormInput from '@/components/form/form-input';
+import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Combobox } from '@/components/ui/combobox';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import useAddToList from '@/services/hooks/watch/useAddToList';
 import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
 import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
+import { z } from '@/utils/zod';
 
-type FormValues = {
-    score: number;
-    episodes: number;
-    rewatches: number;
-    note: string;
-};
+const formSchema = z.object({
+    score: z.coerce.number().min(0).max(10).nullable().optional(),
+    episodes: z.coerce.number().min(0).nullable().optional(),
+    rewatches: z.coerce.number().nullable().optional(),
+    note: z.string().nullable().optional(),
+});
 
 interface Props {
     slug: string;
@@ -27,7 +31,7 @@ interface Props {
 
 const Component = ({ slug }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: watch, isError: watchError } = useWatch({ slug });
+    const { data: watch } = useWatch({ slug });
 
     const { mutate: addToList, isPending: addToListLoading } = useAddToList({
         slug,
@@ -40,33 +44,12 @@ const Component = ({ slug }: Props) => {
         API.WatchStatus | undefined
     >(watch?.status);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<FormValues>();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        values: watch,
+    });
 
-    const onSaveSubmit = async (data: FormValues) => {
-        if (data.score && (data.score > 10 || data.score < 0)) {
-            return;
-        }
-
-        if (data.episodes && data.episodes < 0) {
-            return;
-        }
-
-        addToList({
-            status: selectedStatus!,
-            score: data.score || undefined,
-            episodes: data.episodes || undefined,
-            note: data.note || undefined,
-            rewatches: data.rewatches || undefined,
-        });
-
-        closeModal();
-    };
-
-    const onDeleteSubmit = async () => {
+    const onDelete = async () => {
         deleteFromList();
         closeModal();
     };
@@ -77,9 +60,14 @@ const Component = ({ slug }: Props) => {
         }
     }, [watch]);
 
+    if (!watch) return null;
+
     return (
-        watch && (
-            <div className="flex flex-col gap-6">
+        <Form {...form}>
+            <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex flex-col gap-6"
+            >
                 <div className="flex w-full flex-col gap-6">
                     <div className="flex w-full flex-col gap-2">
                         <Label>Список</Label>
@@ -115,61 +103,40 @@ const Component = ({ slug }: Props) => {
                             }}
                         />
                     </div>
-                    <div className="flex gap-8">
-                        <div className="flex w-full flex-col gap-2">
-                            <Label>Оцінка</Label>
-                            <Input
-                                type="number"
-                                placeholder="Введіть оцінку"
-                                {...register('score', {
-                                    value: watch.score || undefined,
-                                    valueAsNumber: true,
-                                })}
-                            />
-                        </div>
-                        <div className="flex w-full flex-col gap-2">
-                            <Label>Епізоди</Label>
-                            <Input
-                                type="number"
-                                placeholder="Введіть к-сть переглянутих епізодів"
-                                {...register('episodes', {
-                                    value: watch.episodes || undefined,
-                                    valueAsNumber: true,
-                                })}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex w-full flex-col gap-2">
-                        <Label>Повторні перегляди</Label>
-                        <Input
+                    <div className="flex w-full gap-8">
+                        <FormInput
+                            name="score"
+                            label="Оцінка"
+                            placeholder="Введіть оцінку"
                             type="number"
-                            placeholder="Введіть к-сть повторних переглядів"
-                            {...register('rewatches', {
-                                value: watch.rewatches || undefined,
-                                valueAsNumber: true,
-                            })}
+                            className="flex-1"
+                        />
+                        <FormInput
+                            name="episodes"
+                            label="Епізоди"
+                            placeholder="Введіть к-сть переглянутих епізодів"
+                            type="number"
+                            className="flex-1"
                         />
                     </div>
-                    <div className="flex w-full flex-col gap-2">
-                        <Label>Нотатки</Label>
-                        <Textarea
-                            placeholder="Залиште нотатку до аніме"
-                            rows={3}
-                            {...register('note', {
-                                value: watch.note || undefined,
-                            })}
-                        />
-                    </div>
+                    <FormInput
+                        name="rewatches"
+                        label="Повторні перегляди"
+                        placeholder="Введіть к-сть повторних переглядів"
+                        type="number"
+                    />
+                    <FormTextarea
+                        name="note"
+                        label="Нотатки"
+                        placeholder="Залиште нотатку до аніме"
+                    />
                 </div>
                 <div className="grid w-full grid-cols-2 gap-8">
                     <Button
+                        type="button"
                         variant="destructive"
-                        onClick={handleSubmit(onDeleteSubmit)}
-                        disabled={
-                            isSubmitting ||
-                            addToListLoading ||
-                            deleteFromListLoading
-                        }
+                        onClick={onDelete}
+                        disabled={addToListLoading || deleteFromListLoading}
                     >
                         {deleteFromListLoading && (
                             <span className="loading loading-spinner"></span>
@@ -178,13 +145,11 @@ const Component = ({ slug }: Props) => {
                     </Button>
                     <Button
                         variant="accent"
-                        onClick={handleSubmit(onSaveSubmit)}
+                        onClick={form.handleSubmit((data) =>
+                            addToList({ status: selectedStatus!, ...data }),
+                        )}
                         type="submit"
-                        disabled={
-                            isSubmitting ||
-                            addToListLoading ||
-                            deleteFromListLoading
-                        }
+                        disabled={addToListLoading || deleteFromListLoading}
                     >
                         {addToListLoading && (
                             <span className="loading loading-spinner"></span>
@@ -192,8 +157,8 @@ const Component = ({ slug }: Props) => {
                         Зберегти
                     </Button>
                 </div>
-            </div>
-        )
+            </form>
+        </Form>
     );
 };
 

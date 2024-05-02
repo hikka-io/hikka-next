@@ -1,13 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
 import PersonCard from '@/app/(pages)/(content)/components/person-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import useStaff from '@/services/hooks/anime/useStaff';
@@ -16,7 +16,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Staff = ({ extended }: Props) => {
+const Staff: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useStaff({ slug: String(params.slug) });

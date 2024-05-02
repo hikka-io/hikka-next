@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import React, { PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -11,18 +11,14 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
-import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
-import getCharacterInfo, {
-    Response as CharacterResponse,
-} from '@/services/api/characters/getCharacterInfo';
-import getCharacterVoices from '@/services/api/characters/getCharacterVoices';
-import getFavourite from '@/services/api/favourite/getFavourite';
-import { getCookie } from '@/utils/actions';
+import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Cover from './components/cover';
 import Title from './components/title';
+import _generateMetadata, { MetadataProps } from './layout.metadata';
+import prefetchQueries from './layout.queries';
 
 interface Props extends PropsWithChildren {
     params: {
@@ -30,75 +26,32 @@ interface Props extends PropsWithChildren {
     };
 }
 
-// export const runtime = 'edge';
-
 export async function generateMetadata(
-    {
-        params,
-    }: {
-        params: {
-            slug: string;
-        };
-    },
+    props: MetadataProps,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    const parentMetadata = await parent;
-    const slug = params.slug;
-
-    const character: CharacterResponse = await getCharacterInfo({ slug });
-    const title = character.name_ua || character.name_en || character.name_ja;
-
-    return {
-        title: { default: title, template: title + ' / %s / Hikka' },
-        description: undefined,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: undefined,
-            images: character.image,
-        },
-        twitter: {
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: undefined,
-            images: character.image,
-        },
-    };
+    return await _generateMetadata(props, parent);
 }
 
-const CharacterLayout = async ({ params: { slug }, children }: Props) => {
-    const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+const CharacterLayout: FC<Props> = async ({ params: { slug }, children }) => {
+    const queryClient = await getQueryClient();
 
     const character = await queryClient.fetchQuery({
         queryKey: ['character', slug],
-        queryFn: () => getCharacterInfo({ slug }),
+        queryFn: ({ meta }) =>
+            getCharacterInfo({
+                params: {
+                    slug,
+                },
+                auth: meta?.auth,
+            }),
     });
 
     if (!character) {
         return redirect('/');
     }
 
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['characterAnime', slug],
-        queryFn: () => getCharacterAnime({ slug }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['characterVoices', slug],
-        queryFn: () => getCharacterVoices({ slug }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['favorite', slug, { auth, content_type: 'character' }],
-        queryFn: () =>
-            getFavourite({
-                slug: String(slug),
-                auth: String(auth),
-                content_type: 'character',
-            }),
-    });
+    await prefetchQueries({ queryClient, params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -118,13 +71,13 @@ const CharacterLayout = async ({ params: { slug }, children }: Props) => {
                     </div>
                     <NavMenu
                         routes={CHARACTER_NAV_ROUTES}
-                        urlPrefix={'/characters/' + slug}
+                        urlPrefix={`/characters/${slug}`}
                     />
                 </Breadcrumbs>
                 <SubBar>
                     <InternalNavBar
                         routes={CHARACTER_NAV_ROUTES}
-                        urlPrefix={'/characters/' + slug}
+                        urlPrefix={`/characters/${slug}`}
                     />
                 </SubBar>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">

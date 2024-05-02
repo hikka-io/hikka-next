@@ -19,7 +19,7 @@ import {
 
 export const IS_ITALIC = 0b10 as const;
 
-const Component = () => {
+const ItalicButton = () => {
     const [currentFormat, iconComponentFor] = useCellValues(
         currentFormat$,
         iconComponentFor$,
@@ -46,4 +46,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ItalicButton;

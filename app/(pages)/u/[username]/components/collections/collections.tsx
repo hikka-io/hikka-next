@@ -1,5 +1,6 @@
 'use client';
 
+import { FC } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import Link from 'next/link';
@@ -9,7 +10,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useSession from '@/services/hooks/auth/useSession';
 import useUserCollections from '@/services/hooks/user/useUserCollections';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
@@ -21,11 +22,11 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ className }: Props) => {
+const Collections: FC<Props> = ({ className }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
 
     const { list: collections } = useUserCollections({
         username: String(params.username),
@@ -84,4 +85,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default Collections;

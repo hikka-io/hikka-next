@@ -1,6 +1,6 @@
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
-import { Fragment } from 'react';
+import { FC, Fragment } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import Link from 'next/link';
@@ -9,7 +9,6 @@ import EntryCard from '@/components/entry-card/entry-card';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
-import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertActivity } from '@/utils/convertActivity';
 import { cn } from '@/utils/utils';
 
@@ -18,7 +17,7 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ data, className }: Props) => {
+const HistoryItem: FC<Props> = ({ data, className }) => {
     const activity = convertActivity(data);
 
     if (activity.length === 0) {
@@ -71,4 +70,4 @@ const Component = ({ data, className }: Props) => {
     );
 };
 
-export default Component;
+export default HistoryItem;

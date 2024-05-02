@@ -1,29 +1,31 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
-export interface Response<TContent extends API.Content>
+export interface Response<TContent = API.Content>
     extends API.WithPagination<
         {
             favourite_created: number;
         } & TContent
     > {}
 
-export default async function req<TContent extends API.Content>({
-    username,
+export interface Params {
+    username: string;
+    content_type: API.ContentType;
+}
+
+export default async function req<TContent = API.Content>({
     page = 1,
     size = 15,
-    auth,
-    content_type,
-}: {
-    username: string;
-    page?: number;
-    size?: number;
-    auth?: string;
-    content_type: API.ContentType;
-}): Promise<Response<TContent>> {
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response<TContent>> {
     return fetchRequest<Response<TContent>>({
-        path: `/favourite/${content_type}/${username}/list`,
+        ...props,
+        path: `/favourite/${params?.content_type}/${params?.username}/list`,
         method: 'post',
-        auth,
         page,
         size,
     });

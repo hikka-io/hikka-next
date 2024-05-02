@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
 import Link from 'next/link';
@@ -9,11 +10,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { range } from '@antfu/utils';
 
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import getCurrentSeason from '@/utils/getCurrentSeason';
@@ -21,8 +21,12 @@ import { cn } from '@/utils/utils';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
 
-export default function ScheduleFilters({ className }: { className?: string }) {
-    const { auth } = useAuth();
+interface Props {
+    className?: string;
+}
+
+const ScheduleFilters: FC<Props> = ({ className }) => {
+    const { user: loggedUser } = useSession();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -106,7 +110,7 @@ export default function ScheduleFilters({ className }: { className?: string }) {
                         options={getStatuses()}
                     />
                 </div>
-                {auth && (
+                {loggedUser && (
                     <div className="flex h-12 items-center justify-between gap-2 rounded-md border border-secondary bg-secondary/30 p-4">
                         <Label className="line-clamp-1 min-w-0 truncate text-muted-foreground">
                             Аніме у списку
@@ -128,4 +132,6 @@ export default function ScheduleFilters({ className }: { className?: string }) {
             </Button>
         </div>
     );
-}
+};
+
+export default ScheduleFilters;

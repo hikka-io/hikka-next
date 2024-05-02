@@ -29,9 +29,11 @@ const useEditList = ({
         queryFn: () =>
             getEditList({
                 page: Number(page),
-                sort: [`${sort}:${order}`],
-                status: edit_status as API.EditStatus,
-                content_type: content_type as API.ContentType,
+                params: {
+                    sort: [`${sort}:${order}`],
+                    status: edit_status as API.EditStatus,
+                    content_type: content_type as API.ContentType,
+                },
             }),
         select: (data) => ({
             ...data,

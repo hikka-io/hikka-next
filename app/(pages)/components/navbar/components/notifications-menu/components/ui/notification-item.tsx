@@ -1,7 +1,7 @@
 'use client';
 
 import { formatDistance } from 'date-fns';
-import React from 'react';
+import React, { FC } from 'react';
 
 import Link from 'next/link';
 
@@ -15,7 +15,7 @@ interface Props {
     data: Hikka.TextNotification;
 }
 
-const Component = ({ data }: Props) => {
+const NotificationItem: FC<Props> = ({ data }) => {
     const { mutate: asSeen } = useSeenNotification();
 
     const handleOnClick = () => {
@@ -29,17 +29,17 @@ const Component = ({ data }: Props) => {
     return (
         <DropdownMenuItem className="flex items-center gap-4 py-3" asChild>
             <Link href={data.href} prefetch onClick={handleOnClick}>
-                <div className="rounded-md bg-muted p-2 text-muted-foreground">
+                <div className="relative rounded-md bg-muted p-2 text-muted-foreground">
                     {data.icon}
+                    {!data.seen && (
+                        <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-secondary/60 bg-warning" />
+                    )}
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="inline-flex items-center gap-2">
                         <Label className="line-clamp-1 w-fit leading-normal">
                             {data.title}
                         </Label>
-                        {!data.seen && (
-                            <div className="size-2 rounded-full bg-warning" />
-                        )}
                     </div>
                     <P className="text-xs text-muted-foreground">
                         {data.description}
@@ -56,4 +56,4 @@ const Component = ({ data }: Props) => {
     );
 };
 
-export default Component;
+export default NotificationItem;

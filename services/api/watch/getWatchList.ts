@@ -1,10 +1,13 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.WithPagination<API.Watch> {}
 
-export interface Request {
+export interface Params {
     sort?: string[];
-    page?: number;
     years?: string[];
     score?: string[];
     media_type?: string[];
@@ -15,22 +18,20 @@ export interface Request {
     producers?: string[];
     studios?: string[];
     genres?: string[];
-    size?: number;
     username: string;
     watch_status: API.WatchStatus;
 }
 
 export default async function req({
-    username,
-    page = 1,
-    size = 15,
-    ...params
-}: Request): Promise<Response> {
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
+    const { username, ...restParams } = params!;
+
     return fetchRequest<Response>({
+        ...props,
         path: `/watch/${username}/list`,
         method: 'post',
-        params: params,
-        page,
-        size,
+        params: restParams,
     });
 }

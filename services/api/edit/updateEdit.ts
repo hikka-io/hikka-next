@@ -1,26 +1,30 @@
-import config from '@/services/api/config';
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Edit {}
 
-export default async function req({
-    auth,
-    description,
-    after,
-    edit_id,
-    captcha,
-}: {
-    auth: string;
+export interface Params {
     description?: string;
     after: Hikka.AnimeEditParams;
     edit_id: number;
-    captcha: string;
-}): Promise<Response> {
+    auto?: boolean;
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/edit/${edit_id}/update`,
+        ...props,
+        path: `/edit/${params?.edit_id}/update`,
         method: 'post',
-        params: { after, description },
-        auth,
-        captcha,
+        params: {
+            after: params?.after,
+            description: params?.description,
+            auto: params?.auto,
+        },
     });
 }

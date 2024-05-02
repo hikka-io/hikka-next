@@ -43,16 +43,18 @@ const useWatchList = ({
         ],
         queryFn: ({ pageParam = 1 }) =>
             getWatchList({
-                username: username,
-                watch_status: watch_status,
+                params: {
+                    username: username,
+                    watch_status: watch_status,
+                    media_type: types,
+                    season: seasons,
+                    rating: ageRatings,
+                    status: statuses,
+                    sort: [`${sort}:${order}`],
+                    genres,
+                    years: years && years.length == 2 ? years : undefined,
+                },
                 page: pageParam,
-                media_type: types,
-                season: seasons,
-                rating: ageRatings,
-                status: statuses,
-                sort: [`${sort}:${order}`],
-                genres,
-                years: years && years.length == 2 ? years : undefined,
             }),
         select: (data) => ({
             ...data,

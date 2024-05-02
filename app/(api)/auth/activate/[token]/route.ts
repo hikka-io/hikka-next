@@ -10,7 +10,7 @@ export async function GET(
     { params: { token } }: { params: { token: string } },
 ) {
     try {
-        const res = await activation({ token });
+        const res = await activation({ params: { token } });
         cookies().set('auth', res.secret);
     } catch (e) {
         if ('code' in (e as API.Error)) {

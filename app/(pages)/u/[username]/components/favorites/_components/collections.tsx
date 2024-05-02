@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
 import EntryCard from '@/components/entry-card/entry-card';
 import LoadMoreButton from '@/components/load-more-button';
-import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
 import { cn } from '@/utils/utils';
@@ -15,7 +14,7 @@ interface Props {
     extended?: boolean;
 }
 
-const Component = ({ extended }: Props) => {
+const Collections: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
         list,
@@ -24,7 +23,7 @@ const Component = ({ extended }: Props) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useFavorites<API.Content<'collection'>>({
+    } = useFavorites<API.Collection<API.MainContent>>({
         username: String(params.username),
         content_type: 'collection',
     });
@@ -38,7 +37,7 @@ const Component = ({ extended }: Props) => {
     }
 
     const filteredData = (extended ? list : list?.slice(0, 6)) || [];
-    const poster = (content: API.Anime | API.Character | API.Person) =>
+    const poster = (content: API.MainContent) =>
         'poster' in content ? content.poster : content.image;
 
     return (
@@ -93,4 +92,4 @@ const Component = ({ extended }: Props) => {
     );
 };
 
-export default Component;
+export default Collections;

@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Label } from '@/components/ui/label';
 
 interface Props {
@@ -6,7 +8,7 @@ interface Props {
     episodes_released: number;
 }
 
-const Episodes = ({ status, episodes_released, episodes_total }: Props) => {
+const Episodes: FC<Props> = ({ status, episodes_released, episodes_total }) => {
     if (!(episodes_total || episodes_released)) {
         return null;
     }

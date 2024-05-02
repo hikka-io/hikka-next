@@ -1,19 +1,24 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     success: boolean;
 }
 
-export default async function req({
-    auth,
-    slug,
-}: {
-    auth: string;
+export interface Params {
     slug: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/watch/${slug}`,
+        ...props,
+        path: `/watch/${params?.slug}`,
         method: 'delete',
-        auth,
     });
 }

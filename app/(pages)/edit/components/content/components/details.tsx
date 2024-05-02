@@ -1,13 +1,14 @@
 import * as React from 'react';
+import { FC } from 'react';
 
 import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
 
 interface Props {
-    content: API.AnimeInfo | API.Character | API.Person;
+    content: API.MainContent;
 }
 
-const Details = ({ content }: Props) => {
+const Details: FC<Props> = ({ content }) => {
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
     const title_en = 'title_en' in content ? content.title_en : content.name_en;
     const title_ja =

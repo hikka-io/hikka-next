@@ -11,7 +11,9 @@ const useCharacterSearchList = ({ value }: Props) => {
         queryKey: ['characterSearchList', value],
         queryFn: () =>
             getCharacters({
-                query: value,
+                params: {
+                    query: value,
+                },
                 size: 30,
             }),
         enabled: value !== undefined && value.length >= 3,

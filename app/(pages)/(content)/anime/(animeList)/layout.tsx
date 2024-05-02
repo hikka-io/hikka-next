@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import Filters from '@/components/filters/anime-filters';
 import Block from '@/components/ui/block';
@@ -10,7 +10,7 @@ interface Props {
     children: ReactNode;
 }
 
-const AnimeListLayout = async ({ children }: Props) => {
+const AnimeListLayout: FC<Props> = async ({ children }) => {
     return (
         <div>
             <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">

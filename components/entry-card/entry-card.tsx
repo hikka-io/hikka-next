@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-    ForwardedRef,
+    FC,
     Fragment,
     MouseEventHandler,
     ReactNode,
@@ -10,7 +10,6 @@ import {
 import { UrlObject } from 'url';
 import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symbols/image-not-supported-outline-rounded';
 
-import { ImageProps } from 'next/image';
 import Link from 'next/link';
 
 import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
@@ -49,15 +48,13 @@ export interface Props {
     };
 }
 
-const Tooltip = ({
-    children,
-    content_type,
-    slug,
-}: {
+interface TooltipProps {
     children: ReactNode;
     content_type?: API.ContentType;
     slug?: string;
-}) => {
+}
+
+const Tooltip: FC<TooltipProps> = ({ children, content_type, slug }) => {
     switch (content_type) {
         case 'anime':
             return <AnimeTooltip slug={slug}>{children}</AnimeTooltip>;
@@ -67,7 +64,7 @@ const Tooltip = ({
 };
 
 const Content = memo(
-    forwardRef(
+    forwardRef<HTMLDivElement, Props>(
         (
             {
                 poster,
@@ -90,8 +87,8 @@ const Content = memo(
                 withContextMenu,
                 posterProps,
                 ...props
-            }: Props,
-            ref: ForwardedRef<HTMLDivElement>,
+            },
+            ref,
         ) => {
             const Comp = href ? Link : 'div';
 
@@ -196,21 +193,19 @@ const Content = memo(
     ),
 );
 
-const Component = forwardRef(
-    (props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-        if (props.withContextMenu && props.slug && props.content_type) {
-            return (
-                <ContextMenuOverlay
-                    slug={props.slug}
-                    content_type={props.content_type}
-                >
-                    <Content {...props} ref={ref} key={`${props.title}`} />
-                </ContextMenuOverlay>
-            );
-        }
+const EntryCard = forwardRef<HTMLDivElement, Props>((props, ref) => {
+    if (props.withContextMenu && props.slug && props.content_type) {
+        return (
+            <ContextMenuOverlay
+                slug={props.slug}
+                content_type={props.content_type}
+            >
+                <Content {...props} ref={ref} key={`${props.title}`} />
+            </ContextMenuOverlay>
+        );
+    }
 
-        return <Content {...props} ref={ref} key={`${props.title}`} />;
-    },
-);
+    return <Content {...props} ref={ref} key={`${props.title}`} />;
+});
 
-export default memo(Component);
+export default memo(EntryCard);

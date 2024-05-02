@@ -3,8 +3,6 @@
 import React from 'react';
 import MaterialSymbolsNotificationsRounded from '~icons/material-symbols/notifications-rounded';
 
-import NotFoundNotifications from '@/app/(pages)/components/navbar/components/notifications-menu/components/not-found-notifications';
-import NotificationItem from '@/app/(pages)/components/navbar/components/notifications-menu/components/ui/notification-item';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -20,9 +18,10 @@ import useNotificationsCount from '@/services/hooks/notifications/useNotificatio
 import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
 import { convertNotification } from '@/utils/convertNotification';
 
-interface Props {}
+import NotFoundNotifications from './components/not-found-notifications';
+import NotificationItem from './components/ui/notification-item';
 
-const Component = ({}: Props) => {
+const NotificationsMenu = () => {
     const { data: countData } = useNotificationsCount();
 
     const {
@@ -42,7 +41,9 @@ const Component = ({}: Props) => {
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />
                     {countData && countData.unseen > 0 && (
-                        <div className="absolute right-0 top-0 size-2 rounded-full bg-warning" />
+                        <div className="absolute -bottom-0.5 -right-0.5 rounded-full border border-secondary/60 bg-warning p-0.5 px-1 text-[0.6rem] font-bold leading-none text-warning-foreground">
+                            {countData.unseen < 100 ? countData.unseen : '99+'}
+                        </div>
                     )}
                 </Button>
             </DropdownMenuTrigger>
@@ -95,4 +96,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default NotificationsMenu;

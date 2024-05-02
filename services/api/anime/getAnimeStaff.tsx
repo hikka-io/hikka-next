@@ -1,31 +1,32 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
-export interface Response {
-    pagination: API.Pagination;
-    list: {
-        person: API.Person;
-        roles: {
-            name_ua: string;
-            name_en: string;
-            slug: string;
-        }[];
+export interface Response extends API.WithPagination<PersonWithRoles> {}
+
+type PersonWithRoles = {
+    person: API.Person;
+    roles: {
+        name_ua: string;
+        name_en: string;
+        slug: string;
     }[];
+};
+
+export interface Params {
+    slug: string;
 }
 
 export default async function req({
-    slug,
-    page = 1,
-    size = 15,
-}: {
-    slug: string;
-    page?: number;
-    size?: number;
-}): Promise<Response> {
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/anime/${slug}/staff`,
+        ...props,
+        path: `/anime/${params?.slug}/staff`,
         method: 'get',
-        page,
-        size,
         config: {
             next: {
                 revalidate: 60,

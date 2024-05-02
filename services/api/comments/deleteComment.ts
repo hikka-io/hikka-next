@@ -1,17 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Comment {}
 
-export default async function req({
-    reference,
-    auth,
-}: {
-    auth: string;
+export interface Params {
     reference: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/comments/${reference}`,
+        ...props,
+        path: `/comments/${params?.reference}`,
         method: 'delete',
-        auth,
     });
 }

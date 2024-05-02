@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 
 import EntryCard from '@/components/entry-card/entry-card';
@@ -9,7 +10,7 @@ interface Props {
     ost: API.OST[];
 }
 
-const Ost = ({ extended, ost }: Props) => {
+const Ost: FC<Props> = ({ extended, ost }) => {
     if (!ost) {
         return null;
     }

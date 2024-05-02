@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import Comment from './comment';
 
 interface Props {
@@ -6,7 +8,7 @@ interface Props {
     content_type: API.ContentType;
 }
 
-const Component = ({ comments, slug, content_type }: Props) => {
+const Comments: FC<Props> = ({ comments, slug, content_type }) => {
     return (
         <div className="flex w-full flex-col gap-6">
             {comments.map((comment) => (
@@ -21,4 +23,4 @@ const Component = ({ comments, slug, content_type }: Props) => {
     );
 };
 
-export default Component;
+export default Comments;

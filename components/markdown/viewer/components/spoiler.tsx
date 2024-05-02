@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react';
-import React, { PropsWithChildren } from 'react';
+import React, { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -8,7 +8,11 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-const Component = ({ children }: PropsWithChildren) => {
+interface Props {
+    children: ReactNode;
+}
+
+const Spoiler = ({ children }: Props) => {
     return (
         <Collapsible className="mb-4 w-full  space-y-2">
             <CollapsibleTrigger asChild>
@@ -23,4 +27,4 @@ const Component = ({ children }: PropsWithChildren) => {
     );
 };
 
-export default Component;
+export default Spoiler;

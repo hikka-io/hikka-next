@@ -1,20 +1,23 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     ignored_notifications: API.NotificationType[];
 }
 
-export default async function req({
-    ignored_notifications,
-    auth,
-}: {
-    auth: string;
+export interface Params {
     ignored_notifications: API.NotificationType[];
-}): Promise<Response> {
+}
+
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/settings/notifications`,
         method: 'put',
-        params: { ignored_notifications },
-        auth,
     });
 }

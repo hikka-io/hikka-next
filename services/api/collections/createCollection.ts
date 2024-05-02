@@ -1,8 +1,12 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
-export interface Response extends API.Collection {}
+export interface Response extends API.Collection<API.MainContent> {}
 
-export type Request = {
+export interface Params {
     title: string;
     tags: string[];
     content: {
@@ -17,17 +21,14 @@ export type Request = {
     visibility: 'private' | 'public' | 'unlisted';
     spoiler: boolean;
     nsfw: boolean;
-    auth: string;
-};
+}
 
-export default async function req({
-    auth,
-    ...params
-}: Request): Promise<Response> {
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/collections/create`,
         method: 'post',
-        params: params,
-        auth,
     });
 }

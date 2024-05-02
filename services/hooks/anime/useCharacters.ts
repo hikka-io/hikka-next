@@ -6,7 +6,9 @@ const useCharacters = ({ slug }: { slug: string }) => {
         queryKey: ['characters', slug],
         queryFn: ({ pageParam = 1 }) =>
             getAnimeCharacters({
-                slug: String(slug),
+                params: {
+                    slug: String(slug),
+                },
                 page: pageParam,
             }),
     });

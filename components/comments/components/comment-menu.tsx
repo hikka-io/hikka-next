@@ -1,5 +1,5 @@
 import { useSnackbar } from 'notistack';
-import React from 'react';
+import React, { FC } from 'react';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
@@ -25,29 +25,27 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import deleteComment from '@/services/api/comments/deleteComment';
-import useAuth from '@/services/hooks/auth/useAuth';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 interface Props {
     comment: API.Comment;
 }
 
-const Component = ({ comment }: Props) => {
+const CommentMenu: FC<Props> = ({ comment }) => {
     const { enqueueSnackbar } = useSnackbar();
     const queryClient = useQueryClient();
-    const { auth } = useAuth();
     const { setState: setCommentsState } = useCommentsContext();
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
         'loggedUser',
-        auth,
     ]);
 
     const handleDeleteComment = async () => {
         try {
             await deleteComment({
-                auth: String(auth),
-                reference: comment.reference,
+                params: {
+                    reference: comment.reference,
+                },
             });
 
             await queryClient.invalidateQueries({
@@ -119,4 +117,4 @@ const Component = ({ comment }: Props) => {
     );
 };
 
-export default Component;
+export default CommentMenu;

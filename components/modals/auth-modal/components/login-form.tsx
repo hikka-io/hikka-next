@@ -5,60 +5,53 @@ import { useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation } from '@tanstack/react-query';
 
+import FormInput from '@/components/form/form-input';
 import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import login from '@/services/api/auth/login';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { setCookie } from '@/utils/actions';
+import { setCookie } from '@/utils/cookies';
+import { z } from '@/utils/zod';
 
-type FormValues = {
-    email: string;
-    password: string;
-};
+const formSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
+});
 
 const Component = () => {
     const captchaRef = useRef<TurnstileInstance>();
     const { openModal, closeModal } = useModalContext();
-    const form = useForm<FormValues>();
     const router = useRouter();
 
-    const onSubmit = async (data: FormValues) => {
-        try {
-            if (captchaRef.current) {
-                const res = await login({
-                    ...data,
-                    captcha: String(captchaRef.current.getResponse()),
-                });
-                await setCookie('auth', res.secret);
-                form.reset();
-                closeModal();
-                router.refresh();
-                return;
-            } else {
-                throw Error('No captcha found');
-            }
-        } catch (e) {
-            if (captchaRef.current) {
-                captchaRef.current?.reset();
-            }
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    });
 
-            console.error(e);
-            return;
-        }
+    const mutation = useMutation({
+        mutationFn: login,
+        onSuccess: async (data) => {
+            await setCookie('auth', data.secret);
+            form.reset();
+            closeModal();
+            router.refresh();
+        },
+        onError: () => {
+            captchaRef.current?.reset();
+        },
+    });
+
+    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+        mutation.mutate({
+            params: data,
+            captcha: String(captchaRef.current?.getResponse()),
+        });
     };
 
     return (
@@ -74,92 +67,60 @@ const Component = () => {
             <Form {...form}>
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="w-full space-y-4 text-left"
+                    className="flex w-full flex-col gap-4 text-left"
                 >
-                    <FormField
-                        rules={{
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: 'Неправильний email',
-                            },
-                            required: true,
-                        }}
+                    <FormInput
+                        type="email"
                         name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="email"
-                                        placeholder="Введіть пошту"
-                                        autoFocus
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        placeholder="Введіть пошту"
+                        label="Email"
                     />
-                    <FormField
-                        rules={{
-                            required: true,
-                        }}
+
+                    <FormInput
+                        type="password"
                         name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <div className="flex flex-nowrap items-center justify-between">
-                                    <FormLabel>Пароль</FormLabel>
-                                    <Button
-                                        variant="link"
-                                        type="button"
-                                        className="h-auto p-0"
-                                        tabIndex={-1}
-                                        onClick={() =>
-                                            openModal({
-                                                content: (
-                                                    <AuthModal type="forgotPassword" />
-                                                ),
-                                                className: 'p-0 max-w-3xl',
-                                                forceModal: true,
-                                            })
-                                        }
-                                    >
-                                        Забули пароль?
-                                    </Button>
-                                </div>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="Введіть пароль"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    Не менше 8 символів.
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        placeholder="Введіть пароль"
+                        label="Пароль"
+                        description="Не менше 8 символів."
+                    >
+                        <Button
+                            variant="link"
+                            type="button"
+                            className="h-auto p-0"
+                            tabIndex={-1}
+                            onClick={() =>
+                                openModal({
+                                    content: (
+                                        <AuthModal type="forgotPassword" />
+                                    ),
+                                    className: 'p-0 max-w-3xl',
+                                    forceModal: true,
+                                })
+                            }
+                        >
+                            Забули пароль?
+                        </Button>
+                    </FormInput>
+
                     <Turnstile
                         ref={captchaRef}
                         siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
                     />
                     <div className="flex w-full flex-col gap-4">
                         <Button
-                            onClick={form.handleSubmit(onSubmit)}
-                            disabled={form.formState.isSubmitting}
+                            onClick={form.handleSubmit(handleFormSubmit)}
+                            disabled={mutation.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {form.formState.isSubmitting && (
+                            {mutation.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Увійти
                         </Button>
                         <Button
                             variant="secondary"
-                            disabled={form.formState.isSubmitting}
+                            disabled={mutation.isPending}
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="signup" />,

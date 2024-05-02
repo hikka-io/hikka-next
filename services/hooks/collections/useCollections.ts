@@ -2,8 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import getCollections from '@/services/api/collections/getCollections';
 
-import useAuth from '../auth/useAuth';
-
 const useCollections = ({
     page,
     sort = 'system_ranking',
@@ -13,11 +11,9 @@ const useCollections = ({
     enabled?: boolean;
     sort: 'system_ranking' | 'created';
 }) => {
-    const { auth } = useAuth();
-
     return useQuery({
-        queryKey: ['collections', { page, auth, sort }],
-        queryFn: () => getCollections({ page, auth, sort }),
+        queryKey: ['collections', { page, sort }],
+        queryFn: () => getCollections({ page, params: { sort } }),
         enabled: enabled,
     });
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 import Link from 'next/link';
 
@@ -11,19 +11,17 @@ import AuthModal from '@/components/modals/auth-modal/auth-modal';
 import SearchModal from '@/components/modals/search-modal/search-modal';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import { Button } from '@/components/ui/button';
+import useSession from '@/services/hooks/auth/useSession';
 import { useMediaQuery } from '@/services/hooks/useMediaQuery';
 import useScrollTrigger from '@/services/hooks/useScrollTrigger';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { GENERAL_NAV_ROUTES } from '@/utils/constants';
 
-interface Props extends PropsWithChildren {}
-
-const Component = ({}: Props) => {
+const Navbar = () => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { openModal } = useModalContext();
 
-    let { data: loggedUser } = useLoggedUser();
+    let { user: loggedUser } = useSession();
 
     const trigger = useScrollTrigger({
         threshold: !isDesktop ? 0 : 40,
@@ -99,9 +97,12 @@ const Component = ({}: Props) => {
                     )}
                 </div>
             </div>
-            <div className="w-full" id="breadcrumbs-mobile" />
+            <div
+                className="flex h-auto w-full flex-1 items-center gap-4 overflow-hidden px-4 has-[a]:min-h-10 has-[div]:min-h-10 has-[p]:min-h-10 md:hidden"
+                id="breadcrumbs-mobile"
+            />
         </nav>
     );
 };
 
-export default Component;
+export default Navbar;

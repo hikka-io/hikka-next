@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import React, { PropsWithChildren } from 'react';
+import { Metadata, ResolvingMetadata } from 'next';
+import React, { FC, PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -7,25 +7,23 @@ import { redirect } from 'next/navigation';
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import ActivationAlert from '@/app/(pages)/u/[username]/components/activation-alert';
-import FollowButton from '@/app/(pages)/u/[username]/components/follow-button';
-import FollowStats from '@/app/(pages)/u/[username]/components/follow-stats';
-import ListStats from '@/app/(pages)/u/[username]/components/list-stats';
-import UserInfo from '@/app/(pages)/u/[username]/components/user-info';
-import UserTitle from '@/app/(pages)/u/[username]/components/user-title';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 import Image from '@/components/ui/image';
-import getFollowStats from '@/services/api/follow/getFollowStats';
-import getUserInfo, {
-    Response as UserResponse,
-} from '@/services/api/user/getUserInfo';
-import getWatchStats from '@/services/api/watch/getWatchStats';
 import { USER_NAV_ROUTES } from '@/utils/constants';
-import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
+
+import ActivationAlert from './components/activation-alert';
+import FollowButton from './components/follow-button';
+import FollowStats from './components/follow-stats';
+import ListStats from './components/list-stats';
+import UserInfo from './components/user-info';
+import UserTitle from './components/user-title';
+import _generateMetadata, { MetadataProps } from './layout.metadata';
+import prefetchQueries from './layout.queries';
+
 
 interface Props extends PropsWithChildren {
     params: {
@@ -33,46 +31,17 @@ interface Props extends PropsWithChildren {
     };
 }
 
-// export const runtime = 'edge';
-
-export async function generateMetadata({
-    params,
-}: {
-    params: {
-        username: string;
-    };
-}): Promise<Metadata> {
-    const username = params.username;
-
-    const user: UserResponse = await getUserInfo({ username });
-
-    return _generateMetadata({
-        title: {
-            default: user.username,
-            template: user.username + ' / %s / Hikka',
-        },
-        description: user.description,
-        images: `https://preview.hikka.io/u/${username}/${user.updated}`,
-    });
+export async function generateMetadata(
+    props: MetadataProps,
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    return await _generateMetadata(props, parent);
 }
 
-const Component = async ({ params: { username }, children }: Props) => {
-    const queryClient = getQueryClient();
+const UserLayout: FC<Props> = async ({ params: { username }, children }) => {
+    const queryClient = await getQueryClient();
 
-    await queryClient.prefetchQuery({
-        queryKey: ['user', username],
-        queryFn: () => getUserInfo({ username }),
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['watchStats', username],
-        queryFn: () => getWatchStats({ username }),
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['followStats', username],
-        queryFn: () => getFollowStats({ username }),
-    });
+    await prefetchQueries({ queryClient, params: { username } });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -106,20 +75,20 @@ const Component = async ({ params: { username }, children }: Props) => {
                 )}
                 <Breadcrumbs>
                     <Link
-                        href={'/u/' + user?.username}
+                        href={`/u/${username}`}
                         className="text-sm font-bold hover:underline"
                     >
-                        {user?.username}
+                        {username}
                     </Link>
                     <NavMenu
                         routes={USER_NAV_ROUTES}
-                        urlPrefix={'/u/' + username}
+                        urlPrefix={`/u/${username}`}
                     />
                 </Breadcrumbs>
                 <SubBar>
                     <InternalNavBar
                         routes={USER_NAV_ROUTES}
-                        urlPrefix={'/u/' + username}
+                        urlPrefix={`/u/${username}`}
                     />
                 </SubBar>
 
@@ -150,4 +119,4 @@ const Component = async ({ params: { username }, children }: Props) => {
     );
 };
 
-export default Component;
+export default UserLayout;

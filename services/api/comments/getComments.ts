@@ -1,27 +1,29 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     list: API.Comment[];
     pagination: API.Pagination;
 }
 
-export default async function req({
-    slug,
-    content_type,
-    auth,
-    page = 1,
-    size = 15,
-}: {
+export interface Params {
     slug: string;
     content_type: API.ContentType;
-    page?: number;
-    auth?: string;
-    size?: number;
-}): Promise<Response> {
+}
+
+export default async function req({
+    page = 1,
+    size = 15,
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/comments/${content_type}/${slug}/list`,
+        ...props,
+        path: `/comments/${params?.content_type}/${params?.slug}/list`,
         method: 'get',
-        auth,
         page,
         size,
     });

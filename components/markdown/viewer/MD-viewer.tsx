@@ -17,7 +17,6 @@ const Component = ({ children, className, ...props }: Props) => {
     return (
         <Markdown
             className={cn('markdown w-full', className)}
-            // disallowedElements={['code']}
             remarkPlugins={[
                 remarkDirective,
                 remarkDirectiveRehype,

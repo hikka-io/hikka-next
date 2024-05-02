@@ -1,4 +1,8 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     secret: string;
@@ -6,20 +10,24 @@ export interface Response {
     created: number;
 }
 
-export default async function req(params: {
+export interface Params {
     email: string;
     username: string;
     password: string;
-    captcha: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/auth/signup`,
         method: 'post',
         params: {
-            email: params.email,
-            username: params.username,
-            password: params.password,
+            email: params?.email,
+            username: params?.username,
+            password: params?.password,
         },
-        captcha: params.captcha,
     });
 }

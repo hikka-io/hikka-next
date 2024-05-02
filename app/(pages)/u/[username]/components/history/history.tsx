@@ -1,5 +1,7 @@
 'use client';
 
+import { FC } from 'react';
+
 import { useParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
@@ -16,7 +18,7 @@ interface Props {
     className?: string;
 }
 
-const Component = ({ className }: Props) => {
+const History: FC<Props> = ({ className }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
@@ -61,4 +63,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default History;

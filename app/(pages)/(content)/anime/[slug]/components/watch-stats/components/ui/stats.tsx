@@ -1,5 +1,6 @@
 'use client';
 
+import { FC } from 'react';
 import { NumericFormat } from 'react-number-format';
 
 import Small from '@/components/typography/small';
@@ -13,7 +14,7 @@ interface Props {
     stats: Hikka.WatchStat[];
 }
 
-const Stats = ({ stats }: Props) => {
+const Stats: FC<Props> = ({ stats }) => {
     return (
         <div className="relative overflow-hidden rounded-lg border border-secondary/60 bg-secondary/30 p-4">
             <div className="flex flex-col justify-center gap-2">
@@ -23,7 +24,7 @@ const Stats = ({ stats }: Props) => {
                             key={`${stat.value}-${stat.percentage}`}
                             delayDuration={0}
                         >
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <div className="flex items-center justify-between gap-2">
                                     <div className="flex w-full flex-1 items-center gap-2">
                                         {stat.icon && (

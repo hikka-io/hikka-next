@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 
-const Component = () => {
+const FiltersNotFound = () => {
     const pathname = usePathname();
 
     return (
@@ -27,4 +27,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default FiltersNotFound;

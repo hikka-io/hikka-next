@@ -11,7 +11,7 @@ import { Combobox } from '@/components/ui/combobox';
 import { PopoverTrigger } from '@/components/ui/popover';
 import createQueryString from '@/utils/createQueryString';
 
-const Component = () => {
+const ViewCombobox = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -68,4 +68,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ViewCombobox;

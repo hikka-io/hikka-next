@@ -7,17 +7,15 @@ import { useParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import resendActivation from '@/services/api/auth/resendActivation';
-import useAuth from '@/services/hooks/auth/useAuth';
-import useLoggedUser from '@/services/hooks/user/useLoggedUser';
+import useSession from '@/services/hooks/auth/useSession';
 import useUser from '@/services/hooks/user/useUser';
 
-const Component = () => {
+const ActivationAlert = () => {
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
-    const { auth } = useAuth();
 
     const { data: user } = useUser({ username: String(params.username) });
-    const { data: loggedUser } = useLoggedUser();
+    const { user: loggedUser } = useSession();
 
     if (
         !loggedUser ||
@@ -29,7 +27,7 @@ const Component = () => {
 
     const resend = async () => {
         try {
-            await resendActivation({ auth: String(auth) });
+            await resendActivation();
             enqueueSnackbar(
                 <span>
                     <span className="font-bold">{loggedUser.username}</span>, ми
@@ -76,4 +74,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ActivationAlert;

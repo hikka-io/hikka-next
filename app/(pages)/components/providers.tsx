@@ -3,10 +3,10 @@
 import { uk } from 'date-fns/locale';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
-import { SnackbarProvider } from 'notistack';
-import React, { PropsWithChildren, useState } from 'react';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import React, { FC, PropsWithChildren, useState } from 'react';
 
-import { QueryClientProvider } from '@tanstack/react-query';
+import { MutationCache, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import SnackbarItem from '@/components/snackbar-item';
@@ -19,9 +19,19 @@ import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
 
 interface Props extends PropsWithChildren {}
 
-function Providers({ children }: Props) {
+const Providers: FC<Props> = ({ children }) => {
     setDefaultOptions({ locale: uk });
-    const [client] = useState(() => createQueryClient());
+    const [client] = useState(() =>
+        createQueryClient({
+            mutationCache: new MutationCache({
+                onError: (error, vars, context, mutation) => {
+                    enqueueSnackbar(error.message, {
+                        variant: 'error',
+                    });
+                },
+            }),
+        }),
+    );
 
     return (
         <SettingsProvider>
@@ -71,6 +81,6 @@ function Providers({ children }: Props) {
             </ThemeProvider>
         </SettingsProvider>
     );
-}
+};
 
 export default Providers;

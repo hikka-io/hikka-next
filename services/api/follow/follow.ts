@@ -1,20 +1,24 @@
-import config from '@/services/api/config';
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     follow: boolean;
 }
 
-export default async function req({
-    username,
-    auth,
-}: {
+export interface Params {
     username: string;
-    auth: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/follow/${username}`,
+        ...props,
+        path: `/follow/${params?.username}`,
         method: 'put',
-        auth,
     });
 }

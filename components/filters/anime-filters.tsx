@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
@@ -65,7 +65,7 @@ const SORT_WATCHLIST = [
     },
 ];
 
-const Component = ({ className, type }: Props) => {
+const AnimeFilters: FC<Props> = ({ className, type }) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
@@ -279,4 +279,4 @@ const Component = ({ className, type }: Props) => {
     );
 };
 
-export default Component;
+export default AnimeFilters;

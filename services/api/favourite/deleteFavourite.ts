@@ -1,21 +1,25 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response {
     success: boolean;
 }
 
-export default async function req({
-    auth,
-    slug,
-    content_type,
-}: {
-    auth: string;
+export interface Params {
     slug: string;
     content_type: API.ContentType;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/favourite/${content_type}/${slug}`,
+        ...props,
+        path: `/favourite/${params?.content_type}/${params?.slug}`,
         method: 'delete',
-        auth,
     });
 }

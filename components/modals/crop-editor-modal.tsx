@@ -15,7 +15,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import uploadImage from '@/services/api/upload/uploadImage';
-import useAuth from '@/services/hooks/auth/useAuth';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 interface Props {
@@ -43,7 +42,6 @@ const Component = ({ file, type }: Props) => {
     const params = useParams();
     const { enqueueSnackbar } = useSnackbar();
     const [isLoading, setIsLoading] = useState(false);
-    const { auth } = useAuth();
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
 
@@ -51,9 +49,10 @@ const Component = ({ file, type }: Props) => {
         if (type === 'avatar') {
             try {
                 const res = await uploadImage({
-                    file,
-                    upload_type: 'avatar',
-                    auth: String(auth),
+                    params: {
+                        file,
+                        upload_type: 'avatar',
+                    },
                 });
 
                 enqueueSnackbar('Ви успішно оновили свій аватар.', {
@@ -74,9 +73,10 @@ const Component = ({ file, type }: Props) => {
         if (type === 'cover') {
             try {
                 const res = await uploadImage({
-                    file,
-                    upload_type: 'cover',
-                    auth: String(auth),
+                    params: {
+                        file,
+                        upload_type: 'cover',
+                    },
                 });
 
                 enqueueSnackbar('Ви успішно оновили свою обкладинку.', {

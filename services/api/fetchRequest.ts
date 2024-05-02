@@ -1,41 +1,43 @@
-import getApiErrorMessage from '@/utils/getApiErrorMessage';
-import SnackbarUtils from '@/utils/snackbar-utils';
-
 import config from './config';
 
-interface Props {
-    path: string;
-    method: string;
-    params?: Record<string, unknown> | FormData;
-    auth?: string;
+export interface BaseFetchRequestProps<
+    TParams extends Record<string, any> | FormData =
+        | Record<string, any>
+        | FormData,
+> {
+    params?: TParams;
     page?: number;
     size?: number;
     captcha?: string;
-    enqueueError?: boolean;
     formData?: boolean;
     config?: Record<string, any>;
+    auth?: string;
+}
+
+export interface FetchRequestProps<
+    TParams extends Record<string, any> | FormData =
+        | Record<string, any>
+        | FormData,
+> extends BaseFetchRequestProps<TParams> {
+    path: string;
+    method: string;
 }
 
 export async function fetchRequest<TResponse>({
     path,
     method,
     params,
-    auth,
     page,
     size,
     captcha,
-    enqueueError,
     formData,
     config: myConfig,
-}: Props): Promise<TResponse> {
-    const paginationParams = new URLSearchParams(
-        Object.fromEntries(
-            [
-                ['page', page],
-                ['size', size],
-            ].filter(([, value]) => value !== undefined),
-        ),
-    ).toString();
+    auth,
+}: FetchRequestProps): Promise<TResponse> {
+    const paginationParams = new URLSearchParams({
+        ...(page ? { page: String(page) } : {}),
+        ...(size ? { size: String(size) } : {}),
+    }).toString();
 
     const queryParams =
         (method === 'get' &&
@@ -60,26 +62,22 @@ export async function fetchRequest<TResponse>({
             ...myConfig,
             headers: {
                 ...(formData ? {} : config.config.headers),
-                auth: auth || '',
                 captcha: captcha || '',
+                ...(auth ? { auth } : {}),
             },
         },
     );
 
-    if (!res.ok) {
-        if (res.status >= 400 && res.status <= 499) {
-            const error: API.Error = await res.json();
+    await handleError(res);
 
-            if (enqueueError) {
-                const errorMessage = getApiErrorMessage(error);
+    return await res.json();
+}
 
-                errorMessage && SnackbarUtils.error(errorMessage);
-            }
-
-            throw error;
+async function handleError(response: Response) {
+    if (!response.ok) {
+        if (response.status >= 400 && response.status <= 499) {
+            throw await response.json();
         }
         throw new Error('Failed to fetch data');
     }
-
-    return await res.json();
 }

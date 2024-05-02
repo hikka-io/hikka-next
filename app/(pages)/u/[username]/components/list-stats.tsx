@@ -12,9 +12,7 @@ import useWatchStats from '@/services/hooks/watch/useWatchStats';
 import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
-interface Props {}
-
-const Component = ({}: Props) => {
+const ListStats = () => {
     const params = useParams();
     const { data } = useWatchStats({ username: String(params.username) });
 
@@ -105,4 +103,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default ListStats;

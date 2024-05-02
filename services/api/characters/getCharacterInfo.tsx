@@ -1,14 +1,22 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Character {}
 
-export default async function req({
-    slug,
-}: {
+export interface Params {
     slug: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/characters/${slug}`,
+        ...props,
+        path: `/characters/${params?.slug}`,
         method: 'get',
         config: {
             next: {

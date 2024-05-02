@@ -1,24 +1,26 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Comment {}
 
-export default async function req({
-    auth,
-    slug,
-    content_type,
-    text,
-    parent,
-}: {
-    auth: string;
+export interface Params {
     slug: string;
     content_type: API.ContentType;
     text: string;
     parent?: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/comments/${content_type}/${slug}`,
+        ...props,
+        path: `/comments/${params?.content_type}/${params?.slug}`,
         method: 'put',
-        params: { text, parent },
-        auth,
+        params: { text: params?.text, parent: params?.parent },
     });
 }

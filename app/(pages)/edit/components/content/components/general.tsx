@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FC } from 'react';
 
 import Link from 'next/link';
 
@@ -10,7 +11,7 @@ interface Props {
     title: string;
 }
 
-const General = ({ href, title, poster }: Props) => {
+const General: FC<Props> = ({ href, title, poster }) => {
     return (
         <>
             <div className="hidden w-full items-center gap-4 px-16 md:px-48 lg:flex lg:px-0">

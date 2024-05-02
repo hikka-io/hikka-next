@@ -1,18 +1,26 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
-interface Response {
+export interface Response {
     secret: string;
     expiration: number;
     created: number;
 }
 
-export default async function req(params: {
+export interface Params {
     password: string;
     token: string;
-}): Promise<Response> {
+}
+
+export default async function req(
+    props: BaseFetchRequestProps<Params>,
+): Promise<Response> {
     return fetchRequest<Response>({
+        ...props,
         path: `/auth/password/confirm`,
         method: 'post',
-        params,
     });
 }

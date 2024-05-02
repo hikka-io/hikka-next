@@ -1,50 +1,49 @@
-import React from 'react';
+import React, { FC } from 'react';
 import BxBxsDownvote from '~icons/bx/bxs-downvote';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import BxDownvote from '~icons/bx/downvote';
 import BxUpvote from '~icons/bx/upvote';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import vote from '@/services/api/vote/vote';
-import useAuth from '@/services/hooks/auth/useAuth';
+import useSession from '@/services/hooks/auth/useSession';
 import { cn } from '@/utils/utils';
 
 interface Props {
     comment: API.Comment;
 }
 
-const Component = ({ comment }: Props) => {
+const CommentVote: FC<Props> = ({ comment }) => {
+    const { user: loggedUser } = useSession();
     const queryClient = useQueryClient();
-    const { auth } = useAuth();
-    // const [newScore, setNewScore] = useState(comment.score);
+
+    const mutation = useMutation({
+        mutationFn: vote,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['comments'] });
+        },
+    });
 
     const handleCommentVote = async (score: -1 | 1) => {
         const updated = comment.my_score === score ? 0 : score;
 
-        // setNewScore(comment.score + updated);
-
-        await vote({
-            auth: String(auth),
-            slug: comment.reference,
-            score: updated,
-            content_type: 'comment',
+        mutation.mutate({
+            params: {
+                slug: comment.reference,
+                score: updated,
+                content_type: 'comment',
+            },
         });
-
-        await queryClient.invalidateQueries({ queryKey: ['comments'] });
     };
-
-    /*useEffect(() => {
-        setNewScore(comment.score);
-    }, [comment]);*/
 
     return (
         <div className="group flex items-center gap-2">
             <Button
                 onClick={() => handleCommentVote(1)}
-                disabled={!auth}
+                disabled={!loggedUser}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(
@@ -71,7 +70,7 @@ const Component = ({ comment }: Props) => {
             </Label>
             <Button
                 onClick={() => handleCommentVote(-1)}
-                disabled={!auth}
+                disabled={!loggedUser}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(
@@ -89,4 +88,4 @@ const Component = ({ comment }: Props) => {
     );
 };
 
-export default Component;
+export default CommentVote;

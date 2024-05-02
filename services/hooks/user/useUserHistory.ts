@@ -10,8 +10,8 @@ const useUserHistory = ({ username }: { username: string }) => {
         queryKey: ['history', username],
         queryFn: ({ pageParam }) =>
             getUserHistory({
-                username: username,
                 page: pageParam,
+                params: { username },
             }),
         select: (data) => ({
             ...data,

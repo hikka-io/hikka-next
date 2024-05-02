@@ -10,13 +10,13 @@ import {
 } from 'react';
 
 import {
-    Request as CollectionRequest,
+    Params as CollectionRequest,
     Response as CollectionResponse,
 } from '@/services/api/collections/createCollection';
 
 export type Item = {
     id: string | number;
-    content: API.Anime | API.Character | API.Person;
+    content: API.MainContent;
 };
 
 export type Group = {
@@ -105,7 +105,6 @@ export default function CollectionProvider({ children }: Props) {
                 .filter((title) => title !== ''),
             content: contentToArray(),
             tags: state.tags,
-            auth: '',
         };
     };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { FC } from 'react';
 
 import Details from '@/app/(pages)/edit/components/content/components/details';
 import General from '@/app/(pages)/edit/components/content/components/general';
@@ -12,10 +13,10 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 interface Props {
     slug: string;
     content_type: API.ContentType;
-    content?: API.AnimeInfo | API.Character | API.Person;
+    content?: API.MainContent;
 }
 
-const Content = ({ slug, content_type, content }: Props) => {
+const Content: FC<Props> = ({ slug, content_type, content }) => {
     const [type, setType] = React.useState<'general' | 'details'>('details');
 
     if (!content) {
@@ -24,9 +25,10 @@ const Content = ({ slug, content_type, content }: Props) => {
 
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
-    const poster = 'poster' in content ? content.poster : content.image;
+    const poster =
+        content.data_type === 'anime' ? content.poster : content.image;
     const title =
-        'title_en' in content
+        content.data_type === 'anime'
             ? content.title!
             : content.name_ua || content.name_en;
 

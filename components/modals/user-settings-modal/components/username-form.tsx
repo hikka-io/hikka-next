@@ -5,74 +5,73 @@ import { useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Form } from '@/components/ui/form';
 import changeUserUsername from '@/services/api/settings/changeUserUsername';
-import useAuth from '@/services/hooks/auth/useAuth';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
-type FormValues = {
-    username: string;
-};
+const formSchema = z.object({
+    username: z.string().min(2).max(50),
+});
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
-    const {
-        register,
-        handleSubmit,
-        formState: { isSubmitting },
-    } = useForm<FormValues>();
-    const { auth } = useAuth();
     const router = useRouter();
 
-    const onSubmit = async (data: FormValues) => {
-        try {
-            await changeUserUsername({
-                auth: String(auth),
-                username: data.username,
-            });
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+    });
+
+    const mutation = useMutation({
+        mutationFn: changeUserUsername,
+        onSuccess: async () => {
             await queryClient.invalidateQueries();
-            router.push('/u/' + data.username);
+            router.push('/u/' + form.getValues().username);
             closeModal();
-            enqueueSnackbar('Ви успішно змінити імʼя користвача.', {
+            enqueueSnackbar('Ви успішно змінили імʼя користвача.', {
                 variant: 'success',
             });
-            return;
-        } catch (e) {
-            console.error(e);
-            return;
-        }
+        },
+    });
+
+    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+        mutation.mutate({
+            params: data,
+        });
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-6 p-6"
-        >
-            <div className="w-full">
-                <div className="flex w-full flex-col gap-2">
-                    <Label>Нове ім’я користувача</Label>
-                    <Input
-                        type="text"
-                        placeholder="Введіть нове імʼя"
-                        {...register('username', { required: true })}
-                    />
-                </div>
-            </div>
-            <div className="w-full">
-                <Button variant="default" type="submit" className="w-full">
-                    {isSubmitting && (
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(handleFormSubmit)}
+                className="flex flex-col gap-6 p-6"
+            >
+                <FormInput
+                    name="username"
+                    type="text"
+                    label="Нове ім’я користувача"
+                    placeholder="Введіть нове імʼя"
+                />
+                <Button
+                    disabled={mutation.isPending}
+                    variant="default"
+                    type="submit"
+                    className="w-full"
+                >
+                    {mutation.isPending && (
                         <span className="loading loading-spinner"></span>
                     )}
                     Зберегти
                 </Button>
-            </div>
-        </form>
+            </form>
+        </Form>
     );
 };
 

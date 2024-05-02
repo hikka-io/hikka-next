@@ -1,29 +1,31 @@
-import { fetchRequest } from '@/services/api/fetchRequest';
+import {
+    BaseFetchRequestProps,
+    FetchRequestProps,
+    fetchRequest,
+} from '@/services/api/fetchRequest';
 
 export interface Response extends API.Edit {}
 
-export default async function req({
-    auth,
-    content_type,
-    description,
-    after,
-    slug,
-    auto,
-    captcha,
-}: {
-    auth: string;
+export interface Params {
     description?: string;
     content_type: API.ContentType;
     after: Hikka.AnimeEditParams;
     slug: string;
     auto?: boolean;
-    captcha: string;
-}): Promise<Response> {
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/edit/${content_type}/${slug}`,
+        ...props,
+        path: `/edit/${params?.content_type}/${params?.slug}`,
         method: 'put',
-        params: { after, description, auto },
-        auth,
-        captcha,
+        params: {
+            after: params?.after,
+            description: params?.description,
+            auto: params?.auto,
+        },
     });
 }

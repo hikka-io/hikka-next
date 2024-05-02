@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import EntryCard, {
     Props as EntryCardProps,
 } from '@/components/entry-card/entry-card';
@@ -11,7 +13,7 @@ interface Props extends EntryCardProps {
     }[];
 }
 
-const PersonCard = ({ person, roles, ...props }: Props) => {
+const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
     const getRole = (roles: Props['roles']) => {
         if (roles.length === 0) {
             return undefined;

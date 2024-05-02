@@ -6,7 +6,7 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
-    reactStrictMode: false,
+    reactStrictMode: true,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
         remotePatterns: [
@@ -27,6 +27,14 @@ const nextConfig = {
         );
 
         return config;
+    },
+    async rewrites() {
+        return [
+            {
+                source: "/api/:path*",
+                destination: `${process.env.API_URL}/:path*`,
+            },
+        ];
     },
 };
 const withBundleAnalyzer = bundleAnalyzer({

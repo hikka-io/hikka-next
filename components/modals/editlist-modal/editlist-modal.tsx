@@ -25,8 +25,10 @@ const Component = ({ content_type, slug }: Props) => {
             queryKey: ['editList', slug, content_type],
             queryFn: ({ pageParam }) =>
                 getEditList({
-                    slug: slug,
-                    content_type: content_type,
+                    params: {
+                        slug: slug,
+                        content_type: content_type,
+                    },
                     page: pageParam,
                 }),
         });

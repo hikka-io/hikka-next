@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 import MaterialSymbolsNotificationImportantRounded from '~icons/material-symbols/notification-important-rounded';
 
 import P from '@/components/typography/p';
@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 
 interface Props {}
 
-const Component = ({}: Props) => {
+const NotFoundNotifications: FC<Props> = () => {
     return (
         <div className="flex items-start gap-4 px-2 py-3">
             <div className="rounded-md border-secondary/60 bg-secondary/30 p-2">
@@ -24,4 +24,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default NotFoundNotifications;

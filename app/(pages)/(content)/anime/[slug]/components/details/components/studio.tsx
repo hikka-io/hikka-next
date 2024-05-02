@@ -1,23 +1,20 @@
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
+import { FC } from 'react';
 
 import Image from 'next/image';
 
 import P from '@/components/typography/p';
-import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { RELEASE_STATUS } from '@/utils/constants';
 
 interface Props {
     companies: API.Company[];
 }
 
-const Studio = ({ companies }: Props) => {
+const Studio: FC<Props> = ({ companies }) => {
     if (!companies) {
         return null;
     }
