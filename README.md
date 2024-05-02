@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/olexh/hikka-frontend">
+  <a href="https://github.com/olexh/hikka-next">
     <img src="public/logo.svg" alt="Logo" width="80" height="80">
   </a>
   <p align="center">
@@ -10,9 +10,9 @@
     <br />
     <a href="https://hikka.io">View Project</a>
     ·
-    <a href="https://github.com/olexh/hikka-frontend/issues">Report Bug</a>
+    <a href="https://github.com/olexh/hikka-next/issues">Report Bug</a>
     ·
-    <a href="https://github.com/olexh/hikka-frontend/issues">Request Feature</a>
+    <a href="https://github.com/olexh/hikka-next/issues">Request Feature</a>
   </p>
 </div>
 
@@ -23,9 +23,11 @@
 
 The list of frameworks and core libraries, that uses in the project
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-
+- [Next.js](https://nextjs.org/)
+- [React.js](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [Typescript](https://www.typescriptlang.org/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -44,7 +46,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/olexh/hikka-frontend.git
+   git clone https://github.com/olexh/hikka-next.git
    ```
 2. Install NPM packages
    ```sh
@@ -52,7 +54,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 3. Run the Next.js development server
    ```sh
-   yarn run dev
+   yarn dev
    ```
 
 <!-- CONTRIBUTING -->
@@ -72,4 +74,4 @@ If you have a suggestion that would make this better, please fork the repo and c
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Hikka is distributed under [AGPL-3.0-only](LICENSE). See `LICENSE` for more information.
