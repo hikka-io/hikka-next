@@ -56,11 +56,6 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         },
     });
 
-    const mutation = useMutation({
-        mutationFn: updateEdit,
-        onSuccess: () => onDismiss,
-    });
-
     const onDismiss = async () => {
         form.reset();
 
@@ -70,6 +65,11 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
 
         router.push('/edit/' + editId);
     };
+
+    const mutation = useMutation({
+        mutationFn: updateEdit,
+        onSuccess: onDismiss,
+    });
 
     const onSubmit = async (data: FormValues) => {
         mutation.mutate({
