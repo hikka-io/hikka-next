@@ -24,6 +24,7 @@ const UnderlineButton = () => {
 
     return (
         <Button
+            type="button"
             variant={underlineIsOn ? 'secondary' : 'ghost'}
             size="icon-sm"
             onClick={() => applyFormat('underline')}

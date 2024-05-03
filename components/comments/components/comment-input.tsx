@@ -119,7 +119,7 @@ const CommentInput: FC<Props> = forwardRef(
                         'rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
                         className,
                     )}
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={(e) => e.preventDefault()}
                 >
                     <FormMarkdown
                         name="text"
@@ -160,6 +160,7 @@ const CommentInput: FC<Props> = forwardRef(
                                 </Button>
                             )}
                             <Button
+                                onClick={form.handleSubmit(onSubmit)}
                                 disabled={isAddPending || isEditPending}
                                 size="sm"
                                 type="submit"

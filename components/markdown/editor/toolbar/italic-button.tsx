@@ -32,6 +32,7 @@ const ItalicButton = () => {
         <Tooltip delayDuration={0}>
             <TooltipTrigger>
                 <Button
+                    type="button"
                     variant={italicIsOn ? 'secondary' : 'ghost'}
                     size="icon-sm"
                     onClick={() => applyFormat('italic')}

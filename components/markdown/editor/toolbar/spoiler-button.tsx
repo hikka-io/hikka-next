@@ -18,6 +18,7 @@ const SpoilerButton = () => {
         <Tooltip delayDuration={0}>
             <TooltipTrigger>
                 <Button
+                    type="button"
                     variant="ghost"
                     size="icon-sm"
                     onClick={() => {

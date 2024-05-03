@@ -32,6 +32,7 @@ const BoldButton = () => {
         <Tooltip delayDuration={0}>
             <TooltipTrigger>
                 <Button
+                    type="button"
                     variant={boldIsOn ? 'secondary' : 'ghost'}
                     size="icon-sm"
                     onClick={() => applyFormat('bold')}
