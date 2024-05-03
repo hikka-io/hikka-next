@@ -43,6 +43,7 @@ const CommentInput: FC<Props> = forwardRef(
 
         const form = useForm<z.infer<typeof formSchema>>({
             resolver: zodResolver(formSchema),
+            defaultValues: isEdit ? comment : undefined,
         });
 
         const onSuccess = async () => {
@@ -63,34 +64,13 @@ const CommentInput: FC<Props> = forwardRef(
 
         const { mutate: mutateEditComment, isPending: isEditPending } =
             useMutation({
-                mutationFn: (data: z.infer<typeof formSchema>) =>
-                    editComment({
-                        params: {
-                            reference: comment!.reference,
-                            ...data,
-                        },
-                    }),
+                mutationFn: editComment,
                 onSuccess,
             });
 
         const { mutate: mutateAddComment, isPending: isAddPending } =
             useMutation({
-                mutationFn: ({ text }: z.infer<typeof formSchema>) =>
-                    addComment({
-                        params: {
-                            content_type: content_type,
-                            slug: slug,
-                            parent: comment?.depth
-                                ? comment?.depth < 5
-                                    ? comment?.reference
-                                    : comment?.parent!
-                                : undefined,
-                            text:
-                                comment?.depth && comment?.depth >= 5
-                                    ? `@${comment.author.username} ${text}`
-                                    : text,
-                        },
-                    }),
+                mutationFn: addComment,
                 onSuccess,
             });
 
@@ -104,9 +84,28 @@ const CommentInput: FC<Props> = forwardRef(
 
         const onSubmit = (data: z.infer<typeof formSchema>) => {
             if (isEdit) {
-                mutateEditComment(data);
+                mutateEditComment({
+                    params: {
+                        reference: comment!.reference,
+                        ...data,
+                    },
+                });
             } else {
-                mutateAddComment(data);
+                mutateAddComment({
+                    params: {
+                        content_type: content_type,
+                        slug: slug,
+                        parent: comment?.depth
+                            ? comment?.depth < 5
+                                ? comment?.reference
+                                : comment?.parent!
+                            : undefined,
+                        text:
+                            comment?.depth && comment?.depth >= 5
+                                ? `@${comment.author.username} ${data.text}`
+                                : data.text,
+                    },
+                });
             }
         };
 
