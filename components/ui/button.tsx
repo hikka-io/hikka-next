@@ -20,7 +20,7 @@ const buttonVariants = cva(
                 warning:
                     'border border-warning bg-warning text-warning-foreground hover:bg-warning/90',
                 outline:
-                    'border border-secondary/60 hover:bg-secondary/30 hover:text-secondary-foreground',
+                    'border border-secondary/60 bg-secondary/30 hover:bg-secondary/60 hover:text-secondary-foreground',
                 secondary:
                     'border border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 accent: 'border border-accent bg-accent text-accent-foreground hover:bg-accent/80',
