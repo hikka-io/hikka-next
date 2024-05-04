@@ -11,7 +11,7 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
-import Image from '@/components/ui/image';
+import UserCover from '@/components/user-cover';
 import { USER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
@@ -23,7 +23,6 @@ import UserInfo from './components/user-info';
 import UserTitle from './components/user-title';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
-
 
 interface Props extends PropsWithChildren {
     params: {
@@ -62,17 +61,7 @@ const UserLayout: FC<Props> = async ({ params: { username }, children }) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12 lg:gap-16">
                 <ActivationAlert />
-                {user.cover && (
-                    <div className="absolute left-0 top-0 -z-20 h-80 w-full overflow-hidden opacity-40 gradient-mask-b-0">
-                        <Image
-                            src={user.cover}
-                            className="relative size-full object-cover"
-                            alt="cover"
-                            fill
-                            priority
-                        />
-                    </div>
-                )}
+                <UserCover username={username} />
                 <Breadcrumbs>
                     <Link
                         href={`/u/${username}`}
