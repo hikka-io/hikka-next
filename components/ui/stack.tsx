@@ -5,8 +5,8 @@ import { cn } from '@/utils/utils';
 interface Props extends PropsWithChildren {
     className?: string;
     extended?: boolean;
-    size: 3 | 4 | 5 | 6;
-    extendedSize?: 3 | 4 | 5 | 6;
+    size?: keyof typeof SIZES;
+    extendedSize?: keyof typeof EXTENDED_SIZES;
 }
 
 const SIZES = {
@@ -14,6 +14,8 @@ const SIZES = {
     4: 'grid-cols-2 md:grid-cols-4',
     5: 'grid-cols-3 md:grid-cols-5',
     6: 'grid-cols-4 md:grid-cols-6',
+    7: 'grid-cols-5 md:grid-cols-7',
+    8: 'grid-cols-6 md:grid-cols-8',
 };
 
 const EXTENDED_SIZES = {
@@ -34,7 +36,7 @@ const Stack = ({
         <div
             className={cn(
                 'grid gap-4 lg:gap-8',
-                SIZES[size],
+                size && SIZES[size],
                 extended &&
                     (extendedSize
                         ? EXTENDED_SIZES[extendedSize]
