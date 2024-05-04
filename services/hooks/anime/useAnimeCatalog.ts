@@ -4,27 +4,28 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
+    Params as AnimeCatalogParams,
 } from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';
 
-export interface Props {
+export interface Props extends AnimeCatalogParams {
     page: number;
     iPage: number;
 }
 
-const useAnimeCatalog = ({ page, iPage }: Props) => {
+const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams();
 
-    const search = searchParams.get('search');
-    const types = searchParams.getAll('types');
-    const statuses = searchParams.getAll('statuses');
-    const seasons = searchParams.getAll('seasons');
-    const ageRatings = searchParams.getAll('ratings');
-    const years = searchParams.getAll('years');
-    const genres = searchParams.getAll('genres');
-    const lang = searchParams.get('only_translated');
+    const search = props.query || searchParams.get('search');
+    const types = props.media_type || searchParams.getAll('types');
+    const statuses = props.status || searchParams.getAll('statuses');
+    const seasons = props.season || searchParams.getAll('seasons');
+    const ageRatings = props.rating || searchParams.getAll('ratings');
+    const years = props.years || searchParams.getAll('years');
+    const genres = props.genres || searchParams.getAll('genres');
+    const lang = props.only_translated || searchParams.get('only_translated');
     const sort = searchParams.get('sort') || 'score';
     const order = searchParams.get('order') || 'desc';
 
