@@ -92,7 +92,7 @@ const WatchStats = () => {
             </div>
             <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
-                    <Label className="min-h-[24px] overflow-hidden text-ellipsis">
+                    <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Епізоди
                     </Label>
                     <div className="inline-flex">
