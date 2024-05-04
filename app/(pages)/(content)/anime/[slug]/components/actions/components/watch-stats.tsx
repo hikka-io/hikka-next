@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
+import MaterialSymbolsRemoveRounded from '~icons/material-symbols/remove-rounded';
 
 import { useParams } from 'next/navigation';
 
@@ -12,7 +14,6 @@ import Rating from '@/components/ui/rating';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAddWatch from '@/services/hooks/watch/useAddWatch';
 import useWatch from '@/services/hooks/watch/useWatch';
-
 
 const WatchStats = () => {
     const params = useParams();
@@ -91,25 +92,25 @@ const WatchStats = () => {
             </div>
             <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
-                    <Label className="min-h-[24px] overflow-hidden text-ellipsis">
+                    <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Епізоди
                     </Label>
                     <div className="inline-flex">
                         <Button
                             variant="secondary"
-                            size="icon-xs"
+                            size="icon-sm"
                             className="rounded-r-none"
                             onClick={() => changeEpisodes('decrease')}
                         >
-                            -
+                            <MaterialSymbolsRemoveRounded />
                         </Button>
                         <Button
                             variant="secondary"
-                            size="icon-xs"
+                            size="icon-sm"
                             className="rounded-l-none"
                             onClick={() => changeEpisodes('increase')}
                         >
-                            +
+                            <MaterialSymbolsAddRounded />
                         </Button>
                     </div>
                 </div>
