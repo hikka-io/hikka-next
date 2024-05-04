@@ -83,7 +83,7 @@ const ScheduleItem: FC<Props> = ({ item }) => {
                                     : 'Вийшло'}
                             </H5>
                             <P className="text-sm text-muted-foreground">
-                                <span className="font-bold">
+                                <span className="font-bold text-foreground">
                                     {item.episode}
                                 </span>
                                 /{item.anime.episodes_total || '?'}

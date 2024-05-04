@@ -288,6 +288,7 @@ declare global {
             created: number;
             updated: number;
             data: TData;
+            user: API.User;
         };
 
         type NotificationType =
