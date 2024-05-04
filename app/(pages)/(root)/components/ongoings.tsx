@@ -1,8 +1,12 @@
 'use client';
 
+import * as React from 'react';
 import { FC } from 'react';
 
+import { range } from '@antfu/utils';
+
 import AnimeCard from '@/app/(pages)/(content)/components/anime-card';
+import SkeletonCard from '@/components/skeletons/entry-card';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
@@ -14,7 +18,7 @@ interface Props {
 }
 
 const Ongoings: FC<Props> = ({ className }) => {
-    const { list } = useAnimeCatalog({
+    const { list,  isLoading } = useAnimeCatalog({
         status: ['ongoing'],
         page: 1,
         iPage: 1,
@@ -26,6 +30,8 @@ const Ongoings: FC<Props> = ({ className }) => {
         <Block className={cn(className)}>
             <Header title="Онґоінґи" href="/anime?statuses=ongoing" />
             <Stack>
+                {isLoading &&
+                    range(0, 8).map((v) => <SkeletonCard key={v} />)}
                 {filteredList?.map((item) => (
                     <AnimeCard anime={item} key={item.slug} />
                 ))}
