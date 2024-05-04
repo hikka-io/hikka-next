@@ -2,6 +2,7 @@ import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/g
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
+import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded'
 
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
@@ -383,6 +384,13 @@ export const ERRORS: Record<string, Record<string, string>> = {
 };
 
 export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'anime',
+        title_ua: 'Головна',
+        url: '/home',
+        icon: MaterialSymbolsHomeRounded,
+        visible: false,
+    },
     {
         slug: 'anime',
         title_ua: 'Каталог',
