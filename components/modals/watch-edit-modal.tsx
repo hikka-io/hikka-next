@@ -21,7 +21,7 @@ import { z } from '@/utils/zod';
 const formSchema = z.object({
     score: z.coerce.number().min(0).max(10).nullable().optional(),
     episodes: z.coerce.number().min(0).nullable().optional(),
-    rewatches: z.coerce.number().nullable().optional(),
+    rewatches: z.coerce.number().min(0).nullable().optional(),
     note: z.string().nullable().optional(),
 });
 
