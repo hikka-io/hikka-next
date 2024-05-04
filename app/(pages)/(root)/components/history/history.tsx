@@ -4,6 +4,7 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
 import useUserHistory from '@/services/hooks/history/useFollowingHistory';
 import { cn } from '@/utils/utils';
 
@@ -25,6 +26,12 @@ const History: FC<Props> = ({ className }) => {
                 {filteredHistory?.map((item) => (
                     <HistoryItem data={item} key={item.reference} />
                 ))}
+                {filteredHistory?.length === 0 && (
+                    <NotFound
+                        title="Історія відсутня"
+                        description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
+                    />
+                )}
             </div>
         </Block>
     );
