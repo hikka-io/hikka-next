@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { range } from '@antfu/utils';
 
-import SkeletonCard from '@/components/skeletons/entry-card';
+import SkeletonCard from '@/components/skeletons/content-card';
 
 const AnimeListSkeleton = () => {
     return (

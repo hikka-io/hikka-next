@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import FavoriteButton from '@/components/favorite-button';
 import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
 
@@ -17,7 +17,7 @@ const Cover = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <EntryCard poster={character.image}>
+            <ContentCard poster={character.image}>
                 <div className="absolute bottom-2 right-2 z-[1]">
                     <FavoriteButton
                         slug={character.slug}
@@ -25,7 +25,7 @@ const Cover = () => {
                     />
                 </div>
                 <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-black to-transparent" />
-            </EntryCard>
+            </ContentCard>
         </div>
     );
 };

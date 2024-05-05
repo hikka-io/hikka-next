@@ -1,16 +1,16 @@
 import { FC } from 'react';
 
-import EntryCard, {
-    Props as EntryCardProps,
-} from '@/components/entry-card/entry-card';
+import ContentCard, {
+    Props as ContentCardProps,
+} from '@/components/content-card/content-card';
 
-interface Props extends EntryCardProps {
+interface Props extends ContentCardProps {
     character: API.Character;
 }
 
 const CharacterCard: FC<Props> = ({ character, ...props }) => {
     return (
-        <EntryCard
+        <ContentCard
             slug={character.slug}
             withContextMenu
             content_type="character"

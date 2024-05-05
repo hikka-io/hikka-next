@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import Link from 'next/link';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
@@ -19,7 +19,7 @@ const DetailsCell: FC<Props> = ({ anime, rewatches, note }) => {
         <TableCell className="w-36">
             <div className="flex items-center gap-4">
                 <div className="hidden w-12 lg:block">
-                    <EntryCard
+                    <ContentCard
                         poster={anime.poster}
                         href={`/anime/${anime.slug}`}
                     />

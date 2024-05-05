@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
@@ -48,7 +48,7 @@ const Characters: FC<Props> = ({ extended }) => {
                     className="grid-min-10"
                 >
                     {filteredData.map((res) => (
-                        <EntryCard
+                        <ContentCard
                             key={res.slug}
                             title={res.name_ua || res.name_en || res.name_ja}
                             poster={res.image}

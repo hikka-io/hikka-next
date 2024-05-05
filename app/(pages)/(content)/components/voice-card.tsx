@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import EntryCard, {
-    Props as EntryCardProps,
-} from '@/components/entry-card/entry-card';
+import ContentCard, {
+    Props as ContentCardProps,
+} from '@/components/content-card/content-card';
 
-interface Props extends EntryCardProps {
+interface Props extends ContentCardProps {
     person: API.Person;
     anime: API.AnimeInfo | API.Anime;
     language: string;
@@ -13,7 +13,7 @@ interface Props extends EntryCardProps {
 
 const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
     return (
-        <EntryCard
+        <ContentCard
             key={person.slug + anime.slug}
             href={`/people/${person.slug}`}
             poster={person.image}
@@ -25,12 +25,12 @@ const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
         >
             <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
             <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-secondary/60 shadow-lg transition-all hover:w-28">
-                <EntryCard
+                <ContentCard
                     href={`/anime/${anime.slug}`}
                     poster={anime.poster}
                 />
             </div>
-        </EntryCard>
+        </ContentCard>
     );
 };
 
