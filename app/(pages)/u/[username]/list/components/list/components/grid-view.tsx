@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
@@ -13,7 +13,7 @@ const GridView: FC<Props> = ({ data }) => {
     return (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
             {data.map((res) => (
-                <EntryCard
+                <ContentCard
                     slug={res.anime.slug}
                     content_type="anime"
                     key={res.reference}

@@ -9,7 +9,7 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded';
 import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 const TITLES: Record<API.NotificationType, string> = {
@@ -143,7 +143,7 @@ const commentReply = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
-            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };
@@ -165,7 +165,7 @@ const commentVote = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
-            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };
@@ -181,7 +181,7 @@ const commentTag = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
-            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };
@@ -197,7 +197,7 @@ const editComment = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
         poster: (
-            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };
@@ -242,7 +242,7 @@ const scheduleAnime = (
         ),
         href: `/anime/${notification.data.slug}`,
         poster: (
-            <EntryCard
+            <ContentCard
                 containerRatio={1}
                 className="w-10"
                 poster={notification.data.poster}
@@ -261,7 +261,7 @@ const follow = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: `/u/${username}`,
         poster: (
-            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };
@@ -276,7 +276,7 @@ const collectionVote = (
         description: DESCRIPTIONS[notification.notification_type](username),
         href: `/collections/${slug}`,
         poster: (
-            <EntryCard containerRatio={1} className="w-10" poster={avatar} />
+            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
         ),
     };
 };

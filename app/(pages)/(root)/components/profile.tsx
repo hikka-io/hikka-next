@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import WatchEditModal from '@/components/modals/watch-edit-modal';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
@@ -118,7 +118,7 @@ const Profile = () => {
                         {list?.map((item) => (
                             <Tooltip key={item.anime.slug}>
                                 <TooltipTrigger asChild>
-                                    <EntryCard
+                                    <ContentCard
                                         onClick={() =>
                                             setSelectedSlug(item.anime.slug)
                                         }

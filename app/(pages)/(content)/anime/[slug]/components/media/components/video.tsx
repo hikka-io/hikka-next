@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';
 import { VIDEO } from '@/utils/constants';
 
@@ -39,7 +39,7 @@ const Video: FC<Props> = ({ extended, videos }) => {
                 const thumb = getYoutubeThumb(video.url);
 
                 return (
-                    <EntryCard
+                    <ContentCard
                         target="_blank"
                         key={video.url}
                         href={video.url || '#'}

@@ -7,7 +7,7 @@ import React, { FC, memo } from 'react';
 import Link from 'next/link';
 
 import ScheduleWatchButton from '@/app/(pages)/schedule/components/ui/schedule-watch-button';
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
@@ -38,7 +38,7 @@ export const getShortLocale = () => ({
 const ScheduleItem: FC<Props> = ({ item }) => {
     return (
         <div className="flex rounded-md border border-secondary/60 bg-secondary/30">
-            <EntryCard
+            <ContentCard
                 className="max-w-36"
                 containerClassName="rounded-r-none"
                 poster={item.anime.poster}
