@@ -3,7 +3,7 @@ import React, { ComponentProps, FC, ReactNode } from 'react';
 
 import Link from 'next/link';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
@@ -42,7 +42,7 @@ const HorizontalCard: FC<Props> = ({
     return (
         <div className={cn('flex items-center gap-4', className)} {...props}>
             <div className="w-12">
-                <EntryCard
+                <ContentCard
                     containerClassName={cn(imageClassName)}
                     containerRatio={imageRatio}
                     href={href}

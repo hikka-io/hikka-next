@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import usePersonInfo from '@/services/hooks/people/usePersonInfo';
 
 const Cover = () => {
@@ -16,7 +16,7 @@ const Cover = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <EntryCard poster={person.image} />
+            <ContentCard poster={person.image} />
         </div>
     );
 };

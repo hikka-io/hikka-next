@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import HorizontalCard from '@/components/ui/horizontal-card';
@@ -32,7 +32,7 @@ const Comments: FC<Props> = ({ className }) => {
                         href={`/u/${item.author.username}`}
                         createdAt={item.created}
                     >
-                        <EntryCard
+                        <ContentCard
                             className="w-10"
                             poster={item.image}
                             href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.slug}`}

@@ -8,7 +8,7 @@ import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import Link from 'next/link';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -91,7 +91,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
             )}
             <Stack size={6} className="grid-min-10 -inset-y-4 py-4">
                 {collection.collection.map((item) => (
-                    <EntryCard
+                    <ContentCard
                         containerClassName={cn(
                             collection.nsfw &&
                                 !collection.spoiler &&
@@ -115,7 +115,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         }
                     />
                 ))}
-                <EntryCard
+                <ContentCard
                     href={`/collections/${collection.reference}`}
                     poster={
                         <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />

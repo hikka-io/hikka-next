@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import Link from 'next/link';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
 
 interface Props {
@@ -23,7 +23,7 @@ const CharacterCard = ({ character, onClick, type }: Props) => {
             className="flex w-full gap-4 text-left"
         >
             <div className="w-12 sm:w-16">
-                <EntryCard poster={character.image} />
+                <ContentCard poster={character.image} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">

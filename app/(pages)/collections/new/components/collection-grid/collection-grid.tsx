@@ -19,7 +19,7 @@ import {
 } from '@dnd-kit/sortable';
 
 import SortableCard from '@/app/(pages)/collections/new/components/collection-grid/components/ui/sortable-card';
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import SearchModal from '@/components/modals/search-modal';
 import Header from '@/components/ui/header';
 import {
@@ -157,7 +157,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                             onClick={(value) => handleAddItem(value)}
                             type="button"
                         >
-                            <EntryCard
+                            <ContentCard
                                 poster={
                                     <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
                                 }

@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-import EntryCard, {
-    Props as EntryCardProps,
-} from '@/components/entry-card/entry-card';
+import ContentCard, {
+    Props as ContentCardProps,
+} from '@/components/content-card/content-card';
 
-interface Props extends EntryCardProps {
+interface Props extends ContentCardProps {
     person: API.Person;
     roles: {
         name_ua: string;
@@ -23,7 +23,7 @@ const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
     };
 
     return (
-        <EntryCard
+        <ContentCard
             key={person.slug}
             href={`/people/${person.slug}`}
             description={getRole(roles)}

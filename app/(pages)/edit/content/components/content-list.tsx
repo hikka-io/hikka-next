@@ -6,9 +6,9 @@ import { FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
-import SkeletonCard from '@/components/skeletons/entry-card';
+import SkeletonCard from '@/components/skeletons/content-card';
 import H3 from '@/components/typography/h3';
 import Block from '@/components/ui/block';
 import { Combobox } from '@/components/ui/combobox';
@@ -82,7 +82,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                 )}
             >
                 {list.map((anime) => (
-                    <EntryCard
+                    <ContentCard
                         withContextMenu
                         content_type="anime"
                         key={anime.slug}
