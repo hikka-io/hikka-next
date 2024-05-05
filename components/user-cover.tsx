@@ -14,7 +14,7 @@ const UserCover: FC<Props> = ({ username }) => {
     const { user: loggedUser } = useSession();
     const { data: user } = useUser({ username });
 
-    const cover = user?.cover || loggedUser?.cover;
+    const cover = username ? user?.cover : user?.cover || loggedUser?.cover;
 
     if (!cover) return null;
 

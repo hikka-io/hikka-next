@@ -5,7 +5,7 @@ import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -33,7 +33,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
         <div ref={setNodeRef} style={style} {...attributes}>
             {useMemo(
                 () => (
-                    <EntryCard poster={poster} title={title}>
+                    <ContentCard poster={poster} title={title}>
                         <div className="absolute bottom-0 left-0 w-full">
                             <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
                                 <Button
@@ -53,7 +53,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
                             </div>
                             <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
                         </div>
-                    </EntryCard>
+                    </ContentCard>
                 ),
                 [content],
             )}

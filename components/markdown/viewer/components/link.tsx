@@ -3,7 +3,7 @@ import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
 import NextLink from 'next/link';
 
-import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
+import AnimeTooltip from '@/components/content-card/components/anime-tooltip';
 import P from '@/components/typography/p';
 import {
     AlertDialog,

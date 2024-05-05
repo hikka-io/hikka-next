@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import useFavorites from '@/services/hooks/favorite/useFavorites';
@@ -51,7 +51,7 @@ const Collections: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <EntryCard
+                        <ContentCard
                             key={res.reference}
                             title={res.title}
                             poster={poster(res.collection[0].content)}

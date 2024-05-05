@@ -1,17 +1,17 @@
 import { FC } from 'react';
 
-import EntryCard, {
-    Props as EntryCardProps,
-} from '@/components/entry-card/entry-card';
+import ContentCard, {
+    Props as ContentCardProps,
+} from '@/components/content-card/content-card';
 import { MEDIA_TYPE } from '@/utils/constants';
 
-interface Props extends EntryCardProps {
+interface Props extends ContentCardProps {
     anime: API.Anime | API.AnimeInfo;
 }
 
 const AnimeCard: FC<Props> = ({ anime, ...props }) => {
     return (
-        <EntryCard
+        <ContentCard
             watch={anime.watch ? anime.watch[0] : undefined}
             slug={anime.slug}
             content_type="anime"
