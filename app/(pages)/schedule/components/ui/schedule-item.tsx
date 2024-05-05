@@ -1,102 +1,58 @@
 'use client';
 
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
 import React, { FC, memo } from 'react';
 
-import Link from 'next/link';
-
 import ScheduleWatchButton from '@/app/(pages)/schedule/components/ui/schedule-watch-button';
-import ContentCard from '@/components/content-card/content-card';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import HorizontalContentCard, {
+    Props as HorizontalContentCardProps,
+} from '@/components/horizontal-content-card';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
+import getScheduleDuration from '@/utils/getScheduleDuration';
 import { cn } from '@/utils/utils';
 
-interface Props {
+interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {
     item: API.AnimeSchedule;
 }
 
-type Tokens = 'xSeconds' | 'xMinutes' | 'xHours' | 'xDays' | 'xMonths';
+const ScheduleItem: FC<Props> = ({ item, ...props }) => {
+    const getDuration = () => {
+        if (item.time_left <= 0) {
+            return 'Вийшло';
+        }
 
-const formatDistanceLocale = {
-    uk: {
-        xMonths: '{{count}} міс.',
-        xDays: '{{count}} дн.',
-        xSeconds: '{{count}} сек.',
-        xMinutes: '{{count}} хв.',
-        xHours: '{{count}} год.',
-    },
-};
+        return getScheduleDuration(item.airing_at, item.time_left);
+    };
 
-export const getShortLocale = () => ({
-    formatDistance: (token: Tokens, count: string) => {
-        return formatDistanceLocale['uk'][token].replace('{{count}}', count);
-    },
-});
-
-const ScheduleItem: FC<Props> = ({ item }) => {
     return (
-        <div className="flex rounded-md border border-secondary/60 bg-secondary/30">
-            <ContentCard
-                className="max-w-36"
-                containerClassName="rounded-r-none"
-                poster={item.anime.poster}
-                href={`/anime/${item.anime.slug}`}
-            />
-            <div className="flex w-full flex-col justify-between p-4">
-                <div className="flex flex-col gap-2">
-                    <H5 className="line-clamp-1 w-fit cursor-pointer sm:line-clamp-2">
-                        <Link href={`/anime/${item.anime.slug}`}>
-                            {item.anime.title}
-                        </Link>
-                    </H5>
-                    <MDViewer className="line-clamp-2 text-xs text-muted-foreground lg:line-clamp-3">
-                        {item.anime.synopsis_ua || item.anime.synopsis_en}
-                    </MDViewer>
-                </div>
-                <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
-                    <div className="flex flex-1 flex-col">
-                        <div className="flex justify-between gap-4">
-                            <H5
-                                className={cn(
-                                    item.time_left <= 0 &&
-                                        'text-muted-foreground',
-                                )}
-                            >
-                                {item.time_left > 0
-                                    ? formatDuration(
-                                          intervalToDuration({
-                                              start: item.airing_at * 1000,
-                                              end: Date.now(),
-                                          }),
-                                          {
-                                              format:
-                                                  item.time_left > 2592000
-                                                      ? ['months', 'days']
-                                                      : item.time_left > 86400
-                                                        ? ['days', 'hours']
-                                                        : ['hours', 'minutes'],
-                                              locale: getShortLocale(),
-                                          },
-                                      )
-                                    : 'Вийшло'}
-                            </H5>
-                            <P className="text-sm text-muted-foreground">
-                                <span className="font-bold text-foreground">
-                                    {item.episode}
-                                </span>
-                                /{item.anime.episodes_total || '?'}
-                            </P>
-                        </div>
+        <HorizontalContentCard
+            title={item.anime.title!}
+            href={`/anime/${item.anime.slug}`}
+            description={item.anime.synopsis_ua || item.anime.synopsis_en}
+            image={item.anime.poster}
+            {...props}
+        >
+            <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
+                <div className="flex flex-1 flex-col">
+                    <div className="flex justify-between gap-4">
+                        <H5
+                            className={cn(
+                                item.time_left <= 0 && 'text-muted-foreground',
+                            )}
+                        >
+                            {getDuration()}
+                        </H5>
+                        <P className="text-sm text-muted-foreground">
+                            <span className="font-bold text-foreground">
+                                {item.episode}
+                            </span>
+                            /{item.anime.episodes_total || '?'}
+                        </P>
                     </div>
-                    <ScheduleWatchButton
-                        title={item.anime.title!}
-                        item={item}
-                    />
                 </div>
+                <ScheduleWatchButton title={item.anime.title!} item={item} />
             </div>
-        </div>
+        </HorizontalContentCard>
     );
 };
 
