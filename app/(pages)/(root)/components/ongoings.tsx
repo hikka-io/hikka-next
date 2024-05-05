@@ -29,7 +29,7 @@ const Ongoings: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header title="Онґоінґи" href="/anime?statuses=ongoing" />
-            <Stack>
+            <Stack className="grid-min-7">
                 {isLoading &&
                     range(0, 8).map((v) => <SkeletonCard key={v} />)}
                 {filteredList?.map((item) => (
