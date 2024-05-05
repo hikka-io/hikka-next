@@ -35,14 +35,15 @@ const Stack = ({
     return (
         <div
             className={cn(
-                'grid gap-4 lg:gap-8',
+                'relative grid gap-4 lg:gap-8',
                 size && SIZES[size],
                 extended &&
                     (extendedSize
                         ? EXTENDED_SIZES[extendedSize]
                         : 'grid-cols-2 md:grid-cols-6'),
                 !extended &&
-                    'no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
+                    'no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-scroll px-4',
+                'gradient-mask-r-90-d md:gradient-mask-none',
                 className,
             )}
         >
