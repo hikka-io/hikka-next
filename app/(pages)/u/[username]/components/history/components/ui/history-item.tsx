@@ -5,7 +5,7 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import Link from 'next/link';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
@@ -28,7 +28,7 @@ const HistoryItem: FC<Props> = ({ data, className }) => {
         <div className={cn('flex items-center gap-4', className)}>
             <div className="w-12">
                 {data.content ? (
-                    <EntryCard
+                    <ContentCard
                         href={`/anime/${data.content.slug}`}
                         poster={data.content.poster}
                     />

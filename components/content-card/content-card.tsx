@@ -12,7 +12,7 @@ import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symb
 
 import Link from 'next/link';
 
-import AnimeTooltip from '@/components/entry-card/components/anime-tooltip';
+import AnimeTooltip from '@/components/content-card/components/anime-tooltip';
 import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
@@ -193,7 +193,7 @@ const Content = memo(
     ),
 );
 
-const EntryCard = forwardRef<HTMLDivElement, Props>((props, ref) => {
+const ContentCard = forwardRef<HTMLDivElement, Props>((props, ref) => {
     if (props.withContextMenu && props.slug && props.content_type) {
         return (
             <ContextMenuOverlay
@@ -208,4 +208,4 @@ const EntryCard = forwardRef<HTMLDivElement, Props>((props, ref) => {
     return <Content {...props} ref={ref} key={`${props.title}`} />;
 });
 
-export default memo(EntryCard);
+export default memo(ContentCard);

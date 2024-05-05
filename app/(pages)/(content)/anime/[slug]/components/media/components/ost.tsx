@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import IcBaselineLibraryMusic from '~icons/ic/baseline-library-music';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';
 import { OST } from '@/utils/constants';
 
@@ -20,7 +20,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
     return (
         <Stack size={4} extended={extended}>
             {filteredOSTData.map((ost) => (
-                <EntryCard
+                <ContentCard
                     target="_blank"
                     key={ost.spotify}
                     href={ost.spotify || undefined}

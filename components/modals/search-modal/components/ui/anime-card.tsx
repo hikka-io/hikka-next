@@ -5,7 +5,7 @@ import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import Link from 'next/link';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
@@ -28,7 +28,7 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
             className="flex w-full items-start gap-4 text-left"
         >
             <div className="w-12 sm:w-16">
-                <EntryCard poster={anime.poster} />
+                <ContentCard poster={anime.poster} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">

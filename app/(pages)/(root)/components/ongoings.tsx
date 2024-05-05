@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import AnimeCard from '@/app/(pages)/(content)/components/anime-card';
-import SkeletonCard from '@/components/skeletons/entry-card';
+import SkeletonCard from '@/components/skeletons/content-card';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';

@@ -2,7 +2,7 @@
 
 import React, { FC, memo } from 'react';
 
-import EntryCard from '@/components/entry-card/entry-card';
+import ContentCard from '@/components/content-card/content-card';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import {
@@ -45,7 +45,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
             )}
             <Stack size={5} extendedSize={5} extended>
                 {items.map((item) => (
-                    <EntryCard
+                    <ContentCard
                         slug={item.content.slug}
                         content_type={content_type}
                         href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
