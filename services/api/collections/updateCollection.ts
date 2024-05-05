@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -28,10 +27,12 @@ export default async function req({
     params,
     ...props
 }: BaseFetchRequestProps<Params>): Promise<Response> {
+    const { reference, ...restParams } = params!;
+
     return fetchRequest<Response>({
         ...props,
-        path: `/collections/${params?.reference}`,
+        path: `/collections/${reference}`,
         method: 'put',
-        params: params,
+        params: restParams,
     });
 }

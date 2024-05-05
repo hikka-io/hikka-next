@@ -7,10 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Params as CollectionRequest } from '@/services/api/collections/createCollection';
 import updateCollection from '@/services/api/collections/updateCollection';
 
-const useUpdateCollection = ({
-    reference,
-    ...params
-}: {
+const useUpdateCollection = (params: {
     reference: string;
 } & CollectionRequest) => {
     const queryClient = useQueryClient();
@@ -20,10 +17,7 @@ const useUpdateCollection = ({
     return useMutation({
         mutationFn: () =>
             updateCollection({
-                params: {
-                    ...params,
-                    reference: reference,
-                },
+                params,
             }),
         mutationKey: ['updateCollection'],
         onSuccess: async (data) => {
