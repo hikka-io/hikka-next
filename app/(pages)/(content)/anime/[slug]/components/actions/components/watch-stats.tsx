@@ -15,6 +15,7 @@ import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAddWatch from '@/services/hooks/watch/useAddWatch';
 import useWatch from '@/services/hooks/watch/useWatch';
 
+
 const WatchStats = () => {
     const params = useParams();
 
@@ -23,43 +24,57 @@ const WatchStats = () => {
     });
     const { data } = useAnimeInfo({ slug: String(params.slug) });
 
-    const { mutate: addToList, isPending: addToListLoading } = useAddWatch({
-        slug: String(params.slug),
-    });
+    const { mutate: mutateAddWatch, variables, isPending } = useAddWatch();
 
-    const changeEpisodes = (action: 'increase' | 'decrease') => {
-        let status = watch!.status;
+    const handleAddEpisode = () => {
+        if (watch) {
+            const episodes =
+                (variables?.params?.episodes || watch.episodes) + 1;
+            let status = watch.status;
 
-        if (action === 'increase') {
-            if (
-                watch?.episodes &&
-                watch.episodes + 1 === data?.episodes_total
-            ) {
+            if (episodes === watch.anime.episodes_total) {
                 status = 'completed';
             }
 
-            if (!watch?.episodes && watch!.status === 'planned') {
+            if (!watch.episodes && watch.status === 'planned') {
                 status = 'watching';
             }
-        }
 
-        switch (action) {
-            case 'decrease':
-                addToList({
+            mutateAddWatch({
+                params: {
+                    ...watch,
                     status,
-                    rewatches: watch?.rewatches,
-                    score: watch!.score,
-                    episodes: watch?.episodes ? watch.episodes - 1 : 0,
-                });
-                break;
-            case 'increase':
-                addToList({
-                    status,
-                    rewatches: watch?.rewatches,
-                    score: watch!.score,
-                    episodes: watch?.episodes ? watch.episodes + 1 : 1,
-                });
-                break;
+                    slug: watch.anime.slug,
+                    episodes,
+                },
+            });
+        }
+    };
+
+    const handleRemoveEpisode = () => {
+        if (watch) {
+            const episodes =
+                (variables?.params?.episodes || watch.episodes) - 1;
+
+            mutateAddWatch({
+                params: {
+                    ...watch,
+                    slug: watch.anime.slug,
+                    episodes,
+                },
+            });
+        }
+    };
+
+    const handleRating = (value: number) => {
+        if (watch) {
+            mutateAddWatch({
+                params: {
+                    ...watch,
+                    slug: watch.anime.slug,
+                    score: value * 2,
+                },
+            });
         }
     };
 
@@ -72,13 +87,7 @@ const WatchStats = () => {
             <div className="flex justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
                 <Rating
                     // className="rating-md lg:flex"
-                    onChange={(value) => {
-                        addToList({
-                            status: watch?.status,
-                            score: value * 2,
-                            episodes: watch?.episodes,
-                        });
-                    }}
+                    onChange={handleRating}
                     totalStars={5}
                     precision={0.5}
                     value={watch.score ? watch.score / 2 : 0}
@@ -100,7 +109,7 @@ const WatchStats = () => {
                             variant="secondary"
                             size="icon-sm"
                             className="rounded-r-none"
-                            onClick={() => changeEpisodes('decrease')}
+                            onClick={handleRemoveEpisode}
                         >
                             <MaterialSymbolsRemoveRounded />
                         </Button>
@@ -108,14 +117,14 @@ const WatchStats = () => {
                             variant="secondary"
                             size="icon-sm"
                             className="rounded-l-none"
-                            onClick={() => changeEpisodes('increase')}
+                            onClick={handleAddEpisode}
                         >
                             <MaterialSymbolsAddRounded />
                         </Button>
                     </div>
                 </div>
                 <H3>
-                    {watch.episodes}
+                    {isPending ? variables?.params?.episodes : watch.episodes}
                     <Label className="text-sm font-normal text-muted-foreground">
                         /{watch.anime.episodes_total || '?'}
                     </Label>
@@ -123,7 +132,9 @@ const WatchStats = () => {
                 <Progress
                     className="mt-2 h-2"
                     max={watch.anime.episodes_total || watch.episodes}
-                    value={watch.episodes}
+                    value={
+                        isPending ? variables?.params?.episodes : watch.episodes
+                    }
                 />
             </div>
         </div>
