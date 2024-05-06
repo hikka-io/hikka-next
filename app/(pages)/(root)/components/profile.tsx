@@ -8,8 +8,6 @@ import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-out
 
 import Link from 'next/link';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import ContentCard from '@/components/content-card/content-card';
 import WatchEditModal from '@/components/modals/watch-edit-modal';
 import H5 from '@/components/typography/h5';
@@ -26,15 +24,14 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import addWatch from '@/services/api/watch/addWatch';
 import useSession from '@/services/hooks/auth/useSession';
+import useAddWatch from '@/services/hooks/watch/useAddWatch';
 import useWatchList from '@/services/hooks/watch/useWatchList';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 
 const Profile = () => {
-    const queryClient = useQueryClient();
     const { openModal } = useModalContext();
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const { user: loggedUser } = useSession();
@@ -47,16 +44,7 @@ const Profile = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const {
-        mutate: mutateAddWatch,
-        variables,
-        isPending,
-    } = useMutation({
-        mutationFn: addWatch,
-        onSettled: async () => {
-            return await queryClient.invalidateQueries({ queryKey: queryKey });
-        },
-    });
+    const { mutate: mutateAddWatch, variables, isPending } = useAddWatch();
 
     const openWatchEditModal = () => {
         if (selectedWatch) {
