@@ -78,33 +78,15 @@ const Footer = () => {
                         </DropdownMenu>
                     </div>
                     <div className="flex items-center justify-center gap-4 lg:justify-end">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button size="sm" variant="ghost">
-                                    <MdiGithub />
-                                    GitHub
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem asChild>
-                                    <Link
-                                        href="https://github.com/olexh/hikka-next"
-                                        target="_blank"
-                                    >
-                                        Фронтенд
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link
-                                        href="https://github.com/volbil/hikka"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Бекенд
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button size="sm" variant="ghost" asChild>
+                            <Link
+                                href="https://github.com/hikka-io"
+                                target="_blank"
+                            >
+                                <MdiGithub />
+                                GitHub
+                            </Link>
+                        </Button>
                         <Label
                             id="hikka-footer-label"
                             className="text-muted-foreground"
