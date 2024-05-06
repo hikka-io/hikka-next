@@ -2,25 +2,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import addWatch from '@/services/api/watch/addWatch';
 
-const useAddWatch = ({ slug }: { slug: string }) => {
+const useAddWatch = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['addToList', slug],
-        mutationFn: (mutationParams: {
-            status: API.WatchStatus;
-            score: number;
-            episodes: number;
-            rewatches?: number;
-        }) =>
-            addWatch({
-                params: {
-                    slug: slug,
-                    ...mutationParams,
-                },
-            }),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['watch'] });
+        mutationKey: ['addToList'],
+        mutationFn: addWatch,
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['watch'], exact: false });
+            await queryClient.invalidateQueries({ queryKey: ['watchList'], exact: false });
         },
     });
 };
