@@ -18,7 +18,7 @@ interface Props extends ComponentProps<'div'> {
     descriptionClassName?: string;
     createdAt?: number;
     meta?: ReactNode;
-    image?: string;
+    image?: string | ReactNode;
     imageClassName?: string;
     imageRatio?: number;
 }
@@ -55,7 +55,9 @@ const HorizontalCard: FC<Props> = ({
                         asChild
                         className={cn('line-clamp-1', titleClassName)}
                     >
-                        <Link href={href}>{title}</Link>
+                        <Link title={title} href={href}>
+                            {title}
+                        </Link>
                     </Label>
                     {titleMeta}
                 </div>
