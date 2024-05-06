@@ -39,7 +39,7 @@ const Profile = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const { user: loggedUser } = useSession();
 
-    const { list } = useWatchList({
+    const { list, queryKey } = useWatchList({
         username: String(loggedUser?.username),
         watch_status: 'watching',
     });
@@ -47,13 +47,14 @@ const Profile = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const { mutate: mutateAddWatch } = useMutation({
+    const {
+        mutate: mutateAddWatch,
+        variables,
+        isPending,
+    } = useMutation({
         mutationFn: addWatch,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['watchList'],
-                exact: false,
-            });
+        onSettled: async () => {
+            return await queryClient.invalidateQueries({ queryKey: queryKey });
         },
     });
 
@@ -70,16 +71,18 @@ const Profile = () => {
 
     const handleAddEpisode = () => {
         if (selectedWatch) {
+            const episodes =
+                (variables?.params?.episodes || selectedWatch.episodes) + 1;
+
             mutateAddWatch({
                 params: {
                     ...selectedWatch,
                     status:
-                        selectedWatch.episodes + 1 ===
-                        selectedWatch.anime.episodes_total
+                        episodes === selectedWatch.anime.episodes_total
                             ? 'completed'
                             : 'watching',
                     slug: selectedWatch.anime.slug,
-                    episodes: selectedWatch.episodes + 1,
+                    episodes,
                 },
             });
         }
@@ -87,11 +90,14 @@ const Profile = () => {
 
     const handleRemoveEpisode = () => {
         if (selectedWatch) {
+            const episodes =
+                (variables?.params?.episodes || selectedWatch.episodes) - 1;
+
             mutateAddWatch({
                 params: {
                     ...selectedWatch,
                     slug: selectedWatch.anime.slug,
-                    episodes: selectedWatch.episodes - 1,
+                    episodes,
                 },
             });
         }
@@ -146,14 +152,20 @@ const Profile = () => {
                     <div className="flex w-full flex-col gap-2">
                         <P className="text-sm text-muted-foreground">
                             <span className="font-bold text-foreground">
-                                {selectedWatch?.episodes || 0}
+                                {isPending
+                                    ? variables?.params?.episodes
+                                    : selectedWatch?.episodes || 0}
                             </span>
                             /{selectedWatch?.anime.episodes_total || '?'}
                         </P>
 
                         <Progress
                             className="h-2"
-                            value={selectedWatch?.episodes}
+                            value={
+                                isPending
+                                    ? variables?.params?.episodes
+                                    : selectedWatch?.episodes
+                            }
                             max={
                                 selectedWatch?.anime.episodes_total ||
                                 selectedWatch?.episodes
@@ -175,6 +187,7 @@ const Profile = () => {
                                 onClick={handleAddEpisode}
                                 variant="secondary"
                                 size="sm"
+                                // disabled={isPending}
                             >
                                 <MaterialSymbolsAddRounded />
                                 <div className="flex gap-1">
@@ -191,6 +204,7 @@ const Profile = () => {
                                 onClick={handleRemoveEpisode}
                                 variant="secondary"
                                 size="icon-md"
+                                // disabled={isPending}
                             >
                                 <MaterialSymbolsRemoveRounded />
                             </Button>
