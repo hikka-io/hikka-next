@@ -42,8 +42,7 @@ const Stack = ({
                         ? EXTENDED_SIZES[extendedSize]
                         : 'grid-cols-2 md:grid-cols-6'),
                 !extended &&
-                    'no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-scroll px-4',
-                'gradient-mask-r-90-d md:gradient-mask-none',
+                    'no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-scroll px-4 gradient-mask-r-90-d md:gradient-mask-none',
                 className,
             )}
         >
