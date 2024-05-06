@@ -3,10 +3,10 @@ import { FC } from 'react';
 
 import { redirect } from 'next/navigation';
 
-import List from '@/app/(pages)/u/[username]/list/components/list/list';
-import StatusCombobox from '@/app/(pages)/u/[username]/list/components/status-combobox';
-import ToolsCombobox from '@/app/(pages)/u/[username]/list/components/tools-combobox';
-import ViewCombobox from '@/app/(pages)/u/[username]/list/components/view-combobox';
+import List from '@/app/(pages)/(user)/u/[username]/list/components/list/list';
+import StatusCombobox from '@/app/(pages)/(user)/u/[username]/list/components/status-combobox';
+import ToolsCombobox from '@/app/(pages)/(user)/u/[username]/list/components/tools-combobox';
+import ViewCombobox from '@/app/(pages)/(user)/u/[username]/list/components/view-combobox';
 import Filters from '@/components/filters/anime-filters';
 import Block from '@/components/ui/block';
 import _generateMetadata from '@/utils/generateMetadata';
