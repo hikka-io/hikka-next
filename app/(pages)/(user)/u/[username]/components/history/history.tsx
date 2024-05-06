@@ -1,10 +1,14 @@
 'use client';
 
 import { FC } from 'react';
+import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import HistoryItem from '@/components/history-item';
 import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import useUserHistory from '@/services/hooks/user/useUserHistory';
@@ -12,7 +16,6 @@ import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 import ActivityModal from './components/history-modal';
-import ActivityItem from './components/ui/history-item';
 
 interface Props {
     className?: string;
@@ -40,17 +43,23 @@ const History: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header
-                title={'Історія'}
+                title="Історія"
                 onClick={
                     activity && activity?.length > 0
                         ? handleOpenModal
                         : undefined
                 }
-            />
+            >
+                <Button asChild size="icon-sm" variant="outline">
+                    <Link href={`/u/${params.username}/history`}>
+                        <MaterialSymbolsGridViewRounded />
+                    </Link>
+                </Button>
+            </Header>
             <div className="flex flex-col gap-6">
                 {filteredActivity &&
                     filteredActivity.map((item) => (
-                        <ActivityItem data={item} key={item.reference} />
+                        <HistoryItem data={item} key={item.reference} />
                     ))}
                 {activity && activity?.length === 0 && (
                     <NotFound

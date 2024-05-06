@@ -89,7 +89,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                     ))}
                 </div>
             )}
-            <Stack size={6} className="grid-min-10 -inset-y-4 py-4">
+            <Stack size={7} className="grid-min-10 -inset-y-4 py-4">
                 {collection.collection.map((item) => (
                     <ContentCard
                         containerClassName={cn(
