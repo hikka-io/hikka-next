@@ -94,10 +94,7 @@ const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
                 </Link>
             </Breadcrumbs>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-                <Block>
-                    <Header title={`Правка #${edit.edit_id}`} />
-                    {children}
-                </Block>
+                <Block>{children}</Block>
                 <div className="flex flex-col gap-12">
                     <Block>
                         <Header
