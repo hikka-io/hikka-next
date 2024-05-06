@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { useParams } from 'next/navigation';
 
-import FollowUserItem from '@/app/(pages)/u/[username]/components/ui/follow-user-item';
+import FollowUserItem from '@/app/(pages)/(user)/u/[username]/components/ui/follow-user-item';
 import LoadMoreButton from '@/components/load-more-button';
 import getFollowers from '@/services/api/follow/getFollowers';
 import getFollowings from '@/services/api/follow/getFollowings';

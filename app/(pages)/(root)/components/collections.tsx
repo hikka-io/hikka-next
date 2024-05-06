@@ -5,7 +5,7 @@ import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import Link from 'next/link';
 
-import CollectionItem from '@/app/(pages)/u/[username]/components/collections/components/ui/collection-item';
+import CollectionItem from '@/app/(pages)/(user)/u/[username]/components/collections/components/ui/collection-item';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
