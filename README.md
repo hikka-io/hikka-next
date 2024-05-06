@@ -1,8 +1,7 @@
-<!-- PROJECT LOGO -->
-<br />
+<!-- PROJECT BANNER -->
 <div align="center">
-  <a href="https://github.com/olexh/hikka-next">
-    <img src="https://github.com/olexh/hikka-next/assets/53056080/6a6d0a7b-2c0c-4ec9-b5f2-18af083f1a4e" alt="banner">
+  <a href="https://github.com/hikka-io/hikka-next">
+    <img src="https://github.com/olexh/hikka-next/assets/53056080/6a6d0a7b-2c0c-4ec9-b5f2-18af083f1a4e" alt="banner" />
   </a>
   <p align="center">
     Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
@@ -10,9 +9,11 @@
     <br />
     <a href="https://hikka.io">View Project</a>
     ·
-    <a href="https://github.com/olexh/hikka-next/issues">Report Bug</a>
+    <a href="https://github.com/hikka-io/hikka-next/issues">Report Bug</a>
     ·
-    <a href="https://github.com/olexh/hikka-next/issues">Request Feature</a>
+    <a href="https://github.com/hikka-io/hikka-next/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/hikka-io/hikka">Backend</a>
   </p>
 </div>
 
