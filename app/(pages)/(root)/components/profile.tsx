@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsRemoveRounded from '~icons/material-symbols/remove-rounded';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
@@ -44,7 +44,7 @@ const Profile = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const { mutate: mutateAddWatch, variables, isPending } = useAddWatch();
+    const { mutate: mutateAddWatch, variables, isPending, reset } = useAddWatch();
 
     const openWatchEditModal = () => {
         if (selectedWatch) {
@@ -90,6 +90,10 @@ const Profile = () => {
             });
         }
     };
+
+    useEffect(() => {
+        reset();
+    }, [selectedSlug]);
 
     return (
         <Block>
