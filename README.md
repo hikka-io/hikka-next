@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/olexh/hikka-next">
-    <img src="public/logo.svg" alt="Logo" width="80" height="80">
+    <img src="https://github.com/olexh/hikka-next/assets/53056080/6a6d0a7b-2c0c-4ec9-b5f2-18af083f1a4e" alt="banner">
   </a>
   <p align="center">
     Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
