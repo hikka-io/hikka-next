@@ -57,7 +57,7 @@ function useInfiniteList<T>({
         }
     }, [inView]);
 
-    return { ...query, list, pagination, ref };
+    return { ...query, list, pagination, queryKey, ref };
 }
 
 export default useInfiniteList;
