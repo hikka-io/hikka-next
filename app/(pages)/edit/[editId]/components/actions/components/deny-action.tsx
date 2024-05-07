@@ -7,6 +7,16 @@ import { useParams } from 'next/navigation';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import denyEdit from '@/services/api/edit/denyEdit';
 
@@ -34,14 +44,30 @@ const DenyAction: FC<Props> = () => {
     };
 
     return (
-        <Button
-            variant="destructive"
-            size="sm"
-            disabled={mutation.isPending}
-            onClick={handleClick}
-        >
-            Відхилити
-        </Button>
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={mutation.isPending}
+                >
+                    Відхилити
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>
+                        Ви впевнені, що хочете відхилити правку?
+                    </AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Відмінити</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleClick}>
+                        Підтвердити
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 };
 
