@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import Actions from '@/app/(pages)/edit/[editId]/components/actions';
+import Actions from '@/app/(pages)/edit/[editId]/components/actions/actions';
 import EditView from '@/app/(pages)/edit/components/edit-view';
 import Comments from '@/components/comments/comments';
 
