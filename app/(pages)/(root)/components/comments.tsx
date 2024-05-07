@@ -20,7 +20,7 @@ const Comments: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header title="Коментарі" />
+            <Header title="Коментарі" href="/comments/latest" />
             <div className="flex flex-col gap-6">
                 {comments?.map((item) => (
                     <HorizontalCard

@@ -251,6 +251,19 @@ declare global {
             parent: string | null;
         };
 
+        type GlobalComment = {
+            author: API.User;
+            updated: number;
+            created: number;
+            content_type: API.ContentType;
+            image: string;
+            text: string;
+            vote_score: number;
+            reference: string;
+            depth: number;
+            slug: string;
+        };
+
         type External = {
             url: string;
             text: string;
