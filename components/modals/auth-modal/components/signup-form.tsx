@@ -24,9 +24,9 @@ import { z } from '@/utils/zod';
 const formSchema = z
     .object({
         email: z.string().email(),
-        password: z.string().min(6),
+        password: z.string().min(8),
         username: z.string().min(3),
-        passwordConfirmation: z.string().min(6),
+        passwordConfirmation: z.string().min(8),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
         message: 'Паролі не збігаються',
