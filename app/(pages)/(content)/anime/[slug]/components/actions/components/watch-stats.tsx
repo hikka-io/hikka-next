@@ -30,24 +30,27 @@ const WatchStats = () => {
         if (watch) {
             const episodes =
                 (variables?.params?.episodes || watch.episodes) + 1;
-            let status = watch.status;
 
-            if (episodes === watch.anime.episodes_total) {
-                status = 'completed';
+            if (episodes <= watch.anime.episodes_total || !watch.anime.episodes_total) {
+                let status = watch.status;
+
+                if (episodes === watch.anime.episodes_total) {
+                    status = 'completed';
+                }
+
+                if (!watch.episodes && watch.status === 'planned') {
+                    status = 'watching';
+                }
+
+                mutateAddWatch({
+                    params: {
+                        ...watch,
+                        status,
+                        slug: watch.anime.slug,
+                        episodes,
+                    },
+                });
             }
-
-            if (!watch.episodes && watch.status === 'planned') {
-                status = 'watching';
-            }
-
-            mutateAddWatch({
-                params: {
-                    ...watch,
-                    status,
-                    slug: watch.anime.slug,
-                    episodes,
-                },
-            });
         }
     };
 
@@ -55,14 +58,16 @@ const WatchStats = () => {
         if (watch) {
             const episodes =
                 (variables?.params?.episodes || watch.episodes) - 1;
-
-            mutateAddWatch({
-                params: {
-                    ...watch,
-                    slug: watch.anime.slug,
-                    episodes,
-                },
-            });
+            
+            if (episodes >= 0) {
+                mutateAddWatch({
+                    params: {
+                        ...watch,
+                        slug: watch.anime.slug,
+                        episodes,
+                    },
+                });
+            }
         }
     };
 
