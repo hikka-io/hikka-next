@@ -30,6 +30,9 @@ const WatchStats = () => {
         if (watch) {
             const episodes =
                 (variables?.params?.episodes || watch.episodes) + 1;
+
+            if (episodes > watch.anime.episodes_total) return;
+
             let status = watch.status;
 
             if (episodes === watch.anime.episodes_total) {
@@ -55,6 +58,8 @@ const WatchStats = () => {
         if (watch) {
             const episodes =
                 (variables?.params?.episodes || watch.episodes) - 1;
+
+            if (episodes < 0) return;
 
             mutateAddWatch({
                 params: {

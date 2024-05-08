@@ -44,7 +44,12 @@ const Profile = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const { mutate: mutateAddWatch, variables, isPending, reset } = useAddWatch();
+    const {
+        mutate: mutateAddWatch,
+        variables,
+        isPending,
+        reset,
+    } = useAddWatch();
 
     const openWatchEditModal = () => {
         if (selectedWatch) {
@@ -61,6 +66,8 @@ const Profile = () => {
         if (selectedWatch) {
             const episodes =
                 (variables?.params?.episodes || selectedWatch.episodes) + 1;
+
+            if (episodes > selectedWatch.anime.episodes_total) return;
 
             mutateAddWatch({
                 params: {
@@ -80,6 +87,8 @@ const Profile = () => {
         if (selectedWatch) {
             const episodes =
                 (variables?.params?.episodes || selectedWatch.episodes) - 1;
+
+            if (episodes < 0) return;
 
             mutateAddWatch({
                 params: {
