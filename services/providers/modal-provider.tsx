@@ -138,6 +138,7 @@ export default function ModalProvider({ children }: Props) {
 
             {!isDesktop && !state.forceModal && (
                 <Drawer
+                    preventScrollRestoration
                     open={state.open}
                     onOpenChange={(open) => setState({ ...state, open })}
                 >
