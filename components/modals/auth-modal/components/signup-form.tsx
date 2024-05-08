@@ -49,12 +49,13 @@ const Component = () => {
             ...data
         }: z.infer<typeof formSchema>) =>
             signup({
-                ...data,
+                params: {
+                    ...data
+                },
                 captcha: String(captchaRef.current?.getResponse()),
             }),
         onSuccess: async (data) => {
             await setCookie('auth', data.secret);
-            form.reset();
             closeModal();
             router.refresh();
 
@@ -67,6 +68,8 @@ const Component = () => {
                 </span>,
                 { variant: 'success' },
             );
+
+            form.reset();
         },
         onError: () => {
             captchaRef.current?.reset();
