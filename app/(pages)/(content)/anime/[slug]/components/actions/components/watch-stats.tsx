@@ -31,7 +31,7 @@ const WatchStats = () => {
             const episodes =
                 (variables?.params?.episodes || watch.episodes) + 1;
 
-            if (episodes > watch.anime.episodes_total) return;
+            if (watch.anime.episodes_total && episodes > watch.anime.episodes_total) return;
 
             let status = watch.status;
 
