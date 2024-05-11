@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import * as React from 'react';
 import { FC } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
@@ -8,9 +9,17 @@ import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { EDIT_STATUSES } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';
@@ -52,7 +61,7 @@ const EditFilters: FC<Props> = ({ className }) => {
 
     const content_type = searchParams.get('content_type');
     const order = searchParams.get('order');
-    const sort = searchParams.get('sort');
+    const sort = searchParams.get('sort') || 'edit_id';
     const edit_status = searchParams.get('edit_status');
 
     const clearFilters = () => {
@@ -93,16 +102,30 @@ const EditFilters: FC<Props> = ({ className }) => {
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Сортування</Label>
                     <div className="flex gap-2">
-                        <Combobox
-                            className="flex-1"
-                            selectPlaceholder="Виберіть тип сортування..."
-                            options={SORT}
-                            multiple={false}
-                            value={sort || 'edit_id'}
-                            onChange={(value) =>
-                                handleChangeParam('sort', value)
+                        <Select
+                            value={[sort]}
+                            onValueChange={(value) =>
+                                handleChangeParam('sort', value[0])
                             }
-                        />
+                        >
+                            <SelectTrigger className="flex-1">
+                                <SelectValue placeholder="Виберіть тип сортування..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {SORT.map((item) => (
+                                            <SelectItem
+                                                key={item.value}
+                                                value={item.value}
+                                            >
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </Select>
                         <Button
                             size="icon"
                             variant="outline"
@@ -123,40 +146,57 @@ const EditFilters: FC<Props> = ({ className }) => {
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Статус</Label>
-                    <Combobox
-                        className="flex-1"
-                        selectPlaceholder="Виберіть статус..."
-                        options={Object.keys(EDIT_STATUSES).map((status) => ({
-                            label: EDIT_STATUSES[status as API.EditStatus]
-                                .title_ua,
-                            value: status,
-                        }))}
-                        multiple={false}
-                        value={edit_status || undefined}
-                        onChange={(value) =>
-                            handleChangeParam('edit_status', value)
+                    <Select
+                        value={edit_status ? [edit_status] : undefined}
+                        onValueChange={(value) =>
+                            handleChangeParam('edit_status', value[0])
                         }
-                    />
+                    >
+                        <SelectTrigger className="flex-1">
+                            <SelectValue placeholder="Виберіть статус..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {(
+                                        Object.keys(
+                                            EDIT_STATUSES,
+                                        ) as API.EditStatus[]
+                                    ).map((item) => (
+                                        <SelectItem key={item} value={item}>
+                                            {EDIT_STATUSES[item].title_ua}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">
                         Тип контенту
                     </Label>
-                    <Combobox
-                        className="flex-1"
-                        selectPlaceholder="Виберіть тип контенту..."
-                        options={Object.keys(CONTENT_TYPES).map(
-                            (content_type) => ({
-                                label: CONTENT_TYPES[content_type].title_ua,
-                                value: content_type,
-                            }),
-                        )}
-                        multiple={false}
-                        value={content_type || undefined}
-                        onChange={(value) =>
-                            handleChangeParam('content_type', value)
+                    <Select
+                        value={content_type ? [content_type] : undefined}
+                        onValueChange={(value) =>
+                            handleChangeParam('content_type', value[0])
                         }
-                    />
+                    >
+                        <SelectTrigger className="flex-1">
+                            <SelectValue placeholder="Виберіть тип контенту..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {Object.keys(CONTENT_TYPES).map((item) => (
+                                        <SelectItem key={item} value={item}>
+                                            {CONTENT_TYPES[item].title_ua}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
             <Button

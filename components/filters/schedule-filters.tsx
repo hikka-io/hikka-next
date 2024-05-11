@@ -10,8 +10,16 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { range } from '@antfu/utils';
 
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import useSession from '@/services/hooks/auth/useSession';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants';
@@ -87,28 +95,85 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
             <div className="grid w-full flex-1 grid-cols-1 items-end gap-8 lg:grid-cols-4 lg:gap-4">
                 <div className="flex flex-col gap-2">
                     <Label className="text-muted-foreground">Рік</Label>
-                    <Combobox
-                        value={year}
-                        onChange={(v) => handleChangeParam('year', v)}
-                        options={getYears()}
-                    />
+                    <Select
+                        value={[year]}
+                        onValueChange={(value) =>
+                            handleChangeParam('year', value[0])
+                        }
+                    >
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {getYears().map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div className="flex flex-col gap-2">
                     <Label className="text-muted-foreground">Сезон</Label>
-                    <Combobox
-                        value={season}
-                        onChange={(v) => handleChangeParam('season', v)}
-                        options={getSeasons()}
-                    />
+                    <Select
+                        value={[season]}
+                        onValueChange={(value) =>
+                            handleChangeParam('season', value[0])
+                        }
+                    >
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {getSeasons().map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div className="flex flex-col gap-2">
                     <Label className="text-muted-foreground">Статус</Label>
-                    <Combobox
+                    <Select
                         multiple
                         value={status}
-                        onChange={(v) => handleChangeParam('status', v)}
-                        options={getStatuses()}
-                    />
+                        onValueChange={(value) =>
+                            handleChangeParam('status', value)
+                        }
+                    >
+                        <SelectTrigger>
+                            <SelectValue maxDisplay={1} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {getStatuses().map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
                 {loggedUser && (
                     <div className="flex h-12 items-center justify-between gap-2 rounded-md border border-secondary bg-secondary/30 p-4">

@@ -9,18 +9,35 @@ import { range } from '@antfu/utils';
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import SkeletonCard from '@/components/skeletons/content-card';
-import H3 from '@/components/typography/h3';
+import H5 from '@/components/typography/h5';
 import Block from '@/components/ui/block';
-import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectIcon,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+} from '@/components/ui/select';
 import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
 
 interface Props {
     extended?: boolean;
 }
 
+const OPTIONS = [
+    { value: 'title_ua', label: 'Аніме без назв' },
+    {
+        value: 'synopsis_ua',
+        label: 'Аніме без опису',
+    },
+];
+
 const ContentList: FC<Props> = ({ extended }) => {
     const [param, setParam] = useState('title_ua');
+    const option = OPTIONS.find((o) => o.value === param);
 
     const {
         list,
@@ -49,31 +66,33 @@ const ContentList: FC<Props> = ({ extended }) => {
     return (
         <Block>
             <div className="flex gap-2">
-                <Combobox
-                    options={[
-                        { value: 'title_ua', label: 'Аніме без назв' },
-                        {
-                            value: 'synopsis_ua',
-                            label: 'Аніме без опису',
-                        },
-                    ]}
-                    value={param}
-                    toggleProps={{ variant: 'ghost' }}
-                    onChange={(value) => setParam(value)}
-                    renderValue={(option) =>
-                        !Array.isArray(option) &&
-                        option && (
-                            <div className="flex items-center gap-2">
-                                <H3>{option.label}</H3>
-                                {data && (
-                                    <Label className="text-muted-foreground">
-                                        ({data?.pages[0].pagination.total})
-                                    </Label>
-                                )}
-                            </div>
-                        )
-                    }
-                />
+                <Select
+                    value={[param]}
+                    onValueChange={(value) => setParam(value[0])}
+                >
+                    <SelectTrigger>
+                        <div className="flex items-center gap-2">
+                            <H5>{option?.label}</H5>
+                            {data && (
+                                <Label className="text-muted-foreground">
+                                    ({data?.pages[0].pagination.total})
+                                </Label>
+                            )}
+                        </div>
+                        <SelectIcon />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {OPTIONS.map((o) => (
+                                    <SelectItem key={o.value} value={o.value}>
+                                        {o.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
             </div>
             <div
                 className={clsx(

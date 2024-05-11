@@ -72,7 +72,7 @@ const UserInfo = () => {
                 ref={uploadAvatarRef}
                 multiple={false}
                 className="absolute left-0 top-0 size-full opacity-0"
-                accept="image/png, image/jpeg"
+                accept="image/*"
             />
             <Input
                 type="file"
@@ -81,7 +81,7 @@ const UserInfo = () => {
                 ref={uploadCoverRef}
                 multiple={false}
                 className="absolute left-0 top-0 size-full opacity-0"
-                accept="image/png, image/jpeg"
+                accept="image/*"
             />
             <div className="group relative z-[1] size-32 overflow-hidden rounded-lg pt-[100%] lg:size-48">
                 <div className="absolute top-0 w-full rounded-lg">

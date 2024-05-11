@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
@@ -11,8 +12,17 @@ import { useQuery } from '@tanstack/react-query';
 
 import BadgeFilter from '@/components/filters/components/ui/badge-filter';
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectList,
+    SelectSearch,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
@@ -78,11 +88,22 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
     const genres = searchParams.getAll('genres');
     const lang = searchParams.get('only_translated');
     const order = searchParams.get('order');
-    const sort = searchParams.get('sort');
+    const sort = searchParams.get('sort') || 'score';
 
     const { data: genresList } = useQuery({
         queryKey: ['animeGenres'],
         queryFn: () => getAnimeGenres(),
+        select: (data) =>
+            data.list.reduce<Record<API.GenreType, API.Genre[]>>(
+                (acc, genre) => {
+                    if (!acc[genre.type]) {
+                        acc[genre.type] = [];
+                    }
+                    acc[genre.type].push(genre);
+                    return acc;
+                },
+                {} as Record<API.GenreType, API.Genre[]>,
+            ),
     });
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
@@ -136,18 +157,33 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Сортування</Label>
                     <div className="flex gap-2">
-                        <Combobox
-                            className="flex-1"
-                            selectPlaceholder="Виберіть тип сортування..."
-                            options={
-                                type === 'anime' ? SORT_ANIME : SORT_WATCHLIST
+                        <Select
+                            value={[sort]}
+                            onValueChange={(value) =>
+                                handleChangeParam('sort', value[0])
                             }
-                            multiple={false}
-                            value={sort || 'score'}
-                            onChange={(value) =>
-                                handleChangeParam('sort', value)
-                            }
-                        />
+                        >
+                            <SelectTrigger className="flex-1">
+                                <SelectValue placeholder="Виберіть тип сортування..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {(type === 'anime'
+                                            ? SORT_ANIME
+                                            : SORT_WATCHLIST
+                                        ).map((item) => (
+                                            <SelectItem
+                                                key={item.value}
+                                                value={item.value}
+                                            >
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </Select>
                         <Button
                             size="icon"
                             variant="outline"
@@ -168,28 +204,43 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Жанр</Label>
-                    {genresList && genresList.list.length > 0 ? (
-                        <Combobox
-                            searchPlaceholder="Назва жанру..."
-                            selectPlaceholder="Виберіть жанр/жанри..."
-                            clearable
-                            options={genresList.list.map((genre) => ({
-                                value: genre.slug,
-                                label: genre.name_ua || genre.name_en,
-                                group: {
-                                    label: GENRE_TYPES[genre.type].title_ua,
-                                    value: genre.type,
-                                },
-                            }))}
-                            multiple
-                            value={genres}
-                            onChange={(value) =>
-                                handleChangeParam('genres', value as string[])
-                            }
-                        />
-                    ) : (
-                        <div className="h-12 w-full animate-pulse rounded-lg bg-secondary/60" />
-                    )}
+                    <Select
+                        multiple
+                        value={genres}
+                        onValueChange={(value) =>
+                            handleChangeParam('genres', value)
+                        }
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Виберіть жанр/жанри..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectSearch placeholder="Назва жанру..." />
+                            <SelectList>
+                                {genresList &&
+                                    (
+                                        Object.keys(
+                                            genresList,
+                                        ) as API.GenreType[]
+                                    ).map((type) => (
+                                        <SelectGroup
+                                            heading={GENRE_TYPES[type].title_ua}
+                                            key={type}
+                                        >
+                                            {genresList[type].map((genre) => (
+                                                <SelectItem
+                                                    key={genre.slug}
+                                                    value={genre.slug}
+                                                >
+                                                    {genre.name_ua ||
+                                                        genre.name_en}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    ))}
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 {type !== 'watchlist' && (

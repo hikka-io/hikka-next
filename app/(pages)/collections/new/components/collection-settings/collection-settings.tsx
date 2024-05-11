@@ -8,11 +8,19 @@ import { useParams } from 'next/navigation';
 import AnilistCollection from '@/app/(pages)/collections/new/components/anilist-collection';
 import GroupInputs from '@/app/(pages)/collections/new/components/collection-settings/components/group-inputs';
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
 import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
@@ -111,6 +119,18 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
         });
     };
 
+    const handleChangeContentType = (value: string[]) =>
+        setCollectionState!((state) => ({
+            ...state,
+            content_type: value[0] as API.ContentType,
+        }));
+
+    const handleChangeVisibility = (value: string[]) =>
+        setCollectionState!((state) => ({
+            ...state,
+            visibility: value[0] as 'private' | 'public' | 'unlisted',
+        }));
+
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
             <div className="flex h-full flex-col gap-6 p-4">
@@ -163,17 +183,31 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         >
                             Тип
                         </Label>
-                        <Combobox
+                        <Select
                             disabled={groups.some((g) => g.items.length > 0)}
-                            value={content_type}
-                            onChange={(value) =>
-                                setCollectionState!((state) => ({
-                                    ...state,
-                                    content_type: value as API.ContentType,
-                                }))
-                            }
-                            options={COLLECTION_CONTENT_TYPE_OPTIONS}
-                        />
+                            value={[content_type]}
+                            onValueChange={handleChangeContentType}
+                        >
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {COLLECTION_CONTENT_TYPE_OPTIONS.map(
+                                            (option) => (
+                                                <SelectItem
+                                                    key={option.value}
+                                                    value={option.value}
+                                                >
+                                                    {option.label}
+                                                </SelectItem>
+                                            ),
+                                        )}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </Select>
                     </div>
                 )}
 
@@ -181,19 +215,31 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Label htmlFor="private" className="text-muted-foreground">
                         Відображення
                     </Label>
-                    <Combobox
-                        value={visibility}
-                        onChange={(value) =>
-                            setCollectionState!((state) => ({
-                                ...state,
-                                visibility: value as
-                                    | 'private'
-                                    | 'public'
-                                    | 'unlisted',
-                            }))
-                        }
-                        options={COLLECTION_VISIBILITY_OPTIONS}
-                    />
+
+                    <Select
+                        value={[visibility]}
+                        onValueChange={handleChangeVisibility}
+                    >
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {COLLECTION_VISIBILITY_OPTIONS.map(
+                                        (option) => (
+                                            <SelectItem
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
+                                            </SelectItem>
+                                        ),
+                                    )}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="flex items-center justify-between gap-4">

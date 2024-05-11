@@ -1,6 +1,7 @@
 'use client';
 
 import { useSnackbar } from 'notistack';
+import * as React from 'react';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
@@ -10,9 +11,17 @@ import { useMutation } from '@tanstack/react-query';
 
 import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import getAnimeFromMAL from '@/services/api/integrations/mal/getAnimeFromMAL';
 import importAnilistWatch from '@/services/api/settings/importAnilistWatch';
 import { State } from '@/services/providers/collection-provider';
@@ -131,16 +140,29 @@ const AnilistCollection: FC<Props> = ({ setCollectionState }) => {
             <div className="flex w-full flex-col gap-2">
                 <Label>Список</Label>
                 <div className="flex gap-2">
-                    <Combobox
-                        value={selectedList}
-                        selectPlaceholder="Виберіть список..."
-                        toggleProps={{
-                            disabled: lists.length === 0 || aniListLoading,
-                        }}
-                        onChange={(value) => setSelectedList(value)}
-                        options={lists}
-                        className="w-full"
-                    />
+                    <Select
+                        disabled={lists.length === 0 || aniListLoading}
+                        value={selectedList ? [selectedList] : undefined}
+                        onValueChange={(value) => setSelectedList(value[0])}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Виберіть список..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {lists.map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value}
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
 

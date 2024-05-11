@@ -8,9 +8,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectIcon,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+} from '@/components/ui/select';
 import useAddToList from '@/services/hooks/watch/useAddToList';
 import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
 import useWatch from '@/services/hooks/watch/useWatch';
@@ -71,37 +79,44 @@ const Component = ({ slug }: Props) => {
                 <div className="flex w-full flex-col gap-6">
                     <div className="flex w-full flex-col gap-2">
                         <Label>Список</Label>
-                        <Combobox
-                            options={Object.keys(WATCH_STATUS).map(
-                                (status) => ({
-                                    label: WATCH_STATUS[
-                                        status as API.WatchStatus
-                                    ].title_ua,
-                                    value: status,
-                                }),
-                            )}
-                            onChange={(value) => {
-                                setSelectedStatus(value as API.WatchStatus);
+                        <Select
+                            value={selectedStatus && [selectedStatus]}
+                            onValueChange={(value) => {
+                                setSelectedStatus(value[0] as API.WatchStatus);
                             }}
-                            value={selectedStatus}
-                            renderValue={(option) => {
-                                return (
-                                    <div className="flex items-center gap-2">
-                                        {option &&
-                                            !Array.isArray(option) &&
-                                            createElement(
-                                                WATCH_STATUS[
-                                                    option.value as API.WatchStatus
-                                                ].icon!,
-                                            )}
-                                        {(option &&
-                                            !Array.isArray(option) &&
-                                            option?.label) ||
-                                            'Виберіть список'}
-                                    </div>
-                                );
-                            }}
-                        />
+                        >
+                            <SelectTrigger>
+                                <div className="flex items-center gap-2">
+                                    {selectedStatus &&
+                                        createElement(
+                                            WATCH_STATUS[selectedStatus].icon!,
+                                        )}
+                                    {(selectedStatus &&
+                                        WATCH_STATUS[selectedStatus]
+                                            .title_ua) ||
+                                        'Виберіть список'}
+                                </div>
+                                <SelectIcon />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {(
+                                            Object.keys(
+                                                WATCH_STATUS,
+                                            ) as API.WatchStatus[]
+                                        ).map((status) => (
+                                            <SelectItem
+                                                value={status}
+                                                key={status}
+                                            >
+                                                {WATCH_STATUS[status].title_ua}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div className="flex w-full gap-8">
                         <FormInput

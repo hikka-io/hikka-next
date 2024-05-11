@@ -1,70 +1,64 @@
 'use client';
 
-import { Fragment } from 'react';
 import IcRoundGridView from '~icons/ic/round-grid-view';
 import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { Combobox } from '@/components/ui/combobox';
-import { PopoverTrigger } from '@/components/ui/popover';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+} from '@/components/ui/select';
 import createQueryString from '@/utils/createQueryString';
+
+
+type View = 'table' | 'grid';
 
 const ViewCombobox = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
 
-    const view = searchParams.get('view') as 'table' | 'grid' | undefined;
+    const view = (searchParams.get('view') || 'table') as View;
 
-    const handleChangeView = (value: 'table' | 'grid') => {
+    const handleChangeView = (value: string[]) => {
         const query = createQueryString(
             'view',
-            value,
+            value[0],
             new URLSearchParams(searchParams),
         );
         router.replace(`${pathname}?${query}`);
     };
 
     return (
-        <Combobox
-            side="bottom"
-            align="end"
-            options={[
-                {
-                    label: (
-                        <Fragment>
+        <Select value={[view]} onValueChange={handleChangeView}>
+            <SelectTrigger asChild>
+                <Button variant="ghost" size="icon-sm">
+                    {view === 'table' ? (
+                        <MaterialSymbolsEventList />
+                    ) : (
+                        <IcRoundGridView />
+                    )}
+                </Button>
+            </SelectTrigger>
+            <SelectContent>
+                <SelectList>
+                    <SelectGroup>
+                        <SelectItem value="table">
                             <MaterialSymbolsEventList /> Таблиця
-                        </Fragment>
-                    ),
-                    value: 'table',
-                },
-                {
-                    label: (
-                        <Fragment>
+                        </SelectItem>
+                        <SelectItem value="grid">
                             <IcRoundGridView /> Сітка
-                        </Fragment>
-                    ),
-                    value: 'grid',
-                },
-            ]}
-            onChange={(value) => handleChangeView(value as 'table' | 'grid')}
-            value={view || 'table'}
-            renderToggle={(_open, _setOpen, value) => {
-                return (
-                    <PopoverTrigger asChild>
-                        <Button variant="ghost" size="icon-sm">
-                            {value === 'table' ? (
-                                <MaterialSymbolsEventList />
-                            ) : (
-                                <IcRoundGridView />
-                            )}
-                        </Button>
-                    </PopoverTrigger>
-                );
-            }}
-        />
+                        </SelectItem>
+                    </SelectGroup>
+                </SelectList>
+            </SelectContent>
+        </Select>
     );
 };
 

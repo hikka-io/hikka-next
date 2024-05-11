@@ -16,7 +16,7 @@ import {
     HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
-import WatchListButton from '@/components/watchlist-button';
+import WatchListButton from '@/components/watchlist-button/watchlist-button';
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useSession from '@/services/hooks/auth/useSession';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';

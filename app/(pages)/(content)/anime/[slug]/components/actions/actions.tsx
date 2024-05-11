@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { useParams } from 'next/navigation';
 
-import WatchListButton from '@/components/watchlist-button';
+import WatchListButton from '@/components/watchlist-button/watchlist-button';
 import useSession from '@/services/hooks/auth/useSession';
 
 import CommentsButton from './components/comments-button';
