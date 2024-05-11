@@ -1,9 +1,8 @@
-import { PropsWithChildren } from 'react';
+import { ComponentPropsWithoutRef, FC } from 'react';
 
 import { cn } from '@/utils/utils';
 
-interface Props extends PropsWithChildren {
-    className?: string;
+interface Props extends ComponentPropsWithoutRef<'div'> {
     extended?: boolean;
     size?: keyof typeof SIZES;
     extendedSize?: keyof typeof EXTENDED_SIZES;
@@ -25,13 +24,14 @@ const EXTENDED_SIZES = {
     6: 'grid-cols-2 md:grid-cols-6',
 };
 
-const Stack = ({
+const Stack: FC<Props> = ({
     children,
     extended,
     size,
     extendedSize,
     className,
-}: Props) => {
+    ...props
+}) => {
     return (
         <div
             className={cn(
@@ -45,6 +45,7 @@ const Stack = ({
                     'no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-scroll px-4 gradient-mask-r-90-d md:gradient-mask-none',
                 className,
             )}
+            {...props}
         >
             {children}
         </div>
