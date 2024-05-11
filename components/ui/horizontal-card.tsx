@@ -16,6 +16,7 @@ interface Props extends ComponentProps<'div'> {
     href: string;
     description?: string | ReactNode;
     descriptionClassName?: string;
+    descriptionHref?: string;
     createdAt?: number;
     meta?: ReactNode;
     image?: string | ReactNode;
@@ -29,6 +30,7 @@ const HorizontalCard: FC<Props> = ({
     titleClassName,
     href,
     description,
+    descriptionHref,
     descriptionClassName,
     createdAt,
     meta,
@@ -64,13 +66,21 @@ const HorizontalCard: FC<Props> = ({
                 {description && (
                     <Small
                         className={cn(
-                            'truncate text-muted-foreground',
+                            'line-clamp-1 text-muted-foreground',
                             descriptionClassName,
                         )}
                     >
-                        {typeof description === 'string'
-                            ? parseTextFromMarkDown(description)
-                            : description}
+                        <Link
+                            href={descriptionHref || '#'}
+                            className={cn(
+                                'cursor-pointer hover:underline transition-all',
+                                !descriptionHref && 'pointer-events-none',
+                            )}
+                        >
+                            {typeof description === 'string'
+                                ? parseTextFromMarkDown(description)
+                                : description}
+                        </Link>
                     </Small>
                 )}
                 {meta && (
