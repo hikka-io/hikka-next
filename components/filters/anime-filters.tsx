@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import * as React from 'react';
-import { FC, useEffect, useState } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import BadgeFilter from '@/components/filters/components/ui/badge-filter';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     Select,
     SelectContent,
@@ -20,12 +21,11 @@ import {
     SelectItem,
     SelectList,
     SelectSearch,
+    SelectSeparator,
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
 import {
     AGE_RATING,
@@ -36,6 +36,8 @@ import {
 } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';
+
+import { Switch } from '../ui/switch';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 
@@ -222,21 +224,27 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                                         Object.keys(
                                             genresList,
                                         ) as API.GenreType[]
-                                    ).map((type) => (
-                                        <SelectGroup
-                                            heading={GENRE_TYPES[type].title_ua}
-                                            key={type}
-                                        >
-                                            {genresList[type].map((genre) => (
-                                                <SelectItem
-                                                    key={genre.slug}
-                                                    value={genre.slug}
-                                                >
-                                                    {genre.name_ua ||
-                                                        genre.name_en}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
+                                    ).map((type, index) => (
+                                        <Fragment key={type}>
+                                            {index !== 0 && <SelectSeparator />}
+                                            <SelectGroup
+                                                heading={
+                                                    GENRE_TYPES[type].title_ua
+                                                }
+                                            >
+                                                {genresList[type].map(
+                                                    (genre) => (
+                                                        <SelectItem
+                                                            key={genre.slug}
+                                                            value={genre.slug}
+                                                        >
+                                                            {genre.name_ua ||
+                                                                genre.name_en}
+                                                        </SelectItem>
+                                                    ),
+                                                )}
+                                            </SelectGroup>
+                                        </Fragment>
                                     ))}
                             </SelectList>
                         </SelectContent>
@@ -326,6 +334,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
             >
                 <AntDesignClearOutlined /> Очистити
             </Button>
+            ; ;
         </ScrollArea>
     );
 };

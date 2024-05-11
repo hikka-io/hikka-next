@@ -239,8 +239,10 @@ const SelectTrigger = React.forwardRef<
                 data-disabled={disabled}
                 {...props}
                 className={cn(
-                    !asChild && buttonVariants({ variant: 'outline', size: 'default' }),
-                    !asChild && 'flex h-auto min-h-12 items-center justify-between',
+                    !asChild &&
+                        buttonVariants({ variant: 'outline', size: 'default' }),
+                    !asChild &&
+                        'flex h-auto min-h-12 items-center justify-between',
                     disabled ? 'cursor-not-allowed opacity-50' : 'cursor-text',
                     className,
                 )}
@@ -310,7 +312,7 @@ const SelectValue = React.forwardRef<
         if (!multiple) {
             const item = itemCache ? itemCache[value[0]] : undefined;
 
-            console.log(item)
+            console.log(item);
 
             return (
                 <Fragment>
@@ -490,6 +492,7 @@ type SelectItemProps = ComponentPropsWithoutRef<typeof CommandItem> &
     Partial<SelectOptionItem> & {
         onSelect?: (value: string, item: SelectOptionItem) => void;
         onDeselect?: (value: string, item: SelectOptionItem) => void;
+        disableCheckbox?: boolean;
     };
 
 const SelectItem = React.forwardRef<
@@ -505,6 +508,7 @@ const SelectItem = React.forwardRef<
             label,
             disabled: disabledProp,
             className,
+            disableCheckbox,
             ...props
         },
         forwardedRef,
@@ -522,9 +526,7 @@ const SelectItem = React.forwardRef<
             return value
                 ? {
                       value,
-                      label:
-                          label ||
-                          children,
+                      label: label || children,
                   }
                 : undefined;
         }, [value, label, children]);
@@ -570,9 +572,14 @@ const SelectItem = React.forwardRef<
                 onSelect={!disabled && value ? handleClick : undefined}
                 ref={forwardedRef}
             >
-                <span className="size-4">
-                    <Checkbox className="border-secondary" checked={selected} />
-                </span>
+                {!disableCheckbox && (
+                    <span className="size-4">
+                        <Checkbox
+                            className="border-secondary"
+                            checked={selected}
+                        />
+                    </span>
+                )}
 
                 <span className="truncate">{children || label || value}</span>
             </CommandItem>

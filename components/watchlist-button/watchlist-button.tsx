@@ -38,11 +38,7 @@ const SETTINGS_BUTTON = {
     ),
     value: 'settings',
     disableCheckbox: true,
-    separator: true,
     title: 'Налаштування',
-    group: {
-        value: 'settings',
-    },
 };
 
 const OPTIONS = [
@@ -141,7 +137,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
                     {watch && !watchError && (
                         <SelectGroup>
                             {watch && !watchError && (
-                                <SelectItem value="settings">
+                                <SelectItem disableCheckbox value="settings">
                                     {SETTINGS_BUTTON.label}
                                 </SelectItem>
                             )}
