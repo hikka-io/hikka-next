@@ -25,6 +25,7 @@ const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
     const ageRatings = props.rating || searchParams.getAll('ratings');
     const years = props.years || searchParams.getAll('years');
     const genres = props.genres || searchParams.getAll('genres');
+    const studios = props.studios || searchParams.getAll('studios');
     const lang = props.only_translated || searchParams.get('only_translated');
     const sort = searchParams.get('sort') || 'score';
     const order = searchParams.get('order') || 'desc';
@@ -42,6 +43,7 @@ const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
                 years,
                 lang,
                 genres,
+                studios,
                 sort,
                 order,
             },
@@ -65,6 +67,7 @@ const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
                         ...(sort === 'score' ? ['scored_by:desc'] : []),
                     ],
                     genres,
+                    studios,
                     only_translated: Boolean(lang),
                 },
                 page: Number(pageParam),

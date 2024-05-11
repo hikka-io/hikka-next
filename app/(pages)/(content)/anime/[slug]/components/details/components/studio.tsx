@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
@@ -11,7 +12,7 @@ import {
 } from '@/components/ui/tooltip';
 
 interface Props {
-    companies: API.Company[];
+    companies: API.CompanyWithType[];
 }
 
 const Studio: FC<Props> = ({ companies }) => {
@@ -34,20 +35,28 @@ const Studio: FC<Props> = ({ companies }) => {
                 {studio.company.image ? (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <Image
-                                src={studio.company.image}
-                                alt="studio"
-                                width={100}
-                                height={50}
-                                className="w-16 rounded-md object-cover"
-                            />
+                            <Link
+                                href={`/anime?studios=${studio.company.slug}`}
+                            >
+                                <Image
+                                    src={studio.company.image}
+                                    alt="studio"
+                                    width={100}
+                                    height={50}
+                                    className="w-16 rounded-md object-cover"
+                                />
+                            </Link>
                         </TooltipTrigger>
                         <TooltipContent>
                             <P className="text-sm">{studio.company.name}</P>
                         </TooltipContent>
                     </Tooltip>
                 ) : (
-                    <Label>{studio.company.name}</Label>
+                    <Label>
+                        <Link href={`/anime?studios=${studio.company.slug}`}>
+                            {studio.company.name}
+                        </Link>
+                    </Label>
                 )}
             </div>
         </div>

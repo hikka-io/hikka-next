@@ -145,42 +145,42 @@ declare global {
 
         type Anime = {
             data_type: 'anime';
-            media_type: MediaType;
+            media_type: API.MediaType;
             title_ua: string;
             title_en: string;
             title_ja: string;
             episodes_released: number;
             episodes_total: number;
             poster: string;
-            status: Status;
+            status: API.Status;
             scored_by: number;
             score: number;
             slug: string;
             year: number;
-            watch: Watch[];
+            watch: API.Watch[];
             title?: string;
         };
 
         type AnimeInfo = {
-            companies: Company[];
-            genres: Genre[];
+            companies: API.CompanyWithType[];
+            genres: API.Genre[];
             start_date: number;
             end_date: number;
             synopsis_en: string;
             synopsis_ua: string;
             duration: number;
-            source: Source;
-            rating: AgeRating;
+            source: API.Source;
+            rating: API.AgeRating;
             has_franchise: boolean;
             nsfw: boolean;
             synonyms: string[];
-            external: External[];
-            videos: Video[];
-            ost: OST[];
-            stats: Stats;
+            external: API.External[];
+            videos: API.Video[];
+            ost: API.OST[];
+            stats: API.Stats;
             comments_count: number;
             updated: number;
-            schedule: Schedule[];
+            schedule: API.Schedule[];
         } & Anime;
 
         type GenreType = 'theme' | 'explicit' | 'demographic' | 'genre';
@@ -189,7 +189,7 @@ declare global {
             name_en: string;
             name_ua: string;
             slug: string;
-            type: GenreType;
+            type: API.GenreType;
         };
 
         type Character = {
@@ -214,18 +214,22 @@ declare global {
             anime_count: number;
         };
 
+        type CompanyType = 'producer' | 'studio';
+
         type Company = {
-            company: {
-                image: string;
-                slug: string;
-                name: string;
-            };
-            type: 'producer' | 'studio';
+            image: string;
+            slug: string;
+            name: string;
+        };
+
+        type CompanyWithType = {
+            company: API.Company;
+            type: API.CompanyType;
         };
 
         type Edit<TEditParams = Record<string, any>, TContent = MainContent> = {
             content_type: ContentType;
-            status: EditStatus;
+            status: API.EditStatus;
             description: string | null;
             created: number;
             updated: number;
@@ -242,7 +246,7 @@ declare global {
             author: API.User;
             created: number;
             text: string;
-            replies: Comment[];
+            replies: API.Comment[];
             total_replies: number;
             depth: number;
             vote_score: number;
@@ -297,7 +301,7 @@ declare global {
         > = {
             reference: string;
             content?: API.Anime;
-            history_type: HistoryType;
+            history_type: API.HistoryType;
             created: number;
             updated: number;
             data: TData;
@@ -326,7 +330,7 @@ declare global {
         type NotificationCommentData = {
             slug: string;
             comment_text: string;
-            content_type: ContentType;
+            content_type: API.ContentType;
             comment_depth: number;
             comment_reference: string;
             base_comment_reference: string;
@@ -344,7 +348,7 @@ declare global {
         };
 
         type NotificationCommentVoteData = {
-            content_type: ContentType;
+            content_type: API.ContentType;
             comment_reference: string;
             comment_depth: number;
             comment_text: string;

@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import * as React from 'react';
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
@@ -17,16 +17,19 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     Select,
     SelectContent,
+    SelectEmpty,
     SelectGroup,
     SelectItem,
     SelectList,
     SelectSearch,
-    SelectSeparator,
     SelectTrigger,
     SelectValue,
+    groupOptions,
+    renderSelectOptions,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
+import useCompanies from '@/services/hooks/companies/useCompanies';
 import {
     AGE_RATING,
     GENRE_TYPES,
@@ -88,24 +91,30 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
     const ageRatings = searchParams.getAll('ratings');
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
+    const studios = searchParams.getAll('studios');
     const lang = searchParams.get('only_translated');
     const order = searchParams.get('order');
     const sort = searchParams.get('sort') || 'score';
+
+    const sortOptions = type === 'anime' ? SORT_ANIME : SORT_WATCHLIST;
 
     const { data: genresList } = useQuery({
         queryKey: ['animeGenres'],
         queryFn: () => getAnimeGenres(),
         select: (data) =>
-            data.list.reduce<Record<API.GenreType, API.Genre[]>>(
-                (acc, genre) => {
-                    if (!acc[genre.type]) {
-                        acc[genre.type] = [];
-                    }
-                    acc[genre.type].push(genre);
-                    return acc;
-                },
-                {} as Record<API.GenreType, API.Genre[]>,
+            groupOptions(
+                data.list.map((genre) => ({
+                    value: genre.slug,
+                    label: genre.name_ua,
+                    group: GENRE_TYPES[genre.type].title_ua,
+                })),
             ),
+    });
+
+    const [studioSearch, setStudioSearch] = useState<string>();
+    const { data: studioList, isFetching: isStudioListFetching } = useCompanies({
+        type: 'studio',
+        query: studioSearch,
     });
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
@@ -137,6 +146,15 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
         router.replace(`${pathname}?${query}`);
     };
 
+    const handleStudioSearch = (keyword: string) => {
+        if(keyword.length < 3) {
+            setStudioSearch(undefined);
+            return;
+        }
+
+        setStudioSearch(keyword);
+    }
+
     useEffect(() => {
         if (JSON.stringify(selectingYears) !== JSON.stringify(years)) {
             setSelectingYears(
@@ -166,15 +184,12 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                             }
                         >
                             <SelectTrigger className="flex-1">
-                                <SelectValue placeholder="Виберіть тип сортування..." />
+                                <SelectValue placeholder="Виберіть сортування..." />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectList>
                                     <SelectGroup>
-                                        {(type === 'anime'
-                                            ? SORT_ANIME
-                                            : SORT_WATCHLIST
-                                        ).map((item) => (
+                                        {sortOptions.map((item) => (
                                             <SelectItem
                                                 key={item.value}
                                                 value={item.value}
@@ -219,33 +234,8 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                         <SelectContent>
                             <SelectSearch placeholder="Назва жанру..." />
                             <SelectList>
-                                {genresList &&
-                                    (
-                                        Object.keys(
-                                            genresList,
-                                        ) as API.GenreType[]
-                                    ).map((type, index) => (
-                                        <Fragment key={type}>
-                                            {index !== 0 && <SelectSeparator />}
-                                            <SelectGroup
-                                                heading={
-                                                    GENRE_TYPES[type].title_ua
-                                                }
-                                            >
-                                                {genresList[type].map(
-                                                    (genre) => (
-                                                        <SelectItem
-                                                            key={genre.slug}
-                                                            value={genre.slug}
-                                                        >
-                                                            {genre.name_ua ||
-                                                                genre.name_en}
-                                                        </SelectItem>
-                                                    ),
-                                                )}
-                                            </SelectGroup>
-                                        </Fragment>
-                                    ))}
+                                {genresList && renderSelectOptions(genresList)}
+                                <SelectEmpty>Жанрів не знайдено</SelectEmpty>
                             </SelectList>
                         </SelectContent>
                     </Select>
@@ -302,6 +292,41 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                     onParamChange={handleChangeParam}
                 />
                 <div className="flex w-full flex-col gap-4">
+                    <Label className="text-muted-foreground">Студія</Label>
+                    <Select
+                        multiple
+                        value={studios}
+                        onValueChange={(value) =>
+                            handleChangeParam('studios', value)
+                        }
+                        onSearch={handleStudioSearch}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Виберіть студію..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectSearch placeholder="Назва студії..." />
+                            <SelectList>
+                                <SelectGroup>
+                                    {!isStudioListFetching && studioList?.list.map((studio) => (
+                                        <SelectItem
+                                            key={studio.slug}
+                                            value={studio.slug}
+                                        >
+                                            {studio.name}
+                                        </SelectItem>
+                                    ))}
+                                    <SelectEmpty>
+                                        {isStudioListFetching
+                                            ? 'Завантаження...'
+                                            : 'Студій не знайдено'}
+                                    </SelectEmpty>
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
                     <div className="flex items-center gap-4">
                         <Label className="w-9">{selectingYears[0]}</Label>
@@ -334,7 +359,6 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
             >
                 <AntDesignClearOutlined /> Очистити
             </Button>
-            ; ;
         </ScrollArea>
     );
 };
