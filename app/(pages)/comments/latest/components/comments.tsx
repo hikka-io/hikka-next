@@ -45,6 +45,7 @@ const Comments: FC<Props> = ({ className }) => {
                             image={item.author.avatar}
                             imageRatio={1}
                             description={item.text}
+                            descriptionHref={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.slug}`}
                             key={item.created}
                             title={item.author.username}
                             href={`/u/${item.author.username}`}

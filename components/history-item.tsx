@@ -64,6 +64,8 @@ const HistoryItem: FC<Props> = (props) => {
             title={data.content?.title || 'Загальне'}
             href={data.content ? `/anime/${data.content.slug}` : '#'}
             description={<Activity {...props} />}
+            descriptionClassName="line-clamp-2"
+            descriptionHref={data.content && `/anime/${data.content.slug}`}
             createdAt={data.created}
             image={
                 data.content?.poster || (
