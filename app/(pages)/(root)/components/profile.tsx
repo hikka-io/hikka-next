@@ -67,7 +67,7 @@ const Profile = () => {
             const episodes =
                 (variables?.params?.episodes || selectedWatch.episodes) + 1;
 
-            if (episodes > selectedWatch.anime.episodes_total) return;
+            if (selectedWatch.anime.episodes_total && episodes > selectedWatch.anime.episodes_total) return;
 
             mutateAddWatch({
                 params: {
