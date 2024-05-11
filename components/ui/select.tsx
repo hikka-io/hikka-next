@@ -312,8 +312,6 @@ const SelectValue = React.forwardRef<
         if (!multiple) {
             const item = itemCache ? itemCache[value[0]] : undefined;
 
-            console.log(item);
-
             return (
                 <Fragment>
                     <span className="pointer-events-none truncate">
@@ -568,6 +566,7 @@ const SelectItem = React.forwardRef<
                     'gap-2',
                     className,
                 )}
+                keywords={item ? [String(item.label)] : undefined}
                 disabled={disabled}
                 onSelect={!disabled && value ? handleClick : undefined}
                 ref={forwardedRef}
@@ -591,7 +590,7 @@ const SelectGroup = React.forwardRef<
     React.ElementRef<typeof CommandGroup>,
     ComponentPropsWithoutRef<typeof CommandGroup>
 >((props, forwardRef) => {
-    return <CommandGroup {...props} forceMount ref={forwardRef} />;
+    return <CommandGroup {...props} ref={forwardRef} />;
 });
 
 SelectGroup.displayName = 'SelectGroup';
@@ -668,16 +667,25 @@ const renderSelectOptions = (list: SelectOption[]) => {
 
 type Option = { value: string; label: string | ReactNode; group: string };
 
-const groupOptions = (options: Option[]): SelectOptionGroup[] => {
-    return options.reduce((acc, item) => {
-        const group = acc.find((g) => g.heading === item.group);
-        if (group) {
-            group.children.push(item);
-        } else {
-            acc.push({ heading: item.group, children: [item] });
-        }
-        return acc;
-    }, [] as SelectOptionGroup[]);
+const groupOptions = (options: Option[]) => {
+    return options.reduce(
+        (acc, item) => {
+            const group = acc.find(
+                (g) => !('type' in g) && g.heading === item.group,
+            );
+            if (group && !('type' in group)) {
+                group.children.push(item);
+            } else {
+                if (acc.length > 0) {
+                    acc.push({ type: 'separator' });
+                }
+
+                acc.push({ heading: item.group, children: [item] });
+            }
+            return acc;
+        },
+        [] as (SelectOptionGroup | SelectOptionSeparator)[],
+    );
 };
 
 export {
