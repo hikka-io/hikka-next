@@ -2,10 +2,11 @@
 
 import clsx from 'clsx';
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -14,12 +15,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     Select,
     SelectContent,
+    SelectEmpty,
     SelectGroup,
     SelectItem,
     SelectList,
+    SelectSearch,
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import useUsers from '@/services/hooks/user/useUsers';
 import { EDIT_STATUSES } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';
@@ -63,6 +67,13 @@ const EditFilters: FC<Props> = ({ className }) => {
     const order = searchParams.get('order');
     const sort = searchParams.get('sort') || 'edit_id';
     const edit_status = searchParams.get('edit_status');
+    const author = searchParams.get('author');
+    const moderator = searchParams.get('moderator');
+
+    const [userSearch, setUserSearch] = useState<string>();
+    const { data: users, isFetching: isUsersFetching } = useUsers({
+        query: userSearch,
+    });
 
     const clearFilters = () => {
         router.replace(`${pathname}`);
@@ -86,6 +97,15 @@ const EditFilters: FC<Props> = ({ className }) => {
             ),
         );
         router.replace(`${pathname}?${query}`);
+    };
+
+    const handleUserSearch = (keyword: string) => {
+        if (keyword.length < 3) {
+            setUserSearch(undefined);
+            return;
+        }
+
+        setUserSearch(keyword);
     };
 
     return (
@@ -198,13 +218,88 @@ const EditFilters: FC<Props> = ({ className }) => {
                         </SelectContent>
                     </Select>
                 </div>
+                <div className="flex w-full flex-col gap-4">
+                    <Label className="text-muted-foreground">Автор</Label>
+                    <Select
+                        value={author !== null ? [author] : []}
+                        onValueChange={(value) =>
+                            handleChangeParam('author', value[0])
+                        }
+                        onOpenChange={() => setUserSearch(undefined)}
+                        onSearch={handleUserSearch}
+                    >
+                        <SelectTrigger className="flex-1">
+                            <SelectValue placeholder="Виберіть користувача..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectSearch placeholder="Імʼя користувача..." />
+                            <SelectList>
+                                <SelectGroup>
+                                    {!isUsersFetching &&
+                                        users?.map((item) => (
+                                            <SelectItem
+                                                key={item.username}
+                                                value={item.username}
+                                            >
+                                                {item.username}
+                                            </SelectItem>
+                                        ))}
+                                    <SelectEmpty>
+                                        {isUsersFetching
+                                            ? 'Завантаження...'
+                                            : 'Користувачів не знайдено'}
+                                    </SelectEmpty>
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex w-full flex-col gap-4">
+                    <Label className="text-muted-foreground">Модератор</Label>
+                    <Select
+                        value={moderator !== null ? [moderator] : []}
+                        onValueChange={(value) =>
+                            handleChangeParam('moderator', value[0])
+                        }
+                        onOpenChange={() => setUserSearch(undefined)}
+                        onSearch={handleUserSearch}
+                    >
+                        <SelectTrigger className="flex-1">
+                            <SelectValue placeholder="Виберіть користувача..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectSearch placeholder="Імʼя користувача..." />
+                            <SelectList>
+                                <SelectGroup>
+                                    {!isUsersFetching &&
+                                        users?.map((item) => (
+                                            <SelectItem
+                                                key={item.username}
+                                                value={item.username}
+                                            >
+                                                {item.username}
+                                            </SelectItem>
+                                        ))}
+                                    <SelectEmpty>
+                                        {isUsersFetching
+                                            ? 'Завантаження...'
+                                            : 'Користувачів не знайдено'}
+                                    </SelectEmpty>
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
+                </div>
             </div>
             <Button
                 variant="secondary"
                 className="sticky bottom-4 mt-8 w-full shadow-md lg:flex"
                 onClick={clearFilters}
+                asChild
             >
-                <AntDesignClearOutlined /> Очистити
+                <Link href="/edit">
+                    <AntDesignClearOutlined /> Очистити
+                </Link>
             </Button>
         </ScrollArea>
     );

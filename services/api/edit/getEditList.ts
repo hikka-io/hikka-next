@@ -11,6 +11,8 @@ export interface Params {
     status?: API.EditStatus;
     content_type?: API.ContentType;
     slug?: string;
+    author?: string | null;
+    moderator?: string | null;
 }
 
 export default async function req({
