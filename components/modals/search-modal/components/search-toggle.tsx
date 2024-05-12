@@ -30,6 +30,7 @@ const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
             <ToggleGroupItem value="anime">Аніме</ToggleGroupItem>
             <ToggleGroupItem value="character">Персонаж</ToggleGroupItem>
             <ToggleGroupItem value="person">Людина</ToggleGroupItem>
+            <ToggleGroupItem value="user">Користувач</ToggleGroupItem>
         </ToggleGroup>
     );
 };

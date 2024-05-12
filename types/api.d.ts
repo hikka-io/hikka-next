@@ -65,6 +65,7 @@ declare global {
             | 'anime'
             | 'character'
             | 'person'
+            | 'user'
             | 'comment'
             | 'collection';
 

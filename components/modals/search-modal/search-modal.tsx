@@ -5,6 +5,8 @@ import { ReactNode, useRef, useState } from 'react';
 
 import CharacterSearchList from '@/components/modals/search-modal/components/character-search-list';
 import PersonSearchList from '@/components/modals/search-modal/components/person-search-list';
+import UserSearchList from '@/components/modals/search-modal/components/user-search-list';
+
 import SearchToggle from '@/components/modals/search-modal/components/search-toggle';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/useDebounce';
@@ -84,6 +86,14 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
 
                 {searchType === 'person' && (
                     <PersonSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'user' && (
+                    <UserSearchList
                         onDismiss={onDismiss}
                         value={value}
                         type={type}
