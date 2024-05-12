@@ -20,11 +20,13 @@ const useEditList = ({
     const order = searchParams.get('order') || 'desc';
     const sort = searchParams.get('sort') || 'edit_id';
     const edit_status = searchParams.get('edit_status');
+    const author = searchParams.get('author');
+    const moderator = searchParams.get('moderator');
 
     return useQuery({
         queryKey: [
             'editList',
-            { page, content_type, order, sort, edit_status },
+            { page, content_type, order, sort, edit_status, author, moderator },
         ],
         queryFn: () =>
             getEditList({
@@ -33,6 +35,8 @@ const useEditList = ({
                     sort: [`${sort}:${order}`],
                     status: edit_status as API.EditStatus,
                     content_type: content_type as API.ContentType,
+                    author,
+                    moderator,
                 },
             }),
         select: (data) => ({
