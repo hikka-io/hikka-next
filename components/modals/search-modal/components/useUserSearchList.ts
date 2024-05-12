@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getUser from '@/services/api/user/getUserList'; 
+import getUsers from '@/services/api/user/getUsers';
 
 interface Props {
     value?: string;
@@ -10,7 +10,7 @@ const useUserSearchList = ({ value }: Props) => {
     return useQuery<Array<API.User>, Error>({
         queryKey: ['userSearchList', value],
         queryFn: () =>
-            getUser({
+            getUsers({
                 params: {
                     query: value,
                 },
