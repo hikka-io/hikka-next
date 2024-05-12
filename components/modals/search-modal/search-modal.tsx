@@ -5,6 +5,8 @@ import { ReactNode, useRef, useState } from 'react';
 
 import CharacterSearchList from '@/components/modals/search-modal/components/character-search-list';
 import PersonSearchList from '@/components/modals/search-modal/components/person-search-list';
+import UserSearchList from '@/components/modals/search-modal/components/user-search-list';
+
 import SearchToggle from '@/components/modals/search-modal/components/search-toggle';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/useDebounce';
@@ -14,7 +16,7 @@ import SearchButton from './components/search-button';
 import useSearchModal from './components/useSearchModal';
 
 interface Props {
-    onClick?: (content: API.MainContent) => void;
+    onClick?: (content: API.MainContent | API.User) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     content_type?: API.ContentType;
@@ -22,7 +24,7 @@ interface Props {
 
 const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [searchType, setSearchType] = useState<API.ContentType>(
+    const [searchType, setSearchType] = useState<API.ContentType | 'user'>(
         content_type || 'anime',
     );
     const [open, setOpen] = useState<boolean>(false);
@@ -31,7 +33,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
 
-    const onDismiss = (content: API.MainContent) => {
+    const onDismiss = (content: API.MainContent | API.User) => {
         setSearchValue('');
         setOpen(false);
 
@@ -84,6 +86,14 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
 
                 {searchType === 'person' && (
                     <PersonSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'user' && (
+                    <UserSearchList
                         onDismiss={onDismiss}
                         value={value}
                         type={type}
