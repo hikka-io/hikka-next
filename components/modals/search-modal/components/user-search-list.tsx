@@ -23,10 +23,10 @@ interface Props {
 
 const UserSearchList = ({ onDismiss, type, value }: Props) => {
     const { data, isFetching, isRefetching } = useUserSearchList({ value });
-
     return (
         <CommandList className="max-h-screen">
             <SearchPlaceholders
+                data={data}
                 isFetching={isFetching}
                 isRefetching={isRefetching}
             />
