@@ -154,7 +154,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
                         <SearchModal
                             content_type={content_type}
-                            onClick={(value) => handleAddItem(value)}
+                            onClick={(value) => handleAddItem(value as API.MainContent)}
                             type="button"
                         >
                             <ContentCard

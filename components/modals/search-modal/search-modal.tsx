@@ -16,7 +16,7 @@ import SearchButton from './components/search-button';
 import useSearchModal from './components/useSearchModal';
 
 interface Props {
-    onClick?: (content: API.MainContent) => void;
+    onClick?: (content: API.MainContent | API.User) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     content_type?: API.ContentType;
@@ -24,7 +24,7 @@ interface Props {
 
 const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [searchType, setSearchType] = useState<API.ContentType>(
+    const [searchType, setSearchType] = useState<API.ContentType | 'user'>(
         content_type || 'anime',
     );
     const [open, setOpen] = useState<boolean>(false);
@@ -33,7 +33,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
 
-    const onDismiss = (content: API.MainContent) => {
+    const onDismiss = (content: API.MainContent | API.User) => {
         setSearchValue('');
         setOpen(false);
 

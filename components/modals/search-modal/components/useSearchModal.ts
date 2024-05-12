@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 interface Props {
     onClick?: (anime: API.Anime) => void;
     setOpen: Dispatch<SetStateAction<boolean>>;
-    setSearchType?: Dispatch<SetStateAction<API.ContentType>>;
-    content_type?: API.ContentType;
+    setSearchType?: Dispatch<SetStateAction<API.ContentType | 'user'>>;
+    content_type?: API.ContentType | 'user';
 }
 
 const useSearchModal = ({

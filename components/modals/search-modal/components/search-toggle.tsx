@@ -5,7 +5,7 @@ import * as React from 'react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface Props {
-    type?: API.ContentType;
+    type?: API.ContentType | 'user';
     setType: (type: API.ContentType) => void;
     disabled?: boolean;
     inputRef: React.RefObject<HTMLInputElement>;
