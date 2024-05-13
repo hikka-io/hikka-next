@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { FC } from 'react';
 
 import { redirect } from 'next/navigation';
@@ -7,12 +8,19 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import Comments from '@/components/comments';
 import getCommentThread from '@/services/api/comments/getCommentThread';
 import getComments from '@/services/api/comments/getComments';
+import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Content from './components/content';
 import ContentHeader from './components/content-header';
 import { getContent } from './components/useContent';
 
+
+export async function generateMetadata(): Promise<Metadata> {
+    return _generateMetadata({
+        title: `Коментарі`,
+    });
+}
 
 interface Props {
     params: {
