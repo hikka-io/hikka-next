@@ -53,7 +53,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 data.spoiler && 'blur-sm duration-500 hover:blur-none',
             )}
             image={poster(data.collection[0].content)}
-            imageClassName={cn(data.nsfw && 'blur-sm hover:blur-none')}
+            imageClassName={cn(data.nsfw && 'blur-sm duration-500 hover:blur-none')}
             description={description}
             descriptionClassName={cn(
                 data.spoiler && 'blur-sm duration-500 hover:blur-none',
