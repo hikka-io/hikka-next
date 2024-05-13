@@ -1,6 +1,7 @@
 import { formatDistance } from 'date-fns';
 import React, { FC, useEffect, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
+import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
 import Link from 'next/link';
 
@@ -20,6 +21,7 @@ import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
 import Comments from './comments';
+
 
 interface Props {
     comment: API.Comment;
@@ -93,6 +95,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         >
                             <H5>{comment.author.username}</H5>
                         </Link>
+
                         <Small className="text-muted-foreground">
                             {formatDistance(
                                 comment.created * 1000,
@@ -113,7 +116,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         />
                     ) : (
                         <TextExpand>
-                            <MDViewer className="text-sm">
+                            <MDViewer className="text-[0.9375rem]">
                                 {comment.text}
                             </MDViewer>
                         </TextExpand>
@@ -131,6 +134,19 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     onClick={addReplyInput}
                 >
                     Відповісти
+                </Button>
+
+                <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    className="text-sm text-muted-foreground"
+                    asChild
+                >
+                    <Link
+                        href={`/comments/${content_type}/${slug}/${comment.reference}`}
+                    >
+                        <MaterialSymbolsLinkRounded />
+                    </Link>
                 </Button>
 
                 {(loggedUser?.username === comment.author.username ||

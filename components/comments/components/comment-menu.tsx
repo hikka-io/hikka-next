@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import deleteComment from '@/services/api/comments/deleteComment';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded'
 
 interface Props {
     comment: API.Comment;

@@ -4,9 +4,11 @@ import useInfiniteList from '@/services/hooks/useInfiniteList';
 const useComments = ({
     slug,
     content_type,
+    enabled = true,
 }: {
     slug: string;
     content_type: API.ContentType;
+    enabled?: boolean;
 }) => {
     return useInfiniteList({
         queryKey: ['comments', slug, content_type],
@@ -18,6 +20,7 @@ const useComments = ({
                 },
                 page: pageParam,
             }),
+        enabled,
     });
 };
 

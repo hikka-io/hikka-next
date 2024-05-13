@@ -12,7 +12,7 @@ const CollectionTitle = () => {
 
     return (
         <div className="flex flex-col gap-2">
-            <Header title={title || 'Нова колекція'} />
+            <Header variant="h2" title={title || 'Нова колекція'} />
             {description && (
                 <TextExpand>
                     <MDViewer className="text-sm text-muted-foreground">

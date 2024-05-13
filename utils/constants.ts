@@ -424,6 +424,12 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         visible: false,
     },
     {
+        slug: 'comments',
+        title_ua: 'Коментарі',
+        url: '/comments',
+        visible: false,
+    },
+    {
         slug: 'characters',
         title_ua: 'Колекції',
         url: '/collections',

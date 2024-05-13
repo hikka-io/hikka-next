@@ -2,33 +2,72 @@
 
 import React, { FC } from 'react';
 
+import Link from 'next/link';
+
 import CommentInput from '@/components/comments/components/comment-input';
 import Comments from '@/components/comments/components/comments';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import useSession from '@/services/hooks/auth/useSession';
+import useCommentThread from '@/services/hooks/comments/useCommentThread';
 import useComments from '@/services/hooks/comments/useComments';
 import CommentsProvider from '@/services/providers/comments-provider';
-import { cn } from '@/utils/utils';
-import MDEditor from '@/components/markdown/editor/MD-editor';
 
 interface Props {
     slug: string;
     content_type: API.ContentType;
+    comment_reference?: string;
 }
 
-const CommentsBlock: FC<Props> = ({ slug, content_type }) => {
+const CommentsBlock: FC<Props> = ({
+    slug,
+    content_type,
+    comment_reference,
+}) => {
     const { user: loggedUser } = useSession();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useComments({ slug, content_type });
+    const {
+        list: comments,
+        pagination,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        ref,
+    } = useComments({ slug, content_type, enabled: !comment_reference });
+
+    const { data: thread } = useCommentThread({
+        reference: String(comment_reference),
+        enabled: !!comment_reference,
+    });
+
+    const list = comment_reference ? (thread ? [thread] : []) : comments;
+
+    const title = (
+        <span>
+            Обговорення{' '}
+            {pagination && !comment_reference && (
+                <span className="text-muted-foreground">
+                    ({pagination.total})
+                </span>
+            )}
+        </span>
+    );
 
     return (
         <Block>
-            <Header title="Обговорення" />
+            <Header title={title}>
+                {comment_reference && (
+                    <Button size="sm" variant="outline">
+                        <Link href={`/comments/${content_type}/${slug}`}>
+                            Всі коментарі
+                        </Link>
+                    </Button>
+                )}
+            </Header>
             <div className="flex flex-col gap-4">
-                {loggedUser && (
+                {loggedUser && !comment_reference && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}
                 {list && list.length === 0 && (

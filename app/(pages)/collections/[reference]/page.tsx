@@ -89,12 +89,8 @@ const CollectionPage = async ({
                                 </div>
                                 <CollectionGroups />
                             </Block>
-                            <Comments
-                                slug={reference}
-                                content_type="collection"
-                            />
                         </div>
-                        <div className="order-1 hidden w-full lg:order-2 lg:block">
+                        <div className="order-1 hidden w-full lg:order-2 lg:flex lg:flex-col lg:h-full">
                             <CollectionInfo />
                         </div>
                     </div>

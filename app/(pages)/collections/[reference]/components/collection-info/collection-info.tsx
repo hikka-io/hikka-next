@@ -5,6 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import CommentsButton from '@/components/comments-button';
 import FavoriteButton from '@/components/favorite-button';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -20,6 +21,7 @@ import { useCollectionContext } from '@/services/providers/collection-provider';
 import CollectionAuthor from './components/collection-author';
 import CollectionDeleteModal from './components/collection-delete-modal';
 import CollectionVote from './components/collection-vote';
+
 
 const CollectionInfo = () => {
     const params = useParams();
@@ -41,9 +43,9 @@ const CollectionInfo = () => {
     }
 
     return (
-        <Block>
+        <Block className="h-full">
             <Header title="Деталі" />
-            <div className="flex w-full flex-col gap-4">
+            <div className="flex h-full w-full flex-col gap-4">
                 <Card className="w-full gap-6">
                     <CollectionAuthor />
                     {tags.length > 0 && (
@@ -89,14 +91,21 @@ const CollectionInfo = () => {
                     )}
                 </Card>
 
-                <div className="flex w-full items-center gap-2">
-                    <CollectionVote />
-                    <FavoriteButton
-                        disabled={!loggedUser}
+                <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
+                    <div className="flex w-full items-center gap-2">
+                        <CollectionVote />
+                        <FavoriteButton
+                            disabled={!loggedUser}
+                            slug={collection.reference}
+                            content_type="collection"
+                            size="icon"
+                            variant="secondary"
+                        />
+                    </div>
+                    <CommentsButton
+                        comments_count={collection.comments_count}
                         slug={collection.reference}
                         content_type="collection"
-                        size="icon"
-                        variant="secondary"
                     />
                 </div>
             </div>

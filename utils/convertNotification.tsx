@@ -10,7 +10,6 @@ import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounde
 import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded';
 
 import ContentCard from '@/components/content-card/content-card';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 const TITLES: Record<API.NotificationType, string> = {
     edit_accepted: 'Правка прийнята',
@@ -104,12 +103,7 @@ const getCommentLink = (
     slug: string,
     comment_reference: string,
 ) => {
-    switch (content_type) {
-        case 'anime':
-            return `${CONTENT_TYPE_LINKS[content_type]}/${slug}/comments#${comment_reference}`;
-        default:
-            return `${CONTENT_TYPE_LINKS[content_type]}/${slug}#${comment_reference}`;
-    }
+    return `/comments/${content_type}/${slug}/${comment_reference}`;
 };
 
 const getInitialData = (

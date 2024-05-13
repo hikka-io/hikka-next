@@ -27,7 +27,7 @@ const Comments: FC<Props> = ({ className }) => {
                         image={item.author.avatar}
                         imageRatio={1}
                         description={item.text}
-                        descriptionHref={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.slug}`}
+                        descriptionHref={`/comments/${item.content_type}/${item.slug}`}
                         key={item.created}
                         title={item.author.username}
                         href={`/u/${item.author.username}`}
@@ -36,7 +36,7 @@ const Comments: FC<Props> = ({ className }) => {
                         <ContentCard
                             className="w-10"
                             poster={item.image}
-                            href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.slug}`}
+                            href={`/comments/${item.content_type}/${item.slug}`}
                         />
                     </HorizontalCard>
                 ))}

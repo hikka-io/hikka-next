@@ -1,13 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { FC } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import getDeclensionWord from '@/utils/getDeclensionWord';
 
 
@@ -17,19 +15,19 @@ const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментарів',
 ];
 
-const CommentsButton = () => {
-    const params = useParams();
-    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
+interface Props {
+    comments_count?: number;
+    content_type: API.ContentType;
+    slug: string;
+}
 
+const CommentsButton: FC<Props> = ({ comments_count, content_type, slug }) => {
     return (
         <Button variant="outline" asChild>
-            <Link href={`/anime/${params.slug}/comments`}>
+            <Link href={`/comments/${content_type}/${slug}`}>
                 <IconamoonCommentFill />
-                {anime?.comments_count || 0}{' '}
-                {getDeclensionWord(
-                    anime?.comments_count || 0,
-                    COMMENT_DECLENSIONS,
-                )}
+                {comments_count || 0}{' '}
+                {getDeclensionWord(comments_count || 0, COMMENT_DECLENSIONS)}
             </Link>
         </Button>
     );

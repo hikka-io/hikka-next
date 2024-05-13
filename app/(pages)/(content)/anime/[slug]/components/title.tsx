@@ -46,7 +46,7 @@ const Title = () => {
                             />
                         )}
                     </div>
-                    <P>{data.title_ja}</P>
+                    <P className="text-sm text-muted-foreground">{data.title_ja}</P>
                 </div>
                 <div className="flex flex-col gap-2">
                     {data.score > 0 && (
