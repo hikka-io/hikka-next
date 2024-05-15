@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
+import ClarityAdministratorSolid from '~icons/clarity/administrator-solid'; 
 
 import { useParams } from 'next/navigation';
 

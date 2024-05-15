@@ -793,3 +793,14 @@ export const COLLECTION_VISIBILITY_OPTIONS = [
         label: 'Лише у профілі',
     },
 ];
+
+export const USER_ROLE = {
+    admin: {
+        label: 'Адміністратор',
+        color: '#468F40',
+    },
+    moderator: {
+        label: 'Модератор',
+        color: '#40518F',
+    },
+};
