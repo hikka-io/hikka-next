@@ -1,12 +1,14 @@
 'use client';
 
 import clsx from 'clsx';
+import { ChangeEvent, useEffect, useState } from 'react';
 import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
 import { range } from '@antfu/utils';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -16,6 +18,8 @@ interface Props {
 }
 
 const Component = ({ page, pages, setPage }: Props) => {
+    const [pageToMove, setPageToMove] = useState<string>('');
+
     const generatePaginationArr = () => {
         const pagArr: (number | undefined)[] = [1];
 
@@ -44,8 +48,24 @@ const Component = ({ page, pages, setPage }: Props) => {
         }
 
         pagArr.push(...range(2, pages + 1));
+
         return pagArr;
     };
+
+    const handleMoveToPage = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        const digitsOnlyRegex = /^(?!0)\d+$/;
+
+        if (!digitsOnlyRegex.test(value)) return setPageToMove('');
+
+        if (parseInt(value) > pages) return;
+
+        setPageToMove(value);
+    };
+
+    useEffect(() => {
+        setPageToMove('');
+    }, [page]);
 
     return (
         <div className="flex w-full justify-center gap-2 lg:gap-4">
@@ -59,17 +79,41 @@ const Component = ({ page, pages, setPage }: Props) => {
                 <AntDesignArrowLeftOutlined />
             </Button>
             {generatePaginationArr().map((v, index) => {
+                if (v) {
+                    return (
+                        <Button
+                            size="icon-md"
+                            variant={page === v ? 'default' : 'outline'}
+                            disabled={!v}
+                            onClick={() => v && setPage(v)}
+                            key={index}
+                            className={cn('size-9 sm:size-10')}
+                        >
+                            {v}
+                        </Button>
+                    );
+                }
+
                 return (
-                    <Button
-                        size="icon-md"
-                        variant={page === v ? 'default' : 'outline'}
-                        disabled={!v}
-                        onClick={() => v && setPage(v)}
+                    <Input
                         key={index}
-                        className={cn('size-9 sm:size-10', !v && 'w-auto')}
-                    >
-                        {v ? v : '...'}
-                    </Button>
+                        value={pageToMove}
+                        placeholder="..."
+                        onChange={handleMoveToPage}
+                        onKeyDown={(e) => {
+                            if (!pageToMove) return;
+
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                setPage(parseInt(pageToMove));
+                                setPageToMove('');
+                            }
+                        }}
+                        className={cn(
+                            'size-9 sm:size-10',
+                            pageToMove && 'focus-visible:none  w-16 sm:w-16',
+                        )}
+                    />
                 );
             })}
             <Button
