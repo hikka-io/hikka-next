@@ -25,7 +25,6 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
         </div>
       )}
       {!data && !isFetching && (
-        console.log(!data),
         <p className="py-6 text-center text-sm text-muted-foreground">
           Введіть назву, щоб розпочати пошук...
         </p>

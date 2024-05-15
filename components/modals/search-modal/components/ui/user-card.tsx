@@ -6,7 +6,9 @@ import Link from 'next/link';
 import format from 'date-fns/format';
 
 import ContentCard from '@/components/content-card/content-card';
+import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { USER_ROLE } from '@/utils/constants';
 
 
 interface Props {
@@ -32,7 +34,6 @@ const UserCard = ({ user, onClick, type }: Props) => {
                 />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
-
                 <div className="flex items-center gap-2">
                     <Label className="line-clamp-2 font-bold">
                         {user.username}
@@ -41,15 +42,29 @@ const UserCard = ({ user, onClick, type }: Props) => {
                     {user.active && (
                         <div className="-bottom-2 -right-2 z-[1] size-2 rounded-full border-1 border-secondary bg-success" />
                     )}
+
+                    {(user.role === 'admin' || user.role === 'moderator') && (
+                        <>
+                            <Badge
+                                className="text-xs"
+                                variant="role"
+                                bgColor={USER_ROLE[user.role].color}
+                            >
+                                {USER_ROLE[user.role].label}
+                            </Badge>
+                        </>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <Label className="text-xs text-muted-foreground">
-                        {format(
-                            new Date(user.created * 1000),
-                            'd MMMM yyyy',
-                        )}
-                    </Label>
+                    <div className="flex items-center gap-2">
+                        <Label className="text-xs text-muted-foreground">
+                            {format(
+                                new Date(user.created * 1000),
+                                'd MMMM yyyy',
+                            )}
+                        </Label>
+                    </div>
                 </div>
             </div>
         </Comp>
