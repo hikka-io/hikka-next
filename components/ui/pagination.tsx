@@ -1,7 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
@@ -17,40 +16,57 @@ interface Props {
     setPage: (page: number) => void;
 }
 
-const Component = ({ page, pages, setPage }: Props) => {
+type PaginationType = number | 'empty' | 'input';
+
+const PaginationEmpty: FC = () => {
+    return (
+        <Button
+            size="icon-md"
+            variant="outline"
+            disabled
+            className={cn('size-9 sm:size-10')}
+        >
+            ...
+        </Button>
+    );
+};
+
+interface PaginationButtonProps {
+    value: number;
+    page: number;
+    setPage: (page: number) => void;
+}
+
+const PaginationButton: FC<PaginationButtonProps> = ({
+    value,
+    page,
+    setPage,
+}) => {
+    return (
+        <Button
+            size="icon-md"
+            variant={value === page ? 'default' : 'outline'}
+            disabled={!value}
+            onClick={() => value && setPage(value)}
+            className={cn('size-9 sm:size-10')}
+        >
+            {value}
+        </Button>
+    );
+};
+
+interface PaginationInputProps {
+    pages: number;
+    page: number;
+    setPage: (page: number) => void;
+}
+
+const PaginationInput: FC<PaginationInputProps> = ({
+    page,
+    setPage,
+    pages,
+}) => {
     const [pageToMove, setPageToMove] = useState<string>('');
-
-    const generatePaginationArr = () => {
-        const pagArr: (number | undefined)[] = [1];
-
-        if (pages >= 7) {
-            if (pages - page <= 3) {
-                pagArr.push(undefined);
-                pagArr.push(...range(pages - 4, pages + 1));
-
-                return pagArr;
-            }
-
-            if (page < 5) {
-                pagArr.push(...range(2, 6));
-                pagArr.push(undefined);
-                pagArr.push(pages);
-
-                return pagArr;
-            }
-
-            pagArr.push(undefined);
-            pagArr.push(...range(page - 1, page + 2));
-            pagArr.push(undefined);
-            pagArr.push(pages);
-
-            return pagArr;
-        }
-
-        pagArr.push(...range(2, pages + 1));
-
-        return pagArr;
-    };
 
     const handleMoveToPage = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -68,51 +84,90 @@ const Component = ({ page, pages, setPage }: Props) => {
     }, [page]);
 
     return (
+        <Input
+            value={pageToMove}
+            placeholder="..."
+            onChange={handleMoveToPage}
+            onKeyDown={(e) => {
+                if (!pageToMove) return;
+
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    setPage(parseInt(pageToMove));
+                    setPageToMove('');
+                }
+            }}
+            className={cn('size-9 sm:size-10', pageToMove && ' w-16 sm:w-16')}
+        />
+    );
+};
+
+const Pagination = ({ page, pages, setPage }: Props) => {
+    const generatePaginationArr = () => {
+        const pagArr: PaginationType[] = [1];
+
+        if (pages >= 7) {
+            if (pages - page <= 3) {
+                pagArr.push('input');
+                pagArr.push(...range(pages - 4, pages + 1));
+
+                return pagArr;
+            }
+
+            if (page < 5) {
+                pagArr.push(...range(2, 6));
+                pagArr.push('input');
+                pagArr.push(pages);
+
+                return pagArr;
+            }
+
+            pagArr.push('empty');
+            pagArr.push(...range(page - 1, page + 2));
+            pagArr.push('input');
+            pagArr.push(pages);
+
+            return pagArr;
+        }
+
+        pagArr.push(...range(2, pages + 1));
+
+        return pagArr;
+    };
+
+    return (
         <div className="flex w-full justify-center gap-2 lg:gap-4">
             <Button
                 size="icon-md"
                 variant="outline"
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                className={clsx('text-xs h-9 w-9 sm:h-10 sm:w-10')}
+                className={cn('size-9 text-xs sm:size-10')}
             >
                 <AntDesignArrowLeftOutlined />
             </Button>
-            {generatePaginationArr().map((v, index) => {
-                if (v) {
+            {generatePaginationArr().map((value, index) => {
+                if (typeof value === 'number') {
                     return (
-                        <Button
-                            size="icon-md"
-                            variant={page === v ? 'default' : 'outline'}
-                            disabled={!v}
-                            onClick={() => v && setPage(v)}
+                        <PaginationButton
                             key={index}
-                            className={cn('size-9 sm:size-10')}
-                        >
-                            {v}
-                        </Button>
+                            value={value}
+                            page={page}
+                            setPage={setPage}
+                        />
                     );
                 }
 
-                return (
-                    <Input
-                        key={index}
-                        value={pageToMove}
-                        placeholder="..."
-                        onChange={handleMoveToPage}
-                        onKeyDown={(e) => {
-                            if (!pageToMove) return;
+                if (value === 'empty') {
+                    return <PaginationEmpty key={index} />;
+                }
 
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                setPage(parseInt(pageToMove));
-                                setPageToMove('');
-                            }
-                        }}
-                        className={cn(
-                            'size-9 sm:size-10',
-                            pageToMove && 'focus-visible:none  w-16 sm:w-16',
-                        )}
+                return (
+                    <PaginationInput
+                        page={page}
+                        setPage={setPage}
+                        pages={pages}
+                        key={index}
                     />
                 );
             })}
@@ -121,7 +176,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                 variant="outline"
                 onClick={() => setPage(page + 1)}
                 disabled={page === pages}
-                className={clsx('text-xs h-9 w-9 sm:h-10 sm:w-10')}
+                className={cn('size-9 text-xs sm:size-10')}
             >
                 <AntDesignArrowRightOutlined />
             </Button>
@@ -129,4 +184,4 @@ const Component = ({ page, pages, setPage }: Props) => {
     );
 };
 
-export default Component;
+export default Pagination;
