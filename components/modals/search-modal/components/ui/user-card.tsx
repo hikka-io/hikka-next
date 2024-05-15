@@ -1,22 +1,20 @@
 'use client';
 
+import format from 'date-fns/format';
 import * as React from 'react';
 
 import Link from 'next/link';
-import format from 'date-fns/format';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { USER_ROLE } from '@/utils/constants';
 
-
 interface Props {
     user: API.User;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 }
-
 
 const UserCard = ({ user, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;
@@ -28,10 +26,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
             className="flex w-full gap-4 text-left"
         >
             <div className="w-12 sm:w-16">
-                <ContentCard 
-                    poster={user.avatar}
-                    containerRatio={1}
-                />
+                <ContentCard poster={user.avatar} containerRatio={1} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -47,7 +42,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
                         <>
                             <Badge
                                 className="text-xs"
-                                variant="role"
+                                variant="status"
                                 bgColor={USER_ROLE[user.role].color}
                             >
                                 {USER_ROLE[user.role].label}
