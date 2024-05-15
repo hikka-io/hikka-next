@@ -1,12 +1,13 @@
 'use client';
 
-import clsx from 'clsx';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
 import { range } from '@antfu/utils';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -15,13 +16,99 @@ interface Props {
     setPage: (page: number) => void;
 }
 
-const Component = ({ page, pages, setPage }: Props) => {
+type PaginationType = number | 'empty' | 'input';
+
+const PaginationEmpty: FC = () => {
+    return (
+        <Button
+            size="icon-md"
+            variant="outline"
+            disabled
+            className={cn('size-9 sm:size-10')}
+        >
+            ...
+        </Button>
+    );
+};
+
+interface PaginationButtonProps {
+    value: number;
+    page: number;
+    setPage: (page: number) => void;
+}
+
+const PaginationButton: FC<PaginationButtonProps> = ({
+    value,
+    page,
+    setPage,
+}) => {
+    return (
+        <Button
+            size="icon-md"
+            variant={value === page ? 'default' : 'outline'}
+            disabled={!value}
+            onClick={() => value && setPage(value)}
+            className={cn('size-9 sm:size-10')}
+        >
+            {value}
+        </Button>
+    );
+};
+
+interface PaginationInputProps {
+    pages: number;
+    page: number;
+    setPage: (page: number) => void;
+}
+
+const PaginationInput: FC<PaginationInputProps> = ({
+    page,
+    setPage,
+    pages,
+}) => {
+    const [pageToMove, setPageToMove] = useState<string>('');
+
+    const handleMoveToPage = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        const digitsOnlyRegex = /^(?!0)\d+$/;
+
+        if (!digitsOnlyRegex.test(value)) return setPageToMove('');
+
+        if (parseInt(value) > pages) return;
+
+        setPageToMove(value);
+    };
+
+    useEffect(() => {
+        setPageToMove('');
+    }, [page]);
+
+    return (
+        <Input
+            value={pageToMove}
+            placeholder="..."
+            onChange={handleMoveToPage}
+            onKeyDown={(e) => {
+                if (!pageToMove) return;
+
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    setPage(parseInt(pageToMove));
+                    setPageToMove('');
+                }
+            }}
+            className={cn('size-9 sm:size-10', pageToMove && ' w-16 sm:w-16')}
+        />
+    );
+};
+
+const Pagination = ({ page, pages, setPage }: Props) => {
     const generatePaginationArr = () => {
-        const pagArr: (number | undefined)[] = [1];
+        const pagArr: PaginationType[] = [1];
 
         if (pages >= 7) {
             if (pages - page <= 3) {
-                pagArr.push(undefined);
+                pagArr.push('input');
                 pagArr.push(...range(pages - 4, pages + 1));
 
                 return pagArr;
@@ -29,21 +116,22 @@ const Component = ({ page, pages, setPage }: Props) => {
 
             if (page < 5) {
                 pagArr.push(...range(2, 6));
-                pagArr.push(undefined);
+                pagArr.push('input');
                 pagArr.push(pages);
 
                 return pagArr;
             }
 
-            pagArr.push(undefined);
+            pagArr.push('empty');
             pagArr.push(...range(page - 1, page + 2));
-            pagArr.push(undefined);
+            pagArr.push('input');
             pagArr.push(pages);
 
             return pagArr;
         }
 
         pagArr.push(...range(2, pages + 1));
+
         return pagArr;
     };
 
@@ -54,22 +142,33 @@ const Component = ({ page, pages, setPage }: Props) => {
                 variant="outline"
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
-                className={clsx('text-xs h-9 w-9 sm:h-10 sm:w-10')}
+                className={cn('size-9 text-xs sm:size-10')}
             >
                 <AntDesignArrowLeftOutlined />
             </Button>
-            {generatePaginationArr().map((v, index) => {
+            {generatePaginationArr().map((value, index) => {
+                if (typeof value === 'number') {
+                    return (
+                        <PaginationButton
+                            key={index}
+                            value={value}
+                            page={page}
+                            setPage={setPage}
+                        />
+                    );
+                }
+
+                if (value === 'empty') {
+                    return <PaginationEmpty key={index} />;
+                }
+
                 return (
-                    <Button
-                        size="icon-md"
-                        variant={page === v ? 'default' : 'outline'}
-                        disabled={!v}
-                        onClick={() => v && setPage(v)}
+                    <PaginationInput
+                        page={page}
+                        setPage={setPage}
+                        pages={pages}
                         key={index}
-                        className={cn('size-9 sm:size-10', !v && 'w-auto')}
-                    >
-                        {v ? v : '...'}
-                    </Button>
+                    />
                 );
             })}
             <Button
@@ -77,7 +176,7 @@ const Component = ({ page, pages, setPage }: Props) => {
                 variant="outline"
                 onClick={() => setPage(page + 1)}
                 disabled={page === pages}
-                className={clsx('text-xs h-9 w-9 sm:h-10 sm:w-10')}
+                className={cn('size-9 text-xs sm:size-10')}
             >
                 <AntDesignArrowRightOutlined />
             </Button>
@@ -85,4 +184,4 @@ const Component = ({ page, pages, setPage }: Props) => {
     );
 };
 
-export default Component;
+export default Pagination;
