@@ -77,7 +77,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2">
-                                <MDViewer className="break-normal whitespace-normal lmb-3 text-sm text-muted-foreground md:line-clamp-4">
+                                <MDViewer className="break-normal whitespace-normal lmb-3 text-sm text-muted-foreground md:line-clamp-3">
                                     {data.description_ua}
                                 </MDViewer>
                             </div>
