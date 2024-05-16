@@ -4,6 +4,7 @@ import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 import NextLink from 'next/link';
 
 import AnimeTooltip from '@/components/content-card/components/anime-tooltip';
+import CharacterTooltip from '@/components/content-card/components/character-tooltip';
 import P from '@/components/typography/p';
 import {
     AlertDialog,
@@ -42,6 +43,17 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <AnimeTooltip slug={link}>
                         <NextLink href={href}>{children}</NextLink>
                     </AnimeTooltip>
+                );
+            }
+        } 
+        if (href.includes("/characters")) {
+            const link = href.split('/characters/')[1]?.split('/')[0];
+
+            if (link) {
+                return (
+                    <CharacterTooltip slug={link}>
+                        <NextLink href={href}>{children}</NextLink>
+                    </CharacterTooltip>
                 );
             }
         }
