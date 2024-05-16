@@ -1,12 +1,11 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
-export interface Response extends API.WithPagination<Anime> {}
+export interface Response extends API.WithPagination<CharacterAnime> {}
 
-export type Anime = {
+export type CharacterAnime = {
     main: boolean;
     anime: API.Anime;
 };

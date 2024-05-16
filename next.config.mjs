@@ -1,5 +1,6 @@
-import bundleAnalyzer from '@next/bundle-analyzer';
 import Icons from 'unplugin-icons/webpack';
+
+import bundleAnalyzer from '@next/bundle-analyzer';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -31,7 +32,7 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: "/api/:path*",
+                source: '/api/:path*',
                 destination: `${process.env.API_URL}/:path*`,
             },
         ];
@@ -40,6 +41,5 @@ const nextConfig = {
 const withBundleAnalyzer = bundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
 });
-
 
 export default withBundleAnalyzer(nextConfig);
