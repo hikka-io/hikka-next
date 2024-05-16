@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import BxBxsDownvote from '~icons/bx/bxs-downvote';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import BxDownvote from '~icons/bx/downvote';
@@ -24,6 +24,9 @@ const CommentVote: FC<Props> = ({ comment }) => {
         mutationFn: vote,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['comments'] });
+            await queryClient.invalidateQueries({
+                queryKey: ['commentThread'],
+            });
         },
     });
 

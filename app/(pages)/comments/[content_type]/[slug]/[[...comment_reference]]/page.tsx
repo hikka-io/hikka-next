@@ -15,7 +15,6 @@ import Content from './components/content';
 import ContentHeader from './components/content-header';
 import { getContent } from './components/useContent';
 
-
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
         title: `Коментарі`,
@@ -73,11 +72,12 @@ const CommentsPage: FC<Props> = async ({ params }) => {
     comment_reference &&
         (await queryClient.prefetchQuery({
             queryKey: ['commentThread', comment_reference],
-            queryFn: () =>
+            queryFn: ({ meta }) =>
                 getCommentThread({
                     params: {
                         reference: comment_reference,
                     },
+                    auth: meta?.auth,
                 }),
         }));
 
