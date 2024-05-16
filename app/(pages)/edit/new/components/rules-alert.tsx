@@ -13,9 +13,7 @@ const RulesAlert = () => {
     const { openModal } = useModalContext();
 
     useEffect(() => {
-        fetch(
-            'https://raw.githubusercontent.com/hikka-io/bug-reports/main/RULES.md',
-        )
+        fetch('https://raw.githubusercontent.com/hikka-io/rules/main/RULES.md')
             .then((res) => res.text())
             .then((res) => setRules(res));
     }, []);
