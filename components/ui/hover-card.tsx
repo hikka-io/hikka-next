@@ -33,8 +33,8 @@ HoverCardContent.displayName = HoverCardPrimitive.Content.displayName;
 
 export {
     HoverCard,
-    HoverCardTrigger,
+    HoverCardArrow,
     HoverCardContent,
     HoverCardPortal,
-    HoverCardArrow,
+    HoverCardTrigger,
 };

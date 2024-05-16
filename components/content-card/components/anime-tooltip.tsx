@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { FC, PropsWithChildren, memo } from 'react';
 
 import Link from 'next/link';
@@ -75,7 +74,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                     ) : null}
                 </div>
                 {synopsis && (
-                    <MDViewer className="mb-2 line-clamp-4 text-sm">
+                    <MDViewer className="mb-2 line-clamp-4 text-sm text-muted-foreground">
                         {synopsis}
                     </MDViewer>
                 )}

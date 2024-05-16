@@ -13,6 +13,7 @@ import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symb
 import Link from 'next/link';
 
 import AnimeTooltip from '@/components/content-card/components/anime-tooltip';
+import CharacterTooltip from '@/components/content-card/components/character-tooltip';
 import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
@@ -58,6 +59,8 @@ const Tooltip: FC<TooltipProps> = ({ children, content_type, slug }) => {
     switch (content_type) {
         case 'anime':
             return <AnimeTooltip slug={slug}>{children}</AnimeTooltip>;
+        case 'character':
+            return <CharacterTooltip slug={slug}>{children}</CharacterTooltip>;
         default:
             return <Fragment>{children}</Fragment>;
     }
