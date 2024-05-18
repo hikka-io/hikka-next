@@ -39,7 +39,7 @@ const prefetchQueries = async ({ queryClient }: Props) => {
                         years: [],
                     },
                 ],
-                queryFn: ({ pageParam = 1, meta }) =>
+                queryFn: ({ pageParam = 1 }) =>
                     getWatchList({
                         params: {
                             username: loggedUser.username,
@@ -52,7 +52,6 @@ const prefetchQueries = async ({ queryClient }: Props) => {
                             watch_status: 'watching',
                         },
                         page: pageParam,
-                        auth: meta?.auth,
                     }),
             }),
         );
@@ -61,10 +60,9 @@ const prefetchQueries = async ({ queryClient }: Props) => {
             queryClient.prefetchInfiniteQuery({
                 initialPageParam: 1,
                 queryKey: ['followingHistory'],
-                queryFn: ({ pageParam, meta }) =>
+                queryFn: ({ pageParam }) =>
                     getFollowingHistory({
                         page: pageParam,
-                        auth: meta?.auth,
                     }),
             }),
         );

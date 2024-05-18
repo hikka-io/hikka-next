@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -21,7 +21,6 @@ import Title from './components/title';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 
-
 interface Props extends PropsWithChildren {
     params: {
         slug: string;
@@ -39,8 +38,7 @@ const AnimeLayout: FC<Props> = async ({ params: { slug }, children }) => {
 
     await queryClient.prefetchQuery({
         queryKey: ['anime', slug],
-        queryFn: ({ meta }) =>
-            getAnimeInfo({ params: { slug }, auth: meta?.auth }),
+        queryFn: ({ meta }) => getAnimeInfo({ params: { slug } }),
     });
 
     const anime: API.AnimeInfo | undefined = queryClient.getQueryData([

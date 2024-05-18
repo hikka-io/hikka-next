@@ -65,7 +65,6 @@ const CommentsPage: FC<Props> = async ({ params }) => {
                         content_type: params.content_type,
                     },
                     page: pageParam,
-                    auth: meta?.auth,
                 }),
         }));
 
@@ -77,7 +76,6 @@ const CommentsPage: FC<Props> = async ({ params }) => {
                     params: {
                         reference: comment_reference,
                     },
-                    auth: meta?.auth,
                 }),
         }));
 

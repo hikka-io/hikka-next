@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import * as React from 'react';
 import { FC } from 'react';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
@@ -18,7 +17,6 @@ import getQueryClient from '@/utils/getQueryClient';
 
 import ScheduleFilters from '../../../components/filters/schedule-filters';
 import ScheduleList from './components/schedule-list';
-
 
 export const metadata: Metadata = _generateMetadata({
     title: {
@@ -53,7 +51,6 @@ const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
                     only_watch,
                     airing_season: [season, year],
                 },
-                auth: meta?.auth,
             }),
     });
 

@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -19,7 +19,6 @@ import Cover from './components/cover';
 import Title from './components/title';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
-
 
 interface Props extends PropsWithChildren {
     params: {
@@ -44,7 +43,6 @@ const PersonLayout: FC<Props> = async ({ params: { slug }, children }) => {
                 params: {
                     slug,
                 },
-                auth: meta?.auth,
             }),
     });
 

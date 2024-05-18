@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
@@ -31,7 +31,6 @@ const UserPage: FC<Props> = async ({ params: { username } }) => {
                     username,
                     content_type: 'anime',
                 },
-                auth: meta?.auth,
             }),
         initialPageParam: 1,
     });
@@ -44,7 +43,6 @@ const UserPage: FC<Props> = async ({ params: { username } }) => {
                     username,
                 },
                 page: pageParam,
-                auth: meta?.auth,
             }),
         initialPageParam: 1,
     });
@@ -56,7 +54,6 @@ const UserPage: FC<Props> = async ({ params: { username } }) => {
                 params: {
                     username,
                 },
-                auth: meta?.auth,
             }),
     });
 

@@ -1,6 +1,6 @@
 import { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';

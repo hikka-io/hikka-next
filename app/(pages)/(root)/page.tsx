@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
@@ -15,13 +13,12 @@ import History from './components/history';
 import Profile from './components/profile';
 import Schedule from './components/schedule/schedule';
 
-
 const Page = async () => {
     const queryClient = await getQueryClient();
 
     await queryClient.prefetchQuery({
         queryKey: ['loggedUser'],
-        queryFn: ({ meta }) => getLoggedUserInfo({ auth: meta?.auth }),
+        queryFn: ({ meta }) => getLoggedUserInfo({}),
     });
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([

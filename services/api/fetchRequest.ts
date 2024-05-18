@@ -1,3 +1,5 @@
+import { getCookie } from '@/utils/cookies';
+
 import config from './config';
 
 export interface BaseFetchRequestProps<
@@ -48,25 +50,27 @@ export async function fetchRequest<TResponse>({
                 ).toString()) ||
         '';
 
-    const res = await fetch(
-        config.baseAPI + path + '?' + paginationParams + queryParams,
-        {
-            method: method,
-            body:
-                method !== 'get' && params
-                    ? formData
-                        ? (params as FormData)
-                        : JSON.stringify(params)
-                    : undefined,
-            ...config.config,
-            ...myConfig,
-            headers: {
-                ...(formData ? {} : config.config.headers),
-                captcha: captcha || '',
-                ...(auth ? { auth } : {}),
-            },
+    const input = config.baseAPI + path + '?' + paginationParams + queryParams;
+
+    const res = await fetch(input, {
+        credentials: 'include',
+        method: method,
+        body:
+            method !== 'get' && params
+                ? formData
+                    ? (params as FormData)
+                    : JSON.stringify(params)
+                : undefined,
+        ...config.config,
+        ...myConfig,
+        headers: {
+            ...(formData ? {} : config.config.headers),
+            captcha: captcha || '',
+            ...(typeof window === 'undefined'
+                ? { auth: auth || (await getCookie('auth')) }
+                : {}),
         },
-    );
+    });
 
     await handleError(res);
 

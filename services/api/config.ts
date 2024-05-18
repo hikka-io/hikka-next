@@ -1,6 +1,5 @@
-export default {
-    baseAPI:
-        (process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL) + '/api',
+const config = {
+    baseAPI: process.env.API_URL || process.env.NEXT_PUBLIC_SITE_URL + '/api',
     config: {
         headers: {
             'Content-type': 'application/json',
@@ -10,3 +9,5 @@ export default {
         },
     },
 };
+
+export default config;

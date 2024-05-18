@@ -37,7 +37,6 @@ const AnimeCommentsPage = async ({ params: { slug } }: Props) => {
                     content_type: 'anime',
                 },
                 page: pageParam,
-                auth: meta?.auth,
             }),
     });
 

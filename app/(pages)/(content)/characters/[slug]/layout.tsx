@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -43,7 +43,6 @@ const CharacterLayout: FC<Props> = async ({ params: { slug }, children }) => {
                 params: {
                     slug,
                 },
-                auth: meta?.auth,
             }),
     });
 

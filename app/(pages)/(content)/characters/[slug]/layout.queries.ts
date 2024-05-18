@@ -20,7 +20,6 @@ const prefetchQueries = async ({ queryClient, params: { slug } }: Props) => {
                     params: {
                         slug,
                     },
-                    auth: meta?.auth,
                 }),
             initialPageParam: 1,
         }),
@@ -32,7 +31,6 @@ const prefetchQueries = async ({ queryClient, params: { slug } }: Props) => {
                     params: {
                         slug,
                     },
-                    auth: meta?.auth,
                 }),
             initialPageParam: 1,
         }),
@@ -45,7 +43,6 @@ const prefetchQueries = async ({ queryClient, params: { slug } }: Props) => {
                         slug: String(slug),
                         content_type: 'character',
                     },
-                    auth: meta?.auth,
                 }),
         }),
     ]);

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FC } from 'react';
 
 import { redirect } from 'next/navigation';
@@ -42,7 +41,6 @@ const EditNewPage: FC<Props> = async ({
                     params: {
                         slug: String(slug),
                     },
-                    auth: meta?.auth,
                 }),
         });
     }
@@ -55,7 +53,6 @@ const EditNewPage: FC<Props> = async ({
                     params: {
                         slug: String(slug),
                     },
-                    auth: meta?.auth,
                 }),
         });
     }
@@ -68,7 +65,6 @@ const EditNewPage: FC<Props> = async ({
                     params: {
                         slug: String(slug),
                     },
-                    auth: meta?.auth,
                 }),
         });
     }

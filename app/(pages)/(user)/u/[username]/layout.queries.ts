@@ -11,7 +11,10 @@ interface Props {
     };
 }
 
-const prefetchQueries = async ({ queryClient, params: { username } }: Props) => {
+const prefetchQueries = async ({
+    queryClient,
+    params: { username },
+}: Props) => {
     await Promise.all([
         await queryClient.prefetchQuery({
             queryKey: ['user', username],
@@ -20,7 +23,6 @@ const prefetchQueries = async ({ queryClient, params: { username } }: Props) => 
                     params: {
                         username,
                     },
-                    auth: meta?.auth,
                 }),
         }),
 
@@ -31,7 +33,6 @@ const prefetchQueries = async ({ queryClient, params: { username } }: Props) => 
                     params: {
                         username,
                     },
-                    auth: meta?.auth,
                 }),
         }),
 
@@ -42,7 +43,6 @@ const prefetchQueries = async ({ queryClient, params: { username } }: Props) => 
                     params: {
                         username,
                     },
-                    auth: meta?.auth,
                 }),
         }),
     ]);

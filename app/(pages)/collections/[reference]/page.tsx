@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import React from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -10,7 +9,6 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import CollectionGroups from '@/app/(pages)/collections/[reference]/components/collection-groups';
 import CollectionInfo from '@/app/(pages)/collections/[reference]/components/collection-info/collection-info';
 import CollectionTitle from '@/app/(pages)/collections/[reference]/components/collection-title';
-import Comments from '@/components/comments/comments';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import getCollection from '@/services/api/collections/getCollection';
@@ -57,7 +55,6 @@ const CollectionPage = async ({
                     params: {
                         reference,
                     },
-                    auth: meta?.auth,
                 }),
         });
     } catch (e) {
@@ -90,7 +87,7 @@ const CollectionPage = async ({
                                 <CollectionGroups />
                             </Block>
                         </div>
-                        <div className="order-1 hidden w-full lg:order-2 lg:flex lg:flex-col lg:h-full">
+                        <div className="order-1 hidden w-full lg:order-2 lg:flex lg:h-full lg:flex-col">
                             <CollectionInfo />
                         </div>
                     </div>

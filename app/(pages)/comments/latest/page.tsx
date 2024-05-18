@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import * as React from 'react';
 import { FC } from 'react';
 
 import { dehydrate } from '@tanstack/query-core';
@@ -10,7 +9,6 @@ import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
 import Comments from './components/comments';
-
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Останні коментарі',
@@ -29,7 +27,6 @@ const FollowingHistoryPage: FC<Props> = async ({ searchParams }) => {
         queryFn: ({ pageParam, meta }) =>
             getGlobalComments({
                 page: pageParam,
-                auth: meta?.auth,
             }),
     });
 

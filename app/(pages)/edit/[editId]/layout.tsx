@@ -58,7 +58,6 @@ const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
                 params: {
                     edit_id: Number(editId),
                 },
-                auth: meta?.auth,
             }),
     });
 
@@ -72,7 +71,6 @@ const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
                     content_type: 'edit',
                 },
                 page: pageParam,
-                auth: meta?.auth,
             }),
     });
 

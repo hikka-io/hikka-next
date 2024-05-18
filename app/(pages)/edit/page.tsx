@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
 import { redirect } from 'next/navigation';
@@ -44,14 +43,13 @@ const EditListPage = async ({
                 edit_status: edit_status || null,
             },
         ],
-        queryFn: ({ meta }) =>
-            getEditList({ page: Number(page), auth: meta?.auth }),
+        queryFn: ({ meta }) => getEditList({ page: Number(page) }),
     });
 
     await queryClient.prefetchInfiniteQuery({
         queryKey: ['editTopStats'],
         queryFn: ({ pageParam, meta }) =>
-            getEditTop({ page: Number(pageParam), auth: meta?.auth }),
+            getEditTop({ page: Number(pageParam) }),
         initialPageParam: 1,
     });
 

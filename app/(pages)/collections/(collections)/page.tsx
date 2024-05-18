@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import * as React from 'react';
 import { FC } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
@@ -54,7 +53,6 @@ const CollectionsPage: FC<Props> = async ({ searchParams }) => {
                 params: {
                     sort: sort,
                 },
-                auth: meta?.auth,
             }),
     });
 

@@ -3,8 +3,6 @@ import { cache } from 'react';
 import { QueryClient } from '@tanstack/query-core';
 import { QueryClientConfig } from '@tanstack/react-query';
 
-import { getCookie } from '@/utils/cookies';
-
 export const createQueryClient = (config?: QueryClientConfig) =>
     new QueryClient({
         defaultOptions: {
@@ -19,16 +17,6 @@ export const createQueryClient = (config?: QueryClientConfig) =>
         ...config,
     });
 
-const getQueryClient = cache(async () =>
-    createQueryClient({
-        defaultOptions: {
-            queries: {
-                meta: {
-                    auth: await getCookie('auth'),
-                },
-            },
-        },
-    }),
-);
+const getQueryClient = cache(() => createQueryClient());
 
 export default getQueryClient;
