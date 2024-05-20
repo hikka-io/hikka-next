@@ -17,7 +17,7 @@ interface Props {
 }
 
 const EditDescription: FC<Props> = ({ mode }) => {
-    const { control, setValue } = useFormContext();
+    const { control, setValue, getValues } = useFormContext();
     const { openModal } = useModalContext();
     const { editTags } = useSettingsContext();
 
@@ -35,7 +35,18 @@ const EditDescription: FC<Props> = ({ mode }) => {
                                 size="badge"
                                 variant="outline"
                                 key={tag}
-                                onClick={() => setValue('description', tag)}
+                                onClick={() =>
+                                    setValue(
+                                        'description',
+                                        getValues('description') === ''
+                                            ? tag
+                                            : getValues('description') +
+                                                  (tag.split(' ')[0] == '---'
+                                                      ? ' '
+                                                      : ', ') +
+                                                  tag.toLowerCase(),
+                                    )
+                                }
                             >
                                 {tag
                                     .slice(0, 20)
@@ -49,11 +60,23 @@ const EditDescription: FC<Props> = ({ mode }) => {
                             onClick={() =>
                                 openModal({
                                     title: 'Теги редагування',
-                                    content: <TagsModal setValue={setValue} />,
+                                    content: (
+                                        <TagsModal
+                                            setValue={setValue}
+                                            getValues={getValues}
+                                        />
+                                    ),
                                 })
                             }
                         >
                             Усі теги
+                        </Button>
+                        <Button
+                            size="badge"
+                            variant="secondary"
+                            onClick={() => setValue('description', '')}
+                        >
+                            Очистити поле
                         </Button>
                     </div>
                     <ScrollBar orientation="horizontal" />
