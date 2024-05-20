@@ -1,4 +1,5 @@
-<!-- PROJECT BANNER -->
+<!-- PROJECT LOGO -->
+<br />
 <div align="center">
   <a href="https://github.com/hikka-io/hikka-next">
     <img src="public/logo.svg" alt="Logo" width="80" height="80">
