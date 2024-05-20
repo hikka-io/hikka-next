@@ -40,7 +40,11 @@ const EditDescription: FC<Props> = ({ mode }) => {
                                         'description',
                                         getValues('description') === ''
                                             ? tag
-                                            : `${getValues('description')}, ${tag.toLowerCase()}`,
+                                            : getValues('description') +
+                                                  (tag.split(' ')[0] == '---'
+                                                      ? ' '
+                                                      : ', ') +
+                                                  tag.toLowerCase(),
                                     )
                                 }
                             >
