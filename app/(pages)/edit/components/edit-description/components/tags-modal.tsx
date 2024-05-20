@@ -39,7 +39,9 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
             'description',
             getValues('description') === ''
                 ? tag
-                : `${getValues('description')}, ${tag.toLowerCase()}`,
+                : getValues('description') +
+                      (tag.split(' ')[0] == '---' ? ' ' : ', ') +
+                      tag.toLowerCase(),
         );
         closeModal();
     };
