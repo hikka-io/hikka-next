@@ -15,6 +15,8 @@ import TextExpand from '@/components/text-expand';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
+import { Badge } from '@/components/ui/badge';
+import { USER_ROLE } from '@/utils/constants';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useCommentsContext } from '@/services/providers/comments-provider';
@@ -89,12 +91,25 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         </Avatar>
                     </Link>
                     <div className="flex flex-1 flex-col justify-between">
-                        <Link
-                            href={`/u/${comment.author.username}`}
-                            className="w-fit"
-                        >
-                            <H5>{comment.author.username}</H5>
-                        </Link>
+                        <div className="flex items-center gap-2">
+                            <Link
+                                href={`/u/${comment.author.username}`}
+                                className="w-fit"
+                            >
+                                <H5>{comment.author.username}</H5>
+                            </Link>
+                            {(comment.author.role === 'admin' || comment.author.role === 'moderator') && (
+                            <>
+                                <Badge
+                                    className="text-xs"
+                                    variant="status"
+                                    bgColor={USER_ROLE[comment.author.role].color}
+                                >
+                                    {USER_ROLE[comment.author.role].label}
+                                </Badge>
+                            </>
+                            )}
+                        </div>
 
                         <Small className="text-muted-foreground">
                             {formatDistance(
