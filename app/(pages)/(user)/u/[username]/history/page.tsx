@@ -3,7 +3,7 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import History from '@/features/users/user-history/history';
+import History from '@/features/users/user-history/user-history';
 
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import { getCookie } from '@/utils/cookies';

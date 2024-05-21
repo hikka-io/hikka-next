@@ -22,7 +22,7 @@ interface Props {
     className?: string;
 }
 
-const Collections: FC<Props> = ({ className }) => {
+const UserCollections: FC<Props> = ({ className }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
@@ -85,4 +85,4 @@ const Collections: FC<Props> = ({ className }) => {
     );
 };
 
-export default Collections;
+export default UserCollections;

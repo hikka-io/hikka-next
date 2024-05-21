@@ -121,7 +121,9 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         </TextExpand>
                     )
                 ) : (
-                    <P className="text-muted-foreground">Коментар видалено</P>
+                    <P className="text-[0.9375rem] text-muted-foreground">
+                        Коментар видалено
+                    </P>
                 )}
             </div>
             <div className="flex w-full items-center gap-2">

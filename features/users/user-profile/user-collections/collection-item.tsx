@@ -1,4 +1,4 @@
-import React, { FC, Fragment, memo } from 'react';
+import { FC, Fragment, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
@@ -6,7 +6,6 @@ import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-ro
 import Small from '@/components/typography/small';
 import HorizontalCard from '@/components/ui/horizontal-card';
 
-import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -15,7 +14,6 @@ interface Props {
 }
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
-    const description = parseTextFromMarkDown(data.description);
     const poster = (content: API.MainContent) =>
         content.data_type === 'anime' ? content.poster : content.image;
 
@@ -57,7 +55,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             imageClassName={cn(
                 data.nsfw && 'blur-sm duration-500 hover:blur-none',
             )}
-            description={description}
+            description={data.description}
             descriptionClassName={cn(
                 data.spoiler && 'blur-sm duration-500 hover:blur-none',
             )}

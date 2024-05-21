@@ -2,10 +2,10 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { FC } from 'react';
 
-import Collections from '@/features/users/user-profile/collections';
 import Favorites from '@/features/users/user-profile/favorites/favorites';
 import History from '@/features/users/user-profile/history/history';
-import Statistics from '@/features/users/user-profile/statistics/statistics';
+import Collections from '@/features/users/user-profile/user-collections/user-collections';
+import Statistics from '@/features/users/user-profile/user-statistics/user-statistics';
 
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getUserActivity from '@/services/api/user/getUserActivity';

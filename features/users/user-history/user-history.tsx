@@ -1,63 +1,67 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { FC, Fragment } from 'react';
+import {
+    useParams,
+    usePathname,
+    useRouter,
+    useSearchParams,
+} from 'next/navigation';
+import { FC } from 'react';
 
-import HistoryItem from '@/components/history-item';
-import LoadMoreButton from '@/components/load-more-button';
-import { Badge } from '@/components/ui/badge';
-import Card from '@/components/ui/card';
-import NotFound from '@/components/ui/not-found';
-import Stack from '@/components/ui/stack';
+import Block from '@/components/ui/block';
+import Header from '@/components/ui/header';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import useUserHistory from '@/services/hooks/user/useUserHistory';
+import useSession from '@/services/hooks/auth/useSession';
+import { cn } from '@/utils/utils';
+
+import FollowingHistory from './following-history';
+import History from './history';
 
 interface Props {
     className?: string;
 }
 
-const History: FC<Props> = ({ className }) => {
+const UserHistory: FC<Props> = ({ className }) => {
     const params = useParams();
-    const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useUserHistory({
-            username: String(params.username),
-        });
+    const pathname = usePathname();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const { user: loggedUser } = useSession();
+
+    const type = searchParams.get('type') || 'user';
+
+    const handleChangeType = (value: string) => {
+        router.replace(`${pathname}?type=${value}`);
+    };
 
     return (
-        <Fragment>
-            <Stack
-                size={3}
-                extended
-                extendedSize={3}
-                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-            >
-                {list?.map((item, index) => (
-                    <Card key={item.reference}>
-                        <Badge
-                            variant="secondary"
-                            className="absolute -top-3 left-4 z-[1]"
+        <Block className={cn(className)}>
+            <Header title="Історія">
+                <ToggleGroup
+                    type="single"
+                    value={type}
+                    onValueChange={handleChangeType}
+                    variant="outline"
+                    size="badge"
+                >
+                    <ToggleGroupItem value="user" aria-label="Власна історія">
+                        Власна
+                    </ToggleGroupItem>
+                    {params.username === loggedUser?.username && (
+                        <ToggleGroupItem
+                            value="following"
+                            aria-label="Історія відстежуючих"
                         >
-                            #{index + 1}
-                        </Badge>
-                        <HistoryItem data={item} />
-                    </Card>
-                ))}
-                {list?.length === 0 && (
-                    <NotFound
-                        title="Історія відсутня"
-                        description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
-                    />
-                )}
-            </Stack>
-            {list && hasNextPage && (
-                <LoadMoreButton
-                    ref={ref}
-                    fetchNextPage={fetchNextPage}
-                    isFetchingNextPage={isFetchingNextPage}
-                />
-            )}
-        </Fragment>
+                            Відстежується
+                        </ToggleGroupItem>
+                    )}
+                </ToggleGroup>
+            </Header>
+            {type === 'user' && <History />}
+            {type === 'following' && <FollowingHistory />}
+        </Block>
     );
 };
 
-export default History;
+export default UserHistory;

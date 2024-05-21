@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
-import Comments from '@/features/comments';
+import Comments from '@/features/comments/comment-list/comment-list';
 
 import getCommentThread from '@/services/api/comments/getCommentThread';
 import getComments from '@/services/api/comments/getComments';

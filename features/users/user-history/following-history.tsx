@@ -15,7 +15,7 @@ interface Props {
     className?: string;
 }
 
-const History: FC<Props> = ({ className }) => {
+const FollowingHistory: FC<Props> = ({ className }) => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useUserHistory();
 
@@ -56,4 +56,4 @@ const History: FC<Props> = ({ className }) => {
     );
 };
 
-export default History;
+export default FollowingHistory;

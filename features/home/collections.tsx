@@ -8,7 +8,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 
-import CollectionItem from '@/features/users/user-profile/collections/collection-item';
+import CollectionItem from '@/features/users/user-profile/user-collections/collection-item';
 
 import useSession from '@/services/hooks/auth/useSession';
 import useCollections from '@/services/hooks/collections/useCollections';
