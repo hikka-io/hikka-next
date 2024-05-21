@@ -1,9 +1,8 @@
-import * as React from 'react';
 import { FC } from 'react';
 
-import Actions from '@/app/(pages)/edit/[editId]/components/actions/actions';
-import EditView from '@/app/(pages)/edit/components/edit-view';
-import Comments from '@/components/comments/comments';
+import Comments from '@/features/comments/comment-list/comment-list';
+import Actions from '@/features/edit/edit-actions/edit-actions';
+import EditView from '@/features/edit/edit-forms/edit-view-form';
 
 interface Props {
     params: { editId: string };

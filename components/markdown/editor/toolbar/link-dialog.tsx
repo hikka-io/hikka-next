@@ -1,7 +1,3 @@
-import { LexicalCommand, createCommand } from 'lexical';
-import React, { FC } from 'react';
-import { useForm } from 'react-hook-form';
-
 import {
     activeEditor$,
     cancelLinkEdit$,
@@ -11,6 +7,9 @@ import {
     updateLink$,
 } from '@mdxeditor/editor';
 import { useCellValues, usePublisher } from '@mdxeditor/gurx';
+import { LexicalCommand, createCommand } from 'lexical';
+import React, { FC } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import {

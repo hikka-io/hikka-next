@@ -1,10 +1,9 @@
-import React, { FC, PropsWithChildren } from 'react';
+import NextLink from 'next/link';
+import { FC, PropsWithChildren } from 'react';
 import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
-import NextLink from 'next/link';
-
-import AnimeTooltip from '@/components/content-card/components/anime-tooltip';
-import CharacterTooltip from '@/components/content-card/components/character-tooltip';
+import AnimeTooltip from '@/components/content-card/anime-tooltip';
+import CharacterTooltip from '@/components/content-card/character-tooltip';
 import P from '@/components/typography/p';
 import {
     AlertDialog,
@@ -17,6 +16,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -45,8 +45,8 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </AnimeTooltip>
                 );
             }
-        } 
-        if (href.includes("/characters")) {
+        }
+        if (href.includes('/characters')) {
             const link = href.split('/characters/')[1]?.split('/')[0];
 
             if (link) {

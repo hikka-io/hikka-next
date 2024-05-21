@@ -1,8 +1,7 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import { PropsWithChildren, ReactNode, memo } from 'react';
 import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
-
-import Link from 'next/link';
 
 import H1 from '@/components/typography/h1';
 import H2 from '@/components/typography/h2';

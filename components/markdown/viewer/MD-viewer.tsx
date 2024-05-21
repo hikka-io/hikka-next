@@ -7,6 +7,7 @@ import remarkDirectiveRehype from 'remark-directive-rehype';
 
 import Link from '@/components/markdown/viewer/components/link';
 import Spoiler from '@/components/markdown/viewer/components/spoiler';
+
 import { cn } from '@/utils/utils';
 
 import remarkMentions from './plugins/remark-mentions';

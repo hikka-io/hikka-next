@@ -1,7 +1,3 @@
-import React, { forwardRef } from 'react';
-
-import dynamic from 'next/dynamic';
-
 import {
     MDXEditorMethods,
     MDXEditorProps,
@@ -11,6 +7,8 @@ import {
     listsPlugin,
     toolbarPlugin,
 } from '@mdxeditor/editor';
+import dynamic from 'next/dynamic';
+import React, { forwardRef } from 'react';
 
 import { SpoilerDirectiveDescriptor } from './directives/spoiler-directive';
 import BoldButton from './toolbar/bold-button';

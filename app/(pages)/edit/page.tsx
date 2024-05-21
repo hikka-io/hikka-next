@@ -1,25 +1,24 @@
-import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
-
-import { redirect } from 'next/navigation';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { redirect } from 'next/navigation';
+import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
-import EditList from '@/app/(pages)/edit/components/edit-list/edit-list';
-import EditTopStats from '@/app/(pages)/edit/components/edit-top-stats/edit-top-stats';
-import EditFiltersModal from '@/components/modals/edit-filters-modal';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
+
+import EditList from '@/features/edit/edit-list/edit-list';
+import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats';
+import Filters from '@/features/filters/edit-filters';
+import EditFiltersModal from '@/features/modals/edit-filters-modal';
+
 import getEditList from '@/services/api/edit/getEditList';
 import getEditTop from '@/services/api/stats/edit/getEditTop';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
-
-import Filters from '../../../components/filters/edit-filters';
 
 const EditListPage = async ({
     searchParams: { page, content_type, order, sort, edit_status },

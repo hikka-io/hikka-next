@@ -1,16 +1,16 @@
+import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
-
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
-
-import CollectionGroups from '@/app/(pages)/collections/[reference]/components/collection-groups';
-import CollectionInfo from '@/app/(pages)/collections/[reference]/components/collection-info/collection-info';
-import CollectionTitle from '@/app/(pages)/collections/[reference]/components/collection-title';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
+
+import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups';
+import CollectionInfo from '@/features/collections/collection-view/collection-info/collection-info';
+import CollectionTitle from '@/features/collections/collection-view/collection-title';
+
 import getCollection from '@/services/api/collections/getCollection';
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';

@@ -1,10 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { createElement } from 'react';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
-import WatchEditModal from '@/components/modals/watch-edit-modal';
 import {
     Select,
     SelectContent,
@@ -13,6 +11,9 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
+
+import WatchEditModal from '@/features/modals/watch-edit-modal';
+
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useAddToList from '@/services/hooks/watch/useAddToList';
 import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
@@ -20,8 +21,8 @@ import useWatch from '@/services/hooks/watch/useWatch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 
-import NewStatusTrigger from './components/new-status-trigger';
-import WatchStatusTrigger from './components/watch-status-trigger';
+import NewStatusTrigger from './new-status-trigger';
+import WatchStatusTrigger from './watch-status-trigger';
 
 interface Props {
     slug: string;

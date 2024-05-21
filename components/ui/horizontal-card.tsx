@@ -1,11 +1,11 @@
 import { formatDistance } from 'date-fns';
-import React, { ComponentProps, FC, ReactNode } from 'react';
-
 import Link from 'next/link';
+import React, { ComponentProps, FC, ReactNode } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
+
 import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import { cn } from '@/utils/utils';
 

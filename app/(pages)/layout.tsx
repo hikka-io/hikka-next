@@ -1,10 +1,10 @@
-import React, { FC, ReactNode, Suspense } from 'react';
+import { FC, ReactNode, Suspense } from 'react';
 
-import Footer from './components/footer';
-import ModalManager from './components/modal-manager';
-import NavBar from './components/navbar/navbar';
-import ScrollTop from './components/scroll-top';
-import SessionManager from './components/session-manager';
+import Footer from '@/features/common/footer';
+import ModalManager from '@/features/common/modal-manager';
+import NavBar from '@/features/common/navbar/navbar';
+import ScrollTop from '@/features/common/scroll-top';
+import SessionManager from '@/features/common/session-manager';
 
 interface Props {
     children: ReactNode;

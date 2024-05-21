@@ -8,8 +8,8 @@ import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
 import truncateText from '@/utils/truncateText';
 
 export interface MetadataProps {
-    params: { slug: string }
-    searchParams: { [key: string]: string | string[] | undefined }
+    params: { slug: string };
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export default async function generateMetadata({

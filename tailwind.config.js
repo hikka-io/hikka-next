@@ -3,6 +3,7 @@ module.exports = {
     darkMode: ['class'],
     content: [
         './pages/**/*.{ts,tsx}',
+        './features/**/*.{ts,tsx}',
         './components/**/*.{ts,tsx}',
         './app/**/*.{ts,tsx}',
         './src/**/*.{ts,tsx}',
@@ -20,10 +21,10 @@ module.exports = {
         },
         extend: {
             gridAutoColumns: {
-              'scroll': 'minmax(var(--grid-min, 7rem), 1fr)',
+                scroll: 'minmax(var(--grid-min, 7rem), 1fr)',
             },
             gridTemplateColumns: {
-                'scroll': 'repeat(auto-fill, minmax(var(--grid-min, 7rem), 1fr))',
+                scroll: 'repeat(auto-fill, minmax(var(--grid-min, 7rem), 1fr))',
             },
             fontFamily: {
                 sans: ['var(--font-inter)'],
@@ -97,5 +98,8 @@ module.exports = {
             },
         },
     },
-    plugins: [require('tailwindcss-animate'), require("tailwind-gradient-mask-image")],
+    plugins: [
+        require('tailwindcss-animate'),
+        require('tailwind-gradient-mask-image'),
+    ],
 };

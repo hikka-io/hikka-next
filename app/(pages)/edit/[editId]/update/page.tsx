@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { FC } from 'react';
 
-import EditView from '@/app/(pages)/edit/components/edit-view';
+import EditView from '@/features/edit/edit-forms/edit-view-form';
 
 interface Props {
     params: { editId: string };

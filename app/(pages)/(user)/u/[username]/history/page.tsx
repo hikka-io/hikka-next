@@ -1,15 +1,14 @@
+import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import History from '@/features/users/user-history/history';
 
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import { getCookie } from '@/utils/cookies';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import History from './components/history/history';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Активність',

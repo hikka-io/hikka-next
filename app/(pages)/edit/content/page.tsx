@@ -1,16 +1,15 @@
-import { Metadata } from 'next';
-import * as React from 'react';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { Metadata } from 'next';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
+
+import ContentList from '@/features/edit/edit-content-list';
+
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import ContentList from './components/content-list';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

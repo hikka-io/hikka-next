@@ -1,14 +1,13 @@
-import { Metadata } from 'next';
-import { FC } from 'react';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { Metadata } from 'next';
+import { FC } from 'react';
 
 import getGlobalComments from '@/services/api/comments/getGlobalComments';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Comments from './components/comments';
+import Comments from '../../../../features/comments/latest-comments';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Останні коментарі',

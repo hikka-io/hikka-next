@@ -1,7 +1,6 @@
+import { openLinkEditDialog$, usePublisher } from '@mdxeditor/editor';
 import React from 'react';
 import MaterialSymbolsAddLinkRounded from '~icons/material-symbols/add-link-rounded';
-
-import { openLinkEditDialog$, usePublisher } from '@mdxeditor/editor';
 
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
