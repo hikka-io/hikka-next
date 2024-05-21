@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
     Body,
     Button,
@@ -14,6 +12,7 @@ import {
     Tailwind,
     Text,
 } from '@react-email/components';
+import * as React from 'react';
 
 export const ConfirmEmail = () => {
     const previewText = `{username}, підтвердіть вашу електронну пошту`;

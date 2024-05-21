@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-
 import {
     QueryFunction,
     QueryKey,
     useInfiniteQuery,
 } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 interface Props<T> {
     queryFn: QueryFunction<API.WithPagination<T>, this['queryKey'], number>;

@@ -1,6 +1,5 @@
-import React, { forwardRef } from 'react';
-
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
+import React, { forwardRef } from 'react';
 
 import MDEditor from '@/components/markdown/editor/MD-editor';
 import {
@@ -11,6 +10,7 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
+
 import { cn } from '@/utils/utils';
 
 interface Props extends Omit<MDXEditorProps, 'markdown'> {

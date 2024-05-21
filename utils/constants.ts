@@ -1,8 +1,8 @@
 import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
-import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded'
 
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';

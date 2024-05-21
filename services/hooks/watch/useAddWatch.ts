@@ -9,8 +9,14 @@ const useAddWatch = () => {
         mutationKey: ['addToList'],
         mutationFn: addWatch,
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['watch'], exact: false });
-            await queryClient.invalidateQueries({ queryKey: ['watchList'], exact: false });
+            await queryClient.invalidateQueries({
+                queryKey: ['watch'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['watchList'],
+                exact: false,
+            });
         },
     });
 };

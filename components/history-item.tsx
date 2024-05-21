@@ -1,8 +1,7 @@
+import Link from 'next/link';
 import * as React from 'react';
 import { FC, Fragment, memo } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
-
-import Link from 'next/link';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import HorizontalCard from '@/components/ui/horizontal-card';
@@ -11,6 +10,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
 import { convertActivity } from '@/utils/convertActivity';
 
 interface Props {
@@ -58,7 +58,7 @@ const User: FC<Props> = memo(({ data }) => (
 
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
-    
+
     return (
         <HorizontalCard
             title={data.content?.title || 'Загальне'}

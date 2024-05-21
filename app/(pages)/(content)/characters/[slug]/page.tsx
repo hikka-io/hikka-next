@@ -1,8 +1,6 @@
-import React from 'react';
-
-import Anime from './components/anime';
-import Description from './components/description';
-import Voices from './components/voices';
+import Anime from '@/features/characters/character-view/anime';
+import Description from '@/features/characters/character-view/description';
+import Voices from '@/features/characters/character-view/voices';
 
 const CharacterPage = () => {
     return (

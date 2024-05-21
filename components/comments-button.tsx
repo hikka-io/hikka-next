@@ -1,13 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import React, { FC } from 'react';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
-import Link from 'next/link';
-
 import { Button } from '@/components/ui/button';
-import getDeclensionWord from '@/utils/getDeclensionWord';
 
+import getDeclensionWord from '@/utils/getDeclensionWord';
 
 const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментар',

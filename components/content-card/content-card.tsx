@@ -1,4 +1,4 @@
-import * as React from 'react';
+import Link from 'next/link';
 import {
     FC,
     Fragment,
@@ -10,18 +10,17 @@ import {
 import { UrlObject } from 'url';
 import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symbols/image-not-supported-outline-rounded';
 
-import Link from 'next/link';
-
-import AnimeTooltip from '@/components/content-card/components/anime-tooltip';
-import CharacterTooltip from '@/components/content-card/components/character-tooltip';
+import AnimeTooltip from '@/components/content-card/anime-tooltip';
+import CharacterTooltip from '@/components/content-card/character-tooltip';
 import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
+
 import { cn } from '@/utils/utils';
 
 import { AspectRatio } from '../ui/aspect-ratio';
-import ContextMenuOverlay from './components/context-menu-overlay';
-import WatchStatus from './components/watch-status';
+import ContextMenuOverlay from './context-menu-overlay';
+import WatchStatus from './watch-status';
 
 export interface Props {
     target?: string;

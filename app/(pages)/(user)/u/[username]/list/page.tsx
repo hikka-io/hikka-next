@@ -1,14 +1,15 @@
 import { Metadata, ResolvingMetadata } from 'next';
+import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
-import { redirect } from 'next/navigation';
-
-import List from '@/app/(pages)/(user)/u/[username]/list/components/list/list';
-import StatusCombobox from '@/app/(pages)/(user)/u/[username]/list/components/status-combobox';
-import ToolsCombobox from '@/app/(pages)/(user)/u/[username]/list/components/tools-combobox';
-import ViewCombobox from '@/app/(pages)/(user)/u/[username]/list/components/view-combobox';
-import Filters from '@/components/filters/anime-filters';
 import Block from '@/components/ui/block';
+
+import Filters from '@/features/filters/anime-filters';
+import StatusCombobox from '@/features/users/user-watchlist/status-combobox';
+import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox';
+import ViewCombobox from '@/features/users/user-watchlist/view-combobox';
+import List from '@/features/users/user-watchlist/watchlist/watchlist';
+
 import _generateMetadata from '@/utils/generateMetadata';
 
 export async function generateMetadata(

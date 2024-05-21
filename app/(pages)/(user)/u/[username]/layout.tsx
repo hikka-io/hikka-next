@@ -1,26 +1,26 @@
-import { Metadata, ResolvingMetadata } from 'next';
-import React, { FC, PropsWithChildren } from 'react';
-
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { Metadata, ResolvingMetadata } from 'next';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 import UserCover from '@/components/user-cover';
+
+import ActivationAlert from '@/features/users/user-profile/activation-alert';
+import FollowButton from '@/features/users/user-profile/follow-button';
+import FollowStats from '@/features/users/user-profile/follow-stats';
+import ListStats from '@/features/users/user-profile/list-stats';
+import UserInfo from '@/features/users/user-profile/user-info';
+import UserTitle from '@/features/users/user-profile/user-title';
+
 import { USER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';
 
-import ActivationAlert from './components/activation-alert';
-import FollowButton from './components/follow-button';
-import FollowStats from './components/follow-stats';
-import ListStats from './components/list-stats';
-import UserInfo from './components/user-info';
-import UserTitle from './components/user-title';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 

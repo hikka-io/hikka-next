@@ -1,19 +1,28 @@
 'use client';
 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import Markdown, { Options } from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
 import Link from '@/components/markdown/viewer/components/link';
 import Spoiler from '@/components/markdown/viewer/components/spoiler';
+
 import { cn } from '@/utils/utils';
 
+import NoSpoiler from './components/no-spoiler';
 import remarkMentions from './plugins/remark-mentions';
 
-interface Props extends Options {}
+interface Props extends Options {
+    disableSpoiler?: boolean;
+}
 
-const Component = ({ children, className, ...props }: Props) => {
+const Component = ({
+    children,
+    className,
+    disableSpoiler,
+    ...props
+}: Props) => {
     return (
         <Markdown
             className={cn('markdown w-full', className)}
@@ -26,7 +35,7 @@ const Component = ({ children, className, ...props }: Props) => {
                 ],
             ]}
             components={{
-                spoiler: Spoiler,
+                spoiler: disableSpoiler ? NoSpoiler : Spoiler,
                 a: ({ node, children }) => (
                     <Link
                         href={(node?.properties?.href as string) || ''}

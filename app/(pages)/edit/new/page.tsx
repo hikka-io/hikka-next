@@ -1,15 +1,15 @@
-import { FC } from 'react';
-
-import { redirect } from 'next/navigation';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { redirect } from 'next/navigation';
+import { FC } from 'react';
 
-import Content from '@/app/(pages)/edit/components/content/content';
-import EditForm from '@/app/(pages)/edit/components/edit-form';
-import RulesAlert from '@/app/(pages)/edit/new/components/rules-alert';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
+
+import Content from '@/features/edit/edit-content/edit-content';
+import EditForm from '@/features/edit/edit-forms/edit-create-form';
+import RulesAlert from '@/features/edit/edit-rules-alert';
+
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';

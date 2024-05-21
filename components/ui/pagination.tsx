@@ -1,13 +1,13 @@
 'use client';
 
+import { range } from '@antfu/utils';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import AntDesignArrowLeftOutlined from '~icons/ant-design/arrow-left-outlined';
 import AntDesignArrowRightOutlined from '~icons/ant-design/arrow-right-outlined';
 
-import { range } from '@antfu/utils';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
 import { cn } from '@/utils/utils';
 
 interface Props {

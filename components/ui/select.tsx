@@ -1,18 +1,18 @@
 'use client';
 
-import { ChevronsUpDown, X } from 'lucide-react';
-import React, { FC, Fragment, ReactNode } from 'react';
-import { createPortal } from 'react-dom';
-
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import {
     type ComponentPropsWithoutRef,
     Primitive,
 } from '@radix-ui/react-primitive';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { ChevronsUpDown, X } from 'lucide-react';
+import React, { FC, Fragment, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
 import { buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+
 import { cn } from '@/utils/utils';
 
 import { Badge } from './badge';

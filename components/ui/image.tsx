@@ -1,9 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import React, { Ref, forwardRef, useState } from 'react';
-
 import NextImage, { ImageProps } from 'next/image';
+import React, { Ref, forwardRef, useState } from 'react';
 
 interface Props extends ImageProps {
     transitionDisabled?: boolean;
