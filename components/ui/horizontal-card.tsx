@@ -1,13 +1,14 @@
 import { formatDistance } from 'date-fns';
-import React, { ComponentProps, FC, ReactNode } from 'react';
-
 import Link from 'next/link';
+import { ComponentProps, FC, ReactNode } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
-import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
+
 import { cn } from '@/utils/utils';
+
+import MDViewer from '../markdown/viewer/MD-viewer';
 
 interface Props extends ComponentProps<'div'> {
     title: string;
@@ -73,13 +74,17 @@ const HorizontalCard: FC<Props> = ({
                         <Link
                             href={descriptionHref || '#'}
                             className={cn(
-                                'cursor-pointer hover:underline transition-all',
+                                'cursor-pointer transition-all hover:underline',
                                 !descriptionHref && 'pointer-events-none',
                             )}
                         >
-                            {typeof description === 'string'
-                                ? parseTextFromMarkDown(description)
-                                : description}
+                            {typeof description === 'string' ? (
+                                <MDViewer disableSpoiler>
+                                    {description}
+                                </MDViewer>
+                            ) : (
+                                description
+                            )}
                         </Link>
                     </Small>
                 )}

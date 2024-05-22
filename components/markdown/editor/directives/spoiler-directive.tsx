@@ -1,11 +1,10 @@
-import { ContainerDirective } from 'mdast-util-directive';
-import React from 'react';
-
 import {
     DirectiveDescriptor,
     NestedLexicalEditor,
     useNestedEditorContext,
 } from '@mdxeditor/editor';
+import { ContainerDirective } from 'mdast-util-directive';
+import React from 'react';
 
 export const SpoilerDirectiveDescriptor: DirectiveDescriptor = {
     name: 'spoiler',

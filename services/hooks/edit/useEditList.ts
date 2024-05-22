@@ -1,6 +1,5 @@
-import { useSearchParams } from 'next/navigation';
-
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 
 import getEditList from '@/services/api/edit/getEditList';
 import { useSettingsContext } from '@/services/providers/settings-provider';

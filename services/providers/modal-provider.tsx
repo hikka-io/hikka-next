@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import React, {
     ReactNode,
     createContext,
@@ -7,8 +8,6 @@ import React, {
     useEffect,
     useState,
 } from 'react';
-
-import { usePathname } from 'next/navigation';
 
 import {
     Dialog,
@@ -28,6 +27,7 @@ import {
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
+
 import { cn } from '@/utils/utils';
 
 import { useMediaQuery } from '../hooks/useMediaQuery';

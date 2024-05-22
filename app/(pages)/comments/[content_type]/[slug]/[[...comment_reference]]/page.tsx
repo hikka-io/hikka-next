@@ -1,19 +1,18 @@
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
-import { redirect } from 'next/navigation';
+import Comments from '@/features/comments/comment-list/comment-list';
 
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-
-import Comments from '@/components/comments';
 import getCommentThread from '@/services/api/comments/getCommentThread';
 import getComments from '@/services/api/comments/getComments';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
 
-import Content from './components/content';
-import ContentHeader from './components/content-header';
-import { getContent } from './components/useContent';
+import Content from '../../../../../../features/comments/comment-content';
+import ContentHeader from '../../../../../../features/comments/comment-content-header';
+import { getContent } from '../../../../../../features/comments/useContent';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

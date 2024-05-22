@@ -1,9 +1,8 @@
 'use client';
 
-import { createElement, memo } from 'react';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { createElement, memo } from 'react';
 
 import P from '@/components/typography/p';
 import {
@@ -14,6 +13,7 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
+
 import { useMediaQuery } from '@/services/hooks/useMediaQuery';
 
 interface Props {

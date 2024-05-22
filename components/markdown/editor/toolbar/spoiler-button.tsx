@@ -1,7 +1,6 @@
+import { insertDirective$, usePublisher } from '@mdxeditor/editor';
 import React from 'react';
 import MaterialSymbolsTextureAddRounded from '~icons/material-symbols/texture-add-rounded';
-
-import { insertDirective$, usePublisher } from '@mdxeditor/editor';
 
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';

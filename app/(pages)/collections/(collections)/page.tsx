@@ -1,24 +1,23 @@
-import { Metadata } from 'next';
-import { FC } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { FC } from 'react';
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
+
+import CollectionList from '@/features/collections/collection-list/collection-list';
+import CollectionSort from '@/features/collections/collection-list/collection-sort';
+
 import getCollections from '@/services/api/collections/getCollections';
 import { getCookie } from '@/utils/cookies';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import CollectionList from './components/collection-list';
-import CollectionSort from './components/collection-sort';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

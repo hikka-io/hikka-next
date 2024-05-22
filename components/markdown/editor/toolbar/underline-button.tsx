@@ -1,6 +1,3 @@
-import React from 'react';
-import MaterialSymbolsFormatUnderlinedRounded from '~icons/material-symbols/format-underlined-rounded';
-
 import {
     applyFormat$,
     currentFormat$,
@@ -8,6 +5,8 @@ import {
     useCellValues,
     usePublisher,
 } from '@mdxeditor/editor';
+import React from 'react';
+import MaterialSymbolsFormatUnderlinedRounded from '~icons/material-symbols/format-underlined-rounded';
 
 import { Button } from '@/components/ui/button';
 

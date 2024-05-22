@@ -1,7 +1,5 @@
-import React from 'react';
-
-import Anime from './components/anime';
-import Characters from './components/characters';
+import Anime from '@/features/people/person-view/anime';
+import Characters from '@/features/people/person-view/characters';
 
 const PersonPage = () => {
     return (

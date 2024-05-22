@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import _generateMetadata from '@/utils/generateMetadata';
 
-import Characters from '../../components/characters/characters';
+import Characters from '../../../../../../../features/anime/anime-view/characters/characters';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

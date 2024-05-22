@@ -1,6 +1,5 @@
-import { ReactNode } from 'react';
-
 import '@tanstack/react-query';
+import { ReactNode } from 'react';
 
 interface QueryMeta extends Record<string, unknown> {
     auth: string | undefined;

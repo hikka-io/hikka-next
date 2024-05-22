@@ -1,10 +1,10 @@
-import React from 'react';
-
-import CollectionGroups from '@/app/(pages)/collections/new/components/collection-groups';
-import CollectionSettings from '@/app/(pages)/collections/new/components/collection-settings';
-import CollectionTitle from '@/app/(pages)/collections/new/components/collection-title';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+
+import CollectionGroups from '@/features/collections/collection-edit/collection-groups';
+import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings';
+import CollectionTitle from '@/features/collections/collection-edit/collection-title';
+
 import CollectionProvider from '@/services/providers/collection-provider';
 
 const CollectionUpdatePage = () => {

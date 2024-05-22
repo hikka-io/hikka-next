@@ -1,6 +1,3 @@
-import React from 'react';
-import MaterialSymbolsFormatItalicRounded from '~icons/material-symbols/format-italic-rounded';
-
 import {
     applyFormat$,
     currentFormat$,
@@ -8,6 +5,8 @@ import {
     useCellValues,
     usePublisher,
 } from '@mdxeditor/editor';
+import React from 'react';
+import MaterialSymbolsFormatItalicRounded from '~icons/material-symbols/format-italic-rounded';
 
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';

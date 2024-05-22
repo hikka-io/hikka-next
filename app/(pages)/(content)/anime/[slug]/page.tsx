@@ -1,19 +1,20 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
+
+import Characters from '@/features/anime/anime-view/characters/characters';
+import Description from '@/features/anime/anime-view/description';
+import Details from '@/features/anime/anime-view/details/details';
+import Followings from '@/features/anime/anime-view/followings/followings';
+import Franchise from '@/features/anime/anime-view/franchise';
+import Links from '@/features/anime/anime-view/links';
+import Media from '@/features/anime/anime-view/media/media';
+import Staff from '@/features/anime/anime-view/staff';
+import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats';
 
 import getAnimeInfo, {
     Response as AnimeResponse,
 } from '@/services/api/anime/getAnimeInfo';
 
 import jsonSchema from './anime.schema';
-import Characters from './components/characters/characters';
-import Description from './components/description';
-import Details from './components/details/details';
-import Followings from './components/followings/followings';
-import Franchise from './components/franchise';
-import Links from './components/links';
-import Media from './components/media/media';
-import Staff from './components/staff';
-import WatchStats from './components/watch-stats/watch-stats';
 
 interface Props {
     params: {

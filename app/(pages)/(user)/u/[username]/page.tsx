@@ -1,17 +1,16 @@
-import { FC } from 'react';
-
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { FC } from 'react';
+
+import Favorites from '@/features/users/user-profile/favorites/favorites';
+import History from '@/features/users/user-profile/history/history';
+import Collections from '@/features/users/user-profile/user-collections/user-collections';
+import Statistics from '@/features/users/user-profile/user-statistics/user-statistics';
 
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';
 import getQueryClient from '@/utils/getQueryClient';
-
-import Collections from './components/collections';
-import Favorites from './components/favorites/favorites';
-import History from './components/history/history';
-import Statistics from './components/statistics';
 
 interface Props {
     params: {

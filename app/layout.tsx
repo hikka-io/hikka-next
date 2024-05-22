@@ -1,14 +1,14 @@
+import '@mdxeditor/editor/style.css';
 import { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
-import { ReactNode } from 'react';
-
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
+import { ReactNode } from 'react';
 
-import '@mdxeditor/editor/style.css';
-
-import Providers from '@/app/(pages)/components/providers';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
+
+import Providers from '@/features/common/providers';
+
 import generateMetadata from '@/utils/generateMetadata';
 
 import './globals.css';

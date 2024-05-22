@@ -1,10 +1,9 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-
 import getAnimeCatalog, {
-    Response as AnimeCatalogResponse,
     Params as AnimeCatalogParams,
+    Response as AnimeCatalogResponse,
 } from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';

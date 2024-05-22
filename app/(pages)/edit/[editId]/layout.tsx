@@ -1,22 +1,22 @@
+import { dehydrate } from '@tanstack/query-core';
+import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import * as React from 'react';
 import { FC } from 'react';
 
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
-
-import Author from '@/app/(pages)/edit/[editId]/components/author';
-import Moderator from '@/app/(pages)/edit/[editId]/components/moderator';
-import Content from '@/app/(pages)/edit/components/content/content';
-import EditStatus from '@/app/(pages)/edit/components/ui/edit-status';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
+
+import Author from '@/features/edit/edit-author';
+import Content from '@/features/edit/edit-content/edit-content';
+import EditStatus from '@/features/edit/edit-forms/edit-status';
+import Moderator from '@/features/edit/edit-moderator';
+
 import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
