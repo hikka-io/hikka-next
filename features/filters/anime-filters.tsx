@@ -8,7 +8,6 @@ import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -25,8 +24,7 @@ import {
     renderSelectOptions,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-
-import BadgeFilter from '@/features/filters/badge-filter';
+import { Switch } from '@/components/ui/switch';
 
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
 import useCompanies from '@/services/hooks/companies/useCompanies';
@@ -40,7 +38,8 @@ import {
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';
 
-import { Switch } from '../../components/ui/switch';
+import BadgeFilter from './badge-filter';
+import YearFilterInput from './year-filter-input';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();
@@ -50,128 +49,6 @@ enum RANGE {
     MIN = 'min',
     MAX = 'max',
 }
-
-interface FilterYearInputProps {
-    years: string[];
-    setSelectingYears: (years: string[]) => void;
-    handleChangeParam: (
-        name: string,
-        value: string | string[] | boolean,
-    ) => void;
-    range: RANGE;
-}
-
-const FilterYearInput: FC<FilterYearInputProps> = ({
-    years,
-    setSelectingYears,
-    handleChangeParam,
-    range,
-}) => {
-    const [yearValue, setYearValue] = useState<string>(
-        range === RANGE.MIN ? years[0] : years[1],
-    );
-
-    const changeYearsParams = (value: string[]) => {
-        setSelectingYears(value);
-        handleChangeParam('years', value);
-    };
-
-    const debouncedChangeYearsParams = (
-        value: string[],
-        delay: number = 400,
-    ) => {
-        setTimeout(() => {
-            changeYearsParams(value);
-        }, delay);
-    };
-
-    const resetYearIfInvalid = (
-        yearValue: string,
-        defaultYear: string,
-        years: string[],
-    ) => {
-        if (
-            yearValue === '' ||
-            Number(yearValue) < Number(DEFAULT_YEAR_START) ||
-            Number(yearValue) > Number(DEFAULT_YEAR_END)
-        ) {
-            setYearValue(defaultYear);
-            debouncedChangeYearsParams(
-                range === RANGE.MIN
-                    ? [defaultYear, years[1]]
-                    : [years[0], defaultYear],
-            );
-        }
-    };
-
-    const handleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        const digitsOnlyRegex = /^(?!0)\d+$/;
-        const isInRange =
-            Number(value) >= Number(DEFAULT_YEAR_START) &&
-            Number(value) <= Number(DEFAULT_YEAR_END);
-
-        if (!digitsOnlyRegex.test(value)) {
-            if (range === RANGE.MIN && !value) {
-                debouncedChangeYearsParams([DEFAULT_YEAR_START, years[1]]);
-            }
-
-            if (range === RANGE.MAX && !value) {
-                debouncedChangeYearsParams([years[0], DEFAULT_YEAR_END]);
-            }
-
-            return setYearValue('');
-        }
-
-        if (range === RANGE.MIN) {
-            if (isInRange) {
-                if (Number(value) > Number(years[1])) {
-                    return debouncedChangeYearsParams([years[1], value]);
-                }
-
-                debouncedChangeYearsParams([value, years[1]]);
-            }
-        }
-
-        if (range === RANGE.MAX) {
-            if (isInRange) {
-                if (Number(value) < Number(years[0])) {
-                    return debouncedChangeYearsParams([value, years[0]]);
-                }
-
-                debouncedChangeYearsParams([years[0], value]);
-            }
-        }
-
-        setYearValue(value);
-    };
-
-    const handleBlur = () => {
-        if (range === RANGE.MIN) {
-            resetYearIfInvalid(yearValue, DEFAULT_YEAR_START, years);
-        }
-
-        if (range === RANGE.MAX) {
-            resetYearIfInvalid(yearValue, DEFAULT_YEAR_END, years);
-        }
-    };
-
-    useEffect(() => {
-        if (yearValue) setYearValue(range === RANGE.MIN ? years[0] : years[1]);
-    }, [years]);
-
-    return (
-        <Input
-            value={yearValue}
-            onChange={handleYearChange}
-            maxLength={4}
-            className={cn(
-                'w-16 sm:w-16 focus-visible:ring-0 focus-visible:ring-offset-0',
-            )}
-            onBlur={handleBlur}
-        />
-    );
-};
 
 interface Props {
     className?: string;
@@ -460,8 +337,8 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
-                    <div className="flex items-center gap-4">
-                        <FilterYearInput
+                    <div className="flex items-center gap-2">
+                        <YearFilterInput
                             years={selectingYears}
                             setSelectingYears={setSelectingYears}
                             range={RANGE.MIN}
@@ -485,7 +362,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                             minStepsBetweenThumbs={0}
                             value={selectingYears.map((y) => Number(y))}
                         />
-                        <FilterYearInput
+                        <YearFilterInput
                             years={selectingYears}
                             setSelectingYears={setSelectingYears}
                             range={RANGE.MAX}
