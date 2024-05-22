@@ -24,8 +24,7 @@ import {
     renderSelectOptions,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-
-import BadgeFilter from '@/features/filters/badge-filter';
+import { Switch } from '@/components/ui/switch';
 
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
 import useCompanies from '@/services/hooks/companies/useCompanies';
@@ -39,9 +38,17 @@ import {
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';
 
-import { Switch } from '../../components/ui/switch';
+import BadgeFilter from './badge-filter';
+import YearFilterInput from './year-filter-input';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
+const DEFAULT_YEAR_START = YEARS[0].toString();
+const DEFAULT_YEAR_END = YEARS[1].toString();
+
+enum RANGE {
+    MIN = 'min',
+    MAX = 'max',
+}
 
 interface Props {
     className?: string;
@@ -330,8 +337,13 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 </div>
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
-                    <div className="flex items-center gap-4">
-                        <Label className="w-9">{selectingYears[0]}</Label>
+                    <div className="flex items-center gap-2">
+                        <YearFilterInput
+                            years={selectingYears}
+                            setSelectingYears={setSelectingYears}
+                            range={RANGE.MIN}
+                            handleChangeParam={handleChangeParam}
+                        />
                         <Slider
                             className="flex-1"
                             onValueCommit={(value) =>
@@ -345,12 +357,17 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                                     (value as number[]).map(String),
                                 )
                             }
-                            min={YEARS[0]}
-                            max={YEARS[1]}
+                            min={Number(DEFAULT_YEAR_START)}
+                            max={Number(DEFAULT_YEAR_END)}
                             minStepsBetweenThumbs={0}
                             value={selectingYears.map((y) => Number(y))}
                         />
-                        <Label className="w-9">{selectingYears[1]}</Label>
+                        <YearFilterInput
+                            years={selectingYears}
+                            setSelectingYears={setSelectingYears}
+                            range={RANGE.MAX}
+                            handleChangeParam={handleChangeParam}
+                        />
                     </div>
                 </div>
             </div>
