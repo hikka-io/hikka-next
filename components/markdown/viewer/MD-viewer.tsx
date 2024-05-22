@@ -17,12 +17,7 @@ interface Props extends Options {
     disableSpoiler?: boolean;
 }
 
-const Component = ({
-    children,
-    className,
-    disableSpoiler,
-    ...props
-}: Props) => {
+const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
     return (
         <Markdown
             className={cn('markdown w-full', className)}
@@ -54,4 +49,4 @@ const Component = ({
     );
 };
 
-export default memo(Component);
+export default memo(MDViewer);
