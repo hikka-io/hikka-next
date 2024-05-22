@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import BadgeFilter from '@/components/filters/components/ui/badge-filter';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -43,6 +44,135 @@ import { cn } from '@/utils/utils';
 import { Switch } from '../ui/switch';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
+const DEFAULT_YEAR_START = YEARS[0].toString();
+const DEFAULT_YEAR_END = YEARS[1].toString();
+
+enum RANGE {
+    MIN = 'min',
+    MAX = 'max',
+}
+
+interface FilterYearInputProps {
+    years: string[];
+    setSelectingYears: (years: string[]) => void;
+    handleChangeParam: (
+        name: string,
+        value: string | string[] | boolean,
+    ) => void;
+    range: RANGE;
+}
+
+const FilterYearInput: FC<FilterYearInputProps> = ({
+    years,
+    setSelectingYears,
+    handleChangeParam,
+    range,
+}) => {
+    const [yearValue, setYearValue] = useState<string>(
+        range === RANGE.MIN ? years[0] : years[1],
+    );
+
+    const changeYearsParams = (value: string[]) => {
+        setSelectingYears(value);
+        handleChangeParam('years', value);
+    };
+
+    const debouncedChangeYearsParams = (
+        value: string[],
+        delay: number = 400,
+    ) => {
+        setTimeout(() => {
+            changeYearsParams(value);
+        }, delay);
+    };
+
+    const resetYearIfInvalid = (
+        yearValue: string,
+        defaultYear: string,
+        years: string[],
+    ) => {
+        if (
+            yearValue === '' ||
+            Number(yearValue) < Number(DEFAULT_YEAR_START) ||
+            Number(yearValue) > Number(DEFAULT_YEAR_END)
+        ) {
+            setYearValue(defaultYear);
+            debouncedChangeYearsParams(
+                range === RANGE.MIN
+                    ? [defaultYear, years[1]]
+                    : [years[0], defaultYear],
+            );
+        }
+    };
+
+    const handleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        const digitsOnlyRegex = /^(?!0)\d+$/;
+        const isInRange =
+            Number(value) >= Number(DEFAULT_YEAR_START) &&
+            Number(value) <= Number(DEFAULT_YEAR_END);
+
+        if (!digitsOnlyRegex.test(value)) {
+            if (range === RANGE.MIN && !value) {
+                debouncedChangeYearsParams([DEFAULT_YEAR_START, years[1]]);
+            }
+
+            if (range === RANGE.MAX && !value) {
+                debouncedChangeYearsParams([years[0], DEFAULT_YEAR_END]);
+            }
+
+            return setYearValue('');
+        }
+
+        if (range === RANGE.MIN) {
+            if (isInRange) {
+                if (Number(value) > Number(years[1])) {
+                    return debouncedChangeYearsParams([years[1], value]);
+                }
+
+                debouncedChangeYearsParams([value, years[1]]);
+            }
+        }
+
+        if (range === RANGE.MAX) {
+            if (isInRange) {
+                if (Number(value) < Number(years[0])) {
+                    return debouncedChangeYearsParams([value, years[0]]);
+                }
+
+                debouncedChangeYearsParams([years[0], value]);
+            }
+        }
+
+        setYearValue(value);
+    };
+
+    const handleBlur = () => {
+        if (range === RANGE.MIN) {
+            resetYearIfInvalid(yearValue, DEFAULT_YEAR_START, years);
+        }
+
+        if (range === RANGE.MAX) {
+            resetYearIfInvalid(yearValue, DEFAULT_YEAR_END, years);
+        }
+    };
+
+    useEffect(() => {
+        if (yearValue) setYearValue(range === RANGE.MIN ? years[0] : years[1]);
+    }, [years]);
+
+    return (
+        <Input
+            value={yearValue}
+            onChange={handleYearChange}
+            maxLength={4}
+            className={cn(
+                'w-16 sm:w-16 focus-visible:ring-0 focus-visible:ring-offset-0',
+            )}
+            onBlur={handleBlur}
+        />
+    );
+};
 
 interface Props {
     className?: string;
@@ -112,10 +242,12 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
     });
 
     const [studioSearch, setStudioSearch] = useState<string>();
-    const { data: studioList, isFetching: isStudioListFetching } = useCompanies({
-        type: 'studio',
-        query: studioSearch,
-    });
+    const { data: studioList, isFetching: isStudioListFetching } = useCompanies(
+        {
+            type: 'studio',
+            query: studioSearch,
+        },
+    );
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
         years.length > 0 ? years : YEARS.map((y) => String(y)),
@@ -147,13 +279,13 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
     };
 
     const handleStudioSearch = (keyword: string) => {
-        if(keyword.length < 3) {
+        if (keyword.length < 3) {
             setStudioSearch(undefined);
             return;
         }
 
         setStudioSearch(keyword);
-    }
+    };
 
     useEffect(() => {
         if (JSON.stringify(selectingYears) !== JSON.stringify(years)) {
@@ -308,14 +440,15 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                             <SelectSearch placeholder="Назва студії..." />
                             <SelectList>
                                 <SelectGroup>
-                                    {!isStudioListFetching && studioList?.list.map((studio) => (
-                                        <SelectItem
-                                            key={studio.slug}
-                                            value={studio.slug}
-                                        >
-                                            {studio.name}
-                                        </SelectItem>
-                                    ))}
+                                    {!isStudioListFetching &&
+                                        studioList?.list.map((studio) => (
+                                            <SelectItem
+                                                key={studio.slug}
+                                                value={studio.slug}
+                                            >
+                                                {studio.name}
+                                            </SelectItem>
+                                        ))}
                                     <SelectEmpty>
                                         {isStudioListFetching
                                             ? 'Завантаження...'
@@ -329,7 +462,12 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 <div className="flex w-full flex-col gap-4">
                     <Label className="text-muted-foreground">Рік виходу</Label>
                     <div className="flex items-center gap-4">
-                        <Label className="w-9">{selectingYears[0]}</Label>
+                        <FilterYearInput
+                            years={selectingYears}
+                            setSelectingYears={setSelectingYears}
+                            range={RANGE.MIN}
+                            handleChangeParam={handleChangeParam}
+                        />
                         <Slider
                             className="flex-1"
                             onValueCommit={(value) =>
@@ -343,12 +481,17 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                                     (value as number[]).map(String),
                                 )
                             }
-                            min={YEARS[0]}
-                            max={YEARS[1]}
+                            min={Number(DEFAULT_YEAR_START)}
+                            max={Number(DEFAULT_YEAR_END)}
                             minStepsBetweenThumbs={0}
                             value={selectingYears.map((y) => Number(y))}
                         />
-                        <Label className="w-9">{selectingYears[1]}</Label>
+                        <FilterYearInput
+                            years={selectingYears}
+                            setSelectingYears={setSelectingYears}
+                            range={RANGE.MAX}
+                            handleChangeParam={handleChangeParam}
+                        />
                     </div>
                 </div>
             </div>
