@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getPersonInfo from '@/services/api/people/getPersonInfo';
+import getPersonInfo, { Params } from '@/services/api/people/getPersonInfo';
 
-const usePersonInfo = ({ slug }: { slug: string }) => {
+const usePersonInfo = ({ slug }: Params) => {
     return useQuery({
         queryKey: ['person', slug],
         queryFn: () => getPersonInfo({ params: { slug } }),

@@ -87,5 +87,11 @@ declare global {
             icon?: ReactNode;
             color?: string;
         };
+
+        type QueryOptions = {
+            enabled?: boolean;
+            staleTime?: number;
+            gcTime?: number;
+        };
     }
 }

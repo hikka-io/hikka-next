@@ -2,14 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 
-import { Params as CollectionRequest } from '@/services/api/collections/createCollection';
-import updateCollection from '@/services/api/collections/updateCollection';
+import updateCollection, {
+    Params,
+} from '@/services/api/collections/updateCollection';
 
-const useUpdateCollection = (
-    params: {
-        reference: string;
-    } & CollectionRequest,
-) => {
+const useUpdateCollection = (params: Params) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();

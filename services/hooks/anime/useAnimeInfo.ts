@@ -1,16 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import getAnimeInfo, { Params } from '@/services/api/anime/getAnimeInfo';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const useAnimeInfo = ({
-    slug,
-    enabled,
-}: {
-    slug: string;
-    enabled?: boolean;
-}) => {
+const useAnimeInfo = ({ slug }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
 
     return useQuery({
@@ -21,7 +15,7 @@ const useAnimeInfo = ({
                     slug,
                 },
             }),
-        enabled: enabled,
+        ...options,
         select: (data) =>
             convertAnime<API.AnimeInfo>({
                 titleLanguage: titleLanguage!,

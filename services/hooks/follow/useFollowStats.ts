@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getFollowStats from '@/services/api/follow/getFollowStats';
+import getFollowStats, { Params } from '@/services/api/follow/getFollowStats';
 
-const useFollowStats = ({ username }: { username: string }) => {
+const useFollowStats = ({ username }: Params) => {
     return useQuery({
         queryKey: ['followStats', username],
         queryFn: () => getFollowStats({ params: { username } }),

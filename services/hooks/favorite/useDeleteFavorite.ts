@@ -1,14 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import deleteFavourite from '@/services/api/favourite/deleteFavourite';
+import deleteFavourite, {
+    Params,
+} from '@/services/api/favourite/deleteFavourite';
 
-const useDeleteFavorite = ({
-    slug,
-    content_type,
-}: {
-    slug: string;
-    content_type: API.ContentType;
-}) => {
+const useDeleteFavorite = ({ slug, content_type }: Params) => {
     const queryClient = useQueryClient();
 
     return useMutation({

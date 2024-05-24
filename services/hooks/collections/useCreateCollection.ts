@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 
 import createCollction, {
-    Params as CollectionRequest,
+    Params,
 } from '@/services/api/collections/createCollection';
 
-const useCreateCollection = (params: CollectionRequest) => {
+const useCreateCollection = (params: Params) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();

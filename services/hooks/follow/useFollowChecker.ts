@@ -1,21 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 
-import checkFollow from '@/services/api/follow/checkFollow';
+import checkFollow, { Params } from '@/services/api/follow/checkFollow';
 
-const useFollowChecker = ({
-    username,
-    enabled = true,
-}: {
-    username: string;
-    enabled?: boolean;
-}) => {
+const useFollowChecker = (
+    { username }: Params,
+    options?: Hikka.QueryOptions,
+) => {
     return useQuery({
         queryKey: ['followChecker', username],
         queryFn: () =>
             checkFollow({
                 params: { username },
             }),
-        enabled: enabled,
+        ...options,
     });
 };
 

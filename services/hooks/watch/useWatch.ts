@@ -1,18 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getWatch from '@/services/api/watch/getWatch';
+import getWatch, { Params } from '@/services/api/watch/getWatch';
 
-const useWatch = ({
-    slug,
-    enabled = true,
-}: {
-    slug: string;
-    enabled?: boolean;
-}) => {
+const useWatch = ({ slug }: Params, options?: Hikka.QueryOptions) => {
     return useQuery({
         queryKey: ['watch', slug],
         queryFn: () => getWatch({ params: { slug } }),
-        enabled: enabled,
+        ...options,
     });
 };
 

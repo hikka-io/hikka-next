@@ -1,9 +1,9 @@
-import getTodoAnime from '@/services/api/edit/todo/getTodoAnime';
+import getTodoAnime, { Params } from '@/services/api/edit/todo/getTodoAnime';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';
 
-const useTodoAnime = ({ param }: { param: string }) => {
+const useTodoAnime = ({ param }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({

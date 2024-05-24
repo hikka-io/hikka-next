@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getCommentThread from '@/services/api/comments/getCommentThread';
+import getCommentThread, {
+    Params,
+} from '@/services/api/comments/getCommentThread';
 
-const useCommentThread = ({
-    reference,
-    enabled = true,
-}: {
-    reference: string;
-    enabled?: boolean;
-}) => {
+const useCommentThread = (
+    { reference }: Params,
+    options?: Hikka.QueryOptions,
+) => {
     return useQuery({
         queryKey: ['commentThread', reference],
         queryFn: () =>
@@ -17,7 +16,7 @@ const useCommentThread = ({
                     reference,
                 },
             }),
-        enabled,
+        ...options,
     });
 };
 

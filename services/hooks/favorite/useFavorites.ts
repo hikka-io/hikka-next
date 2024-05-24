@@ -1,4 +1,6 @@
-import getFavouriteList from '@/services/api/favourite/getFavouriteList';
+import getFavouriteList, {
+    Params,
+} from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
@@ -6,10 +8,7 @@ import { convertAnime } from '@/utils/animeAdapter';
 const useFavorites = <TContent extends API.Content>({
     username,
     content_type,
-}: {
-    username: string;
-    content_type: API.ContentType;
-}) => {
+}: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({

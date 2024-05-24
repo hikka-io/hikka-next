@@ -1,9 +1,11 @@
-import getAnimeFranchise from '@/services/api/anime/getAnimeFranchise';
+import getAnimeFranchise, {
+    Params,
+} from '@/services/api/anime/getAnimeFranchise';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';
 
-const useFranchise = ({ slug }: { slug: string }) => {
+const useFranchise = ({ slug }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({

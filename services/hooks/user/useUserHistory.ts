@@ -1,9 +1,9 @@
-import getUserHistory from '@/services/api/user/getUserHistory';
+import getUserHistory, { Params } from '@/services/api/user/getUserHistory';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const useUserHistory = ({ username }: { username: string }) => {
+const useUserHistory = ({ username }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({

@@ -1,7 +1,9 @@
-import getAnimeCharacters from '@/services/api/anime/getAnimeCharacters';
+import getAnimeCharacters, {
+    Params,
+} from '@/services/api/anime/getAnimeCharacters';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
-const useCharacters = ({ slug }: { slug: string }) => {
+const useCharacters = ({ slug }: Params) => {
     return useInfiniteList({
         queryKey: ['characters', slug],
         queryFn: ({ pageParam = 1 }) =>

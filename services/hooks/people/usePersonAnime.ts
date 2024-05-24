@@ -1,9 +1,9 @@
-import getPersonAnime from '@/services/api/people/getPersonAnime';
+import getPersonAnime, { Params } from '@/services/api/people/getPersonAnime';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const usePersonAnime = ({ slug }: { slug: string }) => {
+const usePersonAnime = ({ slug }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({

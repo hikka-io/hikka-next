@@ -1,9 +1,11 @@
-import getPersonCharacters from '@/services/api/people/getPersonCharacters';
+import getPersonCharacters, {
+    Params,
+} from '@/services/api/people/getPersonCharacters';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const usePersonCharacters = ({ slug }: { slug: string }) => {
+const usePersonCharacters = ({ slug }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({

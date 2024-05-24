@@ -2,10 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 
-import deleteCollection from '@/services/api/collections/deleteCollection';
+import deleteCollection, {
+    Params,
+} from '@/services/api/collections/deleteCollection';
 import useSession from '@/services/hooks/auth/useSession';
 
-const useDeleteCollection = ({ reference }: { reference: string }) => {
+const useDeleteCollection = ({ reference }: Params) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();

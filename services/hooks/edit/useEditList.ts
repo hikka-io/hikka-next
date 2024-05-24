@@ -1,17 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-import getEditList from '@/services/api/edit/getEditList';
+import getEditList, { Params } from '@/services/api/edit/getEditList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const useEditList = ({
-    page,
-    staleTime,
-}: {
-    page: string;
-    staleTime?: number;
-}) => {
+const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams()!;
 
@@ -51,7 +45,7 @@ const useEditList = ({
                         : e.content,
             })),
         }),
-        staleTime,
+        ...options,
     });
 };
 

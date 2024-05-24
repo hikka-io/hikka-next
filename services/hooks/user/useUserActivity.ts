@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getUserActivity from '@/services/api/user/getUserActivity';
+import getUserActivity, { Params } from '@/services/api/user/getUserActivity';
 
-const useUserActivity = ({ username }: { username: string }) => {
+const useUserActivity = ({ username }: Params) => {
     return useQuery({
         queryKey: ['activityStats', username],
         queryFn: () => getUserActivity({ params: { username } }),

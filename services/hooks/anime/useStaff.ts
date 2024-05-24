@@ -1,7 +1,7 @@
-import getAnimeStaff from '@/services/api/anime/getAnimeStaff';
+import getAnimeStaff, { Params } from '@/services/api/anime/getAnimeStaff';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
 
-const useStaff = ({ slug }: { slug: string }) => {
+const useStaff = ({ slug }: Params) => {
     return useInfiniteList({
         queryKey: ['staff', slug],
         queryFn: ({ pageParam = 1 }) =>

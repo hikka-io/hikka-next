@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import unfollow from '@/services/api/follow/unfollow';
+import unfollow, { Params } from '@/services/api/follow/unfollow';
 
-const useUnfollow = ({ username }: { username: string }) => {
+const useUnfollow = ({ username }: Params) => {
     const queryClient = useQueryClient();
 
     return useMutation({

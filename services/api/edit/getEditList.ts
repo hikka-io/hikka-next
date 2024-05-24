@@ -1,12 +1,12 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
 export interface Response extends API.WithPagination<API.Edit> {}
 
 export interface Params {
+    page?: number;
     sort?: string[];
     status?: API.EditStatus;
     content_type?: API.ContentType;

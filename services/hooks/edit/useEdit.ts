@@ -1,18 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getEdit from '@/services/api/edit/getEdit';
+import getEdit, { Params } from '@/services/api/edit/getEdit';
 
-const useEdit = <T extends API.Edit>({
-    editId,
-    enabled,
-}: {
-    editId: number;
-    enabled?: boolean;
-}) => {
+const useEdit = <T extends API.Edit>(
+    { edit_id }: Params,
+    options?: Hikka.QueryOptions,
+) => {
     return useQuery<T, Error>({
-        queryKey: ['edit', String(editId)],
-        queryFn: () => getEdit({ params: { edit_id: editId } }),
-        enabled,
+        queryKey: ['edit', String(edit_id)],
+        queryFn: () => getEdit({ params: { edit_id: edit_id } }),
+        ...options,
     });
 };
 

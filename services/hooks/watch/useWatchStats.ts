@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getWatchStats from '@/services/api/watch/getWatchStats';
+import getWatchStats, { Params } from '@/services/api/watch/getWatchStats';
 
-const useWatchStats = ({ username }: { username: string }) => {
+const useWatchStats = ({ username }: Params) => {
     return useQuery({
         queryKey: ['watchStats', username],
         queryFn: () => getWatchStats({ params: { username } }),

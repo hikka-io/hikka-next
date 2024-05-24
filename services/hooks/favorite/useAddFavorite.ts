@@ -1,14 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import addFavourite from '@/services/api/favourite/addFavourite';
+import addFavourite, { Params } from '@/services/api/favourite/addFavourite';
 
-const useAddFavorite = ({
-    slug,
-    content_type,
-}: {
-    slug: string;
-    content_type: API.ContentType;
-}) => {
+const useAddFavorite = ({ slug, content_type }: Params) => {
     const queryClient = useQueryClient();
 
     return useMutation({

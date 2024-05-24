@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import follow from '@/services/api/follow/follow';
+import follow, { Params } from '@/services/api/follow/follow';
 
-const useFollow = ({ username }: { username: string }) => {
+const useFollow = ({ username }: Params) => {
     const queryClient = useQueryClient();
 
     return useMutation({
