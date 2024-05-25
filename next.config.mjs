@@ -1,6 +1,5 @@
-import Icons from 'unplugin-icons/webpack';
-
 import bundleAnalyzer from '@next/bundle-analyzer';
+import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

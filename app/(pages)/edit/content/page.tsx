@@ -8,8 +8,8 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import ContentList from '@/features/edit/edit-content-list.component';
 
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

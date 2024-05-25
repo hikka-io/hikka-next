@@ -20,8 +20,8 @@ import EditStatus from '@/features/edit/edit-status.component';
 import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     params: { editId: string };

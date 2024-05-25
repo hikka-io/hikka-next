@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 import toDate from 'date-fns/toDate';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
@@ -10,7 +10,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import getDeclensionWord from '@/utils/getDeclensionWord';
+import getDeclensionWord from '@/utils/get-declension-word';
 
 interface Props {
     item: API.Activity;

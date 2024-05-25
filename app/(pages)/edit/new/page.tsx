@@ -13,7 +13,7 @@ import RulesAlert from '@/features/edit/edit-rules-alert.component';
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };

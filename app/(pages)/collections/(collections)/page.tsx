@@ -16,8 +16,8 @@ import CollectionSort from '@/features/collections/collection-list/collection-so
 
 import getCollections from '@/services/api/collections/getCollections';
 import { getCookie } from '@/utils/cookies';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

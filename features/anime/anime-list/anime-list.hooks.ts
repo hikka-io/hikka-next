@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useAnimeCatalog, {
     Props,
 } from '@/services/hooks/anime/use-anime-catalog';
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 
 export const useUpdatePage = ({ page, iPage }: Props) => {
     const queryClient = useQueryClient();

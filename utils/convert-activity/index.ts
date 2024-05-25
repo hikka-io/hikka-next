@@ -1,6 +1,6 @@
-import { createFavoriteEvents } from '@/utils/convertActivity/convertFavoriteActivity';
-import { createImportEvents } from '@/utils/convertActivity/convertImportActivity';
-import { createWatchEvents } from '@/utils/convertActivity/convertWatchActivity';
+import { createFavoriteEvents } from './convert-favorite-activity';
+import { createImportEvents } from './convert-import-activity';
+import { createWatchEvents } from './convert-watch-activity';
 
 export const convertActivity = (
     history: API.History<

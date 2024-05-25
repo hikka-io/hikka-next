@@ -10,7 +10,7 @@ import Statistics from '@/features/users/user-profile/user-statistics/user-stati
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
 import getUserActivity from '@/services/api/user/getUserActivity';
 import getUserHistory from '@/services/api/user/getUserHistory';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     params: {

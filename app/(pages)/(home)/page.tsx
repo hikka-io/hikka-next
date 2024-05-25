@@ -12,7 +12,7 @@ import Schedule from '@/features/home/schedule/schedule.component';
 
 import prefetchQueries from '@/app/(pages)/(home)/page.queries';
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 const Page = async () => {
     const queryClient = await getQueryClient();

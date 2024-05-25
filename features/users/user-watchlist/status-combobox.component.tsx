@@ -22,7 +22,7 @@ import {
 
 import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { WATCH_STATUS } from '@/utils/constants';
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 
 const StatusCombobox = () => {
     const searchParams = useSearchParams();

@@ -19,7 +19,7 @@ import {
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
-} from '@/utils/editParamUtils';
+} from '@/utils/edit-param-utils';
 
 type FormValues = Record<string, unknown> & {
     description: string;

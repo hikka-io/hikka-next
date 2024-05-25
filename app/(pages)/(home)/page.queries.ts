@@ -5,7 +5,7 @@ import getLatestComments from '@/services/api/comments/getLatestComments';
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
 import getWatchList from '@/services/api/watch/getWatchList';
-import getCurrentSeason from '@/utils/getCurrentSeason';
+import getCurrentSeason from '@/utils/get-current-season';
 
 interface Props {
     queryClient: QueryClient;

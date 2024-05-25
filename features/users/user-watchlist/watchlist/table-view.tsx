@@ -11,7 +11,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 import { cn } from '@/utils/utils';
 
 import DetailsCell from './details-cell';

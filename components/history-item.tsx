@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import * as React from 'react';
 import { FC, Fragment, memo } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
@@ -11,7 +10,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { convertActivity } from '@/utils/convertActivity';
+import { convertActivity } from '@/utils/convert-activity';
 
 interface Props {
     data: API.History;

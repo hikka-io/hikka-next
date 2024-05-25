@@ -12,7 +12,7 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-import { getEditParamComponent } from '@/utils/editParamUtils';
+import { getEditParamComponent } from '@/utils/edit-param-utils';
 
 interface Props {
     title: string;

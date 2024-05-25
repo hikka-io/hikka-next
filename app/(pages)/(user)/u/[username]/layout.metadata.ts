@@ -3,7 +3,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import getUserInfo, {
     Response as UserResponse,
 } from '@/services/api/user/getUserInfo';
-import _generateMetadata from '@/utils/generateMetadata';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export interface MetadataProps {
     params: {

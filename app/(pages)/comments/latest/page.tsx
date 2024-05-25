@@ -6,8 +6,8 @@ import { FC } from 'react';
 import Comments from '@/features/comments/latest-comments.component';
 
 import getGlobalComments from '@/services/api/comments/getGlobalComments';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Останні коментарі',

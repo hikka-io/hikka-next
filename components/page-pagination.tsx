@@ -1,11 +1,10 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import * as React from 'react';
 
 import Pagination from '@/components/ui/pagination';
 
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 
 interface Props {
     pagination: API.Pagination;

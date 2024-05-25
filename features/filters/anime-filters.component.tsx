@@ -35,7 +35,7 @@ import {
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants';
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 import { cn } from '@/utils/utils';
 
 import BadgeFilter from './badge-filter';

@@ -10,7 +10,7 @@ import CollectionSettings from '@/features/collections/collection-edit/collectio
 import CollectionTitle from '@/features/collections/collection-edit/collection-title.component';
 
 import CollectionProvider from '@/services/providers/collection-provider';
-import _generateMetadata from '@/utils/generateMetadata';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

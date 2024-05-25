@@ -18,7 +18,7 @@ import CommentMenu from '@/features/comments/comment-list/comment-menu';
 import CommentVote from '@/features/comments/comment-list/comment-vote';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
-import getDeclensionWord from '@/utils/getDeclensionWord';
+import getDeclensionWord from '@/utils/get-declension-word';
 
 import Comments from './comments';
 

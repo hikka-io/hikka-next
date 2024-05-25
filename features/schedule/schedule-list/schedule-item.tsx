@@ -10,7 +10,7 @@ import HorizontalContentCard, {
 
 import ScheduleWatchButton from '@/features/schedule/schedule-list/schedule-watch-button';
 
-import getScheduleDuration from '@/utils/getScheduleDuration';
+import getScheduleDuration from '@/utils/get-schedule-duration';
 import { cn } from '@/utils/utils';
 
 interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {

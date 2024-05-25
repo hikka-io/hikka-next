@@ -14,9 +14,9 @@ import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal';
 import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
 
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
-import _generateMetadata from '@/utils/generateMetadata';
-import getCurrentSeason from '@/utils/getCurrentSeason';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getCurrentSeason from '@/utils/get-current-season';
+import getQueryClient from '@/utils/get-query-client';
 
 export const metadata: Metadata = _generateMetadata({
     title: {

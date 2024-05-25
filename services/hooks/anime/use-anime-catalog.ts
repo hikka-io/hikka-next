@@ -6,7 +6,7 @@ import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
 } from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/animeAdapter';
+import { convertAnimeList } from '@/utils/anime-adapter';
 
 export interface Props extends AnimeCatalogParams {
     page: number;

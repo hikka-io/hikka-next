@@ -24,7 +24,7 @@ import {
 
 import useUsers from '@/services/hooks/user/use-users';
 import { EDIT_STATUSES } from '@/utils/constants';
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 import { cn } from '@/utils/utils';
 
 interface Props {

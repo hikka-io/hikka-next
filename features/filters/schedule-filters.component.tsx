@@ -21,8 +21,8 @@ import { Switch } from '@/components/ui/switch';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants';
-import createQueryString from '@/utils/createQueryString';
-import getCurrentSeason from '@/utils/getCurrentSeason';
+import createQueryString from '@/utils/create-query-string';
+import getCurrentSeason from '@/utils/get-current-season';
 import { cn } from '@/utils/utils';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();

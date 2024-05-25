@@ -15,7 +15,7 @@ import Title from '@/features/characters/character-view/title.component';
 
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';

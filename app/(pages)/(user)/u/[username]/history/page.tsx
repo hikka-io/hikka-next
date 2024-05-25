@@ -7,8 +7,8 @@ import History from '@/features/users/user-history/user-history.component';
 
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import { getCookie } from '@/utils/cookies';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Активність',

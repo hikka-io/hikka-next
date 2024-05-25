@@ -6,7 +6,7 @@ import { uk } from 'date-fns/locale';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
-import React, { FC, PropsWithChildren, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 
 import SnackbarItem from '@/components/snackbar-item';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -14,7 +14,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import ModalProvider from '@/services/providers/modal-provider';
 import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
-import { createQueryClient } from '@/utils/getQueryClient';
+import { createQueryClient } from '@/utils/get-query-client';
 import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
 
 interface Props extends PropsWithChildren {}

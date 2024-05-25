@@ -6,7 +6,7 @@ import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import HorizontalContentCard from '@/components/ui/horizontal-content-card';
 
-import getScheduleDuration from '@/utils/getScheduleDuration';
+import getScheduleDuration from '@/utils/get-schedule-duration';
 import { cn } from '@/utils/utils';
 
 interface Props {

@@ -1,4 +1,4 @@
-import parseTextFromMarkDown from '@/utils/parseTextFromMarkDown';
+import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
 
 const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
     '@context': 'http://schema.org',

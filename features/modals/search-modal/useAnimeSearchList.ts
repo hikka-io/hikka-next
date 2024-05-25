@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import getAnimeCatalog from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/animeAdapter';
+import { convertAnimeList } from '@/utils/anime-adapter';
 
 interface Props {
     value?: string;

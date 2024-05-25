@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
-import _generateMetadata from '@/utils/generateMetadata';
+import _generateMetadata from '@/utils/generate-metadata';
 
 interface Props extends PropsWithChildren {}
 

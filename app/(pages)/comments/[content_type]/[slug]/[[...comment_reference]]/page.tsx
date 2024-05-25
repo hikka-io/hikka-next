@@ -10,8 +10,8 @@ import { getContent } from '@/features/comments/useContent';
 
 import getCommentThread from '@/services/api/comments/getCommentThread';
 import getComments from '@/services/api/comments/getComments';
-import _generateMetadata from '@/utils/generateMetadata';
-import getQueryClient from '@/utils/getQueryClient';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

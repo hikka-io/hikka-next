@@ -14,7 +14,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import createQueryString from '@/utils/createQueryString';
+import createQueryString from '@/utils/create-query-string';
 
 type View = 'table' | 'grid';
 

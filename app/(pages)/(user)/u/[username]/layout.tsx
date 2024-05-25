@@ -19,7 +19,7 @@ import ListStats from '@/features/users/user-profile/list-stats.component';
 import UserTitle from '@/features/users/user-title.component';
 
 import { USER_NAV_ROUTES } from '@/utils/constants';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';

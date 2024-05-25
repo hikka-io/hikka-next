@@ -9,7 +9,7 @@ import { TailwindIndicator } from '@/components/tailwind-indicator';
 
 import Providers from '@/features/common/providers.component';
 
-import generateMetadata from '@/utils/generateMetadata';
+import generateMetadata from '@/utils/generate-metadata';
 
 import './globals.css';
 

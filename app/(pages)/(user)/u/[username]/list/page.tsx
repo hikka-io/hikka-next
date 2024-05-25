@@ -10,7 +10,7 @@ import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox.compon
 import ViewCombobox from '@/features/users/user-watchlist/view-combobox.component';
 import List from '@/features/users/user-watchlist/watchlist/watchlist.component';
 
-import _generateMetadata from '@/utils/generateMetadata';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },

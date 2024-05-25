@@ -18,7 +18,7 @@ import EditFiltersModal from '@/features/modals/edit-filters-modal';
 import getEditList from '@/services/api/edit/getEditList';
 import getEditTop from '@/services/api/stats/edit/getEditTop';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 const EditListPage = async ({
     searchParams: { page, content_type, order, sort, edit_status },

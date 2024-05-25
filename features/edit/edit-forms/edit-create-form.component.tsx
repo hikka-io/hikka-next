@@ -17,7 +17,7 @@ import {
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
-} from '@/utils/editParamUtils';
+} from '@/utils/edit-param-utils';
 
 import EditDescription from './edit-description';
 

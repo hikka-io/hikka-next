@@ -16,7 +16,7 @@ import Title from '@/features/anime/anime-view/title.component';
 
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';

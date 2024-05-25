@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 
 import getEditList, { Params } from '@/services/api/edit/getEditList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/animeAdapter';
+import { convertAnime } from '@/utils/anime-adapter';
 
 const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
