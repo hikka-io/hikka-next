@@ -1,5 +1,4 @@
 import { formatDistance } from 'date-fns';
-import Link from 'next/link';
 import { ComponentProps, FC, ReactNode } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -9,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/utils';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
+import Link from './link';
 
 interface Props extends ComponentProps<'div'> {
     title: string;
@@ -22,6 +22,7 @@ interface Props extends ComponentProps<'div'> {
     meta?: ReactNode;
     image?: string | ReactNode;
     imageClassName?: string;
+    imageContainerClassName?: string;
     imageRatio?: number;
 }
 
@@ -37,6 +38,7 @@ const HorizontalCard: FC<Props> = ({
     meta,
     image,
     imageClassName,
+    imageContainerClassName,
     imageRatio,
     className,
     children,
@@ -44,14 +46,14 @@ const HorizontalCard: FC<Props> = ({
 }) => {
     return (
         <div className={cn('flex items-center gap-4', className)} {...props}>
-            <div className="w-12">
-                <ContentCard
-                    containerClassName={cn(imageClassName)}
-                    containerRatio={imageRatio}
-                    href={href}
-                    poster={image}
-                />
-            </div>
+            <ContentCard
+                className={cn('w-12', imageContainerClassName)}
+                containerClassName={cn(imageClassName)}
+                containerRatio={imageRatio}
+                href={href}
+                poster={image}
+            />
+
             <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <Label
@@ -71,13 +73,7 @@ const HorizontalCard: FC<Props> = ({
                             descriptionClassName,
                         )}
                     >
-                        <Link
-                            href={descriptionHref || '#'}
-                            className={cn(
-                                'cursor-pointer transition-all hover:underline',
-                                !descriptionHref && 'pointer-events-none',
-                            )}
-                        >
+                        <Link href={descriptionHref}>
                             {typeof description === 'string' ? (
                                 <MDViewer disableSpoiler>
                                     {description}
