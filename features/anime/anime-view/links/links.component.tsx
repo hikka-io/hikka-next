@@ -1,41 +1,29 @@
 'use client';
 
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
+import MaterialSymbolsInfoIRounded from '~icons/material-symbols/info-i-rounded';
+import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 
-import H4 from '@/components/typography/h4';
 import P from '@/components/typography/p';
 import Block from '@/components/ui/block';
-import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
-import Stack from '@/components/ui/stack';
+import HorizontalCard from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import { useModalContext } from '@/services/providers/modal-provider';
+
+import LinksModal from './links-modal';
 
 interface Props {
     extended?: boolean;
 }
 
-const ExternalLink = ({ link }: { link: API.External }) => {
-    return (
-        <Button variant="outline" className="p-6" asChild>
-            <Link
-                href={link.url}
-                target="_blank"
-                className="flex h-auto flex-col items-center justify-center gap-2 overflow-hidden rounded-lg text-center"
-            >
-                <H4 className="w-full truncate">{link.text}</H4>
-                <P className="w-full truncate text-xs lowercase">{link.url}</P>
-            </Link>
-        </Button>
-    );
-};
-
 const Links: FC<Props> = ({ extended }) => {
     const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
+    const { openModal } = useModalContext();
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
 
     if (!anime) {
@@ -45,19 +33,26 @@ const Links: FC<Props> = ({ extended }) => {
     const watchLinksData = anime.external.filter((l) => l.type === 'watch');
     const generalLinksData = anime.external.filter((l) => l.type === 'general');
 
-    const filteredWatchLinksData = extended
-        ? watchLinksData
-        : watchLinksData.slice(0, 3);
-    const filteredGeneralLinksData = extended
-        ? generalLinksData
-        : generalLinksData.slice(0, 3);
+    const filteredWatchLinksData = watchLinksData.slice(0, 3);
+    const filteredGeneralLinksData = generalLinksData.slice(0, 3);
+
+    const linksData =
+        active === 'general'
+            ? filteredGeneralLinksData
+            : filteredWatchLinksData;
+
+    const handleOpenLinksModal = () => {
+        openModal({
+            type: 'sheet',
+            title: 'Посилання',
+            side: 'right',
+            content: <LinksModal />,
+        });
+    };
 
     return (
         <Block>
-            <Header
-                title="Посилання"
-                href={!extended ? params.slug + '/links' : undefined}
-            >
+            <Header title="Посилання" onClick={handleOpenLinksModal}>
                 <ToggleGroup
                     type="single"
                     value={active}
@@ -71,33 +66,33 @@ const Links: FC<Props> = ({ extended }) => {
                         value="general"
                         aria-label="Загальні посилання"
                     >
-                        Загальне
+                        <MaterialSymbolsInfoIRounded />
                     </ToggleGroupItem>
                     {watchLinksData.length > 0 && (
                         <ToggleGroupItem
                             value="watch"
                             aria-label="Посилання для перегляду"
                         >
-                            Перегляд
+                            <MaterialSymbolsPlayArrowRounded />
                         </ToggleGroupItem>
                     )}
                 </ToggleGroup>
             </Header>
-            <Stack
-                extended={extended}
-                extendedSize={3}
-                size={3}
-                className="grid-min-14"
-            >
-                {active === 'general' &&
-                    filteredGeneralLinksData.map((link) => (
-                        <ExternalLink link={link} key={link.url} />
-                    ))}
-                {active === 'watch' &&
-                    filteredWatchLinksData.map((link) => (
-                        <ExternalLink link={link} key={link.url} />
-                    ))}
-            </Stack>
+            <div className="flex flex-col gap-6">
+                {linksData.map((link) => (
+                    <HorizontalCard
+                        key={link.url}
+                        title={link.text}
+                        description={link.url}
+                        descriptionHref={link.url}
+                        href={link.url}
+                        imageRatio={1}
+                        imageContainerClassName="w-10"
+                        descriptionClassName="break-all"
+                        image={<P>{link.text[0]}</P>}
+                    />
+                ))}
+            </div>
         </Block>
     );
 };

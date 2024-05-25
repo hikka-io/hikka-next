@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Links from '@/features/anime/anime-view/links.component';
+import Links from '@/features/anime/anime-view/links/links.component';
 
 import _generateMetadata from '@/utils/generate-metadata';
 

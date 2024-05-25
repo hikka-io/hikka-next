@@ -10,7 +10,7 @@ import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { WATCH_STATUS } from '@/utils/constants';
 
 import GridView from './grid-view';
-import TableView from './table-view';
+import TableView from './table-view/table-view';
 
 const List = () => {
     const searchParams = useSearchParams()!;

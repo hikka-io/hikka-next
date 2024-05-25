@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FC, Fragment, memo } from 'react';
+import { FC, memo } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,23 +17,6 @@ interface Props {
     className?: string;
     withUser?: boolean;
 }
-
-const Activity: FC<Props> = memo(({ data }) => {
-    const activity = convertActivity(data);
-
-    return (
-        <Fragment>
-            {activity.map((event, i, arr) =>
-                event ? (
-                    <Fragment key={i}>
-                        {event}
-                        {i !== arr.length - 1 && ', '}
-                    </Fragment>
-                ) : null,
-            )}
-        </Fragment>
-    );
-});
 
 const User: FC<Props> = memo(({ data }) => (
     <Tooltip>
@@ -58,11 +41,13 @@ const User: FC<Props> = memo(({ data }) => (
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
 
+    const activity = convertActivity(data);
+
     return (
         <HorizontalCard
             title={data.content?.title || 'Загальне'}
             href={data.content ? `/anime/${data.content.slug}` : '#'}
-            description={<Activity {...props} />}
+            description={activity.join(', ')}
             descriptionClassName="line-clamp-2"
             descriptionHref={data.content && `/anime/${data.content.slug}`}
             createdAt={data.created}

@@ -5,7 +5,7 @@ import Description from '@/features/anime/anime-view/description.component';
 import Details from '@/features/anime/anime-view/details/details.component';
 import Followings from '@/features/anime/anime-view/followings/followings.component';
 import Franchise from '@/features/anime/anime-view/franchise.component';
-import Links from '@/features/anime/anime-view/links.component';
+import Links from '@/features/anime/anime-view/links/links.component';
 import Media from '@/features/anime/anime-view/media/media.component';
 import Staff from '@/features/anime/anime-view/staff.component';
 import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.component';
@@ -42,10 +42,10 @@ const AnimePage: FC<Props> = async ({ params }) => {
                 <Franchise />
                 <Media />
                 <Staff />
-                <Links />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <WatchStats />
                     <Followings />
+                    <Links />
                 </div>
             </div>
             <div className="order-1 flex flex-col gap-12 lg:order-2">
@@ -53,6 +53,7 @@ const AnimePage: FC<Props> = async ({ params }) => {
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <WatchStats />
                     <Followings />
+                    <Links />
                 </div>
             </div>
         </div>

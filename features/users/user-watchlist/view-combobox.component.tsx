@@ -49,10 +49,14 @@ const ViewCombobox = () => {
                 <SelectList>
                     <SelectGroup>
                         <SelectItem value="table">
-                            <MaterialSymbolsEventList /> Таблиця
+                            <div className="flex items-center gap-2">
+                                <MaterialSymbolsEventList /> Таблиця
+                            </div>
                         </SelectItem>
                         <SelectItem value="grid">
-                            <IcRoundGridView /> Сітка
+                            <div className="flex items-center gap-2">
+                                <IcRoundGridView /> Сітка
+                            </div>
                         </SelectItem>
                     </SelectGroup>
                 </SelectList>
