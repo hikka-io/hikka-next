@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
-import useUserHistory from '@/services/hooks/user/useUserHistory';
+import useUserHistory from '@/services/hooks/user/use-user-history';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 

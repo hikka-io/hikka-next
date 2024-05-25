@@ -11,8 +11,8 @@ import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import useChangeIgnoredNotifications from '@/services/hooks/settings/useChangeIgnoredNotifications';
-import useIgnoredNotifications from '@/services/hooks/settings/useIgnoredNotifications';
+import useChangeIgnoredNotifications from '@/services/hooks/settings/use-change-ignored-notifications';
+import useIgnoredNotifications from '@/services/hooks/settings/use-ignored-notifications';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 

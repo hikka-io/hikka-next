@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack';
 import deleteCollection, {
     Params,
 } from '@/services/api/collections/deleteCollection';
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 
 const useDeleteCollection = ({ reference }: Params) => {
     const queryClient = useQueryClient();

@@ -23,8 +23,8 @@ import { Switch } from '@/components/ui/switch';
 import AnilistCollection from '@/features/collections/collection-edit/anilist-collection.component';
 import GroupInputs from '@/features/collections/collection-edit/collection-settings/group-inputs';
 
-import useCreateCollection from '@/services/hooks/collections/useCreateCollection';
-import useUpdateCollection from '@/services/hooks/collections/useUpdateCollection';
+import useCreateCollection from '@/services/hooks/collections/use-create-collection';
+import useUpdateCollection from '@/services/hooks/collections/use-update-collection';
 import {
     State as CollectionState,
     useCollectionContext,

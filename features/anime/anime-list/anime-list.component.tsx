@@ -9,7 +9,7 @@ import Block from '@/components/ui/block';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
-import useAnimeCatalog from '@/services/hooks/anime/useAnimeCatalog';
+import useAnimeCatalog from '@/services/hooks/anime/use-anime-catalog';
 
 import AnimeListSkeleton from './anime-list-skeleton';
 import { useNextPage, useUpdatePage } from './anime-list.hooks';

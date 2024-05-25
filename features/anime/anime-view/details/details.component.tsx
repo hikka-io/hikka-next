@@ -6,7 +6,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 
 import Duration from './duration';
 import EpisodeSchedule from './episode-schedule';

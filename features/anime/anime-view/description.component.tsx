@@ -9,7 +9,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 
 const Description = () => {
     const [active, setActive] = useState<'synopsis_ua' | 'synopsis_en'>(

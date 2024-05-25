@@ -2,7 +2,6 @@
 
 import { range } from '@antfu/utils';
 import clsx from 'clsx';
-import * as React from 'react';
 import { FC, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -21,7 +20,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useTodoAnime from '@/services/hooks/edit/todo/useTodoAnime';
+import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
 
 interface Props {
     extended?: boolean;

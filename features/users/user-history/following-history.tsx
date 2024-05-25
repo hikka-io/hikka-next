@@ -9,7 +9,7 @@ import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
-import useUserHistory from '@/services/hooks/history/useFollowingHistory';
+import useUserHistory from '@/services/hooks/history/use-following-history';
 
 interface Props {
     className?: string;

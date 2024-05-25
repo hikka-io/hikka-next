@@ -6,8 +6,8 @@ import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
+import useSession from '@/services/hooks/auth/use-session';
+import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 
 const Title = () => {
     const { user: loggedUser } = useSession();

@@ -3,7 +3,6 @@
 import { range } from '@antfu/utils';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import * as React from 'react';
 import { FC } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
@@ -20,7 +19,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import getCurrentSeason from '@/utils/getCurrentSeason';

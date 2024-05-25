@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -13,7 +12,7 @@ import HorizontalCard from '@/components/ui/horizontal-card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
-import useGlobalComments from '@/services/hooks/comments/useGlobalComments';
+import useGlobalComments from '@/services/hooks/comments/use-global-comments';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 

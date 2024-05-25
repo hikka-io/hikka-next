@@ -24,9 +24,9 @@ import {
 
 import WatchEditModal from '@/features/modals/watch-edit-modal';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useAddWatch from '@/services/hooks/watch/useAddWatch';
-import useWatchList from '@/services/hooks/watch/useWatchList';
+import useSession from '@/services/hooks/auth/use-session';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
+import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 

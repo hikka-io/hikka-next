@@ -1,7 +1,7 @@
 import { useSearchParams } from 'next/navigation';
 
 import getWatchList from '@/services/api/watch/getWatchList';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 

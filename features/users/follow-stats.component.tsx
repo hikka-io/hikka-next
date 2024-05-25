@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 
 import FollowlistModal from '@/features/modals/followlist-modal/followlist-modal';
 
-import useFollowStats from '@/services/hooks/follow/useFollowStats';
+import useFollowStats from '@/services/hooks/follow/use-follow-stats';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 

@@ -1,11 +1,10 @@
 'use client';
 
-import * as React from 'react';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 
 interface Props {
     onSubmit: (data: any) => Promise<void>;

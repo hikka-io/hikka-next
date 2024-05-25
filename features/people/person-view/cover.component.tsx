@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import ContentCard from '@/components/content-card/content-card';
 
-import usePersonInfo from '@/services/hooks/people/usePersonInfo';
+import usePersonInfo from '@/services/hooks/people/use-person-info';
 
 const Cover = () => {
     const params = useParams();

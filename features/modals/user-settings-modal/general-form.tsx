@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
 import changeUserDescription from '@/services/api/settings/changeUserDescription';
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 

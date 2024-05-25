@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -8,8 +7,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import HorizontalCard from '@/components/ui/horizontal-card';
 
-import useLatestComments from '@/services/hooks/comments/useLatestComments';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import useLatestComments from '@/services/hooks/comments/use-latest-comments';
 import { cn } from '@/utils/utils';
 
 interface Props {

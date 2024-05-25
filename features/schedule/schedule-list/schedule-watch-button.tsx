@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useAddToList from '@/services/hooks/watch/useAddToList';
+import useSession from '@/services/hooks/auth/use-session';
+import useAddToList from '@/services/hooks/watch/use-add-to-list';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 

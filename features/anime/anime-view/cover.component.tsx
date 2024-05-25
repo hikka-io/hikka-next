@@ -6,7 +6,7 @@ import { FC } from 'react';
 import ContentCard from '@/components/content-card/content-card';
 import FavoriteButton from '@/components/favorite-button';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 
 const Cover: FC = () => {
     const params = useParams();

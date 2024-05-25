@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 
-import useEdit from '@/services/hooks/edit/useEdit';
+import useEdit from '@/services/hooks/edit/use-edit';
 import { EDIT_STATUS } from '@/utils/constants';
 
 interface Props {

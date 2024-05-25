@@ -2,13 +2,12 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React from 'react';
 
 import H5 from '@/components/typography/h5';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 
-import useCollection from '@/services/hooks/collections/useCollection';
+import useCollection from '@/services/hooks/collections/use-collection';
 
 const CollectionAuthor = () => {
     const params = useParams();

@@ -10,7 +10,7 @@ import {
 
 import EditTopStatsModal from '@/features/modals/edit-top-stats-modal/edit-top-stats-modal';
 
-import useEditTop from '@/services/hooks/stats/edit/useEditTop';
+import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import EditTopItem from './edit-top-item';

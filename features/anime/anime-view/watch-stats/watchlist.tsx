@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import { WATCH_STATUS } from '@/utils/constants';
 
 import Stats from './stats';

@@ -1,7 +1,7 @@
 import getCharacterVoices, {
     Params,
 } from '@/services/api/characters/getCharacterVoices';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 

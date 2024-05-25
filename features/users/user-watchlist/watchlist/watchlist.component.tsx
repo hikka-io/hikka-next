@@ -6,7 +6,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import NotFound from '@/components/ui/not-found';
 
-import useWatchList from '@/services/hooks/watch/useWatchList';
+import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { WATCH_STATUS } from '@/utils/constants';
 
 import GridView from './grid-view';

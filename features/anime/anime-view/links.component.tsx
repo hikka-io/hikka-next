@@ -12,7 +12,7 @@ import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 
 interface Props {
     extended?: boolean;

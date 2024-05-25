@@ -6,8 +6,8 @@ import { FC } from 'react';
 import CommentsButton from '@/components/comments-button';
 import WatchListButton from '@/components/watchlist-button/watchlist-button';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useSession from '@/services/hooks/auth/useSession';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useSession from '@/services/hooks/auth/use-session';
 
 import WatchStats from './watch-stats';
 

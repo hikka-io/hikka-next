@@ -14,7 +14,7 @@ import {
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 
-import { useMediaQuery } from '@/services/hooks/useMediaQuery';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 
 interface Props {
     routes: Hikka.NavRoute[];

@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import ContentCard from '@/components/content-card/content-card';
 import FavoriteButton from '@/components/favorite-button';
 
-import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
+import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 
 const Cover = () => {
     const params = useParams();

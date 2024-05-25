@@ -1,5 +1,5 @@
 import getComments, { Params } from '@/services/api/comments/getComments';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 
 const useComments = (
     { slug, content_type }: Params,

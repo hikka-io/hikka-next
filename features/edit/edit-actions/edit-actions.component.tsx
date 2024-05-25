@@ -6,8 +6,8 @@ import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useEdit from '@/services/hooks/edit/useEdit';
+import useSession from '@/services/hooks/auth/use-session';
+import useEdit from '@/services/hooks/edit/use-edit';
 
 import AcceptAction from './accept-action';
 import CloseAction from './close-action';

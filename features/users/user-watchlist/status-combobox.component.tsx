@@ -6,7 +6,6 @@ import {
     useRouter,
     useSearchParams,
 } from 'next/navigation';
-import * as React from 'react';
 import { createElement } from 'react';
 
 import H5 from '@/components/typography/h5';
@@ -21,7 +20,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useWatchList from '@/services/hooks/watch/useWatchList';
+import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { WATCH_STATUS } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 

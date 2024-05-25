@@ -8,7 +8,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useCharacterVoices from '@/services/hooks/characters/useCharacterVoices';
+import useCharacterVoices from '@/services/hooks/characters/use-character-voices';
 
 import VoiceCard from '../../../components/voice-card';
 

@@ -7,8 +7,8 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useUserHistory from '@/services/hooks/history/useFollowingHistory';
+import useSession from '@/services/hooks/auth/use-session';
+import useUserHistory from '@/services/hooks/history/use-following-history';
 import { cn } from '@/utils/utils';
 
 interface Props {

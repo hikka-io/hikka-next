@@ -10,9 +10,9 @@ import ProfileMenu from '@/features/common/navbar/profile-menu';
 import AuthModal from '@/features/modals/auth-modal/auth-modal';
 import SearchModal from '@/features/modals/search-modal/search-modal';
 
-import useSession from '@/services/hooks/auth/useSession';
-import { useMediaQuery } from '@/services/hooks/useMediaQuery';
-import useScrollTrigger from '@/services/hooks/useScrollTrigger';
+import useSession from '@/services/hooks/auth/use-session';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
+import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { GENERAL_NAV_ROUTES } from '@/utils/constants';
 

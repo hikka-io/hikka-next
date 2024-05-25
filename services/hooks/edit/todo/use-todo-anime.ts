@@ -1,19 +1,18 @@
-import getAnimeFranchise, {
-    Params,
-} from '@/services/api/anime/getAnimeFranchise';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import getTodoAnime, { Params } from '@/services/api/edit/todo/getTodoAnime';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnimeList } from '@/utils/animeAdapter';
 
-const useFranchise = ({ slug }: Params) => {
+const useTodoAnime = ({ param }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
-        queryKey: ['franchise', slug],
+        queryKey: ['list', param],
         queryFn: ({ pageParam = 1 }) =>
-            getAnimeFranchise({
-                params: { slug },
+            getTodoAnime({
+                params: { param },
                 page: pageParam,
+                size: 18,
             }),
         select: (data) => ({
             ...data,
@@ -28,4 +27,4 @@ const useFranchise = ({ slug }: Params) => {
     });
 };
 
-export default useFranchise;
+export default useTodoAnime;

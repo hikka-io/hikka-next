@@ -2,14 +2,14 @@
 
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 
-import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
+import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
 
 interface Props {
     data: Hikka.TextNotification;

@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useUserCollections from '@/services/hooks/user/useUserCollections';
+import useSession from '@/services/hooks/auth/use-session';
+import useUserCollections from '@/services/hooks/user/use-user-collections';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 

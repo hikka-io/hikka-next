@@ -9,8 +9,8 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useFranchise from '@/services/hooks/anime/useFranchise';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useFranchise from '@/services/hooks/anime/use-franchise';
 
 interface Props {
     extended?: boolean;

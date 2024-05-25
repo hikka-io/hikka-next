@@ -22,7 +22,7 @@ import PasswordForm from '@/features/modals/user-settings-modal/password-form';
 import UsernameForm from '@/features/modals/user-settings-modal/username-form';
 import WatchListForm from '@/features/modals/user-settings-modal/watchlist-form/watchlist-form';
 
-import { useMediaQuery } from '@/services/hooks/useMediaQuery';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/utils';
 
 type Tab =

@@ -13,7 +13,7 @@ import EditDescription from '@/features/edit/edit-forms/edit-description';
 import EditGroup from '@/features/edit/edit-forms/edit-group';
 
 import updateEdit from '@/services/api/edit/updateEdit';
-import useEdit from '@/services/hooks/edit/useEdit';
+import useEdit from '@/services/hooks/edit/use-edit';
 import {
     getEditGroups,
     getEditParamSlugs,

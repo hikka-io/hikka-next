@@ -13,8 +13,8 @@ import Header from '@/components/ui/header';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useCollection from '@/services/hooks/collections/useCollection';
+import useSession from '@/services/hooks/auth/use-session';
+import useCollection from '@/services/hooks/collections/use-collection';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 import CollectionAuthor from './collection-author';

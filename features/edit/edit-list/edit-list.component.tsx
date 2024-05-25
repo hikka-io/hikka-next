@@ -11,7 +11,7 @@ import EditHead from '@/features/edit/edit-list/edit-head';
 import EditRow from '@/features/edit/edit-list/edit-row';
 import EditSkeleton from '@/features/edit/edit-list/edit-skeleton';
 
-import useEditList from '@/services/hooks/edit/useEditList';
+import useEditList from '@/services/hooks/edit/use-edit-list';
 
 interface Props {
     page: string;

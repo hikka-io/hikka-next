@@ -7,8 +7,8 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import { Button } from '@/components/ui/button';
 
 import resendActivation from '@/services/api/auth/resendActivation';
-import useSession from '@/services/hooks/auth/useSession';
-import useUser from '@/services/hooks/user/useUser';
+import useSession from '@/services/hooks/auth/use-session';
+import useUser from '@/services/hooks/user/use-user';
 
 const ActivationAlert = () => {
     const params = useParams();

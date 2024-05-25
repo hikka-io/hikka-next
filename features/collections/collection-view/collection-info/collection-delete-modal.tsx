@@ -1,7 +1,6 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React from 'react';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
 import P from '@/components/typography/p';
@@ -18,8 +17,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import useCollection from '@/services/hooks/collections/useCollection';
-import useDeleteCollection from '@/services/hooks/collections/useDeleteCollection';
+import useCollection from '@/services/hooks/collections/use-collection';
+import useDeleteCollection from '@/services/hooks/collections/use-delete-collection';
 
 const CollectionDeleteModal = () => {
     const params = useParams();

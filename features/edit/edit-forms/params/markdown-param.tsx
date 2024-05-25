@@ -10,7 +10,7 @@ import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import useEdit from '@/services/hooks/edit/useEdit';
+import useEdit from '@/services/hooks/edit/use-edit';
 
 interface Props {
     param: Hikka.EditParam;

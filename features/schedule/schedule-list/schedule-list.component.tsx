@@ -8,7 +8,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 
-import useAnimeSchedule from '@/services/hooks/stats/useAnimeSchedule';
+import useAnimeSchedule from '@/services/hooks/stats/use-anime-schedule';
 
 import ScheduleItem from './schedule-item';
 

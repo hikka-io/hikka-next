@@ -9,7 +9,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useCharacterAnime from '@/services/hooks/characters/useCharacterAnime';
+import useCharacterAnime from '@/services/hooks/characters/use-character-anime';
 
 interface Props {
     extended?: boolean;

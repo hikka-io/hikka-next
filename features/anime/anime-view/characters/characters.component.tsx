@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
-import useCharacters from '@/services/hooks/anime/useCharacters';
+import useCharacters from '@/services/hooks/anime/use-characters';
 
 import MainCharacters from './main-characters';
 import OtherCharacters from './other-characters';

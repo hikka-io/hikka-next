@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import useWatchStats from '@/services/hooks/watch/useWatchStats';
+import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 

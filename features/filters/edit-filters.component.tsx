@@ -3,7 +3,6 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import * as React from 'react';
 import { FC, useState } from 'react';
 import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
@@ -23,7 +22,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import useUsers from '@/services/hooks/user/useUsers';
+import useUsers from '@/services/hooks/user/use-users';
 import { EDIT_STATUSES } from '@/utils/constants';
 import createQueryString from '@/utils/createQueryString';
 import { cn } from '@/utils/utils';

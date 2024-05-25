@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import useAnimeCatalog, { Props } from '@/services/hooks/anime/useAnimeCatalog';
+import useAnimeCatalog, {
+    Props,
+} from '@/services/hooks/anime/use-anime-catalog';
 import createQueryString from '@/utils/createQueryString';
 
 export const useUpdatePage = ({ page, iPage }: Props) => {

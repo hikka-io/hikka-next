@@ -7,7 +7,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useCharacters from '@/services/hooks/anime/useCharacters';
+import useCharacters from '@/services/hooks/anime/use-characters';
 
 import CharacterCard from '../../../../components/character-card';
 

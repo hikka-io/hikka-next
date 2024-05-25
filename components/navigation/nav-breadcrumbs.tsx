@@ -10,7 +10,7 @@ import {
 import { createPortal } from 'react-dom';
 import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
 
-import { useMediaQuery } from '@/services/hooks/useMediaQuery';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/utils';
 
 interface Props extends PropsWithChildren {}

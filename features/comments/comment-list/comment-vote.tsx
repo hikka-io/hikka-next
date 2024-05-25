@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 import vote from '@/services/api/vote/vote';
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 import { cn } from '@/utils/utils';
 
 interface Props {

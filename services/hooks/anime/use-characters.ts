@@ -1,7 +1,7 @@
 import getAnimeCharacters, {
     Params,
 } from '@/services/api/anime/getAnimeCharacters';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 
 const useCharacters = ({ slug }: Params) => {
     return useInfiniteList({

@@ -3,7 +3,6 @@
 import formatDuration from 'date-fns/formatDuration';
 import intervalToDuration from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
-import React from 'react';
 import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-10';
 
 import H5 from '@/components/typography/h5';
@@ -16,7 +15,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import useWatchStats from '@/services/hooks/watch/useWatchStats';
+import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 
 const WatchhourStats = () => {
     const params = useParams();

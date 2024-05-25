@@ -10,8 +10,8 @@ import Header from '@/components/ui/header';
 
 import CollectionItem from '@/features/users/user-profile/user-collections/collection-item';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useCollections from '@/services/hooks/collections/useCollections';
+import useSession from '@/services/hooks/auth/use-session';
+import useCollections from '@/services/hooks/collections/use-collections';
 import { cn } from '@/utils/utils';
 
 interface Props {

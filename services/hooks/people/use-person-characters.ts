@@ -1,15 +1,17 @@
-import getPersonAnime, { Params } from '@/services/api/people/getPersonAnime';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import getPersonCharacters, {
+    Params,
+} from '@/services/api/people/getPersonCharacters';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const usePersonAnime = ({ slug }: Params) => {
+const usePersonCharacters = ({ slug }: Params) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
-        queryKey: ['personAnime', slug],
+        queryKey: ['personCharacters', slug],
         queryFn: ({ pageParam = 1 }) =>
-            getPersonAnime({
+            getPersonCharacters({
                 params: { slug },
                 page: pageParam,
             }),
@@ -17,10 +19,10 @@ const usePersonAnime = ({ slug }: Params) => {
             ...data,
             pages: data.pages.map((a) => ({
                 ...a,
-                list: a.list.map((p) => ({
-                    ...p,
+                list: a.list.map((ch) => ({
+                    ...ch,
                     anime: convertAnime<API.AnimeInfo>({
-                        anime: p.anime,
+                        anime: ch.anime,
                         titleLanguage: titleLanguage!,
                     }),
                 })),
@@ -29,4 +31,4 @@ const usePersonAnime = ({ slug }: Params) => {
     });
 };
 
-export default usePersonAnime;
+export default usePersonCharacters;

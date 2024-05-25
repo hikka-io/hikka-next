@@ -1,14 +1,14 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
-import useFavorites from '@/services/hooks/favorite/useFavorites';
+import useFavorites from '@/services/hooks/favorite/use-favorites';
 
 interface Props {
     extended?: boolean;

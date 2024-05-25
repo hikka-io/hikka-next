@@ -2,7 +2,7 @@
 
 import LoadMoreButton from '@/components/load-more-button';
 
-import useEditTop from '@/services/hooks/stats/edit/useEditTop';
+import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
 
 import EditTopItem from './edit-top-item';
 

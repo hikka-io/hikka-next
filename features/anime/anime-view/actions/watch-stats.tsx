@@ -1,7 +1,6 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsRemoveRounded from '~icons/material-symbols/remove-rounded';
 
@@ -11,9 +10,9 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useAddWatch from '@/services/hooks/watch/useAddWatch';
-import useWatch from '@/services/hooks/watch/useWatch';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
+import useWatch from '@/services/hooks/watch/use-watch';
 
 const WatchStats = () => {
     const params = useParams();

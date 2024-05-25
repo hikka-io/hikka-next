@@ -12,9 +12,9 @@ import NotFound from '@/components/ui/not-found';
 import CommentInput from '@/features/comments/comment-list/comment-input';
 import Comments from '@/features/comments/comment-list/comments';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useCommentThread from '@/services/hooks/comments/useCommentThread';
-import useComments from '@/services/hooks/comments/useComments';
+import useSession from '@/services/hooks/auth/use-session';
+import useCommentThread from '@/services/hooks/comments/use-comment-thread';
+import useComments from '@/services/hooks/comments/use-comments';
 import CommentsProvider from '@/services/providers/comments-provider';
 
 interface Props {

@@ -12,7 +12,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 import { cn } from '@/utils/utils';
 
 import FollowingHistory from './following-history';

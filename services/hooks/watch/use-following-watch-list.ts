@@ -1,5 +1,5 @@
 import getFollowingWatchList from '@/services/api/watch/getFollowingWatchList';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 
 const useFollowingWatchList = ({ slug }: { slug: string }) => {
     return useInfiniteList({

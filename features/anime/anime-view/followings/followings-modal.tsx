@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
 
-import useFollowingWatchList from '@/services/hooks/watch/useFollowingWatchList';
+import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
 
 import FollowingItem from './following-item';
 

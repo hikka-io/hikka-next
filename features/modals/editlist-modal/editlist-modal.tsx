@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import EditCard from '@/features/modals/editlist-modal/edit-card';
 
 import getEditList from '@/services/api/edit/getEditList';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 
 interface Props {
     content_type: API.ContentType;

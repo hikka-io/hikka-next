@@ -1,12 +1,11 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import * as React from 'react';
 
 import HistoryItem from '@/components/history-item';
 import LoadMoreButton from '@/components/load-more-button';
 
-import useUserHistory from '@/services/hooks/user/useUserHistory';
+import useUserHistory from '@/services/hooks/user/use-user-history';
 
 interface Props {
     className?: string;

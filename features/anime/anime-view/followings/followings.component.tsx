@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 
-import useFollowingWatchList from '@/services/hooks/watch/useFollowingWatchList';
+import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import FollowingItem from './following-item';

@@ -1,5 +1,5 @@
 import getNotifications from '@/services/api/notifications/getNotifications';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 
 const useNotifications = () => {
     return useInfiniteList({

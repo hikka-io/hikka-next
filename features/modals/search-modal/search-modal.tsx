@@ -9,7 +9,7 @@ import PersonSearchList from '@/features/modals/search-modal/person-search-list'
 import SearchToggle from '@/features/modals/search-modal/search-toggle';
 import UserSearchList from '@/features/modals/search-modal/user-search-list';
 
-import useDebounce from '@/services/hooks/useDebounce';
+import useDebounce from '@/services/hooks/use-debounce';
 
 import AnimeSearchList from './anime-search-list';
 import SearchButton from './search-button';

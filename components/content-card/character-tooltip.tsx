@@ -13,9 +13,9 @@ import {
 } from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useCharacterAnime from '@/services/hooks/characters/useCharacterAnime';
-import useCharacterInfo from '@/services/hooks/characters/useCharacterInfo';
+import useSession from '@/services/hooks/auth/use-session';
+import useCharacterAnime from '@/services/hooks/characters/use-character-anime';
+import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 
 interface TooltipDataProps {
     slug: string;

@@ -27,7 +27,7 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 
 import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
-import useCompanies from '@/services/hooks/companies/useCompanies';
+import useCompanies from '@/services/hooks/companies/use-companies';
 import {
     AGE_RATING,
     GENRE_TYPES,

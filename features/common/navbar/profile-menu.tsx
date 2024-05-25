@@ -21,7 +21,7 @@ import { Label } from '@/components/ui/label';
 
 import SettingsModal from '@/features/modals/user-settings-modal/user-settings-modal';
 
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 const ProfileMenu = () => {

@@ -1,9 +1,9 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-import useCollection from '@/services/hooks/collections/useCollection';
+import useCollection from '@/services/hooks/collections/use-collection';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
 import CollectionGrid from './collection-grid';

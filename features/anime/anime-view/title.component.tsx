@@ -8,8 +8,8 @@ import EditButton from '@/components/edit-button';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 
-import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
-import useSession from '@/services/hooks/auth/useSession';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useSession from '@/services/hooks/auth/use-session';
 
 const Title = () => {
     const { user: loggedUser } = useSession();

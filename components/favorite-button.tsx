@@ -10,9 +10,9 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import useAddFavorite from '@/services/hooks/favorite/useAddFavorite';
-import useDeleteFavorite from '@/services/hooks/favorite/useDeleteFavorite';
-import useFavorite from '@/services/hooks/favorite/useFavorite';
+import useAddFavorite from '@/services/hooks/favorite/use-add-favorite';
+import useDeleteFavorite from '@/services/hooks/favorite/use-delete-favorite';
+import useFavorite from '@/services/hooks/favorite/use-favorite';
 
 interface Props extends ButtonProps {
     slug: string;

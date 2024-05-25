@@ -9,7 +9,7 @@ import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 
-import useEdit from '@/services/hooks/edit/useEdit';
+import useEdit from '@/services/hooks/edit/use-edit';
 
 interface Props {
     editId: string;

@@ -5,7 +5,7 @@ import MaterialSymbolsBarChartRounded from '~icons/material-symbols/bar-chart-ro
 
 import { Label } from '@/components/ui/label';
 
-import useUserActivity from '@/services/hooks/user/useUserActivity';
+import useUserActivity from '@/services/hooks/user/use-user-activity';
 import { convertToDays } from '@/utils/convertActivityStats';
 
 import ActivityItem from './activity-item';

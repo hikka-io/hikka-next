@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import * as React from 'react';
 import { FC, ReactNode } from 'react';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
@@ -10,7 +9,7 @@ import {
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 
-import useSession from '@/services/hooks/auth/useSession';
+import useSession from '@/services/hooks/auth/use-session';
 
 interface Props {
     children: ReactNode;

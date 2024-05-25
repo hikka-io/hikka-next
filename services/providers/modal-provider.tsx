@@ -30,7 +30,7 @@ import {
 
 import { cn } from '@/utils/utils';
 
-import { useMediaQuery } from '../hooks/useMediaQuery';
+import { useMediaQuery } from '../hooks/use-media-query';
 
 interface State {
     open: boolean;

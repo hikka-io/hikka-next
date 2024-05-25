@@ -9,7 +9,7 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useAnimeCatalog from '@/services/hooks/anime/useAnimeCatalog';
+import useAnimeCatalog from '@/services/hooks/anime/use-anime-catalog';
 import { cn } from '@/utils/utils';
 
 interface Props {

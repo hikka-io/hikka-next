@@ -13,9 +13,9 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import useNotifications from '@/services/hooks/notifications/useNotifications';
-import useNotificationsCount from '@/services/hooks/notifications/useNotificationsCount';
-import useSeenNotification from '@/services/hooks/notifications/useSeenNotification';
+import useNotifications from '@/services/hooks/notifications/use-notifications';
+import useNotificationsCount from '@/services/hooks/notifications/use-notifications-count';
+import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
 import { convertNotification } from '@/utils/convertNotification';
 
 import NotFoundNotifications from './not-found-notifications';

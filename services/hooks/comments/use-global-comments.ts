@@ -1,5 +1,5 @@
 import getGlobalComments from '@/services/api/comments/getGlobalComments';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 
 const useGlobalComments = () => {
     return useInfiniteList({

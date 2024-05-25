@@ -9,11 +9,11 @@ import { Button } from '@/components/ui/button';
 
 import AuthModal from '@/features/modals/auth-modal/auth-modal';
 
-import useSession from '@/services/hooks/auth/useSession';
-import useFollow from '@/services/hooks/follow/useFollow';
-import useFollowChecker from '@/services/hooks/follow/useFollowChecker';
-import useUnfollow from '@/services/hooks/follow/useUnfollow';
-import useUser from '@/services/hooks/user/useUser';
+import useSession from '@/services/hooks/auth/use-session';
+import useFollow from '@/services/hooks/follow/use-follow';
+import useFollowChecker from '@/services/hooks/follow/use-follow-checker';
+import useUnfollow from '@/services/hooks/follow/use-unfollow';
+import useUser from '@/services/hooks/user/use-user';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 

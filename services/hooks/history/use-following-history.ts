@@ -1,17 +1,16 @@
-import getUserHistory, { Params } from '@/services/api/user/getUserHistory';
-import useInfiniteList from '@/services/hooks/useInfiniteList';
+import getFollowingHistory from '@/services/api/history/getFollowingHistory';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/animeAdapter';
 
-const useUserHistory = ({ username }: Params) => {
+const useUserHistory = () => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
-        queryKey: ['history', username],
+        queryKey: ['followingHistory'],
         queryFn: ({ pageParam }) =>
-            getUserHistory({
+            getFollowingHistory({
                 page: pageParam,
-                params: { username },
             }),
         select: (data) => ({
             ...data,

@@ -19,9 +19,9 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useAddToList from '@/services/hooks/watch/useAddToList';
-import useDeleteFromList from '@/services/hooks/watch/useDeleteFromList';
-import useWatch from '@/services/hooks/watch/useWatch';
+import useAddToList from '@/services/hooks/watch/use-add-to-list';
+import useDeleteFromList from '@/services/hooks/watch/use-delete-from-list';
+import useWatch from '@/services/hooks/watch/use-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 import { z } from '@/utils/zod';

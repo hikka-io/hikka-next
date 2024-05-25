@@ -1,7 +1,6 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React from 'react';
 import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
 
 import H3 from '@/components/typography/h3';
@@ -12,7 +11,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import useUser from '@/services/hooks/user/useUser';
+import useUser from '@/services/hooks/user/use-user';
 
 interface Props {}
 
