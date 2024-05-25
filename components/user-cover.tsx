@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import Image from '@/components/ui/image';
 
@@ -13,7 +13,7 @@ interface Props {
 
 const UserCover: FC<Props> = ({ username }) => {
     const { user: loggedUser } = useSession();
-    const { data: user } = useUser({ username });
+    const { data: user } = useUser({ username: String(username) });
 
     const cover = username ? user?.cover : user?.cover || loggedUser?.cover;
 

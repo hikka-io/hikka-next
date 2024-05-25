@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
-import Filters from '@/features/filters/anime-filters';
+import Filters from '@/features/filters/anime-filters.component';
 
 interface Props {
     type: 'anime' | 'watchlist';

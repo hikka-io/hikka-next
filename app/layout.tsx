@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 
-import Providers from '@/features/common/providers';
+import Providers from '@/features/common/providers.component';
 
 import generateMetadata from '@/utils/generateMetadata';
 

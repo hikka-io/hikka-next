@@ -9,7 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 
 import AutoButton from '@/features/edit/edit-forms/auto-button';
-import EditDescription from '@/features/edit/edit-forms/edit-description/edit-description';
+import EditDescription from '@/features/edit/edit-forms/edit-description';
 import EditGroup from '@/features/edit/edit-forms/edit-group';
 
 import updateEdit from '@/services/api/edit/updateEdit';
@@ -33,7 +33,7 @@ interface Props {
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const queryClient = useQueryClient();
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useEdit({ edit_id: Number(editId) });
     const captchaRef = useRef<TurnstileInstance>();
 
     const router = useRouter();

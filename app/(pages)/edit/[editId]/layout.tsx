@@ -12,10 +12,10 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 
-import Author from '@/features/edit/edit-author';
-import Content from '@/features/edit/edit-content/edit-content';
-import EditStatus from '@/features/edit/edit-forms/edit-status';
-import Moderator from '@/features/edit/edit-moderator';
+import Author from '@/features/edit/edit-author.component';
+import Content from '@/features/edit/edit-content/edit-content.component';
+import Moderator from '@/features/edit/edit-moderator.component';
+import EditStatus from '@/features/edit/edit-status.component';
 
 import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
-import Filters from '@/features/filters/edit-filters';
+import Filters from '@/features/filters/edit-filters.component';
 
 interface Props {
     children?: ReactNode;

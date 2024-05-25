@@ -3,12 +3,12 @@ import { HydrationBoundary } from '@tanstack/react-query';
 
 import UserCover from '@/components/user-cover';
 
-import Collections from '@/features/home/collections';
-import Comments from '@/features/home/comments';
-import History from '@/features/home/history';
-import Ongoings from '@/features/home/ongoings';
-import Profile from '@/features/home/profile';
-import Schedule from '@/features/home/schedule/schedule';
+import Collections from '@/features/home/collections.component';
+import Comments from '@/features/home/comments.component';
+import History from '@/features/home/history.component';
+import Ongoings from '@/features/home/ongoings.component';
+import Profile from '@/features/home/profile.component';
+import Schedule from '@/features/home/schedule/schedule.component';
 
 import prefetchQueries from '@/app/(pages)/(home)/page.queries';
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';

@@ -18,7 +18,7 @@ interface Props {
 }
 
 const EditActions: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useEdit({ edit_id: Number(editId) });
     const params = useParams();
 
     const { user: loggedUser } = useSession();

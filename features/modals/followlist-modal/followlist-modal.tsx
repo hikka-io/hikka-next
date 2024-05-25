@@ -4,11 +4,11 @@ import { useParams } from 'next/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
 
-import FollowUserItem from '@/features/users/user-profile/follow-user-item';
-
 import getFollowers from '@/services/api/follow/getFollowers';
 import getFollowings from '@/services/api/follow/getFollowings';
 import useInfiniteList from '@/services/hooks/useInfiniteList';
+
+import FollowUserItem from './follow-user-item';
 
 interface Props {
     type: 'followers' | 'followings';

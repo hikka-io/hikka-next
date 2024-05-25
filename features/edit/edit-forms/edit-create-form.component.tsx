@@ -19,7 +19,7 @@ import {
     getFilteredEditParams,
 } from '@/utils/editParamUtils';
 
-import EditDescription from './edit-description/edit-description';
+import EditDescription from './edit-description';
 
 type FormValues = Record<string, unknown> & {
     description: string;

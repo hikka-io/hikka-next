@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import React, {
+import {
     ReactNode,
     createContext,
     useContext,
@@ -144,7 +144,7 @@ export default function ModalProvider({ children }: Props) {
                 >
                     <DrawerContent
                         className={cn(
-                            'p-4 pt-0 max-h-[90dvh]',
+                            'max-h-[90dvh] p-4 pt-0',
                             state.className,
                         )}
                     >

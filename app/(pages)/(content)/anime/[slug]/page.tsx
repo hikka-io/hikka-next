@@ -1,14 +1,14 @@
 import { FC } from 'react';
 
-import Characters from '@/features/anime/anime-view/characters/characters';
-import Description from '@/features/anime/anime-view/description';
-import Details from '@/features/anime/anime-view/details/details';
-import Followings from '@/features/anime/anime-view/followings/followings';
-import Franchise from '@/features/anime/anime-view/franchise';
-import Links from '@/features/anime/anime-view/links';
-import Media from '@/features/anime/anime-view/media/media';
-import Staff from '@/features/anime/anime-view/staff';
-import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats';
+import Characters from '@/features/anime/anime-view/characters/characters.component';
+import Description from '@/features/anime/anime-view/description.component';
+import Details from '@/features/anime/anime-view/details/details.component';
+import Followings from '@/features/anime/anime-view/followings/followings.component';
+import Franchise from '@/features/anime/anime-view/franchise.component';
+import Links from '@/features/anime/anime-view/links.component';
+import Media from '@/features/anime/anime-view/media/media.component';
+import Staff from '@/features/anime/anime-view/staff.component';
+import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.component';
 
 import getAnimeInfo, {
     Response as AnimeResponse,

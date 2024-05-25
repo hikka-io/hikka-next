@@ -16,7 +16,7 @@ interface Props {
 }
 
 const EditAuthor: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useEdit({ edit_id: Number(editId) });
 
     if (!edit) {
         return null;

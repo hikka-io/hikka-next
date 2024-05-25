@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
-import ContentList from '@/features/edit/edit-content-list';
+import ContentList from '@/features/edit/edit-content-list.component';
 
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generateMetadata';

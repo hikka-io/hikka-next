@@ -1,5 +1,5 @@
-import Anime from '@/features/people/person-view/anime';
-import Characters from '@/features/people/person-view/characters';
+import Anime from '@/features/people/person-view/anime.component';
+import Characters from '@/features/people/person-view/characters.component';
 
 const PersonPage = () => {
     return (

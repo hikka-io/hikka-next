@@ -7,9 +7,9 @@ import { redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 
-import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups';
-import CollectionInfo from '@/features/collections/collection-view/collection-info/collection-info';
-import CollectionTitle from '@/features/collections/collection-view/collection-title';
+import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups.component';
+import CollectionInfo from '@/features/collections/collection-view/collection-info/collection-info.component';
+import CollectionTitle from '@/features/collections/collection-view/collection-title.component';
 
 import getCollection from '@/services/api/collections/getCollection';
 import CollectionProvider from '@/services/providers/collection-provider';

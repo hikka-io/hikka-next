@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import * as React from 'react';
 import ArcticonsMonobank from '~icons/arcticons/monobank';
 import MdiGithub from '~icons/mdi/github';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
@@ -18,7 +17,7 @@ import { Label } from '@/components/ui/label';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import RightHolder from './rightholder';
+import RightHolder from './rightholder.component';
 
 const Footer = () => {
     const { openModal } = useModalContext();

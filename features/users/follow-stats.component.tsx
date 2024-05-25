@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import FollowlistModal from '@/features/modals/followlist-modal';
+import FollowlistModal from '@/features/modals/followlist-modal/followlist-modal';
 
 import useFollowStats from '@/services/hooks/follow/useFollowStats';
 import { useModalContext } from '@/services/providers/modal-provider';

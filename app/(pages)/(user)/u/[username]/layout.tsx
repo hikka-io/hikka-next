@@ -11,12 +11,12 @@ import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 import UserCover from '@/components/user-cover';
 
-import ActivationAlert from '@/features/users/user-profile/activation-alert';
-import FollowButton from '@/features/users/user-profile/follow-button';
-import FollowStats from '@/features/users/user-profile/follow-stats';
-import ListStats from '@/features/users/user-profile/list-stats';
-import UserInfo from '@/features/users/user-profile/user-info';
-import UserTitle from '@/features/users/user-profile/user-title';
+import ActivationAlert from '@/features/users/activation-alert.component';
+import FollowButton from '@/features/users/follow-button.component';
+import FollowStats from '@/features/users/follow-stats.component';
+import UserInfo from '@/features/users/user-info.component';
+import ListStats from '@/features/users/user-profile/list-stats.component';
+import UserTitle from '@/features/users/user-title.component';
 
 import { USER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/getQueryClient';

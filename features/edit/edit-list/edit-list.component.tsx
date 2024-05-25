@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
@@ -9,7 +10,6 @@ import { Table, TableBody } from '@/components/ui/table';
 import EditHead from '@/features/edit/edit-list/edit-head';
 import EditRow from '@/features/edit/edit-list/edit-row';
 import EditSkeleton from '@/features/edit/edit-list/edit-skeleton';
-import FiltersNotFound from '@/features/filters/filters-not-found';
 
 import useEditList from '@/services/hooks/edit/useEditList';
 
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const EditList: FC<Props> = ({ page }) => {
-    const { data: edits, isLoading } = useEditList({ page: page });
+    const { data: edits, isLoading } = useEditList({ page: Number(page) });
 
     if (isLoading) {
         return <EditSkeleton />;

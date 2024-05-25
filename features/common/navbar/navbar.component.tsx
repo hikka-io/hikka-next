@@ -16,7 +16,7 @@ import useScrollTrigger from '@/services/hooks/useScrollTrigger';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { GENERAL_NAV_ROUTES } from '@/utils/constants';
 
-import NotificationsMenu from './notifications-menu/notifications-menu';
+import NotificationsMenu from './notifications-menu/notifications-menu.component';
 
 const Navbar = () => {
     const isDesktop = useMediaQuery('(min-width: 768px)');

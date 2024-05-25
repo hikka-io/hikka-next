@@ -5,9 +5,9 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
-import CollectionGroups from '@/features/collections/collection-edit/collection-groups';
-import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings';
-import CollectionTitle from '@/features/collections/collection-edit/collection-title';
+import CollectionGroups from '@/features/collections/collection-edit/collection-groups.component';
+import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings.component';
+import CollectionTitle from '@/features/collections/collection-edit/collection-title.component';
 
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generateMetadata';

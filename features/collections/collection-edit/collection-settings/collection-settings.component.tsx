@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-import AnilistCollection from '@/features/collections/collection-edit/anilist-collection';
+import AnilistCollection from '@/features/collections/collection-edit/anilist-collection.component';
 import GroupInputs from '@/features/collections/collection-edit/collection-settings/group-inputs';
 
 import useCreateCollection from '@/services/hooks/collections/useCreateCollection';

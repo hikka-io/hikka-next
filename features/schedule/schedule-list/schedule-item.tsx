@@ -8,7 +8,7 @@ import HorizontalContentCard, {
     Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
 
-import ScheduleWatchButton from '@/features/schedule/schedule-watch-button';
+import ScheduleWatchButton from '@/features/schedule/schedule-list/schedule-watch-button';
 
 import getScheduleDuration from '@/utils/getScheduleDuration';
 import { cn } from '@/utils/utils';

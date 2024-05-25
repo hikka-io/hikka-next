@@ -1,8 +1,8 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import _generateMetadata from '@/utils/generateMetadata';
+import Links from '@/features/anime/anime-view/links.component';
 
-import Links from '../../../../../../../features/anime/anime-view/links';
+import _generateMetadata from '@/utils/generateMetadata';
 
 export async function generateMetadata(
     { params }: { params: { slug: string } },

@@ -21,10 +21,12 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
     const { control } = useFormContext();
     const params = useParams();
     const [showDiff, setShowDiff] = React.useState(false);
-    const { data: edit } = useEdit({
-        editId: Number(params.editId),
-        enabled: mode === 'view',
-    });
+    const { data: edit } = useEdit(
+        {
+            edit_id: Number(params.editId),
+        },
+        { enabled: mode === 'view' },
+    );
 
     if (mode === 'view') {
         return (

@@ -3,12 +3,11 @@
 import { FC } from 'react';
 
 import AnimeCard from '@/components/anime-card';
+import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
-
-import FiltersNotFound from '@/features/filters/filters-not-found';
 
 import useAnimeCatalog from '@/services/hooks/anime/useAnimeCatalog';
 

@@ -1,7 +1,7 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Comments from '@/features/comments/comment-list/comment-list';
+import Comments from '@/features/comments/comment-list/comment-list.component';
 
 import getComments from '@/services/api/comments/getComments';
 import _generateMetadata from '@/utils/generateMetadata';

@@ -10,9 +10,9 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 
-import Actions from '@/features/anime/anime-view/actions/actions';
-import Cover from '@/features/anime/anime-view/cover';
-import Title from '@/features/anime/anime-view/title';
+import Actions from '@/features/anime/anime-view/actions/actions.component';
+import Cover from '@/features/anime/anime-view/cover.component';
+import Title from '@/features/anime/anime-view/title.component';
 
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';

@@ -58,14 +58,18 @@ const OPTIONS = [
 const Component = ({ slug, additional, disabled }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: watch, isError: watchError } = useWatch({
-        slug,
-        enabled: !disabled,
-    });
-    const { data: anime } = useAnimeInfo({
-        slug,
-        enabled: !disabled,
-    });
+    const { data: watch, isError: watchError } = useWatch(
+        {
+            slug,
+        },
+        { enabled: !disabled },
+    );
+    const { data: anime } = useAnimeInfo(
+        {
+            slug,
+        },
+        { enabled: !disabled },
+    );
     const { mutate: addToList } = useAddToList({ slug });
     const { mutate: deleteFromList } = useDeleteFromList({ slug });
 

@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +12,7 @@ interface Props {
 }
 
 const EditStatus: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useEdit({ edit_id: Number(editId) });
 
     if (!edit || !edit.status) {
         return null;

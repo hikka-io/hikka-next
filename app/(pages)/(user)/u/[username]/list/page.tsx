@@ -4,11 +4,11 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import Filters from '@/features/filters/anime-filters';
-import StatusCombobox from '@/features/users/user-watchlist/status-combobox';
-import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox';
-import ViewCombobox from '@/features/users/user-watchlist/view-combobox';
-import List from '@/features/users/user-watchlist/watchlist/watchlist';
+import Filters from '@/features/filters/anime-filters.component';
+import StatusCombobox from '@/features/users/user-watchlist/status-combobox.component';
+import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox.component';
+import ViewCombobox from '@/features/users/user-watchlist/view-combobox.component';
+import List from '@/features/users/user-watchlist/watchlist/watchlist.component';
 
 import _generateMetadata from '@/utils/generateMetadata';
 

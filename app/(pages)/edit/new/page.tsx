@@ -6,9 +6,9 @@ import { FC } from 'react';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 
-import Content from '@/features/edit/edit-content/edit-content';
-import EditForm from '@/features/edit/edit-forms/edit-create-form';
-import RulesAlert from '@/features/edit/edit-rules-alert';
+import Content from '@/features/edit/edit-content/edit-content.component';
+import EditForm from '@/features/edit/edit-forms/edit-create-form.component';
+import RulesAlert from '@/features/edit/edit-rules-alert.component';
 
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';

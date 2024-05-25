@@ -6,7 +6,7 @@ import { FC, useEffect } from 'react';
 import useCollection from '@/services/hooks/collections/useCollection';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
-import CollectionGrid from './collection-grid/collection-grid';
+import CollectionGrid from './collection-grid/collection-grid.component';
 
 interface Props {
     mode?: 'create' | 'edit';
@@ -20,10 +20,12 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
         setState: setCollectionState,
     } = useCollectionContext();
 
-    const { data } = useCollection({
-        reference: String(params.reference),
-        enabled: mode === 'edit',
-    });
+    const { data } = useCollection(
+        {
+            reference: String(params.reference),
+        },
+        { enabled: mode === 'edit' },
+    );
 
     useEffect(() => {
         if (data) {

@@ -11,7 +11,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 
-import CollectionList from '@/features/collections/collection-list/collection-list';
+import CollectionList from '@/features/collections/collection-list/collection-list.component';
 import CollectionSort from '@/features/collections/collection-list/collection-sort';
 
 import getCollections from '@/services/api/collections/getCollections';

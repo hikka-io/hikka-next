@@ -3,12 +3,12 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import CommentsButton from '@/components/comments-button';
 import WatchListButton from '@/components/watchlist-button/watchlist-button';
 
 import useAnimeInfo from '@/services/hooks/anime/useAnimeInfo';
 import useSession from '@/services/hooks/auth/useSession';
 
-import CommentsButton from '../../../../components/comments-button';
 import WatchStats from './watch-stats';
 
 const Actions: FC = () => {

@@ -3,8 +3,8 @@ import { FC, ReactNode } from 'react';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
-import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar';
-import Filters from '@/features/filters/anime-filters';
+import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar.component';
+import Filters from '@/features/filters/anime-filters.component';
 
 interface Props {
     children: ReactNode;

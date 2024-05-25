@@ -1,59 +1,45 @@
 {
-  "extends": [
-    "next",
-    "next/core-web-vitals",
-    "prettier",
-    "plugin:tailwindcss/recommended",
-    "plugin:storybook/recommended"
-  ],
-  "settings": {
-    "tailwindcss": {
-      "callees": [
-        "cn"
-      ],
-      "config": "tailwind.config.js"
+    "extends": [
+        "next",
+        "next/core-web-vitals",
+        "prettier",
+        "plugin:tailwindcss/recommended",
+        "plugin:storybook/recommended"
+    ],
+    "settings": {
+        "tailwindcss": {
+            "callees": ["cn"],
+            "config": "tailwind.config.js"
+        },
+        "next": {
+            "rootDir": ["./"]
+        }
     },
-    "next": {
-      "rootDir": [
-        "./"
-      ]
-    }
-  },
-  "rules": {
-    "react-hooks/rules-of-hooks": "off",
-    "no-use-before-define": "off",
-    "linebreak-style": "off",
-    "import/no-cycle": "off",
-    "react/require-default-props": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/no-array-index-key": "off",
-    "react/no-unused-prop-types": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
-    "import/prefer-default-export": "off",
-    "react-hooks/exhaustive-deps": "off",
-    "no-restricted-globals": "off",
-    "no-bitwise": "off",
-    "no-param-reassign": "off",
-    "@typescript-eslint/indent": "off",
-    "react/prop-types": "off",
-    "react/display-name": "off",
-    "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/prefer-query-object-syntax": "error",
-    "react/jsx-filename-extension": [
-      1,
-      {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
+    "rules": {
+        "react-hooks/rules-of-hooks": "off",
+        "no-use-before-define": "off",
+        "linebreak-style": "off",
+        "import/no-cycle": "off",
+        "react/require-default-props": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/no-array-index-key": "off",
+        "react/no-unused-prop-types": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "import/prefer-default-export": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "no-restricted-globals": "off",
+        "no-bitwise": "off",
+        "no-param-reassign": "off",
+        "@typescript-eslint/indent": "off",
+        "react/prop-types": "off",
+        "react/display-name": "off",
+        "@tanstack/query/exhaustive-deps": "error",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
         ]
-      }
-    ]
-  },
-  "plugins": [
-    "tailwindcss",
-    "@tanstack/query",
-    "import"
-  ]
+    },
+    "plugins": ["tailwindcss", "@tanstack/query", "import"]
 }

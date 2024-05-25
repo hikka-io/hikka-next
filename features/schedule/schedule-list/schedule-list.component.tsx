@@ -3,11 +3,10 @@
 import { getUnixTime, startOfDay } from 'date-fns';
 import format from 'date-fns/format';
 
+import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
-
-import FiltersNotFound from '@/features/filters/filters-not-found';
 
 import useAnimeSchedule from '@/services/hooks/stats/useAnimeSchedule';
 

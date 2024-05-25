@@ -28,10 +28,12 @@ const FollowButton: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
     const { data: user } = useUser({ username: String(params.username) });
 
-    const { data: followChecker } = useFollowChecker({
-        username: String(params.username),
-        enabled: loggedUser && loggedUser.username !== params.username,
-    });
+    const { data: followChecker } = useFollowChecker(
+        {
+            username: String(params.username),
+        },
+        { enabled: loggedUser && loggedUser.username !== params.username },
+    );
 
     const { mutate: mutateFollow, isPending: followLoading } = useFollow({
         username: String(params.username),

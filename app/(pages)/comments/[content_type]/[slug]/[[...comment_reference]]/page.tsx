@@ -3,16 +3,15 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
-import Comments from '@/features/comments/comment-list/comment-list';
+import ContentHeader from '@/features/comments/comment-content-header.component';
+import Content from '@/features/comments/comment-content.component';
+import Comments from '@/features/comments/comment-list/comment-list.component';
+import { getContent } from '@/features/comments/useContent';
 
 import getCommentThread from '@/services/api/comments/getCommentThread';
 import getComments from '@/services/api/comments/getComments';
 import _generateMetadata from '@/utils/generateMetadata';
 import getQueryClient from '@/utils/getQueryClient';
-
-import Content from '../../../../../../features/comments/comment-content';
-import ContentHeader from '../../../../../../features/comments/comment-content-header';
-import { getContent } from '../../../../../../features/comments/useContent';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

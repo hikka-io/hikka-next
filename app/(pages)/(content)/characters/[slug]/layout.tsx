@@ -10,8 +10,8 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 
-import Cover from '@/features/characters/character-view/cover';
-import Title from '@/features/characters/character-view/title';
+import Cover from '@/features/characters/character-view/cover.component';
+import Title from '@/features/characters/character-view/title.component';
 
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';

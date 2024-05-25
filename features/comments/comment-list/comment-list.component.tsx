@@ -32,12 +32,14 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useComments({ slug, content_type, enabled: !comment_reference });
+    } = useComments({ slug, content_type }, { enabled: !comment_reference });
 
-    const { data: thread } = useCommentThread({
-        reference: String(comment_reference),
-        enabled: !!comment_reference,
-    });
+    const { data: thread } = useCommentThread(
+        {
+            reference: String(comment_reference),
+        },
+        { enabled: !!comment_reference },
+    );
 
     const list = comment_reference ? (thread ? [thread] : []) : comments;
 

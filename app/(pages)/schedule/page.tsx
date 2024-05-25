@@ -9,9 +9,9 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 
-import ScheduleFilters from '@/features/filters/schedule-filters';
+import ScheduleFilters from '@/features/filters/schedule-filters.component';
 import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal';
-import ScheduleList from '@/features/schedule/schedule-list/schedule-list';
+import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
 
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
 import _generateMetadata from '@/utils/generateMetadata';

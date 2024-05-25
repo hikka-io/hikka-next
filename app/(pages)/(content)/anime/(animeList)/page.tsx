@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
-import AnimeList from '@/features/anime/anime-list/anime-list';
+import AnimeList from '@/features/anime/anime-list/anime-list.component';
 
 interface Props {
     searchParams: Record<string, string>;

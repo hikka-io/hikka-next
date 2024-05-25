@@ -6272,12 +6272,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^4.34.1":
-  version: 4.38.0
-  resolution: "@tanstack/eslint-plugin-query@npm:4.38.0"
+"@tanstack/eslint-plugin-query@npm:^5.35.6":
+  version: 5.35.6
+  resolution: "@tanstack/eslint-plugin-query@npm:5.35.6"
+  dependencies:
+    "@typescript-eslint/utils": "npm:^6.20.0"
   peerDependencies:
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  checksum: 10c0/cf6ee6b8992b37edf6c833755616f1d784449c3300900dbf775cd2b6eba87a7eb86cfb3aa2afb2ff0ef56b70f9e2fa5c8ed5ed498e624fc3d0cea77c18ffe222
+    eslint: ^8.0.0
+  checksum: 10c0/6a61d93a8864d18d502717d4166af57c18480149dc801a6384d9b445222ef5506c3b974281cad6a6905c100a27f500ccab23b50f3ad57097f5597596524b28e2
   languageName: node
   linkType: hard
 
@@ -7044,7 +7046,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:6.21.0":
+"@typescript-eslint/utils@npm:6.21.0, @typescript-eslint/utils@npm:^6.20.0":
   version: 6.21.0
   resolution: "@typescript-eslint/utils@npm:6.21.0"
   dependencies:
@@ -12138,7 +12140,7 @@ __metadata:
     "@storybook/test": "npm:^8.0.8"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
-    "@tanstack/eslint-plugin-query": "npm:^4.34.1"
+    "@tanstack/eslint-plugin-query": "npm:^5.35.6"
     "@tanstack/react-query": "npm:^5.17.19"
     "@tanstack/react-query-devtools": "npm:^5.17.19"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
