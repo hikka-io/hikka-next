@@ -13,49 +13,29 @@ export const convertStatus = (
     after: API.WatchStatus | null,
 ) => {
     if (before === null && after) {
-        return <>{WATCH_STATUS[after].title_ua}</>;
+        return `${WATCH_STATUS[after].title_ua}`;
     }
 
     if (before !== null && after) {
-        return (
-            <>
-                Змінено на список{' '}
-                <span className="font-bold">
-                    {WATCH_STATUS[after].title_ua}
-                </span>
-            </>
-        );
+        return `Змінено на список **${WATCH_STATUS[after].title_ua}**`;
     }
 
     if (before && after === null) {
-        return <>Видалено зі списоку</>;
+        return 'Видалено зі списоку';
     }
 };
 
 export const convertScore = (before: number | null, after: number | null) => {
     if (before === null && after !== null) {
-        return (
-            <>
-                Оцінено на <span className="font-bold">{after}</span>
-            </>
-        );
+        return `Оцінено на **${after}**`;
     }
 
     if (before !== null && after !== null) {
         if (before === after || before === 0) {
-            return (
-                <>
-                    Оцінено на <span className="font-bold">{after}</span>
-                </>
-            );
+            return `Оцінено на **${after}**`;
         }
 
-        return (
-            <>
-                Змінено оцінку з <span className="font-bold">{before}</span> на{' '}
-                <span className="font-bold">{after}</span>
-            </>
-        );
+        return `Змінено оцінку з **${before}** на **${after}**`;
     }
 };
 
@@ -64,40 +44,18 @@ export const convertEpisodes = (
     after: number | null,
 ) => {
     if (before === null && after !== null) {
-        return (
-            <>
-                Переглянуто <span className="font-bold">{after}</span>{' '}
-                {getDeclensionWord(after, EPISODES_DECLENSION)}
-            </>
-        );
+        return `Переглянуто **${after}** ${getDeclensionWord(after, EPISODES_DECLENSION)}`;
     }
 
     if (before !== null && after !== null) {
         if (before === after) {
-            return (
-                <>
-                    Переглянуто <span className="font-bold">{after}</span>{' '}
-                    {getDeclensionWord(after, EPISODES_DECLENSION)}
-                </>
-            );
+            return `Переглянуто **${after}** ${getDeclensionWord(after, EPISODES_DECLENSION)}`;
         } else if (after === 0) {
             return null;
         } else if (after - before === 1 || before === 0 || before > after) {
-            return (
-                <>
-                    Переглянуто <span className="font-bold">{after}</span>{' '}
-                    {EPISODES_DECLENSION[0]}
-                </>
-            );
+            return `Переглянуто **${after}** ${EPISODES_DECLENSION[0]}`;
         } else {
-            return (
-                <>
-                    Переглянуто з{' '}
-                    <span className="font-bold">{before + 1}</span> по{' '}
-                    <span className="font-bold">{after}</span>{' '}
-                    {EPISODES_DECLENSION[0]}
-                </>
-            );
+            return `Переглянуто з **${before + 1}** по **${after}** ${EPISODES_DECLENSION[0]}`;
         }
     }
 };
@@ -107,17 +65,12 @@ export const convertRewatches = (
     after: number | null,
 ) => {
     if (after !== null) {
-        return (
-            <>
-                Повторно переглянуто <span className="font-bold">{after}</span>{' '}
-                {getDeclensionWord(after, TIMES_DECLENSION)}
-            </>
-        );
+        return `Повторно переглянуто **${after}** ${getDeclensionWord(after, TIMES_DECLENSION)}`;
     }
 };
 
 export const convertDeleteWatch = () => {
-    return <>Видалено зі списку</>;
+    return 'Видалено зі списку';
 };
 
 export const createWatchEvents = (

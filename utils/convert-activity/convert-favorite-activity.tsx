@@ -1,9 +1,9 @@
 export const convertDeleteFavorite = () => {
-    return <>Видалено з улюблених</>;
+    return 'Видалено з улюблених';
 };
 
 export const convertAddFavorite = () => {
-    return <>Додано до улюблених</>;
+    return 'Додано до улюблених';
 };
 
 export const createFavoriteEvents = (history_type: API.HistoryType) => {

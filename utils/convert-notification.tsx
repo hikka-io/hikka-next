@@ -33,54 +33,22 @@ const DESCRIPTIONS: Record<
     edit_accepted: () => 'Ваша правка була прийнята',
     edit_denied: () => 'Ваша правка була відхилена',
     edit_updated: () => 'Ваша правка була оновлена',
-    comment_reply: (comment_author: string) => (
-        <>
-            Користувач <span className="font-bold">@{comment_author}</span>{' '}
-            відповів на Ваш коментар
-        </>
-    ),
-    comment_vote: (username: string) => (
-        <>
-            Користувач <span className="font-bold">@{username}</span> оцінив Ваш
-            коментар
-        </>
-    ),
-    comment_tag: (comment_author: string) => (
-        <>
-            Користувач <span className="font-bold">@{comment_author}</span>{' '}
-            згадав Вас у коментарі
-        </>
-    ),
-    edit_comment: (username: string) => (
-        <>
-            Користувач <span className="font-bold">@{username}</span> залишив
-            коментар
-        </>
-    ),
-    collection_comment: (username: string) => (
-        <>
-            Користувач <span className="font-bold">@{username}</span> залишив
-            коментар
-        </>
-    ),
+    comment_reply: (comment_author: string) =>
+        `Користувач @${comment_author} відповів на Ваш коментар`,
+    comment_vote: (username: string) =>
+        `Користувач @${username} оцінив Ваш коментар`,
+    comment_tag: (comment_author: string) =>
+        `Користувач @${comment_author} згадав Вас у коментарі`,
+    edit_comment: (username: string) =>
+        `Користувач @${username} залишив коментар`,
+    collection_comment: (username: string) =>
+        `Користувач @${username} залишив коментар`,
     hikka_update: (description: string) => description,
-    schedule_anime: (episode: number) => (
-        <>
-            Вийшов <span className="font-bold">{episode}</span> епізод аніме
-        </>
-    ),
-    follow: (username: string) => (
-        <>
-            Користувач <span className="font-bold">@{username}</span> підписався
-            на Ваш профіль
-        </>
-    ),
-    collection_vote: (username: string) => (
-        <>
-            Користувач <span className="font-bold">@{username}</span> оцінив
-            Вашу колекцію
-        </>
-    ),
+    schedule_anime: (episode: number) => `Вийшов ${episode} епізод аніме`,
+    follow: (username: string) =>
+        `Користувач @${username} підписався на Ваш профіль`,
+    collection_vote: (username: string) =>
+        `Користувач @${username} оцінив Вашу колекцію`,
 };
 
 const ICONS: Record<API.NotificationType, ReactNode> = {
