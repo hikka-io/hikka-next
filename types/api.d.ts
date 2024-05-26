@@ -181,6 +181,7 @@ declare global {
             comments_count: number;
             updated: number;
             schedule: API.Schedule[];
+            mal_id: number;
         } & Anime;
 
         type GenreType = 'theme' | 'explicit' | 'demographic' | 'genre';
