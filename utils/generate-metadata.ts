@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
-import { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
+import {
+    DeprecatedMetadataFields,
+    TemplateString,
+} from 'next/dist/lib/metadata/types/metadata-types';
 
 export const DEFAULTS = {
     siteName: 'Hikka',
@@ -28,6 +31,9 @@ interface Props {
     description?: string | null | undefined;
     images?: OGImage | OGImage[] | undefined;
     siteName?: string;
+    other?: {
+        [name: string]: string | number | (string | number)[];
+    } & DeprecatedMetadataFields;
 }
 
 const generateMetadata = ({
@@ -35,6 +41,7 @@ const generateMetadata = ({
     description,
     images,
     siteName,
+    other,
 }: Props): Metadata => {
     return {
         title: title || DEFAULTS.title,
@@ -51,6 +58,7 @@ const generateMetadata = ({
             description: description || DEFAULTS.description,
             images: images || DEFAULTS.images,
         },
+        other,
     };
 };
 
