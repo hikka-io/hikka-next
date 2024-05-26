@@ -48,7 +48,13 @@ const CommentInput: FC<Props> = forwardRef(
 
         const onSuccess = async () => {
             await queryClient.invalidateQueries({
-                queryKey: ['comments', slug],
+                queryKey: ['comments', slug, content_type],
+                exact: false,
+            });
+
+            await queryClient.invalidateQueries({
+                queryKey: ['commentThread'],
+                exact: false,
             });
 
             editorRef.current?.setMarkdown('');
