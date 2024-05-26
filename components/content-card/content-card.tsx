@@ -115,7 +115,7 @@ const Content = memo(
                         >
                             <Comp
                                 href={href || ''}
-                                className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/60"
+                                className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/60"
                             >
                                 {poster ? (
                                     typeof poster === 'string' ? (

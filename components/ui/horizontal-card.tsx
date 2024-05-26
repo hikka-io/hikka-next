@@ -24,6 +24,7 @@ interface Props extends ComponentProps<'div'> {
     imageClassName?: string;
     imageContainerClassName?: string;
     imageRatio?: number;
+    imageChildren?: ReactNode;
 }
 
 const HorizontalCard: FC<Props> = ({
@@ -40,6 +41,7 @@ const HorizontalCard: FC<Props> = ({
     imageClassName,
     imageContainerClassName,
     imageRatio,
+    imageChildren,
     className,
     children,
     ...props
@@ -52,7 +54,9 @@ const HorizontalCard: FC<Props> = ({
                 containerRatio={imageRatio}
                 href={href}
                 poster={image}
-            />
+            >
+                {imageChildren}
+            </ContentCard>
 
             <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">

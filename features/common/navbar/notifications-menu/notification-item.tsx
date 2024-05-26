@@ -39,7 +39,13 @@ const NotificationItem: FC<Props> = ({ data }) => {
                     createdAt={data.created}
                     image={data.icon}
                     imageRatio={1}
+                    imageClassName="overflow-visible"
                     imageContainerClassName="w-8"
+                    imageChildren={
+                        !data.seen && (
+                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-secondary/60 bg-warning" />
+                        )
+                    }
                 >
                     {data.poster && data.poster}
                 </HorizontalCard>
