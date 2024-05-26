@@ -38,5 +38,8 @@ export default async function generateMetadata({
         },
         description: synopsis,
         images: `https://preview.hikka.io/anime/${slug}/${anime.updated}`,
+        other: {
+            'mal-id': anime.mal_id,
+        },
     });
 }
