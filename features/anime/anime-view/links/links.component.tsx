@@ -30,6 +30,10 @@ const Links: FC<Props> = ({ extended }) => {
         return null;
     }
 
+    if (anime.external.length === 0) {
+        return null;
+    }
+
     const watchLinksData = anime.external.filter((l) => l.type === 'watch');
     const generalLinksData = anime.external.filter((l) => l.type === 'general');
 
