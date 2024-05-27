@@ -1,8 +1,9 @@
 'use client';
 
-import clsx from 'clsx';
 import NextImage, { ImageProps } from 'next/image';
-import React, { Ref, forwardRef, useState } from 'react';
+import { Ref, forwardRef, useState } from 'react';
+
+import { cn } from '@/utils/utils';
 
 interface Props extends ImageProps {
     transitionDisabled?: boolean;
@@ -17,8 +18,8 @@ const Component = (
     return (
         <NextImage
             ref={ref}
-            className={clsx(
-                loaded ? 'opacity-1' : 'opacity-0',
+            className={cn(
+                loaded ? 'opacity-100' : 'opacity-0',
                 !transitionDisabled && '!transition',
                 className,
             )}

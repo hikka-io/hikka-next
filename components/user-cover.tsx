@@ -26,7 +26,7 @@ const UserCover: FC<Props> = ({ username }) => {
                 className="relative size-full object-cover"
                 alt="cover"
                 fill
-                priority
+                loading="lazy"
             />
         </div>
     );

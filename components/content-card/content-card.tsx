@@ -128,7 +128,9 @@ const Content = memo(
                                                 posterClassName,
                                             )}
                                             alt="Poster"
-                                            {...posterProps}
+                                            {...(posterProps
+                                                ? posterProps
+                                                : { loading: 'lazy' })}
                                         />
                                     ) : (
                                         poster
