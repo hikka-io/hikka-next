@@ -16,7 +16,7 @@ const useCreateCollection = (params: Params) => {
         mutationKey: ['createCollection'],
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({
-                queryKey: ['collection', { reference: data.reference }],
+                queryKey: ['collection', data.reference],
                 exact: false,
             });
             enqueueSnackbar('Колекцію успішно створено', {
