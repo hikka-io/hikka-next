@@ -157,7 +157,7 @@ const Component = () => {
             {isDesktop && (
                 <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
             )}
-            <div className="flex flex-1 flex-col overflow-hidden border-r-secondary/60 pt-6 md:border-r">
+            <div className="flex flex-1 flex-col overflow-hidden pt-6">
                 {activeForm && (
                     <Header
                         onBack={() => setActiveTab(undefined)}
