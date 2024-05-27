@@ -35,6 +35,7 @@ import { useMediaQuery } from '../hooks/use-media-query';
 interface State {
     open: boolean;
     className?: string;
+    containerClassName?: string;
     title?: string;
     content: ReactNode;
     type?: 'dialog' | 'sheet';
@@ -47,6 +48,7 @@ interface ContextProps extends State {
         content: State['content'];
         title?: State['title'];
         className?: State['className'];
+        containerClassName?: State['containerClassName'];
         type?: State['type'];
         side?: State['side'];
         forceModal?: State['forceModal'];
@@ -73,6 +75,7 @@ function getInitialState(): State {
         type: 'dialog',
         side: 'left',
         forceModal: false,
+        containerClassName: '',
     };
 }
 
@@ -92,6 +95,7 @@ export default function ModalProvider({ children }: Props) {
         type,
         side,
         forceModal,
+        containerClassName,
     }: {
         content: State['content'];
         title?: State['title'];
@@ -99,6 +103,7 @@ export default function ModalProvider({ children }: Props) {
         type?: State['type'];
         side?: State['side'];
         forceModal?: State['forceModal'];
+        containerClassName?: State['containerClassName'];
     }) => {
         setState({
             ...state,
@@ -109,6 +114,7 @@ export default function ModalProvider({ children }: Props) {
             side: side || 'left',
             type: type || 'dialog',
             forceModal,
+            containerClassName,
         });
     };
 
@@ -184,6 +190,7 @@ export default function ModalProvider({ children }: Props) {
                             'no-scrollbar max-h-[90dvh] overflow-y-scroll',
                             state.className,
                         )}
+                        containerClassName={state.containerClassName}
                     >
                         {state.title && (
                             <DialogHeader>

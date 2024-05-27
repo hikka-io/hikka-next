@@ -74,8 +74,9 @@ const Navbar = () => {
                                 onClick={() =>
                                     openModal({
                                         content: <AuthModal type="login" />,
-                                        className: 'p-0 max-w-3xl',
+                                        className: 'max-w-3xl',
                                         forceModal: true,
+                                        containerClassName: 'p-0',
                                     })
                                 }
                             >
@@ -87,8 +88,9 @@ const Navbar = () => {
                                 onClick={() =>
                                     openModal({
                                         content: <AuthModal type="signup" />,
-                                        className: 'p-0 max-w-3xl',
+                                        className: 'max-w-3xl',
                                         forceModal: true,
+                                        containerClassName: 'p-0',
                                     })
                                 }
                             >

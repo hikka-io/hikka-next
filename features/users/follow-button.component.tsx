@@ -95,6 +95,8 @@ const FollowButton: FC<Props> = ({ className }) => {
                 openModal({
                     content: <AuthModal type="login" />,
                     forceModal: true,
+                    className: 'max-w-3xl',
+                    containerClassName: 'p-0',
                 })
             }
             className={cn('w-fit', className)}

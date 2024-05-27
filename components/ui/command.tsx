@@ -26,12 +26,14 @@ Command.displayName = CommandPrimitive.displayName;
 
 interface CommandDialogProps extends DialogProps {
     className?: string;
+    containerClassName?: string;
     shouldFilter?: boolean;
 }
 
 const CommandDialog = ({
     children,
     className,
+    containerClassName,
     shouldFilter,
     ...props
 }: CommandDialogProps) => {
@@ -39,6 +41,7 @@ const CommandDialog = ({
         <Dialog {...props}>
             <DialogContent
                 className={cn('overflow-hidden p-0 shadow-lg', className)}
+                containerClassName={containerClassName}
             >
                 <Command
                     shouldFilter={shouldFilter}
@@ -171,11 +174,11 @@ CommandShortcut.displayName = 'CommandShortcut';
 export {
     Command,
     CommandDialog,
-    CommandInput,
-    CommandList,
     CommandEmpty,
     CommandGroup,
+    CommandInput,
     CommandItem,
-    CommandShortcut,
+    CommandList,
     CommandSeparator,
+    CommandShortcut,
 };

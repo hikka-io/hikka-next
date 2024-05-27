@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useRef, useState } from 'react';
+import { Fragment, ReactNode, useRef, useState } from 'react';
 
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 
@@ -43,10 +43,11 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     useSearchModal({ setOpen, onClick, content_type, setSearchType });
 
     return (
-        <>
+        <Fragment>
             <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
                 className="flex max-h-[90dvh] max-w-3xl"
+                containerClassName="p-0"
                 open={open}
                 onOpenChange={setOpen}
                 shouldFilter={false}
@@ -100,7 +101,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
                     />
                 )}
             </CommandDialog>
-        </>
+        </Fragment>
     );
 };
 

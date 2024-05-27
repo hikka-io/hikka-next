@@ -35,6 +35,8 @@ const EditRulesAlert = () => {
                                     </MDViewer>
                                 ),
                                 className: 'max-w-xl',
+                                containerClassName:
+                                    'overflow-scroll max-h-[90dvh]',
                                 title: 'Правила редагування',
                             })
                         }
