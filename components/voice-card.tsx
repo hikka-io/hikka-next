@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FC } from 'react';
 
 import ContentCard, {
@@ -20,6 +19,7 @@ const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
             title={person.name_ua || person.name_en || person.name_native}
             description={anime.title}
             disableChildrenLink
+            withContextMenu
             leftSubtitle={language.toUpperCase()}
             {...props}
         >
