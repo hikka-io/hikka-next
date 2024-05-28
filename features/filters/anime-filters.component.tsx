@@ -1,6 +1,5 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
@@ -20,17 +19,15 @@ import {
     SelectSearch,
     SelectTrigger,
     SelectValue,
-    groupOptions,
     renderSelectOptions,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 
-import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
+import useAnimeGenres from '@/services/hooks/anime/use-anime-genres';
 import useCompanies from '@/services/hooks/companies/use-companies';
 import {
     AGE_RATING,
-    GENRE_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
@@ -104,18 +101,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
 
     const sortOptions = type === 'anime' ? SORT_ANIME : SORT_WATCHLIST;
 
-    const { data: genresList } = useQuery({
-        queryKey: ['animeGenres'],
-        queryFn: () => getAnimeGenres(),
-        select: (data) =>
-            groupOptions(
-                data.list.map((genre) => ({
-                    value: genre.slug,
-                    label: genre.name_ua,
-                    group: GENRE_TYPES[genre.type].title_ua,
-                })),
-            ),
-    });
+    const { data: genresList } = useAnimeGenres();
 
     const [studioSearch, setStudioSearch] = useState<string>();
     const { data: studioList, isFetching: isStudioListFetching } = useCompanies(

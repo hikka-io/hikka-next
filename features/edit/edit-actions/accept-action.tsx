@@ -1,28 +1,17 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import * as React from 'react';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import acceptEdit from '@/services/api/edit/acceptEdit';
+import useActionEdit from '@/services/hooks/edit/use-action-edit';
 
 interface Props {}
 
 const AcceptAction: FC<Props> = () => {
     const params = useParams();
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: acceptEdit,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({
-                queryKey: ['edit', params.editId],
-            });
-        },
-    });
+    const mutation = useActionEdit({ action: 'accept' });
 
     const handleClick = () => {
         mutation.mutate({

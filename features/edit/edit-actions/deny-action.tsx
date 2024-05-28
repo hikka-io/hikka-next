@@ -1,8 +1,6 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import * as React from 'react';
 import { FC } from 'react';
 
 import {
@@ -17,22 +15,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import denyEdit from '@/services/api/edit/denyEdit';
+import useActionEdit from '@/services/hooks/edit/use-action-edit';
 
 interface Props {}
 
 const DenyAction: FC<Props> = () => {
     const params = useParams();
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: denyEdit,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({
-                queryKey: ['edit', params.editId],
-            });
-        },
-    });
+    const mutation = useActionEdit({ action: 'deny' });
 
     const handleClick = () => {
         mutation.mutate({
