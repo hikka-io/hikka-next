@@ -20,6 +20,8 @@ const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
             description={anime.title}
             disableChildrenLink
             withContextMenu
+            content_type="person"
+            slug={person.slug}
             leftSubtitle={language.toUpperCase()}
             {...props}
         >
