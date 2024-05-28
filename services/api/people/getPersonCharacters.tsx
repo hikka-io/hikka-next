@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -28,10 +27,5 @@ export default async function req({
         method: 'get',
         page,
         size,
-        config: {
-            next: {
-                revalidate: 60,
-            },
-        },
     });
 }

@@ -61,6 +61,7 @@ export async function fetchRequest<TResponse>({
                     ? (params as FormData)
                     : JSON.stringify(params)
                 : undefined,
+        cache: 'no-store',
         ...config.config,
         ...myConfig,
         headers: {

@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -23,10 +22,5 @@ export default async function req({
         ...props,
         path: `/anime/${params?.slug}/characters`,
         method: 'get',
-        config: {
-            next: {
-                revalidate: 60,
-            },
-        },
     });
 }

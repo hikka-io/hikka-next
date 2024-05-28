@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -18,10 +17,5 @@ export default async function req({
         ...props,
         path: `/people/${params?.slug}`,
         method: 'get',
-        config: {
-            next: {
-                revalidate: 60,
-            },
-        },
     });
 }

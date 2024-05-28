@@ -20,10 +20,5 @@ export default async function req({
         method: 'post',
         page,
         size,
-        config: {
-            next: {
-                revalidate: 60,
-            },
-        },
     });
 }

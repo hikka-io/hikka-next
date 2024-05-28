@@ -9,9 +9,7 @@ export default async function req(): Promise<Response> {
         path: `/anime/genres`,
         method: 'get',
         config: {
-            next: {
-                revalidate: false,
-            },
+            cache: 'force-cache',
         },
     });
 }
