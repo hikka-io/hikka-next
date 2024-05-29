@@ -20,16 +20,18 @@ const Title = () => {
         return null;
     }
 
+    const name = person.name_ua || person.name_en || person.name_native;
+    const otherLanguagesName =
+        name === person.name_en
+            ? person.name_native
+            : `${person.name_native} / ${person.name_en}`;
+
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
                     <div className="flex gap-4">
-                        <H2>
-                            {person.name_ua ||
-                                person.name_en ||
-                                person.name_native}
-                        </H2>
+                        <H2>{name}</H2>
                         {loggedUser && (
                             <EditButton
                                 key={String(params.slug)}
@@ -39,7 +41,7 @@ const Title = () => {
                             />
                         )}
                     </div>
-                    <P className="mt-2">{person.name_native}</P>
+                    <P className="mt-2">{otherLanguagesName}</P>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                     {loggedUser && (
