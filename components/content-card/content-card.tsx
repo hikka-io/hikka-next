@@ -12,6 +12,7 @@ import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symb
 
 import AnimeTooltip from '@/components/content-card/anime-tooltip';
 import CharacterTooltip from '@/components/content-card/character-tooltip';
+import CollectionTooltip from '@/components/content-card/collection-tooltip';
 import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
@@ -41,6 +42,7 @@ export interface Props {
         MouseEventHandler<HTMLDivElement>;
     watch?: API.Watch;
     slug?: string;
+    reference?: string;
     content_type?: API.ContentType;
     withContextMenu?: boolean;
     posterProps?: {
@@ -52,17 +54,21 @@ interface TooltipProps {
     children: ReactNode;
     content_type?: API.ContentType;
     slug?: string;
+    reference?: string;
 }
 
-const Tooltip: FC<TooltipProps> = ({ children, content_type, slug }) => {
+const Tooltip: FC<TooltipProps> = ({ children, content_type, slug, reference }) => {
     switch (content_type) {
         case 'anime':
             return <AnimeTooltip slug={slug}>{children}</AnimeTooltip>;
         case 'character':
             return <CharacterTooltip slug={slug}>{children}</CharacterTooltip>;
+        case 'collection':
+            return <CollectionTooltip reference={reference}>{children}</CollectionTooltip>
         default:
             return <Fragment>{children}</Fragment>;
     }
+
 };
 
 const Content = memo(
@@ -85,6 +91,7 @@ const Content = memo(
                 onClick,
                 watch,
                 slug,
+                reference,
                 content_type,
                 withContextMenu,
                 posterProps,
@@ -95,7 +102,7 @@ const Content = memo(
             const Comp = href ? Link : 'div';
 
             return (
-                <Tooltip slug={slug} content_type={content_type}>
+                <Tooltip slug={slug} content_type={content_type} reference={reference}>
                     <div
                         ref={ref}
                         className={cn(

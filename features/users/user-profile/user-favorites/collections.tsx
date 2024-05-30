@@ -66,6 +66,8 @@ const Collections: FC<Props> = ({ extended }) => {
                             rightSubtitle={
                                 (res.spoiler && 'Спойлери') || undefined
                             }
+                            content_type="collection"
+                            reference={res.reference}
                         />
                     ))}
                 </div>
