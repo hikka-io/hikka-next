@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
 
-import useSession from '@/services/hooks/auth/use-session';
 import useCharacterAnime from '@/services/hooks/characters/use-character-anime';
 import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 
@@ -27,7 +26,6 @@ interface Props extends PropsWithChildren {
 }
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
-    const { user: loggedUser } = useSession();
     const { data } = useCharacterInfo({ slug });
     const { list } = useCharacterAnime({ slug });
 
@@ -85,6 +83,8 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                         poster={characterAnime.anime.poster}
                         containerRatio={0.7}
                         href={'/anime/' + characterAnime.anime.slug}
+                        content_type="anime"
+                        slug={characterAnime.anime.slug}
                     />
                 </div>
             )}
