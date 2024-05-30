@@ -53,6 +53,8 @@ const Characters: FC<Props> = ({ extended }) => {
                             title={res.name_ua || res.name_en || res.name_ja}
                             poster={res.image}
                             href={`/characters/${res.slug}`}
+                            content_type='character'
+                            slug={res.slug}
                         />
                     ))}
                 </Stack>
