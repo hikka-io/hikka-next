@@ -78,7 +78,7 @@ const TooltipData: FC<TooltipDataProps> = ({ reference }) => {
 
     return (
         <>
-            <div className="flex flex-col gap-4">
+            <div className="flex w-80 flex-col gap-4">
                 <div className={cn('flex gap-2')}>
                     <Link
                         href={`/u/${data.author.username}`}
@@ -121,7 +121,7 @@ const TooltipData: FC<TooltipDataProps> = ({ reference }) => {
                     </div>
                 </div>
                 {(data.spoiler || data.nsfw || (data.tags.length > 0)) && (
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {data.spoiler && (
                             <Badge variant="warning">Спойлери</Badge>
                         )}
@@ -150,14 +150,16 @@ const TooltipData: FC<TooltipDataProps> = ({ reference }) => {
                             containerRatio={0.7}
                         />
                         ))}
-                    <ContentCard
-                        className="w-10"
-                        href={`/collections/${data.reference}`}
-                        poster={
-                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
-                        }
-                        containerRatio={0.7}
-                    />
+                    {data.collection.length >= 7 && (
+                        <ContentCard
+                            className="w-10"
+                            href={`/collections/${data.reference}`}
+                            poster={
+                                <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                            }
+                            containerRatio={0.7}
+                        />
+                    )}
                 </div>
             </div>
         </>
