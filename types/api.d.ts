@@ -210,6 +210,7 @@ declare global {
             name_en: string;
             image: string;
             slug: string;
+            description_ua: string | null;
             synonyms: string[];
             characters_count: number;
             anime_count: number;
