@@ -1,7 +1,7 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { FC, PropsWithChildren, memo } from 'react';
+import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -28,14 +28,9 @@ interface Props extends PropsWithChildren {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     const { data } = usePersonInfo({ slug });
-    const { list } = usePersonAnime({ slug, size: 100 });
-    const { slug: animeSlug } = useParams();
+    const { list } = usePersonAnime({ slug });
 
-    const currentAnimeInfo = list?.find(
-        (anime) => anime.anime.slug === animeSlug,
-    );
-
-    if (!data || !currentAnimeInfo) {
+    if (!data || !list) {
         return (
             <div className="flex w-96 animate-pulse gap-4 text-left">
                 <div className="h-28 w-20 rounded-lg bg-secondary/60" />
@@ -51,7 +46,14 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
 
                     <div className="flex gap-2">
                         <div className="h-3 w-1/4 rounded-lg bg-secondary/60" />
-                        <div className="h-3 w-2/4 rounded-lg bg-secondary/60" />
+                    </div>
+
+                    <div className="flex gap-2">
+                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
                     </div>
                 </div>
             </div>
@@ -64,7 +66,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 className="w-20"
                 poster={data.image}
                 containerRatio={0.7}
-                href={'/people/' + data.slug}
+                href={`/people/${data.slug}`}
             />
 
             <div className="flex w-full flex-1 flex-col gap-2">
@@ -78,26 +80,32 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                         {data.description_ua}
                     </MDViewer>
 
-                    <div className="flex">
-                        <div className="w-1/4">
-                            <Label className="text-muted-foreground">
-                                Ролі:
-                            </Label>
-                        </div>
-                        <div className="flex-1">
-                            {currentAnimeInfo?.roles.map((role, i) => (
-                                <span
-                                    className="rounded-sm text-sm duration-100"
-                                    key={`${slug}-${role}`}
-                                >
-                                    {role.name_ua || role.name_en}
-                                    {i + 1 !==
-                                        currentAnimeInfo.roles.length && (
-                                        <span>, </span>
-                                    )}
-                                </span>
-                            ))}
-                        </div>
+                    <div>
+                        <Label className="text-muted-foreground">Роботи</Label>
+                    </div>
+
+                    <div className="flex gap-2">
+                        {list.slice(0, 5).map(({ anime }) => (
+                            <ContentCard
+                                className="w-10"
+                                href={`/anime/${anime.slug}`}
+                                key={anime.slug}
+                                poster={anime.poster}
+                                slug={anime.slug}
+                                content_type={anime.data_type}
+                                containerRatio={0.7}
+                            />
+                        ))}
+                        {list.length > 5 && (
+                            <ContentCard
+                                className="w-10"
+                                href={`/people/${data.slug}`}
+                                poster={
+                                    <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                                }
+                                containerRatio={0.7}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
