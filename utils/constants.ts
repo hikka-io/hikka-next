@@ -471,16 +471,6 @@ export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
         title_ua: 'Автори',
         url: '/staff',
     },
-    {
-        slug: 'links',
-        title_ua: 'Посилання',
-        url: '/links',
-    },
-    {
-        slug: 'comments',
-        title_ua: 'Обговорення',
-        url: '/comments',
-    },
 ];
 
 export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
