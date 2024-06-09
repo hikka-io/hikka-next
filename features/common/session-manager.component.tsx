@@ -19,7 +19,7 @@ const SessionManager = async ({ children }: Props) => {
                 queryFn: ({ meta }) => getLoggedUserInfo({}),
             }));
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         // await deleteCookie('auth');
     }
 
