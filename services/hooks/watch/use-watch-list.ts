@@ -21,6 +21,7 @@ const useWatchList = ({
     const ageRatings = searchParams.getAll('ratings');
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
+    const studios = searchParams.getAll('studios');
 
     const order = searchParams.get('order') || 'desc';
     const sort = searchParams.get('sort') || 'watch_score';
@@ -36,6 +37,7 @@ const useWatchList = ({
                 seasons,
                 ageRatings,
                 genres,
+                studios,
                 order,
                 sort,
                 years,
@@ -50,6 +52,7 @@ const useWatchList = ({
                     season: seasons,
                     rating: ageRatings,
                     status: statuses,
+                    studios: studios,
                     sort: [`${sort}:${order}`],
                     genres,
                     years: years && years.length == 2 ? years : undefined,
