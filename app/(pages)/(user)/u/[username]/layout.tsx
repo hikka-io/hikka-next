@@ -14,8 +14,8 @@ import UserCover from '@/components/user-cover';
 import ActivationAlert from '@/features/users/activation-alert.component';
 import FollowButton from '@/features/users/follow-button.component';
 import FollowStats from '@/features/users/follow-stats.component';
+import ListStats from '@/features/users/list-stats.component';
 import UserInfo from '@/features/users/user-info.component';
-import ListStats from '@/features/users/user-profile/list-stats.component';
 import UserTitle from '@/features/users/user-title.component';
 
 import { USER_NAV_ROUTES } from '@/utils/constants';

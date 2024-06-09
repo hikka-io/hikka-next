@@ -48,17 +48,11 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             className={className}
             title={data.title}
             href={`/collections/${data.reference}`}
-            titleClassName={cn(
-                data.spoiler && 'blur-sm duration-500 hover:blur-none',
-            )}
+            titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
             image={poster(data.collection[0].content)}
-            imageClassName={cn(
-                data.nsfw && 'blur-sm duration-500 hover:blur-none',
-            )}
+            imageClassName={cn(data.nsfw && 'spoiler-blur-sm')}
             description={data.description}
-            descriptionClassName={cn(
-                data.spoiler && 'blur-sm duration-500 hover:blur-none',
-            )}
+            descriptionClassName={cn(data.spoiler && 'spoiler-blur-sm')}
             meta={Meta}
             titleMeta={TitleMeta}
         />

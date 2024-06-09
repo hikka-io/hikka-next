@@ -1,8 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MDXEditorMethods } from '@mdxeditor/editor';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { PlateEditor } from '@udecode/plate-common';
 import { FC, ForwardedRef, forwardRef, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded';
@@ -38,7 +38,7 @@ const CommentInput: FC<Props> = forwardRef(
         ref: ForwardedRef<HTMLFormElement>,
     ) => {
         const { setState: setCommentsState } = useCommentsContext();
-        const editorRef = useRef<MDXEditorMethods>(null);
+        const editorRef = useRef<PlateEditor | null>(null);
         const queryClient = useQueryClient();
 
         const form = useForm<z.infer<typeof formSchema>>({
@@ -57,7 +57,7 @@ const CommentInput: FC<Props> = forwardRef(
                 exact: false,
             });
 
-            editorRef.current?.setMarkdown('');
+            editorRef.current?.reset();
 
             if (comment) {
                 setCommentsState!((prev) => ({
@@ -119,65 +119,61 @@ const CommentInput: FC<Props> = forwardRef(
             <Form {...form}>
                 <form
                     ref={ref}
-                    className={cn(
-                        'relative w-full',
-                        'rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
-                        className,
-                    )}
+                    className={cn('relative w-full', className)}
                     onSubmit={(e) => e.preventDefault()}
                 >
                     <FormMarkdown
                         name="text"
                         placeholder="Напишіть повідомлення..."
                         readOnly={isAddPending || isEditPending}
-                        ref={editorRef}
-                        autoFocus={!isEdit && Boolean(comment)}
-                    />
-                    <div className="flex w-full items-center justify-between p-2">
-                        {comment && !isEdit ? (
-                            <Badge
-                                variant="secondary"
-                                className="gap-2 p-0 pr-2"
-                            >
-                                <Avatar className="size-6">
-                                    <AvatarImage
-                                        className="size-6"
-                                        src={comment.author.avatar}
-                                    />
-                                </Avatar>
-                                <Label className="hidden md:block">
-                                    {comment.author.username}
-                                </Label>
-                                <MaterialSymbolsReplyRounded />
-                            </Badge>
-                        ) : (
-                            <div />
-                        )}
-                        <div className="flex gap-2">
-                            {comment && (
-                                <Button
-                                    type="button"
-                                    onClick={handleCancel}
-                                    size="sm"
-                                    variant="outline"
+                        editorRef={editorRef}
+                    >
+                        <div className="flex w-full items-center justify-between p-2">
+                            {comment && !isEdit ? (
+                                <Badge
+                                    variant="secondary"
+                                    className="gap-2 p-0 pr-2"
                                 >
-                                    Скасувати
-                                </Button>
+                                    <Avatar className="size-6">
+                                        <AvatarImage
+                                            className="size-6"
+                                            src={comment.author.avatar}
+                                        />
+                                    </Avatar>
+                                    <Label className="hidden md:block">
+                                        {comment.author.username}
+                                    </Label>
+                                    <MaterialSymbolsReplyRounded />
+                                </Badge>
+                            ) : (
+                                <div />
                             )}
-                            <Button
-                                onClick={form.handleSubmit(onSubmit)}
-                                disabled={isAddPending || isEditPending}
-                                size="sm"
-                                type="submit"
-                                variant="secondary"
-                            >
-                                {(isAddPending || isEditPending) && (
-                                    <span className="loading loading-spinner"></span>
+                            <div className="flex gap-2">
+                                {comment && (
+                                    <Button
+                                        type="button"
+                                        onClick={handleCancel}
+                                        size="sm"
+                                        variant="outline"
+                                    >
+                                        Скасувати
+                                    </Button>
                                 )}
-                                {isEdit ? 'Зберегти' : 'Відправити'}
-                            </Button>
+                                <Button
+                                    onClick={form.handleSubmit(onSubmit)}
+                                    disabled={isAddPending || isEditPending}
+                                    size="sm"
+                                    type="submit"
+                                    variant="secondary"
+                                >
+                                    {(isAddPending || isEditPending) && (
+                                        <span className="loading loading-spinner"></span>
+                                    )}
+                                    {isEdit ? 'Зберегти' : 'Відправити'}
+                                </Button>
+                            </div>
                         </div>
-                    </div>
+                    </FormMarkdown>
                 </form>
             </Form>
         );
