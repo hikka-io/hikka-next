@@ -5,7 +5,7 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import MDEditor from '@/components/markdown/editor/MD-editor';
+import PlateEditor from '@/components/markdown/plate-editor/plate-editor';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -71,12 +71,10 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 control={control}
                 name={param.slug}
                 render={({ field: { onChange, onBlur, ref, value } }) => (
-                    <MDEditor
-                        ref={ref}
+                    <PlateEditor
                         placeholder={param.placeholder}
-                        markdown={value || ''}
+                        initialValue={value || ''}
                         onChange={onChange}
-                        onBlur={onBlur}
                     />
                 )}
             />

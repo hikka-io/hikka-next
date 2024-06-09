@@ -23,11 +23,10 @@ const Component = ({
             window.location.href = res.url;
             return;
         } catch (e) {
-            console.error(e);
             return;
         }
     };
-    // "p-0 max-w-3xl"
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]">
             <div className="relative hidden lg:block">

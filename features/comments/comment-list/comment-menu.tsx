@@ -1,9 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import {
@@ -26,6 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import deleteComment from '@/services/api/comments/deleteComment';
+import useSession from '@/services/hooks/auth/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 interface Props {
@@ -37,20 +37,28 @@ const CommentMenu: FC<Props> = ({ comment }) => {
     const queryClient = useQueryClient();
     const { setState: setCommentsState } = useCommentsContext();
 
-    const loggedUser: API.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-    ]);
+    const { user: loggedUser } = useSession();
+
+    const deleteCommentMutation = useMutation({
+        mutationFn: deleteComment,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['comments'],
+                exact: false,
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['commentThread'],
+                exact: false,
+            });
+        },
+    });
 
     const handleDeleteComment = async () => {
         try {
-            await deleteComment({
+            deleteCommentMutation.mutate({
                 params: {
                     reference: comment.reference,
                 },
-            });
-
-            await queryClient.invalidateQueries({
-                queryKey: ['comments'],
             });
         } catch (e) {
             enqueueSnackbar(
