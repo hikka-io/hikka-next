@@ -11,6 +11,7 @@ export const createSpoilerPlugin = createPluginFactory({
         rules: [
             {
                 validNodeName: 'DIV',
+                validClassName: 'spoiler',
             },
         ],
     },

@@ -5,7 +5,7 @@ import {
 
 export interface Response extends API.WithPagination<PersonCharacter> {}
 
-type PersonCharacter = {
+export type PersonCharacter = {
     character: API.Character;
     anime: API.AnimeInfo;
     language: string;
