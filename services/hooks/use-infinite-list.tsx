@@ -8,12 +8,9 @@ import {
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-interface Props<T> {
+interface Props<T> extends Hikka.QueryOptions {
     queryFn: QueryFunction<API.WithPagination<T>, this['queryKey'], number>;
     queryKey: QueryKey;
-    staleTime?: number;
-    gcTime?: number;
-    enabled?: boolean;
     select?: (data: {
         pages: API.WithPagination<T>[];
         pageParams: Array<unknown>;
