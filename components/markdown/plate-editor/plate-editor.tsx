@@ -12,10 +12,19 @@ import {
     getEndPoint,
     getStartPoint,
     insertNodes,
+    isNodeList,
     select,
     withoutNormalizing,
 } from '@udecode/plate-common';
-import { ReactNode, useCallback, useEffect, useRef } from 'react';
+import {
+    ForwardedRef,
+    ReactNode,
+    forwardRef,
+    useCallback,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+} from 'react';
 import MaterialSymbolsFormatBoldRounded from '~icons/material-symbols/format-bold-rounded';
 import MaterialSymbolsFormatItalicRounded from '~icons/material-symbols/format-italic-rounded';
 
@@ -38,6 +47,7 @@ export interface EditorProps
     children?: ReactNode;
     initialValue?: string;
     value?: string;
+    updateValue?: boolean;
     placeholder?: string;
     onChange?: (value: string) => void;
     className?: string;
@@ -54,103 +64,104 @@ const setEditorNodes = <N extends EElementOrText<V>, V extends Value = Value>(
         const range = { anchor: start, focus: end };
         select(editor, range);
         deleteFragment(editor);
-        insertNodes(editor, nodes, { removeEmpty: true });
+
+        if (isNodeList(nodes)) {
+            insertNodes(editor, nodes, { removeEmpty: true });
+        }
     });
 };
 
-export default function Editor({
-    children,
-    value,
-    initialValue,
-    placeholder,
-    onChange,
-    className,
-    editorRef,
-    ...props
-}: EditorProps) {
-    const initialValueUpdated = useRef(false);
-    const tmpEditor = createPlateEditor({ plugins });
+const Editor = forwardRef(
+    (
+        {
+            children,
+            value,
+            initialValue,
+            placeholder,
+            onChange,
+            className,
+            updateValue,
+            ...props
+        }: EditorProps,
+        ref: ForwardedRef<PlateEditor>,
+    ) => {
+        const editor = useMemo(() => createPlateEditor({ plugins }), []);
 
-    editorRef = editorRef || useRef<PlateEditor | null>(null);
+        const editorRef = useRef<PlateEditor | null>(null);
 
-    const deserializeValue = useCallback(
-        (markdown?: string) => {
-            if (!markdown) {
-                return undefined;
-            }
+        useImperativeHandle(ref, () => editorRef?.current!);
 
-            const decentralized = deserializeMd(tmpEditor, markdown);
+        const deserializeValue = useCallback(
+            (markdown?: string) => {
+                if (!markdown) {
+                    return undefined;
+                }
 
-            return decentralized;
-        },
-        [value, initialValue],
-    );
+                const decentralized = deserializeMd(editor, markdown);
 
-    const handleOnChange = useCallback((value: Value) => {
-        onChange!(serializeMd(editorRef?.current!));
-    }, []);
+                return decentralized;
+            },
+            [value, initialValue],
+        );
 
-    useEffect(() => {
-        if (
-            initialValue &&
-            editorRef?.current! &&
-            !initialValueUpdated.current
-        ) {
-            setEditorNodes(editorRef?.current!, deserializeValue(initialValue));
-            initialValueUpdated.current = true;
-        }
-    }, [initialValue]);
+        const handleOnChange = useCallback((value: Value) => {
+            onChange!(serializeMd(editorRef?.current!));
+        }, []);
 
-    return (
-        <div
-            className={cn(
-                'grid grid-cols-1 gap-2 rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
-                className,
-            )}
-        >
-            <Plate
-                editorRef={editorRef}
-                value={deserializeValue(value)}
-                initialValue={deserializeValue(initialValue)}
-                plugins={plugins}
-                onChange={onChange && handleOnChange}
-                {...props}
+        return (
+            <div
+                className={cn(
+                    'grid grid-cols-1 gap-2 rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
+                    className,
+                )}
             >
-                <Toolbar className="w-full p-2">
-                    <ToolbarGroup noSeparator>
-                        <MarkToolbarButton
-                            size="icon-sm"
-                            tooltip="Жирний (⌘+B)"
-                            nodeType={MARK_BOLD}
-                        >
-                            <MaterialSymbolsFormatBoldRounded />
-                        </MarkToolbarButton>
-                        <MarkToolbarButton
-                            size="icon-sm"
-                            tooltip="Курсив (⌘+I)"
-                            nodeType={MARK_ITALIC}
-                        >
-                            <MaterialSymbolsFormatItalicRounded />
-                        </MarkToolbarButton>
-                    </ToolbarGroup>
-                    <ToolbarSeparator className="h-full" />
-                    <ToolbarGroup noSeparator>
-                        <LinkToolbarButton
-                            tooltip="Посилання (⌘+K)"
-                            size="icon-sm"
-                        />
-                        <SpoilerToolbarButton
-                            tooltip="Спойлер (⌘+Shift+S)"
-                            size="icon-sm"
-                        />
-                    </ToolbarGroup>
-                </Toolbar>
-                <PlateContent
-                    className="px-2 pb-2 pt-1 focus:outline-none"
-                    placeholder={placeholder || 'Напишіть повідомлення...'}
-                />
-                {children}
-            </Plate>
-        </div>
-    );
-}
+                <Plate
+                    editor={editor}
+                    editorRef={editorRef}
+                    value={deserializeValue(value)}
+                    initialValue={deserializeValue(initialValue)}
+                    plugins={plugins}
+                    onChange={onChange && handleOnChange}
+                    {...props}
+                >
+                    <Toolbar className="w-full p-2">
+                        <ToolbarGroup noSeparator>
+                            <MarkToolbarButton
+                                size="icon-sm"
+                                tooltip="Жирний (⌘+B)"
+                                nodeType={MARK_BOLD}
+                            >
+                                <MaterialSymbolsFormatBoldRounded />
+                            </MarkToolbarButton>
+                            <MarkToolbarButton
+                                size="icon-sm"
+                                tooltip="Курсив (⌘+I)"
+                                nodeType={MARK_ITALIC}
+                            >
+                                <MaterialSymbolsFormatItalicRounded />
+                            </MarkToolbarButton>
+                        </ToolbarGroup>
+                        <ToolbarSeparator className="h-full" />
+                        <ToolbarGroup noSeparator>
+                            <LinkToolbarButton
+                                tooltip="Посилання (⌘+K)"
+                                size="icon-sm"
+                            />
+                            <SpoilerToolbarButton
+                                tooltip="Спойлер (⌘+Shift+S)"
+                                size="icon-sm"
+                            />
+                        </ToolbarGroup>
+                    </Toolbar>
+                    <PlateContent
+                        className="px-2 pb-2 pt-1 focus:outline-none"
+                        placeholder={placeholder || 'Напишіть повідомлення...'}
+                    />
+                    {children}
+                </Plate>
+            </div>
+        );
+    },
+);
+
+export default Editor;
