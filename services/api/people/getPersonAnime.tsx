@@ -5,7 +5,7 @@ import {
 
 export interface Response extends API.WithPagination<PersonAnime> {}
 
-type PersonAnime = {
+export type PersonAnime = {
     roles: {
         name_en: string;
         name_ua: string;
