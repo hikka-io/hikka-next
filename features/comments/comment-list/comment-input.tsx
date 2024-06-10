@@ -126,7 +126,8 @@ const CommentInput: FC<Props> = forwardRef(
                         name="text"
                         placeholder="Напишіть повідомлення..."
                         readOnly={isAddPending || isEditPending}
-                        editorRef={editorRef}
+                        ref={editorRef}
+                        updateValue={false}
                     >
                         <div className="flex w-full items-center justify-between p-2">
                             {comment && !isEdit ? (

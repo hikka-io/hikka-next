@@ -14,6 +14,7 @@ import {
     isSelectionAtBlockStart,
 } from '@udecode/plate-common';
 import { ELEMENT_LINK, createLinkPlugin } from '@udecode/plate-link';
+import { createParagraphPlugin } from '@udecode/plate-paragraph';
 import { createResetNodePlugin } from '@udecode/plate-reset-node';
 
 import ItalicLeaf from './plate-ui/italic-leaf';
@@ -33,6 +34,7 @@ const plugins = createPlugins(
         createBoldPlugin(),
         createItalicPlugin(),
         createSpoilerPlugin(),
+        createParagraphPlugin(),
         createResetNodePlugin({
             options: {
                 rules: [

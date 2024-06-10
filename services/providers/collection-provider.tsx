@@ -27,8 +27,8 @@ export type Group = {
 };
 
 export interface State {
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     content_type: API.ContentType;
     groups: Group[];
     nsfw: boolean;
@@ -51,8 +51,8 @@ interface Props {
 
 function getInitialState(): State {
     return {
-        title: '',
-        description: '',
+        title: undefined,
+        description: undefined,
         content_type: 'anime',
         nsfw: false,
         spoiler: false,
@@ -94,8 +94,8 @@ export default function CollectionProvider({ children }: Props) {
 
     const stateToCreate = (): CollectionRequest => {
         return {
-            title: state.title,
-            description: state.description,
+            title: state.title!,
+            description: state.description!,
             content_type: state.content_type,
             nsfw: state.nsfw,
             spoiler: state.spoiler,

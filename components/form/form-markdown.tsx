@@ -1,3 +1,4 @@
+import { PlateEditor as PlateEditorBase } from '@udecode/plate-common';
 import { forwardRef } from 'react';
 
 import {
@@ -21,7 +22,7 @@ interface Props extends Omit<EditorProps, 'markdown'> {
     description?: string;
 }
 
-const FormMarkdown = forwardRef<EditorProps, Props>(
+const FormMarkdown = forwardRef<PlateEditorBase, Props>(
     ({ name, label, description, className, ...props }, ref) => {
         return (
             <FormField
@@ -32,7 +33,8 @@ const FormMarkdown = forwardRef<EditorProps, Props>(
                         <FormControl>
                             <PlateEditor
                                 {...props}
-                                initialValue={field.value || ''}
+                                ref={ref}
+                                value={field.value || ''}
                                 onChange={field.onChange}
                                 className={cn(className)}
                             />

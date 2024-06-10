@@ -6393,6 +6393,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@udecode/plate-paragraph@npm:^34.0.0":
+  version: 34.0.0
+  resolution: "@udecode/plate-paragraph@npm:34.0.0"
+  peerDependencies:
+    "@udecode/plate-common": ">=34.0.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    slate: ">=0.94.0"
+    slate-history: ">=0.93.0"
+    slate-hyperscript: ">=0.66.0"
+    slate-react: ">=0.99.0"
+  checksum: 10c0/62c6df950f434ab26a3deb2b92b119f94db83a582b36431d6b67621d785f802a13e818913e79885998d327fd75bd1d63d3e6c4a10a758fb308497d8b4114ed33
+  languageName: node
+  linkType: hard
+
 "@udecode/plate-reset-node@npm:^34.0.0":
   version: 34.0.0
   resolution: "@udecode/plate-reset-node@npm:34.0.0"
@@ -11402,6 +11417,7 @@ __metadata:
     "@udecode/plate-break": "npm:^34.0.0"
     "@udecode/plate-common": "npm:^34.0.1"
     "@udecode/plate-link": "npm:^34.0.1"
+    "@udecode/plate-paragraph": "npm:^34.0.0"
     "@udecode/plate-reset-node": "npm:^34.0.0"
     "@vercel/analytics": "npm:^1.1.1"
     "@vercel/og": "npm:^0.6.1"
