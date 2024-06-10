@@ -272,7 +272,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         <Button
                             disabled={
                                 isUpdatePending ||
+                                !title ||
                                 title.trim().length < 3 ||
+                                !description ||
                                 description.trim().length < 3
                             }
                             variant="default"
@@ -290,7 +292,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                 className="flex-1"
                                 disabled={
                                     isCreatePending ||
+                                    !title ||
                                     title.trim().length < 3 ||
+                                    !description ||
                                     description.trim().length < 3
                                 }
                                 variant="default"

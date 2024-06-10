@@ -13,6 +13,8 @@ import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symb
 import AnimeTooltip from '@/components/content-card/anime-tooltip';
 import CharacterTooltip from '@/components/content-card/character-tooltip';
 import CollectionTooltip from '@/components/content-card/collection-tooltip';
+import PersonTooltip from '@/components/content-card/person-tooltip';
+
 import P from '@/components/typography/p';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
@@ -65,6 +67,8 @@ const Tooltip: FC<TooltipProps> = ({ children, content_type, slug, reference }) 
             return <CharacterTooltip slug={slug}>{children}</CharacterTooltip>;
         case 'collection':
             return <CollectionTooltip reference={reference}>{children}</CollectionTooltip>
+        case 'person':
+            return <PersonTooltip slug={slug}>{children}</PersonTooltip>;
         default:
             return <Fragment>{children}</Fragment>;
     }

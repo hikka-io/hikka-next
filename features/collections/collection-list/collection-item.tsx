@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
@@ -95,12 +95,9 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         containerClassName={cn(
                             collection.nsfw &&
                                 !collection.spoiler &&
-                                'blur-md transition-all duration-500 hover:blur-none',
+                                'spoiler-blur-md',
                         )}
-                        className={cn(
-                            collection.spoiler &&
-                                'blur-md transition-all duration-500 hover:blur-none',
-                        )}
+                        className={cn(collection.spoiler && 'spoiler-blur-md')}
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         key={item.content.slug}
                         poster={poster(item.content)}
