@@ -5,7 +5,10 @@ import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/anime-adapter';
 
-const usePersonCharacters = ({ slug }: Params) => {
+const usePersonCharacters = (
+    { slug }: Params,
+    options?: Hikka.QueryOptions,
+) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
@@ -28,6 +31,7 @@ const usePersonCharacters = ({ slug }: Params) => {
                 })),
             })),
         }),
+        ...options,
     });
 };
 

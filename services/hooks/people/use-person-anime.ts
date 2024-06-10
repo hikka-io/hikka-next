@@ -3,7 +3,7 @@ import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/anime-adapter';
 
-const usePersonAnime = ({ slug, size }: Params) => {
+const usePersonAnime = ({ slug }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
@@ -12,7 +12,6 @@ const usePersonAnime = ({ slug, size }: Params) => {
             getPersonAnime({
                 params: { slug },
                 page: pageParam,
-                size: size,
             }),
         select: (data) => ({
             ...data,
@@ -27,6 +26,7 @@ const usePersonAnime = ({ slug, size }: Params) => {
                 })),
             })),
         }),
+        ...options,
     });
 };
 
