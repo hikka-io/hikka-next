@@ -291,25 +291,6 @@ table th:last-child, td:last-child {
     mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E")
 }
 
-.mdxeditor .spoiler {
-    @apply bg-secondary/30 rounded-md border border-secondary/60 my-2;
-}
-
-.mdxeditor [role=textbox] {
-    @apply p-3;
-    background: transparent;
-    border-radius: 0;
-}
-
-.mdxeditor [role=toolbar] {
-    @apply p-2;
-    background: transparent;
-    border-radius: 0;
-}
-
-.mdxeditor a {
-    @apply text-primary;
-}
 
 .markdown p {
     @apply mb-4 break-words;
@@ -319,16 +300,16 @@ table th:last-child, td:last-child {
     @apply text-primary hover:underline;
 }
 
-.markdown ul, .mdxeditor ul {
+.markdown ul {
     @apply mb-4 ml-4 list-none;
 }
 
-.markdown ul li::before, .mdxeditor ul li::before {
+.markdown ul li::before {
     content: '\2022';
     @apply -ml-4 inline-block w-4 font-bold text-accent;
 }
 
-.markdown ol, .mdxeditor ol {
+.markdown ol {
     @apply mb-4 pl-6 list-decimal;
 }
 
@@ -352,4 +333,12 @@ table th:last-child, td:last-child {
 
 .unexpanded-text {
     mask-image: linear-gradient(to bottom, white 50%, transparent);
+}
+
+.spoiler-blur-md {
+    @apply blur-md transition-all duration-500 hover:blur-none;
+}
+
+.spoiler-blur-sm {
+    @apply blur-sm transition-all duration-500 hover:blur-none;
 }

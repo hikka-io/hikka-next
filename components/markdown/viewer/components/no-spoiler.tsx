@@ -5,11 +5,7 @@ interface Props {
 }
 
 const NoSpoiler = ({ children }: Props) => {
-    return (
-        <div className="bg-muted-foreground text-muted-foreground">
-            {children}
-        </div>
-    );
+    return <span className="spoiler-blur-sm">{children}</span>;
 };
 
 export default NoSpoiler;

@@ -28,6 +28,7 @@ const buttonVariants = cva(
             },
             size: {
                 default: 'h-12 px-4 py-2',
+                xs: 'h-8 px-2 py-1',
                 sm: 'h-10 rounded-md px-3',
                 lg: 'h-13 rounded-md px-8',
                 badge: 'px-3.5 py-1 text-xs rounded-full',

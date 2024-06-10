@@ -1,4 +1,3 @@
-import '@mdxeditor/editor/style.css';
 import { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
 import { Inter } from 'next/font/google';

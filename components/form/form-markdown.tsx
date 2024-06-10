@@ -1,7 +1,6 @@
-import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
-import React, { forwardRef } from 'react';
+import { PlateEditor as PlateEditorBase } from '@udecode/plate-common';
+import { forwardRef } from 'react';
 
-import MDEditor from '@/components/markdown/editor/MD-editor';
 import {
     FormControl,
     FormDescription,
@@ -13,13 +12,17 @@ import {
 
 import { cn } from '@/utils/utils';
 
-interface Props extends Omit<MDXEditorProps, 'markdown'> {
+import PlateEditor, {
+    EditorProps,
+} from '../markdown/plate-editor/plate-editor';
+
+interface Props extends Omit<EditorProps, 'markdown'> {
     name: string;
     label?: string;
     description?: string;
 }
 
-const FormMarkdown = forwardRef<MDXEditorMethods, Props>(
+const FormMarkdown = forwardRef<PlateEditorBase, Props>(
     ({ name, label, description, className, ...props }, ref) => {
         return (
             <FormField
@@ -28,16 +31,12 @@ const FormMarkdown = forwardRef<MDXEditorMethods, Props>(
                     <FormItem>
                         {label && <FormLabel>{label}</FormLabel>}
                         <FormControl>
-                            <MDEditor
+                            <PlateEditor
                                 {...props}
-                                markdown={field.value || ''}
-                                onChange={field.onChange}
-                                onBlur={field.onBlur}
-                                className={cn(
-                                    'text-muted-foreground',
-                                    className,
-                                )}
                                 ref={ref}
+                                value={field.value || ''}
+                                onChange={field.onChange}
+                                className={cn(className)}
                             />
                         </FormControl>
                         <div className="space-y-2 px-3">
