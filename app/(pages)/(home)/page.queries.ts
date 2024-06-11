@@ -35,6 +35,7 @@ const prefetchQueries = async ({ queryClient }: Props) => {
                         sort: 'watch_score',
                         statuses: [],
                         types: [],
+                        studios: [],
                         watch_status: 'watching',
                         years: [],
                     },
