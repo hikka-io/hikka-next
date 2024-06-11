@@ -1,4 +1,4 @@
-import { type SerializeMdOptions, serializeMdNode } from './serializeMdNode';
+import { type SerializeMdOptions } from './serializeMdNode';
 import type { MdElementType, MdLeafType } from './types';
 
 const isLeafNode = (node: MdElementType | MdLeafType): node is MdLeafType => {
@@ -12,46 +12,13 @@ export const defaultSerializeMdNodesOptions: SerializeMdOptions['nodes'] = {
         },
         type: 'a',
     },
-    blockquote: {
+    /* blockquote: {
         serialize: (children) => `\n> ${children}\n`,
         type: 'blockquote',
-    },
+    }, */
     bold: {
         isLeaf: true,
         type: 'bold',
-    },
-    code: { isLeaf: true, type: 'code' },
-    code_block: {
-        serialize: (children, node) =>
-            `\n\`\`\`${node.language || ''}\n${children}\n\`\`\`\n`,
-        type: 'code_block',
-    },
-    h1: { serialize: (children) => `\n# ${children}\n`, type: 'h1' },
-    h2: { serialize: (children) => `\n## ${children}\n`, type: 'h2' },
-    h3: { serialize: (children) => `\n### ${children}\n`, type: 'h3' },
-    h4: { serialize: (children) => `\n#### ${children}\n`, type: 'h4' },
-    h5: {
-        serialize: (children) => `\n##### ${children}\n`,
-        type: 'h5',
-    },
-    h6: {
-        serialize: (children) => `\n###### ${children}\n`,
-        type: 'h6',
-    },
-    hr: { isVoid: true, serialize: () => '\n---\n', type: 'hr' },
-    img: {
-        isVoid: true,
-        serialize: (_, node, opts) => {
-            const caption =
-                node.caption
-                    ?.map((c: MdElementType | MdLeafType) =>
-                        serializeMdNode(c, opts),
-                    )
-                    .join('') ?? '';
-
-            return `\n![${caption}](${node.url || ''})\n`;
-        },
-        type: 'img',
     },
     italic: { isLeaf: true, type: 'italic' },
     li: {
@@ -119,7 +86,6 @@ export const defaultSerializeMdNodesOptions: SerializeMdOptions['nodes'] = {
         },
         type: 'p',
     },
-    strikethrough: { isLeaf: true, type: 'strikethrough' },
     ul: {
         serialize: (children, _, { listDepth }) => {
             const newLineAfter = listDepth === 0 ? '\n' : '';
@@ -128,7 +94,6 @@ export const defaultSerializeMdNodesOptions: SerializeMdOptions['nodes'] = {
         },
         type: 'ul',
     },
-    underline: { isLeaf: true, type: 'underline' },
     spoiler: {
         serialize: (children) => `:::spoiler\n${children}\n:::\n`,
         type: 'spoiler',

@@ -6,13 +6,7 @@ import type {
 } from './types';
 
 type MarkFormats = Record<
-    | 'bold'
-    | 'boldItalic'
-    | 'boldItalicStrikethrough'
-    | 'code'
-    | 'italic'
-    | 'strikethrough'
-    | 'underline',
+    'bold' | 'boldItalic' | 'italic',
     null | string | string[]
 >;
 
@@ -102,11 +96,7 @@ export function serializeMdNode(
     const markFormats = {
         bold: '**',
         boldItalic: '***',
-        boldItalicStrikethrough: '~~***',
-        code: '`',
         italic: '_',
-        strikethrough: '~~',
-        underline: null,
         ...opts.markFormats,
     };
 
@@ -228,16 +218,6 @@ export function serializeMdNode(
             const leaf = node as any;
 
             if (
-                markFormats.boldItalicStrikethrough &&
-                leaf[nodes.strikethrough.type] &&
-                leaf[nodes.bold.type] &&
-                leaf[nodes.italic.type]
-            ) {
-                children = retainWhitespaceAndFormat(
-                    children,
-                    markFormats.boldItalicStrikethrough,
-                );
-            } else if (
                 markFormats.boldItalic &&
                 leaf[nodes.bold.type] &&
                 leaf[nodes.italic.type]
@@ -247,12 +227,6 @@ export function serializeMdNode(
                     markFormats.boldItalic,
                 );
             } else {
-                if (markFormats.underline && leaf[nodes.underline.type]) {
-                    children = retainWhitespaceAndFormat(
-                        children,
-                        markFormats.underline,
-                    );
-                }
                 if (markFormats.bold && leaf[nodes.bold.type]) {
                     children = retainWhitespaceAndFormat(
                         children,
@@ -263,21 +237,6 @@ export function serializeMdNode(
                     children = retainWhitespaceAndFormat(
                         children,
                         markFormats.italic,
-                    );
-                }
-                if (
-                    markFormats.strikethrough &&
-                    leaf[nodes.strikethrough.type]
-                ) {
-                    children = retainWhitespaceAndFormat(
-                        children,
-                        markFormats.strikethrough,
-                    );
-                }
-                if (markFormats.code && leaf[nodes.code.type]) {
-                    children = retainWhitespaceAndFormat(
-                        children,
-                        markFormats.code,
                     );
                 }
 

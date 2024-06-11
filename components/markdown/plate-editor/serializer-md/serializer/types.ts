@@ -1,8 +1,8 @@
 export type MdNodeTypes = {
     a: string;
-    blockquote: string;
+    // blockquote: string;
     bold: string;
-    code: string;
+    /* code: string;
     code_block: string;
     h1: string;
     h2: string;
@@ -11,14 +11,14 @@ export type MdNodeTypes = {
     h5: string;
     h6: string;
     hr: string;
-    img: string;
+    img: string; */
     italic: string;
     li: string;
     ol: string;
     p: string;
-    strikethrough: string;
+    // strikethrough: string;
     ul: string;
-    underline: string;
+    // underline: string;
     spoiler: string;
 };
 
