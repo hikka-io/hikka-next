@@ -6376,6 +6376,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@udecode/plate-list@npm:^34.0.0":
+  version: 34.0.0
+  resolution: "@udecode/plate-list@npm:34.0.0"
+  dependencies:
+    "@udecode/plate-reset-node": "npm:34.0.0"
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    "@udecode/plate-common": ">=34.0.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    slate: ">=0.94.0"
+    slate-history: ">=0.93.0"
+    slate-hyperscript: ">=0.66.0"
+    slate-react: ">=0.99.0"
+  checksum: 10c0/70819404ea2f72d1a8d6a6d71beb833022839e25f67866a2664513416aa9c7bf9d79c0591654b2bbde975cb751179118ce7f9dbe6d2ce14b6e91988ac2fd8d5f
+  languageName: node
+  linkType: hard
+
 "@udecode/plate-normalizers@npm:34.0.0":
   version: 34.0.0
   resolution: "@udecode/plate-normalizers@npm:34.0.0"
@@ -6408,7 +6426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/plate-reset-node@npm:^34.0.0":
+"@udecode/plate-reset-node@npm:34.0.0, @udecode/plate-reset-node@npm:^34.0.0":
   version: 34.0.0
   resolution: "@udecode/plate-reset-node@npm:34.0.0"
   peerDependencies:
@@ -11417,6 +11435,7 @@ __metadata:
     "@udecode/plate-break": "npm:^34.0.0"
     "@udecode/plate-common": "npm:^34.0.1"
     "@udecode/plate-link": "npm:^34.0.1"
+    "@udecode/plate-list": "npm:^34.0.0"
     "@udecode/plate-paragraph": "npm:^34.0.0"
     "@udecode/plate-reset-node": "npm:^34.0.0"
     "@vercel/analytics": "npm:^1.1.1"
