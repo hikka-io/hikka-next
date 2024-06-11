@@ -2,7 +2,6 @@
 
 import { FC, memo } from 'react';
 
-import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import HorizontalContentCard from '@/components/ui/horizontal-content-card';
 
@@ -24,8 +23,9 @@ const ScheduleItem: FC<Props> = ({ item }) => {
             <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
                 <div className="flex flex-1 flex-col">
                     <div className="flex justify-between gap-4">
-                        <H5
+                        <P
                             className={cn(
+                                'text-sm',
                                 item.time_left <= 0 && 'text-muted-foreground',
                             )}
                         >
@@ -33,12 +33,12 @@ const ScheduleItem: FC<Props> = ({ item }) => {
                                 item.airing_at,
                                 item.time_left,
                             )}
-                        </H5>
-                        <P className="text-sm text-muted-foreground">
+                        </P>
+                        <P className="text-sm">
                             <span className="font-bold text-foreground">
                                 {item.episode}
-                            </span>
-                            /{item.anime.episodes_total || '?'}
+                            </span>{' '}
+                            епізод
                         </P>
                     </div>
                 </div>
