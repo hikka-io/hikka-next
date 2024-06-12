@@ -1,4 +1,4 @@
-import getUserHistory, { Params } from '@/services/api/user/getUserHistory';
+import getUserHistory, { Params } from '@/services/api/history/getUserHistory';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertAnime } from '@/utils/anime-adapter';

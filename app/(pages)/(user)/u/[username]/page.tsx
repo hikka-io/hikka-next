@@ -8,8 +8,8 @@ import History from '@/features/users/user-profile/user-history/user-history.com
 import Statistics from '@/features/users/user-profile/user-statistics/user-statistics.component';
 
 import getFavouriteList from '@/services/api/favourite/getFavouriteList';
+import getUserHistory from '@/services/api/history/getUserHistory';
 import getUserActivity from '@/services/api/user/getUserActivity';
-import getUserHistory from '@/services/api/user/getUserHistory';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {

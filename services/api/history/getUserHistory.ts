@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -18,7 +17,7 @@ export default async function req({
 }: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
         ...props,
-        path: `/user/${params?.username}/history`,
+        path: `/history/user/${params?.username}`,
         method: 'get',
         page: page,
         size: size,

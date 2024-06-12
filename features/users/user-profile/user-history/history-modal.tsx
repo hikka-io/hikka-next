@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import HistoryItem from '@/components/history-item';
 import LoadMoreButton from '@/components/load-more-button';
 
-import useUserHistory from '@/services/hooks/user/use-user-history';
+import useUserHistory from '@/services/hooks/history/use-user-history';
 
 interface Props {
     className?: string;
