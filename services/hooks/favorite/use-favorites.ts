@@ -3,7 +3,7 @@ import getFavouriteList, {
 } from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
+import { convertAnime } from '@/utils/title-adapter';
 
 const useFavorites = <TContent extends API.Content>({
     username,

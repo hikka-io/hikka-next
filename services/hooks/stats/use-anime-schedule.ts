@@ -3,8 +3,8 @@ import { useSearchParams } from 'next/navigation';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
 import getCurrentSeason from '@/utils/get-current-season';
+import { convertAnime } from '@/utils/title-adapter';
 
 const useAnimeSchedule = () => {
     const { titleLanguage } = useSettingsContext();

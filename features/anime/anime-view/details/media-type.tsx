@@ -2,10 +2,10 @@ import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 
-import { MEDIA_TYPE } from '@/utils/constants';
+import { ANIME_MEDIA_TYPE } from '@/utils/constants';
 
 interface Props {
-    media_type: API.MediaType;
+    media_type: API.AnimeMediaType;
 }
 
 const MediaType: FC<Props> = ({ media_type }) => {
@@ -19,7 +19,7 @@ const MediaType: FC<Props> = ({ media_type }) => {
                 <Label className="text-muted-foreground">Тип:</Label>
             </div>
             <div className="flex-1">
-                <Label>{MEDIA_TYPE[media_type].title_ua}</Label>
+                <Label>{ANIME_MEDIA_TYPE[media_type].title_ua}</Label>
             </div>
         </div>
     );

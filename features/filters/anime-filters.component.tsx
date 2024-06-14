@@ -28,7 +28,7 @@ import useAnimeGenres from '@/services/hooks/anime/use-anime-genres';
 import useCompanies from '@/services/hooks/companies/use-companies';
 import {
     AGE_RATING,
-    MEDIA_TYPE,
+    ANIME_MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants';
@@ -266,7 +266,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 />
                 <BadgeFilter
                     title="Тип"
-                    properties={MEDIA_TYPE}
+                    properties={ANIME_MEDIA_TYPE}
                     selected={types}
                     property="types"
                     onParamChange={handleChangeParam}
