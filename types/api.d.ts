@@ -16,8 +16,16 @@ declare global {
             | 'dropped'
             | 'on_hold';
 
+        type ReadStatus =
+            | 'completed'
+            | 'reading'
+            | 'on_hold'
+            | 'dropped'
+            | 'planned';
+
         type StatType =
-            | WatchStatus
+            | API.ReadStatus
+            | API.WatchStatus
             | 'score_1'
             | 'score_2'
             | 'score_3'
@@ -31,11 +39,31 @@ declare global {
 
         type Season = 'summer' | 'winter' | 'fall' | 'spring';
 
-        type MediaType = 'tv' | 'movie' | 'ova' | 'ona' | 'special' | 'music';
+        type MangaMediaType =
+            | 'one_shot'
+            | 'doujin'
+            | 'manhua'
+            | 'manhwa'
+            | 'manga';
+
+        type AnimeMediaType =
+            | 'tv'
+            | 'movie'
+            | 'ova'
+            | 'ona'
+            | 'special'
+            | 'music';
+
+        type NovelMediaType = 'light_novel' | 'novel';
+
+        type MediaType =
+            | API.MangaMediaType
+            | API.AnimeMediaType
+            | API.NovelMediaType;
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
-        type Status = 'ongoing' | 'finished' | 'announced';
+        type Status = 'ongoing' | 'finished' | 'announced' | 'paused';
 
         type VideoType = 'video_promo' | 'video_music';
 
@@ -61,6 +89,7 @@ declare global {
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
         type ContentType =
+            | 'manga'
             | 'edit'
             | 'anime'
             | 'character'
@@ -98,7 +127,7 @@ declare global {
             list: T[];
         };
 
-        type Stats = Record<StatType, number>;
+        type Stats = Record<API.StatType, number>;
 
         type Pagination = {
             total: number;
@@ -145,7 +174,7 @@ declare global {
 
         type Anime = {
             data_type: 'anime';
-            media_type: API.MediaType;
+            media_type: API.AnimeMediaType;
             title_ua: string;
             title_en: string;
             title_ja: string;
@@ -192,6 +221,54 @@ declare global {
             slug: string;
             type: API.GenreType;
         };
+
+        type Magazine = {
+            name_en: string;
+            slug: string;
+        };
+
+        type Manga = {
+            data_type: 'manga';
+            title?: string;
+            title_original: string;
+            media_type: API.MangaMediaType;
+            title_ua: string;
+            title_en: string;
+            chapters: number;
+            volumes: number;
+            translated_ua: boolean;
+            status: API.Status;
+            image: string;
+            year: number;
+            scored_by: number;
+            score: number;
+            slug: string;
+        };
+
+        type MangaInfo = {
+            authors: {
+                person: API.Person;
+                roles: {
+                    name_ua: string;
+                    name_en: string;
+                    slug: string;
+                }[];
+            }[];
+            magazines: API.Magazine[];
+            external: API.External[];
+            start_date: number;
+            end_date: number;
+            genres: API.Genre[];
+            stats: API.Stats;
+            synopsis_en: string;
+            synopsis_ua: string;
+            updated: number;
+            synonyms: string[];
+            comments_count: number;
+            has_franchise: boolean;
+            mal_id: number;
+            nsfw: boolean;
+        } & API.Manga;
 
         type Character = {
             data_type: 'character';
