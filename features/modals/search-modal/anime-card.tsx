@@ -8,7 +8,7 @@ import ContentCard from '@/components/content-card/content-card';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 
-import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 import { Label } from '../../../components/ui/label';
 
@@ -49,7 +49,10 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                             <>
                                 <div className="size-1 rounded-full bg-muted-foreground" />
                                 <Label className="text-xs text-muted-foreground">
-                                    {MEDIA_TYPE[anime.media_type].title_ua}
+                                    {
+                                        ANIME_MEDIA_TYPE[anime.media_type]
+                                            .title_ua
+                                    }
                                 </Label>
                             </>
                         )}

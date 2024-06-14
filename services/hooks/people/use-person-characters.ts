@@ -3,7 +3,7 @@ import getPersonCharacters, {
 } from '@/services/api/people/getPersonCharacters';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
+import { convertAnime } from '@/utils/title-adapter';
 
 const usePersonCharacters = (
     { slug }: Params,
