@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
 import getAnimeCatalog, {
@@ -13,40 +13,58 @@ export interface Props extends AnimeCatalogParams {
     iPage: number;
 }
 
-const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
+export const paramsBuilder = (props: Props): Props => ({
+    page: props.page || 1,
+    query: props.query || undefined,
+    media_type: props.media_type || [],
+    status: props.status || [],
+    season: props.season || [],
+    rating: props.rating || [],
+    years: props.years || [],
+    only_translated: props.only_translated || undefined,
+    genres: props.genres || [],
+    studios: props.studios || [],
+    sort: props.sort || ['score:desc'],
+    iPage: props.iPage || 1,
+});
+
+export const key = (params: Props): QueryKey => ['list', params];
+
+const useAnimeCatalog = ({ page: _page, iPage: _iPage, ...props }: Props) => {
     const { titleLanguage } = useSettingsContext();
     const searchParams = useSearchParams();
 
     const search = props.query || searchParams.get('search');
-    const types = props.media_type || searchParams.getAll('types');
-    const statuses = props.status || searchParams.getAll('statuses');
-    const seasons = props.season || searchParams.getAll('seasons');
-    const ageRatings = props.rating || searchParams.getAll('ratings');
+    const media_type = props.media_type || searchParams.getAll('types');
+    const status = props.status || searchParams.getAll('statuses');
+    const season = props.season || searchParams.getAll('seasons');
+    const rating = props.rating || searchParams.getAll('ratings');
     const years = props.years || searchParams.getAll('years');
     const genres = props.genres || searchParams.getAll('genres');
     const studios = props.studios || searchParams.getAll('studios');
-    const lang = props.only_translated || searchParams.get('only_translated');
+    const only_translated = Boolean(
+        props.only_translated || searchParams.get('only_translated'),
+    );
     const sort = searchParams.get('sort') || 'score';
     const order = searchParams.get('order') || 'desc';
 
+    const { page, iPage, ...params } = paramsBuilder({
+        page: _page,
+        iPage: _iPage,
+        query: search,
+        media_type,
+        status,
+        season,
+        rating,
+        years,
+        genres,
+        studios,
+        only_translated,
+        sort: sort && order ? [`${sort}:${order}`] : undefined,
+    });
+
     const query = useInfiniteQuery<AnimeCatalogResponse, Error>({
-        queryKey: [
-            'list',
-            {
-                page,
-                search,
-                types,
-                statuses,
-                seasons,
-                ageRatings,
-                years,
-                lang,
-                genres,
-                studios,
-                sort,
-                order,
-            },
-        ],
+        queryKey: key({ page, iPage, ...params }),
         initialPageParam: iPage || page,
         getNextPageParam: (lastPage: AnimeCatalogResponse) => {
             const nextPage = lastPage.pagination.page + 1;
@@ -54,21 +72,7 @@ const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
         },
         queryFn: ({ pageParam = page }) =>
             getAnimeCatalog({
-                params: {
-                    query: search,
-                    years: years.length == 2 ? years : undefined,
-                    rating: ageRatings,
-                    season: seasons,
-                    status: statuses,
-                    media_type: types,
-                    sort: [
-                        `${sort}:${order}`,
-                        ...(sort === 'score' ? ['scored_by:desc'] : []),
-                    ],
-                    genres,
-                    studios,
-                    only_translated: Boolean(lang),
-                },
+                params,
                 page: Number(pageParam),
                 size: 20,
             }),

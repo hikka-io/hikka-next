@@ -4,7 +4,7 @@ import getCollections from '@/services/api/collections/getCollections';
 import getLatestComments from '@/services/api/comments/getLatestComments';
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
-import getWatchList from '@/services/api/watch/getWatchList';
+import { prefetchWatchList } from '@/services/hooks/watch/use-watch-list';
 import getCurrentSeason from '@/utils/get-current-season';
 
 interface Props {
@@ -22,38 +22,9 @@ const prefetchQueries = async ({ queryClient }: Props) => {
 
     if (loggedUser) {
         promises.push(
-            queryClient.prefetchInfiniteQuery({
-                initialPageParam: 1,
-                queryKey: [
-                    'watchList',
-                    loggedUser.username,
-                    {
-                        ageRatings: [],
-                        genres: [],
-                        order: 'desc',
-                        seasons: [],
-                        sort: 'watch_score',
-                        statuses: [],
-                        types: [],
-                        studios: [],
-                        watch_status: 'watching',
-                        years: [],
-                    },
-                ],
-                queryFn: ({ pageParam = 1 }) =>
-                    getWatchList({
-                        params: {
-                            username: loggedUser.username,
-                            genres: [],
-                            media_type: [],
-                            rating: [],
-                            season: [],
-                            sort: ['watch_score:desc'],
-                            status: [],
-                            watch_status: 'watching',
-                        },
-                        page: pageParam,
-                    }),
+            prefetchWatchList({
+                username: loggedUser.username,
+                watch_status: 'watching',
             }),
         );
 

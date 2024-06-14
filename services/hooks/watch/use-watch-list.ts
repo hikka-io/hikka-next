@@ -1,62 +1,40 @@
-import { useSearchParams } from 'next/navigation';
+import { QueryKey } from '@tanstack/react-query';
 
-import getWatchList from '@/services/api/watch/getWatchList';
+import getWatchList, { Params } from '@/services/api/watch/getWatchList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import getQueryClient from '@/utils/get-query-client';
 import { convertAnime } from '@/utils/title-adapter';
 
-const useWatchList = ({
+export const paramsBuilder = ({ username, ...props }: Params): Params => ({
     username,
-    watch_status,
-}: {
-    username: string;
-    watch_status: API.WatchStatus;
-}) => {
+    watch_status: props.watch_status || 'watching',
+    media_type: props.media_type || [],
+    status: props.status || [],
+    season: props.season || [],
+    rating: props.rating || [],
+    genres: props.genres || [],
+    studios: props.studios || [],
+    sort: props.sort || ['watch_score:desc'],
+    years: props.years || [],
+});
+
+export const key = (params: Params): QueryKey => ['watch-list', params];
+
+const useWatchList = ({ username, watch_status, ...props }: Params) => {
     const { titleLanguage } = useSettingsContext();
-    const searchParams = useSearchParams();
 
-    const types = searchParams.getAll('types');
-    const statuses = searchParams.getAll('statuses');
-    const seasons = searchParams.getAll('seasons');
-    const ageRatings = searchParams.getAll('ratings');
-    const years = searchParams.getAll('years');
-    const genres = searchParams.getAll('genres');
-    const studios = searchParams.getAll('studios');
-
-    const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.get('sort') || 'watch_score';
+    const params = paramsBuilder({
+        watch_status,
+        username,
+        ...props,
+    });
 
     return useInfiniteList({
-        queryKey: [
-            'watchList',
-            username,
-            {
-                watch_status,
-                types,
-                statuses,
-                seasons,
-                ageRatings,
-                genres,
-                studios,
-                order,
-                sort,
-                years,
-            },
-        ],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getWatchList({
-                params: {
-                    username: username,
-                    watch_status: watch_status,
-                    media_type: types,
-                    season: seasons,
-                    rating: ageRatings,
-                    status: statuses,
-                    studios: studios,
-                    sort: [`${sort}:${order}`],
-                    genres,
-                    years: years && years.length == 2 ? years : undefined,
-                },
+                params,
                 page: pageParam,
             }),
         select: (data) => ({
@@ -72,6 +50,24 @@ const useWatchList = ({
                 })),
             })),
         }),
+    });
+};
+
+export const prefetchWatchList = async (props: Params) => {
+    const queryClient = getQueryClient();
+
+    const params = paramsBuilder({
+        ...props,
+    });
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getWatchList({
+                params,
+                page: pageParam,
+            }),
     });
 };
 
