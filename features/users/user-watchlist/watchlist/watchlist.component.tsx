@@ -19,10 +19,29 @@ const List = () => {
     const watchStatus = searchParams.get('status');
     const view = searchParams.get('view') || 'table';
 
+    const media_type = searchParams.getAll('types');
+    const status = searchParams.getAll('statuses');
+    const season = searchParams.getAll('seasons');
+    const rating = searchParams.getAll('ratings');
+    const years = searchParams.getAll('years');
+    const genres = searchParams.getAll('genres');
+    const studios = searchParams.getAll('studios');
+
+    const order = searchParams.get('order') || 'desc';
+    const sort = searchParams.get('sort') || 'watch_score';
+
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useWatchList({
             username: String(params.username),
             watch_status: String(watchStatus) as API.WatchStatus,
+            media_type,
+            status,
+            season,
+            rating,
+            years,
+            genres,
+            studios,
+            sort: sort && order ? [`${sort}:${order}`] : undefined,
         });
 
     if (!list || !watchStatus) {
