@@ -44,7 +44,7 @@ const Component = ({
     }
 
     return (
-        <NavigationMenu>
+        <NavigationMenu delayDuration={0}>
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger className="max-w-32 sm:max-w-none">
