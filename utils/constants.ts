@@ -1,7 +1,9 @@
-import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded';
+import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
+import MaterialSymbolsPalette from '~icons/material-symbols/palette';
+import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
 
 import Completed from '@/components/icons/watch-status/completed';
@@ -462,14 +464,21 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         slug: 'anime',
         title_ua: 'Аніме',
         url: '/anime',
-        icon: MaterialSymbolsLightGridViewRounded,
+        icon: MaterialSymbolsPlayArrowRounded,
         visible: true,
     },
     {
         slug: 'manga',
         title_ua: 'Манґа',
         url: '/manga',
-        icon: MaterialSymbolsLightGridViewRounded,
+        icon: MaterialSymbolsPalette,
+        visible: true,
+    },
+    {
+        slug: 'novel',
+        title_ua: 'Ранобе',
+        url: '/novel',
+        icon: MaterialSymbolsMenuBookRounded,
         visible: true,
     },
     {
@@ -516,6 +525,19 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/schedule',
         icon: MaterialSymbolsCalendarClockRounded,
         visible: true,
+    },
+];
+
+export const NOVEL_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
     },
 ];
 
@@ -604,8 +626,18 @@ export const USER_NAV_ROUTES: Hikka.NavRoute[] = [
     },
     {
         slug: 'list',
-        title_ua: 'Список',
-        url: '/list',
+        title_ua: 'Список аніме',
+        url: '/list/anime',
+    },
+    {
+        slug: 'list',
+        title_ua: 'Список манґи',
+        url: '/list/manga',
+    },
+    {
+        slug: 'list',
+        title_ua: 'Список ранобе',
+        url: '/list/novel',
     },
     {
         slug: 'favorites',
