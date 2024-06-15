@@ -9,12 +9,12 @@ import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 
 import useSession from '@/services/hooks/auth/use-session';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
 const Title = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
-    const { data } = useMangaInfo({ slug: String(params.slug) });
+    const { data } = useNovelInfo({ slug: String(params.slug) });
 
     if (!data) {
         return null;
@@ -41,7 +41,7 @@ const Title = () => {
                             <EditButton
                                 key={String(params.slug)}
                                 slug={String(params.slug)}
-                                content_type="manga"
+                                content_type="novel"
                                 className="hidden lg:flex"
                             />
                         )}
@@ -64,7 +64,7 @@ const Title = () => {
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
-                            content_type="manga"
+                            content_type="novel"
                             className="flex lg:hidden"
                         />
                     )}
@@ -76,7 +76,7 @@ const Title = () => {
                         <span key={genre.slug} className="text-sm">
                             <Link
                                 className="rounded px-1 underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
-                                href={`/manga?genres=${genre.slug}`}
+                                href={`/novel?genres=${genre.slug}`}
                             >
                                 {genre.name_ua}
                             </Link>

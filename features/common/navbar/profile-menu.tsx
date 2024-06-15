@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
+import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
+import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsPerson from '~icons/material-symbols/person';
+import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -72,9 +74,27 @@ const ProfileMenu = () => {
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                        <Link href={'/u/' + loggedUser.username + '/list'}>
-                            <MaterialSymbolsEventList className="mr-2 size-4" />
+                        <Link
+                            href={'/u/' + loggedUser.username + '/list/anime'}
+                        >
+                            <MaterialSymbolsPlayArrowRounded className="mr-2 size-4" />
                             Список аніме
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={'/u/' + loggedUser.username + '/list/manga'}
+                        >
+                            <MaterialSymbolsPalette className="mr-2 size-4" />
+                            Список манґи
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={'/u/' + loggedUser.username + '/list/novel'}
+                        >
+                            <MaterialSymbolsMenuBookRounded className="mr-2 size-4" />
+                            Список ранобе
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>

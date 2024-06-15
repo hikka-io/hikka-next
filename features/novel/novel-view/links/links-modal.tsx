@@ -6,14 +6,14 @@ import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import HorizontalCard from '@/components/ui/horizontal-card';
 
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import { cn } from '@/utils/utils';
 
 const LinksModal = () => {
     const params = useParams();
-    const { data: manga } = useMangaInfo({ slug: String(params.slug) });
+    const { data: novel } = useNovelInfo({ slug: String(params.slug) });
 
-    if (!manga) {
+    if (!novel) {
         return null;
     }
 
@@ -21,8 +21,8 @@ const LinksModal = () => {
         <>
             <hr className="-mx-6 mt-4 h-px w-auto bg-border" />
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
-                {manga.external &&
-                    manga.external.map((link) => (
+                {novel.external &&
+                    novel.external.map((link) => (
                         <HorizontalCard
                             className="px-6 py-4"
                             key={link.url}

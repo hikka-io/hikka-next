@@ -16,7 +16,7 @@ import { cn } from '@/utils/utils';
 
 interface Props {
     number: number;
-    content: API.Manga;
+    content: API.Manga | API.Novel;
     content_type: 'manga' | 'novel';
 }
 
