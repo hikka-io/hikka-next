@@ -6,7 +6,7 @@ import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
 } from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/title-adapter';
+import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends AnimeCatalogParams {
     page: number;
@@ -80,8 +80,8 @@ const useAnimeCatalog = ({ page: _page, iPage: _iPage, ...props }: Props) => {
             ...data,
             pages: data.pages.map((a) => ({
                 ...a,
-                list: convertAnimeList<API.Anime>({
-                    anime: a.list,
+                list: convertTitleList<API.Anime>({
+                    data: a.list,
                     titleLanguage: titleLanguage!,
                 }),
             })),

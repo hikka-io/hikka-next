@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import getAnimeInfo, { Params } from '@/services/api/anime/getAnimeInfo';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useAnimeInfo = ({ slug }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
@@ -17,9 +17,9 @@ const useAnimeInfo = ({ slug }: Params, options?: Hikka.QueryOptions) => {
             }),
         ...options,
         select: (data) =>
-            convertAnime<API.AnimeInfo>({
+            convertTitle({
                 titleLanguage: titleLanguage!,
-                anime: data,
+                data: data,
             }),
     });
 };

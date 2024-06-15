@@ -3,7 +3,7 @@ import getFavouriteList, {
 } from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useFavorites = <TContent extends API.Content>({
     username,
@@ -30,9 +30,9 @@ const useFavorites = <TContent extends API.Content>({
                 list: a.list.map((s) => ({
                     ...s,
                     ...(s.data_type === 'anime'
-                        ? convertAnime<API.AnimeInfo>({
+                        ? convertTitle<API.AnimeInfo>({
                               titleLanguage: titleLanguage!,
-                              anime: s as API.AnimeInfo,
+                              data: s as API.AnimeInfo,
                           })
                         : {}),
                 })),

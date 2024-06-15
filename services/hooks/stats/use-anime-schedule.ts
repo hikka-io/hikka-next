@@ -4,7 +4,7 @@ import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import getCurrentSeason from '@/utils/get-current-season';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useAnimeSchedule = () => {
     const { titleLanguage } = useSettingsContext();
@@ -39,8 +39,8 @@ const useAnimeSchedule = () => {
                 ...a,
                 list: a.list.map((s) => ({
                     ...s,
-                    anime: convertAnime<API.AnimeInfo>({
-                        anime: s.anime,
+                    anime: convertTitle<API.AnimeInfo>({
+                        data: s.anime,
                         titleLanguage: titleLanguage!,
                     }),
                 })),
