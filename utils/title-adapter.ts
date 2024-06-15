@@ -1,55 +1,37 @@
-export const convertAnime = <TData extends API.AnimeInfo | API.Anime>({
-    titleLanguage,
-    anime,
-}: {
-    titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
-    anime: TData;
-}): TData => {
-    return {
-        ...anime,
-        title:
-            anime[titleLanguage] ||
-            anime.title_ua ||
-            anime.title_en ||
-            anime.title_ja,
-    };
+type TitleData = {
+    title_en?: string;
+    title_ua?: string;
+    title_ja?: string;
+    title_original?: string;
 };
 
-export const convertAnimeList = <TData extends API.AnimeInfo | API.Anime>({
-    anime,
+export const convertTitle = <TData>({
+    data,
     titleLanguage,
 }: {
-    anime: TData[];
+    data: TData & TitleData;
     titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
-}): TData[] => {
-    return anime.map((anime) => convertAnime({ titleLanguage, anime }));
-};
-
-export const convertManga = <TData extends API.MangaInfo | API.Manga>({
-    titleLanguage,
-    manga,
-}: {
-    titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
-    manga: TData;
-}): TData => {
+}) => {
     return {
-        ...manga,
+        ...data,
         title:
-            manga[
-                titleLanguage === 'title_ja' ? 'title_original' : titleLanguage
+            data[titleLanguage] ||
+            data[
+                titleLanguage === 'title_ja' ? 'title_original' : 'title_ja'
             ] ||
-            manga.title_ua ||
-            manga.title_en ||
-            manga.title_original,
+            data.title_ua ||
+            data.title_en ||
+            data.title_ja ||
+            data.title_original,
     };
 };
 
-export const convertMangaList = <TData extends API.MangaInfo | API.Manga>({
-    manga,
+export const convertTitleList = <TData>({
+    data,
     titleLanguage,
 }: {
-    manga: TData[];
+    data: (TData & TitleData)[];
     titleLanguage: 'title_en' | 'title_ua' | 'title_ja';
-}): TData[] => {
-    return manga.map((manga) => convertManga({ titleLanguage, manga }));
+}) => {
+    return data.map((entry) => convertTitle({ titleLanguage, data: entry }));
 };
