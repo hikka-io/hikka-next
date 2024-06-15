@@ -778,6 +778,10 @@ export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
         title_ua: 'Манґа',
         title_en: 'Manga',
     },
+    novel: {
+        title_ua: 'Ранобе',
+        title_en: 'Ranobe',
+    },
 };
 
 export const EDIT_STATUSES: Hikka.FilterProperty<API.EditStatus> = {
@@ -811,6 +815,7 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     comment: '/comments',
     collection: '/collections',
     manga: '/manga',
+    novel: '',
 };
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [

@@ -89,6 +89,7 @@ declare global {
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
         type ContentType =
+            | 'novel'
             | 'manga'
             | 'edit'
             | 'anime'
@@ -160,6 +161,19 @@ declare global {
             episodes: number;
             score: number;
             anime: API.Anime;
+        };
+
+        type Read = {
+            reference: string;
+            note: string;
+            updated: number;
+            created: number;
+            status: API.ReadStatus;
+            chapters: number;
+            volumes: number;
+            rereads: number;
+            score: number;
+            content: API.Manga;
         };
 
         type Schedule = {
