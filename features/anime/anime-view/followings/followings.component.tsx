@@ -34,7 +34,7 @@ const Followings = () => {
 
     return (
         <Block>
-            <Header title={`Відстежується (${filteredFollowings.length})`} onClick={handleOpenFollowingsModal} />
+            <Header title={`Відстежується (${list.length})`} onClick={handleOpenFollowingsModal} />
             <div className="flex flex-col gap-6">
                 {filteredFollowings.map((item) => (
                     <FollowingItem data={item} key={item.reference} />
