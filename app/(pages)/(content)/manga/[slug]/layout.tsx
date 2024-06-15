@@ -10,6 +10,7 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 
+import Actions from '@/features/manga/manga-view/actions/actions.component';
 import Cover from '@/features/manga/manga-view/cover.component';
 import Title from '@/features/manga/manga-view/title.component';
 
@@ -88,7 +89,7 @@ const MangaLayout: FC<Props> = async ({ params: { slug }, children }) => {
                 <div className="flex flex-col gap-4">
                     <Cover />
                     <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                        {/* <Actions /> */}
+                        <Actions />
                     </div>
                 </div>
                 <div className="flex flex-col gap-12">
