@@ -1,27 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import addWatch, { Params } from '@/services/api/watch/addWatch';
-import { useModalContext } from '@/services/providers/modal-provider';
+import deleteWatch from '@/services/api/watch/deleteWatch';
 
-const useAddToList = ({ slug }: { slug: string }) => {
-    const { closeModal } = useModalContext();
+const useDeleteFromList = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ['addToList', slug],
-        mutationFn: (mutationParams: Omit<Params, 'slug'>) =>
-            addWatch({
-                params: {
-                    ...mutationParams,
-                    slug: slug,
-                },
-            }),
+        mutationKey: ['deleteFromList'],
+        mutationFn: deleteWatch,
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.refetchQueries({
-                queryKey: ['watch', slug],
+                queryKey: ['watch'],
                 exact: false,
             });
+            await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.invalidateQueries({
                 queryKey: ['watchList'],
                 exact: false,
@@ -33,10 +25,8 @@ const useAddToList = ({ slug }: { slug: string }) => {
                 queryKey: ['animeSchedule', {}],
                 exact: false,
             });
-
-            closeModal();
         },
     });
 };
 
-export default useAddToList;
+export default useDeleteFromList;

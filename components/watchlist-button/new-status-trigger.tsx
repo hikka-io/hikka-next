@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { FC } from 'react';
 import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
@@ -6,23 +8,25 @@ import Planned from '@/components/icons/watch-status/planned';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import { cn } from '@/utils/utils';
 
 interface NewStatusTriggerProps {
     disabled?: boolean;
-
-    addToList(args: { status: API.WatchStatus }): void;
+    slug: string;
 }
 
-const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
-    disabled,
-    addToList,
-}) => {
+const NewStatusTrigger: FC<NewStatusTriggerProps> = ({ disabled, slug }) => {
+    const { mutate: addWatch } = useAddWatch();
+
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addToList({
-            status: 'planned',
+        addWatch({
+            params: {
+                slug,
+                status: 'planned',
+            },
         });
     };
 
