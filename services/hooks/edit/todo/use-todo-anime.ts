@@ -1,7 +1,7 @@
 import getTodoAnime, { Params } from '@/services/api/edit/todo/getTodoAnime';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/title-adapter';
+import { convertTitleList } from '@/utils/title-adapter';
 
 const useTodoAnime = ({ param }: Params) => {
     const { titleLanguage } = useSettingsContext();
@@ -18,8 +18,8 @@ const useTodoAnime = ({ param }: Params) => {
             ...data,
             pages: data.pages.map((a) => ({
                 ...a,
-                list: convertAnimeList<API.Anime>({
-                    anime: a.list,
+                list: convertTitleList<API.Anime>({
+                    data: a.list,
                     titleLanguage: titleLanguage!,
                 }),
             })),

@@ -6,7 +6,7 @@ import getMangaCatalog, {
     Response as MangaCatalogResponse,
 } from '@/services/api/manga/getMangaCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertMangaList } from '@/utils/title-adapter';
+import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends MangaCatalogParams {
     page: number;
@@ -67,8 +67,8 @@ const useMangaCatalog = ({ page, iPage, ...props }: Props) => {
             ...data,
             pages: data.pages.map((a) => ({
                 ...a,
-                list: convertMangaList<API.Manga>({
-                    manga: a.list,
+                list: convertTitleList<API.Manga>({
+                    data: a.list,
                     titleLanguage: titleLanguage!,
                 }),
             })),

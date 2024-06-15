@@ -1,7 +1,7 @@
 import getPersonAnime, { Params } from '@/services/api/people/getPersonAnime';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const usePersonAnime = ({ slug }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
@@ -19,8 +19,8 @@ const usePersonAnime = ({ slug }: Params, options?: Hikka.QueryOptions) => {
                 ...a,
                 list: a.list.map((p) => ({
                     ...p,
-                    anime: convertAnime<API.AnimeInfo>({
-                        anime: p.anime,
+                    anime: convertTitle<API.AnimeInfo>({
+                        data: p.anime,
                         titleLanguage: titleLanguage!,
                     }),
                 })),

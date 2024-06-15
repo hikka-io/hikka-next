@@ -1,7 +1,7 @@
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useUserHistory = () => {
     const { titleLanguage } = useSettingsContext();
@@ -20,8 +20,8 @@ const useUserHistory = () => {
                     ...h,
                     content:
                         h.content && 'title_ua' in h.content
-                            ? convertAnime<API.Anime>({
-                                  anime: h.content,
+                            ? convertTitle<API.Anime>({
+                                  data: h.content,
                                   titleLanguage: titleLanguage!,
                               })
                             : h.content,

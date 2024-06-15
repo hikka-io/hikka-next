@@ -1,7 +1,7 @@
 import getUserHistory, { Params } from '@/services/api/history/getUserHistory';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useUserHistory = ({ username }: Params) => {
     const { titleLanguage } = useSettingsContext();
@@ -21,8 +21,8 @@ const useUserHistory = ({ username }: Params) => {
                     ...h,
                     content:
                         h.content && 'title_ua' in h.content
-                            ? convertAnime<API.Anime>({
-                                  anime: h.content,
+                            ? convertTitle<API.Anime>({
+                                  data: h.content,
                                   titleLanguage: titleLanguage!,
                               })
                             : h.content,

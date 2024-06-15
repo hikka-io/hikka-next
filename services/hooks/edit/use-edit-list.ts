@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 
 import getEditList, { Params } from '@/services/api/edit/getEditList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
@@ -38,8 +38,8 @@ const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
                 ...e,
                 content:
                     'title_ua' in e.content
-                        ? convertAnime({
-                              anime: e.content,
+                        ? convertTitle({
+                              data: e.content,
                               titleLanguage: titleLanguage!,
                           })
                         : e.content,

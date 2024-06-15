@@ -4,7 +4,7 @@ import getReadList, { Params } from '@/services/api/read/getReadList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import getQueryClient from '@/utils/get-query-client';
-import { convertManga } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 export const paramsBuilder = ({ username, ...props }: Params): Params => ({
     username,
@@ -42,8 +42,8 @@ const useReadList = ({ username, read_status, ...props }: Params) => {
                 ...a,
                 list: a.list.map((b) => ({
                     ...b,
-                    content: convertManga<API.Manga>({
-                        manga: b.content,
+                    content: convertTitle({
+                        data: b.content,
                         titleLanguage: titleLanguage!,
                     }),
                 })),

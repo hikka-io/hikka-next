@@ -3,7 +3,7 @@ import getCharacterAnime, {
 } from '@/services/api/characters/getCharacterAnime';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/title-adapter';
+import { convertTitle } from '@/utils/title-adapter';
 
 const useCharacterAnime = ({ slug }: Params) => {
     const { titleLanguage } = useSettingsContext();
@@ -23,8 +23,8 @@ const useCharacterAnime = ({ slug }: Params) => {
                 ...a,
                 list: a.list.map((ch) => ({
                     ...ch,
-                    anime: convertAnime<API.Anime>({
-                        anime: ch.anime,
+                    anime: convertTitle<API.Anime>({
+                        data: ch.anime,
                         titleLanguage: titleLanguage!,
                     }),
                 })),
