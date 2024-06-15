@@ -14,7 +14,7 @@ import UserCover from '@/components/user-cover';
 import ActivationAlert from '@/features/users/activation-alert.component';
 import FollowButton from '@/features/users/follow-button.component';
 import FollowStats from '@/features/users/follow-stats.component';
-import ListStats from '@/features/users/list-stats.component';
+import ListStats from '@/features/users/list-stats/list-stats.component';
 import UserInfo from '@/features/users/user-info.component';
 import UserTitle from '@/features/users/user-title.component';
 
