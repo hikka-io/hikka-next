@@ -10,6 +10,39 @@ import OnHold from '@/components/icons/watch-status/on-hold';
 import Planned from '@/components/icons/watch-status/planned';
 import Watching from '@/components/icons/watch-status/watching';
 
+export const READ_STATUS: Hikka.FilterProperty<API.ReadStatus> = {
+    planned: {
+        title_ua: 'Заплановано',
+        title_en: 'Planned',
+        icon: Planned,
+        color: '#AB872B',
+    },
+    completed: {
+        title_ua: 'Завершено',
+        title_en: 'Completed',
+        icon: Completed,
+        color: '#399A54',
+    },
+    on_hold: {
+        title_ua: 'Відкладено',
+        title_en: 'On Hold',
+        icon: OnHold,
+        color: '#5C5C5C',
+    },
+    dropped: {
+        title_ua: 'Закинуто',
+        title_en: 'Dropped',
+        icon: Dropped,
+        color: '#952828',
+    },
+    reading: {
+        title_ua: 'Читаю',
+        title_en: 'Reading',
+        icon: Watching,
+        color: '#2B94AB',
+    },
+};
+
 export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
     planned: {
         title_ua: 'Заплановано',
