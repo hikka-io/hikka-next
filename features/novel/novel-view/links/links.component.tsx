@@ -11,7 +11,7 @@ import Header from '@/components/ui/header';
 import HorizontalCard from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import LinksModal from './links-modal';
@@ -24,18 +24,18 @@ const Links: FC<Props> = ({ extended }) => {
     const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
     const { openModal } = useModalContext();
-    const { data: manga } = useMangaInfo({ slug: String(params.slug) });
+    const { data: novel } = useNovelInfo({ slug: String(params.slug) });
 
-    if (!manga) {
+    if (!novel) {
         return null;
     }
 
-    if (manga.external.length === 0) {
+    if (novel.external.length === 0) {
         return null;
     }
 
-    const watchLinksData = manga.external.filter((l) => l.type === 'watch');
-    const generalLinksData = manga.external.filter((l) => l.type === 'general');
+    const watchLinksData = novel.external.filter((l) => l.type === 'watch');
+    const generalLinksData = novel.external.filter((l) => l.type === 'general');
 
     const filteredWatchLinksData = watchLinksData.slice(0, 3);
     const filteredGeneralLinksData = generalLinksData.slice(0, 3);

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
-    content: API.Manga;
+    content: API.Manga | API.Novel;
     content_type: 'manga' | 'novel';
     rereads: number;
     note?: string;

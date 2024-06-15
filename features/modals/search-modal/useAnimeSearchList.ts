@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import getAnimeCatalog from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/title-adapter';
+import { convertTitleList } from '@/utils/title-adapter';
 
 interface Props {
     value?: string;
@@ -23,9 +23,9 @@ const useAnimeSearchList = ({ value }: Props) => {
         enabled: value !== undefined && value.length >= 3,
         select: (data) => ({
             ...data,
-            list: convertAnimeList<API.Anime>({
+            list: convertTitleList<API.Anime>({
                 titleLanguage: titleLanguage!,
-                anime: data.list,
+                data: data.list,
             }),
         }),
     });
