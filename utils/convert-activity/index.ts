@@ -19,5 +19,7 @@ export const convertActivity = (
         case 'favourite_anime_add':
         case 'favourite_anime_remove':
             return createFavoriteEvents(history.history_type);
+        default:
+            return [];
     }
 };
