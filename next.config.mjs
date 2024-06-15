@@ -36,6 +36,15 @@ const nextConfig = {
             },
         ];
     },
+    async redirects() {
+        return [
+            {
+                source: '/u/:username/list',
+                destination: '/u/:username/list/anime',
+                permanent: true,
+            },
+        ];
+    },
 };
 const withBundleAnalyzer = bundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
