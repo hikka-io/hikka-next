@@ -173,7 +173,7 @@ declare global {
             volumes: number;
             rereads: number;
             score: number;
-            content: API.Manga;
+            content: API.Manga | API.Novel;
         };
 
         type Schedule = {
@@ -283,6 +283,49 @@ declare global {
             mal_id: number;
             nsfw: boolean;
         } & API.Manga;
+
+        type Novel = {
+            data_type: 'novel';
+            title?: string;
+            title_original: string;
+            media_type: API.NovelMediaType;
+            title_ua: string;
+            title_en: string;
+            chapters: number;
+            volumes: number;
+            translated_ua: boolean;
+            status: API.Status;
+            image: string;
+            year: number;
+            scored_by: number;
+            score: number;
+            slug: string;
+        };
+
+        type NovelInfo = {
+            authors: {
+                person: API.Person;
+                roles: {
+                    name_ua: string;
+                    name_en: string;
+                    slug: string;
+                }[];
+            }[];
+            magazines: API.Magazine[];
+            external: API.External[];
+            start_date: number;
+            end_date: number;
+            genres: API.Genre[];
+            stats: API.Stats;
+            synopsis_en: string;
+            synopsis_ua: string;
+            updated: number;
+            synonyms: string[];
+            comments_count: number;
+            has_franchise: boolean;
+            mal_id: number;
+            nsfw: boolean;
+        } & API.Novel;
 
         type Character = {
             data_type: 'character';
