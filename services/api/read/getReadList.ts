@@ -3,7 +3,7 @@ import {
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
-export interface Response extends API.WithPagination<API.Watch> {}
+export interface Response extends API.WithPagination<API.Read> {}
 
 export interface Params {
     years?: string[];

@@ -8,11 +8,11 @@ export interface Response extends API.Read {}
 export interface Params {
     slug: string;
     content_type: 'manga' | 'novel';
-    note?: string;
-    chapters?: number;
-    volumes?: number;
-    rereads?: number;
-    score?: number;
+    note?: string | null;
+    chapters?: number | null;
+    volumes?: number | null;
+    rereads?: number | null;
+    score?: number | null;
     status: API.ReadStatus;
 }
 
