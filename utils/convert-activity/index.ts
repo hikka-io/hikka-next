@@ -1,5 +1,6 @@
 import { createFavoriteEvents } from './convert-favorite-activity';
 import { createImportEvents } from './convert-import-activity';
+import { createReadEvents } from './convert-read-activity';
 import { createWatchEvents } from './convert-watch-activity';
 
 export const convertActivity = (
@@ -13,6 +14,14 @@ export const convertActivity = (
             return createWatchEvents(
                 history.history_type,
                 history.data as API.HistoryWatchData,
+            );
+        case 'read_novel':
+        case 'read_novel_delete':
+        case 'read_manga':
+        case 'read_manga_delete':
+            return createReadEvents(
+                history.history_type,
+                history.data as API.HistoryReadData,
             );
         case 'watch_import':
             return createImportEvents(history.data as API.HistoryImportData);
