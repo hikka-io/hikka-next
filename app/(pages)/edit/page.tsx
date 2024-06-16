@@ -7,7 +7,6 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 
 import EditList from '@/features/edit/edit-list/edit-list.component';
@@ -78,9 +77,9 @@ const EditListPage = async ({
                             <EditList page={page as string} />
                         </Block>
                     </div>
-                    <Card className="sticky top-20 order-1 hidden w-full py-0 opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
+                    <div className="sticky top-20 order-1 hidden opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
                         <Filters />
-                    </Card>
+                    </div>
                 </div>
             </div>
         </HydrationBoundary>

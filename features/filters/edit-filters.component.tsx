@@ -8,7 +8,6 @@ import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     Select,
@@ -25,7 +24,8 @@ import {
 import useUsers from '@/services/hooks/user/use-users';
 import { EDIT_STATUSES } from '@/utils/constants';
 import createQueryString from '@/utils/create-query-string';
-import { cn } from '@/utils/utils';
+
+import CollapsibleFilter from './collapsible-filter';
 
 interface Props {
     className?: string;
@@ -108,18 +108,9 @@ const EditFilters: FC<Props> = ({ className }) => {
     };
 
     return (
-        <ScrollArea
-            className={cn(
-                'flex flex-col items-start gap-8',
-                'border-t border-t-transparent',
-                'transition',
-                'h-full lg:max-h-[calc(100vh-6rem)]',
-                className,
-            )}
-        >
-            <div className="flex w-full flex-col items-start gap-8 py-4">
-                <div className="flex w-full flex-col gap-4">
-                    <Label className="text-muted-foreground">Сортування</Label>
+        <ScrollArea className="flex h-full flex-col lg:max-h-[calc(100vh-6rem)]">
+            <div className="flex flex-col">
+                <CollapsibleFilter defaultOpen title="Сортування">
                     <div className="flex gap-2">
                         <Select
                             value={[sort]}
@@ -128,7 +119,7 @@ const EditFilters: FC<Props> = ({ className }) => {
                             }
                         >
                             <SelectTrigger className="flex-1">
-                                <SelectValue placeholder="Виберіть тип сортування..." />
+                                <SelectValue placeholder="Тип сортування..." />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectList>
@@ -162,9 +153,8 @@ const EditFilters: FC<Props> = ({ className }) => {
                             />
                         </Button>
                     </div>
-                </div>
-                <div className="flex w-full flex-col gap-4">
-                    <Label className="text-muted-foreground">Статус</Label>
+                </CollapsibleFilter>
+                <CollapsibleFilter defaultOpen title="Статус">
                     <Select
                         value={edit_status ? [edit_status] : undefined}
                         onValueChange={(value) =>
@@ -190,11 +180,8 @@ const EditFilters: FC<Props> = ({ className }) => {
                             </SelectList>
                         </SelectContent>
                     </Select>
-                </div>
-                <div className="flex w-full flex-col gap-4">
-                    <Label className="text-muted-foreground">
-                        Тип контенту
-                    </Label>
+                </CollapsibleFilter>
+                <CollapsibleFilter title="Тип контенту">
                     <Select
                         value={content_type ? [content_type] : undefined}
                         onValueChange={(value) =>
@@ -216,9 +203,8 @@ const EditFilters: FC<Props> = ({ className }) => {
                             </SelectList>
                         </SelectContent>
                     </Select>
-                </div>
-                <div className="flex w-full flex-col gap-4">
-                    <Label className="text-muted-foreground">Автор</Label>
+                </CollapsibleFilter>
+                <CollapsibleFilter title="Автор">
                     <Select
                         value={author !== null ? [author] : []}
                         onValueChange={(value) =>
@@ -252,9 +238,8 @@ const EditFilters: FC<Props> = ({ className }) => {
                             </SelectList>
                         </SelectContent>
                     </Select>
-                </div>
-                <div className="flex w-full flex-col gap-4">
-                    <Label className="text-muted-foreground">Модератор</Label>
+                </CollapsibleFilter>
+                <CollapsibleFilter title="Модератор">
                     <Select
                         value={moderator !== null ? [moderator] : []}
                         onValueChange={(value) =>
@@ -288,11 +273,11 @@ const EditFilters: FC<Props> = ({ className }) => {
                             </SelectList>
                         </SelectContent>
                     </Select>
-                </div>
+                </CollapsibleFilter>
             </div>
             <Button
                 variant="secondary"
-                className="sticky bottom-4 mt-8 w-full shadow-md lg:flex"
+                className="mt-4 w-full shadow-md lg:flex"
                 onClick={clearFilters}
                 asChild
             >
