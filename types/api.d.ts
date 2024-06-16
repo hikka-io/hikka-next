@@ -101,6 +101,10 @@ declare global {
         type HistoryType =
             | 'watch'
             | 'watch_delete'
+            | 'read_novel'
+            | 'read_novel_delete'
+            | 'read_manga'
+            | 'read_manga_delete'
             | 'watch_import'
             | 'favourite_anime_add'
             | 'favourite_anime_remove';
@@ -257,6 +261,7 @@ declare global {
             scored_by: number;
             score: number;
             slug: string;
+            read: API.Read[];
         };
 
         type MangaInfo = {
@@ -300,6 +305,7 @@ declare global {
             scored_by: number;
             score: number;
             slug: string;
+            read: API.Read[];
         };
 
         type NovelInfo = {
@@ -410,6 +416,24 @@ declare global {
             type: 'general' | 'watch';
         };
 
+        type HistoryReadData = {
+            after: {
+                score: number | null;
+                status: API.ReadStatus | null;
+                chapters: number | null;
+                volumes: number | null;
+                rereads: number | null;
+            };
+            before: {
+                score: number | null;
+                status: API.ReadStatus | null;
+                chapters: number | null;
+                volumes: number | null;
+                rereads: number | null;
+            };
+            new_read: boolean;
+        };
+
         type HistoryWatchData = {
             after: {
                 score: number | null;
@@ -433,10 +457,14 @@ declare global {
         };
 
         type History<
-            TData = HistoryWatchData | HistoryFavoriteData | HistoryImportData,
+            TData =
+                | HistoryWatchData
+                | HistoryFavoriteData
+                | HistoryImportData
+                | HistoryReadData,
         > = {
             reference: string;
-            content?: API.Anime;
+            content?: API.Anime | API.Manga | API.Novel;
             history_type: API.HistoryType;
             created: number;
             updated: number;
@@ -570,7 +598,11 @@ declare global {
 
         type Content =
             | API.Anime
+            | API.Manga
+            | API.Novel
             | API.AnimeInfo
+            | API.MangaInfo
+            | API.NovelInfo
             | API.Character
             | API.Person
             | API.Collection;
