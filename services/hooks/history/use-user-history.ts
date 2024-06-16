@@ -21,7 +21,7 @@ const useUserHistory = ({ username }: Params) => {
                     ...h,
                     content:
                         h.content && 'title_ua' in h.content
-                            ? convertTitle<API.Anime>({
+                            ? convertTitle({
                                   data: h.content,
                                   titleLanguage: titleLanguage!,
                               })

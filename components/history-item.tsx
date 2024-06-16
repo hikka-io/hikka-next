@@ -52,9 +52,11 @@ const HistoryItem: FC<Props> = (props) => {
             descriptionHref={data.content && `/anime/${data.content.slug}`}
             createdAt={data.created}
             image={
-                data.content?.poster || (
-                    <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
-                )
+                data.content?.data_type === 'anime'
+                    ? data.content?.poster
+                    : data.content?.image || (
+                          <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
+                      )
             }
             className={className}
         >
