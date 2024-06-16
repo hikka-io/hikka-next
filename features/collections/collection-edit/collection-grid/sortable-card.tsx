@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import React, { FC, memo, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever';
 import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator';
 
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;
-    content: API.Anime | API.Character | API.Person;
+    content: API.Anime | API.Character | API.Person | API.Manga | API.Novel;
     onRemove: () => void;
 }
 
