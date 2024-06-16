@@ -7,6 +7,10 @@ import {
     ANIME_EDIT_PARAMS,
     CHARACTER_EDIT_GROUPS,
     CHARACTER_EDIT_PARAMS,
+    MANGA_EDIT_GROUPS,
+    MANGA_EDIT_PARAMS,
+    NOVEL_EDIT_GROUPS,
+    NOVEL_EDIT_PARAMS,
     PERSON_EDIT_GROUPS,
     PERSON_EDIT_PARAMS,
 } from '@/utils/constants';
@@ -31,6 +35,12 @@ export const getEditParams = (
     switch (content_type) {
         case 'anime':
             params = ANIME_EDIT_PARAMS;
+            break;
+        case 'manga':
+            params = MANGA_EDIT_PARAMS;
+            break;
+        case 'novel':
+            params = NOVEL_EDIT_PARAMS;
             break;
         case 'character':
             params = CHARACTER_EDIT_PARAMS;
@@ -58,6 +68,10 @@ export const getEditGroups = (content_type: API.ContentType) => {
     switch (content_type) {
         case 'anime':
             return ANIME_EDIT_GROUPS;
+        case 'manga':
+            return MANGA_EDIT_GROUPS;
+        case 'novel':
+            return NOVEL_EDIT_GROUPS;
         case 'character':
             return CHARACTER_EDIT_GROUPS;
         case 'person':

@@ -56,6 +56,28 @@ declare global {
             }[];
         };
 
+        type MangaEditParams = {
+            title_ua?: string;
+            title_en?: string;
+            title_original?: string;
+            synopsis_en?: string;
+            synopsis_ua?: string;
+            synonyms?: {
+                value: string;
+            }[];
+        };
+
+        type NovelEditParams = {
+            title_ua?: string;
+            title_en?: string;
+            title_original?: string;
+            synopsis_en?: string;
+            synopsis_ua?: string;
+            synonyms?: {
+                value: string;
+            }[];
+        };
+
         type CharacterEditParams = {
             name_ua: string;
             name_en: string;

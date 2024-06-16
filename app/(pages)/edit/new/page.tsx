@@ -12,6 +12,8 @@ import RulesAlert from '@/features/edit/edit-rules-alert.component';
 
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
+import getMangaInfo from '@/services/api/manga/getMangaInfo';
+import getNovelInfo from '@/services/api/novel/getNovelInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -36,8 +38,32 @@ const EditNewPage: FC<Props> = async ({
     if (content_type === 'anime') {
         await queryClient.prefetchQuery({
             queryKey: ['anime', slug],
-            queryFn: ({ meta }) =>
+            queryFn: () =>
                 getAnimeInfo({
+                    params: {
+                        slug: String(slug),
+                    },
+                }),
+        });
+    }
+
+    if (content_type === 'manga') {
+        await queryClient.prefetchQuery({
+            queryKey: ['manga', slug],
+            queryFn: () =>
+                getMangaInfo({
+                    params: {
+                        slug: String(slug),
+                    },
+                }),
+        });
+    }
+
+    if (content_type === 'novel') {
+        await queryClient.prefetchQuery({
+            queryKey: ['novel', slug],
+            queryFn: () =>
+                getNovelInfo({
                     params: {
                         slug: String(slug),
                     },
@@ -48,7 +74,7 @@ const EditNewPage: FC<Props> = async ({
     if (content_type === 'character') {
         await queryClient.prefetchQuery({
             queryKey: ['character', slug],
-            queryFn: ({ meta }) =>
+            queryFn: () =>
                 getCharacterInfo({
                     params: {
                         slug: String(slug),
@@ -60,7 +86,7 @@ const EditNewPage: FC<Props> = async ({
     if (content_type === 'person') {
         await queryClient.prefetchQuery({
             queryKey: ['person', slug],
-            queryFn: ({ meta }) =>
+            queryFn: () =>
                 getPersonInfo({
                     params: {
                         slug: String(slug),
