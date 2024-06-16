@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import Header from '@/components/ui/header';
@@ -29,8 +29,10 @@ const CollectionGrid: FC<Props> = ({ group }) => {
         'poster' in content ? content.poster : content.image;
     const title = (content: API.MainContent) =>
         'title_ua' in content
-            ? content.title_ua || content.title_en || content.title_ja
-            : content.name_ua || content.name_en;
+            ? content.title_ua || content.title_en
+            : 'title_original' in content
+              ? content.title_original
+              : content.name_ua || content.name_en;
 
     return (
         <div className="flex flex-col gap-4">
