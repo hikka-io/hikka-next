@@ -21,6 +21,7 @@ import { cn } from '@/utils/utils';
 
 import { AspectRatio } from '../ui/aspect-ratio';
 import ContextMenuOverlay from './context-menu-overlay';
+import ReadStatus from './read-status';
 import WatchStatus from './watch-status';
 
 export interface Props {
@@ -41,6 +42,7 @@ export interface Props {
     onClick?: MouseEventHandler<HTMLAnchorElement> &
         MouseEventHandler<HTMLDivElement>;
     watch?: API.Watch;
+    read?: API.Read;
     slug?: string;
     content_type?: API.ContentType;
     withContextMenu?: boolean;
@@ -87,6 +89,7 @@ const Content = memo(
                 disableChildrenLink,
                 onClick,
                 watch,
+                read,
                 slug,
                 content_type,
                 withContextMenu,
@@ -144,6 +147,7 @@ const Content = memo(
 
                                 {!disableChildrenLink && children}
                                 {watch && <WatchStatus watch={watch} />}
+                                {read && <ReadStatus read={read} />}
                             </Comp>
                             {disableChildrenLink && children}
                         </AspectRatio>

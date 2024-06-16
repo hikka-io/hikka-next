@@ -13,6 +13,7 @@ interface Props extends ContentCardProps {
 const MangaCard: FC<Props> = ({ manga, ...props }) => {
     return (
         <ContentCard
+            read={manga.read ? manga.read[0] : undefined}
             slug={manga.slug}
             content_type="manga"
             href={`/manga/${manga.slug}`}
