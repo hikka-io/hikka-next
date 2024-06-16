@@ -26,12 +26,10 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 
 import useAnimeGenres from '@/services/hooks/anime/use-anime-genres';
-import useCompanies from '@/services/hooks/companies/use-companies';
 import {
-    AGE_RATING,
-    ANIME_MEDIA_TYPE,
+    MANGA_MEDIA_TYPE,
+    NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
-    SEASON,
 } from '@/utils/constants';
 import createQueryString from '@/utils/create-query-string';
 
@@ -50,10 +48,10 @@ enum RANGE {
 
 interface Props {
     className?: string;
-    type: 'anime' | 'watchlist';
+    type: 'manga' | 'novel' | 'manga-readlist' | 'novel-readlist';
 }
 
-const SORT_ANIME = [
+const SORT_READ = [
     {
         label: 'Загальна оцінка',
         value: 'score',
@@ -68,8 +66,8 @@ const SORT_ANIME = [
     },
 ];
 
-const SORT_WATCHLIST = [
-    ...SORT_ANIME,
+const SORT_READLIST = [
+    ...SORT_READ,
     {
         label: 'К-сть епізодів',
         value: 'watch_episodes',
@@ -84,33 +82,27 @@ const SORT_WATCHLIST = [
     },
 ];
 
-const AnimeFilters: FC<Props> = ({ className, type }) => {
+const MangaFilters: FC<Props> = ({ className, type }) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()!;
 
     const types = searchParams.getAll('types');
     const statuses = searchParams.getAll('statuses');
-    const seasons = searchParams.getAll('seasons');
-    const ageRatings = searchParams.getAll('ratings');
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
-    const studios = searchParams.getAll('studios');
     const lang = searchParams.get('only_translated');
     const order = searchParams.get('order');
     const sort = searchParams.get('sort') || 'score';
 
-    const sortOptions = type === 'anime' ? SORT_ANIME : SORT_WATCHLIST;
+    const sortOptions =
+        type === 'manga' || type === 'novel' ? SORT_READ : SORT_READLIST;
+    const MEDIA_TYPE =
+        type === 'manga' || type === 'manga-readlist'
+            ? MANGA_MEDIA_TYPE
+            : NOVEL_MEDIA_TYPE;
 
     const { data: genresList } = useAnimeGenres();
-
-    const [studioSearch, setStudioSearch] = useState<string>();
-    const { data: studioList, isFetching: isStudioListFetching } = useCompanies(
-        {
-            type: 'studio',
-            query: studioSearch,
-        },
-    );
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
         years.length > 0 ? years : YEARS.map((y) => String(y)),
@@ -141,15 +133,6 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
         router.replace(`${pathname}?${query}`);
     };
 
-    const handleStudioSearch = (keyword: string) => {
-        if (keyword.length < 3) {
-            setStudioSearch(undefined);
-            return;
-        }
-
-        setStudioSearch(keyword);
-    };
-
     useEffect(() => {
         if (JSON.stringify(selectingYears) !== JSON.stringify(years)) {
             setSelectingYears(
@@ -166,14 +149,6 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                         properties={RELEASE_STATUS}
                         selected={statuses}
                         property="statuses"
-                        onParamChange={handleChangeParam}
-                    />
-                </CollapsibleFilter>
-                <CollapsibleFilter defaultOpen title="Сезон">
-                    <BadgeFilter
-                        properties={SEASON}
-                        selected={seasons}
-                        property="seasons"
                         onParamChange={handleChangeParam}
                     />
                 </CollapsibleFilter>
@@ -199,7 +174,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 </CollapsibleFilter>
                 <CollapsibleFilter title="Тип">
                     <BadgeFilter
-                        properties={ANIME_MEDIA_TYPE}
+                        properties={MEDIA_TYPE}
                         selected={types}
                         property="types"
                         onParamChange={handleChangeParam}
@@ -270,49 +245,6 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                     </div>
                 </CollapsibleFilter>
 
-                <CollapsibleFilter title="Рейтинг">
-                    <BadgeFilter
-                        properties={AGE_RATING}
-                        selected={ageRatings}
-                        property="ratings"
-                        onParamChange={handleChangeParam}
-                    />
-                </CollapsibleFilter>
-                <CollapsibleFilter title="Студія">
-                    <Select
-                        multiple
-                        value={studios}
-                        onValueChange={(value) =>
-                            handleChangeParam('studios', value)
-                        }
-                        onSearch={handleStudioSearch}
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Виберіть студію..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectSearch placeholder="Назва студії..." />
-                            <SelectList>
-                                <SelectGroup>
-                                    {!isStudioListFetching &&
-                                        studioList?.list.map((studio) => (
-                                            <SelectItem
-                                                key={studio.slug}
-                                                value={studio.slug}
-                                            >
-                                                {studio.name}
-                                            </SelectItem>
-                                        ))}
-                                    <SelectEmpty>
-                                        {isStudioListFetching
-                                            ? 'Завантаження...'
-                                            : 'Студій не знайдено'}
-                                    </SelectEmpty>
-                                </SelectGroup>
-                            </SelectList>
-                        </SelectContent>
-                    </Select>
-                </CollapsibleFilter>
                 <CollapsibleFilter title="Рік виходу">
                     <div className="flex items-center gap-2">
                         <YearFilterInput
@@ -354,7 +286,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
                 onClick={clearFilters}
                 asChild
             >
-                <Link href="/anime">
+                <Link href="/manga">
                     <AntDesignClearOutlined /> Очистити
                 </Link>
             </Button>
@@ -362,4 +294,4 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
     );
 };
 
-export default AnimeFilters;
+export default MangaFilters;

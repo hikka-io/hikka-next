@@ -1,7 +1,6 @@
 import { FC, ReactNode } from 'react';
 
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 
 import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar.component';
 import Filters from '@/features/filters/anime-filters.component';
@@ -18,9 +17,9 @@ const AnimeListLayout: FC<Props> = async ({ children }) => {
                     <NavBar />
                     {children}
                 </Block>
-                <Card className="sticky top-20 order-1 hidden w-full p-0 opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
+                <div className="sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
                     <Filters type="anime" className="px-4" />
-                </Card>
+                </div>
             </div>
         </div>
     );

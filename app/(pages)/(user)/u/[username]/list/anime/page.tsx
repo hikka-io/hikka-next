@@ -56,8 +56,8 @@ const ListPage: FC<Props> = ({
                 </div>
                 <List />
             </Block>
-            <div className="sticky top-20 hidden h-fit rounded-md border border-secondary/60 bg-secondary/30 opacity-60 transition-opacity hover:opacity-100 lg:block">
-                <Filters className="px-4" type="watchlist" />
+            <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
+                <Filters type="watchlist" />
             </div>
         </div>
     );
