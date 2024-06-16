@@ -29,10 +29,12 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
 
     const poster =
         content.data_type === 'anime' ? content.poster : content.image;
-    const title =
-        content.data_type === 'anime'
-            ? content.title!
-            : content.name_ua || content.name_en;
+    const title = (content: API.MainContent) =>
+        'title_ua' in content
+            ? content.title_ua || content.title_en
+            : 'title_original' in content
+              ? content.title_original
+              : content.name_ua || content.name_en;
 
     return (
         <Block>

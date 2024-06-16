@@ -1,8 +1,8 @@
 'use client';
 
-import { ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { FC } from 'react';
+import LucideChevronsUpDown from '~icons/lucide/chevrons-up-down';
 
 import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
@@ -45,7 +45,7 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
                         size="sm"
                         className="w-9 p-0"
                     >
-                        <ChevronsUpDown className="size-4" />
+                        <LucideChevronsUpDown className="size-4" />
                         <span className="sr-only">Toggle</span>
                     </Button>
                 </div>
