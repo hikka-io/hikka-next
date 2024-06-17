@@ -2,7 +2,6 @@
 
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import SimpleIconsAnilist from '~icons/simple-icons/anilist';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +19,6 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-import AnilistCollection from '@/features/collections/collection-edit/anilist-collection.component';
 import GroupInputs from '@/features/collections/collection-edit/collection-settings/group-inputs';
 
 import useCreateCollection from '@/services/hooks/collections/use-create-collection';
@@ -108,15 +106,6 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     },
                 ],
             };
-        });
-    };
-
-    const handleImportAnilistModal = () => {
-        openModal({
-            content: (
-                <AnilistCollection setCollectionState={setCollectionState!} />
-            ),
-            title: 'Імпорт з AniList',
         });
     };
 
@@ -304,13 +293,6 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                     <span className="loading loading-spinner"></span>
                                 )}
                                 Створити
-                            </Button>
-                            <Button
-                                size="icon"
-                                variant="secondary"
-                                onClick={handleImportAnilistModal}
-                            >
-                                <SimpleIconsAnilist />
                             </Button>
                         </div>
                     )}
