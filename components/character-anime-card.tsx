@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FC } from 'react';
 
 import ContentCard, {
@@ -15,7 +14,7 @@ const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
         <ContentCard
             key={character.slug + anime.slug}
             href={`/characters/${character.slug}`}
-            poster={character.image}
+            image={character.image}
             title={character.name_ua || character.name_en || character.name_ja}
             slug={character.slug}
             withContextMenu
@@ -28,7 +27,7 @@ const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
             <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-secondary/60 shadow-lg transition-all hover:w-28">
                 <ContentCard
                     href={`/anime/${anime.slug}`}
-                    poster={anime.poster}
+                    image={anime.image}
                 />
             </div>
         </ContentCard>

@@ -15,7 +15,7 @@ const CharacterCard: FC<Props> = ({ character, ...props }) => {
             withContextMenu
             content_type="character"
             href={`/characters/${character.slug}`}
-            poster={character.image}
+            image={character.image}
             title={character.name_ua || character.name_en || character.name_ja}
             {...props}
         />

@@ -58,7 +58,7 @@ const useContent = ({ slug, content_type }: Props) => {
                             data.title_ua ||
                             data.title_en ||
                             data.title_ja,
-                        image: data.poster,
+                        image: data.image,
                         content_type,
                     };
                 }
@@ -99,7 +99,7 @@ const useContent = ({ slug, content_type }: Props) => {
                         title: data.title,
                         image:
                             data.collection[0].content.data_type === 'anime'
-                                ? data.collection[0].content.poster
+                                ? data.collection[0].content.image
                                 : data.collection[0].content.image,
                         content_type,
                     };
@@ -109,7 +109,7 @@ const useContent = ({ slug, content_type }: Props) => {
                     title: `Правка #${data.edit_id}`,
                     image:
                         data.content.data_type === 'anime'
-                            ? data.content.poster
+                            ? data.content.image
                             : data.content.image,
                     content_type,
                 };

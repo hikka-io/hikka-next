@@ -25,9 +25,6 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
     const items = groups.find((g) => g.id === group.id)?.items || [];
 
-    const poster = (content: API.MainContent) =>
-        'poster' in content ? content.poster : content.image;
-
     return (
         <div className="flex flex-col gap-4">
             {group.isGroup && (
@@ -47,7 +44,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                         content_type={content_type}
                         href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
                         key={item.id}
-                        poster={poster(item.content)}
+                        image={item.content.image}
                         title={item.content.title}
                         watch={
                             'watch' in item.content &&

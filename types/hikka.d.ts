@@ -100,7 +100,7 @@ declare global {
             created: number;
             href: string;
             seen: boolean;
-            poster?: ReactNode;
+            image?: ReactNode;
         };
 
         type WatchStat = {

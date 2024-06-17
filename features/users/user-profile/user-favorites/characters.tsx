@@ -51,9 +51,9 @@ const Characters: FC<Props> = ({ extended }) => {
                         <ContentCard
                             key={res.slug}
                             title={res.name_ua || res.name_en || res.name_ja}
-                            poster={res.image}
+                            image={res.image}
                             href={`/characters/${res.slug}`}
-                            content_type='character'
+                            content_type="character"
                             slug={res.slug}
                         />
                     ))}

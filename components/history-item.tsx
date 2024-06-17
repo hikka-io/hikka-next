@@ -53,7 +53,7 @@ const HistoryItem: FC<Props> = (props) => {
             createdAt={data.created}
             image={
                 data.content?.data_type === 'anime'
-                    ? data.content?.poster
+                    ? data.content?.image
                     : data.content?.image || (
                           <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
                       )

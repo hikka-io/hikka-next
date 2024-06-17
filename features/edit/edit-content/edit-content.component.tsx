@@ -23,8 +23,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
 
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
-    const poster =
-        content.data_type === 'anime' ? content.poster : content.image;
+    const image = content.data_type === 'anime' ? content.image : content.image;
     const title = getTitle({ data: content, titleLanguage: 'title_ua' });
 
     return (

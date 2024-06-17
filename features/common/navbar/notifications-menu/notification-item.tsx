@@ -47,7 +47,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
                         )
                     }
                 >
-                    {data.poster && data.poster}
+                    {data.image && data.image}
                 </HorizontalCard>
             </Link>
         </DropdownMenuItem>

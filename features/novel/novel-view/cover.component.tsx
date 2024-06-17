@@ -14,7 +14,7 @@ const Cover: FC = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <ContentCard posterProps={{ priority: true }} poster={novel?.image}>
+            <ContentCard imageProps={{ priority: true }} image={novel?.image}>
                 <div className="absolute bottom-2 right-2 z-[1]">
                     <FavoriteButton
                         slug={String(params.slug)}

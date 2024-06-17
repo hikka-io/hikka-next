@@ -53,7 +53,7 @@ const HorizontalCard: FC<Props> = ({
                 containerClassName={cn(imageClassName)}
                 containerRatio={imageRatio}
                 href={href}
-                poster={image}
+                image={image}
             >
                 {imageChildren}
             </ContentCard>

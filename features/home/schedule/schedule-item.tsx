@@ -18,7 +18,7 @@ const ScheduleItem: FC<Props> = ({ item }) => {
             size="sm"
             title={item.anime.title!}
             href={`/anime/${item.anime.slug}`}
-            image={item.anime.poster}
+            image={item.anime.image}
         >
             <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
                 <div className="flex flex-1 flex-col">

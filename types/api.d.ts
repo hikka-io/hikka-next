@@ -198,7 +198,7 @@ declare global {
             title_ja: string;
             episodes_released: number;
             episodes_total: number;
-            poster: string;
+            image: string;
             status: API.Status;
             scored_by: number;
             score: number;
@@ -540,7 +540,7 @@ declare global {
                 status: API.Status;
                 episodes_released: number;
             };
-            poster: string;
+            image: string;
             title_en: string;
             title_ja: string;
             title_ua: string;

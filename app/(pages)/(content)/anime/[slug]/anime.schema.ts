@@ -22,7 +22,7 @@ const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
                     '@id': 'https://hikka.io/anime/' + anime.slug,
                     url: 'https://hikka.io/anime/' + anime.slug,
                     name: anime.title_ua || anime.title_en || anime.title_ja,
-                    image: anime.poster,
+                    image: anime.image,
                 },
             },
         ],
@@ -31,7 +31,7 @@ const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
         '@type': 'TVSeries',
         name: anime.title_ua || anime.title_en || anime.title_ja,
         alternateName: anime.synonyms,
-        image: anime.poster,
+        image: anime.image,
         description: parseTextFromMarkDown(
             anime.synopsis_ua || anime.synopsis_en,
         ),
