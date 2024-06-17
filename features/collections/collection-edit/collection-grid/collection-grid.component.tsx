@@ -165,7 +165,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                             type="button"
                         >
                             <ContentCard
-                                poster={
+                                image={
                                     <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
                                 }
                             />

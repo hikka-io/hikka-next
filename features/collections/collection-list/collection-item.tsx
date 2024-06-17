@@ -22,9 +22,6 @@ interface Props {
 }
 
 const CollectionItem: FC<Props> = ({ collection }) => {
-    const poster = (content: API.MainContent) =>
-        'poster' in content ? content.poster : content.image;
-
     return (
         <div className="flex flex-col gap-4">
             <div className={cn('flex gap-2')}>
@@ -96,7 +93,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         key={item.content.slug}
-                        poster={poster(item.content)}
+                        image={item.content.image}
                         title={item.content.title}
                         slug={item.content.slug}
                         content_type={item.content_type}
@@ -110,7 +107,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                 ))}
                 <ContentCard
                     href={`/collections/${collection.reference}`}
-                    poster={
+                    image={
                         <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                     }
                 />

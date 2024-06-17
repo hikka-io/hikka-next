@@ -14,8 +14,8 @@ interface Props {
 }
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
-    const poster = (content: API.MainContent) =>
-        content.data_type === 'anime' ? content.poster : content.image;
+    const image = (content: API.MainContent) =>
+        content.data_type === 'anime' ? content.image : content.image;
 
     const Meta = (
         <Fragment>
@@ -49,7 +49,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             title={data.title}
             href={`/collections/${data.reference}`}
             titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
-            image={poster(data.collection[0].content)}
+            image={image(data.collection[0].content)}
             imageClassName={cn(data.nsfw && 'spoiler-blur-sm')}
             description={data.description}
             descriptionClassName={cn(data.spoiler && 'spoiler-blur-sm')}

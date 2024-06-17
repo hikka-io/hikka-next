@@ -20,7 +20,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, rereads, note }) => {
             <div className="flex items-center gap-4">
                 <div className="hidden w-12 lg:block">
                     <ContentCard
-                        poster={content.image}
+                        image={content.image}
                         href={`/${content_type}/${content.slug}`}
                     />
                 </div>

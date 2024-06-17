@@ -18,7 +18,7 @@ const AnimeCard: FC<Props> = ({ anime, ...props }) => {
             content_type="anime"
             withContextMenu
             href={`/anime/${anime.slug}`}
-            poster={anime.poster}
+            image={anime.image}
             title={anime.title}
             leftSubtitle={anime.year ? String(anime.year) : undefined}
             rightSubtitle={

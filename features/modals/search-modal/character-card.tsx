@@ -22,7 +22,7 @@ const CharacterCard = ({ character, onClick, type }: Props) => {
             className="flex w-full gap-4 text-left"
         >
             <div className="w-12 sm:w-16">
-                <ContentCard poster={character.image} />
+                <ContentCard image={character.image} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">

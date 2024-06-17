@@ -22,13 +22,11 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
         transition,
     };
 
-    const poster = 'poster' in content ? content.poster : content.image;
-
     return (
         <div ref={setNodeRef} style={style} {...attributes}>
             {useMemo(
                 () => (
-                    <ContentCard poster={poster} title={content.title}>
+                    <ContentCard image={content.image} title={content.title}>
                         <div className="absolute bottom-0 left-0 w-full">
                             <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
                                 <Button

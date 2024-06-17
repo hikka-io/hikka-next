@@ -17,7 +17,7 @@ const NovelCard: FC<Props> = ({ novel, ...props }) => {
             slug={novel.slug}
             content_type="novel"
             href={`/novel/${novel.slug}`}
-            poster={novel.image}
+            image={novel.image}
             title={novel.title}
             leftSubtitle={novel.year ? String(novel.year) : undefined}
             rightSubtitle={

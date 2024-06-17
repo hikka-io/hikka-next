@@ -23,11 +23,11 @@ const CommentContent: FC<Props> = ({ slug, content_type }) => {
     return (
         <Block>
             <div className="hidden w-full items-center gap-4 px-16 md:px-48 lg:flex lg:px-0">
-                <ContentCard href={link} poster={data?.image} />
+                <ContentCard href={link} image={data?.image} />
             </div>
             <div className="flex w-full gap-4 lg:hidden">
                 <div className="w-12">
-                    <ContentCard href={link} poster={data?.image} />
+                    <ContentCard href={link} image={data?.image} />
                 </div>
                 <Link href={link}>{data?.title}</Link>
             </div>

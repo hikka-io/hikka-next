@@ -17,7 +17,7 @@ const MangaCard: FC<Props> = ({ manga, ...props }) => {
             slug={manga.slug}
             content_type="manga"
             href={`/manga/${manga.slug}`}
-            poster={manga.image}
+            image={manga.image}
             title={manga.title}
             leftSubtitle={manga.year ? String(manga.year) : undefined}
             rightSubtitle={

@@ -132,7 +132,7 @@ const Profile = () => {
                                         onClick={() =>
                                             setSelectedSlug(item.anime.slug)
                                         }
-                                        poster={item.anime.poster}
+                                        image={item.anime.image}
                                         className={cn(
                                             'transition-opacity',
                                             selectedWatch?.anime.slug !==

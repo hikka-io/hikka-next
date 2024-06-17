@@ -52,7 +52,7 @@ const Comments: FC<Props> = ({ className }) => {
                         >
                             <ContentCard
                                 className="w-10"
-                                poster={item.image}
+                                image={item.image}
                                 href={`/comments/${item.content_type}/${item.slug}`}
                             />
                         </HorizontalCard>

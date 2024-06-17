@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import * as React from 'react';
 import { ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -48,7 +47,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
                         size === 'sm' && 'max-w-16',
                     )}
                     containerClassName="rounded-r-none"
-                    poster={image}
+                    image={image}
                     href={href}
                 />
                 <div className="flex w-full flex-col justify-between gap-2 p-4">

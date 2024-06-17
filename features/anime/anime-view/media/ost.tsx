@@ -30,7 +30,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                     description={
                         OST[ost.ost_type].title_ua || OST[ost.ost_type].title_en
                     }
-                    poster={
+                    image={
                         <IcBaselineLibraryMusic className="text-4xl text-muted-foreground" />
                     }
                 />
