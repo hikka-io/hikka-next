@@ -36,13 +36,10 @@ const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
             ...data,
             list: data.list.map((e) => ({
                 ...e,
-                content:
-                    'title_ua' in e.content
-                        ? convertTitle({
-                              data: e.content,
-                              titleLanguage: titleLanguage!,
-                          })
-                        : e.content,
+                content: convertTitle({
+                    data: e.content,
+                    titleLanguage: titleLanguage!,
+                }),
             })),
         }),
         ...options,
