@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;
-    content: API.Anime | API.Character | API.Person | API.Manga | API.Novel;
+    content: API.MainContent & { title: string };
     onRemove: () => void;
 }
 
@@ -23,16 +23,12 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
     };
 
     const poster = 'poster' in content ? content.poster : content.image;
-    const title =
-        'title_ua' in content
-            ? content.title_ua || content.title_en || content.title_ja
-            : content.name_ua || content.name_en;
 
     return (
         <div ref={setNodeRef} style={style} {...attributes}>
             {useMemo(
                 () => (
-                    <ContentCard poster={poster} title={title}>
+                    <ContentCard poster={poster} title={content.title}>
                         <div className="absolute bottom-0 left-0 w-full">
                             <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
                                 <Button

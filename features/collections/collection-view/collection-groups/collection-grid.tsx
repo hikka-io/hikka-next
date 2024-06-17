@@ -27,12 +27,6 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
     const poster = (content: API.MainContent) =>
         'poster' in content ? content.poster : content.image;
-    const title = (content: API.MainContent) =>
-        'title_ua' in content
-            ? content.title_ua || content.title_en
-            : 'title_original' in content
-              ? content.title_original
-              : content.name_ua || content.name_en;
 
     return (
         <div className="flex flex-col gap-4">
@@ -54,7 +48,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                         href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
                         key={item.id}
                         poster={poster(item.content)}
-                        title={title(item.content)}
+                        title={item.content.title}
                         watch={
                             'watch' in item.content &&
                             item.content.watch.length > 0

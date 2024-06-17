@@ -83,7 +83,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
         }
     };
 
-    const handleAddItem = (content: API.MainContent) => {
+    const handleAddItem = (content: API.MainContent & { title: string }) => {
         if (JSON.stringify(groups).includes(content.slug)) {
             return;
         }
@@ -156,7 +156,11 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                         <SearchModal
                             content_type={content_type}
                             onClick={(value) =>
-                                handleAddItem(value as API.MainContent)
+                                handleAddItem(
+                                    value as API.MainContent & {
+                                        title: string;
+                                    },
+                                )
                             }
                             type="button"
                         >

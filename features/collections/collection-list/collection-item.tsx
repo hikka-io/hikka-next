@@ -18,16 +18,12 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    collection: API.Collection<API.MainContent>;
+    collection: API.Collection<API.MainContent & { title: string }>;
 }
 
 const CollectionItem: FC<Props> = ({ collection }) => {
     const poster = (content: API.MainContent) =>
         'poster' in content ? content.poster : content.image;
-    const title = (content: API.MainContent) =>
-        'title_ua' in content
-            ? content.title_ua || content.title_en || content.title_ja
-            : content.name_ua || content.name_en;
 
     return (
         <div className="flex flex-col gap-4">
@@ -101,7 +97,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         key={item.content.slug}
                         poster={poster(item.content)}
-                        title={title(item.content)}
+                        title={item.content.title}
                         slug={item.content.slug}
                         content_type={item.content_type}
                         watch={
