@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
+import CommentInput from '@/components/comments/comment-input';
+import Comments from '@/components/comments/comments';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-
-import CommentInput from '@/features/comments/comment-list/comment-input';
-import Comments from '@/features/comments/comment-list/comments';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useCommentThread from '@/services/hooks/comments/use-comment-thread';

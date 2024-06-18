@@ -41,11 +41,10 @@ const Page = async () => {
                         <History />
                     </div>
                 )}
+                <Comments />
+
+                <Collections />
                 <Schedule />
-                <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
-                    <Collections />
-                    <Comments />
-                </div>
             </div>
         </HydrationBoundary>
     );

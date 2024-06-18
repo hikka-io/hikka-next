@@ -5,6 +5,9 @@ import { FC, useEffect, useState } from 'react';
 import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
+import CommentInput from '@/components/comments/comment-input';
+import CommentMenu from '@/components/comments/comment-menu';
+import CommentVote from '@/components/comments/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import H5 from '@/components/typography/h5';
@@ -12,10 +15,6 @@ import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-
-import CommentInput from '@/features/comments/comment-list/comment-input';
-import CommentMenu from '@/features/comments/comment-list/comment-menu';
-import CommentVote from '@/features/comments/comment-list/comment-vote';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';

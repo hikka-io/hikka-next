@@ -39,7 +39,7 @@ const Search = () => {
                 value={search || ''}
                 onChange={(event) => handleChangeSearch(event.target.value)}
                 type="text"
-                placeholder="Введіть назву манґи..."
+                placeholder="Введіть назву ранобе..."
             />
         </div>
     );

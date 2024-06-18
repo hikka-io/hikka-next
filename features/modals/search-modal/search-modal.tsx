@@ -50,7 +50,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
         onClick && onClick(content);
     };
 
-    useSearchModal({ setOpen, onClick, content_type, setSearchType });
+    useSearchModal({ open, setOpen, onClick, content_type, setSearchType });
 
     return (
         <Fragment>
