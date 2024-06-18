@@ -17,7 +17,7 @@ export const SpoilerToolbarButton = withRef<typeof ToolbarButton>(
         const handleInsertSpoiler = () => {
             insertEmptyElement(editor, ELEMENT_SPOILER, {
                 select: true,
-                nextBlock: true,
+                nextBlock: false,
             });
 
             focusEditor(editor);

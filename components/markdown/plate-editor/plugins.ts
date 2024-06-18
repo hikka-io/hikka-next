@@ -12,7 +12,6 @@ import {
     PlateElement,
     RenderAfterEditable,
     createPlugins,
-    isSelectionAtBlockStart,
 } from '@udecode/plate-common';
 import { ELEMENT_LINK, createLinkPlugin } from '@udecode/plate-link';
 import { createListPlugin } from '@udecode/plate-list';
@@ -20,7 +19,6 @@ import {
     ELEMENT_PARAGRAPH,
     createParagraphPlugin,
 } from '@udecode/plate-paragraph';
-import { createResetNodePlugin } from '@udecode/plate-reset-node';
 
 import { withCn } from '@/utils/utils';
 
@@ -45,17 +43,17 @@ const plugins = createPlugins(
         createSpoilerPlugin(),
         createParagraphPlugin(),
         createListPlugin(),
-        createResetNodePlugin({
+        /* createResetNodePlugin({
             options: {
                 rules: [
                     {
-                        types: [ELEMENT_SPOILER],
+                        types: [ELEMENT_SPOILER, ELEMENT_BLOCKQUOTE],
                         hotkey: 'Backspace',
                         predicate: isSelectionAtBlockStart,
                     },
                 ],
             },
-        }),
+        }), */
         createExitBreakPlugin({
             options: {
                 rules: [

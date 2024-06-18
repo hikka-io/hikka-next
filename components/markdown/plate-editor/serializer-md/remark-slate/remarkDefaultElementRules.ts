@@ -7,6 +7,7 @@ import {
 } from '@udecode/plate-common';
 
 import { remarkTransformElementChildren } from './remarkTransformElementChildren';
+import { remarkTransformNode } from './remarkTransformNode';
 import type { MdastNode, RemarkElementRules } from './types';
 
 export const defaultDirectives = ['spoiler'];
@@ -16,9 +17,9 @@ export const remarkDefaultElementRules: RemarkElementRules<Value> = {
     containerDirective: {
         transform: (node, options) => {
             return {
-                children: node.children!.flatMap((paragraph) =>
-                    remarkTransformElementChildren(paragraph, options),
-                ),
+                children: node.children!.flatMap((paragraph) => {
+                    return remarkTransformNode(paragraph, options);
+                }),
                 type: defaultDirectives.includes(node.name!)
                     ? node.name!
                     : 'paragraph',
@@ -28,9 +29,9 @@ export const remarkDefaultElementRules: RemarkElementRules<Value> = {
     blockquote: {
         transform: (node, options) => {
             return {
-                children: node.children!.flatMap((paragraph) =>
-                    remarkTransformElementChildren(paragraph, options),
-                ),
+                children: node.children!.flatMap((paragraph) => {
+                    return remarkTransformElementChildren(paragraph, options);
+                }),
                 type: getPluginType(options.editor, 'blockquote'),
             };
         },
