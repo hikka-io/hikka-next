@@ -107,7 +107,11 @@ declare global {
             | 'read_manga_delete'
             | 'watch_import'
             | 'favourite_anime_add'
-            | 'favourite_anime_remove';
+            | 'favourite_anime_remove'
+            | 'favourite_manga_add'
+            | 'favourite_manga_remove'
+            | 'favourite_novel_add'
+            | 'favourite_novel_remove';
 
         type Error = {
             code: string;
