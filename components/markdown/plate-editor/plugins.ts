@@ -9,14 +9,20 @@ import {
     createSoftBreakPlugin,
 } from '@udecode/plate-break';
 import {
+    PlateElement,
     RenderAfterEditable,
     createPlugins,
     isSelectionAtBlockStart,
 } from '@udecode/plate-common';
 import { ELEMENT_LINK, createLinkPlugin } from '@udecode/plate-link';
 import { createListPlugin } from '@udecode/plate-list';
-import { createParagraphPlugin } from '@udecode/plate-paragraph';
+import {
+    ELEMENT_PARAGRAPH,
+    createParagraphPlugin,
+} from '@udecode/plate-paragraph';
 import { createResetNodePlugin } from '@udecode/plate-reset-node';
+
+import { withCn } from '@/utils/utils';
 
 import ItalicLeaf from './plate-ui/italic-leaf';
 import LinkElement from './plate-ui/link-element';
@@ -28,6 +34,8 @@ import {
 } from './plate-ui/spoiler-plugin';
 import StrongLeaf from './plate-ui/strong-leaf';
 import { createDeserializeMdPlugin } from './serializer-md';
+
+export const ParagraphElement = withCn(PlateElement, 'mb-4 p-0');
 
 const plugins = createPlugins(
     [
@@ -84,6 +92,7 @@ const plugins = createPlugins(
             [MARK_BOLD]: StrongLeaf,
             [ELEMENT_LINK]: LinkElement,
             [ELEMENT_SPOILER]: SpoilerElement,
+            [ELEMENT_PARAGRAPH]: ParagraphElement,
         },
     },
 );
