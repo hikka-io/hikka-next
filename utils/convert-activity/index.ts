@@ -27,6 +27,10 @@ export const convertActivity = (
             return createImportEvents(history.data as API.HistoryImportData);
         case 'favourite_anime_add':
         case 'favourite_anime_remove':
+        case 'favourite_manga_add':
+        case 'favourite_manga_remove':
+        case 'favourite_novel_add':
+        case 'favourite_novel_remove':
             return createFavoriteEvents(history.history_type);
         default:
             return [];

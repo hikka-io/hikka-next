@@ -9,11 +9,11 @@ export const convertAddFavorite = () => {
 export const createFavoriteEvents = (history_type: API.HistoryType) => {
     const events = [];
 
-    if (history_type === 'favourite_anime_remove') {
+    if (history_type.includes('_remove')) {
         events.push(convertDeleteFavorite());
     }
 
-    if (history_type === 'favourite_anime_add') {
+    if (history_type.includes('_add')) {
         events.push(convertAddFavorite());
     }
 
