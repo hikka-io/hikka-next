@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import Comments from '@/features/comments/comment-list/comment-list.component';
+import Comments from '@/features/comments/comment-list.component';
 import Actions from '@/features/edit/edit-actions/edit-actions.component';
 import EditView from '@/features/edit/edit-forms/edit-view-form.component';
 

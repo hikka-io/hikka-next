@@ -1,14 +1,31 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
 interface Props {
+    open: boolean;
     onClick?: (anime: API.Anime) => void;
     setOpen: Dispatch<SetStateAction<boolean>>;
     setSearchType?: Dispatch<SetStateAction<API.ContentType | 'user'>>;
     content_type?: API.ContentType | 'user';
 }
 
+const getSearchType = (value: number) => {
+    switch (value) {
+        case 1:
+            return 'anime';
+        case 2:
+            return 'character';
+        case 3:
+            return 'person';
+        case 4:
+            return 'user';
+        default:
+            return 'anime';
+    }
+};
+
 const useSearchModal = ({
     onClick,
+    open,
     setOpen,
     setSearchType,
     content_type,

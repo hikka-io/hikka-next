@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { FC } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
+import ContentCard from '@/components/content-card/content-card';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/ui/header';
-
-import CollectionItem from '@/features/users/user-profile/user-collections/collection-item';
+import Stack from '@/components/ui/stack';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useCollections from '@/services/hooks/collections/use-collections';
@@ -26,7 +26,7 @@ const Collections: FC<Props> = ({ className }) => {
         page: 1,
     });
 
-    const filteredCollections = collections?.list?.slice(0, 3);
+    const filteredCollections = collections?.list?.slice(0, 8);
 
     return (
         <Block className={cn(className)}>
@@ -39,12 +39,27 @@ const Collections: FC<Props> = ({ className }) => {
                     </Button>
                 )}
             </Header>
-            <div className="flex flex-col gap-6">
+            <Stack size={8}>
                 {filteredCollections &&
                     filteredCollections.map((item) => (
-                        <CollectionItem data={item} key={item.reference} />
+                        <ContentCard
+                            key={item.reference}
+                            title={item.title}
+                            image={item.collection[0].content.image}
+                            href={`/collections/${item.reference}`}
+                            titleClassName={cn(
+                                item.spoiler && 'blur hover:blur-none',
+                            )}
+                            containerClassName={cn(
+                                item.nsfw && 'blur hover:blur-none',
+                            )}
+                            leftSubtitle={(item.nsfw && '+18') || undefined}
+                            rightSubtitle={
+                                (item.spoiler && 'Спойлери') || undefined
+                            }
+                        />
                     ))}
-            </div>
+            </Stack>
         </Block>
     );
 };

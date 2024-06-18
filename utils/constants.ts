@@ -987,7 +987,7 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     comment: '/comments',
     collection: '/collections',
     manga: '/manga',
-    novel: '',
+    novel: '/novel',
 };
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [

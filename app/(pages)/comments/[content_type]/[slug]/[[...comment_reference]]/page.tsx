@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import ContentHeader from '@/features/comments/comment-content-header.component';
 import Content from '@/features/comments/comment-content.component';
-import Comments from '@/features/comments/comment-list/comment-list.component';
+import Comments from '@/features/comments/comment-list.component';
 import { getContent } from '@/features/comments/useContent';
 
 import getCommentThread from '@/services/api/comments/getCommentThread';

@@ -33,7 +33,7 @@ const Component = ({ type, children }: Props) => {
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
                 <Separator className="-mx-6 w-auto" />
-                <Filters type={type} className="-mx-6 px-6" />
+                <Filters type={type} />
             </DrawerContent>
         </Drawer>
     );
