@@ -1,4 +1,5 @@
 import getFavouriteList, {
+    FavoriteContent,
     Params,
 } from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
@@ -29,12 +30,10 @@ const useFavorites = <TContent extends API.Content>({
                 ...a,
                 list: a.list.map((s) => ({
                     ...s,
-                    ...(s.data_type === 'anime'
-                        ? convertTitle<API.AnimeInfo>({
-                              titleLanguage: titleLanguage!,
-                              data: s as API.AnimeInfo,
-                          })
-                        : {}),
+                    ...convertTitle<FavoriteContent>({
+                        titleLanguage: titleLanguage!,
+                        data: s,
+                    }),
                 })),
             })),
         }),

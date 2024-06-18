@@ -10,6 +10,8 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import Anime from './anime';
 import Character from './characters';
 import Collections from './collections';
+import Manga from './manga';
+import Novel from './novel';
 
 interface Props {
     extended?: boolean;
@@ -25,6 +27,10 @@ const Favorites: FC<Props> = ({ extended }) => {
                 return <Anime extended={extended} />;
             case 'character':
                 return <Character extended={extended} />;
+            case 'manga':
+                return <Manga extended={extended} />;
+            case 'novel':
+                return <Novel extended={extended} />;
             case 'collection':
                 return <Collections extended={extended} />;
             default:
@@ -53,6 +59,12 @@ const Favorites: FC<Props> = ({ extended }) => {
                 >
                     <ToggleGroupItem value="anime" aria-label="Улюблені аніме">
                         Аніме
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="manga" aria-label="Улюблена манґа">
+                        Манґа
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="novel" aria-label="Улюблене ранобе">
+                        Ранобе
                     </ToggleGroupItem>
                     <ToggleGroupItem
                         value="character"
