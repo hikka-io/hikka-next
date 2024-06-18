@@ -1,15 +1,14 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
+export type FavoriteContent<TContent = API.Content> = {
+    favourite_created: number;
+} & TContent;
+
 export interface Response<TContent = API.Content>
-    extends API.WithPagination<
-        {
-            favourite_created: number;
-        } & TContent
-    > {}
+    extends API.WithPagination<FavoriteContent<TContent>> {}
 
 export interface Params {
     username: string;
