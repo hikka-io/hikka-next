@@ -55,6 +55,7 @@
         "@udecode/plate-basic-marks": "^34.0.0",
         "@udecode/plate-break": "^34.0.0",
         "@udecode/plate-common": "^34.0.1",
+        "@udecode/plate-diff": "^34.0.0",
         "@udecode/plate-link": "^34.0.1",
         "@udecode/plate-list": "^34.0.0",
         "@udecode/plate-paragraph": "^34.0.0",

@@ -6272,21 +6272,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/plate-block-quote@npm:^34.0.0":
-  version: 34.0.0
-  resolution: "@udecode/plate-block-quote@npm:34.0.0"
-  peerDependencies:
-    "@udecode/plate-common": ">=34.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.94.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.99.0"
-  checksum: 10c0/be64fa7a3aa972326f1f86af2a12248c8dfa3334dee46efba9bbcc58861d4d7731b748b32040974b4cf0df0d2b42fcd42c42331350aac7f952237982a58afc29
-  languageName: node
-  linkType: hard
-
 "@udecode/plate-break@npm:^34.0.0":
   version: 34.0.0
   resolution: "@udecode/plate-break@npm:34.0.0"
@@ -6352,6 +6337,23 @@ __metadata:
     slate-hyperscript: ">=0.66.0"
     slate-react: ">=0.99.0"
   checksum: 10c0/a9f4224761fe2d75b09161858cbbf7124b26b9d4ec6738d64c046865e25cebbcbcdf7063ce113a66d43f2416f41a466ed39e2a82c6214df92260453a10d64c53
+  languageName: node
+  linkType: hard
+
+"@udecode/plate-diff@npm:^34.0.0":
+  version: 34.0.0
+  resolution: "@udecode/plate-diff@npm:34.0.0"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    "@udecode/plate-common": ">=34.0.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    slate: ">=0.94.0"
+    slate-history: ">=0.93.0"
+    slate-hyperscript: ">=0.66.0"
+    slate-react: ">=0.99.0"
+  checksum: 10c0/571d210602a48d1d5ae42fc13d971efb00800fc2ba6b420dcbc84a92273cd96374f195b54c2fe3e2c9837ad6c78eb2855a6e38eefbb971431313a5636765e274
   languageName: node
   linkType: hard
 
@@ -6453,21 +6455,6 @@ __metadata:
     slate-hyperscript: ">=0.66.0"
     slate-react: ">=0.99.0"
   checksum: 10c0/1808fb303c1a7b2a2a0d583c00a408f052fca43d4cad9688be2bbf2c7cd8b174e8882a66f6773869967403d082d4d0531a25c39f1c1321a8ab42dcde2682da92
-  languageName: node
-  linkType: hard
-
-"@udecode/plate-trailing-block@npm:^34.0.0":
-  version: 34.0.0
-  resolution: "@udecode/plate-trailing-block@npm:34.0.0"
-  peerDependencies:
-    "@udecode/plate-common": ">=34.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.94.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.99.0"
-  checksum: 10c0/57612c18eae8e84a78c310810b89c98a5852fd09dd4ee949f0dd48dc1a9064c86c2a69034385162ed37565c51fa88322583c9c607356a5016097f0098cc243b1
   languageName: node
   linkType: hard
 
@@ -11462,14 +11449,13 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.7.0"
     "@typescript-eslint/parser": "npm:^6.7.0"
     "@udecode/plate-basic-marks": "npm:^34.0.0"
-    "@udecode/plate-block-quote": "npm:^34.0.0"
     "@udecode/plate-break": "npm:^34.0.0"
     "@udecode/plate-common": "npm:^34.0.1"
+    "@udecode/plate-diff": "npm:^34.0.0"
     "@udecode/plate-link": "npm:^34.0.1"
     "@udecode/plate-list": "npm:^34.0.0"
     "@udecode/plate-paragraph": "npm:^34.0.0"
     "@udecode/plate-reset-node": "npm:^34.0.0"
-    "@udecode/plate-trailing-block": "npm:^34.0.0"
     "@vercel/analytics": "npm:^1.1.1"
     "@vercel/og": "npm:^0.6.1"
     autoprefixer: "npm:10.4.15"

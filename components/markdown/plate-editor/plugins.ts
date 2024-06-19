@@ -22,6 +22,7 @@ import {
 
 import { withCn } from '@/utils/utils';
 
+import { createDiffPlugin } from './plate-ui/diff-plugin';
 import ItalicLeaf from './plate-ui/italic-leaf';
 import LinkElement from './plate-ui/link-element';
 import { LinkFloatingToolbar } from './plate-ui/link-floating-toolbar';
@@ -42,6 +43,7 @@ const plugins = createPlugins(
         createItalicPlugin(),
         createSpoilerPlugin(),
         createParagraphPlugin(),
+        createDiffPlugin(),
         createListPlugin(),
         /* createResetNodePlugin({
             options: {
