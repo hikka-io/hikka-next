@@ -9,7 +9,7 @@ interface Props {
     poster: string;
 }
 
-const Details: FC<Props> = ({ content }) => {
+const Details: FC<Props> = ({ content, href, poster }) => {
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
     const title_en =
         'title_en' in content ? content?.title_en : content?.name_en;
@@ -21,6 +21,8 @@ const Details: FC<Props> = ({ content }) => {
               : 'name_ja' in content
                 ? content.name_ja
                 : content.name_native;
+
+    console.log(title_en, title_ua, title_ja);
 
     return (
         <HorizontalContentCard
