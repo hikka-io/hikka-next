@@ -159,6 +159,10 @@
     .grid-min-18 {
         --grid-min: 18rem;
     }
+
+    .grid-min-20 {
+        --grid-min: 20rem;
+    }
 }
 
 .logo {
