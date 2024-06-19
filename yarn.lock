@@ -6272,6 +6272,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@udecode/plate-block-quote@npm:^34.0.0":
+  version: 34.0.0
+  resolution: "@udecode/plate-block-quote@npm:34.0.0"
+  peerDependencies:
+    "@udecode/plate-common": ">=34.0.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    slate: ">=0.94.0"
+    slate-history: ">=0.93.0"
+    slate-hyperscript: ">=0.66.0"
+    slate-react: ">=0.99.0"
+  checksum: 10c0/be64fa7a3aa972326f1f86af2a12248c8dfa3334dee46efba9bbcc58861d4d7731b748b32040974b4cf0df0d2b42fcd42c42331350aac7f952237982a58afc29
+  languageName: node
+  linkType: hard
+
 "@udecode/plate-break@npm:^34.0.0":
   version: 34.0.0
   resolution: "@udecode/plate-break@npm:34.0.0"
@@ -6438,6 +6453,21 @@ __metadata:
     slate-hyperscript: ">=0.66.0"
     slate-react: ">=0.99.0"
   checksum: 10c0/1808fb303c1a7b2a2a0d583c00a408f052fca43d4cad9688be2bbf2c7cd8b174e8882a66f6773869967403d082d4d0531a25c39f1c1321a8ab42dcde2682da92
+  languageName: node
+  linkType: hard
+
+"@udecode/plate-trailing-block@npm:^34.0.0":
+  version: 34.0.0
+  resolution: "@udecode/plate-trailing-block@npm:34.0.0"
+  peerDependencies:
+    "@udecode/plate-common": ">=34.0.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    slate: ">=0.94.0"
+    slate-history: ">=0.93.0"
+    slate-hyperscript: ">=0.66.0"
+    slate-react: ">=0.99.0"
+  checksum: 10c0/57612c18eae8e84a78c310810b89c98a5852fd09dd4ee949f0dd48dc1a9064c86c2a69034385162ed37565c51fa88322583c9c607356a5016097f0098cc243b1
   languageName: node
   linkType: hard
 
@@ -11432,12 +11462,14 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.7.0"
     "@typescript-eslint/parser": "npm:^6.7.0"
     "@udecode/plate-basic-marks": "npm:^34.0.0"
+    "@udecode/plate-block-quote": "npm:^34.0.0"
     "@udecode/plate-break": "npm:^34.0.0"
     "@udecode/plate-common": "npm:^34.0.1"
     "@udecode/plate-link": "npm:^34.0.1"
     "@udecode/plate-list": "npm:^34.0.0"
     "@udecode/plate-paragraph": "npm:^34.0.0"
     "@udecode/plate-reset-node": "npm:^34.0.0"
+    "@udecode/plate-trailing-block": "npm:^34.0.0"
     "@vercel/analytics": "npm:^1.1.1"
     "@vercel/og": "npm:^0.6.1"
     autoprefixer: "npm:10.4.15"

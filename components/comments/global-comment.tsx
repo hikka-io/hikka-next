@@ -11,7 +11,7 @@ import MDViewer from '../markdown/viewer/MD-viewer';
 import { Label } from '../ui/label';
 
 interface Props {
-    comment: API.GlobalComment;
+    comment: API.Comment;
     href: string;
 }
 

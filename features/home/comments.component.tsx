@@ -21,11 +21,11 @@ const Comments: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header title="Коментарі" href="/comments/latest" />
-            <Stack size={3}>
+            <Stack size={3} className="grid-min-20 ">
                 {comments?.map((item) => (
                     <Card key={item.reference}>
                         <GlobalComment
-                            href={`/comments/${item.content_type}/${item.slug}`}
+                            href={`/comments/${item.content_type}/${item.preview.slug}`}
                             comment={item}
                         />
                     </Card>

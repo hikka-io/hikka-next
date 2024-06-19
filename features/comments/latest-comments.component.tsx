@@ -25,7 +25,12 @@ const Comments: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header title="Останні коментарі" />
-            <Stack extended extendedSize={3} size={3}>
+            <Stack
+                extended
+                extendedSize={3}
+                size={3}
+                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            >
                 {list?.map((item, index) => (
                     <Card key={item.reference}>
                         <Badge
@@ -35,7 +40,7 @@ const Comments: FC<Props> = ({ className }) => {
                             #{index + 1}
                         </Badge>
                         <GlobalComment
-                            href={`/comments/${item.content_type}/${item.slug}`}
+                            href={`/comments/${item.content_type}/${item.preview.slug}`}
                             comment={item}
                         />
                     </Card>

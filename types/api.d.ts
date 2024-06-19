@@ -391,6 +391,7 @@ declare global {
             reference: string;
             author: API.User;
             created: number;
+            updated: number;
             text: string;
             replies: API.Comment[];
             total_replies: number;
@@ -398,20 +399,10 @@ declare global {
             vote_score: number;
             my_score?: number;
             hidden: boolean;
+            is_editable: boolean;
             parent: string | null;
-        };
-
-        type GlobalComment = {
-            author: API.User;
-            updated: number;
-            created: number;
             content_type: API.ContentType;
-            image: string;
-            text: string;
-            vote_score: number;
-            reference: string;
-            depth: number;
-            slug: string;
+            preview: { slug: string; image?: string };
         };
 
         type External = {

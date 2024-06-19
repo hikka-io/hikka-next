@@ -5,10 +5,10 @@ import {
 
 export default async function req(
     props?: BaseFetchRequestProps,
-): Promise<API.GlobalComment[]> {
-    return fetchRequest<API.GlobalComment[]>({
+): Promise<API.Comment[]> {
+    return fetchRequest<API.Comment[]>({
         ...props,
-        path: `/comments/latest`,
+        path: `/comments/latest/new`,
         method: 'get',
     });
 }
