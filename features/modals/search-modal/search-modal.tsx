@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { Fragment, ReactNode, useRef, useState } from 'react';
 
 import { CommandDialog, CommandInput } from '@/components/ui/command';
@@ -24,8 +25,17 @@ interface Props {
 
 const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     const inputRef = useRef<HTMLInputElement>(null);
+    const [content_type_page, setContentTypePage] = useState(
+        usePathname().split('/')[1],
+    );
     const [searchType, setSearchType] = useState<API.ContentType | 'user'>(
-        content_type || 'anime',
+        content_type || content_type_page === 'characters'
+            ? 'character'
+            : content_type_page === 'people'
+              ? 'person'
+              : content_type_page === 'users'
+                ? 'user'
+                : 'anime',
     );
     const [open, setOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string | undefined>(
