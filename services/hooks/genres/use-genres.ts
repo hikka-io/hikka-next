@@ -2,13 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 
 import { groupOptions } from '@/components/ui/select';
 
-import getAnimeGenres from '@/services/api/anime/getAnimeGenres';
+import getGenres from '@/services/api/genres/getGenres';
 import { GENRE_TYPES } from '@/utils/constants';
+import getQueryClient from '@/utils/get-query-client';
 
-const useAnimeGenres = () => {
+export const key = () => ['genres'];
+
+const useGenres = () => {
     return useQuery({
-        queryKey: ['animeGenres'],
-        queryFn: () => getAnimeGenres(),
+        queryKey: key(),
+        queryFn: () => getGenres(),
         select: (data) =>
             groupOptions(
                 data.list.map((genre) => ({
@@ -20,4 +23,13 @@ const useAnimeGenres = () => {
     });
 };
 
-export default useAnimeGenres;
+export const prefetchGenres = () => {
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchQuery({
+        queryKey: key(),
+        queryFn: () => getGenres(),
+    });
+};
+
+export default useGenres;

@@ -1,36 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
 
 import getEditList, { Params } from '@/services/api/edit/getEditList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import getQueryClient from '@/utils/get-query-client';
 import { convertTitle } from '@/utils/title-adapter';
 
-const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
-    const { titleLanguage } = useSettingsContext();
-    const searchParams = useSearchParams()!;
+export const paramsBuilder = (props: Params): Params => ({
+    page: props.page || 1,
+    content_type: props.content_type || undefined,
+    sort: props.sort || undefined,
+    status: props.status || undefined,
+    author: props.author || undefined,
+    moderator: props.moderator || undefined,
+});
 
-    const content_type = searchParams.get('content_type');
-    const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.get('sort') || 'edit_id';
-    const edit_status = searchParams.get('edit_status');
-    const author = searchParams.get('author');
-    const moderator = searchParams.get('moderator');
+export const key = (params: Params) => ['edit-list', params];
+
+const useEditList = (props: Params, options?: Hikka.QueryOptions) => {
+    const { titleLanguage } = useSettingsContext();
+
+    const { page, ...params } = paramsBuilder(props);
 
     return useQuery({
-        queryKey: [
-            'editList',
-            { page, content_type, order, sort, edit_status, author, moderator },
-        ],
+        queryKey: key({ ...params, page }),
         queryFn: () =>
             getEditList({
                 page: Number(page),
-                params: {
-                    sort: [`${sort}:${order}`],
-                    status: edit_status as API.EditStatus,
-                    content_type: content_type as API.ContentType,
-                    author,
-                    moderator,
-                },
+                params: params,
             }),
         select: (data) => ({
             ...data,
@@ -43,6 +39,20 @@ const useEditList = ({ page }: Params, options?: Hikka.QueryOptions) => {
             })),
         }),
         ...options,
+    });
+};
+
+export const prefetchEditList = (props: Params) => {
+    const { page, ...params } = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchQuery({
+        queryKey: key({ ...params, page }),
+        queryFn: () =>
+            getEditList({
+                page: Number(page),
+                params: params,
+            }),
     });
 };
 

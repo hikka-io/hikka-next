@@ -1,12 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 
 import getUserInfo, { Params } from '@/services/api/user/getUserInfo';
+import getQueryClient from '@/utils/get-query-client';
 
-const useUser = ({ username }: Params) => {
+export const paramsBuilder = (props: Params): Params => ({
+    username: props.username,
+});
+
+export const key = (params: Params) => ['user', params.username];
+
+const useUser = (props: Params) => {
+    const params = paramsBuilder(props);
     return useQuery({
-        queryKey: ['user', username],
-        queryFn: () => getUserInfo({ params: { username: String(username) } }),
-        enabled: !!username,
+        queryKey: key(params),
+        queryFn: () => getUserInfo({ params }),
+        enabled: !!params.username,
+    });
+};
+
+export const prefetchUser = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchQuery({
+        queryKey: key(params),
+        queryFn: () => getUserInfo({ params }),
     });
 };
 

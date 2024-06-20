@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
@@ -18,7 +19,25 @@ interface Props {
 }
 
 const EditList: FC<Props> = ({ page }) => {
-    const { data: edits, isLoading } = useEditList({ page: Number(page) });
+    const searchParams = useSearchParams();
+
+    const content_type =
+        (searchParams.get('content_type') as API.ContentType) || undefined;
+    const order = searchParams.get('order') || 'desc';
+    const sort = searchParams.get('sort') || 'edit_id';
+    const edit_status =
+        (searchParams.get('edit_status') as API.EditStatus) || undefined;
+    const author = searchParams.get('author');
+    const moderator = searchParams.get('moderator');
+
+    const { data: edits, isLoading } = useEditList({
+        page: Number(page),
+        content_type,
+        sort: [`${sort}:${order}`],
+        status: edit_status,
+        author,
+        moderator,
+    });
 
     if (isLoading) {
         return <EditSkeleton />;

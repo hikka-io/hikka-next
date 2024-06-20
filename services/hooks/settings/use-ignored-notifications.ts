@@ -4,10 +4,12 @@ import getIgnoredNotifications, {
     Response,
 } from '@/services/api/settings/getIgnoredNotifications';
 
+export const key = () => ['ignored-notifications'];
+
 const useIgnoredNotifications = (options?: UseQueryOptions<Response>) => {
     return useQuery({
         ...options,
-        queryKey: ['ignoredNotifications'],
+        queryKey: key(),
         queryFn: () => getIgnoredNotifications(),
     });
 };

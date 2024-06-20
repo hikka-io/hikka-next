@@ -1,13 +1,16 @@
 import getFollowingHistory from '@/services/api/history/getFollowingHistory';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import getQueryClient from '@/utils/get-query-client';
 import { convertTitle } from '@/utils/title-adapter';
 
-const useUserHistory = () => {
+export const key = () => ['following-history'];
+
+const useFollowingHistory = () => {
     const { titleLanguage } = useSettingsContext();
 
     return useInfiniteList({
-        queryKey: ['followingHistory'],
+        queryKey: key(),
         queryFn: ({ pageParam }) =>
             getFollowingHistory({
                 page: pageParam,
@@ -31,4 +34,17 @@ const useUserHistory = () => {
     });
 };
 
-export default useUserHistory;
+export const prefetchFollowingHistory = () => {
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(),
+        queryFn: ({ pageParam = 1 }) =>
+            getFollowingHistory({
+                page: pageParam,
+            }),
+    });
+};
+
+export default useFollowingHistory;

@@ -18,7 +18,7 @@ const AnimeListPage: FC<Props> = ({ searchParams }) => {
         );
     }
 
-    return <AnimeList searchParams={searchParams} />;
+    return <AnimeList />;
 };
 
 export default AnimeListPage;

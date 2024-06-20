@@ -23,7 +23,8 @@ const CollectionModal: FC<Props> = ({ className }) => {
         ref,
         fetchNextPage,
     } = useUserCollections({
-        username: String(params.username),
+        author: String(params.username),
+        sort: 'created',
     });
 
     return (

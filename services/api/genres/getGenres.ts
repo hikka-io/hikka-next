@@ -6,7 +6,7 @@ interface Response {
 
 export default async function req(): Promise<Response> {
     return fetchRequest<Response>({
-        path: `/anime/genres`,
+        path: `/genres`,
         method: 'get',
         config: {
             cache: 'force-cache',

@@ -2,6 +2,7 @@
 
 import { getUnixTime, startOfDay } from 'date-fns';
 import format from 'date-fns/format';
+import { useSearchParams } from 'next/navigation';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
@@ -9,10 +10,25 @@ import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
 
 import useAnimeSchedule from '@/services/hooks/stats/use-anime-schedule';
+import getCurrentSeason from '@/utils/get-current-season';
 
 import ScheduleItem from './schedule-item';
 
 const ScheduleList = () => {
+    const searchParams = useSearchParams();
+
+    const only_watch = searchParams.get('only_watch')
+        ? Boolean(searchParams.get('only_watch'))
+        : undefined;
+    const season =
+        (searchParams.get('season') as API.Season) || getCurrentSeason()!;
+    const year = searchParams.get('year') || String(new Date().getFullYear());
+    const status = (
+        searchParams.getAll('status').length > 0
+            ? searchParams.getAll('status')
+            : ['ongoing', 'announced']
+    ) as API.Status[];
+
     const {
         list,
         hasNextPage,
@@ -20,7 +36,11 @@ const ScheduleList = () => {
         fetchNextPage,
         isLoading,
         ref,
-    } = useAnimeSchedule();
+    } = useAnimeSchedule({
+        airing_season: [season, year],
+        status,
+        only_watch,
+    });
 
     const sortedList = list?.reduce(
         (acc: Record<string, API.AnimeSchedule[]>, item) => {

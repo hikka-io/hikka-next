@@ -53,12 +53,10 @@ const useWatchList = ({ username, watch_status, ...props }: Params) => {
     });
 };
 
-export const prefetchWatchList = async (props: Params) => {
+export const prefetchWatchList = (props: Params) => {
     const queryClient = getQueryClient();
 
-    const params = paramsBuilder({
-        ...props,
-    });
+    const params = paramsBuilder(props);
 
     return queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,

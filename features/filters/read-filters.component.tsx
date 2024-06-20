@@ -25,7 +25,7 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 
-import useAnimeGenres from '@/services/hooks/anime/use-anime-genres';
+import useGenres from '@/services/hooks/genres/use-genres';
 import {
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
@@ -102,7 +102,7 @@ const MangaFilters: FC<Props> = ({ className, type }) => {
             ? MANGA_MEDIA_TYPE
             : NOVEL_MEDIA_TYPE;
 
-    const { data: genresList } = useAnimeGenres();
+    const { data: genresList } = useGenres();
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
         years.length > 0 ? years : YEARS.map((y) => String(y)),

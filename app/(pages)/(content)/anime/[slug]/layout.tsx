@@ -14,7 +14,7 @@ import Actions from '@/features/anime/anime-view/actions/actions.component';
 import Cover from '@/features/anime/anime-view/cover.component';
 import Title from '@/features/anime/anime-view/title.component';
 
-import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
 import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -36,10 +36,7 @@ export async function generateMetadata(
 const AnimeLayout: FC<Props> = async ({ params: { slug }, children }) => {
     const queryClient = await getQueryClient();
 
-    await queryClient.prefetchQuery({
-        queryKey: ['anime', slug],
-        queryFn: ({ meta }) => getAnimeInfo({ params: { slug } }),
-    });
+    await prefetchAnimeInfo({ slug });
 
     const anime: API.AnimeInfo | undefined = queryClient.getQueryData([
         'anime',
@@ -50,7 +47,7 @@ const AnimeLayout: FC<Props> = async ({ params: { slug }, children }) => {
         return redirect('/');
     }
 
-    await prefetchQueries({ queryClient, params: { slug } });
+    await prefetchQueries({ params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 

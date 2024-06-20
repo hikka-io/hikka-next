@@ -1,50 +1,21 @@
-import { QueryClient } from '@tanstack/query-core';
-
-import getFollowStats from '@/services/api/follow/getFollowStats';
-import getUserInfo from '@/services/api/user/getUserInfo';
-import getWatchStats from '@/services/api/watch/getWatchStats';
+import { prefetchFollowStats } from '@/services/hooks/follow/use-follow-stats';
+import { prefetchReadStats } from '@/services/hooks/read/use-read-stats';
+import { prefetchUser } from '@/services/hooks/user/use-user';
+import { prefetchWatchStats } from '@/services/hooks/watch/use-watch-stats';
 
 interface Props {
-    queryClient: QueryClient;
     params: {
         username: string;
     };
 }
 
-const prefetchQueries = async ({
-    queryClient,
-    params: { username },
-}: Props) => {
+const prefetchQueries = async ({ params: { username } }: Props) => {
     await Promise.all([
-        await queryClient.prefetchQuery({
-            queryKey: ['user', username],
-            queryFn: ({ meta }) =>
-                getUserInfo({
-                    params: {
-                        username,
-                    },
-                }),
-        }),
-
-        await queryClient.prefetchQuery({
-            queryKey: ['watchStats', username],
-            queryFn: ({ meta }) =>
-                getWatchStats({
-                    params: {
-                        username,
-                    },
-                }),
-        }),
-
-        await queryClient.prefetchQuery({
-            queryKey: ['followStats', username],
-            queryFn: ({ meta }) =>
-                getFollowStats({
-                    params: {
-                        username,
-                    },
-                }),
-        }),
+        prefetchUser({ username }),
+        prefetchReadStats({ username, content_type: 'manga' }),
+        prefetchReadStats({ username, content_type: 'novel' }),
+        prefetchWatchStats({ username }),
+        prefetchFollowStats({ username }),
     ]);
 };
 

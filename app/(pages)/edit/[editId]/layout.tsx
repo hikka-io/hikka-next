@@ -17,8 +17,9 @@ import Content from '@/features/edit/edit-content/edit-content.component';
 import Moderator from '@/features/edit/edit-moderator.component';
 import EditStatus from '@/features/edit/edit-status.component';
 
-import getComments from '@/services/api/comments/getComments';
 import getEdit from '@/services/api/edit/getEdit';
+import { prefetchComments } from '@/services/hooks/comments/use-comments';
+import { key, prefetchEdit } from '@/services/hooks/edit/use-edit';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
@@ -51,32 +52,17 @@ export async function generateMetadata({
 const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
     const queryClient = await getQueryClient();
 
-    const edit = await queryClient.fetchQuery({
-        queryKey: ['edit', editId],
-        queryFn: ({ meta }) =>
-            getEdit({
-                params: {
-                    edit_id: Number(editId),
-                },
-            }),
-    });
+    await prefetchEdit({ edit_id: Number(editId) });
 
-    await queryClient.prefetchInfiniteQuery({
-        initialPageParam: 1,
-        queryKey: ['comments', editId, 'edit'],
-        queryFn: ({ pageParam, meta }) =>
-            getComments({
-                params: {
-                    slug: editId,
-                    content_type: 'edit',
-                },
-                page: pageParam,
-            }),
-    });
+    const edit: API.Edit | undefined = queryClient.getQueryData(
+        key({ edit_id: Number(editId) }),
+    );
 
     if (!edit) {
         redirect('/edit');
     }
+
+    await prefetchComments({ slug: editId, content_type: 'edit' });
 
     const dehydratedState = dehydrate(queryClient);
 

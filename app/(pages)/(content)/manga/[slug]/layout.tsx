@@ -14,7 +14,7 @@ import Actions from '@/features/manga/manga-view/actions/actions.component';
 import Cover from '@/features/manga/manga-view/cover.component';
 import Title from '@/features/manga/manga-view/title.component';
 
-import getMangaInfo from '@/services/api/manga/getMangaInfo';
+import { prefetchMangaInfo } from '@/services/hooks/manga/use-manga-info';
 import { MANGA_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -34,12 +34,9 @@ export async function generateMetadata(
 }
 
 const MangaLayout: FC<Props> = async ({ params: { slug }, children }) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
-    await queryClient.prefetchQuery({
-        queryKey: ['manga', slug],
-        queryFn: ({ meta }) => getMangaInfo({ params: { slug } }),
-    });
+    await prefetchMangaInfo({ slug });
 
     const manga: API.MangaInfo | undefined = queryClient.getQueryData([
         'manga',
@@ -50,7 +47,7 @@ const MangaLayout: FC<Props> = async ({ params: { slug }, children }) => {
         return redirect('/');
     }
 
-    await prefetchQueries({ queryClient, params: { slug } });
+    await prefetchQueries({ params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 
