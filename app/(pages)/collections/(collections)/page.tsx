@@ -14,7 +14,10 @@ import Header from '@/components/ui/header';
 import CollectionList from '@/features/collections/collection-list/collection-list.component';
 import CollectionSort from '@/features/collections/collection-list/collection-sort';
 
-import getCollections from '@/services/api/collections/getCollections';
+import {
+    key,
+    prefetchCollections,
+} from '@/services/hooks/collections/use-collections';
 import { getCookie } from '@/utils/cookies';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
@@ -44,16 +47,13 @@ const CollectionsPage: FC<Props> = async ({ searchParams }) => {
     const queryClient = await getQueryClient();
     const auth = await getCookie('auth');
 
-    const collections = await queryClient.fetchQuery({
-        queryKey: ['collections', { page: Number(page), sort }],
-        queryFn: ({ meta }) =>
-            getCollections({
-                page: Number(page),
-                params: {
-                    sort: sort,
-                },
-            }),
-    });
+    const params = { page: Number(page), sort };
+
+    await prefetchCollections(params);
+
+    const collections:
+        | API.WithPagination<API.Collection<API.MainContent>>
+        | undefined = queryClient.getQueryData(key(params));
 
     const dehydratedState = dehydrate(queryClient);
 

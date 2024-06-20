@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/anime-card';
@@ -14,15 +15,39 @@ import useAnimeCatalog from '@/services/hooks/anime/use-anime-catalog';
 import AnimeListSkeleton from './anime-list-skeleton';
 import { useNextPage, useUpdatePage } from './anime-list.hooks';
 
-interface Props {
-    searchParams: Record<string, string>;
-}
+interface Props {}
 
-const AnimeList: FC<Props> = ({ searchParams }) => {
-    const page = searchParams.page;
-    const iPage = searchParams.iPage;
+const AnimeList: FC<Props> = () => {
+    const searchParams = useSearchParams();
+
+    const query = searchParams.get('search');
+    const media_type = searchParams.getAll('types');
+    const status = searchParams.getAll('statuses');
+    const season = searchParams.getAll('seasons');
+    const rating = searchParams.getAll('ratings');
+    const years = searchParams.getAll('years');
+    const genres = searchParams.getAll('genres');
+    const studios = searchParams.getAll('studios');
+
+    const only_translated = searchParams.get('only_translated');
+
+    const sort = searchParams.get('sort') || 'score';
+    const order = searchParams.get('order') || 'desc';
+
+    const page = searchParams.get('page');
+    const iPage = searchParams.get('iPage');
 
     const dataKeys = {
+        query,
+        media_type,
+        status,
+        season,
+        rating,
+        years,
+        genres,
+        studios,
+        only_translated: Boolean(only_translated),
+        sort: sort ? [`${sort}:${order}`] : undefined,
         page: Number(page),
         iPage: Number(iPage),
     };

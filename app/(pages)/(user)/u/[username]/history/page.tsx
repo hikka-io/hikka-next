@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import History from '@/features/users/user-history/user-history.component';
 
-import getFollowingHistory from '@/services/api/history/getFollowingHistory';
+import { prefetchFollowingHistory } from '@/services/hooks/history/use-following-history';
 import { getCookie } from '@/utils/cookies';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
@@ -19,18 +19,10 @@ interface Props {
 }
 
 const FollowingHistoryPage: FC<Props> = async ({ searchParams }) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
     const auth = await getCookie('auth');
 
-    auth &&
-        (await queryClient.prefetchInfiniteQuery({
-            initialPageParam: 1,
-            queryKey: ['followingHistory'],
-            queryFn: ({ pageParam, meta }) =>
-                getFollowingHistory({
-                    page: pageParam,
-                }),
-        }));
+    auth && (await prefetchFollowingHistory());
 
     const dehydratedState = dehydrate(queryClient);
 

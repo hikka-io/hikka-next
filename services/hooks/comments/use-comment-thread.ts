@@ -1,22 +1,42 @@
-import { useQuery } from '@tanstack/react-query';
+import { QueryKey, useQuery } from '@tanstack/react-query';
 
 import getCommentThread, {
     Params,
 } from '@/services/api/comments/getCommentThread';
+import getQueryClient from '@/utils/get-query-client';
 
-const useCommentThread = (
-    { reference }: Params,
-    options?: Hikka.QueryOptions,
-) => {
+export const paramsBuilder = (props: Params): Params => ({
+    reference: props.reference || '',
+});
+
+export const key = (params: Params): QueryKey => [
+    'comment-thread',
+    params.reference,
+];
+
+const useCommentThread = (props: Params, options?: Hikka.QueryOptions) => {
+    const params = paramsBuilder(props);
+
     return useQuery({
-        queryKey: ['commentThread', reference],
+        queryKey: key(params),
         queryFn: () =>
             getCommentThread({
-                params: {
-                    reference,
-                },
+                params,
             }),
         ...options,
+    });
+};
+
+export const prefetchCommentThread = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchQuery({
+        queryKey: key(params),
+        queryFn: () =>
+            getCommentThread({
+                params,
+            }),
     });
 };
 

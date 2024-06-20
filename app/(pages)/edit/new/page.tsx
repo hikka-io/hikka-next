@@ -10,11 +10,11 @@ import Content from '@/features/edit/edit-content/edit-content.component';
 import EditForm from '@/features/edit/edit-forms/edit-create-form.component';
 import RulesAlert from '@/features/edit/edit-rules-alert.component';
 
-import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
-import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
-import getMangaInfo from '@/services/api/manga/getMangaInfo';
-import getNovelInfo from '@/services/api/novel/getNovelInfo';
-import getPersonInfo from '@/services/api/people/getPersonInfo';
+import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
+import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
+import { prefetchMangaInfo } from '@/services/hooks/manga/use-manga-info';
+import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
+import { prefetchPersonInfo } from '@/services/hooks/people/use-person-info';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
@@ -36,63 +36,23 @@ const EditNewPage: FC<Props> = async ({
     }
 
     if (content_type === 'anime') {
-        await queryClient.prefetchQuery({
-            queryKey: ['anime', slug],
-            queryFn: () =>
-                getAnimeInfo({
-                    params: {
-                        slug: String(slug),
-                    },
-                }),
-        });
+        prefetchAnimeInfo({ slug: String(slug) });
     }
 
     if (content_type === 'manga') {
-        await queryClient.prefetchQuery({
-            queryKey: ['manga', slug],
-            queryFn: () =>
-                getMangaInfo({
-                    params: {
-                        slug: String(slug),
-                    },
-                }),
-        });
+        prefetchMangaInfo({ slug: String(slug) });
     }
 
     if (content_type === 'novel') {
-        await queryClient.prefetchQuery({
-            queryKey: ['novel', slug],
-            queryFn: () =>
-                getNovelInfo({
-                    params: {
-                        slug: String(slug),
-                    },
-                }),
-        });
+        prefetchNovelInfo({ slug: String(slug) });
     }
 
     if (content_type === 'character') {
-        await queryClient.prefetchQuery({
-            queryKey: ['character', slug],
-            queryFn: () =>
-                getCharacterInfo({
-                    params: {
-                        slug: String(slug),
-                    },
-                }),
-        });
+        prefetchCharacterInfo({ slug: String(slug) });
     }
 
     if (content_type === 'person') {
-        await queryClient.prefetchQuery({
-            queryKey: ['person', slug],
-            queryFn: () =>
-                getPersonInfo({
-                    params: {
-                        slug: String(slug),
-                    },
-                }),
-        });
+        prefetchPersonInfo({ slug: String(slug) });
     }
 
     const content: API.MainContent | undefined = queryClient.getQueryData([

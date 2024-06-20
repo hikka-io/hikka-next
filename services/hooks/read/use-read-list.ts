@@ -52,12 +52,10 @@ const useReadList = ({ username, read_status, ...props }: Params) => {
     });
 };
 
-export const prefetchReadList = async (props: Params) => {
+export const prefetchReadList = (props: Params) => {
     const queryClient = getQueryClient();
 
-    const params = paramsBuilder({
-        ...props,
-    });
+    const params = paramsBuilder(props);
 
     return queryClient.prefetchInfiniteQuery({
         initialPageParam: 1,

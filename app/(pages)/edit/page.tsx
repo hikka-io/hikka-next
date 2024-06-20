@@ -14,8 +14,8 @@ import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats.componen
 import Filters from '@/features/filters/edit-filters.component';
 import EditFiltersModal from '@/features/modals/edit-filters-modal';
 
-import getEditList from '@/services/api/edit/getEditList';
-import getEditTop from '@/services/api/stats/edit/getEditTop';
+import { prefetchEditList } from '@/services/hooks/edit/use-edit-list';
+import { prefetchEditTop } from '@/services/hooks/stats/edit/use-edit-top';
 import { EDIT_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -30,26 +30,14 @@ const EditListPage = async ({
 
     const queryClient = await getQueryClient();
 
-    await queryClient.prefetchQuery({
-        queryKey: [
-            'editList',
-            {
-                page,
-                content_type: content_type || null,
-                order: order || 'desc',
-                sort: sort || 'edit_id',
-                edit_status: edit_status || null,
-            },
-        ],
-        queryFn: ({ meta }) => getEditList({ page: Number(page) }),
+    await prefetchEditList({
+        page: Number(page),
+        content_type: (content_type as API.ContentType) || undefined,
+        sort: [`${sort || 'edit_id'}:${order || 'desc'}`],
+        status: edit_status ? (edit_status as API.EditStatus) : undefined,
     });
 
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['editTopStats'],
-        queryFn: ({ pageParam, meta }) =>
-            getEditTop({ page: Number(pageParam) }),
-        initialPageParam: 1,
-    });
+    await prefetchEditTop();
 
     const dehydratedState = dehydrate(queryClient);
 

@@ -11,22 +11,15 @@ import Profile from '@/features/home/profile.component';
 import Schedule from '@/features/home/schedule/schedule.component';
 
 import prefetchQueries from '@/app/(pages)/(home)/page.queries';
-import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
+import { key } from '@/services/hooks/auth/use-session';
 import getQueryClient from '@/utils/get-query-client';
 
 const Page = async () => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
-    await queryClient.prefetchQuery({
-        queryKey: ['loggedUser'],
-        queryFn: ({ meta }) => getLoggedUserInfo({}),
-    });
+    await prefetchQueries();
 
-    const loggedUser: API.User | undefined = queryClient.getQueryData([
-        'loggedUser',
-    ]);
-
-    await prefetchQueries({ queryClient });
+    const loggedUser: API.User | undefined = queryClient.getQueryData(key());
 
     const dehydratedState = dehydrate(queryClient);
 

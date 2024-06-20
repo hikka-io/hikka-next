@@ -14,7 +14,7 @@ import Actions from '@/features/novel/novel-view/actions/actions.component';
 import Cover from '@/features/novel/novel-view/cover.component';
 import Title from '@/features/novel/novel-view/title.component';
 
-import getNovelInfo from '@/services/api/novel/getNovelInfo';
+import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
 import { NOVEL_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -34,12 +34,9 @@ export async function generateMetadata(
 }
 
 const NovelLayout: FC<Props> = async ({ params: { slug }, children }) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
-    await queryClient.prefetchQuery({
-        queryKey: ['novel', slug],
-        queryFn: ({ meta }) => getNovelInfo({ params: { slug } }),
-    });
+    await prefetchNovelInfo({ slug });
 
     const novel: API.NovelInfo | undefined = queryClient.getQueryData([
         'novel',
@@ -50,7 +47,7 @@ const NovelLayout: FC<Props> = async ({ params: { slug }, children }) => {
         return redirect('/');
     }
 
-    await prefetchQueries({ queryClient, params: { slug } });
+    await prefetchQueries({ params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 

@@ -1,15 +1,36 @@
 import { useQuery } from '@tanstack/react-query';
 
 import getRead, { Params } from '@/services/api/read/getRead';
+import getQueryClient from '@/utils/get-query-client';
 
-const useRead = (
-    { slug, content_type }: Params,
-    options?: Hikka.QueryOptions,
-) => {
+export const paramsBuilder = (props: Params): Params => ({
+    slug: props.slug,
+    content_type: props.content_type,
+});
+
+export const key = (params: Params) => [
+    'read',
+    params.slug,
+    params.content_type,
+];
+
+const useRead = (props: Params, options?: Hikka.QueryOptions) => {
+    const params = paramsBuilder(props);
+
     return useQuery({
-        queryKey: ['read', slug, content_type],
-        queryFn: () => getRead({ params: { slug, content_type } }),
+        queryKey: key(params),
+        queryFn: () => getRead({ params }),
         ...options,
+    });
+};
+
+export const prefetchRead = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchQuery({
+        queryKey: key(params),
+        queryFn: () => getRead({ params }),
     });
 };
 

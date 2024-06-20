@@ -13,7 +13,7 @@ import SubBar from '@/components/navigation/sub-nav';
 import Cover from '@/features/characters/character-view/cover.component';
 import Title from '@/features/characters/character-view/title.component';
 
-import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
+import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -36,21 +36,18 @@ export async function generateMetadata(
 const CharacterLayout: FC<Props> = async ({ params: { slug }, children }) => {
     const queryClient = await getQueryClient();
 
-    const character = await queryClient.fetchQuery({
-        queryKey: ['character', slug],
-        queryFn: ({ meta }) =>
-            getCharacterInfo({
-                params: {
-                    slug,
-                },
-            }),
-    });
+    await prefetchCharacterInfo({ slug });
+
+    const character: API.Character | undefined = queryClient.getQueryData([
+        'character',
+        slug,
+    ]);
 
     if (!character) {
         return redirect('/');
     }
 
-    await prefetchQueries({ queryClient, params: { slug } });
+    await prefetchQueries({ params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 

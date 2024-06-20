@@ -38,9 +38,9 @@ export async function generateMetadata(
 }
 
 const UserLayout: FC<Props> = async ({ params: { username }, children }) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
-    await prefetchQueries({ queryClient, params: { username } });
+    await prefetchQueries({ params: { username } });
 
     const dehydratedState = dehydrate(queryClient);
 

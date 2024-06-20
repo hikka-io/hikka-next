@@ -1,3 +1,4 @@
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Metadata, ResolvingMetadata } from 'next';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
@@ -10,7 +11,9 @@ import StatusCombobox from '@/features/users/user-readlist/status-combobox.compo
 import ToolsCombobox from '@/features/users/user-readlist/tools-combobox.component';
 import ViewCombobox from '@/features/users/user-readlist/view-combobox.component';
 
+import { prefetchReadList } from '@/services/hooks/read/use-read-list';
 import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },
@@ -30,7 +33,7 @@ interface Props {
     params: { username: string; content_type: string };
 }
 
-const ListPage: FC<Props> = ({
+const ListPage: FC<Props> = async ({
     searchParams: { status, sort },
     params: { username, content_type },
 }) => {
@@ -46,33 +49,46 @@ const ListPage: FC<Props> = ({
         );
     }
 
+    const queryClient = getQueryClient();
+
+    await prefetchReadList({
+        username,
+        read_status: status as API.ReadStatus,
+        sort: [`${sort}:desc`],
+        content_type: content_type as 'manga' | 'novel',
+    });
+
+    const dehydratedState = dehydrate(queryClient);
+
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-            <Block>
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <StatusCombobox />
+        <HydrationBoundary state={dehydratedState}>
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+                <Block>
+                    <div className="flex items-center justify-between">
+                        <div className="flex gap-2">
+                            <StatusCombobox />
+                        </div>
+                        <div className="flex gap-2">
+                            <ViewCombobox />
+                            <ToolsCombobox />
+                        </div>
                     </div>
-                    <div className="flex gap-2">
-                        <ViewCombobox />
-                        <ToolsCombobox />
-                    </div>
+                    <List />
+                </Block>
+                <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
+                    <Filters
+                        className="px-4"
+                        type={
+                            `${content_type}-readlist` as
+                                | 'manga'
+                                | 'novel'
+                                | 'manga-readlist'
+                                | 'novel-readlist'
+                        }
+                    />
                 </div>
-                <List />
-            </Block>
-            <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
-                <Filters
-                    className="px-4"
-                    type={
-                        `${content_type}-readlist` as
-                            | 'manga'
-                            | 'novel'
-                            | 'manga-readlist'
-                            | 'novel-readlist'
-                    }
-                />
             </div>
-        </div>
+        </HydrationBoundary>
     );
 };
 

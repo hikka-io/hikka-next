@@ -1,50 +1,18 @@
-import { QueryClient } from '@tanstack/query-core';
-
-import getCharacterAnime from '@/services/api/characters/getCharacterAnime';
-import getCharacterVoices from '@/services/api/characters/getCharacterVoices';
-import getFavourite from '@/services/api/favourite/getFavourite';
+import { prefetchCharacterAnime } from '@/services/hooks/characters/use-character-anime';
+import { prefetchCharacterVoices } from '@/services/hooks/characters/use-character-voices';
+import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
 
 interface Props {
-    queryClient: QueryClient;
     params: {
         slug: string;
     };
 }
 
-const prefetchQueries = async ({ queryClient, params: { slug } }: Props) => {
+const prefetchQueries = async ({ params: { slug } }: Props) => {
     await Promise.all([
-        await queryClient.prefetchInfiniteQuery({
-            queryKey: ['characterAnime', slug],
-            queryFn: ({ meta }) =>
-                getCharacterAnime({
-                    params: {
-                        slug,
-                    },
-                }),
-            initialPageParam: 1,
-        }),
-
-        await queryClient.prefetchInfiniteQuery({
-            queryKey: ['characterVoices', slug],
-            queryFn: ({ meta }) =>
-                getCharacterVoices({
-                    params: {
-                        slug,
-                    },
-                }),
-            initialPageParam: 1,
-        }),
-
-        await queryClient.prefetchQuery({
-            queryKey: ['favorite', slug, { content_type: 'character' }],
-            queryFn: ({ meta }) =>
-                getFavourite({
-                    params: {
-                        slug: String(slug),
-                        content_type: 'character',
-                    },
-                }),
-        }),
+        prefetchCharacterAnime({ slug }),
+        prefetchCharacterVoices({ slug }),
+        prefetchFavorite({ slug, content_type: 'character' }),
     ]);
 };
 

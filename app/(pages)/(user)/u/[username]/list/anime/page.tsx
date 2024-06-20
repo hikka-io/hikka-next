@@ -1,3 +1,4 @@
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Metadata, ResolvingMetadata } from 'next';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
@@ -10,7 +11,9 @@ import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox.compon
 import ViewCombobox from '@/features/users/user-watchlist/view-combobox.component';
 import List from '@/features/users/user-watchlist/watchlist/watchlist.component';
 
+import { prefetchWatchList } from '@/services/hooks/watch/use-watch-list';
 import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(
     { params }: { params: { username: string } },
@@ -30,7 +33,7 @@ interface Props {
     params: { username: string };
 }
 
-const ListPage: FC<Props> = ({
+const ListPage: FC<Props> = async ({
     searchParams: { status, sort },
     params: { username },
 }) => {
@@ -42,24 +45,36 @@ const ListPage: FC<Props> = ({
         redirect(`/u/${username}/list?status=${status}&sort=watch_score`);
     }
 
+    const queryClient = getQueryClient();
+
+    await prefetchWatchList({
+        username,
+        watch_status: status as API.WatchStatus,
+        sort: [`${sort}:desc`],
+    });
+
+    const dehydratedState = dehydrate(queryClient);
+
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
-            <Block>
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <StatusCombobox />
+        <HydrationBoundary state={dehydratedState}>
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+                <Block>
+                    <div className="flex items-center justify-between">
+                        <div className="flex gap-2">
+                            <StatusCombobox />
+                        </div>
+                        <div className="flex gap-2">
+                            <ViewCombobox />
+                            <ToolsCombobox />
+                        </div>
                     </div>
-                    <div className="flex gap-2">
-                        <ViewCombobox />
-                        <ToolsCombobox />
-                    </div>
+                    <List />
+                </Block>
+                <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
+                    <Filters type="watchlist" />
                 </div>
-                <List />
-            </Block>
-            <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
-                <Filters type="watchlist" />
             </div>
-        </div>
+        </HydrationBoundary>
     );
 };
 

@@ -1,11 +1,35 @@
 import { useQuery } from '@tanstack/react-query';
 
 import getFavourite, { Params } from '@/services/api/favourite/getFavourite';
+import getQueryClient from '@/utils/get-query-client';
 
-const useFavorite = ({ slug, content_type }: Params) => {
+export const paramsBuilder = (props: Params): Params => ({
+    slug: props.slug,
+    content_type: props.content_type,
+});
+
+export const key = (params: Params) => [
+    'favorite',
+    params.slug,
+    { content_type: params.content_type },
+];
+
+const useFavorite = (props: Params) => {
+    const params = paramsBuilder(props);
+
     return useQuery({
-        queryKey: ['favorite', slug, { content_type }],
-        queryFn: () => getFavourite({ params: { slug, content_type } }),
+        queryKey: key(params),
+        queryFn: () => getFavourite({ params }),
+    });
+};
+
+export const prefetchFavorite = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchQuery({
+        queryKey: key(params),
+        queryFn: () => getFavourite({ params }),
     });
 };
 

@@ -1,16 +1,24 @@
 import getPersonAnime, { Params } from '@/services/api/people/getPersonAnime';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import getQueryClient from '@/utils/get-query-client';
 import { convertTitle } from '@/utils/title-adapter';
 
-const usePersonAnime = ({ slug }: Params, options?: Hikka.QueryOptions) => {
+export const paramsBuilder = (props: Params): Params => ({
+    slug: props.slug,
+});
+
+export const key = (params: Params) => ['person-anime', params.slug];
+
+const usePersonAnime = (props: Params, options?: Hikka.QueryOptions) => {
     const { titleLanguage } = useSettingsContext();
+    const params = paramsBuilder(props);
 
     return useInfiniteList({
-        queryKey: ['personAnime', slug],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getPersonAnime({
-                params: { slug },
+                params,
                 page: pageParam,
             }),
         select: (data) => ({
@@ -27,6 +35,21 @@ const usePersonAnime = ({ slug }: Params, options?: Hikka.QueryOptions) => {
             })),
         }),
         ...options,
+    });
+};
+
+export const prefetchPersonAnime = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getPersonAnime({
+                params,
+                page: pageParam,
+            }),
     });
 };
 

@@ -25,8 +25,8 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 
-import useAnimeGenres from '@/services/hooks/anime/use-anime-genres';
 import useCompanies from '@/services/hooks/companies/use-companies';
+import useGenres from '@/services/hooks/genres/use-genres';
 import {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
@@ -102,7 +102,7 @@ const AnimeFilters: FC<Props> = ({ className, type }) => {
 
     const sortOptions = type === 'anime' ? SORT_ANIME : SORT_WATCHLIST;
 
-    const { data: genresList } = useAnimeGenres();
+    const { data: genresList } = useGenres();
 
     const [studioSearch, setStudioSearch] = useState<string>();
     const { data: studioList, isFetching: isStudioListFetching } = useCompanies(

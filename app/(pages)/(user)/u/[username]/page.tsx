@@ -7,9 +7,10 @@ import Favorites from '@/features/users/user-profile/user-favorites/user-favorit
 import History from '@/features/users/user-profile/user-history/user-history.component';
 import Statistics from '@/features/users/user-profile/user-statistics/user-statistics.component';
 
-import getFavouriteList from '@/services/api/favourite/getFavouriteList';
-import getUserHistory from '@/services/api/history/getUserHistory';
-import getUserActivity from '@/services/api/user/getUserActivity';
+import { prefetchFavorites } from '@/services/hooks/favorite/use-favorites';
+import { prefetchUserHistory } from '@/services/hooks/history/use-user-history';
+import { prefetchUserActivity } from '@/services/hooks/user/use-user-activity';
+import { prefetchUserCollections } from '@/services/hooks/user/use-user-collections';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
@@ -21,40 +22,12 @@ interface Props {
 const UserPage: FC<Props> = async ({ params: { username } }) => {
     const queryClient = await getQueryClient();
 
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['favorites', username, { content_type: 'anime' }],
-        queryFn: ({ pageParam = 1, meta }) =>
-            getFavouriteList({
-                page: pageParam,
-                params: {
-                    username,
-                    content_type: 'anime',
-                },
-            }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchInfiniteQuery({
-        queryKey: ['history', username],
-        queryFn: ({ pageParam, meta }) =>
-            getUserHistory({
-                params: {
-                    username,
-                },
-                page: pageParam,
-            }),
-        initialPageParam: 1,
-    });
-
-    await queryClient.prefetchQuery({
-        queryKey: ['activityStats', username],
-        queryFn: ({ meta }) =>
-            getUserActivity({
-                params: {
-                    username,
-                },
-            }),
-    });
+    await Promise.all([
+        await prefetchFavorites({ username, content_type: 'anime' }),
+        await prefetchUserHistory({ username }),
+        await prefetchUserActivity({ username }),
+        await prefetchUserCollections({ author: username, sort: 'created' }),
+    ]);
 
     const dehydratedState = dehydrate(queryClient);
 
