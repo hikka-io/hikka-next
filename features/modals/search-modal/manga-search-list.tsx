@@ -10,18 +10,18 @@ import {
 
 import SearchPlaceholders from '@/features/modals/search-modal/search-placeholders';
 
-import AnimeCard from './cards/anime-card';
-import useAnimeSearchList from './hooks/useAnimeSearchList';
+import MangaCard from './cards/manga-card';
+import useMangaSearchList from './hooks/useMangaSearchList';
 
 interface Props {
-    onDismiss: (anime: API.Anime) => void;
+    onDismiss: (manga: API.Manga) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     value?: string;
 }
 
-const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
-    const { data, isFetching, isRefetching } = useAnimeSearchList({ value });
+const MangaSearchList = ({ onDismiss, type, value }: Props) => {
+    const { data, isFetching, isRefetching } = useMangaSearchList({ value });
 
     return (
         <CommandList className="max-h-none">
@@ -32,11 +32,11 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
             />
             {data && data.list.length > 0 && (
                 <CommandGroup>
-                    {data.list.map((anime) => (
-                        <CommandItem key={anime.slug} value={anime.slug}>
-                            <AnimeCard
-                                onClick={() => onDismiss(anime)}
-                                anime={anime}
+                    {data.list.map((manga) => (
+                        <CommandItem key={manga.slug} value={manga.slug}>
+                            <MangaCard
+                                onClick={() => onDismiss(manga)}
+                                manga={manga}
                                 type={type}
                             />
                         </CommandItem>
@@ -47,4 +47,4 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
     );
 };
 
-export default AnimeSearchList;
+export default MangaSearchList;

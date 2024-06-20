@@ -243,7 +243,9 @@ const SelectTrigger = React.forwardRef<
                         buttonVariants({ variant: 'outline', size: 'default' }),
                     !asChild &&
                         'flex h-auto min-h-12 items-center justify-between',
-                    disabled ? 'cursor-not-allowed opacity-50' : 'cursor-text',
+                    disabled
+                        ? 'cursor-not-allowed opacity-50'
+                        : 'cursor-pointer',
                     className,
                 )}
                 onClick={disabled ? PreventClick : props.onClick}
@@ -304,7 +306,7 @@ const SelectValue = React.forwardRef<
                     <span className="pointer-events-none text-muted-foreground">
                         {placeholder}
                     </span>
-                    <SelectIcon />
+                    <SelectIcon className="!size-4" />
                 </Fragment>
             );
         }
@@ -317,7 +319,7 @@ const SelectValue = React.forwardRef<
                     <span className="pointer-events-none truncate">
                         {item?.label || value[0]}
                     </span>
-                    <SelectIcon />
+                    <SelectIcon className="!size-4" />
                 </Fragment>
             );
         }
@@ -690,16 +692,16 @@ const groupOptions = (options: Option[]) => {
 
 export {
     Select,
+    SelectContent,
+    SelectEmpty,
+    SelectGroup,
+    SelectIcon,
+    SelectItem,
+    SelectList,
+    SelectSearch,
+    SelectSeparator,
     SelectTrigger,
     SelectValue,
-    SelectSearch,
-    SelectContent,
-    SelectList,
-    SelectItem,
-    SelectGroup,
-    SelectSeparator,
-    SelectEmpty,
-    SelectIcon,
     groupOptions,
     renderSelectOptions,
 };

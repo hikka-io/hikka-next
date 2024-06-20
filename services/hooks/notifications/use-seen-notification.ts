@@ -20,7 +20,7 @@ const useSeenNotification = () => {
             });
 
             queryClient.refetchQueries({
-                queryKey: ['notificationsCount'],
+                queryKey: ['notifications-count'],
                 exact: false,
             });
         },

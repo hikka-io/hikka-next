@@ -22,7 +22,7 @@ const useDeleteRead = () => {
             await queryClient.invalidateQueries({ queryKey: ['franchise'] });
             await queryClient.invalidateQueries({ queryKey: ['collection'] });
             await queryClient.invalidateQueries({
-                queryKey: ['animeSchedule', {}],
+                queryKey: ['anime-schedule', {}],
                 exact: false,
             });
         },

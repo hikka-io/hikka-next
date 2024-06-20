@@ -185,13 +185,7 @@ export default function ModalProvider({ children }: Props) {
 
             {(isDesktop || state.forceModal) && state.type === 'dialog' && (
                 <Dialog open={state.open} onOpenChange={closeModal}>
-                    <DialogContent
-                        className={cn(
-                            'no-scrollbar max-h-[90dvh] overflow-y-scroll',
-                            state.className,
-                        )}
-                        containerClassName={state.containerClassName}
-                    >
+                    <DialogContent className={cn(state.className)}>
                         {state.title && (
                             <DialogHeader>
                                 <DialogTitle>{state.title}</DialogTitle>

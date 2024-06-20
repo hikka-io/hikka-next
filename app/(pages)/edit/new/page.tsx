@@ -24,7 +24,7 @@ interface Props {
 const EditNewPage: FC<Props> = async ({
     searchParams: { content_type, slug },
 }) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
     if (
         !content_type &&
@@ -36,23 +36,23 @@ const EditNewPage: FC<Props> = async ({
     }
 
     if (content_type === 'anime') {
-        prefetchAnimeInfo({ slug: String(slug) });
+        await prefetchAnimeInfo({ slug: String(slug) });
     }
 
     if (content_type === 'manga') {
-        prefetchMangaInfo({ slug: String(slug) });
+        await prefetchMangaInfo({ slug: String(slug) });
     }
 
     if (content_type === 'novel') {
-        prefetchNovelInfo({ slug: String(slug) });
+        await prefetchNovelInfo({ slug: String(slug) });
     }
 
     if (content_type === 'character') {
-        prefetchCharacterInfo({ slug: String(slug) });
+        await prefetchCharacterInfo({ slug: String(slug) });
     }
 
     if (content_type === 'person') {
-        prefetchPersonInfo({ slug: String(slug) });
+        await prefetchPersonInfo({ slug: String(slug) });
     }
 
     const content: API.MainContent | undefined = queryClient.getQueryData([

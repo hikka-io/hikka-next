@@ -33,7 +33,7 @@ const useActionEdit = ({ action }: Props) => {
             });
 
             await queryClient.invalidateQueries({
-                queryKey: ['editList'],
+                queryKey: ['edit-list'],
                 exact: false,
             });
         },
