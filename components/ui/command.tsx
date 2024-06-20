@@ -27,6 +27,7 @@ Command.displayName = CommandPrimitive.displayName;
 interface CommandDialogProps extends DialogProps {
     className?: string;
     containerClassName?: string;
+    overlayClassName?: string;
     shouldFilter?: boolean;
 }
 
@@ -34,12 +35,14 @@ const CommandDialog = ({
     children,
     className,
     containerClassName,
+    overlayClassName,
     shouldFilter,
     ...props
 }: CommandDialogProps) => {
     return (
         <Dialog {...props}>
             <DialogContent
+                overlayClassName={overlayClassName}
                 className={cn('overflow-hidden p-0 shadow-lg', className)}
                 containerClassName={containerClassName}
             >

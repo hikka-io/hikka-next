@@ -38,7 +38,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
-        'loggedUser',
+        'logged-user',
     ]);
 
     const addReplyInput = () => {

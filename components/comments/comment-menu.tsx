@@ -47,7 +47,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
                 exact: false,
             });
             queryClient.invalidateQueries({
-                queryKey: ['commentThread'],
+                queryKey: ['comment-thread'],
                 exact: false,
             });
         },

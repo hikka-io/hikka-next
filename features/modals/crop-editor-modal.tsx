@@ -4,7 +4,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useParams, useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
-import * as React from 'react';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import MaterialSymbolsZoomInRounded from '~icons/material-symbols/zoom-in-rounded';
@@ -127,7 +126,7 @@ const Component = ({ file, type }: Props) => {
             await uploadFile(file);
 
             await queryClient.invalidateQueries({
-                queryKey: ['loggedUser'],
+                queryKey: ['logged-user'],
             });
             await queryClient.invalidateQueries({
                 queryKey: ['user', params.username],

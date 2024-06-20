@@ -45,7 +45,7 @@ const Component = () => {
         useChangeIgnoredNotifications({
             onSuccess: async () => {
                 await queryClient.invalidateQueries({
-                    queryKey: ['ignoredNotifications'],
+                    queryKey: ['ignored-notifications'],
                     exact: false,
                 });
                 closeModal();

@@ -921,7 +921,7 @@ export const PERSON_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
+export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType | 'user'> = {
     anime: {
         title_ua: 'Аніме',
         title_en: 'Anime',
@@ -953,6 +953,10 @@ export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
     novel: {
         title_ua: 'Ранобе',
         title_en: 'Ranobe',
+    },
+    user: {
+        title_ua: 'Користувач',
+        title_en: 'User',
     },
 };
 

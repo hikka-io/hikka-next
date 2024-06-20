@@ -15,14 +15,14 @@ const useDeleteFromList = () => {
             });
             await queryClient.invalidateQueries({ queryKey: ['list'] });
             await queryClient.invalidateQueries({
-                queryKey: ['watchList'],
+                queryKey: ['watch-list'],
                 exact: false,
             });
             await queryClient.invalidateQueries({ queryKey: ['favorites'] });
             await queryClient.invalidateQueries({ queryKey: ['franchise'] });
             await queryClient.invalidateQueries({ queryKey: ['collection'] });
             await queryClient.invalidateQueries({
-                queryKey: ['animeSchedule', {}],
+                queryKey: ['anime-schedule', {}],
                 exact: false,
             });
         },

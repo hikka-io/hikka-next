@@ -15,7 +15,7 @@ const useVote = () => {
             });
             await queryClient.invalidateQueries({ queryKey: ['comments'] });
             await queryClient.invalidateQueries({
-                queryKey: ['commentThread'],
+                queryKey: ['comment-thread'],
             });
         },
     });

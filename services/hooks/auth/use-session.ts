@@ -4,7 +4,7 @@ import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
 import { deleteCookie } from '@/utils/cookies';
 import getQueryClient from '@/utils/get-query-client';
 
-export const key = () => ['loggedUser'];
+export const key = () => ['logged-user'];
 
 const useSession = () => {
     const { data: user } = useQuery({

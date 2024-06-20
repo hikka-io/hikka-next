@@ -53,7 +53,7 @@ const CommentInput: FC<Props> = forwardRef(
             });
 
             await queryClient.invalidateQueries({
-                queryKey: ['commentThread'],
+                queryKey: ['comment-thread'],
                 exact: false,
             });
 

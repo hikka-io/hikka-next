@@ -8,10 +8,10 @@ import {
     CommandList,
 } from '@/components/ui/command';
 
-import PersonCard from '@/features/modals/search-modal/person-card';
+import PersonCard from '@/features/modals/search-modal/cards/person-card';
 import SearchPlaceholders from '@/features/modals/search-modal/search-placeholders';
 
-import usePersonSearchList from './usePersonSearchList';
+import usePersonSearchList from './hooks/usePersonSearchList';
 
 interface Props {
     onDismiss: (character: API.Person) => void;
