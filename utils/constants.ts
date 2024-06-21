@@ -1000,6 +1000,14 @@ export const COLLECTION_CONTENT_TYPE_OPTIONS = [
         label: 'Аніме',
     },
     {
+        value: 'manga',
+        label: 'Манґа',
+    },
+    {
+        value: 'novel',
+        label: 'Ранобе',
+    },
+    {
         value: 'character',
         label: 'Персонаж',
     },
