@@ -21,10 +21,10 @@ module.exports = {
         },
         extend: {
             gridAutoColumns: {
-                scroll: 'minmax(var(--grid-min, 7rem), 1fr)',
+                scroll: 'minmax(var(--grid-min, 7rem), var(--grid-max, 1fr))',
             },
             gridTemplateColumns: {
-                scroll: 'repeat(auto-fill, minmax(var(--grid-min, 7rem), 1fr))',
+                scroll: 'repeat(auto-fill, minmax(var(--grid-min, 7rem), var(--grid-max, 1fr)))',
             },
             fontFamily: {
                 sans: ['var(--font-inter)'],
