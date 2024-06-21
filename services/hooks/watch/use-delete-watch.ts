@@ -13,7 +13,7 @@ const useDeleteFromList = () => {
                 queryKey: ['watch'],
                 exact: false,
             });
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
+            await queryClient.invalidateQueries({ queryKey: ['anime-list'] });
             await queryClient.invalidateQueries({
                 queryKey: ['watch-list'],
                 exact: false,
