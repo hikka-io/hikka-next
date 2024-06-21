@@ -11,7 +11,7 @@ const useAddWatch = () => {
         mutationKey: ['addToList'],
         mutationFn: addWatch,
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
+            await queryClient.invalidateQueries({ queryKey: ['anime-list'] });
             await queryClient.refetchQueries({
                 queryKey: ['watch'],
                 exact: false,

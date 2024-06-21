@@ -1,11 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 
 import getMangaCatalog, {
     Params as MangaCatalogParams,
     Response as MangaCatalogResponse,
 } from '@/services/api/manga/getMangaCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import getQueryClient from '@/utils/get-query-client';
 import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends MangaCatalogParams {
@@ -13,53 +13,39 @@ export interface Props extends MangaCatalogParams {
     iPage: number;
 }
 
-const useMangaCatalog = ({ page, iPage, ...props }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-    const searchParams = useSearchParams();
+export const paramsBuilder = (
+    props: Omit<Props, 'iPage'>,
+): Omit<Props, 'iPage'> => ({
+    page: props.page || 1,
+    query: props.query || undefined,
+    media_type: props.media_type || [],
+    status: props.status || [],
+    years: props.years || [],
+    only_translated: props.only_translated || undefined,
+    genres: props.genres || [],
+    sort: props.sort || ['score:desc'],
+});
 
-    const search = props.query || searchParams.get('search');
-    const types = props.media_type || searchParams.getAll('types');
-    const statuses = props.status || searchParams.getAll('statuses');
-    const years = props.years || searchParams.getAll('years');
-    const genres = props.genres || searchParams.getAll('genres');
-    const lang = props.only_translated || searchParams.get('only_translated');
-    const sort = searchParams.get('sort') || 'score';
-    const order = searchParams.get('order') || 'desc';
+export const key = (params: Omit<Props, 'iPage'>): QueryKey => [
+    'manga-list',
+    params,
+];
+
+const useMangaCatalog = (props: Props) => {
+    const { titleLanguage } = useSettingsContext();
+
+    const { page, ...params } = paramsBuilder(props);
 
     const query = useInfiniteQuery<MangaCatalogResponse, Error>({
-        queryKey: [
-            'manga-list',
-            {
-                page,
-                search,
-                types,
-                statuses,
-                years,
-                lang,
-                genres,
-                sort,
-                order,
-            },
-        ],
-        initialPageParam: iPage || page,
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
         getNextPageParam: (lastPage: MangaCatalogResponse) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
         },
         queryFn: ({ pageParam = page }) =>
             getMangaCatalog({
-                params: {
-                    query: search,
-                    years: years.length == 2 ? years : undefined,
-                    status: statuses,
-                    media_type: types,
-                    sort: [
-                        `${sort}:${order}`,
-                        ...(sort === 'score' ? ['scored_by:desc'] : []),
-                    ],
-                    genres,
-                    only_translated: Boolean(lang),
-                },
+                params,
                 page: Number(pageParam),
                 size: 20,
             }),
@@ -87,6 +73,23 @@ const useMangaCatalog = ({ page, iPage, ...props }: Props) => {
         list,
         pagination,
     };
+};
+
+export const prefetchMangaCatalog = (props: Props) => {
+    const queryClient = getQueryClient();
+
+    const { page, ...params } = paramsBuilder(props);
+
+    return queryClient.prefetchInfiniteQuery({
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
+        queryFn: ({ pageParam = page }) =>
+            getMangaCatalog({
+                params,
+                page: Number(pageParam),
+                size: 20,
+            }),
+    });
 };
 
 export default useMangaCatalog;

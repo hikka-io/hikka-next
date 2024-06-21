@@ -1,11 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 
 import getNovelCatalog, {
     Params as NovelCatalogParams,
     Response as NovelCatalogResponse,
 } from '@/services/api/novel/getNovelCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import getQueryClient from '@/utils/get-query-client';
 import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends NovelCatalogParams {
@@ -13,53 +13,39 @@ export interface Props extends NovelCatalogParams {
     iPage: number;
 }
 
-const useNovelCatalog = ({ page, iPage, ...props }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-    const searchParams = useSearchParams();
+export const paramsBuilder = (
+    props: Omit<Props, 'iPage'>,
+): Omit<Props, 'iPage'> => ({
+    page: props.page || 1,
+    query: props.query || undefined,
+    media_type: props.media_type || [],
+    status: props.status || [],
+    years: props.years || [],
+    only_translated: props.only_translated || undefined,
+    genres: props.genres || [],
+    sort: props.sort || ['score:desc'],
+});
 
-    const search = props.query || searchParams.get('search');
-    const types = props.media_type || searchParams.getAll('types');
-    const statuses = props.status || searchParams.getAll('statuses');
-    const years = props.years || searchParams.getAll('years');
-    const genres = props.genres || searchParams.getAll('genres');
-    const lang = props.only_translated || searchParams.get('only_translated');
-    const sort = searchParams.get('sort') || 'score';
-    const order = searchParams.get('order') || 'desc';
+export const key = (params: Omit<Props, 'iPage'>): QueryKey => [
+    'novel-list',
+    params,
+];
+
+const useNovelCatalog = (props: Props) => {
+    const { titleLanguage } = useSettingsContext();
+
+    const { page, ...params } = paramsBuilder(props);
 
     const query = useInfiniteQuery<NovelCatalogResponse, Error>({
-        queryKey: [
-            'novel-list',
-            {
-                page,
-                search,
-                types,
-                statuses,
-                years,
-                lang,
-                genres,
-                sort,
-                order,
-            },
-        ],
-        initialPageParam: iPage || page,
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
         getNextPageParam: (lastPage: NovelCatalogResponse) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
         },
         queryFn: ({ pageParam = page }) =>
             getNovelCatalog({
-                params: {
-                    query: search,
-                    years: years.length == 2 ? years : undefined,
-                    status: statuses,
-                    media_type: types,
-                    sort: [
-                        `${sort}:${order}`,
-                        ...(sort === 'score' ? ['scored_by:desc'] : []),
-                    ],
-                    genres,
-                    only_translated: Boolean(lang),
-                },
+                params,
                 page: Number(pageParam),
                 size: 20,
             }),
@@ -87,6 +73,23 @@ const useNovelCatalog = ({ page, iPage, ...props }: Props) => {
         list,
         pagination,
     };
+};
+
+export const prefetchNovelCatalog = (props: Props) => {
+    const queryClient = getQueryClient();
+
+    const { page, ...params } = paramsBuilder(props);
+
+    return queryClient.prefetchInfiniteQuery({
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
+        queryFn: ({ pageParam = page }) =>
+            getNovelCatalog({
+                params,
+                page: Number(pageParam),
+                size: 20,
+            }),
+    });
 };
 
 export default useNovelCatalog;

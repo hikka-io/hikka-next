@@ -13,7 +13,8 @@ const useDeleteRead = () => {
                 queryKey: ['read'],
                 exact: false,
             });
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
+            await queryClient.invalidateQueries({ queryKey: ['novel-list'] });
+            await queryClient.invalidateQueries({ queryKey: ['manga-list'] });
             await queryClient.invalidateQueries({
                 queryKey: ['read-list'],
                 exact: false,

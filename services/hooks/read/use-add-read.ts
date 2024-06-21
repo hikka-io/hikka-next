@@ -11,7 +11,8 @@ const useAddRead = () => {
         mutationKey: ['add-to-read-list'],
         mutationFn: addRead,
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['list'] });
+            await queryClient.invalidateQueries({ queryKey: ['novel-list'] });
+            await queryClient.invalidateQueries({ queryKey: ['manga-list'] });
             await queryClient.refetchQueries({
                 queryKey: ['read'],
                 exact: false,

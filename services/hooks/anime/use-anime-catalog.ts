@@ -13,9 +13,10 @@ export interface Props extends AnimeCatalogParams {
     iPage: number;
 }
 
-export const paramsBuilder = (props: Props): Props => ({
+export const paramsBuilder = (
+    props: Omit<Props, 'iPage'>,
+): Omit<Props, 'iPage'> => ({
     page: props.page || 1,
-    iPage: props.iPage || 1,
     query: props.query || undefined,
     media_type: props.media_type || [],
     status: props.status || [],
@@ -28,16 +29,19 @@ export const paramsBuilder = (props: Props): Props => ({
     sort: props.sort || ['score:desc'],
 });
 
-export const key = (params: Props): QueryKey => ['list', params];
+export const key = (params: Omit<Props, 'iPage'>): QueryKey => [
+    'anime-list',
+    params,
+];
 
 const useAnimeCatalog = (props: Props) => {
     const { titleLanguage } = useSettingsContext();
 
-    const { page, iPage, ...params } = paramsBuilder(props);
+    const { page, ...params } = paramsBuilder(props);
 
     const query = useInfiniteQuery<AnimeCatalogResponse, Error>({
-        queryKey: key({ page, iPage, ...params }),
-        initialPageParam: iPage || page,
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
         getNextPageParam: (lastPage: AnimeCatalogResponse) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
@@ -77,11 +81,11 @@ const useAnimeCatalog = (props: Props) => {
 export const prefetchAnimeCatalog = (props: Props) => {
     const queryClient = getQueryClient();
 
-    const { page, iPage, ...params } = paramsBuilder(props);
+    const { page, ...params } = paramsBuilder(props);
 
     return queryClient.prefetchInfiniteQuery({
-        queryKey: key({ page, iPage, ...params }),
-        initialPageParam: iPage || page,
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
         queryFn: ({ pageParam = page }) =>
             getAnimeCatalog({
                 params,
