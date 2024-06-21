@@ -5,6 +5,7 @@ import { FC, useState } from 'react';
 import MaterialSymbolsInfoIRounded from '~icons/material-symbols/info-i-rounded';
 import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 
+import TextExpand from '@/components/text-expand';
 import P from '@/components/typography/p';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const Links: FC<Props> = ({ extended }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
     const [active, setActive] = useState<API.External['type']>('general');
     const params = useParams();
     const { openModal } = useModalContext();
@@ -37,13 +39,7 @@ const Links: FC<Props> = ({ extended }) => {
     const watchLinksData = anime.external.filter((l) => l.type === 'watch');
     const generalLinksData = anime.external.filter((l) => l.type === 'general');
 
-    const filteredWatchLinksData = watchLinksData.slice(0, 3);
-    const filteredGeneralLinksData = generalLinksData.slice(0, 3);
-
-    const linksData =
-        active === 'general'
-            ? filteredGeneralLinksData
-            : filteredWatchLinksData;
+    const linksData = active === 'general' ? generalLinksData : watchLinksData;
 
     const handleOpenLinksModal = () => {
         openModal({
@@ -54,15 +50,20 @@ const Links: FC<Props> = ({ extended }) => {
         });
     };
 
+    const handleChangeActive = (value: API.External['type']) => {
+        if (value) {
+            setActive(value);
+            setIsExpanded(false);
+        }
+    };
+
     return (
         <Block>
             <Header title="Посилання" onClick={handleOpenLinksModal}>
                 <ToggleGroup
                     type="single"
                     value={active}
-                    onValueChange={(value: API.External['type']) =>
-                        value && setActive(value)
-                    }
+                    onValueChange={handleChangeActive}
                     variant="outline"
                     size="badge"
                 >
@@ -82,21 +83,25 @@ const Links: FC<Props> = ({ extended }) => {
                     )}
                 </ToggleGroup>
             </Header>
-            <div className="flex flex-col gap-6">
-                {linksData.map((link) => (
-                    <HorizontalCard
-                        key={link.url}
-                        title={link.text}
-                        description={link.url}
-                        descriptionHref={link.url}
-                        href={link.url}
-                        imageRatio={1}
-                        imageContainerClassName="w-10"
-                        descriptionClassName="break-all"
-                        image={<P>{link.text[0]}</P>}
-                    />
-                ))}
-            </div>
+            <TextExpand
+                expanded={isExpanded}
+                setExpanded={setIsExpanded}
+                className="max-h-40"
+            >
+                <div className="flex flex-col gap-4">
+                    {linksData.map((link) => (
+                        <HorizontalCard
+                            key={link.url}
+                            title={link.text}
+                            href={link.url}
+                            imageRatio={1}
+                            imageContainerClassName="w-8"
+                            descriptionClassName="break-all"
+                            image={<P>{link.text[0]}</P>}
+                        />
+                    ))}
+                </div>
+            </TextExpand>
         </Block>
     );
 };
