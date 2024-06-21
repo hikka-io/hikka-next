@@ -571,7 +571,9 @@ declare global {
             order: number;
         };
 
-        type Collection<TContent extends API.MainContent = unknown> = {
+        type Collection<
+            TContent extends API.MainContent & { title?: string } = unknown,
+        > = {
             data_type: 'collection';
             author: API.User;
             created: number;
