@@ -11,6 +11,7 @@ import getQueryClient from '@/utils/get-query-client';
 const prefetchQueries = async () => {
     const queryClient = getQueryClient();
     const season = getCurrentSeason()!;
+    const year = String(new Date().getFullYear());
 
     await prefetchSession();
 
@@ -23,11 +24,18 @@ const prefetchQueries = async () => {
             prefetchWatchList({
                 username: loggedUser.username,
                 watch_status: 'watching',
+                sort: ['watch_created:desc'],
             }),
         );
 
         promises.push(
-            prefetchAnimeCatalog({ status: ['ongoing'], page: 1, iPage: 1 }),
+            prefetchAnimeCatalog({
+                season: [season!],
+                score: [7, 8, 9, 10],
+                years: [year, year],
+                page: 1,
+                iPage: 1,
+            }),
         );
 
         promises.push(prefetchFollowingHistory());

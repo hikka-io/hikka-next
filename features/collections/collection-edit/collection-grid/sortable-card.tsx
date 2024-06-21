@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;
-    content: API.MainContent & { title: string };
+    content: API.MainContent & { title?: string };
     onRemove: () => void;
 }
 

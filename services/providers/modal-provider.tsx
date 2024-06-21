@@ -21,6 +21,7 @@ import {
     DrawerHeader,
     DrawerTitle,
 } from '@/components/ui/drawer';
+import { Separator } from '@/components/ui/separator';
 import {
     Sheet,
     SheetContent,
@@ -149,16 +150,14 @@ export default function ModalProvider({ children }: Props) {
                     onOpenChange={(open) => setState({ ...state, open })}
                 >
                     <DrawerContent
-                        className={cn(
-                            'max-h-[90dvh] p-4 pt-0',
-                            state.className,
-                        )}
+                        className={cn('max-h-[90dvh]', state.className)}
                     >
                         {state.title && (
-                            <DrawerHeader className="px-0 text-left">
+                            <DrawerHeader>
                                 <DrawerTitle>{state.title}</DrawerTitle>
                             </DrawerHeader>
                         )}
+                        <Separator />
                         {state.content}
                     </DrawerContent>
                 </Drawer>
@@ -169,15 +168,16 @@ export default function ModalProvider({ children }: Props) {
                     <SheetContent
                         side={state.side}
                         className={cn(
-                            'flex !max-w-lg flex-col gap-0 pb-0',
+                            'flex !max-w-lg flex-col gap-0 p-0',
                             state.className,
                         )}
                     >
                         {state.title && (
-                            <SheetHeader>
+                            <SheetHeader className="px-6 py-4">
                                 <SheetTitle>{state.title}</SheetTitle>
                             </SheetHeader>
                         )}
+                        <Separator />
                         {state.content}
                     </SheetContent>
                 </Sheet>

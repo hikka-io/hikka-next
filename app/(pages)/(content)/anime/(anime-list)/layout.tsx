@@ -18,7 +18,7 @@ const AnimeListLayout: FC<Props> = async ({ children }) => {
                     {children}
                 </Block>
                 <div className="sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
-                    <Filters type="anime" className="px-4" />
+                    <Filters content_type="anime" sort_type="anime" />
                 </div>
             </div>
         </div>

@@ -93,8 +93,7 @@ const Component = () => {
                                     content: (
                                         <AuthModal type="forgotPassword" />
                                     ),
-                                    className: 'max-w-3xl',
-                                    containerClassName: 'p-0',
+                                    className: 'max-w-3xl p-0',
                                     forceModal: true,
                                 })
                             }
@@ -125,8 +124,7 @@ const Component = () => {
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="signup" />,
-                                    className: 'max-w-3xl',
-                                    containerClassName: 'p-0',
+                                    className: 'max-w-3xl p-0',
                                     forceModal: true,
                                 })
                             }

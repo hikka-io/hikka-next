@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 
 import Block from '@/components/ui/block';
 
-import Filters from '@/features/filters/read-filters.component';
+import ReadFilters from '@/features/filters/read-filters.component';
 import NavBar from '@/features/manga/manga-list-navbar/manga-list-navbar.component';
 
 interface Props {
@@ -18,7 +18,7 @@ const MangaListLayout: FC<Props> = async ({ children }) => {
                     {children}
                 </Block>
                 <div className="sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
-                    <Filters type="manga" />
+                    <ReadFilters content_type="manga" sort_type="manga" />
                 </div>
             </div>
         </div>

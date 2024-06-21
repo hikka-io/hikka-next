@@ -17,8 +17,7 @@ const ModalManager = () => {
             case 'passwordConfirm':
                 openModal({
                     content: <AuthModal type="passwordConfirm" />,
-                    className: 'max-w-3xl',
-                    containerClassName: 'p-0',
+                    className: 'max-w-3xl p-0',
                     forceModal: true,
                 });
                 break;

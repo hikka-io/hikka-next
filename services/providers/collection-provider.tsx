@@ -16,7 +16,7 @@ import {
 
 export type Item = {
     id: string | number;
-    content: API.MainContent & { title: string };
+    content: API.MainContent & { title?: string };
 };
 
 export type Group = {

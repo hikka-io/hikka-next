@@ -18,7 +18,7 @@ const MangaListPage: FC<Props> = ({ searchParams }) => {
         );
     }
 
-    return <MangaList searchParams={searchParams} />;
+    return <MangaList />;
 };
 
 export default MangaListPage;

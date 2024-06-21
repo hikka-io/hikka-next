@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
@@ -14,15 +15,34 @@ import useMangaCatalog from '@/services/hooks/manga/use-manga-catalog';
 import MangaListSkeleton from './manga-list-skeleton';
 import { useNextPage, useUpdatePage } from './manga-list.hooks';
 
-interface Props {
-    searchParams: Record<string, string>;
-}
+interface Props {}
 
-const MangaList: FC<Props> = ({ searchParams }) => {
-    const page = searchParams.page;
-    const iPage = searchParams.iPage;
+const MangaList: FC<Props> = () => {
+    const searchParams = useSearchParams();
+
+    const query = searchParams.get('search');
+    const media_type = searchParams.getAll('types');
+    const status = searchParams.getAll('statuses');
+
+    const years = searchParams.getAll('years');
+    const genres = searchParams.getAll('genres');
+
+    const only_translated = searchParams.get('only_translated');
+
+    const sort = searchParams.get('sort') || 'score';
+    const order = searchParams.get('order') || 'desc';
+
+    const page = searchParams.get('page');
+    const iPage = searchParams.get('iPage');
 
     const dataKeys = {
+        query,
+        media_type,
+        status,
+        years,
+        genres,
+        only_translated: Boolean(only_translated),
+        sort: sort ? [`${sort}:${order}`] : undefined,
         page: Number(page),
         iPage: Number(iPage),
     };

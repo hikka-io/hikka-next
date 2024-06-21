@@ -86,7 +86,7 @@ const DATA: {
 
 const Header = ({ title, onBack }: { title: string; onBack?: () => void }) => {
     return (
-        <div className="flex items-center justify-center gap-2 border-b px-6 pb-4 sm:justify-start">
+        <div className="flex items-center justify-center gap-2 border-b px-6 py-4 sm:justify-start">
             {onBack && (
                 <Button
                     onClick={onBack}
@@ -110,7 +110,7 @@ const Tabs = ({
     setActiveTab: Dispatch<SetStateAction<Tab | undefined>>;
 }) => {
     return (
-        <div className="flex size-full flex-col border-r-secondary/60 py-6 md:border-r">
+        <div className="flex size-full flex-col border-r-secondary/60 md:border-r">
             <Header title="Налаштування" />
             <ul className="w-full p-0 [&_li>*]:rounded-none">
                 {DATA.map((tab) => (
@@ -118,7 +118,7 @@ const Tabs = ({
                         <a
                             onClick={() => setActiveTab(tab.slug)}
                             className={cn(
-                                'flex flex-col items-start justify-center px-8 py-4',
+                                'flex flex-col items-start justify-center px-6 py-4',
                                 activeTab === tab.slug
                                     ? 'bg-muted'
                                     : 'hover:bg-secondary/30',
@@ -157,7 +157,7 @@ const Component = () => {
             {isDesktop && (
                 <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
             )}
-            <div className="flex flex-1 flex-col overflow-hidden pt-6">
+            <div className="flex flex-1 flex-col overflow-hidden">
                 {activeForm && (
                     <Header
                         onBack={() => setActiveTab(undefined)}

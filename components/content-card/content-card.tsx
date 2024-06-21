@@ -21,6 +21,8 @@ import { cn } from '@/utils/utils';
 
 import { AspectRatio } from '../ui/aspect-ratio';
 import ContextMenuOverlay from './context-menu-overlay';
+import MangaTooltip from './manga-tooltip';
+import NovelTooltip from './novel-tooltip';
 import ReadStatus from './read-status';
 import WatchStatus from './watch-status';
 
@@ -61,6 +63,10 @@ const Tooltip: FC<TooltipProps> = ({ children, content_type, slug }) => {
     switch (content_type) {
         case 'anime':
             return <AnimeTooltip slug={slug}>{children}</AnimeTooltip>;
+        case 'manga':
+            return <MangaTooltip slug={slug}>{children}</MangaTooltip>;
+        case 'novel':
+            return <NovelTooltip slug={slug}>{children}</NovelTooltip>;
         case 'character':
             return <CharacterTooltip slug={slug}>{children}</CharacterTooltip>;
         case 'person':

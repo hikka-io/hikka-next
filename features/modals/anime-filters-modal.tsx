@@ -11,14 +11,14 @@ import {
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
-import Filters from '@/features/filters/anime-filters.component';
+import AnimeFilters from '@/features/filters/anime-filters.component';
 
 interface Props {
-    type: 'anime' | 'watchlist';
+    sort_type: 'anime' | 'watch';
     children?: ReactNode;
 }
 
-const Component = ({ type, children }: Props) => {
+const AnimeFiltersModal = ({ sort_type, children }: Props) => {
     return (
         <Drawer>
             <DrawerTrigger asChild>
@@ -28,15 +28,19 @@ const Component = ({ type, children }: Props) => {
                     </Button>
                 )}
             </DrawerTrigger>
-            <DrawerContent className="h-[90dvh] p-4 pt-0">
-                <DrawerHeader className="px-0 text-left">
+            <DrawerContent className="h-[90dvh]">
+                <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator className="-mx-6 w-auto" />
-                <Filters type={type} />
+                <Separator className="w-auto" />
+                <AnimeFilters
+                    content_type="anime"
+                    className="px-6"
+                    sort_type={sort_type}
+                />
             </DrawerContent>
         </Drawer>
     );
 };
 
-export default Component;
+export default AnimeFiltersModal;
