@@ -71,7 +71,7 @@ const ListPage: FC<Props> = async ({
                     <List />
                 </Block>
                 <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
-                    <Filters type="watchlist" />
+                    <Filters sort_type="watch" content_type="anime" />
                 </div>
             </div>
         </HydrationBoundary>

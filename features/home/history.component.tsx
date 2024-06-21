@@ -1,10 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { FC } from 'react';
 
 import HistoryItem from '@/components/history-item';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 
 import useSession from '@/services/hooks/auth/use-session';
@@ -23,11 +25,7 @@ const History: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header
-                title="Історія"
-                href={`/u/${user?.username}/history?type=following`}
-            />
-            <div className="flex flex-col gap-6">
+            <Card className="flex flex-col gap-6">
                 {filteredHistory?.map((item) => (
                     <HistoryItem data={item} key={item.reference} withUser />
                 ))}
@@ -37,7 +35,12 @@ const History: FC<Props> = ({ className }) => {
                         description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
                     />
                 )}
-            </div>
+                <Button asChild size="sm" variant="outline">
+                    <Link href={`/u/${user?.username}/history?type=following`}>
+                        Переглянути всі
+                    </Link>
+                </Button>
+            </Card>
         </Block>
     );
 };

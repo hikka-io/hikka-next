@@ -27,12 +27,12 @@ const Component = ({ children }: Props) => {
                     </Button>
                 )}
             </DrawerTrigger>
-            <DrawerContent className="h-[90dvh] p-4 pt-0">
-                <DrawerHeader className="px-0 text-left">
+            <DrawerContent className="h-[90dvh]">
+                <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator className="-mx-6 w-auto" />
-                <Filters className="-mx-6 p-6" />
+                <Separator />
+                <Filters className="px-6" />
             </DrawerContent>
         </Drawer>
     );

@@ -1,4 +1,7 @@
+import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect } from 'react';
+
+import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 
 interface Props {
     open: boolean;
@@ -8,20 +11,14 @@ interface Props {
     content_type?: API.ContentType | 'user';
 }
 
-const getSearchType = (value: number) => {
-    switch (value) {
-        case 1:
-            return 'anime';
-        case 2:
-            return 'character';
-        case 3:
-            return 'person';
-        case 4:
-            return 'user';
-        default:
-            return 'anime';
-    }
-};
+const ALLOWED_SEARCH_TYPES: (API.ContentType | 'user')[] = [
+    'anime',
+    'manga',
+    'novel',
+    'character',
+    'person',
+    'user',
+];
 
 const useSearchModal = ({
     onClick,
@@ -30,6 +27,8 @@ const useSearchModal = ({
     setSearchType,
     content_type,
 }: Props) => {
+    const pathname = usePathname();
+
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
             const _focused = document.activeElement;
@@ -59,6 +58,18 @@ const useSearchModal = ({
             setSearchType(content_type);
         }
     }, [content_type]);
+
+    useEffect(() => {
+        if (open) {
+            const currentPageContentType = ALLOWED_SEARCH_TYPES.find((ct) =>
+                pathname.startsWith(CONTENT_TYPE_LINKS[ct as API.ContentType]),
+            );
+
+            if (currentPageContentType) {
+                setSearchType!(currentPageContentType as API.ContentType);
+            }
+        }
+    }, [open]);
 };
 
 export default useSearchModal;

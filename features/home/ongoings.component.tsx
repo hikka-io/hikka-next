@@ -10,6 +10,7 @@ import Header from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useAnimeCatalog from '@/services/hooks/anime/use-anime-catalog';
+import getCurrentSeason from '@/utils/get-current-season';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -17,8 +18,13 @@ interface Props {
 }
 
 const Ongoings: FC<Props> = ({ className }) => {
+    const currentSeason = getCurrentSeason();
+    const year = String(new Date().getFullYear());
+
     const { list, isLoading } = useAnimeCatalog({
-        status: ['ongoing'],
+        season: [currentSeason!],
+        years: [year, year],
+        score: [7, 8, 9, 10],
         page: 1,
         iPage: 1,
     });

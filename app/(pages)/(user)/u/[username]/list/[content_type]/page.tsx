@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import Filters from '@/features/filters/read-filters.component';
+import ReadFilters from '@/features/filters/read-filters.component';
 import List from '@/features/users/user-readlist/readlist/readlist.component';
 import StatusCombobox from '@/features/users/user-readlist/status-combobox.component';
 import ToolsCombobox from '@/features/users/user-readlist/tools-combobox.component';
@@ -76,15 +76,9 @@ const ListPage: FC<Props> = async ({
                     <List />
                 </Block>
                 <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
-                    <Filters
-                        className="px-4"
-                        type={
-                            `${content_type}-readlist` as
-                                | 'manga'
-                                | 'novel'
-                                | 'manga-readlist'
-                                | 'novel-readlist'
-                        }
+                    <ReadFilters
+                        content_type={content_type as API.ContentType}
+                        sort_type="read"
                     />
                 </div>
             </div>

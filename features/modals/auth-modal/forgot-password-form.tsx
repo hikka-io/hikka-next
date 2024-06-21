@@ -90,9 +90,8 @@ const Component = () => {
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="login" />,
-                                    className: 'max-w-3xl',
+                                    className: 'max-w-3xl p-0',
                                     forceModal: true,
-                                    containerClassName: 'p-0',
                                 })
                             }
                             className="w-full"

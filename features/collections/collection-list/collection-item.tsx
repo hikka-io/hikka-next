@@ -18,7 +18,7 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    collection: API.Collection<API.MainContent & { title: string }>;
+    collection: API.Collection<API.MainContent & { title?: string }>;
 }
 
 const CollectionItem: FC<Props> = ({ collection }) => {

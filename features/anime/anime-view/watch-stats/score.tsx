@@ -30,7 +30,7 @@ const Score = () => {
 
     const stats = Object.keys(data.stats)
         .reverse()
-        .reduce((acc: Hikka.WatchStat[], stat) => {
+        .reduce((acc: Hikka.ListStat[], stat) => {
             if (
                 stat.includes('score') &&
                 data.stats[stat as API.StatType] > 0

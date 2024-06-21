@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import FiltersModal from '@/features/modals/anime-filters-modal';
+import ReadFiltersModal from '@/features/modals/read-filters-modal';
 
 import { cn } from '@/utils/utils';
 
@@ -17,7 +17,7 @@ const NovelListNavbar = () => {
                 <Search />
             </Suspense>
             <div className="lg:hidden">
-                <FiltersModal type="anime" />
+                <ReadFiltersModal sort_type="novel" content_type="novel" />
             </div>
         </div>
     );
