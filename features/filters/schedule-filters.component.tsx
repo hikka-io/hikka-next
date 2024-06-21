@@ -86,7 +86,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
     return (
         <div
             className={cn(
-                'flex flex-col items-end gap-8 lg:flex-row lg:gap-4',
+                'flex flex-col items-end gap-8 lg:flex-row lg:gap-4 mt-4 md:mt-0"',
                 className,
             )}
         >
@@ -174,7 +174,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                     </Select>
                 </div>
                 {loggedUser && (
-                    <div className="flex h-12 items-center justify-between gap-2 rounded-md border border-secondary bg-secondary/30 p-4">
+                    <div className="flex h-12 items-center justify-between gap-2 rounded-md border bg-secondary/30 p-4">
                         <Label className="line-clamp-1 min-w-0 truncate text-muted-foreground">
                             Аніме у списку
                         </Label>
