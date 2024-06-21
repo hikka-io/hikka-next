@@ -1,3 +1,5 @@
+import MaterialSymbolsBookmarkFlagOutlineRounded from '~icons/material-symbols/bookmark-flag-outline-rounded';
+import MaterialSymbolsBookmarkOutline from '~icons/material-symbols/bookmark-outline';
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded';
@@ -28,7 +30,7 @@ export const READ_STATUS: Hikka.FilterProperty<API.ReadStatus> = {
     on_hold: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
-        icon: OnHold,
+        icon: MaterialSymbolsBookmarkFlagOutlineRounded,
         color: '#5C5C5C',
     },
     dropped: {
@@ -40,7 +42,7 @@ export const READ_STATUS: Hikka.FilterProperty<API.ReadStatus> = {
     reading: {
         title_ua: 'Читаю',
         title_en: 'Reading',
-        icon: Watching,
+        icon: MaterialSymbolsBookmarkOutline,
         color: '#2B94AB',
     },
 };
