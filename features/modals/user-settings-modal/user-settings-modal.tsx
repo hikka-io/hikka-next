@@ -19,6 +19,7 @@ import EmailForm from '@/features/modals/user-settings-modal/email-form';
 import GeneralForm from '@/features/modals/user-settings-modal/general-form';
 import NotificationsForm from '@/features/modals/user-settings-modal/notifications-form';
 import PasswordForm from '@/features/modals/user-settings-modal/password-form';
+import ReadListForm from '@/features/modals/user-settings-modal/readlist-form/readlist-form';
 import UsernameForm from '@/features/modals/user-settings-modal/username-form';
 import WatchListForm from '@/features/modals/user-settings-modal/watchlist-form/watchlist-form';
 
@@ -32,6 +33,7 @@ type Tab =
     | 'email'
     | 'notifications'
     | 'watchList'
+    | 'readList'
     | 'customization';
 
 const DATA: {
@@ -47,10 +49,16 @@ const DATA: {
         form: <GeneralForm />,
     },
     {
-        title: 'Імпорт',
+        title: 'Імпорт аніме',
         description: 'Імпорт Вашого списку аніме',
         slug: 'watchList',
         form: <WatchListForm />,
+    },
+    {
+        title: 'Імпорт манґи та ранобе',
+        description: 'Імпорт Вашого списку манґи та ранобе',
+        slug: 'readList',
+        form: <ReadListForm />,
     },
     {
         title: 'Email',

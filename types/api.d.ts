@@ -106,6 +106,7 @@ declare global {
             | 'read_manga'
             | 'read_manga_delete'
             | 'watch_import'
+            | 'read_import'
             | 'favourite_anime_add'
             | 'favourite_anime_remove'
             | 'favourite_manga_add'
@@ -447,15 +448,21 @@ declare global {
 
         type HistoryFavoriteData = {};
 
-        type HistoryImportData = {
+        type HistoryWatchImportData = {
             imported: number;
+        };
+
+        type HistoryReadImportData = {
+            imported_manga: number;
+            imported_novel: number;
         };
 
         type History<
             TData =
                 | HistoryWatchData
                 | HistoryFavoriteData
-                | HistoryImportData
+                | HistoryWatchImportData
+                | HistoryReadImportData
                 | HistoryReadData,
         > = {
             reference: string;
