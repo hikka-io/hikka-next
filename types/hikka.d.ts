@@ -103,7 +103,7 @@ declare global {
             image?: ReactNode;
         };
 
-        type WatchStat = {
+        type ListStat = {
             percentage: number;
             value: number;
             icon?: ReactNode;
