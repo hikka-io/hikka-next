@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Characters from '@/features/manga/manga-view/characters/characters.component';
+import Franchise from '@/features/novel/novel-view/franchise.component';
 
 import _generateMetadata from '@/utils/generate-metadata';
 
@@ -11,18 +11,18 @@ export async function generateMetadata(
     const parentMetadata = await parent;
 
     return _generateMetadata({
-        title: 'Персонажі',
+        title: 'Пов’язане',
         description: parentMetadata.openGraph?.description,
         images: parentMetadata.openGraph?.images,
     });
 }
 
-const MangaCharactersPage = async () => {
+const NovelFranchisePage = async () => {
     return (
         <div className="flex flex-col gap-12">
-            <Characters extended />
+            <Franchise extended />
         </div>
     );
 };
 
-export default MangaCharactersPage;
+export default NovelFranchisePage;

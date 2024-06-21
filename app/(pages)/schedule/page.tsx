@@ -63,7 +63,7 @@ const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
                             </Button>
                         </ScheduleFiltersModal>
                     </div>
-                    <Card className="hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:block">
+                    <Card className="hidden w-full lg:block">
                         <ScheduleFilters />
                     </Card>
                 </Block>
