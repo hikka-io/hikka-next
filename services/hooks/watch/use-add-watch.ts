@@ -11,7 +11,22 @@ const useAddWatch = () => {
         mutationKey: ['addToList'],
         mutationFn: addWatch,
         onSettled: async () => {
-            await queryClient.invalidateQueries();
+            await queryClient.invalidateQueries({ queryKey: ['anime-list'] });
+            await queryClient.refetchQueries({
+                queryKey: ['watch'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['watch-list'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({ queryKey: ['favorites'] });
+            await queryClient.invalidateQueries({ queryKey: ['franchise'] });
+            await queryClient.invalidateQueries({ queryKey: ['collection'] });
+            await queryClient.invalidateQueries({
+                queryKey: ['anime-schedule', {}],
+                exact: false,
+            });
 
             closeModal();
         },

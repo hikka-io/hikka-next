@@ -409,7 +409,7 @@ declare global {
         type External = {
             url: string;
             text: string;
-            type: 'general' | 'watch';
+            type: 'general' | 'watch' | 'read';
         };
 
         type HistoryReadData = {
