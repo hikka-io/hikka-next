@@ -8,7 +8,7 @@ export default async function req(
 ): Promise<API.Comment[]> {
     return fetchRequest<API.Comment[]>({
         ...props,
-        path: `/comments/latest/new`,
+        path: `/comments/latest`,
         method: 'get',
     });
 }

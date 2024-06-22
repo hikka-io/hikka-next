@@ -10,7 +10,7 @@ export default async function req({
 }: BaseFetchRequestProps): Promise<API.WithPagination<API.Comment>> {
     return fetchRequest<API.WithPagination<API.Comment>>({
         ...props,
-        path: `/comments/list/new`,
+        path: `/comments/list`,
         method: 'get',
         page,
         size,
