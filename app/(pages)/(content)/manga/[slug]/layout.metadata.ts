@@ -37,7 +37,7 @@ export default async function generateMetadata({
             template: title + ' / %s / Hikka',
         },
         description: synopsis,
-        images: `https://preview.hikka.io/anime/${slug}/${manga.updated}`,
+        images: `https://preview.hikka.io/manga/${slug}/${manga.updated}`,
         other: {
             'mal-id': manga.mal_id,
         },
