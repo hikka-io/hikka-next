@@ -1,7 +1,7 @@
 import { prefetchCharacters } from '@/services/hooks/anime/use-characters';
-import { prefetchFranchise } from '@/services/hooks/anime/use-franchise';
 import { prefetchStaff } from '@/services/hooks/anime/use-staff';
 import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
+import { prefetchFranchise } from '@/services/hooks/related/use-franchise';
 import { prefetchFollowingWatchList } from '@/services/hooks/watch/use-following-watch-list';
 import { prefetchWatch } from '@/services/hooks/watch/use-watch';
 import { getCookie } from '@/utils/cookies';
@@ -17,7 +17,7 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
 
     await Promise.all([
         prefetchCharacters({ slug }),
-        prefetchFranchise({ slug }),
+        prefetchFranchise({ slug, content_type: 'anime' }),
         prefetchStaff({ slug }),
         auth ? prefetchWatch({ slug }) : undefined,
         auth ? prefetchFavorite({ slug, content_type: 'anime' }) : undefined,

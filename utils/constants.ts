@@ -259,7 +259,7 @@ export const OST: Hikka.FilterProperty<API.OSTType> = {
 
 export const SOURCE: Hikka.FilterProperty<API.Source> = {
     digital_manga: {
-        title_ua: 'Цифрова Манга',
+        title_ua: 'Цифрова Манґа',
         title_en: 'Digital Manga',
     },
     picture_book: {
@@ -271,7 +271,7 @@ export const SOURCE: Hikka.FilterProperty<API.Source> = {
         title_en: 'Visual Novel',
     },
     '4_koma_manga': {
-        title_ua: 'Чотирьохпанельна Манга',
+        title_ua: 'Чотирьохпанельна Манґа',
         title_en: 'Yonkoma manga',
     },
     light_novel: {
@@ -291,7 +291,7 @@ export const SOURCE: Hikka.FilterProperty<API.Source> = {
         title_en: 'Original',
     },
     manga: {
-        title_ua: 'Манга',
+        title_ua: 'Манґа',
         title_en: 'Manga',
     },
     music: {
@@ -600,6 +600,16 @@ export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
         title_ua: 'Аніме',
         url: '/anime',
     },
+    {
+        slug: 'anime',
+        title_ua: 'Манґа',
+        url: '/manga',
+    },
+    {
+        slug: 'anime',
+        title_ua: 'Ранобе',
+        url: '/novel',
+    },
 ];
 
 export const PERSON_NAV_ROUTES: Hikka.NavRoute[] = [
@@ -612,6 +622,16 @@ export const PERSON_NAV_ROUTES: Hikka.NavRoute[] = [
         slug: 'anime',
         title_ua: 'Аніме',
         url: '/anime',
+    },
+    {
+        slug: 'anime',
+        title_ua: 'Манґа',
+        url: '/manga',
+    },
+    {
+        slug: 'anime',
+        title_ua: 'Ранобе',
+        url: '/novel',
     },
     {
         slug: 'characters',

@@ -35,7 +35,7 @@ const ListStats = () => {
                     </Link>
                 </TabsTrigger>
                 <TabsTrigger value="manga" className="flex-1 gap-2">
-                    Манга{' '}
+                    Манґа{' '}
                     <Link
                         href={`/u/${params.username}/list/manga?status=planned&sort=read_score`}
                     >
