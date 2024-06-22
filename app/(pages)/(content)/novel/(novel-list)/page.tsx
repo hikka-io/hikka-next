@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import NovelList from '@/features/novel/novel-list/novel-list.component';
 
-import { prefetchNovelCatalog } from '@/services/hooks/novel/use-novel-catalog';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
@@ -20,7 +19,7 @@ const NovelListPage: FC<Props> = async ({ searchParams }) => {
         );
     }
 
-    const query = searchParams.search as string;
+    /* const query = searchParams.search as string;
     const media_type = searchParams.types;
     const status = searchParams.statuses;
     const years = searchParams.years;
@@ -44,10 +43,10 @@ const NovelListPage: FC<Props> = async ({ searchParams }) => {
         page: Number(page),
         iPage: Number(iPage),
     };
-
+ */
     const queryClient = getQueryClient();
 
-    await prefetchNovelCatalog(dataKeys);
+    // await prefetchNovelCatalog(dataKeys);
 
     const dehydratedState = dehydrate(queryClient);
 

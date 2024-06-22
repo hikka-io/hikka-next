@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import AnimeList from '@/features/anime/anime-list/anime-list.component';
 
-import { prefetchAnimeCatalog } from '@/services/hooks/anime/use-anime-catalog';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
@@ -20,7 +19,7 @@ const AnimeListPage: FC<Props> = async ({ searchParams }) => {
         );
     }
 
-    const query = searchParams.search as string;
+    /* const query = searchParams.search as string;
     const media_type = searchParams.types;
     const status = searchParams.statuses;
     const season = searchParams.seasons;
@@ -51,9 +50,11 @@ const AnimeListPage: FC<Props> = async ({ searchParams }) => {
         iPage: Number(iPage),
     };
 
-    const queryClient = getQueryClient();
+    
 
-    await prefetchAnimeCatalog(dataKeys);
+    await prefetchAnimeCatalog(dataKeys); */
+
+    const queryClient = getQueryClient();
 
     const dehydratedState = dehydrate(queryClient);
 
