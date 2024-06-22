@@ -20,6 +20,7 @@ const useFollowingWatchList = (props: Params) => {
                 params,
                 page: pageParam,
             }),
+        refetchOnWindowFocus: false,
     });
 };
 

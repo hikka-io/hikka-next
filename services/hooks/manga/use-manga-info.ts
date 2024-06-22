@@ -28,6 +28,7 @@ const useMangaInfo = (props: Params, options?: Hikka.QueryOptions) => {
                 titleLanguage: titleLanguage!,
                 data: data,
             }),
+        refetchOnWindowFocus: false,
     });
 };
 

@@ -59,6 +59,7 @@ const useMangaCatalog = (props: Props) => {
                 }),
             })),
         }),
+        refetchOnWindowFocus: false,
     });
 
     const list =

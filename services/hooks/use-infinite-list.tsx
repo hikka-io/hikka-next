@@ -27,6 +27,7 @@ function useInfiniteList<T>({
     gcTime,
     enabled,
     select,
+    refetchOnWindowFocus,
 }: Props<T>) {
     const { ref, inView } = useInView();
     const query = useInfiniteQuery({
@@ -41,6 +42,7 @@ function useInfiniteList<T>({
         gcTime,
         enabled,
         refetchOnMount: false,
+        refetchOnWindowFocus,
         select,
     });
 

@@ -19,6 +19,7 @@ const useNovelCharacters = (props: Params) => {
                 params,
                 page: pageParam,
             }),
+        refetchOnWindowFocus: false,
     });
 };
 

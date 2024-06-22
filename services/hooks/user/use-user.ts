@@ -11,10 +11,11 @@ export const key = (params: Params) => ['user', params.username];
 
 const useUser = (props: Params) => {
     const params = paramsBuilder(props);
+
     return useQuery({
         queryKey: key(params),
         queryFn: () => getUserInfo({ params }),
-        enabled: !!params.username,
+        enabled: params.username !== undefined,
     });
 };
 

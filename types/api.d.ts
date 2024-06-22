@@ -63,7 +63,12 @@ declare global {
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
-        type Status = 'ongoing' | 'finished' | 'announced' | 'paused';
+        type Status =
+            | 'ongoing'
+            | 'finished'
+            | 'announced'
+            | 'paused'
+            | 'discontinued';
 
         type VideoType = 'video_promo' | 'video_music';
 

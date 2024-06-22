@@ -62,6 +62,7 @@ const useAnimeCatalog = (props: Props) => {
                 }),
             })),
         }),
+        refetchOnWindowFocus: false,
     });
 
     const list =

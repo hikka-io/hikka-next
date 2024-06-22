@@ -112,11 +112,11 @@ export const SEASON: Hikka.FilterProperty<API.Season> = {
 };
 
 export const RELEASE_STATUS: Hikka.FilterProperty<API.Status> = {
-    /*discontinued: {
+    discontinued: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
-        color: '#952828'
-    },*/
+        color: '#952828',
+    },
     ongoing: {
         title_ua: 'Онґоінґ',
         title_en: 'Ongoing',
