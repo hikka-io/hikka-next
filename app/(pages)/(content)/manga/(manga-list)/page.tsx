@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import MangaList from '@/features/manga/manga-list/manga-list.component';
 
-import { prefetchMangaCatalog } from '@/services/hooks/manga/use-manga-catalog';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
@@ -20,7 +19,7 @@ const MangaListPage: FC<Props> = async ({ searchParams }) => {
         );
     }
 
-    const query = searchParams.search as string;
+    /*  const query = searchParams.search as string;
     const media_type = searchParams.types;
     const status = searchParams.statuses;
     const years = searchParams.years;
@@ -43,11 +42,11 @@ const MangaListPage: FC<Props> = async ({ searchParams }) => {
         sort: sort ? [`${sort}:${order}`] : undefined,
         page: Number(page),
         iPage: Number(iPage),
-    };
+    }; */
 
     const queryClient = getQueryClient();
 
-    await prefetchMangaCatalog(dataKeys);
+    // await prefetchMangaCatalog(dataKeys);
 
     const dehydratedState = dehydrate(queryClient);
 
