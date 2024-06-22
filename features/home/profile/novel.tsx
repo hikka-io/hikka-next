@@ -47,7 +47,7 @@ const Novel = () => {
     const { list } = useReadList({
         username: String(loggedUser?.username),
         read_status: 'reading',
-        sort: ['read_created:desc'],
+        sort: ['read_updated:desc'],
         content_type: 'novel',
     });
 

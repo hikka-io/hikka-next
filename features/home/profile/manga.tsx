@@ -47,7 +47,7 @@ const Manga = () => {
     const { list } = useReadList({
         username: String(loggedUser?.username),
         read_status: 'reading',
-        sort: ['read_created:desc'],
+        sort: ['read_updated:desc'],
         content_type: 'manga',
     });
 
@@ -93,7 +93,10 @@ const Manga = () => {
 
             mutateAddRead({
                 params: {
-                    ...selectedRead,
+                    note: selectedRead.note,
+                    volumes: selectedRead.volumes,
+                    rereads: selectedRead.rereads,
+                    score: selectedRead.score,
                     content_type: 'manga',
                     status:
                         chapters === selectedRead.content.chapters
@@ -115,7 +118,11 @@ const Manga = () => {
 
             mutateAddRead({
                 params: {
-                    ...selectedRead,
+                    note: selectedRead.note,
+                    volumes: selectedRead.volumes,
+                    rereads: selectedRead.rereads,
+                    score: selectedRead.score,
+                    status: selectedRead.status,
                     content_type: 'manga',
                     slug: selectedRead.content.slug,
                     chapters,

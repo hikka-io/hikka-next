@@ -18,7 +18,7 @@ export const paramsBuilder = ({ username, ...props }: Params): Params => ({
     content_type: props.content_type || 'manga',
 });
 
-export const key = (params: Params): QueryKey => ['watch-list', params];
+export const key = (params: Params): QueryKey => ['read-list', params];
 
 const useReadList = ({ username, read_status, ...props }: Params) => {
     const { titleLanguage } = useSettingsContext();
