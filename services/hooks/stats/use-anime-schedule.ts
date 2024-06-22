@@ -1,36 +1,29 @@
-import { useSearchParams } from 'next/navigation';
-
-import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
+import getAnimeSchedule, {
+    Params,
+} from '@/services/api/stats/getAnimeSchedule';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
-import getCurrentSeason from '@/utils/get-current-season';
+import getQueryClient from '@/utils/get-query-client';
+import { convertTitle } from '@/utils/title-adapter';
 
-const useAnimeSchedule = () => {
+const paramsBuilder = (props: Params) => ({
+    airing_season: props.airing_season || undefined,
+    status: props.status || undefined,
+    only_watch: props.only_watch || undefined,
+});
+
+const key = (params: Params) => ['anime-schedule', params];
+
+const useAnimeSchedule = (props: Params) => {
     const { titleLanguage } = useSettingsContext();
-    const searchParams = useSearchParams();
 
-    const only_watch = searchParams.get('only_watch')
-        ? Boolean(searchParams.get('only_watch'))
-        : undefined;
-    const season =
-        (searchParams.get('season') as API.Season) || getCurrentSeason()!;
-    const year = searchParams.get('year') || String(new Date().getFullYear());
-    const status = (
-        searchParams.getAll('status').length > 0
-            ? searchParams.getAll('status')
-            : ['ongoing', 'announced']
-    ) as API.Status[];
+    const params = paramsBuilder(props);
 
     return useInfiniteList({
-        queryKey: ['animeSchedule', { season, status, year, only_watch }],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getAnimeSchedule({
-                params: {
-                    airing_season: [season, year],
-                    status,
-                    only_watch: only_watch,
-                },
+                params,
                 page: pageParam,
             }),
         select: (data) => ({
@@ -39,13 +32,28 @@ const useAnimeSchedule = () => {
                 ...a,
                 list: a.list.map((s) => ({
                     ...s,
-                    anime: convertAnime<API.AnimeInfo>({
-                        anime: s.anime,
+                    anime: convertTitle<API.AnimeInfo>({
+                        data: s.anime,
                         titleLanguage: titleLanguage!,
                     }),
                 })),
             })),
         }),
+    });
+};
+
+export const prefetchAnimeSchedule = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getAnimeSchedule({
+                params,
+                page: pageParam,
+            }),
     });
 };
 

@@ -15,7 +15,7 @@ export const useUpdatePage = ({ page, iPage }: Props) => {
     return (newPage: number) => {
         if (newPage !== Number(page) || newPage !== Number(iPage)) {
             queryClient.removeQueries({
-                queryKey: ['list', page, {}],
+                queryKey: ['anime-list', page, {}],
                 exact: false,
             });
             const query = createQueryString(

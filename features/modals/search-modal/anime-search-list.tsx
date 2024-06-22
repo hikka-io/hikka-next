@@ -10,8 +10,8 @@ import {
 
 import SearchPlaceholders from '@/features/modals/search-modal/search-placeholders';
 
-import AnimeCard from './anime-card';
-import useAnimeSearchList from './useAnimeSearchList';
+import AnimeCard from './cards/anime-card';
+import useAnimeSearchList from './hooks/useAnimeSearchList';
 
 interface Props {
     onDismiss: (anime: API.Anime) => void;

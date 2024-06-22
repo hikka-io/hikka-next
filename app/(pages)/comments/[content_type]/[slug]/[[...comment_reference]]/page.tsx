@@ -5,11 +5,11 @@ import { FC } from 'react';
 
 import ContentHeader from '@/features/comments/comment-content-header.component';
 import Content from '@/features/comments/comment-content.component';
-import Comments from '@/features/comments/comment-list/comment-list.component';
-import { getContent } from '@/features/comments/useContent';
+import Comments from '@/features/comments/comment-list.component';
+import { key, prefetchContent } from '@/features/comments/useContent';
 
-import getCommentThread from '@/services/api/comments/getCommentThread';
-import getComments from '@/services/api/comments/getComments';
+import { prefetchCommentThread } from '@/services/hooks/comments/use-comment-thread';
+import { prefetchComments } from '@/services/hooks/comments/use-comments';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -33,49 +33,22 @@ const CommentsPage: FC<Props> = async ({ params }) => {
     const comment_reference =
         params.comment_reference && params.comment_reference[0];
 
-    await queryClient.prefetchQuery({
-        queryKey: ['content', params.content_type, params.slug],
-        queryFn: async () =>
-            getContent({
-                content_type: params.content_type,
-                slug: params.slug,
-            }),
-    });
+    await prefetchContent(params);
 
-    const content = queryClient.getQueryData([
-        'content',
-        params.content_type,
-        params.slug,
-    ]);
+    const content = queryClient.getQueryData(key(params));
 
     if (!content) {
         return redirect('/');
     }
 
     !comment_reference &&
-        (await queryClient.prefetchInfiniteQuery({
-            initialPageParam: 1,
-            queryKey: ['comments', params.slug, params.content_type],
-            queryFn: ({ pageParam, meta }) =>
-                getComments({
-                    params: {
-                        slug: params.slug,
-                        content_type: params.content_type,
-                    },
-                    page: pageParam,
-                }),
+        (await prefetchComments({
+            slug: params.slug,
+            content_type: params.content_type,
         }));
 
     comment_reference &&
-        (await queryClient.prefetchQuery({
-            queryKey: ['commentThread', comment_reference],
-            queryFn: ({ meta }) =>
-                getCommentThread({
-                    params: {
-                        reference: comment_reference,
-                    },
-                }),
-        }));
+        (await prefetchCommentThread({ reference: comment_reference }));
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>

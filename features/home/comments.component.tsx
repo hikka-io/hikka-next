@@ -2,10 +2,11 @@
 
 import { FC } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
+import GlobalComment from '@/components/comments/global-comment';
 import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
-import HorizontalCard from '@/components/ui/horizontal-card';
+import Stack from '@/components/ui/stack';
 
 import useLatestComments from '@/services/hooks/comments/use-latest-comments';
 import { cn } from '@/utils/utils';
@@ -20,28 +21,37 @@ const Comments: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header title="Коментарі" href="/comments/latest" />
-            <div className="flex flex-col gap-6">
+            <Stack size={3} className="grid-min-20 ">
                 {comments?.map((item) => (
-                    <HorizontalCard
-                        image={item.author.avatar}
-                        imageRatio={1}
-                        description={item.text}
-                        descriptionHref={`/comments/${item.content_type}/${item.slug}`}
-                        key={item.created}
-                        title={item.author.username}
-                        href={`/u/${item.author.username}`}
-                        createdAt={item.created}
-                    >
-                        <ContentCard
-                            className="w-10"
-                            poster={item.image}
-                            href={`/comments/${item.content_type}/${item.slug}`}
+                    <Card key={item.reference}>
+                        <GlobalComment
+                            href={`/comments/${item.content_type}/${item.preview.slug}`}
+                            comment={item}
                         />
-                    </HorizontalCard>
+                    </Card>
                 ))}
-            </div>
+            </Stack>
         </Block>
     );
 };
 
 export default Comments;
+
+{
+    /* <HorizontalCard
+    image={item.author.avatar}
+    imageRatio={1}
+    description={item.text}
+    descriptionHref={`/comments/${item.content_type}/${item.slug}`}
+    key={item.created}
+    title={item.author.username}
+    href={`/u/${item.author.username}`}
+    createdAt={item.created}
+>
+    <ContentCard
+        className="w-10"
+        image={item.image}
+        href={`/comments/${item.content_type}/${item.slug}`}
+    />
+</HorizontalCard> */
+}

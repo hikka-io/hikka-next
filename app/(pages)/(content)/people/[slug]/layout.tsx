@@ -13,7 +13,7 @@ import SubBar from '@/components/navigation/sub-nav';
 import Cover from '@/features/people/person-view/cover.component';
 import Title from '@/features/people/person-view/title.component';
 
-import getPersonInfo from '@/services/api/people/getPersonInfo';
+import { prefetchPersonInfo } from '@/services/hooks/people/use-person-info';
 import { PERSON_NAV_ROUTES } from '@/utils/constants';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -34,23 +34,20 @@ export async function generateMetadata(
 }
 
 const PersonLayout: FC<Props> = async ({ params: { slug }, children }) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
-    const person = await queryClient.fetchQuery({
-        queryKey: ['person', slug],
-        queryFn: ({ meta }) =>
-            getPersonInfo({
-                params: {
-                    slug,
-                },
-            }),
-    });
+    await prefetchPersonInfo({ slug });
+
+    const person: API.Person | undefined = queryClient.getQueryData([
+        'person',
+        slug,
+    ]);
 
     if (!person) {
         return redirect('/');
     }
 
-    await prefetchQueries({ queryClient, params: { slug } });
+    await prefetchQueries({ params: { slug } });
 
     const dehydratedState = dehydrate(queryClient);
 

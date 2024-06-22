@@ -1,74 +1,54 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 
 import getAnimeCatalog, {
     Params as AnimeCatalogParams,
     Response as AnimeCatalogResponse,
 } from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/anime-adapter';
+import getQueryClient from '@/utils/get-query-client';
+import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends AnimeCatalogParams {
     page: number;
     iPage: number;
 }
 
-const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-    const searchParams = useSearchParams();
+export const paramsBuilder = (
+    props: Omit<Props, 'iPage'>,
+): Omit<Props, 'iPage'> => ({
+    page: props.page || 1,
+    query: props.query || undefined,
+    media_type: props.media_type || [],
+    status: props.status || [],
+    season: props.season || [],
+    rating: props.rating || [],
+    years: props.years || [],
+    only_translated: props.only_translated || undefined,
+    genres: props.genres || [],
+    studios: props.studios || [],
+    sort: props.sort || ['score:desc'],
+});
 
-    const search = props.query || searchParams.get('search');
-    const types = props.media_type || searchParams.getAll('types');
-    const statuses = props.status || searchParams.getAll('statuses');
-    const seasons = props.season || searchParams.getAll('seasons');
-    const ageRatings = props.rating || searchParams.getAll('ratings');
-    const years = props.years || searchParams.getAll('years');
-    const genres = props.genres || searchParams.getAll('genres');
-    const studios = props.studios || searchParams.getAll('studios');
-    const lang = props.only_translated || searchParams.get('only_translated');
-    const sort = searchParams.get('sort') || 'score';
-    const order = searchParams.get('order') || 'desc';
+export const key = (params: Omit<Props, 'iPage'>): QueryKey => [
+    'anime-list',
+    params,
+];
+
+const useAnimeCatalog = (props: Props) => {
+    const { titleLanguage } = useSettingsContext();
+
+    const { page, ...params } = paramsBuilder(props);
 
     const query = useInfiniteQuery<AnimeCatalogResponse, Error>({
-        queryKey: [
-            'list',
-            {
-                page,
-                search,
-                types,
-                statuses,
-                seasons,
-                ageRatings,
-                years,
-                lang,
-                genres,
-                studios,
-                sort,
-                order,
-            },
-        ],
-        initialPageParam: iPage || page,
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
         getNextPageParam: (lastPage: AnimeCatalogResponse) => {
             const nextPage = lastPage.pagination.page + 1;
             return nextPage > lastPage.pagination.pages ? undefined : nextPage;
         },
         queryFn: ({ pageParam = page }) =>
             getAnimeCatalog({
-                params: {
-                    query: search,
-                    years: years.length == 2 ? years : undefined,
-                    rating: ageRatings,
-                    season: seasons,
-                    status: statuses,
-                    media_type: types,
-                    sort: [
-                        `${sort}:${order}`,
-                        ...(sort === 'score' ? ['scored_by:desc'] : []),
-                    ],
-                    genres,
-                    studios,
-                    only_translated: Boolean(lang),
-                },
+                params,
                 page: Number(pageParam),
                 size: 20,
             }),
@@ -76,8 +56,8 @@ const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
             ...data,
             pages: data.pages.map((a) => ({
                 ...a,
-                list: convertAnimeList<API.Anime>({
-                    anime: a.list,
+                list: convertTitleList<API.Anime>({
+                    data: a.list,
                     titleLanguage: titleLanguage!,
                 }),
             })),
@@ -96,6 +76,23 @@ const useAnimeCatalog = ({ page, iPage, ...props }: Props) => {
         list,
         pagination,
     };
+};
+
+export const prefetchAnimeCatalog = (props: Props) => {
+    const queryClient = getQueryClient();
+
+    const { page, ...params } = paramsBuilder(props);
+
+    return queryClient.prefetchInfiniteQuery({
+        queryKey: key({ page, ...params }),
+        initialPageParam: props.iPage || page,
+        queryFn: ({ pageParam = page }) =>
+            getAnimeCatalog({
+                params,
+                page: Number(pageParam),
+                size: 20,
+            }),
+    });
 };
 
 export default useAnimeCatalog;

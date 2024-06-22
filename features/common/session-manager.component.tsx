@@ -15,7 +15,7 @@ const SessionManager = async ({ children }: Props) => {
     try {
         auth &&
             (await queryClient.fetchQuery({
-                queryKey: ['loggedUser'],
+                queryKey: ['logged-user'],
                 queryFn: ({ meta }) => getLoggedUserInfo({}),
             }));
     } catch (e) {

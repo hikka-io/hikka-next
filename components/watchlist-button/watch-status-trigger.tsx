@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { FC, createElement } from 'react';
 import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
@@ -5,25 +7,27 @@ import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
+import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
 import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
 interface WatchStatusTriggerProps {
     watch: API.Watch;
     disabled?: boolean;
-
-    deleteFromList(): void;
+    slug: string;
 }
 
 const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     watch,
     disabled,
-    deleteFromList,
+    slug,
 }) => {
+    const { mutate: deleteWatch } = useDeleteWatch();
+
     const handleDeleteFromList = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        deleteFromList();
+        deleteWatch({ params: { slug } });
     };
 
     return (

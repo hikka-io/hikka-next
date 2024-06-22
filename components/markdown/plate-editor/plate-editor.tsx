@@ -46,12 +46,14 @@ export interface EditorProps
     > {
     children?: ReactNode;
     initialValue?: string;
-    value?: string;
+    value?: string | Value;
     updateValue?: boolean;
     placeholder?: string;
     onChange?: (value: string) => void;
     className?: string;
+    editorClassName?: string;
     editorRef?: React.MutableRefObject<PlateEditor | null>;
+    disableToolbar?: boolean;
 }
 
 const setEditorNodes = <N extends EElementOrText<V>, V extends Value = Value>(
@@ -80,7 +82,9 @@ const Editor = forwardRef(
             placeholder,
             onChange,
             className,
+            editorClassName,
             updateValue,
+            disableToolbar,
             ...props
         }: EditorProps,
         ref: ForwardedRef<PlateEditor>,
@@ -118,43 +122,52 @@ const Editor = forwardRef(
                 <Plate
                     editor={editor}
                     editorRef={editorRef}
-                    value={deserializeValue(value)}
+                    value={
+                        typeof value === 'string'
+                            ? deserializeValue(value)
+                            : value
+                    }
                     initialValue={deserializeValue(initialValue)}
                     plugins={plugins}
                     onChange={onChange && handleOnChange}
                     {...props}
                 >
-                    <Toolbar className="w-full p-2">
-                        <ToolbarGroup noSeparator>
-                            <MarkToolbarButton
-                                size="icon-sm"
-                                tooltip="Жирний (⌘+B)"
-                                nodeType={MARK_BOLD}
-                            >
-                                <MaterialSymbolsFormatBoldRounded />
-                            </MarkToolbarButton>
-                            <MarkToolbarButton
-                                size="icon-sm"
-                                tooltip="Курсив (⌘+I)"
-                                nodeType={MARK_ITALIC}
-                            >
-                                <MaterialSymbolsFormatItalicRounded />
-                            </MarkToolbarButton>
-                        </ToolbarGroup>
-                        <ToolbarSeparator className="h-full" />
-                        <ToolbarGroup noSeparator>
-                            <LinkToolbarButton
-                                tooltip="Посилання (⌘+K)"
-                                size="icon-sm"
-                            />
-                            <SpoilerToolbarButton
-                                tooltip="Спойлер (⌘+Shift+S)"
-                                size="icon-sm"
-                            />
-                        </ToolbarGroup>
-                    </Toolbar>
+                    {!disableToolbar && (
+                        <Toolbar className="w-full p-2">
+                            <ToolbarGroup noSeparator>
+                                <MarkToolbarButton
+                                    size="icon-sm"
+                                    tooltip="Жирний (⌘+B)"
+                                    nodeType={MARK_BOLD}
+                                >
+                                    <MaterialSymbolsFormatBoldRounded />
+                                </MarkToolbarButton>
+                                <MarkToolbarButton
+                                    size="icon-sm"
+                                    tooltip="Курсив (⌘+I)"
+                                    nodeType={MARK_ITALIC}
+                                >
+                                    <MaterialSymbolsFormatItalicRounded />
+                                </MarkToolbarButton>
+                            </ToolbarGroup>
+                            <ToolbarSeparator className="h-full" />
+                            <ToolbarGroup noSeparator>
+                                <LinkToolbarButton
+                                    tooltip="Посилання (⌘+K)"
+                                    size="icon-sm"
+                                />
+                                <SpoilerToolbarButton
+                                    tooltip="Спойлер (⌘+Shift+S)"
+                                    size="icon-sm"
+                                />
+                            </ToolbarGroup>
+                        </Toolbar>
+                    )}
                     <PlateContent
-                        className="px-2 pb-2 pt-1 focus:outline-none"
+                        className={cn(
+                            'px-2 pb-2 pt-1 focus:outline-none',
+                            editorClassName,
+                        )}
                         placeholder={placeholder || 'Напишіть повідомлення...'}
                     />
                     {children}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import Header from '@/components/ui/header';
@@ -25,13 +25,6 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
     const items = groups.find((g) => g.id === group.id)?.items || [];
 
-    const poster = (content: API.MainContent) =>
-        'poster' in content ? content.poster : content.image;
-    const title = (content: API.MainContent) =>
-        'title_ua' in content
-            ? content.title_ua || content.title_en || content.title_ja
-            : content.name_ua || content.name_en;
-
     return (
         <div className="flex flex-col gap-4">
             {group.isGroup && (
@@ -51,8 +44,8 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                         content_type={content_type}
                         href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
                         key={item.id}
-                        poster={poster(item.content)}
-                        title={title(item.content)}
+                        image={item.content.image}
+                        title={item.content.title}
                         watch={
                             'watch' in item.content &&
                             item.content.watch.length > 0

@@ -13,7 +13,7 @@ import ScheduleFilters from '@/features/filters/schedule-filters.component';
 import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal';
 import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
 
-import getAnimeSchedule from '@/services/api/stats/getAnimeSchedule';
+import { prefetchAnimeSchedule } from '@/services/hooks/stats/use-anime-schedule';
 import _generateMetadata from '@/utils/generate-metadata';
 import getCurrentSeason from '@/utils/get-current-season';
 import getQueryClient from '@/utils/get-query-client';
@@ -40,18 +40,10 @@ const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
             ? searchParams.status
             : ['ongoing', 'announced'];
 
-    await queryClient.prefetchInfiniteQuery({
-        initialPageParam: 1,
-        queryKey: ['animeSchedule', { season, status, year, only_watch }],
-        queryFn: ({ pageParam = 1, meta }) =>
-            getAnimeSchedule({
-                page: pageParam,
-                params: {
-                    status,
-                    only_watch,
-                    airing_season: [season, year],
-                },
-            }),
+    await prefetchAnimeSchedule({
+        status,
+        only_watch,
+        airing_season: [season, year],
     });
 
     const dehydratedState = dehydrate(queryClient);
@@ -71,7 +63,7 @@ const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
                             </Button>
                         </ScheduleFiltersModal>
                     </div>
-                    <Card className="hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:block">
+                    <Card className="hidden w-full lg:block">
                         <ScheduleFilters />
                     </Card>
                 </Block>

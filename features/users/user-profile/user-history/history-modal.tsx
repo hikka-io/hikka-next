@@ -20,27 +20,24 @@ const Component = ({ className }: Props) => {
         });
 
     return (
-        <>
-            <hr className="-mx-6 mt-4 h-px w-auto bg-border" />
-            <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
-                {list?.map((item) => (
-                    <HistoryItem
-                        className="px-6 py-4"
-                        data={item}
-                        key={item.reference}
+        <div className="h-full w-auto flex-1 overflow-y-scroll">
+            {list?.map((item) => (
+                <HistoryItem
+                    className="px-6 py-4"
+                    data={item}
+                    key={item.reference}
+                />
+            ))}
+            {hasNextPage && (
+                <div className="px-4">
+                    <LoadMoreButton
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                        ref={ref}
                     />
-                ))}
-                {hasNextPage && (
-                    <div className="px-4">
-                        <LoadMoreButton
-                            isFetchingNextPage={isFetchingNextPage}
-                            fetchNextPage={fetchNextPage}
-                            ref={ref}
-                        />
-                    </div>
-                )}
-            </div>
-        </>
+                </div>
+            )}
+        </div>
     );
 };
 

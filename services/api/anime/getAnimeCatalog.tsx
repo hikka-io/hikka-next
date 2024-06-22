@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -8,7 +7,7 @@ export interface Params {
     query?: string | null;
     sort?: string[];
     years?: string[];
-    score?: string[];
+    score?: number[];
     media_type?: string[];
     rating?: string[];
     status?: string[];

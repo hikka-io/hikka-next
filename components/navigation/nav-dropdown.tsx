@@ -44,10 +44,13 @@ const Component = ({
     }
 
     return (
-        <NavigationMenu delayDuration={0}>
+        <NavigationMenu delayDuration={0} skipDelayDuration={0}>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger className="max-w-32 sm:max-w-none">
+                    <NavigationMenuTrigger
+                        onClick={(e) => isDesktop && e.preventDefault()}
+                        className="max-w-32 sm:max-w-none"
+                    >
                         {current && (
                             <P className="truncate text-sm">
                                 {current.title_ua}

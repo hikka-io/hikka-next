@@ -10,6 +10,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import { convertActivity } from '@/utils/convert-activity';
 
 interface Props {
@@ -46,15 +47,24 @@ const HistoryItem: FC<Props> = (props) => {
     return (
         <HorizontalCard
             title={data.content?.title || 'Загальне'}
-            href={data.content ? `/anime/${data.content.slug}` : '#'}
+            href={
+                data.content
+                    ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+                    : '#'
+            }
             description={activity.join(', ')}
             descriptionClassName="line-clamp-2"
-            descriptionHref={data.content && `/anime/${data.content.slug}`}
+            descriptionHref={
+                data.content &&
+                `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+            }
             createdAt={data.created}
             image={
-                data.content?.poster || (
-                    <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
-                )
+                data.content?.data_type === 'anime'
+                    ? data.content?.image
+                    : data.content?.image || (
+                          <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
+                      )
             }
             className={className}
         >

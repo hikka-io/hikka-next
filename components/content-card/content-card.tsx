@@ -21,6 +21,9 @@ import { cn } from '@/utils/utils';
 
 import { AspectRatio } from '../ui/aspect-ratio';
 import ContextMenuOverlay from './context-menu-overlay';
+import MangaTooltip from './manga-tooltip';
+import NovelTooltip from './novel-tooltip';
+import ReadStatus from './read-status';
 import WatchStatus from './watch-status';
 
 export interface Props {
@@ -29,10 +32,10 @@ export interface Props {
     description?: string;
     leftSubtitle?: string;
     rightSubtitle?: string;
-    poster?: string | ReactNode;
+    image?: string | ReactNode;
     href?: string | UrlObject;
     containerRatio?: number;
-    posterClassName?: string;
+    imageClassName?: string;
     containerClassName?: string;
     titleClassName?: string;
     className?: string;
@@ -41,10 +44,11 @@ export interface Props {
     onClick?: MouseEventHandler<HTMLAnchorElement> &
         MouseEventHandler<HTMLDivElement>;
     watch?: API.Watch;
+    read?: API.Read;
     slug?: string;
     content_type?: API.ContentType;
     withContextMenu?: boolean;
-    posterProps?: {
+    imageProps?: {
         priority?: boolean;
     };
 }
@@ -59,6 +63,10 @@ const Tooltip: FC<TooltipProps> = ({ children, content_type, slug }) => {
     switch (content_type) {
         case 'anime':
             return <AnimeTooltip slug={slug}>{children}</AnimeTooltip>;
+        case 'manga':
+            return <MangaTooltip slug={slug}>{children}</MangaTooltip>;
+        case 'novel':
+            return <NovelTooltip slug={slug}>{children}</NovelTooltip>;
         case 'character':
             return <CharacterTooltip slug={slug}>{children}</CharacterTooltip>;
         case 'person':
@@ -72,12 +80,12 @@ const Content = memo(
     forwardRef<HTMLDivElement, Props>(
         (
             {
-                poster,
+                image,
                 title,
                 description,
                 leftSubtitle,
                 rightSubtitle,
-                posterClassName,
+                imageClassName,
                 containerClassName,
                 containerRatio,
                 titleClassName,
@@ -87,10 +95,11 @@ const Content = memo(
                 disableChildrenLink,
                 onClick,
                 watch,
+                read,
                 slug,
                 content_type,
                 withContextMenu,
-                posterProps,
+                imageProps,
                 ...props
             },
             ref,
@@ -120,23 +129,23 @@ const Content = memo(
                                 href={href || ''}
                                 className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/60"
                             >
-                                {poster ? (
-                                    typeof poster === 'string' ? (
+                                {image ? (
+                                    typeof image === 'string' ? (
                                         <Image
-                                            src={poster}
+                                            src={image}
                                             width={150}
                                             height={225}
                                             className={cn(
                                                 'size-full object-cover',
-                                                posterClassName,
+                                                imageClassName,
                                             )}
                                             alt="Poster"
-                                            {...(posterProps
-                                                ? posterProps
+                                            {...(imageProps
+                                                ? imageProps
                                                 : { loading: 'lazy' })}
                                         />
                                     ) : (
-                                        poster
+                                        image
                                     )
                                 ) : (
                                     <MaterialSymbolsImageNotSupportedOutlineRounded className="text-4xl text-muted-foreground" />
@@ -144,6 +153,7 @@ const Content = memo(
 
                                 {!disableChildrenLink && children}
                                 {watch && <WatchStatus watch={watch} />}
+                                {read && <ReadStatus read={read} />}
                             </Comp>
                             {disableChildrenLink && children}
                         </AspectRatio>

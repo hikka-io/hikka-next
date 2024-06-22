@@ -18,6 +18,7 @@ import {
     EDIT_PARAMS,
     EDIT_STATUS,
 } from '@/utils/constants';
+import { getTitle } from '@/utils/title-adapter';
 
 interface Props {
     edit: API.Edit;
@@ -61,9 +62,10 @@ const EditRow: FC<Props> = ({ edit }) => {
                             edit.content.slug
                         }`}
                     >
-                        {edit.content.data_type === 'anime'
-                            ? edit.content.title
-                            : edit.content.name_ua || edit.content.name_en}
+                        {getTitle({
+                            data: edit.content,
+                            titleLanguage: 'title_ua',
+                        })}
                     </Link>
                 </div>
                 <Label className="text-xs text-muted-foreground">

@@ -109,7 +109,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                         }
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
-                        poster={anime.poster}
+                        image={anime.image}
                         title={anime.title}
                     />
                 ))}

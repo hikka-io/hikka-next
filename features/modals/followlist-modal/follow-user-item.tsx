@@ -2,7 +2,6 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import * as React from 'react';
 import { FC } from 'react';
 import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
@@ -21,7 +20,7 @@ const FollowUserItem: FC<Props> = ({ user }) => {
     const queryClient = useQueryClient();
 
     const loggedUser: API.User | undefined = queryClient.getQueryData([
-        'loggedUser',
+        'logged-user',
     ]);
 
     const { mutate: mutateFollow } = useMutation({

@@ -1,20 +1,31 @@
+import { QueryKey } from '@tanstack/react-query';
+
 import getCharacterVoices, {
     Params,
 } from '@/services/api/characters/getCharacterVoices';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
+import getQueryClient from '@/utils/get-query-client';
+import { convertTitle } from '@/utils/title-adapter';
 
-const usePersonCharacters = ({ slug }: Params) => {
+export const paramsBuilder = (props: Params): Params => ({
+    slug: props.slug || '',
+});
+
+export const key = (params: Params): QueryKey => [
+    'character-voices',
+    params.slug,
+];
+
+const useCharacterVoices = (props: Params) => {
     const { titleLanguage } = useSettingsContext();
+    const params = paramsBuilder(props);
 
     return useInfiniteList({
-        queryKey: ['characterVoices', slug],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getCharacterVoices({
-                params: {
-                    slug,
-                },
+                params,
                 page: pageParam,
             }),
         select: (data) => ({
@@ -23,8 +34,8 @@ const usePersonCharacters = ({ slug }: Params) => {
                 ...a,
                 list: a.list.map((ch) => ({
                     ...ch,
-                    anime: convertAnime<API.AnimeInfo>({
-                        anime: ch.anime,
+                    anime: convertTitle<API.AnimeInfo>({
+                        data: ch.anime,
                         titleLanguage: titleLanguage!,
                     }),
                 })),
@@ -33,4 +44,19 @@ const usePersonCharacters = ({ slug }: Params) => {
     });
 };
 
-export default usePersonCharacters;
+export const prefetchCharacterVoices = (props: Params) => {
+    const queryClient = getQueryClient();
+    const params = paramsBuilder(props);
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getCharacterVoices({
+                params,
+                page: pageParam,
+            }),
+    });
+};
+
+export default useCharacterVoices;

@@ -1,12 +1,38 @@
-import getFollowingWatchList from '@/services/api/watch/getFollowingWatchList';
+import getFollowingWatchList, {
+    Params,
+} from '@/services/api/watch/getFollowingWatchList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
+import getQueryClient from '@/utils/get-query-client';
 
-const useFollowingWatchList = ({ slug }: { slug: string }) => {
+export const paramsBuilder = (props: Params): Params => ({
+    slug: props.slug,
+});
+
+export const key = (params: Params) => ['following-watch-list', params.slug];
+
+const useFollowingWatchList = (props: Params) => {
+    const params = paramsBuilder(props);
+
     return useInfiniteList({
-        queryKey: ['followingWatchList', slug],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getFollowingWatchList({
-                params: { slug },
+                params,
+                page: pageParam,
+            }),
+    });
+};
+
+export const prefetchFollowingWatchList = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getFollowingWatchList({
+                params,
                 page: pageParam,
             }),
     });

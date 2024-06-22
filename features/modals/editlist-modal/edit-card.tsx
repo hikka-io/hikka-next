@@ -27,7 +27,7 @@ const Component = ({ edit, href, ...props }: Props) => {
             {...props}
             href={href}
             className={clsx(
-                'flex w-full items-center gap-4 px-8 py-4',
+                'flex w-full items-center gap-4 px-6 py-4',
                 edit.author
                     ? 'hover:cursor-pointer hover:bg-muted'
                     : 'pointer-events-none',

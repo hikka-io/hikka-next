@@ -18,7 +18,7 @@ import WatchListButton from '@/components/watchlist-button/watchlist-button';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import useSession from '@/services/hooks/auth/use-session';
-import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 interface TooltipDataProps {
     slug: string;
@@ -85,7 +85,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                     <div className="flex flex-1 flex-wrap items-center gap-2">
                         {data.media_type && (
                             <Label>
-                                {MEDIA_TYPE[data.media_type].title_ua}
+                                {ANIME_MEDIA_TYPE[data.media_type].title_ua}
                             </Label>
                         )}
                         <Badge

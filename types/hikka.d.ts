@@ -56,6 +56,28 @@ declare global {
             }[];
         };
 
+        type MangaEditParams = {
+            title_ua?: string;
+            title_en?: string;
+            title_original?: string;
+            synopsis_en?: string;
+            synopsis_ua?: string;
+            synonyms?: {
+                value: string;
+            }[];
+        };
+
+        type NovelEditParams = {
+            title_ua?: string;
+            title_en?: string;
+            title_original?: string;
+            synopsis_en?: string;
+            synopsis_ua?: string;
+            synonyms?: {
+                value: string;
+            }[];
+        };
+
         type CharacterEditParams = {
             name_ua: string;
             name_en: string;
@@ -78,10 +100,10 @@ declare global {
             created: number;
             href: string;
             seen: boolean;
-            poster?: ReactNode;
+            image?: ReactNode;
         };
 
-        type WatchStat = {
+        type ListStat = {
             percentage: number;
             value: number;
             icon?: ReactNode;

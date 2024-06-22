@@ -55,7 +55,7 @@ const Anime: FC<Props> = ({ extended }) => {
                                 res.watch.length > 0 ? res.watch[0] : undefined
                             }
                             title={res.title}
-                            poster={res.poster}
+                            image={res.image}
                             href={`/anime/${res.slug}`}
                             slug={res.slug}
                             content_type="anime"

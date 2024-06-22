@@ -29,7 +29,8 @@ const UserCollections: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
 
     const { list: collections } = useUserCollections({
-        username: String(params.username),
+        author: String(params.username),
+        sort: 'created',
     });
 
     if (!collections) {

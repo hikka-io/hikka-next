@@ -11,6 +11,7 @@ import Details from '@/features/edit/edit-content/details';
 import General from '@/features/edit/edit-content/general';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import { getTitle } from '@/utils/title-adapter';
 
 interface Props {
     slug: string;
@@ -27,12 +28,8 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
 
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
-    const poster =
-        content.data_type === 'anime' ? content.poster : content.image;
-    const title =
-        content.data_type === 'anime'
-            ? content.title!
-            : content.name_ua || content.name_en;
+    const image = content.data_type === 'anime' ? content.image : content.image;
+    const title = getTitle({ data: content, titleLanguage: 'title_ua' });
 
     return (
         <Block>
@@ -53,7 +50,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
                 </Button>
             </Header>
             {type === 'general' && (
-                <General href={link} poster={poster} title={title} />
+                <General href={link} image={image} title={title} />
             )}
             {type === 'details' && <Details content={content} />}
         </Block>

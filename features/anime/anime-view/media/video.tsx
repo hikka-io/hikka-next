@@ -45,7 +45,7 @@ const Video: FC<Props> = ({ extended, videos }) => {
                         key={video.url}
                         href={video.url || '#'}
                         title={video.title}
-                        poster={thumb}
+                        image={thumb}
                         containerRatio={1.7}
                         description={
                             VIDEO[video.video_type].title_ua ||

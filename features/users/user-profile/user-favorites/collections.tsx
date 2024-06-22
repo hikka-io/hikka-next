@@ -37,8 +37,6 @@ const Collections: FC<Props> = ({ extended }) => {
     }
 
     const filteredData = (extended ? list : list?.slice(0, 6)) || [];
-    const poster = (content: API.MainContent) =>
-        'poster' in content ? content.poster : content.image;
 
     return (
         <>
@@ -54,7 +52,7 @@ const Collections: FC<Props> = ({ extended }) => {
                         <ContentCard
                             key={res.reference}
                             title={res.title}
-                            poster={poster(res.collection[0].content)}
+                            image={res.collection[0].content.image}
                             href={`/collections/${res.reference}`}
                             titleClassName={cn(
                                 res.spoiler && 'blur hover:blur-none',

@@ -15,8 +15,7 @@ import {
 import WatchEditModal from '@/features/modals/watch-edit-modal';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
-import useAddToList from '@/services/hooks/watch/use-add-to-list';
-import useDeleteFromList from '@/services/hooks/watch/use-delete-from-list';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import useWatch from '@/services/hooks/watch/use-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
@@ -55,7 +54,7 @@ const OPTIONS = [
     })),
 ];
 
-const Component = ({ slug, additional, disabled }: Props) => {
+const Component = ({ slug, disabled }: Props) => {
     const { openModal } = useModalContext();
 
     const { data: watch, isError: watchError } = useWatch(
@@ -70,8 +69,7 @@ const Component = ({ slug, additional, disabled }: Props) => {
         },
         { enabled: !disabled },
     );
-    const { mutate: addToList } = useAddToList({ slug });
-    const { mutate: deleteFromList } = useDeleteFromList({ slug });
+    const { mutate: addWatch } = useAddWatch();
 
     const openWatchEditModal = () => {
         if (anime) {
@@ -101,15 +99,21 @@ const Component = ({ slug, additional, disabled }: Props) => {
         }
 
         if (options[0] === 'completed') {
-            addToList({
-                status: 'completed',
-                ...params,
-                episodes: anime?.episodes_total,
+            addWatch({
+                params: {
+                    slug,
+                    status: 'completed',
+                    ...params,
+                    episodes: anime?.episodes_total,
+                },
             });
         } else {
-            addToList({
-                status: options[0] as API.WatchStatus,
-                ...params,
+            addWatch({
+                params: {
+                    slug,
+                    status: options[0] as API.WatchStatus,
+                    ...params,
+                },
             });
         }
     };
@@ -123,10 +127,10 @@ const Component = ({ slug, additional, disabled }: Props) => {
                 <WatchStatusTrigger
                     watch={watch!}
                     disabled={disabled}
-                    deleteFromList={deleteFromList}
+                    slug={slug}
                 />
             ) : (
-                <NewStatusTrigger disabled={disabled} addToList={addToList} />
+                <NewStatusTrigger slug={slug} disabled={disabled} />
             )}
 
             <SelectContent>

@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import React, { FC, memo, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever';
 import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator';
 
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;
-    content: API.Anime | API.Character | API.Person;
+    content: API.MainContent & { title?: string };
     onRemove: () => void;
 }
 
@@ -22,17 +22,11 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
         transition,
     };
 
-    const poster = 'poster' in content ? content.poster : content.image;
-    const title =
-        'title_ua' in content
-            ? content.title_ua || content.title_en || content.title_ja
-            : content.name_ua || content.name_en;
-
     return (
         <div ref={setNodeRef} style={style} {...attributes}>
             {useMemo(
                 () => (
-                    <ContentCard poster={poster} title={title}>
+                    <ContentCard image={content.image} title={content.title}>
                         <div className="absolute bottom-0 left-0 w-full">
                             <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
                                 <Button

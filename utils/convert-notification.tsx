@@ -104,8 +104,8 @@ const commentReply = (
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
-        poster: (
-            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
         ),
     };
 };
@@ -126,8 +126,8 @@ const commentVote = (
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
-        poster: (
-            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
         ),
     };
 };
@@ -142,8 +142,8 @@ const commentTag = (
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
-        poster: (
-            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
         ),
     };
 };
@@ -158,8 +158,8 @@ const editComment = (
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
-        poster: (
-            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
         ),
     };
 };
@@ -203,11 +203,11 @@ const scheduleAnime = (
             notification.data.after.episodes_released,
         ),
         href: `/anime/${notification.data.slug}`,
-        poster: (
+        image: (
             <ContentCard
                 containerRatio={1}
                 className="w-10"
-                poster={notification.data.poster}
+                image={notification.data.image}
             />
         ),
     };
@@ -222,8 +222,8 @@ const follow = (
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: `/u/${username}`,
-        poster: (
-            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
         ),
     };
 };
@@ -237,8 +237,8 @@ const collectionVote = (
         ...getInitialData(notification),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: `/collections/${slug}`,
-        poster: (
-            <ContentCard containerRatio={1} className="w-10" poster={avatar} />
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
         ),
     };
 };

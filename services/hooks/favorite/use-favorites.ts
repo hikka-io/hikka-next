@@ -1,26 +1,34 @@
 import getFavouriteList, {
+    FavoriteContent,
     Params,
 } from '@/services/api/favourite/getFavouriteList';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
+import getQueryClient from '@/utils/get-query-client';
+import { convertTitle } from '@/utils/title-adapter';
 
-const useFavorites = <TContent extends API.Content>({
-    username,
-    content_type,
-}: Params) => {
+export const paramsBuilder = (props: Params): Params => ({
+    username: props.username,
+    content_type: props.content_type,
+});
+
+export const key = (params: Params) => [
+    'favorites',
+    params.username,
+    { content_type: params.content_type },
+];
+
+const useFavorites = <TContent extends API.Content>(props: Params) => {
     const { titleLanguage } = useSettingsContext();
+    const params = paramsBuilder(props);
 
     return useInfiniteList({
-        queryKey: ['favorites', username, { content_type }],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getFavouriteList<TContent>({
                 page: pageParam,
                 size: 18,
-                params: {
-                    username,
-                    content_type,
-                },
+                params,
             }),
         staleTime: 0,
         select: (data) => ({
@@ -29,15 +37,29 @@ const useFavorites = <TContent extends API.Content>({
                 ...a,
                 list: a.list.map((s) => ({
                     ...s,
-                    ...(s.data_type === 'anime'
-                        ? convertAnime<API.AnimeInfo>({
-                              titleLanguage: titleLanguage!,
-                              anime: s as API.AnimeInfo,
-                          })
-                        : {}),
+                    ...convertTitle<FavoriteContent>({
+                        titleLanguage: titleLanguage!,
+                        data: s,
+                    }),
                 })),
             })),
         }),
+    });
+};
+
+export const prefetchFavorites = (props: Params) => {
+    const queryClient = getQueryClient();
+    const params = paramsBuilder(props);
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getFavouriteList({
+                page: pageParam,
+                size: 18,
+                params,
+            }),
     });
 };
 

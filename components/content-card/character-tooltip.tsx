@@ -60,7 +60,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
         <div className="flex w-96 gap-4 text-left">
             <ContentCard
                 className="w-20"
-                poster={data.image}
+                image={data.image}
                 containerRatio={0.7}
                 href={'/characters/' + data.slug}
             />
@@ -82,7 +82,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 <div className="flex flex-col gap-2">
                     <ContentCard
                         className="w-10"
-                        poster={characterAnime.anime.poster}
+                        image={characterAnime.anime.image}
                         containerRatio={0.7}
                         href={'/anime/' + characterAnime.anime.slug}
                     />

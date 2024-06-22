@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import WatchEditModal from '@/features/modals/watch-edit-modal';
 
 import useSession from '@/services/hooks/auth/use-session';
-import useAddToList from '@/services/hooks/watch/use-add-to-list';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 
@@ -21,7 +21,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
     const { user: loggedUser } = useSession();
     const { enqueueSnackbar } = useSnackbar();
     const { openModal } = useModalContext();
-    const { mutate: addToList } = useAddToList({ slug: item.anime.slug });
+    const { mutate: addWatch } = useAddWatch();
 
     const watch = item.anime.watch.length > 0 ? item.anime.watch[0] : null;
     const watchStatus = watch ? WATCH_STATUS[watch.status] : null;
@@ -38,7 +38,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
             return;
         }
 
-        addToList({ status: 'planned' });
+        addWatch({ params: { status: 'planned', slug: item.anime.slug } });
 
         enqueueSnackbar('Аніме додано до Вашого списку', {
             variant: 'success',

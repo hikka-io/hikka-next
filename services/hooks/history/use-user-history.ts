@@ -1,17 +1,25 @@
 import getUserHistory, { Params } from '@/services/api/history/getUserHistory';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnime } from '@/utils/anime-adapter';
+import getQueryClient from '@/utils/get-query-client';
+import { convertTitle } from '@/utils/title-adapter';
 
-const useUserHistory = ({ username }: Params) => {
+export const paramsBuilder = (props: Params): Params => ({
+    username: props.username,
+});
+
+export const key = (params: Params) => ['history', params.username];
+
+const useUserHistory = (props: Params) => {
     const { titleLanguage } = useSettingsContext();
+    const params = paramsBuilder(props);
 
     return useInfiniteList({
-        queryKey: ['history', username],
+        queryKey: key(params),
         queryFn: ({ pageParam }) =>
             getUserHistory({
                 page: pageParam,
-                params: { username },
+                params,
             }),
         select: (data) => ({
             ...data,
@@ -21,14 +29,29 @@ const useUserHistory = ({ username }: Params) => {
                     ...h,
                     content:
                         h.content && 'title_ua' in h.content
-                            ? convertAnime<API.Anime>({
-                                  anime: h.content,
+                            ? convertTitle({
+                                  data: h.content,
                                   titleLanguage: titleLanguage!,
                               })
                             : h.content,
                 })),
             })),
         }),
+    });
+};
+
+export const prefetchUserHistory = (props: Params) => {
+    const queryClient = getQueryClient();
+    const params = paramsBuilder(props);
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getUserHistory({
+                page: pageParam,
+                params,
+            }),
     });
 };
 

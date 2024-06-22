@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import * as React from 'react';
 import MaterialSymbolsKidStar from '~icons/material-symbols/kid-star';
 
 import Small from '@/components/typography/small';
@@ -20,7 +19,7 @@ const Component = ({ user, rank, accepted, denied, closed }: Props) => {
     return (
         <div
             className={cn(
-                'relative flex min-w-0 flex-1 items-center gap-4 rounded-md p-4',
+                'relative flex min-w-0 flex-1 items-center gap-4 rounded-md px-6 py-4',
             )}
         >
             <Label className="text-muted-foreground">{rank}</Label>

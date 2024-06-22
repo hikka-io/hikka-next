@@ -18,7 +18,7 @@ const Cover = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <ContentCard poster={character.image}>
+            <ContentCard image={character.image}>
                 <div className="absolute bottom-2 right-2 z-[1]">
                     <FavoriteButton
                         slug={character.slug}

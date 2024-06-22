@@ -1,7 +1,11 @@
-import MaterialSymbolsLightGridViewRounded from '~icons/material-symbols-light/grid-view-rounded';
+import MaterialSymbolsBookmarkFlagOutlineRounded from '~icons/material-symbols/bookmark-flag-outline-rounded';
+import MaterialSymbolsBookmarkOutline from '~icons/material-symbols/bookmark-outline';
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded';
+import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
+import MaterialSymbolsPalette from '~icons/material-symbols/palette';
+import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
 
 import Completed from '@/components/icons/watch-status/completed';
@@ -9,6 +13,39 @@ import Dropped from '@/components/icons/watch-status/dropped';
 import OnHold from '@/components/icons/watch-status/on-hold';
 import Planned from '@/components/icons/watch-status/planned';
 import Watching from '@/components/icons/watch-status/watching';
+
+export const READ_STATUS: Hikka.FilterProperty<API.ReadStatus> = {
+    planned: {
+        title_ua: 'Заплановано',
+        title_en: 'Planned',
+        icon: Planned,
+        color: '#AB872B',
+    },
+    completed: {
+        title_ua: 'Завершено',
+        title_en: 'Completed',
+        icon: Completed,
+        color: '#399A54',
+    },
+    on_hold: {
+        title_ua: 'Відкладено',
+        title_en: 'On Hold',
+        icon: MaterialSymbolsBookmarkFlagOutlineRounded,
+        color: '#5C5C5C',
+    },
+    dropped: {
+        title_ua: 'Закинуто',
+        title_en: 'Dropped',
+        icon: Dropped,
+        color: '#952828',
+    },
+    reading: {
+        title_ua: 'Читаю',
+        title_en: 'Reading',
+        icon: MaterialSymbolsBookmarkOutline,
+        color: '#2B94AB',
+    },
+};
 
 export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
     planned: {
@@ -97,14 +134,14 @@ export const RELEASE_STATUS: Hikka.FilterProperty<API.Status> = {
         color: '#AB872B',
     },
 
-    /*paused: {
+    paused: {
         title_ua: 'Зупинено',
         title_en: 'Paused',
         color: '#5C5C5C',
-    },*/
+    },
 };
 
-export const MEDIA_TYPE: Hikka.FilterProperty<API.MediaType> = {
+export const ANIME_MEDIA_TYPE: Hikka.FilterProperty<API.AnimeMediaType> = {
     special: {
         title_ua: 'Спешл',
         title_en: 'Special',
@@ -128,6 +165,40 @@ export const MEDIA_TYPE: Hikka.FilterProperty<API.MediaType> = {
     music: {
         title_ua: 'Музика',
         title_en: 'Music',
+    },
+};
+
+export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<API.MangaMediaType> = {
+    one_shot: {
+        title_ua: 'Ваншот',
+        title_en: 'One Shot',
+    },
+    doujin: {
+        title_ua: 'Доджінші',
+        title_en: 'Doujin',
+    },
+    manhua: {
+        title_ua: 'Манхуа',
+        title_en: 'Manhua',
+    },
+    manhwa: {
+        title_ua: 'Манхва',
+        title_en: 'Manhwa',
+    },
+    manga: {
+        title_ua: 'Манґа',
+        title_en: 'Manga',
+    },
+};
+
+export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<API.NovelMediaType> = {
+    light_novel: {
+        title_ua: 'Ранобе',
+        title_en: 'Light Novel',
+    },
+    novel: {
+        title_ua: 'Веб-новела',
+        title_en: 'Novel',
     },
 };
 
@@ -393,9 +464,23 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
     },
     {
         slug: 'anime',
-        title_ua: 'Каталог',
+        title_ua: 'Аніме',
         url: '/anime',
-        icon: MaterialSymbolsLightGridViewRounded,
+        icon: MaterialSymbolsPlayArrowRounded,
+        visible: true,
+    },
+    {
+        slug: 'manga',
+        title_ua: 'Манґа',
+        url: '/manga',
+        icon: MaterialSymbolsPalette,
+        visible: true,
+    },
+    {
+        slug: 'novel',
+        title_ua: 'Ранобе',
+        url: '/novel',
+        icon: MaterialSymbolsMenuBookRounded,
         visible: true,
     },
     {
@@ -442,6 +527,32 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/schedule',
         icon: MaterialSymbolsCalendarClockRounded,
         visible: true,
+    },
+];
+
+export const NOVEL_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
+    },
+];
+
+export const MANGA_NAV_ROUTES: Hikka.NavRoute[] = [
+    {
+        slug: 'general',
+        title_ua: 'Загальне',
+        url: '',
+    },
+    {
+        slug: 'characters',
+        title_ua: 'Персонажі',
+        url: '/characters',
     },
 ];
 
@@ -517,8 +628,18 @@ export const USER_NAV_ROUTES: Hikka.NavRoute[] = [
     },
     {
         slug: 'list',
-        title_ua: 'Список',
-        url: '/list',
+        title_ua: 'Список аніме',
+        url: '/list/anime',
+    },
+    {
+        slug: 'list',
+        title_ua: 'Список манґи',
+        url: '/list/manga',
+    },
+    {
+        slug: 'list',
+        title_ua: 'Список ранобе',
+        url: '/list/novel',
     },
     {
         slug: 'favorites',
@@ -592,8 +713,114 @@ export const ANIME_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
+export const MANGA_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+    title: [
+        {
+            slug: 'title_ua',
+            title: 'Українською',
+            placeholder: 'Введіть назву українською',
+            type: 'input',
+        },
+        {
+            slug: 'title_en',
+            title: 'Англійською',
+            placeholder: 'Введіть назву англійською',
+            type: 'input',
+        },
+        {
+            slug: 'title_original',
+            title: 'Японською',
+            placeholder: 'Введіть назву японською',
+            type: 'input',
+        },
+    ],
+
+    synopsis: [
+        {
+            slug: 'synopsis_ua',
+            title: 'Українською',
+            placeholder: 'Введіть опис українською',
+            type: 'markdown',
+        },
+        {
+            slug: 'synopsis_en',
+            title: 'Англійською',
+            placeholder: 'Введіть опис англійською',
+            type: 'markdown',
+        },
+    ],
+    synonyms: [
+        {
+            slug: 'synonyms',
+            title: 'Синонім',
+            placeholder: 'Введіть новий синонім',
+            type: 'list',
+        },
+    ],
+};
+
+export const MANGA_EDIT_GROUPS: Record<string, string> = {
+    title: 'Назва',
+    synopsis: 'Опис',
+    synonyms: 'Синоніми',
+};
+
+export const NOVEL_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+    title: [
+        {
+            slug: 'title_ua',
+            title: 'Українською',
+            placeholder: 'Введіть назву українською',
+            type: 'input',
+        },
+        {
+            slug: 'title_en',
+            title: 'Англійською',
+            placeholder: 'Введіть назву англійською',
+            type: 'input',
+        },
+        {
+            slug: 'title_original',
+            title: 'Японською',
+            placeholder: 'Введіть назву японською',
+            type: 'input',
+        },
+    ],
+
+    synopsis: [
+        {
+            slug: 'synopsis_ua',
+            title: 'Українською',
+            placeholder: 'Введіть опис українською',
+            type: 'markdown',
+        },
+        {
+            slug: 'synopsis_en',
+            title: 'Англійською',
+            placeholder: 'Введіть опис англійською',
+            type: 'markdown',
+        },
+    ],
+    synonyms: [
+        {
+            slug: 'synonyms',
+            title: 'Синонім',
+            placeholder: 'Введіть новий синонім',
+            type: 'list',
+        },
+    ],
+};
+
+export const NOVEL_EDIT_GROUPS: Record<string, string> = {
+    title: 'Назва',
+    synopsis: 'Опис',
+    synonyms: 'Синоніми',
+};
+
 export const EDIT_PARAMS: Record<
     | keyof Hikka.AnimeEditParams
+    | keyof Hikka.MangaEditParams
+    | keyof Hikka.NovelEditParams
     | keyof Hikka.CharacterEditParams
     | keyof Hikka.PersonEditParams,
     string
@@ -606,6 +833,7 @@ export const EDIT_PARAMS: Record<
     title_ua: 'Назва UA',
     title_en: 'Назва EN',
     title_ja: 'Назва JA',
+    title_original: 'Назва JA',
     synopsis_ua: 'Опис UA',
     synopsis_en: 'Опис EN',
     name_native: 'Рідне імʼя',
@@ -695,7 +923,7 @@ export const PERSON_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
+export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType | 'user'> = {
     anime: {
         title_ua: 'Аніме',
         title_en: 'Anime',
@@ -719,6 +947,18 @@ export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType> = {
     collection: {
         title_ua: 'Колекція',
         title_en: 'Collection',
+    },
+    manga: {
+        title_ua: 'Манґа',
+        title_en: 'Manga',
+    },
+    novel: {
+        title_ua: 'Ранобе',
+        title_en: 'Ranobe',
+    },
+    user: {
+        title_ua: 'Користувач',
+        title_en: 'User',
     },
 };
 
@@ -752,12 +992,22 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     edit: '/edit',
     comment: '/comments',
     collection: '/collections',
+    manga: '/manga',
+    novel: '/novel',
 };
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [
     {
         value: 'anime',
         label: 'Аніме',
+    },
+    {
+        value: 'manga',
+        label: 'Манґа',
+    },
+    {
+        value: 'novel',
+        label: 'Ранобе',
     },
     {
         value: 'character',

@@ -12,8 +12,10 @@ import UserSearchList from '@/features/modals/search-modal/user-search-list';
 import useDebounce from '@/services/hooks/use-debounce';
 
 import AnimeSearchList from './anime-search-list';
+import useSearchModal from './hooks/useSearchModal';
+import MangaSearchList from './manga-search-list';
+import NovelSearchList from './novel-search-list';
 import SearchButton from './search-button';
-import useSearchModal from './useSearchModal';
 
 interface Props {
     onClick?: (content: API.MainContent | API.User) => void;
@@ -40,37 +42,53 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
         onClick && onClick(content);
     };
 
-    useSearchModal({ setOpen, onClick, content_type, setSearchType });
+    useSearchModal({ open, setOpen, onClick, content_type, setSearchType });
 
     return (
         <Fragment>
             <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
-                className="flex max-h-[90dvh] max-w-3xl"
+                className="mt-16 flex max-h-[80dvh] max-w-3xl"
                 containerClassName="p-0"
+                overlayClassName="items-start"
                 open={open}
                 onOpenChange={setOpen}
                 shouldFilter={false}
             >
-                <div className="flex p-3 dark:bg-secondary/30">
-                    <SearchToggle
-                        inputRef={inputRef}
-                        disabled={Boolean(content_type)}
-                        setType={setSearchType}
-                        type={searchType}
-                    />
-                </div>
                 <CommandInput
                     ref={inputRef}
                     value={searchValue}
                     onValueChange={(value) => setSearchValue(value)}
                     placeholder="Пошук..."
                     autoFocus
-                    containerClassName="dark:bg-secondary/30"
-                />
+                    containerClassName="dark:bg-secondary/30 gap-3"
+                >
+                    <SearchToggle
+                        inputRef={inputRef}
+                        disabled={Boolean(content_type)}
+                        setType={setSearchType}
+                        type={searchType}
+                    />
+                </CommandInput>
 
                 {searchType === 'anime' && (
                     <AnimeSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'manga' && (
+                    <MangaSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'novel' && (
+                    <NovelSearchList
                         onDismiss={onDismiss}
                         value={value}
                         type={type}

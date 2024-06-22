@@ -17,7 +17,7 @@ const AnimeListNavbar = () => {
                 <Search />
             </Suspense>
             <div className="lg:hidden">
-                <FiltersModal type="anime" />
+                <FiltersModal sort_type="anime" />
             </div>
         </div>
     );

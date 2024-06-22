@@ -45,7 +45,7 @@ const PersonAnimeList: FC<{ list?: PersonAnime[]; slug: string }> = ({
                         className="w-10"
                         href={`/anime/${anime.slug}`}
                         key={anime.slug}
-                        poster={anime.poster}
+                        image={anime.image}
                         slug={anime.slug}
                         content_type={anime.data_type}
                         containerRatio={0.7}
@@ -55,7 +55,7 @@ const PersonAnimeList: FC<{ list?: PersonAnime[]; slug: string }> = ({
                     <ContentCard
                         className="w-10"
                         href={`/people/${slug}`}
-                        poster={
+                        image={
                             <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                         }
                         containerRatio={0.7}
@@ -82,7 +82,7 @@ const PersonCharactersList: FC<{ list?: PersonCharacter[]; slug: string }> = ({
                         className="w-10"
                         href={`/characters/${character.slug}`}
                         key={character.slug}
-                        poster={character.image}
+                        image={character.image}
                         slug={character.slug}
                         content_type={character.data_type}
                         containerRatio={0.7}
@@ -92,7 +92,7 @@ const PersonCharactersList: FC<{ list?: PersonCharacter[]; slug: string }> = ({
                     <ContentCard
                         className="w-10"
                         href={`/people/${slug}`}
-                        poster={
+                        image={
                             <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                         }
                         containerRatio={0.7}
@@ -150,7 +150,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
         <div className="flex w-96 gap-4 text-left">
             <ContentCard
                 className="w-20"
-                poster={data.image}
+                image={data.image}
                 containerRatio={0.7}
                 href={`/people/${data.slug}`}
             />

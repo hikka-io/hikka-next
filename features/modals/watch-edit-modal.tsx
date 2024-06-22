@@ -19,8 +19,8 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useAddToList from '@/services/hooks/watch/use-add-to-list';
-import useDeleteFromList from '@/services/hooks/watch/use-delete-from-list';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
+import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
 import useWatch from '@/services/hooks/watch/use-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
@@ -41,12 +41,10 @@ const Component = ({ slug }: Props) => {
     const { closeModal } = useModalContext();
     const { data: watch } = useWatch({ slug });
 
-    const { mutate: addToList, isPending: addToListLoading } = useAddToList({
-        slug,
-    });
+    const { mutate: addWatch, isPending: addToListLoading } = useAddWatch();
 
-    const { mutate: deleteFromList, isPending: deleteFromListLoading } =
-        useDeleteFromList({ slug });
+    const { mutate: deleteWatch, isPending: deleteFromListLoading } =
+        useDeleteWatch();
 
     const [selectedStatus, setSelectedStatus] = useState<
         API.WatchStatus | undefined
@@ -58,7 +56,7 @@ const Component = ({ slug }: Props) => {
     });
 
     const onDelete = async () => {
-        deleteFromList();
+        deleteWatch({ params: { slug } });
         closeModal();
     };
 
@@ -161,7 +159,13 @@ const Component = ({ slug }: Props) => {
                     <Button
                         variant="accent"
                         onClick={form.handleSubmit((data) =>
-                            addToList({ status: selectedStatus!, ...data }),
+                            addWatch({
+                                params: {
+                                    slug,
+                                    status: selectedStatus!,
+                                    ...data,
+                                },
+                            }),
                         )}
                         type="submit"
                         disabled={addToListLoading || deleteFromListLoading}

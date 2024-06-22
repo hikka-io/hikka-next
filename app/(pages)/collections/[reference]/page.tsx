@@ -12,6 +12,10 @@ import CollectionInfo from '@/features/collections/collection-view/collection-in
 import CollectionTitle from '@/features/collections/collection-view/collection-title.component';
 
 import getCollection from '@/services/api/collections/getCollection';
+import {
+    key,
+    prefetchCollection,
+} from '@/services/hooks/collections/use-collection';
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
@@ -45,19 +49,12 @@ const CollectionPage = async ({
 }) => {
     const queryClient = await getQueryClient();
 
-    let collection;
+    await prefetchCollection({ reference });
 
-    try {
-        collection = await queryClient.fetchQuery({
-            queryKey: ['collection', reference],
-            queryFn: ({ meta }) =>
-                getCollection({
-                    params: {
-                        reference,
-                    },
-                }),
-        });
-    } catch (e) {
+    const collection: API.Collection<API.MainContent> | undefined =
+        queryClient.getQueryData(key({ reference }));
+
+    if (!collection) {
         return redirect('/collections');
     }
 

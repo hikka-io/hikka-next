@@ -24,7 +24,7 @@ const Watchlist = () => {
         data.stats.watching;
 
     const stats = Object.keys(data.stats).reduce(
-        (acc: Hikka.WatchStat[], stat) => {
+        (acc: Hikka.ListStat[], stat) => {
             if (!stat.includes('score')) {
                 const status = WATCH_STATUS[stat as API.WatchStatus];
                 const percentage =

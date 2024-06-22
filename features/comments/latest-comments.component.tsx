@@ -2,13 +2,12 @@
 
 import { FC } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
+import GlobalComment from '@/components/comments/global-comment';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
-import HorizontalCard from '@/components/ui/horizontal-card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
@@ -27,10 +26,10 @@ const Comments: FC<Props> = ({ className }) => {
         <Block className={cn(className)}>
             <Header title="Останні коментарі" />
             <Stack
-                size={3}
                 extended
                 extendedSize={3}
-                className="grid-cols-1 md:grid-cols-1"
+                size={3}
+                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
             >
                 {list?.map((item, index) => (
                     <Card key={item.reference}>
@@ -40,22 +39,10 @@ const Comments: FC<Props> = ({ className }) => {
                         >
                             #{index + 1}
                         </Badge>
-                        <HorizontalCard
-                            image={item.author.avatar}
-                            imageRatio={1}
-                            description={item.text}
-                            descriptionHref={`/comments/${item.content_type}/${item.slug}`}
-                            key={item.created}
-                            title={item.author.username}
-                            href={`/u/${item.author.username}`}
-                            createdAt={item.created}
-                        >
-                            <ContentCard
-                                className="w-10"
-                                poster={item.image}
-                                href={`/comments/${item.content_type}/${item.slug}`}
-                            />
-                        </HorizontalCard>
+                        <GlobalComment
+                            href={`/comments/${item.content_type}/${item.preview.slug}`}
+                            comment={item}
+                        />
                     </Card>
                 ))}
                 {list?.length === 0 && (

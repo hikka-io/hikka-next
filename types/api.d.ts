@@ -16,8 +16,16 @@ declare global {
             | 'dropped'
             | 'on_hold';
 
+        type ReadStatus =
+            | 'completed'
+            | 'reading'
+            | 'on_hold'
+            | 'dropped'
+            | 'planned';
+
         type StatType =
-            | WatchStatus
+            | API.ReadStatus
+            | API.WatchStatus
             | 'score_1'
             | 'score_2'
             | 'score_3'
@@ -31,11 +39,31 @@ declare global {
 
         type Season = 'summer' | 'winter' | 'fall' | 'spring';
 
-        type MediaType = 'tv' | 'movie' | 'ova' | 'ona' | 'special' | 'music';
+        type MangaMediaType =
+            | 'one_shot'
+            | 'doujin'
+            | 'manhua'
+            | 'manhwa'
+            | 'manga';
+
+        type AnimeMediaType =
+            | 'tv'
+            | 'movie'
+            | 'ova'
+            | 'ona'
+            | 'special'
+            | 'music';
+
+        type NovelMediaType = 'light_novel' | 'novel';
+
+        type MediaType =
+            | API.MangaMediaType
+            | API.AnimeMediaType
+            | API.NovelMediaType;
 
         type AgeRating = 'g' | 'pg' | 'pg_13' | 'r' | 'r_plus' | 'rx';
 
-        type Status = 'ongoing' | 'finished' | 'announced';
+        type Status = 'ongoing' | 'finished' | 'announced' | 'paused';
 
         type VideoType = 'video_promo' | 'video_music';
 
@@ -61,6 +89,8 @@ declare global {
         type EditStatus = 'pending' | 'accepted' | 'denied' | 'closed';
 
         type ContentType =
+            | 'novel'
+            | 'manga'
             | 'edit'
             | 'anime'
             | 'character'
@@ -71,9 +101,18 @@ declare global {
         type HistoryType =
             | 'watch'
             | 'watch_delete'
+            | 'read_novel'
+            | 'read_novel_delete'
+            | 'read_manga'
+            | 'read_manga_delete'
             | 'watch_import'
+            | 'read_import'
             | 'favourite_anime_add'
-            | 'favourite_anime_remove';
+            | 'favourite_anime_remove'
+            | 'favourite_manga_add'
+            | 'favourite_manga_remove'
+            | 'favourite_novel_add'
+            | 'favourite_novel_remove';
 
         type Error = {
             code: string;
@@ -98,7 +137,7 @@ declare global {
             list: T[];
         };
 
-        type Stats = Record<StatType, number>;
+        type Stats = Record<API.StatType, number>;
 
         type Pagination = {
             total: number;
@@ -133,6 +172,19 @@ declare global {
             anime: API.Anime;
         };
 
+        type Read = {
+            reference: string;
+            note: string;
+            updated: number;
+            created: number;
+            status: API.ReadStatus;
+            chapters: number;
+            volumes: number;
+            rereads: number;
+            score: number;
+            content: API.Manga | API.Novel;
+        };
+
         type Schedule = {
             episode: number;
             airing_at: number;
@@ -145,13 +197,13 @@ declare global {
 
         type Anime = {
             data_type: 'anime';
-            media_type: API.MediaType;
+            media_type: API.AnimeMediaType;
             title_ua: string;
             title_en: string;
             title_ja: string;
             episodes_released: number;
             episodes_total: number;
-            poster: string;
+            image: string;
             status: API.Status;
             scored_by: number;
             score: number;
@@ -192,6 +244,99 @@ declare global {
             slug: string;
             type: API.GenreType;
         };
+
+        type Magazine = {
+            name_en: string;
+            slug: string;
+        };
+
+        type Manga = {
+            data_type: 'manga';
+            title?: string;
+            title_original: string;
+            media_type: API.MangaMediaType;
+            title_ua: string;
+            title_en: string;
+            chapters: number;
+            volumes: number;
+            translated_ua: boolean;
+            status: API.Status;
+            image: string;
+            year: number;
+            scored_by: number;
+            score: number;
+            slug: string;
+            read: API.Read[];
+        };
+
+        type MangaInfo = {
+            authors: {
+                person: API.Person;
+                roles: {
+                    name_ua: string;
+                    name_en: string;
+                    slug: string;
+                }[];
+            }[];
+            magazines: API.Magazine[];
+            external: API.External[];
+            start_date: number;
+            end_date: number;
+            genres: API.Genre[];
+            stats: API.Stats;
+            synopsis_en: string;
+            synopsis_ua: string;
+            updated: number;
+            synonyms: string[];
+            comments_count: number;
+            has_franchise: boolean;
+            mal_id: number;
+            nsfw: boolean;
+        } & API.Manga;
+
+        type Novel = {
+            data_type: 'novel';
+            title?: string;
+            title_original: string;
+            media_type: API.NovelMediaType;
+            title_ua: string;
+            title_en: string;
+            chapters: number;
+            volumes: number;
+            translated_ua: boolean;
+            status: API.Status;
+            image: string;
+            year: number;
+            scored_by: number;
+            score: number;
+            slug: string;
+            read: API.Read[];
+        };
+
+        type NovelInfo = {
+            authors: {
+                person: API.Person;
+                roles: {
+                    name_ua: string;
+                    name_en: string;
+                    slug: string;
+                }[];
+            }[];
+            magazines: API.Magazine[];
+            external: API.External[];
+            start_date: number;
+            end_date: number;
+            genres: API.Genre[];
+            stats: API.Stats;
+            synopsis_en: string;
+            synopsis_ua: string;
+            updated: number;
+            synonyms: string[];
+            comments_count: number;
+            has_franchise: boolean;
+            mal_id: number;
+            nsfw: boolean;
+        } & API.Novel;
 
         type Character = {
             data_type: 'character';
@@ -247,6 +392,7 @@ declare global {
             reference: string;
             author: API.User;
             created: number;
+            updated: number;
             text: string;
             replies: API.Comment[];
             total_replies: number;
@@ -254,26 +400,34 @@ declare global {
             vote_score: number;
             my_score?: number;
             hidden: boolean;
+            is_editable: boolean;
             parent: string | null;
-        };
-
-        type GlobalComment = {
-            author: API.User;
-            updated: number;
-            created: number;
             content_type: API.ContentType;
-            image: string;
-            text: string;
-            vote_score: number;
-            reference: string;
-            depth: number;
-            slug: string;
+            preview: { slug: string; image?: string };
         };
 
         type External = {
             url: string;
             text: string;
-            type: 'general' | 'watch';
+            type: 'general' | 'watch' | 'read';
+        };
+
+        type HistoryReadData = {
+            after: {
+                score: number | null;
+                status: API.ReadStatus | null;
+                chapters: number | null;
+                volumes: number | null;
+                rereads: number | null;
+            };
+            before: {
+                score: number | null;
+                status: API.ReadStatus | null;
+                chapters: number | null;
+                volumes: number | null;
+                rereads: number | null;
+            };
+            new_read: boolean;
         };
 
         type HistoryWatchData = {
@@ -294,15 +448,25 @@ declare global {
 
         type HistoryFavoriteData = {};
 
-        type HistoryImportData = {
+        type HistoryWatchImportData = {
             imported: number;
         };
 
+        type HistoryReadImportData = {
+            imported_manga: number;
+            imported_novel: number;
+        };
+
         type History<
-            TData = HistoryWatchData | HistoryFavoriteData | HistoryImportData,
+            TData =
+                | HistoryWatchData
+                | HistoryFavoriteData
+                | HistoryWatchImportData
+                | HistoryReadImportData
+                | HistoryReadData,
         > = {
             reference: string;
-            content?: API.Anime;
+            content?: API.Anime | API.Manga | API.Novel;
             history_type: API.HistoryType;
             created: number;
             updated: number;
@@ -378,7 +542,7 @@ declare global {
                 status: API.Status;
                 episodes_released: number;
             };
-            poster: string;
+            image: string;
             title_en: string;
             title_ja: string;
             title_ua: string;
@@ -414,7 +578,9 @@ declare global {
             order: number;
         };
 
-        type Collection<TContent extends API.MainContent = unknown> = {
+        type Collection<
+            TContent extends API.MainContent & { title?: string } = unknown,
+        > = {
             data_type: 'collection';
             author: API.User;
             created: number;
@@ -436,7 +602,11 @@ declare global {
 
         type Content =
             | API.Anime
+            | API.Manga
+            | API.Novel
             | API.AnimeInfo
+            | API.MangaInfo
+            | API.NovelInfo
             | API.Character
             | API.Person
             | API.Collection;

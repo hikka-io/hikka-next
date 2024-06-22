@@ -1,9 +1,11 @@
 'use client';
 
+import formatDistance from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '~icons/material-symbols/drive-file-rename-outline-rounded';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
@@ -18,17 +20,10 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    collection: API.Collection<API.MainContent>;
+    collection: API.Collection<API.MainContent & { title?: string }>;
 }
 
 const CollectionItem: FC<Props> = ({ collection }) => {
-    const poster = (content: API.MainContent) =>
-        'poster' in content ? content.poster : content.image;
-    const title = (content: API.MainContent) =>
-        'title_ua' in content
-            ? content.title_ua || content.title_en || content.title_ja
-            : content.name_ua || content.name_en;
-
     return (
         <div className="flex flex-col gap-4">
             <div className={cn('flex gap-2')}>
@@ -77,6 +72,18 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                             <BxBxsUpvote />
                             <Small>{collection.vote_score}</Small>
                         </div>
+                        <div className="flex gap-1">
+                            <MaterialSymbolsDriveFileRenameOutlineRounded />
+                            <Small>
+                                {formatDistance(
+                                    collection.updated * 1000,
+                                    Date.now(),
+                                    {
+                                        addSuffix: true,
+                                    },
+                                )}
+                            </Small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,8 +107,8 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         key={item.content.slug}
-                        poster={poster(item.content)}
-                        title={title(item.content)}
+                        image={item.content.image}
+                        title={item.content.title}
                         slug={item.content.slug}
                         content_type={item.content_type}
                         watch={
@@ -114,7 +121,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                 ))}
                 <ContentCard
                     href={`/collections/${collection.reference}`}
-                    poster={
+                    image={
                         <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                     }
                 />

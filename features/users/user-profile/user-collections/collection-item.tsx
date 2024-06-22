@@ -1,6 +1,8 @@
+import formatDistance from 'date-fns/formatDistance';
 import { FC, Fragment, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '~icons/material-symbols/drive-file-rename-outline-rounded';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 
 import Small from '@/components/typography/small';
@@ -14,8 +16,8 @@ interface Props {
 }
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
-    const poster = (content: API.MainContent) =>
-        content.data_type === 'anime' ? content.poster : content.image;
+    const image = (content: API.MainContent) =>
+        content.data_type === 'anime' ? content.image : content.image;
 
     const Meta = (
         <Fragment>
@@ -30,6 +32,14 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             <div className="flex gap-1">
                 <BxBxsUpvote />
                 <Small>{data.vote_score}</Small>
+            </div>
+            <div className="flex gap-1">
+                <MaterialSymbolsDriveFileRenameOutlineRounded />
+                <Small>
+                    {formatDistance(data.updated * 1000, Date.now(), {
+                        addSuffix: true,
+                    })}
+                </Small>
             </div>
         </Fragment>
     );
@@ -49,7 +59,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             title={data.title}
             href={`/collections/${data.reference}`}
             titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
-            image={poster(data.collection[0].content)}
+            image={image(data.collection[0].content)}
             imageClassName={cn(data.nsfw && 'spoiler-blur-sm')}
             description={data.description}
             descriptionClassName={cn(data.spoiler && 'spoiler-blur-sm')}

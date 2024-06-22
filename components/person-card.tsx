@@ -27,7 +27,7 @@ const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
             key={person.slug}
             href={`/people/${person.slug}`}
             description={getRole(roles)}
-            poster={person.image}
+            image={person.image}
             slug={person.slug}
             content_type="person"
             withContextMenu

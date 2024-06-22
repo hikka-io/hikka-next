@@ -5,6 +5,7 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
 import PlateEditor from '@/components/markdown/plate-editor/plate-editor';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
@@ -56,9 +57,11 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                     edit &&
                     edit.before![param.slug] &&
                     showDiff && (
-                        <MDViewer className="markdown rounded-md border border-secondary/60 bg-secondary/30 p-4 text-sm opacity-50 hover:opacity-100">
-                            {edit.before![param.slug]}
-                        </MDViewer>
+                        <PlateDiff
+                            className="opacity-50 hover:opacity-100"
+                            current={edit.after![param.slug]}
+                            previous={edit.before![param.slug]}
+                        />
                     )}
             </div>
         );

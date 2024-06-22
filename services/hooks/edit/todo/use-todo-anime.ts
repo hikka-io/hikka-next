@@ -1,16 +1,24 @@
 import getTodoAnime, { Params } from '@/services/api/edit/todo/getTodoAnime';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertAnimeList } from '@/utils/anime-adapter';
+import getQueryClient from '@/utils/get-query-client';
+import { convertTitleList } from '@/utils/title-adapter';
 
-const useTodoAnime = ({ param }: Params) => {
+export const paramsBuilder = (props: Params): Params => ({
+    param: props.param,
+});
+
+export const key = (params: Params) => ['todo-edit-list', params.param];
+
+const useTodoAnime = (props: Params) => {
     const { titleLanguage } = useSettingsContext();
+    const params = paramsBuilder(props);
 
     return useInfiniteList({
-        queryKey: ['list', param],
+        queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getTodoAnime({
-                params: { param },
+                params,
                 page: pageParam,
                 size: 18,
             }),
@@ -18,12 +26,28 @@ const useTodoAnime = ({ param }: Params) => {
             ...data,
             pages: data.pages.map((a) => ({
                 ...a,
-                list: convertAnimeList<API.Anime>({
-                    anime: a.list,
+                list: convertTitleList<API.Anime>({
+                    data: a.list,
                     titleLanguage: titleLanguage!,
                 }),
             })),
         }),
+    });
+};
+
+export const prefetchTodoAnime = (props: Params) => {
+    const params = paramsBuilder(props);
+    const queryClient = getQueryClient();
+
+    return queryClient.prefetchInfiniteQuery({
+        initialPageParam: 1,
+        queryKey: key(params),
+        queryFn: ({ pageParam = 1 }) =>
+            getTodoAnime({
+                params,
+                page: pageParam,
+                size: 18,
+            }),
     });
 };
 

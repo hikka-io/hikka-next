@@ -3,7 +3,6 @@ import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
@@ -12,7 +11,7 @@ import {
 
 interface Props {
     property: string;
-    title: string;
+    title?: string;
     properties: Hikka.FilterProperty<string>;
     selected: string[];
     onParamChange: (key: string, value: string | string[]) => void;
@@ -38,42 +37,37 @@ const BadgeFilter: FC<Props> = ({
     };
 
     return (
-        <div className="flex w-full flex-col gap-4">
-            <Label className="text-muted-foreground">{title}</Label>
-            <div className="flex flex-wrap gap-2">
-                {Object.keys(properties).map((slug) => (
-                    <Button
-                        size="badge"
-                        onClick={() =>
-                            onParamChange(
-                                property,
-                                handleFilterSelect(slug, selected),
-                            )
-                        }
-                        key={slug}
-                        variant={
-                            selected.includes(slug) ? 'default' : 'outline'
-                        }
-                    >
-                        {properties[slug].title_ua}
+        <div className="flex flex-wrap gap-2">
+            {Object.keys(properties).map((slug) => (
+                <Button
+                    size="badge"
+                    onClick={() =>
+                        onParamChange(
+                            property,
+                            handleFilterSelect(slug, selected),
+                        )
+                    }
+                    key={slug}
+                    variant={selected.includes(slug) ? 'default' : 'outline'}
+                >
+                    {properties[slug].title_ua}
 
-                        {properties[slug].description && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <div>
-                                        <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <P className="text-sm">
-                                        {properties[slug].description}
-                                    </P>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </Button>
-                ))}
-            </div>
+                    {properties[slug].description && (
+                        <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                                <div>
+                                    <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <P className="text-sm">
+                                    {properties[slug].description}
+                                </P>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
+                </Button>
+            ))}
         </div>
     );
 };

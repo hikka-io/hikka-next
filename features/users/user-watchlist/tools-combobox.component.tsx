@@ -14,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import FiltersModal from '@/features/modals/anime-filters-modal';
+import AnimeFiltersModal from '@/features/modals/anime-filters-modal';
 
 import getRandomWatch from '@/services/api/watch/getRandomWatch';
 
@@ -52,7 +52,7 @@ const ToolsCombobox = () => {
                 <DropdownMenuItem onClick={handleRandomAnime}>
                     <FeRandom className="mr-2 size-4" /> Випадкове аніме
                 </DropdownMenuItem>
-                <FiltersModal type={'watchlist'}>
+                <AnimeFiltersModal sort_type="watch">
                     <DropdownMenuItem
                         className="flex lg:hidden"
                         onSelect={(e) => e.preventDefault()}
@@ -60,7 +60,7 @@ const ToolsCombobox = () => {
                         <AntDesignFilterFilled className="mr-2 size-4" />{' '}
                         Фільтри
                     </DropdownMenuItem>
-                </FiltersModal>
+                </AnimeFiltersModal>
             </DropdownMenuContent>
         </DropdownMenu>
     );

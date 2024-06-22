@@ -1,5 +1,6 @@
 'use client';
 
+import formatDistance from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -46,6 +47,7 @@ const CollectionInfo = () => {
             <div className="flex size-full flex-col gap-4">
                 <Card className="w-full gap-6">
                     <CollectionAuthor />
+
                     {tags.length > 0 && (
                         <div className="flex items-center gap-2">
                             {tags.map((tag) => (
@@ -55,6 +57,34 @@ const CollectionInfo = () => {
                             ))}
                         </div>
                     )}
+                    <div className="flex items-center justify-between gap-4">
+                        <Label className="text-muted-foreground">
+                            Створено
+                        </Label>
+                        <Label className="text-muted-foreground">
+                            {formatDistance(
+                                collection.created * 1000,
+                                Date.now(),
+                                {
+                                    addSuffix: true,
+                                },
+                            )}
+                        </Label>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                        <Label className="text-muted-foreground">
+                            Оновлено
+                        </Label>
+                        <Label className="text-muted-foreground">
+                            {formatDistance(
+                                collection.updated * 1000,
+                                Date.now(),
+                                {
+                                    addSuffix: true,
+                                },
+                            )}
+                        </Label>
+                    </div>
                     <div className="flex items-center justify-between gap-4">
                         <Label htmlFor="nsfw" className="text-muted-foreground">
                             Контент +18
