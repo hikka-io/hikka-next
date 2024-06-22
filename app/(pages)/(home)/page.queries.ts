@@ -24,7 +24,7 @@ const prefetchQueries = async () => {
             prefetchWatchList({
                 username: loggedUser.username,
                 watch_status: 'watching',
-                sort: ['watch_created:desc'],
+                sort: ['watch_updated:desc'],
             }),
         );
 

@@ -16,6 +16,10 @@ const useAddFavorite = ({ slug, content_type }: Params) => {
             }),
         onSuccess: async () => {
             await queryClient.invalidateQueries({
+                queryKey: ['favorites'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
                 queryKey: ['favorite'],
                 exact: false,
             });

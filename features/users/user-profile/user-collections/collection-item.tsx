@@ -1,6 +1,8 @@
+import formatDistance from 'date-fns/formatDistance';
 import { FC, Fragment, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '~icons/material-symbols/drive-file-rename-outline-rounded';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 
 import Small from '@/components/typography/small';
@@ -30,6 +32,14 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             <div className="flex gap-1">
                 <BxBxsUpvote />
                 <Small>{data.vote_score}</Small>
+            </div>
+            <div className="flex gap-1">
+                <MaterialSymbolsDriveFileRenameOutlineRounded />
+                <Small>
+                    {formatDistance(data.updated * 1000, Date.now(), {
+                        addSuffix: true,
+                    })}
+                </Small>
             </div>
         </Fragment>
     );

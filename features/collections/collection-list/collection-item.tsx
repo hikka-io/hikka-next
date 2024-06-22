@@ -1,9 +1,11 @@
 'use client';
 
+import formatDistance from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '~icons/material-symbols/drive-file-rename-outline-rounded';
 import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
@@ -69,6 +71,18 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         <div className="flex gap-1">
                             <BxBxsUpvote />
                             <Small>{collection.vote_score}</Small>
+                        </div>
+                        <div className="flex gap-1">
+                            <MaterialSymbolsDriveFileRenameOutlineRounded />
+                            <Small>
+                                {formatDistance(
+                                    collection.updated * 1000,
+                                    Date.now(),
+                                    {
+                                        addSuffix: true,
+                                    },
+                                )}
+                            </Small>
                         </div>
                     </div>
                 </div>

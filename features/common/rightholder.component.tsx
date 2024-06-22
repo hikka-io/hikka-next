@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Rightholder = () => {
     return (
-        <div className="markdown">
+        <div className="markdown px-6 py-4">
             <p>
                 Якщо Ви помітили матеріал на нашому сайті, що порушує Ваші
                 авторські права, або іншим чином дотичне до Вас, будь ласка,
