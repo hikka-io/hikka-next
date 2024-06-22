@@ -75,7 +75,11 @@ const ProfileMenu = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link
-                            href={'/u/' + loggedUser.username + '/list/anime'}
+                            href={
+                                '/u/' +
+                                loggedUser.username +
+                                '/list/anime?status=planned&sort=watch_score'
+                            }
                         >
                             <MaterialSymbolsPlayArrowRounded className="mr-2 size-4" />
                             Список аніме
@@ -83,7 +87,11 @@ const ProfileMenu = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link
-                            href={'/u/' + loggedUser.username + '/list/manga'}
+                            href={
+                                '/u/' +
+                                loggedUser.username +
+                                '/list/manga?status=planned&sort=read_score'
+                            }
                         >
                             <MaterialSymbolsPalette className="mr-2 size-4" />
                             Список манґи
@@ -91,7 +99,11 @@ const ProfileMenu = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link
-                            href={'/u/' + loggedUser.username + '/list/novel'}
+                            href={
+                                '/u/' +
+                                loggedUser.username +
+                                '/list/novel?status=planned&sort=read_score'
+                            }
                         >
                             <MaterialSymbolsMenuBookRounded className="mr-2 size-4" />
                             Список ранобе

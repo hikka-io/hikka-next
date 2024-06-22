@@ -28,19 +28,25 @@ const ListStats = () => {
             <TabsList className="no-scrollbar w-full items-center justify-start border border-secondary/60 bg-secondary/80 backdrop-blur">
                 <TabsTrigger value="anime" className="flex-1 gap-2">
                     Аніме{' '}
-                    <Link href={`/u/${params.username}/list/anime`}>
+                    <Link
+                        href={`/u/${params.username}/list/anime?status=planned&sort=watch_score`}
+                    >
                         <MaterialSymbolsOpenInNewRounded />
                     </Link>
                 </TabsTrigger>
                 <TabsTrigger value="manga" className="flex-1 gap-2">
                     Манга{' '}
-                    <Link href={`/u/${params.username}/list/manga`}>
+                    <Link
+                        href={`/u/${params.username}/list/manga?status=planned&sort=read_score`}
+                    >
                         <MaterialSymbolsOpenInNewRounded />
                     </Link>
                 </TabsTrigger>
                 <TabsTrigger value="novel" className="flex-1 gap-2">
                     Ранобе{' '}
-                    <Link href={`/u/${params.username}/list/novel`}>
+                    <Link
+                        href={`/u/${params.username}/list/novel?status=planned&sort=read_score`}
+                    >
                         <MaterialSymbolsOpenInNewRounded />
                     </Link>
                 </TabsTrigger>

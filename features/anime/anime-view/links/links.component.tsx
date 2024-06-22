@@ -15,8 +15,6 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import LinksModal from './links-modal';
-
 interface Props {
     extended?: boolean;
 }
@@ -41,15 +39,6 @@ const Links: FC<Props> = ({ extended }) => {
 
     const linksData = active === 'general' ? generalLinksData : watchLinksData;
 
-    const handleOpenLinksModal = () => {
-        openModal({
-            type: 'sheet',
-            title: 'Посилання',
-            side: 'right',
-            content: <LinksModal />,
-        });
-    };
-
     const handleChangeActive = (value: API.External['type']) => {
         if (value) {
             setActive(value);
@@ -59,7 +48,7 @@ const Links: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header title="Посилання" onClick={handleOpenLinksModal}>
+            <Header title="Посилання">
                 <ToggleGroup
                     type="single"
                     value={active}

@@ -34,7 +34,7 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
     return (
         <div className="flex h-fit w-full items-center gap-2 rounded-md border border-secondary/60 bg-secondary/30 p-2 backdrop-blur">
             <Link
-                href={`/u/${params.username}/list/${content_type}?status=completed`}
+                href={`/u/${params.username}/list/${content_type}?status=completed&sort=read_score`}
                 className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60"
             >
                 <RadialProgress
@@ -56,7 +56,7 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
 
                     return (
                         <Link
-                            href={`/u/${params.username}/list/${content_type}?status=${status}`}
+                            href={`/u/${params.username}/list/${content_type}?status=${status}&sort=read_score`}
                             key={status}
                             className={cn(
                                 'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60',

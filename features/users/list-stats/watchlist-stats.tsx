@@ -29,7 +29,7 @@ const WatchlistStats: FC<Props> = () => {
     return (
         <div className="flex h-fit w-full items-center gap-2 rounded-md border border-secondary/60 bg-secondary/30 p-2 backdrop-blur">
             <Link
-                href={`/u/${params.username}/list/anime?status=completed`}
+                href={`/u/${params.username}/list/anime?status=completed&sort=watch_score`}
                 className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60"
             >
                 <RadialProgress
@@ -51,7 +51,7 @@ const WatchlistStats: FC<Props> = () => {
 
                     return (
                         <Link
-                            href={`/u/${params.username}/list/anime?status=${status}`}
+                            href={`/u/${params.username}/list/anime?status=${status}&sort=watch_score`}
                             key={status}
                             className={cn(
                                 'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60',
