@@ -4,9 +4,6 @@ const config = {
         headers: {
             'Content-type': 'application/json',
         },
-        next: {
-            revalidate: 0,
-        },
     },
 };
 
