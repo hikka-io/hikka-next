@@ -6,6 +6,7 @@ import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
 import FormTextarea from '@/components/form/form-textarea';
+import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
@@ -13,6 +14,8 @@ import changeUserDescription from '@/services/api/settings/changeUserDescription
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
+
+import Appearance from './appearance';
 
 const formSchema = z.object({
     description: z.string().max(256).nullable(),
@@ -51,29 +54,34 @@ const Component = () => {
     };
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col gap-6 p-6"
-            >
-                <FormTextarea
-                    name="description"
-                    placeholder="Введіть опис"
-                    label="Опис"
-                />
-                <Button
-                    disabled={mutation.isPending}
-                    variant="default"
-                    type="submit"
-                    className="w-full"
+        <div className="flex flex-col gap-6 p-6">
+            <H5>Вигляд профілю</H5>
+            <Appearance />
+            <H5>Інші налаштування</H5>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(handleFormSubmit)}
+                    className="flex flex-col gap-6"
                 >
-                    {mutation.isPending && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Зберегти
-                </Button>
-            </form>
-        </Form>
+                    <FormTextarea
+                        name="description"
+                        placeholder="Введіть опис"
+                        label="Опис"
+                    />
+                    <Button
+                        disabled={mutation.isPending}
+                        variant="default"
+                        type="submit"
+                        className="w-full"
+                    >
+                        {mutation.isPending && (
+                            <span className="loading loading-spinner"></span>
+                        )}
+                        Зберегти
+                    </Button>
+                </form>
+            </Form>
+        </div>
     );
 };
 

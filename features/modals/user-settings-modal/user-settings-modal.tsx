@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/label';
 
 import CustomizationForm from '@/features/modals/user-settings-modal/customization-form';
 import EmailForm from '@/features/modals/user-settings-modal/email-form';
-import GeneralForm from '@/features/modals/user-settings-modal/general-form';
+import GeneralForm from '@/features/modals/user-settings-modal/general-form/general-form';
 import NotificationsForm from '@/features/modals/user-settings-modal/notifications-form';
 import PasswordForm from '@/features/modals/user-settings-modal/password-form';
 import ReadListForm from '@/features/modals/user-settings-modal/readlist-form/readlist-form';

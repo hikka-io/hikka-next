@@ -48,7 +48,7 @@ const Component = ({
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger
-                        onClick={(e) => e.preventDefault()}
+                        onClick={(e) => isDesktop && e.preventDefault()}
                         className="max-w-32 sm:max-w-none"
                     >
                         {current && (
