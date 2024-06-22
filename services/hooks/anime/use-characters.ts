@@ -22,6 +22,7 @@ const useCharacters = (props: Params) => {
                 params,
                 page: pageParam,
             }),
+        refetchOnWindowFocus: false,
     });
 };
 

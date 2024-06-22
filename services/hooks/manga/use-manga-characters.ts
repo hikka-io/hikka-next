@@ -19,6 +19,7 @@ const useMangaCharacters = (props: Params) => {
                 params,
                 page: pageParam,
             }),
+        refetchOnWindowFocus: false,
     });
 };
 

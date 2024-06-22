@@ -28,6 +28,7 @@ const useNovelInfo = (props: Params, options?: Hikka.QueryOptions) => {
                 titleLanguage: titleLanguage!,
                 data: data,
             }),
+        refetchOnWindowFocus: false,
     });
 };
 

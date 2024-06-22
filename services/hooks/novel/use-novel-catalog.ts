@@ -59,6 +59,7 @@ const useNovelCatalog = (props: Props) => {
                 }),
             })),
         }),
+        refetchOnWindowFocus: false,
     });
 
     const list =

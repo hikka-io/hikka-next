@@ -114,6 +114,7 @@ declare global {
             enabled?: boolean;
             staleTime?: number;
             gcTime?: number;
+            refetchOnWindowFocus?: boolean;
         };
     }
 }

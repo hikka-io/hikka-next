@@ -17,6 +17,7 @@ const useStaff = (props: Params) => {
         queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getAnimeStaff({ params, page: pageParam }),
+        refetchOnWindowFocus: false,
     });
 };
 

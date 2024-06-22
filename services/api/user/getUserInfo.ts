@@ -1,13 +1,12 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
 export interface Response extends API.User {}
 
 export interface Params {
-    username: string;
+    username?: string;
 }
 
 export default async function req({
