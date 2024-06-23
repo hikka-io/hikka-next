@@ -9,7 +9,7 @@ export default async function req(
     props?: BaseFetchRequestProps,
 ): Promise<Response[]> {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/sitemap/sitemap_anime.json`,
+        `${process.env.NEXT_PUBLIC_API_URL}/sitemap/sitemap_novel.json`,
         {
             method: 'get',
             headers: {
