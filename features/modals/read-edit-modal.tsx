@@ -143,7 +143,7 @@ const Component = ({ slug, content_type }: Props) => {
                         />
                         <FormInput
                             name="rereads"
-                            label="Повторні перегляди"
+                            label="Повторні читання"
                             placeholder="Введіть к-сть повторних читань"
                             type="number"
                             className="flex-1"

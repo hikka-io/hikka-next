@@ -112,6 +112,7 @@ const Component = ({ slug, content_type, disabled }: Props) => {
                     content_type,
                     status: 'completed',
                     ...params,
+                    volumes: manga?.volumes,
                     chapters: manga?.chapters,
                 },
             });
