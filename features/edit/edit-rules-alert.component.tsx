@@ -30,7 +30,7 @@ const EditRulesAlert = () => {
                         onClick={() =>
                             openModal({
                                 content: (
-                                    <MDViewer className="overflow-y-scroll px-6 py-4 md:overflow-hidden">
+                                    <MDViewer className="px-6 py-4 md:overflow-hidden md:p-0">
                                         {rules}
                                     </MDViewer>
                                 ),
