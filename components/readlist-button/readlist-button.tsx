@@ -28,6 +28,7 @@ interface Props {
     additional?: boolean;
     disabled?: boolean;
     content_type: 'novel' | 'manga';
+    read?: API.Read;
 }
 
 const SETTINGS_BUTTON = {
@@ -55,15 +56,15 @@ const OPTIONS = [
     })),
 ];
 
-const Component = ({ slug, content_type, disabled }: Props) => {
+const Component = ({ slug, content_type, disabled, read: readProp }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: read, isError: readError } = useRead(
+    const { data: readQuery, isError: readError } = useRead(
         {
             slug,
             content_type,
         },
-        { enabled: !disabled },
+        { enabled: !disabled && !readProp },
     );
     const { data: manga } = useMangaInfo(
         {
@@ -73,11 +74,14 @@ const Component = ({ slug, content_type, disabled }: Props) => {
     );
     const { mutate: addRead } = useAddRead();
 
+    const read = readProp || (readQuery && !readError ? readQuery : undefined);
+
     const openReadEditModal = () => {
         if (manga) {
             openModal({
                 content: (
                     <ReadEditModal
+                        read={read}
                         content_type={content_type}
                         slug={manga.slug}
                     />

@@ -57,16 +57,36 @@ interface TooltipProps {
     children: ReactNode;
     content_type?: API.ContentType;
     slug?: string;
+    watch?: API.Watch;
+    read?: API.Read;
 }
 
-const Tooltip: FC<TooltipProps> = ({ children, content_type, slug }) => {
+const Tooltip: FC<TooltipProps> = ({
+    children,
+    content_type,
+    slug,
+    watch,
+    read,
+}) => {
     switch (content_type) {
         case 'anime':
-            return <AnimeTooltip slug={slug}>{children}</AnimeTooltip>;
+            return (
+                <AnimeTooltip slug={slug} watch={watch}>
+                    {children}
+                </AnimeTooltip>
+            );
         case 'manga':
-            return <MangaTooltip slug={slug}>{children}</MangaTooltip>;
+            return (
+                <MangaTooltip slug={slug} read={read}>
+                    {children}
+                </MangaTooltip>
+            );
         case 'novel':
-            return <NovelTooltip slug={slug}>{children}</NovelTooltip>;
+            return (
+                <NovelTooltip slug={slug} read={read}>
+                    {children}
+                </NovelTooltip>
+            );
         case 'character':
             return <CharacterTooltip slug={slug}>{children}</CharacterTooltip>;
         case 'person':
@@ -107,7 +127,12 @@ const Content = memo(
             const Comp = href ? Link : 'div';
 
             return (
-                <Tooltip slug={slug} content_type={content_type}>
+                <Tooltip
+                    slug={slug}
+                    content_type={content_type}
+                    watch={watch}
+                    read={read}
+                >
                     <div
                         ref={ref}
                         className={cn(

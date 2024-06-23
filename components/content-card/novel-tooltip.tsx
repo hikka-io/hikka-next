@@ -23,14 +23,16 @@ import ReadlistButton from '../readlist-button/readlist-button';
 
 interface TooltipDataProps {
     slug: string;
+    read?: API.Read;
 }
 
 interface Props extends PropsWithChildren {
     slug?: string;
     withTrigger?: boolean;
+    read?: API.Read;
 }
 
-const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
+const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     const { user: loggedUser } = useSession();
     const { data } = useNovelInfo({ slug });
 
@@ -143,12 +145,14 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 </div>
             </div>
 
-            {loggedUser && <ReadlistButton slug={slug} content_type="novel" />}
+            {loggedUser && (
+                <ReadlistButton slug={slug} content_type="novel" read={read} />
+            )}
         </>
     );
 };
 
-const NovelTooltip: FC<Props> = ({ slug, children, withTrigger, ...props }) => {
+const NovelTooltip: FC<Props> = ({ slug, children, withTrigger, read }) => {
     if (!slug) {
         return null;
     }
@@ -162,7 +166,7 @@ const NovelTooltip: FC<Props> = ({ slug, children, withTrigger, ...props }) => {
                     className="hidden w-80 flex-col gap-4 p-4 md:flex"
                 >
                     <HoverCardArrow />
-                    <TooltipData slug={slug} />
+                    <TooltipData slug={slug} read={read} />
                 </HoverCardContent>
             </HoverCardPortal>
         </HoverCard>

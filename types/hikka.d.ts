@@ -115,6 +115,7 @@ declare global {
             staleTime?: number;
             gcTime?: number;
             refetchOnWindowFocus?: boolean;
+            initialData?: undefined;
         };
     }
 }

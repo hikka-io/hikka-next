@@ -71,7 +71,12 @@ const Anime = () => {
     const openWatchEditModal = () => {
         if (selectedWatch) {
             openModal({
-                content: <WatchEditModal slug={selectedWatch.anime.slug} />,
+                content: (
+                    <WatchEditModal
+                        watch={selectedWatch}
+                        slug={selectedWatch.anime.slug}
+                    />
+                ),
                 className: '!max-w-xl',
                 title: selectedWatch.anime.title,
                 forceModal: true,

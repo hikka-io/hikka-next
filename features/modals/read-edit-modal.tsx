@@ -37,11 +37,17 @@ const formSchema = z.object({
 interface Props {
     slug: string;
     content_type: 'novel' | 'manga';
+    read?: API.Read;
 }
 
-const Component = ({ slug, content_type }: Props) => {
+const Component = ({ slug, content_type, read: readProp }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: read } = useRead({ slug, content_type });
+    const { data: readQuery } = useRead(
+        { slug, content_type },
+        { enabled: !readProp },
+    );
+
+    const read = readProp || readQuery;
 
     const { mutate: addRead, isPending: addToListLoading } = useAddRead();
 

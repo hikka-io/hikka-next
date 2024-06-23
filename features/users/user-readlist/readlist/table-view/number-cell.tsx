@@ -18,9 +18,10 @@ interface Props {
     number: number;
     content: API.Manga | API.Novel;
     content_type: 'manga' | 'novel';
+    read?: API.Read;
 }
 
-const NumberCell: FC<Props> = ({ number, content, content_type }) => {
+const NumberCell: FC<Props> = ({ number, content, content_type, read }) => {
     const params = useParams();
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
@@ -29,6 +30,7 @@ const NumberCell: FC<Props> = ({ number, content, content_type }) => {
         openModal({
             content: (
                 <ReadEditModal
+                    read={read}
                     content_type={content_type}
                     slug={content.slug}
                 />
