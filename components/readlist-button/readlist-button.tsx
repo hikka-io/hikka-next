@@ -116,8 +116,8 @@ const Component = ({ slug, content_type, disabled, read: readProp }: Props) => {
                     content_type,
                     status: 'completed',
                     ...params,
-                    volumes: manga?.volumes,
-                    chapters: manga?.chapters,
+                    volumes: manga?.volumes || undefined,
+                    chapters: manga?.chapters || undefined,
                 },
             });
         } else {
