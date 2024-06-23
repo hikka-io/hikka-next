@@ -22,14 +22,16 @@ import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
 
 interface TooltipDataProps {
     slug: string;
+    watch?: API.Watch;
 }
 
 interface Props extends PropsWithChildren {
     slug?: string;
     withTrigger?: boolean;
+    watch?: API.Watch;
 }
 
-const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
+const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
     const { user: loggedUser } = useSession();
     const { data } = useAnimeInfo({ slug });
 
@@ -136,12 +138,14 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 </div>
             </div>
 
-            {loggedUser && <WatchListButton slug={slug} additional />}
+            {loggedUser && (
+                <WatchListButton watch={watch} slug={slug} additional />
+            )}
         </>
     );
 };
 
-const AnimeTooltip: FC<Props> = ({ slug, children, withTrigger, ...props }) => {
+const AnimeTooltip: FC<Props> = ({ slug, children, withTrigger, watch }) => {
     if (!slug) {
         return null;
     }
@@ -155,7 +159,7 @@ const AnimeTooltip: FC<Props> = ({ slug, children, withTrigger, ...props }) => {
                     className="hidden w-80 flex-col gap-4 p-4 md:flex"
                 >
                     <HoverCardArrow />
-                    <TooltipData slug={slug} />
+                    <TooltipData slug={slug} watch={watch} />
                 </HoverCardContent>
             </HoverCardPortal>
         </HoverCard>

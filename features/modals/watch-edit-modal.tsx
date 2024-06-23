@@ -35,11 +35,14 @@ const formSchema = z.object({
 
 interface Props {
     slug: string;
+    watch?: API.Watch;
 }
 
-const Component = ({ slug }: Props) => {
+const Component = ({ slug, watch: watchProp }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: watch } = useWatch({ slug });
+    const { data: watchQuery } = useWatch({ slug }, { enabled: !watchProp });
+
+    const watch = watchProp || watchQuery;
 
     const { mutate: addWatch, isPending: addToListLoading } = useAddWatch();
 

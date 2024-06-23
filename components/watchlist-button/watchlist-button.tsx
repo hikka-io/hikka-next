@@ -27,6 +27,7 @@ interface Props {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
+    watch?: API.Watch;
 }
 
 const SETTINGS_BUTTON = {
@@ -54,14 +55,14 @@ const OPTIONS = [
     })),
 ];
 
-const Component = ({ slug, disabled }: Props) => {
+const Component = ({ slug, disabled, watch: watchProp }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: watch, isError: watchError } = useWatch(
+    const { data: watchQuery, isError: watchError } = useWatch(
         {
             slug,
         },
-        { enabled: !disabled },
+        { enabled: !disabled && !watchProp },
     );
     const { data: anime } = useAnimeInfo(
         {
@@ -71,10 +72,13 @@ const Component = ({ slug, disabled }: Props) => {
     );
     const { mutate: addWatch } = useAddWatch();
 
+    const watch =
+        watchProp || (watchQuery && !watchError ? watchQuery : undefined);
+
     const openWatchEditModal = () => {
         if (anime) {
             openModal({
-                content: <WatchEditModal slug={anime.slug} />,
+                content: <WatchEditModal slug={anime.slug} watch={watch} />,
                 className: '!max-w-xl',
                 title: anime.title,
                 forceModal: true,
@@ -83,15 +87,14 @@ const Component = ({ slug, disabled }: Props) => {
     };
 
     const handleChangeStatus = (options: string[]) => {
-        const params =
-            watch && !watchError
-                ? {
-                      episodes: watch?.episodes || undefined,
-                      score: watch?.score || undefined,
-                      note: watch?.note || undefined,
-                      rewatches: watch?.rewatches || undefined,
-                  }
-                : {};
+        const params = watch
+            ? {
+                  episodes: watch?.episodes || undefined,
+                  score: watch?.score || undefined,
+                  note: watch?.note || undefined,
+                  rewatches: watch?.rewatches || undefined,
+              }
+            : {};
 
         if (options[0] === 'settings') {
             openWatchEditModal();
@@ -120,10 +123,10 @@ const Component = ({ slug, disabled }: Props) => {
 
     return (
         <Select
-            value={watch && !watchError ? [watch.status] : []}
+            value={watch ? [watch.status] : []}
             onValueChange={handleChangeStatus}
         >
-            {watch && !watchError ? (
+            {watch ? (
                 <WatchStatusTrigger
                     watch={watch!}
                     disabled={disabled}
@@ -142,10 +145,10 @@ const Component = ({ slug, disabled }: Props) => {
                             </SelectItem>
                         ))}
                     </SelectGroup>
-                    {watch && !watchError && <SelectSeparator />}
-                    {watch && !watchError && (
+                    {watch && <SelectSeparator />}
+                    {watch && (
                         <SelectGroup>
-                            {watch && !watchError && (
+                            {watch && (
                                 <SelectItem disableCheckbox value="settings">
                                     {SETTINGS_BUTTON.label}
                                 </SelectItem>

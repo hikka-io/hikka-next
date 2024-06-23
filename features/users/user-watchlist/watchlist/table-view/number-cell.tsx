@@ -17,16 +17,17 @@ import { cn } from '@/utils/utils';
 interface Props {
     number: number;
     anime: API.Anime;
+    watch?: API.Watch;
 }
 
-const NumberCell: FC<Props> = ({ number, anime }) => {
+const NumberCell: FC<Props> = ({ number, anime, watch }) => {
     const params = useParams();
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
     const openWatchEditModal = () => {
         openModal({
-            content: <WatchEditModal slug={anime.slug} />,
+            content: <WatchEditModal watch={watch} slug={anime.slug} />,
             className: '!max-w-xl',
             title: anime.title,
             forceModal: true,

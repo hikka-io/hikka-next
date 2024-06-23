@@ -100,6 +100,7 @@ const TableView: FC<Props> = ({ data }) => {
                 {data.map((res, i) => (
                     <TableRow key={res.reference} className="group">
                         <NumberCell
+                            read={res}
                             content_type={
                                 params.content_type as 'manga' | 'novel'
                             }

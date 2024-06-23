@@ -23,13 +23,15 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
     const { openModal } = useModalContext();
     const { mutate: addWatch } = useAddWatch();
 
-    const watch = item.anime.watch.length > 0 ? item.anime.watch[0] : null;
+    const watch = item.anime.watch.length > 0 ? item.anime.watch[0] : undefined;
     const watchStatus = watch ? WATCH_STATUS[watch.status] : null;
 
     const handleWatch = () => {
         if (watchStatus) {
             openModal({
-                content: <WatchEditModal slug={item.anime.slug} />,
+                content: (
+                    <WatchEditModal slug={item.anime.slug} watch={watch} />
+                ),
                 className: '!max-w-xl',
                 title: title,
                 forceModal: true,

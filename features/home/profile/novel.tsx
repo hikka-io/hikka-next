@@ -69,6 +69,7 @@ const Novel = () => {
             openModal({
                 content: (
                     <ReadEditModal
+                        read={selectedRead}
                         slug={selectedRead.content.slug}
                         content_type={'novel'}
                     />

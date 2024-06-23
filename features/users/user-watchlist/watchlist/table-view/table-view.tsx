@@ -93,7 +93,11 @@ const TableView: FC<Props> = ({ data }) => {
             <TableBody>
                 {data.map((res, i) => (
                     <TableRow key={res.reference} className="group">
-                        <NumberCell anime={res.anime} number={i + 1} />
+                        <NumberCell
+                            watch={res}
+                            anime={res.anime}
+                            number={i + 1}
+                        />
                         <DetailsCell
                             note={res.note}
                             anime={res.anime}
