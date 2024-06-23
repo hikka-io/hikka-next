@@ -58,6 +58,14 @@ const SORT_READLIST = [
         value: 'read_created',
     },
     {
+        label: 'К-сть томів',
+        value: 'read_volumes',
+    },
+    {
+        label: 'К-сть розділів',
+        value: 'read_chapters',
+    },
+    {
         label: 'Власна оцінка',
         value: 'read_score',
     },

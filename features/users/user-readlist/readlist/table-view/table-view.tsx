@@ -39,7 +39,7 @@ const TableView: FC<Props> = ({ data }) => {
     const sort = searchParams.get('sort');
 
     const switchSort = (
-        newSort: 'watch_score' | 'watch_episodes' | 'media_type',
+        newSort: 'read_score' | 'read_chapters' | 'read_volumes' | 'media_type',
     ) => {
         const query = createQueryString(
             'order',
@@ -67,30 +67,30 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'cursor-pointer select-none text-center hover:underline',
-                            sort === 'watch_episodes' && 'text-primary',
+                            sort === 'read_chapters' && 'text-primary',
                         )}
                         align="center"
-                        onClick={() => switchSort('watch_episodes')}
+                        onClick={() => switchSort('read_chapters')}
                     >
                         Розділи
                     </TableHead>
                     <TableHead
                         className={cn(
-                            'hidden w-20 cursor-pointer select-none text-center hover:underline lg:table-cell',
-                            sort === 'media_type' && 'text-primary',
+                            'cursor-pointer select-none text-center hover:underline',
+                            sort === 'read_volumes' && 'text-primary',
                         )}
                         align="center"
-                        onClick={() => switchSort('media_type')}
+                        onClick={() => switchSort('read_volumes')}
                     >
                         Томи
                     </TableHead>
                     <TableHead
                         className={cn(
                             'w-4 cursor-pointer select-none text-right hover:underline',
-                            sort === 'watch_score' && 'text-primary',
+                            sort === 'read_score' && 'text-primary',
                         )}
                         align="right"
-                        onClick={() => switchSort('watch_score')}
+                        onClick={() => switchSort('read_score')}
                     >
                         Оцінка
                     </TableHead>
