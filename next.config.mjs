@@ -33,7 +33,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+                destination: `${process.env.API_URL}/:path*`,
             },
         ];
     },
@@ -42,6 +42,11 @@ const nextConfig = {
             {
                 source: '/u/:username/list',
                 destination: '/u/:username/list/anime',
+                permanent: true,
+            },
+            {
+                source: '/api/metrics',
+                destination: `/`,
                 permanent: true,
             },
         ];
