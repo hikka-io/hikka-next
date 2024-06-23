@@ -9,6 +9,7 @@ import getNovelInfo from '@/services/api/novel/getNovelInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import getQueryClient from '@/utils/get-query-client';
+import { convertTitle } from '@/utils/title-adapter';
 
 interface Props {
     content_type: API.ContentType;
@@ -64,49 +65,6 @@ const useContent = (props: Props) => {
             let content: Response | undefined;
 
             if ('data_type' in data) {
-                if (data.data_type === 'anime') {
-                    content = {
-                        title:
-                            data[titleLanguage!] ||
-                            data.title_ua ||
-                            data.title_en ||
-                            data.title_ja,
-                        image: data.image,
-                        content_type: params.content_type,
-                    };
-                }
-
-                if (data.data_type === 'manga' || data.data_type === 'novel') {
-                    content = {
-                        title:
-                            data[
-                                titleLanguage === 'title_ja'
-                                    ? 'title_original'
-                                    : titleLanguage!
-                            ] ||
-                            data.title_ua ||
-                            data.title_en,
-                        image: data.image,
-                        content_type: params.content_type,
-                    };
-                }
-
-                if (data.data_type === 'character') {
-                    content = {
-                        title: data.name_ua || data.name_en || data.name_ja,
-                        image: data.image,
-                        content_type: params.content_type,
-                    };
-                }
-
-                if (data.data_type === 'person') {
-                    content = {
-                        title: data.name_ua || data.name_en || data.name_native,
-                        image: data.image,
-                        content_type: params.content_type,
-                    };
-                }
-
                 if (data.data_type === 'collection') {
                     content = {
                         title: data.title,
@@ -115,6 +73,15 @@ const useContent = (props: Props) => {
                                 ? data.collection[0].content.image
                                 : data.collection[0].content.image,
                         content_type: params.content_type,
+                    };
+                } else {
+                    content = {
+                        image: data.image,
+                        content_type: params.content_type,
+                        title: convertTitle({
+                            data,
+                            titleLanguage: titleLanguage!,
+                        }).title,
                     };
                 }
             } else {
