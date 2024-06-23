@@ -1,4 +1,4 @@
-import formatDistance from 'date-fns/formatDistance';
+import format from 'date-fns/format';
 import { FC, Fragment, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
 import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
@@ -35,11 +35,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
             </div>
             <div className="flex gap-1">
                 <MaterialSymbolsDriveFileRenameOutlineRounded />
-                <Small>
-                    {formatDistance(data.updated * 1000, Date.now(), {
-                        addSuffix: true,
-                    })}
-                </Small>
+                <Small>{format(new Date(data.updated * 1000), 'd.MM.Y')}</Small>
             </div>
         </Fragment>
     );
