@@ -3,30 +3,22 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
 
-import { getTitle } from '@/utils/title-adapter';
-
 interface Props {
     content: API.MainContent;
 }
 
 const Details: FC<Props> = ({ content }) => {
-    const title_ua = getTitle({
-        data: content,
-        titleLanguage: content.data_type === 'anime' ? 'title_ua' : 'name_ua',
-    });
-    const title_en = getTitle({
-        data: content,
-        titleLanguage: content.data_type === 'anime' ? 'title_en' : 'name_en',
-    });
-    const title_ja = getTitle({
-        data: content,
-        titleLanguage:
-            content.data_type === 'anime'
-                ? 'title_ja'
-                : content.data_type === 'manga' || content.data_type === 'novel'
-                  ? 'title_original'
-                  : 'name_ja',
-    });
+    const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
+    const title_en =
+        'title_en' in content ? content?.title_en : content?.name_en;
+    const title_ja =
+        'title_ja' in content
+            ? content.title_ja
+            : 'title_original' in content
+              ? content.title_original
+              : 'name_ja' in content
+                ? content.name_ja
+                : content.name_native;
 
     return (
         <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
