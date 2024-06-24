@@ -19,7 +19,7 @@ const CollectionTitle = () => {
     return (
         <div className="flex flex-col gap-4">
             <Header title={title || 'Нова колекція'} />
-            {((reference && description) || !reference) && (
+            {((reference && description !== undefined) || !reference) && (
                 <PlateEditor
                     onChange={(markdown) =>
                         setCollectionState!((state) => ({

@@ -11,6 +11,7 @@ import Spoiler from '@/components/markdown/viewer/components/spoiler';
 import { cn } from '@/utils/utils';
 
 import NoSpoiler from './components/no-spoiler';
+import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
 
 interface Props extends Options {
@@ -22,6 +23,7 @@ const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
         <Markdown
             className={cn('markdown w-full', className)}
             remarkPlugins={[
+                remarkDisableTokenizer,
                 remarkDirective,
                 remarkDirectiveRehype,
                 [
@@ -39,11 +41,7 @@ const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
                         {children}
                     </Link>
                 ),
-                code: ({ node, children }) => <p>{children}</p>,
-                u: ({ children }) => <u>{children}</u>,
             }}
-            disallowedElements={['pre']}
-            unwrapDisallowed
             {...props}
         >
             {children}

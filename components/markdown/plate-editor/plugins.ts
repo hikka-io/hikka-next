@@ -14,7 +14,6 @@ import {
     createPlugins,
 } from '@udecode/plate-common';
 import { ELEMENT_LINK, createLinkPlugin } from '@udecode/plate-link';
-import { createListPlugin } from '@udecode/plate-list';
 import {
     ELEMENT_PARAGRAPH,
     createParagraphPlugin,
@@ -44,7 +43,7 @@ const plugins = createPlugins(
         createSpoilerPlugin(),
         createParagraphPlugin(),
         createDiffPlugin(),
-        createListPlugin(),
+        // createListPlugin(),
         /* createResetNodePlugin({
             options: {
                 rules: [

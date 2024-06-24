@@ -7,6 +7,8 @@ import remarkDirective from 'remark-directive';
 import markdown from 'remark-parse';
 import { unified } from 'unified';
 
+import remarkDisableTokenizer from '@/components/markdown/viewer/plugins/remark-disable-tokenizer';
+
 import {
     type RemarkPluginOptions,
     remarkPlugin,
@@ -27,6 +29,7 @@ export const deserializeMd = <V extends Value>(
     const tree: any = unified()
         .use(markdown)
         .use(remarkDirective)
+        .use(remarkDisableTokenizer)
         .use(remarkPlugin, {
             editor,
             elementRules,
