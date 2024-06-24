@@ -1,13 +1,15 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import { Label } from '@/components/ui/label';
+import HorizontalContentCard from '@/components/ui/horizontal-content-card';
 
 interface Props {
     content: API.MainContent;
+    href: string;
+    poster: string;
 }
 
-const Details: FC<Props> = ({ content }) => {
+const Details: FC<Props> = ({ content, href, poster }) => {
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
     const title_en =
         'title_en' in content ? content?.title_en : content?.name_en;
@@ -20,27 +22,34 @@ const Details: FC<Props> = ({ content }) => {
                 ? content.name_ja
                 : content.name_native;
 
+    console.log(title_en, title_ua, title_ja);
+
     return (
-        <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
-            <div className="flex flex-col gap-2">
-                <Label className="text-muted-foreground">
-                    {'title_ua' in content ? 'Назва' : 'Імʼя'} українською
-                </Label>
-                <P className="text-sm">{title_ua || '-'}</P>
+        <HorizontalContentCard
+            href={href}
+            image={poster}
+            title={title_ua || title_en || title_ja}
+            size="sm"
+        >
+            <div className="flex h-full flex-col text-xs text-muted-foreground">
+                <P className="line-clamp-1">
+                    {title_ua !== null
+                        ? title_en
+                        : title_en !== null
+                          ? title_ja
+                          : null}
+                </P>
+                <P className="line-clamp-1">
+                    {title_en === null
+                        ? title_ua === null
+                            ? title_ja
+                            : null
+                        : title_ua !== null
+                          ? title_ja
+                          : null}
+                </P>
             </div>
-            <div className="flex flex-col gap-2">
-                <Label className="text-muted-foreground">
-                    {'title_en' in content ? 'Назва' : 'Імʼя'} англійською
-                </Label>
-                <P className="text-sm">{title_en || '-'}</P>
-            </div>
-            <div className="flex flex-col gap-2">
-                <Label className="text-muted-foreground">
-                    {'title_ja' in content ? 'Назва оригіналу' : 'Рідне імʼя'}
-                </Label>
-                <P className="text-sm">{title_ja || '-'}</P>
-            </div>
-        </div>
+        </HorizontalContentCard>
     );
 };
 
