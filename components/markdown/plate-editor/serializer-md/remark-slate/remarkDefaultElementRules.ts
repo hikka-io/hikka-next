@@ -8,7 +8,7 @@ import {
 
 import { remarkTransformElementChildren } from './remarkTransformElementChildren';
 import { remarkTransformNode } from './remarkTransformNode';
-import type { MdastNode, RemarkElementRules } from './types';
+import type { RemarkElementRules } from './types';
 
 export const defaultDirectives = ['spoiler'];
 
@@ -78,7 +78,7 @@ export const remarkDefaultElementRules: RemarkElementRules<Value> = {
             url: node.url,
         }),
     },
-    list: {
+    /* list: {
         transform: (node, options) => {
             if (options.indentList) {
                 const listStyleType = node.ordered ? 'decimal' : 'disc';
@@ -135,7 +135,7 @@ export const remarkDefaultElementRules: RemarkElementRules<Value> = {
             ),
             type: getPluginType(options.editor, 'li'),
         }),
-    },
+    }, */
     paragraph: {
         transform: (node, options) => {
             const children = remarkTransformElementChildren(node, options);
