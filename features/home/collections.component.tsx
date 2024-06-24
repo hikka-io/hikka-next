@@ -48,10 +48,10 @@ const Collections: FC<Props> = ({ className }) => {
                             image={item.collection[0].content.image}
                             href={`/collections/${item.reference}`}
                             titleClassName={cn(
-                                item.spoiler && 'blur hover:blur-none',
+                                item.spoiler && 'spoiler-blur-md',
                             )}
                             containerClassName={cn(
-                                item.nsfw && 'blur hover:blur-none',
+                                item.nsfw && 'spoiler-blur-md',
                             )}
                             leftSubtitle={(item.nsfw && '+18') || undefined}
                             rightSubtitle={
