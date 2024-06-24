@@ -42,6 +42,8 @@ const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
                 code: ({ node, children }) => <p>{children}</p>,
                 u: ({ children }) => <u>{children}</u>,
             }}
+            disallowedElements={['pre']}
+            unwrapDisallowed
             {...props}
         >
             {children}
