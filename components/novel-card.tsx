@@ -16,6 +16,7 @@ const NovelCard: FC<Props> = ({ novel, ...props }) => {
             read={novel.read ? novel.read[0] : undefined}
             slug={novel.slug}
             content_type="novel"
+            withContextMenu
             href={`/novel/${novel.slug}`}
             image={novel.image}
             title={novel.title}
