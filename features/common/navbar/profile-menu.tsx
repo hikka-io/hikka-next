@@ -20,7 +20,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 
 import SettingsModal from '@/features/modals/user-settings-modal/user-settings-modal';
 
@@ -68,7 +67,6 @@ const ProfileMenu = () => {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <div>
                         <DropdownMenuItem asChild>
                             <Link href={'/u/' + loggedUser.username}>
                                 <MaterialSymbolsPerson className="mr-2 size-4" />
@@ -81,9 +79,9 @@ const ProfileMenu = () => {
                                 Улюблене
                             </Link>
                         </DropdownMenuItem>
-                    </div>
-                    <Separator className='w-auto m-1' />
-                    <div>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
                         <DropdownMenuItem asChild>
                             <Link
                                 href={
@@ -120,9 +118,9 @@ const ProfileMenu = () => {
                                 Список ранобе
                             </Link>
                         </DropdownMenuItem>
-                    </div>
-                    <Separator className='w-auto m-1' />
-                    <div>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
                         <DropdownMenuItem
                             onClick={() => {
                                 openModal({
@@ -140,8 +138,7 @@ const ProfileMenu = () => {
                             <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-destructive" />
                             Вийти
                         </DropdownMenuItem>
-                    </div>
-                </DropdownMenuGroup>
+                    </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
     );
