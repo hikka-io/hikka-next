@@ -13,7 +13,7 @@ const Cover: FC = () => {
     const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
 
     return (
-        <div className="flex items-center px-16 md:px-48 lg:px-0">
+        <div className="z-0 flex items-center px-16 md:px-48 lg:px-0">
             <ContentCard imageProps={{ priority: true }} image={anime?.image}>
                 <div className="absolute bottom-2 right-2 z-[1]">
                     <FavoriteButton
