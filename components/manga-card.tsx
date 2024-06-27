@@ -16,6 +16,7 @@ const MangaCard: FC<Props> = ({ manga, ...props }) => {
             read={manga.read ? manga.read[0] : undefined}
             slug={manga.slug}
             content_type="manga"
+            withContextMenu
             href={`/manga/${manga.slug}`}
             image={manga.image}
             title={manga.title}
