@@ -67,78 +67,78 @@ const ProfileMenu = () => {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                        <DropdownMenuItem asChild>
-                            <Link href={'/u/' + loggedUser.username}>
-                                <MaterialSymbolsPerson className="mr-2 size-4" />
-                                Профіль
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href={'/u/' + loggedUser.username + '/favorites'}>
-                                <MaterialSymbolsFavoriteRounded className="mr-2 size-4" />
-                                Улюблене
-                            </Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem asChild>
-                            <Link
-                                href={
-                                    '/u/' +
-                                    loggedUser.username +
-                                    '/list/anime?status=planned&sort=watch_score'
-                                }
-                            >
-                                <MaterialSymbolsPlayArrowRounded className="mr-2 size-4" />
-                                Список аніме
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link
-                                href={
-                                    '/u/' +
-                                    loggedUser.username +
-                                    '/list/manga?status=planned&sort=read_score'
-                                }
-                            >
-                                <MaterialSymbolsPalette className="mr-2 size-4" />
-                                Список манґи
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link
-                                href={
-                                    '/u/' +
-                                    loggedUser.username +
-                                    '/list/novel?status=planned&sort=read_score'
-                                }
-                            >
-                                <MaterialSymbolsMenuBookRounded className="mr-2 size-4" />
-                                Список ранобе
-                            </Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem
-                            onClick={() => {
-                                openModal({
-                                    content: <SettingsModal />,
-                                    type: 'sheet',
-                                    className: '!max-w-3xl flex flex-col gap-0 p-0',
-                                    forceModal: true,
-                                });
-                            }}
+                    <DropdownMenuItem asChild>
+                        <Link href={'/u/' + loggedUser.username}>
+                            <MaterialSymbolsPerson className="mr-2 size-4" />
+                            Профіль
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href={'/u/' + loggedUser.username + '/favorites'}>
+                            <MaterialSymbolsFavoriteRounded className="mr-2 size-4" />
+                            Улюблене
+                        </Link>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={
+                                '/u/' +
+                                loggedUser.username +
+                                '/list/anime?status=planned&sort=watch_score'
+                            }
                         >
-                            <MaterialSymbolsSettingsOutline className="mr-2 size-4" />
-                            Налаштування
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={logout}>
-                            <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-destructive" />
-                            Вийти
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
+                            <MaterialSymbolsPlayArrowRounded className="mr-2 size-4" />
+                            Список аніме
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={
+                                '/u/' +
+                                loggedUser.username +
+                                '/list/manga?status=planned&sort=read_score'
+                            }
+                        >
+                            <MaterialSymbolsPalette className="mr-2 size-4" />
+                            Список манґи
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={
+                                '/u/' +
+                                loggedUser.username +
+                                '/list/novel?status=planned&sort=read_score'
+                            }
+                        >
+                            <MaterialSymbolsMenuBookRounded className="mr-2 size-4" />
+                            Список ранобе
+                        </Link>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem
+                        onClick={() => {
+                            openModal({
+                                content: <SettingsModal />,
+                                type: 'sheet',
+                                className: '!max-w-3xl flex flex-col gap-0 p-0',
+                                forceModal: true,
+                            });
+                        }}
+                    >
+                        <MaterialSymbolsSettingsOutline className="mr-2 size-4" />
+                        Налаштування
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>
+                        <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-destructive" />
+                        Вийти
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
     );
