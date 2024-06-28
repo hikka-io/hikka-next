@@ -74,6 +74,15 @@ const ProfileMenu = () => {
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
+                        <Link href={'/u/' + loggedUser.username + '/favorites'}>
+                            <MaterialSymbolsFavoriteRounded className="mr-2 size-4" />
+                            Улюблене
+                        </Link>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
                         <Link
                             href={
                                 '/u/' +
@@ -109,12 +118,9 @@ const ProfileMenu = () => {
                             Список ранобе
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href={'/u/' + loggedUser.username + '/favorites'}>
-                            <MaterialSymbolsFavoriteRounded className="mr-2 size-4" />
-                            Улюблене
-                        </Link>
-                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
                     <DropdownMenuItem
                         onClick={() => {
                             openModal({
