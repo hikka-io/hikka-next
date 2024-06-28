@@ -21,7 +21,7 @@ const AgeRating: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Рейтинг">
+        <CollapsibleFilter title="Віковий рейтинг">
             <BadgeFilter
                 properties={AGE_RATING}
                 selected={ageRatings}
