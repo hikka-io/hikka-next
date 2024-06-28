@@ -4,6 +4,9 @@ import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
 import AnimeTooltip from '@/components/content-card/anime-tooltip';
 import CharacterTooltip from '@/components/content-card/character-tooltip';
+import MangaTooltip from '@/components/content-card/manga-tooltip';
+import NovelTooltip from '@/components/content-card/novel-tooltip';
+import PersonTooltip from '@/components/content-card/person-tooltip';
 import P from '@/components/typography/p';
 import {
     AlertDialog,
@@ -45,8 +48,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </AnimeTooltip>
                 );
             }
-        }
-        if (href.includes('/characters')) {
+        } else if (href.includes('/characters')) {
             const link = href.split('/characters/')[1]?.split('/')[0];
 
             if (link) {
@@ -54,6 +56,36 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <CharacterTooltip slug={link}>
                         <NextLink href={href}>{children}</NextLink>
                     </CharacterTooltip>
+                );
+            }
+        } else if (href.includes('/manga')) {
+            const link = href.split('/manga/')[1]?.split('/')[0];
+
+            if (link) {
+                return (
+                    <MangaTooltip slug={link}>
+                        <NextLink href={href}>{children}</NextLink>
+                    </MangaTooltip>
+                );
+            }
+        } else if (href.includes('/novel')) {
+            const link = href.split('/novel/')[1]?.split('/')[0];
+
+            if (link) {
+                return (
+                    <NovelTooltip slug={link}>
+                        <NextLink href={href}>{children}</NextLink>
+                    </NovelTooltip>
+                );
+            }
+        } else if (href.includes('/people')) {
+            const link = href.split('/people/')[1]?.split('/')[0];
+
+            if (link) {
+                return (
+                    <PersonTooltip slug={link}>
+                        <NextLink href={href}>{children}</NextLink>
+                    </PersonTooltip>
                 );
             }
         }
