@@ -58,7 +58,7 @@ const HistoryItem: FC<Props> = (props) => {
                 data.content &&
                 `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
             }
-            createdAt={data.created}
+            createdAt={data.updated}
             image={
                 data.content?.data_type === 'anime'
                     ? data.content?.image
