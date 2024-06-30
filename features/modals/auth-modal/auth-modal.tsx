@@ -28,7 +28,7 @@ const Component = ({
     };
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]">
+        <div className="grid grid-cols-1 overflow-hidden rounded-[inherit] lg:grid-cols-[40%_1fr]">
             <div className="relative hidden lg:block">
                 <Image
                     unoptimized
