@@ -3,8 +3,9 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
+
 import LoadMoreButton from '@/components/load-more-button';
+import MangaCard from '@/components/manga-card';
 import NotFound from '@/components/ui/not-found';
 
 import useFavorites from '@/services/hooks/favorite/use-favorites';
@@ -49,15 +50,7 @@ const Manga: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <ContentCard
-                            key={res.slug}
-                            // read={res.read.length > 0 ? res.read[0] : undefined}
-                            title={res.title}
-                            image={res.image}
-                            href={`/manga/${res.slug}`}
-                            slug={res.slug}
-                            content_type="manga"
-                        />
+                        <MangaCard key={res.slug} manga={res} />
                     ))}
                 </div>
             )}

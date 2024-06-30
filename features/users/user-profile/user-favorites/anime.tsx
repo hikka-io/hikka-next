@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
+import AnimeCard from '@/components/anime-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 
@@ -49,17 +49,7 @@ const Anime: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <ContentCard
-                            key={res.slug}
-                            watch={
-                                res.watch.length > 0 ? res.watch[0] : undefined
-                            }
-                            title={res.title}
-                            image={res.image}
-                            href={`/anime/${res.slug}`}
-                            slug={res.slug}
-                            content_type="anime"
-                        />
+                        <AnimeCard key={res.slug} anime={res} />
                     ))}
                 </div>
             )}

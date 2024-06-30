@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
+import NovelCard from '@/components/novel-card';
 import NotFound from '@/components/ui/not-found';
 
 import useFavorites from '@/services/hooks/favorite/use-favorites';
@@ -49,15 +49,7 @@ const Novel: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <ContentCard
-                            key={res.slug}
-                            read={res.read.length > 0 ? res.read[0] : undefined}
-                            title={res.title}
-                            image={res.image}
-                            href={`/novel/${res.slug}`}
-                            slug={res.slug}
-                            content_type="novel"
-                        />
+                        <NovelCard key={res.slug} novel={res} />
                     ))}
                 </div>
             )}
