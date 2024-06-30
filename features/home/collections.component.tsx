@@ -39,7 +39,7 @@ const Collections: FC<Props> = ({ className }) => {
                     </Button>
                 )}
             </Header>
-            <Stack size={8}>
+            <Stack size={8} className="-mt-4 pt-4">
                 {filteredCollections &&
                     filteredCollections.map((item) => (
                         <ContentCard
