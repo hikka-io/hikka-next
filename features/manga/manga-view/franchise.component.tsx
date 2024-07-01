@@ -34,7 +34,8 @@ const Franchise: FC<Props> = ({ extended }) => {
         return null;
     }
 
-    const filteredData = extended ? franchise.list : franchise.list.slice(0, 4);
+    const sortedList = franchise.list.sort((a, b) => (a.year < b.year ? 1 : -1));
+    const filteredData = extended ? sortedList : sortedList.slice(0, 4);
 
     return (
         <Block>
