@@ -55,6 +55,8 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
                         onChange={(e) => setPendingDataPoint(e.target.value)}
                         onKeyDown={(e) => {
                             if (disableKeys) return;
+                            if (pendingDataPoint.length >= 16)
+                                e.preventDefault();
 
                             if (e.key === 'Enter') {
                                 e.preventDefault();
