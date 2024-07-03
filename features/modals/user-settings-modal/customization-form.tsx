@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import * as React from 'react';
+import MaterialSymbolsСomputerOutlineRounded from '~icons/material-symbols/computer-outline-rounded';
 import MaterialSymbolsNightlightOutlineRounded from '~icons/material-symbols/nightlight-outline-rounded';
 import MaterialSymbolsSunnyOutlineRounded from '~icons/material-symbols/sunny-outline-rounded';
 
@@ -26,12 +26,12 @@ const Component = () => {
         setSettingsState!((prev) =>
             prev
                 ? {
-                      ...prev,
-                      titleLanguage: value[0] as
-                          | 'title_ua'
-                          | 'title_en'
-                          | 'title_ja',
-                  }
+                    ...prev,
+                    titleLanguage: value[0] as
+                        | 'title_ua'
+                        | 'title_en'
+                        | 'title_ja',
+                }
                 : prev,
         );
 
@@ -62,6 +62,12 @@ const Component = () => {
                                         Світла тема
                                     </div>
                                 </SelectItem>
+                                <SelectItem value="system">
+                                    <div className="flex items-center gap-2">
+                                        <MaterialSymbolsСomputerOutlineRounded className="text-[1.2rem]" />
+                                        Системна тема
+                                    </div>
+                                </SelectItem>
                             </SelectGroup>
                         </SelectList>
                     </SelectContent>
@@ -75,7 +81,7 @@ const Component = () => {
                     onValueChange={handleChangeTitleLanguage}
                 >
                     <SelectTrigger>
-                        <SelectValue placeholder="Виберіть тему..." />
+                        <SelectValue placeholder="Виберіть мову..." />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectList>
