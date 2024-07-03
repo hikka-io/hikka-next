@@ -91,6 +91,9 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 {username[0]}
                             </AvatarFallback>
                         </Avatar>
+                        {user?.active && (
+                            <div className="absolute left-12 top-12 z-[1] size-3 rounded-full border border-secondary bg-success" />
+                        )}
                         <div className="flex flex-row items-center gap-2">
                             <h4 className="text-sm font-semibold">
                                 {username}
