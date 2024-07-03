@@ -81,7 +81,7 @@ const Component = () => {
                     onValueChange={handleChangeTitleLanguage}
                 >
                     <SelectTrigger>
-                        <SelectValue placeholder="Виберіть тему..." />
+                        <SelectValue placeholder="Виберіть мову..." />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectList>
