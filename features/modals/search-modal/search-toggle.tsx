@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 import MaterialSymbolsAccountBox from '~icons/material-symbols/account-box';
+import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
 import MaterialSymbolsFace3 from '~icons/material-symbols/face-3';
 import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsPerson from '~icons/material-symbols/person';
-import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -54,7 +54,7 @@ const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
                     <SelectGroup>
                         <SelectItem value="anime">
                             <div className="flex items-center gap-2">
-                                <MaterialSymbolsPlayArrowRounded className="!size-4" />{' '}
+                                <MaterialAnimatedImages className="!size-4" />{' '}
                                 Аніме
                             </div>
                         </SelectItem>

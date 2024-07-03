@@ -81,19 +81,22 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
         <div className="flex w-64 flex-col gap-4">
             <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                    <div className="flex gap-4">
-                        <Avatar className="rounded-md">
-                            <AvatarImage
-                                className="rounded-md"
-                                src={user?.avatar}
-                            />
-                            <AvatarFallback className="rounded-md">
-                                {username[0]}
-                            </AvatarFallback>
-                        </Avatar>
-                        {user?.active && (
-                            <div className="absolute left-12 top-12 z-[1] size-3 rounded-full border border-secondary bg-success" />
-                        )}
+                    <div className="flex gap-2">
+                        <div className="relative">
+                            <Avatar className="rounded-md">
+                                <AvatarImage
+                                    className="rounded-md"
+                                    src={user?.avatar}
+                                />
+                                <AvatarFallback className="rounded-md">
+                                    {username[0]}
+                                </AvatarFallback>
+                            </Avatar>
+                            {user?.active && (
+                                <div className="absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border border-secondary bg-success" />
+                            )}
+                        </div>
+
                         <div className="flex flex-row items-center gap-2">
                             <h4 className="text-sm font-semibold">
                                 {username}
@@ -149,16 +152,16 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 </span>
             </div>
             <Separator className="-mx-4 w-auto" />
-            <div className="flex text-sm font-semibold">
-                <div className="flex w-1/3 items-center gap-1">
+            <div className="flex justify-between text-sm font-semibold">
+                <div className="flex items-center gap-2">
                     <MaterialAnimatedImages className="text-muted-foreground" />
                     {watchStats?.completed}
                 </div>
-                <div className="flex w-1/3 items-center gap-1">
+                <div className="flex items-center gap-2">
                     <MaterialSymbolsPalette className="text-muted-foreground" />
                     {mangaStats?.completed}
                 </div>
-                <div className="flex w-1/3 items-center gap-1">
+                <div className="flex items-center gap-2">
                     <MaterialSymbolsMenuBookRounded className="text-muted-foreground" />
                     {novelStats?.completed}
                 </div>
