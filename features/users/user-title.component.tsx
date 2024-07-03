@@ -1,7 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import ClarityAdministratorSolid from '~icons/clarity/administrator-solid';
+import MaterialSymbolsSecurity from '~icons/material-symbols/security';
+import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
 import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';
@@ -32,8 +33,13 @@ const UserTitle = () => {
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="rounded-md border border-secondary/60 bg-secondary/30 p-1 text-xs font-bold text-secondary-foreground backdrop-blur">
-                                <ClarityAdministratorSolid />
+                            <div className="rounded-sm border border-secondary/60 bg-secondary/30 p-1 text-xs font-bold text-secondary-foreground backdrop-blur">
+                                {user.role === 'admin' && (
+                                    <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                )}
+                                {user.role === 'moderator' && (
+                                    <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                )}
                             </div>
                         </TooltipTrigger>
                         <TooltipContent>
