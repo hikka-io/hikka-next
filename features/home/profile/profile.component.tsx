@@ -1,6 +1,6 @@
+import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
 import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
-import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 
 import Block from '@/components/ui/block';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,16 +12,15 @@ import Novel from './novel';
 const Profile = () => {
     return (
         <Block>
-            <Tabs defaultValue="anime" className="flex flex-col flex-1">
+            <Tabs defaultValue="anime" className="flex flex-1 flex-col">
                 <TabsList className="w-full">
-                    <TabsTrigger value="anime" className="flex-1 flex gap-2">
-                        <MaterialSymbolsPlayArrowRounded className="size-4" />{' '}
-                        Аніме
+                    <TabsTrigger value="anime" className="flex flex-1 gap-2">
+                        <MaterialAnimatedImages className="size-4" /> Аніме
                     </TabsTrigger>
-                    <TabsTrigger value="manga" className="flex-1 flex gap-2">
+                    <TabsTrigger value="manga" className="flex flex-1 gap-2">
                         <MaterialSymbolsPalette className="size-4" /> Манґа
                     </TabsTrigger>
-                    <TabsTrigger value="novel" className="flex-1 flex gap-2">
+                    <TabsTrigger value="novel" className="flex flex-1 gap-2">
                         <MaterialSymbolsMenuBookRounded className="size-4" />{' '}
                         Ранобе
                     </TabsTrigger>

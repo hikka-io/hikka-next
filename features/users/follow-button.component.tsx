@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import CilUserFollow from '~icons/cil/user-follow';
-import CilUserUnfollow from '~icons/cil/user-unfollow';
+import MaterialSymbolsPersonAddOutlineRounded from '~icons/material-symbols/person-add-outline-rounded';
+import MaterialSymbolsPersonRemoveOutlineRounded from '~icons/material-symbols/person-remove-outline-rounded';
 
 import { Button } from '@/components/ui/button';
 
@@ -19,28 +19,32 @@ import { cn } from '@/utils/utils';
 
 interface Props {
     className?: string;
+    username?: string;
+    iconOnly?: boolean;
 }
 
-const FollowButton: FC<Props> = ({ className }) => {
+const FollowButton: FC<Props> = ({ className, username, iconOnly }) => {
     const { openModal } = useModalContext();
     const params = useParams();
 
     const { user: loggedUser } = useSession();
-    const { data: user } = useUser({ username: String(params.username) });
+    const { data: user } = useUser({
+        username: username || String(params.username),
+    });
 
     const { data: followChecker } = useFollowChecker(
         {
-            username: String(params.username),
+            username: username || String(params.username),
         },
         { enabled: loggedUser && loggedUser.username !== params.username },
     );
 
     const { mutate: mutateFollow, isPending: followLoading } = useFollow({
-        username: String(params.username),
+        username: username || String(params.username),
     });
 
     const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow({
-        username: String(params.username),
+        username: username || String(params.username),
     });
 
     const handleFollowAction = async (action: 'follow' | 'unfollow') => {
@@ -69,9 +73,9 @@ const FollowButton: FC<Props> = ({ className }) => {
                     {unfollowLoading ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
-                        <CilUserUnfollow />
+                        <MaterialSymbolsPersonRemoveOutlineRounded />
                     )}
-                    Не стежити
+                    {!iconOnly && 'Не стежити'}
                 </Button>
             ) : (
                 <Button
@@ -83,9 +87,9 @@ const FollowButton: FC<Props> = ({ className }) => {
                     {followLoading ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
-                        <CilUserFollow />
+                        <MaterialSymbolsPersonAddOutlineRounded />
                     )}
-                    Відстежувати
+                    {!iconOnly && 'Відстежувати'}
                 </Button>
             )
         ) : null
@@ -100,8 +104,8 @@ const FollowButton: FC<Props> = ({ className }) => {
             }
             className={cn('w-fit', className)}
         >
-            <CilUserFollow />
-            Відстежувати
+            <MaterialSymbolsPersonAddOutlineRounded />
+            {!iconOnly && 'Відстежувати'}
         </Button>
     );
 };

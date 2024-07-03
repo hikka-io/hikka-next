@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
 import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsPerson from '~icons/material-symbols/person';
-import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -90,7 +90,7 @@ const ProfileMenu = () => {
                                 '/list/anime?status=planned&sort=watch_score'
                             }
                         >
-                            <MaterialSymbolsPlayArrowRounded className="mr-2 size-4" />
+                            <MaterialAnimatedImages className="mr-2 size-4" />
                             Список аніме
                         </Link>
                     </DropdownMenuItem>

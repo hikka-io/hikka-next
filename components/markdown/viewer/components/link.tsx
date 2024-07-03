@@ -7,6 +7,7 @@ import CharacterTooltip from '@/components/content-card/character-tooltip';
 import MangaTooltip from '@/components/content-card/manga-tooltip';
 import NovelTooltip from '@/components/content-card/novel-tooltip';
 import PersonTooltip from '@/components/content-card/person-tooltip';
+import UserTooltip from '@/components/content-card/user-tooltip';
 import P from '@/components/typography/p';
 import {
     AlertDialog,
@@ -86,6 +87,16 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <PersonTooltip slug={link}>
                         <NextLink href={href}>{children}</NextLink>
                     </PersonTooltip>
+                );
+            }
+        } else if (href.includes('/u')) {
+            const link = href.split('/u/')[1]?.split('/')[0];
+
+            if (link) {
+                return (
+                    <UserTooltip username={link}>
+                        <NextLink href={href}>{children}</NextLink>
+                    </UserTooltip>
                 );
             }
         }

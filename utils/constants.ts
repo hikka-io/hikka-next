@@ -1,3 +1,4 @@
+import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
 import MaterialSymbolsBookmarkFlagOutlineRounded from '~icons/material-symbols/bookmark-flag-outline-rounded';
 import MaterialSymbolsBookmarkOutline from '~icons/material-symbols/bookmark-outline';
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
@@ -5,7 +6,6 @@ import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded';
 import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
-import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
 
 import Completed from '@/components/icons/watch-status/completed';
@@ -466,7 +466,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         slug: 'anime',
         title_ua: 'Аніме',
         url: '/anime',
-        icon: MaterialSymbolsPlayArrowRounded,
+        icon: MaterialAnimatedImages,
         visible: true,
     },
     {
