@@ -27,10 +27,6 @@ const DashboardPage: FC<Props> = async () => {
     });
     await prefetchEditList({ author: loggedUser.username });
 
-    await prefetchEditList({ status: 'accepted' });
-    await prefetchEditList({ status: 'pending' });
-    await prefetchEditList({ status: 'denied' });
-    await prefetchEditList({ status: 'closed' });
     // await prefetchEditList({ status: ['accepted', 'denied'] });
 
     await prefetchTodoAnime({ param: 'title_ua' });
