@@ -491,6 +491,12 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         visible: true,
     },
     {
+        slug: 'dashboard',
+        title_ua: 'Центр модерації',
+        url: '/dashboard',
+        visible: false,
+    },
+    {
         slug: 'users',
         title_ua: 'Користувачі',
         url: '/u',

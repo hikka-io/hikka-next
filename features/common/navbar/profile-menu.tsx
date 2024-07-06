@@ -8,6 +8,7 @@ import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-ro
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsPerson from '~icons/material-symbols/person';
 import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
+import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -55,15 +56,25 @@ const ProfileMenu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-                <div className="-m-1 flex items-center gap-2 bg-secondary/30 p-1">
-                    <Avatar className="size-9 rounded-md">
-                        <AvatarImage src={loggedUser.avatar} alt="pfp" />
-                    </Avatar>
-                    <div className="flex flex-col">
-                        <Label className="truncate">
-                            {loggedUser.username}
-                        </Label>
+                <div className="-m-1 flex items-center justify-between bg-secondary/30 p-1">
+                    <div className="flex items-center gap-2">
+                        <Avatar className="size-9 rounded-md">
+                            <AvatarImage src={loggedUser.avatar} alt="pfp" />
+                        </Avatar>
+                        <div className="flex flex-col">
+                            <Label className="truncate">
+                                {loggedUser.username}
+                            </Label>
+                        </div>
                     </div>
+                    {(loggedUser.role === 'moderator' ||
+                        loggedUser.role === 'admin') && (
+                        <Button variant="outline" size="icon-sm">
+                            <Link href="/dashboard">
+                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                            </Link>
+                        </Button>
+                    )}
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
