@@ -56,7 +56,7 @@ function getInitialState(): State {
         content_type: 'anime',
         nsfw: false,
         spoiler: false,
-        visibility: 'public',
+        visibility: 'unlisted',
         tags: [],
         groups: [
             {
