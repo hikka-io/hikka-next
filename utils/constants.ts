@@ -385,8 +385,8 @@ export const ERRORS: Record<string, Record<string, string>> = {
         invalid_code: 'OAuth код недійсний.',
         oauth_error: 'Виникла помилка під час OAuth авторизації.',
         user_not_found: 'Користувача не знайдено.',
-        email_set: 'Email already set',
-        not_available: 'Signup not available',
+        email_set: 'Email вже використовується',
+        not_available: 'Реєстрація недоступна',
     },
     settings: {
         username_cooldown:
