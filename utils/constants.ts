@@ -521,7 +521,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         visible: false,
     },
     {
-        slug: 'characters',
+        slug: 'collections',
         title_ua: 'Колекції',
         url: '/collections',
         icon: MaterialSymbolsStack,
