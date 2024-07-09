@@ -14,15 +14,7 @@ const Warning = () => {
     const params = useParams();
     const { data } = useMangaInfo({ slug: String(params.slug) });
 
-    const containsWord = (texts: (string | undefined)[], words: string[]): boolean => {
-        return texts.some(text =>
-            words.some(word =>
-                text?.toLowerCase().includes(word.toLowerCase())
-            )
-        );
-    };
-
-    if (!data || !containsWord([data.title_original, data.title_en, data.title_ja, data.title_ua, data.synopsis_en], WARNING_WORDS)) {
+    if (!data || !WARNING_WORDS.some(word => data.slug.includes(word.toLowerCase()))) {
         return null;
     }
 
