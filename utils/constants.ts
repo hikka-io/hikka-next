@@ -1067,5 +1067,5 @@ export const USER_ROLE = {
 
 export const WARNING_WORDS = [
     atob('UnVzc2lh'), 
-    atob('UnVzc2lhbg==') 
+    atob('UnVzc2lhbg=='),
 ]

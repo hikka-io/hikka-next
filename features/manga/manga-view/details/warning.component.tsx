@@ -8,11 +8,11 @@ import Card from '@/components/ui/card';
 
 import { WARNING_WORDS } from '@/utils/constants';
 
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
 
 const Warning = () => {
     const params = useParams();
-    const { data } = useAnimeInfo({ slug: String(params.slug) });
+    const { data } = useMangaInfo({ slug: String(params.slug) });
 
     const containsWord = (texts: (string | undefined)[], words: string[]): boolean => {
         return texts.some(text =>
@@ -22,7 +22,7 @@ const Warning = () => {
         );
     };
 
-    if (!data || !containsWord([data.title_en, data.title_ja, data.title, data.synopsis_en], WARNING_WORDS)) {
+    if (!data || !containsWord([data.title_original, data.title_en, data.title_ja, data.title_ua, data.synopsis_en], WARNING_WORDS)) {
         return null;
     }
 

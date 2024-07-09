@@ -22,7 +22,7 @@ const Warning = () => {
         );
     };
 
-    if (!data || !containsWord([data.title_en, data.title_ja, data.title, data.synopsis_en], WARNING_WORDS)) {
+    if (!data || !containsWord([data.title_original, data.title_en, data.title_ja, data.title_ua, data.synopsis_en], WARNING_WORDS)) {
         return null;
     }
 
