@@ -117,5 +117,17 @@ declare global {
             refetchOnWindowFocus?: boolean;
             initialData?: undefined;
         };
+
+        type ModerationLog = {
+            target_type: ModerationType;
+            icon: ReactNode;
+            title: string;
+            username: string;
+            reference: string;
+            created: number;
+            href: string;
+            href_text: string;
+            after_text?: string;
+        };
     }
 }
