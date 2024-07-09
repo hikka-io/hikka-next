@@ -2,6 +2,7 @@ import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
+import MaterialSymbolsArticle from '~icons/material-symbols/article';
 
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
@@ -67,6 +68,20 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                     <MDViewer className="line-clamp-2 text-sm">
                         {comment.text}
                     </MDViewer>
+                </Link>
+
+                <Link
+                    href={`/${comment.content_type === 'collection' ? 'collections' : comment.content_type}/${comment.preview.slug}`}
+                    className="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                >
+                    <MaterialSymbolsArticle className="text-muted-foreground" />
+                    <p className="line-clamp-1">
+                        {comment.content_type === 'collection'
+                            ? `Колекція ${comment.preview.title}`
+                            : comment.content_type === 'edit'
+                              ? `Правка #${comment.preview.slug}`
+                              : comment.preview.title}
+                    </p>
                 </Link>
             </div>
         </div>
