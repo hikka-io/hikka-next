@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { FC, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
@@ -56,12 +55,25 @@ const ListParam: FC<Props> = ({ param, mode }) => {
                             value={newItem}
                             onChange={(e) => setNewItem(e.target.value)}
                             className="flex-1"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    if (
+                                        newItem &&
+                                        newItem.length !== 0 &&
+                                        newItem.trim() !== ''
+                                    ) {
+                                        append({ value: newItem });
+                                        setNewItem('');
+                                    }
+                                }
+                            }}
                         />
                         <Button
                             disabled={
                                 !newItem ||
                                 newItem?.length === 0 ||
-                                newItem === ''
+                                newItem.trim() === ''
                             }
                             onClick={() => {
                                 append({ value: newItem });
