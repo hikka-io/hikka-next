@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/olexh/hikka-next">
+  <a href="https://github.com/hikka-io/hikka-next">
     <img src="public/logo.svg" alt="Logo" width="80" height="80">
   </a>
   <p align="center">
@@ -10,9 +10,11 @@
     <br />
     <a href="https://hikka.io">View Project</a>
     ·
-    <a href="https://github.com/olexh/hikka-next/issues">Report Bug</a>
+    <a href="https://github.com/hikka-io/hikka-next/issues">Report Bug</a>
     ·
-    <a href="https://github.com/olexh/hikka-next/issues">Request Feature</a>
+    <a href="https://github.com/hikka-io/hikka-next/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/hikka-io/hikka">Backend</a>
   </p>
 </div>
 
