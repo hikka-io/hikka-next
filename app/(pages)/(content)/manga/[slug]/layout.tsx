@@ -84,8 +84,8 @@ const MangaLayout: FC<Props> = async ({ params: { slug }, children }) => {
             </SubBar>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                 <div className="flex flex-col gap-4">
-                    <Cover />
                     <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
+                        <Cover />
                         <Actions />
                     </div>
                 </div>
