@@ -32,9 +32,8 @@ import useSession from '@/services/hooks/auth/use-session';
 import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
 import useEditList from '@/services/hooks/edit/use-edit-list';
 
+import Header from '../components/header';
 import CardItem from './card-item.component';
-import Header from './header';
-import RequestItem from './request-item.component';
 
 const Edits = () => {
     const { user: loggedUser } = useSession();
@@ -269,7 +268,7 @@ const Edits = () => {
                 <Card className="flex flex-1 justify-between backdrop-blur">
                     {/* Max items - 6 */}
                     <div className="flex flex-col gap-5">
-                        <RequestItem
+                        {/* <RequestItem
                             title="Химерні пригоди ДжоДжо Частина 7: Перегони «Сталева куля»"
                             poster="https://cdn.hikka.io/content/manga/jojo-no-kimyou-na-bouken-part-7-steel-ball-run-0bdd18/236_1QKsVrG7C55F_TSnBg.jpg"
                             type="Манґа"
@@ -282,7 +281,7 @@ const Edits = () => {
                             type="Манґа"
                             href=""
                             requests={258}
-                        />
+                        /> */}
                     </div>
                     <Button variant="accent">Всі запити (-1)</Button>
                 </Card>

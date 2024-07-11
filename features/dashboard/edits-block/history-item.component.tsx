@@ -2,13 +2,16 @@ import format from 'date-fns/format';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { cn } from '@/utils/utils';
+
 interface Props {
     data: Hikka.ModerationLog;
+    className?: string;
 }
 
-const HistoryItem: FC<Props> = ({ data }) => {
+const HistoryItem: FC<Props> = ({ data, className }) => {
     return (
-        <div className="flex gap-2 hover:no-underline">
+        <div className={cn('flex gap-2 hover:no-underline', className)}>
             <div className="flex size-6 items-center justify-center rounded-sm bg-secondary/60 p-1">
                 {data.icon}
             </div>

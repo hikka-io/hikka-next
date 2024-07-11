@@ -1070,3 +1070,30 @@ export const USER_ROLE = {
         color: '#40518F',
     },
 };
+
+export const MODERATION_TYPES: Hikka.FilterProperty<API.ModerationType> = {
+    edit_accepted: {
+        title_ua: 'Прийняті правки',
+        title_en: 'Accepted edits',
+    },
+    edit_denied: {
+        title_ua: 'Відхилені правки',
+        title_en: 'Denied edits',
+    },
+    edit_updated: {
+        title_ua: 'Оновлені правки',
+        title_en: 'Updated edits',
+    },
+    comment_hidden: {
+        title_ua: 'Приховані коментарі',
+        title_en: 'Hidden comments',
+    },
+    collection_deleted: {
+        title_ua: 'Видалені колекції',
+        title_en: 'Deleted collections',
+    },
+    collection_updated: {
+        title_ua: 'Оновлені колекції',
+        title_en: 'Updated collections',
+    },
+};

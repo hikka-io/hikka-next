@@ -4,8 +4,8 @@ import { FC } from 'react';
 import Block from '@/components/ui/block';
 import UserCover from '@/components/user-cover';
 
-import Edits from '@/features/dashboard/edits.component';
-import Moderation from '@/features/dashboard/moderation.component';
+import Edits from '@/features/dashboard/edits-block/edits.component';
+import Moderation from '@/features/dashboard/moderation-log/moderation.component';
 
 import { key, prefetchSession } from '@/services/hooks/auth/use-session';
 import { prefetchTodoAnime } from '@/services/hooks/edit/todo/use-todo-anime';
@@ -26,7 +26,7 @@ const DashboardPage: FC<Props> = async () => {
     (Object.keys(EDIT_STATUSES) as API.EditStatus[]).map(async (status) => {
         await prefetchEditList({ status });
     });
-    // await prefetchEditList({ author: loggedUser.username });
+    await prefetchEditList({ author: loggedUser.username });
 
     await prefetchModerationLog({});
 

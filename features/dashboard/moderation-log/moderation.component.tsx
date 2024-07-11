@@ -4,13 +4,26 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 
 import useModerationLog from '@/services/hooks/moderation/use-moderation-log';
+import { useModalContext } from '@/services/providers/modal-provider';
 import { convertModerationLog } from '@/utils/convert-moderation-log';
 
-import Header from './header';
-import HistoryItem from './history-item.component';
+import Header from '../components/header';
+import HistoryItem from '../edits-block/history-item.component';
+import ModerationLogModal from './moderation-log-modal';
 
 const Moderation = () => {
     const { list: moderationLog } = useModerationLog({});
+
+    const { openModal } = useModalContext();
+
+    const handleOpenModal = () => {
+        openModal({
+            type: 'sheet',
+            title: 'Журнал модерації',
+            side: 'right',
+            content: <ModerationLogModal />,
+        });
+    };
 
     return (
         <div className="flex w-1/3 flex-col gap-12">
@@ -26,7 +39,15 @@ const Moderation = () => {
                         </span>
                     ))}
                 </div>
-                <Button className="w-full" variant="accent">
+                <Button
+                    className="w-full"
+                    variant="accent"
+                    onClick={
+                        moderationLog && moderationLog?.length > 0
+                            ? handleOpenModal
+                            : undefined
+                    }
+                >
                     Переглянути журнал
                 </Button>
             </Card>
