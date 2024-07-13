@@ -149,8 +149,10 @@ export default function ModalProvider({ children }: Props) {
                     open={state.open}
                     onOpenChange={(open) => setState({ ...state, open })}
                 >
-                    <DrawerContent
-                        className={cn('max-h-[90dvh]', state.className)}
+                    <DrawerContent className={cn(
+                        'drawer-content',
+                        'max-h-[90vh]', 
+                        state.className)}
                     >
                         {state.title && (
                             <DrawerHeader>
@@ -158,7 +160,9 @@ export default function ModalProvider({ children }: Props) {
                             </DrawerHeader>
                         )}
                         <Separator />
-                        {state.content}
+                        <div style={{ overflowY: 'auto' }}>
+                            {state.content}
+                        </div>
                     </DrawerContent>
                 </Drawer>
             )}
