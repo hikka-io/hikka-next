@@ -3,7 +3,7 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { PropsWithChildren } from 'react';
 
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
-import { getCookie } from '@/utils/cookies';
+import { deleteCookie, getCookie } from '@/utils/cookies';
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props extends PropsWithChildren {}
@@ -20,7 +20,7 @@ const SessionManager = async ({ children }: Props) => {
             }));
     } catch (e) {
         // console.log(e);
-        // await deleteCookie('auth');
+        await deleteCookie('auth');
     }
 
     const dehydratedState = dehydrate(queryClient);
