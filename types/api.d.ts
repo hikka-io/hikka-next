@@ -408,7 +408,11 @@ declare global {
             is_editable: boolean;
             parent: string | null;
             content_type: API.ContentType;
-            preview: { slug: string; image?: string };
+            preview: {
+                title?: string;
+                slug: string;
+                image?: string;
+            };
         };
 
         type External = {
