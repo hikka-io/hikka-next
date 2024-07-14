@@ -14,7 +14,9 @@ const CollectionRulesAlert = () => {
     const { openModal } = useModalContext();
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/hikka-io/rules/main/COLLECTION_RULES.md')
+        fetch(
+            'https://raw.githubusercontent.com/hikka-io/rules/main/COLLECTION_RULES.md',
+        )
             .then((res) => res.text())
             .then((res) => setRules(res));
     }, []);
@@ -24,13 +26,12 @@ const CollectionRulesAlert = () => {
             <div className="flex items-center gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="flex-1 text-sm">
-                    Перш ніж створювати колекції, рекомендуємо
-                    ознайомитись з{' '}
+                    Перш ніж створювати колекції, рекомендуємо ознайомитись з{' '}
                     <Button
                         onClick={() =>
                             openModal({
                                 content: (
-                                    <MDViewer className="px-6 py-4 md:overflow-hidden md:p-0">
+                                    <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
                                         {rules}
                                     </MDViewer>
                                 ),
