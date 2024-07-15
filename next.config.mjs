@@ -3,10 +3,12 @@ import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     eslint: {
         ignoreDuringBuilds: true,
     },
     reactStrictMode: true,
+    productionBrowserSourceMaps: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
         unoptimized: true,
