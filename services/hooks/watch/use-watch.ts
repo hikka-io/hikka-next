@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import getWatch, { Params } from '@/services/api/watch/getWatch';
 import getQueryClient from '@/utils/get-query-client';
 
+import useSession from '../auth/use-session';
+
 export const paramsBuilder = (props: Params): Params => ({
     slug: props.slug,
 });
@@ -10,12 +12,14 @@ export const paramsBuilder = (props: Params): Params => ({
 export const key = (params: Params) => ['watch', params.slug];
 
 const useWatch = (props: Params, options?: Hikka.QueryOptions) => {
+    const { user: loggerUser } = useSession();
     const params = paramsBuilder(props);
 
     return useQuery({
         queryKey: key(params),
         queryFn: () => getWatch({ params }),
         ...options,
+        enabled: loggerUser && options?.enabled,
     });
 };
 
