@@ -621,5 +621,64 @@ declare global {
             | API.Collection;
 
         type MainContent = Exclude<API.Content, API.Collection>;
+
+        type ModerationType =
+            | 'edit_accepted'
+            | 'edit_denied'
+            | 'edit_updated'
+            | 'comment_hidden'
+            | 'collection_deleted'
+            | 'collection_updated';
+
+        type ModerationEditData = {
+            username: string;
+            avatar: string;
+            description: string;
+            edit_id: number;
+        };
+
+        type ModerationEditUpdateData = {
+            username: string;
+            avatar: string;
+            updated_edit: Object;
+            old_edit: Object;
+            edit_id: number;
+        };
+
+        type ModerationCommentData = {
+            username: string;
+            avatar: string;
+            content_type: ContentType;
+            content_slug: string;
+            comment_path: string;
+        };
+
+        type ModerationCollectionData = {
+            username: string;
+            avatar: string;
+            collection_id: string;
+        };
+
+        type ModerationCollectionUpdateData = {
+            username: string;
+            avatar: string;
+            updated_collection: Object;
+            old_collection: Object;
+            collection_id: string;
+        };
+
+        type Moderation<
+            TData =
+                | ModerationEditData
+                | ModerationEditUpdateData
+                | ModerationCommentData
+                | ModerationCollectionData
+                | ModerationCollectionUpdateData,
+        > = {
+            target_type: ModerationType;
+            created: number;
+            reference: string;
+            data: TData;
+        };
     }
 }
