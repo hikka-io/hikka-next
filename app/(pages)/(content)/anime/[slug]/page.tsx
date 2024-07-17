@@ -3,6 +3,7 @@ import { FC } from 'react';
 import Characters from '@/features/anime/anime-view/characters/characters.component';
 import Description from '@/features/anime/anime-view/description.component';
 import Details from '@/features/anime/anime-view/details/details.component';
+import Warning from '@/features/anime/anime-view/details/warning.component';
 import Followings from '@/features/anime/anime-view/followings/followings.component';
 import Franchise from '@/features/anime/anime-view/franchise.component';
 import Links from '@/features/anime/anime-view/links/links.component';
@@ -37,6 +38,7 @@ const AnimePage: FC<Props> = async ({ params }) => {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
+                <Warning />
                 <Description />
                 <Characters />
                 <Franchise />

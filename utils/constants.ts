@@ -1064,3 +1064,8 @@ export const USER_ROLE = {
         color: '#40518F',
     },
 };
+
+export const WARNING_WORDS = [
+    atob('UnVzc2lh'), 
+    atob('UnVzc2lhbg=='),
+]
