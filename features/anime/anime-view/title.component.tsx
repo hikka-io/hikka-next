@@ -16,9 +16,16 @@ const Title = () => {
     const params = useParams();
     const { data } = useAnimeInfo({ slug: String(params.slug) });
 
-    if (!data) {
-        return null;
-    }
+    const findYearInTitleRegex = /\(\d{4}\)/;
+
+    if (!data) return null;
+
+    const deleteYearFromTitle = (title: string = '') => {
+        return title.replace(findYearInTitleRegex, '');
+    };
+
+    const title = deleteYearFromTitle(data.title);
+    const japanTitle = deleteYearFromTitle(data.title_ja);
 
     return (
         <div className="flex flex-col gap-4">
@@ -26,14 +33,10 @@ const Title = () => {
                 <div>
                     <div className="flex gap-4">
                         <H2>
-                            {data.title}{' '}
-                            {data.start_date && (
+                            {title}{' '}
+                            {data.year && (
                                 <span className="font-sans font-normal">
-                                    (
-                                    {new Date(
-                                        data.start_date * 1000,
-                                    ).getFullYear()}
-                                    )
+                                    ({data.year})
                                 </span>
                             )}
                         </H2>
@@ -47,7 +50,7 @@ const Title = () => {
                         )}
                     </div>
                     <P className="text-sm text-muted-foreground">
-                        {data.title_ja}
+                        {japanTitle}
                     </P>
                 </div>
                 <div className="flex flex-col gap-2">
