@@ -2,13 +2,11 @@
 module.exports = {
     darkMode: ['class'],
     content: [
-        './pages/**/*.{ts,tsx}',
-        './features/**/*.{ts,tsx}',
-        './components/**/*.{ts,tsx}',
-        './app/**/*.{ts,tsx}',
-        './src/**/*.{ts,tsx}',
-        './utils/**/*.{ts,tsx}',
-        './services/**/*.{ts,tsx}',
+        './src/features/**/*.{ts,tsx}',
+        './src/components/**/*.{ts,tsx}',
+        './src/app/**/*.{ts,tsx}',
+        './src/utils/**/*.{ts,tsx}',
+        './src/services/**/*.{ts,tsx}',
     ],
     prefix: '',
     theme: {

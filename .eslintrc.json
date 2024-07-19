@@ -3,8 +3,7 @@
         "next",
         "next/core-web-vitals",
         "prettier",
-        "plugin:tailwindcss/recommended",
-        "plugin:storybook/recommended"
+        "plugin:tailwindcss/recommended"
     ],
     "settings": {
         "tailwindcss": {
