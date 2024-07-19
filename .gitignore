@@ -168,6 +168,5 @@ fabric.properties
 *storybook.log
 
 # yarn
-.yarn
 
 *.code-workspace
