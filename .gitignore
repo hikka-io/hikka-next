@@ -167,7 +167,5 @@ fabric.properties
 .idea/**/azureSettings.xml
 *storybook.log
 
-# yarn
-.yarn
 
 *.code-workspace
