@@ -2,37 +2,37 @@ name: Deployment Workflow
 
 # Trigger this workflow on pushes to the specified branch
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: yarn install
+            - name: Install dependencies
+              run: corepack enable yarn && yarn install --immutable
 
-      - name: Build Next.js app
-        run: yarn build
+            - name: Build Next.js app
+              run: yarn build
 
-      - name: SSH Deploy
-        # Use the 'appleboy/ssh-action' action for SSH deployment
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }} # server's IP address
-          username: ${{ secrets.USERNAME }} # server's username
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # server's SSH private key
-          passphrase: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
-          script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            cd /home/debian/hikka-next
-            git pull
-            yarn install
-            yarn build
-            pm2 reload hikka-next
+            - name: SSH Deploy
+              # Use the 'appleboy/ssh-action' action for SSH deployment
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }} # server's IP address
+                  username: ${{ secrets.USERNAME }} # server's username
+                  key: ${{ secrets.SSH_PRIVATE_KEY }} # server's SSH private key
+                  passphrase: ${{ secrets.SSH_PASSWORD }} # server's SSH key password
+                  script: |
+                      export NVM_DIR=~/.nvm
+                      source ~/.nvm/nvm.sh
+                      cd /home/debian/hikka-next
+                      git pull
+                      yarn install
+                      yarn build
+                      pm2 reload hikka-next
