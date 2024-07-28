@@ -7,3 +7,6 @@ README.md
 !.next/static
 !.next/standalone
 .git
+.github
+.vscode
+.yarn
