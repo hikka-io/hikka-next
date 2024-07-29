@@ -13,7 +13,7 @@ import EditDescription from '@/features/edit/edit-forms/edit-description';
 import EditGroup from '@/features/edit/edit-forms/edit-group';
 
 import updateEdit from '@/services/api/edit/updateEdit';
-import useEdit from '@/services/hooks/edit/use-edit';
+import useEdit, { key as editKey } from '@/services/hooks/edit/use-edit';
 import {
     getEditGroups,
     getEditParamSlugs,
@@ -58,8 +58,8 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const onDismiss = async () => {
         form.reset();
 
-        await queryClient.refetchQueries({
-            queryKey: ['edit', editId],
+        await queryClient.invalidateQueries({
+            queryKey: editKey({ edit_id: Number(editId) }),
         });
 
         router.push('/edit/' + editId);
