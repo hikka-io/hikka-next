@@ -36,6 +36,21 @@ const useActionEdit = ({ action }: Props) => {
                 queryKey: ['edit-list'],
                 exact: false,
             });
+
+            await queryClient.invalidateQueries({
+                queryKey: ['anime'],
+                exact: false,
+            });
+
+            await queryClient.invalidateQueries({
+                queryKey: ['manga'],
+                exact: false,
+            });
+
+            await queryClient.invalidateQueries({
+                queryKey: ['novel'],
+                exact: false,
+            });
         },
     });
 };
