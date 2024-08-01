@@ -37,10 +37,6 @@ const nextConfig = {
                 source: '/api/:path*',
                 destination: `${process.env.API_URL}/:path*`,
             },
-            {
-                source: '/event',
-                destination: `https://analytics.hikka.io/api/event`,
-            },
         ];
     },
     async redirects() {

@@ -3,7 +3,7 @@
     var r = window.location,
         o = window.document,
         l = o.currentScript,
-        s = 'https://hikka.io/event';
+        s = 'https://api.hikka.io/event';
 
     function t(t, e) {
         try {
