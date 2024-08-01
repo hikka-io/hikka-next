@@ -1,5 +1,4 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
-import { withPlausibleProxy as plausibleProxy } from 'next-plausible';
 import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
@@ -38,6 +37,10 @@ const nextConfig = {
                 source: '/api/:path*',
                 destination: `${process.env.API_URL}/:path*`,
             },
+            {
+                source: '/event',
+                destination: `https://analytics.hikka.io/api/event`,
+            },
         ];
     },
     async redirects() {
@@ -60,8 +63,6 @@ const withBundleAnalyzer = bundleAnalyzer({
     enabled: process.env.ANALYZE === 'true',
 });
 
-const withPlausibleProxy = plausibleProxy({
-    customDomain: 'https://analytics.hikka.io',
-});
+// const withPlausibleProxy = plausibleProxy({});
 
-export default withBundleAnalyzer(withPlausibleProxy(nextConfig));
+export default withBundleAnalyzer(nextConfig);

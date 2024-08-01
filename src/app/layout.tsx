@@ -91,7 +91,7 @@ const RootLayout = ({ children }: Props) => {
                     trackLocalhost
                     enabled
                     selfHosted
-                    customDomain="https://analytics.hikka.io"
+                    customDomain="https://hikka.io"
                     domain="hikka.io"
                 />
             </head>

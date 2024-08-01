@@ -3,7 +3,7 @@
     var r = window.location,
         o = window.document,
         l = o.currentScript,
-        s = l.getAttribute('data-api') || 'https://api.hikka.io/event';
+        s = 'https://hikka.io/event';
 
     function t(t, e) {
         try {
