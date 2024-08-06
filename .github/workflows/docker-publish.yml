@@ -50,10 +50,8 @@ jobs:
             - name: Delete old package versions
               uses: actions/delete-package-versions@v5
               with:
-                  owner: 'github'
                   package-name: 'hikka-next'
                   package-type: 'container'
-                  token: ${{ github.token }}
                   num-old-versions-to-delete: 3
 
             # Extract metadata (tags, labels) for Docker
