@@ -52,7 +52,7 @@ jobs:
               with:
                   package-name: 'hikka-next'
                   package-type: 'container'
-                  num-old-versions-to-delete: 3
+                  min-versions-to-keep: 3
 
             # Extract metadata (tags, labels) for Docker
             # https://github.com/docker/metadata-action
