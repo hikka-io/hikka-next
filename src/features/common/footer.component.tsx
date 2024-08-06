@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import ArcticonsMonobank from '~icons/arcticons/monobank';
+import BxBxsDonateHeart from '~icons/bx/bxs-donate-heart';
 import MdiGithub from '~icons/mdi/github';
 import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
-import SimpleIconsBuymeacoffee from '~icons/simple-icons/buymeacoffee';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -56,11 +56,11 @@ const Footer = () => {
                             <DropdownMenuContent>
                                 <DropdownMenuItem asChild>
                                     <Link
-                                        href="https://www.buymeacoffee.com/hikka"
+                                        href="https://donatello.to/hikka.io"
                                         target="_blank"
                                     >
-                                        <SimpleIconsBuymeacoffee className="mr-2 size-4" />
-                                        BuyMeACoffee
+                                        <BxBxsDonateHeart className="mr-2 size-4" />
+                                        Donatello
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
