@@ -20,51 +20,53 @@ interface Props {
 
 const GlobalComment: FC<Props> = ({ comment, href }) => {
     return (
-        <div className="flex w-full flex-col items-start gap-4">
-            <div className="flex w-full gap-3">
-                <Link href={`/u/${comment.author.username}`}>
-                    <Avatar className="w-10 rounded-md">
-                        <AvatarImage
-                            className="rounded-md"
-                            src={comment.author.avatar}
-                            alt="avatar"
-                        />
-                        <AvatarFallback className="rounded-md">
-                            {comment.author.username[0]}
-                        </AvatarFallback>
-                    </Avatar>
-                </Link>
-                <div className="flex flex-1 flex-col justify-between">
-                    <Link
-                        href={`/u/${comment.author.username}`}
-                        className="w-fit"
-                    >
-                        <H5>{comment.author.username}</H5>
+        <div className="h-40 flex flex-col justify-between w-full gap-4">
+            <div className="flex flex-col gap-4">
+                <div className="flex w-full gap-3">
+                    <Link href={`/u/${comment.author.username}`}>
+                        <Avatar className="w-10 rounded-md">
+                            <AvatarImage
+                                className="rounded-md"
+                                src={comment.author.avatar}
+                                alt="avatar"
+                            />
+                            <AvatarFallback className="rounded-md">
+                                {comment.author.username[0]}
+                            </AvatarFallback>
+                        </Avatar>
                     </Link>
+                    <div className="flex flex-1 flex-col justify-between">
+                        <Link
+                            href={`/u/${comment.author.username}`}
+                            className="w-fit"
+                        >
+                            <H5>{comment.author.username}</H5>
+                        </Link>
 
-                    <Small className="text-muted-foreground">
-                        {formatDistance(comment.created * 1000, Date.now(), {
-                            addSuffix: true,
-                        })}
-                    </Small>
-                </div>
-                {comment.vote_score > 0 && (
-                    <div className="flex flex-1 items-start justify-end">
-                        <div className="flex items-center gap-1">
-                            <BxBxsUpvote className="size-3 text-success" />
-                            <Label className="leading-none text-success">
-                                {comment.vote_score}
-                            </Label>
-                        </div>
+                        <Small className="text-muted-foreground">
+                            {formatDistance(comment.created * 1000, Date.now(), {
+                                addSuffix: true,
+                            })}
+                        </Small>
                     </div>
-                )}
-            </div>
+                    {comment.vote_score > 0 && (
+                        <div className="flex flex-1 items-start justify-end">
+                            <div className="flex items-center gap-1">
+                                <BxBxsUpvote className="size-3 text-success" />
+                                <Label className="leading-none text-success">
+                                    {comment.vote_score}
+                                </Label>
+                            </div>
+                        </div>
+                    )}
+                </div>
 
-            <Link href={href} className="hover:underline">
-                <MDViewer className="line-clamp-2 text-sm">
-                    {comment.text}
-                </MDViewer>
-            </Link>
+                <Link href={href} className="hover:underline">
+                    <MDViewer className="line-clamp-2 text-sm">
+                        {comment.text} 
+                    </MDViewer>
+                </Link>
+            </div>
 
             <Link
                 href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
@@ -75,8 +77,8 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                     {comment.content_type === 'collection'
                         ? `Колекція ${comment.preview.title}`
                         : comment.content_type === 'edit'
-                          ? `Правка #${comment.preview.slug}`
-                          : comment.preview.title}
+                        ? `Правка #${comment.preview.slug}`
+                        : comment.preview.title}
                 </Small>
             </Link>
         </div>
