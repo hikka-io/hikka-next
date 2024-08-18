@@ -1,4 +1,5 @@
 type TitleData = {
+    title?: string;
     title_en?: string;
     title_ua?: string;
     title_ja?: string;
@@ -21,6 +22,7 @@ export const convertTitle = <TData>({
     return {
         ...data,
         title:
+            data.title ||
             data[titleLanguage] ||
             data[
                 titleLanguage === 'title_ja' ? 'title_original' : 'title_ja'
