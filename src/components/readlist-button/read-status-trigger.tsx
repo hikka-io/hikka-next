@@ -1,13 +1,16 @@
 'use client';
 
-import * as React from 'react';
 import { FC, createElement } from 'react';
-import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
+import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
-import useDeleteRead from '@/services/hooks/read/use-delete-read';
+import ReadEditModal from '@/features/modals/read-edit-modal';
+
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
+import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
@@ -24,12 +27,39 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
     disabled,
     slug,
 }) => {
-    const { mutate: deleteRead } = useDeleteRead();
+    const { openModal } = useModalContext();
 
-    const handleDeleteFromList = (e: React.MouseEvent | React.TouchEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        deleteRead({ params: { slug, content_type } });
+    const { data: manga } = useMangaInfo(
+        {
+            slug,
+        },
+        { enabled: !disabled && content_type === 'manga' },
+    );
+
+    const { data: novel } = useNovelInfo(
+        {
+            slug,
+        },
+        { enabled: !disabled && content_type === 'novel' },
+    );
+
+    const openReadEditModal = () => {
+        if (manga || novel) {
+            const content = manga || novel;
+
+            openModal({
+                content: (
+                    <ReadEditModal
+                        read={read}
+                        content_type={content_type}
+                        slug={content!.slug}
+                    />
+                ),
+                className: '!max-w-xl',
+                title: content!.title,
+                forceModal: true,
+            });
+        }
     };
 
     return (
@@ -58,11 +88,11 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     variant="secondary"
                     size="icon"
                     type="button"
-                    onClick={handleDeleteFromList}
+                    onClick={openReadEditModal}
                     disabled={disabled}
-                    className={cn('rounded-l-none text-xl hover:bg-red-500')}
+                    className={cn('rounded-l-none')}
                 >
-                    <IcBaselineRemoveCircle />
+                    <MaterialSymbolsSettingsOutline />
                 </Button>
             </div>
         </SelectTrigger>

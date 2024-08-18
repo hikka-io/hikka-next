@@ -15,6 +15,7 @@ import {
 import ReadEditModal from '@/features/modals/read-edit-modal';
 
 import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import useAddRead from '@/services/hooks/read/use-add-read';
 import useRead from '@/services/hooks/read/use-read';
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -66,28 +67,39 @@ const Component = ({ slug, content_type, disabled, read: readProp }: Props) => {
         },
         { enabled: !disabled && !readProp },
     );
+
     const { data: manga } = useMangaInfo(
         {
             slug,
         },
         { enabled: !disabled && content_type === 'manga' },
     );
+
+    const { data: novel } = useNovelInfo(
+        {
+            slug,
+        },
+        { enabled: !disabled && content_type === 'novel' },
+    );
+
     const { mutate: addRead } = useAddRead();
 
     const read = readProp || (readQuery && !readError ? readQuery : undefined);
 
     const openReadEditModal = () => {
-        if (manga) {
+        if (manga || novel) {
+            const content = manga || novel;
+
             openModal({
                 content: (
                     <ReadEditModal
                         read={read}
                         content_type={content_type}
-                        slug={manga.slug}
+                        slug={content!.slug}
                     />
                 ),
                 className: '!max-w-xl',
-                title: manga.title,
+                title: content!.title,
                 forceModal: true,
             });
         }

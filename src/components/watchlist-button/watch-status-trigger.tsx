@@ -1,13 +1,15 @@
 'use client';
 
-import * as React from 'react';
 import { FC, createElement } from 'react';
-import IcBaselineRemoveCircle from '~icons/ic/baseline-remove-circle';
+import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
-import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
+import WatchEditModal from '@/features/modals/watch-edit-modal';
+
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
@@ -22,12 +24,23 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     disabled,
     slug,
 }) => {
-    const { mutate: deleteWatch } = useDeleteWatch();
+    const { openModal } = useModalContext();
+    const { data: anime } = useAnimeInfo(
+        {
+            slug,
+        },
+        { enabled: !disabled },
+    );
 
-    const handleDeleteFromList = (e: React.MouseEvent | React.TouchEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        deleteWatch({ params: { slug } });
+    const openWatchEditModal = () => {
+        if (anime) {
+            openModal({
+                content: <WatchEditModal slug={anime.slug} watch={watch} />,
+                className: '!max-w-xl',
+                title: anime.title,
+                forceModal: true,
+            });
+        }
     };
 
     return (
@@ -56,11 +69,11 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     variant="secondary"
                     size="icon"
                     type="button"
-                    onClick={handleDeleteFromList}
+                    onClick={openWatchEditModal}
                     disabled={disabled}
-                    className={cn('rounded-l-none text-xl hover:bg-red-500')}
+                    className={cn('rounded-l-none')}
                 >
-                    <IcBaselineRemoveCircle />
+                    <MaterialSymbolsSettingsOutline />
                 </Button>
             </div>
         </SelectTrigger>
