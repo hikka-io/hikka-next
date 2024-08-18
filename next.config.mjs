@@ -5,7 +5,7 @@ import Icons from 'unplugin-icons/webpack';
 const nextConfig = {
     output: 'standalone',
     eslint: {
-        ignoreDuringBuilds: true,
+        ignoreDuringBuilds: false,
     },
     reactStrictMode: true,
     productionBrowserSourceMaps: false,
