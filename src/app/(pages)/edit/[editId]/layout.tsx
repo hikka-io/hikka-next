@@ -84,7 +84,6 @@ const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
                         <Header
                             title="Деталі"
                             titleClassName="justify-between w-full"
-                            variant="h4"
                         >
                             <EditStatus editId={editId} />
                         </Header>

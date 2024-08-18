@@ -17,11 +17,13 @@ interface Props extends PropsWithChildren {
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
     className?: string;
     titleClassName?: string;
+    linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 }
 
 const Header = ({
     title,
     href,
+    linkProps,
     onClick,
     variant,
     children,
@@ -61,7 +63,11 @@ const Header = ({
                 )}
             >
                 {href ? (
-                    <Link href={href} className="hover:underline">
+                    <Link
+                        href={href}
+                        {...linkProps}
+                        className="hover:underline"
+                    >
                         <Title>{title}</Title>
                     </Link>
                 ) : onClick ? (
@@ -77,7 +83,7 @@ const Header = ({
             </div>
             {href && (
                 <Button size="icon-sm" variant="outline" asChild>
-                    <Link href={href}>
+                    <Link href={href} {...linkProps}>
                         <MaterialSymbolsArrowRightAltRounded className="text-lg" />
                     </Link>
                 </Button>
