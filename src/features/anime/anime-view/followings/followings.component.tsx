@@ -32,9 +32,18 @@ const Followings = () => {
         });
     };
 
+    const title = (
+        <span>
+            Відстежується{' '}
+            {list && (
+                <span className="text-muted-foreground">({list.length})</span>
+            )}
+        </span>
+    );
+
     return (
         <Block>
-            <Header title={`Відстежується (${list.length})`} onClick={handleOpenFollowingsModal} />
+            <Header title={title} onClick={handleOpenFollowingsModal} />
             <div className="flex flex-col gap-6">
                 {filteredFollowings.map((item) => (
                     <FollowingItem data={item} key={item.reference} />

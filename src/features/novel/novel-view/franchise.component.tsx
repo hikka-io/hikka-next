@@ -35,16 +35,29 @@ const Franchise: FC<Props> = ({ extended }) => {
     }
 
     const sortedList = franchise.list.sort((a, b) => {
-        if (a.status === "announced") return -1;
-        if (b.status === "announced") return 1;
+        if (a.status === 'announced') return -1;
+        if (b.status === 'announced') return 1;
         return b.year - a.year;
     });
-    const filteredData = extended ? sortedList : sortedList.slice(0, 4);
+    const filteredData = extended
+        ? sortedList
+        : sortedList.filter((v) => v.slug !== params.slug).slice(0, 4);
+
+    const title = (
+        <span>
+            Пов’язане{' '}
+            {sortedList && (
+                <span className="text-muted-foreground">
+                    ({sortedList.length})
+                </span>
+            )}
+        </span>
+    );
 
     return (
         <Block>
             <Header
-                title={`Пов’язане`}
+                title={title}
                 href={!extended ? params.slug + '/franchise' : undefined}
             />
             <Stack extended={extended} size={4} className="grid-min-10">
