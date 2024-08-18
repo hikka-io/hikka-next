@@ -42,6 +42,7 @@ const generateMetadata = ({
     images,
     siteName,
     other,
+    ...props
 }: Props): Metadata => {
     return {
         title: title || DEFAULTS.title,
@@ -59,6 +60,7 @@ const generateMetadata = ({
             images: images || DEFAULTS.images,
         },
         other,
+        ...props,
     };
 };
 
