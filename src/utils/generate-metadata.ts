@@ -26,7 +26,7 @@ type OGImageDescriptor = {
 
 type OGImage = string | OGImageDescriptor | URL;
 
-interface Props {
+interface Props extends Metadata {
     title?: string | TemplateString | null | undefined;
     description?: string | null | undefined;
     images?: OGImage | OGImage[] | undefined;

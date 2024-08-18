@@ -38,15 +38,19 @@ const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
         startDate: anime.start_date,
         endDate: anime.end_date,
         genre: anime.genres.map((genre) => genre.name_ua),
-        keywords: [],
+        keywords: anime.synonyms,
         countryOfOrigin: 'JP',
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: anime.score,
-            ratingCount: anime.scored_by,
-            bestRating: 10,
-            worstRating: 1,
-        },
+        ...(anime.score && anime.scored_by
+            ? {
+                  aggregateRating: {
+                      '@type': 'AggregateRating',
+                      ratingValue: anime.score,
+                      ratingCount: anime.scored_by,
+                      bestRating: 10,
+                      worstRating: 1,
+                  },
+              }
+            : {}),
         numberOfEpisodes: anime.episodes_total,
         musicBy: null,
         timeRequired: 'PT24M',

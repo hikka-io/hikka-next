@@ -41,5 +41,8 @@ export default async function generateMetadata({
         other: {
             'mal-id': anime.mal_id,
         },
+        robots: {
+            index: anime.rating !== 'rx',
+        },
     });
 }
