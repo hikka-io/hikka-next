@@ -7,6 +7,7 @@ import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rou
 import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded';
+import MaterialSymbolsLockOpenRightOutlineRounded from '~icons/material-symbols/lock-open-right-outline-rounded';
 import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -24,6 +25,7 @@ const TITLES: Record<API.NotificationType, string> = {
     schedule_anime: 'Новий епізод',
     follow: 'Нова підписка',
     collection_vote: 'Нова оцінка у колекції',
+    thirdparty_login: 'Стороння авторизація',
 };
 
 const DESCRIPTIONS: Record<
@@ -49,6 +51,8 @@ const DESCRIPTIONS: Record<
         `Користувач **${username}** підписався на Ваш профіль`,
     collection_vote: (username: string) =>
         `Користувач **${username}** оцінив Вашу колекцію`,
+    thirdparty_login: (client_name: string) =>
+        `Ви авторизувались через сторонній застосунок **${client_name}**`,
 };
 
 const ICONS: Record<API.NotificationType, ReactNode> = {
@@ -64,6 +68,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     schedule_anime: <MaterialSymbolsLiveTvRounded />,
     follow: <MaterialSymbolsPersonAddRounded />,
     collection_vote: <MaterialSymbolsFavoriteRounded />,
+    thirdparty_login: <MaterialSymbolsLockOpenRightOutlineRounded />,
 };
 
 const getCommentLink = (
@@ -82,6 +87,7 @@ const getInitialData = (
         | API.NotificationHikkaData
         | API.NotificationScheduleAnimeData
         | API.NotificationFollowData
+        | API.NotificationThirdpartyLoginData
     >,
 ) => {
     return {
@@ -243,6 +249,18 @@ const collectionVote = (
     };
 };
 
+const thirdpartyLogin = (
+    notification: API.Notification<API.NotificationThirdpartyLoginData>,
+): Hikka.TextNotification => {
+    const { client } = notification.data;
+
+    return {
+        ...getInitialData(notification),
+        description: DESCRIPTIONS[notification.notification_type](client.name),
+        href: `#`,
+    };
+};
+
 export const convertNotification = (
     notification: API.Notification<
         | API.NotificationCommentVoteData
@@ -252,6 +270,7 @@ export const convertNotification = (
         | API.NotificationScheduleAnimeData
         | API.NotificationFollowData
         | API.NotificationVoteData
+        | API.NotificationThirdpartyLoginData
     >,
 ): Hikka.TextNotification => {
     switch (notification.notification_type) {
@@ -302,6 +321,10 @@ export const convertNotification = (
         case 'follow':
             return follow(
                 notification as API.Notification<API.NotificationFollowData>,
+            );
+        case 'thirdparty_login':
+            return thirdpartyLogin(
+                notification as API.Notification<API.NotificationThirdpartyLoginData>,
             );
     }
 };

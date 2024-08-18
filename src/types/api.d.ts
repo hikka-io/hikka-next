@@ -495,11 +495,21 @@ declare global {
             | 'hikka_update'
             | 'schedule_anime'
             | 'follow'
-            | 'collection_vote';
+            | 'collection_vote'
+            | 'thirdparty_login';
 
         type NotificationFollowData = {
             username: string;
             avatar: string;
+        };
+
+        type NotificationThirdpartyLoginData = {
+            scope: string[];
+            client: {
+                name: string;
+                reference: string;
+                description: string;
+            };
         };
 
         type NotificationCommentData = {
@@ -565,7 +575,8 @@ declare global {
                 | NotificationHikkaData
                 | NotificationScheduleAnimeData
                 | NotificationVoteData
-                | NotificationFollowData,
+                | NotificationFollowData
+                | NotificationThirdpartyLoginData,
         > = {
             notification_type: NotificationType;
             created: number;

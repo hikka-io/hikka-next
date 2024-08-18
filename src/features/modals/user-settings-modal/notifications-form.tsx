@@ -29,6 +29,7 @@ const formSchema = z.object({
     hikka_update: z.boolean().default(true),
     schedule_anime: z.boolean().default(true),
     follow: z.boolean().default(true),
+    thirdparty_login: z.boolean().optional().nullable().default(true),
 });
 
 const Component = () => {
