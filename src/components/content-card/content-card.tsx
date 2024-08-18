@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import {
     FC,
     Fragment,
@@ -51,6 +51,7 @@ export interface Props {
     imageProps?: {
         priority?: boolean;
     };
+    linkProps?: LinkProps;
 }
 
 interface TooltipProps {
@@ -120,6 +121,7 @@ const Content = memo(
                 content_type,
                 withContextMenu,
                 imageProps,
+                linkProps,
                 ...props
             },
             ref,

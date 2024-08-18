@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 
-import useReadStatus from '@/services/hooks/read/use-read-stats';
+import useReadStats from '@/services/hooks/read/use-read-stats';
 import { READ_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
@@ -17,7 +17,7 @@ interface Props {
 
 const ReadlistStats: FC<Props> = ({ content_type }) => {
     const params = useParams();
-    const { data } = useReadStatus({
+    const { data } = useReadStats({
         username: String(params.username),
         content_type,
     });
