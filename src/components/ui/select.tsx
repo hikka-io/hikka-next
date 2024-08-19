@@ -385,7 +385,7 @@ const SelectValue = React.forwardRef<
                             return el;
                         })}
                         {renderRemain ? (
-                            <span className="py-1.5 text-xs leading-4 text-muted-foreground">
+                            <span className="text-xs leading-4 text-muted-foreground">
                                 +{renderRemain}
                             </span>
                         ) : null}
@@ -691,6 +691,8 @@ const groupOptions = (options: Option[]) => {
 };
 
 export {
+    groupOptions,
+    renderSelectOptions,
     Select,
     SelectContent,
     SelectEmpty,
@@ -702,6 +704,4 @@ export {
     SelectSeparator,
     SelectTrigger,
     SelectValue,
-    groupOptions,
-    renderSelectOptions,
 };
