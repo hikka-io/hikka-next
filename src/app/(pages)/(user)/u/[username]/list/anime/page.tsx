@@ -8,8 +8,8 @@ import Block from '@/components/ui/block';
 import Filters from '@/features/filters/anime-filters.component';
 import StatusCombobox from '@/features/users/user-watchlist/status-combobox.component';
 import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox.component';
-import ViewCombobox from '@/features/users/user-watchlist/view-combobox.component';
 import List from '@/features/users/user-watchlist/watchlist/watchlist.component';
+import ViewCombobox from '@/features/users/view-combobox.component';
 
 import { prefetchWatchList } from '@/services/hooks/watch/use-watch-list';
 import _generateMetadata from '@/utils/generate-metadata';
@@ -63,7 +63,7 @@ const ListPage: FC<Props> = async ({
                         <div className="flex gap-2">
                             <StatusCombobox />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
                             <ViewCombobox />
                             <ToolsCombobox />
                         </div>

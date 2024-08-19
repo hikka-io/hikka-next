@@ -9,7 +9,7 @@ import ReadFilters from '@/features/filters/read-filters.component';
 import List from '@/features/users/user-readlist/readlist/readlist.component';
 import StatusCombobox from '@/features/users/user-readlist/status-combobox.component';
 import ToolsCombobox from '@/features/users/user-readlist/tools-combobox.component';
-import ViewCombobox from '@/features/users/user-readlist/view-combobox.component';
+import ViewCombobox from '@/features/users/view-combobox.component';
 
 import { prefetchReadList } from '@/services/hooks/read/use-read-list';
 import _generateMetadata from '@/utils/generate-metadata';
@@ -68,7 +68,7 @@ const ListPage: FC<Props> = async ({
                         <div className="flex gap-2">
                             <StatusCombobox />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
                             <ViewCombobox />
                             <ToolsCombobox />
                         </div>

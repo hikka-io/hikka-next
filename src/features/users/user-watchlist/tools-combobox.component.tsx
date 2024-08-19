@@ -44,7 +44,7 @@ const ToolsCombobox = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon-sm">
+                <Button variant="outline" size="icon-md">
                     <MaterialSymbolsMoreVert />
                 </Button>
             </DropdownMenuTrigger>
