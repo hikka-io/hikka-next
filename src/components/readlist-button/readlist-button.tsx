@@ -30,6 +30,7 @@ interface Props {
     disabled?: boolean;
     content_type: 'novel' | 'manga';
     read?: API.Read;
+    size?: 'sm' | 'md';
 }
 
 const SETTINGS_BUTTON = {
@@ -57,7 +58,13 @@ const OPTIONS = [
     })),
 ];
 
-const Component = ({ slug, content_type, disabled, read: readProp }: Props) => {
+const Component = ({
+    slug,
+    content_type,
+    disabled,
+    read: readProp,
+    size,
+}: Props) => {
     const { openModal } = useModalContext();
 
     const { data: readQuery, isError: readError } = useRead(
@@ -155,12 +162,14 @@ const Component = ({ slug, content_type, disabled, read: readProp }: Props) => {
                     read={read!}
                     disabled={disabled}
                     slug={slug}
+                    size={size}
                 />
             ) : (
                 <NewStatusTrigger
                     content_type={content_type}
                     slug={slug}
                     disabled={disabled}
+                    size={size}
                 />
             )}
 

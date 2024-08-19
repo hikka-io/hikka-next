@@ -14,9 +14,14 @@ import { cn } from '@/utils/utils';
 interface NewStatusTriggerProps {
     disabled?: boolean;
     slug: string;
+    size?: 'sm' | 'md';
 }
 
-const NewStatusTrigger: FC<NewStatusTriggerProps> = ({ disabled, slug }) => {
+const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
+    disabled,
+    slug,
+    size,
+}) => {
     const { mutate: addWatch } = useAddWatch();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
@@ -42,6 +47,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({ disabled, slug }) => {
             <div className="flex w-full">
                 <Button
                     variant="secondary"
+                    size={size}
                     disabled={disabled}
                     onClick={handleAddToPlanned}
                     className={cn(
@@ -55,7 +61,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({ disabled, slug }) => {
                 </Button>
                 <Button
                     variant="secondary"
-                    size="icon"
+                    size={size ? `icon-${size}` : 'icon'}
                     type="button"
                     disabled={disabled}
                     className={cn('rounded-l-none text-xl')}

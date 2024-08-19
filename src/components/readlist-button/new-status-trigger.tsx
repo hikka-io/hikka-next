@@ -15,12 +15,14 @@ interface NewStatusTriggerProps {
     disabled?: boolean;
     slug: string;
     content_type: 'novel' | 'manga';
+    size?: 'sm' | 'md';
 }
 
 const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     disabled,
     slug,
     content_type,
+    size,
 }) => {
     const { mutate: addRead } = useAddRead();
 
@@ -47,6 +49,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
         >
             <div className="flex w-full">
                 <Button
+                    size={size}
                     variant="secondary"
                     disabled={disabled}
                     onClick={handleAddToPlanned}
@@ -61,7 +64,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                 </Button>
                 <Button
                     variant="secondary"
-                    size="icon"
+                    size={size ? `icon-${size}` : 'icon'}
                     type="button"
                     disabled={disabled}
                     className={cn('rounded-l-none text-xl')}

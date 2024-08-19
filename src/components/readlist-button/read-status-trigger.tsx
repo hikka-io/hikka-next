@@ -19,6 +19,7 @@ interface ReadStatusTriggerProps {
     content_type: 'novel' | 'manga';
     disabled?: boolean;
     slug: string;
+    size?: 'sm' | 'md';
 }
 
 const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
@@ -26,6 +27,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
     content_type,
     disabled,
     slug,
+    size,
 }) => {
     const { openModal } = useModalContext();
 
@@ -66,6 +68,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
         <SelectTrigger asChild className="gap-0 border-none p-0">
             <div className="flex w-full">
                 <Button
+                    size={size}
                     variant="secondary"
                     disabled={disabled}
                     className={cn(
@@ -86,7 +89,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                 </Button>
                 <Button
                     variant="secondary"
-                    size="icon"
+                    size={size ? `icon-${size}` : 'icon'}
                     type="button"
                     onClick={openReadEditModal}
                     disabled={disabled}

@@ -17,12 +17,14 @@ interface WatchStatusTriggerProps {
     watch: API.Watch;
     disabled?: boolean;
     slug: string;
+    size?: 'sm' | 'md';
 }
 
 const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     watch,
     disabled,
     slug,
+    size,
 }) => {
     const { openModal } = useModalContext();
     const { data: anime } = useAnimeInfo(
@@ -47,6 +49,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
         <SelectTrigger asChild className="gap-0 border-none p-0">
             <div className="flex w-full">
                 <Button
+                    size={size}
                     variant="secondary"
                     disabled={disabled}
                     className={cn(
@@ -67,7 +70,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                 </Button>
                 <Button
                     variant="secondary"
-                    size="icon"
+                    size={size ? `icon-${size}` : 'icon'}
                     type="button"
                     onClick={openWatchEditModal}
                     disabled={disabled}

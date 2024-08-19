@@ -28,6 +28,7 @@ interface Props {
     additional?: boolean;
     disabled?: boolean;
     watch?: API.Watch;
+    size?: 'sm' | 'md';
 }
 
 const SETTINGS_BUTTON = {
@@ -55,7 +56,7 @@ const OPTIONS = [
     })),
 ];
 
-const Component = ({ slug, disabled, watch: watchProp }: Props) => {
+const Component = ({ slug, disabled, watch: watchProp, size }: Props) => {
     const { openModal } = useModalContext();
 
     const { data: watchQuery, isError: watchError } = useWatch(
@@ -131,9 +132,10 @@ const Component = ({ slug, disabled, watch: watchProp }: Props) => {
                     watch={watch!}
                     disabled={disabled}
                     slug={slug}
+                    size={size}
                 />
             ) : (
-                <NewStatusTrigger slug={slug} disabled={disabled} />
+                <NewStatusTrigger size={size} slug={slug} disabled={disabled} />
             )}
 
             <SelectContent>
