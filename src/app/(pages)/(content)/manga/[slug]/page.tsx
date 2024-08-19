@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
+import Franchise from '@/features/franchise/franchise.component';
 import Characters from '@/features/manga/manga-view/characters/characters.component';
 import Description from '@/features/manga/manga-view/description.component';
 import Details from '@/features/manga/manga-view/details/details.component';
-import Franchise from '@/features/manga/manga-view/franchise.component';
 import Links from '@/features/manga/manga-view/links/links.component';
 import ReadStats from '@/features/manga/manga-view/read-stats/read-stats.component';
 import Staff from '@/features/manga/manga-view/staff.component';
@@ -20,7 +20,7 @@ const MangaPage: FC<Props> = async ({ params }) => {
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />
-                <Franchise />
+                <Franchise content_type="manga" />
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <ReadStats />

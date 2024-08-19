@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
+import Franchise from '@/features/franchise/franchise.component';
 import Characters from '@/features/novel/novel-view/characters/characters.component';
 import Description from '@/features/novel/novel-view/description.component';
 import Details from '@/features/novel/novel-view/details/details.component';
-import Franchise from '@/features/novel/novel-view/franchise.component';
 import Links from '@/features/novel/novel-view/links/links.component';
 import ReadStats from '@/features/novel/novel-view/read-stats/read-stats.component';
 import Staff from '@/features/novel/novel-view/staff.component';
@@ -20,7 +20,7 @@ const NovelPage: FC<Props> = async ({ params }) => {
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />
-                <Franchise />
+                <Franchise content_type="novel" />
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <ReadStats />
