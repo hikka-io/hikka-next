@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import Link from 'next/link';
 import { PropsWithChildren, ReactNode, memo } from 'react';
 import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
@@ -9,6 +8,8 @@ import H3 from '@/components/typography/h3';
 import H4 from '@/components/typography/h4';
 import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
+
+import { cn } from '@/utils/utils';
 
 interface Props extends PropsWithChildren {
     title: string | ReactNode;
@@ -51,14 +52,11 @@ const Header = ({
 
     return (
         <div
-            className={clsx(
-                'flex items-center justify-between gap-2',
-                className,
-            )}
+            className={cn('flex items-center justify-between gap-2', className)}
         >
             <div
-                className={clsx(
-                    'flex items-center gap-4 overflow-hidden',
+                className={cn(
+                    'flex flex-1 items-center gap-4 overflow-hidden',
                     titleClassName,
                 )}
             >
@@ -77,9 +75,7 @@ const Header = ({
                 ) : (
                     <Title>{title}</Title>
                 )}
-                <div className="no-scrollbar inline-flex gap-4 overflow-x-scroll">
-                    {children}
-                </div>
+                {children}
             </div>
             {href && (
                 <Button size="icon-sm" variant="outline" asChild>
