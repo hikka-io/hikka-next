@@ -57,7 +57,7 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
         <Block>
             <Header title={title}>
                 {comment_reference && (
-                    <Button size="sm" variant="outline">
+                    <Button size="md" variant="outline">
                         <Link href={`/comments/${content_type}/${slug}`}>
                             Всі коментарі
                         </Link>

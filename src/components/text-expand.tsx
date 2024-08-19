@@ -49,7 +49,7 @@ const TextExpand = ({
                 <div className="flex w-full items-center">
                     <Button
                         variant="link"
-                        size="sm"
+                        size="md"
                         className="p-0"
                         onClick={() => setExpanded(!expanded)}
                     >

@@ -69,7 +69,7 @@ const Navbar = () => {
                     ) : (
                         <>
                             <Button
-                                size="sm"
+                                size="md"
                                 variant="ghost"
                                 onClick={() =>
                                     openModal({
@@ -82,7 +82,7 @@ const Navbar = () => {
                                 Увійти
                             </Button>
                             <Button
-                                size="sm"
+                                size="md"
                                 className="hidden lg:flex"
                                 onClick={() =>
                                     openModal({

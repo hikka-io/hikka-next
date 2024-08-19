@@ -69,7 +69,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
                 className="flex sm:hidden"
                 onClick={handleWatch}
                 variant={watchStatus ? 'secondary' : 'outline'}
-                size="sm"
+                size="md"
             >
                 {watchStatus
                     ? createElement(watchStatus.icon!)

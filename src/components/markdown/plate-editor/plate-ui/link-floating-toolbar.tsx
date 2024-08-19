@@ -107,7 +107,7 @@ export function LinkFloatingToolbar({ state }: LinkFloatingToolbarProps) {
     ) : (
         <div className="box-content flex h-8 items-center gap-1">
             <button
-                className={buttonVariants({ size: 'xs', variant: 'ghost' })}
+                className={buttonVariants({ size: 'sm', variant: 'ghost' })}
                 type="button"
                 {...editButtonProps}
             >

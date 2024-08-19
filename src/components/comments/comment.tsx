@@ -130,7 +130,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     disabled={!loggedUser}
                     variant="link"
                     className="h-auto p-0 text-muted-foreground hover:text-primary hover:no-underline"
-                    size="sm"
+                    size="md"
                     onClick={addReplyInput}
                 >
                     Відповісти
@@ -166,7 +166,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     )}
                     {!expand && (
                         <Button
-                            size="sm"
+                            size="md"
                             variant="ghost"
                             className="text-primary"
                             onClick={() => setExpand(true)}

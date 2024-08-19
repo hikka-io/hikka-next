@@ -19,7 +19,7 @@ const Component = ({ setOpen, children }: Props) => {
         })
     ) : (
         <Button
-            size="sm"
+            size="md"
             variant="outline"
             onClick={() => setOpen(true)}
             className={clsx(

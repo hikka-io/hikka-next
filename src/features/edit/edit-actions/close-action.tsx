@@ -24,7 +24,7 @@ const CloseAction: FC<Props> = () => {
     return (
         <Button
             variant="outline"
-            size="sm"
+            size="md"
             disabled={mutation.isPending}
             onClick={handleClick}
         >

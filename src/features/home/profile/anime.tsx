@@ -236,7 +236,7 @@ const Anime = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <Button
                             variant="outline"
-                            size="sm"
+                            size="md"
                             onClick={openWatchEditModal}
                         >
                             <MaterialSymbolsSettingsOutline />
@@ -247,7 +247,7 @@ const Anime = () => {
                                 className="flex-1 rounded-r-none"
                                 onClick={handleAddEpisode}
                                 variant="secondary"
-                                size="sm"
+                                size="md"
                                 // disabled={isPending}
                             >
                                 <MaterialSymbolsAddRounded />

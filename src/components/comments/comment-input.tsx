@@ -154,7 +154,7 @@ const CommentInput: FC<Props> = forwardRef(
                                     <Button
                                         type="button"
                                         onClick={handleCancel}
-                                        size="sm"
+                                        size="md"
                                         variant="outline"
                                     >
                                         Скасувати
@@ -163,7 +163,7 @@ const CommentInput: FC<Props> = forwardRef(
                                 <Button
                                     onClick={form.handleSubmit(onSubmit)}
                                     disabled={isAddPending || isEditPending}
-                                    size="sm"
+                                    size="md"
                                     type="submit"
                                     variant="secondary"
                                 >

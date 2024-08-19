@@ -42,7 +42,7 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
                     <Button
                         id="title-collapse"
                         variant="ghost"
-                        size="sm"
+                        size="md"
                         className="w-9 p-0"
                     >
                         <LucideChevronsUpDown className="size-4" />

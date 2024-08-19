@@ -36,7 +36,7 @@ const DenyAction: FC<Props> = () => {
             <AlertDialogTrigger asChild>
                 <Button
                     variant="destructive"
-                    size="sm"
+                    size="md"
                     disabled={mutation.isPending}
                 >
                     Відхилити

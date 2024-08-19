@@ -35,7 +35,7 @@ const History: FC<Props> = ({ className }) => {
                         description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
                     />
                 )}
-                <Button asChild size="sm" variant="outline">
+                <Button asChild size="md" variant="outline">
                     <Link href={`/u/${user?.username}/history?type=following`}>
                         Переглянути всі
                     </Link>

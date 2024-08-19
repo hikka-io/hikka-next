@@ -233,7 +233,7 @@ const Novel = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <Button
                             variant="outline"
-                            size="sm"
+                            size="md"
                             onClick={openReadEditModal}
                         >
                             <MaterialSymbolsSettingsOutline />
@@ -244,7 +244,7 @@ const Novel = () => {
                                 className="flex-1 rounded-r-none"
                                 onClick={handleAddChapter}
                                 variant="secondary"
-                                size="sm"
+                                size="md"
                                 // disabled={isPending}
                             >
                                 <MaterialSymbolsAddRounded />

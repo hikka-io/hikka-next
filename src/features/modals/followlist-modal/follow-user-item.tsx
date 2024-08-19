@@ -86,7 +86,7 @@ const FollowUserItem: FC<Props> = ({ user }) => {
                     !user.is_followed ? (
                         <Button
                             variant="secondary"
-                            size="sm"
+                            size="md"
                             onClick={() => mutateFollow(user.username)}
                         >
                             Відстежувати
@@ -94,7 +94,7 @@ const FollowUserItem: FC<Props> = ({ user }) => {
                     ) : (
                         <Button
                             variant="outline"
-                            size="sm"
+                            size="md"
                             onClick={() => mutateUnfollow(user.username)}
                         >
                             Не стежити

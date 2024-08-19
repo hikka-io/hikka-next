@@ -29,7 +29,7 @@ const Footer = () => {
                     <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
                         <Button
                             variant="ghost"
-                            size="sm"
+                            size="md"
                             onClick={() =>
                                 openModal({
                                     content: <RightHolder />,
@@ -40,7 +40,7 @@ const Footer = () => {
                         >
                             Правовласникам
                         </Button>
-                        <Button variant="ghost" size="sm" asChild>
+                        <Button variant="ghost" size="md" asChild>
                             <Link href="https://t.me/hikka_io" target="_blank">
                                 <MingcuteTelegramFill />
                                 Telegram
@@ -49,7 +49,7 @@ const Footer = () => {
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button size="sm" variant="ghost">
+                                <Button size="md" variant="ghost">
                                     Підтримати нас
                                 </Button>
                             </DropdownMenuTrigger>
@@ -77,7 +77,7 @@ const Footer = () => {
                         </DropdownMenu>
                     </div>
                     <div className="flex items-center justify-center gap-4 lg:justify-end">
-                        <Button size="sm" variant="ghost" asChild>
+                        <Button size="md" variant="ghost" asChild>
                             <Link
                                 href="https://github.com/hikka-io"
                                 target="_blank"

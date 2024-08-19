@@ -39,7 +39,7 @@ const ProfileMenu = () => {
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
-                    size="sm"
+                    size="md"
                     className="relative size-10 rounded-md"
                 >
                     <Avatar className="rounded-md">

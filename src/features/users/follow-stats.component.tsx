@@ -31,7 +31,7 @@ const FollowStats: FC<Props> = ({ className }) => {
     return (
         <div className={cn('flex h-fit gap-6', className)}>
             <Button
-                size="sm"
+                size="md"
                 onClick={() =>
                     openModal({
                         content: <FollowlistModal type="followers" />,
@@ -48,7 +48,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                 </span>
             </Button>
             <Button
-                size="sm"
+                size="md"
                 variant="link"
                 onClick={() =>
                     openModal({

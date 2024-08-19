@@ -24,7 +24,7 @@ const AcceptAction: FC<Props> = () => {
     return (
         <Button
             variant="success"
-            size="sm"
+            size="md"
             disabled={mutation.isPending}
             onClick={handleClick}
         >
