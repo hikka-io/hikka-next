@@ -53,7 +53,7 @@ const UserTitle = () => {
                 )}
             </div>
             {user.description && (
-                <P className="text-sm text-muted-foreground">
+                <P className="line-clamp-4 text-sm text-muted-foreground">
                     {user.description}
                 </P>
             )}

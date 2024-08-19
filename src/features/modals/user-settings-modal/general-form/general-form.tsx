@@ -18,7 +18,7 @@ import { z } from '@/utils/zod';
 import Appearance from './appearance';
 
 const formSchema = z.object({
-    description: z.string().max(256).nullable(),
+    description: z.string().max(140).nullable(),
 });
 
 const Component = () => {
