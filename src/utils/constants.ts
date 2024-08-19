@@ -202,6 +202,14 @@ export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<API.NovelMediaType> = {
     },
 };
 
+export const MEDIA_TYPE: Hikka.FilterProperty<
+    API.NovelMediaType | API.MangaMediaType | API.AnimeMediaType
+> = {
+    ...ANIME_MEDIA_TYPE,
+    ...MANGA_MEDIA_TYPE,
+    ...NOVEL_MEDIA_TYPE,
+};
+
 export const AGE_RATING: Hikka.FilterProperty<API.AgeRating> = {
     g: {
         title_ua: 'G',
@@ -398,7 +406,7 @@ export const ERRORS: Record<string, Record<string, string>> = {
         denied: 'Ви не маєте дозволу для виконання цієї дії.',
     },
     anime: {
-        no_franchise: 'Це аніме не має пов\'язаного',
+        no_franchise: "Це аніме не має пов'язаного",
         unknown_producer: 'Невідомий продюсер',
         unknown_studio: 'Невідома студія',
         bad_year: 'Неправильний рік',
@@ -406,7 +414,8 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_found: 'Аніме не знайдено',
     },
     edit: {
-        not_pending: 'Можна змінювати лише ті правки, які очікують на перевірку',
+        not_pending:
+            'Можна змінювати лише ті правки, які очікують на перевірку',
         not_author: 'Тільки автор може змінювати правку',
         invalid_content_id: 'Неправильний ідентифікатор контенту',
         content_not_found: 'Контент не знайдено',
