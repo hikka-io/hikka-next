@@ -117,5 +117,7 @@ declare global {
             refetchOnWindowFocus?: boolean;
             initialData?: undefined;
         };
+
+        type View = 'table' | 'grid' | 'list';
     }
 }
