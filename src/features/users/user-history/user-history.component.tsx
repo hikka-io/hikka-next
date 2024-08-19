@@ -42,7 +42,6 @@ const UserHistory: FC<Props> = ({ className }) => {
                     type="single"
                     value={type}
                     onValueChange={handleChangeType}
-                    variant="outline"
                     size="badge"
                 >
                     <ToggleGroupItem value="user" aria-label="Власна історія">

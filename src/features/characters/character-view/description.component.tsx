@@ -29,7 +29,6 @@ const Description = () => {
                     onValueChange={(value: 'description_ua') =>
                         value && setActive(value)
                     }
-                    variant="outline"
                     size="badge"
                 >
                     {character.description_ua && (

@@ -31,7 +31,6 @@ const Description = () => {
                     onValueChange={(value: 'synopsis_ua' | 'synopsis_en') =>
                         value && setActive(value)
                     }
-                    variant="outline"
                     size="badge"
                 >
                     {data.synopsis_ua && (

@@ -51,7 +51,6 @@ const Links: FC<Props> = ({ extended }) => {
                     type="single"
                     value={active}
                     onValueChange={handleChangeActive}
-                    variant="outline"
                     size="badge"
                 >
                     <ToggleGroupItem

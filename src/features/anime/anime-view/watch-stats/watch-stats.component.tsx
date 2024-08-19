@@ -10,12 +10,7 @@ const WatchStats = () => {
     return (
         <Block>
             <Header title="Статистика">
-                <ToggleGroup
-                    type="single"
-                    value="MAL"
-                    variant="outline"
-                    size="badge"
-                >
+                <ToggleGroup type="single" value="MAL" size="badge">
                     <ToggleGroupItem value="MAL" aria-label="MAL">
                         MAL
                     </ToggleGroupItem>

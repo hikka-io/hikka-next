@@ -39,7 +39,6 @@ const Media: FC<Props> = ({ extended }) => {
                     onValueChange={(value: 'video' | 'music') =>
                         value && setActive(value)
                     }
-                    variant="outline"
                     size="badge"
                 >
                     {anime.videos.length > 0 && (

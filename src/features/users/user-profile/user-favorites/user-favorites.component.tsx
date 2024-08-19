@@ -54,7 +54,6 @@ const Favorites: FC<Props> = ({ extended }) => {
                     onValueChange={(value: API.ContentType) =>
                         value && setContent(value)
                     }
-                    variant="outline"
                     size="badge"
                 >
                     <ToggleGroupItem value="anime" aria-label="Улюблені аніме">
