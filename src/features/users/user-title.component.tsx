@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import MaterialSymbolsSecurity from '~icons/material-symbols/security';
 import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';
 import {
@@ -53,9 +54,12 @@ const UserTitle = () => {
                 )}
             </div>
             {user.description && (
-                <P className="line-clamp-4 text-sm text-muted-foreground">
+                <MDViewer
+                    disableSpoiler
+                    className="line-clamp-4 text-sm text-muted-foreground"
+                >
                     {user.description}
-                </P>
+                </MDViewer>
             )}
         </div>
     );
