@@ -10,7 +10,7 @@ export const paramsBuilder = (props: Params): Params => ({
 
 export const key = (params: Params) => ['following-watch-list', params.slug];
 
-const useFollowingWatchList = (props: Params) => {
+const useFollowingWatchList = (props: Params, options?: Hikka.QueryOptions) => {
     const params = paramsBuilder(props);
 
     return useInfiniteList({
@@ -21,6 +21,7 @@ const useFollowingWatchList = (props: Params) => {
                 page: pageParam,
             }),
         refetchOnWindowFocus: false,
+        ...options,
     });
 };
 

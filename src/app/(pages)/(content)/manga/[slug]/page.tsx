@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
 import Characters from '@/features/manga/manga-view/characters/characters.component';
 import Description from '@/features/manga/manga-view/description.component';
@@ -24,6 +25,7 @@ const MangaPage: FC<Props> = async ({ params }) => {
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <ReadStats />
+                    <Followings content_type="manga" key="followings" />
                     <Links />
                 </div>
             </div>
@@ -31,6 +33,7 @@ const MangaPage: FC<Props> = async ({ params }) => {
                 <Details />
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <ReadStats />
+                    <Followings content_type="manga" key="followings" />
                     <Links />
                 </div>
             </div>

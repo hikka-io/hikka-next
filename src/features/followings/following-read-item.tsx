@@ -1,22 +1,22 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 
-import { WATCH_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants';
 import { cn } from '@/utils/utils';
 
 interface Props {
     data: {
-        watch: API.Watch[];
+        read: API.Read[];
     } & API.User;
     className?: string;
 }
 
-const FollowingItem: FC<Props> = ({ data, className }) => {
+const FollowingReadItem: FC<Props> = ({ data, className }) => {
     return (
         <div className={cn('flex items-center gap-4', className)}>
             <Avatar className="size-10 rounded-md" asChild>
@@ -34,13 +34,13 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
                 </Label>
 
                 <P className="text-xs text-muted-foreground">
-                    {WATCH_STATUS[data.watch[0].status].title_ua}
+                    {READ_STATUS[data.read[0].status].title_ua}
                 </P>
             </div>
-            {data.watch[0].score > 0 && (
+            {data.read[0].score > 0 && (
                 <div className="inline-flex gap-1">
                     <Label className="leading-normal">
-                        {data.watch[0].score}
+                        {data.read[0].score}
                     </Label>
                     <MaterialSymbolsStarRounded />
                 </div>
@@ -49,4 +49,4 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
     );
 };
 
-export default FollowingItem;
+export default FollowingReadItem;

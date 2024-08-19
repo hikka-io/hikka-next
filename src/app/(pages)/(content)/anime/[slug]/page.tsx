@@ -3,11 +3,11 @@ import { FC } from 'react';
 import Characters from '@/features/anime/anime-view/characters/characters.component';
 import Description from '@/features/anime/anime-view/description.component';
 import Details from '@/features/anime/anime-view/details/details.component';
-import Followings from '@/features/anime/anime-view/followings/followings.component';
 import Links from '@/features/anime/anime-view/links/links.component';
 import Media from '@/features/anime/anime-view/media/media.component';
 import Staff from '@/features/anime/anime-view/staff.component';
 import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.component';
+import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
 
 import getAnimeInfo, {
@@ -43,17 +43,17 @@ const AnimePage: FC<Props> = async ({ params }) => {
                 <Media />
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
-                    <WatchStats />
-                    <Followings />
-                    <Links />
+                    <WatchStats key="watch-stats" />
+                    <Followings content_type="anime" key="followings" />
+                    <Links key="links" />
                 </div>
             </div>
             <div className="order-1 flex flex-col gap-12 lg:order-2">
                 <Details />
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
-                    <WatchStats />
-                    <Followings />
-                    <Links />
+                    <WatchStats key="watch-stats" />
+                    <Followings content_type="anime" key="followings" />
+                    <Links key="links" />
                 </div>
             </div>
         </div>

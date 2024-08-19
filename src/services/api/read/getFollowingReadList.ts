@@ -23,7 +23,7 @@ export default async function req({
 }: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
         ...props,
-        path: `/read/${params?.slug}/${params?.content_type}/following`,
+        path: `/read/${params?.content_type}/${params?.slug}/following`,
         method: 'get',
         page,
         size,

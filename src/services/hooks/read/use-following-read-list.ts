@@ -15,10 +15,13 @@ export const key = (params: Params) => [
     params.content_type,
 ];
 
-const useFollowingReadList = (props: {
-    slug: string;
-    content_type: 'manga' | 'novel';
-}) => {
+const useFollowingReadList = (
+    props: {
+        slug: string;
+        content_type: 'manga' | 'novel';
+    },
+    options?: Hikka.QueryOptions,
+) => {
     const params = paramsBuilder(props);
 
     return useInfiniteList({
@@ -28,6 +31,7 @@ const useFollowingReadList = (props: {
                 params,
                 page: pageParam,
             }),
+        ...options,
     });
 };
 

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
 import Characters from '@/features/novel/novel-view/characters/characters.component';
 import Description from '@/features/novel/novel-view/description.component';
@@ -24,6 +25,7 @@ const NovelPage: FC<Props> = async ({ params }) => {
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <ReadStats />
+                    <Followings content_type="novel" key="followings" />
                     <Links />
                 </div>
             </div>
@@ -31,6 +33,7 @@ const NovelPage: FC<Props> = async ({ params }) => {
                 <Details />
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <ReadStats />
+                    <Followings content_type="novel" key="followings" />
                     <Links />
                 </div>
             </div>
