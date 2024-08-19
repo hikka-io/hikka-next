@@ -167,6 +167,14 @@
     .grid-max-3 {
         --grid-max: 3.5rem;
     }
+
+    .grid-max-20 {
+        --grid-max: 20rem;
+    }
+
+    .grid-max-22 {
+        --grid-max: 22rem;
+    }
 }
 
 .logo {
