@@ -20,7 +20,7 @@ interface Props {
 
 const GlobalComment: FC<Props> = ({ comment, href }) => {
     return (
-        <div className="flex w-full flex-col items-start gap-4">
+        <div className="flex size-full flex-col items-start gap-4">
             <div className="flex w-full gap-3">
                 <Link href={`/u/${comment.author.username}`}>
                     <Avatar className="w-10 rounded-md">
@@ -60,7 +60,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 )}
             </div>
 
-            <Link href={href} className="hover:underline">
+            <Link href={href} className="flex-1 hover:underline">
                 <MDViewer className="line-clamp-2 text-sm">
                     {comment.text}
                 </MDViewer>
