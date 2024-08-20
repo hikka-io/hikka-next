@@ -1,8 +1,8 @@
 import getUserHistory, { Params } from '@/services/api/history/getUserHistory';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitle } from '@/utils/title-adapter';
 
 export const paramsBuilder = (props: Params): Params => ({
     username: props.username,

@@ -23,7 +23,7 @@ import useAddRead from '@/services/hooks/read/use-add-read';
 import useDeleteRead from '@/services/hooks/read/use-delete-read';
 import useRead from '@/services/hooks/read/use-read';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({

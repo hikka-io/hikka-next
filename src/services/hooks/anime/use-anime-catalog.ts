@@ -5,8 +5,8 @@ import getAnimeCatalog, {
     Response as AnimeCatalogResponse,
 } from '@/services/api/anime/getAnimeCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitleList } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends AnimeCatalogParams {
     page: number;

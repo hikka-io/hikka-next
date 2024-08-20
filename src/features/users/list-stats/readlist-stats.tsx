@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 
 import useReadStats from '@/services/hooks/read/use-read-stats';
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 interface Props {

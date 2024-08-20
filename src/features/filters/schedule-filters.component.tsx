@@ -20,7 +20,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 import useSession from '@/services/hooks/auth/use-session';
-import { RELEASE_STATUS, SEASON } from '@/utils/constants';
+import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
 import getCurrentSeason from '@/utils/get-current-season';
 import { cn } from '@/utils/utils';

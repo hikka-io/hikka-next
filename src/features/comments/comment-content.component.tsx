@@ -6,7 +6,7 @@ import { FC } from 'react';
 import ContentCard from '@/components/content-card/content-card';
 import Block from '@/components/ui/block';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import useContent from './useContent';
 

@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 
 import useWatchList from '@/services/hooks/watch/use-watch-list';
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
 
 const StatusCombobox = () => {

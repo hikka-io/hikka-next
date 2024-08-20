@@ -1,4 +1,4 @@
-import { SEASON } from '@/utils/constants';
+import { SEASON } from './constants/common';
 
 export default function getCurrentSeason() {
     const currentMonth = new Date().getMonth() + 1;

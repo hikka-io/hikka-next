@@ -13,7 +13,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { EDIT_STATUSES } from '@/utils/constants';
+import { EDIT_STATUS } from '@/utils/constants/edit';
 
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
@@ -43,13 +43,13 @@ const EditStatus: FC<Props> = ({ className }) => {
                 <SelectContent>
                     <SelectList>
                         <SelectGroup>
-                            {(
-                                Object.keys(EDIT_STATUSES) as API.EditStatus[]
-                            ).map((item) => (
-                                <SelectItem key={item} value={item}>
-                                    {EDIT_STATUSES[item].title_ua}
-                                </SelectItem>
-                            ))}
+                            {(Object.keys(EDIT_STATUS) as API.EditStatus[]).map(
+                                (item) => (
+                                    <SelectItem key={item} value={item}>
+                                        {EDIT_STATUS[item].title_ua}
+                                    </SelectItem>
+                                ),
+                            )}
                         </SelectGroup>
                     </SelectList>
                 </SelectContent>

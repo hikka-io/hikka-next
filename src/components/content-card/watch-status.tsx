@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { FC, createElement } from 'react';
 
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 
 interface Props {
     watch: API.Watch;

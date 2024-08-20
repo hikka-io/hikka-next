@@ -1,4 +1,4 @@
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [

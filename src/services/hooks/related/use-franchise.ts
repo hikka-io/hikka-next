@@ -2,8 +2,8 @@ import { QueryKey, useQuery } from '@tanstack/react-query';
 
 import getFranchise, { Params } from '@/services/api/related/getFranchise';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitleList } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitleList } from '@/utils/title-adapter';
 
 export const paramsBuilder = (props: Params): Params => ({
     slug: props.slug,

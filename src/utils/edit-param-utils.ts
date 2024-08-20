@@ -13,7 +13,7 @@ import {
     NOVEL_EDIT_PARAMS,
     PERSON_EDIT_GROUPS,
     PERSON_EDIT_PARAMS,
-} from '@/utils/constants';
+} from './constants/edit';
 
 export const getEditParamComponent = (type: Hikka.EditParamType) => {
     switch (type) {

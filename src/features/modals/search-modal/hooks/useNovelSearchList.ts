@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import getNovelCatalog from '@/services/api/novel/getNovelCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertTitleList } from '@/utils/title-adapter';
+import { convertTitleList } from '@/utils/adapters/convert-title';
 
 interface Props {
     value?: string;

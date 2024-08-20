@@ -17,7 +17,7 @@ import { Label } from '@/components/ui/label';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useNovelInfo from '@/services/hooks/novel/use-novel-info';
-import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 import ReadlistButton from '../readlist-button/readlist-button';
 

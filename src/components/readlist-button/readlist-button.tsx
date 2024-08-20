@@ -19,7 +19,7 @@ import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import useAddRead from '@/services/hooks/read/use-add-read';
 import useRead from '@/services/hooks/read/use-read';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 
 import NewStatusTrigger from './new-status-trigger';
 import ReadStatusTrigger from './read-status-trigger';

@@ -23,7 +23,7 @@ import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
 import useWatch from '@/services/hooks/watch/use-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({

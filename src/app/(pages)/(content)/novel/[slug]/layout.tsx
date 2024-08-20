@@ -15,7 +15,8 @@ import Cover from '@/features/novel/novel-view/cover.component';
 import Title from '@/features/novel/novel-view/title.component';
 
 import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
-import { NOVEL_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
+import { RELEASE_STATUS } from '@/utils/constants/common';
+import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';

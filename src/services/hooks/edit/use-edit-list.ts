@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import getEditList, { Params } from '@/services/api/edit/getEditList';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitle } from '@/utils/title-adapter';
 
 export const paramsBuilder = (props: Params): Params => ({
     page: props.page || 1,

@@ -6,7 +6,7 @@ import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 interface Props {

@@ -28,7 +28,7 @@ import useSession from '@/services/hooks/auth/use-session';
 import useAddRead from '@/services/hooks/read/use-add-read';
 import useReadList from '@/services/hooks/read/use-read-list';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { MANGA_MEDIA_TYPE } from '@/utils/constants';
+import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
 

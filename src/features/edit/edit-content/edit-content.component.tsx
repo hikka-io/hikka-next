@@ -9,8 +9,8 @@ import Header from '@/components/ui/header';
 import Details from '@/features/edit/edit-content/details';
 import General from '@/features/edit/edit-content/general';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
-import { getTitle } from '@/utils/title-adapter';
+import { getTitle } from '@/utils/adapters/convert-title';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     slug: string;

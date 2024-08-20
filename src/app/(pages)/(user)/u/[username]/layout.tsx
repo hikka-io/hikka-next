@@ -18,7 +18,7 @@ import ListStats from '@/features/users/list-stats/list-stats.component';
 import UserInfo from '@/features/users/user-info.component';
 import UserTitle from '@/features/users/user-title.component';
 
-import { USER_NAV_ROUTES } from '@/utils/constants';
+import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';

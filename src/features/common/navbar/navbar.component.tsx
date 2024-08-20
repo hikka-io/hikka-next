@@ -14,7 +14,7 @@ import useSession from '@/services/hooks/auth/use-session';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { GENERAL_NAV_ROUTES } from '@/utils/constants';
+import { GENERAL_NAV_ROUTES } from '@/utils/constants/navigation';
 
 import NotificationsMenu from './notifications-menu/notifications-menu.component';
 

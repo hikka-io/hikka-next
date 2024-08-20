@@ -7,7 +7,8 @@ import Header from '@/components/ui/header';
 
 import useContent from '@/features/comments/useContent';
 
-import { CONTENT_TYPES, CONTENT_TYPE_LINKS } from '@/utils/constants';
+import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     slug: string;

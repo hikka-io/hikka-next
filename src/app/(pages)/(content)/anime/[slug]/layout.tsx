@@ -15,7 +15,8 @@ import Cover from '@/features/anime/anime-view/cover.component';
 import Title from '@/features/anime/anime-view/title.component';
 
 import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
-import { ANIME_NAV_ROUTES, RELEASE_STATUS } from '@/utils/constants';
+import { RELEASE_STATUS } from '@/utils/constants/common';
+import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';

@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { RELEASE_STATUS } from '@/utils/constants';
+import { RELEASE_STATUS } from '@/utils/constants/common';
 
 import BadgeFilter from '../badge-filter';
 import CollapsibleFilter from '../collapsible-filter';

@@ -8,8 +8,8 @@ import getMangaInfo from '@/services/api/manga/getMangaInfo';
 import getNovelInfo from '@/services/api/novel/getNovelInfo';
 import getPersonInfo from '@/services/api/people/getPersonInfo';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitle } from '@/utils/title-adapter';
 
 interface Props {
     content_type: API.ContentType;

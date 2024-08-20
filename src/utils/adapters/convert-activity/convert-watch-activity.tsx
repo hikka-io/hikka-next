@@ -1,4 +1,4 @@
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 
 const EPISODES_DECLENSION: [string, string, string] = [

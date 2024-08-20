@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
-import { RELEASE_STATUS } from '@/utils/constants';
+import { RELEASE_STATUS } from '@/utils/constants/common';
 
 interface Props {
     status: API.Status;

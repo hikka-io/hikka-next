@@ -10,7 +10,7 @@ import WatchEditModal from '@/features/modals/watch-edit-modal';
 import useSession from '@/services/hooks/auth/use-session';
 import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 
 interface Props {
     item: API.AnimeSchedule;

@@ -18,7 +18,7 @@ import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import useWatch from '@/services/hooks/watch/use-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 
 import NewStatusTrigger from './new-status-trigger';
 import WatchStatusTrigger from './watch-status-trigger';

@@ -7,7 +7,7 @@ import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import WatchlistButton from '@/components/watchlist-button/watchlist-button';
 
-import { MEDIA_TYPE } from '@/utils/constants';
+import { MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
     content: API.Anime | API.Manga | API.Novel;

@@ -10,8 +10,8 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
-import { convertActivity } from '@/utils/convert-activity';
+import { convertActivity } from '@/utils/adapters/convert-activity';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     data: API.History;

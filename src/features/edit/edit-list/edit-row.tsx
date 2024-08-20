@@ -12,13 +12,10 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
 
-import {
-    CONTENT_TYPES,
-    CONTENT_TYPE_LINKS,
-    EDIT_PARAMS,
-    EDIT_STATUS,
-} from '@/utils/constants';
-import { getTitle } from '@/utils/title-adapter';
+import { getTitle } from '@/utils/adapters/convert-title';
+import { CONTENT_TYPES } from '@/utils/constants/common';
+import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     edit: API.Edit;

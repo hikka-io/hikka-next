@@ -4,7 +4,7 @@ import ContentCard, {
     Props as ContentCardProps,
 } from '@/components/content-card/content-card';
 
-import { NOVEL_MEDIA_TYPE } from '@/utils/constants';
+import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props extends ContentCardProps {
     novel: API.Novel | API.NovelInfo;

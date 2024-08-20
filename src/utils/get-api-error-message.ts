@@ -1,4 +1,4 @@
-import { ERRORS } from '@/utils/constants';
+import { ERRORS } from './constants/common';
 
 export default function (error: API.Error) {
     const splittedCode = error.code.split(':');

@@ -1,6 +1,6 @@
 import { FC, createElement } from 'react';
 
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 
 interface Props {
     read: API.Read;

@@ -28,7 +28,7 @@ import useSession from '@/services/hooks/auth/use-session';
 import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { ANIME_MEDIA_TYPE } from '@/utils/constants';
+import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
 

@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import Stack from '@/components/ui/stack';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
 
 interface Props {

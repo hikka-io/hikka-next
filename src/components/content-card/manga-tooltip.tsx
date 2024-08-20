@@ -17,7 +17,7 @@ import { Label } from '@/components/ui/label';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useMangaInfo from '@/services/hooks/manga/use-manga-info';
-import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 import ReadlistButton from '../readlist-button/readlist-button';
 

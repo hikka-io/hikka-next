@@ -16,7 +16,7 @@ import EditFiltersModal from '@/features/modals/edit-filters-modal';
 
 import { prefetchEditList } from '@/services/hooks/edit/use-edit-list';
 import { prefetchEditTop } from '@/services/hooks/stats/edit/use-edit-top';
-import { EDIT_NAV_ROUTES } from '@/utils/constants';
+import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 const EditListPage = async ({

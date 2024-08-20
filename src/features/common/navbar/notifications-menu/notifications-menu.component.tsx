@@ -16,7 +16,7 @@ import {
 import useNotifications from '@/services/hooks/notifications/use-notifications';
 import useNotificationsCount from '@/services/hooks/notifications/use-notifications-count';
 import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
-import { convertNotification } from '@/utils/convert-notification';
+import { convertNotification } from '@/utils/adapters/convert-notification';
 
 import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';

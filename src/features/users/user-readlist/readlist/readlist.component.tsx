@@ -7,7 +7,7 @@ import Block from '@/components/ui/block';
 import NotFound from '@/components/ui/not-found';
 
 import useReadList from '@/services/hooks/read/use-read-list';
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 
 import GridView from './grid-view';
 import TableView from './table-view/table-view';

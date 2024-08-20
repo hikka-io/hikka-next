@@ -20,7 +20,7 @@ import EditStatus from '@/features/edit/edit-status.component';
 import getEdit from '@/services/api/edit/getEdit';
 import { prefetchComments } from '@/services/hooks/comments/use-comments';
 import { key, prefetchEdit } from '@/services/hooks/edit/use-edit';
-import { EDIT_NAV_ROUTES } from '@/utils/constants';
+import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 

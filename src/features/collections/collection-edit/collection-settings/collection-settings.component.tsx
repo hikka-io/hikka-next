@@ -31,7 +31,7 @@ import { useModalContext } from '@/services/providers/modal-provider';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
-} from '@/utils/constants';
+} from '@/utils/constants/common';
 
 interface Props {
     mode?: 'create' | 'edit';

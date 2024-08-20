@@ -8,7 +8,7 @@ import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
-import { USER_ROLE } from '@/utils/constants';
+import { USER_ROLE } from '@/utils/constants/common';
 
 interface Props {
     user: API.User;

@@ -15,7 +15,6 @@ import ModalProvider from '@/services/providers/modal-provider';
 import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { createQueryClient } from '@/utils/get-query-client';
-import { SnackbarUtilsConfigurator } from '@/utils/snackbar-utils';
 
 interface Props extends PropsWithChildren {}
 
@@ -58,7 +57,6 @@ const Providers: FC<Props> = ({ children }) => {
                             vertical: 'bottom',
                         }}
                     >
-                        <SnackbarUtilsConfigurator />
                         <TooltipProvider delayDuration={0}>
                             <ModalProvider>
                                 <ProgressBar

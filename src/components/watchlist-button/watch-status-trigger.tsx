@@ -10,7 +10,7 @@ import WatchEditModal from '@/features/modals/watch-edit-modal';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { WATCH_STATUS } from '@/utils/constants';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 interface WatchStatusTriggerProps {

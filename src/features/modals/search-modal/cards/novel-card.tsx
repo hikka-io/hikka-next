@@ -8,7 +8,7 @@ import ContentCard from '@/components/content-card/content-card';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 
-import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 import { Label } from '../../../../components/ui/label';
 

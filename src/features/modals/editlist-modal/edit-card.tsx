@@ -9,7 +9,7 @@ import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 
-import { EDIT_STATUS } from '@/utils/constants';
+import { EDIT_STATUS } from '@/utils/constants/edit';
 
 import {
     Avatar,

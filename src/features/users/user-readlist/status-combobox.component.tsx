@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 
 import useReadList from '@/services/hooks/read/use-read-list';
-import { READ_STATUS } from '@/utils/constants';
+import { READ_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
 
 const StatusCombobox = () => {

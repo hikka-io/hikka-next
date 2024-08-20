@@ -14,7 +14,7 @@ import Cover from '@/features/people/person-view/cover.component';
 import Title from '@/features/people/person-view/title.component';
 
 import { prefetchPersonInfo } from '@/services/hooks/people/use-person-info';
-import { PERSON_NAV_ROUTES } from '@/utils/constants';
+import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';

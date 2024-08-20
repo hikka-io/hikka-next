@@ -5,8 +5,8 @@ import getMangaCatalog, {
     Response as MangaCatalogResponse,
 } from '@/services/api/manga/getMangaCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitleList } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitleList } from '@/utils/title-adapter';
 
 export interface Props extends MangaCatalogParams {
     page: number;

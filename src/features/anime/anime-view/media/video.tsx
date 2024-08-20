@@ -3,7 +3,7 @@ import { FC } from 'react';
 import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';
 
-import { VIDEO } from '@/utils/constants';
+import { VIDEO } from '@/utils/constants/common';
 
 interface Props {
     extended?: boolean;

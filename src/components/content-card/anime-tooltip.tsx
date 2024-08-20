@@ -18,7 +18,7 @@ import WatchListButton from '@/components/watchlist-button/watchlist-button';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import useSession from '@/services/hooks/auth/use-session';
-import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants';
+import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 interface TooltipDataProps {
     slug: string;

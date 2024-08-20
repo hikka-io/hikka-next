@@ -1,7 +1,7 @@
 import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     open: boolean;

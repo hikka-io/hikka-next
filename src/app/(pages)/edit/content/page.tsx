@@ -7,7 +7,7 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 
 import ContentList from '@/features/edit/edit-content-list.component';
 
-import { EDIT_NAV_ROUTES } from '@/utils/constants';
+import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 

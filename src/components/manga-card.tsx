@@ -4,7 +4,7 @@ import ContentCard, {
     Props as ContentCardProps,
 } from '@/components/content-card/content-card';
 
-import { MANGA_MEDIA_TYPE } from '@/utils/constants';
+import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props extends ContentCardProps {
     manga: API.Manga | API.MangaInfo;

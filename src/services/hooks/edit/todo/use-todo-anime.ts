@@ -1,8 +1,8 @@
 import getTodoAnime, { Params } from '@/services/api/edit/todo/getTodoAnime';
 import useInfiniteList from '@/services/hooks/use-infinite-list';
 import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitleList } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
-import { convertTitleList } from '@/utils/title-adapter';
 
 export const paramsBuilder = (props: Params): Params => ({
     param: props.param,

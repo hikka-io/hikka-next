@@ -14,7 +14,7 @@ import Cover from '@/features/characters/character-view/cover.component';
 import Title from '@/features/characters/character-view/title.component';
 
 import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
-import { CHARACTER_NAV_ROUTES } from '@/utils/constants';
+import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
