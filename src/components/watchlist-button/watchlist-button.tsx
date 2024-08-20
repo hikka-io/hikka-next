@@ -28,6 +28,7 @@ interface Props {
     additional?: boolean;
     disabled?: boolean;
     watch?: API.Watch;
+    anime?: API.Anime;
     size?: 'sm' | 'md';
 }
 
@@ -56,7 +57,13 @@ const OPTIONS = [
     })),
 ];
 
-const Component = ({ slug, disabled, watch: watchProp, size }: Props) => {
+const Component = ({
+    slug,
+    disabled,
+    watch: watchProp,
+    anime: animeProp,
+    size,
+}: Props) => {
     const { openModal } = useModalContext();
 
     const { data: watchQuery, isError: watchError } = useWatch(
@@ -65,16 +72,18 @@ const Component = ({ slug, disabled, watch: watchProp, size }: Props) => {
         },
         { enabled: !disabled && !watchProp },
     );
-    const { data: anime } = useAnimeInfo(
+    const { data: animeQuery } = useAnimeInfo(
         {
             slug,
         },
-        { enabled: !disabled },
+        { enabled: !disabled && !animeProp },
     );
     const { mutate: addWatch } = useAddWatch();
 
     const watch =
         watchProp || (watchQuery && !watchError ? watchQuery : undefined);
+
+    const anime = animeProp || (animeQuery ? animeQuery : undefined);
 
     const openWatchEditModal = () => {
         if (anime) {

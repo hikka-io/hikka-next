@@ -30,6 +30,7 @@ interface Props {
     disabled?: boolean;
     content_type: 'novel' | 'manga';
     read?: API.Read;
+    content?: API.Manga | API.Novel;
     size?: 'sm' | 'md';
 }
 
@@ -63,6 +64,7 @@ const Component = ({
     content_type,
     disabled,
     read: readProp,
+    content: contentProp,
     size,
 }: Props) => {
     const { openModal } = useModalContext();
@@ -79,24 +81,23 @@ const Component = ({
         {
             slug,
         },
-        { enabled: !disabled && content_type === 'manga' },
+        { enabled: !disabled && content_type === 'manga' && !contentProp },
     );
 
     const { data: novel } = useNovelInfo(
         {
             slug,
         },
-        { enabled: !disabled && content_type === 'novel' },
+        { enabled: !disabled && content_type === 'novel' && !contentProp },
     );
 
     const { mutate: addRead } = useAddRead();
 
     const read = readProp || (readQuery && !readError ? readQuery : undefined);
+    const content = contentProp || manga || novel;
 
     const openReadEditModal = () => {
-        if (manga || novel) {
-            const content = manga || novel;
-
+        if (content) {
             openModal({
                 content: (
                     <ReadEditModal
