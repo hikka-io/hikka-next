@@ -5,6 +5,8 @@ import MaterialSymbolsChangeCircleRounded from '~icons/material-symbols/change-c
 import MaterialSymbolsCheckCircleRounded from '~icons/material-symbols/check-circle-rounded';
 import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
 import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
+import MaterialSymbolsHeartMinusRounded from '~icons/material-symbols/heart-minus-rounded';
+import MaterialSymbolsHeartPlusRounded from '~icons/material-symbols/heart-plus-rounded';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded';
 import MaterialSymbolsLockOpenRightOutlineRounded from '~icons/material-symbols/lock-open-right-outline-rounded';
@@ -126,10 +128,18 @@ const commentVote = (
         base_comment_reference,
         username,
         avatar,
+        user_score,
     } = notification.data;
 
     return {
         ...getInitialData(notification),
+        title: `${TITLES[notification.notification_type]} (${user_score > 0 ? '+' : ''}${user_score})`,
+        icon:
+            user_score > 0 ? (
+                <MaterialSymbolsHeartPlusRounded />
+            ) : (
+                <MaterialSymbolsHeartMinusRounded />
+            ),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: getCommentLink(content_type, slug, base_comment_reference),
         image: (
@@ -237,10 +247,17 @@ const follow = (
 const collectionVote = (
     notification: API.Notification<API.NotificationVoteData>,
 ): Hikka.TextNotification => {
-    const { slug, username, avatar } = notification.data;
+    const { slug, username, avatar, user_score } = notification.data;
 
     return {
         ...getInitialData(notification),
+        title: `${TITLES[notification.notification_type]} (${user_score > 0 ? '+' : ''}${user_score})`,
+        icon:
+            user_score > 0 ? (
+                <MaterialSymbolsHeartPlusRounded />
+            ) : (
+                <MaterialSymbolsHeartMinusRounded />
+            ),
         description: DESCRIPTIONS[notification.notification_type](username),
         href: `/collections/${slug}`,
         image: (
