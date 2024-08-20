@@ -62,7 +62,12 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                 <Header
                     className="flex-1"
                     title={title}
-                    href={!extended ? params.slug + '/franchise' : undefined}
+                    href={
+                        !extended
+                            ? params.slug +
+                              '/franchise?content_types=anime&content_types=manga&content_types=novel'
+                            : undefined
+                    }
                 />
                 {extended && <FranchiseFilters />}
             </div>
