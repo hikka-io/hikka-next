@@ -18,7 +18,7 @@ const useNovelSearchList = ({ value }: Props) => {
                 params: {
                     query: value,
                 },
-                size: 30,
+                size: 60,
             }),
         enabled: value !== undefined && value.length >= 3,
         select: (data) => ({
