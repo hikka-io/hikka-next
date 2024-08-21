@@ -632,5 +632,20 @@ declare global {
             | API.Collection;
 
         type MainContent = Exclude<API.Content, API.Collection>;
+
+        type Client = {
+            reference: string;
+            name: string;
+            description: string;
+            verified: boolean;
+            user: API.User;
+            created: number;
+            updated: number;
+        };
+
+        type ClientInfo = Client & {
+            secret: string;
+            endpoint: string;
+        };
     }
 }
