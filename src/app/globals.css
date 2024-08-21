@@ -178,24 +178,19 @@
 }
 
 .logo {
-    -webkit-mask: url(/logo-mobile.svg) no-repeat center;
-    mask: url(/logo-mobile.svg) no-repeat center;
-    mask-size: contain;
-    -webkit-mask-size: contain;
+    background-image: url(/logo-icon.png);
+    background-size: contain;
 }
 
 .logo-full {
-    -webkit-mask: url(/logo.svg) no-repeat center;
-    mask: url(/logo.svg) no-repeat center;
-    mask-size: contain;
+    background-image: url(/logo.svg);
+    background-size: contain;
 }
 
 @media screen(md) {
     .logo {
-        -webkit-mask: url(/logo.svg) no-repeat center;
-        mask: url(/logo.svg) no-repeat center;
-        mask-size: contain;
-        -webkit-mask-size: contain;
+        background-image: url(/logo.svg);
+        background-size: contain;
     }
 }
 

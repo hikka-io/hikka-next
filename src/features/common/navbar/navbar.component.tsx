@@ -44,7 +44,7 @@ const Navbar = () => {
                         href="/"
                         className="h-full rounded-md bg-secondary/30 p-2 md:bg-transparent md:p-0"
                     >
-                        <div className="logo size-[24px] bg-foreground md:w-[80px]" />
+                        <div className="logo size-[24px] md:w-[80px]" />
                     </Link>
                     <div
                         className="flex min-w-0 flex-1 items-center gap-4"

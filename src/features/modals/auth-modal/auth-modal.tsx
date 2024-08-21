@@ -41,7 +41,7 @@ const Component = ({
             </div>
             <div className="flex w-full flex-col items-center gap-4 p-8 text-center">
                 <div className="flex h-12 items-center">
-                    <div className="logo logo-full h-[24px] w-[80px] bg-foreground" />
+                    <div className="logo logo-full h-[24px] w-[80px]" />
                 </div>
                 {type === 'forgotPassword' && <ForgotPasswordForm />}
                 {type === 'login' && <LoginForm />}
