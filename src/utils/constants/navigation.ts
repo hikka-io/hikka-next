@@ -235,6 +235,12 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         icon: MaterialSymbolsCalendarClockRounded,
         visible: true,
     },
+    {
+        slug: 'settings',
+        title_ua: 'Налаштування',
+        url: '/settings',
+        visible: false,
+    },
 ];
 export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     person: '/people',
