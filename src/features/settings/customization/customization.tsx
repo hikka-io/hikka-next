@@ -26,20 +26,19 @@ const Component = () => {
         setSettingsState!((prev) =>
             prev
                 ? {
-                    ...prev,
-                    titleLanguage: value[0] as
-                        | 'title_ua'
-                        | 'title_en'
-                        | 'title_ja',
-                }
+                      ...prev,
+                      titleLanguage: value[0] as
+                          | 'title_ua'
+                          | 'title_en'
+                          | 'title_ja',
+                  }
                 : prev,
         );
 
     return (
-        <div className="flex w-full flex-col gap-6 p-6">
+        <div className="flex w-full flex-col gap-6">
             <div className="flex w-full flex-col gap-2">
                 <Label>Тема сайту</Label>
-
                 <Select
                     value={[theme!]}
                     onValueChange={(value) => setTheme(value[0])}

@@ -53,7 +53,7 @@ const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
             <div className="flex flex-col gap-12">
                 <Block>
                     <div className="flex items-center justify-between">
-                        <Header title="Календар" />
+                        <Header variant="h2" title="Календар" />
                         <ScheduleFiltersModal>
                             <Button
                                 variant="outline"

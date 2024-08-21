@@ -58,9 +58,9 @@ const Component = () => {
     }, [tab]);
 
     return (
-        <div className="flex flex-col gap-6 p-6">
+        <div className="flex flex-col items-start gap-6">
             <Tabs
-                className="flex w-full flex-col gap-6"
+                className="flex w-full flex-col gap-4"
                 value={tab}
                 onValueChange={(v) => setTab(v as 'general' | 'aniList')}
             >
@@ -94,20 +94,16 @@ const Component = () => {
                 />
             </div>
 
-            <div className="w-full">
-                <Button
-                    variant="default"
-                    onClick={handleCompleteImport}
-                    disabled={watchList.length === 0}
-                    type="submit"
-                    className="w-full"
-                >
-                    {importing && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Імпортувати
-                </Button>
-            </div>
+            <Button
+                variant="default"
+                onClick={handleCompleteImport}
+                disabled={watchList.length === 0}
+                type="submit"
+                size="md"
+            >
+                {importing && <span className="loading loading-spinner"></span>}
+                Імпортувати
+            </Button>
         </div>
     );
 };

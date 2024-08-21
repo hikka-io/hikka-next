@@ -10,14 +10,14 @@ import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 
-import FoundList from '@/features/modals/user-settings-modal/watchlist-form/found-list';
+import FoundList from './found-list';
 
 interface Props {
-    watchList: Record<string, any>[];
-    setWatchList: Dispatch<SetStateAction<Record<string, any>[]>>;
+    readList: Record<string, any>[];
+    setReadList: Dispatch<SetStateAction<Record<string, any>[]>>;
 }
 
-const Component = ({ watchList, setWatchList }: Props) => {
+const Component = ({ readList, setReadList }: Props) => {
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         const nativeType = (value: string) => {
             let nValue = Number(value);
@@ -70,7 +70,7 @@ const Component = ({ watchList, setWatchList }: Props) => {
             );
 
             if ('myanimelist' in res) {
-                setWatchList(res.myanimelist.anime);
+                setReadList(res.myanimelist.manga);
             }
         }
     }, []);
@@ -102,13 +102,13 @@ const Component = ({ watchList, setWatchList }: Props) => {
                     <P className="text-sm text-muted-foreground">
                         Перетягніть файл сюди...
                     </P>
-                ) : watchList.length === 0 ? (
+                ) : readList.length === 0 ? (
                     <P className="text-sm text-muted-foreground">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
                     </P>
                 ) : (
-                    <FoundList watchList={watchList} />
+                    <FoundList readList={readList} />
                 )}
             </div>
             <Small className="text-muted-foreground">
@@ -117,14 +117,11 @@ const Component = ({ watchList, setWatchList }: Props) => {
                     <Link
                         target="_blank"
                         href="https://myanimelist.net/panel.php?go=export"
-                        className="rounded-sm bg-primary px-1 text-primary-foreground hover:bg-primary/60 hover:!text-primary-foreground"
+                        className="text-primary hover:underline"
                     >
                         MyAnimeList
                     </Link>{' '}
-                    або{' '}
-                    <span className="rounded-sm bg-primary px-1 text-primary-foreground">
-                        Shikimori
-                    </span>
+                    або <span className="text-primary">Shikimori</span>
                 </span>
             </Small>
         </div>

@@ -24,7 +24,7 @@ const Comments: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header title="Останні коментарі" />
+            <Header variant="h2" title="Останні коментарі" />
             <Stack
                 extended
                 extendedSize={3}

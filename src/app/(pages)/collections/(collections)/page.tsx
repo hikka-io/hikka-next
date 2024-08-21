@@ -61,7 +61,7 @@ const CollectionsPage: FC<Props> = async ({ searchParams }) => {
         <HydrationBoundary state={dehydratedState}>
             <Block>
                 <div className="flex items-center justify-between gap-4">
-                    <Header title="Колекції">
+                    <Header variant="h2" title="Колекції">
                         {auth && (
                             <Button asChild size="icon-sm" variant="outline">
                                 <Link href="/collections/new">

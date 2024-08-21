@@ -52,25 +52,27 @@ const Component = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col gap-6 p-6"
+                className="flex flex-col items-start gap-6"
             >
                 <FormInput
                     name="password"
                     type="password"
                     placeholder="Введіть новий пароль"
                     label="Новий пароль"
+                    className="w-full"
                 />
                 <FormInput
                     name="passwordConfirmation"
                     type="password"
                     placeholder="Підтвердіть новий пароль"
                     label="Підтвердити пароль"
+                    className="w-full"
                 />
                 <Button
+                    size="md"
                     disabled={mutation.isPending}
                     variant="default"
                     type="submit"
-                    className="w-full"
                 >
                     {mutation.isPending && (
                         <span className="loading loading-spinner"></span>

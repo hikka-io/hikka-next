@@ -21,13 +21,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 
-import SettingsModal from '@/features/modals/user-settings-modal/user-settings-modal';
-
 import useSession from '@/services/hooks/auth/use-session';
-import { useModalContext } from '@/services/providers/modal-provider';
 
 const ProfileMenu = () => {
-    const { openModal } = useModalContext();
     const { user: loggedUser, logout } = useSession();
 
     if (!loggedUser) {
@@ -121,18 +117,11 @@ const ProfileMenu = () => {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem
-                        onClick={() => {
-                            openModal({
-                                content: <SettingsModal />,
-                                type: 'sheet',
-                                className: '!max-w-3xl flex flex-col gap-0 p-0',
-                                forceModal: true,
-                            });
-                        }}
-                    >
-                        <MaterialSymbolsSettingsOutline className="mr-2 size-4" />
-                        Налаштування
+                    <DropdownMenuItem asChild>
+                        <Link href={'/settings'}>
+                            <MaterialSymbolsSettingsOutline className="mr-2 size-4" />
+                            Налаштування
+                        </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout}>
                         <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-destructive" />

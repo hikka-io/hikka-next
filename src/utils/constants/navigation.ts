@@ -1,9 +1,14 @@
 import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
 import MaterialSymbolsCalendarClockRounded from '~icons/material-symbols/calendar-clock-rounded';
+import MaterialSymbolsCustomTypographyRounded from '~icons/material-symbols/custom-typography-rounded';
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
+import MaterialSymbolsEventListRounded from '~icons/material-symbols/event-list-rounded';
 import MaterialSymbolsHomeRounded from '~icons/material-symbols/home-rounded';
+import MaterialSymbolsLockOpenRounded from '~icons/material-symbols/lock-open-rounded';
 import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
+import MaterialSymbolsNotificationsActiveRounded from '~icons/material-symbols/notifications-active-rounded';
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
+import MaterialSymbolsPersonRounded from '~icons/material-symbols/person-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
 
 export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
@@ -241,3 +246,31 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     manga: '/manga',
     novel: '/novel',
 };
+
+export const SETTINGS_MENU = [
+    {
+        title: 'Профіль',
+        icon: MaterialSymbolsPersonRounded,
+        href: '/settings/profile',
+    },
+    {
+        title: 'Безпека',
+        icon: MaterialSymbolsLockOpenRounded,
+        href: '/settings/security',
+    },
+    {
+        title: 'Список',
+        icon: MaterialSymbolsEventListRounded,
+        href: '/settings/list',
+    },
+    {
+        title: 'Сповіщення',
+        icon: MaterialSymbolsNotificationsActiveRounded,
+        href: '/settings/notifications',
+    },
+    {
+        title: 'Кастомізація',
+        icon: MaterialSymbolsCustomTypographyRounded,
+        href: '/settings/customization',
+    },
+];

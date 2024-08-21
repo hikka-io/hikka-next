@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 import CropEditorModal from '@/features/modals/crop-editor-modal';
 
@@ -66,7 +67,13 @@ const Appearance = () => {
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="relative mb-4 flex h-36 w-full cursor-pointer">
+            <div className="flex flex-col gap-2">
+                <Label>Зображення профілю</Label>
+                <P className="text-sm text-muted-foreground">
+                    Рекомендований розмір обкладинки 1500x500, аватару 400x400
+                </P>
+            </div>
+            <div className="relative mb-4 flex h-48 w-full cursor-pointer">
                 {loggedUser?.cover && (
                     <Button
                         className="absolute right-2 top-2 z-10"
@@ -83,7 +90,7 @@ const Appearance = () => {
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"
-                            height={100}
+                            height={500}
                             width={300}
                             className="size-full rounded-md object-cover"
                             src={loggedUser?.cover}
@@ -106,9 +113,11 @@ const Appearance = () => {
                         accept="image/*"
                     />
                 </Card>
-                <Avatar className="absolute -bottom-4 left-4 size-20 rounded-md transition-opacity hover:opacity-60">
+                <Avatar className="absolute -bottom-4 left-4 size-32 rounded-md transition-opacity hover:opacity-60">
                     <AvatarImage src={loggedUser?.avatar} />
-                    <AvatarFallback>{loggedUser?.username[0]}</AvatarFallback>
+                    <AvatarFallback className="rounded-md">
+                        {loggedUser?.username[0]}
+                    </AvatarFallback>
                     <Input
                         type="file"
                         id="avatar-input"

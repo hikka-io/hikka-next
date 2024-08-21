@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -15,7 +15,6 @@ import General from './general';
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
-    const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
     const [rewrite, setRewrite] = useState(true);
@@ -51,12 +50,8 @@ const Component = () => {
         setImporting(false);
     };
 
-    useEffect(() => {
-        setReadList([]);
-    }, [tab]);
-
     return (
-        <div className="flex flex-col gap-6 p-6">
+        <div className="flex flex-col gap-6 items-start">
             <General readList={readList} setReadList={setReadList} />
 
             <div className="flex w-full items-center justify-between space-x-2">
@@ -70,20 +65,16 @@ const Component = () => {
                 />
             </div>
 
-            <div className="w-full">
-                <Button
-                    variant="default"
-                    onClick={handleCompleteImport}
-                    disabled={readList.length === 0}
-                    type="submit"
-                    className="w-full"
-                >
-                    {importing && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Імпортувати
-                </Button>
-            </div>
+            <Button
+                variant="default"
+                size="md"
+                onClick={handleCompleteImport}
+                disabled={readList.length === 0}
+                type="submit"
+            >
+                {importing && <span className="loading loading-spinner"></span>}
+                Імпортувати
+            </Button>
         </div>
     );
 };

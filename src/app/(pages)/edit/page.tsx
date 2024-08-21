@@ -52,7 +52,7 @@ const EditListPage = async ({
                     <div className="flex flex-col gap-12">
                         <Block>
                             <div className="flex items-center justify-between">
-                                <Header title="Правки" />
+                                <Header variant="h2" title="Правки" />
                                 <EditFiltersModal>
                                     <Button
                                         variant="outline"

@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC } from 'react';
+import { ComponentProps, FC } from 'react';
 
 import {
     FormControl,
@@ -21,19 +21,20 @@ const FormTextarea: FC<Props> = ({
     label,
     description,
     children,
+    className,
     ...props
 }) => {
     return (
         <FormField
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className={className}>
                     <div className="flex flex-nowrap items-center justify-between">
                         {label && <FormLabel>{label}</FormLabel>}
                         {children}
                     </div>
                     <FormControl>
-                        <Textarea rows={3} {...props} {...field} />
+                        <Textarea rows={4} {...props} {...field} />
                     </FormControl>
                     {description && (
                         <FormDescription>{description}</FormDescription>

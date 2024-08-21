@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC } from 'react';
+import { ComponentProps, FC } from 'react';
 
 import {
     FormControl,
@@ -16,12 +16,18 @@ interface Props extends ComponentProps<typeof Switch> {
     description?: string;
 }
 
-const FormSwitch: FC<Props> = ({ name, label, description, ...props }) => {
+const FormSwitch: FC<Props> = ({
+    name,
+    label,
+    description,
+    className,
+    ...props
+}) => {
     return (
         <FormField
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className={className}>
                     <div className="flex w-full flex-row items-center justify-between gap-2">
                         <div>
                             {label && <FormLabel>{label}</FormLabel>}

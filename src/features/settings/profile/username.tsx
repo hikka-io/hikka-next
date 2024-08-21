@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
@@ -9,34 +10,31 @@ import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import changeUserEmail from '@/services/api/settings/changeUserEmail';
+import changeUserUsername from '@/services/api/settings/changeUserUsername';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
-const formSchema = z
-    .object({
-        email: z.string().email(),
-        emailConfirmation: z.string().email(),
-    })
-    .refine((data) => data.email === data.emailConfirmation, {
-        message: 'Пошти не збігаються',
-        path: ['emailConfirmation'],
-    });
+const formSchema = z.object({
+    username: z.string().min(2).max(50),
+});
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const queryClient = useQueryClient();
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     });
 
     const mutation = useMutation({
-        mutationFn: changeUserEmail,
+        mutationFn: changeUserUsername,
         onSuccess: async () => {
             await queryClient.invalidateQueries();
+            router.push('/u/' + form.getValues().username);
             closeModal();
-            enqueueSnackbar('Ви успішно змінили поштову адресу.', {
+            enqueueSnackbar('Ви успішно змінили імʼя користвача.', {
                 variant: 'success',
             });
         },
@@ -44,9 +42,7 @@ const Component = () => {
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
         mutation.mutate({
-            params: {
-                email: data.email,
-            },
+            params: data,
         });
     };
 
@@ -54,25 +50,20 @@ const Component = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col gap-6 p-6"
+                className="flex flex-col items-start gap-6"
             >
                 <FormInput
-                    name="email"
-                    type="email"
-                    label="Новий email"
-                    placeholder="Введіть новий email"
-                />
-                <FormInput
-                    name="emailConfirmation"
-                    type="email"
-                    label="Підтвердити email"
-                    placeholder="Підтвердіть новий email"
+                    name="username"
+                    type="text"
+                    label="Нове ім’я користувача"
+                    placeholder="Введіть нове імʼя"
+                    className="w-full"
                 />
                 <Button
+                    size="md"
                     disabled={mutation.isPending}
                     variant="default"
                     type="submit"
-                    className="w-full"
                 >
                     {mutation.isPending && (
                         <span className="loading loading-spinner"></span>
