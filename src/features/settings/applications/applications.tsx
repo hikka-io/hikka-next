@@ -48,9 +48,9 @@ const Component = () => {
                     data.list.length > 0 &&
                     data.list.map((item) => (
                         <Card
-                            className="gap-6"
+                            className="gap-6 justify-between"
                         >
-                            <div className="gap-4">
+                            <div className="flex flex-col gap-2">
                                 <div className="flex items-center gap-2">
                                     <H5 className="line-clamp-1">{item.name}</H5>
                                     {!item.verified && (
@@ -71,7 +71,7 @@ const Component = () => {
                                 </div>
                                 {item.description && (
                                     <Label className="line-clamp-6 text-xs text-muted-foreground lg:line-clamp-6">
-                                        {"Ex. Malesuada justo habitasse platea mattis sit vel nunc dictumst. Et ornare malesuada dictum luctus in nisi lacinia non platea mauris interdum et sed quis, mattis luctus sed consectetur pellentesque nec eleifend hac in imperdiet mattis lectus ex. Faucibus. Lacinia sit ex. Odio. Dictum. Lorem luctus consectetur nec justo sit ultricies. In pulvinar odio. Vel id lorem dui non et venenatis quis, orci, sed in in tempus aenean sed orci, hac vitae integer elit. Ultricies. Et. Mollis dictumst. Odio. Et. Cursus sit"}
+                                        {item.description}
                                     </Label>
                                 )}
                             </div>

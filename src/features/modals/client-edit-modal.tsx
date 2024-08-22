@@ -72,11 +72,8 @@ const Component = ({ client_reference }: Props) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         values: {
-            name: data ? data.name : "",
-            description: data ? data.description : "",
-            endpoint: "hello",
             revoke_secret: false,
-            secret: "ph6CW6-2oCIOGg4LtyoK3WsA5EW8MbkPMAFcBLYu50sM0-WQTubxi7RGqec4O5wFRmr0--NQzCDBUZ--y6ffwuRqjpRK_cKlxPQN9zWq6yTfgZJQcYIyBR4LTk2Bz5CB"
+            ...data!
         }
     });
 
@@ -114,7 +111,7 @@ const Component = ({ client_reference }: Props) => {
                                     name="secret"
                                     placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
                                     disabled={true}
-                                    type="string"
+                                    type="password"
                                     className="w-full"
                                 />
                                 <Button variant="secondary">
