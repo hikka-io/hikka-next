@@ -2,7 +2,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
@@ -41,7 +41,7 @@ const CollectionsPage: FC<Props> = async ({ searchParams }) => {
         (searchParams.sort as 'system_ranking' | 'created') || 'system_ranking';
 
     if (!searchParams.page) {
-        redirect('/collections?page=1');
+        permanentRedirect('/collections?page=1');
     }
 
     const queryClient = await getQueryClient();

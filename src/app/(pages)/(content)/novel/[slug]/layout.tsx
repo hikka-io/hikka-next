@@ -2,7 +2,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
@@ -45,7 +45,7 @@ const NovelLayout: FC<Props> = async ({ params: { slug }, children }) => {
     ]);
 
     if (!novel) {
-        return redirect('/');
+        return permanentRedirect('/');
     }
 
     await prefetchQueries({ params: { slug } });

@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 import Franchise from '@/features/franchise/franchise.component';
 
@@ -24,7 +24,7 @@ const MangaFranchisePage = async ({
     searchParams: Record<string, any>;
 }) => {
     if (!content_types) {
-        return redirect(
+        return permanentRedirect(
             '?content_types=anime&content_types=manga&content_types=novel',
         );
     }

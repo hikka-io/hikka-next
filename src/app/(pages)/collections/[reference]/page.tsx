@@ -2,7 +2,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
@@ -55,7 +55,7 @@ const CollectionPage = async ({
         queryClient.getQueryData(key({ reference }));
 
     if (!collection) {
-        return redirect('/collections');
+        return permanentRedirect('/collections');
     }
 
     const dehydratedState = dehydrate(queryClient);

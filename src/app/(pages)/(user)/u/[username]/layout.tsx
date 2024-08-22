@@ -2,7 +2,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
@@ -45,7 +45,7 @@ const UserLayout: FC<Props> = async ({ params: { username }, children }) => {
     const dehydratedState = dehydrate(queryClient);
 
     if (dehydratedState.queries.length === 0) {
-        return redirect('/404');
+        return permanentRedirect('/404');
     }
 
     const user: API.User | undefined = queryClient.getQueryData([
@@ -54,7 +54,7 @@ const UserLayout: FC<Props> = async ({ params: { username }, children }) => {
     ]);
 
     if (!user) {
-        return redirect('/');
+        return permanentRedirect('/');
     }
 
     return (

@@ -1,6 +1,6 @@
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
@@ -25,7 +25,7 @@ const EditListPage = async ({
     searchParams: { [key: string]: string | string[] | undefined };
 }) => {
     if (!page) {
-        return redirect('/edit?page=1');
+        return permanentRedirect('/edit?page=1');
     }
 
     const queryClient = await getQueryClient();

@@ -1,6 +1,6 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import ContentHeader from '@/features/comments/comment-content-header.component';
@@ -38,7 +38,7 @@ const CommentsPage: FC<Props> = async ({ params }) => {
     const content = queryClient.getQueryData(key(params));
 
     if (!content) {
-        return redirect('/');
+        return permanentRedirect('/');
     }
 
     !comment_reference &&

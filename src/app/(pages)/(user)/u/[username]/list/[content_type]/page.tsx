@@ -1,6 +1,6 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Metadata, ResolvingMetadata } from 'next';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
@@ -39,12 +39,12 @@ const ListPage: FC<Props> = async ({
 }) => {
     if (!status || !sort) {
         if (!status) {
-            redirect(
+            permanentRedirect(
                 `/u/${username}/list/${content_type}?status=completed&sort=read_score`,
             );
         }
 
-        redirect(
+        permanentRedirect(
             `/u/${username}/list/${content_type}?status=${status}&sort=read_score`,
         );
     }

@@ -1,6 +1,6 @@
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
@@ -32,7 +32,7 @@ const EditNewPage: FC<Props> = async ({
         Array.isArray(slug) &&
         Array.isArray(content_type)
     ) {
-        redirect('/edit');
+        permanentRedirect('/edit');
     }
 
     if (content_type === 'anime') {
@@ -61,7 +61,7 @@ const EditNewPage: FC<Props> = async ({
     ]);
 
     if (!content) {
-        redirect('/edit');
+        permanentRedirect('/edit');
     }
 
     const dehydratedState = dehydrate(queryClient);

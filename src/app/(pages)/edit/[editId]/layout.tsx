@@ -2,7 +2,7 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import * as React from 'react';
 import { FC } from 'react';
 
@@ -59,7 +59,7 @@ const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
     );
 
     if (!edit) {
-        redirect('/edit');
+        permanentRedirect('/edit');
     }
 
     await prefetchComments({ slug: editId, content_type: 'edit' });
