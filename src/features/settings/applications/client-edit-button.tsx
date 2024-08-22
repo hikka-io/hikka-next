@@ -23,7 +23,7 @@ const ClientEditButton: FC<Props> = ({ item }) => {
     const handleEdit = () => {
         openModal({
             content: (
-                <ClientEditModal reference={item.reference} />
+                <ClientEditModal client_reference={item.reference} />
             ),
             className: '!max-w-xl',
             title: item.name,

@@ -9,6 +9,7 @@ import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import MaterialSymbolsContentCopy from '~icons/material-symbols/content-copy';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -23,12 +24,16 @@ import {
 import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
 import useWatch from '@/services/hooks/watch/use-watch';
+import FormSwitch from '@/components/form/form-switch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { FormLabel } from '@/components/ui/form';
 
 import { z } from '@/utils/zod';
 import useClientInfo from '@/services/hooks/client/use-client-info';
+import useUpdateClient from '@/services/hooks/client/use-update-client';
+import useDeleteClient from '@/services/hooks/client/use-delete-client';
+
 
 // type Client = {
 //     reference: string;
@@ -44,25 +49,38 @@ const formSchema = z.object({
     name: z.coerce.string().min(3).max(128),
     description: z.coerce.string().min(3).max(512),
     endpoint: z.coerce.string().min(3).max(128),
-    revoke_secret: z.coerce.boolean()
+    revoke_secret: z.coerce.boolean(),
+    secret: z.coerce.string().min(128).max(128),
 });
 
 interface Props {
-    reference: string;
+    client_reference: string;
 }
 
-const Component = ({ reference }: Props) => {
+const Component = ({ client_reference }: Props) => {
     const { closeModal } = useModalContext();
+    const { mutate: updateClient, isPending: updateClientLoading } = useUpdateClient();
+    const { mutate: deleteClient, isPending: deleteClientLoading } = useDeleteClient();
 
-    const props: Params = {
-        client_reference: reference, 
+    const onDelete = async () => {
+        deleteClient({ params: { client_reference } });
+        closeModal();
     };
 
-    const { data, isFetching } = useClientInfo( props );
+    const { data: data, isLoading: clientInfoLoading } = useClientInfo({ client_reference });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        values: {
+            name: data ? data.name : "",
+            description: data ? data.description : "",
+            endpoint: "hello",
+            revoke_secret: false,
+            secret: "ph6CW6-2oCIOGg4LtyoK3WsA5EW8MbkPMAFcBLYu50sM0-WQTubxi7RGqec4O5wFRmr0--NQzCDBUZ--y6ffwuRqjpRK_cKlxPQN9zWq6yTfgZJQcYIyBR4LTk2Bz5CB"
+        }
     });
+
+    
 
     return (
         <Form {...form}>
@@ -70,7 +88,7 @@ const Component = ({ reference }: Props) => {
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col gap-6"
             >
-                <div className="flex w-full flex-col gap-8">
+                <div className="flex w-full flex-col gap-6">
                     <div className="flex w-full flex-col gap-6">
                         <FormInput
                             name="name"
@@ -94,16 +112,50 @@ const Component = ({ reference }: Props) => {
                             <div className="flex items-end flex-row w-full gap-2">
                                 <FormInput
                                     name="secret"
-                                    placeholder="h1kk@--h3l1o1tsl0rgoN"
+                                    placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
                                     disabled={true}
                                     type="string"
                                     className="w-full"
                                 />
                                 <Button variant="secondary">
-                                    Показати
+                                    <MaterialSymbolsContentCopy />
+                                    Скопіювати
                                 </Button>
                             </div>
                         </div>
+                        <FormSwitch
+                            name="revoke_secret"
+                            label="Перестворити секрет"
+                            className="w-full"
+                        />
+                    </div>
+                    <div className="grid w-full grid-cols-2 gap-8">
+                        <Button
+                            variant="accent"
+                            onClick={form.handleSubmit((data) =>
+                                updateClient({
+                                    params: {
+                                        client_reference,
+                                        ...data,
+                                    },
+                                }),
+                            )}
+                            type="submit"
+                            disabled={false}
+                        >
+                            Оновити
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={onDelete}
+                            disabled={false}
+                        >
+                            {clientInfoLoading || updateClientLoading || deleteClientLoading && (
+                                <span className="loading loading-spinner"></span>
+                            )}
+                            Видалити
+                        </Button>
                     </div>
                 </div>
             </form>
