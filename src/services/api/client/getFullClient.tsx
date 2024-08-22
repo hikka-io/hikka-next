@@ -3,7 +3,7 @@ import {
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
-export interface Response extends API.Client {}
+export interface Response extends API.ClientInfo {}
 
 export interface Params {
     client_reference: string;
