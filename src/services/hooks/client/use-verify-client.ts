@@ -11,6 +11,14 @@ const useVerifyClient = () => {
         mutationKey: ['verify-client'],
         mutationFn: verifyClient,
         onSettled: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['client'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['full-client'],
+                exact: false,
+            });
             await queryClient.invalidateQueries({ queryKey: ['clients'] });
             closeModal();
         },

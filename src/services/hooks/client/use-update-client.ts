@@ -11,6 +11,14 @@ const useUpdateClient = () => {
         mutationKey: ['update-client'],
         mutationFn: updateClient,
         onSettled: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['client'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['full-client'],
+                exact: false,
+            });
             await queryClient.invalidateQueries({ queryKey: ['clients'] });
             closeModal();
         },
