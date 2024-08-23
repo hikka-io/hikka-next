@@ -180,17 +180,20 @@
 .logo {
     background-image: url(/logo-icon.png);
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .logo-full {
     background-image: url(/logo.svg);
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 @media screen(md) {
     .logo {
         background-image: url(/logo.svg);
         background-size: contain;
+        background-repeat: no-repeat;
     }
 }
 
