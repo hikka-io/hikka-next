@@ -41,6 +41,11 @@ const Component = ({ client_reference }: Props) => {
         closeModal();
     };
 
+    const onUpdate = async () => {
+        deleteClient({ params: { client_reference } });
+        closeModal();
+    };
+
     const { data: data, isLoading: clientInfoLoading } = useClientInfo({ client_reference });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -103,13 +108,13 @@ const Component = ({ client_reference }: Props) => {
                     <div className="grid w-full grid-cols-2 gap-8">
                         <Button
                             variant="accent"
-                            onClick={form.handleSubmit((data) =>
+                            onClick={form.handleSubmit((form_data) =>
                                 updateClient({
                                     params: {
-                                        client_reference,
-                                        ...data,
-                                    },
-                                }),
+                                        client_reference: client_reference,
+                                        ...form_data
+                                    }
+                                })
                             )}
                             type="submit"
                             disabled={false}
@@ -135,150 +140,6 @@ const Component = ({ client_reference }: Props) => {
             </form>
         </Form>
     );
-    
-    // const { closeModal } = useModalContext();
-    // const { data: watchQuery } = useWatch({ slug }, { enabled: !watchProp });
-
-    // const watch = watchProp || watchQuery;
-
-    // const { mutate: addWatch, isPending: addToListLoading } = useAddWatch();
-
-    // const { mutate: deleteWatch, isPending: deleteFromListLoading } =
-    //     useDeleteWatch();
-
-    // const [selectedStatus, setSelectedStatus] = useState<
-    //     API.WatchStatus | undefined
-    // >(watch?.status);
-
-    // const form = useForm<z.infer<typeof formSchema>>({
-    //     resolver: zodResolver(formSchema),
-    //     values: watch,
-    // });
-
-    // const onDelete = async () => {
-    //     deleteWatch({ params: { slug } });
-    //     closeModal();
-    // };
-
-    // useEffect(() => {
-    //     if (watch?.status) {
-    //         setSelectedStatus(watch.status);
-    //     }
-    // }, [watch]);
-
-    // if (!watch) return null;
-
-    // return (
-    //     <Form {...form}>
-    //         <form
-    //             onSubmit={(e) => e.preventDefault()}
-    //             className="flex flex-col gap-6"
-    //         >
-    //             <div className="flex w-full flex-col gap-6">
-    //                 <div className="flex w-full flex-col gap-2">
-    //                     <Label>Список</Label>
-    //                     <Select
-    //                         value={selectedStatus && [selectedStatus]}
-    //                         onValueChange={(value) => {
-    //                             setSelectedStatus(value[0] as API.WatchStatus);
-    //                         }}
-    //                     >
-    //                         <SelectTrigger>
-    //                             <div className="flex items-center gap-2">
-    //                                 {selectedStatus &&
-    //                                     createElement(
-    //                                         WATCH_STATUS[selectedStatus].icon!,
-    //                                     )}
-    //                                 {(selectedStatus &&
-    //                                     WATCH_STATUS[selectedStatus]
-    //                                         .title_ua) ||
-    //                                     'Виберіть список'}
-    //                             </div>
-    //                             <SelectIcon />
-    //                         </SelectTrigger>
-    //                         <SelectContent>
-    //                             <SelectList>
-    //                                 <SelectGroup>
-    //                                     {(
-    //                                         Object.keys(
-    //                                             WATCH_STATUS,
-    //                                         ) as API.WatchStatus[]
-    //                                     ).map((status) => (
-    //                                         <SelectItem
-    //                                             value={status}
-    //                                             key={status}
-    //                                         >
-    //                                             {WATCH_STATUS[status].title_ua}
-    //                                         </SelectItem>
-    //                                     ))}
-    //                                 </SelectGroup>
-    //                             </SelectList>
-    //                         </SelectContent>
-    //                     </Select>
-    //                 </div>
-    //                 <div className="flex w-full gap-8">
-    //                     <FormInput
-    //                         name="score"
-    //                         label="Оцінка"
-    //                         placeholder="Введіть оцінку"
-    //                         type="number"
-    //                         className="flex-1"
-    //                     />
-    //                     <FormInput
-    //                         name="episodes"
-    //                         label="Епізоди"
-    //                         placeholder="Введіть к-сть переглянутих епізодів"
-    //                         type="number"
-    //                         className="flex-1"
-    //                     />
-    //                 </div>
-    //                 <FormInput
-    //                     name="rewatches"
-    //                     label="Повторні перегляди"
-    //                     placeholder="Введіть к-сть повторних переглядів"
-    //                     type="number"
-    //                 />
-    //                 <FormTextarea
-    //                     name="note"
-    //                     label="Нотатки"
-    //                     placeholder="Залиште нотатку до аніме"
-    //                 />
-    //             </div>
-    //             <div className="grid w-full grid-cols-2 gap-8">
-    //                 <Button
-    //                     type="button"
-    //                     variant="destructive"
-    //                     onClick={onDelete}
-    //                     disabled={addToListLoading || deleteFromListLoading}
-    //                 >
-    //                     {deleteFromListLoading && (
-    //                         <span className="loading loading-spinner"></span>
-    //                     )}
-    //                     Видалити
-    //                 </Button>
-    //                 <Button
-    //                     variant="accent"
-    //                     onClick={form.handleSubmit((data) =>
-    //                         addWatch({
-    //                             params: {
-    //                                 slug,
-    //                                 status: selectedStatus!,
-    //                                 ...data,
-    //                             },
-    //                         }),
-    //                     )}
-    //                     type="submit"
-    //                     disabled={addToListLoading || deleteFromListLoading}
-    //                 >
-    //                     {addToListLoading && (
-    //                         <span className="loading loading-spinner"></span>
-    //                     )}
-    //                     Зберегти
-    //                 </Button>
-    //             </div>
-    //         </form>
-    //     </Form>
-    // );
 };
 
 export default Component;
