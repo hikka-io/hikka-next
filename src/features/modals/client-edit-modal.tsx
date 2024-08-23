@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
@@ -35,26 +36,45 @@ const Component = ({ client_reference }: Props) => {
     const { closeModal } = useModalContext();
     const { mutate: updateClient, isPending: updateClientLoading } = useUpdateClient();
     const { mutate: deleteClient, isPending: deleteClientLoading } = useDeleteClient();
+    const { data, isLoading: clientInfoLoading, refetch } = useClientInfo({ client_reference });
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            revoke_secret: false,
+        }
+    });
+
+    useEffect(() => {
+        if (data) {
+            form.reset({
+                revoke_secret: false,
+                ...data
+            });
+        }
+    }, [data, form]);
 
     const onDelete = async () => {
         deleteClient({ params: { client_reference } });
         closeModal();
     };
 
-    const onUpdate = async () => {
-        deleteClient({ params: { client_reference } });
-        closeModal();
+    const onUpdate = async (formData: z.infer<typeof formSchema>) => {
+        updateClient(
+            {
+                params: {
+                    client_reference: client_reference,
+                    ...formData
+                }
+            },
+            {
+                onSuccess: () => {
+                    refetch();
+                    closeModal();
+                }
+            }
+        );
     };
-
-    const { data: data, isLoading: clientInfoLoading } = useClientInfo({ client_reference });
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        values: {
-            revoke_secret: false,
-            ...data!
-        }
-    });
 
     if (!data) return null
 
@@ -108,14 +128,7 @@ const Component = ({ client_reference }: Props) => {
                     <div className="grid w-full grid-cols-2 gap-8">
                         <Button
                             variant="accent"
-                            onClick={form.handleSubmit((form_data) =>
-                                updateClient({
-                                    params: {
-                                        client_reference: client_reference,
-                                        ...form_data
-                                    }
-                                })
-                            )}
+                            onClick={form.handleSubmit(onUpdate)}
                             type="submit"
                             disabled={false}
                         >
