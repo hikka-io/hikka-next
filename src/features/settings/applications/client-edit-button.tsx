@@ -1,16 +1,13 @@
 'use client';
 
-import { useSnackbar } from 'notistack';
-import { FC, Fragment, createElement, memo } from 'react';
+import { FC, Fragment, memo } from 'react';
 
 import { Button } from '@/components/ui/button';
-
 import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-import ClientEditModal from '@/features/modals/client-edit-modal';
+import ClientEditModal from '@/features/modals/client-modal/client-edit-modal';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
-
 
 interface Props {
     item: API.Client;
@@ -22,14 +19,11 @@ const ClientEditButton: FC<Props> = ({ item }) => {
 
     const handleEdit = () => {
         openModal({
-            content: (
-                <ClientEditModal client_reference={item.reference} />
-            ),
+            content: <ClientEditModal client_reference={item.reference} />,
             className: '!max-w-xl',
             title: item.name,
             forceModal: true,
         });
-        return;
     };
 
     if (!loggedUser) return null;
@@ -39,15 +33,15 @@ const ClientEditButton: FC<Props> = ({ item }) => {
             <Button
                 className="hidden sm:flex"
                 onClick={handleEdit}
-                variant={'outline'}
+                variant="outline"
                 size="icon-sm"
             >
-                {<MaterialSymbolsEditRounded />}
+                <MaterialSymbolsEditRounded />
             </Button>
             <Button
                 className="flex sm:hidden w-full"
                 onClick={handleEdit}
-                variant={'outline'}
+                variant="outline"
                 size="icon-sm"
             >
                 <MaterialSymbolsEditRounded />

@@ -1,10 +1,7 @@
 import { FC } from 'react';
 
 import Header from '@/components/ui/header';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import { Button } from '@/components/ui/button';
 
-import useSession from '@/services/hooks/auth/use-session';
 import Applications from '@/features/settings/applications/applications';
 import ClientCreateButton from '@/features/settings/applications/client-create-button';
 

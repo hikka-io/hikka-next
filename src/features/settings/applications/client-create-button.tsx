@@ -1,16 +1,13 @@
 'use client';
 
-import { FC, Fragment, createElement, memo } from 'react';
+import { FC, Fragment, memo } from 'react';
 
 import { Button } from '@/components/ui/button';
-
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import ClientCreateModal from '@/features/modals/client-create-modal';
+import ClientCreateModal from '@/features/modals/client-modal/client-create-modal';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
-
 
 const ClientCreateButton: FC = () => {
     const { user: loggedUser } = useSession();
@@ -18,14 +15,11 @@ const ClientCreateButton: FC = () => {
 
     const handleCreate = () => {
         openModal({
-            content: (
-                <ClientCreateModal />
-            ),
+            content: <ClientCreateModal />,
             className: '!max-w-xl',
-            title: "Створення застосунку",
+            title: 'Створення застосунку',
             forceModal: true,
         });
-        return;
     };
 
     if (!loggedUser) return null;
