@@ -76,6 +76,10 @@ const Component = ({ client_reference }: Props) => {
         );
     };
 
+    const onCopy = async (formData: z.infer<typeof formSchema>) => {
+        navigator.clipboard.writeText(formData.secret)
+    }
+
     if (!data) return null
 
     return (
@@ -113,7 +117,10 @@ const Component = ({ client_reference }: Props) => {
                                     type="password"
                                     className="w-full"
                                 />
-                                <Button variant="secondary">
+                                <Button 
+                                    variant="secondary"
+                                    onClick={form.handleSubmit(onCopy)}
+                                >
                                     <MaterialSymbolsContentCopy />
                                     Скопіювати
                                 </Button>
