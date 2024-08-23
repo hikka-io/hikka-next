@@ -24,12 +24,12 @@ const Component = () => {
             <div className="flex flex-col w-full gap-6">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                     {Array(3).fill(0).map((_, i) => (
-                        <div className="flex flex-col gap-8 rounded-lg border-secondary/60 bg-secondary/30 p-4">
+                        <div key={i} className="flex flex-col gap-8 rounded-lg border-secondary/60 bg-secondary/30 p-4">
                             <div className="flex flex-col gap-4 animate-pulse">
                                 <div className="w-32 h-4 rounded-lg bg-secondary/60" />
                                 <div className="flex flex-col gap-2">
-                                    {Array(6).fill(0).map((_, i) => (
-                                        <div key={i} className="h-2 rounded-lg bg-secondary/60" />
+                                    {Array(6).fill(0).map((_, j) => (
+                                        <div key={j} className="h-2 rounded-lg bg-secondary/60" />
                                     ))}
                                 </div>
                             </div>
@@ -45,7 +45,7 @@ const Component = () => {
         <div className="flex w-full flex-col gap-6">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {data?.list.length > 0 && data.list.map((item) => (
-                    <Card className="gap-6 justify-between">
+                    <Card className="gap-6 justify-between" key={item.reference}>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2">
                                 <H5 className="line-clamp-1">{item.name}</H5>
