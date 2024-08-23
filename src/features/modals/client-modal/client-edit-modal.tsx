@@ -1,24 +1,20 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
-import FormSwitch from '@/components/form/form-switch';
-import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
-import { FormLabel } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
 import MaterialSymbolsContentCopy from '~icons/material-symbols/content-copy';
 
+import FormInput from '@/components/form/form-input';
+import FormSwitch from '@/components/form/form-switch';
+import FormTextarea from '@/components/form/form-textarea';
+import { Button } from '@/components/ui/button';
+import { Form, FormLabel } from '@/components/ui/form';
+
 import useClientInfo from '@/services/hooks/client/use-client-info';
-import useUpdateClient from '@/services/hooks/client/use-update-client';
 import useDeleteClient from '@/services/hooks/client/use-delete-client';
-import { useModalContext } from '@/services/providers/modal-provider';
-
+import useUpdateClient from '@/services/hooks/client/use-update-client';
 import { z } from '@/utils/zod';
-
 
 const formSchema = z.object({
     name: z.coerce.string().min(3).max(128),
@@ -29,67 +25,61 @@ const formSchema = z.object({
 });
 
 interface Props {
-    client_reference: string;
+    client: API.Client;
 }
 
-const Component = ({ client_reference }: Props) => {
-    const { closeModal } = useModalContext();
-    const { mutate: updateClient, isPending: updateClientLoading } = useUpdateClient();
-    const { mutate: deleteClient, isPending: deleteClientLoading } = useDeleteClient();
-    const { data, isLoading: clientInfoLoading, refetch } = useClientInfo({ client_reference });
+const Component = ({ client }: Props) => {
+    const { mutate: updateClient, isPending: updateClientLoading } =
+        useUpdateClient();
+    const { mutate: deleteClient, isPending: deleteClientLoading } =
+        useDeleteClient();
+    const { data } = useClientInfo({ client_reference: client.reference });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             revoke_secret: false,
-        }
+            ...client,
+        },
     });
 
     useEffect(() => {
         if (data) {
             form.reset({
                 revoke_secret: false,
-                ...data
+                ...data,
             });
         }
     }, [data, form]);
 
     const onDelete = async () => {
-        deleteClient({ params: { client_reference } });
-        closeModal();
+        deleteClient({ params: { client_reference: client.reference } });
     };
 
     const onUpdate = async (formData: z.infer<typeof formSchema>) => {
-        updateClient(
-            {
-                params: {
-                    client_reference: client_reference,
-                    ...formData
-                }
+        updateClient({
+            params: {
+                client_reference: client.reference,
+                ...formData,
             },
-            {
-                onSuccess: () => {
-                    refetch();
-                    closeModal();
-                }
-            }
-        );
+        });
     };
 
     const onCopy = async (formData: z.infer<typeof formSchema>) => {
         navigator.clipboard.writeText(formData.secret);
     };
 
-    if (!data) return null;
-
     return (
         <Form {...form}>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-6">
+            <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex flex-col gap-6"
+            >
                 <div className="flex flex-col gap-6 w-full">
                     <FormInput
                         name="name"
-                        label="Назва додатка"
-                        placeholder="Введіть назву застосунка"
+                        label="Назва застосунку"
+                        placeholder="Введіть назву застосунку"
                         type="string"
                     />
                     <FormTextarea
@@ -113,7 +103,7 @@ const Component = ({ client_reference }: Props) => {
                                 type="password"
                                 className="w-full"
                             />
-                            <Button 
+                            <Button
                                 variant="secondary"
                                 onClick={form.handleSubmit(onCopy)}
                             >
@@ -132,8 +122,11 @@ const Component = ({ client_reference }: Props) => {
                             variant="accent"
                             onClick={form.handleSubmit(onUpdate)}
                             type="submit"
+                            disabled={
+                                deleteClientLoading || updateClientLoading
+                            }
                         >
-                            {(updateClientLoading) && (
+                            {updateClientLoading && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Оновити
@@ -142,8 +135,11 @@ const Component = ({ client_reference }: Props) => {
                             type="button"
                             variant="destructive"
                             onClick={onDelete}
+                            disabled={
+                                deleteClientLoading || updateClientLoading
+                            }
                         >
-                            {(deleteClientLoading) && (
+                            {deleteClientLoading && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Видалити

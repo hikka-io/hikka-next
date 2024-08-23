@@ -281,8 +281,8 @@ export const SETTINGS_MENU = [
         href: '/settings/customization',
     },
     {
-        title: 'Сторонні застосунки',
+        title: 'Застосунки',
         icon: MdiPuzzle,
         href: '/settings/applications',
-    }
+    },
 ];

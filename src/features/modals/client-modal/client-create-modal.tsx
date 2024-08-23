@@ -10,7 +10,6 @@ import { Form } from '@/components/ui/form';
 
 import useCreateClient from '@/services/hooks/client/use-create-client';
 import { useModalContext } from '@/services/providers/modal-provider';
-
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -21,7 +20,8 @@ const formSchema = z.object({
 
 const Component = () => {
     const { closeModal } = useModalContext();
-    const { mutate: createClient, isPending: createClientLoading } = useCreateClient();
+    const { mutate: createClient, isPending: createClientLoading } =
+        useCreateClient();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -34,12 +34,15 @@ const Component = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-6">
+            <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex flex-col gap-6"
+            >
                 <div className="flex flex-col gap-6 w-full">
                     <FormInput
                         name="name"
-                        label="Назва додатка"
-                        placeholder="Введіть назву застосунка"
+                        label="Назва застосунку"
+                        placeholder="Введіть назву застосунку"
                         type="string"
                     />
                     <FormTextarea
@@ -67,7 +70,7 @@ const Component = () => {
                 </div>
             </form>
         </Form>
-    );    
+    );
 };
 
 export default Component;
