@@ -1,49 +1,23 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Params } from '@/services/api/client/getFullClient';
 
 import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import MaterialSymbolsContentCopy from '~icons/material-symbols/content-copy';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectIcon,
-    SelectItem,
-    SelectList,
-    SelectTrigger,
-} from '@/components/ui/select';
 
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
-import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
-import useWatch from '@/services/hooks/watch/use-watch';
-import FormSwitch from '@/components/form/form-switch';
-import { useModalContext } from '@/services/providers/modal-provider';
-import { WATCH_STATUS } from '@/utils/constants/common';
-import { FormLabel } from '@/components/ui/form';
-
-import { z } from '@/utils/zod';
 import useClientInfo from '@/services/hooks/client/use-client-info';
 import useUpdateClient from '@/services/hooks/client/use-update-client';
 import useDeleteClient from '@/services/hooks/client/use-delete-client';
+import FormSwitch from '@/components/form/form-switch';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { FormLabel } from '@/components/ui/form';
 
+import { z } from '@/utils/zod';
 
-// type Client = {
-//     reference: string;
-//     name: string;
-//     description: string;
-//     verified: boolean;
-//     user: API.User;
-//     created: number;
-//     updated: number;
-// };
 
 const formSchema = z.object({
     name: z.coerce.string().min(3).max(128),
@@ -77,7 +51,7 @@ const Component = ({ client_reference }: Props) => {
         }
     });
 
-    
+    if (!data) return null
 
     return (
         <Form {...form}>
@@ -140,6 +114,9 @@ const Component = ({ client_reference }: Props) => {
                             type="submit"
                             disabled={false}
                         >
+                            {clientInfoLoading || updateClientLoading || deleteClientLoading && (
+                                <span className="loading loading-spinner"></span>
+                            )}
                             Оновити
                         </Button>
                         <Button
