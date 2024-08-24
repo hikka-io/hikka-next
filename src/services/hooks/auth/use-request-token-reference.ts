@@ -1,12 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import requestTokenReference from '@/services/api/auth/requestTokenReference';
 
 const useRequestTokenReference = () => {
+    const router = useRouter();
+
     return useMutation({
         mutationKey: ['token-reference'],
         mutationFn: requestTokenReference,
-        onSuccess: () => {},
+        onSuccess: (data) => {
+            router.push(data.redirect_url);
+        },
     });
 };
 
