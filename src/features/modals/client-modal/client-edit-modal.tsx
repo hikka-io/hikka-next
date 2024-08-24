@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import MaterialSymbolsContentCopy from '~icons/material-symbols/content-copy';
@@ -21,6 +22,7 @@ const formSchema = z.object({
     description: z.coerce.string().min(3).max(512),
     endpoint: z.coerce.string().min(3).max(128),
     revoke_secret: z.coerce.boolean(),
+    client_reference: z.coerce.string().max(128),
     secret: z.coerce.string().min(128).max(128),
 });
 
@@ -39,6 +41,7 @@ const Component = ({ client }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             revoke_secret: false,
+            client_reference: client.reference,
             ...client,
         },
     });
@@ -59,14 +62,19 @@ const Component = ({ client }: Props) => {
     const onUpdate = async (formData: z.infer<typeof formSchema>) => {
         updateClient({
             params: {
-                client_reference: client.reference,
                 ...formData,
             },
         });
     };
 
-    const onCopy = async (formData: z.infer<typeof formSchema>) => {
-        navigator.clipboard.writeText(formData.secret);
+    const onCopy = async (
+        formData: z.infer<typeof formSchema>,
+        field: 'client_reference' | 'secret',
+    ) => {
+        navigator.clipboard.writeText(formData[field]);
+        enqueueSnackbar('Ви успішно скопіювали рядок.', {
+            variant: 'success',
+        });
     };
 
     return (
@@ -75,7 +83,7 @@ const Component = ({ client }: Props) => {
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col gap-6"
             >
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <FormInput
                         name="name"
                         label="Назва застосунку"
@@ -94,8 +102,28 @@ const Component = ({ client }: Props) => {
                         type="string"
                     />
                     <div>
-                        <FormLabel>Секрет</FormLabel>
-                        <div className="flex items-end gap-2 w-full">
+                        <FormLabel>Референс</FormLabel>
+                        <div className="flex w-full items-end gap-2">
+                            <FormInput
+                                name="client_reference"
+                                placeholder="123123-123123-123123-123123"
+                                disabled
+                                className="w-full"
+                            />
+                            <Button
+                                variant="secondary"
+                                onClick={form.handleSubmit((data) =>
+                                    onCopy(data, 'client_reference'),
+                                )}
+                            >
+                                <MaterialSymbolsContentCopy />
+                                Скопіювати
+                            </Button>
+                        </div>
+                    </div>
+                    <div>
+                        <FormLabel>Ключ</FormLabel>
+                        <div className="flex w-full items-end gap-2">
                             <FormInput
                                 name="secret"
                                 placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
@@ -105,7 +133,9 @@ const Component = ({ client }: Props) => {
                             />
                             <Button
                                 variant="secondary"
-                                onClick={form.handleSubmit(onCopy)}
+                                onClick={form.handleSubmit((data) =>
+                                    onCopy(data, 'secret'),
+                                )}
                             >
                                 <MaterialSymbolsContentCopy />
                                 Скопіювати
@@ -117,7 +147,7 @@ const Component = ({ client }: Props) => {
                         label="Перестворити секрет"
                         className="w-full"
                     />
-                    <div className="grid grid-cols-2 gap-8 w-full">
+                    <div className="grid w-full grid-cols-2 gap-8">
                         <Button
                             variant="accent"
                             onClick={form.handleSubmit(onUpdate)}
