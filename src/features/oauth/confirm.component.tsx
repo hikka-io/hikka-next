@@ -5,8 +5,8 @@ import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
+import useRequestTokenReference from '@/services/hooks/auth/use-request-token-reference';
 import useSession from '@/services/hooks/auth/use-session';
-import useClient from '@/services/hooks/client/use-client';
 
 interface Props {}
 
@@ -18,12 +18,24 @@ const Confirm: FC<Props> = () => {
 
     const { user } = useSession();
 
-    const { data: client } = useClient({
-        client_reference: reference,
-    });
+    const { mutate, isPending } = useRequestTokenReference();
+
+    const handleConfirm = () => {
+        mutate({
+            params: {
+                client_reference: reference,
+                scope: scopes!,
+            },
+        });
+    };
 
     return (
-        <Button className="w-full" disabled={!user}>
+        <Button
+            className="w-full"
+            disabled={!user || isPending}
+            onClick={handleConfirm}
+        >
+            {isPending && <span className="loading loading-spinner"></span>}
             Продовжити
         </Button>
     );
