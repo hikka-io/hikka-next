@@ -40,7 +40,7 @@ const ClientEditButton: FC<Props> = ({ client }) => {
                 <MaterialSymbolsEditRounded />
             </Button>
             <Button
-                className="flex sm:hidden w-full"
+                className="flex w-full sm:hidden"
                 onClick={handleEdit}
                 variant="outline"
                 size="icon-sm"

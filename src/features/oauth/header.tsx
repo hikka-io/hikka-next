@@ -7,7 +7,7 @@ interface Props {}
 
 const Header: FC<Props> = () => {
     return (
-        <div className="flex justify-between w-full">
+        <div className="flex w-full justify-between">
             <HeaderComponent variant="h2" title="Додати зʼєднання" />
             <Link href="/">
                 <div className="logo-full h-[24px] w-[80px]" />

@@ -18,8 +18,8 @@ const OAuthPage = () => {
                 <ModalManager />
             </Suspense>
 
-            <main className="container mx-auto min-h-screen px-4 my-8 lg:my-16 max-w-xl">
-                <div className="flex flex-col gap-8 h-full justify-start items-center">
+            <main className="container mx-auto my-8 min-h-screen max-w-xl px-4 lg:my-16">
+                <div className="flex h-full flex-col items-center justify-start gap-8">
                     <Header />
                     <Profile />
                     <Client />

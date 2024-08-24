@@ -18,7 +18,7 @@ const Client: FC<Props> = () => {
     const searchParams = useSearchParams();
 
     const scopes =
-        searchParams
+        (searchParams
             .get('scope')
             ?.split(',')
             .map(
@@ -27,18 +27,18 @@ const Client: FC<Props> = () => {
                     SCOPES.find((sg) => sg.slug === s),
             )
             .flat()
-            .filter((s) => s) || [];
+            .filter((s) => s) as Hikka.Scope[]) || [];
 
     return (
         <Card className="w-full">
             <div>
                 <Label>AniUA</Label>
-                <P className="text-warning text-sm">Невідомий застосунок</P>
+                <P className="text-sm text-warning">Невідомий застосунок</P>
             </div>
             <Separator className="-mx-4 w-auto" />
-            <div className="flex flex-col gap-4 max-h-60 overflow-scroll -m-4 p-4 gradient-mask-b-90-d">
+            <div className="-m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4 gradient-mask-b-90-d">
                 {scopes.map((s) => (
-                    <Scope scope={s} />
+                    <Scope key={s.slug} scope={s} />
                 ))}
             </div>
         </Card>

@@ -12,11 +12,11 @@ const Scope: FC<Props> = ({ scope }) => {
     if (!scope) return null;
 
     return (
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
             <div className="rounded-sm bg-secondary/30 p-1">
                 <scope.level.icon className={cn('size-4', scope.level.color)} />
             </div>
-            <P className="text-muted-foreground text-sm">{scope.title_ua}</P>
+            <P className="text-sm text-muted-foreground">{scope.title_ua}</P>
         </div>
     );
 };

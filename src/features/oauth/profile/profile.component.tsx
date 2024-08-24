@@ -20,7 +20,7 @@ const Profle: FC<Props> = () => {
     if (!user) return <AuthNeeded />;
 
     return (
-        <Card className="flex-row items-center justify-between w-full">
+        <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
                 <Avatar className="size-12 rounded-md">
                     <AvatarImage src={user?.avatar} />
