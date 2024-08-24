@@ -14,7 +14,7 @@ const useClients = (options?: Hikka.QueryOptions) => {
     });
 };
 
-export const prefetchClientInfo = () => {
+export const prefetchClients = () => {
     const queryClient = getQueryClient();
 
     return queryClient.prefetchQuery({

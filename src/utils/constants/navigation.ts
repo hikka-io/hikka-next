@@ -10,6 +10,7 @@ import MaterialSymbolsNotificationsActiveRounded from '~icons/material-symbols/n
 import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsPersonRounded from '~icons/material-symbols/person-rounded';
 import MaterialSymbolsStack from '~icons/material-symbols/stack';
+import MdiPuzzle from '~icons/mdi/puzzle';
 
 export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
     {
@@ -278,5 +279,10 @@ export const SETTINGS_MENU = [
         title: 'Кастомізація',
         icon: MaterialSymbolsCustomTypographyRounded,
         href: '/settings/customization',
+    },
+    {
+        title: 'Застосунки',
+        icon: MdiPuzzle,
+        href: '/settings/applications',
     },
 ];

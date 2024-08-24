@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { enqueueSnackbar } from 'notistack';
 
 import deleteClient from '@/services/api/client/deleteClient';
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -11,8 +12,21 @@ const useDeleteClient = () => {
         mutationKey: ['delete-client'],
         mutationFn: deleteClient,
         onSettled: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['client'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['full-client'],
+                exact: false,
+            });
             await queryClient.invalidateQueries({ queryKey: ['clients'] });
             closeModal();
+        },
+        onSuccess: () => {
+            enqueueSnackbar('Ви успішно видалили застосунок.', {
+                variant: 'success',
+            });
         },
     });
 };

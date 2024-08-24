@@ -21,5 +21,11 @@ export default async function req({
         ...props,
         path: `/client/${params?.client_reference}`,
         method: 'put',
+        params: {
+            name: params?.name,
+            description: params?.description,
+            endpoint: params?.endpoint,
+            revoke_secret: params?.revoke_secret
+        },
     });
 }
