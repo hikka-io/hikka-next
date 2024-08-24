@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
 import useCreateClient from '@/services/hooks/client/use-create-client';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -19,7 +18,6 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const { closeModal } = useModalContext();
     const { mutate: createClient, isPending: createClientLoading } =
         useCreateClient();
 
@@ -29,7 +27,6 @@ const Component = () => {
 
     const onCreate = async (formData: z.infer<typeof formSchema>) => {
         createClient({ params: { ...formData } });
-        closeModal();
     };
 
     return (
