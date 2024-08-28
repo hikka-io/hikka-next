@@ -64,6 +64,8 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
         }
     };
 
+    const readStatus = READ_STATUS[read.status];
+
     return (
         <SelectTrigger asChild className="gap-0 border-none p-0">
             <div className="flex w-full">
@@ -75,10 +77,14 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    {createElement(READ_STATUS[read.status].icon!)}
+                    <div
+                        className="rounded-sm p-0.5"
+                        style={{ backgroundColor: readStatus.color }}
+                    >
+                        {createElement(READ_STATUS[read.status].icon!)}
+                    </div>
                     <span className="truncate rounded-none">
-                        {READ_STATUS[read.status].title_ua ||
-                            READ_STATUS[read.status].title_en}
+                        {readStatus.title_ua || readStatus.title_en}
                     </span>
                     {read.score > 0 && (
                         <>

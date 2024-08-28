@@ -45,6 +45,8 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
         }
     };
 
+    const watchStatus = WATCH_STATUS[watch.status];
+
     return (
         <SelectTrigger asChild className="gap-0 border-none p-0">
             <div className="flex w-full">
@@ -56,10 +58,14 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    {createElement(WATCH_STATUS[watch.status].icon!)}
+                    <div
+                        className="rounded-sm p-0.5"
+                        style={{ backgroundColor: watchStatus.color }}
+                    >
+                        {createElement(watchStatus.icon!)}
+                    </div>
                     <span className="truncate rounded-none">
-                        {WATCH_STATUS[watch.status].title_ua ||
-                            WATCH_STATUS[watch.status].title_en}
+                        {watchStatus.title_ua || watchStatus.title_en}
                     </span>
                     {watch.score > 0 && (
                         <>

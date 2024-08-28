@@ -1,14 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, createElement } from 'react';
 import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
 
-import Planned from '@/components/icons/watch-status/planned';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
 import useAddRead from '@/services/hooks/read/use-add-read';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 interface NewStatusTriggerProps {
@@ -57,7 +57,9 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    <Planned />
+                    <div className="rounded-sm bg-muted-foreground p-0.5">
+                        {createElement(WATCH_STATUS.planned.icon!)}
+                    </div>
                     <span className="truncate rounded-none">
                         Додати у список
                     </span>

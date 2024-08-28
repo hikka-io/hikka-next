@@ -111,7 +111,7 @@ const Component = ({ client }: Props) => {
                                 className="w-full"
                             />
                             <Button
-                                variant="secondary"
+                                variant="outline"
                                 onClick={form.handleSubmit((data) =>
                                     onCopy(data, 'client_reference'),
                                 )}
@@ -132,7 +132,7 @@ const Component = ({ client }: Props) => {
                                 className="w-full"
                             />
                             <Button
-                                variant="secondary"
+                                variant="outline"
                                 onClick={form.handleSubmit((data) =>
                                     onCopy(data, 'secret'),
                                 )}
