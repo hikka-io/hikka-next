@@ -7,8 +7,11 @@ import BxUpvote from '~icons/bx/upvote';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
+import AuthModal from '@/features/modals/auth-modal/auth-modal';
+
 import useSession from '@/services/hooks/auth/use-session';
 import useVote from '@/services/hooks/vote/useVote';
+import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -16,6 +19,7 @@ interface Props {
 }
 
 const CommentVote: FC<Props> = ({ comment }) => {
+    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
     const mutation = useVote();
@@ -25,6 +29,16 @@ const CommentVote: FC<Props> = ({ comment }) => {
         : comment.my_score;
 
     const handleCommentVote = async (score: -1 | 1) => {
+        if (!loggedUser) {
+            openModal({
+                content: <AuthModal type="login" />,
+                className: 'max-w-3xl p-0',
+                forceModal: true,
+            });
+
+            return;
+        }
+
         const updated = currentScore === score ? 0 : score;
 
         mutation.mutate({
@@ -40,7 +54,6 @@ const CommentVote: FC<Props> = ({ comment }) => {
         <div className="group flex items-center gap-2">
             <Button
                 onClick={() => handleCommentVote(1)}
-                disabled={!loggedUser}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(
@@ -67,7 +80,6 @@ const CommentVote: FC<Props> = ({ comment }) => {
             </Label>
             <Button
                 onClick={() => handleCommentVote(-1)}
-                disabled={!loggedUser}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(

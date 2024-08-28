@@ -61,7 +61,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
             </div>
 
             <Link href={href} className="flex-1 hover:underline">
-                <MDViewer className="line-clamp-2 text-sm">
+                <MDViewer className="line-clamp-2 text-sm" disableSpoiler>
                     {comment.text}
                 </MDViewer>
             </Link>

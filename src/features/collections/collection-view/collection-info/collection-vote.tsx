@@ -10,13 +10,17 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
+import AuthModal from '@/features/modals/auth-modal/auth-modal';
+
 import useSession from '@/services/hooks/auth/use-session';
 import useCollection from '@/services/hooks/collections/use-collection';
 import useVote from '@/services/hooks/vote/useVote';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 const CollectionVote = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
+    const { openModal } = useModalContext();
 
     const { data: collection } = useCollection({
         reference: String(params.reference),
@@ -26,6 +30,16 @@ const CollectionVote = () => {
 
     const handleCollectionVote = async (score: -1 | 1) => {
         if (!collection) return;
+
+        if (!loggedUser) {
+            openModal({
+                content: <AuthModal type="login" />,
+                className: 'max-w-3xl p-0',
+                forceModal: true,
+            });
+
+            return;
+        }
 
         const updated = collection?.my_score === score ? 0 : score;
 
@@ -44,7 +58,6 @@ const CollectionVote = () => {
                 onClick={() => handleCollectionVote(1)}
                 size="icon-md"
                 variant="secondary"
-                disabled={!loggedUser}
             >
                 {collection?.my_score === 1 ? (
                     <BxBxsUpvote className="text-success" />
@@ -57,7 +70,6 @@ const CollectionVote = () => {
                 onClick={() => handleCollectionVote(-1)}
                 size="icon-md"
                 variant="secondary"
-                disabled={!loggedUser}
             >
                 {collection?.my_score === -1 ? (
                     <BxBxsDownvote className="text-destructive" />

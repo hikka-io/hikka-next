@@ -45,6 +45,7 @@ const AnimeLayout: FC<Props> = async ({ params: { slug }, children }) => {
     ]);
 
     if (!anime) {
+        console.log('Anime not found');
         return permanentRedirect('/');
     }
 

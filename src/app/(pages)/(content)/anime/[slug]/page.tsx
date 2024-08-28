@@ -10,9 +10,8 @@ import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.comp
 import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
 
-import getAnimeInfo, {
-    Response as AnimeResponse,
-} from '@/services/api/anime/getAnimeInfo';
+import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
+import getQueryClient from '@/utils/get-query-client';
 
 import jsonSchema from './anime.schema';
 
@@ -22,20 +21,26 @@ interface Props {
     };
 }
 
-const AnimePage: FC<Props> = async ({ params }) => {
-    const anime: AnimeResponse = await getAnimeInfo({
-        params: {
-            slug: params.slug,
-        },
-    });
-    const jsonLd = jsonSchema({ anime });
+const AnimePage: FC<Props> = async ({ params: { slug } }) => {
+    const queryClient = getQueryClient();
+
+    await prefetchAnimeInfo({ slug });
+
+    const anime: API.AnimeInfo | undefined = queryClient.getQueryData([
+        'anime',
+        slug,
+    ]);
 
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
+            {anime && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(jsonSchema({ anime })),
+                    }}
+                />
+            )}
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />

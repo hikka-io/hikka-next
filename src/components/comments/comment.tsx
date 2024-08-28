@@ -49,11 +49,23 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         setIsInputVisible(true);
     };
 
+    const getRepliesCount = (comments: API.Comment[]) => {
+        let count = comments.length;
+
+        comments.forEach((comment) => {
+            count += getRepliesCount(comment.replies);
+        });
+
+        return count;
+    };
+
     const getDeclensedReplyCount = () => {
+        const repliesCount = getRepliesCount(comment.replies);
+
         return (
-            comment.replies.length +
+            repliesCount +
             ' ' +
-            getDeclensionWord(comment.replies.length, [
+            getDeclensionWord(repliesCount, [
                 'відповідь',
                 'відповіді',
                 'відповідей',
