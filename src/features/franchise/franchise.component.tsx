@@ -50,7 +50,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             <span className="truncate">Пов’язане</span>{' '}
             {sortedList && (
                 <span className="text-muted-foreground">
-                    ({sortedList.length})
+                    ({extended ? filteredData.length : sortedList.length})
                 </span>
             )}
         </span>

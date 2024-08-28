@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 
 import H1 from '@/components/typography/h1';
 import P from '@/components/typography/p';

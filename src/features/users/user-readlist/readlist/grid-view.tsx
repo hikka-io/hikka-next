@@ -14,9 +14,17 @@ const GridView: FC<Props> = ({ data }) => {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
             {data.map((res) =>
                 res.content.data_type === 'manga' ? (
-                    <MangaCard manga={res.content} key={res.reference} />
+                    <MangaCard
+                        read={res}
+                        manga={res.content}
+                        key={res.reference}
+                    />
                 ) : (
-                    <NovelCard novel={res.content} key={res.reference} />
+                    <NovelCard
+                        read={res}
+                        novel={res.content}
+                        key={res.reference}
+                    />
                 ),
             )}
         </div>

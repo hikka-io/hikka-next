@@ -1,11 +1,6 @@
 'use client';
 
-import {
-    useParams,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { createElement } from 'react';
 
 import H5 from '@/components/typography/h5';
@@ -20,23 +15,19 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useReadList from '@/services/hooks/read/use-read-list';
 import { READ_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
+
+import useList from './use-list.hook';
 
 const StatusCombobox = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const params = useParams();
     const router = useRouter();
 
     const readStatus = searchParams.get('status')! as API.ReadStatus;
 
-    const { pagination } = useReadList({
-        content_type: params.content_type as 'manga' | 'novel',
-        username: String(params.username),
-        read_status: String(readStatus) as API.ReadStatus,
-    });
+    const { pagination } = useList();
 
     const handleWatchStatusChange = (value: string[]) => {
         {

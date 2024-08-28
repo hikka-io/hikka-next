@@ -20,9 +20,10 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
+
+import useList from './use-list.hook';
 
 const StatusCombobox = () => {
     const searchParams = useSearchParams();
@@ -32,10 +33,7 @@ const StatusCombobox = () => {
 
     const watchStatus = searchParams.get('status')! as API.WatchStatus;
 
-    const { pagination } = useWatchList({
-        username: String(params.username),
-        watch_status: String(watchStatus) as API.WatchStatus,
-    });
+    const { pagination } = useList();
 
     const handleWatchStatusChange = (value: string[]) => {
         {

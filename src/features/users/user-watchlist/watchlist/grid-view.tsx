@@ -12,7 +12,7 @@ const GridView: FC<Props> = ({ data }) => {
     return (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
             {data.map((res) => (
-                <AnimeCard anime={res.anime} key={res.reference} />
+                <AnimeCard watch={res} anime={res.anime} key={res.reference} />
             ))}
         </div>
     );
