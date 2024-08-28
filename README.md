@@ -48,8 +48,12 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/olexh/hikka-next.git
+   git clone https://github.com/hikka-io/hikka-next.git
    ```
+1. Install and enable corepack to activate yarn as a default package manager
+   ```sh
+   npm install -g corepack && corepack enable yarn
+   ```   
 2. Install NPM packages
    ```sh
    yarn install
