@@ -13,7 +13,7 @@ import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import CropEditorModal from '@/features/modals/crop-editor-modal';
+import CropEditorModal from '@/features/modals/crop-editor-modal.component';
 
 import deleteUserImage from '@/services/api/settings/deleteUserImage';
 import useSession from '@/services/hooks/auth/use-session';

@@ -3,8 +3,8 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import Header from '@/components/ui/header';
 
-import Readlist from '@/features/settings/list/readlist/readlist';
-import Watchlist from '@/features/settings/list/watchlist/watchlist';
+import Readlist from '@/features/settings/list/readlist/readlist.component';
+import Watchlist from '@/features/settings/list/watchlist/watchlist.component';
 
 interface Props {
     params: {

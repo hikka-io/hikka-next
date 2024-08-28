@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { memo, useEffect } from 'react';
 
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 

@@ -14,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import AnimeFiltersModal from '@/features/modals/anime-filters-modal';
+import AnimeFiltersModal from '@/features/modals/anime-filters-modal.component';
 
 import getRandomWatch from '@/services/api/watch/getRandomWatch';
 

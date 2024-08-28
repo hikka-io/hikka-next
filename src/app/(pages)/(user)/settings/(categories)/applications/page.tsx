@@ -4,8 +4,8 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import Header from '@/components/ui/header';
 
-import Applications from '@/features/settings/applications/applications';
-import ClientCreateButton from '@/features/settings/applications/client-create-button';
+import Applications from '@/features/settings/applications/applications.component';
+import ClientCreateButton from '@/features/settings/applications/client-create-button.component';
 
 import { prefetchClients } from '@/services/hooks/client/use-clients';
 import getQueryClient from '@/utils/get-query-client';

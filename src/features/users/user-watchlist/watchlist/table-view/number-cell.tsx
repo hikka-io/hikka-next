@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
 
-import WatchEditModal from '@/features/modals/watch-edit-modal';
+import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';

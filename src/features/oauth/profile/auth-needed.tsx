@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 

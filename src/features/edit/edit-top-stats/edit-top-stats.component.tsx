@@ -8,7 +8,7 @@ import {
     CarouselItem,
 } from '@/components/ui/carousel';
 
-import EditTopStatsModal from '@/features/modals/edit-top-stats-modal/edit-top-stats-modal';
+import EditTopStatsModal from '@/features/modals/edit-top-stats-modal/edit-top-stats-modal.component';
 
 import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
 import { useModalContext } from '@/services/providers/modal-provider';

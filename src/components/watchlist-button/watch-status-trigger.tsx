@@ -6,7 +6,7 @@ import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-out
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
-import WatchEditModal from '@/features/modals/watch-edit-modal';
+import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import { useModalContext } from '@/services/providers/modal-provider';

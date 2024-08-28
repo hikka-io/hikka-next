@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import FiltersModal from '@/features/modals/anime-filters-modal';
+import FiltersModal from '@/features/modals/anime-filters-modal.component';
 
 import { cn } from '@/utils/utils';
 

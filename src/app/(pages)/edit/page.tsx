@@ -12,7 +12,7 @@ import Header from '@/components/ui/header';
 import EditList from '@/features/edit/edit-list/edit-list.component';
 import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats.component';
 import Filters from '@/features/filters/edit-filters.component';
-import EditFiltersModal from '@/features/modals/edit-filters-modal';
+import EditFiltersModal from '@/features/modals/edit-filters-modal.component';
 
 import { prefetchEditList } from '@/services/hooks/edit/use-edit-list';
 import { prefetchEditTop } from '@/services/hooks/stats/edit/use-edit-top';

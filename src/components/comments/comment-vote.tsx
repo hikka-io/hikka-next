@@ -7,7 +7,7 @@ import BxUpvote from '~icons/bx/upvote';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useVote from '@/services/hooks/vote/useVote';

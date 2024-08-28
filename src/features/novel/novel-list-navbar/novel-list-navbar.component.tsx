@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import ReadFiltersModal from '@/features/modals/read-filters-modal';
+import ReadFiltersModal from '@/features/modals/read-filters-modal.component';
 
 import { cn } from '@/utils/utils';
 

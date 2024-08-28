@@ -16,7 +16,7 @@ import {
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 
-import CropEditorModal from '@/features/modals/crop-editor-modal';
+import CropEditorModal from '@/features/modals/crop-editor-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useUser from '@/services/hooks/user/use-user';

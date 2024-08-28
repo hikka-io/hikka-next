@@ -22,7 +22,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import WatchEditModal from '@/features/modals/watch-edit-modal';
+import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useAddWatch from '@/services/hooks/watch/use-add-watch';

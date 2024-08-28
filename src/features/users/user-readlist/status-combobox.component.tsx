@@ -18,7 +18,7 @@ import {
 import { READ_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
 
-import useList from './use-list.hook';
+import { useList } from './readlist.hooks';
 
 const StatusCombobox = () => {
     const searchParams = useSearchParams();

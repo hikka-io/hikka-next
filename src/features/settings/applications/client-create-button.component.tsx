@@ -1,10 +1,11 @@
 'use client';
 
 import { FC, Fragment, memo } from 'react';
+import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import { Button } from '@/components/ui/button';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import ClientCreateModal from '@/features/modals/client-modal/client-create-modal';
+
+import ClientCreateModal from '@/features/modals/client-modal/client-create-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -26,11 +27,7 @@ const ClientCreateButton: FC = () => {
 
     return (
         <Fragment>
-            <Button
-                size="icon-sm"
-                variant="outline"
-                onClick={handleCreate}
-            >
+            <Button size="icon-sm" variant="outline" onClick={handleCreate}>
                 <MaterialSymbolsAddRounded />
             </Button>
         </Fragment>

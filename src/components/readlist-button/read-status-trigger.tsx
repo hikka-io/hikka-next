@@ -6,7 +6,7 @@ import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-out
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
-import ReadEditModal from '@/features/modals/read-edit-modal';
+import ReadEditModal from '@/features/modals/read-edit-modal.component';
 
 import useMangaInfo from '@/services/hooks/manga/use-manga-info';
 import useNovelInfo from '@/services/hooks/novel/use-novel-info';

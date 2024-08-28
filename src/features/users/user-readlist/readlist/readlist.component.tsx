@@ -8,7 +8,7 @@ import NotFound from '@/components/ui/not-found';
 
 import { READ_STATUS } from '@/utils/constants/common';
 
-import useList from '../use-list.hook';
+import { useList } from '../readlist.hooks';
 import GridView from './grid-view';
 import TableView from './table-view/table-view';
 

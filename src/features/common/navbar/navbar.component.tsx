@@ -7,8 +7,8 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import { Button } from '@/components/ui/button';
 
 import ProfileMenu from '@/features/common/navbar/profile-menu';
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
-import SearchModal from '@/features/modals/search-modal/search-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
+import SearchModal from '@/features/modals/search-modal/search-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { useMediaQuery } from '@/services/hooks/use-media-query';

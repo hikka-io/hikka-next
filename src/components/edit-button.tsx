@@ -4,7 +4,7 @@ import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import { Button } from '@/components/ui/button';
 
-import EditListModal from '@/features/modals/editlist-modal/editlist-modal';
+import EditListModal from '@/features/modals/editlist-modal/editlist-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 

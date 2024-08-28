@@ -21,7 +21,7 @@ import ContentCard from '@/components/content-card/content-card';
 import Header from '@/components/ui/header';
 
 import SortableCard from '@/features/collections/collection-edit/collection-grid/sortable-card';
-import SearchModal from '@/features/modals/search-modal/search-modal';
+import SearchModal from '@/features/modals/search-modal/search-modal.component';
 
 import {
     Group as CollectionGroup,

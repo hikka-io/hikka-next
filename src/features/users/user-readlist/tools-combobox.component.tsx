@@ -14,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import ReadFiltersModal from '@/features/modals/read-filters-modal';
+import ReadFiltersModal from '@/features/modals/read-filters-modal.component';
 
 import getRandomWatch from '@/services/api/watch/getRandomWatch';
 

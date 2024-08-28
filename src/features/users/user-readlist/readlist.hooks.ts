@@ -1,37 +1,31 @@
 import { useParams, useSearchParams } from 'next/navigation';
 
-import useWatchList from '@/services/hooks/watch/use-watch-list';
+import useReadList from '@/services/hooks/read/use-read-list';
 
-const useList = () => {
+export const useList = () => {
     const searchParams = useSearchParams()!;
     const params = useParams();
 
-    const watchStatus = searchParams.get('status');
-    const view = searchParams.get('view') || 'table';
+    const readStatus = searchParams.get('status');
 
     const media_type = searchParams.getAll('types');
     const status = searchParams.getAll('statuses');
-    const season = searchParams.getAll('seasons');
-    const rating = searchParams.getAll('ratings');
     const years = searchParams.getAll('years');
     const genres = searchParams.getAll('genres');
-    const studios = searchParams.getAll('studios');
+    const magazines = searchParams.getAll('magazines');
 
     const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.get('sort') || 'watch_score';
+    const sort = searchParams.get('sort') || 'read_score';
 
-    return useWatchList({
+    return useReadList({
+        content_type: params.content_type as 'manga' | 'novel',
         username: String(params.username),
-        watch_status: String(watchStatus) as API.WatchStatus,
+        read_status: String(readStatus) as API.ReadStatus,
         media_type,
         status,
-        season,
-        rating,
         years,
         genres,
-        studios,
+        magazines,
         sort: sort && order ? [`${sort}:${order}`] : undefined,
     });
 };
-
-export default useList;

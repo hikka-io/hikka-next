@@ -13,7 +13,7 @@ import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import login from '@/services/api/auth/login';
 import { useModalContext } from '@/services/providers/modal-provider';

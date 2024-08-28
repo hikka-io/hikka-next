@@ -7,7 +7,7 @@ import MaterialSymbolsPersonRemoveOutlineRounded from '~icons/material-symbols/p
 
 import { Button } from '@/components/ui/button';
 
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useFollow from '@/services/hooks/follow/use-follow';

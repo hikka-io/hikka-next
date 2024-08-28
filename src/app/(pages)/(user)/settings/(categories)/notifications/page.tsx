@@ -3,7 +3,7 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import Header from '@/components/ui/header';
 
-import Notifications from '@/features/settings/notifications/notifications';
+import Notifications from '@/features/settings/notifications/notifications.component';
 
 interface Props {
     params: {

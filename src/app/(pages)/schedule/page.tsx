@@ -10,7 +10,7 @@ import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
 
 import ScheduleFilters from '@/features/filters/schedule-filters.component';
-import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal';
+import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal.component';
 import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
 
 import { prefetchAnimeSchedule } from '@/services/hooks/stats/use-anime-schedule';

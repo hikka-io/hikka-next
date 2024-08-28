@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
-import AuthModal from '@/features/modals/auth-modal/auth-modal';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useCollection from '@/services/hooks/collections/use-collection';

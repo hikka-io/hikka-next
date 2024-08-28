@@ -5,7 +5,7 @@ import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import { Button } from '@/components/ui/button';
 
-import ClientEditModal from '@/features/modals/client-modal/client-edit-modal';
+import ClientEditModal from '@/features/modals/client-modal/client-edit-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';

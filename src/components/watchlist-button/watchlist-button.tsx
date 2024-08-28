@@ -12,7 +12,7 @@ import {
     SelectSeparator,
 } from '@/components/ui/select';
 
-import WatchEditModal from '@/features/modals/watch-edit-modal';
+import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import useAddWatch from '@/services/hooks/watch/use-add-watch';

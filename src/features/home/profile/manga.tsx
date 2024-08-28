@@ -22,7 +22,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import ReadEditModal from '@/features/modals/read-edit-modal';
+import ReadEditModal from '@/features/modals/read-edit-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
 import useAddRead from '@/services/hooks/read/use-add-read';
