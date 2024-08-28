@@ -36,14 +36,6 @@ The list of frameworks and core libraries, that uses in the project
 
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* yarn
-  ```sh
-  npm install --global yarn
-  ```
-
 ### Installation
 
 1. Clone the repo
