@@ -37,7 +37,7 @@ const Stack: FC<Props> = ({
     return (
         <div
             className={cn(
-                'relative grid gap-4 lg:gap-8',
+                'relative -my-4 grid gap-4 py-4 lg:gap-8',
                 size && SIZES[size],
                 extended &&
                     (extendedSize
