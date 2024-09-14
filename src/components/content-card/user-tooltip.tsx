@@ -23,6 +23,7 @@ import useReadStats from '@/services/hooks/read/use-read-stats';
 import useUser from '@/services/hooks/user/use-user';
 import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import P from '../typography/p';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
@@ -103,26 +104,26 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                             </h4>
                             {(user?.role === 'admin' ||
                                 user?.role === 'moderator') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger>
-                                        <div className="rounded-sm border border-accent/60 bg-accent/30 p-1 text-xs font-bold text-accent-foreground">
-                                            {user.role === 'admin' && (
-                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
-                                            )}
-                                            {user.role === 'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
-                                            )}
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <P className="text-sm">
-                                            {user.role === 'admin'
-                                                ? 'Адміністратор'
-                                                : 'Модератор'}
-                                        </P>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
+                                    <Tooltip delayDuration={0}>
+                                        <TooltipTrigger>
+                                            <div className="rounded-sm border border-accent/60 bg-accent/30 p-1 text-xs font-bold text-accent-foreground">
+                                                {user.role === 'admin' && (
+                                                    <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                                )}
+                                                {user.role === 'moderator' && (
+                                                    <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                                )}
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <P className="text-sm">
+                                                {user.role === 'admin'
+                                                    ? 'Адміністратор'
+                                                    : 'Модератор'}
+                                            </P>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )}
                         </div>
                     </div>
                     <FollowButton
@@ -131,9 +132,14 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                         iconOnly
                     />
                 </div>
-                <p className="line-clamp-1 text-xs text-muted-foreground">
-                    {user?.description}
-                </p>
+                {user?.description && (
+                    <MDViewer
+                        disableSpoiler
+                        className="line-clamp-1 text-xs text-muted-foreground"
+                    >
+                        {user.description}
+                    </MDViewer>
+                )}
             </div>
             <div className="flex gap-4 text-xs">
                 <span className="font-bold">
