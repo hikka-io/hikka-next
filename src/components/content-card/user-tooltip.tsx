@@ -159,15 +159,15 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             </div>
             <Separator className="-mx-4 w-auto" />
             <div className="flex justify-between text-sm font-semibold">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-1">
                     <MaterialAnimatedImages className="text-muted-foreground" />
                     {watchStats?.completed}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-1">
                     <MaterialSymbolsPalette className="text-muted-foreground" />
                     {mangaStats?.completed}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-1">
                     <MaterialSymbolsMenuBookRounded className="text-muted-foreground" />
                     {novelStats?.completed}
                 </div>
