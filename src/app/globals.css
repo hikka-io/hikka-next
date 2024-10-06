@@ -183,13 +183,26 @@
     background-repeat: no-repeat;
 }
 
+.dark .logo-full {
+    background-image: url(/logo-dark.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .logo-full {
     background-image: url(/logo.svg);
     background-size: contain;
     background-repeat: no-repeat;
 }
 
+
 @media screen(md) {
+    .dark .logo {
+        background-image: url(/logo-dark.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
     .logo {
         background-image: url(/logo.svg);
         background-size: contain;
