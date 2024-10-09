@@ -22,6 +22,7 @@ const Component = (
                 loaded ? 'opacity-100' : 'opacity-0',
                 !transitionDisabled && '!transition',
                 className,
+                'sharpness-fix',
             )}
             onLoad={() => setLoaded(true)}
             quality={85}
