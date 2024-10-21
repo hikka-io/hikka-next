@@ -8,7 +8,13 @@ interface Props {
     params: { editId: string };
 }
 
-const EditPage: FC<Props> = async ({ params: { editId } }) => {
+const EditPage: FC<Props> = async props => {
+    const params = await props.params;
+
+    const {
+        editId
+    } = params;
+
     return (
         <div className="flex flex-col gap-12">
             <EditView editId={editId} mode="view" />

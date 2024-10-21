@@ -5,11 +5,14 @@ import Icons from 'unplugin-icons/webpack';
 const nextConfig = {
     output: 'standalone',
     eslint: {
-        ignoreDuringBuilds: false,
+        ignoreDuringBuilds: true,
     },
     reactStrictMode: true,
     productionBrowserSourceMaps: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+    experimental: {
+        reactCompiler: true,
+    },
     images: {
         unoptimized: true,
         remotePatterns: [

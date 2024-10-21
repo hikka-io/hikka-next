@@ -42,7 +42,7 @@ export default function useScrollTrigger(
         target = defaultTarget,
         ...other
     } = options;
-    const store = React.useRef();
+    const store = React.useRef(undefined);
     const [trigger, setTrigger] = React.useState(() =>
         getTrigger(store, other),
     );

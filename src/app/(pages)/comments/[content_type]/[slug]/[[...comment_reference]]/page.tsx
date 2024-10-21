@@ -27,7 +27,8 @@ interface Props {
     };
 }
 
-const CommentsPage: FC<Props> = async ({ params }) => {
+const CommentsPage: FC<Props> = async props => {
+    const params = await props.params;
     const queryClient = await getQueryClient();
 
     const comment_reference =

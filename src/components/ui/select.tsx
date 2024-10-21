@@ -2,8 +2,8 @@
 
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import {
-    type ComponentPropsWithoutRef,
     Primitive,
+    type PrimitivePropsWithRef,
 } from '@radix-ui/react-primitive';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { ChevronsUpDown, X } from 'lucide-react';
@@ -216,10 +216,10 @@ const Select: React.FC<SelectProps> = ({
 
 Select.displayName = 'Select';
 
-type SelectTriggerElement = React.ElementRef<typeof Primitive.div>;
+type SelectTriggerElement = React.ComponentRef<typeof Primitive.div>;
 
 interface SelectTriggerProps
-    extends ComponentPropsWithoutRef<typeof Primitive.div> {}
+    extends PrimitivePropsWithRef<typeof Primitive.div> {}
 
 const PreventClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -259,7 +259,7 @@ const SelectTrigger = React.forwardRef<
 
 SelectTrigger.displayName = 'SelectTrigger';
 
-const SelectIcon: FC<ComponentPropsWithoutRef<'svg'>> = ({
+const SelectIcon: FC<PrimitivePropsWithRef<'svg'>> = ({
     className,
     ...props
 }) => (
@@ -272,15 +272,14 @@ const SelectIcon: FC<ComponentPropsWithoutRef<'svg'>> = ({
 
 SelectIcon.displayName = 'SelectIcon';
 
-interface SelectValueProps
-    extends ComponentPropsWithoutRef<typeof Primitive.div> {
+interface SelectValueProps extends PrimitivePropsWithRef<typeof Primitive.div> {
     placeholder?: string;
     maxDisplay?: number;
     maxItemLength?: number;
 }
 
 const SelectValue = React.forwardRef<
-    React.ElementRef<typeof Primitive.div>,
+    React.ComponentRef<typeof Primitive.div>,
     SelectValueProps
 >(
     (
@@ -398,8 +397,8 @@ const SelectValue = React.forwardRef<
 );
 
 const SelectSearch = React.forwardRef<
-    React.ElementRef<typeof CommandInput>,
-    ComponentPropsWithoutRef<typeof CommandInput>
+    React.ComponentRef<typeof CommandInput>,
+    PrimitivePropsWithRef<typeof CommandInput>
 >((props, ref) => {
     const { onSearch } = useSelect();
 
@@ -409,8 +408,8 @@ const SelectSearch = React.forwardRef<
 SelectSearch.displayName = 'SelectSearch';
 
 const SelectList = React.forwardRef<
-    React.ElementRef<typeof CommandList>,
-    ComponentPropsWithoutRef<typeof CommandList>
+    React.ComponentRef<typeof CommandList>,
+    PrimitivePropsWithRef<typeof CommandList>
 >(({ className, ...props }, ref) => {
     return (
         <CommandList
@@ -424,15 +423,15 @@ const SelectList = React.forwardRef<
 SelectList.displayName = 'SelectList';
 
 interface SelectContentProps
-    extends ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {}
+    extends PrimitivePropsWithRef<typeof PopoverPrimitive.Content> {}
 
 const SelectContent = React.forwardRef<
-    React.ElementRef<typeof PopoverPrimitive.Content>,
+    React.ComponentRef<typeof PopoverPrimitive.Content>,
     SelectContentProps
 >(({ className, children, ...props }, ref) => {
     const context = useSelect();
 
-    const fragmentRef = React.useRef<DocumentFragment>();
+    const fragmentRef = React.useRef<DocumentFragment>(null);
 
     const [firstRendered, setFirstRendered] = React.useState(false);
 
@@ -488,7 +487,7 @@ const SelectContent = React.forwardRef<
     );
 });
 
-type SelectItemProps = ComponentPropsWithoutRef<typeof CommandItem> &
+type SelectItemProps = PrimitivePropsWithRef<typeof CommandItem> &
     Partial<SelectOptionItem> & {
         onSelect?: (value: string, item: SelectOptionItem) => void;
         onDeselect?: (value: string, item: SelectOptionItem) => void;
@@ -496,7 +495,7 @@ type SelectItemProps = ComponentPropsWithoutRef<typeof CommandItem> &
     };
 
 const SelectItem = React.forwardRef<
-    React.ElementRef<typeof CommandItem>,
+    React.ComponentRef<typeof CommandItem>,
     SelectItemProps
 >(
     (
@@ -589,8 +588,8 @@ const SelectItem = React.forwardRef<
 );
 
 const SelectGroup = React.forwardRef<
-    React.ElementRef<typeof CommandGroup>,
-    ComponentPropsWithoutRef<typeof CommandGroup>
+    React.ComponentRef<typeof CommandGroup>,
+    PrimitivePropsWithRef<typeof CommandGroup>
 >((props, forwardRef) => {
     return <CommandGroup {...props} ref={forwardRef} />;
 });
@@ -598,8 +597,8 @@ const SelectGroup = React.forwardRef<
 SelectGroup.displayName = 'SelectGroup';
 
 const SelectSeparator = React.forwardRef<
-    React.ElementRef<typeof CommandSeparator>,
-    ComponentPropsWithoutRef<typeof CommandSeparator>
+    React.ComponentRef<typeof CommandSeparator>,
+    PrimitivePropsWithRef<typeof CommandSeparator>
 >((props, forwardRef) => {
     return <CommandSeparator {...props} ref={forwardRef} />;
 });
@@ -607,8 +606,8 @@ const SelectSeparator = React.forwardRef<
 SelectSeparator.displayName = 'SelectSeparator';
 
 const SelectEmpty = React.forwardRef<
-    React.ElementRef<typeof CommandEmpty>,
-    ComponentPropsWithoutRef<typeof CommandEmpty>
+    React.ComponentRef<typeof CommandEmpty>,
+    PrimitivePropsWithRef<typeof CommandEmpty>
 >(({ children = 'No Content', ...props }, forwardRef) => {
     return (
         <CommandEmpty {...props} ref={forwardRef}>

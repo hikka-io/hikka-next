@@ -16,9 +16,10 @@ import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(
-    { params }: { params: { username: string } },
-    parent: ResolvingMetadata,
+    props: { params: Promise<{ username: string }> },
+    parent: ResolvingMetadata
 ): Promise<Metadata> {
+    const params = await props.params;
     const parentMetadata = await parent;
 
     return _generateMetadata({
@@ -33,10 +34,20 @@ interface Props {
     params: { username: string };
 }
 
-const ListPage: FC<Props> = async ({
-    searchParams: { status, sort },
-    params: { username },
-}) => {
+const ListPage: FC<Props> = async props => {
+    const params = await props.params;
+
+    const {
+        username
+    } = params;
+
+    const searchParams = await props.searchParams;
+
+    const {
+        status,
+        sort
+    } = searchParams;
+
     if (!status || !sort) {
         if (!status) {
             permanentRedirect(
