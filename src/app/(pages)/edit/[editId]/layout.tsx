@@ -65,9 +65,11 @@ const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
         permanentRedirect('/edit');
     }
 
-    await prefetchCharacterAnime({ slug: edit.content.slug });
-    await prefetchCharacterManga({ slug: edit.content.slug });
-    await prefetchCharacterNovel({ slug: edit.content.slug });
+    if (edit.content.data_type === 'character') {
+        await prefetchCharacterAnime({ slug: edit.content.slug });
+        await prefetchCharacterManga({ slug: edit.content.slug });
+        await prefetchCharacterNovel({ slug: edit.content.slug });
+    }
 
     await prefetchComments({ slug: editId, content_type: 'edit' });
 
