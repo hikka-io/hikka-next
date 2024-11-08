@@ -8,22 +8,29 @@ import Image from '@/components/ui/image';
 const NotFound = () => {
     return (
         <div className="flex min-h-screen flex-col">
-            <div className="flex grow flex-col items-center justify-center gap-8">
-                <div className="flex flex-col justify-center">
-                    <div className="flex justify-center gap-4">
-                        <Image
-                            src="/logo.svg"
-                            alt="Hikka"
-                            width={80}
-                            height={24}
-                        />
-                        <H1 className="text-center text-[3rem]">404</H1>
+            <div className="flex grow flex-col items-center justify-center">
+                <div className="flex flex-col gap-8 w-52">
+                    <Image
+                        unoptimized
+                        src="/hikka.notfound.png"
+                        width={200}
+                        height={200}
+                        className="size-full"
+                        alt="hikka face"
+                    />
+                    <div className="flex flex-col h-52 justify-between">
+                        <div>
+                            <div className="w-full flex items-center justify-between">
+                                <H1 className="text-[3rem]">404</H1>
+                                <div className="logo-full w-[80px] h-[24px]" />
+                            </div>
+                            <P className="text-center">На жаль, такої сторінки не існує 😢</P>
+                        </div>
+                        <Button className="w-full" variant="outline" asChild>
+                            <Link href="/">На головну</Link>
+                        </Button>
                     </div>
-                    <P>На жаль, такої сторінки не існує 😢</P>
                 </div>
-                <Button variant="outline" asChild>
-                    <Link href="/">На головну</Link>
-                </Button>
             </div>
         </div>
     );
