@@ -24,7 +24,7 @@ const NotFound = () => {
                                 <H1 className="text-[3rem]">404</H1>
                                 <div className="logo-full w-[80px] h-[24px]" />
                             </div>
-                            <P className="text-center">На жаль, такої сторінки не існує 😢</P>
+                            <P className="text-lg text-center">На жаль, такої сторінки не існує 😢</P>
                         </div>
                         <Button className="w-full" variant="outline" asChild>
                             <Link href="/">На головну</Link>
