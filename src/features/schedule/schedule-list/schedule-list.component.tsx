@@ -1,7 +1,7 @@
 'use client';
 
 import { getUnixTime, startOfDay } from 'date-fns';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { useSearchParams } from 'next/navigation';
 
 import FiltersNotFound from '@/components/filters-not-found';
