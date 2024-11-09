@@ -1,6 +1,6 @@
-import format from 'date-fns/format';
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
+import { format } from 'date-fns/format';
+import { formatDuration } from 'date-fns/formatDuration';
+import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';

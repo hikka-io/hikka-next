@@ -26,7 +26,7 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const captchaRef = useRef<TurnstileInstance>();
+    const captchaRef = useRef<TurnstileInstance>(undefined);
     const { openModal, closeModal } = useModalContext();
     const router = useRouter();
 

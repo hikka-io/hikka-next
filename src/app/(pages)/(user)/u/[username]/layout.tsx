@@ -34,10 +34,18 @@ export async function generateMetadata(
     props: MetadataProps,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    return await _generateMetadata(props, parent);
+    const params = await props.params;
+
+    return await _generateMetadata({ params }, parent);
 }
 
-const UserLayout: FC<Props> = async ({ params: { username }, children }) => {
+const UserLayout: FC<Props> = async (props) => {
+    const params = await props.params;
+
+    const { username } = params;
+
+    const { children } = props;
+
     const queryClient = getQueryClient();
 
     await prefetchQueries({ params: { username } });

@@ -31,10 +31,19 @@ interface Props extends PropsWithChildren {
 export async function generateMetadata(
     props: MetadataProps,
 ): Promise<Metadata> {
-    return await _generateMetadata(props);
+    const params = await props.params;
+    const searchParams = await props.searchParams;
+
+    return await _generateMetadata({ params, searchParams });
 }
 
-const AnimeLayout: FC<Props> = async ({ params: { slug }, children }) => {
+const AnimeLayout: FC<Props> = async (props) => {
+    const params = await props.params;
+
+    const { slug } = params;
+
+    const { children } = props;
+
     const queryClient = await getQueryClient();
 
     await prefetchAnimeInfo({ slug });

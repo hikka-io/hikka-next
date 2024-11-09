@@ -21,7 +21,13 @@ interface Props {
     };
 }
 
-const AnimePage: FC<Props> = async ({ params: { slug } }) => {
+const AnimePage: FC<Props> = async props => {
+    const params = await props.params;
+
+    const {
+        slug
+    } = params;
+
     const queryClient = getQueryClient();
 
     await prefetchAnimeInfo({ slug });

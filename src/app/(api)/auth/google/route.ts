@@ -16,7 +16,7 @@ export async function GET(request: Request) {
             },
         });
 
-        cookies().set('auth', res.secret, {
+        (await cookies()).set('auth', res.secret, {
             maxAge: 60 * 60 * 24 * 7,
         });
     } catch (e) {

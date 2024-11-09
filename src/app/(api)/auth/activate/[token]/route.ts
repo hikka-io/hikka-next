@@ -5,13 +5,16 @@ import activation from '@/services/api/auth/activation';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-    request: Request,
-    { params: { token } }: { params: { token: string } },
-) {
+export async function GET(request: Request, props: { params: Promise<{ token: string }> }) {
+    const params = await props.params;
+
+    const {
+        token
+    } = params;
+
     try {
         const res = await activation({ params: { token } });
-        cookies().set('auth', res.secret);
+        (await cookies()).set('auth', res.secret);
     } catch (e) {
         if ('code' in (e as API.Error)) {
             if ((e as API.Error).code === 'auth-modal:activation_expired') {

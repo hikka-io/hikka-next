@@ -35,7 +35,7 @@ const formSchema = z
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
-    const captchaRef = useRef<TurnstileInstance>();
+    const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
     const { closeModal, openModal } = useModalContext();
 

@@ -153,7 +153,7 @@ const Content = memo(
                             )}
                         >
                             <Comp
-                                href={href || ''}
+                                href={href || '#'}
                                 className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/60"
                             >
                                 {image ? (
@@ -186,7 +186,7 @@ const Content = memo(
                         </AspectRatio>
                         {(title || description) && (
                             <Comp
-                                href={href || ''}
+                                href={href || '#'}
                                 className={cn(
                                     'mt-1',
                                     (leftSubtitle || rightSubtitle) &&

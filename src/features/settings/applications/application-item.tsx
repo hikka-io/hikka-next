@@ -1,4 +1,4 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { FC } from 'react';
 import MaterialSymbolsVerified from '~icons/material-symbols/verified';
 
@@ -20,7 +20,7 @@ interface Props {
 
 const ApplicationItem: FC<Props> = ({ client }) => {
     return (
-        <Card className="gap-6 justify-between">
+        <Card className="justify-between gap-6">
             <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <H5 className="line-clamp-1">{client.name}</H5>

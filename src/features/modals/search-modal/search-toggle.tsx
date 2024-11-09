@@ -25,7 +25,7 @@ interface Props {
     type?: API.ContentType | 'user';
     setType: (type: API.ContentType) => void;
     disabled?: boolean;
-    inputRef: React.RefObject<HTMLInputElement>;
+    inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
 const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
