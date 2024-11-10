@@ -96,7 +96,9 @@ const RootLayout = ({ children }: Props) => {
                 />
             </head>
             <body>
-                <Providers>{children}</Providers>
+                <div data-vaul-drawer-wrapper>
+                    <Providers>{children}</Providers>
+                </div>
                 <TailwindIndicator />
             </body>
         </html>
