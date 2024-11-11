@@ -41,22 +41,27 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <Label className="text-xs text-muted-foreground">
-                            {novel.year}
-                        </Label>
+                        {novel.year && (
+                            <>
+                                <Label className="text-xs text-muted-foreground">
+                                    {novel.year}
+                                </Label>
+                                <div className="size-1 rounded-full bg-muted-foreground" />
+                            </>
+                        )}
 
                         {novel.media_type && (
                             <>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
                                 <Label className="text-xs text-muted-foreground">
                                     {
                                         NOVEL_MEDIA_TYPE[novel.media_type]
                                             .title_ua
                                     }
                                 </Label>
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
-                        <div className="size-1 rounded-full bg-muted-foreground" />
+
                         <Badge
                             className="text-xs"
                             variant="status"
