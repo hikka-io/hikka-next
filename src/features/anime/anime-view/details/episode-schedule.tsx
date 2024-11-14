@@ -1,6 +1,4 @@
 import { format } from 'date-fns/format';
-import { formatDuration } from 'date-fns/formatDuration';
-import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
@@ -10,6 +8,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
+import getScheduleDuration from '@/utils/get-schedule-duration';
 
 interface Props {
     schedule: API.Schedule[];
@@ -47,12 +47,7 @@ const EpisodeSchedule: FC<Props> = ({ schedule }) => {
                     </TooltipTrigger>
                     <TooltipContent>
                         <P>
-                            {formatDuration(
-                                intervalToDuration({
-                                    start: nextEpisodeSchedule.airing_at * 1000,
-                                    end: Date.now(),
-                                }),
-                            )}
+                            {getScheduleDuration(nextEpisodeSchedule.airing_at)}
                         </P>
                     </TooltipContent>
                 </Tooltip>

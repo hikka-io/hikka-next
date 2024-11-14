@@ -1,6 +1,8 @@
-import { FormatDistanceToken } from 'date-fns';
-import { formatDuration } from 'date-fns/formatDuration';
-import { intervalToDuration } from 'date-fns/intervalToDuration';
+import {
+    FormatDistanceToken,
+    formatDuration,
+    intervalToDuration,
+} from 'date-fns';
 
 type Tokens = 'xSeconds' | 'xMinutes' | 'xHours' | 'xDays' | 'xMonths';
 
@@ -34,21 +36,22 @@ export const getShortLocale = () => ({
     },
 });
 
-const getScheduleDuration = (date: number, timeLeft: number) => {
+const getScheduleDuration = (date: number, timeLeft?: number) => {
     return formatDuration(
         intervalToDuration({
-            start: date * 1000,
-            end: Date.now(),
+            start: Date.now(),
+            end: date * 1000,
         }),
         {
-            format:
-                timeLeft > 31536000
+            format: timeLeft
+                ? timeLeft > 31536000
                     ? ['years', 'months']
                     : timeLeft > 2592000
                       ? ['months', 'days']
                       : timeLeft > 86400
                         ? ['days', 'hours']
-                        : ['hours', 'minutes'],
+                        : ['hours', 'minutes']
+                : undefined,
             locale: getShortLocale(),
         },
     );
