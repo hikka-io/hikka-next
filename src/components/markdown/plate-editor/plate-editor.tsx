@@ -165,7 +165,7 @@ const Editor = forwardRef(
                     )}
                     <PlateContent
                         className={cn(
-                            'px-2 pb-2 pt-1 focus:outline-none',
+                            'px-2 pb-2 focus:outline-none',
                             editorClassName,
                         )}
                         placeholder={placeholder || 'Напишіть повідомлення...'}
