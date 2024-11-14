@@ -6,9 +6,11 @@ import loginOAuth from '@/services/api/auth/loginOAuth';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const baseURL = searchParams.get('state') ? searchParams.get('state') : '/';
+    const code = searchParams.get('code');
+
     try {
-        const { searchParams } = new URL(request.url);
-        const code = searchParams.get('code');
         const res = await loginOAuth({
             params: {
                 code: String(code),
@@ -22,15 +24,13 @@ export async function GET(request: Request) {
     } catch (e) {
         if ('code' in (e as API.Error)) {
             return redirect(
-                '/anime?page=1&iPage=1&auth=error&provider=google&error=' +
+                `${baseURL}?auth=error&provider=google&error=` +
                     (e as API.Error).code,
             );
         }
 
-        return redirect(
-            '/anime?page=1&iPage=1&auth=error&provider=google&error=' + e,
-        );
+        return redirect(`${baseURL}?auth=error&provider=google&error=` + e);
     }
 
-    return redirect('/anime?page=1&iPage=1&auth=success&provider=google');
+    return redirect(`${baseURL}?auth=success&provider=google`);
 }
