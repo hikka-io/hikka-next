@@ -21,7 +21,6 @@ const inter = Inter({
 const unitySans = localFont({
     src: '../fonts/UnitySans-Basic.woff2',
     display: 'swap',
-    weight: '600',
     variable: '--font-unity-sans',
 });
 
