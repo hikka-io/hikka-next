@@ -10,7 +10,7 @@ interface Props {
     searchParams: Record<string, string>;
 }
 
-const MangaListPage: FC<Props> = async props => {
+const MangaListPage: FC<Props> = async (props) => {
     const searchParams = await props.searchParams;
     const page = searchParams.page;
 

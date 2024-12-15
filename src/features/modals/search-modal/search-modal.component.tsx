@@ -33,7 +33,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
-    const value = useDebounce({ value: searchValue, delay: 500 });
+    const { value } = useDebounce({ value: searchValue, delay: 500 });
 
     const onDismiss = (content: API.MainContent | API.User) => {
         setSearchValue('');

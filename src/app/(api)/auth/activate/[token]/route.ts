@@ -5,12 +5,13 @@ import activation from '@/services/api/auth/activation';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request, props: { params: Promise<{ token: string }> }) {
+export async function GET(
+    request: Request,
+    props: { params: Promise<{ token: string }> },
+) {
     const params = await props.params;
 
-    const {
-        token
-    } = params;
+    const { token } = params;
 
     try {
         const res = await activation({ params: { token } });

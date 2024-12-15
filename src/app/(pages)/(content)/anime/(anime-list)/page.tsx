@@ -10,7 +10,7 @@ interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const AnimeListPage: FC<Props> = async props => {
+const AnimeListPage: FC<Props> = async (props) => {
     const searchParams = await props.searchParams;
     const page = searchParams.page;
 

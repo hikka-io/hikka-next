@@ -5,8 +5,8 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
-import PlateEditor from '@/components/markdown/plate-editor/plate-editor';
+import PlateEditor from '@/components/markdown/editor/plate-editor';
+// import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -53,7 +53,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                         </MDViewer>
                     )}
                 />
-                {mode === 'view' &&
+                {/* {mode === 'view' &&
                     edit &&
                     edit.before![param.slug] &&
                     showDiff && (
@@ -62,7 +62,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                             current={edit.after![param.slug]}
                             previous={edit.before![param.slug]}
                         />
-                    )}
+                    )} */}
             </div>
         );
     }

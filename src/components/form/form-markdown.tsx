@@ -1,6 +1,8 @@
-import { PlateEditor as PlateEditorBase } from '@udecode/plate-common';
-import { forwardRef } from 'react';
+import { FC } from 'react';
 
+import BasePlateEditor, {
+    PlateEditorProps,
+} from '@/components/markdown/editor/plate-editor';
 import {
     FormControl,
     FormDescription,
@@ -12,44 +14,44 @@ import {
 
 import { cn } from '@/utils/utils';
 
-import PlateEditor, {
-    EditorProps,
-} from '../markdown/plate-editor/plate-editor';
-
-interface Props extends Omit<EditorProps, 'markdown'> {
+interface Props extends PlateEditorProps {
     name: string;
     label?: string;
     description?: string;
+    className?: string;
 }
 
-const FormMarkdown = forwardRef<PlateEditorBase, Props>(
-    ({ name, label, description, className, ...props }, ref) => {
-        return (
-            <FormField
-                name={name}
-                render={({ field }) => (
-                    <FormItem>
-                        {label && <FormLabel>{label}</FormLabel>}
-                        <FormControl>
-                            <PlateEditor
-                                {...props}
-                                ref={ref}
-                                value={field.value || ''}
-                                onChange={field.onChange}
-                                className={cn(className)}
-                            />
-                        </FormControl>
-                        <div className="space-y-2 px-3">
-                            {description && (
-                                <FormDescription>{description}</FormDescription>
-                            )}
-                            <FormMessage />
-                        </div>
-                    </FormItem>
-                )}
-            />
-        );
-    },
-);
+const FormMarkdown: FC<Props> = ({
+    name,
+    label,
+    description,
+    className,
+    ...props
+}) => {
+    return (
+        <FormField
+            name={name}
+            render={({ field }) => (
+                <FormItem>
+                    {label && <FormLabel>{label}</FormLabel>}
+                    <FormControl>
+                        <BasePlateEditor
+                            {...props}
+                            initialValue={field.value || ''}
+                            onValueChange={field.onChange}
+                            className={cn(className)}
+                        />
+                    </FormControl>
+                    <div className="space-y-2 px-3">
+                        {description && (
+                            <FormDescription>{description}</FormDescription>
+                        )}
+                        <FormMessage />
+                    </div>
+                </FormItem>
+            )}
+        />
+    );
+};
 
 export default FormMarkdown;

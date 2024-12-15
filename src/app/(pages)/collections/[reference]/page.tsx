@@ -20,16 +20,12 @@ import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
-export async function generateMetadata(
-    props: {
-        params: Promise<Record<string, any>>;
-    }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+    params: Promise<Record<string, any>>;
+}): Promise<Metadata> {
     const params = await props.params;
 
-    const {
-        reference
-    } = params;
+    const { reference } = params;
 
     try {
         const collection = await getCollection({
@@ -48,16 +44,12 @@ export async function generateMetadata(
     }
 }
 
-const CollectionPage = async (
-    props: {
-        params: Promise<Record<string, any>>;
-    }
-) => {
+const CollectionPage = async (props: {
+    params: Promise<Record<string, any>>;
+}) => {
     const params = await props.params;
 
-    const {
-        reference
-    } = params;
+    const { reference } = params;
 
     const queryClient = await getQueryClient();
 

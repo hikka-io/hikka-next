@@ -70,7 +70,7 @@ const useSelect = () => {
     return context;
 };
 
-type SelectProps = React.ComponentPropsWithoutRef<
+export type SelectProps = React.ComponentPropsWithoutRef<
     typeof PopoverPrimitive.Root
 > & {
     value?: string[];

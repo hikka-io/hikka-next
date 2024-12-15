@@ -19,20 +19,12 @@ import { prefetchEditTop } from '@/services/hooks/stats/edit/use-edit-top';
 import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
-const EditListPage = async (
-    props: {
-        searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-    }
-) => {
+const EditListPage = async (props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
     const searchParams = await props.searchParams;
 
-    const {
-        page,
-        content_type,
-        order,
-        sort,
-        edit_status
-    } = searchParams;
+    const { page, content_type, order, sort, edit_status } = searchParams;
 
     if (!page) {
         return permanentRedirect('/edit?page=1');

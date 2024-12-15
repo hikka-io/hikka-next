@@ -24,16 +24,12 @@ export async function generateMetadata(
     return await _generateMetadata();
 }
 
-const SettingsLayout: FC<Props> = async props => {
+const SettingsLayout: FC<Props> = async (props) => {
     const params = await props.params;
 
-    const {
-        slug
-    } = params;
+    const { slug } = params;
 
-    const {
-        children
-    } = props;
+    const { children } = props;
 
     const queryClient = getQueryClient();
 
