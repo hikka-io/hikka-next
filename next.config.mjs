@@ -10,9 +10,6 @@ const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
-    experimental: {
-        reactCompiler: true,
-    },
     images: {
         unoptimized: true,
         remotePatterns: [
