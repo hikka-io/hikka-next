@@ -347,18 +347,6 @@ td:last-child {
     @apply text-primary hover:underline;
 }
 
-.markdown ul {
-    @apply mb-4 ml-4 list-none;
-}
-
-.markdown ul li::before {
-    content: '\2022';
-    @apply -ml-4 inline-block w-4 font-bold text-accent;
-}
-
-.markdown ol {
-    @apply mb-4 list-decimal pl-6;
-}
 
 .markdown pre {
     @apply mb-4 overflow-scroll rounded-md border border-secondary/60 bg-secondary/30 p-4;
@@ -368,6 +356,19 @@ td:last-child {
 .markdown div:last-child {
     margin-bottom: 0;
 }
+
+.markdown blockquote {
+    @apply mt-6 border-l-2 pl-6 italic;
+}
+
+.markdown ol {
+    @apply ps-6 list-decimal mb-4;
+}
+
+.markdown ul {
+    @apply ps-6 list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square] mb-4;
+}
+
 
 .progress-ring__circle {
     transition: stroke-dasharray 0.35s;
