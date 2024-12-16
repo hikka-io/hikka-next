@@ -1,5 +1,6 @@
 'use client';
 
+import { Value } from '@udecode/plate-common';
 import {
     Plate,
     type PlateEditor as PlateEditorType,
@@ -19,9 +20,10 @@ export interface PlateEditorProps
         'onValueChange' | 'children' | 'editor'
     > {
     onValueChange?: (value: string) => void;
-    initialValue?: string;
+    initialValue?: string | Value;
     className?: string;
     placeholder?: string;
+    disableToolbar?: boolean;
     children?: React.ReactNode;
 }
 
@@ -30,10 +32,11 @@ const PlateEditor: FC<PlateEditorProps> = ({
     initialValue,
     className,
     placeholder,
+    disableToolbar,
     children,
     ...props
 }) => {
-    const editor = useCreateEditor({ initialValue });
+    const editor = useCreateEditor({ initialValue, disableToolbar });
 
     const onChange = useCallback(() => {
         if (onValueChange) {

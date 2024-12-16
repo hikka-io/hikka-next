@@ -2,6 +2,7 @@
 
 import { withProps } from '@udecode/cn';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
+import { Value } from '@udecode/plate-common';
 import {
     ParagraphPlugin,
     PlateElement,
@@ -22,14 +23,19 @@ import { ListElement } from '@/components/markdown/editor/plate-ui/list-element'
 import { SpoilerElement } from '@/components/markdown/editor/plate-ui/spoiler-element';
 
 import { editorPlugins } from './plugins';
+import { FixedToolbarPlugin } from './plugins/fixed-toolbar-plugin';
 import { deserializeMd } from './plugins/markdown-plugin/deserialize-md';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
 
 interface CreateEditorOptions {
-    initialValue?: string;
+    initialValue?: string | Value;
+    disableToolbar?: boolean;
 }
 
-export const useCreateEditor = ({ initialValue }: CreateEditorOptions) => {
+export const useCreateEditor = ({
+    initialValue,
+    disableToolbar,
+}: CreateEditorOptions) => {
     return usePlateEditor(
         {
             override: {
@@ -56,8 +62,14 @@ export const useCreateEditor = ({ initialValue }: CreateEditorOptions) => {
                     [SpoilerPlugin.key]: SpoilerElement,
                 },
             },
-            plugins: [...editorPlugins],
-            value: (editor) => deserializeMd({ editor, data: initialValue }),
+            plugins: [
+                ...editorPlugins,
+                ...(disableToolbar ? [] : [FixedToolbarPlugin]),
+            ],
+            value: (editor) =>
+                typeof initialValue === 'string'
+                    ? deserializeMd({ editor, data: initialValue })
+                    : initialValue,
         },
         [],
     );

@@ -14,12 +14,13 @@ import {
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 
 import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
-import { FixedToolbarPlugin } from './plugins/fixed-toolbar-plugin';
+import { DiffPlugin } from './plugins/diff-plugin';
 import { linkPlugin } from './plugins/link-plugin';
 import { MarkdownPlugin } from './plugins/markdown-plugin/markdown-plugin';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
 
 export const editorPlugins = [
+    DiffPlugin,
     BasicElementsPlugin,
     BasicMarksPlugin,
     linkPlugin,
@@ -30,7 +31,6 @@ export const editorPlugins = [
     SpoilerPlugin,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     MarkdownPlugin,
-    FixedToolbarPlugin,
     EmojiPlugin,
     SoftBreakPlugin.configure({
         options: {
