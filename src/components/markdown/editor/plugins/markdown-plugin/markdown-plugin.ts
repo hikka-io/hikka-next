@@ -9,7 +9,6 @@ const defaultDirectives = ['spoiler'];
 
 export const MarkdownPlugin = _MarkdownPlugin.configure({
     options: {
-        indentList: true,
         elementRules: {
             ...remarkDefaultElementRules,
             ['containerDirective' as MdastElementType]: {

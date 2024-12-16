@@ -2,15 +2,14 @@
 
 import { withRef, withVariants } from '@udecode/cn';
 import { cva } from 'class-variance-authority';
-import React from 'react';
 
 import { PlateElement } from './plate-element';
 
 const listVariants = cva('m-0 ps-6', {
     variants: {
         variant: {
-            ol: 'list-decimal',
-            ul: 'list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square]',
+            ol: 'list-decimal mb-4',
+            ul: 'list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square] mb-4',
         },
     },
 });
