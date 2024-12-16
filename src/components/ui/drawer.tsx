@@ -84,7 +84,7 @@ const DrawerTitle = React.forwardRef<
     <DrawerPrimitive.Title
         ref={ref}
         className={cn(
-            'text-lg font-semibold leading-none tracking-tight',
+            'text-lg font-display font-semibold leading-none tracking-tight',
             className,
         )}
         {...props}
@@ -106,13 +106,13 @@ DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 export {
     Drawer,
-    DrawerPortal,
-    DrawerOverlay,
-    DrawerTrigger,
     DrawerClose,
     DrawerContent,
-    DrawerHeader,
-    DrawerFooter,
-    DrawerTitle,
     DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerPortal,
+    DrawerTitle,
+    DrawerTrigger,
 };
