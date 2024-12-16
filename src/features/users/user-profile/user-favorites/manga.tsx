@@ -3,7 +3,6 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-
 import LoadMoreButton from '@/components/load-more-button';
 import MangaCard from '@/components/manga-card';
 import NotFound from '@/components/ui/not-found';

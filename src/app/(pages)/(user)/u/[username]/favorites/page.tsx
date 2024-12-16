@@ -6,7 +6,7 @@ import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
     props: { params: Promise<{ username: string }> },
-    parent: ResolvingMetadata
+    parent: ResolvingMetadata,
 ): Promise<Metadata> {
     const params = await props.params;
     const parentMetadata = await parent;

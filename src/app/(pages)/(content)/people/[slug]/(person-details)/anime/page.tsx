@@ -2,7 +2,10 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import Anime from '@/features/people/person-view/anime.component';
 
-export async function generateMetadata(props: { params: Promise<{ slug: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata(
+    props: { params: Promise<{ slug: string }> },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
     const params = await props.params;
     const parentMetadata = await parent;
 

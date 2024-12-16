@@ -27,7 +27,7 @@ interface Props {
     };
 }
 
-const CommentsPage: FC<Props> = async props => {
+const CommentsPage: FC<Props> = async (props) => {
     const params = await props.params;
     const queryClient = await getQueryClient();
 

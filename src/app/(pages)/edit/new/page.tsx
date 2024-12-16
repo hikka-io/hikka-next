@@ -21,13 +21,10 @@ interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const EditNewPage: FC<Props> = async props => {
+const EditNewPage: FC<Props> = async (props) => {
     const searchParams = await props.searchParams;
 
-    const {
-        content_type,
-        slug
-    } = searchParams;
+    const { content_type, slug } = searchParams;
 
     const queryClient = getQueryClient();
 

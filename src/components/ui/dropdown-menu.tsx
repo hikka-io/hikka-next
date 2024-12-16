@@ -3,6 +3,7 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { Check, ChevronRight, Circle } from 'lucide-react';
 import * as React from 'react';
+import { useCallback, useState } from 'react';
 
 import { cn } from '@/utils/utils';
 
@@ -147,7 +148,7 @@ const DropdownMenuLabel = React.forwardRef<
     <DropdownMenuPrimitive.Label
         ref={ref}
         className={cn(
-            'px-2 py-2.5 text-sm font-semibold',
+            'px-2 py-1.5 text-xs font-medium text-muted-foreground',
             inset && 'pl-8',
             className,
         )}
@@ -184,20 +185,37 @@ const DropdownMenuShortcut = ({
 };
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut';
 
+const useOpenState = () => {
+    const [open, setOpen] = useState(false);
+
+    const onOpenChange = useCallback(
+        (_value = !open) => {
+            setOpen(_value);
+        },
+        [open],
+    );
+
+    return {
+        open,
+        onOpenChange,
+    };
+};
+
 export {
     DropdownMenu,
-    DropdownMenuTrigger,
-    DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuCheckboxItem,
-    DropdownMenuRadioItem,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuGroup,
-    DropdownMenuPortal,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
-    DropdownMenuRadioGroup,
+    DropdownMenuTrigger,
+    useOpenState,
 };

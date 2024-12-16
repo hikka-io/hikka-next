@@ -82,9 +82,9 @@ const Component = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-8 items-start"
+                className="flex flex-col items-start gap-8"
             >
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <Header variant="h4" title="Коментарі" />
                     <FormSwitch
                         name="comment_reply"
@@ -112,7 +112,7 @@ const Component = () => {
                         className="w-full"
                     />
                 </div>
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <Header variant="h4" title="Оцінки" />
                     <FormSwitch
                         name="comment_vote"
@@ -127,7 +127,7 @@ const Component = () => {
                         className="w-full"
                     />
                 </div>
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <Header variant="h4" title="Правки" />
                     <FormSwitch
                         name="edit_accepted"
@@ -142,7 +142,7 @@ const Component = () => {
                         className="w-full"
                     />
                 </div>
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <Header variant="h4" title="Аніме" />
                     <FormSwitch
                         name="schedule_anime"
@@ -151,7 +151,7 @@ const Component = () => {
                         className="w-full"
                     />
                 </div>
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <Header variant="h4" title="Користувачі" />
                     <FormSwitch
                         name="follow"
@@ -160,7 +160,7 @@ const Component = () => {
                         className="w-full"
                     />
                 </div>
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <Header variant="h4" title="Інше" />
                     <FormSwitch
                         name="hikka_update"

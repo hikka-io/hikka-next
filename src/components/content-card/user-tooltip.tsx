@@ -7,6 +7,7 @@ import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsSecurity from '~icons/material-symbols/security';
 import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     HoverCard,
@@ -23,7 +24,6 @@ import useReadStats from '@/services/hooks/read/use-read-stats';
 import useUser from '@/services/hooks/user/use-user';
 import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import P from '../typography/p';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
@@ -104,26 +104,26 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                             </h4>
                             {(user?.role === 'admin' ||
                                 user?.role === 'moderator') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                            <div className="rounded-sm border border-accent/60 bg-accent/30 p-1 text-xs font-bold text-accent-foreground">
-                                                {user.role === 'admin' && (
-                                                    <MaterialSymbolsSecurity className="text-[#d0bfff]" />
-                                                )}
-                                                {user.role === 'moderator' && (
-                                                    <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
-                                                )}
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <P className="text-sm">
-                                                {user.role === 'admin'
-                                                    ? 'Адміністратор'
-                                                    : 'Модератор'}
-                                            </P>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger>
+                                        <div className="rounded-sm border border-accent/60 bg-accent/30 p-1 text-xs font-bold text-accent-foreground">
+                                            {user.role === 'admin' && (
+                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                            )}
+                                            {user.role === 'moderator' && (
+                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                            )}
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <P className="text-sm">
+                                            {user.role === 'admin'
+                                                ? 'Адміністратор'
+                                                : 'Модератор'}
+                                        </P>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
                         </div>
                     </div>
                     <FollowButton
@@ -159,15 +159,15 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             </div>
             <Separator className="-mx-4 w-auto" />
             <div className="flex justify-between text-sm font-semibold">
-                <div className="flex items-center gap-2 flex-1">
+                <div className="flex flex-1 items-center gap-2">
                     <MaterialAnimatedImages className="text-muted-foreground" />
                     {watchStats?.completed}
                 </div>
-                <div className="flex items-center gap-2 flex-1">
+                <div className="flex flex-1 items-center gap-2">
                     <MaterialSymbolsPalette className="text-muted-foreground" />
                     {mangaStats?.completed}
                 </div>
-                <div className="flex items-center gap-2 flex-1">
+                <div className="flex flex-1 items-center gap-2">
                     <MaterialSymbolsMenuBookRounded className="text-muted-foreground" />
                     {novelStats?.completed}
                 </div>

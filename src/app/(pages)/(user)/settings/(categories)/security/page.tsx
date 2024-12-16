@@ -12,7 +12,7 @@ interface Props {
     };
 }
 
-const SecuritySettingsPage: FC<Props> = async props => {
+const SecuritySettingsPage: FC<Props> = async (props) => {
     const params = await props.params;
     return (
         <div className="flex flex-col gap-8">

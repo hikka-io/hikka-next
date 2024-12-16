@@ -59,7 +59,7 @@ export const ConfirmEmail = () => {
             >
                 <Body
                     style={{ backgroundImage: 'linear-gradient(#000, #000)' }}
-                    className="body mx-auto my-auto bg-black font-sans"
+                    className="body m-auto bg-black font-sans"
                 >
                     <Container className="mx-auto my-[40px] w-[465px] rounded-lg border border-solid border-secondary p-8">
                         <Section className="py-4 text-left">
@@ -96,7 +96,7 @@ export const ConfirmEmail = () => {
                         </div>
                         <div className="gmail-blend-screen">
                             <div className="gmail-blend-difference">
-                                <Text className="text-[14px] leading-[20px] text-base-content">
+                                <Text className="text-base-content text-[14px] leading-[20px]">
                                     Якщо ви не реєструвались за цією електронною
                                     поштою, нема про що хвилюватися – ви можете
                                     сміливо його ігнорувати.

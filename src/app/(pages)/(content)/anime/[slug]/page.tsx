@@ -21,12 +21,10 @@ interface Props {
     };
 }
 
-const AnimePage: FC<Props> = async props => {
+const AnimePage: FC<Props> = async (props) => {
     const params = await props.params;
 
-    const {
-        slug
-    } = params;
+    const { slug } = params;
 
     const queryClient = getQueryClient();
 

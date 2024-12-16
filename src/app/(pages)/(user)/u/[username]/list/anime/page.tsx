@@ -17,7 +17,7 @@ import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(
     props: { params: Promise<{ username: string }> },
-    parent: ResolvingMetadata
+    parent: ResolvingMetadata,
 ): Promise<Metadata> {
     const params = await props.params;
     const parentMetadata = await parent;
@@ -34,19 +34,14 @@ interface Props {
     params: { username: string };
 }
 
-const ListPage: FC<Props> = async props => {
+const ListPage: FC<Props> = async (props) => {
     const params = await props.params;
 
-    const {
-        username
-    } = params;
+    const { username } = params;
 
     const searchParams = await props.searchParams;
 
-    const {
-        status,
-        sort
-    } = searchParams;
+    const { status, sort } = searchParams;
 
     if (!status || !sort) {
         if (!status) {
