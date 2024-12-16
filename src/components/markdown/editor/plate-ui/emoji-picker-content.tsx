@@ -92,15 +92,6 @@ export function EmojiPickerContent({
 }: EmojiPickerContentProps) {
     const getRowWidth = settings.perLine.value * settings.buttonSize.value;
 
-    const isCategoryVisible = useCallback(
-        (categoryId: any) => {
-            return visibleCategories.has(categoryId)
-                ? visibleCategories.get(categoryId)
-                : false;
-        },
-        [visibleCategories],
-    );
-
     const EmojiList = useCallback(() => {
         return emojiLibrary
             .getGrid()
@@ -126,18 +117,15 @@ export function EmojiPickerContent({
                                     section.getRows().length * buttonSize.value,
                             }}
                         >
-                            {isCategoryVisible(categoryId) &&
-                                section
-                                    .getRows()
-                                    .map((row: GridRow) => (
-                                        <RowOfButtons
-                                            key={row.id}
-                                            onMouseOver={onMouseOver}
-                                            onSelectEmoji={onSelectEmoji}
-                                            emojiLibrary={emojiLibrary}
-                                            row={row}
-                                        />
-                                    ))}
+                            {section.getRows().map((row: GridRow) => (
+                                <RowOfButtons
+                                    key={row.id}
+                                    onMouseOver={onMouseOver}
+                                    onSelectEmoji={onSelectEmoji}
+                                    emojiLibrary={emojiLibrary}
+                                    row={row}
+                                />
+                            ))}
                         </div>
                     </div>
                 );
@@ -146,7 +134,6 @@ export function EmojiPickerContent({
         emojiLibrary,
         getRowWidth,
         i18n.categories,
-        isCategoryVisible,
         onSelectEmoji,
         onMouseOver,
         settings,
