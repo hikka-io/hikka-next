@@ -78,7 +78,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                     <PlateEditor
                         placeholder={param.placeholder}
                         initialValue={value || ''}
-                        onChange={onChange}
+                        onValueChange={onChange}
                     />
                 )}
             />
