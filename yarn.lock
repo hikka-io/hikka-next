@@ -7189,7 +7189,7 @@ __metadata:
     tailwind-merge: "npm:^2.5.4"
     tailwindcss: "npm:3.4.14"
     tailwindcss-animate: "npm:^1.0.7"
-    typescript: "npm:^5.2.2"
+    typescript: "npm:5.7.2"
     unified: "npm:^11.0.5"
     unplugin-icons: "npm:^0.20.1"
     vaul: "npm:^1.1.1"
@@ -11702,7 +11702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.2.2":
+"typescript@npm:5.7.2":
   version: 5.7.2
   resolution: "typescript@npm:5.7.2"
   bin:
@@ -11722,7 +11722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.2.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.7.2#optional!builtin<compat/typescript>":
   version: 5.7.2
   resolution: "typescript@patch:typescript@npm%3A5.7.2#optional!builtin<compat/typescript>::version=5.7.2&hash=b45daf"
   bin:
