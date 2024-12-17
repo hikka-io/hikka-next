@@ -13,6 +13,7 @@ import {
 interface State {
     titleLanguage?: 'title_en' | 'title_ua' | 'title_ja';
     editTags?: string[];
+    snowflakes?: boolean;
 }
 
 interface ContextProps extends State {
