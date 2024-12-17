@@ -42,7 +42,7 @@ const DESCRIPTIONS: Record<
     comment_vote: (username: string) =>
         `Користувач **${username}** оцінив Ваш коментар`,
     comment_tag: (comment_author: string) =>
-        `Користувач ${comment_author} згадав Вас у коментарі`,
+        `Користувач **${comment_author}** згадав Вас у коментарі`,
     edit_comment: (username: string) =>
         `Користувач **${username}** залишив коментар`,
     collection_comment: (username: string) =>

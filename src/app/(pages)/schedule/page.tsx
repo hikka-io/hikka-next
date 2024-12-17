@@ -29,7 +29,8 @@ interface Props {
     searchParams: Record<string, any>;
 }
 
-const ScheduleListPage: FC<Props> = async ({ searchParams }) => {
+const ScheduleListPage: FC<Props> = async (props) => {
+    const searchParams = await props.searchParams;
     const queryClient = await getQueryClient();
 
     const only_watch = searchParams.only_watch || undefined;

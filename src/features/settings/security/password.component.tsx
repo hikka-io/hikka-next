@@ -44,7 +44,9 @@ const Component = () => {
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
         mutation.mutate({
-            params: data,
+            params: {
+                password: data.password,
+            },
         });
     };
 

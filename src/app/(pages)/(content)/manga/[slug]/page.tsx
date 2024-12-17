@@ -15,7 +15,8 @@ interface Props {
     };
 }
 
-const MangaPage: FC<Props> = async ({ params }) => {
+const MangaPage: FC<Props> = async (props) => {
+    const params = await props.params;
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">

@@ -5,6 +5,7 @@ import MaterialSymbolsСomputerOutlineRounded from '~icons/material-symbols/comp
 import MaterialSymbolsNightlightOutlineRounded from '~icons/material-symbols/nightlight-outline-rounded';
 import MaterialSymbolsSunnyOutlineRounded from '~icons/material-symbols/sunny-outline-rounded';
 
+import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -15,11 +16,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 
 import { useSettingsContext } from '@/services/providers/settings-provider';
 
 const Component = () => {
-    const { titleLanguage, setState: setSettingsState } = useSettingsContext();
+    const {
+        titleLanguage,
+        snowflakes,
+        setState: setSettingsState,
+    } = useSettingsContext();
     const { setTheme, theme } = useTheme();
 
     const handleChangeTitleLanguage = (value: string[]) =>
@@ -34,6 +40,13 @@ const Component = () => {
                   }
                 : prev,
         );
+
+    const handleChangeSnowflakes = (value: boolean) => {
+        setSettingsState!((prev) => ({
+            ...prev,
+            snowflakes: value,
+        }));
+    };
 
     return (
         <div className="flex w-full flex-col gap-6">
@@ -96,6 +109,18 @@ const Component = () => {
                         </SelectList>
                     </SelectContent>
                 </Select>
+            </div>
+            <div className="flex w-full flex-row items-center justify-between gap-2">
+                <div className="flex flex-col">
+                    <Label>Сніжинки ❄️</Label>
+                    <Small className="text-muted-foreground">
+                        Включити анімацію сніжинок на сайті
+                    </Small>
+                </div>
+                <Switch
+                    checked={snowflakes}
+                    onCheckedChange={handleChangeSnowflakes}
+                />
             </div>
         </div>
     );

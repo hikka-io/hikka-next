@@ -7,6 +7,7 @@ import MaterialSymbolsPalette from '~icons/material-symbols/palette';
 import MaterialSymbolsSecurity from '~icons/material-symbols/security';
 import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     HoverCard,
@@ -131,9 +132,14 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                         iconOnly
                     />
                 </div>
-                <p className="line-clamp-1 text-xs text-muted-foreground">
-                    {user?.description}
-                </p>
+                {user?.description && (
+                    <MDViewer
+                        disableSpoiler
+                        className="line-clamp-1 text-xs text-muted-foreground"
+                    >
+                        {user.description}
+                    </MDViewer>
+                )}
             </div>
             <div className="flex gap-4 text-xs">
                 <span className="font-bold">
@@ -153,15 +159,15 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             </div>
             <Separator className="-mx-4 w-auto" />
             <div className="flex justify-between text-sm font-semibold">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-1 items-center gap-2">
                     <MaterialAnimatedImages className="text-muted-foreground" />
                     {watchStats?.completed}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-1 items-center gap-2">
                     <MaterialSymbolsPalette className="text-muted-foreground" />
                     {mangaStats?.completed}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-1 items-center gap-2">
                     <MaterialSymbolsMenuBookRounded className="text-muted-foreground" />
                     {novelStats?.completed}
                 </div>

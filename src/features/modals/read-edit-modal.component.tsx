@@ -60,7 +60,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        values: read,
+        defaultValues: read,
     });
 
     const onDelete = async () => {

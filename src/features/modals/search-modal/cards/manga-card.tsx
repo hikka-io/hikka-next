@@ -41,22 +41,27 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <Label className="text-xs text-muted-foreground">
-                            {manga.year}
-                        </Label>
+                        {manga.year && (
+                            <>
+                                <Label className="text-xs text-muted-foreground">
+                                    {manga.year}
+                                </Label>
+                                <div className="size-1 rounded-full bg-muted-foreground" />
+                            </>
+                        )}
 
                         {manga.media_type && (
                             <>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
                                 <Label className="text-xs text-muted-foreground">
                                     {
                                         MANGA_MEDIA_TYPE[manga.media_type]
                                             .title_ua
                                     }
                                 </Label>
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
-                        <div className="size-1 rounded-full bg-muted-foreground" />
+
                         <Badge
                             className="text-xs"
                             variant="status"

@@ -17,7 +17,8 @@ interface Props {
     searchParams: Record<string, any>;
 }
 
-const FollowingHistoryPage: FC<Props> = async ({ searchParams }) => {
+const FollowingHistoryPage: FC<Props> = async (props) => {
+    const searchParams = await props.searchParams;
     const queryClient = await getQueryClient();
 
     await prefetchGlobalComments();

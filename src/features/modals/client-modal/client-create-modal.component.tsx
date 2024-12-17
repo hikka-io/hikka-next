@@ -35,7 +35,7 @@ const Component = () => {
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col gap-6"
             >
-                <div className="flex flex-col gap-6 w-full">
+                <div className="flex w-full flex-col gap-6">
                     <FormInput
                         name="name"
                         label="Назва застосунку"

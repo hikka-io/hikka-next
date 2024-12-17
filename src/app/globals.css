@@ -83,7 +83,12 @@
         --radius: 0.625rem;
 
         & body {
-            background-image: linear-gradient(180deg, #160820 0%, #000 60%, #000 100%);
+            background-image: linear-gradient(
+                180deg,
+                #160820 0%,
+                #000 60%,
+                #000 100%
+            );
         }
 
         & .no-gradient {
@@ -98,13 +103,13 @@
     }
 
     body {
-        @apply bg-background text-foreground bg-no-repeat;
+        @apply bg-background bg-no-repeat text-foreground;
         background-size: 100% 100vh;
     }
 }
 
 @layer utilities {
-    .grid-min-1, {
+    .grid-min-1 {
         --grid-min: 1rem;
     }
 
@@ -115,7 +120,7 @@
     .grid-min-3 {
         --grid-min: 3.5rem;
     }
-    
+
     .grid-min-4 {
         --grid-min: 4rem;
     }
@@ -175,10 +180,19 @@
     .grid-max-22 {
         --grid-max: 22rem;
     }
+    .contain-paint {
+        contain: paint;
+    }
 }
 
 .logo {
     background-image: url(/logo-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dark .logo-full {
+    background-image: url(/logo-dark.svg);
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -190,6 +204,12 @@
 }
 
 @media screen(md) {
+    .dark .logo {
+        background-image: url(/logo-dark.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
     .logo {
         background-image: url(/logo.svg);
         background-size: contain;
@@ -206,7 +226,6 @@
     scrollbar-width: none; /* Firefox */
 }
 
-
 @keyframes snack-progress {
     0% {
         height: 100%;
@@ -216,12 +235,10 @@
     }
 }
 
-
 .snackbar-timer {
     animation: snack-progress 3000ms;
     animation-fill-mode: forwards;
 }
-
 
 main {
     min-height: calc(100vh - 16.5rem);
@@ -232,11 +249,13 @@ main {
     width: 100%;
 }
 
-table th:first-child, td:first-child {
+table th:first-child,
+td:first-child {
     @apply rounded-l-md;
 }
 
-table th:last-child, td:last-child {
+table th:last-child,
+td:last-child {
     @apply rounded-r-md;
 }
 
@@ -252,38 +271,52 @@ table th:last-child, td:last-child {
     box-sizing: content-box;
     --value: 0;
     --size: 5rem;
-    --thickness: calc(var(--size) / 10)
+    --thickness: calc(var(--size) / 10);
 }
 
 .radial-progress::-moz-progress-bar {
     -moz-appearance: none;
     appearance: none;
-    background-color: transparent
+    background-color: transparent;
 }
 
-.radial-progress::-webkit-progress-bar, .radial-progress::-webkit-progress-value {
+.radial-progress::-webkit-progress-bar,
+.radial-progress::-webkit-progress-value {
     -webkit-appearance: none;
     appearance: none;
-    background-color: transparent
+    background-color: transparent;
 }
 
-.radial-progress:after, .radial-progress:before {
+.radial-progress:after,
+.radial-progress:before {
     position: absolute;
     border-radius: 9999px;
-    content: ""
+    content: '';
 }
 
 .radial-progress:before {
     inset: 0;
-    background: radial-gradient(farthest-side, currentColor 98%, #0000) top/var(--thickness) var(--thickness) no-repeat, conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
-    -webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - var(--thickness)), #000 calc(100% - var(--thickness)));
-    mask: radial-gradient(farthest-side, #0000 calc(99% - var(--thickness)), #000 calc(100% - var(--thickness)))
+    background:
+        radial-gradient(farthest-side, currentColor 98%, #0000)
+            top/var(--thickness) var(--thickness) no-repeat,
+        conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
+    -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--thickness)),
+        #000 calc(100% - var(--thickness))
+    );
+    mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--thickness)),
+        #000 calc(100% - var(--thickness))
+    );
 }
 
 .radial-progress:after {
     inset: calc(50% - var(--thickness) / 2);
-    transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size) / 2 - 50%));
-    background-color: currentColor
+    transform: rotate(calc(var(--value) * 3.6deg - 90deg))
+        translate(calc(var(--size) / 2 - 50%));
+    background-color: currentColor;
 }
 
 .loading {
@@ -297,14 +330,14 @@ table th:last-child, td:last-child {
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    mask-position: center
+    mask-position: center;
 }
 
-.loading, .loading-spinner {
+.loading,
+.loading-spinner {
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E")
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
-
 
 .markdown p {
     @apply mb-4 break-words;
@@ -314,26 +347,28 @@ table th:last-child, td:last-child {
     @apply text-primary hover:underline;
 }
 
-.markdown ul {
-    @apply mb-4 ml-4 list-none;
+
+.markdown pre {
+    @apply mb-4 overflow-scroll rounded-md border border-secondary/60 bg-secondary/30 p-4;
 }
 
-.markdown ul li::before {
-    content: '\2022';
-    @apply -ml-4 inline-block w-4 font-bold text-accent;
+.markdown p:last-child,
+.markdown div:last-child {
+    margin-bottom: 0;
+}
+
+.markdown blockquote {
+    @apply mt-6 border-l-2 pl-6 italic;
 }
 
 .markdown ol {
-    @apply mb-4 pl-6 list-decimal;
+    @apply ps-6 list-decimal mb-4;
 }
 
-.markdown pre {
-    @apply overflow-scroll p-4 border border-secondary/60 bg-secondary/30 rounded-md mb-4;
+.markdown ul {
+    @apply ps-6 list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square] mb-4;
 }
 
-.markdown p:last-child, .markdown div:last-child {
-    margin-bottom: 0;
-}
 
 .progress-ring__circle {
     transition: stroke-dasharray 0.35s;

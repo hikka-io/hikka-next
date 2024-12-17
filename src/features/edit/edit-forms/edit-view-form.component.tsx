@@ -34,7 +34,7 @@ interface Props {
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const queryClient = useQueryClient();
     const { data: edit } = useEdit({ edit_id: Number(editId) });
-    const captchaRef = useRef<TurnstileInstance>();
+    const captchaRef = useRef<TurnstileInstance>(null);
 
     const router = useRouter();
 

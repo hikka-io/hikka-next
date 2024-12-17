@@ -19,7 +19,8 @@ interface Props {
     };
 }
 
-const OAuthPage: FC<Props> = async ({ searchParams }) => {
+const OAuthPage: FC<Props> = async (props) => {
+    const searchParams = await props.searchParams;
     if (!searchParams.reference || !searchParams.scope) {
         return permanentRedirect('/');
     }

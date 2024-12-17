@@ -2,10 +2,7 @@
 
 import * as React from 'react';
 import { FC } from 'react';
-import {
-    UseFormGetValues,
-    UseFormSetValue,
-} from 'react-hook-form/dist/types/form';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
 import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';

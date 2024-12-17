@@ -16,7 +16,8 @@ interface Props {
     };
 }
 
-const ApplicationsSettingsPage: FC<Props> = async ({ params }) => {
+const ApplicationsSettingsPage: FC<Props> = async (props) => {
+    const params = await props.params;
     const queryClient = getQueryClient();
 
     await prefetchClients();

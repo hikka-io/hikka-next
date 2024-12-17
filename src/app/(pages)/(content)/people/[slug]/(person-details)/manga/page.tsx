@@ -3,9 +3,10 @@ import { Metadata, ResolvingMetadata } from 'next';
 import Manga from '@/features/people/person-view/manga.component';
 
 export async function generateMetadata(
-    { params }: { params: { slug: string } },
+    props: { params: Promise<{ slug: string }> },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const params = await props.params;
     const parentMetadata = await parent;
 
     return {

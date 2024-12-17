@@ -5,9 +5,10 @@ import Favorites from '@/features/users/user-profile/user-favorites/user-favorit
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
-    { params }: { params: { username: string } },
+    props: { params: Promise<{ username: string }> },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const params = await props.params;
     const parentMetadata = await parent;
 
     return _generateMetadata({

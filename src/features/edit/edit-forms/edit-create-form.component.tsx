@@ -39,7 +39,7 @@ const EditForm: FC<Props> = ({
     content,
     mode = 'edit',
 }) => {
-    const captchaRef = useRef<TurnstileInstance>();
+    const captchaRef = useRef<TurnstileInstance>(undefined);
 
     const router = useRouter();
 

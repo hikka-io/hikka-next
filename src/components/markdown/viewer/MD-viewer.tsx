@@ -33,6 +33,7 @@ const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
             ]}
             components={{
                 spoiler: disableSpoiler ? NoSpoiler : Spoiler,
+                // @ts-ignore
                 a: ({ node, children }) => (
                     <Link
                         href={(node?.properties?.href as string) || ''}

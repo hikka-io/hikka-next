@@ -18,10 +18,10 @@ const inter = Inter({
     variable: '--font-inter',
 });
 
-const fixelDisplay = localFont({
-    src: '../fonts/FixelDisplay-SemiBold.woff2',
+const unitySans = localFont({
+    src: '../fonts/UnitySans-Basic.woff2',
     display: 'swap',
-    variable: '--font-fixel-display',
+    variable: '--font-unity-sans',
 });
 
 export const metadata: Metadata = {
@@ -81,7 +81,7 @@ interface Props {
 const RootLayout = ({ children }: Props) => {
     return (
         <html
-            className={`${inter.variable} ${fixelDisplay.variable}`}
+            className={`${inter.variable} ${unitySans.variable}`}
             lang="uk"
             data-theme="dark"
             suppressHydrationWarning
@@ -96,7 +96,9 @@ const RootLayout = ({ children }: Props) => {
                 />
             </head>
             <body>
-                <Providers>{children}</Providers>
+                <div data-vaul-drawer-wrapper>
+                    <Providers>{children}</Providers>
+                </div>
                 <TailwindIndicator />
             </body>
         </html>

@@ -1,6 +1,6 @@
 'use client';
 
-import formatDistance from 'date-fns/formatDistance';
+import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 import BxBxsUpvote from '~icons/bx/bxs-upvote';
@@ -96,7 +96,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                     ))}
                 </div>
             )}
-            <Stack size={7} className="grid-min-10 -my-4 py-5">
+            <Stack size={7} className="grid-min-10 py-5">
                 {collection.collection.map((item) => (
                     <ContentCard
                         containerClassName={cn(

@@ -1,6 +1,6 @@
 'use client';
 
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -35,7 +35,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
                     </Label>
 
                     {user.active && (
-                        <div className="-bottom-2 -right-2 z-[1] size-2 rounded-full border-1 border-secondary bg-success" />
+                        <div className="-bottom-2 -right-2 z-[1] size-2 rounded-full border border-secondary bg-success" />
                     )}
 
                     {(user.role === 'admin' || user.role === 'moderator') && (

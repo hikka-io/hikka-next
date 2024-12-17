@@ -3,7 +3,7 @@
 import { MutationCache, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { uk } from 'date-fns/locale';
-import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { FC, PropsWithChildren, useState } from 'react';

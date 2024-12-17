@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json yarn.lock .yarnrc.yml ./
-RUN corepack enable yarn && yarn install --immutable
+RUN corepack enable yarn && yarn install
 
 # Rebuild the source code only when needed
 FROM deps AS builder

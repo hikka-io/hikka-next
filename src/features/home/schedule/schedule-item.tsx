@@ -2,11 +2,10 @@
 
 import { FC, memo } from 'react';
 
-import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
 import HorizontalContentCard from '@/components/ui/horizontal-content-card';
 
 import getScheduleDuration from '@/utils/get-schedule-duration';
-import { cn } from '@/utils/utils';
 
 interface Props {
     item: API.AnimeSchedule;
@@ -17,32 +16,13 @@ const ScheduleItem: FC<Props> = ({ item }) => {
         <HorizontalContentCard
             size="sm"
             title={item.anime.title!}
+            description={getScheduleDuration(item.airing_at, item.time_left)}
             href={`/anime/${item.anime.slug}`}
             image={item.anime.image}
         >
-            <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
-                <div className="flex flex-1 flex-col">
-                    <div className="flex justify-between gap-4">
-                        <P
-                            className={cn(
-                                'text-sm',
-                                item.time_left <= 0 && 'text-muted-foreground',
-                            )}
-                        >
-                            {getScheduleDuration(
-                                item.airing_at,
-                                item.time_left,
-                            )}
-                        </P>
-                        <P className="text-sm">
-                            <span className="font-bold text-foreground">
-                                {item.episode}
-                            </span>{' '}
-                            епізод
-                        </P>
-                    </div>
-                </div>
-            </div>
+            <Small className="text-muted-foreground opacity-60">
+                <span className="font-bold">{item.episode}</span> епізод
+            </Small>
         </HorizontalContentCard>
     );
 };

@@ -26,7 +26,7 @@ module.exports = {
             },
             fontFamily: {
                 sans: ['var(--font-inter)'],
-                display: ['var(--font-fixel-display)'],
+                display: ['var(--font-unity-sans)'],
             },
             colors: {
                 border: 'hsl(var(--border))',

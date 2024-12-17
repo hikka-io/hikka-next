@@ -1,11 +1,12 @@
 'use client';
 
-import clsx from 'clsx';
 import * as React from 'react';
 import { ReactNode, cloneElement } from 'react';
 import MaterialSymbolsSearch from '~icons/material-symbols/search';
 
 import { Button } from '@/components/ui/button';
+
+import { cn } from '@/utils/utils';
 
 interface Props {
     setOpen: (open: boolean) => void;
@@ -15,6 +16,7 @@ interface Props {
 const Component = ({ setOpen, children }: Props) => {
     return children ? (
         cloneElement(children as React.ReactElement, {
+            //@ts-ignore
             onClick: () => setOpen(true),
         })
     ) : (
@@ -22,7 +24,7 @@ const Component = ({ setOpen, children }: Props) => {
             size="md"
             variant="outline"
             onClick={() => setOpen(true)}
-            className={clsx(
+            className={cn(
                 'bg-secondary/30 hover:!bg-secondary/60',
                 'lg:w-48 lg:justify-between lg:font-normal lg:!text-foreground/60',
                 'transition-all duration-200',

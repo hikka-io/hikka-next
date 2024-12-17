@@ -6,9 +6,10 @@ import Franchise from '@/features/franchise/franchise.component';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
-    { params }: { params: { slug: string } },
+    props: { params: Promise<{ slug: string }> },
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const params = await props.params;
     const parentMetadata = await parent;
 
     return _generateMetadata({
@@ -18,11 +19,13 @@ export async function generateMetadata(
     });
 }
 
-const NovelFranchisePage = async ({
-    searchParams: { content_types },
-}: {
-    searchParams: Record<string, any>;
+const NovelFranchisePage = async (props: {
+    searchParams: Promise<Record<string, any>>;
 }) => {
+    const searchParams = await props.searchParams;
+
+    const { content_types } = searchParams;
+
     if (!content_types) {
         return permanentRedirect(
             '?content_types=anime&content_types=manga&content_types=novel',

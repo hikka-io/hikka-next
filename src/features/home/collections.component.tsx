@@ -48,7 +48,7 @@ const Collections: FC<Props> = ({ className }) => {
                             image={item.collection[0].content.image}
                             href={`/collections/${item.reference}`}
                             titleClassName={cn(
-                                item.spoiler && 'spoiler-blur-md',
+                                item.spoiler && 'spoiler-blur-sm',
                             )}
                             containerClassName={cn(
                                 item.nsfw && 'spoiler-blur-md',

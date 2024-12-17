@@ -30,10 +30,18 @@ export async function generateMetadata(
     props: MetadataProps,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    return await _generateMetadata(props, parent);
+    const params = await props.params;
+
+    return await _generateMetadata({ params }, parent);
 }
 
-const CharacterLayout: FC<Props> = async ({ params: { slug }, children }) => {
+const CharacterLayout: FC<Props> = async (props) => {
+    const params = await props.params;
+
+    const { slug } = params;
+
+    const { children } = props;
+
     const queryClient = await getQueryClient();
 
     await prefetchCharacterInfo({ slug });

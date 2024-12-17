@@ -35,7 +35,8 @@ interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const CollectionsPage: FC<Props> = async ({ searchParams }) => {
+const CollectionsPage: FC<Props> = async (props) => {
+    const searchParams = await props.searchParams;
     const page = searchParams.page;
     const sort =
         (searchParams.sort as 'system_ranking' | 'created') || 'system_ranking';
