@@ -647,5 +647,18 @@ declare global {
             secret: string;
             endpoint: string;
         };
+
+        type ArticleCategory = 'news';
+
+        type Article = {
+            author: API.User;
+            cover: string;
+            tags: string[];
+            category: API.ArticleCategory;
+            draft: boolean;
+            title: string;
+            text: string;
+            slug: string;
+        };
     }
 }
