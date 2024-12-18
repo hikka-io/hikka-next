@@ -18,9 +18,6 @@ import Moderator from '@/features/edit/edit-moderator.component';
 import EditStatus from '@/features/edit/edit-status.component';
 
 import getEdit from '@/services/api/edit/getEdit';
-import { prefetchCharacterAnime } from '@/services/hooks/characters/use-character-anime';
-import { prefetchCharacterManga } from '@/services/hooks/characters/use-character-manga';
-import { prefetchCharacterNovel } from '@/services/hooks/characters/use-character-novel';
 import { prefetchComments } from '@/services/hooks/comments/use-comments';
 import { key, prefetchEdit } from '@/services/hooks/edit/use-edit';
 import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
@@ -68,12 +65,6 @@ const EditLayout: FC<Props> = async (props) => {
 
     if (!edit) {
         permanentRedirect('/edit');
-    }
-
-    if (edit.content.data_type === 'character') {
-        await prefetchCharacterAnime({ slug: edit.content.slug });
-        await prefetchCharacterManga({ slug: edit.content.slug });
-        await prefetchCharacterNovel({ slug: edit.content.slug });
     }
 
     await prefetchComments({ slug: editId, content_type: 'edit' });
