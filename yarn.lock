@@ -4283,7 +4283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/plate-reset-node@npm:40.0.0":
+"@udecode/plate-reset-node@npm:40.0.0, @udecode/plate-reset-node@npm:^40.0.0":
   version: 40.0.0
   resolution: "@udecode/plate-reset-node@npm:40.0.0"
   peerDependencies:
@@ -4296,6 +4296,22 @@ __metadata:
     slate-hyperscript: ">=0.66.0"
     slate-react: ">=0.111.0"
   checksum: 10c0/9cbe4995dab6c6af5cfe05fb8b4adfb72878c5176ac00df101e6b78d5dad4069ed71d843a915252cc9b5c07d92b65bcddc2c7c113f55b8d8c3396b2b036cf65a
+  languageName: node
+  linkType: hard
+
+"@udecode/plate-select@npm:^40.0.0":
+  version: 40.0.0
+  resolution: "@udecode/plate-select@npm:40.0.0"
+  peerDependencies:
+    "@udecode/plate-common": ">=40.0.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    slate: ">=0.103.0"
+    slate-dom: ">=0.111.0"
+    slate-history: ">=0.93.0"
+    slate-hyperscript: ">=0.66.0"
+    slate-react: ">=0.111.0"
+  checksum: 10c0/4c02bc6c16cdf66fbf455098e935db2726eba3845a6f4402e1234ddc760a2ca30f4116b9827cdd83a205ea18e22f18935cb047169df375d59ff91fee4ab1ad19
   languageName: node
   linkType: hard
 
@@ -7336,6 +7352,8 @@ __metadata:
     "@udecode/plate-link": "npm:^40.0.0"
     "@udecode/plate-list": "npm:^40.0.0"
     "@udecode/plate-markdown": "npm:^40.2.2"
+    "@udecode/plate-reset-node": "npm:^40.0.0"
+    "@udecode/plate-select": "npm:^40.0.0"
     "@udecode/plate-selection": "npm:^40.2.9"
     "@udecode/plate-trailing-block": "npm:^40.0.0"
     autoprefixer: "npm:10.4.15"

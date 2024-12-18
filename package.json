@@ -64,6 +64,8 @@
         "@udecode/plate-link": "^40.0.0",
         "@udecode/plate-list": "^40.0.0",
         "@udecode/plate-markdown": "^40.2.2",
+        "@udecode/plate-reset-node": "^40.0.0",
+        "@udecode/plate-select": "^40.0.0",
         "@udecode/plate-selection": "^40.2.9",
         "@udecode/plate-trailing-block": "^40.0.0",
         "babel-plugin-react-compiler": "19.0.0-beta-201e55d-20241215",
