@@ -13,7 +13,7 @@ export const paramsBuilder = (props: Params): Params => ({
 
 export const key = (params: Params): QueryKey => ['articles', params];
 
-const useCollections = (props: Params, options?: Hikka.QueryOptions) => {
+const useArticles = (props: Params, options?: Hikka.QueryOptions) => {
     const params = paramsBuilder(props);
 
     return useQuery({
@@ -32,7 +32,7 @@ const useCollections = (props: Params, options?: Hikka.QueryOptions) => {
     });
 };
 
-export const prefetchCollections = (props: Params) => {
+export const prefetchArticles = (props: Params) => {
     const queryClient = getQueryClient();
     const params = paramsBuilder(props);
 
@@ -45,4 +45,4 @@ export const prefetchCollections = (props: Params) => {
     });
 };
 
-export default useCollections;
+export default useArticles;
