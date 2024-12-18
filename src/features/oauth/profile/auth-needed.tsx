@@ -18,12 +18,12 @@ const AuthNeeded: FC<Props> = () => {
     const { openModal } = useModalContext();
 
     return (
-        <Card className="flex-row items-center justify-between w-full">
+        <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
                 <MaterialSymbolsLoginRounded className="text-3xl text-muted-foreground" />
-                <div className="flex flex-col flex-1">
+                <div className="flex flex-1 flex-col">
                     <Header titleClassName="line-clamp-1" title="Авторизація" />
-                    <P className="text-sm text-muted-foreground line-clamp-2">
+                    <P className="line-clamp-2 text-sm text-muted-foreground">
                         Вам необіхдно авторизуватись, перш ніж надати доступ
                     </P>
                 </div>

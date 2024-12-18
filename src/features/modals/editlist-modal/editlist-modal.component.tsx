@@ -46,7 +46,7 @@ const Component = ({ content_type, slug }: Props) => {
 
     return (
         <>
-            <div className={cn('relative py-4 px-6')}>
+            <div className={cn('relative px-6 py-4')}>
                 <Button variant="secondary" className="w-full" asChild>
                     <Link
                         href={`/edit/new?slug=${slug}&content_type=${content_type}`}

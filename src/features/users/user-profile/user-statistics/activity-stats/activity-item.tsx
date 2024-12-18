@@ -1,5 +1,5 @@
-import format from 'date-fns/format';
-import toDate from 'date-fns/toDate';
+import { format } from 'date-fns/format';
+import { toDate } from 'date-fns/toDate';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';

@@ -20,11 +20,13 @@ import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
-export async function generateMetadata({
-    params: { reference },
-}: {
-    params: Record<string, any>;
+export async function generateMetadata(props: {
+    params: Promise<Record<string, any>>;
 }): Promise<Metadata> {
+    const params = await props.params;
+
+    const { reference } = params;
+
     try {
         const collection = await getCollection({
             params: {
@@ -42,11 +44,13 @@ export async function generateMetadata({
     }
 }
 
-const CollectionPage = async ({
-    params: { reference },
-}: {
-    params: Record<string, any>;
+const CollectionPage = async (props: {
+    params: Promise<Record<string, any>>;
 }) => {
+    const params = await props.params;
+
+    const { reference } = params;
+
     const queryClient = await getQueryClient();
 
     await prefetchCollection({ reference });

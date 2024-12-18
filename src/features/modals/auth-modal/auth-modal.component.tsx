@@ -20,7 +20,7 @@ const Component = ({
     const onOAuthSubmit = async () => {
         try {
             const res = await getOAuth({ params: { provider: 'google' } });
-            window.location.href = res.url;
+            window.location.href = res.url + `&state=${window.location.href}`;
             return;
         } catch (e) {
             return;

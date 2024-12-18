@@ -1,7 +1,7 @@
 'use client';
 
-import formatDuration from 'date-fns/formatDuration';
-import intervalToDuration from 'date-fns/intervalToDuration';
+import { formatDuration } from 'date-fns/formatDuration';
+import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
 import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-10';
 

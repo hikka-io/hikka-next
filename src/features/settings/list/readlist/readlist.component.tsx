@@ -51,7 +51,7 @@ const Component = () => {
     };
 
     return (
-        <div className="flex flex-col gap-6 items-start">
+        <div className="flex flex-col items-start gap-6">
             <General readList={readList} setReadList={setReadList} />
 
             <div className="flex w-full items-center justify-between space-x-2">

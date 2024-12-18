@@ -8,7 +8,7 @@ export default function remarkDisableTokenizer() {
 
     micromarkExtensions.push({
         disable: {
-            null: ['codeIndented', 'codeFenced', 'codeText', 'list'],
+            null: ['codeIndented', 'codeFenced', 'codeText'],
         },
     });
 }

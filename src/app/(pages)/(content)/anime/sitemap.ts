@@ -1,4 +1,4 @@
-import toDate from 'date-fns/toDate';
+import { toDate } from 'date-fns/toDate';
 import { MetadataRoute } from 'next';
 
 import getAnimeSitemap from '@/services/api/sitemap/getAnimeSitemap';

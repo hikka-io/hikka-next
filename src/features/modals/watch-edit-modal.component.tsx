@@ -55,7 +55,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        values: watch,
+        defaultValues: watch,
     });
 
     const onDelete = async () => {

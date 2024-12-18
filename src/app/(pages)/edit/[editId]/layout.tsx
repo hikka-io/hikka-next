@@ -33,13 +33,12 @@ interface Props {
     children: React.ReactNode;
 }
 
-export async function generateMetadata({
-    params,
-}: {
-    params: {
+export async function generateMetadata(props: {
+    params: Promise<{
         editId: string;
-    };
+    }>;
 }): Promise<Metadata> {
+    const params = await props.params;
     const edit = await getEdit({
         params: {
             edit_id: Number(params.editId),
@@ -52,7 +51,13 @@ export async function generateMetadata({
     });
 }
 
-const EditLayout: FC<Props> = async ({ params: { editId }, children }) => {
+const EditLayout: FC<Props> = async (props) => {
+    const params = await props.params;
+
+    const { editId } = params;
+
+    const { children } = props;
+
     const queryClient = await getQueryClient();
 
     await prefetchEdit({ edit_id: Number(editId) });

@@ -1,6 +1,6 @@
 'use client';
 
-import formatDistance from 'date-fns/formatDistance';
+import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 

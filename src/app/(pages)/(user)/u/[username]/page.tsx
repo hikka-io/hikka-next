@@ -19,7 +19,11 @@ interface Props {
     };
 }
 
-const UserPage: FC<Props> = async ({ params: { username } }) => {
+const UserPage: FC<Props> = async (props) => {
+    const params = await props.params;
+
+    const { username } = params;
+
     const queryClient = await getQueryClient();
 
     await Promise.all([

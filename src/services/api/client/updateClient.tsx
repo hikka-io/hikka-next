@@ -25,7 +25,7 @@ export default async function req({
             name: params?.name,
             description: params?.description,
             endpoint: params?.endpoint,
-            revoke_secret: params?.revoke_secret
+            revoke_secret: params?.revoke_secret,
         },
     });
 }
