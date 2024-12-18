@@ -519,3 +519,10 @@ export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
         color: '#952828',
     },
 };
+
+export const ARTICLE_CATEGORY_OPTIONS = [
+    {
+        value: 'news',
+        label: 'Новини',
+    },
+];
