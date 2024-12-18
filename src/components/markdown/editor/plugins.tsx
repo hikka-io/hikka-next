@@ -4,6 +4,7 @@ import { BasicElementsPlugin } from '@udecode/plate-basic-elements/react';
 import { BasicMarksPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
+import { isSelectionAtBlockStart } from '@udecode/plate-common';
 import { ParagraphPlugin } from '@udecode/plate-common/react';
 import { EmojiPlugin } from '@udecode/plate-emoji/react';
 import {
@@ -11,6 +12,8 @@ import {
     ListPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
+import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
+import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 
 import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
@@ -18,6 +21,11 @@ import { DiffPlugin } from './plugins/diff-plugin';
 import { linkPlugin } from './plugins/link-plugin';
 import { MarkdownPlugin } from './plugins/markdown-plugin/markdown-plugin';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
+
+const resetBlockTypesCommonRule = {
+    types: [BlockquotePlugin.key],
+    defaultType: ParagraphPlugin.key,
+};
 
 export const editorPlugins = [
     DiffPlugin,
@@ -56,6 +64,24 @@ export const editorPlugins = [
                     before: true,
                 },
             ],
+        },
+    }),
+    ResetNodePlugin.configure({
+        options: {
+            rules: [
+                {
+                    ...resetBlockTypesCommonRule,
+                    hotkey: 'Backspace',
+                    predicate: isSelectionAtBlockStart,
+                },
+            ],
+        },
+    }),
+    DeletePlugin.configure({
+        options: {
+            query: {
+                allow: ['p', 'blockquote'],
+            },
         },
     }),
 ];
