@@ -16,7 +16,7 @@ import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
 import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 
-// import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
+import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
 import { DiffPlugin } from './plugins/diff-plugin';
 import { linkPlugin } from './plugins/link-plugin';
 import { MarkdownPlugin } from './plugins/markdown-plugin/markdown-plugin';
@@ -35,7 +35,7 @@ export const editorPlugins = [
     ListPlugin,
     NumberedListPlugin,
     BulletedListPlugin,
-    // autoformatListPlugin,
+    autoformatListPlugin,
     SpoilerPlugin,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     MarkdownPlugin,
