@@ -1,8 +1,9 @@
 'use client';
 
-import { create } from 'zustand';
+import { createStore } from 'zustand';
 
 export type ArticleState = {
+    slug?: string;
     title?: string;
     category?: API.ArticleCategory;
     text?: string;
@@ -11,6 +12,7 @@ export type ArticleState = {
 };
 
 export type ArticleActions = {
+    setArticle: (article: API.Article) => void;
     setTitle: (title: string) => void;
     setCategory: (category: API.ArticleCategory) => void;
     setText: (text: string) => void;
@@ -19,18 +21,29 @@ export type ArticleActions = {
     getText: () => string | undefined;
 };
 
-type ArticleStore = ArticleState & ArticleActions;
+export type ArticleStore = ArticleState & ArticleActions;
 
-export const useArticleStore = create<ArticleStore>()((set, get) => ({
-    title: undefined,
-    category: 'news',
-    text: undefined,
-    tags: [],
-    draft: true,
-    setTitle: (title: string) => set({ title }),
-    setCategory: (category: API.ArticleCategory) => set({ category }),
-    setText: (text: string) => set({ text }),
-    setTags: (tags: string[]) => set({ tags }),
-    setDraft: (draft: boolean) => set({ draft }),
-    getText: () => get().text,
-}));
+export const createArticleStore = (initProps?: ArticleState) => {
+    const DEFAULT_PROPS: ArticleState = {
+        title: undefined,
+        category: 'news',
+        text: undefined,
+        tags: [],
+        draft: true,
+    };
+    return createStore<ArticleStore>()((set, get) => ({
+        ...DEFAULT_PROPS,
+        ...initProps,
+        setArticle: (article: API.Article) => {
+            set({
+                ...article,
+            });
+        },
+        setTitle: (title: string) => set({ title }),
+        setCategory: (category: API.ArticleCategory) => set({ category }),
+        setText: (text: string) => set({ text }),
+        setTags: (tags: string[]) => set({ tags }),
+        setDraft: (draft: boolean) => set({ draft }),
+        getText: () => get().text,
+    }));
+};

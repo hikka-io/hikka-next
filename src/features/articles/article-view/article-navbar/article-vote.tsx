@@ -1,0 +1,101 @@
+import { FC } from 'react';
+import BxBxsDownvote from '~icons/bx/bxs-downvote';
+import BxBxsUpvote from '~icons/bx/bxs-upvote';
+import BxDownvote from '~icons/bx/downvote';
+import BxUpvote from '~icons/bx/upvote';
+
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
+
+import useSession from '@/services/hooks/auth/use-session';
+import useVote from '@/services/hooks/vote/useVote';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
+
+interface Props {
+    article: API.Article;
+}
+
+const ArticleVote: FC<Props> = ({ article }) => {
+    const { openModal } = useModalContext();
+    const { user: loggedUser } = useSession();
+
+    const mutation = useVote();
+
+    const currentScore = mutation.variables?.params?.score
+        ? mutation.variables?.params?.score
+        : article.my_score;
+
+    const handleArticleVote = async (score: -1 | 1) => {
+        if (!loggedUser) {
+            openModal({
+                content: <AuthModal type="login" />,
+                className: 'max-w-3xl p-0',
+                forceModal: true,
+            });
+
+            return;
+        }
+
+        const updated = currentScore === score ? 0 : score;
+
+        mutation.mutate({
+            params: {
+                slug: article.slug,
+                score: updated,
+                content_type: 'article',
+            },
+        });
+    };
+
+    return (
+        <Card className="flex-1 flex-row items-center justify-between gap-4 p-0">
+            <Button
+                onClick={() => handleArticleVote(1)}
+                variant={'ghost'}
+                size="icon-md"
+                className={cn(
+                    ' opacity-60 group-hover:opacity-100',
+                    currentScore === 1 ? '' : 'text-muted-foreground',
+                )}
+            >
+                {currentScore === 1 ? (
+                    <BxBxsUpvote className="text-success" />
+                ) : (
+                    <BxUpvote />
+                )}
+            </Button>
+            <Label
+                className={
+                    article.vote_score > 0
+                        ? 'text-success'
+                        : article.vote_score === 0
+                          ? 'text-foreground'
+                          : 'text-destructive'
+                }
+            >
+                {article.vote_score}
+            </Label>
+            <Button
+                onClick={() => handleArticleVote(-1)}
+                variant={'ghost'}
+                size="icon-md"
+                className={cn(
+                    'opacity-60 group-hover:opacity-100',
+                    currentScore === -1 ? '' : 'text-muted-foreground',
+                )}
+            >
+                {currentScore === -1 ? (
+                    <BxBxsDownvote className="text-destructive" />
+                ) : (
+                    <BxDownvote />
+                )}
+            </Button>
+        </Card>
+    );
+};
+
+export default ArticleVote;

@@ -404,6 +404,10 @@ export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType | 'user'> = {
         title_ua: 'Користувач',
         title_en: 'User',
     },
+    article: {
+        title_ua: 'Стаття',
+        title_en: 'Article',
+    },
 };
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [
@@ -524,5 +528,10 @@ export const ARTICLE_CATEGORY_OPTIONS = [
     {
         value: 'news',
         label: 'Новини',
+    },
+    {
+        value: 'system',
+        label: 'Системна',
+        admin: true,
     },
 ];

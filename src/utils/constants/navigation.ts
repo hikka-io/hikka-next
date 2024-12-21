@@ -259,6 +259,7 @@ export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     collection: '/collections',
     manga: '/manga',
     novel: '/novel',
+    article: '/articles',
 };
 
 export const SETTINGS_MENU = [

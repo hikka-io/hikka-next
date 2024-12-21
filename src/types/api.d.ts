@@ -101,7 +101,8 @@ declare global {
             | 'character'
             | 'person'
             | 'comment'
-            | 'collection';
+            | 'collection'
+            | 'article';
 
         type HistoryType =
             | 'watch'
@@ -648,9 +649,10 @@ declare global {
             endpoint: string;
         };
 
-        type ArticleCategory = 'news';
+        type ArticleCategory = 'news' | 'system';
 
         type Article = {
+            data_type: 'article';
             author: API.User;
             cover: string;
             tags: string[];
@@ -659,6 +661,11 @@ declare global {
             title: string;
             text: string;
             slug: string;
+            comments_count: number;
+            vote_score: number;
+            my_score: number;
+            updated: number;
+            created: number;
         };
     }
 }

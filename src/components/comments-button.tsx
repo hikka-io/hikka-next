@@ -24,7 +24,7 @@ const CommentsButton: FC<Props> = ({ comments_count, content_type, slug }) => {
     return (
         <Button variant="outline" asChild>
             <Link href={`/comments/${content_type}/${slug}`}>
-                <IconamoonCommentFill />
+                <IconamoonCommentFill className="size-4" />
                 {comments_count || 0}{' '}
                 {getDeclensionWord(comments_count || 0, COMMENT_DECLENSIONS)}
             </Link>

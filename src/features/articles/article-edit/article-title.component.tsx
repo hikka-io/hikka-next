@@ -4,10 +4,10 @@ import { memo } from 'react';
 
 import Header from '@/components/ui/header';
 
-import { useArticleStore } from '@/services/stores/article-store';
+import { useArticleContext } from '@/services/providers/article-provider';
 
 const ArticleTitle = () => {
-    const title = useArticleStore((state) => state.title);
+    const title = useArticleContext((state) => state.title);
 
     console.log('ArticleTitle', title);
 

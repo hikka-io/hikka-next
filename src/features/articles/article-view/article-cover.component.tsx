@@ -16,13 +16,17 @@ const ArticleCover: FC<Props> = () => {
         slug: String(params.slug),
     });
 
+    if (article?.category === 'system') {
+        return null;
+    }
+
     if (!article?.cover) {
         return null;
     }
 
     return (
         <Image
-            src="https://i.pinimg.com/originals/8a/1c/20/8a1c20db423f85de20c1269b348713b3.jpg"
+            src={article.cover}
             alt={'article cover'}
             width={1260}
             height={283}

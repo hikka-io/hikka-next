@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -36,7 +37,11 @@ const ArticleAuthor: FC<Props> = () => {
                     <Link href={`/u/${article?.author.username}`}>
                         <H5>{article?.author.username}</H5>
                     </Link>
-                    <P className="text-xs text-muted-foreground">2 дні тому</P>
+                    <P className="text-xs text-muted-foreground">
+                        {formatDistance(article!.updated * 1000, Date.now(), {
+                            addSuffix: true,
+                        })}
+                    </P>
                 </div>
             </div>
             <div className="flex gap-2">

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import getArticle from '@/services/api/articles/getArticle';
 import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
 import getCollection from '@/services/api/collections/getCollection';
 import getEdit from '@/services/api/edit/getEdit';
@@ -38,6 +39,8 @@ export const getContent = ({ content_type, slug }: Props) => {
             return getCollection({ params: { reference: slug } });
         case 'edit':
             return getEdit({ params: { edit_id: Number(slug) } });
+        case 'article':
+            return getArticle({ params: { slug: slug } });
         default:
             return getAnimeInfo({ params: { slug } });
     }
@@ -65,24 +68,34 @@ const useContent = (props: Props) => {
             let content: Response | undefined;
 
             if ('data_type' in data) {
-                if (data.data_type === 'collection') {
-                    content = {
-                        title: data.title,
-                        image:
-                            data.collection[0].content.data_type === 'anime'
-                                ? data.collection[0].content.image
-                                : data.collection[0].content.image,
-                        content_type: params.content_type,
-                    };
-                } else {
-                    content = {
-                        image: data.image,
-                        content_type: params.content_type,
-                        title: convertTitle({
-                            data,
-                            titleLanguage: titleLanguage!,
-                        }).title,
-                    };
+                switch (data.data_type) {
+                    case 'collection':
+                        content = {
+                            title: data.title,
+                            image:
+                                data.collection[0].content.data_type === 'anime'
+                                    ? data.collection[0].content.image
+                                    : data.collection[0].content.image,
+                            content_type: params.content_type,
+                        };
+                        break;
+                    case 'article':
+                        content = {
+                            image: data.cover,
+                            content_type: params.content_type,
+                            title: data.title,
+                        };
+                        break;
+                    default:
+                        content = {
+                            image: data.image,
+                            content_type: params.content_type,
+                            title: convertTitle({
+                                data,
+                                titleLanguage: titleLanguage!,
+                            }).title,
+                        };
+                        break;
                 }
             } else {
                 content = {
