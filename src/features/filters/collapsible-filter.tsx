@@ -24,7 +24,7 @@ const CollapsibleFilter: FC<Props> = ({
     return (
         <Collapsible
             className={cn(
-                'group space-y-4 border border-secondary/60 bg-secondary/30 px-4 py-2 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
+                'group space-y-4 border border-secondary/60 bg-secondary/30 px-4 py-2 duration-300 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
                 '[&+div]:data-[state=open]:rounded-t-lg data-[state=open]:[&+div]:data-[state=closed]:rounded-b-lg',
                 'data-[state=closed]:border-b-0 data-[state=closed]:has-[+div[data-state=open]]:mb-4 data-[state=closed]:has-[+div[data-state=open]]:rounded-b-lg data-[state=closed]:has-[+div[data-state=open]]:border-b',
                 'first:rounded-t-lg last:rounded-b-lg last:!border-b',
