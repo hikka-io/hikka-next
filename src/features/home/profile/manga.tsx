@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import MaterialSymbolsRemoveRounded from '~icons/material-symbols/remove-rounded';
-import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
+import { MaterialSymbolsSettingsOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
@@ -243,7 +243,7 @@ const Manga = () => {
                             size="md"
                             onClick={openReadEditModal}
                         >
-                            <MaterialSymbolsSettingsOutline />
+                            <MaterialSymbolsSettingsOutlineRounded />
                             Налаштування
                         </Button>
                         <div className="flex">

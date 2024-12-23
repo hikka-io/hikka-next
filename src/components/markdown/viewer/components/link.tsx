@@ -1,6 +1,5 @@
 import NextLink from 'next/link';
 import { FC, PropsWithChildren } from 'react';
-import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
 import AnimeTooltip from '@/components/content-card/anime-tooltip';
 import CharacterTooltip from '@/components/content-card/character-tooltip';
@@ -8,6 +7,7 @@ import MangaTooltip from '@/components/content-card/manga-tooltip';
 import NovelTooltip from '@/components/content-card/novel-tooltip';
 import PersonTooltip from '@/components/content-card/person-tooltip';
 import UserTooltip from '@/components/content-card/user-tooltip';
+import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import P from '@/components/typography/p';
 import {
     AlertDialog,

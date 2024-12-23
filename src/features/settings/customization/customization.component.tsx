@@ -1,10 +1,10 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import MaterialSymbolsСomputerOutlineRounded from '~icons/material-symbols/computer-outline-rounded';
-import MaterialSymbolsNightlightOutlineRounded from '~icons/material-symbols/nightlight-outline-rounded';
-import MaterialSymbolsSunnyOutlineRounded from '~icons/material-symbols/sunny-outline-rounded';
 
+import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
+import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
+import MaterialSymbolsSunnyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import {
@@ -76,7 +76,7 @@ const Component = () => {
                                 </SelectItem>
                                 <SelectItem value="system">
                                     <div className="flex items-center gap-2">
-                                        <MaterialSymbolsСomputerOutlineRounded className="text-[1.2rem]" />
+                                        <MaterialSymbolsComputerOutlineRounded className="text-[1.2rem]" />
                                         Системна тема
                                     </div>
                                 </SelectItem>

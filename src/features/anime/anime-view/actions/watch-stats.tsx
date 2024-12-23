@@ -1,9 +1,9 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import MaterialSymbolsRemoveRounded from '~icons/material-symbols/remove-rounded';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';

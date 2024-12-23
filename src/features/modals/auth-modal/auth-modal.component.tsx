@@ -1,7 +1,6 @@
 'use client';
 
-import LogosGoogleIcon from '~icons/logos/google-icon';
-
+import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
 import Image from '@/components/ui/image';
 
@@ -52,7 +51,7 @@ const Component = ({
                     onClick={onOAuthSubmit}
                     className="mt-4 w-full"
                 >
-                    <LogosGoogleIcon />
+                    <BxBxlGoogle />
                     Увійти з Google
                 </Button>
             </div>

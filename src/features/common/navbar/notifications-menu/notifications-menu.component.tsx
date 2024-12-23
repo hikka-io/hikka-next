@@ -1,7 +1,6 @@
 'use client';
 
-import MaterialSymbolsNotificationsRounded from '~icons/material-symbols/notifications-rounded';
-
+import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

@@ -4,10 +4,10 @@ import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
-import MaterialSymbolsPublishRounded from '~icons/material-symbols/publish-rounded';
-import MaterialSymbolsRefreshRounded from '~icons/material-symbols/refresh-rounded';
-import MaterialSymbolsVisibilityOutline from '~icons/material-symbols/visibility-outline';
 
+import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
+import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
+import MaterialSymbolsVisibilityOutline from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutline';
 import { Button } from '@/components/ui/button';
 
 import updateArticle from '@/services/api/articles/updateArticle';

@@ -661,6 +661,14 @@ declare global {
             title: string;
             text: string;
             slug: string;
+            content?: {
+                data_type: API.ContentType;
+                title_ua?: string;
+                title_en?: string;
+                title_ja?: string;
+                slug: string;
+                image: string;
+            };
             comments_count: number;
             vote_score: number;
             my_score: number;

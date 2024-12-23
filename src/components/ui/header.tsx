@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { PropsWithChildren, ReactNode, memo } from 'react';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 
 import H1 from '@/components/typography/h1';
 import H2 from '@/components/typography/h2';
@@ -10,6 +9,8 @@ import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/utils';
+
+import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 
 interface Props extends PropsWithChildren {
     title: string | ReactNode;

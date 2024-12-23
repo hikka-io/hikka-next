@@ -2,10 +2,10 @@
 
 import { useParams } from 'next/navigation';
 import { ChangeEvent, useRef } from 'react';
-import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded';
-import MaterialSymbolsPerson2OutlineRounded from '~icons/material-symbols/person-2-outline-rounded';
-import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 
+import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
+import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
+import MaterialSymbolsUploadRounded from '@/components/icons/material-symbols/MaterialSymbolsUploadRounded';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,

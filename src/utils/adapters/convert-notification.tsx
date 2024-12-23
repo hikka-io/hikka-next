@@ -1,18 +1,18 @@
 import { ReactNode } from 'react';
-import FeMention from '~icons/fe/mention';
-import MaterialSymbolsAddCommentRounded from '~icons/material-symbols/add-comment-rounded';
-import MaterialSymbolsChangeCircleRounded from '~icons/material-symbols/change-circle-rounded';
-import MaterialSymbolsCheckCircleRounded from '~icons/material-symbols/check-circle-rounded';
-import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
-import MaterialSymbolsFlagCircleRounded from '~icons/material-symbols/flag-circle-rounded';
-import MaterialSymbolsHeartMinusRounded from '~icons/material-symbols/heart-minus-rounded';
-import MaterialSymbolsHeartPlusRounded from '~icons/material-symbols/heart-plus-rounded';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
-import MaterialSymbolsLiveTvRounded from '~icons/material-symbols/live-tv-rounded';
-import MaterialSymbolsLockOpenRightOutlineRounded from '~icons/material-symbols/lock-open-right-outline-rounded';
-import MaterialSymbolsPersonAddRounded from '~icons/material-symbols/person-add-rounded';
 
 import ContentCard from '@/components/content-card/content-card';
+import FeMention from '@/components/icons/fe/FeMention';
+import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
+import MaterialSymbolsChangeCircleRounded from '@/components/icons/material-symbols/MaterialSymbolsChangeCircleRounded';
+import MaterialSymbolsCheckCircleRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckCircleRounded';
+import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
+import MaterialSymbolsFlagCircleRounded from '@/components/icons/material-symbols/MaterialSymbolsFlagCircleRounded';
+import MaterialSymbolsHeartMinusRounded from '@/components/icons/material-symbols/MaterialSymbolsHeartMinusRounded';
+import MaterialSymbolsHeartPlusRounded from '@/components/icons/material-symbols/MaterialSymbolsHeartPlusRounded';
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
+import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
+import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
 
 const TITLES: Record<API.NotificationType, string> = {
     edit_accepted: 'Правка прийнята',

@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, PropsWithChildren, memo } from 'react';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -19,6 +18,8 @@ import { PersonCharacter } from '@/services/api/people/getPersonCharacters';
 import usePersonAnime from '@/services/hooks/people/use-person-anime';
 import usePersonCharacters from '@/services/hooks/people/use-person-characters';
 import usePersonInfo from '@/services/hooks/people/use-person-info';
+
+import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
 
 interface TooltipDataProps {
     slug: string;

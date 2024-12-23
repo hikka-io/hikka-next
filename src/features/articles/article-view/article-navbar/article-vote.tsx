@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import BxBxsDownvote from '~icons/bx/bxs-downvote';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
-import BxDownvote from '~icons/bx/downvote';
-import BxUpvote from '~icons/bx/upvote';
 
+import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import BxDownvote from '@/components/icons/bx/BxDownvote';
+import BxUpvote from '@/components/icons/bx/BxUpvote';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';

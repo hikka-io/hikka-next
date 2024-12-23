@@ -1,11 +1,12 @@
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC } from 'react';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
-import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import { MaterialSymbolsMoreHoriz } from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import Muted from '@/components/typography/muted';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -33,7 +34,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         image={article.author.avatar}
                         imageRatio={1}
                     />
-                    <HorizontalCardContainer>
+                    <HorizontalCardContainer className="gap-0">
                         <HorizontalCardTitle>
                             {article.author.username}
                         </HorizontalCardTitle>
@@ -64,7 +65,16 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     />
                 )}
                 <div className="flex flex-col gap-4 p-4">
-                    <Header variant="h4" title={article.title} />
+                    <div className="flex flex-col gap-1">
+                        {article.content && (
+                            <Muted>
+                                {article.content.title_ua ||
+                                    article.content.title_en ||
+                                    article.content.title_ja}
+                            </Muted>
+                        )}
+                        <Header variant="h4" title={article.title} />
+                    </div>
                     <MDViewer
                         preview
                         className="text-sm text-muted-foreground line-clamp-3"

@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import { useEffect } from 'react';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 

@@ -1,10 +1,11 @@
 'use client';
 
 import { PropsWithChildren, ReactNode } from 'react';
-import MaterialSymbolsFeatureSearch from '~icons/material-symbols/feature-search';
 
 import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';
+
+import MaterialSymbolsFeatureSearch from '../icons/material-symbols/MaterialSymbolsFeatureSearch';
 
 interface Props extends PropsWithChildren {
     title: string | ReactNode;

@@ -1,12 +1,13 @@
 import clsx from 'clsx';
 import { FC } from 'react';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import { Button } from '@/components/ui/button';
 
 import EditListModal from '@/features/modals/editlist-modal/editlist-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+
+import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
 
 interface Props {
     slug: string;

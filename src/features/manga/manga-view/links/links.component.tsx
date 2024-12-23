@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
-import MaterialSymbolsInfoIRounded from '~icons/material-symbols/info-i-rounded';
-import MaterialSymbolsPlayArrowRounded from '~icons/material-symbols/play-arrow-rounded';
 
+import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
+import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import TextExpand from '@/components/text-expand';
 import P from '@/components/typography/p';
 import Block from '@/components/ui/block';

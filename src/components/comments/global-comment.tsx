@@ -1,8 +1,6 @@
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC } from 'react';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
-import MaterialSymbolsArticle from '~icons/material-symbols/article';
 
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
@@ -10,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
+import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
+import MaterialSymbolsArticle from '../icons/material-symbols/MaterialSymbolsArticle';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import { Label } from '../ui/label';
 

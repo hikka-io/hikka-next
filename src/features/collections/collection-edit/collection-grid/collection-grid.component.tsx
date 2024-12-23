@@ -15,9 +15,9 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { FC } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import ContentCard from '@/components/content-card/content-card';
+import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Header from '@/components/ui/header';
 
 import SortableCard from '@/features/collections/collection-edit/collection-grid/sortable-card';

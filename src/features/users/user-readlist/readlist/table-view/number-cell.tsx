@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
 
+import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';

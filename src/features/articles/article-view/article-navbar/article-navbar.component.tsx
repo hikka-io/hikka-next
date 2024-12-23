@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { enqueueSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
-import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
-import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {

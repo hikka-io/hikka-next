@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import * as React from 'react';
 import { FC } from 'react';
-import MaterialSymbolsKidStar from '~icons/material-symbols/kid-star';
 
+import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';

@@ -1,8 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import MaterialSymbolsBarChartRounded from '~icons/material-symbols/bar-chart-rounded';
 
+import { MaterialSymbolsBarChartRounded } from '@/components/icons/material-symbols/MaterialSymbolsBarChartRounded';
 import { Label } from '@/components/ui/label';
 
 import useUserActivity from '@/services/hooks/user/use-user-activity';

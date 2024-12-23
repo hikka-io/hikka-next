@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import MaterialSymbolsKidStar from '~icons/material-symbols/kid-star';
 
+import { MaterialSymbolsKidStar } from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';

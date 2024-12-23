@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
-import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import {
     AlertDialog,
     AlertDialogAction,

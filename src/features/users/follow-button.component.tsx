@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import MaterialSymbolsPersonAddOutlineRounded from '~icons/material-symbols/person-add-outline-rounded';
-import MaterialSymbolsPersonRemoveOutlineRounded from '~icons/material-symbols/person-remove-outline-rounded';
 
+import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
+import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button } from '@/components/ui/button';
 
 import AuthModal from '@/features/modals/auth-modal/auth-modal.component';

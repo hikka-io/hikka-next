@@ -1,8 +1,4 @@
 import { FC } from 'react';
-import BxBxsDownvote from '~icons/bx/bxs-downvote';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
-import BxDownvote from '~icons/bx/downvote';
-import BxUpvote from '~icons/bx/upvote';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -13,6 +9,11 @@ import useSession from '@/services/hooks/auth/use-session';
 import useVote from '@/services/hooks/vote/useVote';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
+import BxBxsDownvote from '../icons/bx/BxBxsDownvote';
+import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
+import BxDownvote from '../icons/bx/BxDownvote';
+import BxUpvote from '../icons/bx/BxUpvote';
 
 interface Props {
     comment: API.Comment;

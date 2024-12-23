@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import {

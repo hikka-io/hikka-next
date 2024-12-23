@@ -1,4 +1,4 @@
-import React, {
+import {
     MouseEvent,
     ReactElement,
     SVGProps,
@@ -6,8 +6,9 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import MaterialSymbolsStarOutlineRounded from '~icons/material-symbols/star-outline-rounded';
-import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
+
+import MaterialSymbolsStarOutlineRounded from '../icons/material-symbols/MaterialSymbolsStarOutlineRounded';
+import MaterialSymbolsStarRounded from '../icons/material-symbols/MaterialSymbolsStarRounded';
 
 interface Props {
     value: number;

@@ -1,8 +1,8 @@
 'use client';
 
 import { FC } from 'react';
-import MaterialSymbolsLoginRounded from '~icons/material-symbols/login-rounded';
 
+import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';

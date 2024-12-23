@@ -4,8 +4,8 @@ import { range } from '@antfu/utils';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
-import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {

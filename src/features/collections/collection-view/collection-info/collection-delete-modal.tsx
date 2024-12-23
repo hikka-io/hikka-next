@@ -1,8 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import P from '@/components/typography/p';
 import {
     AlertDialog,

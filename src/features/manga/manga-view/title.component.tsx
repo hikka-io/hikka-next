@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import EditButton from '@/components/edit-button';
+import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 

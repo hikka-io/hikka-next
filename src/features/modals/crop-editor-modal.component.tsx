@@ -6,9 +6,9 @@ import { useParams, useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
-import MaterialSymbolsZoomInRounded from '~icons/material-symbols/zoom-in-rounded';
-import MaterialSymbolsZoomOut from '~icons/material-symbols/zoom-out';
 
+import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
+import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
@@ -164,7 +164,7 @@ const Component = ({ file, type }: Props) => {
             </div>
             <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
-                    <MaterialSymbolsZoomOut className="text-muted-foreground" />
+                    <MaterialSymbolsZoomOutRounded className="text-muted-foreground" />
                     <Slider
                         disabled={isLoading}
                         onValueChange={(value) => setScale(value[0] as number)}

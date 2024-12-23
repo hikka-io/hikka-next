@@ -1,7 +1,7 @@
 import { format } from 'date-fns/format';
 import { FC } from 'react';
-import MaterialSymbolsVerified from '~icons/material-symbols/verified';
 
+import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Card from '@/components/ui/card';
@@ -28,7 +28,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
                                 <div className="rounded-sm border border-secondary/60 bg-secondary/30 p-1 text-xs font-bold text-secondary-foreground backdrop-blur">
-                                    <MaterialSymbolsVerified className="text-primary" />
+                                    <MaterialSymbolsVerifiedRounded className="text-primary" />
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>

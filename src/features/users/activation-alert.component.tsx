@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { useSnackbar } from 'notistack';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
 
 import resendActivation from '@/services/api/auth/resendActivation';

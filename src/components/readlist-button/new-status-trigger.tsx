@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { FC, createElement } from 'react';
-import MaterialSymbolsArrowDropDownRounded from '~icons/material-symbols/arrow-drop-down-rounded';
 
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
@@ -10,6 +9,8 @@ import { SelectTrigger } from '@/components/ui/select';
 import useAddRead from '@/services/hooks/read/use-add-read';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
+import MaterialSymbolsArrowDropDownRounded from '../icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 
 interface NewStatusTriggerProps {
     disabled?: boolean;

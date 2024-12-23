@@ -1,7 +1,6 @@
-import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
-import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
-import MaterialSymbolsPalette from '~icons/material-symbols/palette';
-
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import Block from '@/components/ui/block';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -15,7 +14,8 @@ const Profile = () => {
             <Tabs defaultValue="anime" className="flex flex-1 flex-col">
                 <TabsList className="w-full">
                     <TabsTrigger value="anime" className="flex flex-1 gap-2">
-                        <MaterialAnimatedImages className="size-4" /> Аніме
+                        <MaterialSymbolsAnimatedImages className="size-4" />{' '}
+                        Аніме
                     </TabsTrigger>
                     <TabsTrigger value="manga" className="flex flex-1 gap-2">
                         <MaterialSymbolsPalette className="size-4" /> Манґа

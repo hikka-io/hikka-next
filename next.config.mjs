@@ -1,5 +1,4 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
-import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,16 +19,6 @@ const nextConfig = {
                 pathname: '**',
             },
         ],
-    },
-    webpack(config) {
-        config.plugins.push(
-            Icons({
-                compiler: 'jsx',
-                jsx: 'react',
-            }),
-        );
-
-        return config;
     },
     async rewrites() {
         return [

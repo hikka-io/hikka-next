@@ -2,8 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 import { FC, useCallback } from 'react';
-import MaterialSymbolsSortRounded from '~icons/material-symbols/sort-rounded';
 
+import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
 import {
     Select,

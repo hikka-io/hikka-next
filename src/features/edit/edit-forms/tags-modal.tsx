@@ -3,10 +3,10 @@
 import * as React from 'react';
 import { FC } from 'react';
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
-import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

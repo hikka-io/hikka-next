@@ -8,7 +8,6 @@ import {
     memo,
 } from 'react';
 import { UrlObject } from 'url';
-import MaterialSymbolsImageNotSupportedOutlineRounded from '~icons/material-symbols/image-not-supported-outline-rounded';
 
 import AnimeTooltip from '@/components/content-card/anime-tooltip';
 import CharacterTooltip from '@/components/content-card/character-tooltip';
@@ -19,6 +18,7 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/utils';
 
+import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import { AspectRatio } from '../ui/aspect-ratio';
 import ContextMenuOverlay from './context-menu-overlay';
 import MangaTooltip from './manga-tooltip';

@@ -3,8 +3,8 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import Link, { LinkProps } from 'next/link';
-import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
+import { MaterialSymbolsShieldRounded } from '@/components/icons/material-symbols/MaterialSymbolsShieldRounded';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';

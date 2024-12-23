@@ -1,8 +1,8 @@
 'use client';
 
 import { FC, Fragment, memo } from 'react';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';
 
 import ClientEditModal from '@/features/modals/client-modal/client-edit-modal.component';

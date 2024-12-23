@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
-import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';

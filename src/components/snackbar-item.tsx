@@ -2,18 +2,12 @@
 
 import clsx from 'clsx';
 import { CustomContentProps, SnackbarContent } from 'notistack';
-import React, {
-    ReactElement,
-    SVGProps,
-    forwardRef,
-    memo,
-    useEffect,
-    useState,
-} from 'react';
-import EpSuccessFilled from '~icons/ep/success-filled';
-import MaterialSymbolsErrorCircleRounded from '~icons/material-symbols/error-circle-rounded';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
-import MaterialSymbolsWarningRounded from '~icons/material-symbols/warning-rounded';
+import { ReactElement, SVGProps, forwardRef, memo } from 'react';
+
+import EpSuccessFilled from './icons/ep/EpSuccessFilled';
+import MaterialSymbolsErrorCircleRounded from './icons/material-symbols/MaterialSymbolsErrorCircleRounded';
+import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
+import MaterialSymbolsWarningRounded from './icons/material-symbols/MaterialSymbolsWarningRounded';
 
 const icons: Record<
     'default' | 'error' | 'success' | 'warning' | 'info',

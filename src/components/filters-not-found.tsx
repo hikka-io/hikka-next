@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import * as React from 'react';
-import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
+
+import AntDesignClearOutlined from './icons/ant-design/AntDesignClearOutlined';
 
 const FiltersNotFound = () => {
     const pathname = usePathname();

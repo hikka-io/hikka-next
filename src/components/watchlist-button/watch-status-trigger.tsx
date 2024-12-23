@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, createElement } from 'react';
-import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
@@ -12,6 +11,8 @@ import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
+import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 
 interface WatchStatusTriggerProps {
     watch: API.Watch;
@@ -82,7 +83,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     disabled={disabled}
                     className={cn('rounded-l-none')}
                 >
-                    <MaterialSymbolsSettingsOutline />
+                    <MaterialSymbolsSettingsOutlineRounded />
                 </Button>
             </div>
         </SelectTrigger>

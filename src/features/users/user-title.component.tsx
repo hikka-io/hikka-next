@@ -1,9 +1,9 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import MaterialSymbolsSecurity from '~icons/material-symbols/security';
-import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
+import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
+import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';

@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { FC } from 'react';
-import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
 import { Button } from '@/components/ui/button';
 
 import getDeclensionWord from '@/utils/get-declension-word';
+
+import IconamoonCommentFill from './icons/iconamoon/IconamoonCommentFill';
 
 const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментар',

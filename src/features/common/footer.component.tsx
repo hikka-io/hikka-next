@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import ArcticonsMonobank from '~icons/arcticons/monobank';
-import BxBxsDonateHeart from '~icons/bx/bxs-donate-heart';
-import MdiGithub from '~icons/mdi/github';
-import MingcuteTelegramFill from '~icons/mingcute/telegram-fill';
 
+import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
+import BxBxlTelegram from '@/components/icons/bx/BxBxlTelegram';
+import BxBxsDonateHeart from '@/components/icons/bx/BxBxsDonateHeart';
+import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -42,7 +42,7 @@ const Footer = () => {
                         </Button>
                         <Button variant="ghost" size="md" asChild>
                             <Link href="https://t.me/hikka_io" target="_blank">
-                                <MingcuteTelegramFill />
+                                <BxBxlTelegram />
                                 Telegram
                             </Link>
                         </Button>
@@ -69,7 +69,7 @@ const Footer = () => {
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        <ArcticonsMonobank className="mr-2 size-4" />
+                                        <PhTipJarFill className="mr-2 size-4" />
                                         Монобанка
                                     </Link>
                                 </DropdownMenuItem>
@@ -82,7 +82,7 @@ const Footer = () => {
                                 href="https://github.com/hikka-io"
                                 target="_blank"
                             >
-                                <MdiGithub />
+                                <BxBxlGithub />
                                 GitHub
                             </Link>
                         </Button>

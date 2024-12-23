@@ -1,7 +1,6 @@
 import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -19,6 +18,8 @@ import {
 
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
+import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
 
 interface Props {
     data: API.History;

@@ -1,11 +1,6 @@
 'use client';
 
 import { FC, PropsWithChildren, memo } from 'react';
-import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
-import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
-import MaterialSymbolsPalette from '~icons/material-symbols/palette';
-import MaterialSymbolsSecurity from '~icons/material-symbols/security';
-import MaterialSymbolsShieldPerson from '~icons/material-symbols/shield-person';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,6 +19,11 @@ import useReadStats from '@/services/hooks/read/use-read-stats';
 import useUser from '@/services/hooks/user/use-user';
 import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 
+import MaterialSymbolsAnimatedImages from '../icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsMenuBookRounded from '../icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '../icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsSecurity from '../icons/material-symbols/MaterialSymbolsSecurity';
+import MaterialSymbolsShieldPerson from '../icons/material-symbols/MaterialSymbolsShieldPerson';
 import P from '../typography/p';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
@@ -160,7 +160,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             <Separator className="-mx-4 w-auto" />
             <div className="flex justify-between text-sm font-semibold">
                 <div className="flex flex-1 items-center gap-2">
-                    <MaterialAnimatedImages className="text-muted-foreground" />
+                    <MaterialSymbolsAnimatedImages className="text-muted-foreground" />
                     {watchStats?.completed}
                 </div>
                 <div className="flex flex-1 items-center gap-2">

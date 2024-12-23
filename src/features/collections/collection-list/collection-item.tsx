@@ -3,13 +3,13 @@
 import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
-import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
-import MaterialSymbolsDriveFileRenameOutlineRounded from '~icons/material-symbols/drive-file-rename-outline-rounded';
-import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import ContentCard from '@/components/content-card/content-card';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import { IconamoonCommentFill } from '@/components/icons/iconamoon/IconamoonCommentFill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';

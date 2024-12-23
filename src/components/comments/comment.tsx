@@ -2,23 +2,23 @@ import { useQueryClient } from '@tanstack/react-query';
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
-import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
-import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
 import CommentInput from '@/components/comments/comment-input';
 import CommentMenu from '@/components/comments/comment-menu';
 import CommentVote from '@/components/comments/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
-import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';
 
+import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
+import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 import Comments from './comments';
 
 interface Props {
@@ -103,7 +103,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             href={`/u/${comment.author.username}`}
                             className="w-fit"
                         >
-                            <H5>{comment.author.username}</H5>
+                            <Label>{comment.author.username}</Label>
                         </Link>
 
                         <Small className="text-muted-foreground">

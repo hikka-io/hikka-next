@@ -3,8 +3,8 @@
 import { formatDuration } from 'date-fns/formatDuration';
 import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
-import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-10';
 
+import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';

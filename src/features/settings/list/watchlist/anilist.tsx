@@ -2,8 +2,8 @@
 
 import { useSnackbar } from 'notistack';
 import { Dispatch, SetStateAction, useState } from 'react';
-import MaterialSymbolsCheckSmallRounded from '~icons/material-symbols/check-small-rounded';
 
+import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

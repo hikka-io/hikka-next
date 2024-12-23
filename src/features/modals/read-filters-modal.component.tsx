@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
 import {
     Drawer,

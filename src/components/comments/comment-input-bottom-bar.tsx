@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { resetEditor } from '@udecode/plate-common';
 import { useEditorRef } from '@udecode/plate-common/react';
 import { FC } from 'react';
-import MaterialSymbolsReplyRounded from '~icons/material-symbols/reply-rounded';
 
+import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

@@ -4,8 +4,8 @@ import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import MdiDotsHorizontal from '~icons/mdi/dots-horizontal';
 
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -49,7 +49,7 @@ const ArticleAuthor: FC<Props> = () => {
                     Відстежується
                 </Button>
                 <Button size="icon-md" variant="outline">
-                    <MdiDotsHorizontal className="size-4" />
+                    <MaterialSymbolsMoreHoriz className="size-4" />
                 </Button>
             </div>
         </div>

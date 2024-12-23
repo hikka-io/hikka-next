@@ -3,8 +3,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { FC } from 'react';
-import MaterialSymbolsShieldRounded from '~icons/material-symbols/shield-rounded';
 
+import { MaterialSymbolsShieldRounded } from '@/components/icons/material-symbols/MaterialSymbolsShieldRounded';
 import Small from '@/components/typography/small';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';

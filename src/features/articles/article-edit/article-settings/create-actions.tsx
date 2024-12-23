@@ -4,9 +4,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
-import MaterialSymbolsDraftRounded from '~icons/material-symbols/draft-rounded';
-import MaterialSymbolsPublishRounded from '~icons/material-symbols/publish-rounded';
 
+import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
+import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import { Button } from '@/components/ui/button';
 
 import createArticle from '@/services/api/articles/createArticle';

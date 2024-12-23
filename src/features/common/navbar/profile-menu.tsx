@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
-import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
-import MaterialSymbolsLogoutRounded from '~icons/material-symbols/logout-rounded';
-import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
-import MaterialSymbolsPalette from '~icons/material-symbols/palette';
-import MaterialSymbolsPerson from '~icons/material-symbols/person';
-import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
+import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -86,7 +86,7 @@ const ProfileMenu = () => {
                                 '/list/anime?status=planned&sort=watch_score'
                             }
                         >
-                            <MaterialAnimatedImages className="mr-2 size-4" />
+                            <MaterialSymbolsAnimatedImages className="mr-2 size-4" />
                             Список аніме
                         </Link>
                     </DropdownMenuItem>
@@ -119,7 +119,7 @@ const ProfileMenu = () => {
                 <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
                         <Link href={'/settings'}>
-                            <MaterialSymbolsSettingsOutline className="mr-2 size-4" />
+                            <MaterialSymbolsSettingsOutlineRounded className="mr-2 size-4" />
                             Налаштування
                         </Link>
                     </DropdownMenuItem>

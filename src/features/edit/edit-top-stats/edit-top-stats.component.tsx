@@ -1,7 +1,6 @@
 'use client';
 
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
-
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import {
     Carousel,
     CarouselContent,

@@ -1,8 +1,8 @@
 'use client';
 
 import { FC, Fragment, memo } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Button } from '@/components/ui/button';
 
 import ClientCreateModal from '@/features/modals/client-modal/client-create-modal.component';

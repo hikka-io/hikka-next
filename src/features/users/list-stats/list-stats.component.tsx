@@ -3,8 +3,8 @@
 import { TabsContent } from '@radix-ui/react-tabs';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import MaterialSymbolsOpenInNewRounded from '~icons/material-symbols/open-in-new-rounded';
 
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import useWatchStats from '@/services/hooks/watch/use-watch-stats';

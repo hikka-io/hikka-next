@@ -16,11 +16,11 @@ import {
     useFloatingLinkInsert,
     useFloatingLinkInsertState,
 } from '@udecode/plate-link/react';
-import MaterialSymbolsLinkOffRounded from '~icons/material-symbols/link-off-rounded';
-import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
-import MaterialSymbolsOpenInNewRounded from '~icons/material-symbols/open-in-new-rounded';
-import MaterialSymbolsShortTextRounded from '~icons/material-symbols/short-text-rounded';
 
+import MaterialSymbolsLinkOffRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkOffRounded';
+import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
+import { MaterialSymbolsShortTextRounded } from '@/components/icons/material-symbols/MaterialSymbolsShortTextRounded';
 import { buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
