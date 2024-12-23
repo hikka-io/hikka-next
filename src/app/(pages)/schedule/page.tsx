@@ -7,7 +7,7 @@ import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilter
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import ScheduleFilters from '@/features/filters/schedule-filters.component';
 import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal.component';
@@ -54,7 +54,11 @@ const ScheduleListPage: FC<Props> = async (props) => {
             <div className="flex flex-col gap-12">
                 <Block>
                     <div className="flex items-center justify-between">
-                        <Header variant="h2" title="Календар" />
+                        <Header>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h2">Календар</HeaderTitle>
+                            </HeaderContainer>
+                        </Header>
                         <ScheduleFiltersModal>
                             <Button
                                 variant="outline"

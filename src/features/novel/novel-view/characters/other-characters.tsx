@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import CharacterCard from '@/components/character-card';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useNovelCharacters from '@/services/hooks/novel/use-novel-characters';
@@ -30,7 +30,11 @@ const OtherCharacters: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header title={'Другорядні Персонажі'} />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Другорядні Персонажі</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <Stack size={5} className="grid-min-6" extended={extended}>
                 {other.map((ch) => (
                     <CharacterCard

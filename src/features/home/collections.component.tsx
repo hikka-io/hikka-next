@@ -7,7 +7,12 @@ import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useSession from '@/services/hooks/auth/use-session';
@@ -30,14 +35,18 @@ const Collections: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header title="Колекції" href="/collections">
-                {loggedUser?.username && (
-                    <Button asChild size="icon-sm" variant="outline">
-                        <Link href="/collections/new">
-                            <MaterialSymbolsAddRounded />
-                        </Link>
-                    </Button>
-                )}
+            <Header href="/collections">
+                <HeaderContainer>
+                    <HeaderTitle>Колекції</HeaderTitle>
+                    {loggedUser?.username && (
+                        <Button asChild size="icon-sm" variant="outline">
+                            <Link href="/collections/new">
+                                <MaterialSymbolsAddRounded />
+                            </Link>
+                        </Button>
+                    )}
+                </HeaderContainer>
+                <HeaderNavButton />
             </Header>
             <Stack size={8}>
                 {filteredCollections &&

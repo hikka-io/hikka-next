@@ -3,7 +3,7 @@
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -17,7 +17,11 @@ interface Props {}
 const PopularAuthors: FC<Props> = () => {
     return (
         <Block>
-            <Header title="Популярні автори" />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Популярні автори</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <div className="flex flex-col gap-6">
                 <HorizontalCard href={'/u/MatthewBishop'}>
                     <HorizontalCardImage

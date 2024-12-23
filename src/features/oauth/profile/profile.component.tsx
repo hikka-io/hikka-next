@@ -6,7 +6,7 @@ import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import useSession from '@/services/hooks/auth/use-session';
 
@@ -29,10 +29,13 @@ const Profle: FC<Props> = () => {
                     </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                    <Header
-                        titleClassName="line-clamp-1"
-                        title={user?.username}
-                    />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle className="line-clamp-1">
+                                {user?.username}
+                            </HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <P className="text-sm text-muted-foreground">
                         Ваш обліковий запис
                     </P>

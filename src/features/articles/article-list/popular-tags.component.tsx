@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import BadgeFilter from '@/features/filters/badge-filter';
 import useChangeParam from '@/features/filters/use-change-param';
@@ -18,7 +18,11 @@ const PopularTags: FC<Props> = () => {
 
     return (
         <Block>
-            <Header title="Популярні теги" />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Популярні теги</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <BadgeFilter
                 properties={['тег1', 'тег2', 'тег3', 'тег4']}
                 selected={tags}

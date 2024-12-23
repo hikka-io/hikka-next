@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { FC, PropsWithChildren } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Menu from '@/features/settings/menu.component';
 
@@ -38,7 +38,11 @@ const SettingsLayout: FC<Props> = async (props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <Block>
-                <Header title="Налаштування" variant="h2" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h2">Налаштування</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
                     <Menu />
                     <div className="flex flex-col gap-12">{children}</div>

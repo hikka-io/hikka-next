@@ -9,7 +9,16 @@ export type ArticleState = {
     text?: string;
     tags: string[];
     draft?: boolean;
-    content?: API.MainContent;
+    content?:
+        | API.MainContent
+        | {
+              data_type: API.ContentType;
+              title_ua?: string;
+              title_en?: string;
+              title_ja?: string;
+              slug: string;
+              image: string;
+          };
     cover?: string;
 };
 

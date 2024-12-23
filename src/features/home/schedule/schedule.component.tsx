@@ -3,7 +3,12 @@
 import { useSearchParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useAnimeSchedule from '@/services/hooks/stats/use-anime-schedule';
@@ -38,7 +43,12 @@ const Schedule = () => {
 
     return (
         <Block>
-            <Header title="Календар" href="/schedule" />
+            <Header href="/schedule">
+                <HeaderContainer>
+                    <HeaderTitle>Календар</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack className="grid-min-18 xl:grid-cols-4">
                 {filteredList?.map((item) => (
                     <ScheduleItem

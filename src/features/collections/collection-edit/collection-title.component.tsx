@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 
 import PlateEditor from '@/components/markdown/editor/plate-editor';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import RulesAlert from '@/features/collections/collection-edit/collection-rules-alert.component';
 
@@ -20,7 +20,11 @@ const CollectionTitle = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <Header title={title || 'Нова колекція'} />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>{title || 'Нова колекція'}</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <RulesAlert />
             {((reference && description !== undefined) || !reference) && (
                 <PlateEditor

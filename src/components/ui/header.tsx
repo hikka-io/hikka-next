@@ -1,5 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import { PropsWithChildren, ReactNode, memo } from 'react';
+import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import H1 from '@/components/typography/h1';
 import H2 from '@/components/typography/h2';
@@ -12,27 +14,94 @@ import { cn } from '@/utils/utils';
 
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 
-interface Props extends PropsWithChildren {
-    title: string | ReactNode;
+interface HorizontalCardContextProps {
     href?: string;
     onClick?: () => void;
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-    className?: string;
-    titleClassName?: string;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 }
 
-const Header = ({
-    title,
-    href,
-    linkProps,
-    onClick,
-    variant,
-    children,
+const HeaderContext = React.createContext<
+    HorizontalCardContextProps | undefined
+>(undefined);
+
+const useHeader = () => {
+    const context = React.useContext(HeaderContext);
+
+    if (!context) {
+        throw new Error('useHeader must be used within HeaderContext');
+    }
+
+    return context;
+};
+
+interface HeaderProps {
+    className?: string;
+    href?: string;
+    linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
+    onClick?: () => void;
+}
+
+const Header: FC<PropsWithChildren<HeaderProps>> = ({
     className,
-    titleClassName,
-}: Props) => {
-    const getTitle = () => {
+    children,
+    href,
+    onClick,
+    linkProps,
+}) => {
+    const contextValue = React.useMemo(() => {
+        return {
+            href,
+            onClick,
+            linkProps,
+        };
+    }, [href, onClick, linkProps]);
+
+    return (
+        <HeaderContext.Provider value={contextValue}>
+            <div
+                className={cn(
+                    'flex items-center justify-between gap-2',
+                    className,
+                )}
+            >
+                {children}
+            </div>
+        </HeaderContext.Provider>
+    );
+};
+
+interface HeaderContainerProps {
+    className?: string;
+}
+
+const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
+    className,
+    children,
+}) => {
+    return (
+        <div
+            className={cn(
+                'flex flex-1 items-center gap-4 overflow-hidden',
+                className,
+            )}
+        >
+            {children}
+        </div>
+    );
+};
+
+interface HeaderTitleProps {
+    className?: string;
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+}
+
+const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
+    className,
+    children,
+    variant,
+}) => {
+    const { href, onClick, linkProps } = useHeader();
+    const getTitle = useCallback(() => {
         switch (variant) {
             case 'h1':
                 return H1;
@@ -47,51 +116,45 @@ const Header = ({
             default:
                 return H3;
         }
-    };
+    }, [variant]);
 
     const Title = getTitle();
 
     return (
         <div
-            className={cn('flex items-center justify-between gap-2', className)}
+            className={cn('flex items-center gap-4 overflow-hidden', className)}
         >
-            <div
-                className={cn(
-                    'flex flex-1 items-center gap-4 overflow-hidden',
-                    titleClassName,
-                )}
-            >
-                {href ? (
-                    <Link
-                        href={href}
-                        {...linkProps}
-                        className="hover:underline"
-                    >
-                        <Title>{title}</Title>
-                    </Link>
-                ) : onClick ? (
-                    <button onClick={onClick} className="hover:underline">
-                        <Title>{title}</Title>
-                    </button>
-                ) : (
-                    <Title>{title}</Title>
-                )}
-                {children}
-            </div>
-            {href && (
-                <Button size="icon-sm" variant="outline" asChild>
-                    <Link href={href} {...linkProps}>
-                        <MaterialSymbolsArrowRightAltRounded className="text-lg" />
-                    </Link>
-                </Button>
-            )}
-            {onClick && (
-                <Button size="icon-sm" variant="outline" onClick={onClick}>
-                    <MaterialSymbolsArrowRightAltRounded className="text-lg" />
-                </Button>
+            {href ? (
+                <Link href={href} {...linkProps} className="hover:underline">
+                    <Title>{children}</Title>
+                </Link>
+            ) : onClick ? (
+                <button onClick={onClick} className="hover:underline">
+                    <Title>{children}</Title>
+                </button>
+            ) : (
+                <Title>{children}</Title>
             )}
         </div>
     );
 };
 
-export default memo(Header);
+const HeaderNavButton: FC = () => {
+    const { href, onClick, linkProps } = useHeader();
+
+    if (href) {
+        <Button size="icon-sm" variant="outline" asChild>
+            <Link href={href} {...linkProps}>
+                <MaterialSymbolsArrowRightAltRounded className="text-lg" />
+            </Link>
+        </Button>;
+    }
+
+    return (
+        <Button size="icon-sm" variant="outline" onClick={onClick}>
+            <MaterialSymbolsArrowRightAltRounded className="text-lg" />
+        </Button>
+    );
+};
+
+export { Header, HeaderContainer, HeaderNavButton, HeaderTitle };

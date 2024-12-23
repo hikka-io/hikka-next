@@ -4,7 +4,12 @@ import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import Anime from './anime';
@@ -41,43 +46,55 @@ const Favorites: FC<Props> = ({ extended }) => {
     return (
         <Block>
             <Header
-                title="Улюблені"
                 href={
                     !extended
                         ? '/u/' + params.username + '/favorites'
                         : undefined
                 }
             >
-                <ToggleGroup
-                    type="single"
-                    value={content}
-                    onValueChange={(value: API.ContentType) =>
-                        value && setContent(value)
-                    }
-                    size="badge"
-                >
-                    <ToggleGroupItem value="anime" aria-label="Улюблені аніме">
-                        Аніме
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="manga" aria-label="Улюблена манґа">
-                        Манґа
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="novel" aria-label="Улюблене ранобе">
-                        Ранобе
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                        value="character"
-                        aria-label="Улюблені персонажі"
+                <HeaderContainer>
+                    <HeaderTitle>Улюблені</HeaderTitle>
+                    <ToggleGroup
+                        type="single"
+                        value={content}
+                        onValueChange={(value: API.ContentType) =>
+                            value && setContent(value)
+                        }
+                        size="badge"
                     >
-                        Персонажі
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                        value="collection"
-                        aria-label="Улюблені колекції"
-                    >
-                        Колекції
-                    </ToggleGroupItem>
-                </ToggleGroup>
+                        <ToggleGroupItem
+                            value="anime"
+                            aria-label="Улюблені аніме"
+                        >
+                            Аніме
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            value="manga"
+                            aria-label="Улюблена манґа"
+                        >
+                            Манґа
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            value="novel"
+                            aria-label="Улюблене ранобе"
+                        >
+                            Ранобе
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            value="character"
+                            aria-label="Улюблені персонажі"
+                        >
+                            Персонажі
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            value="collection"
+                            aria-label="Улюблені колекції"
+                        >
+                            Колекції
+                        </ToggleGroupItem>
+                    </ToggleGroup>
+                </HeaderContainer>
+                <HeaderNavButton />
             </Header>
             {getComponent()}
         </Block>

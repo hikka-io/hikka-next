@@ -6,7 +6,12 @@ import { FC } from 'react';
 import LoadMoreButton from '@/components/load-more-button';
 import NovelCard from '@/components/novel-card';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import usePersonNovel from '@/services/hooks/people/use-person-novel';
@@ -26,10 +31,12 @@ const Novel: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title={'Ранобе'}
-                href={!extended ? params.slug + '/novel' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/novel' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Ранобе</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack
                 size={5}
                 extendedSize={5}

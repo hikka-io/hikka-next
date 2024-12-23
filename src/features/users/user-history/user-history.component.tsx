@@ -9,7 +9,7 @@ import {
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import useSession from '@/services/hooks/auth/use-session';
@@ -37,25 +37,31 @@ const UserHistory: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header title="Історія">
-                <ToggleGroup
-                    type="single"
-                    value={type}
-                    onValueChange={handleChangeType}
-                    size="badge"
-                >
-                    <ToggleGroupItem value="user" aria-label="Власна історія">
-                        Власна
-                    </ToggleGroupItem>
-                    {params.username === loggedUser?.username && (
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Історія</HeaderTitle>
+                    <ToggleGroup
+                        type="single"
+                        value={type}
+                        onValueChange={handleChangeType}
+                        size="badge"
+                    >
                         <ToggleGroupItem
-                            value="following"
-                            aria-label="Історія відстежуючих"
+                            value="user"
+                            aria-label="Власна історія"
                         >
-                            Відстежується
+                            Власна
                         </ToggleGroupItem>
-                    )}
-                </ToggleGroup>
+                        {params.username === loggedUser?.username && (
+                            <ToggleGroupItem
+                                value="following"
+                                aria-label="Історія відстежуючих"
+                            >
+                                Відстежується
+                            </ToggleGroupItem>
+                        )}
+                    </ToggleGroup>
+                </HeaderContainer>
             </Header>
             {type === 'user' && <History />}
             {type === 'following' && <FollowingHistory />}

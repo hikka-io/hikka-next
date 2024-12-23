@@ -4,11 +4,11 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import useArticles from '@/services/hooks/articles/use-articles';
 
-import ArticleItem from './article-item';
+import ArticleItem from '../../../components/article-item/article-item';
 
 interface Props {}
 
@@ -26,7 +26,11 @@ const ArticleList: FC<Props> = () => {
 
     return (
         <Block>
-            <Header variant="h2" title="Новини" />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle variant="h2">Новини</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <div className="flex flex-col gap-6">
                 {articles?.list.map((article) => (
                     <ArticleItem article={article} key={article.slug} />

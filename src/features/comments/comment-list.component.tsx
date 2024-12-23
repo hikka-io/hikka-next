@@ -8,7 +8,7 @@ import Comments from '@/components/comments/comments';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
 import useSession from '@/services/hooks/auth/use-session';
@@ -55,14 +55,17 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
 
     return (
         <Block>
-            <Header title={title}>
-                {comment_reference && (
-                    <Button size="md" variant="outline">
-                        <Link href={`/comments/${content_type}/${slug}`}>
-                            Всі коментарі
-                        </Link>
-                    </Button>
-                )}
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>{title}</HeaderTitle>
+                    {comment_reference && (
+                        <Button size="md" variant="outline">
+                            <Link href={`/comments/${content_type}/${slug}`}>
+                                Всі коментарі
+                            </Link>
+                        </Button>
+                    )}
+                </HeaderContainer>
             </Header>
             <div className="flex flex-col gap-4">
                 {loggedUser && !comment_reference && (

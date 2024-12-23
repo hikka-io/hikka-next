@@ -2,14 +2,20 @@
 
 import { memo } from 'react';
 
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 
 const ArticleTitle = () => {
     const title = useArticleContext((state) => state.title);
 
-    return <Header title={title || 'Нова стаття'} />;
+    return (
+        <Header>
+            <HeaderContainer>
+                <HeaderTitle>{title || 'Нова стаття'}</HeaderTitle>
+            </HeaderContainer>
+        </Header>
+    );
 };
 
 export default memo(ArticleTitle);

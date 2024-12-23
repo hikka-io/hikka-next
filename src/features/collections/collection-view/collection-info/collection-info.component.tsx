@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
@@ -43,7 +43,11 @@ const CollectionInfo = () => {
 
     return (
         <Block className="h-full">
-            <Header title="Деталі" />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Деталі</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <div className="flex size-full flex-col gap-4">
                 <Card className="w-full gap-6">
                     <CollectionAuthor />

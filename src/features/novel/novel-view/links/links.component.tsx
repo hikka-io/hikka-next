@@ -8,7 +8,7 @@ import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols
 import TextExpand from '@/components/text-expand';
 import P from '@/components/typography/p';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -51,29 +51,33 @@ const Links: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header title="Посилання">
-                <ToggleGroup
-                    type="single"
-                    value={active}
-                    onValueChange={handleChangeActive}
-                    size="badge"
-                >
-                    <ToggleGroupItem
-                        value="general"
-                        aria-label="Загальні посилання"
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Посилання</HeaderTitle>
+                    <ToggleGroup
+                        type="single"
+                        value={active}
+                        onValueChange={handleChangeActive}
+                        size="badge"
                     >
-                        <MaterialSymbolsInfoIRounded />
-                    </ToggleGroupItem>
-                    {readLinksData.length > 0 && (
                         <ToggleGroupItem
-                            value="read"
-                            aria-label="Посилання для читання"
+                            value="general"
+                            aria-label="Загальні посилання"
                         >
-                            <MaterialSymbolsPlayArrowRounded />
+                            <MaterialSymbolsInfoIRounded />
                         </ToggleGroupItem>
-                    )}
-                </ToggleGroup>
+                        {readLinksData.length > 0 && (
+                            <ToggleGroupItem
+                                value="read"
+                                aria-label="Посилання для читання"
+                            >
+                                <MaterialSymbolsPlayArrowRounded />
+                            </ToggleGroupItem>
+                        )}
+                    </ToggleGroup>
+                </HeaderContainer>
             </Header>
+
             <TextExpand
                 expanded={isExpanded}
                 setExpanded={setIsExpanded}

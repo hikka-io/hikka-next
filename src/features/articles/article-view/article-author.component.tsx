@@ -1,15 +1,9 @@
 'use client';
 
-import { formatDistance } from 'date-fns/formatDistance';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
-import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import Author from '@/components/article-item/article-author';
 
 import useArticle from '@/services/hooks/articles/use-article';
 
@@ -22,38 +16,7 @@ const ArticleAuthor: FC<Props> = () => {
         slug: String(params.slug),
     });
 
-    return (
-        <div className="flex items-center justify-between gap-2 p-4">
-            <div className="flex items-center gap-3">
-                <Link href={`/u/${article?.author.username}`}>
-                    <Avatar className="size-12 rounded-md">
-                        <AvatarFallback className="rounded-md">
-                            {article?.author.username[0]}
-                        </AvatarFallback>
-                        <AvatarImage src={article?.author.avatar} />
-                    </Avatar>
-                </Link>
-                <div className="flex flex-col gap-1">
-                    <Link href={`/u/${article?.author.username}`}>
-                        <H5>{article?.author.username}</H5>
-                    </Link>
-                    <P className="text-xs text-muted-foreground">
-                        {formatDistance(article!.updated * 1000, Date.now(), {
-                            addSuffix: true,
-                        })}
-                    </P>
-                </div>
-            </div>
-            <div className="flex gap-2">
-                <Button size="md" variant="outline">
-                    Відстежується
-                </Button>
-                <Button size="icon-md" variant="outline">
-                    <MaterialSymbolsMoreHoriz className="size-4" />
-                </Button>
-            </div>
-        </div>
-    );
+    return <Author article={article!} />;
 };
 
 export default ArticleAuthor;

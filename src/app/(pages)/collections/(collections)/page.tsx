@@ -9,7 +9,7 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import CollectionList from '@/features/collections/collection-list/collection-list.component';
 import CollectionSort from '@/features/collections/collection-list/collection-sort';
@@ -62,7 +62,10 @@ const CollectionsPage: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <Block>
                 <div className="flex items-center justify-between gap-4">
-                    <Header variant="h2" title="Колекції">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h2">Колекції</HeaderTitle>
+                        </HeaderContainer>
                         {auth && (
                             <Button asChild size="icon-sm" variant="outline">
                                 <Link href="/collections/new">
@@ -71,6 +74,7 @@ const CollectionsPage: FC<Props> = async (props) => {
                             </Button>
                         )}
                     </Header>
+
                     <CollectionSort />
                 </div>
                 <CollectionList page={Number(page)} sort={sort} />

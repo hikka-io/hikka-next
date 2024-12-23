@@ -7,7 +7,7 @@ import AnimeCard from '@/components/anime-card';
 import MangaCard from '@/components/manga-card';
 import NovelCard from '@/components/novel-card';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useFranchise from '@/services/hooks/related/use-franchise';
@@ -61,15 +61,18 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             <div className="flex items-center justify-between">
                 <Header
                     className="flex-1"
-                    title={title}
                     href={
                         !extended
                             ? params.slug +
                               '/franchise?content_types=anime&content_types=manga&content_types=novel'
                             : undefined
                     }
-                />
-                {extended && <FranchiseFilters />}
+                >
+                    <HeaderContainer>
+                        <HeaderTitle>{title}</HeaderTitle>
+                    </HeaderContainer>
+                    {extended && <FranchiseFilters />}
+                </Header>
             </div>
             <Stack
                 extended={extended}

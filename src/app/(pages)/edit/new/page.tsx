@@ -4,7 +4,7 @@ import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Content from '@/features/edit/edit-content/edit-content.component';
 import EditForm from '@/features/edit/edit-forms/edit-create-form.component';
@@ -72,7 +72,11 @@ const EditNewPage: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Block>
-                    <Header title="Нова правка" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle>Нова правка</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <RulesAlert />
                     <EditForm
                         slug={slug as string}

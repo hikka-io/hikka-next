@@ -1,25 +1,17 @@
-import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
-import { MaterialSymbolsMoreHoriz } from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import Muted from '@/components/typography/muted';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardDescription,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
+
+import { Header, HeaderContainer, HeaderTitle } from '../ui/header';
+import Author from './article-author';
 
 interface Props {
     article: API.Article;
@@ -28,29 +20,7 @@ interface Props {
 const ArticleItem: FC<Props> = ({ article }) => {
     return (
         <Card className="p-0 gap-0 overflow-hidden">
-            <div className="flex p-4 justify-between items-center">
-                <HorizontalCard href={`/u/${article.author.username}`}>
-                    <HorizontalCardImage
-                        image={article.author.avatar}
-                        imageRatio={1}
-                    />
-                    <HorizontalCardContainer className="gap-0">
-                        <HorizontalCardTitle>
-                            {article.author.username}
-                        </HorizontalCardTitle>
-                        <HorizontalCardDescription>
-                            {formatDistance(
-                                article.updated * 1000,
-                                Date.now(),
-                                { addSuffix: true },
-                            )}
-                        </HorizontalCardDescription>
-                    </HorizontalCardContainer>
-                </HorizontalCard>
-                <Button size="icon-md" variant="outline">
-                    <MaterialSymbolsMoreHoriz className="size-4" />
-                </Button>
-            </div>
+            <Author article={article} />
             <Link
                 className="flex flex-col gap-4 cursor-pointer"
                 href={`/${article.category}/${article.slug}`}
@@ -73,7 +43,13 @@ const ArticleItem: FC<Props> = ({ article }) => {
                                     article.content.title_ja}
                             </Muted>
                         )}
-                        <Header variant="h4" title={article.title} />
+                        <Header>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h4">
+                                    {article.title}
+                                </HeaderTitle>
+                            </HeaderContainer>
+                        </Header>
                     </div>
                     <MDViewer
                         preview

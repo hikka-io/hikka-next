@@ -6,7 +6,12 @@ import { FC } from 'react';
 import AnimeCard from '@/components/anime-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import usePersonAnime from '@/services/hooks/people/use-person-anime';
@@ -26,10 +31,12 @@ const Anime: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title={'Аніме'}
-                href={!extended ? params.slug + '/anime' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/anime' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Аніме</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack
                 size={5}
                 extendedSize={5}

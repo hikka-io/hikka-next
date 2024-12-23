@@ -3,7 +3,7 @@
 import { FC, memo } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import {
@@ -28,14 +28,15 @@ const CollectionGrid: FC<Props> = ({ group }) => {
     return (
         <div className="flex flex-col gap-4">
             {group.isGroup && (
-                <Header
-                    title={
-                        group.title && group.title.trim().length > 0
-                            ? group.title
-                            : 'Нова група'
-                    }
-                    variant="h5"
-                />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h5">
+                            {group.title && group.title.trim().length > 0
+                                ? group.title
+                                : 'Нова група'}
+                        </HeaderTitle>
+                    </HeaderContainer>
+                </Header>
             )}
             <Stack size={5} extendedSize={5} extended>
                 {items.map((item) => (

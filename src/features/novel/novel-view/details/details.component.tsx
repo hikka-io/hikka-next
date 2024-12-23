@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
@@ -25,7 +25,11 @@ const Details = () => {
 
     return (
         <Block>
-            <Header title="Деталі" />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Деталі</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <Card>
                 <MediaType media_type={data.media_type} />
                 <Status status={data.status} />

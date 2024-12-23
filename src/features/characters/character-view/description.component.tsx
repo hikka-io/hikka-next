@@ -6,7 +6,7 @@ import { useState } from 'react';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import useCharacterInfo from '@/services/hooks/characters/use-character-info';
@@ -22,24 +22,27 @@ const Description = () => {
 
     return (
         <Block>
-            <Header title="Опис">
-                <ToggleGroup
-                    type="single"
-                    value={active}
-                    onValueChange={(value: 'description_ua') =>
-                        value && setActive(value)
-                    }
-                    size="badge"
-                >
-                    {character.description_ua && (
-                        <ToggleGroupItem
-                            value="description_ua"
-                            aria-label="Назва українскою"
-                        >
-                            UA
-                        </ToggleGroupItem>
-                    )}
-                </ToggleGroup>
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle>Опис</HeaderTitle>
+                    <ToggleGroup
+                        type="single"
+                        value={active}
+                        onValueChange={(value: 'description_ua') =>
+                            value && setActive(value)
+                        }
+                        size="badge"
+                    >
+                        {character.description_ua && (
+                            <ToggleGroupItem
+                                value="description_ua"
+                                aria-label="Назва українскою"
+                            >
+                                UA
+                            </ToggleGroupItem>
+                        )}
+                    </ToggleGroup>
+                </HeaderContainer>
             </Header>
             <TextExpand>
                 <MDViewer>

@@ -6,12 +6,28 @@ import PopularAuthors from '@/features/articles/article-list/popular-authors.com
 import PopularTags from '@/features/articles/article-list/popular-tags.component';
 import ArticleFilters from '@/features/filters/article-filters.component';
 
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
 import getQueryClient from '@/utils/get-query-client';
 
 const ArticlesPage = async (props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
     params: Promise<Record<string, any>>;
 }) => {
+    const params = await props.params;
+    const searchParams = await props.searchParams;
+
+    const { category } = params;
+
     const queryClient = await getQueryClient();
+
+    const author = searchParams.author || undefined;
+    const sort = searchParams.sort || 'created';
+    const order = searchParams.order || 'desc';
+
+    await prefetchArticles({
+        author: author as string,
+        sort: [`${sort}:${order}`],
+    });
 
     const dehydratedState = dehydrate(queryClient);
 

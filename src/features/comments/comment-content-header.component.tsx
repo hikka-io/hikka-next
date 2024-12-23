@@ -3,7 +3,12 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 
 import useContent from '@/features/comments/useContent';
 
@@ -25,7 +30,12 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
 
     return (
         <div>
-            <Header href={link} title={data?.title} variant="h2" />
+            <Header href={link}>
+                <HeaderContainer>
+                    <HeaderTitle variant="h2">{data?.title}</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <P className="text-sm text-muted-foreground">
                 {CONTENT_TYPES[content_type].title_ua}
             </P>
