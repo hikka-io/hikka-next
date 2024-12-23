@@ -9,29 +9,19 @@ import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/utils';
 
-import AgeRating from './prebuilt/age-rating';
-import Genre from './prebuilt/genre';
-import Localization from './prebuilt/localization';
-import MediaType from './prebuilt/media-type';
-import ReleaseStatus from './prebuilt/release-status';
-import Season from './prebuilt/season';
 import Sort from './prebuilt/sort';
-import Studio from './prebuilt/studio';
-import Year from './prebuilt/year';
+import User from './prebuilt/user';
 
 interface Props {
     className?: string;
-    content_type: API.ContentType;
-    sort_type: 'anime' | 'watch';
 }
 
-const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
+const ArticleFilters: FC<Props> = ({ className }) => {
     const router = useRouter();
     const pathname = usePathname();
 
     const clearFilters = () => {
         router.replace(`${pathname}`);
-        // setSelectingYears(YEARS.map((y) => String(y)));
     };
 
     return (
@@ -42,15 +32,8 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             )}
         >
             <div className="mt-4 flex flex-col md:mt-0">
-                <ReleaseStatus />
-                <Season />
-                <Genre />
-                <MediaType content_type={content_type} />
-                <Localization />
-                <Sort sort_type={sort_type} />
-                <AgeRating />
-                <Studio />
-                <Year />
+                <Sort sort_type="article" />
+                <User title="Автор" paramKey="author" />
             </div>
             <Button
                 variant="secondary"
@@ -66,4 +49,4 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     );
 };
 
-export default AnimeFilters;
+export default ArticleFilters;

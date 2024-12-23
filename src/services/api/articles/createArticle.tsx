@@ -9,8 +9,12 @@ export interface Params {
     text: string;
     title: string;
     tags: string[];
-    content?: API.MainContent;
+    content?: {
+        slug: string;
+        content_type: API.ContentType;
+    };
     draft?: boolean;
+    cover?: string;
     category: API.ArticleCategory;
 }
 

@@ -22,16 +22,18 @@ import useChangeParam from '../use-change-param';
 
 interface Props {
     className?: string;
+    paramKey: string;
+    title: string;
 }
 
-const EditAuthor: FC<Props> = ({ className }) => {
+const User: FC<Props> = ({ className, paramKey, title }) => {
     const searchParams = useSearchParams()!;
     const [userSearch, setUserSearch] = useState<string>();
     const { data: users, isFetching: isUsersFetching } = useUsers({
         query: userSearch,
     });
 
-    const author = searchParams.get('author');
+    const user = searchParams.get(paramKey);
 
     const handleChangeParam = useChangeParam();
 
@@ -45,10 +47,10 @@ const EditAuthor: FC<Props> = ({ className }) => {
     };
 
     return (
-        <CollapsibleFilter title="Автор">
+        <CollapsibleFilter title={title}>
             <Select
-                value={author !== null ? [author] : []}
-                onValueChange={(value) => handleChangeParam('author', value[0])}
+                value={user !== null ? [user] : []}
+                onValueChange={(value) => handleChangeParam(paramKey, value[0])}
                 onOpenChange={() => setUserSearch(undefined)}
                 onSearch={handleUserSearch}
             >
@@ -81,4 +83,4 @@ const EditAuthor: FC<Props> = ({ className }) => {
     );
 };
 
-export default EditAuthor;
+export default User;

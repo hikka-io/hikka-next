@@ -20,7 +20,7 @@ import getQueryClient from '@/utils/get-query-client';
 const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
     const params = await props.params;
 
-    const { slug } = params;
+    const { slug, category } = params;
 
     const queryClient = await getQueryClient();
 
@@ -41,7 +41,7 @@ const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        href={'/articles/' + slug}
+                        href={`/${category}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {article?.title}

@@ -11,10 +11,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/utils/utils';
 
 import ContentType from './prebuilt/content-type';
-import EditAuthor from './prebuilt/edit-author';
-import EditModerator from './prebuilt/edit-moderator';
 import EditStatus from './prebuilt/edit-status';
 import Sort from './prebuilt/sort';
+import User from './prebuilt/user';
 
 interface Props {
     className?: string;
@@ -48,8 +47,8 @@ const EditFilters: FC<Props> = ({ className }) => {
                     ]}
                 />
 
-                <EditAuthor />
-                <EditModerator />
+                <User title="Автор" paramKey="author" />
+                <User title="Модератор" paramKey="moderator" />
             </div>
             <Button
                 variant="secondary"

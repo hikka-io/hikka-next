@@ -9,6 +9,8 @@ export type ArticleState = {
     text?: string;
     tags: string[];
     draft?: boolean;
+    content?: API.MainContent;
+    cover?: string;
 };
 
 export type ArticleActions = {
@@ -18,18 +20,22 @@ export type ArticleActions = {
     setText: (text: string) => void;
     setTags: (tags: string[]) => void;
     setDraft: (draft: boolean) => void;
+    setContent: (content?: API.MainContent) => void;
+    setCover: (cover: string) => void;
     getText: () => string | undefined;
 };
 
 export type ArticleStore = ArticleState & ArticleActions;
 
-export const createArticleStore = (initProps?: ArticleState) => {
+export const createArticleStore = (initProps?: Partial<ArticleState>) => {
     const DEFAULT_PROPS: ArticleState = {
         title: undefined,
         category: 'news',
         text: undefined,
         tags: [],
         draft: true,
+        content: undefined,
+        cover: undefined,
     };
     return createStore<ArticleStore>()((set, get) => ({
         ...DEFAULT_PROPS,
@@ -44,6 +50,8 @@ export const createArticleStore = (initProps?: ArticleState) => {
         setText: (text: string) => set({ text }),
         setTags: (tags: string[]) => set({ tags }),
         setDraft: (draft: boolean) => set({ draft }),
+        setContent: (content: API.MainContent) => set({ content }),
+        setCover: (cover: string) => set({ cover }),
         getText: () => get().text,
     }));
 };

@@ -10,9 +10,13 @@ export interface Params {
     text: string;
     title: string;
     tags: string[];
-    content?: API.MainContent;
+    content?: {
+        slug: string;
+        content_type: API.ContentType;
+    };
     draft?: boolean;
     category: API.ArticleCategory;
+    cover?: string;
 }
 
 export default async function req({
@@ -27,6 +31,7 @@ export default async function req({
             content: params?.content,
             draft: params?.draft,
             category: params?.category,
+            cover: params?.cover,
         },
         ...props,
         path: `/articles/${params?.slug}`,

@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
@@ -10,11 +8,15 @@ import ArticleTitle from '@/features/articles/article-edit/article-title.compone
 
 import ArticleProvider from '@/services/providers/article-provider';
 
-interface Props {}
+const ArticleNewPage = async (props: {
+    params: Promise<Record<string, any>>;
+}) => {
+    const params = await props.params;
 
-const ArticleNewPage: FC<Props> = () => {
+    const { category } = params;
+
     return (
-        <ArticleProvider>
+        <ArticleProvider initialState={{ category }}>
             <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                 <Block>
                     <ArticleTitle />

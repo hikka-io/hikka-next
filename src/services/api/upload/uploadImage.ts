@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 
@@ -10,7 +9,7 @@ export interface Response {
 
 export interface Params {
     file: File;
-    upload_type: 'avatar' | 'cover';
+    upload_type: 'avatar' | 'cover' | 'attachment';
 }
 
 export default async function req({

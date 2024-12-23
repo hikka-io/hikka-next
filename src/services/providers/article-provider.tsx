@@ -10,7 +10,7 @@ import {
 } from '../stores/article-store';
 
 type ArticleProviderProps = React.PropsWithChildren<{
-    initialState?: ArticleState;
+    initialState?: Partial<ArticleState>;
 }>;
 
 type ArticleReturnStore = ReturnType<typeof createArticleStore>;

@@ -230,11 +230,11 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         visible: true,
     },
     {
-        slug: 'articles',
-        title_ua: 'Статті',
-        url: '/articles',
+        slug: 'news',
+        title_ua: 'Новини',
+        url: '/news',
         icon: MaterialSymbolsStack,
-        visible: false,
+        visible: true,
     },
     {
         slug: 'schedule',

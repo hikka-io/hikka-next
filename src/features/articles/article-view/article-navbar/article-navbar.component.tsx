@@ -38,9 +38,7 @@ const ArticleNavbar: FC<Props> = () => {
     }
 
     const handleCopyLink = useCallback(() => {
-        navigator.clipboard.writeText(
-            `${process.env.NEXT_PUBLIC_SITE_URL}/articles/${params.slug}`,
-        );
+        navigator.clipboard.writeText(window.location.href);
         enqueueSnackbar('Ви успішно скопіювали посилання.', {
             variant: 'success',
         });

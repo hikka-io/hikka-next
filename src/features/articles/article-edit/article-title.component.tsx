@@ -9,9 +9,7 @@ import { useArticleContext } from '@/services/providers/article-provider';
 const ArticleTitle = () => {
     const title = useArticleContext((state) => state.title);
 
-    console.log('ArticleTitle', title);
-
-    return <Header title={title || 'Нова колекція'} />;
+    return <Header title={title || 'Нова стаття'} />;
 };
 
 export default memo(ArticleTitle);

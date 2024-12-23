@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, ReactNode, useRef, useState } from 'react';
+import { FC, Fragment, ReactNode, useRef, useState } from 'react';
 
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 
@@ -22,9 +22,16 @@ interface Props {
     type?: 'link' | 'button';
     children?: ReactNode;
     content_type?: API.ContentType;
+    allowedTypes?: (API.ContentType | 'user')[];
 }
 
-const SearchModal = ({ onClick, type, content_type, children }: Props) => {
+const SearchModal: FC<Props> = ({
+    onClick,
+    type,
+    content_type,
+    children,
+    allowedTypes,
+}) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchType, setSearchType] = useState<API.ContentType | 'user'>(
         content_type || 'anime',
@@ -33,7 +40,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
-    const { value } = useDebounce({ value: searchValue, delay: 500 });
+    const value = useDebounce(searchValue, 500);
 
     const onDismiss = (content: API.MainContent | API.User) => {
         setSearchValue('');
@@ -64,6 +71,7 @@ const SearchModal = ({ onClick, type, content_type, children }: Props) => {
                     containerClassName="dark:bg-secondary/30 gap-3"
                 >
                     <SearchToggle
+                        allowedTypes={allowedTypes}
                         inputRef={inputRef}
                         disabled={Boolean(content_type)}
                         setType={setSearchType}

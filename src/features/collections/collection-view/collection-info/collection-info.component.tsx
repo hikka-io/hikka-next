@@ -26,7 +26,7 @@ const CollectionInfo = () => {
     const params = useParams();
     const { nsfw, spoiler, tags } = useCollectionContext();
 
-    const { user: loggedUser } = useSession();
+    const { user: loggedUser, isAdmin, isModerator } = useSession();
 
     const { data: collection } = useCollection({
         reference: String(params.reference),
@@ -34,8 +34,8 @@ const CollectionInfo = () => {
 
     const access =
         collection?.author.username === loggedUser?.username ||
-        loggedUser?.role === 'admin' ||
-        loggedUser?.role === 'moderator';
+        isAdmin() ||
+        isModerator();
 
     if (!collection) {
         return null;

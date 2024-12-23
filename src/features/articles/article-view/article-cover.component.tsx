@@ -28,8 +28,8 @@ const ArticleCover: FC<Props> = () => {
         <Image
             src={article.cover}
             alt={'article cover'}
-            width={1260}
-            height={283}
+            width={768}
+            height={208}
             className="h-52 w-full object-cover"
         />
     );

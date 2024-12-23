@@ -21,7 +21,9 @@ const ArticleTags: FC<Props> = () => {
     return (
         <div className="flex gap-2">
             {article?.tags.map((tag) => (
-                <Badge variant="secondary">{tag}</Badge>
+                <Badge key={tag} variant="secondary">
+                    {tag}
+                </Badge>
             ))}
         </div>
     );

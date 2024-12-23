@@ -82,12 +82,26 @@ const SORT_EDITLIST = [
     },
 ];
 
+const SORT_ARTICLELIST = [
+    {
+        label: 'Дата створення',
+        value: 'created',
+    },
+];
+
 interface Props {
     className?: string;
-    sort_type: 'anime' | 'watch' | 'manga' | 'novel' | 'read' | 'edit';
+    sort_type:
+        | 'anime'
+        | 'watch'
+        | 'manga'
+        | 'novel'
+        | 'read'
+        | 'edit'
+        | 'article';
 }
 
-const Sort: FC<Props> = ({ sort_type }) => {
+const Sort: FC<Props> = ({ sort_type, className }) => {
     const searchParams = useSearchParams()!;
 
     const order = searchParams.get('order');
@@ -109,6 +123,8 @@ const Sort: FC<Props> = ({ sort_type }) => {
                 return SORT_READLIST;
             case 'edit':
                 return SORT_EDITLIST;
+            case 'article':
+                return SORT_ARTICLELIST;
             default:
                 return SORT_CONTENT;
         }
@@ -123,7 +139,7 @@ const Sort: FC<Props> = ({ sort_type }) => {
                         handleChangeParam('sort', value[0])
                     }
                 >
-                    <SelectTrigger className="flex-1">
+                    <SelectTrigger className="flex-1 min-w-0">
                         <SelectValue placeholder="Виберіть сортування..." />
                     </SelectTrigger>
                     <SelectContent>

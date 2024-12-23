@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 
 import updateArticle from '@/services/api/articles/updateArticle';
 import { useArticleContext } from '@/services/providers/article-provider';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {}
 
@@ -24,6 +23,8 @@ const EditActions: FC<Props> = () => {
     const title = useArticleContext((state) => state.title);
     const tags = useArticleContext((state) => state.tags);
     const category = useArticleContext((state) => state.category);
+    const cover = useArticleContext((state) => state.cover);
+    const content = useArticleContext((state) => state.content);
     const getText = useArticleContext((state) => state.getText);
     const setArticle = useArticleContext((state) => state.setArticle);
 
@@ -54,19 +55,23 @@ const EditActions: FC<Props> = () => {
                     tags,
                     draft,
                     category: category!,
+                    content: content
+                        ? {
+                              slug: content.slug,
+                              content_type: content.data_type,
+                          }
+                        : undefined,
+                    cover: cover,
                 },
             });
         },
-        [getText, title, tags, category, mutateUpdateArticle],
+        [getText, title, tags, category, cover, content, mutateUpdateArticle],
     );
 
     return (
         <div className="flex flex-col gap-4">
             <Button asChild variant="secondary">
-                <Link
-                    target="_blank"
-                    href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
-                >
+                <Link target="_blank" href={`${category}/${slug}`}>
                     <MaterialSymbolsVisibilityOutline className="size-4" />
                     Переглянути
                 </Link>

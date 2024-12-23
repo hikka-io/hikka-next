@@ -1,7 +1,10 @@
 'use client';
 
-import { FC, memo } from 'react';
+import { FC } from 'react';
+import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
+import { Button } from '@/components/ui/button';
+import HorizontalCard from '@/components/ui/horizontal-card';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
@@ -16,9 +19,14 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
+import SearchModal from '@/features/modals/search-modal/search-modal.component';
+
 import useSession from '@/services/hooks/auth/use-session';
 import { useArticleContext } from '@/services/providers/article-provider';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import {
+    ARTICLE_CATEGORY_OPTIONS,
+    CONTENT_TYPES,
+} from '@/utils/constants/common';
 
 import CreateActions from './create-actions';
 import EditActions from './edit-actions';
@@ -26,15 +34,17 @@ import EditActions from './edit-actions';
 interface Props {}
 
 const ArticleSettings: FC<Props> = () => {
-    const { user: loggedUser } = useSession();
+    const { isAdmin, isModerator } = useSession();
 
     const slug = useArticleContext((state) => state.slug);
     const title = useArticleContext((state) => state.title);
     const tags = useArticleContext((state) => state.tags);
     const category = useArticleContext((state) => state.category);
+    const content = useArticleContext((state) => state.content);
     const setTitle = useArticleContext((state) => state.setTitle);
     const setTags = useArticleContext((state) => state.setTags);
     const setCategory = useArticleContext((state) => state.setCategory);
+    const setContent = useArticleContext((state) => state.setContent);
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
@@ -48,6 +58,51 @@ const ArticleSettings: FC<Props> = () => {
                         value={title || ''}
                         onChange={(e) => setTitle(e.target.value)}
                     />
+                </div>
+
+                <div className="flex flex-col gap-4">
+                    <Label className="text-muted-foreground">Контент</Label>
+                    {content && (
+                        <HorizontalCard
+                            title={
+                                content.data_type === 'character' ||
+                                content.data_type === 'person'
+                                    ? content.name_ua || content.name_en
+                                    : content.title ||
+                                      content.title_ua ||
+                                      content.title_en
+                            }
+                            titleClassName="line-clamp-2"
+                            description={
+                                CONTENT_TYPES[content.data_type].title_ua
+                            }
+                            image={content.image}
+                            href={`/${content.data_type}/${content.slug}`}
+                        >
+                            <Button
+                                size="icon"
+                                variant="outline"
+                                onClick={() => setContent(undefined)}
+                            >
+                                <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                            </Button>
+                        </HorizontalCard>
+                    )}
+                    {!content && (
+                        <SearchModal
+                            allowedTypes={['anime', 'manga', 'novel']}
+                            onClick={(value) =>
+                                setContent(
+                                    value as API.MainContent & {
+                                        title?: string;
+                                    },
+                                )
+                            }
+                            type="button"
+                        >
+                            <Button variant="secondary">Додати контент</Button>
+                        </SearchModal>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-4">
@@ -67,6 +122,7 @@ const ArticleSettings: FC<Props> = () => {
                         Категорія
                     </Label>
                     <Select
+                        disabled={!isAdmin() && !isModerator()}
                         value={category ? [category] : category}
                         onValueChange={(value: API.ArticleCategory[]) =>
                             setCategory(value[0])
@@ -81,10 +137,7 @@ const ArticleSettings: FC<Props> = () => {
                                     {ARTICLE_CATEGORY_OPTIONS.filter(
                                         (option) =>
                                             option.admin
-                                                ? loggedUser?.role ===
-                                                      'admin' ||
-                                                  loggedUser?.role ===
-                                                      'moderator'
+                                                ? isAdmin() || isModerator()
                                                 : true,
                                     ).map((option) => (
                                         <SelectItem
@@ -107,4 +160,4 @@ const ArticleSettings: FC<Props> = () => {
     );
 };
 
-export default memo(ArticleSettings);
+export default ArticleSettings;

@@ -21,7 +21,7 @@ const ArticleUpdatePage = async (props: {
 }) => {
     const params = await props.params;
 
-    const { slug } = params;
+    const { slug, category } = params;
 
     const queryClient = await getQueryClient();
 
@@ -42,7 +42,7 @@ const ArticleUpdatePage = async (props: {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        href={'/articles/' + slug}
+                        href={`/${category}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {article?.title}

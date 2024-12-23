@@ -21,6 +21,8 @@ const CreateActions: FC<Props> = () => {
     const title = useArticleContext((state) => state.title);
     const tags = useArticleContext((state) => state.tags);
     const category = useArticleContext((state) => state.category);
+    const cover = useArticleContext((state) => state.cover);
+    const content = useArticleContext((state) => state.content);
     const getText = useArticleContext((state) => state.getText);
 
     const { mutate: mutateCreateArticle, isPending } = useMutation({
@@ -30,7 +32,7 @@ const CreateActions: FC<Props> = () => {
                 variant: 'success',
             });
 
-            router.push(`/articles/${data.slug}/update`);
+            router.push(`/${data.category}/${data.slug}/update`);
         },
     });
 
@@ -48,11 +50,18 @@ const CreateActions: FC<Props> = () => {
                     title: title || '',
                     tags,
                     draft,
+                    cover,
+                    content: content
+                        ? {
+                              slug: content.slug,
+                              content_type: content.data_type,
+                          }
+                        : undefined,
                     category: category!,
                 },
             });
         },
-        [getText, title, tags, category, mutateCreateArticle],
+        [getText, title, tags, category, content, cover, mutateCreateArticle],
     );
 
     return (
