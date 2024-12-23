@@ -10,7 +10,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Header from '@/components/ui/header';
-import HorizontalCard from '@/components/ui/horizontal-card';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 
@@ -22,17 +28,24 @@ const ArticleItem: FC<Props> = ({ article }) => {
     return (
         <Card className="p-0 gap-0 overflow-hidden">
             <div className="flex p-4 justify-between items-center">
-                <HorizontalCard
-                    title={article.author.username}
-                    image={article.author.avatar}
-                    imageRatio={1}
-                    href={`/u/MatthewBishop`}
-                    description={formatDistance(
-                        article.updated * 1000,
-                        Date.now(),
-                        { addSuffix: true },
-                    )}
-                />
+                <HorizontalCard href={`/u/${article.author.username}`}>
+                    <HorizontalCardImage
+                        image={article.author.avatar}
+                        imageRatio={1}
+                    />
+                    <HorizontalCardContainer>
+                        <HorizontalCardTitle>
+                            {article.author.username}
+                        </HorizontalCardTitle>
+                        <HorizontalCardDescription>
+                            {formatDistance(
+                                article.updated * 1000,
+                                Date.now(),
+                                { addSuffix: true },
+                            )}
+                        </HorizontalCardDescription>
+                    </HorizontalCardContainer>
+                </HorizontalCard>
                 <Button size="icon-md" variant="outline">
                     <MaterialSymbolsMoreHoriz className="size-4" />
                 </Button>

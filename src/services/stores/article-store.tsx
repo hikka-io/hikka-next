@@ -50,7 +50,7 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         setText: (text: string) => set({ text }),
         setTags: (tags: string[]) => set({ tags }),
         setDraft: (draft: boolean) => set({ draft }),
-        setContent: (content: API.MainContent) => set({ content }),
+        setContent: (content?: API.MainContent) => set({ content }),
         setCover: (cover: string) => set({ cover }),
         getText: () => get().text,
     }));

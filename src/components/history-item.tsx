@@ -1,9 +1,16 @@
+import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import HorizontalCard from '@/components/ui/horizontal-card';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 import {
     Tooltip,
     TooltipContent,
@@ -46,28 +53,41 @@ const HistoryItem: FC<Props> = (props) => {
 
     return (
         <HorizontalCard
-            title={data.content?.title || 'Загальне'}
+            className={className}
             href={
                 data.content
                     ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
                     : '#'
             }
-            description={activity.join(', ')}
-            descriptionClassName="line-clamp-2"
-            descriptionHref={
-                data.content &&
-                `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
-            }
-            createdAt={data.updated}
-            image={
-                data.content?.data_type === 'anime'
-                    ? data.content?.image
-                    : data.content?.image || (
-                          <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
-                      )
-            }
-            className={className}
         >
+            <HorizontalCardImage
+                image={
+                    data.content?.data_type === 'anime'
+                        ? data.content?.image
+                        : data.content?.image || (
+                              <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
+                          )
+                }
+            />
+            <HorizontalCardContainer>
+                <HorizontalCardTitle>
+                    {data.content?.title || 'Загальне'}
+                </HorizontalCardTitle>
+                <HorizontalCardDescription
+                    className="line-clamp-2"
+                    href={
+                        data.content &&
+                        `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+                    }
+                >
+                    {activity.join(', ')}
+                </HorizontalCardDescription>
+                <HorizontalCardDescription className="opacity-60">
+                    {formatDistance(data.created * 1000, Date.now(), {
+                        addSuffix: true,
+                    })}
+                </HorizontalCardDescription>
+            </HorizontalCardContainer>
             {withUser && <User {...props} />}
         </HorizontalCard>
     );

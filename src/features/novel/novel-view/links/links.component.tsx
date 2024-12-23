@@ -9,7 +9,12 @@ import TextExpand from '@/components/text-expand';
 import P from '@/components/typography/p';
 import Block from '@/components/ui/block';
 import Header from '@/components/ui/header';
-import HorizontalCard from '@/components/ui/horizontal-card';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import useNovelInfo from '@/services/hooks/novel/use-novel-info';
@@ -76,15 +81,18 @@ const Links: FC<Props> = ({ extended }) => {
             >
                 <div className="flex flex-col gap-4">
                     {linksData.map((link) => (
-                        <HorizontalCard
-                            key={link.url}
-                            title={link.text}
-                            href={link.url}
-                            imageRatio={1}
-                            imageContainerClassName="w-8"
-                            descriptionClassName="break-all"
-                            image={<P>{link.text[0]}</P>}
-                        />
+                        <HorizontalCard key={link.url} href={link.url}>
+                            <HorizontalCardImage
+                                imageRatio={1}
+                                className="w-8"
+                                image={<P>{link.text[0]}</P>}
+                            />
+                            <HorizontalCardContainer>
+                                <HorizontalCardTitle>
+                                    {link.text}
+                                </HorizontalCardTitle>
+                            </HorizontalCardContainer>
+                        </HorizontalCard>
                     ))}
                 </div>
             </TextExpand>
