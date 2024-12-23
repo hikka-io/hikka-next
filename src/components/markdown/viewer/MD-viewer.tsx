@@ -15,10 +15,10 @@ import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
 
 interface Props extends Options {
-    disableSpoiler?: boolean;
+    preview?: boolean;
 }
 
-const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
+const MDViewer = ({ children, className, preview, ...props }: Props) => {
     return (
         <Markdown
             className={cn('markdown w-full', className)}
@@ -32,16 +32,21 @@ const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
                 ],
             ]}
             components={{
-                spoiler: disableSpoiler ? NoSpoiler : Spoiler,
+                spoiler: preview ? NoSpoiler : Spoiler,
                 // @ts-ignore
-                a: ({ node, children }) => (
-                    <Link
-                        href={(node?.properties?.href as string) || ''}
-                        className="break-all"
-                    >
-                        {children}
-                    </Link>
-                ),
+                a: ({ node, children }) =>
+                    preview ? (
+                        <span className="text-primary hover:underline">
+                            {children}
+                        </span>
+                    ) : (
+                        <Link
+                            href={(node?.properties?.href as string) || ''}
+                            className="break-all"
+                        >
+                            {children}
+                        </Link>
+                    ),
             }}
             {...props}
         >

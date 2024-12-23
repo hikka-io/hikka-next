@@ -134,7 +134,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 </div>
                 {user?.description && (
                     <MDViewer
-                        disableSpoiler
+                        preview
                         className="line-clamp-1 text-xs text-muted-foreground"
                     >
                         {user.description}

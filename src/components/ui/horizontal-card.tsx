@@ -65,7 +65,7 @@ const HorizontalCardDescription: FC<
         <Small className={cn('line-clamp-1 text-muted-foreground', className)}>
             <Link href={href}>
                 {typeof children === 'string' ? (
-                    <MDViewer disableSpoiler>{children}</MDViewer>
+                    <MDViewer preview>{children}</MDViewer>
                 ) : (
                     children
                 )}

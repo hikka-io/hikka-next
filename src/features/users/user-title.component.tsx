@@ -55,7 +55,7 @@ const UserTitle = () => {
             </div>
             {user.description && (
                 <MDViewer
-                    disableSpoiler
+                    preview
                     className="line-clamp-4 text-sm text-muted-foreground"
                 >
                     {user.description}

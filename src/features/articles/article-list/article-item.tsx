@@ -66,7 +66,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                 <div className="flex flex-col gap-4 p-4">
                     <Header variant="h4" title={article.title} />
                     <MDViewer
-                        disableSpoiler
+                        preview
                         className="text-sm text-muted-foreground line-clamp-3"
                     >
                         {article.text.substring(0, 500)}
