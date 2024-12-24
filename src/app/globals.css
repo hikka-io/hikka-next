@@ -341,12 +341,12 @@ td:last-child {
 
 .markdown p {
     @apply mb-4 break-words;
+    overflow-wrap: anywhere;
 }
 
 .markdown a {
     @apply text-primary hover:underline;
 }
-
 
 .markdown pre {
     @apply mb-4 overflow-scroll rounded-md border border-secondary/60 bg-secondary/30 p-4;
@@ -362,13 +362,12 @@ td:last-child {
 }
 
 .markdown ol {
-    @apply ps-6 list-decimal mb-4;
+    @apply mb-4 list-decimal ps-6;
 }
 
 .markdown ul {
-    @apply ps-6 list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square] mb-4;
+    @apply mb-4 list-disc ps-6 [&_ul]:list-[circle] [&_ul_ul]:list-[square];
 }
-
 
 .progress-ring__circle {
     transition: stroke-dasharray 0.35s;
