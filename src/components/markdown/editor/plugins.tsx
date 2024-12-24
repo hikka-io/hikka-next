@@ -1,7 +1,7 @@
 'use client';
 
 import { BasicElementsPlugin } from '@udecode/plate-basic-elements/react';
-import { BasicMarksPlugin } from '@udecode/plate-basic-marks/react';
+import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
 import { isSelectionAtBlockStart } from '@udecode/plate-common';
@@ -30,7 +30,8 @@ const resetBlockTypesCommonRule = {
 export const editorPlugins = [
     DiffPlugin,
     BasicElementsPlugin,
-    BasicMarksPlugin,
+    BoldPlugin,
+    ItalicPlugin,
     linkPlugin,
     ListPlugin,
     NumberedListPlugin,
