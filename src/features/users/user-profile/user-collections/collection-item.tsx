@@ -26,42 +26,47 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
         content.data_type === 'anime' ? content.image : content.image;
 
     return (
-        <HorizontalCard href={`/collections/${data.reference}`}>
+        <HorizontalCard
+            href={`/collections/${data.reference}`}
+            className={className}
+        >
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
                 className={cn(data.nsfw && 'spoiler-blur-sm')}
             />
             <HorizontalCardContainer>
-                <HorizontalCardTitle
-                    className={cn(data.spoiler && 'spoiler-blur-sm')}
-                >
-                    {data.title}
+                <div className="inline-flex items-center gap-2">
+                    <HorizontalCardTitle
+                        className={cn(data.spoiler && 'spoiler-blur-sm')}
+                    >
+                        {data.title}
+                    </HorizontalCardTitle>
                     {data.spoiler && (
                         <div className="size-2 rounded-full bg-warning" />
                     )}
                     {data.nsfw && (
                         <div className="size-2 rounded-full bg-destructive" />
                     )}
-                </HorizontalCardTitle>
+                </div>
                 <HorizontalCardDescription
                     className={cn(data.spoiler && 'spoiler-blur-sm')}
                 >
                     {data.description}
                 </HorizontalCardDescription>
                 <HorizontalCardContainer className="flex-row text-xs text-muted-foreground">
-                    <div className="flex gap-1">
+                    <div className="flex items-center gap-1">
                         <MaterialSymbolsGridViewRounded />
                         <Small>{data.entries}</Small>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex items-center gap-1">
                         <IconamoonCommentFill />
                         <Small>{data.comments_count}</Small>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex items-center gap-1">
                         <BxBxsUpvote />
                         <Small>{data.vote_score}</Small>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />
                         <Small>
                             {format(new Date(data.updated * 1000), 'd.MM.Y')}

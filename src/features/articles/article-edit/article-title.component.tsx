@@ -12,7 +12,7 @@ const ArticleTitle = () => {
     return (
         <Header>
             <HeaderContainer>
-                <HeaderTitle>{title || 'Нова стаття'}</HeaderTitle>
+                <HeaderTitle variant="h2">{title || 'Нова стаття'}</HeaderTitle>
             </HeaderContainer>
         </Header>
     );

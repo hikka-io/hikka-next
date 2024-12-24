@@ -74,7 +74,7 @@ const Rating = ({
 
     return (
         <div
-            className="relative inline-flex cursor-pointer text-left"
+            className="relative inline-flex cursor-pointer items-center text-left"
             onClick={handleClick}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -98,17 +98,17 @@ const Rating = ({
                 return (
                     <div className="relative cursor-pointer" key={index}>
                         <div
-                            className="absolute overflow-hidden text-xl"
+                            className="absolute overflow-hidden text-2xl"
                             style={{
                                 width: showRatingWithPrecision
                                     ? `${(activeState % 1) * 100}%`
                                     : '0%',
                             }}
                         >
-                            <FilledIcon className="text-yellow-400" />
+                            <FilledIcon className="text-yellow-400 " />
                         </div>
                         <div
-                            className="text-xl"
+                            className="text-2xl"
                             style={{
                                 color: showEmptyIcon ? 'gray' : 'inherit',
                             }}

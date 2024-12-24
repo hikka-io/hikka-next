@@ -6,6 +6,7 @@ import { FC } from 'react';
 import ContentCard from '@/components/content-card/content-card';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import P from '@/components/typography/p';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -32,7 +33,7 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
     const link = data?.link || `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (
-        <div>
+        <Card>
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
@@ -52,8 +53,8 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
                             image={data?.image}
                         />
                     )}
-                    <div className="flex flex-col">
-                        <HeaderTitle variant="h3">{data?.title}</HeaderTitle>
+                    <div className="flex flex-1 flex-col">
+                        <HeaderTitle variant="h4">{data?.title}</HeaderTitle>
                         <P className="text-sm text-muted-foreground">
                             {CONTENT_TYPES[content_type].title_ua}
                         </P>
@@ -61,7 +62,7 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-        </div>
+        </Card>
     );
 };
 

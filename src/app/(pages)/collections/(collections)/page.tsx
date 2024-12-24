@@ -65,14 +65,18 @@ const CollectionsPage: FC<Props> = async (props) => {
                     <Header>
                         <HeaderContainer>
                             <HeaderTitle variant="h2">Колекції</HeaderTitle>
+                            {auth && (
+                                <Button
+                                    asChild
+                                    size="icon-sm"
+                                    variant="outline"
+                                >
+                                    <Link href="/collections/new">
+                                        <MaterialSymbolsAddRounded />
+                                    </Link>
+                                </Button>
+                            )}
                         </HeaderContainer>
-                        {auth && (
-                            <Button asChild size="icon-sm" variant="outline">
-                                <Link href="/collections/new">
-                                    <MaterialSymbolsAddRounded />
-                                </Link>
-                            </Button>
-                        )}
                     </Header>
 
                     <CollectionSort />

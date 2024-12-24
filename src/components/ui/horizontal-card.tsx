@@ -61,16 +61,22 @@ interface HorizontalCardDescriptionProps {
 const HorizontalCardDescription: FC<
     PropsWithChildren<HorizontalCardDescriptionProps>
 > = ({ children, className, href }) => {
-    return (
-        <Small className={cn('line-clamp-1 text-muted-foreground', className)}>
-            <Link href={href}>
-                {typeof children === 'string' ? (
+    if (typeof children === 'string') {
+        return (
+            <Small
+                className={cn('line-clamp-1 text-muted-foreground', className)}
+            >
+                <Link href={href}>
                     <MDViewer preview>{children}</MDViewer>
-                ) : (
-                    children
-                )}
-            </Link>
-        </Small>
+                </Link>
+            </Small>
+        );
+    }
+
+    return (
+        <div className={cn('inline-flex items-center gap-2', className)}>
+            {children}
+        </div>
     );
 };
 

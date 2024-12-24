@@ -7,7 +7,12 @@ import AnimeCard from '@/components/anime-card';
 import MangaCard from '@/components/manga-card';
 import NovelCard from '@/components/novel-card';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useFranchise from '@/services/hooks/related/use-franchise';
@@ -71,6 +76,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                     <HeaderContainer>
                         <HeaderTitle>{title}</HeaderTitle>
                     </HeaderContainer>
+                    <HeaderNavButton />
                     {extended && <FranchiseFilters />}
                 </Header>
             </div>

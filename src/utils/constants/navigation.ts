@@ -6,6 +6,7 @@ import MaterialSymbolsEventListRounded from '@/components/icons/material-symbols
 import MaterialSymbolsHomeRounded from '@/components/icons/material-symbols/MaterialSymbolsHomeRounded';
 import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRounded';
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsNewsmodeRounded from '@/components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
 import MaterialSymbolsNotificationsActiveRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsActiveRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
@@ -176,6 +177,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/anime',
         icon: MaterialSymbolsAnimatedImages,
         visible: true,
+        group: 'Контент',
     },
     {
         slug: 'manga',
@@ -183,6 +185,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/manga',
         icon: MaterialSymbolsPalette,
         visible: true,
+        group: 'Контент',
     },
     {
         slug: 'novel',
@@ -190,6 +193,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/novel',
         icon: MaterialSymbolsMenuBookRounded,
         visible: true,
+        group: 'Контент',
     },
     {
         slug: 'edit',
@@ -197,6 +201,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/edit',
         icon: MaterialSymbolsEditRounded,
         visible: true,
+        group: 'Модерація',
     },
     {
         slug: 'users',
@@ -228,13 +233,15 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/collections',
         icon: MaterialSymbolsStack,
         visible: true,
+        group: 'Спільнота',
     },
     {
         slug: 'news',
         title_ua: 'Новини',
         url: '/news',
-        icon: MaterialSymbolsStack,
+        icon: MaterialSymbolsNewsmodeRounded,
         visible: true,
+        group: 'Спільнота',
     },
     {
         slug: 'schedule',
@@ -242,6 +249,7 @@ export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/schedule',
         icon: MaterialSymbolsCalendarClockRounded,
         visible: true,
+        group: 'Інше',
     },
     {
         slug: 'settings',

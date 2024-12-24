@@ -79,12 +79,7 @@ const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
     children,
 }) => {
     return (
-        <div
-            className={cn(
-                'flex flex-1 items-center gap-4 overflow-hidden',
-                className,
-            )}
-        >
+        <div className={cn('flex flex-1 items-center gap-4', className)}>
             {children}
         </div>
     );
@@ -121,9 +116,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     const Title = getTitle();
 
     return (
-        <div
-            className={cn('flex items-center gap-4 overflow-hidden', className)}
-        >
+        <div className={cn('flex items-center gap-4', className)}>
             {href ? (
                 <Link href={href} {...linkProps} className="hover:underline">
                     <Title>{children}</Title>
@@ -142,12 +135,18 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
 const HeaderNavButton: FC = () => {
     const { href, onClick, linkProps } = useHeader();
 
+    if (!href && !onClick) {
+        return null;
+    }
+
     if (href) {
-        <Button size="icon-sm" variant="outline" asChild>
-            <Link href={href} {...linkProps}>
-                <MaterialSymbolsArrowRightAltRounded className="text-lg" />
-            </Link>
-        </Button>;
+        return (
+            <Button size="icon-sm" variant="outline" asChild>
+                <Link href={href} {...linkProps}>
+                    <MaterialSymbolsArrowRightAltRounded className="text-lg" />
+                </Link>
+            </Button>
+        );
     }
 
     return (

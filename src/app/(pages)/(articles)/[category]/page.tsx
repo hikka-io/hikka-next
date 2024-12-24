@@ -23,11 +23,13 @@ const ArticlesPage = async (props: {
     const author = searchParams.author || undefined;
     const sort = searchParams.sort || 'created';
     const order = searchParams.order || 'desc';
+    const tags = searchParams.tags || [];
 
     await prefetchArticles({
         category,
         author: author as string,
         sort: [`${sort}:${order}`],
+        tags: tags as string[],
     });
 
     const dehydratedState = dehydrate(queryClient);

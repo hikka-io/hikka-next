@@ -22,7 +22,9 @@ const CollectionTitle = () => {
         <div className="flex flex-col gap-4">
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle>{title || 'Нова колекція'}</HeaderTitle>
+                    <HeaderTitle variant="h2">
+                        {title || 'Нова колекція'}
+                    </HeaderTitle>
                 </HeaderContainer>
             </Header>
             <RulesAlert />

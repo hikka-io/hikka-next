@@ -88,10 +88,7 @@ const EditLayout: FC<Props> = async (props) => {
                     <Block>
                         <Header>
                             <HeaderContainer>
-                                <HeaderTitle
-                                    className="w-full justify-between"
-                                    variant="h2"
-                                >
+                                <HeaderTitle className="w-full justify-between">
                                     Деталі
                                 </HeaderTitle>
                             </HeaderContainer>

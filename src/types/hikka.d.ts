@@ -23,6 +23,7 @@ declare global {
             slug: string;
             title_ua: string;
             url: string;
+            group?: string;
             icon?: (
                 props: SVGProps<SVGSVGElement>,
             ) => ReactElement<any, string | JSXElementConstructor<any>>;

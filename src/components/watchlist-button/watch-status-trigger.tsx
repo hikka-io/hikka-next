@@ -60,7 +60,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     )}
                 >
                     <div
-                        className="rounded-sm p-0.5"
+                        className="rounded-sm p-0.5 text-white"
                         style={{ backgroundColor: watchStatus.color }}
                     >
                         {createElement(watchStatus.icon!)}

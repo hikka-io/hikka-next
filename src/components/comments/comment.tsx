@@ -9,16 +9,20 @@ import CommentVote from '@/components/comments/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import P from '@/components/typography/p';
-import Small from '@/components/typography/small';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '../ui/horizontal-card';
 import Comments from './comments';
 
 interface Props {
@@ -85,37 +89,30 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             id={comment.reference}
         >
             <div className="flex w-full flex-col items-start gap-2">
-                <div className="flex w-full gap-3">
-                    <Link href={`/u/${comment.author.username}`}>
-                        <Avatar className="w-10 rounded-md">
-                            <AvatarImage
-                                className="rounded-md"
-                                src={comment.author.avatar}
-                                alt="avatar"
-                            />
-                            <AvatarFallback className="rounded-md">
-                                {comment.author.username[0]}
-                            </AvatarFallback>
-                        </Avatar>
-                    </Link>
-                    <div className="flex flex-1 flex-col justify-between">
-                        <Link
-                            href={`/u/${comment.author.username}`}
-                            className="w-fit"
-                        >
-                            <Label>{comment.author.username}</Label>
-                        </Link>
-
-                        <Small className="text-muted-foreground">
+                <HorizontalCard
+                    className="w-full gap-3"
+                    href={`/u/${comment.author.username}`}
+                >
+                    <HorizontalCardImage
+                        className="w-10"
+                        image={comment.author.avatar}
+                        imageRatio={1}
+                    />
+                    <HorizontalCardContainer className="gap-0">
+                        <HorizontalCardTitle>
+                            {comment.author.username}
+                        </HorizontalCardTitle>
+                        <HorizontalCardDescription>
                             {formatDistance(
                                 comment.created * 1000,
                                 Date.now(),
                                 { addSuffix: true },
                             )}
-                        </Small>
-                    </div>
+                        </HorizontalCardDescription>
+                    </HorizontalCardContainer>
                     <CommentVote comment={comment} />
-                </div>
+                </HorizontalCard>
+
                 {!comment.hidden ? (
                     currentEdit === comment.reference ? (
                         <CommentInput
