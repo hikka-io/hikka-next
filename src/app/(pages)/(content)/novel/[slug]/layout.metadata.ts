@@ -34,7 +34,7 @@ export default async function generateMetadata({
     return _generateMetadata({
         title: {
             default: title,
-            template: title + ' / %s / Hikka',
+            template: `%s / ${title} / Hikka`,
         },
         description: synopsis,
         images: `https://preview.hikka.io/novel/${slug}/${novel.updated}`,

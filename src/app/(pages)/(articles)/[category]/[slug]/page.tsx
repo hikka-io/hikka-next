@@ -1,5 +1,6 @@
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 
@@ -14,8 +15,30 @@ import ArticleTags from '@/features/articles/article-view/article-tags.component
 import ArticleText from '@/features/articles/article-view/article-text.component';
 import ArticleTitle from '@/features/articles/article-view/article-title.component';
 
+import getArticle from '@/services/api/articles/getArticle';
 import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
+import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
+
+export interface MetadataProps {
+    params: { category: API.ArticleCategory; slug: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata({
+    params,
+}: MetadataProps): Promise<Metadata> {
+    const article = await getArticle({
+        params: {
+            slug: params.slug,
+        },
+    });
+
+    return _generateMetadata({
+        title: article.title,
+        keywords: article.tags,
+    });
+}
 
 const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
     const params = await props.params;

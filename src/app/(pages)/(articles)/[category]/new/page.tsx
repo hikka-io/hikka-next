@@ -17,13 +17,16 @@ const ArticleNewPage = async (props: {
 
     return (
         <ArticleProvider initialState={{ category }}>
-            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
+            <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-16 lg:grid-cols-[1fr_25%]">
                 <Block>
                     <ArticleTitle />
+                    <Card className="flex w-full p-0 md:hidden">
+                        <ArticleSettings />
+                    </Card>
                     <ArticleCover />
                     <ArticleText />
                 </Block>
-                <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
+                <Card className="sticky top-20 order-1 hidden w-full p-0 md:flex">
                     <ArticleSettings />
                 </Card>
             </div>

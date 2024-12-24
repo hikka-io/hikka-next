@@ -143,7 +143,7 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
                         handleChangeParam('sort', value[0])
                     }
                 >
-                    <SelectTrigger className="flex-1 min-w-0">
+                    <SelectTrigger className="min-w-0 flex-1">
                         <SelectValue placeholder="Виберіть сортування..." />
                     </SelectTrigger>
                     <SelectContent>

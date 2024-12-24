@@ -19,8 +19,9 @@ interface Props {
 
 interface Response {
     title: string;
-    image: string;
+    image?: string;
     content_type: API.ContentType;
+    link?: string;
 }
 
 export const getContent = ({ content_type, slug }: Props) => {
@@ -81,9 +82,9 @@ const useContent = (props: Props) => {
                         break;
                     case 'article':
                         content = {
-                            image: data.cover,
-                            content_type: params.content_type,
+                            content_type: 'article',
                             title: data.title,
+                            link: `/${data.category}/${data.slug}`,
                         };
                         break;
                     default:

@@ -35,7 +35,7 @@ export async function generateMetadata(props: {
         });
 
         return _generateMetadata({
-            title: `Колекції / ${collection.title}`,
+            title: `${collection.title} / Колекції`,
         });
     } catch (e) {
         return _generateMetadata({

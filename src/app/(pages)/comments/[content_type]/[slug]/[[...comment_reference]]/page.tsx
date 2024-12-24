@@ -4,18 +4,36 @@ import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import ContentHeader from '@/features/comments/comment-content-header.component';
-import Content from '@/features/comments/comment-content.component';
 import Comments from '@/features/comments/comment-list.component';
-import { key, prefetchContent } from '@/features/comments/useContent';
+import {
+    getContent,
+    key,
+    prefetchContent,
+} from '@/features/comments/use-content';
 
 import { prefetchCommentThread } from '@/services/hooks/comments/use-comment-thread';
 import { prefetchComments } from '@/services/hooks/comments/use-comments';
+import { convertTitle } from '@/utils/adapters/convert-title';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
-export async function generateMetadata(): Promise<Metadata> {
+export interface MetadataProps {
+    params: { slug: string; content_type: API.ContentType };
+    searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata({
+    params,
+}: MetadataProps): Promise<Metadata> {
+    const content = await getContent({
+        content_type: params.content_type,
+        slug: params.slug,
+    });
+
+    const coverted = convertTitle({ data: content, titleLanguage: 'title_ua' });
+
     return _generateMetadata({
-        title: `Коментарі`,
+        title: `Коментарі / ${coverted.title}`,
     });
 }
 
@@ -53,7 +71,7 @@ const CommentsPage: FC<Props> = async (props) => {
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_25%]">
+            <div className="container flex max-w-3xl flex-col gap-12 p-0">
                 <div className="flex flex-col gap-16">
                     <ContentHeader
                         slug={params.slug}
@@ -65,10 +83,6 @@ const CommentsPage: FC<Props> = async (props) => {
                         content_type={params.content_type}
                     />
                 </div>
-                <Content
-                    content_type={params.content_type}
-                    slug={params.slug}
-                />
             </div>
         </HydrationBoundary>
     );

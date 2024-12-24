@@ -8,7 +8,7 @@ import Block from '@/components/ui/block';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-import useContent from './useContent';
+import useContent from './use-content';
 
 interface Props {
     slug: string;

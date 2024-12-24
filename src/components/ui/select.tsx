@@ -302,7 +302,7 @@ const SelectValue = React.forwardRef<
         if (!value.length || !firstRendered) {
             return (
                 <Fragment>
-                    <p className="pointer-events-none text-muted-foreground truncate flex-1">
+                    <p className="pointer-events-none flex-1 truncate text-muted-foreground">
                         {placeholder}
                     </p>
                     <SelectIcon className="!size-4" />

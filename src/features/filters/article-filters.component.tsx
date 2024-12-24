@@ -28,7 +28,7 @@ const ArticleFilters: FC<Props> = ({ className }) => {
     return (
         <div
             className={cn(
-                'h-full overflow-x-scroll no-scrollbar lg:max-h-[calc(100vh-6rem)]',
+                'no-scrollbar h-full overflow-x-scroll lg:max-h-[calc(100vh-6rem)]',
                 className,
             )}
         >

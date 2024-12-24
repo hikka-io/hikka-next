@@ -35,7 +35,7 @@ const ArticleCover: FC<Props> = () => {
     return (
         <div className="relative">
             {article.content && (
-                <div className="absolute bottom-0 left-0 w-full h-full p-4 z-0 flex items-end">
+                <div className="absolute bottom-0 left-0 z-0 flex size-full items-end p-4">
                     <HorizontalCard
                         className="z-[1]"
                         href={`/${article.content?.data_type}/${article.content?.slug}`}
@@ -55,7 +55,7 @@ const ArticleCover: FC<Props> = () => {
                             </HorizontalCardDescription>
                         </HorizontalCardContainer>
                     </HorizontalCard>
-                    <div className="absolute left-0 bottom-0 -z-[1] h-full w-full bg-gradient-to-t from-background to-transparent" />
+                    <div className="absolute bottom-0 left-0 -z-[1] size-full bg-gradient-to-t from-background to-transparent" />
                 </div>
             )}
             <Image

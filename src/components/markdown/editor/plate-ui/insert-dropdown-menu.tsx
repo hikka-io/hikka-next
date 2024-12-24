@@ -54,17 +54,17 @@ const groups: Group[] = [
         group: 'Базові блоки',
         items: [
             {
-                icon: <PilcrowIcon className="size-4 mr-2" />,
+                icon: <PilcrowIcon className="mr-2 size-4" />,
                 label: 'Текст',
                 value: ParagraphPlugin.key,
             },
             {
-                icon: <QuoteIcon className="size-4 mr-2" />,
+                icon: <QuoteIcon className="mr-2 size-4" />,
                 label: 'Цитата',
                 value: BlockquotePlugin.key,
             },
             {
-                icon: <EyeOff className="size-4 mr-2" />,
+                icon: <EyeOff className="mr-2 size-4" />,
                 label: 'Спойлер',
                 value: SpoilerPlugin.key,
             },
@@ -80,7 +80,7 @@ const groups: Group[] = [
         group: 'Вбудовані',
         items: [
             {
-                icon: <Link2Icon className="size-4 mr-2" />,
+                icon: <Link2Icon className="mr-2 size-4" />,
                 label: 'Посилання',
                 value: LinkPlugin.key,
             },

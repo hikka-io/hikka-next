@@ -7,7 +7,6 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
     reactStrictMode: true,
-    productionBrowserSourceMaps: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
         unoptimized: true,

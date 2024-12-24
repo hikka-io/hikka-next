@@ -630,9 +630,10 @@ declare global {
             | API.NovelInfo
             | API.Character
             | API.Person
-            | API.Collection;
+            | API.Collection
+            | API.Article;
 
-        type MainContent = Exclude<API.Content, API.Collection>;
+        type MainContent = Exclude<API.Content, API.Collection | API.Article>;
 
         type Client = {
             reference: string;

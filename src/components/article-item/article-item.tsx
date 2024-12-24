@@ -19,10 +19,10 @@ interface Props {
 
 const ArticleItem: FC<Props> = ({ article }) => {
     return (
-        <Card className="p-0 gap-0 overflow-hidden">
+        <Card className="gap-0 overflow-hidden p-0">
             <Author article={article} />
             <Link
-                className="flex flex-col gap-4 cursor-pointer"
+                className="flex cursor-pointer flex-col gap-4"
                 href={`/${article.category}/${article.slug}`}
             >
                 {article.cover && (
@@ -31,7 +31,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         alt="cover"
                         height={283}
                         width={584}
-                        className="w-full h-52 object-cover"
+                        className="h-52 w-full object-cover"
                     />
                 )}
                 <div className="flex flex-col gap-4 p-4">
@@ -53,11 +53,11 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     </div>
                     <MDViewer
                         preview
-                        className="text-sm text-muted-foreground line-clamp-3"
+                        className="line-clamp-3 text-sm text-muted-foreground"
                     >
                         {article.text.substring(0, 500)}
                     </MDViewer>
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         <div className="flex gap-2">
                             {article.tags.map((tag) => (
                                 <Badge key={tag} variant="secondary">
