@@ -6,11 +6,13 @@ import {
 export interface Response extends API.WithPagination<API.Article> {}
 
 export interface Params {
+    category: API.ArticleCategory;
     page?: number;
     size?: number;
     sort?: string[];
     author?: string;
     draft?: boolean;
+    tags?: string[];
 }
 
 export default async function req({
@@ -22,11 +24,12 @@ export default async function req({
             author: params?.author,
             draft: params?.draft,
             sort: params?.sort,
+            tags: params?.tags,
         },
         page: params?.page,
         size: params?.size,
         ...props,
-        path: `/articles`,
+        path: `/articles/${params?.category}`,
         method: 'post',
     });
 }

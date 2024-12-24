@@ -23,7 +23,7 @@ const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
             description={anime.title}
             {...props}
         >
-            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
+            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-background to-transparent" />
             <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-secondary/60 shadow-lg transition-all hover:w-28">
                 <ContentCard
                     href={`/anime/${anime.slug}`}

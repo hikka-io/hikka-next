@@ -16,13 +16,23 @@ import { Label } from '@/components/ui/label';
 import SearchModal from '@/features/modals/search-modal/search-modal.component';
 
 import { useArticleContext } from '@/services/providers/article-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
 interface Props {}
 
 const ContentInput: FC<Props> = () => {
+    const { titleLanguage } = useSettingsContext();
     const content = useArticleContext((state) => state.content);
     const setContent = useArticleContext((state) => state.setContent);
+
+    const contentWithTitle = content
+        ? convertTitle({
+              data: content,
+              titleLanguage: titleLanguage!,
+          })
+        : undefined;
 
     return (
         <div className="flex flex-col gap-4">
@@ -32,12 +42,7 @@ const ContentInput: FC<Props> = () => {
                     <HorizontalCardImage image={content.image} />
                     <HorizontalCardContainer>
                         <HorizontalCardTitle className="line-clamp-2">
-                            {content.data_type === 'character' ||
-                            content.data_type === 'person'
-                                ? content.name_ua || content.name_en
-                                : content.title ||
-                                  content.title_ua ||
-                                  content.title_en}
+                            {contentWithTitle?.title}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>
                             {CONTENT_TYPES[content.data_type].title_ua}

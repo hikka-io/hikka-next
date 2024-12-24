@@ -24,6 +24,7 @@ const PopularTags: FC<Props> = () => {
                 </HeaderContainer>
             </Header>
             <BadgeFilter
+                disabled={tags.length >= 3}
                 properties={['тег1', 'тег2', 'тег3', 'тег4']}
                 selected={tags}
                 property="tags"

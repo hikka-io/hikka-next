@@ -25,6 +25,7 @@ const ArticlesPage = async (props: {
     const order = searchParams.order || 'desc';
 
     await prefetchArticles({
+        category,
         author: author as string,
         sort: [`${sort}:${order}`],
     });
@@ -33,13 +34,13 @@ const ArticlesPage = async (props: {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr_20%] lg:gap-16">
-                <div className="flex flex-col gap-12 sticky self-start top-20">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr_20%] md:grid-cols-[1fr_25%] lg:gap-16">
+                <div className="lg:flex flex-col gap-12 sticky self-start top-20 hidden">
                     <PopularAuthors />
                     <PopularTags />
                 </div>
                 <ArticleList />
-                <div className="flex flex-col gap-12 sticky self-start top-20">
+                <div className="md:flex flex-col gap-12 sticky self-start top-20 hidden">
                     <ArticleFilters />
                 </div>
             </div>

@@ -14,6 +14,7 @@ interface Props {
     title?: string;
     properties: Hikka.FilterProperty<string> | string[];
     selected: string[];
+    disabled?: boolean;
     onParamChange: (key: string, value: string | string[]) => void;
 }
 
@@ -21,6 +22,7 @@ const BadgeFilter: FC<Props> = ({
     title,
     properties,
     selected,
+    disabled,
     onParamChange,
     property,
 }) => {
@@ -51,6 +53,7 @@ const BadgeFilter: FC<Props> = ({
                             )
                         }
                         key={slug}
+                        disabled={disabled && !selected.includes(slug)}
                         variant={
                             selected.includes(slug) ? 'default' : 'outline'
                         }

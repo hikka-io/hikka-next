@@ -87,6 +87,10 @@ const SORT_ARTICLELIST = [
         label: 'Дата створення',
         value: 'created',
     },
+    {
+        label: 'Оцінка',
+        value: 'vote_score',
+    },
 ];
 
 interface Props {

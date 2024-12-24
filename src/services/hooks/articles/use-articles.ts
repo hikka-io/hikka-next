@@ -9,6 +9,8 @@ export const paramsBuilder = (props: Params): Params => ({
     sort: props.sort || ['created:desc'],
     author: props.author,
     draft: props.draft,
+    category: props.category,
+    tags: props.tags,
 });
 
 export const key = (params: Params): QueryKey => ['articles', params];
@@ -23,9 +25,11 @@ const useArticles = (props: Params, options?: Hikka.QueryOptions) => {
                 page: params.page,
                 size: params.size,
                 params: {
+                    category: params.category,
                     sort: params.sort,
                     author: params.author,
                     draft: params.draft,
+                    tags: params.tags,
                 },
             }),
         ...options,

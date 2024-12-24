@@ -55,7 +55,7 @@ const ArticleCover: FC<Props> = () => {
                             </HorizontalCardDescription>
                         </HorizontalCardContainer>
                     </HorizontalCard>
-                    <div className="absolute left-0 bottom-0 -z-[1] h-full w-full bg-gradient-to-t from-black to-transparent" />
+                    <div className="absolute left-0 bottom-0 -z-[1] h-full w-full bg-gradient-to-t from-background to-transparent" />
                 </div>
             )}
             <Image

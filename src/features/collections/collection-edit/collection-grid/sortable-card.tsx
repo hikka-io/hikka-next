@@ -44,7 +44,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
                                     <MaterialSymbolsDragIndicator />
                                 </Button>
                             </div>
-                            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
+                            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-background to-transparent" />
                         </div>
                     </ContentCard>
                 ),

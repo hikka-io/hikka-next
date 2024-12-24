@@ -3,12 +3,7 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import useArticle from '@/services/hooks/articles/use-article';
 
@@ -26,7 +21,6 @@ const ArticleTitle: FC<Props> = () => {
             <HeaderContainer>
                 <HeaderTitle variant="h2">{article!.title}</HeaderTitle>
             </HeaderContainer>
-            <HeaderNavButton />
         </Header>
     );
 };

@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
 
 import Sort from './prebuilt/sort';
+import Tag from './prebuilt/tag';
 import User from './prebuilt/user';
 
 interface Props {
@@ -34,6 +35,7 @@ const ArticleFilters: FC<Props> = ({ className }) => {
             <div className="mt-4 flex flex-col md:mt-0">
                 <Sort sort_type="article" />
                 <User title="Автор" paramKey="author" />
+                <Tag />
             </div>
             <Button
                 variant="secondary"

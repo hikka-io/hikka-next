@@ -61,6 +61,7 @@ const ScheduleListPage: FC<Props> = async (props) => {
                         </Header>
                         <ScheduleFiltersModal>
                             <Button
+                                size="md"
                                 variant="outline"
                                 className="flex lg:hidden"
                             >

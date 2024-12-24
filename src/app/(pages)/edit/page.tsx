@@ -63,6 +63,7 @@ const EditListPage = async (props: {
                                 </Header>
                                 <EditFiltersModal>
                                     <Button
+                                        size="md"
                                         variant="outline"
                                         className="flex lg:hidden"
                                     >

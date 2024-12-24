@@ -71,7 +71,7 @@ const EditActions: FC<Props> = () => {
     return (
         <div className="flex flex-col gap-4">
             <Button asChild variant="secondary">
-                <Link target="_blank" href={`${category}/${slug}`}>
+                <Link target="_blank" href={`/${category}/${slug}`}>
                     <MaterialSymbolsVisibilityOutline className="size-4" />
                     Переглянути
                 </Link>

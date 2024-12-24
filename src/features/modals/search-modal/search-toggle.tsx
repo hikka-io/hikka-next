@@ -104,7 +104,7 @@ const SearchToggle: FC<Props> = ({
                 <SelectList>
                     <SelectGroup>
                         {filteredTypes.map((type) => (
-                            <SelectItem value={type.slug}>
+                            <SelectItem key={type.slug} value={type.slug}>
                                 <div className="flex items-center gap-2">
                                     {type.icon}
                                     <span>{type.title_ua}</span>
