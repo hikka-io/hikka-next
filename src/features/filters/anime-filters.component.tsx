@@ -54,7 +54,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             </div>
             <Button
                 variant="secondary"
-                className="my-4 w-full shadow-md md:mt-4 lg:flex"
+                className="my-4 w-full md:mt-4 lg:flex"
                 onClick={clearFilters}
                 asChild
             >

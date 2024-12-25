@@ -33,7 +33,7 @@ const CollapsibleFilter: FC<Props> = ({
             {...props}
         >
             <CollapsibleTrigger asChild>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 cursor-pointer">
                     <Label>{title}</Label>
                     <Button id="title-collapse" variant="ghost" size="icon-sm">
                         <MaterialSymbolsKeyboardArrowUpRounded className="size-4 group-data-[state=closed]:hidden" />
