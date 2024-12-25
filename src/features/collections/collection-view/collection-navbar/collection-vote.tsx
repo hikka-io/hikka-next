@@ -1,9 +1,7 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { FC } from 'react';
 
 import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
-import { BxBxsUpvote } from '@/components/icons/bx/BxBxsUpvote';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import BxDownvote from '@/components/icons/bx/BxDownvote';
 import BxUpvote from '@/components/icons/bx/BxUpvote';
 import { Button } from '@/components/ui/button';
@@ -13,24 +11,25 @@ import { Label } from '@/components/ui/label';
 import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import useSession from '@/services/hooks/auth/use-session';
-import useCollection from '@/services/hooks/collections/use-collection';
 import useVote from '@/services/hooks/vote/useVote';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 
-const CollectionVote = () => {
-    const { user: loggedUser } = useSession();
-    const params = useParams();
+interface Props {
+    collection: API.Collection;
+}
+
+const CollectionVote: FC<Props> = ({ collection }) => {
     const { openModal } = useModalContext();
-
-    const { data: collection } = useCollection({
-        reference: String(params.reference),
-    });
+    const { user: loggedUser } = useSession();
 
     const mutation = useVote();
 
-    const handleCollectionVote = async (score: -1 | 1) => {
-        if (!collection) return;
+    const currentScore = mutation.variables?.params?.score
+        ? mutation.variables?.params?.score
+        : collection.my_score;
 
+    const handleCollectionVote = async (score: -1 | 1) => {
         if (!loggedUser) {
             openModal({
                 content: <AuthModal type="login" />,
@@ -41,7 +40,7 @@ const CollectionVote = () => {
             return;
         }
 
-        const updated = collection?.my_score === score ? 0 : score;
+        const updated = currentScore === score ? 0 : score;
 
         mutation.mutate({
             params: {
@@ -53,25 +52,43 @@ const CollectionVote = () => {
     };
 
     return (
-        <Card className="flex-1 flex-row items-center justify-between gap-4 p-1">
+        <Card className="flex-1 flex-row items-center justify-between gap-4 p-0">
             <Button
                 onClick={() => handleCollectionVote(1)}
+                variant={'ghost'}
                 size="icon-md"
-                variant="secondary"
+                className={cn(
+                    ' opacity-60 group-hover:opacity-100',
+                    currentScore === 1 ? '' : 'text-muted-foreground',
+                )}
             >
-                {collection?.my_score === 1 ? (
+                {currentScore === 1 ? (
                     <BxBxsUpvote className="text-success" />
                 ) : (
                     <BxUpvote />
                 )}
             </Button>
-            <Label>{collection?.vote_score}</Label>
+            <Label
+                className={
+                    collection.vote_score > 0
+                        ? 'text-success'
+                        : collection.vote_score === 0
+                          ? 'text-foreground'
+                          : 'text-destructive'
+                }
+            >
+                {collection.vote_score}
+            </Label>
             <Button
                 onClick={() => handleCollectionVote(-1)}
+                variant={'ghost'}
                 size="icon-md"
-                variant="secondary"
+                className={cn(
+                    'opacity-60 group-hover:opacity-100',
+                    currentScore === -1 ? '' : 'text-muted-foreground',
+                )}
             >
-                {collection?.my_score === -1 ? (
+                {currentScore === -1 ? (
                     <BxBxsDownvote className="text-destructive" />
                 ) : (
                     <BxDownvote />

@@ -1,40 +1,37 @@
 'use client';
 
-import { FC, memo } from 'react';
+import { FC, memo, useRef } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import {
-    Group as CollectionGroup,
-    useCollectionContext,
-} from '@/services/providers/collection-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
-    group: CollectionGroup;
+    group?: string;
+    items: API.CollectionItem<API.MainContent>[];
+    content_type: API.ContentType;
 }
 
-const CollectionGrid: FC<Props> = ({ group }) => {
-    const {
-        groups,
-        setState: setCollectionState,
-        content_type,
-    } = useCollectionContext();
+const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
+    const ref = useRef<HTMLDivElement>(null);
 
-    const items = groups.find((g) => g.id === group.id)?.items || [];
+    /* const isVisible = useOnScreen(ref);
+
+    useEffect(() => {
+        if (isVisible) {
+            console.log('Visible', group);
+        }
+    }, [isVisible]);
+    */
 
     return (
-        <div className="flex flex-col gap-4">
-            {group.isGroup && (
-                <Header>
+        <div className="flex flex-col gap-4 scroll-mt-20" id={group} ref={ref}>
+            {group && (
+                <Header href={`#${group}`}>
                     <HeaderContainer>
-                        <HeaderTitle variant="h5">
-                            {group.title && group.title.trim().length > 0
-                                ? group.title
-                                : 'Нова група'}
-                        </HeaderTitle>
+                        <HeaderTitle variant="h5">{group}</HeaderTitle>
                     </HeaderContainer>
                 </Header>
             )}
@@ -44,7 +41,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                         slug={item.content.slug}
                         content_type={content_type}
                         href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
-                        key={item.id}
+                        key={item.content.slug}
                         image={item.content.image}
                         title={item.content.title}
                         watch={

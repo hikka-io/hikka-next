@@ -29,23 +29,17 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
             <HorizontalCard href={link || '#'}>
                 <HorizontalCardImage image={image} className="w-14" />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle className="font-semibold">
-                        Інформація
-                    </HorizontalCardTitle>
+                    <HorizontalCardTitle>Інформація</HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        <div className="flex gap-1">
-                            <MaterialSymbolsCategoryOutlineRounded className="size-4 text-muted-foreground" />
-                            {CONTENT_TYPES[content_type].title_ua}
-                        </div>
+                        <MaterialSymbolsCategoryOutlineRounded className="size-4 text-muted-foreground" />
+                        {CONTENT_TYPES[content_type].title_ua}
                     </HorizontalCardDescription>
                     {(content.data_type === 'anime' ||
                         content.data_type === 'manga' ||
                         content.data_type === 'novel') && (
                         <HorizontalCardDescription>
-                            <div className="flex cursor-default items-center gap-1.5 font-medium">
-                                <MaterialSymbolsCalendarClockRounded className="size-4 text-muted-foreground" />
-                                {content.year}
-                            </div>
+                            <MaterialSymbolsCalendarClockRounded className="size-4 text-muted-foreground" />
+                            {content.year}
                         </HorizontalCardDescription>
                     )}
                 </HorizontalCardContainer>

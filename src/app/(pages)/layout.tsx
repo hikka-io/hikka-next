@@ -5,7 +5,6 @@ import SnowfallManager from '@/components/snowfall-manager';
 import Footer from '@/features/common/footer.component';
 import ModalManager from '@/features/common/modal-manager.component';
 import NavBar from '@/features/common/navbar/navbar.component';
-import ScrollTop from '@/features/common/scroll-top.component';
 import SessionManager from '@/features/common/session-manager.component';
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
     return (
         <SessionManager>
-            <ScrollTop />
+            {/* <ScrollTop /> */}
             <Suspense>
                 <ModalManager />
             </Suspense>

@@ -45,7 +45,7 @@ const ArticleNavbar: FC<Props> = () => {
     }, [params.slug]);
 
     return (
-        <div className="sticky bottom-2 flex justify-center">
+        <div className="sticky bottom-2 flex justify-center z-10">
             <Card className="flex-row gap-2 p-2 bg-background">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />

@@ -607,6 +607,7 @@ declare global {
             created: number;
             updated: number;
             content_type: API.ContentType;
+            labels_order: string[];
             description: string;
             tags: string[];
             reference: string;
@@ -633,7 +634,10 @@ declare global {
             | API.Collection
             | API.Article;
 
-        type MainContent = Exclude<API.Content, API.Collection | API.Article>;
+        type MainContent = Exclude<
+            API.Content,
+            API.Collection | API.Article
+        > & { title?: string };
 
         type Client = {
             reference: string;

@@ -39,6 +39,7 @@ interface HeaderProps {
     href?: string;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
     onClick?: () => void;
+    id?: string;
 }
 
 const Header: FC<PropsWithChildren<HeaderProps>> = ({
@@ -47,6 +48,7 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({
     href,
     onClick,
     linkProps,
+    ...props
 }) => {
     const contextValue = React.useMemo(() => {
         return {
@@ -63,6 +65,7 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({
                     'flex items-center justify-between gap-2',
                     className,
                 )}
+                {...props}
             >
                 {children}
             </div>

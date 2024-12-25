@@ -74,7 +74,12 @@ const HorizontalCardDescription: FC<
     }
 
     return (
-        <div className={cn('inline-flex items-center gap-2', className)}>
+        <div
+            className={cn(
+                'inline-flex items-center gap-2 text-xs text-muted-foreground',
+                className,
+            )}
+        >
             {children}
         </div>
     );
@@ -99,23 +104,25 @@ interface HorizontalCardImageProps {
     imageClassName?: string;
     imageRatio?: number;
     image: string | ReactNode;
+    href?: string;
 }
 
 const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     children,
+    href,
     imageRatio,
     image,
     className,
     imageClassName,
 }) => {
-    const { href } = useHorizontalCard();
+    const { href: parentHref } = useHorizontalCard();
 
     return (
         <ContentCard
             className={cn('w-12', className)}
             containerClassName={cn(imageClassName)}
             containerRatio={imageRatio}
-            href={href}
+            href={href || parentHref}
             image={image}
         >
             {children}
