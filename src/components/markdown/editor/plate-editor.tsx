@@ -48,7 +48,7 @@ const PlateEditor: FC<PlateEditorProps> = ({
     return (
         <div
             className={cn(
-                'relative grid w-full grid-cols-1 gap-2 rounded-md border border-secondary/60 bg-secondary/30 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
+                'relative grid w-full grid-cols-1 gap-2 rounded-md border border-border bg-secondary/20 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
                 className,
             )}
         >

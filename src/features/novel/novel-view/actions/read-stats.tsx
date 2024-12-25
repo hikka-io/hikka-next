@@ -101,7 +101,7 @@ const ReadStats = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+            <div className="flex justify-between gap-4 rounded-lg border border-border bg-secondary/20 p-4">
                 <Rating
                     // className="rating-md lg:flex"
                     onChange={handleRating}
@@ -116,7 +116,7 @@ const ReadStats = () => {
                     </Label>
                 </H3>
             </div>
-            <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+            <div className="rounded-lg border border-border bg-secondary/20 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
                     <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Розділи

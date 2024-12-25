@@ -30,7 +30,7 @@ const ListParam: FC<Props> = ({ param, mode }) => {
                 {fields.map((item: Record<any, string>, index) => {
                     return (
                         <div
-                            className="flex items-center gap-2 rounded-md border border-secondary/30 bg-secondary/30 px-2 py-1 text-sm"
+                            className="flex items-center gap-2 rounded-md border border-border bg-secondary/20 px-2 py-1 text-sm"
                             key={item.id}
                         >
                             {item.value}

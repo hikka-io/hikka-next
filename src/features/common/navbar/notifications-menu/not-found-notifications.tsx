@@ -11,7 +11,7 @@ interface Props {}
 const NotFoundNotifications: FC<Props> = () => {
     return (
         <div className="flex items-start gap-4 px-2 py-3">
-            <div className="rounded-md border-secondary/60 bg-secondary/30 p-2">
+            <div className="rounded-md border-border bg-secondary/20 p-2">
                 <MaterialSymbolsNotificationImportantRounded />
             </div>
             <div className="flex flex-col gap-2">

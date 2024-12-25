@@ -149,7 +149,7 @@ const Component = ({ client }: Props) => {
                     />
                     <div className="grid w-full grid-cols-2 gap-8">
                         <Button
-                            variant="accent"
+                            variant="secondary"
                             onClick={form.handleSubmit(onUpdate)}
                             type="submit"
                             disabled={

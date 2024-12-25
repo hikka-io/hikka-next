@@ -26,7 +26,7 @@ const Component = ({ routes, urlPrefix }: Props) => {
             className="w-full overflow-hidden rounded-md"
         >
             <ScrollArea>
-                <TabsList className="no-scrollbar w-full items-center justify-start border border-secondary/60 bg-secondary/80 backdrop-blur">
+                <TabsList className="no-scrollbar w-full items-center justify-start border border-border bg-secondary/20/80 backdrop-blur">
                     {routes.map((r) => (
                         <TabsTrigger
                             asChild

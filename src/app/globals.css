@@ -14,10 +14,10 @@
         --popover-foreground: 240 10% 3.9%;
 
         --primary: 321 70% 69%;
-        --primary-foreground: 0 0% 0%;
+        --primary-foreground: 0 0% 100%;
 
-        --secondary: 0 0% 91.76%;
-        --secondary-foreground: 0 0% 0%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
 
         --muted: 240 4.8% 95.9%;
         --muted-foreground: 240 3.8% 46.1%;
@@ -26,7 +26,7 @@
         --accent-foreground: 240 5.9% 10%;
 
         --destructive: 358 69% 52%;
-        --destructive-foreground: 0 0% 0%;
+        --destructive-foreground: 0 0% 100%;
 
         --warning: 37.43 91.3% 54.9%;
         --warning-foreground: 0 0% 0%;
@@ -54,10 +54,10 @@
         --popover-foreground: 0 0% 98%;
 
         --primary: 321 70% 69%;
-        --primary-foreground: 0 0% 0%;
+        --primary-foreground: 0 0% 100%;
 
-        --secondary: 240 4% 16%;
-        --secondary-foreground: 0 0% 100%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
 
         --muted: 240 3.7% 15.9%;
         --muted-foreground: 240 5% 64.9%;
@@ -66,7 +66,7 @@
         --accent-foreground: 0 0% 98%;
 
         --destructive: 358 69% 52%;
-        --destructive-foreground: 0 0% 0%;
+        --destructive-foreground: 0 0% 100%;
 
         --warning: 37.43 91.3% 54.9%;
         --warning-foreground: 0 0% 0%;
@@ -77,8 +77,8 @@
         --info: 212.2 100% 59.8%;
         --info-foreground: 0 0% 0%;
 
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
+        --border: 240 3.7% 10%;
+        --input: 240 3.7% 10%;
         --ring: 240 4.9% 83.9%;
         --radius: 0.625rem;
 
@@ -349,7 +349,7 @@ td:last-child {
 }
 
 .markdown pre {
-    @apply mb-4 overflow-scroll rounded-md border border-secondary/60 bg-secondary/30 p-4;
+    @apply mb-4 overflow-scroll rounded-md border border-border bg-secondary/20 p-4;
 }
 
 .markdown p:last-child,

@@ -170,7 +170,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="h-full w-px bg-secondary transition-colors duration-100 group-hover:bg-primary" />
+                            <div className="h-full w-px bg-secondary/20 transition-colors duration-100 group-hover:bg-primary" />
                         </button>
                     )}
                     {!expand && (

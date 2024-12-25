@@ -55,7 +55,7 @@ const ActivationAlert = () => {
     };
 
     return (
-        <div className="flex items-center gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
+        <div className="flex items-center gap-4 rounded-md border border-border bg-secondary/20 p-4">
             <MaterialSymbolsInfoRounded className="text-xl" />
             <span className="flex-1 text-sm">
                 На вашу пошту відправлено лист з активацією пошти. Будь ласка,

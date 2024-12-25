@@ -57,22 +57,22 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 <div className="flex animate-pulse flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="size-10 rounded-md bg-secondary/60" />
-                            <div className="h-3 w-20 rounded-lg bg-secondary/60" />
+                            <div className="size-10 rounded-md bg-secondary/20" />
+                            <div className="h-3 w-20 rounded-lg bg-secondary/20" />
                         </div>
-                        <div className="size-9 rounded-md bg-secondary/60" />
+                        <div className="size-9 rounded-md bg-secondary/20" />
                     </div>
-                    <div className="h-3 w-full rounded-lg bg-secondary/60" />
+                    <div className="h-3 w-full rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex animate-pulse gap-4">
-                    <div className="h-3 w-24 rounded-lg bg-secondary/60" />
-                    <div className="h-3 w-24 rounded-lg bg-secondary/60" />
+                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
+                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
                 </div>
                 <Separator className="-mx-4 w-auto animate-none" />
                 <div className="flex animate-pulse gap-2">
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/60" />
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/60" />
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/60" />
+                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
+                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
+                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
                 </div>
             </div>
         );
@@ -94,7 +94,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 </AvatarFallback>
                             </Avatar>
                             {user?.active && (
-                                <div className="absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border border-secondary bg-success" />
+                                <div className="absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border border-border bg-success" />
                             )}
                         </div>
 
@@ -106,7 +106,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 user?.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="rounded-sm border border-accent/60 bg-accent/30 p-1 text-xs font-bold text-accent-foreground">
+                                        <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-accent-foreground">
                                             {user.role === 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                             )}

@@ -84,7 +84,7 @@ const NovelList: FC<Props> = () => {
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
-                    <div className="w-fit rounded-lg border border-secondary/60 bg-background p-2 shadow">
+                    <div className="w-fit rounded-lg border border-border bg-background p-2 shadow">
                         <Pagination
                             page={Number(iPage)}
                             pages={pagination.pages}

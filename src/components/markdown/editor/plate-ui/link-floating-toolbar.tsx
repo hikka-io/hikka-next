@@ -148,7 +148,7 @@ export function LinkFloatingToolbar({ state }: LinkFloatingToolbarProps) {
             <div
                 ref={insertRef}
                 className={cn(
-                    'w-auto rounded-md border border-secondary/60 bg-secondary/30 p-1 backdrop-blur',
+                    'w-auto rounded-md border border-border bg-secondary/20 p-1 backdrop-blur',
                 )}
                 {...insertProps}
             >
@@ -158,7 +158,7 @@ export function LinkFloatingToolbar({ state }: LinkFloatingToolbarProps) {
             <div
                 ref={editRef}
                 className={cn(
-                    'w-auto rounded-md border border-secondary/60 bg-secondary/30 p-1 backdrop-blur',
+                    'w-auto rounded-md border border-border bg-secondary/20 p-1 backdrop-blur',
                 )}
                 {...editProps}
             >

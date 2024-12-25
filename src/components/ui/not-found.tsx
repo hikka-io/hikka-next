@@ -14,7 +14,7 @@ interface Props extends PropsWithChildren {
 
 const Component = ({ title, description, children }: Props) => {
     return (
-        <div className="flex flex-col items-center justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-6 lg:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 rounded-lg border border-border bg-secondary/20 p-6 lg:flex-row">
             <div className="flex items-center gap-4">
                 <MaterialSymbolsFeatureSearch className="text-4xl text-muted-foreground" />
                 <div className="flex flex-1 flex-col gap-1">

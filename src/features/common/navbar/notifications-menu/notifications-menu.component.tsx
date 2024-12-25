@@ -40,7 +40,7 @@ const NotificationsMenu = () => {
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />
                     {countData && countData.unseen > 0 && (
-                        <div className="absolute -bottom-0.5 -right-0.5 rounded-full border border-secondary/60 bg-warning p-0.5 px-1 text-[0.6rem] font-bold leading-none text-warning-foreground">
+                        <div className="absolute -bottom-0.5 -right-0.5 rounded-full border border-border bg-warning p-0.5 px-1 text-[0.6rem] font-bold leading-none text-warning-foreground">
                             {countData.unseen < 100 ? countData.unseen : '99+'}
                         </div>
                     )}
@@ -50,7 +50,7 @@ const NotificationsMenu = () => {
                 align="end"
                 className="flex max-h-96 w-80 flex-col sm:w-96"
             >
-                <DropdownMenuLabel className="-m-1 flex items-center justify-between gap-2 bg-secondary/30 px-3 py-3.5">
+                <DropdownMenuLabel className="-m-1 flex items-center justify-between gap-2 bg-secondary/20 px-3 py-3.5">
                     <div className="flex gap-2">
                         Сповіщення
                         {countData && countData.unseen > 0 && (

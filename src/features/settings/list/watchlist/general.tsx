@@ -90,10 +90,10 @@ const Component = ({ watchList, setWatchList }: Props) => {
                     className: clsx(
                         'w-full h-28 p-4',
                         'flex justify-center items-center',
-                        'cursor-pointer bg-secondary/60 rounded-lg text-center',
+                        'cursor-pointer bg-secondary/20 rounded-lg text-center',
                         'transition duration-100',
-                        'hover:bg-secondary/90',
-                        isDragActive && 'bg-secondary/90',
+                        'hover:bg-secondary/20/90',
+                        isDragActive && 'bg-secondary/20/90',
                     ),
                 })}
             >

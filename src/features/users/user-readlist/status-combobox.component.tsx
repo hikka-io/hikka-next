@@ -44,7 +44,7 @@ const StatusCombobox = () => {
         <Select value={[readStatus]} onValueChange={handleWatchStatusChange}>
             <SelectTrigger>
                 <div className="flex items-center gap-4">
-                    <div className="hidden rounded-md border border-secondary bg-secondary/60 p-1 sm:block">
+                    <div className="hidden rounded-md border border-border bg-secondary/20 p-1 sm:block">
                         {createElement(READ_STATUS[readStatus].icon!)}
                     </div>
                     <div className="flex items-center gap-2">

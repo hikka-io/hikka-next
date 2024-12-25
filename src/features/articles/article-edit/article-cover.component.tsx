@@ -52,7 +52,7 @@ const ArticleCover = () => {
                 </P>
             </div>
             <div className="relative mb-4 flex h-52 w-full cursor-pointer">
-                <Card className="flex-1 overflow-hidden bg-secondary/60 p-0 transition-opacity hover:opacity-60">
+                <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
                     {cover ? (
                         <Image
                             alt="cover"

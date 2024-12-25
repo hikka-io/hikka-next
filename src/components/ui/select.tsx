@@ -580,7 +580,7 @@ const SelectItem = React.forwardRef<
                 {!disableCheckbox && (
                     <span className="size-4">
                         <Checkbox
-                            className="border-secondary"
+                            className="border-border"
                             checked={selected}
                         />
                     </span>

@@ -86,7 +86,7 @@ const Appearance = () => {
                         <MaterialSymbolsDeleteForeverRounded className="size-4" />
                     </Button>
                 )}
-                <Card className="flex-1 overflow-hidden bg-secondary/60 p-0 transition-opacity hover:opacity-60">
+                <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"

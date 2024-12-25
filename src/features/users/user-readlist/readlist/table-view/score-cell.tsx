@@ -11,7 +11,7 @@ const ScoreCell: FC<Props> = ({ score }) => (
     <TableCell className="w-4 text-right" align="right">
         <div
             className={clsx(
-                'radial-progress border border-secondary text-primary',
+                'radial-progress border border-border text-primary',
             )}
             style={
                 {

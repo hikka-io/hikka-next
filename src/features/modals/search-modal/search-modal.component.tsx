@@ -68,7 +68,7 @@ const SearchModal: FC<Props> = ({
                     onValueChange={(value) => setSearchValue(value)}
                     placeholder="Пошук..."
                     autoFocus
-                    containerClassName="dark:bg-secondary/30 gap-3"
+                    containerClassName="dark:bg-secondary/20 gap-3"
                 >
                     <SearchToggle
                         allowedTypes={allowedTypes}

@@ -160,7 +160,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                         Видалити
                     </Button>
                     <Button
-                        variant="accent"
+                        variant="secondary"
                         onClick={form.handleSubmit((data) =>
                             addWatch({
                                 params: {

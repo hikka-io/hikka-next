@@ -14,7 +14,7 @@ const CollectionUpdatePage = () => {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                     <Block>
                         <CollectionTitle />
-                        <div className="block rounded-md border border-secondary/60 bg-secondary/30 lg:hidden">
+                        <div className="block rounded-md border border-border bg-secondary/20 lg:hidden">
                             <CollectionSettings mode="edit" />
                         </div>
                         <CollectionGroups mode="edit" />

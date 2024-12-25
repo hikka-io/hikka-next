@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +20,7 @@ const Spoiler = ({ children }: Props) => {
                     Спойлер <ChevronsUpDown className="size-3" />
                 </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="rounded-md border border-secondary/60 bg-secondary/30 p-2">
+            <CollapsibleContent className="rounded-md border border-border bg-secondary/20 p-2">
                 {children}
             </CollapsibleContent>
         </Collapsible>

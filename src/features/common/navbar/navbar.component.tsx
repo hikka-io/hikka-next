@@ -32,17 +32,15 @@ const Navbar = () => {
     return (
         <nav
             className={clsx(
-                'bg-transparent z-10 border-b w-full border-b-secondary/30 transition sticky top-0',
-                trigger
-                    ? '!border-b-secondary !bg-background'
-                    : 'backdrop-blur',
+                'bg-transparent z-10 border-b w-full border-b-border transition sticky top-0 backdrop-blur',
+                trigger && '!bg-background',
             )}
         >
             <div className="container mx-auto flex min-h-16 max-w-[88rem] items-center gap-4 px-4 md:gap-8">
                 <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
                     <Link
                         href="/"
-                        className="h-full rounded-md bg-secondary/30 p-2 md:bg-transparent md:p-0"
+                        className="h-full rounded-md bg-secondary/20 p-2 md:bg-transparent md:p-0"
                     >
                         <div className="logo size-[24px] md:w-[80px]" />
                     </Link>
