@@ -650,13 +650,18 @@ declare global {
             endpoint: string;
         };
 
+        type Tag = {
+            content_count: number;
+            name: string;
+        };
+
         type ArticleCategory = 'news' | 'system';
 
         type Article = {
             data_type: 'article';
             author: API.User;
             cover: string;
-            tags: string[];
+            tags: API.Tag[];
             category: API.ArticleCategory;
             draft: boolean;
             title: string;

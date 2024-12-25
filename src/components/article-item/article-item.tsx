@@ -60,8 +60,8 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
                             {article.tags.map((tag) => (
-                                <Badge key={tag} variant="secondary">
-                                    {tag}
+                                <Badge key={tag.name} variant="secondary">
+                                    {tag.name}
                                 </Badge>
                             ))}
                         </div>

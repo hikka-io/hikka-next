@@ -36,7 +36,7 @@ export async function generateMetadata({
 
     return _generateMetadata({
         title: article.title,
-        keywords: article.tags,
+        keywords: article.tags.map((tag) => tag.name).join(', '),
     });
 }
 

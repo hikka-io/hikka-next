@@ -13,6 +13,8 @@ export interface Params {
     author?: string;
     draft?: boolean;
     tags?: string[];
+    content_type?: API.ContentType;
+    content_slug?: string;
 }
 
 export default async function req({
@@ -25,6 +27,8 @@ export default async function req({
             draft: params?.draft,
             sort: params?.sort,
             tags: params?.tags,
+            content_type: params?.content_type,
+            content_slug: params?.content_slug,
         },
         page: params?.page,
         size: params?.size,

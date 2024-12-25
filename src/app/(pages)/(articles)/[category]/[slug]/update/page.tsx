@@ -49,7 +49,12 @@ const ArticleUpdatePage = async (props: {
                     </Link>
                 </div>
             </Breadcrumbs>
-            <ArticleProvider initialState={{ ...article }}>
+            <ArticleProvider
+                initialState={{
+                    ...article,
+                    tags: article.tags.map((tag) => tag.name),
+                }}
+            >
                 <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-16 lg:grid-cols-[1fr_25%]">
                     <Block>
                         <ArticleTitle />

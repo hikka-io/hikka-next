@@ -32,7 +32,7 @@ const ArticleList: FC<Props> = () => {
     const order = searchParams.get('order') || 'desc';
     const tags = searchParams.getAll('tags') || undefined;
 
-    const { data: articles } = useArticles({
+    const { list } = useArticles({
         category: category?.value as API.ArticleCategory,
         author,
         sort: [`${sort}:${order}`],
@@ -61,11 +61,10 @@ const ArticleList: FC<Props> = () => {
                 </ArticleFiltersModal>
             </Header>
             <div className="flex flex-col gap-6">
-                {articles?.list.map((article) => (
+                {list?.map((article) => (
                     <ArticleItem article={article} key={article.slug} />
                 ))}
-                {!articles ||
-                    (articles?.list.length === 0 && <FiltersNotFound />)}
+                {!list || (list.length === 0 && <FiltersNotFound />)}
             </div>
         </Block>
     );

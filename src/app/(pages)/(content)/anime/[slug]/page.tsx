@@ -7,6 +7,7 @@ import Links from '@/features/anime/anime-view/links/links.component';
 import Media from '@/features/anime/anime-view/media/media.component';
 import Staff from '@/features/anime/anime-view/staff.component';
 import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.component';
+import ContentNews from '@/features/articles/article-view/content-news/content-news.component';
 import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
 
@@ -54,6 +55,7 @@ const AnimePage: FC<Props> = async (props) => {
                 <div className="flex flex-col gap-12 lg:hidden">
                     <WatchStats key="watch-stats" />
                     <Followings content_type="anime" key="followings" />
+                    <ContentNews content_type="anime" />
                     <Links key="links" />
                 </div>
             </div>
@@ -62,6 +64,7 @@ const AnimePage: FC<Props> = async (props) => {
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <WatchStats key="watch-stats" />
                     <Followings content_type="anime" key="followings" />
+                    <ContentNews content_type="anime" />
                     <Links key="links" />
                 </div>
             </div>

@@ -52,6 +52,7 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         setArticle: (article: API.Article) => {
             set({
                 ...article,
+                tags: article.tags.map((tag) => tag.name),
             });
         },
         setTitle: (title: string) => set({ title }),

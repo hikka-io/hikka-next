@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import EditButton from '@/components/edit-button';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
@@ -24,28 +23,17 @@ const Title = () => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-4">
                 <div>
-                    <div className="flex gap-4">
-                        <H2>
-                            {data.title}{' '}
-                            {data.start_date && (
-                                <span className="font-sans font-normal">
-                                    (
-                                    {new Date(
-                                        data.start_date * 1000,
-                                    ).getFullYear()}
-                                    )
-                                </span>
-                            )}
-                        </H2>
-                        {loggedUser && (
-                            <EditButton
-                                key={String(params.slug)}
-                                slug={String(params.slug)}
-                                content_type="novel"
-                                className="hidden lg:flex"
-                            />
+                    <H2>
+                        {data.title}{' '}
+                        {data.start_date && (
+                            <span className="font-sans font-normal">
+                                (
+                                {new Date(data.start_date * 1000).getFullYear()}
+                                )
+                            </span>
                         )}
-                    </div>
+                    </H2>
+
                     <P className="text-sm text-muted-foreground">
                         {data.title_original}
                     </P>
@@ -59,14 +47,6 @@ const Title = () => {
 
                             <MaterialSymbolsStarRounded className="text-2xl" />
                         </div>
-                    )}
-                    {loggedUser && (
-                        <EditButton
-                            key={String(params.slug)}
-                            slug={String(params.slug)}
-                            content_type="novel"
-                            className="flex lg:hidden"
-                        />
                     )}
                 </div>
             </div>
