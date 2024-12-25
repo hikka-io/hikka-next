@@ -8,6 +8,7 @@ import ArticleItem from '@/components/article-item/article-item';
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
+import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -32,12 +33,13 @@ const ArticleList: FC<Props> = () => {
     const order = searchParams.get('order') || 'desc';
     const tags = searchParams.getAll('tags') || undefined;
 
-    const { list } = useArticles({
-        category: category?.value as API.ArticleCategory,
-        author,
-        sort: [`${sort}:${order}`],
-        tags,
-    });
+    const { list, fetchNextPage, isFetchingNextPage, hasNextPage } =
+        useArticles({
+            category: category?.value as API.ArticleCategory,
+            author,
+            sort: [`${sort}:${order}`],
+            tags,
+        });
 
     return (
         <Block>
@@ -65,6 +67,12 @@ const ArticleList: FC<Props> = () => {
                     <ArticleItem article={article} key={article.slug} />
                 ))}
                 {!list || (list.length === 0 && <FiltersNotFound />)}
+                {hasNextPage && (
+                    <LoadMoreButton
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                    />
+                )}
             </div>
         </Block>
     );
