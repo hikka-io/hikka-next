@@ -37,7 +37,7 @@ const Component = () => {
     const mutation = useMutation({
         mutationFn: login,
         onSuccess: async (data) => {
-            await setCookie('token', data.secret);
+            await setCookie('auth', data.secret);
             form.reset();
             closeModal();
             router.refresh();

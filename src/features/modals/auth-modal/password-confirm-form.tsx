@@ -33,7 +33,7 @@ const Component = () => {
     const router = useRouter();
     const { closeModal } = useModalContext();
 
-    const token = searchParams.get('token')!;
+    const token = searchParams.get('auth')!;
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,7 +48,7 @@ const Component = () => {
                 },
             }),
         onSuccess: async (data) => {
-            await setCookie('token', data.secret);
+            await setCookie('auth', data.secret);
             form.reset();
             closeModal();
             router.push('/anime');

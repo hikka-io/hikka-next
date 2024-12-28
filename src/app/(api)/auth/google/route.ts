@@ -18,7 +18,7 @@ export async function GET(request: Request) {
             },
         });
 
-        (await cookies()).set('token', res.secret, {
+        (await cookies()).set('auth', res.secret, {
             maxAge: 60 * 60 * 24 * 7,
         });
     } catch (e) {

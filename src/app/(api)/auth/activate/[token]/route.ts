@@ -15,7 +15,7 @@ export async function GET(
 
     try {
         const res = await activation({ params: { token } });
-        (await cookies()).set('token', res.secret);
+        (await cookies()).set('auth', res.secret);
     } catch (e) {
         if ('code' in (e as API.Error)) {
             if ((e as API.Error).code === 'auth-modal:activation_expired') {
