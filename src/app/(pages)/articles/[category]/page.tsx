@@ -6,6 +6,7 @@ import PopularAuthors from '@/features/articles/article-list/popular-authors.com
 import PopularTags from '@/features/articles/article-list/popular-tags.component';
 import ArticleFilters from '@/features/filters/article-filters.component';
 
+import { prefetchArticleTop } from '@/services/hooks/articles/use-article-top';
 import { prefetchArticles } from '@/services/hooks/articles/use-articles';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -31,6 +32,8 @@ const ArticlesPage = async (props: {
         sort: [`${sort}:${order}`],
         tags: tags as string[],
     });
+
+    await prefetchArticleTop({ category });
 
     const dehydratedState = dehydrate(queryClient);
 

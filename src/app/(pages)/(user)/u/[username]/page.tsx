@@ -5,8 +5,10 @@ import { FC } from 'react';
 import Collections from '@/features/users/user-profile/user-collections/user-collections.component';
 import Favorites from '@/features/users/user-profile/user-favorites/user-favorites.component';
 import History from '@/features/users/user-profile/user-history/user-history.component';
+import UserNews from '@/features/users/user-profile/user-news/user-news.component';
 import Statistics from '@/features/users/user-profile/user-statistics/user-statistics.component';
 
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
 import { prefetchFavorites } from '@/services/hooks/favorite/use-favorites';
 import { prefetchUserHistory } from '@/services/hooks/history/use-user-history';
 import { prefetchUserActivity } from '@/services/hooks/user/use-user-activity';
@@ -30,6 +32,7 @@ const UserPage: FC<Props> = async (props) => {
         await prefetchFavorites({ username, content_type: 'anime' }),
         await prefetchUserHistory({ username }),
         await prefetchUserActivity({ username }),
+        await prefetchArticles({ author: username, category: 'news' }),
         await prefetchUserCollections({ author: username, sort: 'created' }),
     ]);
 
@@ -41,6 +44,7 @@ const UserPage: FC<Props> = async (props) => {
                 <div className="order-2 flex flex-col gap-12 lg:order-1 lg:gap-16">
                     <Statistics />
                     <Favorites />
+                    <UserNews />
                 </div>
                 <div className="order-1 flex flex-col gap-12 lg:order-2 lg:gap-16">
                     <History />

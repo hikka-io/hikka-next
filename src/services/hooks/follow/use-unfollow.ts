@@ -12,7 +12,18 @@ const useUnfollow = ({ username }: Params) => {
                 params: { username: String(username) },
             }),
         onSuccess: async () => {
-            await queryClient.invalidateQueries();
+            await queryClient.invalidateQueries({
+                queryKey: ['user'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['followers'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['followings'],
+                exact: false,
+            });
         },
     });
 };

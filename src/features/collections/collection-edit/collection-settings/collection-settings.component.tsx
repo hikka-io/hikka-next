@@ -23,10 +23,7 @@ import GroupInputs from '@/features/collections/collection-edit/collection-setti
 
 import useCreateCollection from '@/services/hooks/collections/use-create-collection';
 import useUpdateCollection from '@/services/hooks/collections/use-update-collection';
-import {
-    State as CollectionState,
-    useCollectionContext,
-} from '@/services/providers/collection-provider';
+import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
@@ -40,86 +37,37 @@ interface Props {
 const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const { openModal } = useModalContext();
     const params = useParams();
-    const {
-        groups,
-        title,
-        nsfw,
-        spoiler,
-        visibility,
-        content_type,
-        setState: setCollectionState,
-        description,
-        tags,
-        stateToCreate,
-    } = useCollectionContext();
+
+    const groups = useCollectionContext((state) => state.groups);
+    const title = useCollectionContext((state) => state.title);
+    const nsfw = useCollectionContext((state) => state.nsfw);
+    const spoiler = useCollectionContext((state) => state.spoiler);
+    const visibility = useCollectionContext((state) => state.visibility);
+    const content_type = useCollectionContext((state) => state.content_type);
+    const description = useCollectionContext((state) => state.description);
+    const tags = useCollectionContext((state) => state.tags);
+    const getApiData = useCollectionContext((state) => state.getApiData);
+
+    const addGroup = useCollectionContext((state) => state.addGroup);
+    const setTitle = useCollectionContext((state) => state.setTitle);
+    const setTags = useCollectionContext((state) => state.setTags);
+    const setContentType = useCollectionContext(
+        (state) => state.setContentType,
+    );
+    const setVisibility = useCollectionContext((state) => state.setVisibility);
+    const setNsfw = useCollectionContext((state) => state.setNsfw);
+    const setSpoiler = useCollectionContext((state) => state.setSpoiler);
 
     const { mutate: mutateCreateCollection, isPending: isCreatePending } =
         useCreateCollection({
-            ...stateToCreate!(),
+            ...getApiData(),
         });
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useUpdateCollection({
-            ...stateToCreate!(),
+            ...getApiData(),
             reference: String(params.reference),
         });
-
-    const handleParamChange = (
-        param: keyof CollectionState,
-        value: string | boolean,
-    ) => {
-        setCollectionState!((state) => {
-            return {
-                ...state,
-                [param]: value,
-            };
-        });
-    };
-
-    const handleAddNewGroup = () => {
-        if (groups.length === 1 && !groups[0].isGroup) {
-            setCollectionState!((state) => {
-                return {
-                    ...state,
-                    groups: [
-                        {
-                            ...state.groups[0],
-                            title: '',
-                            isGroup: true,
-                        },
-                    ],
-                };
-            });
-            return;
-        }
-
-        setCollectionState!((state) => {
-            return {
-                ...state,
-                groups: [
-                    ...state.groups,
-                    {
-                        id: String(Date.now()),
-                        title: '',
-                        isGroup: true,
-                        items: [],
-                    },
-                ],
-            };
-        });
-    };
-
-    const handleChangeContentType = (value: string[]) =>
-        setCollectionState!((state) => ({
-            ...state,
-            content_type: value[0] as API.ContentType,
-        }));
-
-    const handleChangeVisibility = (value: string[]) =>
-        setCollectionState!((state) => ({
-            ...state,
-            visibility: value[0] as 'private' | 'public' | 'unlisted',
-        }));
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
@@ -131,9 +79,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Input
                         placeholder="Введіть назву"
                         value={title || ''}
-                        onChange={(e) =>
-                            handleParamChange('title', e.target.value)
-                        }
+                        onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
 
@@ -143,7 +89,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         groups.some((group) => group.isGroup) && (
                             <GroupInputs />
                         )}
-                    <Button variant="secondary" onClick={handleAddNewGroup}>
+                    <Button variant="secondary" onClick={addGroup}>
                         Додати групу
                     </Button>
                 </div>
@@ -156,12 +102,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         disabled={tags.length === 3}
                         id="tags"
                         value={tags}
-                        onChange={(tags) =>
-                            setCollectionState!((state) => ({
-                                ...state,
-                                tags: tags as string[],
-                            }))
-                        }
+                        onChange={(tags) => setTags(tags as string[])}
                     />
                 </div>
 
@@ -176,7 +117,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         <Select
                             disabled={groups.some((g) => g.items.length > 0)}
                             value={[content_type]}
-                            onValueChange={handleChangeContentType}
+                            onValueChange={(value) =>
+                                setContentType(value[0] as API.ContentType)
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
@@ -208,7 +151,11 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
 
                     <Select
                         value={[visibility]}
-                        onValueChange={handleChangeVisibility}
+                        onValueChange={(value) =>
+                            setVisibility(
+                                value[0] as 'private' | 'public' | 'unlisted',
+                            )
+                        }
                     >
                         <SelectTrigger>
                             <SelectValue />
@@ -238,7 +185,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     </Label>
                     <Switch
                         checked={nsfw}
-                        onCheckedChange={() => handleParamChange('nsfw', !nsfw)}
+                        onCheckedChange={() => setNsfw(!nsfw)}
                         id="nsfw"
                     />
                 </div>
@@ -249,9 +196,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     </Label>
                     <Switch
                         checked={spoiler}
-                        onCheckedChange={() =>
-                            handleParamChange('spoiler', !spoiler)
-                        }
+                        onCheckedChange={() => setSpoiler(!spoiler)}
                         id="spoiler"
                     />
                 </div>

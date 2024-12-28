@@ -13,21 +13,23 @@ interface Props {
 const ALLOWED_CATEGORIES = ['news', 'system', 'reviews'];
 
 export interface MetadataProps {
-    params: { category: API.ArticleCategory };
-    searchParams: { [key: string]: string | string[] | undefined };
+    params: Promise<{ category: API.ArticleCategory }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({
     params,
 }: MetadataProps): Promise<Metadata> {
-    const category = ARTICLE_CATEGORY_OPTIONS.find(
-        (cat) => cat.value === params.category,
+    const { category } = await params;
+
+    const categoryInfo = ARTICLE_CATEGORY_OPTIONS.find(
+        (cat) => cat.value === category,
     );
 
     return _generateMetadata({
         title: {
-            default: category!.label,
-            template: `%s / ${category!.label} / Hikka`,
+            default: categoryInfo!.label,
+            template: `%s / ${categoryInfo!.label} / Hikka`,
         },
     });
 }

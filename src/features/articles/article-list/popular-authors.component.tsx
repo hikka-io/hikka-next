@@ -1,7 +1,9 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import FollowButton from '@/components/follow-button';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
@@ -12,9 +14,17 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
+import useArticleTop from '@/services/hooks/articles/use-article-top';
+
 interface Props {}
 
 const PopularAuthors: FC<Props> = () => {
+    const params = useParams();
+
+    const { data: articleTop } = useArticleTop({
+        category: params.category as API.ArticleCategory,
+    });
+
     return (
         <Block>
             <Header>
@@ -23,46 +33,30 @@ const PopularAuthors: FC<Props> = () => {
                 </HeaderContainer>
             </Header>
             <div className="flex flex-col gap-6">
-                <HorizontalCard href={'/u/MatthewBishop'}>
-                    <HorizontalCardImage
-                        imageRatio={1}
-                        image="https://cdn.hikka.io/avatar.jpg"
-                    />
-                    <HorizontalCardContainer>
-                        <HorizontalCardTitle>MatthewBishop</HorizontalCardTitle>
-                        <HorizontalCardDescription className="line-clamp-2">
-                            ATTACK HELICOPTER
-                        </HorizontalCardDescription>
-                    </HorizontalCardContainer>
-                </HorizontalCard>
-
-                <HorizontalCard href={'/u/makovka'}>
-                    <HorizontalCardImage
-                        imageRatio={1}
-                        image="https://cdn.hikka.io/avatar.jpg"
-                    />
-                    <HorizontalCardContainer>
-                        <HorizontalCardTitle>makovka</HorizontalCardTitle>
-                        <HorizontalCardDescription className="line-clamp-2">
-                            О ні... тільки не у вушко...
-                        </HorizontalCardDescription>
-                    </HorizontalCardContainer>
-                </HorizontalCard>
-
-                <HorizontalCard href={'/u/foggimon'}>
-                    <HorizontalCardImage
-                        imageRatio={1}
-                        image="https://cdn.hikka.io/avatar.jpg"
-                    />
-                    <HorizontalCardContainer>
-                        <HorizontalCardTitle>foggimon</HorizontalCardTitle>
-                        <HorizontalCardDescription className="line-clamp-2">
-                            Не претендую на звання експерта чи критика. Роблю
-                            те, що мені подобається, і буду радий, якщо мої
-                            огляди стануть комусь у нагоді.
-                        </HorizontalCardDescription>
-                    </HorizontalCardContainer>
-                </HorizontalCard>
+                {articleTop?.authors.map((author) => (
+                    <HorizontalCard
+                        key={author.user.username}
+                        href={author.user.username}
+                    >
+                        <HorizontalCardImage
+                            imageRatio={1}
+                            image={author.user.avatar}
+                        />
+                        <HorizontalCardContainer>
+                            <HorizontalCardTitle>
+                                {author.user.username}
+                            </HorizontalCardTitle>
+                            <HorizontalCardDescription className="line-clamp-2">
+                                {author.user.description}
+                            </HorizontalCardDescription>
+                        </HorizontalCardContainer>
+                        <FollowButton
+                            size="icon-md"
+                            iconOnly
+                            user={author.user}
+                        />
+                    </HorizontalCard>
+                ))}
             </div>
         </Block>
     );

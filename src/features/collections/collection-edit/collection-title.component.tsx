@@ -12,11 +12,12 @@ import { useCollectionContext } from '@/services/providers/collection-provider';
 const CollectionTitle = () => {
     const { reference } = useParams();
 
-    const {
-        title,
-        description,
-        setState: setCollectionState,
-    } = useCollectionContext();
+    const title = useCollectionContext((state) => state.title);
+    const description = useCollectionContext((state) => state.description);
+
+    const setDescription = useCollectionContext(
+        (state) => state.setDescription,
+    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -30,12 +31,7 @@ const CollectionTitle = () => {
             <RulesAlert />
             {((reference && description !== undefined) || !reference) && (
                 <PlateEditor
-                    onValueChange={(markdown) =>
-                        setCollectionState!((state) => ({
-                            ...state,
-                            description: markdown,
-                        }))
-                    }
+                    onValueChange={setDescription}
                     placeholder="Введіть опис"
                     initialValue={description}
                 />

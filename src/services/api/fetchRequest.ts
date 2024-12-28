@@ -2,10 +2,11 @@ import { getCookie } from '@/utils/cookies';
 
 import config from './config';
 
+// Types
+type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
+
 export interface BaseFetchRequestProps<
-    TParams extends Record<string, any> | FormData =
-        | Record<string, any>
-        | FormData,
+    TParams = Record<string, any> | FormData,
 > {
     params?: TParams;
     page?: number;
@@ -16,15 +17,80 @@ export interface BaseFetchRequestProps<
     auth?: string;
 }
 
-export interface FetchRequestProps<
-    TParams extends Record<string, any> | FormData =
-        | Record<string, any>
-        | FormData,
-> extends BaseFetchRequestProps<TParams> {
+export interface FetchRequestProps<TParams = Record<string, any> | FormData>
+    extends BaseFetchRequestProps<TParams> {
     path: string;
-    method: string;
+    method: HttpMethod;
+    signal?: AbortSignal;
 }
 
+// Utility functions
+function buildPaginationParams({
+    page,
+    size,
+}: Pick<BaseFetchRequestProps, 'page' | 'size'>): URLSearchParams {
+    const params = new URLSearchParams();
+    if (page) params.set('page', String(page));
+    if (size) params.set('size', String(size));
+    return params;
+}
+
+function buildQueryParams(
+    method: HttpMethod,
+    params?: Record<string, any>,
+): string {
+    if (method.toLowerCase() !== 'get' || !params) return '';
+    return '&' + new URLSearchParams(params).toString();
+}
+
+function buildRequestBody(
+    method: HttpMethod,
+    params?: Record<string, any> | FormData,
+    isFormData = false,
+): BodyInit | undefined {
+    if (method.toLowerCase() === 'get' || !params) return undefined;
+    return isFormData ? (params as FormData) : JSON.stringify(params);
+}
+
+async function buildHeaders(
+    options: Pick<BaseFetchRequestProps, 'captcha' | 'auth'>,
+    isFormData: boolean,
+): Promise<HeadersInit> {
+    const headers: Record<string, string> = {
+        // Only include default content-type header if not FormData
+        ...(isFormData ? {} : config.config.headers),
+        captcha: options.captcha || '',
+    };
+
+    // Add auth header for server-side requests
+    if (typeof window === 'undefined') {
+        headers.auth = (options.auth || (await getCookie('auth')))!;
+    }
+
+    return headers;
+}
+
+async function handleResponse<TResponse>(
+    response: Response,
+): Promise<TResponse> {
+    if (!response.ok) {
+        if (response.status >= 400 && response.status <= 499) {
+            throw await response.json();
+        }
+        console.error(response);
+        throw new Error(
+            `Request failed: ${response.status} ${response.statusText}`,
+        );
+    }
+
+    const contentType = response.headers.get('Content-Type') || '';
+    if (contentType.includes('application/json')) {
+        return response.json();
+    }
+    return response.text() as unknown as TResponse;
+}
+
+// Main fetch request function
 export async function fetchRequest<TResponse>({
     path,
     method,
@@ -32,57 +98,33 @@ export async function fetchRequest<TResponse>({
     page,
     size,
     captcha,
-    formData,
-    config: myConfig,
+    formData = false,
+    config: customConfig,
     auth,
+    signal,
 }: FetchRequestProps): Promise<TResponse> {
-    const paginationParams = new URLSearchParams({
-        ...(page ? { page: String(page) } : {}),
-        ...(size ? { size: String(size) } : {}),
-    }).toString();
+    // Build URL
+    const paginationParams = buildPaginationParams({ page, size });
+    const queryParams = buildQueryParams(method, params as Record<string, any>);
+    const url = `${config.baseAPI}${path}?${paginationParams}${queryParams}`;
 
-    const queryParams =
-        (method === 'get' &&
-            params &&
-            '&' +
-                new URLSearchParams(
-                    params as Record<string, string>,
-                ).toString()) ||
-        '';
+    // Build request options
+    const headers = await buildHeaders({ captcha, auth }, formData);
+    const body = buildRequestBody(method, params, formData);
 
-    const input = config.baseAPI + path + '?' + paginationParams + queryParams;
-
-    const res = await fetch(input, {
+    // Make request
+    const response = await fetch(url, {
+        method: method.toUpperCase(),
         credentials: 'include',
-        method: method,
-        body:
-            method !== 'get' && params
-                ? formData
-                    ? (params as FormData)
-                    : JSON.stringify(params)
-                : undefined,
-        ...(myConfig ? {} : { cache: 'no-store' }),
-        ...config.config,
-        ...myConfig,
-        headers: {
-            ...(formData ? {} : config.config.headers),
-            captcha: captcha || '',
-            ...(typeof window === 'undefined'
-                ? { auth: auth || (await getCookie('auth')) }
-                : {}),
-        },
+        body,
+        cache: customConfig ? undefined : 'no-store',
+        ...config.config, // Apply base config
+        ...customConfig, // Apply custom config
+        headers, // Apply headers last to ensure proper overwrites
+        signal,
     });
 
-    await handleError(res);
-
-    return await res.json();
+    return handleResponse<TResponse>(response);
 }
 
-async function handleError(response: Response) {
-    if (!response.ok) {
-        if (response.status >= 400 && response.status <= 499) {
-            throw await response.json();
-        }
-        throw new Error('Failed to fetch data');
-    }
-}
+export type { HttpMethod };

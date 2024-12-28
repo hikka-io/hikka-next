@@ -14,11 +14,9 @@ interface Props {
 
 const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const params = useParams();
-    const {
-        groups,
-        rawToState,
-        setState: setCollectionState,
-    } = useCollectionContext();
+
+    const groups = useCollectionContext((state) => state.groups);
+    const setApiData = useCollectionContext((state) => state.setApiData);
 
     const { data } = useCollection(
         {
@@ -29,7 +27,7 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
 
     useEffect(() => {
         if (data) {
-            setCollectionState!(rawToState!(data));
+            setApiData(data);
         }
     }, [data]);
 

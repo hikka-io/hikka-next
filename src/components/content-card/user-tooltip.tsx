@@ -2,6 +2,7 @@
 
 import { FC, PropsWithChildren, memo } from 'react';
 
+import FollowButton from '@/components/follow-button';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -11,8 +12,6 @@ import {
     HoverCardPortal,
     HoverCardTrigger,
 } from '@/components/ui/hover-card';
-
-import FollowButton from '@/features/users/follow-button.component';
 
 import useFollowStats from '@/services/hooks/follow/use-follow-stats';
 import useReadStats from '@/services/hooks/read/use-read-stats';
@@ -126,11 +125,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                             )}
                         </div>
                     </div>
-                    <FollowButton
-                        className="size-9 p-0"
-                        username={username}
-                        iconOnly
-                    />
+                    <FollowButton user={user} className="size-9 p-0" iconOnly />
                 </div>
                 {user?.description && (
                     <MDViewer
