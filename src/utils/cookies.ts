@@ -3,10 +3,13 @@
 import { cookies } from 'next/headers';
 
 export async function setCookie(name: string, value: string) {
+    console.log(process.env.COOKIE_DOMAIN, process.env.COOKIE_HTTP_ONLY);
+
     (await cookies()).set(name, value, {
         maxAge: 30 * 24 * 60 * 60,
-        httpOnly: true,
+        httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
         sameSite: 'lax',
+        domain: process.env.COOKIE_DOMAIN,
     });
 }
 

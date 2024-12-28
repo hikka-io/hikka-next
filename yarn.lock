@@ -7400,11 +7400,11 @@ __metadata:
     remark-mentions: "npm:^1.1.0"
     remark-parse: "npm:^11.0.0"
     sharp: "npm:^0.33.5"
-    slate: "npm:^0.110.2"
+    slate: "npm:^0.112.0"
     slate-dom: "npm:^0.111.0"
     slate-history: "npm:^0.110.3"
     slate-hyperscript: "npm:^0.100.0"
-    slate-react: "npm:^0.111.0"
+    slate-react: "npm:^0.112.0"
     tailwind-gradient-mask-image: "npm:^1.2.0"
     tailwind-merge: "npm:^2.5.4"
     tailwindcss: "npm:3.4.14"
@@ -11165,9 +11165,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:^0.111.0":
-  version: 0.111.0
-  resolution: "slate-react@npm:0.111.0"
+"slate-react@npm:^0.112.0":
+  version: 0.112.0
+  resolution: "slate-react@npm:0.112.0"
   dependencies:
     "@juggle/resize-observer": "npm:^3.4.0"
     direction: "npm:^1.0.4"
@@ -11181,18 +11181,18 @@ __metadata:
     react-dom: ">=18.2.0"
     slate: ">=0.99.0"
     slate-dom: ">=0.110.2"
-  checksum: 10c0/9228ece95538b9286709ed08fe8d6f5b4669daf83655ab3eca93953f4c2eb8109ff7ba1af74561f6bb800dacbc41514cfc034888df020ac906cd285164f6735e
+  checksum: 10c0/2d9b88e68f9b6dd17a82551f0e68d30a80e42919076e057c7cb5d512a975ad8f641f575ea20cb64cd498016b23ffb467bb447946b88feee24c703777ef0ba79b
   languageName: node
   linkType: hard
 
-"slate@npm:^0.110.2":
-  version: 0.110.2
-  resolution: "slate@npm:0.110.2"
+"slate@npm:^0.112.0":
+  version: 0.112.0
+  resolution: "slate@npm:0.112.0"
   dependencies:
     immer: "npm:^10.0.3"
     is-plain-object: "npm:^5.0.0"
     tiny-warning: "npm:^1.0.3"
-  checksum: 10c0/90ed1b3c92898ccd4b3cb33216797acfb6eacbc2e60c7b8d8af4f02305195c3832a8cddb4651b10c4beb1da122bfaa42bb748e6464d75c8bfd545f017297041c
+  checksum: 10c0/e31dc1eb13c20505d243398bb91efeb8a8ef602eef6c8d4b55f616a39dd80ba4405916a4e40f30b0aa4ba8fbfd52a83508ecb947ad4b4cbc68d8e1f6b518eb96
   languageName: node
   linkType: hard
 
