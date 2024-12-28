@@ -65,6 +65,10 @@ async function buildHeaders(
     // Add auth header for server-side requests
     if (typeof window === 'undefined') {
         headers.auth = (options.auth || (await getCookie('auth')))!;
+    } else {
+        if (process.env.NEXT_PUBLIC_DEV === 'true') {
+            headers.auth = options.auth || (await getCookie('auth'))!;
+        }
     }
 
     return headers;

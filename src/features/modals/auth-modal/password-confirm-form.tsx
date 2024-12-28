@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSnackbar } from 'notistack';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '@/components/form/form-input';
@@ -34,7 +33,7 @@ const Component = () => {
     const router = useRouter();
     const { closeModal } = useModalContext();
 
-    const token = searchParams.get('token')!;
+    const token = searchParams.get('auth')!;
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
