@@ -55,7 +55,7 @@ const Component = () => {
                 captcha: String(captchaRef.current?.getResponse()),
             }),
         onSuccess: async (data) => {
-            await setCookie('auth', data.secret);
+            await setCookie('token', data.secret);
             closeModal();
             router.refresh();
 

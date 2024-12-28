@@ -13,7 +13,7 @@ const useSession = () => {
     });
 
     const logout = async () => {
-        await deleteCookie('auth');
+        await deleteCookie('token');
         window.location.reload();
     };
 

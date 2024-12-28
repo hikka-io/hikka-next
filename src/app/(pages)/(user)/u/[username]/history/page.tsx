@@ -21,7 +21,7 @@ interface Props {
 const FollowingHistoryPage: FC<Props> = async (props) => {
     const searchParams = await props.searchParams;
     const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+    const auth = await getCookie('token');
 
     auth && (await prefetchFollowingHistory());
 

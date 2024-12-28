@@ -11,7 +11,7 @@ interface Props extends PropsWithChildren {}
 
 const SessionManager = async ({ children }: Props) => {
     const queryClient = await getQueryClient();
-    const auth = await getCookie('auth');
+    const auth = await getCookie('token');
 
     auth &&
         (await queryClient.prefetchQuery({

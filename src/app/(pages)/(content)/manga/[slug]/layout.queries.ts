@@ -10,7 +10,7 @@ interface Props {
 }
 
 const prefetchQueries = async ({ params: { slug } }: Props) => {
-    const auth = await getCookie('auth');
+    const auth = await getCookie('token');
 
     await Promise.all([
         prefetchMangaCharacters({ slug }),

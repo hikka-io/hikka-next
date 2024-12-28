@@ -46,7 +46,7 @@ const CollectionsPage: FC<Props> = async (props) => {
     }
 
     const queryClient = await getQueryClient();
-    const auth = await getCookie('auth');
+    const auth = await getCookie('token');
 
     const params = { page: Number(page), sort };
 
