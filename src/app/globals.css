@@ -358,7 +358,7 @@ td:last-child {
 }
 
 .markdown blockquote {
-    @apply mt-6 border-l-2 pl-6 italic;
+    @apply mb-4 border-l-2 border-border pl-6 italic;
 }
 
 .markdown ol {
