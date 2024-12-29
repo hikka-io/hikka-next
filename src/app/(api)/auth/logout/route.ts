@@ -6,10 +6,10 @@ export async function GET() {
     const cookieStore = await cookies();
 
     try {
-        /*    (await cookies()).delete({
+        cookieStore.delete({
             name: 'auth',
             domain: process.env.COOKIE_DOMAIN,
-        }); */
+        });
 
         cookieStore.getAll().forEach((cookie) => {
             cookieStore.delete(cookie.name);
