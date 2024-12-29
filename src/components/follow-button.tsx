@@ -62,7 +62,7 @@ const FollowButton: FC<Props> = ({
         }
     };
 
-    if (!username || !user) {
+    if (!user) {
         return null;
     }
 

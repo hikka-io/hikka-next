@@ -1,7 +1,9 @@
 import { FC, ReactNode, Suspense } from 'react';
 
 import SnowfallManager from '@/components/snowfall-manager';
+import { SidebarProvider, SidebarShadowTrigger } from '@/components/ui/sidebar';
 
+import AppSidebar from '@/features/common/app-sidebar';
 import Footer from '@/features/common/footer.component';
 import ModalManager from '@/features/common/modal-manager.component';
 import NavBar from '@/features/common/navbar/navbar.component';
@@ -18,15 +20,18 @@ const Layout: FC<Props> = ({ children }) => {
             <Suspense>
                 <ModalManager />
             </Suspense>
-            <NavBar />
 
-            <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">
-                <Suspense>
-                    <SnowfallManager />
-                </Suspense>
-
-                {children}
-            </main>
+            <SidebarProvider defaultOpen={false}>
+                <SidebarShadowTrigger />
+                <NavBar />
+                <AppSidebar />
+                <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">
+                    <Suspense>
+                        <SnowfallManager />
+                    </Suspense>
+                    {children}
+                </main>
+            </SidebarProvider>
             <div className="sticky bottom-4 mt-12 w-full">
                 <div
                     id="subbar"

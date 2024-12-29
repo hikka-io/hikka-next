@@ -163,101 +163,85 @@ export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-export const GENERAL_NAV_ROUTES: Hikka.NavRoute[] = [
+const CONTENT_GROUP = [
     {
-        slug: 'anime',
-        title_ua: 'Головна',
-        url: '/home',
-        icon: MaterialSymbolsHomeRounded,
-        visible: false,
-    },
-    {
-        slug: 'anime',
         title_ua: 'Аніме',
         url: '/anime',
-        icon: MaterialSymbolsAnimatedImages,
+        icon: () => <MaterialSymbolsAnimatedImages />,
         visible: true,
-        group: 'Контент',
     },
     {
-        slug: 'manga',
         title_ua: 'Манґа',
         url: '/manga',
-        icon: MaterialSymbolsPalette,
+        icon: () => <MaterialSymbolsPalette />,
         visible: true,
-        group: 'Контент',
     },
     {
-        slug: 'novel',
         title_ua: 'Ранобе',
         url: '/novel',
-        icon: MaterialSymbolsMenuBookRounded,
+        icon: () => <MaterialSymbolsMenuBookRounded />,
         visible: true,
-        group: 'Контент',
     },
+];
+
+const COMMUNITY_GROUP = [
     {
-        slug: 'edit',
-        title_ua: 'Правки',
-        url: '/edit',
-        icon: MaterialSymbolsEditRounded,
-        visible: true,
-        group: 'Модерація',
-    },
-    {
-        slug: 'users',
-        title_ua: 'Користувачі',
-        url: '/u',
-        visible: false,
-    },
-    {
-        slug: 'characters',
-        title_ua: 'Персонажі',
-        url: '/characters',
-        visible: false,
-    },
-    {
-        slug: 'people',
-        title_ua: 'Люди',
-        url: '/people',
-        visible: false,
-    },
-    {
-        slug: 'comments',
-        title_ua: 'Коментарі',
-        url: '/comments',
-        visible: false,
-    },
-    {
-        slug: 'characters',
         title_ua: 'Колекції',
         url: '/collections',
-        icon: MaterialSymbolsStack,
+        icon: () => <MaterialSymbolsStack />,
         visible: true,
-        group: 'Спільнота',
     },
     {
-        slug: 'news',
-        title_ua: 'Новини',
-        url: '/news',
-        icon: MaterialSymbolsNewsmodeRounded,
+        title_ua: 'Статті',
+        url: '/articles',
+        icon: () => <MaterialSymbolsNewsmodeRounded />,
         visible: true,
-        group: 'Спільнота',
     },
+];
+
+const MODERATION_GROUP = [
     {
-        slug: 'schedule',
+        title_ua: 'Правки',
+        url: '/edit',
+        icon: () => <MaterialSymbolsEditRounded />,
+        visible: true,
+    },
+];
+
+const OTHER_GROUP = [
+    {
         title_ua: 'Календар',
         url: '/schedule',
-        icon: MaterialSymbolsCalendarClockRounded,
+        icon: () => <MaterialSymbolsCalendarClockRounded />,
         visible: true,
-        group: 'Інше',
     },
     {
-        slug: 'settings',
-        title_ua: 'Налаштування',
-        url: '/settings',
+        title_ua: 'Головна',
+        url: '/',
+        icon: () => <MaterialSymbolsHomeRounded />,
         visible: false,
     },
 ];
+
+export const APP_SIDEBAR = [
+    {
+        title_ua: 'Контент',
+        items: CONTENT_GROUP,
+    },
+    {
+        title_ua: 'Спільнота',
+        items: COMMUNITY_GROUP,
+    },
+    {
+        title_ua: 'Модерація',
+        items: MODERATION_GROUP,
+    },
+    {
+        title_ua: 'Інше',
+        items: OTHER_GROUP,
+    },
+];
+
 export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
     person: '/people',
     character: '/characters',
