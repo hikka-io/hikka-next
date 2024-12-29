@@ -1,11 +1,13 @@
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
 
 // export const dynamic = 'force-dynamic';
 
 export async function GET() {
     const cookieStore = await cookies();
-    const response = NextResponse.redirect(`${process.env.SITE_URL}`);
+
+    cookieStore.getAll().forEach((cookie) => {
+        console.log(cookie);
+    });
 
     cookieStore.delete({
         name: 'auth',
@@ -20,5 +22,5 @@ export async function GET() {
         sameSite: 'lax',
     });
 
-    return response;
+    return Response.redirect(`${process.env.SITE_URL}`);
 }
