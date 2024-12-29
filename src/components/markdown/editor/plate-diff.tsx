@@ -5,7 +5,7 @@ import { createPlateEditor } from '@udecode/plate-common/react';
 import { computeDiff } from '@udecode/plate-diff';
 import { FC, useMemo } from 'react';
 
-import PlateEditor from './plate-editor';
+import BasicEditor from './basic-editor';
 import { editorPlugins } from './plugins';
 import { deserializeMd } from './plugins/markdown-plugin/deserialize-md';
 
@@ -32,7 +32,7 @@ const PlateDiff: FC<Props> = ({ current, previous, className }) => {
     }, [previous, current]);
 
     return (
-        <PlateEditor
+        <BasicEditor
             disableToolbar
             readOnly
             initialValue={diffValue}

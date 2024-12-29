@@ -13,7 +13,7 @@ interface CreateEditorOptions {
     disableToolbar?: boolean;
 }
 
-export const useCreateEditor = ({
+export const useCreateArticleEditor = ({
     initialValue,
     disableToolbar,
 }: CreateEditorOptions) => {

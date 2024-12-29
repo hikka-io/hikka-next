@@ -2,7 +2,7 @@
 
 import { memo } from 'react';
 
-import PlateEditor from '@/components/markdown/editor/plate-editor';
+import BasicEditor from '@/components/markdown/editor/basic-editor';
 import { Label } from '@/components/ui/label';
 
 import { useArticleContext } from '@/services/providers/article-provider';
@@ -14,7 +14,7 @@ const ArticleText = () => {
     return (
         <div className="flex flex-col gap-4">
             <Label>Зміст</Label>
-            <PlateEditor
+            <BasicEditor
                 initialValue={text}
                 onValueChange={setText}
                 className="min-h-44"

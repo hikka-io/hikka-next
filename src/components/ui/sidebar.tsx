@@ -778,13 +778,13 @@ const SidebarShadowTrigger = React.forwardRef<
         <div
             ref={ref}
             className={cn(
-                'fixed left-0 top-0 h-full w-20 bg-secondary/60 opacity-20 transition-opacity duration-150 gradient-mask-r-0 hover:opacity-100',
+                'fixed left-0 top-0 h-full w-14 bg-secondary/60 opacity-20 transition-opacity duration-150 gradient-mask-r-0 hover:opacity-100',
                 className,
             )}
             {...props}
         >
             <div
-                className="absolute left-0 top-0 h-full w-14"
+                className="absolute left-0 top-0 h-full w-2"
                 onMouseEnter={toggleSidebar}
             />
         </div>

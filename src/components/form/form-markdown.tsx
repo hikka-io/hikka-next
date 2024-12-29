@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import BasePlateEditor, {
     PlateEditorProps,
-} from '@/components/markdown/editor/plate-editor';
+} from '@/components/markdown/editor/basic-editor';
 import {
     FormControl,
     FormDescription,

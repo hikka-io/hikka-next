@@ -1,7 +1,7 @@
 import { FC, ReactNode, Suspense } from 'react';
 
 import SnowfallManager from '@/components/snowfall-manager';
-import { SidebarProvider, SidebarShadowTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 import AppSidebar from '@/features/common/app-sidebar';
 import Footer from '@/features/common/footer.component';
@@ -22,7 +22,6 @@ const Layout: FC<Props> = ({ children }) => {
             </Suspense>
 
             <SidebarProvider defaultOpen={false}>
-                <SidebarShadowTrigger />
                 <NavBar />
                 <AppSidebar />
                 <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">

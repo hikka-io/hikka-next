@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import PlateEditor from '@/components/markdown/editor/plate-editor';
+import BasicEditor from '@/components/markdown/editor/basic-editor';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import RulesAlert from '@/features/collections/collection-edit/collection-rules-alert.component';
@@ -30,7 +30,7 @@ const CollectionTitle = () => {
             </Header>
             <RulesAlert />
             {((reference && description !== undefined) || !reference) && (
-                <PlateEditor
+                <BasicEditor
                     onValueChange={setDescription}
                     placeholder="Введіть опис"
                     initialValue={description}

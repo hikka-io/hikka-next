@@ -63,7 +63,7 @@ function AppSidebar() {
         >
             <SidebarHeader className="p-4">
                 <Link href={'/'}>
-                    <div className="logo size-[24px] md:w-[80px]" />
+                    <div className="logo-full size-[24px] w-[80px]" />
                 </Link>
             </SidebarHeader>
             <SidebarContent>

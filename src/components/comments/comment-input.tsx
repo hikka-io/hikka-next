@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import PlateEditor from '../markdown/editor/plate-editor';
+import BasicEditor from '../markdown/editor/basic-editor';
 import CommentInputBottomBar from './comment-input-bottom-bar';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
     return (
-        <PlateEditor
+        <BasicEditor
             className={className}
             initialValue={isEdit && comment ? comment.text : undefined}
             placeholder="Напишіть повідомлення..."
@@ -24,7 +24,7 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
                 isEdit={isEdit}
                 {...props}
             />
-        </PlateEditor>
+        </BasicEditor>
     );
 };
 
