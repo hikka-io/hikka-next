@@ -6,7 +6,6 @@ export async function GET() {
     const cookieStore = await cookies();
 
     cookieStore.getAll().forEach((cookie) => {
-        console.log(cookie);
         cookieStore.delete(cookie);
     });
 
