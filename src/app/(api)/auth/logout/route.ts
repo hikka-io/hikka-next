@@ -7,17 +7,12 @@ export async function GET() {
 
     cookieStore.getAll().forEach((cookie) => {
         console.log(cookie);
+        cookieStore.delete(cookie);
     });
 
-    cookieStore.delete({
+    (await cookies()).delete({
         name: 'auth',
         domain: process.env.COOKIE_DOMAIN,
-        httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
-        sameSite: 'lax',
-    });
-
-    cookieStore.delete({
-        name: 'auth',
         httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
         sameSite: 'lax',
     });
