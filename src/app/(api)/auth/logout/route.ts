@@ -8,15 +8,17 @@ export async function GET() {
     const response = NextResponse.redirect(`${process.env.SITE_URL}`);
 
     cookieStore.set('auth', '', {
-        path: '/',
         expires: new Date(0),
         domain: process.env.COOKIE_DOMAIN,
         httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
+        sameSite: 'lax',
     });
 
     cookieStore.set('auth', '', {
         path: '/',
         expires: new Date(0),
+        httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
+        sameSite: 'lax',
     });
 
     return response;
