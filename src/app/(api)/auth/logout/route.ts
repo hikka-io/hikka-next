@@ -1,22 +1,21 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 
 export async function GET() {
     const cookieStore = await cookies();
     const response = NextResponse.redirect(`${process.env.SITE_URL}`);
 
-    cookieStore.set('auth', '', {
-        expires: new Date(0),
+    cookieStore.delete({
+        name: 'auth',
         domain: process.env.COOKIE_DOMAIN,
         httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
         sameSite: 'lax',
     });
 
-    cookieStore.set('auth', '', {
-        path: '/',
-        expires: new Date(0),
+    cookieStore.delete({
+        name: 'auth',
         httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
         sameSite: 'lax',
     });
