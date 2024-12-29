@@ -1,20 +1,20 @@
-import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 
 // export const dynamic = 'force-dynamic';
 
 export async function GET() {
-    const cookieStore = await cookies();
-
-    cookieStore.getAll().forEach((cookie) => {
-        cookieStore.delete(cookie);
+    // Видалення hostOnly кукі
+    const response = NextResponse.redirect(`${process.env.SITE_URL}`, {
+        headers: {
+            'Set-Cookie': 'auth=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
+        },
     });
 
-    (await cookies()).delete({
-        name: 'auth',
-        domain: process.env.COOKIE_DOMAIN,
-        httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
-        sameSite: 'lax',
-    });
+    // Видалення кукі з доменом
+    response.headers.append(
+        'Set-Cookie',
+        'auth=; Max-Age=0; Path=/; Domain=.hikka.io; HttpOnly; SameSite=Lax',
+    );
 
-    return Response.redirect(`${process.env.SITE_URL}`);
+    return response;
 }
