@@ -1,8 +1,11 @@
+import { UsersIcon } from 'lucide-react';
+
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCustomTypographyRounded from '@/components/icons/material-symbols/MaterialSymbolsCustomTypographyRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsEventListRounded from '@/components/icons/material-symbols/MaterialSymbolsEventListRounded';
+import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsHomeRounded from '@/components/icons/material-symbols/MaterialSymbolsHomeRounded';
 import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRounded';
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
@@ -219,6 +222,24 @@ const OTHER_GROUP = [
         title_ua: 'Головна',
         url: '/',
         icon: () => <MaterialSymbolsHomeRounded />,
+        visible: false,
+    },
+    {
+        title_ua: 'Користувачі',
+        url: '/u',
+        icon: () => <UsersIcon />,
+        visible: false,
+    },
+    {
+        title_ua: 'Персонажі',
+        url: '/characters',
+        icon: () => <MaterialSymbolsFace3 />,
+        visible: false,
+    },
+    {
+        title_ua: 'Люди',
+        url: '/people',
+        icon: () => <MaterialSymbolsPerson />,
         visible: false,
     },
 ];
