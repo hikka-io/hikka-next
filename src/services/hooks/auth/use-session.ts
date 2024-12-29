@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
-import { deleteCookie } from '@/utils/cookies';
 import getQueryClient from '@/utils/get-query-client';
 
 export const key = () => ['logged-user'];
@@ -13,8 +12,9 @@ const useSession = () => {
     });
 
     const logout = async () => {
-        await deleteCookie('auth');
-        window.location.reload();
+        // await deleteCookie('auth');
+        // window.location.reload();
+        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
     };
 
     return { logout, user };
