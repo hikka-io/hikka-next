@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import loginOAuth from '@/services/api/auth/loginOAuth';
+import { setCookie } from '@/utils/cookies';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,9 +18,7 @@ export async function GET(request: Request) {
             },
         });
 
-        (await cookies()).set('auth', res.secret, {
-            maxAge: 60 * 60 * 24 * 7,
-        });
+        await setCookie('auth', res.secret);
     } catch (e) {
         if ('code' in (e as API.Error)) {
             return redirect(
