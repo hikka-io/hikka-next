@@ -3,15 +3,19 @@ import { cookies } from 'next/headers';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+    const cookieStore = await cookies();
+
     try {
-        (await cookies()).delete({
+        /*    (await cookies()).delete({
             name: 'auth',
             domain: process.env.COOKIE_DOMAIN,
+        }); */
+
+        cookieStore.getAll().forEach((cookie) => {
+            cookieStore.delete(cookie.name);
         });
     } catch (e) {
-        (await cookies()).delete({
-            name: 'auth',
-        });
+        console.error(e);
     }
 
     return Response.redirect(`${process.env.SITE_URL}`);
