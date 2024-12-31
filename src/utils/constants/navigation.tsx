@@ -1,5 +1,6 @@
 import { UsersIcon } from 'lucide-react';
 
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCustomTypographyRounded from '@/components/icons/material-symbols/MaterialSymbolsCustomTypographyRounded';
@@ -240,6 +241,12 @@ const OTHER_GROUP = [
         title_ua: 'Люди',
         url: '/people',
         icon: () => <MaterialSymbolsPerson />,
+        visible: false,
+    },
+    {
+        title_ua: 'Коментарі',
+        url: '/comments',
+        icon: () => <IconamoonCommentFill />,
         visible: false,
     },
 ];
