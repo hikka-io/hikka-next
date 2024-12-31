@@ -12,6 +12,7 @@ import {
     ListPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
+import { VideoPlugin } from '@udecode/plate-media/react';
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
 import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
@@ -28,6 +29,7 @@ const resetBlockTypesCommonRule = {
 };
 
 export const editorPlugins = [
+    VideoPlugin,
     DiffPlugin,
     BasicElementsPlugin,
     BoldPlugin,

@@ -2,12 +2,14 @@
 
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { useEditorReadOnly } from '@udecode/plate-common/react';
+import { VideoPlugin } from '@udecode/plate-media/react';
 import { BoldIcon, ItalicIcon } from 'lucide-react';
 
 import { EmojiDropdownMenu } from './emoji-dropdown-menu';
 import { InsertDropdownMenu } from './insert-dropdown-menu';
 import { LinkToolbarButton } from './link-toolbar-button';
 import { MarkToolbarButton } from './mark-toolbar-button';
+import { MediaToolbarButton } from './media-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 
 export function FixedToolbarButtons() {
@@ -40,6 +42,7 @@ export function FixedToolbarButtons() {
 
                     <ToolbarGroup>
                         <LinkToolbarButton />
+                        <MediaToolbarButton nodeType={VideoPlugin.key} />
                         <EmojiDropdownMenu />
                     </ToolbarGroup>
                 </>

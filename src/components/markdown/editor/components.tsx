@@ -12,14 +12,17 @@ import {
     ListItemPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
+import { VideoPlugin } from '@udecode/plate-media/react';
 
 import { EmojiInputElement } from './plate-ui/emoji-input-element';
 import { LinkElement } from './plate-ui/link-element';
 import { ListElement } from './plate-ui/list-element';
+import { MediaVideoElement } from './plate-ui/media-video-element';
 import { SpoilerElement } from './plate-ui/spoiler-element';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
 
 export const components = {
+    [VideoPlugin.key]: MediaVideoElement,
     [EmojiInputPlugin.key]: EmojiInputElement,
     [BulletedListPlugin.key]: withProps(ListElement, {
         variant: 'ul',
