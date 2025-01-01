@@ -17,6 +17,7 @@ import {
 
 import useArticle from '@/services/hooks/articles/use-article';
 import useSession from '@/services/hooks/auth/use-session';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import ArticleMenu from './article-menu';
 import ArticleVote from './article-vote';
@@ -45,8 +46,8 @@ const ArticleNavbar: FC<Props> = () => {
     }, [params.slug]);
 
     return (
-        <div className="sticky bottom-2 flex justify-center z-10">
-            <Card className="flex-row gap-2 p-2 bg-background">
+        <div className="sticky bottom-2 z-10 flex justify-center">
+            <Card className="flex-row gap-2 bg-background p-2">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />
                 )}
@@ -58,7 +59,7 @@ const ArticleNavbar: FC<Props> = () => {
                                 <Link
                                     href={
                                         '/comments' +
-                                        '/article' +
+                                        CONTENT_TYPE_LINKS['article'] +
                                         '/' +
                                         params.slug
                                     }

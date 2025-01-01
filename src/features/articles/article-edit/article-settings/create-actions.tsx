@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 
 import createArticle from '@/services/api/articles/createArticle';
 import { useArticleContext } from '@/services/providers/article-provider';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {}
 
@@ -32,7 +33,7 @@ const CreateActions: FC<Props> = () => {
                 variant: 'success',
             });
 
-            router.push(`/${data.category}/${data.slug}/update`);
+            router.push(`${CONTENT_TYPE_LINKS['article']}/${data.slug}/update`);
         },
     });
 

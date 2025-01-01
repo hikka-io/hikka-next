@@ -26,7 +26,6 @@ const ContentNews: FC<Props> = ({ content_type }) => {
     const { openModal } = useModalContext();
 
     const { list } = useArticles({
-        category: 'news',
         content_type: content_type,
         content_slug: String(params.slug),
     });

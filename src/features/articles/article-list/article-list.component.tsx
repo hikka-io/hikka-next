@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import ArticleItem from '@/components/article-item/article-item';
@@ -16,26 +16,23 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import ArticleFiltersModal from '@/features/modals/article-filters-modal.component';
 
 import useArticles from '@/services/hooks/articles/use-articles';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {}
 
 const ArticleList: FC<Props> = () => {
-    const params = useParams();
     const searchParams = useSearchParams();
-
-    const category = ARTICLE_CATEGORY_OPTIONS.find(
-        (cat) => cat.value === params.category,
-    );
 
     const author = searchParams.get('author') || undefined;
     const sort = searchParams.get('sort') || 'created';
     const order = searchParams.get('order') || 'desc';
     const tags = searchParams.getAll('tags') || undefined;
+    const categories =
+        (searchParams.getAll('categories') as API.ArticleCategory[]) || [];
 
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage } =
         useArticles({
-            category: category?.value as API.ArticleCategory,
+            categories,
             author,
             sort: [`${sort}:${order}`],
             tags,
@@ -45,9 +42,9 @@ const ArticleList: FC<Props> = () => {
         <Block>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">{category?.label}</HeaderTitle>
+                    <HeaderTitle variant="h2">Статті</HeaderTitle>
                     <Button asChild size="icon-sm" variant="outline">
-                        <Link href={`/${category?.value}/new`}>
+                        <Link href={`${CONTENT_TYPE_LINKS['article']}/new`}>
                             <MaterialSymbolsAddRounded className="size-4" />
                         </Link>
                     </Button>

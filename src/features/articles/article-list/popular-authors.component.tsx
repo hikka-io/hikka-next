@@ -14,7 +14,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-import useArticleTop from '@/services/hooks/articles/use-article-top';
+import useArticleTop from '@/services/hooks/articles/use-article-stats';
 
 interface Props {}
 

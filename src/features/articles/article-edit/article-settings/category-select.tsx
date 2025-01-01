@@ -31,7 +31,6 @@ const CategorySelect: FC<Props> = () => {
                 Категорія
             </Label>
             <Select
-                disabled={!isAdmin() && !isModerator()}
                 value={category ? [category] : category}
                 onValueChange={(value: API.ArticleCategory[]) =>
                     setCategory(value[0])

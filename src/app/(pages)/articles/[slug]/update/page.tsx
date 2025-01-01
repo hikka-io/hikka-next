@@ -14,6 +14,7 @@ import ArticleTitle from '@/features/articles/article-edit/article-title.compone
 
 import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
 import ArticleProvider from '@/services/providers/article-provider';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
 
 const ArticleUpdatePage = async (props: {
@@ -21,7 +22,7 @@ const ArticleUpdatePage = async (props: {
 }) => {
     const params = await props.params;
 
-    const { slug, category } = params;
+    const { slug } = params;
 
     const queryClient = await getQueryClient();
 
@@ -42,7 +43,7 @@ const ArticleUpdatePage = async (props: {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        href={`/${category}/${slug}`}
+                        href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {article?.title}

@@ -6,7 +6,7 @@ import {
 export interface Response extends API.WithPagination<API.Article> {}
 
 export interface Params {
-    category: API.ArticleCategory;
+    categories?: API.ArticleCategory[];
     page?: number;
     size?: number;
     sort?: string[];
@@ -29,11 +29,12 @@ export default async function req({
             tags: params?.tags,
             content_type: params?.content_type,
             content_slug: params?.content_slug,
+            categories: params?.categories,
         },
         page: params?.page,
         size: params?.size,
         ...props,
-        path: `/articles/${params?.category}`,
+        path: `/articles`,
         method: 'post',
     });
 }

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 
 import updateArticle from '@/services/api/articles/updateArticle';
 import { useArticleContext } from '@/services/providers/article-provider';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {}
 
@@ -71,7 +72,10 @@ const EditActions: FC<Props> = () => {
     return (
         <div className="flex flex-col gap-4">
             <Button asChild variant="secondary">
-                <Link target="_blank" href={`/${category}/${slug}`}>
+                <Link
+                    target="_blank"
+                    href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
+                >
                     <MaterialSymbolsVisibilityOutline className="size-4" />
                     Переглянути
                 </Link>

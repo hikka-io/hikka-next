@@ -18,7 +18,6 @@ const ContentNewsModal: FC<Props> = ({ content_type }) => {
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
         useArticles({
-            category: 'news',
             content_type: content_type,
             content_slug: String(params.slug),
         });

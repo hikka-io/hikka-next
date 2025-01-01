@@ -11,12 +11,8 @@ import ArticleProvider from '@/services/providers/article-provider';
 const ArticleNewPage = async (props: {
     params: Promise<Record<string, any>>;
 }) => {
-    const params = await props.params;
-
-    const { category } = params;
-
     return (
-        <ArticleProvider initialState={{ category }}>
+        <ArticleProvider>
             <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-16 lg:grid-cols-[1fr_25%]">
                 <Block>
                     <ArticleTitle />

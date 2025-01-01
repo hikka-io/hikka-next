@@ -17,11 +17,12 @@ import ArticleTitle from '@/features/articles/article-view/article-title.compone
 
 import getArticle from '@/services/api/articles/getArticle';
 import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
 export interface MetadataProps {
-    params: { category: API.ArticleCategory; slug: string };
+    params: { slug: string };
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
@@ -43,7 +44,7 @@ export async function generateMetadata({
 const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
     const params = await props.params;
 
-    const { slug, category } = params;
+    const { slug } = params;
 
     const queryClient = await getQueryClient();
 
@@ -64,7 +65,7 @@ const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        href={`/${category}/${slug}`}
+                        href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {article?.title}

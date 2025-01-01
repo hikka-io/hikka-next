@@ -9,7 +9,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import BadgeFilter from '@/features/filters/badge-filter';
 import useChangeParam from '@/features/filters/use-change-param';
 
-import useArticleTop from '@/services/hooks/articles/use-article-top';
+import useArticleTop from '@/services/hooks/articles/use-article-stats';
 
 interface Props {}
 

@@ -32,7 +32,7 @@ const UserPage: FC<Props> = async (props) => {
         await prefetchFavorites({ username, content_type: 'anime' }),
         await prefetchUserHistory({ username }),
         await prefetchUserActivity({ username }),
-        await prefetchArticles({ author: username, category: 'news' }),
+        await prefetchArticles({ author: username }),
         await prefetchUserCollections({ author: username, sort: 'created' }),
     ]);
 

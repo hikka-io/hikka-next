@@ -12,9 +12,7 @@ export interface Response {
     tags: API.Tag[];
 }
 
-export interface Params {
-    category: API.ArticleCategory;
-}
+export interface Params {}
 
 export default async function req({
     params,
@@ -22,7 +20,7 @@ export default async function req({
 }: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
         ...props,
-        path: `/articles/top/${params?.category}`,
+        path: `/articles/stats`,
         method: 'get',
     });
 }

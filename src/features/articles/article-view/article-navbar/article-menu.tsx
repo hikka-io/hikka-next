@@ -28,6 +28,7 @@ import {
 
 import deleteArticle from '@/services/api/articles/deleteArticle';
 import useSession from '@/services/hooks/auth/use-session';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     article: API.Article;
@@ -80,7 +81,9 @@ const ArticleMenu: FC<Props> = ({ article }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
                 <DropdownMenuItem asChild>
-                    <Link href={`/${article.category}/${article.slug}/update`}>
+                    <Link
+                        href={`${CONTENT_TYPE_LINKS['article']}/${article.slug}/update`}
+                    >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Редагувати
                     </Link>

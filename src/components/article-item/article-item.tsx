@@ -10,6 +10,8 @@ import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import { Header, HeaderContainer, HeaderTitle } from '../ui/header';
 import Author from './article-author';
 
@@ -23,7 +25,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
             <Author article={article} />
             <Link
                 className="flex cursor-pointer flex-col gap-4"
-                href={`/${article.category}/${article.slug}`}
+                href={`${CONTENT_TYPE_LINKS['article']}/${article.slug}`}
             >
                 {article.cover && (
                     <Image

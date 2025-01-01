@@ -20,7 +20,6 @@ interface Props {}
 const UserNews: FC<Props> = () => {
     const params = useParams();
     const { list } = useArticles({
-        category: 'news',
         author: String(params.username),
     });
 

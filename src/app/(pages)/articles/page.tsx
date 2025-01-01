@@ -6,7 +6,7 @@ import PopularAuthors from '@/features/articles/article-list/popular-authors.com
 import PopularTags from '@/features/articles/article-list/popular-tags.component';
 import ArticleFilters from '@/features/filters/article-filters.component';
 
-import { prefetchArticleTop } from '@/services/hooks/articles/use-article-top';
+import { prefetchArticleStats } from '@/services/hooks/articles/use-article-stats';
 import { prefetchArticles } from '@/services/hooks/articles/use-articles';
 import getQueryClient from '@/utils/get-query-client';
 
@@ -14,10 +14,7 @@ const ArticlesPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
     params: Promise<Record<string, any>>;
 }) => {
-    const params = await props.params;
     const searchParams = await props.searchParams;
-
-    const { category } = params;
 
     const queryClient = await getQueryClient();
 
@@ -25,15 +22,16 @@ const ArticlesPage = async (props: {
     const sort = searchParams.sort || 'created';
     const order = searchParams.order || 'desc';
     const tags = searchParams.tags || [];
+    const categories = searchParams.categories || [];
 
     await prefetchArticles({
-        category,
         author: author as string,
         sort: [`${sort}:${order}`],
         tags: tags as string[],
+        categories: categories as API.ArticleCategory[],
     });
 
-    await prefetchArticleTop({ category });
+    await prefetchArticleStats({});
 
     const dehydratedState = dehydrate(queryClient);
 
