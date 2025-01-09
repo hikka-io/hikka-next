@@ -1,12 +1,13 @@
 'use client';
 
+import { Value } from '@udecode/plate-common';
 import { createStore } from 'zustand';
 
 export type ArticleState = {
     slug?: string;
     title?: string;
     category?: API.ArticleCategory;
-    text?: string;
+    document?: Value;
     tags: string[];
     draft?: boolean;
     content?:
@@ -26,12 +27,12 @@ export type ArticleActions = {
     setArticle: (article: API.Article) => void;
     setTitle: (title: string) => void;
     setCategory: (category: API.ArticleCategory) => void;
-    setText: (text: string) => void;
+    setDocument: (text: Value) => void;
     setTags: (tags: string[]) => void;
     setDraft: (draft: boolean) => void;
     setContent: (content?: API.MainContent) => void;
     setCover: (cover: string) => void;
-    getText: () => string | undefined;
+    getDocument: () => Value | undefined;
 };
 
 export type ArticleStore = ArticleState & ArticleActions;
@@ -40,7 +41,7 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
     const DEFAULT_PROPS: ArticleState = {
         title: undefined,
         category: 'news',
-        text: undefined,
+        document: undefined,
         tags: [],
         draft: true,
         content: undefined,
@@ -57,11 +58,11 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         },
         setTitle: (title: string) => set({ title }),
         setCategory: (category: API.ArticleCategory) => set({ category }),
-        setText: (text: string) => set({ text }),
+        setDocument: (document: Value) => set({ document }),
         setTags: (tags: string[]) => set({ tags }),
         setDraft: (draft: boolean) => set({ draft }),
         setContent: (content?: API.MainContent) => set({ content }),
         setCover: (cover: string) => set({ cover }),
-        getText: () => get().text,
+        getDocument: () => get().document,
     }));
 };

@@ -8,8 +8,8 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
 import ArticleCover from '@/features/articles/article-edit/article-cover.component';
+import ArticleText from '@/features/articles/article-edit/article-document.component';
 import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
-import ArticleText from '@/features/articles/article-edit/article-text.component';
 import ArticleTitle from '@/features/articles/article-edit/article-title.component';
 
 import { key, prefetchArticle } from '@/services/hooks/articles/use-article';

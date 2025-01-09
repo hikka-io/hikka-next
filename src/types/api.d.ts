@@ -1,3 +1,5 @@
+import { Value } from '@udecode/plate-common';
+
 export {};
 
 declare global {
@@ -669,7 +671,7 @@ declare global {
             category: API.ArticleCategory;
             draft: boolean;
             title: string;
-            text: string;
+            document: Value;
             slug: string;
             content?: {
                 data_type: API.ContentType;

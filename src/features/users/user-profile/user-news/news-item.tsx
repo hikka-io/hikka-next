@@ -8,7 +8,6 @@ import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
@@ -23,12 +22,12 @@ const NewsItem: FC<Props> = ({ article }) => {
             <HorizontalCard href={`/${article.category}/${article.slug}`}>
                 <HorizontalCardContainer>
                     <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
-                    <HorizontalCardDescription
+                    {/*  <HorizontalCardDescription
                         href={`/${article.category}/${article.slug}`}
                         className="line-clamp-2"
                     >
                         {article.text.substring(0, 500)}
-                    </HorizontalCardDescription>
+                    </HorizontalCardDescription> */}
                 </HorizontalCardContainer>
                 {article.cover && (
                     <HorizontalCardImage

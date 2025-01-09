@@ -1,3 +1,5 @@
+import { Value } from '@udecode/plate-common';
+
 import {
     BaseFetchRequestProps,
     fetchRequest,
@@ -6,7 +8,7 @@ import {
 export interface Response extends API.Article {}
 
 export interface Params {
-    text: string;
+    document: Value;
     title: string;
     tags: string[];
     content?: {

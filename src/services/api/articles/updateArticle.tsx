@@ -1,3 +1,5 @@
+import { Value } from '@udecode/plate-common';
+
 import {
     BaseFetchRequestProps,
     fetchRequest,
@@ -7,7 +9,7 @@ export interface Response extends API.Article {}
 
 export interface Params {
     slug: string;
-    text: string;
+    document: Value;
     title: string;
     tags: string[];
     content?: {
@@ -25,7 +27,7 @@ export default async function req({
 }: BaseFetchRequestProps<Params>): Promise<Response> {
     return fetchRequest<Response>({
         params: {
-            text: params?.text,
+            document: params?.document,
             title: params?.title,
             tags: params?.tags,
             content: params?.content,

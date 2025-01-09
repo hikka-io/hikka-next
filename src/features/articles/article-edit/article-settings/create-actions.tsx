@@ -24,7 +24,7 @@ const CreateActions: FC<Props> = () => {
     const category = useArticleContext((state) => state.category);
     const cover = useArticleContext((state) => state.cover);
     const content = useArticleContext((state) => state.content);
-    const getText = useArticleContext((state) => state.getText);
+    const getDocument = useArticleContext((state) => state.getDocument);
 
     const { mutate: mutateCreateArticle, isPending } = useMutation({
         mutationFn: createArticle,
@@ -39,15 +39,15 @@ const CreateActions: FC<Props> = () => {
 
     const handleCreateArticle = useCallback(
         (draft: boolean = false) => {
-            const text = getText();
+            const document = getDocument();
 
-            if (!text) {
+            if (!document) {
                 return;
             }
 
             mutateCreateArticle({
                 params: {
-                    text: text || '',
+                    document: document,
                     title: title || '',
                     tags,
                     draft,
@@ -62,7 +62,15 @@ const CreateActions: FC<Props> = () => {
                 },
             });
         },
-        [getText, title, tags, category, content, cover, mutateCreateArticle],
+        [
+            getDocument,
+            title,
+            tags,
+            category,
+            content,
+            cover,
+            mutateCreateArticle,
+        ],
     );
 
     return (

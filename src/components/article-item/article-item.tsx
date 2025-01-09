@@ -3,7 +3,6 @@ import { FC } from 'react';
 
 import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import Muted from '@/components/typography/muted';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -53,12 +52,12 @@ const ArticleItem: FC<Props> = ({ article }) => {
                             </HeaderContainer>
                         </Header>
                     </div>
-                    <MDViewer
+                    {/* <MDViewer
                         preview
                         className="line-clamp-3 text-sm text-muted-foreground"
                     >
                         {article.text.substring(0, 500)}
-                    </MDViewer>
+                    </MDViewer> */}
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
                             {article.tags.map((tag) => (

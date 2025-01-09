@@ -8,6 +8,9 @@ WORKDIR /app
 COPY package.json ./
 RUN corepack enable yarn && yarn install
 
+RUN yarn add @next/swc-linux-x64-gnu @next/swc-linux-x64-musl
+
+
 COPY . .
 
 CMD ["yarn", "dev"]

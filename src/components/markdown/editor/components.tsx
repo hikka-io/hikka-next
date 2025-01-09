@@ -19,9 +19,10 @@ import { LinkElement } from './plate-ui/link-element';
 import { ListElement } from './plate-ui/list-element';
 import { MediaVideoElement } from './plate-ui/media-video-element';
 import { SpoilerElement } from './plate-ui/spoiler-element';
+import { SpoilerViewElement } from './plate-ui/spoiler-view-element';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
 
-export const components = {
+export const editorComponents = {
     [VideoPlugin.key]: MediaVideoElement,
     [EmojiInputPlugin.key]: EmojiInputElement,
     [BulletedListPlugin.key]: withProps(ListElement, {
@@ -43,4 +44,8 @@ export const components = {
         className: 'mb-4 border-l-2 pl-6 italic border-border',
     }),
     [SpoilerPlugin.key]: SpoilerElement,
+};
+
+export const viewerComponents = {
+    [SpoilerPlugin.key]: SpoilerViewElement,
 };
