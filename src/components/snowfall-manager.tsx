@@ -12,7 +12,15 @@ const SnowfallManager = () => {
     }
 
     return (
-        <Snowfall snowflakeCount={100} speed={[0.5, 1.5]} wind={[-0.5, 1]} />
+        <Snowfall
+            snowflakeCount={100}
+            speed={[0.5, 1.5]}
+            wind={[-0.5, 1]}
+            style={{
+                maskImage:
+                    'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
+            }}
+        />
     );
 };
 
