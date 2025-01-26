@@ -16,6 +16,7 @@ const CommentRulesAlert = () => {
     useEffect(() => {
         fetch(
             'https://raw.githubusercontent.com/hikka-io/rules/main/COMMENT_RULES.md',
+            // TODO: change this when the rules are created
         )
             .then((res) => res.text())
             .then((res) => setRules(res));
