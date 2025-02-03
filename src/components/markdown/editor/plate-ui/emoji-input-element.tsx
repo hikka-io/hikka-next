@@ -20,7 +20,7 @@ export const EmojiInputElement = withRef<typeof PlateElement>(
     ({ className, ...props }, ref) => {
         const { children, editor, element } = props;
         const [value, setValue] = useState('');
-        const debouncedValue = useDebounce(value, 100);
+        const debouncedValue = useDebounce({ value, delay: 100 });
         const isPending = value !== debouncedValue;
 
         const filteredEmojis = useMemo(() => {
