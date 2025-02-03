@@ -16,6 +16,7 @@ import { VideoPlugin } from '@udecode/plate-media/react';
 
 import { EmojiInputElement } from './plate-ui/emoji-input-element';
 import { LinkElement } from './plate-ui/link-element';
+import { LinkViewElement } from './plate-ui/link-view-element';
 import { ListElement } from './plate-ui/list-element';
 import { MediaVideoElement } from './plate-ui/media-video-element';
 import { SpoilerElement } from './plate-ui/spoiler-element';
@@ -48,4 +49,5 @@ export const editorComponents = {
 
 export const viewerComponents = {
     [SpoilerPlugin.key]: SpoilerViewElement,
+    [LinkPlugin.key]: LinkViewElement,
 };

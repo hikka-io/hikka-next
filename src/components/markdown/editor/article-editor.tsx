@@ -44,11 +44,7 @@ const ArticleEditor: FC<ArticleEditorProps> = ({
                 className,
             )}
         >
-            <Plate
-                {...props}
-                onValueChange={({ value, editor }) => onChange(value)}
-                editor={editor}
-            >
+            <Plate {...props} onValueChange={onValueChange} editor={editor}>
                 <EditorContainer>
                     <Editor
                         placeholder={placeholder || 'Напишіть повідомлення...'}
