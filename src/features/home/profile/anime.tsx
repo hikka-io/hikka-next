@@ -24,7 +24,9 @@ import {
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
+import { Params as AddWatchParams } from '@/services/api/watch/addWatch';
 import useSession from '@/services/hooks/auth/use-session';
+import useDebounce from '@/services/hooks/use-debounce';
 import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -53,12 +55,16 @@ const Anime = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const {
-        mutate: mutateAddWatch,
-        variables,
-        isPending,
-        reset,
-    } = useAddWatch();
+    const [updatedWatch, setUpdatedWatch] = useState<AddWatchParams | null>(
+        null,
+    );
+
+    const deboucedUpdatedWatch = useDebounce({
+        value: updatedWatch,
+        delay: 500,
+    });
+
+    const { mutate: mutateAddWatch, reset } = useAddWatch();
 
     const handleSelect = (slug: string) => {
         if (slug === selectedSlug) {
@@ -87,7 +93,7 @@ const Anime = () => {
     const handleAddEpisode = () => {
         if (selectedWatch) {
             const episodes =
-                (variables?.params?.episodes || selectedWatch.episodes) + 1;
+                (updatedWatch?.episodes ?? selectedWatch.episodes) + 1;
 
             if (
                 selectedWatch.anime.episodes_total &&
@@ -95,16 +101,14 @@ const Anime = () => {
             )
                 return;
 
-            mutateAddWatch({
-                params: {
-                    ...selectedWatch,
-                    status:
-                        episodes === selectedWatch.anime.episodes_total
-                            ? 'completed'
-                            : 'watching',
-                    slug: selectedWatch.anime.slug,
-                    episodes,
-                },
+            setUpdatedWatch({
+                ...selectedWatch,
+                status:
+                    episodes === selectedWatch.anime.episodes_total
+                        ? 'completed'
+                        : 'watching',
+                slug: selectedWatch.anime.slug,
+                episodes,
             });
         }
     };
@@ -112,16 +116,14 @@ const Anime = () => {
     const handleRemoveEpisode = () => {
         if (selectedWatch) {
             const episodes =
-                (variables?.params?.episodes || selectedWatch.episodes) - 1;
+                (updatedWatch?.episodes ?? selectedWatch.episodes) - 1;
 
             if (episodes < 0) return;
 
-            mutateAddWatch({
-                params: {
-                    ...selectedWatch,
-                    slug: selectedWatch.anime.slug,
-                    episodes,
-                },
+            setUpdatedWatch({
+                ...selectedWatch,
+                slug: selectedWatch.anime.slug,
+                episodes,
             });
         }
     };
@@ -129,6 +131,12 @@ const Anime = () => {
     useEffect(() => {
         reset();
     }, [selectedSlug]);
+
+    useEffect(() => {
+        if (deboucedUpdatedWatch) {
+            mutateAddWatch({ params: deboucedUpdatedWatch });
+        }
+    }, [mutateAddWatch, deboucedUpdatedWatch]);
 
     return (
         <Fragment>
@@ -212,23 +220,21 @@ const Anime = () => {
                     <div className="flex w-full flex-col gap-2">
                         <P className="text-sm text-muted-foreground">
                             <span className="font-bold text-foreground">
-                                {isPending
-                                    ? variables?.params?.episodes
-                                    : selectedWatch?.episodes || 0}
+                                {updatedWatch?.episodes ??
+                                    selectedWatch?.episodes}
                             </span>
-                            /{selectedWatch?.anime.episodes_total || '?'}{' '}
+                            /{selectedWatch?.anime.episodes_total ?? '?'}{' '}
                             епізодів
                         </P>
 
                         <Progress
                             className="h-2"
                             value={
-                                isPending
-                                    ? variables?.params?.episodes
-                                    : selectedWatch?.episodes
+                                updatedWatch?.episodes ??
+                                selectedWatch?.episodes
                             }
                             max={
-                                selectedWatch?.anime.episodes_total ||
+                                selectedWatch?.anime.episodes_total ??
                                 selectedWatch?.episodes
                             }
                         />
