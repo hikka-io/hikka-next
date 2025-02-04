@@ -67,7 +67,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
                 className="flex items-center gap-1 text-primary hover:underline"
             >
-                <MaterialSymbolsArticle className="text-muted-foreground" />
+                <MaterialSymbolsArticle className="shrink-0 text-muted-foreground" />
                 <Small className="line-clamp-1">
                     {comment.content_type === 'collection'
                         ? `Колекція ${comment.preview.title}`

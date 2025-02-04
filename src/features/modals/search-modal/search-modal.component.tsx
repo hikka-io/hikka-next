@@ -40,7 +40,7 @@ const SearchModal: FC<Props> = ({
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
-    const value = useDebounce(searchValue, 500);
+    const value = useDebounce({ value: searchValue, delay: 500 });
 
     const onDismiss = (content: API.MainContent | API.User) => {
         setSearchValue('');
