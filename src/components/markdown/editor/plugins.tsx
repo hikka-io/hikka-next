@@ -12,13 +12,13 @@ import {
     ListPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
-import { VideoPlugin } from '@udecode/plate-media/react';
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
 import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 
 import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
 import { DiffPlugin } from './plugins/diff-plugin';
+import { ImageGroupPlugin } from './plugins/image-group-plugin/image-group-plugin';
 import { linkPlugin } from './plugins/link-plugin';
 import { MarkdownPlugin } from './plugins/markdown-plugin/markdown-plugin';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
@@ -29,7 +29,6 @@ const resetBlockTypesCommonRule = {
 };
 
 export const editorPlugins = [
-    VideoPlugin,
     DiffPlugin,
     BasicElementsPlugin,
     BoldPlugin,
@@ -87,4 +86,5 @@ export const editorPlugins = [
             },
         },
     }),
+    ImageGroupPlugin,
 ];
