@@ -36,7 +36,7 @@ const Details: FC<Props> = ({ content }) => {
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {'title_ja' in content ? 'Назва оригіналу' : 'Рідне імʼя'}
+                    {'title_original' in content ? 'Назва' : 'Імʼя'} першоджерела
                 </Label>
                 <P className="text-sm">{title_ja || '-'}</P>
             </div>

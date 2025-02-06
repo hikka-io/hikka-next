@@ -14,8 +14,8 @@ export const ANIME_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'title_ja',
-            title: 'Японською',
-            placeholder: 'Введіть назву японською',
+            title: 'Першоджерела',
+            placeholder: 'Введіть назву першоджерела',
             type: 'input',
         },
     ],
@@ -66,8 +66,8 @@ export const MANGA_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'title_original',
-            title: 'Японською',
-            placeholder: 'Введіть назву японською',
+            title: 'Першоджерела',
+            placeholder: 'Введіть назву першоджерела',
             type: 'input',
         },
     ],
@@ -118,8 +118,8 @@ export const NOVEL_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'title_original',
-            title: 'Японською',
-            placeholder: 'Введіть назву японською',
+            title: 'Першоджерела',
+            placeholder: 'Введіть назву першоджерела',
             type: 'input',
         },
     ],
@@ -173,7 +173,7 @@ export const EDIT_PARAMS: Record<
     title_original: 'Назва JA',
     synopsis_ua: 'Опис UA',
     synopsis_en: 'Опис EN',
-    name_native: 'Рідне імʼя',
+    name_native: 'Назва першоджерела',
 };
 
 export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
@@ -192,8 +192,8 @@ export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'name_ja',
-            title: 'Японською',
-            placeholder: 'Введіть імʼя японською',
+            title: 'Першоджерела',
+            placeholder: 'Введіть імʼя першоджерела',
             type: 'input',
         },
     ],
@@ -240,7 +240,7 @@ export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         {
             slug: 'name_native',
             title: 'Рідною',
-            placeholder: 'Введіть рідне імʼя',
+            placeholder: 'Введіть імʼя першоджерела',
             type: 'input',
         },
     ],
