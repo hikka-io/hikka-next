@@ -14,8 +14,8 @@ export const ANIME_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'title_ja',
-            title: 'Першоджерела',
-            placeholder: 'Введіть назву першоджерела',
+            title: 'Японською',
+            placeholder: 'Введіть назву японською',
             type: 'input',
         },
     ],
