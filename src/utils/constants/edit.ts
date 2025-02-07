@@ -192,8 +192,8 @@ export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'name_ja',
-            title: 'Першоджерела',
-            placeholder: 'Введіть імʼя першоджерела',
+            title: 'Японською',
+            placeholder: 'Введіть імʼя японською',
             type: 'input',
         },
     ],
