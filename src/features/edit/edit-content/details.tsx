@@ -20,6 +20,8 @@ const Details: FC<Props> = ({ content }) => {
                 ? content.name_ja
                 : content.name_native;
 
+    const isPerson = content.data_type === 'person' || content.data_type === 'character';
+
     return (
         <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
             <div className="flex flex-col gap-2">
@@ -36,7 +38,7 @@ const Details: FC<Props> = ({ content }) => {
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {'title_original' in content ? 'Назва' : 'Імʼя'} першоджерела
+                    {isPerson ? 'Імʼя' : 'Назва'} першоджерела
                 </Label>
                 <P className="text-sm">{title_ja || '-'}</P>
             </div>
