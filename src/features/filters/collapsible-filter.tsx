@@ -43,8 +43,7 @@ const CollapsibleFilter: FC<Props> = ({
             </CollapsibleTrigger>
 
             <CollapsibleContent className="w-full overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                <div className="h-4" />
-                {children}
+                <div className="mt-4">{children}</div>
             </CollapsibleContent>
         </Collapsible>
     );
