@@ -19,10 +19,10 @@ const Component = (
         <NextImage
             ref={ref}
             className={cn(
+                '[overflow-clip-margin:unset]',
                 loaded ? 'opacity-100' : 'opacity-0',
                 !transitionDisabled && '!transition',
                 className,
-                'sharpness-fix',
             )}
             onLoad={() => setLoaded(true)}
             quality={85}
