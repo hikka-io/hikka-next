@@ -15,8 +15,6 @@ import {
 
 import useUser from '@/services/hooks/user/use-user';
 
-interface Props {}
-
 const UserTitle = () => {
     const params = useParams();
     const { data: user } = useUser({ username: String(params.username) });
@@ -27,10 +25,8 @@ const UserTitle = () => {
 
     return (
         <div className="flex w-full flex-col gap-2">
-            <div className="flex items-center gap-2">
-                <H3 className="overflow-hidden text-ellipsis">
-                    {user.username}
-                </H3>
+            <div className="flex flex-1 items-center gap-2">
+                <H3 className="line-clamp-1 break-all">{user.username}</H3>
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>

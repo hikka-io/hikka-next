@@ -39,7 +39,9 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                         href={`/u/${comment.author.username}`}
                         className="w-fit"
                     >
-                        <H5>{comment.author.username}</H5>
+                        <H5 className="line-clamp-1 break-all">
+                            {comment.author.username}
+                        </H5>
                     </Link>
 
                     <Small className="text-muted-foreground">
