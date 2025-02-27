@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/header';
 
 import useArticles from '@/services/hooks/articles/use-articles';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import NewsItem from './news-item';
 
@@ -29,9 +30,11 @@ const UserNews: FC<Props> = () => {
 
     return (
         <Block>
-            <Header href={`/news?author=${params.username}`}>
+            <Header
+                href={`${CONTENT_TYPE_LINKS.article}?author=${params.username}`}
+            >
                 <HeaderContainer>
-                    <HeaderTitle>Новини</HeaderTitle>
+                    <HeaderTitle>Статті</HeaderTitle>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

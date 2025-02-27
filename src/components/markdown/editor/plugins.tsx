@@ -28,7 +28,7 @@ const resetBlockTypesCommonRule = {
     defaultType: ParagraphPlugin.key,
 };
 
-export const editorPlugins = [
+export const basicPlugins = [
     DiffPlugin,
     BasicElementsPlugin,
     BoldPlugin,
@@ -86,5 +86,6 @@ export const editorPlugins = [
             },
         },
     }),
-    ImageGroupPlugin,
 ];
+
+export const articlePlugins = [...basicPlugins, ImageGroupPlugin];

@@ -21,7 +21,11 @@ const Season: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter defaultOpen title="Сезон">
+        <CollapsibleFilter
+            defaultOpen
+            title="Сезон"
+            active={seasons.length > 0}
+        >
             <BadgeFilter
                 properties={SEASON}
                 selected={seasons}

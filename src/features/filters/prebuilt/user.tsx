@@ -47,7 +47,7 @@ const User: FC<Props> = ({ className, paramKey, title }) => {
     };
 
     return (
-        <CollapsibleFilter title={title}>
+        <CollapsibleFilter title={title} active={user !== null}>
             <Select
                 value={user !== null ? [user] : []}
                 onValueChange={(value) => handleChangeParam(paramKey, value[0])}

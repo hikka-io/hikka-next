@@ -42,7 +42,7 @@ const Year: FC<Props> = () => {
     }, [searchParams]);
 
     return (
-        <CollapsibleFilter title="Рік виходу">
+        <CollapsibleFilter title="Рік виходу" active={years.length > 0}>
             <div className="flex items-center gap-2">
                 <YearFilterInput
                     years={selectingYears}

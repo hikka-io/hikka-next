@@ -10,9 +10,9 @@ import Card from '@/components/ui/card';
 
 import ArticleAuthor from '@/features/articles/article-view/article-author.component';
 import ArticleCover from '@/features/articles/article-view/article-cover.component';
+import ArticleDocument from '@/features/articles/article-view/article-document.component';
 import ArticleNavbar from '@/features/articles/article-view/article-navbar/article-navbar.component';
 import ArticleTags from '@/features/articles/article-view/article-tags.component';
-import ArticleText from '@/features/articles/article-view/article-text.component';
 import ArticleTitle from '@/features/articles/article-view/article-title.component';
 
 import getArticle from '@/services/api/articles/getArticle';
@@ -81,7 +81,7 @@ const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
                 )}
                 <Block>
                     <ArticleTitle />
-                    <ArticleText />
+                    <ArticleDocument />
                     <ArticleTags />
                 </Block>
                 <ArticleNavbar />

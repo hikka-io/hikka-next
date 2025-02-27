@@ -43,7 +43,7 @@ const ArticlesPage = async (props: {
                     <PopularTags />
                 </div>
                 <ArticleList />
-                <div className="sticky top-20 hidden flex-col gap-12 self-start md:flex">
+                <div className="sticky top-20 hidden w-full self-start opacity-60 transition-opacity hover:opacity-100 md:flex lg:block">
                     <ArticleFilters />
                 </div>
             </div>

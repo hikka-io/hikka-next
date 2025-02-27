@@ -42,7 +42,7 @@ const ArticleList: FC<Props> = () => {
         <Block>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">Статті</HeaderTitle>
+                    <HeaderTitle variant="h2">Стрічка</HeaderTitle>
                     <Button asChild size="icon-sm" variant="outline">
                         <Link href={`${CONTENT_TYPE_LINKS['article']}/new`}>
                             <MaterialSymbolsAddRounded className="size-4" />

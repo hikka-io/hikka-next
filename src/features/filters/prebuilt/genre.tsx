@@ -32,7 +32,7 @@ const Genre: FC<Props> = () => {
     const { data: genresList } = useGenres();
 
     return (
-        <CollapsibleFilter defaultOpen title="Жанри">
+        <CollapsibleFilter defaultOpen title="Жанри" active={genres.length > 0}>
             <Select
                 multiple
                 value={genres}

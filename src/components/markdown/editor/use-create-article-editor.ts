@@ -4,8 +4,8 @@ import { Value } from '@udecode/plate-common';
 import { usePlateEditor } from '@udecode/plate-common/react';
 
 import { editorComponents, viewerComponents } from './components';
-import { editorPlugins } from './plugins';
-import { FixedToolbarPlugin } from './plugins/fixed-toolbar-plugin';
+import { articlePlugins } from './plugins';
+import { ArticleToolbarPlugin } from './plugins/article-toolbar-plugin';
 import { deserializeMd } from './plugins/markdown-plugin/deserialize-md';
 
 interface CreateEditorOptions {
@@ -28,8 +28,8 @@ export const useCreateArticleEditor = ({
                 },
             },
             plugins: [
-                ...editorPlugins,
-                ...(disableToolbar ? [] : [FixedToolbarPlugin]),
+                ...articlePlugins,
+                ...(disableToolbar ? [] : [ArticleToolbarPlugin]),
             ],
             value: (editor) =>
                 typeof initialValue === 'string'

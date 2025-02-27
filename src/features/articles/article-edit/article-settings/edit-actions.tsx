@@ -24,9 +24,9 @@ const EditActions: FC<Props> = () => {
     const title = useArticleContext((state) => state.title);
     const tags = useArticleContext((state) => state.tags);
     const category = useArticleContext((state) => state.category);
-    const cover = useArticleContext((state) => state.cover);
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
+    const getPreview = useArticleContext((state) => state.getPreview);
     const setArticle = useArticleContext((state) => state.setArticle);
 
     const { mutate: mutateUpdateArticle, isPending } = useMutation({
@@ -43,15 +43,24 @@ const EditActions: FC<Props> = () => {
     const handleUpdateArticle = useCallback(
         (draft: boolean = false) => {
             const document = getDocument();
+            const preview = getPreview();
 
-            if (!document) {
+            console.log(document, preview);
+
+            if (!document || !preview) {
                 return;
             }
 
             mutateUpdateArticle({
                 params: {
                     slug: slug!,
-                    document: document,
+                    document: [
+                        {
+                            type: 'preview',
+                            children: preview,
+                        },
+                        ...document,
+                    ],
                     title: title || '',
                     tags,
                     draft,
@@ -62,16 +71,15 @@ const EditActions: FC<Props> = () => {
                               content_type: content.data_type,
                           }
                         : undefined,
-                    cover: cover,
                 },
             });
         },
         [
             getDocument,
+            getPreview,
             title,
             tags,
             category,
-            cover,
             content,
             mutateUpdateArticle,
         ],

@@ -18,7 +18,6 @@ export const SpoilerViewElement = withRef<typeof PlateElement>(
             <Collapsible
                 ref={ref}
                 className={cn('mb-4 w-full space-y-2', className)}
-                {...props}
             >
                 <CollapsibleTrigger asChild>
                     <Button variant="secondary" size="badge">

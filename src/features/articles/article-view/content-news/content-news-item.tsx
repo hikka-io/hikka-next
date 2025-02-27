@@ -11,6 +11,8 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 interface Props {
     article: API.Article;
     className?: string;
@@ -20,9 +22,14 @@ const ContentNewsItem: FC<Props> = ({ article, className }) => {
     return (
         <HorizontalCard
             className={className}
-            href={`/${article.category}/${article.slug}`}
+            href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
             key={article.slug}
         >
+            <HorizontalCardImage
+                href={`/u/${article.author.username}`}
+                image={article.author.avatar}
+                imageRatio={1}
+            />
             <HorizontalCardContainer>
                 <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
                 <HorizontalCardDescription className="flex-row text-xs text-muted-foreground">
@@ -40,13 +47,6 @@ const ContentNewsItem: FC<Props> = ({ article, className }) => {
                     </div>
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
-            {article.cover && (
-                <HorizontalCardImage
-                    className="w-16"
-                    imageRatio={1.5}
-                    image={article.cover}
-                />
-            )}
         </HorizontalCard>
     );
 };

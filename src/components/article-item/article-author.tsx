@@ -9,6 +9,10 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+
+import FollowButton from '../follow-button';
+
 interface Props {
     article: API.Article;
 }
@@ -17,24 +21,23 @@ const Author: FC<Props> = ({ article }) => {
     return (
         <HorizontalCard href={`/u/${article.author.username}`} className="p-4">
             <HorizontalCardImage image={article.author.avatar} imageRatio={1} />
-            <HorizontalCardContainer className="gap-0">
+            <HorizontalCardContainer className="gap-1">
                 <HorizontalCardTitle>
                     {article.author.username}
                 </HorizontalCardTitle>
-                <HorizontalCardDescription>
-                    {formatDistance(article.updated * 1000, Date.now(), {
-                        addSuffix: true,
-                    })}
-                </HorizontalCardDescription>
+                <HorizontalCardContainer className="flex-row items-center">
+                    <HorizontalCardDescription>
+                        {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
+                    </HorizontalCardDescription>
+                    <div className="size-1 rounded-full bg-muted-foreground" />
+                    <HorizontalCardDescription>
+                        {formatDistance(article.updated * 1000, Date.now(), {
+                            addSuffix: true,
+                        })}
+                    </HorizontalCardDescription>
+                </HorizontalCardContainer>
             </HorizontalCardContainer>
-            {/* <div className="flex gap-2">
-                <Button size="md" variant="outline">
-                    Відстежується
-                </Button>
-                <Button size="icon-md" variant="outline">
-                    <MaterialSymbolsMoreHoriz className="size-4" />
-                </Button>
-            </div> */}
+            <FollowButton size="md" user={article.author} />
         </HorizontalCard>
     );
 };

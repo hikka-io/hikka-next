@@ -33,7 +33,7 @@ const ContentNews: FC<Props> = ({ content_type }) => {
     const handleOpenContentNewsModal = () => {
         openModal({
             type: 'sheet',
-            title: 'Новини',
+            title: 'Статті',
             side: 'right',
             content: <ContentNewsModal content_type={content_type} />,
         });
@@ -47,7 +47,7 @@ const ContentNews: FC<Props> = ({ content_type }) => {
         <Block>
             <Header onClick={handleOpenContentNewsModal}>
                 <HeaderContainer>
-                    <HeaderTitle>Новини</HeaderTitle>
+                    <HeaderTitle>Статті</HeaderTitle>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

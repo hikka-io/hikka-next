@@ -45,7 +45,7 @@ const EditModerator: FC<Props> = ({ className }) => {
     };
 
     return (
-        <CollapsibleFilter title="Модератор">
+        <CollapsibleFilter title="Модератор" active={!!moderator}>
             <Select
                 value={moderator !== null ? [moderator] : []}
                 onValueChange={(value) =>

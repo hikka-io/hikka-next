@@ -46,7 +46,7 @@ const PopularAuthors: FC<Props> = () => {
                             <HorizontalCardTitle>
                                 {author.user.username}
                             </HorizontalCardTitle>
-                            <HorizontalCardDescription className="line-clamp-2">
+                            <HorizontalCardDescription className="line-clamp-1">
                                 {author.user.description}
                             </HorizontalCardDescription>
                         </HorizontalCardContainer>

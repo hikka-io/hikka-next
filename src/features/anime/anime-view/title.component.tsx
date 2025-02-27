@@ -43,7 +43,7 @@ const Title = () => {
                                 {data.score}
                             </div>
 
-                            <MaterialSymbolsStarRounded className="text-2xl" />
+                            <MaterialSymbolsStarRounded className="text-4xl" />
                         </div>
                     )}
                 </div>

@@ -84,7 +84,6 @@ const useContent = (props: Props) => {
                         content = {
                             content_type: 'article',
                             title: data.title,
-                            link: `/${data.category}/${data.slug}`,
                         };
                         break;
                     default:

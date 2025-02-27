@@ -39,7 +39,7 @@ const MediaType: FC<Props> = ({ content_type }) => {
     }, [content_type]);
 
     return (
-        <CollapsibleFilter title="Тип">
+        <CollapsibleFilter title="Тип" active={types.length > 0}>
             <BadgeFilter
                 properties={getMediaType()}
                 selected={types}

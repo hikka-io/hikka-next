@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
+import ArticleViewer from '../markdown/editor/article-viewer';
 import { Header, HeaderContainer, HeaderTitle } from '../ui/header';
 import Author from './article-author';
 
@@ -52,12 +53,9 @@ const ArticleItem: FC<Props> = ({ article }) => {
                             </HeaderContainer>
                         </Header>
                     </div>
-                    {/* <MDViewer
-                        preview
-                        className="line-clamp-3 text-sm text-muted-foreground"
-                    >
-                        {article.text.substring(0, 500)}
-                    </MDViewer> */}
+                    <ArticleViewer
+                        initialValue={article.document[0].children}
+                    />
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
                             {article.tags.map((tag) => (

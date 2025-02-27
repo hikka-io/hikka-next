@@ -13,15 +13,19 @@ import {
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
 
-import { EmojiInputElement } from './plate-ui/emoji-input-element';
+import Blockquote from '@/components/typography/blockquote';
 
 /* import { MediaImageViewElement } from './plate-ui/media-image-view-element';
 import { MediaViewElement } from './plate-ui/media-view-element'; */
+import P from '@/components/typography/p';
+
+import { EmojiInputElement } from './plate-ui/emoji-input-element';
 import { ImageElement } from './plate-ui/image-element';
 import { ImageGroupElement } from './plate-ui/image-group-element';
 import { LinkElement } from './plate-ui/link-element';
 import { LinkViewElement } from './plate-ui/link-view-element';
 import { ListElement } from './plate-ui/list-element';
+import { ListViewElement } from './plate-ui/list-view-element';
 import { SpoilerElement } from './plate-ui/spoiler-element';
 import { SpoilerViewElement } from './plate-ui/spoiler-view-element';
 import {
@@ -35,7 +39,10 @@ export const editorComponents = {
     [BulletedListPlugin.key]: withProps(ListElement, {
         variant: 'ul',
     }),
-    [ListItemPlugin.key]: withProps(PlateElement, { as: 'li' }),
+    [ListItemPlugin.key]: withProps(PlateElement, {
+        as: 'li',
+        className: 'my-2',
+    }),
     [NumberedListPlugin.key]: withProps(ListElement, {
         variant: 'ol',
     }),
@@ -58,4 +65,16 @@ export const editorComponents = {
 export const viewerComponents = {
     [SpoilerPlugin.key]: SpoilerViewElement,
     [LinkPlugin.key]: LinkViewElement,
+    [ParagraphPlugin.key]: withProps(P, {
+        className: 'mb-4',
+    }),
+    blockquote: withProps(Blockquote, {
+        className: 'mb-4',
+    }),
+    [BulletedListPlugin.key]: withProps(ListViewElement, {
+        variant: 'ul',
+    }),
+    [NumberedListPlugin.key]: withProps(ListViewElement, {
+        variant: 'ol',
+    }),
 };

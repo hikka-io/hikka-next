@@ -671,7 +671,13 @@ declare global {
             category: API.ArticleCategory;
             draft: boolean;
             title: string;
-            document: Value;
+            document: [
+                {
+                    type: 'preview';
+                    children: Value;
+                },
+                ...Value,
+            ];
             slug: string;
             content?: {
                 data_type: API.ContentType;

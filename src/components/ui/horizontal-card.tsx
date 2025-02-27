@@ -43,7 +43,10 @@ const HorizontalCardTitle: FC<PropsWithChildren<HorizontalCardTitleProps>> = ({
 
     return (
         <div className="flex items-center gap-2">
-            <Label asChild className={cn('line-clamp-1', className)}>
+            <Label
+                asChild
+                className={cn('line-clamp-1 inline-block truncate', className)}
+            >
                 <Link title={children as string} href={href}>
                     {children}
                 </Link>

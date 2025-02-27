@@ -4,13 +4,13 @@ import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentF
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCustomTypographyRounded from '@/components/icons/material-symbols/MaterialSymbolsCustomTypographyRounded';
+import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsEventListRounded from '@/components/icons/material-symbols/MaterialSymbolsEventListRounded';
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsHomeRounded from '@/components/icons/material-symbols/MaterialSymbolsHomeRounded';
 import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRounded';
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsNewsmodeRounded from '@/components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
 import MaterialSymbolsNotificationsActiveRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsActiveRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
@@ -196,9 +196,9 @@ const COMMUNITY_GROUP = [
         visible: true,
     },
     {
-        title_ua: 'Статті',
+        title_ua: 'Стрічка',
         url: '/articles',
-        icon: () => <MaterialSymbolsNewsmodeRounded />,
+        icon: () => <MaterialSymbolsDynamicFeedRounded />,
         visible: true,
     },
 ];

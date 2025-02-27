@@ -22,9 +22,9 @@ const CreateActions: FC<Props> = () => {
     const title = useArticleContext((state) => state.title);
     const tags = useArticleContext((state) => state.tags);
     const category = useArticleContext((state) => state.category);
-    const cover = useArticleContext((state) => state.cover);
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
+    const getPreview = useArticleContext((state) => state.getPreview);
 
     const { mutate: mutateCreateArticle, isPending } = useMutation({
         mutationFn: createArticle,
@@ -40,18 +40,24 @@ const CreateActions: FC<Props> = () => {
     const handleCreateArticle = useCallback(
         (draft: boolean = false) => {
             const document = getDocument();
+            const preview = getPreview();
 
-            if (!document) {
+            if (!document || !preview) {
                 return;
             }
 
             mutateCreateArticle({
                 params: {
-                    document: document,
+                    document: [
+                        {
+                            type: 'preview',
+                            children: preview,
+                        },
+                        ...document,
+                    ],
                     title: title || '',
                     tags,
                     draft,
-                    cover,
                     content: content
                         ? {
                               slug: content.slug,
@@ -64,11 +70,11 @@ const CreateActions: FC<Props> = () => {
         },
         [
             getDocument,
+            getPreview,
             title,
             tags,
             category,
             content,
-            cover,
             mutateCreateArticle,
         ],
     );

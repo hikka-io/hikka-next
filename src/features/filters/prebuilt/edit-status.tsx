@@ -30,7 +30,7 @@ const EditStatus: FC<Props> = ({ className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter defaultOpen title="Статус">
+        <CollapsibleFilter defaultOpen title="Статус" active={!!edit_status}>
             <Select
                 value={edit_status ? [edit_status] : undefined}
                 onValueChange={(value) =>

@@ -31,7 +31,7 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Тип контенту">
+        <CollapsibleFilter title="Тип контенту" active={!!content_type}>
             <Select
                 value={content_type ? [content_type] : undefined}
                 onValueChange={(value) =>

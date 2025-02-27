@@ -7,7 +7,10 @@ import {
 
 declare global {
     namespace Hikka {
-        type FilterProperty<T extends string> = Record<
+        type FilterProperty<
+            T extends string,
+            ExtraProps extends Record<string, any> = Record<string, any>,
+        > = Record<
             T,
             {
                 title_ua: string;
@@ -16,7 +19,7 @@ declare global {
                 color?: string;
                 description?: string;
                 params?: Record<string, any>;
-            }
+            } & ExtraProps
         >;
 
         type NavRoute = {

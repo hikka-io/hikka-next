@@ -3,6 +3,7 @@
 import { formatDistance } from 'date-fns';
 import { useParams } from 'next/navigation';
 
+import FollowButton from '@/components/follow-button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -28,7 +29,7 @@ const CollectionAuthor = () => {
                     image={collection?.author.avatar}
                     imageRatio={1}
                 />
-                <HorizontalCardContainer className="gap-0">
+                <HorizontalCardContainer className="gap-1">
                     <HorizontalCardTitle>
                         {collection?.author.username}
                     </HorizontalCardTitle>
@@ -42,6 +43,7 @@ const CollectionAuthor = () => {
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
+                <FollowButton size="md" user={collection?.author} />
             </HorizontalCard>
         </Card>
     );

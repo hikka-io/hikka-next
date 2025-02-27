@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { PlateElement } from './plate-element';
 
 export const LinkViewElement = withRef<typeof PlateElement>(
-    ({ children, className, ...props }, ref) => {
+    ({ children, className }, ref) => {
         const element = useElement<TLinkElement>();
         const { props: linkProps } = useLink({ element });
 
@@ -21,7 +21,6 @@ export const LinkViewElement = withRef<typeof PlateElement>(
                     className,
                 )}
                 {...(linkProps as any)}
-                {...props}
             >
                 {children}
             </Link>

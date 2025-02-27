@@ -42,18 +42,24 @@ const CategorySelect: FC<Props> = () => {
                 <SelectContent>
                     <SelectList>
                         <SelectGroup>
-                            {ARTICLE_CATEGORY_OPTIONS.filter((option) =>
-                                option.admin
-                                    ? isAdmin() || isModerator()
-                                    : true,
-                            ).map((option) => (
-                                <SelectItem
-                                    key={option.value}
-                                    value={option.value}
+                            {(
+                                Object.keys(ARTICLE_CATEGORY_OPTIONS) as Array<
+                                    keyof typeof ARTICLE_CATEGORY_OPTIONS
                                 >
-                                    {option.label}
-                                </SelectItem>
-                            ))}
+                            )
+                                .filter((category) =>
+                                    ARTICLE_CATEGORY_OPTIONS[category].admin
+                                        ? isAdmin() || isModerator()
+                                        : true,
+                                )
+                                .map((category) => (
+                                    <SelectItem key={category} value={category}>
+                                        {
+                                            ARTICLE_CATEGORY_OPTIONS[category]
+                                                .title_ua
+                                        }
+                                    </SelectItem>
+                                ))}
                         </SelectGroup>
                     </SelectList>
                 </SelectContent>

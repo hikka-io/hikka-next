@@ -6,7 +6,7 @@ import { computeDiff } from '@udecode/plate-diff';
 import { FC, useMemo } from 'react';
 
 import BasicEditor from './basic-editor';
-import { editorPlugins } from './plugins';
+import { basicPlugins } from './plugins';
 import { deserializeMd } from './plugins/markdown-plugin/deserialize-md';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 const PlateDiff: FC<Props> = ({ current, previous, className }) => {
     const diffValue = useMemo(() => {
         const editor = createPlateEditor({
-            plugins: editorPlugins,
+            plugins: basicPlugins,
         });
 
         return computeDiff(

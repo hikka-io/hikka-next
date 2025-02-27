@@ -20,7 +20,7 @@ export type ArticleState = {
               slug: string;
               image: string;
           };
-    cover?: string;
+    preview?: Value;
 };
 
 export type ArticleActions = {
@@ -31,8 +31,9 @@ export type ArticleActions = {
     setTags: (tags: string[]) => void;
     setDraft: (draft: boolean) => void;
     setContent: (content?: API.MainContent) => void;
-    setCover: (cover: string) => void;
+    setPreview: (preview: Value) => void;
     getDocument: () => Value | undefined;
+    getPreview: () => Value | undefined;
 };
 
 export type ArticleStore = ArticleState & ArticleActions;
@@ -45,7 +46,7 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         tags: [],
         draft: true,
         content: undefined,
-        cover: undefined,
+        preview: undefined,
     };
     return createStore<ArticleStore>()((set, get) => ({
         ...DEFAULT_PROPS,
@@ -62,7 +63,8 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         setTags: (tags: string[]) => set({ tags }),
         setDraft: (draft: boolean) => set({ draft }),
         setContent: (content?: API.MainContent) => set({ content }),
-        setCover: (cover: string) => set({ cover }),
+        setPreview: (preview: Value) => set({ preview }),
         getDocument: () => get().document,
+        getPreview: () => get().preview,
     }));
 };

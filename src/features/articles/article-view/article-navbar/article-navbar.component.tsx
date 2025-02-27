@@ -17,7 +17,6 @@ import {
 
 import useArticle from '@/services/hooks/articles/use-article';
 import useSession from '@/services/hooks/auth/use-session';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import ArticleMenu from './article-menu';
 import ArticleVote from './article-vote';
@@ -56,14 +55,7 @@ const ArticleNavbar: FC<Props> = () => {
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button asChild size="md" variant="outline">
-                                <Link
-                                    href={
-                                        '/comments' +
-                                        CONTENT_TYPE_LINKS['article'] +
-                                        '/' +
-                                        params.slug
-                                    }
-                                >
+                                <Link href={`/comments/article/${params.slug}`}>
                                     <IconamoonCommentFill className="size-4" />
                                     {article?.comments_count}
                                 </Link>

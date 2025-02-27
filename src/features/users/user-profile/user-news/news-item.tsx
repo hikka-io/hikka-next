@@ -12,6 +12,8 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 interface Props {
     article: API.Article;
 }
@@ -19,15 +21,11 @@ interface Props {
 const NewsItem: FC<Props> = ({ article }) => {
     return (
         <Card className="gap-2">
-            <HorizontalCard href={`/${article.category}/${article.slug}`}>
+            <HorizontalCard
+                href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
+            >
                 <HorizontalCardContainer>
                     <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
-                    {/*  <HorizontalCardDescription
-                        href={`/${article.category}/${article.slug}`}
-                        className="line-clamp-2"
-                    >
-                        {article.text.substring(0, 500)}
-                    </HorizontalCardDescription> */}
                 </HorizontalCardContainer>
                 {article.cover && (
                     <HorizontalCardImage
@@ -37,8 +35,8 @@ const NewsItem: FC<Props> = ({ article }) => {
                     />
                 )}
             </HorizontalCard>
-            <div className="flex justify-between items-center">
-                <Small className="text-muted-foreground opacity-60">
+            <div className="flex items-center justify-between">
+                <Small className="text-muted-foreground">
                     {formatDistance(article.updated * 1000, Date.now(), {
                         addSuffix: true,
                     })}

@@ -2,15 +2,15 @@
 
 import { createPlatePlugin } from '@udecode/plate-common/react';
 
+import { ArticleToolbarButtons } from '@/components/markdown/editor/plate-ui/article-toolbar-buttons';
 import { FixedToolbar } from '@/components/markdown/editor/plate-ui/fixed-toolbar';
-import { FixedToolbarButtons } from '@/components/markdown/editor/plate-ui/fixed-toolbar-buttons';
 
-export const FixedToolbarPlugin = createPlatePlugin({
+export const ArticleToolbarPlugin = createPlatePlugin({
     key: 'fixed-toolbar',
     render: {
         beforeEditable: () => (
             <FixedToolbar>
-                <FixedToolbarButtons />
+                <ArticleToolbarButtons />
             </FixedToolbar>
         ),
     },

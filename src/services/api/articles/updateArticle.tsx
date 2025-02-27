@@ -18,7 +18,6 @@ export interface Params {
     };
     draft?: boolean;
     category: API.ArticleCategory;
-    cover?: string;
 }
 
 export default async function req({
@@ -33,7 +32,6 @@ export default async function req({
             content: params?.content,
             draft: params?.draft,
             category: params?.category,
-            cover: params?.cover,
         },
         ...props,
         path: `/articles/${params?.slug}`,

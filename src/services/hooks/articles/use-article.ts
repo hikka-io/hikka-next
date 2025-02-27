@@ -1,6 +1,8 @@
 import { QueryKey, useQuery } from '@tanstack/react-query';
 
 import getArticle, { Params } from '@/services/api/articles/getArticle';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
 import getQueryClient from '@/utils/get-query-client';
 
 export const paramsBuilder = (props: Params): Params => ({
@@ -10,11 +12,21 @@ export const paramsBuilder = (props: Params): Params => ({
 export const key = (params: Params): QueryKey => ['article', params.slug];
 
 const useArticle = (props: Params, options?: Hikka.QueryOptions) => {
+    const { titleLanguage } = useSettingsContext();
     const params = paramsBuilder(props);
 
     return useQuery({
         queryKey: key(params),
         queryFn: () => getArticle({ params }),
+        select: (data) => ({
+            ...data,
+            content: data.content
+                ? convertTitle({
+                      data: data.content,
+                      titleLanguage: titleLanguage!,
+                  })
+                : undefined,
+        }),
         ...options,
     });
 };

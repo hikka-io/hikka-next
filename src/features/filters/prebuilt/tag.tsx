@@ -20,7 +20,11 @@ const Tag: FC<Props> = ({ className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Теги" className={className}>
+        <CollapsibleFilter
+            title="Теги"
+            className={className}
+            active={tags.length > 0}
+        >
             <div className="flex flex-col gap-4">
                 <InputTags
                     disabled={tags.length === 3}

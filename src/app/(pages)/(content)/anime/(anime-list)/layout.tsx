@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react';
 import Block from '@/components/ui/block';
 
 import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar.component';
-import Filters from '@/features/filters/anime-filters.component';
+import AnimeFilters from '@/features/filters/anime-filters.component';
 
 interface Props {
     children: ReactNode;
@@ -17,7 +17,7 @@ const AnimeListLayout: FC<Props> = async ({ children }) => {
                 {children}
             </Block>
             <div className="sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
-                <Filters content_type="anime" sort_type="anime" />
+                <AnimeFilters content_type="anime" sort_type="anime" />
             </div>
         </div>
     );

@@ -11,7 +11,7 @@ import { LinkToolbarButton } from './link-toolbar-button';
 import { MarkToolbarButton } from './mark-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 
-export function FixedToolbarButtons() {
+export function ArticleToolbarButtons() {
     const readOnly = useEditorReadOnly();
 
     return (

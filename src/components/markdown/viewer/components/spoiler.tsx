@@ -14,7 +14,7 @@ interface Props {
 
 const Spoiler = ({ children }: Props) => {
     return (
-        <Collapsible className="mb-4 w-full  space-y-2">
+        <Collapsible className="mb-4 w-full space-y-2">
             <CollapsibleTrigger asChild>
                 <Button variant="secondary" size="badge">
                     Спойлер <ChevronsUpDown className="size-3" />

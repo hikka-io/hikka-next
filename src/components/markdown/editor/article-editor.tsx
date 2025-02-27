@@ -33,10 +33,6 @@ const ArticleEditor: FC<ArticleEditorProps> = ({
 }) => {
     const editor = useCreateArticleEditor({ initialValue, disableToolbar });
 
-    const onChange = (value: Value) => {
-        console.log(value);
-    };
-
     return (
         <div
             className={cn(
@@ -44,11 +40,7 @@ const ArticleEditor: FC<ArticleEditorProps> = ({
                 className,
             )}
         >
-            <Plate
-                {...props}
-                onValueChange={({ value }) => onChange(value)}
-                editor={editor}
-            >
+            <Plate {...props} onValueChange={onValueChange} editor={editor}>
                 <EditorContainer>
                     <Editor
                         placeholder={placeholder || 'Напишіть повідомлення...'}

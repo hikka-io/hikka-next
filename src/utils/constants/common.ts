@@ -523,14 +523,17 @@ export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
     },
 };
 
-export const ARTICLE_CATEGORY_OPTIONS = [
-    {
-        value: 'news',
-        label: 'Новини',
+export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
+    API.ArticleCategory,
+    { admin?: boolean }
+> = {
+    news: {
+        title_ua: 'Новини',
+        title_en: 'News',
     },
-    {
-        value: 'system',
-        label: 'Системна',
+    system: {
+        title_ua: 'Системна',
+        title_en: 'System',
         admin: true,
     },
-];
+};
