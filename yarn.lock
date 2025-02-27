@@ -7363,7 +7363,7 @@ __metadata:
     react-hook-form: "npm:^7.53.2"
     react-intersection-observer: "npm:^9.13.1"
     react-lite-youtube-embed: "npm:^2.4.0"
-    react-markdown: "npm:^9.0.1"
+    react-markdown: "npm:10.0.0"
     react-number-format: "npm:^5.4.2"
     react-player: "npm:^2.16.0"
     react-resizable-panels: "npm:^2.1.7"
@@ -10302,11 +10302,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-markdown@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "react-markdown@npm:9.0.1"
+"react-markdown@npm:10.0.0":
+  version: 10.0.0
+  resolution: "react-markdown@npm:10.0.0"
   dependencies:
     "@types/hast": "npm:^3.0.0"
+    "@types/mdast": "npm:^4.0.0"
     devlop: "npm:^1.0.0"
     hast-util-to-jsx-runtime: "npm:^2.0.0"
     html-url-attributes: "npm:^3.0.0"
@@ -10319,7 +10320,7 @@ __metadata:
   peerDependencies:
     "@types/react": ">=18"
     react: ">=18"
-  checksum: 10c0/3a3895dbd56647bc864b8da46dd575e71a9e609eb1e43fea8e8e6209d86e208eddd5b07bf8d7b5306a194b405440760a8d134aebd5a4ce5dc7dee4299e84db96
+  checksum: 10c0/9846efb451f5c9a47371458c81117c03bc75d51e11917a8ae2a43b3902624aa29534124edd635b81f421111ab4c7978a904ad49199d010d2bbd50c42674eeae6
   languageName: node
   linkType: hard
 
