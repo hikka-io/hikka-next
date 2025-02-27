@@ -33,7 +33,7 @@ const Component = () => {
     const router = useRouter();
     const { closeModal } = useModalContext();
 
-    const token = searchParams.get('auth')!;
+    const token = searchParams.get('token')!;
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

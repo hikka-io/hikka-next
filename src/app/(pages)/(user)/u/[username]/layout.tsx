@@ -73,7 +73,7 @@ const UserLayout: FC<Props> = async (props) => {
                 <Breadcrumbs>
                     <Link
                         href={`/u/${username}`}
-                        className="text-sm font-bold hover:underline"
+                        className="line-clamp-1 break-all text-sm font-bold hover:underline"
                     >
                         {username}
                     </Link>

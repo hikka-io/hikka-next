@@ -1,11 +1,10 @@
 'use client';
 
-import { TabsContent } from '@radix-ui/react-tabs';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 

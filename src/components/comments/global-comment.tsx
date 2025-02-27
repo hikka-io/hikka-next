@@ -3,19 +3,19 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import Small from '@/components/typography/small';
-
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-
-import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
-import MaterialSymbolsArticle from '../icons/material-symbols/MaterialSymbolsArticle';
-import MDViewer from '../markdown/viewer/MD-viewer';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../ui/horizontal-card';
+} from '@/components/ui/horizontal-card';
+
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
+import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
+import MaterialSymbolsArticle from '../icons/material-symbols/MaterialSymbolsArticle';
+import MDViewer from '../markdown/viewer/MD-viewer';
 import { Label } from '../ui/label';
 
 interface Props {
