@@ -1,17 +1,26 @@
 'use client';
 
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import useArticles from '@/services/hooks/articles/use-articles';
+import useSession from '@/services/hooks/auth/use-session';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import NewsItem from './news-item';
@@ -19,6 +28,7 @@ import NewsItem from './news-item';
 interface Props {}
 
 const UserNews: FC<Props> = () => {
+    const { user } = useSession();
     const params = useParams();
     const { list } = useArticles({
         author: String(params.username),
@@ -35,6 +45,24 @@ const UserNews: FC<Props> = () => {
             >
                 <HeaderContainer>
                     <HeaderTitle>Статті</HeaderTitle>
+                    {user?.username === params.username && (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    asChild
+                                    size="icon-sm"
+                                    variant="outline"
+                                >
+                                    <Link
+                                        href={`${CONTENT_TYPE_LINKS.article}/?draft=true`}
+                                    >
+                                        <MaterialSymbolsDraftRounded className="size-4" />
+                                    </Link>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Чернетки</TooltipContent>
+                        </Tooltip>
+                    )}
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

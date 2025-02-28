@@ -1,16 +1,10 @@
 'use client';
 
 import { cn, withRef } from '@udecode/cn';
-import { TElement, isText } from '@udecode/plate-common';
-import { PlateEditor } from '@udecode/plate-common/react';
+import { isText } from '@udecode/plate-common';
 
 import ImageGroupAddImage from './image-group-add-image';
 import { PlateElement } from './plate-element';
-
-interface AddImageButtonProps {
-    element: TElement;
-    editor: PlateEditor;
-}
 
 export const ImageGroupElement = withRef<typeof PlateElement>(
     ({ children, className, element, editor, ...props }, ref) => {

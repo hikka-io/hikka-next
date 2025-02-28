@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import updateArticle from '@/services/api/articles/updateArticle';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 
 interface Props {}
 
@@ -42,14 +43,15 @@ const EditActions: FC<Props> = () => {
 
     const handleUpdateArticle = useCallback(
         (draft: boolean = false) => {
-            const document = getDocument();
-            const preview = getPreview();
-
-            console.log(document, preview);
+            let document = getDocument();
+            let preview = getPreview();
 
             if (!document || !preview) {
                 return;
             }
+
+            document = removeEmptyTextNodes(document);
+            preview = removeEmptyTextNodes(preview);
 
             mutateUpdateArticle({
                 params: {

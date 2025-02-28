@@ -7365,6 +7365,7 @@ __metadata:
     react-lite-youtube-embed: "npm:^2.4.0"
     react-markdown: "npm:10.0.0"
     react-number-format: "npm:^5.4.2"
+    react-photo-view: "npm:^1.2.7"
     react-player: "npm:^2.16.0"
     react-resizable-panels: "npm:^2.1.7"
     react-snowfall: "npm:^2.2.0"
@@ -10331,6 +10332,16 @@ __metadata:
     react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/5e0500156added2f4dc5ecc72bee0b59545bc1f2c05a059a3a321a014b9e6519a5b4b8b0fa32dfede240ce4b501c1c742deeb0f02d1bfb534b46269d2faae50a
+  languageName: node
+  linkType: hard
+
+"react-photo-view@npm:^1.2.7":
+  version: 1.2.7
+  resolution: "react-photo-view@npm:1.2.7"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/18c5de666ea49a239a26fb21a80fd7ca202a32ad234e2bb4b0b6a7ed7d9423c755cef9dfdfc33cb9259833bc2969d7387b4dbdf4b315dd8d6f0a21590368fca7
   languageName: node
   linkType: hard
 

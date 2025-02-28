@@ -36,7 +36,7 @@ const PopularAuthors: FC<Props> = () => {
                 {articleTop?.authors.map((author) => (
                     <HorizontalCard
                         key={author.user.username}
-                        href={author.user.username}
+                        href={`/u/${author.user.username}`}
                     >
                         <HorizontalCardImage
                             imageRatio={1}

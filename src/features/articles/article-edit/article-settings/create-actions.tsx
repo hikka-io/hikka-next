@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import createArticle from '@/services/api/articles/createArticle';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 
 interface Props {}
 
@@ -39,12 +40,15 @@ const CreateActions: FC<Props> = () => {
 
     const handleCreateArticle = useCallback(
         (draft: boolean = false) => {
-            const document = getDocument();
-            const preview = getPreview();
+            let document = getDocument();
+            let preview = getPreview();
 
             if (!document || !preview) {
                 return;
             }
+
+            document = removeEmptyTextNodes(document);
+            preview = removeEmptyTextNodes(preview);
 
             mutateCreateArticle({
                 params: {

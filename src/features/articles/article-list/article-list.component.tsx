@@ -9,6 +9,7 @@ import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
 import LoadMoreButton from '@/components/load-more-button';
+import H3 from '@/components/typography/h3';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -27,22 +28,29 @@ const ArticleList: FC<Props> = () => {
     const sort = searchParams.get('sort') || 'created';
     const order = searchParams.get('order') || 'desc';
     const tags = searchParams.getAll('tags') || undefined;
+    const draft = Boolean(searchParams.get('draft')) ?? false;
     const categories =
         (searchParams.getAll('categories') as API.ArticleCategory[]) || [];
 
-    const { list, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    const { list, pagination, fetchNextPage, isFetchingNextPage, hasNextPage } =
         useArticles({
             categories,
             author,
             sort: [`${sort}:${order}`],
             tags,
+            draft,
         });
 
     return (
         <Block>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">Стрічка</HeaderTitle>
+                    <HeaderTitle variant="h2">
+                        <span>Стрічка </span>
+                        <H3 className="hidden text-muted-foreground md:inline">
+                            ({pagination?.total ?? 0})
+                        </H3>
+                    </HeaderTitle>
                     <Button asChild size="icon-sm" variant="outline">
                         <Link href={`${CONTENT_TYPE_LINKS['article']}/new`}>
                             <MaterialSymbolsAddRounded className="size-4" />

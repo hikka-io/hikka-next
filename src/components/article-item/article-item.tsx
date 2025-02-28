@@ -5,9 +5,8 @@ import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import Muted from '@/components/typography/muted';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import Image from '@/components/ui/image';
-import { Label } from '@/components/ui/label';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
@@ -23,64 +22,59 @@ const ArticleItem: FC<Props> = ({ article }) => {
     return (
         <Card className="gap-0 overflow-hidden p-0">
             <Author article={article} />
-            <Link
-                className="flex cursor-pointer flex-col gap-4"
-                href={`${CONTENT_TYPE_LINKS['article']}/${article.slug}`}
-            >
-                {article.cover && (
-                    <Image
-                        src={article.cover}
-                        alt="cover"
-                        height={283}
-                        width={584}
-                        className="h-52 w-full object-cover"
-                    />
-                )}
-                <div className="flex flex-col gap-4 p-4">
-                    <div className="flex flex-col gap-1">
-                        {article.content && (
-                            <Muted>
-                                {article.content.title_ua ||
-                                    article.content.title_en ||
-                                    article.content.title_ja}
-                            </Muted>
-                        )}
-                        <Header>
-                            <HeaderContainer>
-                                <HeaderTitle variant="h4">
-                                    {article.title}
-                                </HeaderTitle>
-                            </HeaderContainer>
-                        </Header>
-                    </div>
-                    <ArticleViewer
-                        initialValue={article.document[0].children}
-                    />
-                    <div className="flex items-center justify-between">
-                        <div className="flex gap-2">
-                            {article.tags.map((tag) => (
-                                <Badge key={tag.name} variant="secondary">
-                                    {tag.name}
-                                </Badge>
-                            ))}
-                        </div>
-                        <div className="flex gap-4">
-                            <div className="flex items-center gap-1">
-                                <IconamoonCommentFill className="size-3 text-muted-foreground" />
-                                <Label className="leading-none text-muted-foreground">
-                                    {article.comments_count}
-                                </Label>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <BxBxsUpvote className="size-3 text-muted-foreground" />
-                                <Label className="leading-none text-muted-foreground">
-                                    {article.vote_score}
-                                </Label>
-                            </div>
-                        </div>
-                    </div>
+            <div className="relative flex flex-col gap-4 p-4 py-0">
+                <Link
+                    href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
+                    className="absolute left-0 top-0 z-10 size-full"
+                />
+                <div className="flex flex-col gap-1">
+                    {article.content && (
+                        <Muted>
+                            {article.content.title_ua ||
+                                article.content.title_en ||
+                                article.content.title_ja}
+                        </Muted>
+                    )}
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">
+                                {article.title}
+                            </HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                 </div>
-            </Link>
+                <ArticleViewer initialValue={article.document[0].children} />
+            </div>
+            <div className="flex items-center justify-between p-4">
+                <div className="flex gap-2">
+                    {article.tags.map((tag) => (
+                        <Badge key={tag.name} variant="secondary">
+                            {tag.name}
+                        </Badge>
+                    ))}
+                </div>
+                <div className="flex gap-1">
+                    <Button
+                        asChild
+                        variant="ghost"
+                        size="sm"
+                        className="gap-1 text-muted-foreground"
+                    >
+                        <Link href={`/comments/article/${article.slug}`}>
+                            <IconamoonCommentFill className="size-3" />
+                            {article.comments_count}
+                        </Link>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="pointer-events-none gap-1 text-muted-foreground"
+                    >
+                        <BxBxsUpvote className="size-3" />
+                        {article.vote_score}
+                    </Button>
+                </div>
+            </div>
         </Card>
     );
 };

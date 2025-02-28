@@ -2,6 +2,7 @@
 
 import { cn, withRef } from '@udecode/cn';
 import { useElement } from '@udecode/plate-common/react';
+import { PhotoView } from 'react-photo-view';
 
 import { ImageItemElement } from '../plugins/image-group-plugin/image-group-plugin';
 import { PlateElement } from './plate-element';
@@ -11,17 +12,22 @@ export const ImageViewElement = withRef<typeof PlateElement>(
         const element = useElement<ImageItemElement>();
 
         return (
-            <PlateElement
-                {...props}
-                className={cn(className, 'cursor-pointer bg-cover bg-center')}
-                style={{
-                    backgroundImage: `url(${element.url})`,
-                }}
-                ref={ref}
-                contentEditable={false}
-            >
-                {children}
-            </PlateElement>
+            <PhotoView src={element.url}>
+                <PlateElement
+                    {...props}
+                    className={cn(
+                        className,
+                        'size-full cursor-pointer bg-cover bg-center',
+                    )}
+                    style={{
+                        backgroundImage: `url(${element.url})`,
+                    }}
+                    ref={ref}
+                    contentEditable={false}
+                >
+                    {children}
+                </PlateElement>
+            </PhotoView>
         );
     },
 );

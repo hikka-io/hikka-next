@@ -7,8 +7,11 @@ import { FC } from 'react';
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 
+import useSession from '@/services/hooks/auth/use-session';
 import { cn } from '@/utils/utils';
 
+import ArticleCategory from './prebuilt/article-category';
+import ArticleCustomization from './prebuilt/article-customization';
 import Sort from './prebuilt/sort';
 import Tag from './prebuilt/tag';
 import User from './prebuilt/user';
@@ -18,6 +21,7 @@ interface Props {
 }
 
 const ArticleFilters: FC<Props> = ({ className }) => {
+    const { user } = useSession();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -33,9 +37,11 @@ const ArticleFilters: FC<Props> = ({ className }) => {
             )}
         >
             <div className="mt-4 flex flex-col md:mt-0">
+                <ArticleCategory />
                 <Sort sort_type="article" />
                 <User title="Автор" paramKey="author" />
                 <Tag />
+                {user && <ArticleCustomization />}
             </div>
             <Button
                 variant="secondary"

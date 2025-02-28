@@ -1,5 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { TElement, findNodePath, insertNodes } from '@udecode/plate-common';
+import {
+    TElement,
+    findNodePath,
+    insertNode,
+    insertNodes,
+} from '@udecode/plate-common';
 import { PlateEditor } from '@udecode/plate-common/react';
 import { Plus } from 'lucide-react';
 import {
@@ -19,6 +24,7 @@ import {
     ImageGroupPlugin,
     ImagePlugin,
 } from '../plugins/image-group-plugin/image-group-plugin';
+import '../transforms';
 
 interface ImageGroupAddImageProps {
     element?: TElement;
@@ -52,22 +58,16 @@ const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
                 return;
             }
 
-            insertNodes(
-                editor,
-                {
-                    type: ImageGroupPlugin.key,
-                    children: [
-                        {
-                            type: ImagePlugin.key,
-                            children: [{ text: '' }],
-                            url: data.url,
-                        },
-                    ],
-                },
-                {
-                    at: [editor.children.length],
-                },
-            );
+            insertNode(editor, {
+                type: ImageGroupPlugin.key,
+                children: [
+                    {
+                        type: ImagePlugin.key,
+                        children: [{ text: '' }],
+                        url: data.url,
+                    },
+                ],
+            });
         },
     });
 
@@ -96,6 +96,7 @@ const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
 
     return (
         <Button
+            disabled={isPending}
             variant="secondary"
             className="relative size-28 text-muted-foreground"
         >
@@ -107,7 +108,8 @@ const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
                 className="absolute left-0 top-0 size-full cursor-pointer opacity-0"
                 accept="image/*"
             />
-            <Plus className="!size-8" />
+            {isPending && <span className="loading loading-spinner"></span>}
+            {!isPending && <Plus className="!size-8" />}
         </Button>
     );
 };

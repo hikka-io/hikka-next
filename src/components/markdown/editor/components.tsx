@@ -22,9 +22,13 @@ import P from '@/components/typography/p';
 import Spoiler from '@/components/typography/spoiler';
 import Ul from '@/components/typography/ul';
 
+import { cn } from '@/utils/utils';
+
 import { EmojiInputElement } from './plate-ui/emoji-input-element';
 import { ImageElement } from './plate-ui/image-element';
 import { ImageGroupElement } from './plate-ui/image-group-element';
+import { ImageGroupViewElement } from './plate-ui/image-group-view-element';
+import { ImageViewElement } from './plate-ui/image-view-element';
 import { LinkElement } from './plate-ui/link-element';
 import { LinkViewElement } from './plate-ui/link-view-element';
 import { ListElement } from './plate-ui/list-element';
@@ -58,7 +62,7 @@ export const editorComponents = {
     }),
     blockquote: withProps(PlateElement, {
         as: 'blockquote',
-        className: BlockquoteClassName,
+        className: cn(BlockquoteClassName, 'mb-4'),
     }),
     [SpoilerPlugin.key]: SpoilerElement,
     [ImageGroupPlugin.key]: ImageGroupElement,
@@ -83,4 +87,6 @@ export const viewerComponents = {
         className: 'mb-4',
     }),
     [ListItemPlugin.key]: Li,
+    [ImageGroupPlugin.key]: ImageGroupViewElement,
+    [ImagePlugin.key]: ImageViewElement,
 };

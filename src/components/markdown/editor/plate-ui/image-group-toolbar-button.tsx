@@ -12,7 +12,7 @@ export function ImageGroupToolbarButton() {
     const editor = useEditorRef();
 
     return (
-        <ToolbarButton className="relative">
+        <ToolbarButton tooltip="Зображення" className="relative">
             <ImageGroupAddImage editor={editor}>
                 <Input
                     type="file"

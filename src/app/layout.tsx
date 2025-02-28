@@ -3,6 +3,7 @@ import PlausibleProvider from 'next-plausible';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
+import 'react-photo-view/dist/react-photo-view.css';
 
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 

@@ -14,7 +14,7 @@
         --popover-foreground: 240 10% 3.9%;
 
         --primary: 321 70% 69%;
-        --primary-foreground: 0 0% 100%;
+        --primary-foreground: 321 85% 20%;
 
         --secondary: 240 4.8% 95.9%;
         --secondary-foreground: 240 5.9% 10%;
@@ -62,7 +62,7 @@
         --popover-foreground: 0 0% 98%;
 
         --primary: 321 70% 69%;
-        --primary-foreground: 0 0% 100%;
+        --primary-foreground: 321 85% 20%;
 
         --secondary: 240 3.7% 15.9%;
         --secondary-foreground: 0 0% 98%;
@@ -391,6 +391,8 @@ p:last-child,
 blockquote:last-child,
 ul:last-child,
 ol:last-child,
+div.slate-editor:last-child,
+.slate-image_group:last-child,
 div.spoiler:last-child {
     @apply mb-0;
 }
