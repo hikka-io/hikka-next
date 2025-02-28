@@ -72,7 +72,7 @@ const editorVariants = cva(
                 true: 'ring-2 ring-ring ring-offset-2',
             },
             variant: {
-                default: 'w-full text-sm p-2',
+                default: 'w-full text-[0.9375rem] p-2',
             },
         },
     },

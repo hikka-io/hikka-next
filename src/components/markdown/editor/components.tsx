@@ -13,11 +13,14 @@ import {
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
 
-import Blockquote from '@/components/typography/blockquote';
-
-/* import { MediaImageViewElement } from './plate-ui/media-image-view-element';
-import { MediaViewElement } from './plate-ui/media-view-element'; */
+import Blockquote, {
+    BlockquoteClassName,
+} from '@/components/typography/blockquote';
+import Li from '@/components/typography/li';
+import Ol from '@/components/typography/ol';
 import P from '@/components/typography/p';
+import Spoiler from '@/components/typography/spoiler';
+import Ul from '@/components/typography/ul';
 
 import { EmojiInputElement } from './plate-ui/emoji-input-element';
 import { ImageElement } from './plate-ui/image-element';
@@ -25,9 +28,7 @@ import { ImageGroupElement } from './plate-ui/image-group-element';
 import { LinkElement } from './plate-ui/link-element';
 import { LinkViewElement } from './plate-ui/link-view-element';
 import { ListElement } from './plate-ui/list-element';
-import { ListViewElement } from './plate-ui/list-view-element';
 import { SpoilerElement } from './plate-ui/spoiler-element';
-import { SpoilerViewElement } from './plate-ui/spoiler-view-element';
 import {
     ImageGroupPlugin,
     ImagePlugin,
@@ -38,13 +39,15 @@ export const editorComponents = {
     [EmojiInputPlugin.key]: EmojiInputElement,
     [BulletedListPlugin.key]: withProps(ListElement, {
         variant: 'ul',
+        className: 'mb-4',
     }),
     [ListItemPlugin.key]: withProps(PlateElement, {
         as: 'li',
-        className: 'my-2',
+        className: 'ps-2',
     }),
     [NumberedListPlugin.key]: withProps(ListElement, {
         variant: 'ol',
+        className: 'mb-4',
     }),
     [LinkPlugin.key]: LinkElement,
     [BoldPlugin.key]: withProps(PlateLeaf, { as: 'strong' }),
@@ -55,7 +58,7 @@ export const editorComponents = {
     }),
     blockquote: withProps(PlateElement, {
         as: 'blockquote',
-        className: 'mb-4 border-l-2 pl-6 italic border-border',
+        className: BlockquoteClassName,
     }),
     [SpoilerPlugin.key]: SpoilerElement,
     [ImageGroupPlugin.key]: ImageGroupElement,
@@ -63,7 +66,9 @@ export const editorComponents = {
 };
 
 export const viewerComponents = {
-    [SpoilerPlugin.key]: SpoilerViewElement,
+    [SpoilerPlugin.key]: withProps(Spoiler, {
+        className: 'mb-4',
+    }),
     [LinkPlugin.key]: LinkViewElement,
     [ParagraphPlugin.key]: withProps(P, {
         className: 'mb-4',
@@ -71,10 +76,11 @@ export const viewerComponents = {
     blockquote: withProps(Blockquote, {
         className: 'mb-4',
     }),
-    [BulletedListPlugin.key]: withProps(ListViewElement, {
-        variant: 'ul',
+    [BulletedListPlugin.key]: withProps(Ul, {
+        className: 'mb-4',
     }),
-    [NumberedListPlugin.key]: withProps(ListViewElement, {
-        variant: 'ol',
+    [NumberedListPlugin.key]: withProps(Ol, {
+        className: 'mb-4',
     }),
+    [ListItemPlugin.key]: Li,
 };

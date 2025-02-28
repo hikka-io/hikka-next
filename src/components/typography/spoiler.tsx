@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react';
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -8,13 +8,16 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
+import { cn } from '@/utils/utils';
+
 interface Props {
     children: ReactNode;
+    className?: string;
 }
 
-const Spoiler = ({ children }: Props) => {
+const Spoiler: FC<Props> = ({ children, className }) => {
     return (
-        <Collapsible className="mb-4 w-full space-y-2">
+        <Collapsible className={cn('spoiler w-full space-y-2', className)}>
             <CollapsibleTrigger asChild>
                 <Button variant="secondary" size="badge">
                     Спойлер <ChevronsUpDown className="size-3" />

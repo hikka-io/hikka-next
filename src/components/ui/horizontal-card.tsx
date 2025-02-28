@@ -1,7 +1,6 @@
 import React, { ComponentProps, FC, PropsWithChildren, ReactNode } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/utils';
@@ -42,7 +41,7 @@ const HorizontalCardTitle: FC<PropsWithChildren<HorizontalCardTitleProps>> = ({
     const { href } = useHorizontalCard();
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
             <Label
                 asChild
                 className={cn('line-clamp-1 inline-block truncate', className)}
@@ -66,13 +65,17 @@ const HorizontalCardDescription: FC<
 > = ({ children, className, href }) => {
     if (typeof children === 'string') {
         return (
-            <Small
-                className={cn('line-clamp-1 text-muted-foreground', className)}
-            >
-                <Link href={href}>
-                    <MDViewer preview>{children}</MDViewer>
-                </Link>
-            </Small>
+            <Link href={href}>
+                <MDViewer
+                    className={cn(
+                        'line-clamp-1 !text-xs text-muted-foreground',
+                        className,
+                    )}
+                    preview
+                >
+                    {children}
+                </MDViewer>
+            </Link>
         );
     }
 

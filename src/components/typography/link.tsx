@@ -1,4 +1,4 @@
-import NextLink from 'next/link';
+import NextLink, { LinkProps } from 'next/link';
 import { FC, PropsWithChildren } from 'react';
 
 import AnimeTooltip from '@/components/content-card/anime-tooltip';
@@ -23,7 +23,7 @@ import {
 
 import { cn } from '@/utils/utils';
 
-interface Props {
+interface Props extends LinkProps {
     href: string;
     className?: string;
 }

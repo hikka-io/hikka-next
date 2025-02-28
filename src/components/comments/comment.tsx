@@ -98,7 +98,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         image={comment.author.avatar}
                         imageRatio={1}
                     />
-                    <HorizontalCardContainer className="gap-0">
+                    <HorizontalCardContainer className="gap-1">
                         <HorizontalCardTitle>
                             {comment.author.username}
                         </HorizontalCardTitle>

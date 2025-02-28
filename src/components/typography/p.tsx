@@ -3,10 +3,10 @@ import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    children: ReactNode | string;
+    children?: ReactNode | string;
     className?: string;
 }
 
 export default function P({ children, className }: Props) {
-    return <p className={cn('text-base', className)}>{children}</p>;
+    return <p className={cn(className)}>{children}</p>;
 }
