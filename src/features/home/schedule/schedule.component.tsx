@@ -50,11 +50,8 @@ const Schedule = () => {
                 <HeaderNavButton />
             </Header>
             <Stack className="grid-min-18 xl:grid-cols-4">
-                {filteredList?.map((item) => (
-                    <ScheduleItem
-                        key={item.airing_at + item.anime.slug}
-                        item={item}
-                    />
+                {filteredList?.map((item, index) => (
+                    <ScheduleItem key={item.anime.slug + index} item={item} />
                 ))}
             </Stack>
         </Block>

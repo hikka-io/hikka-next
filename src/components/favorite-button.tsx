@@ -53,9 +53,9 @@ const Component = ({
                     {...props}
                 >
                     {favorite && !favoriteError ? (
-                        <MaterialSymbolsFavoriteRounded className="size-5 text-destructive" />
+                        <MaterialSymbolsFavoriteRounded className="!size-5 text-destructive" />
                     ) : (
-                        <MaterialSymbolsFavoriteOutlineRounded className="size-5 text-foreground" />
+                        <MaterialSymbolsFavoriteOutlineRounded className="!size-5 text-foreground" />
                     )}
                     {children}
                 </Button>

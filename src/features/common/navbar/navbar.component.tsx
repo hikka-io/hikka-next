@@ -31,8 +31,8 @@ const Navbar = () => {
     return (
         <nav
             className={clsx(
-                'bg-transparent z-10 border-b w-full border-b-border transition sticky top-0 backdrop-blur',
-                trigger && '!bg-background',
+                'bg-transparent z-10 w-full transition sticky top-0 backdrop-blur',
+                trigger && '!bg-background border-b border-b-border',
             )}
         >
             <div className="container mx-auto flex min-h-16 max-w-[88rem] items-center gap-4 px-4 md:gap-8">

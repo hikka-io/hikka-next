@@ -2,6 +2,8 @@ import { ForwardedRef, forwardRef } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
+import MaterialSymbolsMoreHoriz from './icons/material-symbols/MaterialSymbolsMoreHoriz';
+
 interface Props extends ButtonProps {
     fetchNextPage: () => void;
     isFetchingNextPage: boolean;
@@ -18,10 +20,11 @@ const LoadMoreButton = forwardRef(
                 ref={ref}
                 disabled={isFetchingNextPage}
                 onClick={fetchNextPage}
-                className="w-full"
             >
-                {isFetchingNextPage && (
+                {isFetchingNextPage ? (
                     <span className="loading loading-spinner"></span>
+                ) : (
+                    <MaterialSymbolsMoreHoriz className="size-4" />
                 )}
                 Завантажити ще
             </Button>

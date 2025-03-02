@@ -152,10 +152,12 @@ export default function ModalProvider({ children }: Props) {
                     <DrawerContent
                         className={cn('max-h-[90dvh]', state.className)}
                     >
-                        {state.title && (
+                        {state.title ? (
                             <DrawerHeader>
                                 <DrawerTitle>{state.title}</DrawerTitle>
                             </DrawerHeader>
+                        ) : (
+                            <DrawerTitle className="hidden" />
                         )}
                         <Separator />
                         {state.content}
@@ -172,10 +174,12 @@ export default function ModalProvider({ children }: Props) {
                             state.className,
                         )}
                     >
-                        {state.title && (
+                        {state.title ? (
                             <SheetHeader className="px-6 py-4">
                                 <SheetTitle>{state.title}</SheetTitle>
                             </SheetHeader>
+                        ) : (
+                            <SheetTitle className="hidden" />
                         )}
                         <Separator />
                         {state.content}
@@ -186,10 +190,12 @@ export default function ModalProvider({ children }: Props) {
             {(isDesktop || state.forceModal) && state.type === 'dialog' && (
                 <Dialog open={state.open} onOpenChange={closeModal}>
                     <DialogContent className={cn(state.className)}>
-                        {state.title && (
+                        {state.title ? (
                             <DialogHeader>
                                 <DialogTitle>{state.title}</DialogTitle>
                             </DialogHeader>
+                        ) : (
+                            <DialogTitle className="hidden" />
                         )}
                         {state.content}
                     </DialogContent>

@@ -1,11 +1,12 @@
 'use client';
 
 import { range } from '@antfu/utils';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/utils';
 
 import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
@@ -46,7 +47,7 @@ const PaginationButton: FC<PaginationButtonProps> = ({
     return (
         <Button
             size="icon-md"
-            variant={value === page ? 'default' : 'outline'}
+            variant={value === page ? 'default' : 'secondary'}
             disabled={!value}
             onClick={() => value && setPage(value)}
             className={cn('size-9 sm:size-10')}
@@ -104,19 +105,23 @@ const PaginationInput: FC<PaginationInputProps> = ({
 };
 
 const Pagination = ({ page, pages, setPage }: Props) => {
-    const generatePaginationArr = () => {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
+
+    const generatePaginationArr = useCallback(() => {
         const pagArr: PaginationType[] = [1];
 
         if (pages >= 7) {
             if (pages - page <= 3) {
                 pagArr.push('input');
-                pagArr.push(...range(pages - 4, pages + 1));
+                pagArr.push(
+                    ...range(pages - 4 + Number(!isDesktop), pages + 1),
+                );
 
                 return pagArr;
             }
 
-            if (page < 5) {
-                pagArr.push(...range(2, 6));
+            if (page < 5 - Number(!isDesktop)) {
+                pagArr.push(...range(2, 6 - Number(!isDesktop)));
                 pagArr.push('input');
                 pagArr.push(pages);
 
@@ -124,7 +129,7 @@ const Pagination = ({ page, pages, setPage }: Props) => {
             }
 
             pagArr.push('empty');
-            pagArr.push(...range(page - 1, page + 2));
+            pagArr.push(...range(page - Number(isDesktop), page + 2));
             pagArr.push('input');
             pagArr.push(pages);
 
@@ -134,13 +139,13 @@ const Pagination = ({ page, pages, setPage }: Props) => {
         pagArr.push(...range(2, pages + 1));
 
         return pagArr;
-    };
+    }, [page, pages, isDesktop]);
 
     return (
         <div className="flex w-full justify-center gap-2 lg:gap-4">
             <Button
                 size="icon-md"
-                variant="outline"
+                variant="secondary"
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
                 className={cn('size-9 text-xs sm:size-10')}
@@ -174,7 +179,7 @@ const Pagination = ({ page, pages, setPage }: Props) => {
             })}
             <Button
                 size="icon-md"
-                variant="outline"
+                variant="secondary"
                 onClick={() => setPage(page + 1)}
                 disabled={page === pages}
                 className={cn('size-9 text-xs sm:size-10')}

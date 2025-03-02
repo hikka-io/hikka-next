@@ -4,7 +4,7 @@ import { range } from '@antfu/utils';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/anime-card';
-import SkeletonCard from '@/components/skeletons/content-card';
+import SkeletonCard from '@/components/skeletons/content-card-skeleton';
 import Block from '@/components/ui/block';
 import {
     Header,

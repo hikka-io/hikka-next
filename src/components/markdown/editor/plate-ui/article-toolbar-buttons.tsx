@@ -19,8 +19,7 @@ export function ArticleToolbarButtons() {
             {!readOnly && (
                 <>
                     <ToolbarGroup>
-                        <InsertDropdownMenu />
-                        {/* <TurnIntoDropdownMenu /> */}
+                        <InsertDropdownMenu type="advanced" />
                     </ToolbarGroup>
 
                     <ToolbarGroup>
@@ -41,8 +40,11 @@ export function ArticleToolbarButtons() {
 
                     <ToolbarGroup>
                         <LinkToolbarButton />
-                        <ImageGroupToolbarButton />
+
                         <EmojiDropdownMenu />
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        <ImageGroupToolbarButton />
                     </ToolbarGroup>
                 </>
             )}

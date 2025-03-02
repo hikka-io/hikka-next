@@ -532,8 +532,16 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
         title_en: 'News',
     },
     system: {
-        title_ua: 'Системна',
+        title_ua: 'Системне',
         title_en: 'System',
         admin: true,
+    },
+    reviews: {
+        title_ua: 'Огляди',
+        title_en: 'Reviews',
+    },
+    original: {
+        title_ua: 'Авторське',
+        title_en: 'Original',
     },
 };

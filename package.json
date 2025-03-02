@@ -64,6 +64,7 @@
         "@udecode/plate-diff": "^41.0.0",
         "@udecode/plate-dnd": "^41.0.2",
         "@udecode/plate-emoji": "^41.0.0",
+        "@udecode/plate-heading": "^41.0.0",
         "@udecode/plate-link": "^41.0.0",
         "@udecode/plate-list": "^41.0.0",
         "@udecode/plate-markdown": "^41.0.0",

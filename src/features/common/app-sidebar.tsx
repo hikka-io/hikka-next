@@ -20,6 +20,7 @@ import {
     useSidebar,
 } from '@/components/ui/sidebar';
 
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { APP_SIDEBAR } from '@/utils/constants/navigation';
 
 const FOOTER_GROUP = [
@@ -36,6 +37,7 @@ const FOOTER_GROUP = [
 ];
 
 function AppSidebar() {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
     const pathname = usePathname();
     const { toggleSidebar, setActiveItem, item } = useSidebar();
 
@@ -77,6 +79,11 @@ function AppSidebar() {
                                         <SidebarMenuItem key={navitem.url}>
                                             <SidebarMenuButton
                                                 asChild
+                                                onClick={
+                                                    !isDesktop
+                                                        ? toggleSidebar
+                                                        : undefined
+                                                }
                                                 isActive={
                                                     navitem.url === item?.url
                                                 }

@@ -27,7 +27,11 @@ const ArticleCategory: FC<Props> = () => {
             active={categories.length > 0}
         >
             <BadgeFilter
-                properties={ARTICLE_CATEGORY_OPTIONS}
+                properties={Object.fromEntries(
+                    Object.entries(ARTICLE_CATEGORY_OPTIONS).filter(
+                        ([, value]) => !value.admin,
+                    ),
+                )}
                 selected={categories}
                 property="categories"
                 onParamChange={handleChangeParam}

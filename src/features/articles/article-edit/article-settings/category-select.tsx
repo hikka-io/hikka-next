@@ -22,37 +22,42 @@ interface Props {}
 const CategorySelect: FC<Props> = () => {
     const { isAdmin, isModerator } = useSession();
 
+    const draft = useArticleContext((state) => state.draft);
     const category = useArticleContext((state) => state.category);
     const setCategory = useArticleContext((state) => state.setCategory);
+
+    const filteredCategories = (
+        Object.keys(ARTICLE_CATEGORY_OPTIONS) as Array<
+            keyof typeof ARTICLE_CATEGORY_OPTIONS
+        >
+    ).filter((category) =>
+        ARTICLE_CATEGORY_OPTIONS[category].admin
+            ? isAdmin() || isModerator()
+            : true,
+    );
 
     return (
         <div className="flex flex-col gap-4">
             <Label htmlFor="private" className="text-muted-foreground">
                 Категорія
             </Label>
-            <Select
-                value={category ? [category] : category}
-                onValueChange={(value: API.ArticleCategory[]) =>
-                    setCategory(value[0])
-                }
-            >
-                <SelectTrigger>
-                    <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectList>
-                        <SelectGroup>
-                            {(
-                                Object.keys(ARTICLE_CATEGORY_OPTIONS) as Array<
-                                    keyof typeof ARTICLE_CATEGORY_OPTIONS
-                                >
-                            )
-                                .filter((category) =>
-                                    ARTICLE_CATEGORY_OPTIONS[category].admin
-                                        ? isAdmin() || isModerator()
-                                        : true,
-                                )
-                                .map((category) => (
+            {!draft && category && (
+                <Label>{ARTICLE_CATEGORY_OPTIONS[category].title_ua}</Label>
+            )}
+            {draft && (
+                <Select
+                    value={category ? [category] : category}
+                    onValueChange={(value: API.ArticleCategory[]) =>
+                        setCategory(value[0])
+                    }
+                >
+                    <SelectTrigger>
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {filteredCategories.map((category) => (
                                     <SelectItem key={category} value={category}>
                                         {
                                             ARTICLE_CATEGORY_OPTIONS[category]
@@ -60,10 +65,11 @@ const CategorySelect: FC<Props> = () => {
                                         }
                                     </SelectItem>
                                 ))}
-                        </SelectGroup>
-                    </SelectList>
-                </SelectContent>
-            </Select>
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            )}
         </div>
     );
 };

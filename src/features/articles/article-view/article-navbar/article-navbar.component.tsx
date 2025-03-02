@@ -31,12 +31,6 @@ const ArticleNavbar: FC<Props> = () => {
         slug: String(params.slug),
     });
 
-    if (article?.category === 'system') {
-        if (loggedUser?.role !== 'admin' && loggedUser?.role !== 'moderator') {
-            return null;
-        }
-    }
-
     const handleCopyLink = useCallback(() => {
         navigator.clipboard.writeText(window.location.href);
         enqueueSnackbar('Ви успішно скопіювали посилання.', {
@@ -44,9 +38,15 @@ const ArticleNavbar: FC<Props> = () => {
         });
     }, [params.slug]);
 
+    if (article?.category === 'system') {
+        if (loggedUser?.role !== 'admin' && loggedUser?.role !== 'moderator') {
+            return null;
+        }
+    }
+
     return (
         <div className="sticky bottom-2 z-10 flex justify-center">
-            <Card className="flex-row gap-2 bg-background p-2">
+            <Card className="flex-row gap-2 p-2 bg-background/60 backdrop-blur-xl border-none">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />
                 )}
@@ -54,7 +54,7 @@ const ArticleNavbar: FC<Props> = () => {
                 {article?.category !== 'system' && (
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button asChild size="md" variant="outline">
+                            <Button asChild size="md" variant="secondary">
                                 <Link href={`/comments/article/${params.slug}`}>
                                     <IconamoonCommentFill className="size-4" />
                                     {article?.comments_count}
@@ -70,7 +70,7 @@ const ArticleNavbar: FC<Props> = () => {
                         <Button
                             onClick={handleCopyLink}
                             size="icon-md"
-                            variant="outline"
+                            variant="secondary"
                         >
                             <MaterialSymbolsLinkRounded className="size-4" />
                         </Button>

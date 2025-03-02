@@ -14,14 +14,14 @@ import {
 import useArticles from '@/services/hooks/articles/use-articles';
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import ContentNewsItem from './content-news-item';
-import ContentNewsModal from './content-news-modal';
+import ContentNewsItem from './content-articles-item';
+import ContentNewsModal from './content-articles-modal';
 
 interface Props {
     content_type: API.ContentType;
 }
 
-const ContentNews: FC<Props> = ({ content_type }) => {
+const ContentArticles: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
@@ -60,4 +60,4 @@ const ContentNews: FC<Props> = ({ content_type }) => {
     );
 };
 
-export default ContentNews;
+export default ContentArticles;

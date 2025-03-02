@@ -18,7 +18,7 @@ export function BasicToolbarButtons() {
             {!readOnly && (
                 <>
                     <ToolbarGroup>
-                        <InsertDropdownMenu />
+                        <InsertDropdownMenu type="basic" />
                         {/* <TurnIntoDropdownMenu /> */}
                     </ToolbarGroup>
 

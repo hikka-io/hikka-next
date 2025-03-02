@@ -6,6 +6,7 @@ import {
     PlateLeaf,
 } from '@udecode/plate-common/react';
 import { EmojiInputPlugin } from '@udecode/plate-emoji/react';
+import { HEADING_KEYS } from '@udecode/plate-heading';
 import { LinkPlugin } from '@udecode/plate-link/react';
 import {
     BulletedListPlugin,
@@ -14,8 +15,11 @@ import {
 } from '@udecode/plate-list/react';
 
 import Blockquote, {
-    BlockquoteClassName,
+    BLOCKQUOTE_CLASSNAME,
 } from '@/components/typography/blockquote';
+import H3 from '@/components/typography/h3';
+import H4 from '@/components/typography/h4';
+import H5 from '@/components/typography/h5';
 import Li from '@/components/typography/li';
 import Ol from '@/components/typography/ol';
 import P from '@/components/typography/p';
@@ -25,6 +29,7 @@ import Ul from '@/components/typography/ul';
 import { cn } from '@/utils/utils';
 
 import { EmojiInputElement } from './plate-ui/emoji-input-element';
+import { HeadingElement } from './plate-ui/heading-element';
 import { ImageElement } from './plate-ui/image-element';
 import { ImageGroupElement } from './plate-ui/image-group-element';
 import { ImageGroupViewElement } from './plate-ui/image-group-view-element';
@@ -45,6 +50,18 @@ export const editorComponents = {
         variant: 'ul',
         className: 'mb-4',
     }),
+    [HEADING_KEYS.h3]: withProps(HeadingElement, {
+        variant: 'h3',
+        className: 'mb-4',
+    }),
+    [HEADING_KEYS.h4]: withProps(HeadingElement, {
+        variant: 'h4',
+        className: 'mb-4',
+    }),
+    [HEADING_KEYS.h5]: withProps(HeadingElement, {
+        variant: 'h5',
+        className: 'mb-4',
+    }),
     [ListItemPlugin.key]: withProps(PlateElement, {
         as: 'li',
         className: 'ps-2',
@@ -62,7 +79,7 @@ export const editorComponents = {
     }),
     blockquote: withProps(PlateElement, {
         as: 'blockquote',
-        className: cn(BlockquoteClassName, 'mb-4'),
+        className: cn(BLOCKQUOTE_CLASSNAME, 'mb-4'),
     }),
     [SpoilerPlugin.key]: SpoilerElement,
     [ImageGroupPlugin.key]: ImageGroupElement,
@@ -70,6 +87,15 @@ export const editorComponents = {
 };
 
 export const viewerComponents = {
+    [HEADING_KEYS.h3]: withProps(H3, {
+        className: 'mb-4',
+    }),
+    [HEADING_KEYS.h4]: withProps(H4, {
+        className: 'mb-4',
+    }),
+    [HEADING_KEYS.h5]: withProps(H5, {
+        className: 'mb-4',
+    }),
     [SpoilerPlugin.key]: withProps(Spoiler, {
         className: 'mb-4',
     }),

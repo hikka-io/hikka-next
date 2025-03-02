@@ -14,6 +14,7 @@ import Actions from '@/features/novel/novel-view/actions/actions.component';
 import Cover from '@/features/novel/novel-view/cover.component';
 import Title from '@/features/novel/novel-view/title.component';
 
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
 import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
@@ -47,6 +48,7 @@ const NovelLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
 
     await prefetchNovelInfo({ slug });
+    await prefetchArticles({ content_slug: slug, content_type: 'novel' });
 
     const novel: API.NovelInfo | undefined = queryClient.getQueryData([
         'novel',

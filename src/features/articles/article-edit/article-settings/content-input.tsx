@@ -40,7 +40,7 @@ const ContentInput: FC<Props> = () => {
             {content && (
                 <HorizontalCard href={`/${content.data_type}/${content.slug}`}>
                     <HorizontalCardImage image={content.image} />
-                    <HorizontalCardContainer>
+                    <HorizontalCardContainer className="flex-1">
                         <HorizontalCardTitle className="line-clamp-2">
                             {contentWithTitle?.title}
                         </HorizontalCardTitle>

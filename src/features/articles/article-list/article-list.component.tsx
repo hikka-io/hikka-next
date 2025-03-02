@@ -9,7 +9,7 @@ import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
 import LoadMoreButton from '@/components/load-more-button';
-import H3 from '@/components/typography/h3';
+import ArticleItemSkeleton from '@/components/skeletons/article-item-skeleton';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -17,11 +17,14 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import ArticleFiltersModal from '@/features/modals/article-filters-modal.component';
 
 import useArticles from '@/services/hooks/articles/use-articles';
+import useSession from '@/services/hooks/auth/use-session';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { cn } from '@/utils/utils';
 
 interface Props {}
 
 const ArticleList: FC<Props> = () => {
+    const { user } = useSession();
     const searchParams = useSearchParams();
 
     const author = searchParams.get('author') || undefined;
@@ -32,14 +35,20 @@ const ArticleList: FC<Props> = () => {
     const categories =
         (searchParams.getAll('categories') as API.ArticleCategory[]) || [];
 
-    const { list, pagination, fetchNextPage, isFetchingNextPage, hasNextPage } =
-        useArticles({
-            categories,
-            author,
-            sort: [`${sort}:${order}`],
-            tags,
-            draft,
-        });
+    const {
+        list,
+        pagination,
+        fetchNextPage,
+        isFetchingNextPage,
+        isPending,
+        hasNextPage,
+    } = useArticles({
+        categories,
+        author,
+        sort: [`${sort}:${order}`],
+        tags,
+        draft,
+    });
 
     return (
         <Block>
@@ -47,15 +56,14 @@ const ArticleList: FC<Props> = () => {
                 <HeaderContainer>
                     <HeaderTitle variant="h2">
                         <span>Стрічка </span>
-                        <H3 className="hidden text-muted-foreground md:inline">
-                            ({pagination?.total ?? 0})
-                        </H3>
                     </HeaderTitle>
-                    <Button asChild size="icon-sm" variant="outline">
-                        <Link href={`${CONTENT_TYPE_LINKS['article']}/new`}>
-                            <MaterialSymbolsAddRounded className="size-4" />
-                        </Link>
-                    </Button>
+                    {user && (
+                        <Button asChild size="icon-sm" variant="outline">
+                            <Link href={`${CONTENT_TYPE_LINKS['article']}/new`}>
+                                <MaterialSymbolsAddRounded className="size-4" />
+                            </Link>
+                        </Button>
+                    )}
                 </HeaderContainer>
                 <ArticleFiltersModal>
                     <Button
@@ -67,11 +75,17 @@ const ArticleList: FC<Props> = () => {
                     </Button>
                 </ArticleFiltersModal>
             </Header>
-            <div className="flex flex-col gap-6">
+            <div
+                className={cn(
+                    '-mx-4 flex flex-col gap-6 md:mx-0',
+                    (!list || list.length === 0) && 'mx-0',
+                )}
+            >
+                {isPending && <ArticleItemSkeleton />}
                 {list?.map((article) => (
                     <ArticleItem article={article} key={article.slug} />
                 ))}
-                {!list || (list.length === 0 && <FiltersNotFound />)}
+                {(!list || list.length === 0) && <FiltersNotFound />}
                 {hasNextPage && (
                     <LoadMoreButton
                         isFetchingNextPage={isFetchingNextPage}

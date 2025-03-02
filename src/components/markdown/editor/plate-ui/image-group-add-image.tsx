@@ -1,10 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import {
-    TElement,
-    findNodePath,
-    insertNode,
-    insertNodes,
-} from '@udecode/plate-common';
+import { TElement } from '@udecode/plate-common';
 import { PlateEditor } from '@udecode/plate-common/react';
 import { Plus } from 'lucide-react';
 import {
@@ -18,13 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import uploadImage from '@/services/api/upload/uploadImage';
-
-import {
-    ImageGroupPlugin,
-    ImagePlugin,
-} from '../plugins/image-group-plugin/image-group-plugin';
-import '../transforms';
+import { insertImageGroupFromFiles } from '../plugins/image-group-plugin/transforms/insert-images-group-from-files';
 
 interface ImageGroupAddImageProps {
     element?: TElement;
@@ -37,50 +26,15 @@ const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
     editor,
     children,
 }) => {
-    const { mutate: mutateUploadImage, isPending } = useMutation({
-        mutationFn: uploadImage,
-        onSuccess: (data) => {
-            if (element) {
-                const path = findNodePath(editor, element);
-
-                if (!path) return;
-
-                insertNodes(
-                    editor,
-                    {
-                        type: ImagePlugin.key,
-                        url: data.url,
-                        children: [{ text: '' }],
-                    },
-                    { at: [...path, element.children.length] },
-                );
-
-                return;
-            }
-
-            insertNode(editor, {
-                type: ImageGroupPlugin.key,
-                children: [
-                    {
-                        type: ImagePlugin.key,
-                        children: [{ text: '' }],
-                        url: data.url,
-                    },
-                ],
-            });
-        },
+    const { mutate: uploadImages, isPending } = useMutation({
+        mutationFn: (files: FileList) =>
+            insertImageGroupFromFiles(editor, files, element),
     });
 
     const insertImage = useCallback(({ files }: { files: FileList | null }) => {
         if (!files) return;
-        const file = files[0];
 
-        mutateUploadImage({
-            params: {
-                file,
-                upload_type: 'attachment',
-            },
-        });
+        uploadImages(files);
     }, []);
 
     if (isValidElement(children)) {

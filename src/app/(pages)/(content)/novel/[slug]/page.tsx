@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import ContentNews from '@/features/articles/article-view/content-news/content-news.component';
+import ContentNews from '@/features/articles/article-view/content-articles/content-articles';
 import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
 import Characters from '@/features/novel/novel-view/characters/characters.component';

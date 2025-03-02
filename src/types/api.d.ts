@@ -661,7 +661,7 @@ declare global {
             name: string;
         };
 
-        type ArticleCategory = 'news' | 'system';
+        type ArticleCategory = 'news' | 'system' | 'reviews' | 'original';
 
         type Article = {
             data_type: 'article';

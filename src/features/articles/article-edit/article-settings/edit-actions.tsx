@@ -46,23 +46,24 @@ const EditActions: FC<Props> = () => {
             let document = getDocument();
             let preview = getPreview();
 
-            if (!document || !preview) {
+            if (!document) {
                 return;
             }
 
             document = removeEmptyTextNodes(document);
-            preview = removeEmptyTextNodes(preview);
+            preview = preview
+                ? [
+                      {
+                          type: 'preview',
+                          children: removeEmptyTextNodes(preview),
+                      },
+                  ]
+                : [];
 
             mutateUpdateArticle({
                 params: {
                     slug: slug!,
-                    document: [
-                        {
-                            type: 'preview',
-                            children: preview,
-                        },
-                        ...document,
-                    ],
+                    document: [...preview, ...document],
                     title: title || '',
                     tags,
                     draft,

@@ -1,10 +1,7 @@
 'use client';
 
 import { PluginConfig, TElement } from '@udecode/plate-common';
-import {
-    createPlatePlugin,
-    createTPlatePlugin,
-} from '@udecode/plate-common/react';
+import { createTPlatePlugin } from '@udecode/plate-common/react';
 
 import { withImageGroup } from './with-image-group';
 
@@ -28,10 +25,20 @@ export const ImagePlugin = createTPlatePlugin<ImageConfig>({
     },
 });
 
-export const ImageGroupPlugin = createPlatePlugin({
+export type ImageGroupConfig = PluginConfig<
+    'image_group',
+    {
+        uploadImage?: (file: File) => Promise<{ url: string } | undefined>;
+    }
+>;
+
+export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
     key: ELEMENT_IMAGE_GROUP,
     node: {
         isElement: true,
+    },
+    options: {
+        uploadImage: undefined,
     },
     plugins: [ImagePlugin],
     extendEditor: withImageGroup,

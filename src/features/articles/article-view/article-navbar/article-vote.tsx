@@ -4,7 +4,7 @@ import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
 import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import BxDownvote from '@/components/icons/bx/BxDownvote';
 import BxUpvote from '@/components/icons/bx/BxUpvote';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
@@ -52,7 +52,13 @@ const ArticleVote: FC<Props> = ({ article }) => {
     };
 
     return (
-        <Card className="flex-1 flex-row items-center justify-between gap-4 p-0">
+        <Card
+            className={buttonVariants({
+                variant: 'secondary',
+                size: 'md',
+                className: 'flex-row p-0 overflow-hidden border-none',
+            })}
+        >
             <Button
                 onClick={() => handleArticleVote(1)}
                 variant={'ghost'}

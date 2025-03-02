@@ -16,36 +16,39 @@ import ArticleTitle from '@/features/articles/article-view/article-title.compone
 
 import getArticle from '@/services/api/articles/getArticle';
 import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
 import getQueryClient from '@/utils/get-query-client';
 
 export interface MetadataProps {
-    params: { slug: string };
-    searchParams: { [key: string]: string | string[] | undefined };
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({
     params,
 }: MetadataProps): Promise<Metadata> {
+    const { slug } = await params;
+
     const article = await getArticle({
         params: {
-            slug: params.slug,
+            slug: slug,
         },
     });
 
     return _generateMetadata({
-        title: article.title,
+        title: `${article.title} / ${ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}`,
         keywords: article.tags.map((tag) => tag.name).join(', '),
     });
 }
 
-const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
+const ArticlePage = async (props: MetadataProps) => {
     const params = await props.params;
 
     const { slug } = params;
 
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
 
     await prefetchArticle({ slug: slug });
 
@@ -54,7 +57,7 @@ const ArticlePage = async (props: { params: Promise<Record<string, any>> }) => {
     );
 
     if (!article) {
-        return permanentRedirect('/');
+        return permanentRedirect('/articles');
     }
 
     const dehydratedState = dehydrate(queryClient);

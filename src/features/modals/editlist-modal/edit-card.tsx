@@ -1,76 +1,45 @@
 'use client';
 
-import clsx from 'clsx';
 import { format } from 'date-fns';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 
-import { MaterialSymbolsShieldRounded } from '@/components/icons/material-symbols/MaterialSymbolsShieldRounded';
-import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
-import Small from '@/components/typography/small';
-
-import { EDIT_STATUS } from '@/utils/constants/edit';
-
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import { Button } from '@/components/ui/button';
 import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '../../../components/ui/avatar';
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 
-interface Props extends LinkProps {
+interface Props {
     edit: API.Edit;
+    className?: string;
+    href: string;
 }
 
-const Component = ({ edit, href, ...props }: Props) => {
+const Component = ({ edit, href, className, ...props }: Props) => {
     return (
-        <Link
-            {...props}
-            href={href}
-            className={clsx(
-                'flex w-full items-center gap-4 px-6 py-4',
-                edit.author
-                    ? 'hover:cursor-pointer hover:bg-muted'
-                    : 'pointer-events-none',
-            )}
+        <HorizontalCard
+            href={`/u/${edit.author?.username}`}
+            className={className}
         >
-            <Avatar className="size-12 rounded-md">
-                <AvatarImage
-                    src={edit.author?.avatar}
-                    className="rounded-md"
-                    alt="avatar"
-                />
-                <AvatarFallback className="rounded-md">
-                    <MaterialSymbolsShieldRounded className="flex-1 text-xl text-muted-foreground" />
-                </AvatarFallback>
-            </Avatar>
-
-            <div className="flex w-full flex-1 flex-col overflow-hidden">
-                {edit.author ? (
-                    <H5 className="min-w-0 truncate">{edit.author.username}</H5>
-                ) : (
-                    <H5 className="min-w-0 truncate text-muted-foreground">
-                        Системна правка
-                    </H5>
-                )}
-                <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-4">
-                        <Small className="text-muted-foreground">
-                            {format(edit.created * 1000, 'd MMM yyyy H:mm')}
-                        </Small>
-                    </div>
-                </div>
-            </div>
-            <div
-                className="whitespace-nowrap rounded-sm px-2"
-                style={{
-                    backgroundColor: EDIT_STATUS[edit.status].color,
-                }}
-            >
-                <P className="text-sm text-white">
-                    {EDIT_STATUS[edit.status as API.EditStatus].title_ua}
-                </P>
-            </div>
-        </Link>
+            <HorizontalCardImage image={edit.author?.avatar} imageRatio={1} />
+            <HorizontalCardContainer>
+                <HorizontalCardTitle>
+                    {edit.author?.username}
+                </HorizontalCardTitle>
+                <HorizontalCardDescription>
+                    {format(edit.created * 1000, 'd MMM yyyy H:mm')}
+                </HorizontalCardDescription>
+            </HorizontalCardContainer>
+            <Button asChild size="icon-md" variant="outline">
+                <Link href={href}>
+                    <MaterialSymbolsEditRounded />
+                </Link>
+            </Button>
+        </HorizontalCard>
     );
 };
 

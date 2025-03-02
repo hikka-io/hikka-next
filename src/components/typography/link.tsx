@@ -37,6 +37,8 @@ const ALLOWED_HOSTS = [
     'anilist.co',
 ];
 
+const LINK_CLASSNAME = 'cursor-pointer text-primary hover:underline';
+
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
         if (href.includes('/anime')) {
@@ -45,7 +47,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <AnimeTooltip slug={link}>
-                        <NextLink href={href}>{children}</NextLink>
+                        <NextLink
+                            className={cn(LINK_CLASSNAME, className)}
+                            href={href}
+                        >
+                            {children}
+                        </NextLink>
                     </AnimeTooltip>
                 );
             }
@@ -55,7 +62,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <CharacterTooltip slug={link}>
-                        <NextLink href={href}>{children}</NextLink>
+                        <NextLink
+                            className={cn(LINK_CLASSNAME, className)}
+                            href={href}
+                        >
+                            {children}
+                        </NextLink>
                     </CharacterTooltip>
                 );
             }
@@ -65,7 +77,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <MangaTooltip slug={link}>
-                        <NextLink href={href}>{children}</NextLink>
+                        <NextLink
+                            className={cn(LINK_CLASSNAME, className)}
+                            href={href}
+                        >
+                            {children}
+                        </NextLink>
                     </MangaTooltip>
                 );
             }
@@ -75,7 +92,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <NovelTooltip slug={link}>
-                        <NextLink href={href}>{children}</NextLink>
+                        <NextLink
+                            className={cn(LINK_CLASSNAME, className)}
+                            href={href}
+                        >
+                            {children}
+                        </NextLink>
                     </NovelTooltip>
                 );
             }
@@ -85,7 +107,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <PersonTooltip slug={link}>
-                        <NextLink href={href}>{children}</NextLink>
+                        <NextLink
+                            className={cn(LINK_CLASSNAME, className)}
+                            href={href}
+                        >
+                            {children}
+                        </NextLink>
                     </PersonTooltip>
                 );
             }
@@ -95,18 +122,31 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <UserTooltip username={link}>
-                        <NextLink href={href}>{children}</NextLink>
+                        <NextLink
+                            className={cn(LINK_CLASSNAME, className)}
+                            href={href}
+                        >
+                            {children}
+                        </NextLink>
                     </UserTooltip>
                 );
             }
         }
 
-        return <NextLink href={href}>{children}</NextLink>;
+        return (
+            <NextLink className={cn(LINK_CLASSNAME, className)} href={href}>
+                {children}
+            </NextLink>
+        );
     }
 
     if (ALLOWED_HOSTS.some((host) => href.includes(host))) {
         return (
-            <NextLink target="_blank" className={className} href={href}>
+            <NextLink
+                target="_blank"
+                className={cn(LINK_CLASSNAME, className)}
+                href={href}
+            >
                 {children}
             </NextLink>
         );
@@ -115,12 +155,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <span
-                    className={cn(
-                        'cursor-pointer text-primary hover:underline',
-                        className,
-                    )}
-                >
+                <span className={cn(LINK_CLASSNAME, className)}>
                     {children}
                 </span>
             </AlertDialogTrigger>
@@ -129,7 +164,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <AlertDialogTitle>
                         Ви впевнені, що хочете відкрити посилання?
                     </AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogDescription asChild>
                         <div className="flex items-center gap-2">
                             <MaterialSymbolsLinkRounded />
                             <P className="flex-1 truncate">{href}</P>

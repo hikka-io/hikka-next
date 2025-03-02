@@ -7,11 +7,11 @@ interface Props {
     className?: string;
 }
 
-export const BlockquoteClassName = 'mt-6 border-l-2 pl-6 italic';
+export const BLOCKQUOTE_CLASSNAME = 'border-l-2 pl-6 italic';
 
 export default function Blockquote({ children, className }: Props) {
     return (
-        <blockquote className={cn(BlockquoteClassName, className)}>
+        <blockquote className={cn(BLOCKQUOTE_CLASSNAME, className)}>
             {children}
         </blockquote>
     );

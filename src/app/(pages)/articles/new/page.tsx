@@ -22,7 +22,7 @@ const ArticleNewPage = async (props: {
                     <ArticlePreview />
                     <ArticleText />
                 </Block>
-                <Card className="sticky top-20 order-1 hidden w-full p-0 md:flex">
+                <Card className="sticky top-20 order-1 self-start hidden w-full p-0 md:flex">
                     <ArticleSettings />
                 </Card>
             </div>

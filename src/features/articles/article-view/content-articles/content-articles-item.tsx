@@ -18,7 +18,7 @@ interface Props {
     className?: string;
 }
 
-const ContentNewsItem: FC<Props> = ({ article, className }) => {
+const ContentArticlesItem: FC<Props> = ({ article, className }) => {
     return (
         <HorizontalCard
             className={className}
@@ -51,4 +51,4 @@ const ContentNewsItem: FC<Props> = ({ article, className }) => {
     );
 };
 
-export default ContentNewsItem;
+export default ContentArticlesItem;

@@ -22,12 +22,14 @@ const ArticlesPage = async (props: {
     const sort = searchParams.sort || 'created';
     const order = searchParams.order || 'desc';
     const tags = searchParams.tags || [];
+    const draft = Boolean(searchParams.draft) ?? false;
     const categories = searchParams.categories || [];
 
     await prefetchArticles({
         author: author as string,
         sort: [`${sort}:${order}`],
         tags: tags as string[],
+        draft: draft,
         categories: categories as API.ArticleCategory[],
     });
 

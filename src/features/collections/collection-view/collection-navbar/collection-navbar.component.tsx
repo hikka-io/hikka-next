@@ -29,12 +29,12 @@ const CollectionNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-2 flex justify-center z-10">
-            <Card className="flex-row gap-2 p-2 bg-background">
+            <Card className="flex-row gap-2 p-2 bg-background/60 backdrop-blur-xl border-none">
                 <CollectionVote collection={collection!} />
 
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button asChild size="md" variant="outline">
+                        <Button asChild size="md" variant="secondary">
                             <Link
                                 href={
                                     '/comments' +

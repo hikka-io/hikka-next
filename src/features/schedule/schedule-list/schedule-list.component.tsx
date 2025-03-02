@@ -77,9 +77,9 @@ const ScheduleList = () => {
                                 </HeaderContainer>
                             </Header>
                             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                                {sortedList[day].map((item) => (
+                                {sortedList[day].map((item, index) => (
                                     <ScheduleItem
-                                        key={item.airing_at + item.anime.slug}
+                                        key={item.anime.slug + index}
                                         item={item}
                                     />
                                 ))}

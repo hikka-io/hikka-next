@@ -16,6 +16,7 @@ import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
 import ArticleProvider from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
+import { cn } from '@/utils/utils';
 
 const ArticleUpdatePage = async (props: {
     params: Promise<Record<string, any>>;
@@ -42,6 +43,12 @@ const ArticleUpdatePage = async (props: {
         <HydrationBoundary state={dehydratedState}>
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
+                    <div
+                        className={cn(
+                            'size-2 rounded-full',
+                            article.draft ? 'bg-warning' : 'bg-success',
+                        )}
+                    />
                     <Link
                         href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
@@ -67,7 +74,7 @@ const ArticleUpdatePage = async (props: {
                         <ArticlePreview />
                         <ArticleDocument />
                     </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full p-0 md:flex">
+                    <Card className="sticky top-20 order-1 self-start hidden w-full p-0 md:flex">
                         <ArticleSettings />
                     </Card>
                 </div>

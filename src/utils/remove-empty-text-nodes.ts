@@ -1,13 +1,11 @@
-import { TElement, Value, isElement, isText } from '@udecode/plate-common';
+import { TElement, isElement, isText } from '@udecode/plate-common';
 
 /**
  * Removes empty text nodes from the beginning and end of a Plate.js document
  * @param nodes The array of Plate/Slate nodes to process
  * @returns A new array with empty text nodes removed from beginning and end
  */
-export default function removeEmptyTextNodes<V extends Value>(
-    nodes: TElement[],
-): TElement[] {
+export default function removeEmptyTextNodes(nodes: TElement[]): TElement[] {
     if (!nodes || !Array.isArray(nodes) || nodes.length === 0) {
         return nodes;
     }
@@ -20,7 +18,7 @@ export default function removeEmptyTextNodes<V extends Value>(
             node.children &&
             node.children.length === 1 &&
             isText(node.children[0]) &&
-            node.children[0].text === ''
+            node.children[0].text.trim() === ''
         );
     };
 

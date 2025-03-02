@@ -20,7 +20,7 @@ interface Props {
 
 const ArticleItem: FC<Props> = ({ article }) => {
     return (
-        <Card className="gap-0 overflow-hidden p-0">
+        <Card className="gap-0 overflow-hidden p-0 rounded-none md:rounded-lg">
             <Author article={article} />
             <div className="relative flex flex-col gap-4 p-4 py-0">
                 <Link
@@ -47,11 +47,16 @@ const ArticleItem: FC<Props> = ({ article }) => {
             </div>
             <div className="flex items-center justify-between p-4">
                 <div className="flex gap-2">
-                    {article.tags.map((tag) => (
+                    {article.tags.slice(0, 1).map((tag) => (
                         <Badge key={tag.name} variant="secondary">
                             {tag.name}
                         </Badge>
                     ))}
+                    {article.tags.length > 1 && (
+                        <Badge variant="outline">
+                            +{article.tags.length - 1}
+                        </Badge>
+                    )}
                 </div>
                 <div className="flex gap-1">
                     <Button

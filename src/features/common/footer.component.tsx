@@ -17,8 +17,6 @@ import { Label } from '@/components/ui/label';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import RightHolder from './rightholder.component';
-
 const Footer = () => {
     const { openModal } = useModalContext();
 
@@ -27,18 +25,10 @@ const Footer = () => {
             <div className="container mx-auto max-w-screen-xl p-4">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
-                        <Button
-                            variant="ghost"
-                            size="md"
-                            onClick={() =>
-                                openModal({
-                                    content: <RightHolder />,
-                                    className: 'max-w-xl',
-                                    title: 'Правовласникам',
-                                })
-                            }
-                        >
-                            Правовласникам
+                        <Button variant="ghost" size="md" asChild>
+                            <Link href="/articles/pravovlasnykam-a76512">
+                                Правовласникам
+                            </Link>
                         </Button>
                         <Button variant="ghost" size="md" asChild>
                             <Link href="https://t.me/hikka_io" target="_blank">

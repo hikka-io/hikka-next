@@ -43,22 +43,23 @@ const CreateActions: FC<Props> = () => {
             let document = getDocument();
             let preview = getPreview();
 
-            if (!document || !preview) {
+            if (!document) {
                 return;
             }
 
             document = removeEmptyTextNodes(document);
-            preview = removeEmptyTextNodes(preview);
+            preview = preview
+                ? [
+                      {
+                          type: 'preview',
+                          children: removeEmptyTextNodes(preview),
+                      },
+                  ]
+                : [];
 
             mutateCreateArticle({
                 params: {
-                    document: [
-                        {
-                            type: 'preview',
-                            children: preview,
-                        },
-                        ...document,
-                    ],
+                    document: [...preview, ...document],
                     title: title || '',
                     tags,
                     draft,
