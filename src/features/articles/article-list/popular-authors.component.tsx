@@ -33,7 +33,7 @@ const PopularAuthors: FC<Props> = () => {
                 </HeaderContainer>
             </Header>
             <div className="flex flex-col gap-6">
-                {articleTop?.authors.map((author) => (
+                {articleTop?.authors.slice(0, 4).map((author) => (
                     <HorizontalCard
                         key={author.user.username}
                         href={`/u/${author.user.username}`}

@@ -25,7 +25,7 @@ interface Props {}
 
 const ArticleNavbar: FC<Props> = () => {
     const params = useParams();
-    const { user: loggedUser } = useSession();
+    const { user: loggedUser, isAdmin, isModerator } = useSession();
 
     const { data: article } = useArticle({
         slug: String(params.slug),
@@ -46,7 +46,7 @@ const ArticleNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-2 z-10 flex justify-center">
-            <Card className="flex-row gap-2 p-2 bg-background/60 backdrop-blur-xl border-none">
+            <Card className="flex-row gap-2 border-none bg-background/60 p-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />
                 )}
@@ -77,7 +77,9 @@ const ArticleNavbar: FC<Props> = () => {
                     </TooltipTrigger>
                     <TooltipContent>Поширити</TooltipContent>
                 </Tooltip>
-                <ArticleMenu article={article!} />
+                {(loggedUser?.username === article?.author.username ||
+                    isAdmin() ||
+                    isModerator()) && <ArticleMenu article={article!} />}
             </Card>
         </div>
     );

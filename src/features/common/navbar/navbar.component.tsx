@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
@@ -37,9 +38,9 @@ const Navbar = () => {
         >
             <div className="container mx-auto flex min-h-16 max-w-[88rem] items-center gap-4 px-4 md:gap-8">
                 <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
-                    <button className="w-auto p-0" onMouseEnter={toggleSidebar}>
+                    <Link className="w-auto p-0" href="/">
                         <div className="logo size-[24px] md:w-[80px]" />
-                    </button>
+                    </Link>
                     <div
                         className="flex min-w-0 flex-1 items-center gap-4"
                         id="breadcrumbs"
