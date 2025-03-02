@@ -492,6 +492,7 @@ declare global {
             | 'comment_tag'
             | 'edit_comment'
             | 'collection_comment'
+            | 'article_comment'
             | 'edit_accepted'
             | 'edit_denied'
             | 'edit_updated'

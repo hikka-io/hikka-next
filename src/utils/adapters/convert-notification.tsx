@@ -28,6 +28,7 @@ const TITLES: Record<API.NotificationType, string> = {
     follow: 'Нова підписка',
     collection_vote: 'Нова оцінка у колекції',
     thirdparty_login: 'Стороння авторизація',
+    article_comment: 'Новий коментар у статті',
 };
 
 const DESCRIPTIONS: Record<
@@ -55,6 +56,8 @@ const DESCRIPTIONS: Record<
         `Користувач **${username}** оцінив Вашу колекцію`,
     thirdparty_login: (client_name: string) =>
         `Ви авторизувались через сторонній застосунок **${client_name}**`,
+    article_comment: (username: string) =>
+        `Користувач **${username}** залишив коментар`,
 };
 
 const ICONS: Record<API.NotificationType, ReactNode> = {
@@ -71,6 +74,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     follow: <MaterialSymbolsPersonAddRounded />,
     collection_vote: <MaterialSymbolsFavoriteRounded />,
     thirdparty_login: <MaterialSymbolsLockOpenRightOutlineRounded />,
+    article_comment: <MaterialSymbolsAddCommentRounded />,
 };
 
 const getCommentLink = (
@@ -312,6 +316,10 @@ export const convertNotification = (
                 notification as API.Notification<API.NotificationCommentData>,
             );
         case 'collection_comment':
+            return editComment(
+                notification as API.Notification<API.NotificationCommentData>,
+            );
+        case 'article_comment':
             return editComment(
                 notification as API.Notification<API.NotificationCommentData>,
             );
