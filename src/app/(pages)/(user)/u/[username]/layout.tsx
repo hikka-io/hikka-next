@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
+import FollowButton from '@/components/follow-button';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
@@ -12,7 +13,6 @@ import SubBar from '@/components/navigation/sub-nav';
 import UserCover from '@/components/user-cover';
 
 import ActivationAlert from '@/features/users/activation-alert.component';
-import FollowButton from '@/features/users/follow-button.component';
 import FollowStats from '@/features/users/follow-stats.component';
 import ListStats from '@/features/users/list-stats/list-stats.component';
 import UserInfo from '@/features/users/user-info.component';
@@ -97,13 +97,19 @@ const UserLayout: FC<Props> = async (props) => {
                                 <UserTitle />
                                 <FollowStats className="hidden lg:flex" />
                                 <div className="hidden flex-1 flex-col justify-end gap-2 lg:flex">
-                                    <FollowButton />
+                                    <FollowButton
+                                        className="w-fit"
+                                        username={username}
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-col gap-4 lg:hidden">
                             <FollowStats />
-                            <FollowButton className="w-full" />
+                            <FollowButton
+                                username={username}
+                                className="w-full"
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">

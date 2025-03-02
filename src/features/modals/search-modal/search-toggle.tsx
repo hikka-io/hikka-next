@@ -1,13 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import MaterialSymbolsAccountBox from '~icons/material-symbols/account-box';
-import MaterialAnimatedImages from '~icons/material-symbols/animated-images';
-import MaterialSymbolsFace3 from '~icons/material-symbols/face-3';
-import MaterialSymbolsMenuBookRounded from '~icons/material-symbols/menu-book-rounded';
-import MaterialSymbolsPalette from '~icons/material-symbols/palette';
-import MaterialSymbolsPerson from '~icons/material-symbols/person';
+import { FC, ReactNode } from 'react';
 
+import MaterialSymbolsAccountBox from '@/components/icons/material-symbols/MaterialSymbolsAccountBox';
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import { buttonVariants } from '@/components/ui/button';
 import {
     Select,
@@ -26,13 +27,63 @@ interface Props {
     setType: (type: API.ContentType) => void;
     disabled?: boolean;
     inputRef: React.RefObject<HTMLInputElement | null>;
+    allowedTypes?: (API.ContentType | 'user')[];
 }
 
-const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
+type SearchType = {
+    slug: API.ContentType | 'user';
+    title_ua: string;
+    icon: ReactNode;
+};
+
+const SEARCH_TYPES: SearchType[] = [
+    {
+        slug: 'anime',
+        title_ua: 'Аніме',
+        icon: <MaterialSymbolsAnimatedImages className="!size-4" />,
+    },
+    {
+        slug: 'manga',
+        title_ua: 'Манґа',
+        icon: <MaterialSymbolsPalette className="!size-4" />,
+    },
+    {
+        slug: 'novel',
+        title_ua: 'Ранобе',
+        icon: <MaterialSymbolsMenuBookRounded className="!size-4" />,
+    },
+    {
+        slug: 'character',
+        title_ua: 'Персонаж',
+        icon: <MaterialSymbolsFace3 className="!size-4" />,
+    },
+    {
+        slug: 'person',
+        title_ua: 'Людина',
+        icon: <MaterialSymbolsPerson className="!size-4" />,
+    },
+    {
+        slug: 'user',
+        title_ua: 'Користувач',
+        icon: <MaterialSymbolsAccountBox className="!size-4" />,
+    },
+];
+
+const SearchToggle: FC<Props> = ({
+    type,
+    allowedTypes,
+    setType,
+    disabled,
+    inputRef,
+}) => {
     const handleOnValueChange = (value: API.ContentType[]) => {
         value && setType(value[0]);
         inputRef.current?.focus();
     };
+
+    const filteredTypes = allowedTypes
+        ? SEARCH_TYPES.filter((type) => allowedTypes.includes(type.slug))
+        : SEARCH_TYPES;
 
     return (
         <Select
@@ -52,42 +103,14 @@ const SearchToggle = ({ type, setType, disabled, inputRef }: Props) => {
             <SelectContent>
                 <SelectList>
                     <SelectGroup>
-                        <SelectItem value="anime">
-                            <div className="flex items-center gap-2">
-                                <MaterialAnimatedImages className="!size-4" />{' '}
-                                Аніме
-                            </div>
-                        </SelectItem>
-                        <SelectItem value="manga">
-                            <div className="flex items-center gap-2">
-                                <MaterialSymbolsPalette className="!size-4" />{' '}
-                                Манґа
-                            </div>
-                        </SelectItem>
-                        <SelectItem value="novel">
-                            <div className="flex items-center gap-2">
-                                <MaterialSymbolsMenuBookRounded className="!size-4" />{' '}
-                                Ранобе
-                            </div>
-                        </SelectItem>
-                        <SelectItem value="character">
-                            <div className="flex items-center gap-2">
-                                <MaterialSymbolsFace3 className="!size-4" />{' '}
-                                Персонаж
-                            </div>
-                        </SelectItem>
-                        <SelectItem value="person">
-                            <div className="flex items-center gap-2">
-                                <MaterialSymbolsPerson className="!size-4" />{' '}
-                                Людина
-                            </div>
-                        </SelectItem>
-                        <SelectItem value="user">
-                            <div className="flex items-center gap-2">
-                                <MaterialSymbolsAccountBox className="!size-4" />{' '}
-                                Користувач
-                            </div>
-                        </SelectItem>
+                        {filteredTypes.map((type) => (
+                            <SelectItem key={type.slug} value={type.slug}>
+                                <div className="flex items-center gap-2">
+                                    {type.icon}
+                                    <span>{type.title_ua}</span>
+                                </div>
+                            </SelectItem>
+                        ))}
                     </SelectGroup>
                 </SelectList>
             </SelectContent>

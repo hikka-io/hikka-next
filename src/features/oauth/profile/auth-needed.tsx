@@ -1,12 +1,12 @@
 'use client';
 
 import { FC } from 'react';
-import MaterialSymbolsLoginRounded from '~icons/material-symbols/login-rounded';
 
+import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
@@ -22,7 +22,13 @@ const AuthNeeded: FC<Props> = () => {
             <div className="flex items-center gap-4">
                 <MaterialSymbolsLoginRounded className="text-3xl text-muted-foreground" />
                 <div className="flex flex-1 flex-col">
-                    <Header titleClassName="line-clamp-1" title="Авторизація" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle className="line-clamp-1">
+                                Авторизація
+                            </HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <P className="line-clamp-2 text-sm text-muted-foreground">
                         Вам необіхдно авторизуватись, перш ніж надати доступ
                     </P>

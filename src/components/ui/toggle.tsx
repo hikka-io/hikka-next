@@ -13,7 +13,7 @@ const toggleVariants = cva(
             variant: {
                 default: 'bg-transparent',
                 outline:
-                    'border border-secondary/60 hover:bg-secondary/30 hover:text-secondary-foreground',
+                    'border border-border hover:bg-secondary/20 hover:text-card-foreground',
             },
             size: {
                 default: 'h-10 px-3',

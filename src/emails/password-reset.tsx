@@ -12,7 +12,6 @@ import {
     Tailwind,
     Text,
 } from '@react-email/components';
-import * as React from 'react';
 
 export const ConfirmEmail = () => {
     const previewText = `Відновлення паролю {username}`;
@@ -61,7 +60,7 @@ export const ConfirmEmail = () => {
                     style={{ backgroundImage: 'linear-gradient(#000, #000)' }}
                     className="body m-auto bg-black font-sans"
                 >
-                    <Container className="mx-auto my-[40px] w-[465px] rounded-lg border border-solid border-secondary p-8">
+                    <Container className="mx-auto my-[40px] w-[465px] rounded-lg border border-solid border-border p-8">
                         <Section className="py-4 text-left">
                             <Img
                                 title="Hikka"
@@ -95,7 +94,7 @@ export const ConfirmEmail = () => {
                                 </Text>
                             </div>
                         </div>
-                        <div className="flex items-center justify-center rounded-lg border border-solid border-secondary/60 bg-secondary/30 p-4">
+                        <div className="flex items-center justify-center rounded-lg border border-solid border-border bg-secondary/20 p-4">
                             <Button
                                 className="w-full rounded-lg bg-accent p-4 text-center text-[14px] font-semibold text-black no-underline"
                                 href={'https://hikka.io/auth/reset/{token}'}

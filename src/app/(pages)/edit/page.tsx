@@ -1,13 +1,13 @@
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
-import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
 
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import EditList from '@/features/edit/edit-list/edit-list.component';
 import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats.component';
@@ -54,9 +54,16 @@ const EditListPage = async (props: {
                     <div className="flex flex-col gap-12">
                         <Block>
                             <div className="flex items-center justify-between">
-                                <Header variant="h2" title="Правки" />
+                                <Header>
+                                    <HeaderContainer>
+                                        <HeaderTitle variant="h2">
+                                            Правки
+                                        </HeaderTitle>
+                                    </HeaderContainer>
+                                </Header>
                                 <EditFiltersModal>
                                     <Button
+                                        size="md"
                                         variant="outline"
                                         className="flex lg:hidden"
                                     >

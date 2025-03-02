@@ -1,9 +1,9 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React, { FC } from 'react';
-import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever';
-import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator';
 
+import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
+import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 

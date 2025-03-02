@@ -1,8 +1,8 @@
 'use client';
 
+import { LucideChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { FC } from 'react';
-import LucideChevronsUpDown from '~icons/lucide/chevrons-up-down';
 
 import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';

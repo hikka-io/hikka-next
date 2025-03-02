@@ -302,9 +302,9 @@ const SelectValue = React.forwardRef<
         if (!value.length || !firstRendered) {
             return (
                 <Fragment>
-                    <span className="pointer-events-none text-muted-foreground">
+                    <p className="pointer-events-none flex-1 truncate text-muted-foreground">
                         {placeholder}
-                    </span>
+                    </p>
                     <SelectIcon className="!size-4" />
                 </Fragment>
             );
@@ -315,9 +315,14 @@ const SelectValue = React.forwardRef<
 
             return (
                 <Fragment>
-                    <span className="pointer-events-none truncate">
-                        {item?.label || value[0]}
-                    </span>
+                    {item?.label ? (
+                        item?.label
+                    ) : (
+                        <span className="pointer-events-none truncate">
+                            {value[0]}
+                        </span>
+                    )}
+
                     <SelectIcon className="!size-4" />
                 </Fragment>
             );
@@ -573,7 +578,7 @@ const SelectItem = React.forwardRef<
                 ref={forwardedRef}
             >
                 {!disableCheckbox && (
-                    <Checkbox className="border-secondary" checked={selected} />
+                    <Checkbox className="border-border" checked={selected} />
                 )}
 
                 <span className="truncate">{children || label || value}</span>
@@ -603,16 +608,24 @@ SelectSeparator.displayName = 'SelectSeparator';
 const SelectEmpty = React.forwardRef<
     React.ComponentRef<typeof CommandEmpty>,
     PrimitivePropsWithRef<typeof CommandEmpty>
->(({ children = 'No Content', ...props }, forwardRef) => {
+>(({ children = 'No Content', className, ...props }, forwardRef) => {
     return (
-        <CommandEmpty {...props} ref={forwardRef}>
+        <CommandEmpty
+            {...props}
+            className={cn(
+                className,
+                'py-4 text-center text-sm text-muted-foreground',
+            )}
+            ref={forwardRef}
+        >
             {children}
         </CommandEmpty>
     );
 });
 
 SelectEmpty.displayName = 'SelectEmpty';
-
+`
+|]`;
 export interface SelectOptionSeparator {
     type: 'separator';
 }

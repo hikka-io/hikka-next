@@ -35,7 +35,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
                     </Label>
 
                     {user.active && (
-                        <div className="-bottom-2 -right-2 z-[1] size-2 rounded-full border border-secondary bg-success" />
+                        <div className="-bottom-2 -right-2 z-[1] size-2 rounded-full border border-border bg-success" />
                     )}
 
                     {(user.role === 'admin' || user.role === 'moderator') && (

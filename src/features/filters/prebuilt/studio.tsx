@@ -49,7 +49,7 @@ const Studio: FC<Props> = () => {
     };
 
     return (
-        <CollapsibleFilter title="Студія">
+        <CollapsibleFilter title="Студія" active={studios.length > 0}>
             <Select
                 multiple
                 value={studios}

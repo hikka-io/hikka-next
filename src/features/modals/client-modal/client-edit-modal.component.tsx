@@ -4,11 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import MaterialSymbolsContentCopy from '~icons/material-symbols/content-copy';
 
 import FormInput from '@/components/form/form-input';
 import FormSwitch from '@/components/form/form-switch';
 import FormTextarea from '@/components/form/form-textarea';
+import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
 
@@ -149,7 +149,7 @@ const Component = ({ client }: Props) => {
                     />
                     <div className="grid w-full grid-cols-2 gap-8">
                         <Button
-                            variant="accent"
+                            variant="secondary"
                             onClick={form.handleSubmit(onUpdate)}
                             type="submit"
                             disabled={

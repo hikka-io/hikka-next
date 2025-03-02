@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import MaterialSymbolsRemoveRounded from '~icons/material-symbols/remove-rounded';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -103,7 +103,7 @@ const WatchStats = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between gap-4 rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+            <div className="flex justify-between gap-4 rounded-lg border border-border bg-secondary/20 p-4">
                 <Rating
                     // className="rating-md lg:flex"
                     onChange={handleRating}
@@ -118,7 +118,7 @@ const WatchStats = () => {
                     </Label>
                 </H3>
             </div>
-            <div className="rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+            <div className="rounded-lg border border-border bg-secondary/20 p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
                     <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Епізоди

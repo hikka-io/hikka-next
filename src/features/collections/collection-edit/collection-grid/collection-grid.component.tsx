@@ -15,30 +15,25 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { FC } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import ContentCard from '@/components/content-card/content-card';
-import Header from '@/components/ui/header';
+import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import SortableCard from '@/features/collections/collection-edit/collection-grid/sortable-card';
 import SearchModal from '@/features/modals/search-modal/search-modal.component';
 
-import {
-    Group as CollectionGroup,
-    Item as CollectionItem,
-    useCollectionContext,
-} from '@/services/providers/collection-provider';
+import { useCollectionContext } from '@/services/providers/collection-provider';
+import { Group, Item } from '@/services/stores/collection-store';
 
 interface Props {
-    group: CollectionGroup;
+    group: Group;
 }
 
 const CollectionGrid: FC<Props> = ({ group }) => {
-    const {
-        groups,
-        setState: setCollectionState,
-        content_type,
-    } = useCollectionContext();
+    const groups = useCollectionContext((state) => state.groups);
+    const content_type = useCollectionContext((state) => state.content_type);
+    const setGroups = useCollectionContext((state) => state.setGroups);
 
     const items = groups.find((g) => g.id === group.id)?.items;
 
@@ -63,13 +58,12 @@ const CollectionGrid: FC<Props> = ({ group }) => {
         const overIndex = items.findIndex((item) => item.id === over.id);
 
         if (activeIndex !== overIndex) {
-            setCollectionState!((prev) => ({
-                ...prev,
-                groups: prev.groups.map((g) => {
+            setGroups(
+                groups.map((g) => {
                     if (g.id === group.id) {
                         return {
                             ...g,
-                            items: arrayMove<CollectionItem>(
+                            items: arrayMove<Item>(
                                 g.items,
                                 activeIndex,
                                 overIndex,
@@ -79,7 +73,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
                     return g;
                 }),
-            }));
+            );
         }
     };
 
@@ -88,9 +82,8 @@ const CollectionGrid: FC<Props> = ({ group }) => {
             return;
         }
 
-        setCollectionState!((prev) => ({
-            ...prev,
-            groups: prev.groups.map((g) => {
+        setGroups(
+            groups.map((g) => {
                 if (g.id === group.id) {
                     return {
                         ...g,
@@ -106,13 +99,12 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
                 return g;
             }),
-        }));
+        );
     };
 
     const handleRemoveItem = (id: string | number) => {
-        setCollectionState!((prev) => ({
-            ...prev,
-            groups: prev.groups.map((g) => {
+        setGroups(
+            groups.map((g) => {
                 if (g.id === group.id) {
                     return {
                         ...g,
@@ -122,7 +114,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
 
                 return g;
             }),
-        }));
+        );
     };
 
     return (
@@ -134,14 +126,16 @@ const CollectionGrid: FC<Props> = ({ group }) => {
             <SortableContext items={items} strategy={rectSortingStrategy}>
                 <div className="flex flex-col gap-4">
                     {group.isGroup && (
-                        <Header
-                            title={
-                                group.title && group.title.trim().length > 0
-                                    ? group.title
-                                    : 'Нова група'
-                            }
-                            variant="h5"
-                        />
+                        <Header>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h5">
+                                    {group.title &&
+                                    group.title.trim().length > 0
+                                        ? group.title
+                                        : 'Нова група'}
+                                </HeaderTitle>
+                            </HeaderContainer>
+                        </Header>
                     )}
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                         {items.map((item) => (

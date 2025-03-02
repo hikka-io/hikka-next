@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        container_name: dev-hikka-next
+        ports:
+            - '3000:3000'
+        volumes:
+            - .:/app
+            - ./node_modules:/app/node_modules
+        platform: linux/amd64
+        network_mode: "host"

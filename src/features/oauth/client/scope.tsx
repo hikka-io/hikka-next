@@ -13,7 +13,7 @@ const Scope: FC<Props> = ({ scope }) => {
 
     return (
         <div className="flex items-center gap-3">
-            <div className="rounded-sm bg-secondary/30 p-1">
+            <div className="rounded-sm bg-secondary/20 p-1">
                 <scope.level.icon className={cn('size-4', scope.level.color)} />
             </div>
             <P className="text-sm text-muted-foreground">{scope.title_ua}</P>

@@ -3,10 +3,9 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
-import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { cn } from '@/utils/utils';
 
@@ -36,9 +35,9 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     };
 
     return (
-        <ScrollArea
+        <div
             className={cn(
-                'flex h-full flex-col lg:max-h-[calc(100vh-6rem)]',
+                'no-scrollbar h-full overflow-x-scroll lg:max-h-[calc(100vh-6rem)]',
                 className,
             )}
         >
@@ -55,7 +54,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             </div>
             <Button
                 variant="secondary"
-                className="my-4 w-full shadow-md md:mt-4 lg:flex"
+                className="my-4 w-full md:mt-4 lg:flex"
                 onClick={clearFilters}
                 asChild
             >
@@ -63,7 +62,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                     <AntDesignClearOutlined /> Очистити
                 </Link>
             </Button>
-        </ScrollArea>
+        </div>
     );
 };
 

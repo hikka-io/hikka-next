@@ -3,12 +3,17 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
 
 import HistoryItem from '@/components/history-item';
+import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
 import useUserHistory from '@/services/hooks/history/use-user-history';
@@ -43,18 +48,21 @@ const History: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header
-                title="Історія"
                 onClick={
                     activity && activity?.length > 0
                         ? handleOpenModal
                         : undefined
                 }
             >
-                <Button asChild size="icon-sm" variant="outline">
-                    <Link href={`/u/${params.username}/history`}>
-                        <MaterialSymbolsGridViewRounded />
-                    </Link>
-                </Button>
+                <HeaderContainer>
+                    <HeaderTitle>Історія</HeaderTitle>
+                    <Button asChild size="icon-sm" variant="outline">
+                        <Link href={`/u/${params.username}/history`}>
+                            <MaterialSymbolsGridViewRounded />
+                        </Link>
+                    </Button>
+                </HeaderContainer>
+                <HeaderNavButton />
             </Header>
             <div className="flex flex-col gap-6">
                 {filteredActivity &&

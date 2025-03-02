@@ -2,23 +2,27 @@ import { useQueryClient } from '@tanstack/react-query';
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
-import MaterialSymbolsKeyboardArrowDownRounded from '~icons/material-symbols/keyboard-arrow-down-rounded';
-import MaterialSymbolsLinkRounded from '~icons/material-symbols/link-rounded';
 
 import CommentInput from '@/components/comments/comment-input';
 import CommentMenu from '@/components/comments/comment-menu';
 import CommentVote from '@/components/comments/comment-vote';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
-import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
-import Small from '@/components/typography/small';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';
 
+import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
+import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '../ui/horizontal-card';
 import Comments from './comments';
 
 interface Props {
@@ -85,39 +89,30 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             id={comment.reference}
         >
             <div className="flex w-full flex-col items-start gap-2">
-                <div className="flex w-full gap-3">
-                    <Link href={`/u/${comment.author.username}`}>
-                        <Avatar className="w-10 rounded-md">
-                            <AvatarImage
-                                className="rounded-md"
-                                src={comment.author.avatar}
-                                alt="avatar"
-                            />
-                            <AvatarFallback className="rounded-md">
-                                {comment.author.username[0]}
-                            </AvatarFallback>
-                        </Avatar>
-                    </Link>
-                    <div className="flex flex-1 flex-col justify-between">
-                        <Link
-                            href={`/u/${comment.author.username}`}
-                            className="w-fit"
-                        >
-                            <H5 className="line-clamp-1 break-all">
-                                {comment.author.username}
-                            </H5>
-                        </Link>
-
-                        <Small className="text-muted-foreground">
+                <HorizontalCard
+                    className="w-full gap-3"
+                    href={`/u/${comment.author.username}`}
+                >
+                    <HorizontalCardImage
+                        className="w-10"
+                        image={comment.author.avatar}
+                        imageRatio={1}
+                    />
+                    <HorizontalCardContainer className="gap-1">
+                        <HorizontalCardTitle>
+                            {comment.author.username}
+                        </HorizontalCardTitle>
+                        <HorizontalCardDescription>
                             {formatDistance(
                                 comment.created * 1000,
                                 Date.now(),
                                 { addSuffix: true },
                             )}
-                        </Small>
-                    </div>
+                        </HorizontalCardDescription>
+                    </HorizontalCardContainer>
                     <CommentVote comment={comment} />
-                </div>
+                </HorizontalCard>
+
                 {!comment.hidden ? (
                     currentEdit === comment.reference ? (
                         <CommentInput
@@ -175,7 +170,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="h-full w-px bg-secondary transition-colors duration-100 group-hover:bg-primary" />
+                            <div className="h-full w-px bg-secondary/20 transition-colors duration-100 group-hover:bg-primary" />
                         </button>
                     )}
                     {!expand && (

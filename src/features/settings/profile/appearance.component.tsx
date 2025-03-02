@@ -3,8 +3,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { enqueueSnackbar } from 'notistack';
 import { ChangeEvent, useRef } from 'react';
-import MaterialSymbolsDeleteForeverRounded from '~icons/material-symbols/delete-forever-rounded';
 
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -86,7 +86,7 @@ const Appearance = () => {
                         <MaterialSymbolsDeleteForeverRounded className="size-4" />
                     </Button>
                 )}
-                <Card className="flex-1 overflow-hidden bg-secondary/60 p-0 transition-opacity hover:opacity-60">
+                <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"

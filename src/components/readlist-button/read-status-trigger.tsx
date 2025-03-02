@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, createElement } from 'react';
-import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
@@ -13,6 +12,8 @@ import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
+import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 
 interface ReadStatusTriggerProps {
     read: API.Read;
@@ -101,7 +102,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     disabled={disabled}
                     className={cn('rounded-l-none')}
                 >
-                    <MaterialSymbolsSettingsOutline />
+                    <MaterialSymbolsSettingsOutlineRounded />
                 </Button>
             </div>
         </SelectTrigger>

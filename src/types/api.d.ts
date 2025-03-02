@@ -1,3 +1,5 @@
+import { Value } from '@udecode/plate-common';
+
 export {};
 
 declare global {
@@ -101,7 +103,8 @@ declare global {
             | 'character'
             | 'person'
             | 'comment'
-            | 'collection';
+            | 'collection'
+            | 'article';
 
         type HistoryType =
             | 'watch'
@@ -606,6 +609,7 @@ declare global {
             created: number;
             updated: number;
             content_type: API.ContentType;
+            labels_order: string[];
             description: string;
             tags: string[];
             reference: string;
@@ -629,9 +633,13 @@ declare global {
             | API.NovelInfo
             | API.Character
             | API.Person
-            | API.Collection;
+            | API.Collection
+            | API.Article;
 
-        type MainContent = Exclude<API.Content, API.Collection>;
+        type MainContent = Exclude<
+            API.Content,
+            API.Collection | API.Article
+        > & { title?: string };
 
         type Client = {
             reference: string;
@@ -646,6 +654,44 @@ declare global {
         type ClientInfo = Client & {
             secret: string;
             endpoint: string;
+        };
+
+        type Tag = {
+            content_count: number;
+            name: string;
+        };
+
+        type ArticleCategory = 'news' | 'system' | 'reviews' | 'original';
+
+        type Article = {
+            data_type: 'article';
+            author: API.User;
+            cover: string;
+            tags: API.Tag[];
+            category: API.ArticleCategory;
+            draft: boolean;
+            title: string;
+            document: [
+                {
+                    type: 'preview';
+                    children: Value;
+                },
+                ...Value,
+            ];
+            slug: string;
+            content?: {
+                data_type: API.ContentType;
+                title_ua?: string;
+                title_en?: string;
+                title_ja?: string;
+                slug: string;
+                image: string;
+            };
+            comments_count: number;
+            vote_score: number;
+            my_score: number;
+            updated: number;
+            created: number;
         };
     }
 }

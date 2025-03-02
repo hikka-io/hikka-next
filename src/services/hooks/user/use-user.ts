@@ -9,13 +9,14 @@ export const paramsBuilder = (props: Params): Params => ({
 
 export const key = (params: Params) => ['user', params.username];
 
-const useUser = (props: Params) => {
+const useUser = (props: Params, options?: Hikka.QueryOptions) => {
     const params = paramsBuilder(props);
 
     return useQuery({
         queryKey: key(params),
         queryFn: () => getUserInfo({ params }),
         enabled: params.username !== undefined,
+        ...options,
     });
 };
 

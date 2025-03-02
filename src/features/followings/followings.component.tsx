@@ -4,7 +4,12 @@ import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 
 import useFollowingReadList from '@/services/hooks/read/use-following-read-list';
 import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
@@ -66,7 +71,12 @@ const Followings: FC<Props> = ({ content_type }) => {
 
     return (
         <Block>
-            <Header title={title} onClick={handleOpenFollowingsModal} />
+            <Header onClick={handleOpenFollowingsModal}>
+                <HeaderContainer>
+                    <HeaderTitle>{title}</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <div className="flex flex-col gap-6">
                 {filteredFollowings.map((item) =>
                     'watch' in item ? (

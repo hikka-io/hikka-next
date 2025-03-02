@@ -3,8 +3,8 @@
 import { formatDuration } from 'date-fns/formatDuration';
 import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
-import MaterialSymbolsClockLoader10 from '~icons/material-symbols/clock-loader-10';
 
+import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import H5 from '@/components/typography/h5';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
@@ -24,7 +24,7 @@ const WatchhourStats = () => {
     });
 
     return (
-        <div className="flex flex-1 flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
+        <div className="flex flex-1 flex-col gap-4 rounded-md border border-border bg-secondary/20 p-4">
             <div className="flex items-center gap-2 text-muted-foreground">
                 <MaterialSymbolsClockLoader10 />
                 <Label>Час аніме</Label>

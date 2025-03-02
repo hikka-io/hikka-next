@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { FC } from 'react';
-import MaterialSymbolsArrowRightAltRounded from '~icons/material-symbols/arrow-right-alt-rounded';
 
+import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import H3 from '@/components/typography/h3';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';

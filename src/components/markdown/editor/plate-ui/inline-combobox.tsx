@@ -28,7 +28,7 @@ import {
     moveSelection,
 } from '@udecode/plate-common';
 import {
-    findNodePath,
+    findPath,
     useComposedRef,
     useEditorRef,
 } from '@udecode/plate-common/react';
@@ -134,7 +134,7 @@ const InlineCombobox = ({
     const [insertPoint, setInsertPoint] = useState<PointRef | null>(null);
 
     useEffect(() => {
-        const path = findNodePath(editor, element);
+        const path = findPath(editor, element);
 
         if (!path) return;
 

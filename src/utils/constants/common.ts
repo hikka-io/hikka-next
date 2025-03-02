@@ -1,6 +1,5 @@
-import MaterialSymbolsBookmarkFlagOutlineRounded from '~icons/material-symbols/bookmark-flag-outline-rounded';
-import MaterialSymbolsBookmarkOutline from '~icons/material-symbols/bookmark-outline';
-
+import MaterialSymbolsBookmarkFlagOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
+import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
 import OnHold from '@/components/icons/watch-status/on-hold';
@@ -404,6 +403,10 @@ export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType | 'user'> = {
         title_ua: 'Користувач',
         title_en: 'User',
     },
+    article: {
+        title_ua: 'Стаття',
+        title_en: 'Article',
+    },
 };
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [
@@ -517,5 +520,28 @@ export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
         title_en: 'Dropped',
         icon: Dropped,
         color: '#952828',
+    },
+};
+
+export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
+    API.ArticleCategory,
+    { admin?: boolean }
+> = {
+    news: {
+        title_ua: 'Новини',
+        title_en: 'News',
+    },
+    system: {
+        title_ua: 'Системне',
+        title_en: 'System',
+        admin: true,
+    },
+    reviews: {
+        title_ua: 'Огляди',
+        title_en: 'Reviews',
+    },
+    original: {
+        title_ua: 'Авторське',
+        title_en: 'Original',
     },
 };

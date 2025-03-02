@@ -1,5 +1,5 @@
-import MaterialSymbolsCheckRounded from '~icons/material-symbols/check-rounded';
-import MaterialSymbolsWarningOutlineRounded from '~icons/material-symbols/warning-outline-rounded';
+import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
+import MaterialSymbolsWarningOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsWarningOutlineRounded';
 
 const COMMON_LEVEL: Hikka.ScopeLevel = {
     icon: MaterialSymbolsCheckRounded,

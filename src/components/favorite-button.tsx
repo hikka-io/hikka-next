@@ -1,8 +1,5 @@
 'use client';
 
-import MaterialSymbolsFavoriteOutlineRounded from '~icons/material-symbols/favorite-outline-rounded';
-import MaterialSymbolsFavoriteRounded from '~icons/material-symbols/favorite-rounded';
-
 import { Button, ButtonProps } from '@/components/ui/button';
 import {
     Tooltip,
@@ -13,6 +10,9 @@ import {
 import useAddFavorite from '@/services/hooks/favorite/use-add-favorite';
 import useDeleteFavorite from '@/services/hooks/favorite/use-delete-favorite';
 import useFavorite from '@/services/hooks/favorite/use-favorite';
+
+import { MaterialSymbolsFavoriteOutlineRounded } from './icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
+import { MaterialSymbolsFavoriteRounded } from './icons/material-symbols/MaterialSymbolsFavoriteRounded';
 
 interface Props extends ButtonProps {
     slug: string;
@@ -53,9 +53,9 @@ const Component = ({
                     {...props}
                 >
                     {favorite && !favoriteError ? (
-                        <MaterialSymbolsFavoriteRounded className="text-xl text-destructive" />
+                        <MaterialSymbolsFavoriteRounded className="!size-5 text-destructive" />
                     ) : (
-                        <MaterialSymbolsFavoriteOutlineRounded className="text-xl text-white" />
+                        <MaterialSymbolsFavoriteOutlineRounded className="!size-5 text-foreground" />
                     )}
                     {children}
                 </Button>

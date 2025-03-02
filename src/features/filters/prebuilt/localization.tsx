@@ -21,7 +21,7 @@ const Genre: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Локалізація">
+        <CollapsibleFilter title="Локалізація" active={Boolean(lang)}>
             <div className="flex items-center justify-between gap-2">
                 <Label
                     className="text-muted-foreground"

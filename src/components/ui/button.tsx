@@ -5,25 +5,24 @@ import * as React from 'react';
 import { cn } from '@/utils/utils';
 
 const buttonVariants = cva(
-    'inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50',
+    'inline-flex gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50',
     {
         variants: {
             variant: {
                 default:
-                    'border border-primary bg-primary text-primary-foreground hover:bg-primary/90',
+                    'bg-primary text-primary-foreground hover:bg-primary/90',
                 destructive:
-                    'border border-destructive bg-destructive text-destructive-foreground hover:bg-destructive/90',
+                    'bg-destructive text-destructive-foreground hover:bg-destructive/90',
                 success:
-                    'border border-success bg-success text-success-foreground hover:bg-success/90',
-                info: 'border border-info bg-info text-info-foreground hover:bg-info/90',
+                    'bg-success text-success-foreground hover:bg-success/90',
+                info: 'bg-info text-info-foreground hover:bg-info/90',
                 warning:
-                    'border border-warning bg-warning text-warning-foreground hover:bg-warning/90',
+                    'bg-warning text-warning-foreground hover:bg-warning/90',
                 outline:
-                    'border border-secondary/60 bg-secondary/30 hover:bg-secondary/60 hover:text-secondary-foreground',
+                    'bg-secondary/20 border border-border hover:bg-secondary hover:text-secondary-foreground',
                 secondary:
-                    'border border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                accent: 'border border-accent bg-accent text-accent-foreground hover:bg-accent/80',
-                ghost: 'hover:bg-secondary/60 hover:text-accent-foreground focus-visible:ring-0 focus-visible:ring-offset-0',
+                    'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                ghost: 'hover:bg-secondary/60 hover:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0',
                 link: 'text-primary underline-offset-4 hover:underline',
             },
             size: {

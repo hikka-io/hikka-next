@@ -1,6 +1,5 @@
 import {
     BaseFetchRequestProps,
-    FetchRequestProps,
     fetchRequest,
 } from '@/services/api/fetchRequest';
 

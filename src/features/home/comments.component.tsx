@@ -5,7 +5,12 @@ import { FC } from 'react';
 import GlobalComment from '@/components/comments/global-comment';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useLatestComments from '@/services/hooks/comments/use-latest-comments';
@@ -20,7 +25,12 @@ const Comments: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header title="Коментарі" href="/comments/latest" />
+            <Header href="/comments/latest">
+                <HeaderContainer>
+                    <HeaderTitle>Коментарі</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack size={3} className="grid-min-20">
                 {comments?.map((item) => (
                     <Card key={item.reference}>

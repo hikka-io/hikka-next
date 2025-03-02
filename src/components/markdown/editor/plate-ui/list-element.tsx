@@ -5,11 +5,11 @@ import { cva } from 'class-variance-authority';
 
 import { PlateElement } from './plate-element';
 
-const listVariants = cva('m-0 ps-6', {
+const listVariants = cva('', {
     variants: {
         variant: {
-            ol: 'list-decimal mb-4',
-            ul: 'list-disc [&_ul]:list-[circle] [&_ul_ul]:list-[square] mb-4',
+            ol: 'ml-6 list-decimal [&>li]:my-2',
+            ul: 'ml-6 list-disc [&>li]:my-2',
         },
     },
 });

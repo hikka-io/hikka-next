@@ -8,9 +8,13 @@ import {
     focusEditor,
     useEditorRef,
 } from '@udecode/plate-common/react';
+import { HEADING_KEYS } from '@udecode/plate-heading';
 import { LinkPlugin } from '@udecode/plate-link/react';
 import {
     EyeOff,
+    Heading3Icon,
+    Heading4Icon,
+    Heading5Icon,
     Link2Icon,
     PilcrowIcon,
     PlusIcon,
@@ -49,51 +53,93 @@ interface Item {
     label?: string;
 }
 
-const groups: Group[] = [
-    {
-        group: 'Базові блоки',
-        items: [
-            {
-                icon: <PilcrowIcon className="size-4 mr-2" />,
-                label: 'Текст',
-                value: ParagraphPlugin.key,
-            },
-            {
-                icon: <QuoteIcon className="size-4 mr-2" />,
-                label: 'Цитата',
-                value: BlockquotePlugin.key,
-            },
-            {
-                icon: <EyeOff className="size-4 mr-2" />,
-                label: 'Спойлер',
-                value: SpoilerPlugin.key,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertBlock(editor, value);
-            },
-        })),
-    },
+const HEADING_GROUP: Group = {
+    group: 'Заголовки',
+    items: [
+        {
+            icon: <Heading3Icon className="mr-2 size-4" />,
+            label: 'Заголовок 3',
+            value: HEADING_KEYS.h3,
+        },
+        {
+            icon: <Heading4Icon className="mr-2 size-4" />,
+            label: 'Заголовок 4',
+            value: HEADING_KEYS.h4,
+        },
+        {
+            icon: <Heading5Icon className="mr-2 size-4" />,
+            label: 'Заголовок 5',
+            value: HEADING_KEYS.h5,
+        },
+    ].map((item) => ({
+        ...item,
+        onSelect: (editor, value) => {
+            insertBlock(editor, value);
+        },
+    })),
+};
 
-    {
-        group: 'Вбудовані',
-        items: [
-            {
-                icon: <Link2Icon className="size-4 mr-2" />,
-                label: 'Посилання',
-                value: LinkPlugin.key,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertInlineElement(editor, value);
-            },
-        })),
-    },
-];
+const BASIC_GROUP: Group = {
+    group: 'Базові блоки',
+    items: [
+        {
+            icon: <PilcrowIcon className="mr-2 size-4" />,
+            label: 'Текст',
+            value: ParagraphPlugin.key,
+        },
+        {
+            icon: <QuoteIcon className="mr-2 size-4" />,
+            label: 'Цитата',
+            value: BlockquotePlugin.key,
+        },
+        {
+            icon: <EyeOff className="mr-2 size-4" />,
+            label: 'Спойлер',
+            value: SpoilerPlugin.key,
+        },
+    ].map((item) => ({
+        ...item,
+        onSelect: (editor, value) => {
+            insertBlock(editor, value);
+        },
+    })),
+};
 
-export function InsertDropdownMenu(props: DropdownMenuProps) {
+const INLINE_GROUP: Group = {
+    group: 'Вбудовані',
+    items: [
+        {
+            icon: <Link2Icon className="mr-2 size-4" />,
+            label: 'Посилання',
+            value: LinkPlugin.key,
+        },
+    ].map((item) => ({
+        ...item,
+        onSelect: (editor, value) => {
+            insertInlineElement(editor, value);
+        },
+    })),
+};
+
+const BASIC_GROUPS: Group[] = [BASIC_GROUP, INLINE_GROUP];
+
+const ADVANCED_GROUPS: Group[] = [BASIC_GROUP, HEADING_GROUP, INLINE_GROUP];
+
+type InsertType = 'basic' | 'advanced';
+
+const GROUPS: Record<InsertType, Group[]> = {
+    basic: BASIC_GROUPS,
+    advanced: ADVANCED_GROUPS,
+};
+
+interface InsertDropdownMenuProps extends DropdownMenuProps {
+    type: InsertType;
+}
+
+export function InsertDropdownMenu({
+    type,
+    ...props
+}: InsertDropdownMenuProps) {
     const editor = useEditorRef();
     const openState = useOpenState();
 
@@ -113,7 +159,7 @@ export function InsertDropdownMenu(props: DropdownMenuProps) {
                 className="flex max-h-[500px] min-w-0 flex-col overflow-y-auto"
                 align="start"
             >
-                {groups.map(({ group, items: nestedItems }, index) => (
+                {GROUPS[type].map(({ group, items: nestedItems }, index) => (
                     <Fragment key={group}>
                         {index !== 0 && <DropdownMenuSeparator />}
                         <DropdownMenuGroup key={group}>

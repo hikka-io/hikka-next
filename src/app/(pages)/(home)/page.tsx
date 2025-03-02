@@ -2,7 +2,12 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import UserCover from '@/components/user-cover';
 
 import Collections from '@/features/home/collections.component';
@@ -32,11 +37,12 @@ const Page = async () => {
                 <Ongoings />
                 {loggedUser && (
                     <Block>
-                        <Header
-                            title="Профіль"
-                            href={`/u/${loggedUser?.username}`}
-                        />
-
+                        <Header href={`/u/${loggedUser?.username}`}>
+                            <HeaderContainer>
+                                <HeaderTitle>Профіль</HeaderTitle>
+                            </HeaderContainer>
+                            <HeaderNavButton />
+                        </Header>
                         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                             <Profile />
                             <History />

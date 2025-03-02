@@ -1,10 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { FC, memo, useMemo } from 'react';
-import MaterialSymbolsDeleteForever from '~icons/material-symbols/delete-forever';
-import MaterialSymbolsDragIndicator from '~icons/material-symbols/drag-indicator';
 
 import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
+import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -44,7 +44,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
                                     <MaterialSymbolsDragIndicator />
                                 </Button>
                             </div>
-                            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-black to-transparent" />
+                            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-background to-transparent" />
                         </div>
                     </ContentCard>
                 ),

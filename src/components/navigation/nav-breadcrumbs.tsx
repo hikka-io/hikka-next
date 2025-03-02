@@ -8,10 +8,11 @@ import {
     useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import IconamoonSignDivisionSlashThin from '~icons/iconamoon/sign-division-slash-thin';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/utils';
+
+import IconamoonSignDivisionSlashThin from '../icons/iconamoon/IconamoonSignDivisionSlashThin';
 
 interface Props extends PropsWithChildren {}
 

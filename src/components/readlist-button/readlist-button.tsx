@@ -1,7 +1,6 @@
 'use client';
 
 import { createElement } from 'react';
-import MaterialSymbolsSettingsOutline from '~icons/material-symbols/settings-outline';
 
 import {
     Select,
@@ -21,6 +20,7 @@ import useRead from '@/services/hooks/read/use-read';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
 
+import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import NewStatusTrigger from './new-status-trigger';
 import ReadStatusTrigger from './read-status-trigger';
 
@@ -37,7 +37,7 @@ interface Props {
 const SETTINGS_BUTTON = {
     label: (
         <div className="flex items-center gap-2">
-            <MaterialSymbolsSettingsOutline />
+            <MaterialSymbolsSettingsOutlineRounded />
             Налаштування
         </div>
     ),

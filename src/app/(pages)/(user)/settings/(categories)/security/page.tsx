@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Email from '@/features/settings/security/email.component';
 import Password from '@/features/settings/security/password.component';
@@ -17,17 +17,34 @@ const SecuritySettingsPage: FC<Props> = async (props) => {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col">
-                <Header title="Безпека" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle>Безпека</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <P className="text-sm text-muted-foreground">
                     Захистіть свій обліковий запис: змініть пароль чи email
                 </P>
             </div>
             <div className="flex flex-col gap-4">
-                <Header variant="h4" title="Поштова адреса" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Поштова адреса</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <Email />
             </div>
             <div className="flex flex-col gap-4">
-                <Header variant="h4" title="Пароль" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle>Безпека</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Пароль</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <Password />
             </div>
         </div>

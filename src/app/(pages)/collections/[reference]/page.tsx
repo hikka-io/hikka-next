@@ -7,8 +7,9 @@ import { permanentRedirect } from 'next/navigation';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 
+import CollectionAuthor from '@/features/collections/collection-view/collection-author';
 import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups.component';
-import CollectionInfo from '@/features/collections/collection-view/collection-info/collection-info.component';
+import CollectionNavbar from '@/features/collections/collection-view/collection-navbar/collection-navbar.component';
 import CollectionTitle from '@/features/collections/collection-view/collection-title.component';
 
 import getCollection from '@/services/api/collections/getCollection';
@@ -35,7 +36,7 @@ export async function generateMetadata(props: {
         });
 
         return _generateMetadata({
-            title: `Колекції / ${collection.title}`,
+            title: `${collection.title} / Колекції`,
         });
     } catch (e) {
         return _generateMetadata({
@@ -67,32 +68,24 @@ const CollectionPage = async (props: {
     return (
         <HydrationBoundary state={dehydratedState}>
             <CollectionProvider>
-                <>
-                    <Breadcrumbs>
-                        <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                            <Link
-                                href={'/collections/' + reference}
-                                className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
-                            >
-                                {collection?.title}
-                            </Link>
-                        </div>
-                    </Breadcrumbs>
-                    <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
-                        <div className="flex flex-col gap-12">
-                            <Block>
-                                <CollectionTitle />
-                                <div className="block lg:hidden">
-                                    <CollectionInfo />
-                                </div>
-                                <CollectionGroups />
-                            </Block>
-                        </div>
-                        <div className="order-1 hidden w-full lg:order-2 lg:flex lg:h-full lg:flex-col">
-                            <CollectionInfo />
-                        </div>
+                <Breadcrumbs>
+                    <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
+                        <Link
+                            href={'/collections/' + reference}
+                            className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                        >
+                            {collection?.title}
+                        </Link>
                     </div>
-                </>
+                </Breadcrumbs>
+                <div className="container flex max-w-3xl flex-col gap-12 p-0">
+                    <CollectionAuthor />
+                    <Block>
+                        <CollectionTitle />
+                        <CollectionGroups />
+                    </Block>
+                    <CollectionNavbar />
+                </div>
             </CollectionProvider>
         </HydrationBoundary>
     );

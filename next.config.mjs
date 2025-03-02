@@ -1,5 +1,4 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
-import Icons from 'unplugin-icons/webpack';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,7 +7,6 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
     reactStrictMode: true,
-    productionBrowserSourceMaps: false,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
         unoptimized: true,
@@ -20,16 +18,6 @@ const nextConfig = {
                 pathname: '**',
             },
         ],
-    },
-    webpack(config) {
-        config.plugins.push(
-            Icons({
-                compiler: 'jsx',
-                jsx: 'react',
-            }),
-        );
-
-        return config;
     },
     async redirects() {
         return [

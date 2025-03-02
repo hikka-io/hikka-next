@@ -6,6 +6,8 @@ import { createElement } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+
 interface Props {
     routes: Hikka.NavRoute[];
     urlPrefix: string;
@@ -21,24 +23,32 @@ const Component = ({ routes, urlPrefix }: Props) => {
                     ? pathname
                     : urlPrefix + routes[0].url
             }
-            className="w-full overflow-hidden"
+            className="w-full overflow-hidden rounded-md"
         >
-            <TabsList className="no-scrollbar w-full items-center justify-start overflow-x-auto border border-secondary/60 bg-secondary/80 backdrop-blur">
-                {routes.map((r) => (
-                    <TabsTrigger asChild key={r.slug} value={urlPrefix + r.url}>
-                        <Link
-                            href={urlPrefix + r.url}
-                            className="flex items-center gap-2"
+            <ScrollArea>
+                <TabsList className="no-scrollbar w-full items-center justify-start bg-background/60 backdrop-blur-xl border-none">
+                    {routes.map((r) => (
+                        <TabsTrigger
+                            asChild
+                            key={r.slug}
+                            value={urlPrefix + r.url}
+                            className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:hover:bg-secondary/80"
                         >
-                            {r.icon &&
-                                createElement(r.icon, {
-                                    className: 'h-4 w-4',
-                                })}
-                            {r.title_ua}
-                        </Link>
-                    </TabsTrigger>
-                ))}
-            </TabsList>
+                            <Link
+                                href={urlPrefix + r.url}
+                                className="flex items-center gap-2"
+                            >
+                                {r.icon &&
+                                    createElement(r.icon, {
+                                        className: 'h-4 w-4',
+                                    })}
+                                {r.title_ua}
+                            </Link>
+                        </TabsTrigger>
+                    ))}
+                </TabsList>
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
         </Tabs>
     );
 };

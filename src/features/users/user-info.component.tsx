@@ -2,10 +2,10 @@
 
 import { useParams } from 'next/navigation';
 import { ChangeEvent, useRef } from 'react';
-import MaterialSymbolsImageOutlineRounded from '~icons/material-symbols/image-outline-rounded';
-import MaterialSymbolsPerson2OutlineRounded from '~icons/material-symbols/person-2-outline-rounded';
-import MaterialSymbolsUploadRounded from '~icons/material-symbols/upload-rounded';
 
+import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
+import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
+import MaterialSymbolsUploadRounded from '@/components/icons/material-symbols/MaterialSymbolsUploadRounded';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -126,7 +126,7 @@ const UserInfo = () => {
                 )}
             </div>
             {user.active && (
-                <div className="absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4 border-secondary bg-success" />
+                <div className="absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4 border-border bg-success" />
             )}
         </div>
     );

@@ -16,21 +16,17 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 
-import {
-    Group as CollectionGroup,
-    useCollectionContext,
-} from '@/services/providers/collection-provider';
+import { useCollectionContext } from '@/services/providers/collection-provider';
+import { Group } from '@/services/stores/collection-store';
 
 import SortableInput from './sortable-input';
 
 const GroupInputs = () => {
-    const { groups: items, setState: setCollectionState } =
-        useCollectionContext();
+    const items = useCollectionContext((state) => state.groups);
+    const setGroups = useCollectionContext((state) => state.setGroups);
 
-    // for input methods detection
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-    // triggered when dragging ends
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (!over) return;
@@ -46,14 +42,7 @@ const GroupInputs = () => {
         const overIndex = items.findIndex((item) => item.id === over.id);
 
         if (activeIndex !== overIndex) {
-            setCollectionState!((prev) => ({
-                ...prev,
-                groups: arrayMove<CollectionGroup>(
-                    prev.groups,
-                    activeIndex,
-                    overIndex,
-                ),
-            }));
+            setGroups(arrayMove<Group>(items, activeIndex, overIndex));
         }
     };
 
@@ -61,49 +50,34 @@ const GroupInputs = () => {
         id: string | number,
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        setCollectionState!((state) => {
-            const newGroups = state.groups.map((group) => {
-                if (group.id === id) {
-                    return {
-                        ...group,
-                        title: e.target.value,
-                    };
-                }
-                return group;
-            });
-
-            return {
-                ...state,
-                groups: newGroups,
-            };
+        const newGroups = items.map((group) => {
+            if (group.id === id) {
+                return {
+                    ...group,
+                    title: e.target.value,
+                };
+            }
+            return group;
         });
+
+        setGroups(newGroups);
     };
 
     const handleRemoveGroup = (id: string | number) => {
         if (items.length === 1 && items[0].isGroup) {
-            setCollectionState!((state) => {
-                return {
-                    ...state,
-                    groups: [
-                        {
-                            ...state.groups[0],
-                            title: null,
-                            isGroup: false,
-                        },
-                    ],
-                };
-            });
+            setGroups([
+                {
+                    ...items[0],
+                    title: null,
+                    isGroup: false,
+                },
+            ]);
 
             return;
         }
 
-        setCollectionState!((state) => {
-            const newGroups = state.groups.filter((group) => group.id !== id);
-            return {
-                ...state,
-                groups: newGroups,
-            };
-        });
+        const newGroups = items.filter((group) => group.id !== id);
+        setGroups(newGroups);
     };
 
     return (

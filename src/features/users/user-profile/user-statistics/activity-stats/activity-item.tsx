@@ -30,7 +30,7 @@ const ActivityItem: FC<Props> = ({ item, max }) => {
                         }}
                         className="w-2 rounded-full bg-primary"
                     />
-                    <div className="absolute -z-10 h-full w-2 rounded-full bg-secondary/30" />
+                    <div className="absolute -z-10 h-full w-2 rounded-full bg-secondary/20" />
                 </div>
             </TooltipTrigger>
             {item.timestamp !== 0 && (

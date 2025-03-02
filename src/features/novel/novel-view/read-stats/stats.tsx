@@ -16,7 +16,7 @@ interface Props {
 
 const Stats: FC<Props> = ({ stats }) => {
     return (
-        <div className="relative overflow-hidden rounded-lg border border-secondary/60 bg-secondary/30 p-4">
+        <div className="relative overflow-hidden rounded-lg border border-border bg-secondary/20 p-4">
             <div className="flex flex-col justify-center gap-2">
                 {stats.map((stat) => {
                     return (
@@ -28,7 +28,7 @@ const Stats: FC<Props> = ({ stats }) => {
                                 <div className="flex items-center justify-between gap-2">
                                     <div className="flex w-full flex-1 items-center gap-2">
                                         {stat.icon && (
-                                            <div className="flex size-6 items-center justify-center rounded-md bg-secondary">
+                                            <div className="flex size-6 items-center justify-center rounded-md bg-secondary/20">
                                                 {stat.icon}
                                             </div>
                                         )}

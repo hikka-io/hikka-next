@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
 import getQueryClient from '@/utils/get-query-client';
@@ -11,13 +12,21 @@ const useSession = () => {
         queryFn: () => getLoggedUserInfo(),
     });
 
+    const isAdmin = useCallback(() => {
+        return user?.role === 'admin';
+    }, [user]);
+
+    const isModerator = useCallback(() => {
+        return user?.role === 'moderator';
+    }, [user]);
+
     const logout = async () => {
         // await deleteCookie('auth');
         // window.location.reload();
         window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
     };
 
-    return { logout, user };
+    return { logout, user, isAdmin, isModerator };
 };
 
 export const prefetchSession = async () => {

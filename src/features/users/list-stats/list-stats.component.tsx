@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import MaterialSymbolsOpenInNewRounded from '~icons/material-symbols/open-in-new-rounded';
 
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import useWatchStats from '@/services/hooks/watch/use-watch-stats';
@@ -24,7 +24,7 @@ const ListStats = () => {
             defaultValue="anime"
             className="flex w-full flex-col gap-2 overflow-hidden"
         >
-            <TabsList className="no-scrollbar w-full items-center justify-start border border-secondary/60 bg-secondary/80 backdrop-blur">
+            <TabsList className="no-scrollbar w-full items-center justify-start border border-border bg-secondary/20 backdrop-blur">
                 <TabsTrigger value="anime" className="flex-1 gap-2">
                     Аніме{' '}
                     <Link

@@ -13,6 +13,10 @@ const useVote = () => {
                 queryKey: ['collection'],
                 exact: false,
             });
+            await queryClient.invalidateQueries({
+                queryKey: ['article'],
+                exact: false,
+            });
             await queryClient.invalidateQueries({ queryKey: ['comments'] });
             await queryClient.invalidateQueries({
                 queryKey: ['comment-thread'],

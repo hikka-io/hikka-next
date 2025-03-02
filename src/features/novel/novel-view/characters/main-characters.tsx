@@ -4,7 +4,12 @@ import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useNovelCharacters from '@/services/hooks/novel/use-novel-characters';
@@ -27,10 +32,12 @@ const MainCharacters: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title={'Головні Персонажі'}
-                href={!extended ? params.slug + '/characters' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/characters' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Головні Персонажі</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack size={5} className="grid-min-6" extended={extended}>
                 {(extended ? main : main.slice(0, 5)).map((ch) => (
                     <CharacterCard

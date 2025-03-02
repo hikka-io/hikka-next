@@ -17,7 +17,7 @@ const WatchStatus: FC<Props> = ({ watch }) => (
         >
             {createElement(WATCH_STATUS[watch.status as API.WatchStatus].icon!)}
         </div>
-        <div className="absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b from-background to-transparent" />
     </div>
 );
 

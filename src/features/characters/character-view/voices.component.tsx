@@ -5,7 +5,12 @@ import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useCharacterVoices from '@/services/hooks/characters/use-character-voices';
@@ -27,10 +32,12 @@ const Voices: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title={'Сейю'}
-                href={!extended ? params.slug + '/voices' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/voices' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Сейю</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack
                 size={5}
                 extendedSize={5}

@@ -3,11 +3,16 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
 import useSession from '@/services/hooks/auth/use-session';
@@ -55,21 +60,25 @@ const UserCollections: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header
-                title={'Колекції'}
                 onClick={
                     collections && collections?.length > 0
                         ? handleOpenCollectionsModal
                         : undefined
                 }
             >
-                {loggedUser?.username === params.username && (
-                    <Button asChild size="icon-sm" variant="outline">
-                        <Link href="/collections/new">
-                            <MaterialSymbolsAddRounded />
-                        </Link>
-                    </Button>
-                )}
+                <HeaderContainer>
+                    <HeaderTitle>Колекції</HeaderTitle>
+                    {loggedUser?.username === params.username && (
+                        <Button asChild size="icon-sm" variant="outline">
+                            <Link href="/collections/new">
+                                <MaterialSymbolsAddRounded />
+                            </Link>
+                        </Button>
+                    )}
+                </HeaderContainer>
+                <HeaderNavButton />
             </Header>
+
             <div className="flex flex-col gap-6">
                 {filteredCollections &&
                     filteredCollections.map((item) => (

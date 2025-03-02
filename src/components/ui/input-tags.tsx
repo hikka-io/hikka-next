@@ -1,10 +1,11 @@
 import { XIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input, InputProps } from '@/components/ui/input';
+
+import MaterialSymbolsAddRounded from '../icons/material-symbols/MaterialSymbolsAddRounded';
 
 type InputTagsProps = InputProps & {
     value: string[];
@@ -13,7 +14,7 @@ type InputTagsProps = InputProps & {
 };
 
 export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
-    ({ value, onChange, disableKeys, ...props }, ref) => {
+    ({ value, onChange, disableKeys, disabled, ...props }, ref) => {
         const [pendingDataPoint, setPendingDataPoint] = useState('');
 
         const addPendingDataPoint = () => {
@@ -67,6 +68,7 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
                             }
                         }}
                         className="flex-1"
+                        disabled={disabled}
                         {...props}
                         ref={ref}
                     />
@@ -74,6 +76,7 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
                         type="button"
                         variant="secondary"
                         size="icon"
+                        disabled={disabled}
                         onClick={addPendingDataPoint}
                     >
                         <MaterialSymbolsAddRounded />

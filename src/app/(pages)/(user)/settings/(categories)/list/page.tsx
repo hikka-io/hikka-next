@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Readlist from '@/features/settings/list/readlist/readlist.component';
 import Watchlist from '@/features/settings/list/watchlist/watchlist.component';
@@ -17,17 +17,31 @@ const ListSettingsPage: FC<Props> = async (props) => {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col">
-                <Header title="Список" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle>Список</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <P className="text-sm text-muted-foreground">
                     Імпортуйте аніме, манґу чи ранобе
                 </P>
             </div>
             <div className="flex flex-col gap-4">
-                <Header variant="h4" title="Імпорт аніме" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Імпорт аніме</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <Watchlist />
             </div>
             <div className="flex flex-col gap-4">
-                <Header variant="h4" title="Імпорт манґи та ранобе" />
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">
+                            Імпорт манґи та ранобе
+                        </HeaderTitle>
+                    </HeaderContainer>
+                </Header>
                 <Readlist />
             </div>
         </div>

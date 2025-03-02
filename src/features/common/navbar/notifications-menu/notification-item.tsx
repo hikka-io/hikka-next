@@ -1,10 +1,17 @@
 'use client';
 
+import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import HorizontalCard from '@/components/ui/horizontal-card';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 
 import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
 
@@ -30,23 +37,28 @@ const NotificationItem: FC<Props> = ({ data }) => {
             asChild
         >
             <Link href={data.href} prefetch>
-                <HorizontalCard
-                    className="w-full"
-                    title={data.title}
-                    href={data.href}
-                    description={data.description}
-                    descriptionClassName="line-clamp-2"
-                    createdAt={data.created}
-                    image={data.icon}
-                    imageRatio={1}
-                    imageClassName="overflow-visible"
-                    imageContainerClassName="w-8"
-                    imageChildren={
-                        !data.seen && (
-                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-secondary/60 bg-warning" />
-                        )
-                    }
-                >
+                <HorizontalCard className="w-full" href={data.href}>
+                    <HorizontalCardImage
+                        image={data.icon}
+                        imageRatio={1}
+                        imageClassName="overflow-visible"
+                        className="w-8"
+                    >
+                        {!data.seen && (
+                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning" />
+                        )}
+                    </HorizontalCardImage>
+                    <HorizontalCardContainer>
+                        <HorizontalCardTitle>{data.title}</HorizontalCardTitle>
+                        <HorizontalCardDescription className="line-clamp-2">
+                            {data.description}
+                        </HorizontalCardDescription>
+                        <HorizontalCardDescription className="opacity-60">
+                            {formatDistance(data.created * 1000, Date.now(), {
+                                addSuffix: true,
+                            })}
+                        </HorizontalCardDescription>
+                    </HorizontalCardContainer>
                     {data.image && data.image}
                 </HorizontalCard>
             </Link>

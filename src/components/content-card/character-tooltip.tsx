@@ -38,19 +38,19 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     if (!data) {
         return (
             <div className="flex w-96 animate-pulse gap-4 text-left">
-                <div className="h-28 w-20 rounded-lg bg-secondary/60" />
+                <div className="h-28 w-20 rounded-lg bg-secondary/20" />
                 <div className="flex w-full flex-1 flex-col gap-2">
                     <div className="flex flex-col gap-2">
                         <div className="flex w-full flex-1 flex-col gap-2">
-                            <div className="h-5 w-20 rounded-lg bg-secondary/60" />
-                            <div className="h-2 w-full rounded-lg bg-secondary/60" />
-                            <div className="h-2 w-full rounded-lg bg-secondary/60" />
-                            <div className="h-2 w-full rounded-lg bg-secondary/60" />
+                            <div className="h-5 w-20 rounded-lg bg-secondary/20" />
+                            <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                            <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                            <div className="h-2 w-full rounded-lg bg-secondary/20" />
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <div className="h-14 w-10 rounded-lg bg-secondary/60" />
+                    <div className="h-14 w-10 rounded-lg bg-secondary/20" />
                 </div>
             </div>
         );

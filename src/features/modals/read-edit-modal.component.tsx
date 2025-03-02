@@ -175,7 +175,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         Видалити
                     </Button>
                     <Button
-                        variant="accent"
+                        variant="secondary"
                         onClick={form.handleSubmit((data) =>
                             addRead({
                                 params: {

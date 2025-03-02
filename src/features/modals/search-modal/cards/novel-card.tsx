@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import * as React from 'react';
-import MaterialSymbolsStarRounded from '~icons/material-symbols/star-rounded';
 
 import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 

@@ -2,18 +2,12 @@
 
 import clsx from 'clsx';
 import { CustomContentProps, SnackbarContent } from 'notistack';
-import React, {
-    ReactElement,
-    SVGProps,
-    forwardRef,
-    memo,
-    useEffect,
-    useState,
-} from 'react';
-import EpSuccessFilled from '~icons/ep/success-filled';
-import MaterialSymbolsErrorCircleRounded from '~icons/material-symbols/error-circle-rounded';
-import MaterialSymbolsInfoRounded from '~icons/material-symbols/info-rounded';
-import MaterialSymbolsWarningRounded from '~icons/material-symbols/warning-rounded';
+import { ReactElement, SVGProps, forwardRef, memo } from 'react';
+
+import EpSuccessFilled from './icons/ep/EpSuccessFilled';
+import MaterialSymbolsErrorCircleRounded from './icons/material-symbols/MaterialSymbolsErrorCircleRounded';
+import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
+import MaterialSymbolsWarningRounded from './icons/material-symbols/MaterialSymbolsWarningRounded';
 
 const icons: Record<
     'default' | 'error' | 'success' | 'warning' | 'info',
@@ -30,7 +24,7 @@ const colors: Record<
     'default' | 'destructive' | 'success' | 'warning' | 'info',
     string
 > = {
-    default: 'bg-secondary text-secondary',
+    default: 'bg-secondary/20 text-card',
     destructive: 'bg-destructive text-destructive',
     success: 'bg-success text-success',
     warning: 'bg-warning text-warning',
@@ -61,7 +55,7 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
             <SnackbarContent
                 ref={forwardedRef}
                 className={clsx(
-                    'flex h-full max-w-sm flex-nowrap items-center gap-4 rounded-md border border-secondary bg-background p-4 text-sm text-foreground shadow-md',
+                    'flex h-full max-w-sm flex-nowrap items-center gap-4 rounded-md border border-border bg-background p-4 text-sm text-foreground shadow-md',
                 )}
             >
                 {icons[variant] !== null &&

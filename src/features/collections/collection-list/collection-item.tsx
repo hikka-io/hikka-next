@@ -1,19 +1,23 @@
 'use client';
 
 import { formatDistance } from 'date-fns/formatDistance';
-import Link from 'next/link';
 import { FC, memo } from 'react';
-import BxBxsUpvote from '~icons/bx/bxs-upvote';
-import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
-import MaterialSymbolsDriveFileRenameOutlineRounded from '~icons/material-symbols/drive-file-rename-outline-rounded';
-import MaterialSymbolsGridViewRounded from '~icons/material-symbols/grid-view-rounded';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import ContentCard from '@/components/content-card/content-card';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import { IconamoonCommentFill } from '@/components/icons/iconamoon/IconamoonCommentFill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import Small from '@/components/typography/small';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Label } from '@/components/ui/label';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 import Stack from '@/components/ui/stack';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -26,53 +30,31 @@ interface Props {
 const CollectionItem: FC<Props> = ({ collection }) => {
     return (
         <div className="flex flex-col gap-4">
-            <div className={cn('flex gap-2')}>
-                <Link
+            <HorizontalCard href={`/collections/${collection.reference}`}>
+                <HorizontalCardImage
                     href={`/u/${collection.author.username}`}
-                    className="w-12"
-                >
-                    <Avatar className="rounded-md">
-                        <AvatarImage
-                            className="rounded-md"
-                            src={collection.author.avatar}
-                        />
-                        <AvatarFallback className="rounded-md" />
-                    </Avatar>
-                </Link>
-                <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-4">
-                        <Link
-                            className={cn('text-left')}
-                            href={`/collections/${collection.reference}`}
-                        >
-                            <Label
-                                className={cn('line-clamp-1 cursor-pointer')}
-                            >
-                                {collection.title}
-                            </Label>
-                        </Link>
+                    imageRatio={1}
+                    image={collection.author.avatar}
+                />
+                <HorizontalCardContainer>
+                    <HorizontalCardTitle>
+                        {collection.title}
+                    </HorizontalCardTitle>
 
-                        {collection.spoiler && (
-                            <Badge variant="warning">Спойлери</Badge>
-                        )}
-                        {collection.nsfw && (
-                            <Badge variant="destructive">+18</Badge>
-                        )}
-                    </div>
-                    <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                        <div className="flex gap-1">
+                    <HorizontalCardDescription className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1">
                             <MaterialSymbolsGridViewRounded />
                             <Small>{collection.entries}</Small>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex items-center gap-1">
                             <IconamoonCommentFill />
                             <Small>{collection.comments_count}</Small>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex items-center gap-1">
                             <BxBxsUpvote />
                             <Small>{collection.vote_score}</Small>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex items-center gap-1">
                             <MaterialSymbolsDriveFileRenameOutlineRounded />
                             <Small>
                                 {formatDistance(
@@ -84,18 +66,22 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                                 )}
                             </Small>
                         </div>
-                    </div>
-                </div>
+                    </HorizontalCardDescription>
+                </HorizontalCardContainer>
+            </HorizontalCard>
+
+            <div className="flex gap-2">
+                {collection.spoiler && (
+                    <Badge variant="warning">Спойлери</Badge>
+                )}
+                {collection.nsfw && <Badge variant="destructive">+18</Badge>}
+                {collection.tags.map((tag) => (
+                    <Badge key={tag} variant="secondary">
+                        {tag.toLowerCase()}
+                    </Badge>
+                ))}
             </div>
-            {collection.tags.length > 0 && (
-                <div className="flex gap-4">
-                    {collection.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary">
-                            {tag.toLowerCase()}
-                        </Badge>
-                    ))}
-                </div>
-            )}
+
             <Stack size={7} className="grid-min-10 py-5">
                 {collection.collection.map((item) => (
                     <ContentCard

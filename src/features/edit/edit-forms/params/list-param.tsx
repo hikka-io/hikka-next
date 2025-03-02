@@ -2,9 +2,9 @@
 
 import { FC, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import MaterialSymbolsAddRounded from '~icons/material-symbols/add-rounded';
-import MaterialSymbolsCloseSmallRounded from '~icons/material-symbols/close-small-rounded';
 
+import MaterialSymbolsCloseSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseSmallRounded';
+import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,7 +30,7 @@ const ListParam: FC<Props> = ({ param, mode }) => {
                 {fields.map((item: Record<any, string>, index) => {
                     return (
                         <div
-                            className="flex items-center gap-2 rounded-md border border-secondary/30 bg-secondary/30 px-2 py-1 text-sm"
+                            className="flex items-center gap-2 rounded-md border border-border bg-secondary/20 px-2 py-1 text-sm"
                             key={item.id}
                         >
                             {item.value}

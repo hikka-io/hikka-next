@@ -4,7 +4,12 @@ import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
@@ -29,30 +34,32 @@ const Media: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title="Медіа"
-                href={!extended ? params.slug + '/media' : undefined}
-            >
-                <ToggleGroup
-                    type="single"
-                    value={active}
-                    onValueChange={(value: 'video' | 'music') =>
-                        value && setActive(value)
-                    }
-                    size="badge"
-                >
-                    {anime.videos.length > 0 && (
-                        <ToggleGroupItem value="video" aria-label="Відео">
-                            Відео
-                        </ToggleGroupItem>
-                    )}
-                    {anime.ost.length > 0 && (
-                        <ToggleGroupItem value="music" aria-label="Музика">
-                            Музика
-                        </ToggleGroupItem>
-                    )}
-                </ToggleGroup>
+            <Header href={!extended ? params.slug + '/media' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Медіа</HeaderTitle>
+                    <ToggleGroup
+                        type="single"
+                        value={active}
+                        onValueChange={(value: 'video' | 'music') =>
+                            value && setActive(value)
+                        }
+                        size="badge"
+                    >
+                        {anime.videos.length > 0 && (
+                            <ToggleGroupItem value="video" aria-label="Відео">
+                                Відео
+                            </ToggleGroupItem>
+                        )}
+                        {anime.ost.length > 0 && (
+                            <ToggleGroupItem value="music" aria-label="Музика">
+                                Музика
+                            </ToggleGroupItem>
+                        )}
+                    </ToggleGroup>
+                </HeaderContainer>
+                <HeaderNavButton />
             </Header>
+
             {active === 'video' && (
                 <Video videos={anime.videos} extended={extended} />
             )}

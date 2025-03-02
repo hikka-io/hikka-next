@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -51,6 +52,7 @@ const Component = ({ content_type, slug }: Props) => {
                     <Link
                         href={`/edit/new?slug=${slug}&content_type=${content_type}`}
                     >
+                        <MaterialSymbolsEditRounded />
                         Створити правку
                     </Link>
                 </Button>
@@ -60,6 +62,7 @@ const Component = ({ content_type, slug }: Props) => {
                 <div className="h-full w-auto flex-1 overflow-y-scroll">
                     {list!.map((edit) => (
                         <EditCard
+                            className="px-6 py-4"
                             href={`/edit/` + edit.edit_id}
                             key={edit.edit_id}
                             edit={edit}

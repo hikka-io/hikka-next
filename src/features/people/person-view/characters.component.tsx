@@ -5,7 +5,12 @@ import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import usePersonCharacters from '@/services/hooks/people/use-person-characters';
@@ -27,10 +32,12 @@ const Characters: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title={'Персонажі'}
-                href={!extended ? params.slug + '/characters' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/characters' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Персонажі</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack
                 size={5}
                 extended={extended}

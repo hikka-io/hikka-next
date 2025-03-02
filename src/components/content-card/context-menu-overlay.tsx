@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
-import MaterialSymbolsEditRounded from '~icons/material-symbols/edit-rounded';
 
 import {
     ContextMenu,
@@ -10,6 +9,8 @@ import {
 } from '@/components/ui/context-menu';
 
 import useSession from '@/services/hooks/auth/use-session';
+
+import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
 
 interface Props {
     children: ReactNode;

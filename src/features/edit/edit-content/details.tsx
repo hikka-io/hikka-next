@@ -23,7 +23,7 @@ const Details: FC<Props> = ({ content }) => {
     const isPerson = content.data_type === 'person' || content.data_type === 'character';
 
     return (
-        <div className="flex flex-col gap-4 rounded-md border border-secondary/60 bg-secondary/30 p-4">
+        <div className="flex flex-col gap-4 rounded-md border border-border bg-secondary/20 p-4">
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     {'title_ua' in content ? 'Назва' : 'Імʼя'} українською

@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import FormSwitch from '@/components/form/form-switch';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import useChangeIgnoredNotifications from '@/services/hooks/settings/use-change-ignored-notifications';
 import useIgnoredNotifications from '@/services/hooks/settings/use-ignored-notifications';
@@ -85,7 +85,11 @@ const Component = () => {
                 className="flex flex-col items-start gap-8"
             >
                 <div className="flex w-full flex-col gap-6">
-                    <Header variant="h4" title="Коментарі" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Коментарі</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <FormSwitch
                         name="comment_reply"
                         label="Відповідь на коментар"
@@ -113,7 +117,11 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-6">
-                    <Header variant="h4" title="Оцінки" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Оцінки</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <FormSwitch
                         name="comment_vote"
                         label="Оцінка коментаря"
@@ -128,7 +136,11 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-6">
-                    <Header variant="h4" title="Правки" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Правки</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <FormSwitch
                         name="edit_accepted"
                         label="Прийнята правка"
@@ -143,7 +155,11 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-6">
-                    <Header variant="h4" title="Аніме" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Аніме</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <FormSwitch
                         name="schedule_anime"
                         label="Оновлення аніме"
@@ -152,7 +168,11 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-6">
-                    <Header variant="h4" title="Користувачі" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Користувачі</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <FormSwitch
                         name="follow"
                         label="Підписка на користувача"
@@ -161,7 +181,11 @@ const Component = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col gap-6">
-                    <Header variant="h4" title="Інше" />
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Інше</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <FormSwitch
                         name="hikka_update"
                         label="Системні сповіщення"

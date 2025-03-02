@@ -1,12 +1,17 @@
 'use client';
 
-import { memo } from 'react';
-import Markdown, { Options } from 'react-markdown';
+import { withProps } from '@udecode/cn';
+import Markdown, { Components, Options } from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
-import Link from '@/components/markdown/viewer/components/link';
-import Spoiler from '@/components/markdown/viewer/components/spoiler';
+import Blockquote from '@/components/typography/blockquote';
+import Li from '@/components/typography/li';
+import Link from '@/components/typography/link';
+import Ol from '@/components/typography/ol';
+import P from '@/components/typography/p';
+import Spoiler from '@/components/typography/spoiler';
+import Ul from '@/components/typography/ul';
 
 import { cn } from '@/utils/utils';
 
@@ -15,39 +20,59 @@ import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
 
 interface Props extends Options {
-    disableSpoiler?: boolean;
+    preview?: boolean;
+    className?: string;
 }
 
-const MDViewer = ({ children, className, disableSpoiler, ...props }: Props) => {
-    return (
-        <Markdown
-            className={cn('markdown w-full', className)}
-            remarkPlugins={[
-                remarkDisableTokenizer,
-                remarkDirective,
-                remarkDirectiveRehype,
-                [
-                    remarkMentions,
-                    { usernameLink: (username: string) => '/u/' + username },
-                ],
-            ]}
-            components={{
-                spoiler: disableSpoiler ? NoSpoiler : Spoiler,
-                // @ts-ignore
-                a: ({ node, children }) => (
-                    <Link
-                        href={(node?.properties?.href as string) || ''}
-                        className="break-all"
-                    >
-                        {children}
-                    </Link>
-                ),
-            }}
-            {...props}
-        >
+type CustomComponents = Components & {
+    spoiler: React.ComponentType<any>;
+};
+
+const previewComponents: CustomComponents = {
+    spoiler: NoSpoiler,
+    a: ({ children, className }) => (
+        <span className={cn('text-primary hover:underline', className)}>
             {children}
-        </Markdown>
+        </span>
+    ),
+    p: P,
+};
+
+const components = (preview?: boolean): CustomComponents =>
+    ({
+        spoiler: withProps(Spoiler, { className: 'mb-4' }),
+        p: withProps(P, { className: 'mb-4' }),
+        blockquote: withProps(Blockquote, { className: 'mb-4' }),
+        a: Link,
+        ul: withProps(Ul, { className: 'mb-4' }),
+        ol: withProps(Ol, { className: 'mb-4' }),
+        li: Li,
+        ...(preview ? previewComponents : {}),
+    }) as CustomComponents;
+
+const MDViewer = ({ children, className, preview, ...props }: Props) => {
+    return (
+        <div className={className}>
+            <Markdown
+                remarkPlugins={[
+                    remarkDisableTokenizer,
+                    remarkDirective,
+                    remarkDirectiveRehype,
+                    [
+                        remarkMentions,
+                        {
+                            usernameLink: (username: string) =>
+                                '/u/' + username,
+                        },
+                    ],
+                ]}
+                components={components(preview)}
+                {...props}
+            >
+                {children}
+            </Markdown>
+        </div>
     );
 };
 
-export default memo(MDViewer);
+export default MDViewer;

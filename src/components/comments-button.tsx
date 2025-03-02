@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { FC } from 'react';
-import IconamoonCommentFill from '~icons/iconamoon/comment-fill';
 
 import { Button } from '@/components/ui/button';
 
 import getDeclensionWord from '@/utils/get-declension-word';
+
+import IconamoonCommentFill from './icons/iconamoon/IconamoonCommentFill';
 
 const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментар',
@@ -24,7 +25,7 @@ const CommentsButton: FC<Props> = ({ comments_count, content_type, slug }) => {
     return (
         <Button variant="outline" asChild>
             <Link href={`/comments/${content_type}/${slug}`}>
-                <IconamoonCommentFill />
+                <IconamoonCommentFill className="size-4" />
                 {comments_count || 0}{' '}
                 {getDeclensionWord(comments_count || 0, COMMENT_DECLENSIONS)}
             </Link>

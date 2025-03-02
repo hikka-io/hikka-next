@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, PropsWithChildren, memo } from 'react';
-import MaterialSymbolsMoreHoriz from '~icons/material-symbols/more-horiz';
 
 import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -19,6 +18,8 @@ import { PersonCharacter } from '@/services/api/people/getPersonCharacters';
 import usePersonAnime from '@/services/hooks/people/use-person-anime';
 import usePersonCharacters from '@/services/hooks/people/use-person-characters';
 import usePersonInfo from '@/services/hooks/people/use-person-info';
+
+import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
 
 interface TooltipDataProps {
     slug: string;
@@ -122,24 +123,24 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     if (!data || (!anime && !characters)) {
         return (
             <div className="flex w-96 animate-pulse gap-4 text-left">
-                <div className="h-28 w-20 rounded-lg bg-secondary/60" />
+                <div className="h-28 w-20 rounded-lg bg-secondary/20" />
                 <div className="flex w-full flex-1 flex-col gap-2">
                     <div className="flex flex-col gap-2">
                         <div className="flex w-full flex-1 flex-col gap-2">
-                            <div className="h-5 w-20 rounded-lg bg-secondary/60" />
+                            <div className="h-5 w-20 rounded-lg bg-secondary/20" />
                         </div>
                     </div>
 
                     <div className="flex gap-2">
-                        <div className="h-3 w-1/4 rounded-lg bg-secondary/60" />
+                        <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
                     </div>
 
                     <div className="flex gap-2">
-                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/60" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
                     </div>
                 </div>
             </div>

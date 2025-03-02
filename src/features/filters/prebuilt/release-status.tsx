@@ -21,7 +21,11 @@ const ReleaseStatus: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter defaultOpen title="Статус">
+        <CollapsibleFilter
+            defaultOpen
+            title="Статус"
+            active={statuses.length > 0}
+        >
             <BadgeFilter
                 properties={RELEASE_STATUS}
                 selected={statuses}

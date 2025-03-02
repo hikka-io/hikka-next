@@ -2,10 +2,10 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import AntDesignFilterFilled from '~icons/ant-design/filter-filled';
-import FeRandom from '~icons/fe/random';
-import MaterialSymbolsMoreVert from '~icons/material-symbols/more-vert';
 
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import FeRandom from '@/components/icons/fe/FeRandom';
+import MaterialSymbolsMoreVert from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,

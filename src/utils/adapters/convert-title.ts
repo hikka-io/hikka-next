@@ -24,10 +24,10 @@ export const convertTitle = <TData>({
         title:
             data.title ||
             data[titleLanguage] ||
+            data.title_ua ||
             data[
                 titleLanguage === 'title_ja' ? 'title_original' : 'title_ja'
             ] ||
-            data.title_ua ||
             data.title_en ||
             data.title_ja ||
             data.title_original ||

@@ -10,7 +10,7 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Author from '@/features/edit/edit-author.component';
 import Content from '@/features/edit/edit-content/edit-content.component';
@@ -86,10 +86,12 @@ const EditLayout: FC<Props> = async (props) => {
                 <Block>{children}</Block>
                 <div className="flex flex-col gap-12">
                     <Block>
-                        <Header
-                            title="Деталі"
-                            titleClassName="justify-between w-full"
-                        >
+                        <Header>
+                            <HeaderContainer>
+                                <HeaderTitle className="w-full justify-between">
+                                    Деталі
+                                </HeaderTitle>
+                            </HeaderContainer>
                             <EditStatus editId={editId} />
                         </Header>
                         <Card className="justify-between">

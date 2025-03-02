@@ -7,6 +7,7 @@ import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import MangaCard from '@/components/manga-card';
 import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
@@ -82,13 +83,13 @@ const MangaList: FC<Props> = () => {
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
-                    <div className="w-fit rounded-lg border border-secondary/60 bg-background p-2 shadow">
+                    <Card className="flex-row gap-2 p-2 bg-background/60 backdrop-blur-xl border-none">
                         <Pagination
                             page={Number(iPage)}
                             pages={pagination.pages}
                             setPage={updatePage}
                         />
-                    </div>
+                    </Card>
                 </div>
             )}
         </Block>

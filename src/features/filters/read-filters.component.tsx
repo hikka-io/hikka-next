@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
-import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -49,7 +49,7 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             </div>
             <Button
                 variant="secondary"
-                className="my-4 w-full shadow-md md:mt-4 lg:flex"
+                className="my-4 w-full md:mt-4 lg:flex"
                 onClick={clearFilters}
                 asChild
             >

@@ -39,25 +39,25 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
         return (
             <div className="flex animate-pulse flex-col gap-4">
                 <div className="flex justify-between gap-2">
-                    <div className="h-4 flex-1 rounded-lg bg-secondary/60" />
-                    <div className="h-4 w-10 rounded-lg bg-secondary/60" />
+                    <div className="h-4 flex-1 rounded-lg bg-secondary/20" />
+                    <div className="h-4 w-10 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex flex-col gap-2 py-3">
-                    <div className="h-2 w-full rounded-lg bg-secondary/60" />
-                    <div className="h-2 w-full rounded-lg bg-secondary/60" />
-                    <div className="h-2 w-full rounded-lg bg-secondary/60" />
-                    <div className="h-2 w-full rounded-lg bg-secondary/60" />
-                    <div className="h-2 w-1/3 rounded-lg bg-secondary/60" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-1/3 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex gap-2">
-                    <div className="h-3 w-1/4 rounded-lg bg-secondary/60" />
-                    <div className="h-3 flex-1 rounded-lg bg-secondary/60" />
+                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                    <div className="h-3 flex-1 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex gap-2">
-                    <div className="h-3 w-1/4 rounded-lg bg-secondary/60" />
-                    <div className="h-3 w-2/4 rounded-lg bg-secondary/60" />
+                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                    <div className="h-3 w-2/4 rounded-lg bg-secondary/20" />
                 </div>
-                <div className="h-12 w-full rounded-md bg-secondary/60" />
+                <div className="h-12 w-full rounded-md bg-secondary/20" />
             </div>
         );
     }

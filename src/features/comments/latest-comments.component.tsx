@@ -7,7 +7,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import Header from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
@@ -24,7 +24,11 @@ const Comments: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header variant="h2" title="Останні коментарі" />
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle variant="h2">Останні коментарі</HeaderTitle>
+                </HeaderContainer>
+            </Header>
             <Stack
                 extended
                 extendedSize={3}

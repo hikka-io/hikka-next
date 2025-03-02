@@ -6,7 +6,7 @@ import { FC, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
-import SkeletonCard from '@/components/skeletons/content-card';
+import SkeletonCard from '@/components/skeletons/content-card-skeleton';
 import H5 from '@/components/typography/h5';
 import Block from '@/components/ui/block';
 import { Label } from '@/components/ui/label';

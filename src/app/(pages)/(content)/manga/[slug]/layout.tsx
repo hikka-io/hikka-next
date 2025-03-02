@@ -14,6 +14,7 @@ import Actions from '@/features/manga/manga-view/actions/actions.component';
 import Cover from '@/features/manga/manga-view/cover.component';
 import Title from '@/features/manga/manga-view/title.component';
 
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
 import { prefetchMangaInfo } from '@/services/hooks/manga/use-manga-info';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
@@ -58,6 +59,7 @@ const MangaLayout: FC<Props> = async (props) => {
     }
 
     await prefetchQueries({ params: { slug } });
+    await prefetchArticles({ content_slug: slug, content_type: 'manga' });
 
     const dehydratedState = dehydrate(queryClient);
 

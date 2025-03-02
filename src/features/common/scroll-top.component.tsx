@@ -7,7 +7,7 @@ const ScrollTop = () => {
     const pathname = usePathname();
 
     useEffect(() => {
-        if (window) window.scroll(0, 0);
+        if (window && window.location.hash.length === 0) window.scroll(0, 0);
     }, [pathname]);
 
     return null;

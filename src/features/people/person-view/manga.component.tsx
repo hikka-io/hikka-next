@@ -6,7 +6,12 @@ import { FC } from 'react';
 import LoadMoreButton from '@/components/load-more-button';
 import MangaCard from '@/components/manga-card';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import usePersonManga from '@/services/hooks/people/use-person-manga';
@@ -26,10 +31,12 @@ const Manga: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title={'Манґа'}
-                href={!extended ? params.slug + '/manga' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/manga' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Манґа</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack
                 size={5}
                 extendedSize={5}

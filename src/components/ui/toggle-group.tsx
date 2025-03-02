@@ -24,7 +24,7 @@ const ToggleGroup = React.forwardRef<
         ref={ref}
         className={cn(
             'flex items-center',
-            'no-scrollbar overflow-y-scroll rounded-md border border-secondary/60 bg-secondary/30',
+            'no-scrollbar overflow-y-scroll rounded-md border border-border bg-secondary/20',
             className,
         )}
         {...props}

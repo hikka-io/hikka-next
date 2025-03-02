@@ -1,9 +1,9 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import IcRoundGridView from '~icons/ic/round-grid-view';
-import MaterialSymbolsEventList from '~icons/material-symbols/event-list';
 
+import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
+import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import createQueryString from '@/utils/create-query-string';
@@ -36,7 +36,7 @@ const ViewCombobox = () => {
                 <MaterialSymbolsEventList />
             </ToggleGroupItem>
             <ToggleGroupItem value="grid" aria-label="Сітка">
-                <IcRoundGridView />
+                <MaterialSymbolsGridViewRounded />
             </ToggleGroupItem>
         </ToggleGroup>
     );

@@ -32,10 +32,10 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
     );
 
     return (
-        <div className="flex h-fit w-full items-center gap-2 rounded-md border border-secondary/60 bg-secondary/30 p-2 backdrop-blur">
+        <div className="flex h-fit w-full items-center gap-2 rounded-md border border-border bg-secondary/20 p-2 backdrop-blur">
             <Link
                 href={`/u/${params.username}/list/${content_type}?status=completed&sort=read_score`}
-                className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60"
+                className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20"
             >
                 <RadialProgress
                     style={{
@@ -59,13 +59,13 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
                             href={`/u/${params.username}/list/${content_type}?status=${status}&sort=read_score`}
                             key={status}
                             className={cn(
-                                'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/60',
+                                'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20',
                             )}
                         >
                             <div className="flex justify-between gap-4">
                                 <div className="flex min-w-0 items-center gap-2">
                                     <div
-                                        className="size-2 rounded-full bg-secondary"
+                                        className="size-2 rounded-full bg-secondary/20"
                                         style={{
                                             backgroundColor:
                                                 READ_STATUS[

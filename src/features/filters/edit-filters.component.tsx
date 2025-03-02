@@ -3,18 +3,17 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
-import AntDesignClearOutlined from '~icons/ant-design/clear-outlined';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { cn } from '@/utils/utils';
 
 import ContentType from './prebuilt/content-type';
-import EditAuthor from './prebuilt/edit-author';
-import EditModerator from './prebuilt/edit-moderator';
 import EditStatus from './prebuilt/edit-status';
 import Sort from './prebuilt/sort';
+import User from './prebuilt/user';
 
 interface Props {
     className?: string;
@@ -48,12 +47,12 @@ const EditFilters: FC<Props> = ({ className }) => {
                     ]}
                 />
 
-                <EditAuthor />
-                <EditModerator />
+                <User title="Автор" paramKey="author" />
+                <User title="Модератор" paramKey="moderator" />
             </div>
             <Button
                 variant="secondary"
-                className="my-4 w-full shadow-md md:mt-4 lg:flex"
+                className="my-4 w-full md:mt-4 lg:flex"
                 onClick={clearFilters}
                 asChild
             >

@@ -5,7 +5,12 @@ import { FC } from 'react';
 
 import PersonCard from '@/components/person-card';
 import Block from '@/components/ui/block';
-import Header from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import useMangaInfo from '@/services/hooks/manga/use-manga-info';
@@ -28,10 +33,12 @@ const Staff: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header
-                title="Автори"
-                href={!extended ? params.slug + '/staff' : undefined}
-            />
+            <Header href={!extended ? params.slug + '/staff' : undefined}>
+                <HeaderContainer>
+                    <HeaderTitle>Автори</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
             <Stack size={4} extended={extended}>
                 {filteredData.map((staff) => (
                     <PersonCard
