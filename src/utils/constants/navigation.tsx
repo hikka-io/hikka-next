@@ -1,5 +1,7 @@
 import { UsersIcon } from 'lucide-react';
 
+import BxBxlTelegram from '@/components/icons/bx/BxBxlTelegram';
+import BxBxsDonateHeart from '@/components/icons/bx/BxBxsDonateHeart';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
@@ -14,6 +16,7 @@ import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/
 import MaterialSymbolsNotificationsActiveRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsActiveRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import MdiPuzzle from '@/components/icons/mdi/MdiPuzzle';
 
@@ -214,6 +217,12 @@ const MODERATION_GROUP = [
 
 const OTHER_GROUP = [
     {
+        title_ua: 'Налаштування',
+        url: '/settings',
+        icon: () => <MaterialSymbolsSettingsOutlineRounded />,
+        visible: false,
+    },
+    {
         title_ua: 'Календар',
         url: '/schedule',
         icon: () => <MaterialSymbolsCalendarClockRounded />,
@@ -251,6 +260,21 @@ const OTHER_GROUP = [
     },
 ];
 
+const SOCIAL_GROUP = [
+    {
+        title_ua: 'Telegram',
+        url: 'https://t.me/hikka_io',
+        icon: () => <BxBxlTelegram />,
+        visible: true,
+    },
+    {
+        title_ua: 'Donatello',
+        url: 'https://donatello.to/hikka.io',
+        icon: () => <BxBxsDonateHeart />,
+        visible: true,
+    },
+];
+
 export const APP_SIDEBAR = [
     {
         title_ua: 'Контент',
@@ -267,6 +291,10 @@ export const APP_SIDEBAR = [
     {
         title_ua: 'Інше',
         items: OTHER_GROUP,
+    },
+    {
+        items: SOCIAL_GROUP,
+        title_ua: 'Соцмережі',
     },
 ];
 

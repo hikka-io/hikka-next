@@ -85,7 +85,9 @@ const ArticleList: FC<Props> = () => {
                 {list?.map((article) => (
                     <ArticleItem article={article} key={article.slug} />
                 ))}
-                {(!list || list.length === 0) && <FiltersNotFound />}
+                {(!list || list.length === 0) && !isPending && (
+                    <FiltersNotFound />
+                )}
                 {hasNextPage && (
                     <LoadMoreButton
                         isFetchingNextPage={isFetchingNextPage}

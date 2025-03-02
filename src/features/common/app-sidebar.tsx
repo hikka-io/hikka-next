@@ -9,7 +9,6 @@ import BxBxsDonateHeart from '@/components/icons/bx/BxBxsDonateHeart';
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -103,20 +102,6 @@ function AppSidebar() {
                     </SidebarGroup>
                 ))}
             </SidebarContent>
-            <SidebarFooter>
-                <SidebarMenu>
-                    {FOOTER_GROUP.map((navitem) => (
-                        <SidebarMenuItem key={navitem.title_ua}>
-                            <SidebarMenuButton asChild>
-                                <Link href={navitem.url}>
-                                    <navitem.icon />
-                                    <span>{navitem.title_ua}</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
-            </SidebarFooter>
         </Sidebar>
     );
 }
