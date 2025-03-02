@@ -385,6 +385,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bprogress/core@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@bprogress/core@npm:1.2.3"
+  checksum: 10c0/b6974f3c7cde1edf1658a96c84732198f9e6467ae6f58a30e84f6eecc7770641c9e59bd33378f0b67cadf51c390fa726daa60fb05408953a957e8034e6f99852
+  languageName: node
+  linkType: hard
+
+"@bprogress/next@npm:^3.2.4":
+  version: 3.2.4
+  resolution: "@bprogress/next@npm:3.2.4"
+  dependencies:
+    "@bprogress/core": "npm:^1.2.3"
+    "@bprogress/react": "npm:^1.1.8"
+  peerDependencies:
+    next: ">=13.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/dea9389cf0b3fc96f2c2ae53be5c3211a6657c66f7669e221f313e90a5253a5a618d42dadb770677aa3a3fb33494af78029f6eb9ac2feffcf49a3d42b8fd669e
+  languageName: node
+  linkType: hard
+
+"@bprogress/react@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "@bprogress/react@npm:1.1.8"
+  dependencies:
+    "@bprogress/core": "npm:^1.2.3"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/21c386197ca5e23bdcf18f49147e5a0a89a4c7791c35a94d9bc19ae4d1040075d623e715a60066f4afa91b94db5754bde3aa7081636fcd68bed34f79ce2b856b
+  languageName: node
+  linkType: hard
+
 "@csstools/selector-resolve-nested@npm:^1.1.0":
   version: 1.1.0
   resolution: "@csstools/selector-resolve-nested@npm:1.1.0"
@@ -7298,6 +7331,7 @@ __metadata:
   dependencies:
     "@antfu/utils": "npm:^0.7.10"
     "@ariakit/react": "npm:^0.4.15"
+    "@bprogress/next": "npm:^3.2.4"
     "@dnd-kit/core": "npm:^6.1.0"
     "@dnd-kit/sortable": "npm:^8.0.0"
     "@hookform/resolvers": "npm:^3.9.1"
@@ -7379,7 +7413,6 @@ __metadata:
     lucide-react: "npm:^0.469.0"
     marked: "npm:^12.0.1"
     next: "npm:15.2.0"
-    next-nprogress-bar: "npm:^2.3.14"
     next-plausible: "npm:^3.12.4"
     next-themes: "npm:^0.4.3"
     notistack: "npm:^3.0.1"
@@ -9307,15 +9340,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-nprogress-bar@npm:^2.3.14":
-  version: 2.4.7
-  resolution: "next-nprogress-bar@npm:2.4.7"
-  dependencies:
-    nprogress-v2: "npm:^1.0.4"
-  checksum: 10c0/fd4a07b860edeebd7331761a73ca146fd2857feea0bfb36e2d8b467644e5cf9165c1f05f549545a19b695c84b65988e39adf7b11d6945c19d0ad1b4e09fbac41
-  languageName: node
-  linkType: hard
-
 "next-plausible@npm:^3.12.4":
   version: 3.12.4
   resolution: "next-plausible@npm:3.12.4"
@@ -9548,13 +9572,6 @@ __metadata:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
   checksum: 10c0/82a0270ee1b9e70bc1dfad4d7e1d2bbb6dc08ac887b920986dcfa58cc2aa975bd48b71f7cf3afc2e11badd142ba9ade5f708c858ee2080b9d4cd950b80c43811
-  languageName: node
-  linkType: hard
-
-"nprogress-v2@npm:^1.0.4":
-  version: 1.1.10
-  resolution: "nprogress-v2@npm:1.1.10"
-  checksum: 10c0/1b6ed50e7274ad800ecc4bfe3883ea52ea7e031c3555bc36389bc32ac3ed963dc6ad84ff21a39ca9dfa854e7b1743972448bc6aa5ab1968fa85ca893596e9970
   languageName: node
   linkType: hard
 
