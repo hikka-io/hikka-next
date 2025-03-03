@@ -10,12 +10,14 @@ import {
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
+    SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarMenuSub,
     SidebarMenuSubButton,
     SidebarMenuSubItem,
+    SidebarTrigger,
     useSidebar,
 } from '@/components/ui/sidebar';
 
@@ -43,11 +45,18 @@ function AppSidebar() {
 
     return (
         <Sidebar
-            variant="floating"
-            collapsible="offcanvas"
-            className="z-20"
+            variant="sidebar"
+            collapsible="dropdown"
+            side="top"
+            className="absolute top-0 left-0 overflow-hidden"
             // onMouseLeave={toggleSidebar}
         >
+            <SidebarHeader className="p-4 min-h-16 flex-row items-center justify-between">
+                <Link href={'/'} onClick={toggleSidebar}>
+                    <div className="logo-full size-[24px] w-[80px]" />
+                </Link>
+                <SidebarTrigger />
+            </SidebarHeader>
             <SidebarContent>
                 {APP_SIDEBAR.map((group) => (
                     <SidebarGroup key={group.title_ua}>

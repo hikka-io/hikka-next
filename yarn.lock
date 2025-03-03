@@ -7433,6 +7433,7 @@ __metadata:
     react-number-format: "npm:^5.4.2"
     react-photo-view: "npm:^1.2.7"
     react-player: "npm:^2.16.0"
+    react-remove-scroll: "npm:^2.6.3"
     react-resizable-panels: "npm:^2.1.7"
     react-snowfall: "npm:^2.2.0"
     rehype-external-links: "npm:^3.0.0"

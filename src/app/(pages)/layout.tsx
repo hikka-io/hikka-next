@@ -3,7 +3,6 @@ import { FC, ReactNode, Suspense } from 'react';
 import SnowfallManager from '@/components/snowfall-manager';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-import AppSidebar from '@/features/common/app-sidebar';
 import Footer from '@/features/common/footer.component';
 import ModalManager from '@/features/common/modal-manager.component';
 import NavBar from '@/features/common/navbar/navbar.component';
@@ -24,7 +23,7 @@ const Layout: FC<Props> = ({ children }) => {
 
             <SidebarProvider defaultOpen={false}>
                 <NavBar />
-                <AppSidebar />
+
                 <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">
                     <Suspense>
                         <SnowfallManager />

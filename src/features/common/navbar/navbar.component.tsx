@@ -15,6 +15,7 @@ import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
+import AppSidebar from '../app-sidebar';
 import NotificationsMenu from './notifications-menu/notifications-menu.component';
 
 const Navbar = () => {
@@ -36,7 +37,8 @@ const Navbar = () => {
                 trigger && 'border-b border-b-border !bg-background',
             )}
         >
-            <nav className="container mx-auto flex min-h-16 items-center gap-4 px-4 md:gap-8">
+            <nav className="container mx-auto flex min-h-16 items-center gap-4 px-4 md:gap-8 relative">
+                <AppSidebar />
                 <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
                     <Link className="w-auto p-0" href="/">
                         <div className="logo size-[24px] md:w-[80px]" />

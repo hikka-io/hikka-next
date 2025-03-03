@@ -26,6 +26,18 @@ const useFollow = ({ username }: Params) => {
                 queryKey: ['followings'],
                 exact: false,
             });
+            await queryClient.invalidateQueries({
+                queryKey: ['article'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['articles'],
+                exact: false,
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ['article-top'],
+                exact: false,
+            });
         },
     });
 };

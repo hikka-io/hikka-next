@@ -4,6 +4,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { VariantProps, cva } from 'class-variance-authority';
 import { PanelLeft } from 'lucide-react';
 import * as React from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -176,9 +177,9 @@ SidebarProvider.displayName = 'SidebarProvider';
 const Sidebar = React.forwardRef<
     HTMLDivElement,
     React.ComponentProps<'div'> & {
-        side?: 'left' | 'right';
+        side?: 'left' | 'right' | 'top';
         variant?: 'sidebar' | 'floating' | 'inset';
-        collapsible?: 'offcanvas' | 'icon' | 'none';
+        collapsible?: 'offcanvas' | 'icon' | 'none' | 'dropdown';
     }
 >(
     (
@@ -225,7 +226,7 @@ const Sidebar = React.forwardRef<
                                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
                             } as React.CSSProperties
                         }
-                        side={side}
+                        side={'left'}
                     >
                         <SheetTitle className="hidden" />
                         <div className="flex size-full flex-col">
@@ -239,44 +240,52 @@ const Sidebar = React.forwardRef<
         return (
             <div
                 ref={ref}
-                className="group peer absolute hidden text-sidebar-foreground md:block"
+                className="group peer absolute hidden text-sidebar-foreground md:block top-0 left-0"
                 data-state={state}
                 data-collapsible={state === 'collapsed' ? collapsible : ''}
                 data-variant={variant}
                 data-side={side}
             >
                 {/* This is what handles the sidebar gap on desktop */}
-                <div
-                    className={cn(
-                        'relative h-svh w-[--sidebar-width] bg-transparent transition-[opacity,width] duration-150 ease-in-out',
-                        'group-data-[collapsible=offcanvas]:w-0',
-                        'group-data-[side=right]:rotate-180',
-                        variant === 'floating' || variant === 'inset'
-                            ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
-                            : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon]',
-                    )}
-                />
-                <div
-                    className={cn(
-                        'fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width,opacity] duration-150 ease-in-out md:flex',
-                        side === 'left'
-                            ? 'left-0 opacity-100 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] group-data-[collapsible=offcanvas]:opacity-0'
-                            : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
-                        // Adjust the padding for floating and inset variants.
-                        variant === 'floating' || variant === 'inset'
-                            ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
-                            : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l',
-                        className,
-                    )}
-                    {...props}
-                >
+                <RemoveScroll allowPinchZoom enabled={state === 'expanded'}>
                     <div
-                        data-sidebar="sidebar"
-                        className="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+                        className={cn(
+                            'relative h-svh w-[--sidebar-width] bg-transparent transition-[opacity,width] duration-150 ease-in-out',
+                            'group-data-[collapsible=offcanvas]:w-0',
+                            'group-data-[side=right]:rotate-180',
+                            'group-data-[collapsible=dropdown]:w-0 group-data-[collapsible=dropdown]:opacity-0 group-data-[collapsible=dropdown]:group-data-[side=open]:opacity-100',
+                            variant === 'floating' || variant === 'inset'
+                                ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
+                                : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon]',
+                        )}
+                    />
+                    <SidebarOverlay />
+                    <div
+                        className={cn(
+                            'fixed inset-y-0 z-50 hidden h-svh w-[--sidebar-width] transition-[left,right,width,opacity] duration-150 ease-in-out md:flex',
+                            side === 'left' &&
+                                'left-0 opacity-100 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] group-data-[collapsible=offcanvas]:opacity-0',
+                            side === 'right' &&
+                                'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
+                            side === 'top' &&
+                                'left-0 opacity-100 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] group-data-[collapsible=offcanvas]:opacity-100',
+                            // Adjust the padding for floating and inset variants.
+                            'group-data-[collapsible=dropdown]:w-0 group-data-[collapsible=dropdown]:opacity-0 group-data-[collapsible=dropdown]:group-data-[side=open]:opacity-100',
+                            variant === 'floating' || variant === 'inset'
+                                ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
+                                : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=top]:border-x group-data-[side=right]:border-l',
+                            className,
+                        )}
+                        {...props}
                     >
-                        {children}
+                        <div
+                            data-sidebar="sidebar"
+                            className="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+                        >
+                            {children}
+                        </div>
                     </div>
-                </div>
+                </RemoveScroll>
             </div>
         );
     },
@@ -324,7 +333,7 @@ const SidebarRail = React.forwardRef<
             onClick={toggleSidebar}
             title="Toggle Sidebar"
             className={cn(
-                'absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-in-out after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex',
+                'absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-in-out after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=top]:-right-4 group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex',
                 '[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize',
                 '[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize',
                 'group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full group-data-[collapsible=offcanvas]:hover:bg-sidebar',
@@ -793,6 +802,26 @@ const SidebarShadowTrigger = React.forwardRef<
 });
 SidebarShadowTrigger.displayName = 'SidebarShadowTrigger';
 
+const SidebarOverlay = React.forwardRef<
+    HTMLDivElement,
+    React.ComponentProps<'div'>
+>(({ className, ...props }, ref) => {
+    const { toggleSidebar } = useSidebar();
+
+    return (
+        <div
+            onClick={toggleSidebar}
+            className={cn(
+                'fixed inset-0 z-50 h-dvh bg-black/30 backdrop-blur-sm group-data-[state=collapsed]:hidden group-data-[state=open]:animate-in group-data-[state=collapsed]:animate-out group-data-[state=collapsed]:fade-out-0 group-data-[state=open]:fade-in-0',
+                className,
+            )}
+            {...props}
+            ref={ref}
+        />
+    );
+});
+SidebarOverlay.displayName = 'SidebarOverlay';
+
 export {
     Sidebar,
     SidebarContent,
@@ -813,6 +842,7 @@ export {
     SidebarMenuSub,
     SidebarMenuSubButton,
     SidebarMenuSubItem,
+    SidebarOverlay,
     SidebarProvider,
     SidebarRail,
     SidebarSeparator,

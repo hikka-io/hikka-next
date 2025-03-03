@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
@@ -18,6 +18,7 @@ import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 interface Props {}
 
 const EditActions: FC<Props> = () => {
+    const queryClient = useQueryClient();
     const { enqueueSnackbar } = useSnackbar();
 
     const slug = useArticleContext((state) => state.slug);
@@ -35,6 +36,9 @@ const EditActions: FC<Props> = () => {
         onSuccess: (data) => {
             enqueueSnackbar('Ви успішно оновили статтю.', {
                 variant: 'success',
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['article', slug],
             });
 
             setArticle(data);

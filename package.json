@@ -99,6 +99,7 @@
         "react-number-format": "^5.4.2",
         "react-photo-view": "^1.2.7",
         "react-player": "^2.16.0",
+        "react-remove-scroll": "^2.6.3",
         "react-resizable-panels": "^2.1.7",
         "react-snowfall": "^2.2.0",
         "rehype-external-links": "^3.0.0",
