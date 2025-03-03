@@ -23,6 +23,7 @@ const formSchema = z.object({
     collection_comment: z.boolean().default(true),
     article_comment: z.boolean().default(true),
     collection_vote: z.boolean().default(true),
+    article_vote: z.boolean().default(true),
     edit_comment: z.boolean().default(true),
     edit_accepted: z.boolean().default(true),
     edit_denied: z.boolean().default(true),
@@ -139,6 +140,12 @@ const Component = () => {
                         name="collection_vote"
                         label="Оцінка колекції"
                         description="Ви отримаєте сповіщення, коли вашу колекцію оцінили"
+                        className="w-full"
+                    />
+                    <FormSwitch
+                        name="article_vote"
+                        label="Оцінка статті"
+                        description="Ви отримаєте сповіщення, коли вашу статтю оцінили"
                         className="w-full"
                     />
                 </div>

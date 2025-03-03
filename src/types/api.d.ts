@@ -489,6 +489,7 @@ declare global {
         type NotificationType =
             | 'comment_reply'
             | 'comment_vote'
+            | 'article_vote'
             | 'comment_tag'
             | 'edit_comment'
             | 'collection_comment'

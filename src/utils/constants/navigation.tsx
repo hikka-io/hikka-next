@@ -20,6 +20,8 @@ import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-s
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import MdiPuzzle from '@/components/icons/mdi/MdiPuzzle';
 
+import { ARTICLE_CATEGORY_OPTIONS } from './common';
+
 export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',
@@ -170,112 +172,136 @@ export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-const CONTENT_GROUP = [
+const CONTENT_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Аніме',
         url: '/anime',
         icon: () => <MaterialSymbolsAnimatedImages />,
         visible: true,
+        slug: 'anime',
     },
     {
         title_ua: 'Манґа',
         url: '/manga',
         icon: () => <MaterialSymbolsPalette />,
         visible: true,
+        slug: 'manga',
     },
     {
         title_ua: 'Ранобе',
         url: '/novel',
         icon: () => <MaterialSymbolsMenuBookRounded />,
         visible: true,
+        slug: 'novel',
     },
 ];
 
-const COMMUNITY_GROUP = [
+const COMMUNITY_GROUP: Hikka.NavRoute[] = [
+    {
+        title_ua: 'Статті',
+        url: '/articles',
+        icon: () => <MaterialSymbolsDynamicFeedRounded />,
+        visible: true,
+        items: (
+            Object.keys(ARTICLE_CATEGORY_OPTIONS) as Array<
+                keyof typeof ARTICLE_CATEGORY_OPTIONS
+            >
+        )
+            .filter((category) => !ARTICLE_CATEGORY_OPTIONS[category].admin)
+            .map((category) => ({
+                title_ua: ARTICLE_CATEGORY_OPTIONS[category].title_ua,
+                url: `/articles/?categories=${category}`,
+                visible: true,
+                slug: `articles/${category}`,
+            })),
+        slug: 'articles',
+    },
     {
         title_ua: 'Колекції',
         url: '/collections',
         icon: () => <MaterialSymbolsStack />,
         visible: true,
+        slug: 'collections',
     },
-    {
-        title_ua: 'Стрічка',
-        url: '/articles',
-        icon: () => <MaterialSymbolsDynamicFeedRounded />,
-        visible: true,
-    },
-];
-
-const MODERATION_GROUP = [
     {
         title_ua: 'Правки',
         url: '/edit',
         icon: () => <MaterialSymbolsEditRounded />,
         visible: true,
+        slug: 'edit',
     },
 ];
 
-const OTHER_GROUP = [
+const OTHER_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Налаштування',
         url: '/settings',
         icon: () => <MaterialSymbolsSettingsOutlineRounded />,
         visible: false,
+        slug: 'settings',
     },
     {
         title_ua: 'Календар',
         url: '/schedule',
         icon: () => <MaterialSymbolsCalendarClockRounded />,
         visible: true,
+        slug: 'schedule',
     },
     {
         title_ua: 'Головна',
         url: '/',
         icon: () => <MaterialSymbolsHomeRounded />,
         visible: false,
+        slug: 'home',
     },
     {
         title_ua: 'Користувачі',
         url: '/u',
         icon: () => <UsersIcon />,
         visible: false,
+        slug: 'users',
     },
     {
         title_ua: 'Персонажі',
         url: '/characters',
         icon: () => <MaterialSymbolsFace3 />,
         visible: false,
+        slug: 'characters',
     },
     {
         title_ua: 'Люди',
         url: '/people',
         icon: () => <MaterialSymbolsPerson />,
         visible: false,
+        slug: 'people',
     },
     {
         title_ua: 'Коментарі',
         url: '/comments',
         icon: () => <IconamoonCommentFill />,
         visible: false,
+        slug: 'comments',
     },
 ];
 
-const SOCIAL_GROUP = [
+const SOCIAL_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Telegram',
         url: 'https://t.me/hikka_io',
         icon: () => <BxBxlTelegram />,
         visible: true,
+        slug: 'telegram',
     },
     {
         title_ua: 'Donatello',
         url: 'https://donatello.to/hikka.io',
         icon: () => <BxBxsDonateHeart />,
         visible: true,
+        slug: 'donatello',
     },
 ];
 
-export const APP_SIDEBAR = [
+export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     {
         title_ua: 'Контент',
         items: CONTENT_GROUP,
@@ -283,10 +309,6 @@ export const APP_SIDEBAR = [
     {
         title_ua: 'Спільнота',
         items: COMMUNITY_GROUP,
-    },
-    {
-        title_ua: 'Модерація',
-        items: MODERATION_GROUP,
     },
     {
         title_ua: 'Інше',

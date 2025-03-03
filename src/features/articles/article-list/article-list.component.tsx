@@ -18,6 +18,7 @@ import ArticleFiltersModal from '@/features/modals/article-filters-modal.compone
 
 import useArticles from '@/services/hooks/articles/use-articles';
 import useSession from '@/services/hooks/auth/use-session';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
 
@@ -34,6 +35,8 @@ const ArticleList: FC<Props> = () => {
     const draft = Boolean(searchParams.get('draft')) ?? false;
     const categories =
         (searchParams.getAll('categories') as API.ArticleCategory[]) || [];
+
+    const selectedCategory = categories.length === 1 && categories[0];
 
     const {
         list,
@@ -55,7 +58,10 @@ const ArticleList: FC<Props> = () => {
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h2">
-                        <span>Стрічка </span>
+                        {selectedCategory
+                            ? ARTICLE_CATEGORY_OPTIONS[selectedCategory]
+                                  ?.title_ua
+                            : 'Статті'}
                     </HeaderTitle>
                     {user && (
                         <Button asChild size="icon-sm" variant="outline">

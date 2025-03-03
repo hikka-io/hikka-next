@@ -1,9 +1,4 @@
-import {
-    JSXElementConstructor,
-    ReactElement,
-    ReactNode,
-    SVGProps,
-} from 'react';
+import { ReactElement, ReactNode, SVGProps } from 'react';
 
 declare global {
     namespace Hikka {
@@ -26,13 +21,10 @@ declare global {
             slug: string;
             title_ua: string;
             url: string;
-            group?: string;
-            icon?: (
-                props: SVGProps<SVGSVGElement>,
-            ) => ReactElement<any, string | JSXElementConstructor<any>>;
+            icon?: () => ReactElement;
             role?: API.UserRole[];
-            internals?: NavRoute[];
             visible?: boolean;
+            items?: NavRoute[];
         };
 
         type EditParamGroup = {

@@ -20,6 +20,7 @@ const TITLES: Record<API.NotificationType, string> = {
     edit_updated: 'Правка оновлена',
     comment_reply: 'Новий коментар',
     comment_vote: 'Нова оцінка',
+    article_vote: 'Нова оцінка',
     comment_tag: 'Нова згадка',
     edit_comment: 'Новий коментар у правці',
     collection_comment: 'Новий коментар у колекції',
@@ -54,6 +55,8 @@ const DESCRIPTIONS: Record<
         `Користувач **${username}** підписався на Ваш профіль`,
     collection_vote: (username: string) =>
         `Користувач **${username}** оцінив Вашу колекцію`,
+    article_vote: (username: string) =>
+        `Користувач **${username}** оцінив Вашу статтю`,
     thirdparty_login: (client_name: string) =>
         `Ви авторизувались через сторонній застосунок **${client_name}**`,
     article_comment: (username: string) =>
@@ -75,6 +78,7 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     collection_vote: <MaterialSymbolsFavoriteRounded />,
     thirdparty_login: <MaterialSymbolsLockOpenRightOutlineRounded />,
     article_comment: <MaterialSymbolsAddCommentRounded />,
+    article_vote: <MaterialSymbolsFavoriteRounded />,
 };
 
 const getCommentLink = (
@@ -270,6 +274,28 @@ const collectionVote = (
     };
 };
 
+const articleVote = (
+    notification: API.Notification<API.NotificationVoteData>,
+): Hikka.TextNotification => {
+    const { slug, username, avatar, user_score } = notification.data;
+
+    return {
+        ...getInitialData(notification),
+        title: `${TITLES[notification.notification_type]} (${user_score > 0 ? '+' : ''}${user_score})`,
+        icon:
+            user_score > 0 ? (
+                <MaterialSymbolsHeartPlusRounded />
+            ) : (
+                <MaterialSymbolsHeartMinusRounded />
+            ),
+        description: DESCRIPTIONS[notification.notification_type](username),
+        href: `/articles/${slug}`,
+        image: (
+            <ContentCard containerRatio={1} className="w-10" image={avatar} />
+        ),
+    };
+};
+
 const thirdpartyLogin = (
     notification: API.Notification<API.NotificationThirdpartyLoginData>,
 ): Hikka.TextNotification => {
@@ -298,6 +324,10 @@ export const convertNotification = (
         case 'comment_reply':
             return commentReply(
                 notification as API.Notification<API.NotificationCommentData>,
+            );
+        case 'article_vote':
+            return articleVote(
+                notification as API.Notification<API.NotificationVoteData>,
             );
         case 'comment_vote':
             return commentVote(
