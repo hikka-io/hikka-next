@@ -30,6 +30,7 @@ const Author: FC<Props> = ({ article }) => {
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">
                     <HorizontalCardDescription
+                        rel="author"
                         href={`/articles?categories=${article.category}`}
                     >
                         {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}

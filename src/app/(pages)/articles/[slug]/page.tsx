@@ -40,6 +40,13 @@ export async function generateMetadata({
     return _generateMetadata({
         title: `${article.title} / ${ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}`,
         keywords: article.tags.map((tag) => tag.name).join(', '),
+        openGraph: {
+            type: 'article',
+            authors: [article.author.username],
+        },
+        alternates: {
+            canonical: `https://hikka.io/articles/${slug}`,
+        },
     });
 }
 
@@ -60,10 +67,34 @@ const ArticlePage = async (props: MetadataProps) => {
         return permanentRedirect('/articles');
     }
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: article.title,
+        author: {
+            '@type': 'Person',
+            name: article.author.username,
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Hikka',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://hikka.io/logo-icon.png',
+            },
+        },
+        datePublished: article.created,
+        dateModified: article.updated || article.created,
+    };
+
     const dehydratedState = dehydrate(queryClient);
 
     return (
         <HydrationBoundary state={dehydratedState}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link

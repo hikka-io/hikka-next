@@ -42,6 +42,8 @@ const generateMetadata = ({
     images,
     siteName,
     other,
+    openGraph,
+    twitter,
     ...props
 }: Props): Metadata => {
     return {
@@ -52,12 +54,14 @@ const generateMetadata = ({
             title: title || DEFAULTS.title,
             description: description || DEFAULTS.description,
             images: images || DEFAULTS.images,
+            ...openGraph,
         },
         twitter: {
             site: siteName || DEFAULTS.siteName,
             title: title || DEFAULTS.title,
             description: description || DEFAULTS.description,
             images: images || DEFAULTS.images,
+            ...twitter,
         },
         other,
         ...props,

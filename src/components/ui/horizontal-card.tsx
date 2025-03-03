@@ -1,4 +1,10 @@
-import React, { ComponentProps, FC, PropsWithChildren, ReactNode } from 'react';
+import React, {
+    ComponentProps,
+    ComponentPropsWithoutRef,
+    FC,
+    PropsWithChildren,
+    ReactNode,
+} from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
@@ -28,12 +34,12 @@ const useHorizontalCard = () => {
     return context;
 };
 
-interface HorizontalCardTitleProps {
+interface HorizontalCardTitleProps extends ComponentPropsWithoutRef<'div'> {
     className?: string;
     titleMeta?: ReactNode;
 }
 
-const HorizontalCardTitle: FC<PropsWithChildren<HorizontalCardTitleProps>> = ({
+const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     children,
     className,
     titleMeta,
@@ -55,17 +61,20 @@ const HorizontalCardTitle: FC<PropsWithChildren<HorizontalCardTitleProps>> = ({
     );
 };
 
-interface HorizontalCardDescriptionProps {
+interface HorizontalCardDescriptionProps extends ComponentPropsWithoutRef<'a'> {
     className?: string;
     href?: string;
 }
 
-const HorizontalCardDescription: FC<
-    PropsWithChildren<HorizontalCardDescriptionProps>
-> = ({ children, className, href }) => {
+const HorizontalCardDescription: FC<HorizontalCardDescriptionProps> = ({
+    children,
+    className,
+    href,
+    ...props
+}) => {
     if (typeof children === 'string') {
         return (
-            <Link href={href}>
+            <Link href={href} {...props}>
                 <MDViewer
                     className={cn(
                         'line-clamp-1 !text-xs text-muted-foreground',
