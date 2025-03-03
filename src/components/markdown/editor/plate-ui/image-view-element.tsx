@@ -4,29 +4,24 @@ import { cn, withRef } from '@udecode/cn';
 import { useElement } from '@udecode/plate-common/react';
 import { PhotoView } from 'react-photo-view';
 
-import { ImageItemElement } from '../plugins/image-group-plugin/image-group-plugin';
-import { PlateElement } from './plate-element';
+import Image from '@/components/ui/image';
 
-export const ImageViewElement = withRef<typeof PlateElement>(
-    ({ children, className, ...props }, ref) => {
+import { ImageItemElement } from '../plugins/image-group-plugin/image-group-plugin';
+
+export const ImageViewElement = withRef<typeof Image>(
+    ({ children, className }, ref) => {
         const element = useElement<ImageItemElement>();
 
         return (
             <PhotoView src={element.url}>
-                <PlateElement
-                    {...props}
-                    className={cn(
-                        className,
-                        'size-full cursor-pointer bg-cover bg-center',
-                    )}
-                    style={{
-                        backgroundImage: `url(${element.url})`,
-                    }}
+                <Image
+                    alt="image"
+                    className={cn(className, 'size-full object-cover')}
+                    width={200}
+                    height={100}
+                    src={element.url}
                     ref={ref}
-                    contentEditable={false}
-                >
-                    {children}
-                </PlateElement>
+                />
             </PhotoView>
         );
     },
