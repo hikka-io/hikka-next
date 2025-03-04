@@ -10,6 +10,7 @@ import Card from '@/components/ui/card';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
+import MaterialSymbolsVisibilityOutlineRounded from '../icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import ArticleViewer from '../markdown/editor/article-viewer';
 import { Header, HeaderContainer, HeaderTitle } from '../ui/header';
 import Author from './article-author';
@@ -59,6 +60,16 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     )}
                 </div>
                 <div className="flex gap-1">
+                    {article.views > 0 && (
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="pointer-events-none gap-1 text-muted-foreground"
+                        >
+                            <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
+                            {article.views}
+                        </Button>
+                    )}
                     <Button
                         asChild
                         variant="ghost"

@@ -692,6 +692,7 @@ declare global {
             comments_count: number;
             vote_score: number;
             my_score: number;
+            views: number;
             updated: number;
             created: number;
         };

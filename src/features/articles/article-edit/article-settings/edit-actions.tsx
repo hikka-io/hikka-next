@@ -7,7 +7,7 @@ import { FC, useCallback } from 'react';
 
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
-import MaterialSymbolsVisibilityOutline from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutline';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
 
 import updateArticle from '@/services/api/articles/updateArticle';
@@ -99,7 +99,7 @@ const EditActions: FC<Props> = () => {
                     target="_blank"
                     href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
                 >
-                    <MaterialSymbolsVisibilityOutline className="size-4" />
+                    <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
                     Переглянути
                 </Link>
             </Button>

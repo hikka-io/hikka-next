@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import Small from '@/components/typography/small';
 import Card from '@/components/ui/card';
 import {
@@ -18,7 +19,7 @@ interface Props {
     article: API.Article;
 }
 
-const NewsItem: FC<Props> = ({ article }) => {
+const ArticleItem: FC<Props> = ({ article }) => {
     return (
         <Card className="gap-2">
             <HorizontalCard
@@ -42,6 +43,12 @@ const NewsItem: FC<Props> = ({ article }) => {
                     })}
                 </Small>
                 <div className="flex gap-2 text-xs text-muted-foreground">
+                    {article.views > 0 && (
+                        <div className="flex items-center gap-1">
+                            <MaterialSymbolsVisibilityOutlineRounded />
+                            <Small>{article.views}</Small>
+                        </div>
+                    )}
                     <div className="flex items-center gap-1">
                         <IconamoonCommentFill />
                         <Small>{article.comments_count}</Small>
@@ -56,4 +63,4 @@ const NewsItem: FC<Props> = ({ article }) => {
     );
 };
 
-export default NewsItem;
+export default ArticleItem;

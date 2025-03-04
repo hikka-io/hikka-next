@@ -23,11 +23,11 @@ import useArticles from '@/services/hooks/articles/use-articles';
 import useSession from '@/services/hooks/auth/use-session';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-import NewsItem from './news-item';
+import ArticleItem from './article-item';
 
 interface Props {}
 
-const UserNews: FC<Props> = () => {
+const UserArticles: FC<Props> = () => {
     const { user } = useSession();
     const params = useParams();
     const { list } = useArticles({
@@ -68,11 +68,11 @@ const UserNews: FC<Props> = () => {
             </Header>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 {filteredNews?.map((article) => (
-                    <NewsItem key={article.slug} article={article} />
+                    <ArticleItem key={article.slug} article={article} />
                 ))}
             </div>
         </Block>
     );
 };
 
-export default UserNews;
+export default UserArticles;
