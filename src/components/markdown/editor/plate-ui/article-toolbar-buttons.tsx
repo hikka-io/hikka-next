@@ -10,6 +10,7 @@ import { InsertDropdownMenu } from './insert-dropdown-menu';
 import { LinkToolbarButton } from './link-toolbar-button';
 import { MarkToolbarButton } from './mark-toolbar-button';
 import { ToolbarGroup } from './toolbar';
+import { VideoToolbarButton } from './video-toolbar-button';
 
 export function ArticleToolbarButtons() {
     const readOnly = useEditorReadOnly();
@@ -45,6 +46,7 @@ export function ArticleToolbarButtons() {
                     </ToolbarGroup>
                     <ToolbarGroup>
                         <ImageGroupToolbarButton />
+                        <VideoToolbarButton />
                     </ToolbarGroup>
                 </>
             )}

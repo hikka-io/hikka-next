@@ -4,6 +4,7 @@ import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';
 
 import { VIDEO } from '@/utils/constants/common';
+import parseYouTubeThumbnail from '@/utils/parse-youtube-thumb';
 
 interface Props {
     extended?: boolean;
@@ -15,18 +16,6 @@ const Video: FC<Props> = ({ extended, videos }) => {
         return null;
     }
 
-    const getYoutubeThumb = (url: string) => {
-        const parsed = url.split('/');
-
-        if (parsed.length > 0) {
-            return `https://img.youtube.com/vi/${
-                parsed[parsed.length - 1]
-            }/mqdefault.jpg`;
-        }
-
-        return undefined;
-    };
-
     const filteredVideoData = extended ? videos : videos.slice(0, 3);
 
     return (
@@ -36,24 +25,20 @@ const Video: FC<Props> = ({ extended, videos }) => {
             extended={extended}
             className="grid-min-10"
         >
-            {filteredVideoData.map((video) => {
-                const thumb = getYoutubeThumb(video.url);
-
-                return (
-                    <ContentCard
-                        target="_blank"
-                        key={video.url}
-                        href={video.url || '#'}
-                        title={video.title}
-                        image={thumb}
-                        containerRatio={1.7}
-                        description={
-                            VIDEO[video.video_type].title_ua ||
-                            VIDEO[video.video_type].title_en
-                        }
-                    />
-                );
-            })}
+            {filteredVideoData.map((video) => (
+                <ContentCard
+                    target="_blank"
+                    key={video.url}
+                    href={video.url || '#'}
+                    title={video.title}
+                    image={parseYouTubeThumbnail(video.url)}
+                    containerRatio={1.7}
+                    description={
+                        VIDEO[video.video_type].title_ua ||
+                        VIDEO[video.video_type].title_en
+                    }
+                />
+            ))}
         </Stack>
     );
 };

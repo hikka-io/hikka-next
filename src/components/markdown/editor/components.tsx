@@ -34,11 +34,14 @@ import { LinkElement } from './plate-ui/link-element';
 import { LinkViewElement } from './plate-ui/link-view-element';
 import { ListElement } from './plate-ui/list-element';
 import { SpoilerElement } from './plate-ui/spoiler-element';
+import { VideoElement } from './plate-ui/video-element';
+import { VideoViewElement } from './plate-ui/video-view-element';
 import {
     ImageGroupPlugin,
     ImagePlugin,
 } from './plugins/image-group-plugin/image-group-plugin';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
+import { VideoPlugin } from './plugins/video-plugin/video-plugin';
 
 export const editorComponents = {
     [EmojiInputPlugin.key]: EmojiInputElement,
@@ -80,6 +83,7 @@ export const editorComponents = {
     [SpoilerPlugin.key]: SpoilerElement,
     [ImageGroupPlugin.key]: ImageGroupElement,
     [ImagePlugin.key]: ImageElement,
+    [VideoPlugin.key]: VideoElement,
 };
 
 export const viewerComponents = {
@@ -111,4 +115,5 @@ export const viewerComponents = {
     [ListItemPlugin.key]: Li,
     [ImageGroupPlugin.key]: ImageGroupViewElement,
     [ImagePlugin.key]: ImageViewElement,
+    [VideoPlugin.key]: VideoViewElement,
 };

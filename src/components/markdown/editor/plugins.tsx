@@ -24,6 +24,7 @@ import { ImageGroupPlugin } from './plugins/image-group-plugin/image-group-plugi
 import { linkPlugin } from './plugins/link-plugin';
 import { MarkdownPlugin } from './plugins/markdown-plugin/markdown-plugin';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
+import { VideoPlugin } from './plugins/video-plugin/video-plugin';
 
 const resetBlockTypesCommonRule = {
     types: [...HEADING_LEVELS, BlockquotePlugin.key],
@@ -107,10 +108,11 @@ export const articlePlugins = [
             levels: [3, 4, 5],
         },
     }),
-    ImageGroupPlugin.extend({
+    ImageGroupPlugin.configure({
         options: {
             uploadImage: (file) =>
                 uploadImage({ params: { file, upload_type: 'attachment' } }),
         },
     }),
+    VideoPlugin,
 ];
