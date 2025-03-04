@@ -20,6 +20,11 @@ interface Props {
 }
 
 const ArticleItem: FC<Props> = ({ article }) => {
+    const document =
+        article.document[0].type === 'preview'
+            ? article.document[0].children
+            : article.document;
+
     return (
         <Card className="gap-0 overflow-hidden p-0 rounded-none md:rounded-lg">
             <Author article={article} />
@@ -44,7 +49,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         </HeaderContainer>
                     </Header>
                 </div>
-                <ArticleViewer initialValue={article.document[0].children} />
+                <ArticleViewer initialValue={document} />
             </div>
             <div className="flex items-center justify-between p-4">
                 <div className="flex gap-2">

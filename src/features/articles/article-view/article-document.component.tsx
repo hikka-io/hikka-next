@@ -20,14 +20,12 @@ const ArticleDocument: FC<Props> = () => {
         return null;
     }
 
-    return (
-        <ArticleViewer
-            initialValue={[
-                ...article.document[0].children,
-                ...article.document.slice(1),
-            ]}
-        />
-    );
+    const document =
+        article.document[0].type === 'preview'
+            ? [...article.document[0].children, ...article.document.slice(1)]
+            : article.document;
+
+    return <ArticleViewer initialValue={document} />;
 };
 
 export default ArticleDocument;
