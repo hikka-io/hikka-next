@@ -1,7 +1,6 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import clsx from 'clsx';
 import { useParams, useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
@@ -14,6 +13,7 @@ import { Slider } from '@/components/ui/slider';
 
 import uploadImage from '@/services/api/upload/uploadImage';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 
 interface Props {
     file?: File;
@@ -150,7 +150,7 @@ const Component = ({ file, type }: Props) => {
             <div className="relative grid h-auto w-full place-content-center text-center">
                 <AvatarEditor
                     ref={editor}
-                    className={clsx(
+                    className={cn(
                         '!w-full !h-auto !m-auto',
                         'rounded',
                         isLoading && 'pointer-events-none',

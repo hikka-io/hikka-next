@@ -1,8 +1,9 @@
 'use client';
 
-import clsx from 'clsx';
 import { CustomContentProps, SnackbarContent } from 'notistack';
 import { ReactElement, SVGProps, forwardRef, memo } from 'react';
+
+import { cn } from '@/utils/utils';
 
 import EpSuccessFilled from './icons/ep/EpSuccessFilled';
 import MaterialSymbolsErrorCircleRounded from './icons/material-symbols/MaterialSymbolsErrorCircleRounded';
@@ -54,7 +55,7 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
         return (
             <SnackbarContent
                 ref={forwardedRef}
-                className={clsx(
+                className={cn(
                     'flex h-full max-w-sm flex-nowrap items-center gap-4 rounded-md border border-border bg-background p-4 text-sm text-foreground shadow-md',
                 )}
             >
@@ -65,14 +66,14 @@ const ThemeResponsiveSnackbar = forwardRef<HTMLDivElement, CustomContentProps>(
                 <div className="flex-1">{message}</div>
                 <div className="relative flex h-full items-end">
                     <div
-                        className={clsx(
+                        className={cn(
                             'absolute',
                             'h-full w-1 rounded-full opacity-30',
                             `bg-${getVariantColor()}`,
                         )}
                     />
                     <div
-                        className={clsx(
+                        className={cn(
                             'snackbar-timer h-full w-1 rounded-full',
                             `bg-${getVariantColor()}`,
                         )}

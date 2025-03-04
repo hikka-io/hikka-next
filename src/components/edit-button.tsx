@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import EditListModal from '@/features/modals/editlist-modal/editlist-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 
 import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
@@ -37,7 +37,7 @@ const EditButton: FC<Props> = ({ className, slug, content_type }) => {
                             title: 'Список правок',
                         })
                     }
-                    className={clsx(className)}
+                    className={cn(className)}
                 >
                     <MaterialSymbolsEditRounded className="!size-5" />
                 </Button>

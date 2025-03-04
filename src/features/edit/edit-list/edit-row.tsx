@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -16,6 +15,7 @@ import { getTitle } from '@/utils/adapters/convert-title';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { cn } from '@/utils/utils';
 
 interface Props {
     edit: API.Edit;
@@ -27,7 +27,7 @@ const EditRow: FC<Props> = ({ edit }) => {
     return (
         <TableRow
             key={edit.edit_id}
-            className={clsx('hover:cursor-pointer')}
+            className={cn('hover:cursor-pointer')}
             onClick={() => router.push(`/edit/${edit.edit_id}`)}
         >
             <TableCell className="hidden w-8 sm:table-cell">

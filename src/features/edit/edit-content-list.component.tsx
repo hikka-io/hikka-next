@@ -1,7 +1,6 @@
 'use client';
 
 import { range } from '@antfu/utils';
-import clsx from 'clsx';
 import { FC, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -21,6 +20,7 @@ import {
 } from '@/components/ui/select';
 
 import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;
@@ -94,7 +94,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                 </Select>
             </div>
             <div
-                className={clsx(
+                className={cn(
                     'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
                     extended && 'md:grid-cols-5',
                 )}
