@@ -1,8 +1,8 @@
 'use client';
 
 import { cn } from '@udecode/cn';
-import type { PlateElementProps } from '@udecode/plate-common/react';
-import { PlateElement as PlateElementPrimitive } from '@udecode/plate-common/react';
+import type { PlateElementProps } from '@udecode/plate/react';
+import { PlateElement as PlateElementPrimitive } from '@udecode/plate/react';
 import React from 'react';
 
 import { BlockSelection } from './block-selection';

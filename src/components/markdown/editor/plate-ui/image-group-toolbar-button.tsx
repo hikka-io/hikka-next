@@ -1,6 +1,6 @@
 'use client';
 
-import { useEditorRef } from '@udecode/plate-common/react';
+import { useEditorRef } from '@udecode/plate/react';
 import { ImageIcon } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';

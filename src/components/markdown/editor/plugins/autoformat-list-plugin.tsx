@@ -1,5 +1,6 @@
 'use client';
 
+import { ElementApi, type SlateEditor } from '@udecode/plate';
 import type {
     AutoformatBlockRule,
     AutoformatRule,
@@ -15,8 +16,6 @@ import {
 import { AutoformatPlugin } from '@udecode/plate-autoformat/react';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
-import type { SlateEditor } from '@udecode/plate-common';
-import { getParentNode, isElement } from '@udecode/plate-common';
 import { toggleList, unwrapList } from '@udecode/plate-list';
 import {
     BulletedListPlugin,
@@ -28,10 +27,10 @@ export const preFormat: AutoformatBlockRule['preFormat'] = (editor) =>
     unwrapList(editor);
 export const format = (editor: SlateEditor, customFormatting: any) => {
     if (editor.selection) {
-        const parentEntry = getParentNode(editor, editor.selection);
+        const parentEntry = editor.api.parent(editor.selection);
         if (!parentEntry) return;
         const [node] = parentEntry;
-        if (isElement(node)) {
+        if (ElementApi.isElement(node)) {
             customFormatting();
         }
     }

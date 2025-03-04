@@ -1,8 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { resetEditor } from '@udecode/plate-common';
-import { useEditorRef } from '@udecode/plate-common/react';
+import { useEditorRef } from '@udecode/plate/react';
 import { FC } from 'react';
 
 import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
@@ -47,7 +46,7 @@ const CommentInputBottomBar: FC<Props> = ({
             exact: false,
         });
 
-        resetEditor(editor);
+        editor.tf.reset();
 
         if (comment) {
             setCommentsState!((prev) => ({

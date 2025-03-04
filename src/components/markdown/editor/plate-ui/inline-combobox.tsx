@@ -14,24 +14,14 @@ import {
     useComboboxStore,
 } from '@ariakit/react';
 import { cn, withCn } from '@udecode/cn';
+import { type TElement } from '@udecode/plate';
 import { filterWords } from '@udecode/plate-combobox';
 import {
     type UseComboboxInputResult,
     useComboboxInput,
     useHTMLInputCursorState,
 } from '@udecode/plate-combobox/react';
-import {
-    type TElement,
-    createPointRef,
-    getPointBefore,
-    insertText,
-    moveSelection,
-} from '@udecode/plate-common';
-import {
-    findPath,
-    useComposedRef,
-    useEditorRef,
-} from '@udecode/plate-common/react';
+import { useComposedRef, useEditorRef } from '@udecode/plate/react';
 import { cva } from 'class-variance-authority';
 import React, {
     type HTMLAttributes,
@@ -134,15 +124,15 @@ const InlineCombobox = ({
     const [insertPoint, setInsertPoint] = useState<PointRef | null>(null);
 
     useEffect(() => {
-        const path = findPath(editor, element);
+        const path = editor.api.findPath(element);
 
         if (!path) return;
 
-        const point = getPointBefore(editor, path);
+        const point = editor.api.before(path);
 
         if (!point) return;
 
-        const pointRef = createPointRef(editor, point);
+        const pointRef = editor.api.pointRef(point);
         setInsertPoint(pointRef);
 
         return () => {
@@ -156,12 +146,12 @@ const InlineCombobox = ({
         ref: inputRef,
         onCancelInput: (cause) => {
             if (cause !== 'backspace') {
-                insertText(editor, trigger + value, {
+                editor.tf.insertText(trigger + value, {
                     at: insertPoint?.current ?? undefined,
                 });
             }
             if (cause === 'arrowLeft' || cause === 'arrowRight') {
-                moveSelection(editor, {
+                editor.tf.move({
                     distance: 1,
                     reverse: cause === 'arrowLeft',
                 });

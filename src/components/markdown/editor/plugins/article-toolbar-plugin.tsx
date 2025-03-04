@@ -1,6 +1,6 @@
 'use client';
 
-import { createPlatePlugin } from '@udecode/plate-common/react';
+import { createPlatePlugin } from '@udecode/plate/react';
 
 import { ArticleToolbarButtons } from '@/components/markdown/editor/plate-ui/article-toolbar-buttons';
 import { FixedToolbar } from '@/components/markdown/editor/plate-ui/fixed-toolbar';

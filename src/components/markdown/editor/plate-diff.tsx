@@ -1,8 +1,8 @@
 'use client';
 
-import { Value } from '@udecode/plate-common';
-import { createPlateEditor } from '@udecode/plate-common/react';
+import { Value } from '@udecode/plate';
 import { computeDiff } from '@udecode/plate-diff';
+import { createPlateEditor } from '@udecode/plate/react';
 import { FC, useMemo } from 'react';
 
 import BasicEditor from './basic-editor';
@@ -25,7 +25,6 @@ const PlateDiff: FC<Props> = ({ current, previous, className }) => {
             deserializeMd({ editor, data: previous }),
             deserializeMd({ editor, data: current }),
             {
-                isInline: editor.isInline,
                 lineBreakChar: '¶',
             },
         ) as Value;

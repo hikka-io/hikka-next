@@ -3,8 +3,6 @@
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
-import { isSelectionAtBlockStart } from '@udecode/plate-common';
-import { ParagraphPlugin } from '@udecode/plate-common/react';
 import { EmojiPlugin } from '@udecode/plate-emoji/react';
 import { HEADING_LEVELS } from '@udecode/plate-heading';
 import { HeadingPlugin } from '@udecode/plate-heading/react';
@@ -16,6 +14,7 @@ import {
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
 import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
+import { ParagraphPlugin } from '@udecode/plate/react';
 
 import uploadImage from '@/services/api/upload/uploadImage';
 
@@ -87,7 +86,7 @@ export const basicPlugins = [
                 {
                     ...resetBlockTypesCommonRule,
                     hotkey: 'Backspace',
-                    predicate: isSelectionAtBlockStart,
+                    predicate: (editor) => editor.api.isAt({ start: true }),
                 },
             ],
         },

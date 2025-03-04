@@ -1,7 +1,7 @@
 'use client';
 
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
-import { useEditorReadOnly } from '@udecode/plate-common/react';
+import { useEditorReadOnly } from '@udecode/plate/react';
 import { BoldIcon, ItalicIcon } from 'lucide-react';
 
 import { EmojiDropdownMenu } from './emoji-dropdown-menu';

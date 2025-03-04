@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from '@udecode/cn';
-import { useFormInputProps } from '@udecode/plate-common/react';
 import {
     type UseVirtualFloatingOptions,
     flip,
@@ -16,6 +15,7 @@ import {
     useFloatingLinkInsert,
     useFloatingLinkInsertState,
 } from '@udecode/plate-link/react';
+import { useFormInputProps } from '@udecode/plate/react';
 
 import MaterialSymbolsLinkOffRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkOffRounded';
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';

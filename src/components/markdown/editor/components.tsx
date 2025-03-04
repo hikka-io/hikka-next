@@ -1,10 +1,5 @@
 import { withProps } from '@udecode/cn';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
-import {
-    ParagraphPlugin,
-    PlateElement,
-    PlateLeaf,
-} from '@udecode/plate-common/react';
 import { EmojiInputPlugin } from '@udecode/plate-emoji/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
 import { LinkPlugin } from '@udecode/plate-link/react';
@@ -13,6 +8,7 @@ import {
     ListItemPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
+import { ParagraphPlugin, PlateElement, PlateLeaf } from '@udecode/plate/react';
 
 import Blockquote, {
     BLOCKQUOTE_CLASSNAME,

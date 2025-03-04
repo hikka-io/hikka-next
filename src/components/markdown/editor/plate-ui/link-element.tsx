@@ -1,9 +1,9 @@
 'use client';
 
 import { cn, withRef } from '@udecode/cn';
-import { useElement } from '@udecode/plate-common/react';
 import type { TLinkElement } from '@udecode/plate-link';
 import { useLink } from '@udecode/plate-link/react';
+import { useElement } from '@udecode/plate/react';
 
 import { PlateElement } from './plate-element';
 

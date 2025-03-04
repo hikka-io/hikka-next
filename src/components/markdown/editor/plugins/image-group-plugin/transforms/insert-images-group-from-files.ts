@@ -1,5 +1,5 @@
-import { TElement } from '@udecode/plate-common';
-import { PlateEditor } from '@udecode/plate-common/react';
+import { TElement } from '@udecode/plate';
+import { PlateEditor } from '@udecode/plate/react';
 import { Jimp, JimpMime } from 'jimp';
 
 import { ImageGroupPlugin } from '../image-group-plugin';

@@ -1,4 +1,4 @@
-import { TElement, isElement, isText } from '@udecode/plate-common';
+import { ElementApi, TElement, TextApi } from '@udecode/plate';
 
 /**
  * Removes empty text nodes from the beginning and end of a Plate.js document
@@ -13,11 +13,11 @@ export default function removeEmptyTextNodes(nodes: TElement[]): TElement[] {
     // Helper function to check if a node is an empty text node
     const isEmptyTextNode = (node: TElement): boolean => {
         return (
-            isElement(node) &&
+            ElementApi.isElement(node) &&
             node.type === 'p' &&
             node.children &&
             node.children.length === 1 &&
-            isText(node.children[0]) &&
+            TextApi.isText(node.children[0]) &&
             node.children[0].text.trim() === ''
         );
     };

@@ -1,5 +1,5 @@
-import { getPluginType, isElement, removeNodes } from '@udecode/plate-common';
-import type { ExtendEditor } from '@udecode/plate-common/react';
+import { ElementApi, getPluginType } from '@udecode/plate';
+import type { ExtendEditor } from '@udecode/plate/react';
 import { Text } from 'slate';
 
 import { ImageGroupConfig, ImageGroupPlugin } from './image-group-plugin';
@@ -9,32 +9,30 @@ export const withImageGroup: ExtendEditor<ImageGroupConfig> = ({
     editor,
     plugin,
 }) => {
-    const { normalizeNode, insertData } = editor;
-
-    editor.normalizeNode = ([node, path]) => {
+    editor.tf.normalizeNode = ([node, path]) => {
         if (
-            isElement(node) &&
+            ElementApi.isElement(node) &&
             node.type === getPluginType(editor, ImageGroupPlugin)
         ) {
             const { children } = node;
 
             if (children.length === 1 && Text.isText(children[0])) {
-                removeNodes(editor, { at: path });
+                editor.tf.removeNodes({ at: path });
                 return;
             }
         }
 
-        normalizeNode([node, path]);
+        editor.tf.normalizeNode([node, path]);
     };
 
-    editor.insertData = (data: DataTransfer) => {
+    editor.tf.insertData = (data: DataTransfer) => {
         const text = data.getData('text/plain');
         const { files } = data;
 
         if (!text && files && files.length > 0) {
             insertImageGroupFromFiles(editor, files);
         } else {
-            return insertData(data);
+            return editor.tf.insertData(data);
         }
     };
 

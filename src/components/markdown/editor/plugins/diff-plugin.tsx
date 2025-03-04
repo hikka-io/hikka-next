@@ -1,16 +1,16 @@
 'use client';
 
-import { createSlatePlugin, isInline } from '@udecode/plate-common';
-import {
-    PlateLeaf,
-    type PlateLeafProps,
-    toPlatePlugin,
-} from '@udecode/plate-common/react';
+import { createSlatePlugin } from '@udecode/plate';
 import {
     type DiffOperation,
     type DiffUpdate,
     withGetFragmentExcludeDiff,
 } from '@udecode/plate-diff';
+import {
+    PlateLeaf,
+    type PlateLeafProps,
+    toPlatePlugin,
+} from '@udecode/plate/react';
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
     delete: 'bg-red-200/50',
@@ -63,9 +63,8 @@ const describeUpdate = ({ newProperties, properties }: DiffUpdate) => {
 export const DiffPlugin = toPlatePlugin(
     createSlatePlugin({
         key: 'diff',
-        extendEditor: withGetFragmentExcludeDiff,
         node: { isLeaf: true },
-    }),
+    }).overrideEditor(withGetFragmentExcludeDiff),
     {
         render: {
             aboveNodes:
@@ -84,7 +83,7 @@ export const DiffPlugin = toPlatePlugin(
                         } as any
                     )[diffOperation.type];
 
-                    const Component = isInline(editor, element)
+                    const Component = editor.api.isInline(element)
                         ? 'span'
                         : 'div';
 

@@ -27,7 +27,11 @@ const CreateActions: FC<Props> = () => {
     const getDocument = useArticleContext((state) => state.getDocument);
     const getPreview = useArticleContext((state) => state.getPreview);
 
-    const { mutate: mutateCreateArticle, isPending } = useMutation({
+    const {
+        mutate: mutateCreateArticle,
+        isPending,
+        isSuccess,
+    } = useMutation({
         mutationFn: createArticle,
         onSuccess: (data) => {
             enqueueSnackbar('Ви успішно створили статтю.', {
@@ -87,7 +91,7 @@ const CreateActions: FC<Props> = () => {
     return (
         <div className="flex flex-col gap-4">
             <Button
-                disabled={!title || isPending}
+                disabled={!title || isPending || isSuccess}
                 variant="secondary"
                 onClick={() => handleCreateArticle(true)}
             >
@@ -95,7 +99,7 @@ const CreateActions: FC<Props> = () => {
             </Button>
 
             <Button
-                disabled={!title || isPending}
+                disabled={!title || isPending || isSuccess}
                 onClick={() => handleCreateArticle()}
             >
                 <MaterialSymbolsPublishRounded className="size-4" />

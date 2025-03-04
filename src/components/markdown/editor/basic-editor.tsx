@@ -1,11 +1,11 @@
 'use client';
 
-import { Value } from '@udecode/plate-common';
+import { Value } from '@udecode/plate';
 import {
     Plate,
     type PlateEditor as PlateEditorType,
     PlateProps,
-} from '@udecode/plate-common/react';
+} from '@udecode/plate/react';
 import { FC, useCallback } from 'react';
 
 import { cn } from '@/utils/utils';

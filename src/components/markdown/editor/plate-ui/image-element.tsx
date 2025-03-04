@@ -1,7 +1,7 @@
 'use client';
 
 import { cn, withRef } from '@udecode/cn';
-import { findPath, useElement } from '@udecode/plate-common/react';
+import { useElement } from '@udecode/plate/react';
 
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import { Button } from '@/components/ui/button';
@@ -14,8 +14,8 @@ export const ImageElement = withRef<typeof PlateElement>(
         const element = useElement<ImageItemElement>();
 
         const handleDeleteMediaItem = () => {
-            editor.removeNodes({
-                at: findPath(editor, element),
+            editor.tf.removeNodes({
+                at: editor.api.findPath(element),
             });
         };
 

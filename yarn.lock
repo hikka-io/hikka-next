@@ -501,13 +501,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emoji-mart/data@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@emoji-mart/data@npm:1.2.1"
-  checksum: 10c0/6784b97bf49a0d3ff110d8447bbd3b0449fcbc497294be3d1c3a6cb1609308776895c7520200be604cbecaa5e172c76927e47f34419c72ba8a76fd4e5a53674b
-  languageName: node
-  linkType: hard
-
 "@emotion/is-prop-valid@npm:^0.8.2":
   version: 0.8.8
   resolution: "@emotion/is-prop-valid@npm:0.8.8"
@@ -727,7 +720,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/core@npm:^1.6.0, @floating-ui/core@npm:^1.6.7":
+"@floating-ui/core@npm:^1.6.0, @floating-ui/core@npm:^1.6.9":
   version: 1.6.9
   resolution: "@floating-ui/core@npm:1.6.9"
   dependencies:
@@ -758,21 +751,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.26.23":
-  version: 0.26.28
-  resolution: "@floating-ui/react@npm:0.26.28"
+"@floating-ui/react@npm:^0.27.3":
+  version: 0.27.5
+  resolution: "@floating-ui/react@npm:0.27.5"
   dependencies:
     "@floating-ui/react-dom": "npm:^2.1.2"
-    "@floating-ui/utils": "npm:^0.2.8"
+    "@floating-ui/utils": "npm:^0.2.9"
     tabbable: "npm:^6.0.0"
   peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 10c0/a42df129e1e976fe8ba3f4c8efdda265a0196c1b66b83f2b9b27423d08dcc765406f893aeff9d830e70e3f14a9d4c490867eb4c32983317cbaa33863b0fae6f6
+    react: ">=17.0.0"
+    react-dom: ">=17.0.0"
+  checksum: 10c0/2da91779fddd3f368bfec0ceeb67b98e7b73f07b27f56f5ae339169de9c4145851ed432469d5dd81b99b9d6a5f0fefbb4ea8c881d2c97dd2dc0a0e96ad0945dd
   languageName: node
   linkType: hard
 
-"@floating-ui/utils@npm:^0.2.8, @floating-ui/utils@npm:^0.2.9":
+"@floating-ui/utils@npm:^0.2.9":
   version: 0.2.9
   resolution: "@floating-ui/utils@npm:0.2.9"
   checksum: 10c0/48bbed10f91cb7863a796cc0d0e917c78d11aeb89f98d03fc38d79e7eb792224a79f538ed8a2d5d5584511d4ca6354ef35f1712659fd569868e342df4398ad6f
@@ -1432,10 +1425,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/env@npm:15.2.0"
-  checksum: 10c0/e05ea6510e0d124fb9a42fafe091143594eb828a83aa2cf38a3624048c30fbf679744c048905c9a56ac87cba34dd7802392013c13e03fe022e441b3303cf32b6
+"@next/env@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/env@npm:15.2.1"
+  checksum: 10c0/776f118c18862950cde7f02885a43879879ea15e0c4ae82da5fbc498a304560373a3c07645ad255524c14b93f33590003a4915b15b39d51c8f99e804d823c583
   languageName: node
   linkType: hard
 
@@ -1455,9 +1448,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-darwin-arm64@npm:15.2.0"
+"@next/swc-darwin-arm64@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-darwin-arm64@npm:15.2.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -1469,9 +1462,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-darwin-x64@npm:15.2.0"
+"@next/swc-darwin-x64@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-darwin-x64@npm:15.2.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -1483,9 +1476,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-linux-arm64-gnu@npm:15.2.0"
+"@next/swc-linux-arm64-gnu@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-linux-arm64-gnu@npm:15.2.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -1497,9 +1490,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-linux-arm64-musl@npm:15.2.0"
+"@next/swc-linux-arm64-musl@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-linux-arm64-musl@npm:15.2.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
@@ -1511,9 +1504,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-linux-x64-gnu@npm:15.2.0"
+"@next/swc-linux-x64-gnu@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-linux-x64-gnu@npm:15.2.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -1525,9 +1518,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-linux-x64-musl@npm:15.2.0"
+"@next/swc-linux-x64-musl@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-linux-x64-musl@npm:15.2.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
@@ -1539,9 +1532,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-win32-arm64-msvc@npm:15.2.0"
+"@next/swc-win32-arm64-msvc@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-win32-arm64-msvc@npm:15.2.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
@@ -1560,9 +1553,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:15.2.0":
-  version: 15.2.0
-  resolution: "@next/swc-win32-x64-msvc@npm:15.2.0"
+"@next/swc-win32-x64-msvc@npm:15.2.1":
+  version: 15.2.1
+  resolution: "@next/swc-win32-x64-msvc@npm:15.2.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -2729,7 +2722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-slot@npm:1.1.2, @radix-ui/react-slot@npm:^1.1.0, @radix-ui/react-slot@npm:^1.1.1":
+"@radix-ui/react-slot@npm:1.1.2, @radix-ui/react-slot@npm:^1.1.1":
   version: 1.1.2
   resolution: "@radix-ui/react-slot@npm:1.1.2"
   dependencies:
@@ -4267,505 +4260,344 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/cn@npm:^40.2.8":
-  version: 40.2.8
-  resolution: "@udecode/cn@npm:40.2.8"
+"@udecode/cn@npm:^44.0.1":
+  version: 44.0.1
+  resolution: "@udecode/cn@npm:44.0.1"
   dependencies:
-    "@udecode/react-utils": "npm:40.2.8"
+    "@udecode/react-utils": "npm:44.0.1"
   peerDependencies:
     class-variance-authority: ">=0.7.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
     tailwind-merge: ">=2.2.0"
-  checksum: 10c0/039a5260e9ecdb32600790a1e125f72458955677a472de1a5ee1fb6c036ed8995a12ccf19f3f72d25222293367c35328a700a4b23d16d2f4d524d0a6cb17e855
+  checksum: 10c0/e63d07de6fa7b799284d1b509075e159f0ace33993fb9f5b8083db419a49a5bed02373f3bad7dff19af23183f59d2c4ddf728c2f5121f64e30dd6a5d824094a5
   languageName: node
   linkType: hard
 
-"@udecode/plate-autoformat@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-autoformat@npm:41.0.0"
+"@udecode/plate-autoformat@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-autoformat@npm:44.0.0"
   dependencies:
     lodash: "npm:^4.17.21"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/f08b4182ca43aa45efa70d289ca61a9ebf03b1cfa1209e0b23afcf0c54c037dad4257a0cefc856ebf25e68279c8f863af94476cef41c899ab80e9cf88e6c53a3
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/2a26af3326110ad784185fc5b681bca5174a7a7e667db8359d7adedba5c3479c19292bb9a2ecccd97b23789438b3ccd63bd41cdadf51ae697b2bedbd2fd1ac10
   languageName: node
   linkType: hard
 
-"@udecode/plate-basic-elements@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-basic-elements@npm:41.0.0"
+"@udecode/plate-basic-elements@npm:^46.0.4":
+  version: 46.0.4
+  resolution: "@udecode/plate-basic-elements@npm:46.0.4"
   dependencies:
-    "@udecode/plate-block-quote": "npm:41.0.0"
-    "@udecode/plate-code-block": "npm:41.0.0"
-    "@udecode/plate-heading": "npm:41.0.0"
+    "@udecode/plate-block-quote": "npm:44.0.0"
+    "@udecode/plate-code-block": "npm:46.0.4"
+    "@udecode/plate-heading": "npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/8c3fad81a6e31c691ae3911a8f53139a603bc1c6cd0b0884ccacb5fd499e9d3ed2acb254b5e82e30e07b80e047ede86b29404ca00271ffd9b29ce2a0ff198bdc
+    "@udecode/plate": ">=46.0.4"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/99d9e38c060bb459b7a87f78e0ab71efd88376941f4f2173269f85e35718168e577318225cbea7c64bb1ce032bcd010ad40b25252712627b36d8ab693740c67f
   languageName: node
   linkType: hard
 
-"@udecode/plate-basic-marks@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-basic-marks@npm:41.0.0"
+"@udecode/plate-basic-marks@npm:^46.0.5":
+  version: 46.0.5
+  resolution: "@udecode/plate-basic-marks@npm:46.0.5"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/c5a1ed6215cb532f1c6f8dffb4ed8fed9079fca8dc8e0a09192cabd494f53cf38476cc176d83f866660c6c33950182565c5af0a2e70abe07465031b1ecf89d49
+    "@udecode/plate": ">=46.0.4"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/734db1fcbe18a6d2fe90d01b618b1662baeee4574c2fbbcd3a8735ee62021c700dec11efd67fdabdd3707b7f044a7e3d8197df4a0c0de539918399d1aaf1ba02
   languageName: node
   linkType: hard
 
-"@udecode/plate-block-quote@npm:41.0.0, @udecode/plate-block-quote@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-block-quote@npm:41.0.0"
+"@udecode/plate-block-quote@npm:44.0.0, @udecode/plate-block-quote@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-block-quote@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/138e0d9b7d3308e453ab2f7ed09641f9b24a60435bf07d1df4a5e61fe6839f24d0fd0f1d090e73f7e4addfdf83a61e9a258a36d4cae9eab739462a5fe9a46a79
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/0e87631028e6a51340f2db0e4bd9fffa50677f383821c97a3703458061ee1b216387e330a45b425619abe18728ea0fbafb2cc00f84708c5270bdcaec6b4e25fc
   languageName: node
   linkType: hard
 
-"@udecode/plate-break@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-break@npm:41.0.0"
+"@udecode/plate-break@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-break@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/02f918a572b5922d4ce92ce59f2e5ca7d0da0cde359bf1ca987289b60cc2282d6965f6b36b0bf592b7eec71f7c2f92a187e7be87aa620266bd3f87431010671f
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/04f36117f6aca369eff497e027aa75fa4f31b33a2d90c65f09460ddf603407f92c14c6883f97a3314fe4463a73cff192533525e025e67f69f6e3ed010c047b0a
   languageName: node
   linkType: hard
 
-"@udecode/plate-caption@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-caption@npm:41.0.0"
+"@udecode/plate-caption@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-caption@npm:44.0.0"
   dependencies:
-    react-textarea-autosize: "npm:^8.5.3"
+    react-textarea-autosize: "npm:^8.5.7"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/6d2ea27996f67a0540c4a92a7c18283edbebf9353c5dcc8033ed9ab79c83eac87bf3b0b55fb0a3066954f5fd5a20dae6e1fd534e58b73906bbcfa5ddd3e30944
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/c3d49177057838c9a3db4b123ed946354fe035b28ff441fb79521e0b78916e3051f23012aa879629bb4f02a1a8119875efb2249209b2a17bcc48b32191ad6be8
   languageName: node
   linkType: hard
 
-"@udecode/plate-code-block@npm:41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-code-block@npm:41.0.0"
+"@udecode/plate-code-block@npm:46.0.4":
+  version: 46.0.4
+  resolution: "@udecode/plate-code-block@npm:46.0.4"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/a11104b60bcee0d629c4a225b648d09e0255a10e527ea25fc2ad1e9e8cbab2ba20b41c89f363e0f4062c86ceacd15785ce0ab0bd704787521b13e9275ec75083
+    "@udecode/plate": ">=46.0.4"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/db85d5d0051dab9bcdea601b6a17b72bb10d48216305093b53e06c0a19b5e1bcc6fe81474a885135b22844b953081db644efb09c8d03e53102466d30d31d8b29
   languageName: node
   linkType: hard
 
-"@udecode/plate-combobox@npm:41.0.0, @udecode/plate-combobox@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-combobox@npm:41.0.0"
+"@udecode/plate-combobox@npm:44.0.0, @udecode/plate-combobox@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-combobox@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/d163e4910747c644719653d22bd3d0a5caaa1300b25b04f911c66e1369aa4399e44d7856417c31ba8dcb4e1e2728255f2881ab50d877c23c65dd81ef13b33c46
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/5a9ecf6fa8ea1ebaf27f1a0c741133fff1675242a30dceea4a4922f5174f0d9fc42dc27f322e84937692a3ee0e6024ba5cdaab11baa620a9b5790f12e00223df
   languageName: node
   linkType: hard
 
-"@udecode/plate-common@npm:41.0.13":
-  version: 41.0.13
-  resolution: "@udecode/plate-common@npm:41.0.13"
-  dependencies:
-    "@udecode/plate-core": "npm:41.0.13"
-    "@udecode/plate-utils": "npm:41.0.13"
-    "@udecode/react-hotkeys": "npm:37.0.0"
-    "@udecode/react-utils": "npm:40.2.8"
-    "@udecode/slate": "npm:41.0.0"
-    "@udecode/slate-react": "npm:41.0.5"
-    "@udecode/slate-utils": "npm:41.0.0"
-    "@udecode/utils": "npm:37.0.0"
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/598d37e58b1e41cad8cb8b15c8b61cb6c66fdca40610f4f83f7c3585d4791efae3de6b26be4d75d0c206d0b3db24a0b5a86b12e54347d8ccfa603d14002b05ff
-  languageName: node
-  linkType: hard
-
-"@udecode/plate-core@npm:41.0.13":
-  version: 41.0.13
-  resolution: "@udecode/plate-core@npm:41.0.13"
+"@udecode/plate-core@npm:46.0.4":
+  version: 46.0.4
+  resolution: "@udecode/plate-core@npm:46.0.4"
   dependencies:
     "@udecode/react-hotkeys": "npm:37.0.0"
-    "@udecode/react-utils": "npm:40.2.8"
-    "@udecode/slate": "npm:41.0.0"
-    "@udecode/slate-react": "npm:41.0.5"
-    "@udecode/slate-utils": "npm:41.0.0"
-    "@udecode/utils": "npm:37.0.0"
+    "@udecode/react-utils": "npm:44.0.1"
+    "@udecode/slate": "npm:45.0.6"
+    "@udecode/utils": "npm:42.0.0"
     clsx: "npm:^2.1.1"
     html-entities: "npm:^2.5.2"
     is-hotkey: "npm:^0.2.0"
     jotai: "npm:~2.8.4"
     jotai-optics: "npm:0.4.0"
-    jotai-x: "npm:1.2.4"
+    jotai-x: "npm:2.3.2"
     lodash: "npm:^4.17.21"
-    nanoid: "npm:^3.3.7"
+    nanoid: "npm:^5.0.9"
     optics-ts: "npm:2.4.1"
+    slate-hyperscript: "npm:0.100.0"
+    slate-react: "npm:0.112.1"
     use-deep-compare: "npm:^1.3.0"
-    zustand: "npm:^4.5.5"
-    zustand-x: "npm:^3.0.4"
+    zustand: "npm:^5.0.3"
+    zustand-x: "npm:6.1.0"
   peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/ed2328cc8de09d0f153bff5553524e18907a61c71b7079fb15a89199138e269ddaecf778eb27896ddc51c51e8031b965f2eb8501b29200a6e1a7301b39205c55
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/7ad3d1b34db89806baf00c80fa586836d7d52a1ffbe2e01920f30816964debdc0ab1a24ecba40ab8244c54b4f7e736c070996a9236385f4f06b6bb38b64cce7d
   languageName: node
   linkType: hard
 
-"@udecode/plate-diff@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-diff@npm:41.0.0"
+"@udecode/plate-diff@npm:^44.0.2":
+  version: 44.0.2
+  resolution: "@udecode/plate-diff@npm:44.0.2"
   dependencies:
     diff-match-patch-ts: "npm:^0.6.0"
     lodash: "npm:^4.17.21"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/92cef6d3c6c4d0cdfb4c4dbae09d10475000a87c0dd2be26406c6361cc29a93e3d1e80f67f35db53fb6d7db430ff60792f2a8adf8bc8bc34c383663656680e2b
+    "@udecode/plate": ">=44.0.1"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/0d8d8fb2037393b752e87420c2da29e0975242a979f2edbd260b4380655faab69a1c1c81d7e8dd00574ed61ea19ba21dfe906631080d794d617620ca473b49a9
   languageName: node
   linkType: hard
 
-"@udecode/plate-dnd@npm:^41.0.2":
-  version: 41.0.2
-  resolution: "@udecode/plate-dnd@npm:41.0.2"
+"@udecode/plate-emoji@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-emoji@npm:44.0.0"
   dependencies:
-    lodash: "npm:^4.17.21"
-    raf: "npm:^3.4.1"
+    "@udecode/plate-combobox": "npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.2"
-    react: ">=16.8.0"
-    react-dnd: ">=14.0.0"
-    react-dnd-html5-backend: ">=14.0.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/43135d23b666546a0965e6f9fbacaf1d6ece1b132c55433e378ad4774ec03867840c8611f0142e06c4ed1d67716acdcdc00c42a06f528e46783e30a1acca2aaf
+    "@emoji-mart/data": ">=1.2.0"
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/f07515ccae51d39235052c51ad5e807625fe2d6cca6f7afe2c99d13cedf34bc3ca7e22d4c41166ac1b8a25fed7106aeb5df2cc9ce291b0114df0f319a5bf312c
   languageName: node
   linkType: hard
 
-"@udecode/plate-emoji@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-emoji@npm:41.0.0"
+"@udecode/plate-floating@npm:44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-floating@npm:44.0.0"
   dependencies:
-    "@emoji-mart/data": "npm:^1.2.1"
-    "@udecode/plate-combobox": "npm:41.0.0"
+    "@floating-ui/core": "npm:^1.6.9"
+    "@floating-ui/react": "npm:^0.27.3"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/cddf913434f1e30646c39212ecebd23cc5da9770b6ff34c51ea099024a7159c7aee6de9e006a1856addd04d74341a486be198b33cfaf6031a48a27faab754400
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/c046da6f95922758bd6fd198ffd795fe7ce7b0bd0012174388b9d1037ad9c00cf24dda694b3e4f0597ce00fd02822a3cd199698dba0c1f6f9ca100dbeb64153d
   languageName: node
   linkType: hard
 
-"@udecode/plate-floating@npm:41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-floating@npm:41.0.0"
+"@udecode/plate-heading@npm:44.0.0, @udecode/plate-heading@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-heading@npm:44.0.0"
+  peerDependencies:
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/99ff320eb3e21100d4e84895a04d1155fa1fd0a41023623aff9ee922e23bd0a4ac9fa721ea0334ac09de16ebb8129f20f59cea61228c59de1e38ba9cd4d87fe8
+  languageName: node
+  linkType: hard
+
+"@udecode/plate-link@npm:^44.0.4":
+  version: 44.0.4
+  resolution: "@udecode/plate-link@npm:44.0.4"
   dependencies:
-    "@floating-ui/core": "npm:^1.6.7"
-    "@floating-ui/react": "npm:^0.26.23"
+    "@udecode/plate-floating": "npm:44.0.0"
+    "@udecode/plate-normalizers": "npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/8ed68f2ebce259e8e13b05e70aad75f7aaa7f336437c3be37779171724e056749fcdcd02be5cd160462442d7dc1a62299d02f318ab2385067db33d4ed8b9369b
+    "@udecode/plate": ">=44.0.1"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/77f70ca90e883e063903abfc473bdf15359b0d0c62c1b1b652795fcff268cc8ce43ab30958fe85117fbb06eef51d88394fedd1015cab3a36d13051f49f4cdc95
   languageName: node
   linkType: hard
 
-"@udecode/plate-heading@npm:41.0.0, @udecode/plate-heading@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-heading@npm:41.0.0"
-  peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/73fb2a1ae85c355cd952d164ced119c1b17dee86ca1087be563ebb3dd6aa586781665c3c5050a726d9932beb8bfad6b3dcc78836d9ea2bb000fcb2c872130835
-  languageName: node
-  linkType: hard
-
-"@udecode/plate-link@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-link@npm:41.0.0"
+"@udecode/plate-list@npm:^44.0.5":
+  version: 44.0.5
+  resolution: "@udecode/plate-list@npm:44.0.5"
   dependencies:
-    "@udecode/plate-floating": "npm:41.0.0"
-    "@udecode/plate-normalizers": "npm:41.0.0"
-  peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/b79956d05a51b97206f0602b4077fe0e87a6d46e00665429229fbd21251ca808e527592e02339ef94f3dcb939e8fa71c3bf4b628e6e62cf7ca3e785ff12a9004
-  languageName: node
-  linkType: hard
-
-"@udecode/plate-list@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-list@npm:41.0.0"
-  dependencies:
-    "@udecode/plate-reset-node": "npm:41.0.0"
+    "@udecode/plate-reset-node": "npm:44.0.0"
     lodash: "npm:^4.17.21"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/acbe019c36ebba700843e9ce1208693db107f3f20c5ee33193b820e581f987936984ff0917a38505964da1c6725efaf1643a559a4f0e5690e3a349e7a18216ce
+    "@udecode/plate": ">=44.0.1"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/909b310d3ebbdea9af0f8465730d19079f57c9da83e54beefc37d4a6851b4d5aaaa4cdb9299292e51f99d79f7723865d2f26e504617280fede2c7fdbb0cd7b00
   languageName: node
   linkType: hard
 
-"@udecode/plate-markdown@npm:^41.0.0":
-  version: 41.0.14
-  resolution: "@udecode/plate-markdown@npm:41.0.14"
+"@udecode/plate-markdown@npm:^46.0.3":
+  version: 46.0.3
+  resolution: "@udecode/plate-markdown@npm:46.0.3"
   dependencies:
     lodash: "npm:^4.17.21"
+    marked: "npm:^15.0.6"
     remark-gfm: "npm:4.0.0"
     remark-parse: "npm:^11.0.0"
     unified: "npm:^11.0.5"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.13"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/2f544d9efbdf003b8233b113752866910751a8b60754559a799f1c695a16bf4eba5de293c1e3a4a842efd98669278796a33903968ce73270ac30cfaa9cd122a1
+    "@udecode/plate": ">=46.0.2"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/44ce0513baed1489eec0c6e2acf66cd0a00eb0992b5eedc353c4ef6526b9cecb3f77ba33bf008af899e313d8a4d9ed8f85043e0d5b5b4c56a25362e67d6c7684
   languageName: node
   linkType: hard
 
-"@udecode/plate-media@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-media@npm:41.0.0"
-  dependencies:
-    js-video-url-parser: "npm:^0.5.1"
-  peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/a2c7af98a2787c26a23b1b23149ced868ccf6498a1be28c52cdb74e55004ce53e8a81546b25c8b1db7c0e35cde73ad9a60f4a67d320b3ecf0347e636ee258b62
-  languageName: node
-  linkType: hard
-
-"@udecode/plate-normalizers@npm:41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-normalizers@npm:41.0.0"
+"@udecode/plate-normalizers@npm:44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-normalizers@npm:44.0.0"
   dependencies:
     lodash: "npm:^4.17.21"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/a17ef5d6a71b14d8f6937bbf94996cfadd09e58159309e8e63cc7bd61de73cebaaa27e46983f22dfb91dda5a5fdf3cedd50c934f502a10878cbf44accb1839ef
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/ab9604f47b3cc532f6c39c2045c0114e04a70b615c639fa579adb7692afe9cc8f0e759389d6b4ab5bfbedeb2f68ab830845c32cd483c815902296468049b7a0d
   languageName: node
   linkType: hard
 
-"@udecode/plate-reset-node@npm:41.0.0, @udecode/plate-reset-node@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-reset-node@npm:41.0.0"
+"@udecode/plate-reset-node@npm:44.0.0, @udecode/plate-reset-node@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-reset-node@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/fa68d056338734e7b24a28cf675ed8b6a90ed2f64458a700d6e70cce9ae0811d5bc1530eeb6e7732cfd927a85e51d54efab15c11fef02686827e3d6d0fe2d581
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/a53a0c146dcfbf572aa7c3dce8cae9c8a83bb21b2ea918758e18e7107d8363838273734203569a03f5859ea1990c1d44f7bba8581edef75fdcc42d45d0f4821e
   languageName: node
   linkType: hard
 
-"@udecode/plate-resizable@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-resizable@npm:41.0.0"
+"@udecode/plate-resizable@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-resizable@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/043246fd5d354e357549c58f3186e73e54a75a22bf981eb3d954d123795365cdf8eb7472dc6142d074f804c888e6e547b06fd2b7edd027c07ba5a972a6b5d184
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/b2bdab59f0e8f76a0b2336b481656971505c7bc62c66af8a09e76557e01f4131db8f4f63b563a4d5b544e36a3b10c8d12a05120b01d679767039758019a24f7e
   languageName: node
   linkType: hard
 
-"@udecode/plate-select@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-select@npm:41.0.0"
+"@udecode/plate-select@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-select@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/d0f9c92ec720a62e359ff5441c69060c3b80e88a4a23fe23f5bacf045321b1a6c7b7ebe843efccb3ed77f9f20dee576337a3829b4ce80af2c11e686c1ead07c3
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/48cf1dcf31eb8bbbcd5ea45e5adb6bba39f5467d984a1c39eab1f1080c867c8c1031df3379d967e6781310b54e947baebe38f2fe4ba63e8b4aa23e0bb5e46f2d
   languageName: node
   linkType: hard
 
-"@udecode/plate-selection@npm:^41.0.8":
-  version: 41.0.8
-  resolution: "@udecode/plate-selection@npm:41.0.8"
+"@udecode/plate-selection@npm:^46.0.4":
+  version: 46.0.4
+  resolution: "@udecode/plate-selection@npm:46.0.4"
   dependencies:
     copy-to-clipboard: "npm:^3.3.3"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.5"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/1591bbe159ea51c9b320d9c2fca0d220fd81f0c45e7fb7b2fabd15e262fad5fa8d32794c711caa8153f60606e0adac07ce8b886a72708ffce35a4504d8df5cbd
+    "@udecode/plate": ">=46.0.4"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/d75685fc3a68dd1031e1b5adf1421e29ba5899c02ff1e009860c6bc17357a145c9dde52f04f51042e2934ef49c1de888adb5496a1ee8ff4db19d402fd1ea06b0
   languageName: node
   linkType: hard
 
-"@udecode/plate-trailing-block@npm:^41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/plate-trailing-block@npm:41.0.0"
+"@udecode/plate-trailing-block@npm:^44.0.0":
+  version: 44.0.0
+  resolution: "@udecode/plate-trailing-block@npm:44.0.0"
   peerDependencies:
-    "@udecode/plate-common": ">=41.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-dom: ">=0.111.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/64bbd032452604889b633ca68e3b6380b3f7edabca3e8b5c0f1b3744a910567410acd028bc64e1c8651bb15b19118fcf5521586b1a7cb7ff31bd4ebc25939570
+    "@udecode/plate": ">=44.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/453bc7595587bbee9f971e4ceff8e965ee7a43248107089b67f76eeb90a22e3a461fc997aa49eb57ce64b1e58dc675ccdac44a9a3f1fb299e15097d8327f5975
   languageName: node
   linkType: hard
 
-"@udecode/plate-utils@npm:41.0.13":
-  version: 41.0.13
-  resolution: "@udecode/plate-utils@npm:41.0.13"
+"@udecode/plate-utils@npm:46.0.4":
+  version: 46.0.4
+  resolution: "@udecode/plate-utils@npm:46.0.4"
   dependencies:
-    "@udecode/plate-core": "npm:41.0.13"
-    "@udecode/react-utils": "npm:40.2.8"
-    "@udecode/slate": "npm:41.0.0"
-    "@udecode/slate-react": "npm:41.0.5"
-    "@udecode/slate-utils": "npm:41.0.0"
-    "@udecode/utils": "npm:37.0.0"
+    "@udecode/plate-core": "npm:46.0.4"
+    "@udecode/react-utils": "npm:44.0.1"
+    "@udecode/slate": "npm:45.0.6"
+    "@udecode/utils": "npm:42.0.0"
     clsx: "npm:^2.1.1"
     lodash: "npm:^4.17.21"
   peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-history: ">=0.93.0"
-    slate-hyperscript: ">=0.66.0"
-    slate-react: ">=0.110.0"
-  checksum: 10c0/061799396ff7970880d3575fbdd3a1c24637f2e4728368e2ae447fe1b26fbb670f8e2db74a1c1277010135ab75b077d6d51d41b5a0e3329a11cc8ee7f39f52ba
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/1b51681ba6f4d724a03898645baeb6e1ed4e906e32203010aa7bc3450a57948f22f919abee90c87aecc95e8c7afeafb0f1180779bc9bd6dcf86e5bcc30dd6f01
+  languageName: node
+  linkType: hard
+
+"@udecode/plate@npm:46.0.4":
+  version: 46.0.4
+  resolution: "@udecode/plate@npm:46.0.4"
+  dependencies:
+    "@udecode/plate-core": "npm:46.0.4"
+    "@udecode/plate-utils": "npm:46.0.4"
+    "@udecode/react-hotkeys": "npm:37.0.0"
+    "@udecode/react-utils": "npm:44.0.1"
+    "@udecode/slate": "npm:45.0.6"
+    "@udecode/utils": "npm:42.0.0"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/4dabfc9057d934344cbe768da940c30498a865660ce74e8ac31863b888454216fc55aea63e38363724edc8c78513aeef1953be50b562b1cae690865de1d4910e
   languageName: node
   linkType: hard
 
@@ -4779,68 +4611,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/react-utils@npm:40.2.8":
-  version: 40.2.8
-  resolution: "@udecode/react-utils@npm:40.2.8"
+"@udecode/react-utils@npm:44.0.1":
+  version: 44.0.1
+  resolution: "@udecode/react-utils@npm:44.0.1"
   dependencies:
-    "@radix-ui/react-slot": "npm:^1.1.0"
-    "@udecode/utils": "npm:37.0.0"
+    "@radix-ui/react-slot": "npm:^1.1.1"
+    "@udecode/utils": "npm:42.0.0"
     clsx: "npm:^2.1.1"
   peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 10c0/b7976b6e496ef1288f708deacca684c460e48670937678af754ae33ce4bac60cc64d82e7748076aa6f1eac4ff45693b359e1b46db391f830ce62f7469ab3c804
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/cedaffbca7200cd731ae4033c304a3dc5989fac54f9b38ed472a328b38d5752548a04888bc287a438d70886d195c6b415a0bc5aa4fdf9eddb9f60421bd8da5a1
   languageName: node
   linkType: hard
 
-"@udecode/slate-react@npm:41.0.5":
-  version: 41.0.5
-  resolution: "@udecode/slate-react@npm:41.0.5"
+"@udecode/slate@npm:45.0.6":
+  version: 45.0.6
+  resolution: "@udecode/slate@npm:45.0.6"
   dependencies:
-    "@udecode/react-utils": "npm:40.2.8"
-    "@udecode/slate": "npm:41.0.0"
-    "@udecode/utils": "npm:37.0.0"
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-    slate: ">=0.112.0"
-    slate-history: ">=0.93.0"
-    slate-react: ">=0.111.0"
-  checksum: 10c0/be84721db03aacb107cfd862082a5b26d5cd366ada460985db7af2f384b48b1d3f0199f4217b61babb74f07cc86f312d72be81f5c7ab82da68ee1d2da1d60312
-  languageName: node
-  linkType: hard
-
-"@udecode/slate-utils@npm:41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/slate-utils@npm:41.0.0"
-  dependencies:
-    "@udecode/slate": "npm:41.0.0"
-    "@udecode/utils": "npm:37.0.0"
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    slate: ">=0.112.0"
-    slate-history: ">=0.93.0"
-  checksum: 10c0/96eeaee63f46242d7dbb714aac7644350f50be57c120e83163874b44781526cf2c21b40caf2499dac1e3b07ca123d20d5810e4e147d30f136e9c679bfaaf3484
-  languageName: node
-  linkType: hard
-
-"@udecode/slate@npm:41.0.0":
-  version: 41.0.0
-  resolution: "@udecode/slate@npm:41.0.0"
-  dependencies:
-    "@udecode/utils": "npm:37.0.0"
+    "@udecode/utils": "npm:42.0.0"
     is-plain-object: "npm:^5.0.0"
-  peerDependencies:
-    slate: ">=0.112.0"
-    slate-history: ">=0.93.0"
-  checksum: 10c0/3b4bbca4727a5dd87b841162848c1f240dba27266a1ccb12a6da73ab88721ee7474568e0244cd10924f2bef354657e45c96467bd6910bf0acd63f5add6a21c5d
+    lodash: "npm:^4.17.21"
+    slate: "npm:0.112.0"
+    slate-dom: "npm:0.112.2"
+  checksum: 10c0/d832893fe4c0e4ece2a0f23e652f80be91a73540fafbc62dd67358ee03bbc25e11856d77cc36200def7a78b04273983f5dfca227963e5fc3794f70ea9d2df2cc
   languageName: node
   linkType: hard
 
-"@udecode/utils@npm:37.0.0":
-  version: 37.0.0
-  resolution: "@udecode/utils@npm:37.0.0"
-  checksum: 10c0/bb957bb12f7a104868f7353b77ed921041cf77861218996e0e184139e6b4f40c0475f0a8729b62bffebab66d1eea9046e6a21e7400c3ec7f486a2c6a8ffcef5d
+"@udecode/utils@npm:42.0.0":
+  version: 42.0.0
+  resolution: "@udecode/utils@npm:42.0.0"
+  checksum: 10c0/abcc3779416fb33a091e93bf0bf42d4330d41dd31c9e5249956041aaf594d513b30210a141438c24e3a9e6700d31ee8c3e2274c4a6c7072c9470f4b180232978
   languageName: node
   linkType: hard
 
@@ -7795,28 +7596,26 @@ __metadata:
     "@types/react-dom": "npm:19.0.4"
     "@typescript-eslint/eslint-plugin": "npm:^6.7.0"
     "@typescript-eslint/parser": "npm:^6.7.0"
-    "@udecode/cn": "npm:^40.2.8"
-    "@udecode/plate-autoformat": "npm:^41.0.0"
-    "@udecode/plate-basic-elements": "npm:^41.0.0"
-    "@udecode/plate-basic-marks": "npm:^41.0.0"
-    "@udecode/plate-block-quote": "npm:^41.0.0"
-    "@udecode/plate-break": "npm:^41.0.0"
-    "@udecode/plate-caption": "npm:^41.0.0"
-    "@udecode/plate-combobox": "npm:^41.0.0"
-    "@udecode/plate-common": "npm:41.0.13"
-    "@udecode/plate-diff": "npm:^41.0.0"
-    "@udecode/plate-dnd": "npm:^41.0.2"
-    "@udecode/plate-emoji": "npm:^41.0.0"
-    "@udecode/plate-heading": "npm:^41.0.0"
-    "@udecode/plate-link": "npm:^41.0.0"
-    "@udecode/plate-list": "npm:^41.0.0"
-    "@udecode/plate-markdown": "npm:^41.0.0"
-    "@udecode/plate-media": "npm:^41.0.0"
-    "@udecode/plate-reset-node": "npm:^41.0.0"
-    "@udecode/plate-resizable": "npm:^41.0.0"
-    "@udecode/plate-select": "npm:^41.0.0"
-    "@udecode/plate-selection": "npm:^41.0.8"
-    "@udecode/plate-trailing-block": "npm:^41.0.0"
+    "@udecode/cn": "npm:^44.0.1"
+    "@udecode/plate": "npm:46.0.4"
+    "@udecode/plate-autoformat": "npm:^44.0.0"
+    "@udecode/plate-basic-elements": "npm:^46.0.4"
+    "@udecode/plate-basic-marks": "npm:^46.0.5"
+    "@udecode/plate-block-quote": "npm:^44.0.0"
+    "@udecode/plate-break": "npm:^44.0.0"
+    "@udecode/plate-caption": "npm:^44.0.0"
+    "@udecode/plate-combobox": "npm:^44.0.0"
+    "@udecode/plate-diff": "npm:^44.0.2"
+    "@udecode/plate-emoji": "npm:^44.0.0"
+    "@udecode/plate-heading": "npm:^44.0.0"
+    "@udecode/plate-link": "npm:^44.0.4"
+    "@udecode/plate-list": "npm:^44.0.5"
+    "@udecode/plate-markdown": "npm:^46.0.3"
+    "@udecode/plate-reset-node": "npm:^44.0.0"
+    "@udecode/plate-resizable": "npm:^44.0.0"
+    "@udecode/plate-select": "npm:^44.0.0"
+    "@udecode/plate-selection": "npm:^46.0.4"
+    "@udecode/plate-trailing-block": "npm:^44.0.0"
     autoprefixer: "npm:10.4.15"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
@@ -7831,9 +7630,9 @@ __metadata:
     jimp: "npm:^1.6.0"
     lucide-react: "npm:^0.469.0"
     marked: "npm:^12.0.1"
-    next: "npm:15.2.0"
+    next: "npm:15.2.1"
     next-plausible: "npm:^3.12.4"
-    next-themes: "npm:^0.4.3"
+    next-themes: "npm:^0.4.4"
     notistack: "npm:^3.0.1"
     postcss: "npm:8.4.47"
     postcss-import: "npm:^16.1.0"
@@ -7863,10 +7662,10 @@ __metadata:
     remark-parse: "npm:^11.0.0"
     sharp: "npm:^0.33.5"
     slate: "npm:^0.112.0"
-    slate-dom: "npm:^0.111.0"
+    slate-dom: "npm:^0.112.2"
     slate-history: "npm:^0.110.3"
     slate-hyperscript: "npm:^0.100.0"
-    slate-react: "npm:^0.112.0"
+    slate-react: "npm:^0.112.1"
     tailwind-gradient-mask-image: "npm:^1.2.0"
     tailwind-merge: "npm:^2.5.4"
     tailwindcss: "npm:3.4.14"
@@ -8569,9 +8368,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jotai-x@npm:1.2.4":
-  version: 1.2.4
-  resolution: "jotai-x@npm:1.2.4"
+"jotai-x@npm:2.3.2":
+  version: 2.3.2
+  resolution: "jotai-x@npm:2.3.2"
   peerDependencies:
     "@types/react": ">=17.0.0"
     jotai: ">=2.0.0"
@@ -8581,7 +8380,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10c0/027e7b659998daf771b26546fcf44c7ec956d7b06179bea99a9a1cda1ac2ad3ffbee3ee889c29e6513bca44b14effbd70bf224133b08433a3e3a24c92c15cb18
+  checksum: 10c0/cc9083574ab680a9131542fc4252fe5ecff47f906f168677ffe2c7c978d69aa75bf4cd0eeee911a9f620a5bc96349c6520918d2d904e9764e363392fb38c812b
   languageName: node
   linkType: hard
 
@@ -8635,13 +8434,6 @@ __metadata:
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 10c0/e248708d377aa058eacf2037b07ded847790e6de892bbad3dac0abba2e759cb9f121b00099a65195616badcb6eca8d14d975cb3e89eb1cfda644756402c8aeed
-  languageName: node
-  linkType: hard
-
-"js-video-url-parser@npm:^0.5.1":
-  version: 0.5.1
-  resolution: "js-video-url-parser@npm:0.5.1"
-  checksum: 10c0/981e3fa5ef076d6a5dd58f0360bb9b82c018fbf343366a0143a681c0c4a8aedb499e188bd0f54d73cc2458dccc434d60af61de24b11aa101f10f87ff644c7044
   languageName: node
   linkType: hard
 
@@ -8965,6 +8757,15 @@ __metadata:
   bin:
     marked: bin/marked.js
   checksum: 10c0/45ae2e1e3f06b30a5b5f64efc6cde9830c81d1d024fd7668772a3217f1bc0f326e66a6b8970482d9783edf1f581fecac7023a7fa160f2c14dbcc16e064b4eafb
+  languageName: node
+  linkType: hard
+
+"marked@npm:^15.0.6":
+  version: 15.0.7
+  resolution: "marked@npm:15.0.7"
+  bin:
+    marked: bin/marked.js
+  checksum: 10c0/0b9d07bace37bbf0548bae356c4184765afa4d2296ed0be4418aa4bb0ce703f323dc1a475125d536581f9fe264797e6265dd0b57499d97c0fe0f29bc6d016343
   languageName: node
   linkType: hard
 
@@ -9772,6 +9573,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mutative@npm:1.1.0":
+  version: 1.1.0
+  resolution: "mutative@npm:1.1.0"
+  checksum: 10c0/7044fa8113c6920dec1e7a7dd1687e06c58054e777f343a18d5cc01905b6075db6b79b8f7054046218e15c974d5da3c028cfb23fa08e4577ff5d0af9c3063d80
+  languageName: node
+  linkType: hard
+
 "mz@npm:^2.7.0":
   version: 2.7.0
   resolution: "mz@npm:2.7.0"
@@ -9789,6 +9597,15 @@ __metadata:
   bin:
     nanoid: bin/nanoid.cjs
   checksum: 10c0/4b1bb29f6cfebf3be3bc4ad1f1296fb0a10a3043a79f34fbffe75d1621b4318319211cd420549459018ea3592f0d2f159247a6f874911d6d26eaaadda2478120
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^5.0.9":
+  version: 5.1.2
+  resolution: "nanoid@npm:5.1.2"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 10c0/60b3d30d1629704f4b156f79e53a454d10440a38f4ab14cda1c9aa08091389212d03afb35fbc09c11f4619f83bcf5076abc4719295e3b79c57abad0e40297177
   languageName: node
   linkType: hard
 
@@ -9831,7 +9648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-themes@npm:^0.4.3":
+"next-themes@npm:^0.4.4":
   version: 0.4.4
   resolution: "next-themes@npm:0.4.4"
   peerDependencies:
@@ -9896,19 +9713,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:15.2.0":
-  version: 15.2.0
-  resolution: "next@npm:15.2.0"
+"next@npm:15.2.1":
+  version: 15.2.1
+  resolution: "next@npm:15.2.1"
   dependencies:
-    "@next/env": "npm:15.2.0"
-    "@next/swc-darwin-arm64": "npm:15.2.0"
-    "@next/swc-darwin-x64": "npm:15.2.0"
-    "@next/swc-linux-arm64-gnu": "npm:15.2.0"
-    "@next/swc-linux-arm64-musl": "npm:15.2.0"
-    "@next/swc-linux-x64-gnu": "npm:15.2.0"
-    "@next/swc-linux-x64-musl": "npm:15.2.0"
-    "@next/swc-win32-arm64-msvc": "npm:15.2.0"
-    "@next/swc-win32-x64-msvc": "npm:15.2.0"
+    "@next/env": "npm:15.2.1"
+    "@next/swc-darwin-arm64": "npm:15.2.1"
+    "@next/swc-darwin-x64": "npm:15.2.1"
+    "@next/swc-linux-arm64-gnu": "npm:15.2.1"
+    "@next/swc-linux-arm64-musl": "npm:15.2.1"
+    "@next/swc-linux-x64-gnu": "npm:15.2.1"
+    "@next/swc-linux-x64-musl": "npm:15.2.1"
+    "@next/swc-win32-arm64-msvc": "npm:15.2.1"
+    "@next/swc-win32-x64-msvc": "npm:15.2.1"
     "@swc/counter": "npm:0.1.3"
     "@swc/helpers": "npm:0.5.15"
     busboy: "npm:1.6.0"
@@ -9953,7 +9770,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 10c0/d6c7d88723d65feffc3ca1e65b989000ced2eb0ad83b86b9b383b57a8fa437bf4483893f5efba35c52b7ee8d521b6f75dd594d851be59e2e9edc6aa0d4dcf952
+  checksum: 10c0/9e46b78b3ed15e65f2dd0b4c697ae5ed811825fda8694df97b14bdeb39663906fb7ddf13be3ed74911a2098bf9a4648d88abb7d2c44b25a6a5bf0bd6c39a395d
   languageName: node
   linkType: hard
 
@@ -10394,13 +10211,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"performance-now@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "performance-now@npm:2.1.0"
-  checksum: 10c0/22c54de06f269e29f640e0e075207af57de5052a3d15e360c09b9a8663f393f6f45902006c1e71aa8a5a1cdfb1a47fe268826f8496d6425c362f00f5bc3e85d9
-  languageName: node
-  linkType: hard
-
 "picocolors@npm:^1.0.0, picocolors@npm:^1.1.0, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
@@ -10775,15 +10585,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raf@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "raf@npm:3.4.1"
-  dependencies:
-    performance-now: "npm:^2.1.0"
-  checksum: 10c0/337f0853c9e6a77647b0f499beedafea5d6facfb9f2d488a624f88b03df2be72b8a0e7f9118a3ff811377d534912039a3311815700d2b6d2313f82f736f9eb6e
-  languageName: node
-  linkType: hard
-
 "randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
@@ -11097,7 +10898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-textarea-autosize@npm:^8.5.3":
+"react-textarea-autosize@npm:^8.5.7":
   version: 8.5.7
   resolution: "react-textarea-autosize@npm:8.5.7"
   dependencies:
@@ -11828,9 +11629,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-dom@npm:^0.111.0":
-  version: 0.111.0
-  resolution: "slate-dom@npm:0.111.0"
+"slate-dom@npm:0.112.2, slate-dom@npm:^0.112.2":
+  version: 0.112.2
+  resolution: "slate-dom@npm:0.112.2"
   dependencies:
     "@juggle/resize-observer": "npm:^3.4.0"
     direction: "npm:^1.0.4"
@@ -11841,7 +11642,7 @@ __metadata:
     tiny-invariant: "npm:1.3.1"
   peerDependencies:
     slate: ">=0.99.0"
-  checksum: 10c0/e803f154f89302b48bb344720560442f631e0a56468243c8d256ca909bdd10ea7afb1ad5637af8f775d0409d1e7c44faa4d0640ce8e30731a3657e52d3a9a55b
+  checksum: 10c0/e2f2df40468a9c025467d32d69916e427297e8bd8b192863ff03cb5747bec66d3bcf599afc0a07dc1c9225f92bfeb414b9607d4f8e229a6c6df4d806558af851
   languageName: node
   linkType: hard
 
@@ -11856,7 +11657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-hyperscript@npm:^0.100.0":
+"slate-hyperscript@npm:0.100.0, slate-hyperscript@npm:^0.100.0":
   version: 0.100.0
   resolution: "slate-hyperscript@npm:0.100.0"
   dependencies:
@@ -11867,7 +11668,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:^0.112.0":
+"slate-react@npm:0.112.1, slate-react@npm:^0.112.1":
   version: 0.112.1
   resolution: "slate-react@npm:0.112.1"
   dependencies:
@@ -11887,7 +11688,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate@npm:^0.112.0":
+"slate@npm:0.112.0, slate@npm:^0.112.0":
   version: 0.112.0
   resolution: "slate@npm:0.112.0"
   dependencies:
@@ -13041,7 +12842,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.2.0, use-sync-external-store@npm:^1.2.2":
+"use-sync-external-store@npm:1.4.0, use-sync-external-store@npm:^1.2.0, use-sync-external-store@npm:^1.2.2":
   version: 1.4.0
   resolution: "use-sync-external-store@npm:1.4.0"
   peerDependencies:
@@ -13456,40 +13257,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand-x@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "zustand-x@npm:3.0.4"
+"zustand-x@npm:6.1.0":
+  version: 6.1.0
+  resolution: "zustand-x@npm:6.1.0"
   dependencies:
     immer: "npm:^10.0.3"
     lodash.mapvalues: "npm:^4.6.0"
+    mutative: "npm:1.1.0"
     react-tracked: "npm:^1.7.11"
+    use-sync-external-store: "npm:1.4.0"
   peerDependencies:
-    zustand: ">=4.3.9"
-  checksum: 10c0/10deb2c205f87469e56211cab0c55f3fecbae4993a3d9456671dd8938dae2945153c2e09860293aed65ccf2c522d1f09b9dc80c37dfb34cf0060ea0c54407742
+    zustand: ">=5.0.2"
+  checksum: 10c0/713c8e728fdad4cdab3bdd06c57ed33e77471bbcadee3697f19a75211f872dace2bc7df666ef5908097defe71693b54252c456ce1b72af16f850d9b33d37807b
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.5.5":
-  version: 4.5.6
-  resolution: "zustand@npm:4.5.6"
-  dependencies:
-    use-sync-external-store: "npm:^1.2.2"
-  peerDependencies:
-    "@types/react": ">=16.8"
-    immer: ">=9.0.6"
-    react: ">=16.8"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    immer:
-      optional: true
-    react:
-      optional: true
-  checksum: 10c0/5b39aff2ef57e5a8ada647261ec1115697d397be311c51461d9ea81b5b63c6d2c498b960477ad2db72dc21db6aa229a92bdf644f6a8ecf7b1d71df5b4a5e95d3
-  languageName: node
-  linkType: hard
-
-"zustand@npm:^5.0.2":
+"zustand@npm:^5.0.2, zustand@npm:^5.0.3":
   version: 5.0.3
   resolution: "zustand@npm:5.0.3"
   peerDependencies:

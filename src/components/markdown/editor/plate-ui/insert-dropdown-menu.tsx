@@ -2,14 +2,13 @@
 
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
+import { HEADING_KEYS } from '@udecode/plate-heading';
+import { LinkPlugin } from '@udecode/plate-link/react';
 import {
     ParagraphPlugin,
     type PlateEditor,
-    focusEditor,
     useEditorRef,
-} from '@udecode/plate-common/react';
-import { HEADING_KEYS } from '@udecode/plate-heading';
-import { LinkPlugin } from '@udecode/plate-link/react';
+} from '@udecode/plate/react';
 import {
     EyeOff,
     Heading3Icon,
@@ -171,7 +170,7 @@ export function InsertDropdownMenu({
                                         className="min-w-[180px]"
                                         onSelect={() => {
                                             onSelect(editor, value);
-                                            focusEditor(editor);
+                                            editor.tf.focus();
                                         }}
                                     >
                                         {icon}

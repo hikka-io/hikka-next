@@ -1,22 +1,12 @@
 'use client';
 
-import {
-    type TElement,
-    type TNodeEntry,
-    getBlocks,
-    getNodeEntry,
-    insertEmptyElement,
-    insertNodes,
-    setNodes,
-    withoutNormalizing,
-} from '@udecode/plate-common';
-import { type PlateEditor, focusEditor } from '@udecode/plate-common/react';
+import { type NodeEntry, type TElement } from '@udecode/plate';
 import { LinkPlugin, triggerFloatingLink } from '@udecode/plate-link/react';
+import { type PlateEditor } from '@udecode/plate/react';
 import { Path } from 'slate';
 
 const insertList = (editor: PlateEditor, type: string) => {
-    insertNodes(
-        editor,
+    editor.tf.insertNodes(
         editor.api.create.block({
             indent: 1,
             listStyleType: type,
@@ -34,13 +24,9 @@ const insertInlineMap: Record<
 };
 
 export const insertBlock = (editor: PlateEditor, type: string) => {
-    withoutNormalizing(editor, () => {
-        insertEmptyElement(editor, type, {
-            select: true,
-            nextBlock: false,
-        });
-
-        focusEditor(editor);
+    editor.tf.withoutNormalizing(() => {
+        editor.tf.insertNodes(editor.api.create.block({ type }));
+        editor.tf.focus();
     });
 };
 
@@ -53,10 +39,9 @@ export const insertInlineElement = (editor: PlateEditor, type: string) => {
 const setList = (
     editor: PlateEditor,
     type: string,
-    entry: TNodeEntry<TElement>,
+    entry: NodeEntry<TElement>,
 ) => {
-    setNodes(
-        editor,
+    editor.tf.setNodes(
         editor.api.create.block({
             indent: 1,
             listStyleType: type,
@@ -72,17 +57,17 @@ export const setBlockType = (
     type: string,
     { at }: { at?: Path } = {},
 ) => {
-    withoutNormalizing(editor, () => {
-        const setEntry = (entry: TNodeEntry<TElement>) => {
+    editor.tf.withoutNormalizing(() => {
+        const setEntry = (entry: NodeEntry<TElement>) => {
             const [node, path] = entry;
 
             if (node.type !== type) {
-                editor.setNodes<TElement>({ type }, { at: path });
+                editor.tf.setNodes<TElement>({ type }, { at: path });
             }
         };
 
         if (at) {
-            const entry = getNodeEntry<TElement>(editor, at);
+            const entry = editor.api.node<TElement>(at);
 
             if (entry) {
                 setEntry(entry);
@@ -91,7 +76,7 @@ export const setBlockType = (
             }
         }
 
-        const entries = getBlocks(editor);
+        const entries = editor.api.blocks();
 
         entries.forEach((entry) => setEntry(entry));
     });

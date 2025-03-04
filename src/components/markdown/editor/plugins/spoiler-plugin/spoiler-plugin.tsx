@@ -1,6 +1,6 @@
 'use client';
 
-import { createPlatePlugin } from '@udecode/plate-common/react';
+import { createPlatePlugin } from '@udecode/plate/react';
 
 import { SpoilerElement } from '@/components/markdown/editor/plate-ui/spoiler-element';
 
@@ -17,7 +17,7 @@ export const SpoilerPlugin = createPlatePlugin({
     shortcuts: {
         toggleSpoiler: {
             handler: ({ editor }) => {
-                editor.tf.toggle.block({ type: ELEMENT_SPOILER });
+                editor.tf.toggleBlock(ELEMENT_SPOILER);
             },
             preventDefault: true,
             keys: ['mod+opt+s', 'mod+shift+s'],

@@ -1,7 +1,7 @@
 'use client';
 
-import { PluginConfig, TElement } from '@udecode/plate-common';
-import { createTPlatePlugin } from '@udecode/plate-common/react';
+import { PluginConfig, TElement } from '@udecode/plate';
+import { createTPlatePlugin } from '@udecode/plate/react';
 
 import { withImageGroup } from './with-image-group';
 

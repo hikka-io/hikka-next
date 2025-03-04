@@ -1,5 +1,5 @@
-import { TElement, findNodePath } from '@udecode/plate-common';
-import { PlateEditor } from '@udecode/plate-common/react';
+import { TElement } from '@udecode/plate';
+import { PlateEditor } from '@udecode/plate/react';
 
 import {
     ImageGroupPlugin,
@@ -26,16 +26,18 @@ export const insertImages = (
     }));
 
     if (element) {
-        const path = findNodePath(editor, element);
+        const path = editor.api.findPath(element);
 
         if (!path) return;
 
-        editor.insertNodes(images, { at: [...path, element.children.length] });
+        editor.tf.insertNodes(images, {
+            at: [...path, element.children.length],
+        });
 
         return;
     }
 
-    editor.insertNode({
+    editor.tf.insertNode({
         type: editor.getType(ImageGroupPlugin),
         children: images,
     });

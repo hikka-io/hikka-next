@@ -1,38 +1,30 @@
-import {
-    TElement,
-    getPluginType,
-    isElement,
-    isText,
-    wrapNodeChildren,
-} from '@udecode/plate-common';
-import type { ExtendEditor } from '@udecode/plate-common/react';
+import { ElementApi, TElement, getPluginType } from '@udecode/plate';
+import type { ExtendEditor } from '@udecode/plate/react';
 
 import { SpoilerPlugin } from './spoiler-plugin';
 
 export const withSpoiler: ExtendEditor = ({ editor }) => {
-    const { shouldMergeNodesRemovePrevNode, normalizeNode } = editor;
+    editor.api.shouldMergeNodesRemovePrevNode = (
+        prevNodeEntry,
+        curNodeEntry,
+    ) => {
+        const prevNode = prevNodeEntry[0] as TElement;
 
-    if (shouldMergeNodesRemovePrevNode) {
-        editor.shouldMergeNodesRemovePrevNode = (
+        if (prevNode.type === SpoilerPlugin.key) return false;
+
+        return editor.api.shouldMergeNodesRemovePrevNode(
             prevNodeEntry,
             curNodeEntry,
-        ) => {
-            const prevNode = prevNodeEntry[0] as TElement;
+        );
+    };
 
-            if (prevNode.type === SpoilerPlugin.key) return false;
-
-            return shouldMergeNodesRemovePrevNode(prevNodeEntry, curNodeEntry);
-        };
-    }
-
-    editor.normalizeNode = ([node, path]) => {
-        if (isElement(node)) {
+    editor.tf.normalizeNode = ([node, path]) => {
+        if (ElementApi.isElement(node)) {
             if (node.type === getPluginType(editor, SpoilerPlugin)) {
                 const { children } = node;
 
-                if (isText(children[0])) {
-                    wrapNodeChildren(
-                        editor,
+                if (editor.api.isText(children[0])) {
+                    editor.tf.wrapNodes(
                         {
                             type: 'p',
                             children: [],
@@ -47,7 +39,7 @@ export const withSpoiler: ExtendEditor = ({ editor }) => {
             }
         }
 
-        normalizeNode([node, path]);
+        editor.tf.normalizeNode([node, path]);
     };
 
     return editor;

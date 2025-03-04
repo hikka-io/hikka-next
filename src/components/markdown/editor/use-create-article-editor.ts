@@ -1,7 +1,7 @@
 'use client';
 
-import { Value } from '@udecode/plate-common';
-import { usePlateEditor } from '@udecode/plate-common/react';
+import { Value } from '@udecode/plate';
+import { usePlateEditor } from '@udecode/plate/react';
 
 import { editorComponents, viewerComponents } from './components';
 import { articlePlugins } from './plugins';

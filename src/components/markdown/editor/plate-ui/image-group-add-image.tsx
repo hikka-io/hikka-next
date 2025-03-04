@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { TElement } from '@udecode/plate-common';
-import { PlateEditor } from '@udecode/plate-common/react';
+import { TElement } from '@udecode/plate';
+import { PlateEditor } from '@udecode/plate/react';
 import { Plus } from 'lucide-react';
 import {
     FC,

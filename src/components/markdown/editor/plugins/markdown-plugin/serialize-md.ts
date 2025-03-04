@@ -1,4 +1,4 @@
-import { SlateEditor } from '@udecode/plate-common';
+import { SlateEditor } from '@udecode/plate';
 import {
     serializeMd as _serializeMd,
     serializeMdNodes,

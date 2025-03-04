@@ -1,6 +1,6 @@
 'use client';
 
-import { Value } from '@udecode/plate-common';
+import { Value } from '@udecode/plate';
 import { createStore } from 'zustand';
 
 export type ArticleState = {
