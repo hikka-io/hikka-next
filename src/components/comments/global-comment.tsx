@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import Small from '@/components/typography/small';
+import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -10,13 +11,13 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+import { Label } from '@/components/ui/label';
 
+import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
-import MaterialSymbolsArticle from '../icons/material-symbols/MaterialSymbolsArticle';
 import MDViewer from '../markdown/viewer/MD-viewer';
-import { Label } from '../ui/label';
 
 interface Props {
     comment: API.Comment;
@@ -62,20 +63,21 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                     {comment.text}
                 </MDViewer>
             </Link>
-
-            <Link
-                href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
-                className="flex items-center gap-1 text-primary hover:underline"
-            >
-                <MaterialSymbolsArticle className="shrink-0 text-muted-foreground" />
-                <Small className="line-clamp-1">
-                    {comment.content_type === 'collection'
-                        ? `Колекція ${comment.preview.title}`
-                        : comment.content_type === 'edit'
-                          ? `Правка #${comment.preview.slug}`
-                          : comment.preview.title}
-                </Small>
-            </Link>
+            <div className="flex gap-2  items-center w-full">
+                <Badge variant="secondary" className="shrink-0">
+                    {CONTENT_TYPES[comment.content_type].title_ua}
+                </Badge>
+                <Link
+                    href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
+                    className="flex items-center gap-1 text-primary hover:underline"
+                >
+                    <Small className="line-clamp-1">
+                        {comment.content_type === 'edit'
+                            ? `#${comment.preview.slug}`
+                            : comment.preview.title}
+                    </Small>
+                </Link>
+            </div>
         </div>
     );
 };

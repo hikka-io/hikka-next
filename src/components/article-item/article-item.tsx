@@ -25,7 +25,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
             <div className="relative flex flex-col gap-4 p-4 py-0">
                 <Link
                     href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
-                    className="absolute left-0 top-0 z-10 size-full"
+                    className="absolute left-0 top-0 z-[2] size-full"
                 />
                 <div className="flex flex-col gap-1">
                     {article.content && (

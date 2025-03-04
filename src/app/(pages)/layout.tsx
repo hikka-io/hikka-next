@@ -16,12 +16,12 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
     return (
         <SessionManager>
-            <ScrollTop />
             <Suspense>
                 <ModalManager />
             </Suspense>
 
             <SidebarProvider defaultOpen={false}>
+                <ScrollTop />
                 <NavBar />
 
                 <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">
