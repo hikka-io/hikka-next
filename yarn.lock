@@ -501,6 +501,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emoji-mart/data@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@emoji-mart/data@npm:1.2.1"
+  checksum: 10c0/6784b97bf49a0d3ff110d8447bbd3b0449fcbc497294be3d1c3a6cb1609308776895c7520200be604cbecaa5e172c76927e47f34419c72ba8a76fd4e5a53674b
+  languageName: node
+  linkType: hard
+
 "@emotion/is-prop-valid@npm:^0.8.2":
   version: 0.8.8
   resolution: "@emotion/is-prop-valid@npm:0.8.8"
@@ -7553,6 +7560,7 @@ __metadata:
     "@bprogress/next": "npm:^3.2.4"
     "@dnd-kit/core": "npm:^6.1.0"
     "@dnd-kit/sortable": "npm:^8.0.0"
+    "@emoji-mart/data": "npm:^1.2.1"
     "@hookform/resolvers": "npm:^3.9.1"
     "@marsidev/react-turnstile": "npm:^1.0.2"
     "@mobily/ts-belt": "npm:^3.13.1"

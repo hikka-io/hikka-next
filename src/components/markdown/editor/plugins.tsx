@@ -1,5 +1,6 @@
 'use client';
 
+import emojiMartData from '@emoji-mart/data';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
@@ -44,7 +45,7 @@ export const basicPlugins = [
     SpoilerPlugin,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     MarkdownPlugin,
-    EmojiPlugin,
+    EmojiPlugin.configure({ options: { data: emojiMartData } }),
     SoftBreakPlugin.configure({
         options: {
             rules: [
