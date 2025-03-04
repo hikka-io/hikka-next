@@ -45,7 +45,7 @@ export const basicPlugins = [
     SpoilerPlugin,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     MarkdownPlugin,
-    EmojiPlugin.configure({ options: { data: emojiMartData } }),
+    EmojiPlugin.configure({ options: { data: emojiMartData as any } }),
     SoftBreakPlugin.configure({
         options: {
             rules: [
