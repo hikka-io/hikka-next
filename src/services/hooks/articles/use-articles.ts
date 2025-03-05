@@ -26,7 +26,7 @@ const useArticles = (props: Params, options?: Hikka.QueryOptions) => {
         queryKey: key(params),
         queryFn: ({ pageParam = 1 }) =>
             getArticles({
-                page: params.page,
+                page: pageParam,
                 size: params.size,
                 params: {
                     categories: params.categories,

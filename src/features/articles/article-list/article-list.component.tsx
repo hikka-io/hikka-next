@@ -39,6 +39,7 @@ const ArticleList: FC<Props> = () => {
     const selectedCategory = categories.length === 1 && categories[0];
 
     const {
+        ref,
         list,
         pagination,
         fetchNextPage,
@@ -96,6 +97,7 @@ const ArticleList: FC<Props> = () => {
                 )}
                 {hasNextPage && (
                     <LoadMoreButton
+                        ref={ref}
                         isFetchingNextPage={isFetchingNextPage}
                         fetchNextPage={fetchNextPage}
                     />
