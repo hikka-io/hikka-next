@@ -3,7 +3,7 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
 
-import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
@@ -36,7 +36,7 @@ const Component = ({ edit, href, className, ...props }: Props) => {
             </HorizontalCardContainer>
             <Button asChild size="icon-md" variant="outline">
                 <Link href={href}>
-                    <MaterialSymbolsEditRounded />
+                    <MaterialSymbolsVisibilityOutlineRounded />
                 </Link>
             </Button>
         </HorizontalCard>
