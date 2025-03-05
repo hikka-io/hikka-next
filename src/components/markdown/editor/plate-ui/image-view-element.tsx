@@ -14,14 +14,16 @@ export const ImageViewElement = withRef<typeof Image>(
 
         return (
             <PhotoView src={element.url}>
-                <Image
-                    alt="image"
-                    className={cn(className, 'size-full object-cover')}
-                    width={200}
-                    height={100}
-                    src={element.url}
-                    ref={ref}
-                />
+                <picture className="relative size-full">
+                    <Image
+                        alt="image"
+                        className={cn(className, 'object-cover image-item')}
+                        width={200}
+                        height={100}
+                        src={element.url}
+                        ref={ref}
+                    />
+                </picture>
             </PhotoView>
         );
     },
