@@ -44,7 +44,7 @@ const Ongoings: FC<Props> = ({ className }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack className="grid-min-7">
+            <Stack size={8}>
                 {isLoading && range(0, 8).map((v) => <SkeletonCard key={v} />)}
                 {filteredList?.map((item) => (
                     <AnimeCard anime={item} key={item.slug} />

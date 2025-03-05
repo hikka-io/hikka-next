@@ -4,9 +4,9 @@ import MaterialSymbolsPalette from '@/components/icons/material-symbols/Material
 import Block from '@/components/ui/block';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import Anime from './anime';
-import Manga from './manga';
-import Novel from './novel';
+import AnimeWatchlist from './anime-watchlist';
+import MangaReadlist from './manga-readlist';
+import NovelReadlist from './novel-readlist';
 
 const Profile = () => {
     return (
@@ -26,13 +26,13 @@ const Profile = () => {
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="anime" className="flex-1">
-                    <Anime />
+                    <AnimeWatchlist />
                 </TabsContent>
                 <TabsContent value="manga" className="flex-1">
-                    <Manga />
+                    <MangaReadlist />
                 </TabsContent>
                 <TabsContent value="novel" className="flex-1">
-                    <Novel />
+                    <NovelReadlist />
                 </TabsContent>
             </Tabs>
         </Block>

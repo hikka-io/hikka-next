@@ -16,6 +16,7 @@ import {
 import Stack from '@/components/ui/stack';
 
 import useFranchise from '@/services/hooks/related/use-franchise';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 
 import FranchiseFilters from './franchise-filters';
 import FranchiseItem from './franchise-item';
@@ -26,6 +27,8 @@ interface Props {
 }
 
 const Franchise: FC<Props> = ({ extended, content_type }) => {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
+
     const params = useParams();
     const searchParams = useSearchParams();
 
@@ -88,7 +91,11 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             >
                 {view === 'list' &&
                     filteredData.map((content) => (
-                        <FranchiseItem key={content.slug} content={content} />
+                        <FranchiseItem
+                            preview={!extended && !isDesktop}
+                            key={content.slug}
+                            content={content}
+                        />
                     ))}
 
                 {view === 'grid' &&

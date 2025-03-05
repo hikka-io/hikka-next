@@ -1,54 +1,43 @@
-import Link from 'next/link';
 import { FC } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
 import ReadlistButton from '@/components/readlist-button/readlist-button';
+import P from '@/components/typography/p';
 import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
 import WatchlistButton from '@/components/watchlist-button/watchlist-button';
 
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
     content: API.Anime | API.Manga | API.Novel;
+    preview?: boolean;
 }
 
-const FranchiseItem: FC<Props> = ({ content }) => {
+const FranchiseItem: FC<Props> = ({ content, preview }) => {
     return (
         <Card>
-            <div className="flex gap-4">
-                <ContentCard
-                    href={`/${content.data_type}/${content.slug}`}
-                    className="w-14"
-                    image={content.image}
-                />
-                <div className="flex flex-1 flex-col gap-2">
-                    <Label
-                        asChild
-                        className="line-clamp-1 cursor-pointer hover:underline"
-                    >
-                        <Link href={`/${content.data_type}/${content.slug}`}>
-                            {content.title}
-                        </Link>
-                    </Label>
-                    <div className="flex items-center gap-2">
-                        {content.year && (
-                            <Label className="text-xs text-muted-foreground">
-                                {content.year}
-                            </Label>
-                        )}
+            <HorizontalCard href={`/${content.data_type}/${content.slug}`}>
+                <HorizontalCardImage image={content.image} />
+                <HorizontalCardContainer>
+                    <HorizontalCardTitle>{content.title}</HorizontalCardTitle>
+                    <HorizontalCardDescription>
+                        {content.year && <P>{content.year}</P>}
                         {content.year && content.media_type && (
                             <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
-                            <Label className="text-xs text-muted-foreground">
-                                {MEDIA_TYPE[content.media_type].title_ua}
-                            </Label>
+                            <P>{MEDIA_TYPE[content.media_type].title_ua}</P>
                         )}
-                    </div>
-                </div>
-            </div>
-            {content.data_type === 'anime' && (
+                    </HorizontalCardDescription>
+                </HorizontalCardContainer>
+            </HorizontalCard>
+            {content.data_type === 'anime' && !preview && (
                 <WatchlistButton
                     slug={content.slug}
                     anime={content}
@@ -56,7 +45,7 @@ const FranchiseItem: FC<Props> = ({ content }) => {
                     size="md"
                 />
             )}
-            {content.data_type !== 'anime' && (
+            {content.data_type !== 'anime' && !preview && (
                 <ReadlistButton
                     content_type={content.data_type}
                     slug={content.slug}
