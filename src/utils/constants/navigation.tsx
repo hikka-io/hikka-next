@@ -212,6 +212,7 @@ const COMMUNITY_GROUP: Hikka.NavRoute[] = [
                 title_ua: ARTICLE_CATEGORY_OPTIONS[category].title_ua,
                 url: `/articles/?categories=${category}`,
                 visible: true,
+                icon: ARTICLE_CATEGORY_OPTIONS[category].icon,
                 slug: `articles/${category}`,
             })),
         slug: 'articles',

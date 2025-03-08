@@ -10,7 +10,7 @@ declare global {
             {
                 title_ua: string;
                 title_en: string;
-                icon?: (props: any) => ReactElement | ReactNode;
+                icon?: (props: any) => ReactElement;
                 color?: string;
                 description?: string;
                 params?: Record<string, any>;
@@ -21,7 +21,7 @@ declare global {
             slug: string;
             title_ua: string;
             url: string;
-            icon?: () => ReactElement;
+            icon?: (props: any) => ReactElement;
             role?: API.UserRole[];
             visible?: boolean;
             items?: NavRoute[];

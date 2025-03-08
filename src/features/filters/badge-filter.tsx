@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, createElement } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import P from '@/components/typography/p';
@@ -58,6 +58,9 @@ const BadgeFilter: FC<Props> = ({
                             selected.includes(slug) ? 'default' : 'outline'
                         }
                     >
+                        {!isPropertiesArray &&
+                            properties[slug].icon &&
+                            createElement(properties[slug].icon)}
                         {isPropertiesArray ? slug : properties[slug].title_ua}
 
                         {!isPropertiesArray && properties[slug].description && (

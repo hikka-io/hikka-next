@@ -1,5 +1,8 @@
 import MaterialSymbolsBookmarkFlagOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
+import MaterialSymbolsNewsmodeRounded from '@/components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
+import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
+import MaterialSymbolsStarsRounded from '@/components/icons/material-symbols/MaterialSymbolsStarsRounded';
 import Completed from '@/components/icons/watch-status/completed';
 import Dropped from '@/components/icons/watch-status/dropped';
 import OnHold from '@/components/icons/watch-status/on-hold';
@@ -530,6 +533,7 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
     news: {
         title_ua: 'Новини',
         title_en: 'News',
+        icon: MaterialSymbolsNewsmodeRounded,
     },
     system: {
         title_ua: 'Системне',
@@ -539,9 +543,11 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
     reviews: {
         title_ua: 'Огляди',
         title_en: 'Reviews',
+        icon: MaterialSymbolsReviewsRounded,
     },
     original: {
         title_ua: 'Авторське',
         title_en: 'Original',
+        icon: MaterialSymbolsStarsRounded,
     },
 };
