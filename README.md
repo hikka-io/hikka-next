@@ -68,6 +68,28 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## Environment Variables
+
+The project uses several environment variables for configuration. Key variables include:
+
+### Development Environment (.env.development)
+
+- `NEXT_PUBLIC_API_URL` - API endpoint URL
+- `API_URL` - Server-side API endpoint URL
+- `SITE_URL` - Development site URL
+- `NEXT_PUBLIC_SITE_URL` - Client-side site URL
+- `COOKIE_HTTP_ONLY` - Cookie security setting
+- `COOKIE_DOMAIN` - Cookie domain setting
+- `NEXT_PUBLIC_DEV` - Development mode flag
+- `USE_FAKE_CAPTCHA` - When set to 'true', bypasses captcha verification for local development. Default is 'false'. Use this when running without a local backend instance.
+
+To use fake captcha locally:
+```sh
+# In your .env.development
+USE_FAKE_CAPTCHA=true
+```
+
+Note: It's recommended to keep `USE_FAKE_CAPTCHA=false` by default and only enable it when you need to work without a local backend instance.
 
 <!-- LICENSE -->
 ## License
