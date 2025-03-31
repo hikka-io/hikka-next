@@ -60,7 +60,7 @@ async function buildHeaders(
         // Only include default content-type header if not FormData
         ...(isFormData ? {} : config.config.headers),
         Captcha:
-            process.env.NEXT_PUBLIC_DEV === 'true'
+            process.env.USE_FAKE_CAPTCHA === 'true'
                 ? 'fake_captcha'
                 : options.captcha || '',
     };

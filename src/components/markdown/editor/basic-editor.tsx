@@ -40,23 +40,6 @@ const PlateEditor: FC<PlateEditorProps> = ({
 
     const onChange = useCallback(() => {
         if (onValueChange) {
-            // Check if editor is empty, considering nested nodes
-            const isEmpty = editor.children.every((node: any) => {
-                if (node.type !== 'p') return false;
-
-                return node.children.every((child: any) => {
-                    if (child.type === 'a') {
-                        return !child.children?.[0]?.text || child.children[0].text.trim() === '';
-                    }
-                    return !child.text || child.text.trim() === '';
-                });
-            });
-
-            if (isEmpty) {
-                onValueChange('');
-                return;
-            }
-
             const markdown = serializeMd({ editor });
             onValueChange(markdown);
         }
