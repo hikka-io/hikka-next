@@ -59,7 +59,10 @@ async function buildHeaders(
     const headers: Record<string, string> = {
         // Only include default content-type header if not FormData
         ...(isFormData ? {} : config.config.headers),
-        captcha: options.captcha || '',
+        Captcha:
+            process.env.NEXT_PUBLIC_DEV === 'true'
+                ? 'fake_captcha'
+                : options.captcha || '',
     };
 
     // Add auth header for server-side requests
