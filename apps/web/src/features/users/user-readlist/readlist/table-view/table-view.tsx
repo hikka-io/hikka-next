@@ -14,9 +14,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '../../../../../components/ui/table';
-import createQueryString from '../../../../../utils/create-query-string';
-import { cn } from '../../../../../utils/utils';
+} from '@/components/ui/table';
+import createQueryString from '@/utils/create-query-string';
+import { cn } from '@/utils/utils';
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
 import NumberCell from './number-cell';

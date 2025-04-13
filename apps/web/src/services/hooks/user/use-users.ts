@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getUsers, { Params } from '../../api/user/getUsers';
 
 export const paramsBuilder = (props: Params): Params => ({

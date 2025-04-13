@@ -1,4 +1,4 @@
-import { getCookie } from '../../utils/cookies';
+import { getCookie } from '@/utils/cookies';
 import config from './config';
 
 // Types

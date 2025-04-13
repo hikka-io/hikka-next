@@ -1,12 +1,12 @@
 import { FC, ReactNode, Suspense } from 'react';
 
+import Footer from '@/features/common/footer.component';
+import ModalManager from '@/features/common/modal-manager.component';
+import NavBar from '@/features/common/navbar/navbar.component';
+import ScrollTop from '@/features/common/scroll-top.component';
+import SessionManager from '@/features/common/session-manager.component';
 import SnowfallManager from '../../components/snowfall-manager';
 import { SidebarProvider } from '../../components/ui/sidebar';
-import Footer from '../../features/common/footer.component';
-import ModalManager from '../../features/common/modal-manager.component';
-import NavBar from '../../features/common/navbar/navbar.component';
-import ScrollTop from '../../features/common/scroll-top.component';
-import SessionManager from '../../features/common/session-manager.component';
 
 interface Props {
     children: ReactNode;

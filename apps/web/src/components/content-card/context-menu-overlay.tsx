@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
-import useSession from '../../services/hooks/auth/use-session';
+import useSession from '@/services/hooks/auth/use-session';
 import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
 import {
     ContextMenu,

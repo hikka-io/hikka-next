@@ -7,15 +7,15 @@ import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-import FormInput from '../../../components/form/form-input';
-import H2 from '../../../components/typography/h2';
-import Small from '../../../components/typography/small';
-import { Button } from '../../../components/ui/button';
-import { Form } from '../../../components/ui/form';
-import login from '../../../services/api/auth/login';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { setCookie } from '../../../utils/cookies';
-import { z } from '../../../utils/zod';
+import FormInput from '@/components/form/form-input';
+import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import login from '@/services/api/auth/login';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { setCookie } from '@/utils/cookies';
+import { z } from '@/utils/zod';
 import AuthModal from './auth-modal.component';
 
 const formSchema = z.object({

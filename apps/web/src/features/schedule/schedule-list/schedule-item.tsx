@@ -2,13 +2,13 @@
 
 import { FC, memo } from 'react';
 
-import H5 from '../../../components/typography/h5';
-import P from '../../../components/typography/p';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
 import HorizontalContentCard, {
     Props as HorizontalContentCardProps,
-} from '../../../components/ui/horizontal-content-card';
-import getScheduleDuration from '../../../utils/get-schedule-duration';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/horizontal-content-card';
+import getScheduleDuration from '@/utils/get-schedule-duration';
+import { cn } from '@/utils/utils';
 import ScheduleWatchButton from './schedule-watch-button';
 
 interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {

@@ -6,18 +6,18 @@ import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import FormSwitch from '../../../components/form/form-switch';
-import { Button } from '../../../components/ui/button';
-import { Form } from '../../../components/ui/form';
+import FormSwitch from '@/components/form/form-switch';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import useChangeIgnoredNotifications from '../../../services/hooks/settings/use-change-ignored-notifications';
-import useIgnoredNotifications from '../../../services/hooks/settings/use-ignored-notifications';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { z } from '../../../utils/zod';
+} from '@/components/ui/header';
+import useChangeIgnoredNotifications from '@/services/hooks/settings/use-change-ignored-notifications';
+import useIgnoredNotifications from '@/services/hooks/settings/use-ignored-notifications';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
 const formSchema = z.object({
     comment_reply: z.boolean().default(true),

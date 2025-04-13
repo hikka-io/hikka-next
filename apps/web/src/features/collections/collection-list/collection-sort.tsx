@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { Tabs, TabsList, TabsTrigger } from '../../../components/ui/tabs';
-import createQueryString from '../../../utils/create-query-string';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import createQueryString from '@/utils/create-query-string';
 
 const CollectionSort = () => {
     const router = useRouter();

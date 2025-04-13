@@ -5,9 +5,9 @@ import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
 
+import Providers from '@/features/common/providers.component';
+import generateMetadata from '@/utils/generate-metadata';
 import { TailwindIndicator } from '../components/tailwind-indicator';
-import Providers from '../features/common/providers.component';
-import generateMetadata from '../utils/generate-metadata';
 import './globals.css';
 
 const inter = Inter({

@@ -4,11 +4,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
-import { Button } from '../../../../components/ui/button';
-import { Label } from '../../../../components/ui/label';
-import { Switch } from '../../../../components/ui/switch';
-import importRead from '../../../../services/api/settings/importRead';
-import { useModalContext } from '../../../../services/providers/modal-provider';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import importRead from '@/services/api/settings/importRead';
+import { useModalContext } from '@/services/providers/modal-provider';
 import General from './general';
 
 const Component = () => {

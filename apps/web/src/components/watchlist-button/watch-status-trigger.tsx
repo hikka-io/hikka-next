@@ -2,11 +2,11 @@
 
 import { FC, createElement } from 'react';
 
-import WatchEditModal from '../../features/modals/watch-edit-modal.component';
-import useAnimeInfo from '../../services/hooks/anime/use-anime-info';
-import { useModalContext } from '../../services/providers/modal-provider';
-import { WATCH_STATUS } from '../../utils/constants/common';
-import { cn } from '../../utils/utils';
+import WatchEditModal from '@/features/modals/watch-edit-modal.component';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { WATCH_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';

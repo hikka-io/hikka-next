@@ -1,7 +1,7 @@
 import { QueryKey } from '@tanstack/react-query';
 
-import { convertTitle } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getCharacterNovel, {
     Params,
 } from '../../api/characters/getCharacterNovel';

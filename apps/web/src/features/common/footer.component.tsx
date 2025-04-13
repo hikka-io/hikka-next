@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 
+import { useModalContext } from '@/services/providers/modal-provider';
 import BxBxlGithub from '../../components/icons/bx/BxBxlGithub';
 import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
@@ -14,7 +15,6 @@ import {
     DropdownMenuTrigger,
 } from '../../components/ui/dropdown-menu';
 import { Label } from '../../components/ui/label';
-import { useModalContext } from '../../services/providers/modal-provider';
 
 const Footer = () => {
     const { openModal } = useModalContext();

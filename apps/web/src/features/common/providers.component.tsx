@@ -8,12 +8,12 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { FC, PropsWithChildren, useState } from 'react';
 
+import ModalProvider from '@/services/providers/modal-provider';
+import SettingsProvider from '@/services/providers/settings-provider';
+import ThemeProvider from '@/services/providers/theme-provider';
+import { createQueryClient } from '@/utils/get-query-client';
 import SnackbarItem from '../../components/snackbar-item';
 import { TooltipProvider } from '../../components/ui/tooltip';
-import ModalProvider from '../../services/providers/modal-provider';
-import SettingsProvider from '../../services/providers/settings-provider';
-import ThemeProvider from '../../services/providers/theme-provider';
-import { createQueryClient } from '../../utils/get-query-client';
 
 interface Props extends PropsWithChildren {}
 

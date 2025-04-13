@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
-import useCollection from '../../../../services/hooks/collections/use-collection';
+import useCollection from '@/services/hooks/collections/use-collection';
 import CollectionGrid from './collection-grid';
 
 const CollectionGroups = () => {

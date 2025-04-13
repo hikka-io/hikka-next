@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getLoggedUserInfo from '../../api/user/getLoggedUserInfo';
 
 export const key = () => ['logged-user'];

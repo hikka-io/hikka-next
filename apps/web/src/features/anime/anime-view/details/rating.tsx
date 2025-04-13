@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { Label } from '../../../../components/ui/label';
-import { AGE_RATING } from '../../../../utils/constants/common';
+import { Label } from '@/components/ui/label';
+import { AGE_RATING } from '@/utils/constants/common';
 
 interface Props {
     rating: API.AgeRating;

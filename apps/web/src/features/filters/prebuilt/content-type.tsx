@@ -11,8 +11,8 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../../components/ui/select';
-import { CONTENT_TYPES } from '../../../utils/constants/common';
+} from '@/components/ui/select';
+import { CONTENT_TYPES } from '@/utils/constants/common';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 

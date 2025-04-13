@@ -1,8 +1,8 @@
 import { formatDistance } from 'date-fns';
 import { FC } from 'react';
 
-import { useMediaQuery } from '../../services/hooks/use-media-query';
-import { ARTICLE_CATEGORY_OPTIONS } from '../../utils/constants/common';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import FollowButton from '../follow-button';
 import {
     HorizontalCard,

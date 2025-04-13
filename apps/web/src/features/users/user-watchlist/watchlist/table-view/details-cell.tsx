@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import ContentCard from '../../../../../components/content-card/content-card';
-import MDViewer from '../../../../../components/markdown/viewer/MD-viewer';
-import TextExpand from '../../../../../components/text-expand';
-import { Badge } from '../../../../../components/ui/badge';
-import { TableCell } from '../../../../../components/ui/table';
+import ContentCard from '@/components/content-card/content-card';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import TextExpand from '@/components/text-expand';
+import { Badge } from '@/components/ui/badge';
+import { TableCell } from '@/components/ui/table';
 
 interface Props {
     anime: API.Anime;

@@ -1,7 +1,7 @@
 import { toDate } from 'date-fns/toDate';
 import { MetadataRoute } from 'next';
 
-import getMangaSitemap from '../../../../services/api/sitemap/getMangaSitemap';
+import getMangaSitemap from '@/services/api/sitemap/getMangaSitemap';
 
 export const dynamic = 'force-dynamic';
 

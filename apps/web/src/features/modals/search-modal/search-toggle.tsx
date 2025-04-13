@@ -3,13 +3,13 @@
 import * as React from 'react';
 import { FC, ReactNode } from 'react';
 
-import MaterialSymbolsAccountBox from '../../../components/icons/material-symbols/MaterialSymbolsAccountBox';
-import MaterialSymbolsAnimatedImages from '../../../components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFace3 from '../../../components/icons/material-symbols/MaterialSymbolsFace3';
-import MaterialSymbolsMenuBookRounded from '../../../components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '../../../components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '../../../components/icons/material-symbols/MaterialSymbolsPerson';
-import { buttonVariants } from '../../../components/ui/button';
+import MaterialSymbolsAccountBox from '@/components/icons/material-symbols/MaterialSymbolsAccountBox';
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import { buttonVariants } from '@/components/ui/button';
 import {
     Select,
     SelectContent,
@@ -18,8 +18,8 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../../components/ui/select';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/select';
+import { cn } from '@/utils/utils';
 
 interface Props {
     type?: API.ContentType | 'user';

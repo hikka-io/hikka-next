@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getAnimeInfo from '../../services/api/anime/getAnimeInfo';
-import getArticle from '../../services/api/articles/getArticle';
-import getCharacterInfo from '../../services/api/characters/getCharacterInfo';
-import getCollection from '../../services/api/collections/getCollection';
-import getEdit from '../../services/api/edit/getEdit';
-import getMangaInfo from '../../services/api/manga/getMangaInfo';
-import getNovelInfo from '../../services/api/novel/getNovelInfo';
-import getPersonInfo from '../../services/api/people/getPersonInfo';
-import { useSettingsContext } from '../../services/providers/settings-provider';
-import { convertTitle } from '../../utils/adapters/convert-title';
-import getQueryClient from '../../utils/get-query-client';
+import getAnimeInfo from '@/services/api/anime/getAnimeInfo';
+import getArticle from '@/services/api/articles/getArticle';
+import getCharacterInfo from '@/services/api/characters/getCharacterInfo';
+import getCollection from '@/services/api/collections/getCollection';
+import getEdit from '@/services/api/edit/getEdit';
+import getMangaInfo from '@/services/api/manga/getMangaInfo';
+import getNovelInfo from '@/services/api/novel/getNovelInfo';
+import getPersonInfo from '@/services/api/people/getPersonInfo';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     content_type: API.ContentType;

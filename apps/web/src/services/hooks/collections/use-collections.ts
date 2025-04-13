@@ -1,7 +1,7 @@
 import { QueryKey, useQuery } from '@tanstack/react-query';
 
-import { convertTitle } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getCollections, { Params } from '../../api/collections/getCollections';
 import { useSettingsContext } from '../../providers/settings-provider';
 

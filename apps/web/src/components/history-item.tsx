@@ -2,8 +2,8 @@ import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 
-import { convertActivity } from '../utils/adapters/convert-activity';
-import { CONTENT_TYPE_LINKS } from '../utils/constants/navigation';
+import { convertActivity } from '@/utils/adapters/convert-activity';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {

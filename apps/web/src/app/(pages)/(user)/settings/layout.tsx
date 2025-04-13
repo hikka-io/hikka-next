@@ -3,14 +3,14 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { FC, PropsWithChildren } from 'react';
 
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import Menu from '../../../../features/settings/menu.component';
-import getQueryClient from '../../../../utils/get-query-client';
+} from '@/components/ui/header';
+import Menu from '@/features/settings/menu.component';
+import getQueryClient from '@/utils/get-query-client';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 
 interface Props extends PropsWithChildren {

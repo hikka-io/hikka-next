@@ -2,20 +2,20 @@
 
 import { FC } from 'react';
 
-import P from '../../../components/typography/p';
+import P from '@/components/typography/p';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '../../../components/ui/avatar';
-import { Button } from '../../../components/ui/button';
-import Card from '../../../components/ui/card';
+} from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import useSession from '../../../services/hooks/auth/use-session';
+} from '@/components/ui/header';
+import useSession from '@/services/hooks/auth/use-session';
 import AuthNeeded from './auth-needed';
 
 interface Props {}

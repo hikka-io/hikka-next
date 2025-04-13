@@ -3,9 +3,9 @@
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
-import useAddRead from '../../services/hooks/read/use-add-read';
-import { WATCH_STATUS } from '../../utils/constants/common';
-import { cn } from '../../utils/utils';
+import useAddRead from '@/services/hooks/read/use-add-read';
+import { WATCH_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsArrowDropDownRounded from '../icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';

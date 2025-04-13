@@ -2,14 +2,14 @@
 
 import { FC, memo, useRef } from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
+import ContentCard from '@/components/content-card/content-card';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import Stack from '../../../../components/ui/stack';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
+} from '@/components/ui/header';
+import Stack from '@/components/ui/stack';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     group?: string;

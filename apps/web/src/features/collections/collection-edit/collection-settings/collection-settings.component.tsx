@@ -3,11 +3,11 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
-import { InputTags } from '../../../../components/ui/input-tags';
-import { Label } from '../../../../components/ui/label';
-import { ScrollArea } from '../../../../components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { InputTags } from '@/components/ui/input-tags';
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     Select,
     SelectContent,
@@ -16,16 +16,16 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../../../components/ui/select';
-import { Switch } from '../../../../components/ui/switch';
-import useCreateCollection from '../../../../services/hooks/collections/use-create-collection';
-import useUpdateCollection from '../../../../services/hooks/collections/use-update-collection';
-import { useCollectionContext } from '../../../../services/providers/collection-provider';
-import { useModalContext } from '../../../../services/providers/modal-provider';
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import useCreateCollection from '@/services/hooks/collections/use-create-collection';
+import useUpdateCollection from '@/services/hooks/collections/use-update-collection';
+import { useCollectionContext } from '@/services/providers/collection-provider';
+import { useModalContext } from '@/services/providers/modal-provider';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
-} from '../../../../utils/constants/common';
+} from '@/utils/constants/common';
 import GroupInputs from './group-inputs';
 
 interface Props {

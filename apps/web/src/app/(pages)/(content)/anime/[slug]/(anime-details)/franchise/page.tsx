@@ -1,8 +1,8 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 
-import Franchise from '../../../../../../../features/franchise/franchise.component';
-import _generateMetadata from '../../../../../../../utils/generate-metadata';
+import Franchise from '@/features/franchise/franchise.component';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

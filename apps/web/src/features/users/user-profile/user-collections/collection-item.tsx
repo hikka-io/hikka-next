@@ -1,19 +1,19 @@
 import { format } from 'date-fns/format';
 import { FC, memo } from 'react';
 
-import BxBxsUpvote from '../../../../components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '../../../../components/icons/iconamoon/IconamoonCommentFill';
-import MaterialSymbolsDriveFileRenameOutlineRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
-import MaterialSymbolsGridViewRounded from '../../../../components/icons/material-symbols/MaterialSymbolsGridViewRounded';
-import Small from '../../../../components/typography/small';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import Small from '@/components/typography/small';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../../components/ui/horizontal-card';
-import { cn } from '../../../../utils/utils';
+} from '@/components/ui/horizontal-card';
+import { cn } from '@/utils/utils';
 
 interface Props {
     data: API.Collection<API.MainContent>;

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import Stack from '../../../../components/ui/stack';
-import { VIDEO } from '../../../../utils/constants/common';
-import parseYouTubeThumbnail from '../../../../utils/parse-youtube-thumb';
+import ContentCard from '@/components/content-card/content-card';
+import Stack from '@/components/ui/stack';
+import { VIDEO } from '@/utils/constants/common';
+import parseYouTubeThumbnail from '@/utils/parse-youtube-thumb';
 
 interface Props {
     extended?: boolean;

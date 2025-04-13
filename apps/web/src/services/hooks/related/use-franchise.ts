@@ -1,7 +1,7 @@
 import { QueryKey, useQuery } from '@tanstack/react-query';
 
-import { convertTitleList } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitleList } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getFranchise, { Params } from '../../api/related/getFranchise';
 import { useSettingsContext } from '../../providers/settings-provider';
 

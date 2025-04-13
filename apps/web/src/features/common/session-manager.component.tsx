@@ -3,9 +3,9 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 
-import getLoggedUserInfo from '../../services/api/user/getLoggedUserInfo';
-import { getCookie } from '../../utils/cookies';
-import getQueryClient from '../../utils/get-query-client';
+import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
+import { getCookie } from '@/utils/cookies';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props extends PropsWithChildren {}
 

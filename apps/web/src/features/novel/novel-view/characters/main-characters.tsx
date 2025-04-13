@@ -3,16 +3,16 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import CharacterCard from '../../../../components/character-card';
-import Block from '../../../../components/ui/block';
+import CharacterCard from '@/components/character-card';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import Stack from '../../../../components/ui/stack';
-import useNovelCharacters from '../../../../services/hooks/novel/use-novel-characters';
+} from '@/components/ui/header';
+import Stack from '@/components/ui/stack';
+import useNovelCharacters from '@/services/hooks/novel/use-novel-characters';
 
 interface Props {
     extended?: boolean;

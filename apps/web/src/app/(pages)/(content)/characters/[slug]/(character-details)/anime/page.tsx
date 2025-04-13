@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Anime from '../../../../../../../features/characters/character-view/anime.component';
+import Anime from '@/features/characters/character-view/anime.component';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

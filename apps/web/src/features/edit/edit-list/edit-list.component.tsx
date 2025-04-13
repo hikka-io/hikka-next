@@ -3,11 +3,11 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import FiltersNotFound from '../../../components/filters-not-found';
-import PagePagination from '../../../components/page-pagination';
-import Block from '../../../components/ui/block';
-import { Table, TableBody } from '../../../components/ui/table';
-import useEditList from '../../../services/hooks/edit/use-edit-list';
+import FiltersNotFound from '@/components/filters-not-found';
+import PagePagination from '@/components/page-pagination';
+import Block from '@/components/ui/block';
+import { Table, TableBody } from '@/components/ui/table';
+import useEditList from '@/services/hooks/edit/use-edit-list';
 import EditHead from './edit-head';
 import EditRow from './edit-row';
 import EditSkeleton from './edit-skeleton';

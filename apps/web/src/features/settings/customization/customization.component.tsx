@@ -2,11 +2,11 @@
 
 import { useTheme } from 'next-themes';
 
-import MaterialSymbolsComputerOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
-import MaterialSymbolsNightlightOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
-import MaterialSymbolsSunnyOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
-import Small from '../../../components/typography/small';
-import { Label } from '../../../components/ui/label';
+import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
+import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
+import MaterialSymbolsSunnyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
+import Small from '@/components/typography/small';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -15,9 +15,9 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../../components/ui/select';
-import { Switch } from '../../../components/ui/switch';
-import { useSettingsContext } from '../../../services/providers/settings-provider';
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 const Component = () => {
     const {

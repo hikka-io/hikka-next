@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 
+import { SETTINGS_MENU } from '@/utils/constants/navigation';
 import { Button } from '../../components/ui/button';
-import { SETTINGS_MENU } from '../../utils/constants/navigation';
 
 interface Props {}
 

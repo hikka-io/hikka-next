@@ -1,4 +1,4 @@
-import P from '../../../../components/typography/p';
+import P from '@/components/typography/p';
 
 interface Props {
     watchList: Record<string, any>[];

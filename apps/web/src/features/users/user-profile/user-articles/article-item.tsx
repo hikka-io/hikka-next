@@ -1,18 +1,18 @@
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
-import BxBxsUpvote from '../../../../components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '../../../../components/icons/iconamoon/IconamoonCommentFill';
-import MaterialSymbolsVisibilityOutlineRounded from '../../../../components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import Small from '../../../../components/typography/small';
-import Card from '../../../../components/ui/card';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
+import Small from '@/components/typography/small';
+import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../../components/ui/horizontal-card';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
+} from '@/components/ui/horizontal-card';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     article: API.Article;

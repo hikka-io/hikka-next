@@ -3,18 +3,18 @@ import { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentHeader from '../../../../../../features/comments/comment-content-header.component';
-import Comments from '../../../../../../features/comments/comment-list.component';
+import ContentHeader from '@/features/comments/comment-content-header.component';
+import Comments from '@/features/comments/comment-list.component';
 import {
     getContent,
     key,
     prefetchContent,
-} from '../../../../../../features/comments/use-content';
-import { prefetchCommentThread } from '../../../../../../services/hooks/comments/use-comment-thread';
-import { prefetchComments } from '../../../../../../services/hooks/comments/use-comments';
-import { convertTitle } from '../../../../../../utils/adapters/convert-title';
-import _generateMetadata from '../../../../../../utils/generate-metadata';
-import getQueryClient from '../../../../../../utils/get-query-client';
+} from '@/features/comments/use-content';
+import { prefetchCommentThread } from '@/services/hooks/comments/use-comment-thread';
+import { prefetchComments } from '@/services/hooks/comments/use-comments';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export interface MetadataProps {
     params: { slug: string; content_type: API.ContentType };

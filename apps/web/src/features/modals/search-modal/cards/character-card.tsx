@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import * as React from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import { Label } from '../../../../components/ui/label';
+import ContentCard from '@/components/content-card/content-card';
+import { Label } from '@/components/ui/label';
 
 interface Props {
     character: API.Character;

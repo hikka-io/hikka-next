@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '../../../../components/load-more-button';
-import useUserCollections from '../../../../services/hooks/user/use-user-collections';
+import LoadMoreButton from '@/components/load-more-button';
+import useUserCollections from '@/services/hooks/user/use-user-collections';
 import CollectionItem from './collection-item';
 
 interface Props {

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getCharacters from '../../../../services/api/characters/getCharacters';
+import getCharacters from '@/services/api/characters/getCharacters';
 
 interface Props {
     value?: string;

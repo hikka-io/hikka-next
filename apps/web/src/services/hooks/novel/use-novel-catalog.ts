@@ -1,7 +1,7 @@
 import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 
-import { convertTitleList } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitleList } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getNovelCatalog, {
     Params as NovelCatalogParams,
     Response as NovelCatalogResponse,

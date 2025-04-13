@@ -5,10 +5,10 @@ import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { xml2json } from 'xml-js';
 
-import P from '../../../../components/typography/p';
-import Small from '../../../../components/typography/small';
-import { Label } from '../../../../components/ui/label';
-import { cn } from '../../../../utils/utils';
+import P from '@/components/typography/p';
+import Small from '@/components/typography/small';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/utils/utils';
 import FoundList from './found-list';
 
 interface Props {

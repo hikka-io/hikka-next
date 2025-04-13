@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import AnimeCard from '../../../../components/anime-card';
+import AnimeCard from '@/components/anime-card';
 
 interface Props {
     data: API.Watch[];

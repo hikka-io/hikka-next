@@ -3,11 +3,11 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import History from '../../../../../../features/users/user-history/user-history.component';
-import { prefetchFollowingHistory } from '../../../../../../services/hooks/history/use-following-history';
-import { getCookie } from '../../../../../../utils/cookies';
-import _generateMetadata from '../../../../../../utils/generate-metadata';
-import getQueryClient from '../../../../../../utils/get-query-client';
+import History from '@/features/users/user-history/user-history.component';
+import { prefetchFollowingHistory } from '@/services/hooks/history/use-following-history';
+import { getCookie } from '@/utils/cookies';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Активність',

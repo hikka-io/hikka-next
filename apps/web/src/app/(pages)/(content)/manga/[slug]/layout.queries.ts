@@ -1,7 +1,7 @@
-import { prefetchFavorite } from '../../../../../services/hooks/favorite/use-favorite';
-import { prefetchMangaCharacters } from '../../../../../services/hooks/manga/use-manga-characters';
-import { prefetchFranchise } from '../../../../../services/hooks/related/use-franchise';
-import { getCookie } from '../../../../../utils/cookies';
+import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
+import { prefetchMangaCharacters } from '@/services/hooks/manga/use-manga-characters';
+import { prefetchFranchise } from '@/services/hooks/related/use-franchise';
+import { getCookie } from '@/utils/cookies';
 
 interface Props {
     params: {

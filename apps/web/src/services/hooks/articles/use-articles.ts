@@ -1,6 +1,6 @@
 import { QueryKey } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getArticles, { Params } from '../../api/articles/getArticles';
 import useInfiniteList from '../use-infinite-list';
 

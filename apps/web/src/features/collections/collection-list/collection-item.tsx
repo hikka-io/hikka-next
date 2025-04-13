@@ -3,24 +3,24 @@
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC, memo } from 'react';
 
-import ContentCard from '../../../components/content-card/content-card';
-import BxBxsUpvote from '../../../components/icons/bx/BxBxsUpvote';
-import { IconamoonCommentFill } from '../../../components/icons/iconamoon/IconamoonCommentFill';
-import MaterialSymbolsDriveFileRenameOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
-import MaterialSymbolsGridViewRounded from '../../../components/icons/material-symbols/MaterialSymbolsGridViewRounded';
-import MaterialSymbolsMoreHoriz from '../../../components/icons/material-symbols/MaterialSymbolsMoreHoriz';
-import Small from '../../../components/typography/small';
-import { Badge } from '../../../components/ui/badge';
+import ContentCard from '@/components/content-card/content-card';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import { IconamoonCommentFill } from '@/components/icons/iconamoon/IconamoonCommentFill';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
+import Small from '@/components/typography/small';
+import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
-import Stack from '../../../components/ui/stack';
-import { CONTENT_TYPE_LINKS } from '../../../utils/constants/navigation';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/horizontal-card';
+import Stack from '@/components/ui/stack';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { cn } from '@/utils/utils';
 
 interface Props {
     collection: API.Collection<API.MainContent & { title?: string }>;

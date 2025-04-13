@@ -3,11 +3,11 @@
 import { useParams } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 
+import resendActivation from '@/services/api/auth/resendActivation';
+import useSession from '@/services/hooks/auth/use-session';
+import useUser from '@/services/hooks/user/use-user';
 import MaterialSymbolsInfoRounded from '../../components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '../../components/ui/button';
-import resendActivation from '../../services/api/auth/resendActivation';
-import useSession from '../../services/hooks/auth/use-session';
-import useUser from '../../services/hooks/user/use-user';
 
 const ActivationAlert = () => {
     const params = useParams();

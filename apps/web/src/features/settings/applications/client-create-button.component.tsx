@@ -2,10 +2,10 @@
 
 import { FC, Fragment, memo } from 'react';
 
-import MaterialSymbolsAddRounded from '../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import { Button } from '../../../components/ui/button';
-import useSession from '../../../services/hooks/auth/use-session';
-import { useModalContext } from '../../../services/providers/modal-provider';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import { Button } from '@/components/ui/button';
+import useSession from '@/services/hooks/auth/use-session';
+import { useModalContext } from '@/services/providers/modal-provider';
 import ClientCreateModal from '../../modals/client-modal/client-create-modal.component';
 
 const ClientCreateButton: FC = () => {

@@ -2,11 +2,11 @@
 
 import { useParams } from 'next/navigation';
 
-import ContentCard from '../../../components/content-card/content-card';
-import EditButton from '../../../components/edit-button';
-import FavoriteButton from '../../../components/favorite-button';
-import useSession from '../../../services/hooks/auth/use-session';
-import useCharacterInfo from '../../../services/hooks/characters/use-character-info';
+import ContentCard from '@/components/content-card/content-card';
+import EditButton from '@/components/edit-button';
+import FavoriteButton from '@/components/favorite-button';
+import useSession from '@/services/hooks/auth/use-session';
+import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 
 const Cover = () => {
     const { user: loggedUser } = useSession();

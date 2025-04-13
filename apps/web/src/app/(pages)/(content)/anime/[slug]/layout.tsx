@@ -5,17 +5,17 @@ import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
-import Breadcrumbs from '../../../../../components/navigation/nav-breadcrumbs';
-import NavMenu from '../../../../../components/navigation/nav-dropdown';
-import InternalNavBar from '../../../../../components/navigation/nav-tabs';
-import SubBar from '../../../../../components/navigation/sub-nav';
-import Actions from '../../../../../features/anime/anime-view/actions/actions.component';
-import Cover from '../../../../../features/anime/anime-view/cover.component';
-import Title from '../../../../../features/anime/anime-view/title.component';
-import { prefetchAnimeInfo } from '../../../../../services/hooks/anime/use-anime-info';
-import { RELEASE_STATUS } from '../../../../../utils/constants/common';
-import { ANIME_NAV_ROUTES } from '../../../../../utils/constants/navigation';
-import getQueryClient from '../../../../../utils/get-query-client';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
+import InternalNavBar from '@/components/navigation/nav-tabs';
+import SubBar from '@/components/navigation/sub-nav';
+import Actions from '@/features/anime/anime-view/actions/actions.component';
+import Cover from '@/features/anime/anime-view/cover.component';
+import Title from '@/features/anime/anime-view/title.component';
+import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
+import { RELEASE_STATUS } from '@/utils/constants/common';
+import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
+import getQueryClient from '@/utils/get-query-client';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 

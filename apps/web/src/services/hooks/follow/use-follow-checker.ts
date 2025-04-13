@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import checkFollow, { Params } from '../../api/follow/checkFollow';
 
 export const paramsBuilder = (props: Params): Params => ({

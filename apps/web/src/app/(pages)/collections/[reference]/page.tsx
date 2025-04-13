@@ -4,20 +4,20 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 
-import Breadcrumbs from '../../../../components/navigation/nav-breadcrumbs';
-import Block from '../../../../components/ui/block';
-import CollectionAuthor from '../../../../features/collections/collection-view/collection-author';
-import CollectionGroups from '../../../../features/collections/collection-view/collection-groups/collection-groups.component';
-import CollectionNavbar from '../../../../features/collections/collection-view/collection-navbar/collection-navbar.component';
-import CollectionTitle from '../../../../features/collections/collection-view/collection-title.component';
-import getCollection from '../../../../services/api/collections/getCollection';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Block from '@/components/ui/block';
+import CollectionAuthor from '@/features/collections/collection-view/collection-author';
+import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups.component';
+import CollectionNavbar from '@/features/collections/collection-view/collection-navbar/collection-navbar.component';
+import CollectionTitle from '@/features/collections/collection-view/collection-title.component';
+import getCollection from '@/services/api/collections/getCollection';
 import {
     key,
     prefetchCollection,
-} from '../../../../services/hooks/collections/use-collection';
-import CollectionProvider from '../../../../services/providers/collection-provider';
-import _generateMetadata from '../../../../utils/generate-metadata';
-import getQueryClient from '../../../../utils/get-query-client';
+} from '@/services/hooks/collections/use-collection';
+import CollectionProvider from '@/services/providers/collection-provider';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(props: {
     params: Promise<Record<string, any>>;

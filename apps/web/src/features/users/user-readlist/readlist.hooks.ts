@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from 'next/navigation';
 
-import useReadList from '../../../services/hooks/read/use-read-list';
+import useReadList from '@/services/hooks/read/use-read-list';
 
 export const useList = () => {
     const searchParams = useSearchParams()!;

@@ -8,7 +8,7 @@ import {
 } from '@udecode/plate/react';
 import { FC } from 'react';
 
-import { cn } from '../../../utils/utils';
+import { cn } from '@/utils/utils';
 import { Editor, EditorContainer } from './plate-ui/editor';
 import { useCreateArticleEditor } from './use-create-article-editor';
 

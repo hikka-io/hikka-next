@@ -1,9 +1,9 @@
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
+} from '@/components/ui/header';
 import ActivityStats from './activity-stats/activity-stats';
 import WatchhourStats from './watchhour-stats';
 

@@ -3,18 +3,18 @@
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
+} from '@/components/ui/header';
 import {
     ToggleGroup,
     ToggleGroupItem,
-} from '../../../../components/ui/toggle-group';
-import useAnimeInfo from '../../../../services/hooks/anime/use-anime-info';
+} from '@/components/ui/toggle-group';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import Ost from './ost';
 import Video from './video';
 

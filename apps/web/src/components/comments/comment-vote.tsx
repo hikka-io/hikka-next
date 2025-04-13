@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-import AuthModal from '../../features/modals/auth-modal/auth-modal.component';
-import useSession from '../../services/hooks/auth/use-session';
-import useVote from '../../services/hooks/vote/useVote';
-import { useModalContext } from '../../services/providers/modal-provider';
-import { cn } from '../../utils/utils';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
+import useSession from '@/services/hooks/auth/use-session';
+import useVote from '@/services/hooks/vote/useVote';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import BxBxsDownvote from '../icons/bx/BxBxsDownvote';
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import BxDownvote from '../icons/bx/BxDownvote';

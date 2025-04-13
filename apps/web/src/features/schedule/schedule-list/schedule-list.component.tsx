@@ -4,16 +4,16 @@ import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 import { useSearchParams } from 'next/navigation';
 
-import FiltersNotFound from '../../../components/filters-not-found';
-import LoadMoreButton from '../../../components/load-more-button';
-import Block from '../../../components/ui/block';
+import FiltersNotFound from '@/components/filters-not-found';
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import useAnimeSchedule from '../../../services/hooks/stats/use-anime-schedule';
-import getCurrentSeason from '../../../utils/get-current-season';
+} from '@/components/ui/header';
+import useAnimeSchedule from '@/services/hooks/stats/use-anime-schedule';
+import getCurrentSeason from '@/utils/get-current-season';
 import ScheduleItem from './schedule-item';
 
 const ScheduleList = () => {

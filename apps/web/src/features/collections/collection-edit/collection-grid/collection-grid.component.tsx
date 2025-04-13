@@ -16,15 +16,15 @@ import {
 } from '@dnd-kit/sortable';
 import { FC } from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import { MaterialSymbolsAddRounded } from '../../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
+import ContentCard from '@/components/content-card/content-card';
+import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import { useCollectionContext } from '../../../../services/providers/collection-provider';
-import { Group, Item } from '../../../../services/stores/collection-store';
+} from '@/components/ui/header';
+import { useCollectionContext } from '@/services/providers/collection-provider';
+import { Group, Item } from '@/services/stores/collection-store';
 import SearchModal from '../../../modals/search-modal/search-modal.component';
 import SortableCard from './sortable-card';
 

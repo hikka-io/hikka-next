@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import useNovelInfo from '../../../../services/hooks/novel/use-novel-info';
-import { READ_STATUS } from '../../../../utils/constants/common';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
+import { READ_STATUS } from '@/utils/constants/common';
 import Stats from './stats';
 
 const Readlist = () => {

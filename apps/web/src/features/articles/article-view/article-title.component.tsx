@@ -8,9 +8,9 @@ import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import useArticle from '../../../services/hooks/articles/use-article';
-import { CONTENT_TYPE_LINKS } from '../../../utils/constants/navigation';
+} from '@/components/ui/header';
+import useArticle from '@/services/hooks/articles/use-article';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {}
 

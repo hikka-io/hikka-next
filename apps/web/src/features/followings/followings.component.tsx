@@ -3,6 +3,9 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import useFollowingReadList from '@/services/hooks/read/use-following-read-list';
+import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
+import { useModalContext } from '@/services/providers/modal-provider';
 import Block from '../../components/ui/block';
 import {
     Header,
@@ -10,9 +13,6 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '../../components/ui/header';
-import useFollowingReadList from '../../services/hooks/read/use-following-read-list';
-import useFollowingWatchList from '../../services/hooks/watch/use-following-watch-list';
-import { useModalContext } from '../../services/providers/modal-provider';
 import FollowingReadItem from './following-read-item';
 import FollowingWatchItem from './following-watch-item';
 import FollowingsModal from './followings-modal';

@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import MaterialSymbolsOpenInNewRounded from '../../../components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '../../../components/ui/tabs';
-import useWatchStats from '../../../services/hooks/watch/use-watch-stats';
+} from '@/components/ui/tabs';
+import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 import ReadlistStats from './readlist-stats';
 import WatchlistStats from './watchlist-stats';
 

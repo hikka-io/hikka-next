@@ -3,8 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { FC, useCallback } from 'react';
 
-import MaterialSymbolsSortRounded from '../../../components/icons/material-symbols/MaterialSymbolsSortRounded';
-import { Button } from '../../../components/ui/button';
+import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
+import { Button } from '@/components/ui/button';
 import {
     Select,
     SelectContent,
@@ -13,8 +13,8 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../../components/ui/select';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/select';
+import { cn } from '@/utils/utils';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 

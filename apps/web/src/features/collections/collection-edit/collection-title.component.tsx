@@ -2,13 +2,13 @@
 
 import { useParams } from 'next/navigation';
 
-import BasicEditor from '../../../components/markdown/editor/basic-editor';
+import BasicEditor from '@/components/markdown/editor/basic-editor';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import { useCollectionContext } from '../../../services/providers/collection-provider';
+} from '@/components/ui/header';
+import { useCollectionContext } from '@/services/providers/collection-provider';
 import RulesAlert from './collection-rules-alert.component';
 
 const CollectionTitle = () => {

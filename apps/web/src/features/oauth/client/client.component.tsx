@@ -3,13 +3,13 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import P from '../../../components/typography/p';
-import Card from '../../../components/ui/card';
-import { Label } from '../../../components/ui/label';
-import { Separator } from '../../../components/ui/separator';
-import useClient from '../../../services/hooks/client/use-client';
-import { SCOPES, SCOPE_GROUPS } from '../../../utils/constants/oauth';
-import { cn } from '../../../utils/utils';
+import P from '@/components/typography/p';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import useClient from '@/services/hooks/client/use-client';
+import { SCOPES, SCOPE_GROUPS } from '@/utils/constants/oauth';
+import { cn } from '@/utils/utils';
 import Scope from './scope';
 
 interface Props {}

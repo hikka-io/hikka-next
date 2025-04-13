@@ -6,7 +6,7 @@ import {
     useState,
 } from 'react';
 
-import { cn } from '../utils/utils';
+import { cn } from '@/utils/utils';
 import { Button } from './ui/button';
 
 interface Props extends ComponentPropsWithoutRef<'div'> {

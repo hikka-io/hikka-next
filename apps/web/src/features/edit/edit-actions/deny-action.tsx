@@ -12,9 +12,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../../../components/ui/alert-dialog';
-import { Button } from '../../../components/ui/button';
-import useActionEdit from '../../../services/hooks/edit/use-action-edit';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import useActionEdit from '@/services/hooks/edit/use-action-edit';
 
 interface Props {}
 

@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Label } from '../../../components/ui/label';
-import RadialProgress from '../../../components/ui/radial-progress';
-import useReadStats from '../../../services/hooks/read/use-read-stats';
-import { READ_STATUS } from '../../../utils/constants/common';
-import { cn } from '../../../utils/utils';
+import { Label } from '@/components/ui/label';
+import RadialProgress from '@/components/ui/radial-progress';
+import useReadStats from '@/services/hooks/read/use-read-stats';
+import { READ_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 interface Props {
     content_type: 'manga' | 'novel';

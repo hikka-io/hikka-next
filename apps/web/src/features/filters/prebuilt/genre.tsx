@@ -12,8 +12,8 @@ import {
     SelectTrigger,
     SelectValue,
     renderSelectOptions,
-} from '../../../components/ui/select';
-import useGenres from '../../../services/hooks/genres/use-genres';
+} from '@/components/ui/select';
+import useGenres from '@/services/hooks/genres/use-genres';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 

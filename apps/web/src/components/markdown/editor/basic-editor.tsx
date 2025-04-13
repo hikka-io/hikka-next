@@ -8,7 +8,7 @@ import {
 } from '@udecode/plate/react';
 import { FC, useCallback } from 'react';
 
-import { cn } from '../../../utils/utils';
+import { cn } from '@/utils/utils';
 import { Editor, EditorContainer } from './plate-ui/editor';
 import { serializeMd } from './plugins/markdown-plugin/serialize-md';
 import { useCreateEditor } from './use-create-editor';

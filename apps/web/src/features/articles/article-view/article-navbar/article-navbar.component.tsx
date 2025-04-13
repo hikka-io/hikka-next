@@ -5,17 +5,17 @@ import { useParams } from 'next/navigation';
 import { enqueueSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
 
-import IconamoonCommentFill from '../../../../components/icons/iconamoon/IconamoonCommentFill';
-import { MaterialSymbolsLinkRounded } from '../../../../components/icons/material-symbols/MaterialSymbolsLinkRounded';
-import { Button } from '../../../../components/ui/button';
-import Card from '../../../../components/ui/card';
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
-import useArticle from '../../../../services/hooks/articles/use-article';
-import useSession from '../../../../services/hooks/auth/use-session';
+} from '@/components/ui/tooltip';
+import useArticle from '@/services/hooks/articles/use-article';
+import useSession from '@/services/hooks/auth/use-session';
 import ArticleMenu from './article-menu';
 import ArticleVote from './article-vote';
 

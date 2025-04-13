@@ -4,24 +4,24 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ArticleItem from '../../../components/article-item/article-item';
-import FiltersNotFound from '../../../components/filters-not-found';
-import AntDesignFilterFilled from '../../../components/icons/ant-design/AntDesignFilterFilled';
-import MaterialSymbolsAddRounded from '../../../components/icons/watch-status/planned';
-import LoadMoreButton from '../../../components/load-more-button';
-import ArticleItemSkeleton from '../../../components/skeletons/article-item-skeleton';
-import Block from '../../../components/ui/block';
-import { Button } from '../../../components/ui/button';
+import ArticleItem from '@/components/article-item/article-item';
+import FiltersNotFound from '@/components/filters-not-found';
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
+import LoadMoreButton from '@/components/load-more-button';
+import ArticleItemSkeleton from '@/components/skeletons/article-item-skeleton';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import useArticles from '../../../services/hooks/articles/use-articles';
-import useSession from '../../../services/hooks/auth/use-session';
-import { ARTICLE_CATEGORY_OPTIONS } from '../../../utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '../../../utils/constants/navigation';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/header';
+import useArticles from '@/services/hooks/articles/use-articles';
+import useSession from '@/services/hooks/auth/use-session';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { cn } from '@/utils/utils';
 import ArticleFiltersModal from '../../modals/article-filters-modal.component';
 
 interface Props {}

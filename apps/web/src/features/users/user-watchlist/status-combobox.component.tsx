@@ -8,8 +8,8 @@ import {
 } from 'next/navigation';
 import { createElement } from 'react';
 
-import H5 from '../../../components/typography/h5';
-import { Label } from '../../../components/ui/label';
+import H5 from '@/components/typography/h5';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -18,9 +18,9 @@ import {
     SelectItem,
     SelectList,
     SelectTrigger,
-} from '../../../components/ui/select';
-import { WATCH_STATUS } from '../../../utils/constants/common';
-import createQueryString from '../../../utils/create-query-string';
+} from '@/components/ui/select';
+import { WATCH_STATUS } from '@/utils/constants/common';
+import createQueryString from '@/utils/create-query-string';
 import { useList } from './watchlist.hooks';
 
 const StatusCombobox = () => {

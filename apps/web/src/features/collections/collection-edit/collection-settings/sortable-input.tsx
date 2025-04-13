@@ -2,10 +2,10 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React, { FC } from 'react';
 
-import MaterialSymbolsDeleteForever from '../../../../components/icons/material-symbols/MaterialSymbolsDeleteForever';
-import MaterialSymbolsDragIndicator from '../../../../components/icons/material-symbols/MaterialSymbolsDragIndicator';
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
+import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
+import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;

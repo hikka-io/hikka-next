@@ -1,6 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import createQueryString from '../../utils/create-query-string';
+import createQueryString from '@/utils/create-query-string';
 
 const useChangeParam = () => {
     const router = useRouter();

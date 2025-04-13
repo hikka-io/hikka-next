@@ -2,14 +2,14 @@
 
 import { FC } from 'react';
 
-import FollowButton from '../../../components/follow-button';
+import FollowButton from '@/components/follow-button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
+} from '@/components/ui/horizontal-card';
 
 interface Props {
     user: API.User;

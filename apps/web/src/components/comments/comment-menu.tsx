@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
-import deleteComment from '../../services/api/comments/deleteComment';
-import useSession from '../../services/hooks/auth/use-session';
-import { useCommentsContext } from '../../services/providers/comments-provider';
+import deleteComment from '@/services/api/comments/deleteComment';
+import useSession from '@/services/hooks/auth/use-session';
+import { useCommentsContext } from '@/services/providers/comments-provider';
 import MaterialSymbolsDeleteForeverRounded from '../icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '../icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';

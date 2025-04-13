@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { AGE_RATING } from '../../../utils/constants/common';
+import { AGE_RATING } from '@/utils/constants/common';
 import BadgeFilter from '../badge-filter';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';

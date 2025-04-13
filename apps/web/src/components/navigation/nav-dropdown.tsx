@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, createElement, memo } from 'react';
 
-import { useMediaQuery } from '../../services/hooks/use-media-query';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import P from '../typography/p';
 import {
     NavigationMenu,

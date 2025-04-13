@@ -3,15 +3,15 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import Block from '../../../../../../../components/ui/block';
-import ReadFilters from '../../../../../../../features/filters/read-filters.component';
-import List from '../../../../../../../features/users/user-readlist/readlist/readlist.component';
-import StatusCombobox from '../../../../../../../features/users/user-readlist/status-combobox.component';
-import ToolsCombobox from '../../../../../../../features/users/user-readlist/tools-combobox.component';
-import ViewCombobox from '../../../../../../../features/users/view-combobox.component';
-import { prefetchReadList } from '../../../../../../../services/hooks/read/use-read-list';
-import _generateMetadata from '../../../../../../../utils/generate-metadata';
-import getQueryClient from '../../../../../../../utils/get-query-client';
+import Block from '@/components/ui/block';
+import ReadFilters from '@/features/filters/read-filters.component';
+import List from '@/features/users/user-readlist/readlist/readlist.component';
+import StatusCombobox from '@/features/users/user-readlist/status-combobox.component';
+import ToolsCombobox from '@/features/users/user-readlist/tools-combobox.component';
+import ViewCombobox from '@/features/users/view-combobox.component';
+import { prefetchReadList } from '@/services/hooks/read/use-read-list';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(
     props: { params: Promise<{ username: string }> },

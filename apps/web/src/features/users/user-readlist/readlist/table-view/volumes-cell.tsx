@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { TableCell } from '../../../../../components/ui/table';
+import { TableCell } from '@/components/ui/table';
 
 interface Props {
     volumes: number;

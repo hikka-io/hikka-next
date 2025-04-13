@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import { MEDIA_TYPE } from '@/utils/constants/common';
 import ReadlistButton from '../../components/readlist-button/readlist-button';
 import P from '../../components/typography/p';
 import Card from '../../components/ui/card';
@@ -11,7 +12,6 @@ import {
     HorizontalCardTitle,
 } from '../../components/ui/horizontal-card';
 import WatchlistButton from '../../components/watchlist-button/watchlist-button';
-import { MEDIA_TYPE } from '../../utils/constants/common';
 
 interface Props {
     content: API.Anime | API.Manga | API.Novel;

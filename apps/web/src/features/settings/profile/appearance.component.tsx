@@ -4,21 +4,21 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { enqueueSnackbar } from 'notistack';
 import { ChangeEvent, useRef } from 'react';
 
-import MaterialSymbolsDeleteForeverRounded from '../../../components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import P from '../../../components/typography/p';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import P from '@/components/typography/p';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '../../../components/ui/avatar';
-import { Button } from '../../../components/ui/button';
-import Card from '../../../components/ui/card';
-import Image from '../../../components/ui/image';
-import { Input } from '../../../components/ui/input';
-import { Label } from '../../../components/ui/label';
-import deleteUserImage from '../../../services/api/settings/deleteUserImage';
-import useSession from '../../../services/hooks/auth/use-session';
-import { useModalContext } from '../../../services/providers/modal-provider';
+} from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import Image from '@/components/ui/image';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import deleteUserImage from '@/services/api/settings/deleteUserImage';
+import useSession from '@/services/hooks/auth/use-session';
+import { useModalContext } from '@/services/providers/modal-provider';
 import CropEditorModal from '../../modals/crop-editor-modal.component';
 
 const Appearance = () => {

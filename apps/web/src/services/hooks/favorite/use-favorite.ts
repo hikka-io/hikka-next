@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getFavourite, { Params } from '../../api/favourite/getFavourite';
 
 export const paramsBuilder = (props: Params): Params => ({

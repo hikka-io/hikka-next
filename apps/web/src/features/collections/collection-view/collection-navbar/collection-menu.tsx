@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
-import MaterialSymbolsDeleteForeverRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import MaterialSymbolsEditRounded from '../../../../components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsMoreHoriz from '../../../../components/icons/material-symbols/MaterialSymbolsMoreHoriz';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,17 +17,17 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../../../../components/ui/alert-dialog';
-import { Button } from '../../../../components/ui/button';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '../../../../components/ui/dropdown-menu';
-import deleteCollection from '../../../../services/api/collections/deleteCollection';
-import useSession from '../../../../services/hooks/auth/use-session';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
+} from '@/components/ui/dropdown-menu';
+import deleteCollection from '@/services/api/collections/deleteCollection';
+import useSession from '@/services/hooks/auth/use-session';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     collection: API.Collection;

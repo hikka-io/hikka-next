@@ -2,10 +2,10 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import LoadMoreButton from '../../../../components/load-more-button';
-import Block from '../../../../components/ui/block';
-import NotFound from '../../../../components/ui/not-found';
-import { WATCH_STATUS } from '../../../../utils/constants/common';
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
+import NotFound from '@/components/ui/not-found';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import { useList } from '../watchlist.hooks';
 import GridView from './grid-view';
 import TableView from './table-view/table-view';

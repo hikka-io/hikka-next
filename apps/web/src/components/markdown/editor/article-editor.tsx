@@ -10,7 +10,7 @@ import { FC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { cn } from '../../../utils/utils';
+import { cn } from '@/utils/utils';
 import { Editor, EditorContainer } from './plate-ui/editor';
 import { useCreateArticleEditor } from './use-create-article-editor';
 

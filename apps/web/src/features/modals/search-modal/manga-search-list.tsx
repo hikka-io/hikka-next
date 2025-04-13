@@ -6,7 +6,7 @@ import {
     CommandGroup,
     CommandItem,
     CommandList,
-} from '../../../components/ui/command';
+} from '@/components/ui/command';
 import MangaCard from './cards/manga-card';
 import useMangaSearchList from './hooks/useMangaSearchList';
 import SearchPlaceholders from './search-placeholders';

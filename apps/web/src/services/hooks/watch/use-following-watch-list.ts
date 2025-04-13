@@ -1,4 +1,4 @@
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getFollowingWatchList, {
     Params,
 } from '../../api/watch/getFollowingWatchList';

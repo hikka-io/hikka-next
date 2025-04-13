@@ -4,17 +4,17 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
-import { Button } from '../../../../components/ui/button';
-import { Label } from '../../../../components/ui/label';
-import { Switch } from '../../../../components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '../../../../components/ui/tabs';
-import importWatch from '../../../../services/api/settings/importWatch';
-import { useModalContext } from '../../../../services/providers/modal-provider';
+} from '@/components/ui/tabs';
+import importWatch from '@/services/api/settings/importWatch';
+import { useModalContext } from '@/services/providers/modal-provider';
 import Anilist from './anilist';
 import General from './general';
 

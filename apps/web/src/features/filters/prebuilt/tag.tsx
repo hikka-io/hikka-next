@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { InputTags } from '../../../components/ui/input-tags';
+import { InputTags } from '@/components/ui/input-tags';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 

@@ -3,21 +3,21 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 
-import Breadcrumbs from '../../../../../components/navigation/nav-breadcrumbs';
-import Block from '../../../../../components/ui/block';
-import Card from '../../../../../components/ui/card';
-import ArticleDocument from '../../../../../features/articles/article-edit/article-document.component';
-import ArticlePreview from '../../../../../features/articles/article-edit/article-preview.component';
-import ArticleSettings from '../../../../../features/articles/article-edit/article-settings/article-settings.component';
-import ArticleTitle from '../../../../../features/articles/article-edit/article-title.component';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import ArticleDocument from '@/features/articles/article-edit/article-document.component';
+import ArticlePreview from '@/features/articles/article-edit/article-preview.component';
+import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
+import ArticleTitle from '@/features/articles/article-edit/article-title.component';
 import {
     key,
     prefetchArticle,
-} from '../../../../../services/hooks/articles/use-article';
-import ArticleProvider from '../../../../../services/providers/article-provider';
-import { CONTENT_TYPE_LINKS } from '../../../../../utils/constants/navigation';
-import getQueryClient from '../../../../../utils/get-query-client';
-import { cn } from '../../../../../utils/utils';
+} from '@/services/hooks/articles/use-article';
+import ArticleProvider from '@/services/providers/article-provider';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import getQueryClient from '@/utils/get-query-client';
+import { cn } from '@/utils/utils';
 
 const ArticleUpdatePage = async (props: {
     params: Promise<Record<string, any>>;

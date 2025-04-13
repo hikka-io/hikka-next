@@ -5,14 +5,14 @@ import { useMutation } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-import FormInput from '../../../components/form/form-input';
-import H2 from '../../../components/typography/h2';
-import Small from '../../../components/typography/small';
-import { Button } from '../../../components/ui/button';
-import { Form } from '../../../components/ui/form';
-import passwordReset from '../../../services/api/auth/passwordReset';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { z } from '../../../utils/zod';
+import FormInput from '@/components/form/form-input';
+import H2 from '@/components/typography/h2';
+import Small from '@/components/typography/small';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import passwordReset from '@/services/api/auth/passwordReset';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 import AuthModal from './auth-modal.component';
 
 const formSchema = z.object({

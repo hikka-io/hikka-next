@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { CONTENT_TYPE_LINKS } from '../../utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '../icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '../icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';

@@ -16,8 +16,8 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 
-import { useCollectionContext } from '../../../../services/providers/collection-provider';
-import { Group } from '../../../../services/stores/collection-store';
+import { useCollectionContext } from '@/services/providers/collection-provider';
+import { Group } from '@/services/stores/collection-store';
 import SortableInput from './sortable-input';
 
 const GroupInputs = () => {

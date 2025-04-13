@@ -1,14 +1,14 @@
 import { format } from 'date-fns/format';
 import { FC } from 'react';
 
-import P from '../../../../components/typography/p';
-import { Label } from '../../../../components/ui/label';
+import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
-import getScheduleDuration from '../../../../utils/get-schedule-duration';
+} from '@/components/ui/tooltip';
+import getScheduleDuration from '@/utils/get-schedule-duration';
 
 interface Props {
     schedule: API.Schedule[];

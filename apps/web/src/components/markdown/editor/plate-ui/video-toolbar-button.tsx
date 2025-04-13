@@ -6,8 +6,8 @@ import { Film } from 'lucide-react';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useModalContext } from '../../../../services/providers/modal-provider';
-import { z } from '../../../../utils/zod';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 import FormInput from '../../../form/form-input';
 import { Button } from '../../../ui/button';
 import { Form } from '../../../ui/form';

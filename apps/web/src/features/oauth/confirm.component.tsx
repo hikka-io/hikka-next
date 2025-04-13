@@ -3,9 +3,9 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import useRequestTokenReference from '@/services/hooks/auth/use-request-token-reference';
+import useSession from '@/services/hooks/auth/use-session';
 import { Button } from '../../components/ui/button';
-import useRequestTokenReference from '../../services/hooks/auth/use-request-token-reference';
-import useSession from '../../services/hooks/auth/use-session';
 
 interface Props {}
 

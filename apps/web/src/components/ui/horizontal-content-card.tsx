@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 import ContentCard from '../content-card/content-card';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import H5 from '../typography/h5';

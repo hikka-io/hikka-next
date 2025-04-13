@@ -4,7 +4,7 @@ import { cn, withRef } from '@udecode/cn';
 import { useElement } from '@udecode/plate/react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
-import { extractYouTubeVideoId } from '../../../../utils/parse-youtube-thumb';
+import { extractYouTubeVideoId } from '@/utils/parse-youtube-thumb';
 import { VideoElement as VideoElementType } from '../plugins/video-plugin/video-plugin';
 
 export const VideoViewElement = withRef<'div'>(({ className }, ref) => {

@@ -3,17 +3,17 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '../../../components/load-more-button';
-import PersonCard from '../../../components/person-card';
-import Block from '../../../components/ui/block';
+import LoadMoreButton from '@/components/load-more-button';
+import PersonCard from '@/components/person-card';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../components/ui/header';
-import Stack from '../../../components/ui/stack';
-import useStaff from '../../../services/hooks/anime/use-staff';
+} from '@/components/ui/header';
+import Stack from '@/components/ui/stack';
+import useStaff from '@/services/hooks/anime/use-staff';
 
 interface Props {
     extended?: boolean;

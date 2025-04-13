@@ -3,13 +3,13 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { MaterialSymbolsMoreVert } from '../../../../../components/icons/material-symbols/MaterialSymbolsMoreVert';
-import { Button } from '../../../../../components/ui/button';
-import { Label } from '../../../../../components/ui/label';
-import { TableCell } from '../../../../../components/ui/table';
-import useSession from '../../../../../services/hooks/auth/use-session';
-import { useModalContext } from '../../../../../services/providers/modal-provider';
-import { cn } from '../../../../../utils/utils';
+import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { TableCell } from '@/components/ui/table';
+import useSession from '@/services/hooks/auth/use-session';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import ReadEditModal from '../../../../modals/read-edit-modal.component';
 
 interface Props {

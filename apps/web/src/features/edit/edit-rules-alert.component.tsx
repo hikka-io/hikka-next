@@ -3,10 +3,10 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 
+import { useModalContext } from '@/services/providers/modal-provider';
 import MaterialSymbolsInfoRounded from '../../components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import MDViewer from '../../components/markdown/viewer/MD-viewer';
 import { Button } from '../../components/ui/button';
-import { useModalContext } from '../../services/providers/modal-provider';
 
 const EditRulesAlert = () => {
     const [rules, setRules] = React.useState('');

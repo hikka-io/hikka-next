@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import MaterialSymbolsEditRounded from '../../../components/icons/material-symbols/MaterialSymbolsEditRounded';
-import LoadMoreButton from '../../../components/load-more-button';
-import { Button } from '../../../components/ui/button';
-import { Separator } from '../../../components/ui/separator';
-import getEditList from '../../../services/api/edit/getEditList';
-import useInfiniteList from '../../../services/hooks/use-infinite-list';
-import { cn } from '../../../utils/utils';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import LoadMoreButton from '@/components/load-more-button';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import getEditList from '@/services/api/edit/getEditList';
+import useInfiniteList from '@/services/hooks/use-infinite-list';
+import { cn } from '@/utils/utils';
 import EditCard from './edit-card';
 
 interface Props {

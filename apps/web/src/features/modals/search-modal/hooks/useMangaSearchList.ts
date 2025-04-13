@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getMangaCatalog from '../../../../services/api/manga/getMangaCatalog';
-import { useSettingsContext } from '../../../../services/providers/settings-provider';
-import { convertTitleList } from '../../../../utils/adapters/convert-title';
+import getMangaCatalog from '@/services/api/manga/getMangaCatalog';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitleList } from '@/utils/adapters/convert-title';
 
 interface Props {
     value?: string;

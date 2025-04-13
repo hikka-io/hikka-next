@@ -2,16 +2,16 @@
 
 import { useParams } from 'next/navigation';
 
-import { MaterialSymbolsAddRounded } from '../../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import MaterialSymbolsRemoveRounded from '../../../../components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import H3 from '../../../../components/typography/h3';
-import { Button } from '../../../../components/ui/button';
-import { Label } from '../../../../components/ui/label';
-import { Progress } from '../../../../components/ui/progress';
-import Rating from '../../../../components/ui/rating';
-import useMangaInfo from '../../../../services/hooks/manga/use-manga-info';
-import useAddRead from '../../../../services/hooks/read/use-add-read';
-import useRead from '../../../../services/hooks/read/use-read';
+import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
+import H3 from '@/components/typography/h3';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import Rating from '@/components/ui/rating';
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useAddRead from '@/services/hooks/read/use-add-read';
+import useRead from '@/services/hooks/read/use-read';
 
 const ReadStats = () => {
     const params = useParams();

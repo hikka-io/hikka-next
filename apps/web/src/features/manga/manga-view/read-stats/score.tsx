@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import Small from '../../../../components/typography/small';
-import useMangaInfo from '../../../../services/hooks/manga/use-manga-info';
+import Small from '@/components/typography/small';
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
 import Stats from './stats';
 
 const Score = () => {

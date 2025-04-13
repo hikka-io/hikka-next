@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getNotificationsCount from '../../api/notifications/getNotificationsCount';
 
 export const key = () => ['notifications-count'];

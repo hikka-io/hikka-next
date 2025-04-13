@@ -1,8 +1,8 @@
 import { range } from '@antfu/utils';
 
-import EntryTableRow from '../../../components/skeletons/entry-table-row';
-import Block from '../../../components/ui/block';
-import { Table, TableBody } from '../../../components/ui/table';
+import EntryTableRow from '@/components/skeletons/entry-table-row';
+import Block from '@/components/ui/block';
+import { Table, TableBody } from '@/components/ui/table';
 import EditHead from './edit-head';
 
 const EditSkeleton = () => {

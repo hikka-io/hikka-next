@@ -6,25 +6,25 @@ import { permanentRedirect } from 'next/navigation';
 import * as React from 'react';
 import { FC } from 'react';
 
-import Breadcrumbs from '../../../../components/navigation/nav-breadcrumbs';
-import NavMenu from '../../../../components/navigation/nav-dropdown';
-import Block from '../../../../components/ui/block';
-import Card from '../../../../components/ui/card';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import Author from '../../../../features/edit/edit-author.component';
-import Content from '../../../../features/edit/edit-content/edit-content.component';
-import Moderator from '../../../../features/edit/edit-moderator.component';
-import EditStatus from '../../../../features/edit/edit-status.component';
-import getEdit from '../../../../services/api/edit/getEdit';
-import { prefetchComments } from '../../../../services/hooks/comments/use-comments';
-import { key, prefetchEdit } from '../../../../services/hooks/edit/use-edit';
-import { EDIT_NAV_ROUTES } from '../../../../utils/constants/navigation';
-import _generateMetadata from '../../../../utils/generate-metadata';
-import getQueryClient from '../../../../utils/get-query-client';
+} from '@/components/ui/header';
+import Author from '@/features/edit/edit-author.component';
+import Content from '@/features/edit/edit-content/edit-content.component';
+import Moderator from '@/features/edit/edit-moderator.component';
+import EditStatus from '@/features/edit/edit-status.component';
+import getEdit from '@/services/api/edit/getEdit';
+import { prefetchComments } from '@/services/hooks/comments/use-comments';
+import { key, prefetchEdit } from '@/services/hooks/edit/use-edit';
+import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     params: { editId: string };

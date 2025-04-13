@@ -1,15 +1,15 @@
 import { FC } from 'react';
 
-import { MaterialSymbolsKidStar } from '../../../components/icons/material-symbols/MaterialSymbolsKidStar';
-import Small from '../../../components/typography/small';
+import { MaterialSymbolsKidStar } from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
+import Small from '@/components/typography/small';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/horizontal-card';
+import { cn } from '@/utils/utils';
 
 interface Props {
     user: API.User;

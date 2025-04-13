@@ -2,8 +2,8 @@
 
 import { FC } from 'react';
 
-import MangaCard from '../../../../components/manga-card';
-import NovelCard from '../../../../components/novel-card';
+import MangaCard from '@/components/manga-card';
+import NovelCard from '@/components/novel-card';
 
 interface Props {
     data: API.Read[];

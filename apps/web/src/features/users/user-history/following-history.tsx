@@ -2,13 +2,13 @@
 
 import { FC, Fragment } from 'react';
 
-import HistoryItem from '../../../components/history-item';
-import LoadMoreButton from '../../../components/load-more-button';
-import { Badge } from '../../../components/ui/badge';
-import Card from '../../../components/ui/card';
-import NotFound from '../../../components/ui/not-found';
-import Stack from '../../../components/ui/stack';
-import useUserHistory from '../../../services/hooks/history/use-following-history';
+import HistoryItem from '@/components/history-item';
+import LoadMoreButton from '@/components/load-more-button';
+import { Badge } from '@/components/ui/badge';
+import Card from '@/components/ui/card';
+import NotFound from '@/components/ui/not-found';
+import Stack from '@/components/ui/stack';
+import useUserHistory from '@/services/hooks/history/use-following-history';
 
 interface Props {
     className?: string;

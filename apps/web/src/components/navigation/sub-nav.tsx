@@ -3,7 +3,7 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useMediaQuery } from '../../services/hooks/use-media-query';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 
 interface Props extends PropsWithChildren {}
 

@@ -1,7 +1,7 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FC, PropsWithChildren } from 'react';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 import AnimeTooltip from '../content-card/anime-tooltip';
 import CharacterTooltip from '../content-card/character-tooltip';
 import MangaTooltip from '../content-card/manga-tooltip';

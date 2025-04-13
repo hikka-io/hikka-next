@@ -3,11 +3,11 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentCard from '../../../components/content-card/content-card';
-import EditButton from '../../../components/edit-button';
-import FavoriteButton from '../../../components/favorite-button';
-import useSession from '../../../services/hooks/auth/use-session';
-import useNovelInfo from '../../../services/hooks/novel/use-novel-info';
+import ContentCard from '@/components/content-card/content-card';
+import EditButton from '@/components/edit-button';
+import FavoriteButton from '@/components/favorite-button';
+import useSession from '@/services/hooks/auth/use-session';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();

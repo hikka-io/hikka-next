@@ -3,15 +3,15 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import CharacterCard from '../../../../components/character-card';
-import Block from '../../../../components/ui/block';
+import CharacterCard from '@/components/character-card';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import Stack from '../../../../components/ui/stack';
-import useMangaCharacters from '../../../../services/hooks/manga/use-manga-characters';
+} from '@/components/ui/header';
+import Stack from '@/components/ui/stack';
+import useMangaCharacters from '@/services/hooks/manga/use-manga-characters';
 
 interface Props {
     extended?: boolean;

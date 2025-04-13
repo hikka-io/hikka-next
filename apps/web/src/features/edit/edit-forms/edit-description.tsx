@@ -3,12 +3,12 @@
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Button } from '../../../components/ui/button';
-import { Label } from '../../../components/ui/label';
-import { ScrollArea, ScrollBar } from '../../../components/ui/scroll-area';
-import { Textarea } from '../../../components/ui/textarea';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { useSettingsContext } from '../../../services/providers/settings-provider';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 import TagsModal from './tags-modal';
 
 interface Props {

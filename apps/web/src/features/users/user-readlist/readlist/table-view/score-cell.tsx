@@ -1,7 +1,7 @@
 import { CSSProperties, FC } from 'react';
 
-import { TableCell } from '../../../../../components/ui/table';
-import { cn } from '../../../../../utils/utils';
+import { TableCell } from '@/components/ui/table';
+import { cn } from '@/utils/utils';
 
 interface Props {
     score: number;

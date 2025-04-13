@@ -1,9 +1,9 @@
-import Block from '../../../../../components/ui/block';
-import Card from '../../../../../components/ui/card';
-import CollectionGroups from '../../../../../features/collections/collection-edit/collection-groups.component';
-import CollectionSettings from '../../../../../features/collections/collection-edit/collection-settings/collection-settings.component';
-import CollectionTitle from '../../../../../features/collections/collection-edit/collection-title.component';
-import CollectionProvider from '../../../../../services/providers/collection-provider';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import CollectionGroups from '@/features/collections/collection-edit/collection-groups.component';
+import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings.component';
+import CollectionTitle from '@/features/collections/collection-edit/collection-title.component';
+import CollectionProvider from '@/services/providers/collection-provider';
 
 const CollectionUpdatePage = () => {
     return (

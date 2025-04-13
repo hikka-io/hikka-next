@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { groupOptions } from '../../../components/ui/select';
-import { GENRE_TYPES } from '../../../utils/constants/common';
-import getQueryClient from '../../../utils/get-query-client';
+import { groupOptions } from '@/components/ui/select';
+import { GENRE_TYPES } from '@/utils/constants/common';
+import getQueryClient from '@/utils/get-query-client';
 import getGenres from '../../api/genres/getGenres';
 
 export const key = () => ['genres'];

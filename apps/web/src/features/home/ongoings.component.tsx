@@ -3,6 +3,9 @@
 import { range } from '@antfu/utils';
 import { FC } from 'react';
 
+import useAnimeCatalog from '@/services/hooks/anime/use-anime-catalog';
+import getCurrentSeason from '@/utils/get-current-season';
+import { cn } from '@/utils/utils';
 import AnimeCard from '../../components/anime-card';
 import SkeletonCard from '../../components/skeletons/content-card-skeleton';
 import Block from '../../components/ui/block';
@@ -13,9 +16,6 @@ import {
     HeaderTitle,
 } from '../../components/ui/header';
 import Stack from '../../components/ui/stack';
-import useAnimeCatalog from '../../services/hooks/anime/use-anime-catalog';
-import getCurrentSeason from '../../utils/get-current-season';
-import { cn } from '../../utils/utils';
 
 interface Props {
     className?: string;

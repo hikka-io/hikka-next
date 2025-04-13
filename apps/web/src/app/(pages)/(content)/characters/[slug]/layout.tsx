@@ -5,15 +5,15 @@ import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
-import Breadcrumbs from '../../../../../components/navigation/nav-breadcrumbs';
-import NavMenu from '../../../../../components/navigation/nav-dropdown';
-import InternalNavBar from '../../../../../components/navigation/nav-tabs';
-import SubBar from '../../../../../components/navigation/sub-nav';
-import Cover from '../../../../../features/characters/character-view/cover.component';
-import Title from '../../../../../features/characters/character-view/title.component';
-import { prefetchCharacterInfo } from '../../../../../services/hooks/characters/use-character-info';
-import { CHARACTER_NAV_ROUTES } from '../../../../../utils/constants/navigation';
-import getQueryClient from '../../../../../utils/get-query-client';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
+import InternalNavBar from '@/components/navigation/nav-tabs';
+import SubBar from '@/components/navigation/sub-nav';
+import Cover from '@/features/characters/character-view/cover.component';
+import Title from '@/features/characters/character-view/title.component';
+import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
+import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
+import getQueryClient from '@/utils/get-query-client';
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 

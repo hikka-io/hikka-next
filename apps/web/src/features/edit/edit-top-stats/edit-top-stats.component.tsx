@@ -1,10 +1,10 @@
 'use client';
 
-import MaterialSymbolsMoreHoriz from '../../../components/icons/material-symbols/MaterialSymbolsMoreHoriz';
-import { Button } from '../../../components/ui/button';
-import { ScrollArea, ScrollBar } from '../../../components/ui/scroll-area';
-import useEditTop from '../../../services/hooks/stats/edit/use-edit-top';
-import { useModalContext } from '../../../services/providers/modal-provider';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
+import { Button } from '@/components/ui/button';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
+import { useModalContext } from '@/services/providers/modal-provider';
 import EditTopStatsModal from '../../modals/edit-top-stats-modal/edit-top-stats-modal.component';
 import EditTopItem from './edit-top-item';
 

@@ -1,13 +1,13 @@
 import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 
-import ArticleList from '../../../features/articles/article-list/article-list.component';
-import PopularAuthors from '../../../features/articles/article-list/popular-authors.component';
-import PopularTags from '../../../features/articles/article-list/popular-tags.component';
-import ArticleFilters from '../../../features/filters/article-filters.component';
-import { prefetchArticleStats } from '../../../services/hooks/articles/use-article-stats';
-import { prefetchArticles } from '../../../services/hooks/articles/use-articles';
-import getQueryClient from '../../../utils/get-query-client';
+import ArticleList from '@/features/articles/article-list/article-list.component';
+import PopularAuthors from '@/features/articles/article-list/popular-authors.component';
+import PopularTags from '@/features/articles/article-list/popular-tags.component';
+import ArticleFilters from '@/features/filters/article-filters.component';
+import { prefetchArticleStats } from '@/services/hooks/articles/use-article-stats';
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
+import getQueryClient from '@/utils/get-query-client';
 
 const ArticlesPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import Small from '../../../../components/typography/small';
-import useNovelInfo from '../../../../services/hooks/novel/use-novel-info';
+import Small from '@/components/typography/small';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import Stats from './stats';
 
 const Score = () => {

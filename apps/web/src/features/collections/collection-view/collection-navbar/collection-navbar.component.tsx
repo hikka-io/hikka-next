@@ -4,15 +4,15 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import IconamoonCommentFill from '../../../../components/icons/iconamoon/IconamoonCommentFill';
-import { Button } from '../../../../components/ui/button';
-import Card from '../../../../components/ui/card';
+import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
-import useCollection from '../../../../services/hooks/collections/use-collection';
+} from '@/components/ui/tooltip';
+import useCollection from '@/services/hooks/collections/use-collection';
 import CollectionMenu from './collection-menu';
 import CollectionVote from './collection-vote';
 

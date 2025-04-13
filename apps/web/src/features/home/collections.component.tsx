@@ -3,6 +3,9 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
+import useSession from '@/services/hooks/auth/use-session';
+import useCollections from '@/services/hooks/collections/use-collections';
+import { cn } from '@/utils/utils';
 import ContentCard from '../../components/content-card/content-card';
 import MaterialSymbolsAddRounded from '../../components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '../../components/ui/block';
@@ -14,9 +17,6 @@ import {
     HeaderTitle,
 } from '../../components/ui/header';
 import Stack from '../../components/ui/stack';
-import useSession from '../../services/hooks/auth/use-session';
-import useCollections from '../../services/hooks/collections/use-collections';
-import { cn } from '../../utils/utils';
 
 interface Props {
     className?: string;

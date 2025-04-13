@@ -3,10 +3,10 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import CommentsButton from '../../../../components/comments-button';
-import ReadListButton from '../../../../components/readlist-button/readlist-button';
-import useSession from '../../../../services/hooks/auth/use-session';
-import useNovelInfo from '../../../../services/hooks/novel/use-novel-info';
+import CommentsButton from '@/components/comments-button';
+import ReadListButton from '@/components/readlist-button/readlist-button';
+import useSession from '@/services/hooks/auth/use-session';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import ReadStats from './read-stats';
 
 const Actions: FC = () => {

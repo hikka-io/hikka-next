@@ -3,15 +3,15 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import useArticles from '../../../../services/hooks/articles/use-articles';
-import { useModalContext } from '../../../../services/providers/modal-provider';
+} from '@/components/ui/header';
+import useArticles from '@/services/hooks/articles/use-articles';
+import { useModalContext } from '@/services/providers/modal-provider';
 import ContentNewsItem from './content-articles-item';
 import ContentNewsModal from './content-articles-modal';
 

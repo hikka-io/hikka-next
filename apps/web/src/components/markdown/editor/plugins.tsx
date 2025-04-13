@@ -20,7 +20,7 @@ import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 import { ParagraphPlugin } from '@udecode/plate/react';
 
-import uploadImage from '../../../services/api/upload/uploadImage';
+import uploadImage from '@/services/api/upload/uploadImage';
 import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
 import { DiffPlugin } from './plugins/diff-plugin';
 import { ImageGroupPlugin } from './plugins/image-group-plugin/image-group-plugin';

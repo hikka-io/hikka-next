@@ -6,7 +6,7 @@ import {
     CommandGroup,
     CommandItem,
     CommandList,
-} from '../../../components/ui/command';
+} from '@/components/ui/command';
 import CharacterCard from './cards/character-card';
 import useCharacterSearchList from './hooks/useCharacterSearchList';
 import SearchPlaceholders from './search-placeholders';

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import MaterialSymbolsLibraryMusicRounded from '../../../../components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
-import Stack from '../../../../components/ui/stack';
-import { OST } from '../../../../utils/constants/common';
+import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
+import Stack from '@/components/ui/stack';
+import { OST } from '@/utils/constants/common';
 
 interface Props {
     extended?: boolean;

@@ -3,21 +3,21 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import FollowButton from '../../../components/follow-button';
-import Block from '../../../components/ui/block';
+import FollowButton from '@/components/follow-button';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
+} from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
-import useArticleTop from '../../../services/hooks/articles/use-article-stats';
+} from '@/components/ui/horizontal-card';
+import useArticleTop from '@/services/hooks/articles/use-article-stats';
 
 interface Props {}
 

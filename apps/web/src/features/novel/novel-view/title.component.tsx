@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import MaterialSymbolsStarRounded from '../../../components/icons/material-symbols/MaterialSymbolsStarRounded';
-import H2 from '../../../components/typography/h2';
-import P from '../../../components/typography/p';
-import useSession from '../../../services/hooks/auth/use-session';
-import useNovelInfo from '../../../services/hooks/novel/use-novel-info';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import H2 from '@/components/typography/h2';
+import P from '@/components/typography/p';
+import useSession from '@/services/hooks/auth/use-session';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
 const Title = () => {
     const { user: loggedUser } = useSession();

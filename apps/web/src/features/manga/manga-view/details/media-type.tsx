@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { Label } from '../../../../components/ui/label';
-import { MANGA_MEDIA_TYPE } from '../../../../utils/constants/common';
+import { Label } from '@/components/ui/label';
+import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
     media_type: API.MangaMediaType;

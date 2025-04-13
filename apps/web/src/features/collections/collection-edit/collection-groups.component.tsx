@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
-import useCollection from '../../../services/hooks/collections/use-collection';
-import { useCollectionContext } from '../../../services/providers/collection-provider';
+import useCollection from '@/services/hooks/collections/use-collection';
+import { useCollectionContext } from '@/services/providers/collection-provider';
 import CollectionGrid from './collection-grid/collection-grid.component';
 
 interface Props {

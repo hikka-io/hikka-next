@@ -3,17 +3,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
-import AntDesignFilterFilled from '../../../components/icons/ant-design/AntDesignFilterFilled';
-import FeRandom from '../../../components/icons/fe/FeRandom';
-import MaterialSymbolsMoreVert from '../../../components/icons/material-symbols/MaterialSymbolsMoreVert';
-import { Button } from '../../../components/ui/button';
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import FeRandom from '@/components/icons/fe/FeRandom';
+import MaterialSymbolsMoreVert from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '../../../components/ui/dropdown-menu';
-import getRandomWatch from '../../../services/api/watch/getRandomWatch';
+} from '@/components/ui/dropdown-menu';
+import getRandomWatch from '@/services/api/watch/getRandomWatch';
 import ReadFiltersModal from '../../modals/read-filters-modal.component';
 
 const ToolsCombobox = () => {

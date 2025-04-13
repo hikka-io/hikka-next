@@ -4,20 +4,20 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import MaterialSymbolsAddRounded from '../../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import Block from '../../../../components/ui/block';
-import { Button } from '../../../../components/ui/button';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import NotFound from '../../../../components/ui/not-found';
-import useSession from '../../../../services/hooks/auth/use-session';
-import useUserCollections from '../../../../services/hooks/user/use-user-collections';
-import { useModalContext } from '../../../../services/providers/modal-provider';
-import { cn } from '../../../../utils/utils';
+} from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
+import useSession from '@/services/hooks/auth/use-session';
+import useUserCollections from '@/services/hooks/user/use-user-collections';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import CollectionItem from './collection-item';
 import CollectionsModal from './collections-modal';
 

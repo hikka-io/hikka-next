@@ -3,6 +3,8 @@
 import { range } from '@antfu/utils';
 import { FC, useState } from 'react';
 
+import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
+import { cn } from '@/utils/utils';
 import ContentCard from '../../components/content-card/content-card';
 import LoadMoreButton from '../../components/load-more-button';
 import SkeletonCard from '../../components/skeletons/content-card-skeleton';
@@ -18,8 +20,6 @@ import {
     SelectList,
     SelectTrigger,
 } from '../../components/ui/select';
-import useTodoAnime from '../../services/hooks/edit/todo/use-todo-anime';
-import { cn } from '../../utils/utils';
 
 interface Props {
     extended?: boolean;

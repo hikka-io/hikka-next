@@ -2,8 +2,8 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import AnimeList from '../../../../../features/anime/anime-list/anime-list.component';
-import getQueryClient from '../../../../../utils/get-query-client';
+import AnimeList from '@/features/anime/anime-list/anime-list.component';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };

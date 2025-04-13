@@ -2,8 +2,8 @@
 
 import { FC, Fragment, ReactNode, useRef, useState } from 'react';
 
-import { CommandDialog, CommandInput } from '../../../components/ui/command';
-import useDebounce from '../../../services/hooks/use-debounce';
+import { CommandDialog, CommandInput } from '@/components/ui/command';
+import useDebounce from '@/services/hooks/use-debounce';
 import AnimeSearchList from './anime-search-list';
 import CharacterSearchList from './character-search-list';
 import useSearchModal from './hooks/useSearchModal';

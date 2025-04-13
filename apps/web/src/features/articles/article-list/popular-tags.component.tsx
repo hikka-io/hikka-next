@@ -3,13 +3,13 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import Block from '../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import useArticleTop from '../../../services/hooks/articles/use-article-stats';
+} from '@/components/ui/header';
+import useArticleTop from '@/services/hooks/articles/use-article-stats';
 import BadgeFilter from '../../filters/badge-filter';
 import useChangeParam from '../../filters/use-change-param';
 

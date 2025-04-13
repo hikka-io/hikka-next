@@ -3,22 +3,22 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import AntDesignFilterFilled from '../../../components/icons/ant-design/AntDesignFilterFilled';
-import Block from '../../../components/ui/block';
-import { Button } from '../../../components/ui/button';
-import Card from '../../../components/ui/card';
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import ScheduleFilters from '../../../features/filters/schedule-filters.component';
-import ScheduleFiltersModal from '../../../features/modals/schedule-filters-modal.component';
-import ScheduleList from '../../../features/schedule/schedule-list/schedule-list.component';
-import { prefetchAnimeSchedule } from '../../../services/hooks/stats/use-anime-schedule';
-import _generateMetadata from '../../../utils/generate-metadata';
-import getCurrentSeason from '../../../utils/get-current-season';
-import getQueryClient from '../../../utils/get-query-client';
+} from '@/components/ui/header';
+import ScheduleFilters from '@/features/filters/schedule-filters.component';
+import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal.component';
+import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
+import { prefetchAnimeSchedule } from '@/services/hooks/stats/use-anime-schedule';
+import _generateMetadata from '@/utils/generate-metadata';
+import getCurrentSeason from '@/utils/get-current-season';
+import getQueryClient from '@/utils/get-query-client';
 
 export const metadata: Metadata = _generateMetadata({
     title: {

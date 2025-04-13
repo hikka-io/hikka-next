@@ -3,11 +3,11 @@
 import { useSnackbar } from 'notistack';
 import { FC, Fragment, createElement, memo } from 'react';
 
-import { Button } from '../../../components/ui/button';
-import useSession from '../../../services/hooks/auth/use-session';
-import useAddWatch from '../../../services/hooks/watch/use-add-watch';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { WATCH_STATUS } from '../../../utils/constants/common';
+import { Button } from '@/components/ui/button';
+import useSession from '@/services/hooks/auth/use-session';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import WatchEditModal from '../../modals/watch-edit-modal.component';
 
 interface Props {

@@ -4,17 +4,17 @@ import { formatDuration } from 'date-fns/formatDuration';
 import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
 
-import { MaterialSymbolsClockLoader10 } from '../../../../components/icons/material-symbols/MaterialSymbolsClockLoader10';
-import H5 from '../../../../components/typography/h5';
-import Small from '../../../../components/typography/small';
-import { Label } from '../../../../components/ui/label';
-import { Progress } from '../../../../components/ui/progress';
+import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
+import H5 from '@/components/typography/h5';
+import Small from '@/components/typography/small';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
-import useWatchStats from '../../../../services/hooks/watch/use-watch-stats';
+} from '@/components/ui/tooltip';
+import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 
 const WatchhourStats = () => {
     const params = useParams();

@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import * as React from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import { MaterialSymbolsStarRounded } from '../../../../components/icons/material-symbols/MaterialSymbolsStarRounded';
-import P from '../../../../components/typography/p';
-import { Badge } from '../../../../components/ui/badge';
-import { Label } from '../../../../components/ui/label';
+import ContentCard from '@/components/content-card/content-card';
+import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import P from '@/components/typography/p';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 import {
     ANIME_MEDIA_TYPE,
     RELEASE_STATUS,
-} from '../../../../utils/constants/common';
+} from '@/utils/constants/common';
 
 interface Props {
     anime: API.Anime;

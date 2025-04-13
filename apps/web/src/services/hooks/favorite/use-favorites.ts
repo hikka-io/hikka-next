@@ -1,5 +1,5 @@
-import { convertTitle } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getFavouriteList, {
     FavoriteContent,
     Params,

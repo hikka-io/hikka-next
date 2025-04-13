@@ -2,8 +2,8 @@
 
 import { FC, Fragment } from 'react';
 
-import { Separator } from '../../../components/ui/separator';
-import useCollections from '../../../services/hooks/collections/use-collections';
+import { Separator } from '@/components/ui/separator';
+import useCollections from '@/services/hooks/collections/use-collections';
 import CollectionItem from './collection-item';
 
 interface Props {

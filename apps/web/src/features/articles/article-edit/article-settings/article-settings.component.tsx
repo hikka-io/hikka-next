@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { useArticleContext } from '../../../../services/providers/article-provider';
+import { useArticleContext } from '@/services/providers/article-provider';
 import CategorySelect from './category-select';
 import ContentInput from './content-input';
 import CreateActions from './create-actions';

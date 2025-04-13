@@ -2,13 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import P from '../../../../components/typography/p';
-import { Label } from '../../../../components/ui/label';
+import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
+} from '@/components/ui/tooltip';
 
 interface Props {
     companies: API.CompanyWithType[];

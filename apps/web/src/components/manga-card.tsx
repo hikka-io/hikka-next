@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { MANGA_MEDIA_TYPE } from '../utils/constants/common';
+import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 import ContentCard, {
     Props as ContentCardProps,
 } from './content-card/content-card';

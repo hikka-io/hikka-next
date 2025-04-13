@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getWatch, { Params } from '../../api/watch/getWatch';
 import useSession from '../auth/use-session';
 

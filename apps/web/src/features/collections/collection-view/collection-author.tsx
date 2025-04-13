@@ -3,16 +3,16 @@
 import { formatDistance } from 'date-fns';
 import { useParams } from 'next/navigation';
 
-import FollowButton from '../../../components/follow-button';
-import Card from '../../../components/ui/card';
+import FollowButton from '@/components/follow-button';
+import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
-import useCollection from '../../../services/hooks/collections/use-collection';
+} from '@/components/ui/horizontal-card';
+import useCollection from '@/services/hooks/collections/use-collection';
 
 const CollectionAuthor = () => {
     const params = useParams();

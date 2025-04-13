@@ -1,6 +1,6 @@
 import { QueryKey } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getGlobalComments from '../../api/comments/getGlobalComments';
 import useInfiniteList from '../use-infinite-list';
 

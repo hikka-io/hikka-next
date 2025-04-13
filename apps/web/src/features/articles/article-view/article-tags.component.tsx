@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Badge } from '../../../components/ui/badge';
-import useArticle from '../../../services/hooks/articles/use-article';
+import { Badge } from '@/components/ui/badge';
+import useArticle from '@/services/hooks/articles/use-article';
 
 interface Props {}
 

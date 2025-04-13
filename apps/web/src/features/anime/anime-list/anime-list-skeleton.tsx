@@ -1,6 +1,6 @@
 import { range } from '@antfu/utils';
 
-import SkeletonCard from '../../../components/skeletons/content-card-skeleton';
+import SkeletonCard from '@/components/skeletons/content-card-skeleton';
 
 const AnimeListSkeleton = () => {
     return (

@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Staff from '../../../../../../../features/anime/anime-view/staff.component';
-import _generateMetadata from '../../../../../../../utils/generate-metadata';
+import Staff from '@/features/anime/anime-view/staff.component';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

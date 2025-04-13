@@ -1,4 +1,4 @@
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import { Params } from '../../api/anime/getAnimeCharacters';
 import getMangaCharacters from '../../api/manga/getMangaCharacters';
 import useInfiniteList from '../use-infinite-list';

@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
 
-import MaterialSymbolsDraftRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDraftRounded';
-import MaterialSymbolsPublishRounded from '../../../../components/icons/material-symbols/MaterialSymbolsPublishRounded';
-import { Button } from '../../../../components/ui/button';
-import createArticle from '../../../../services/api/articles/createArticle';
-import { useArticleContext } from '../../../../services/providers/article-provider';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
-import removeEmptyTextNodes from '../../../../utils/remove-empty-text-nodes';
+import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
+import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
+import { Button } from '@/components/ui/button';
+import createArticle from '@/services/api/articles/createArticle';
+import { useArticleContext } from '@/services/providers/article-provider';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 
 interface Props {}
 

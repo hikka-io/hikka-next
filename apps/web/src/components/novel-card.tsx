@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { NOVEL_MEDIA_TYPE } from '../utils/constants/common';
+import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import ContentCard, {
     Props as ContentCardProps,
 } from './content-card/content-card';

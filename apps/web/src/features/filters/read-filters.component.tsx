@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
+import { cn } from '@/utils/utils';
 import AntDesignClearOutlined from '../../components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '../../components/ui/button';
 import { ScrollArea } from '../../components/ui/scroll-area';
-import { cn } from '../../utils/utils';
 import Genre from './prebuilt/genre';
 import Localization from './prebuilt/localization';
 import MediaType from './prebuilt/media-type';

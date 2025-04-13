@@ -1,4 +1,4 @@
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getCollections, { Params } from '../../api/collections/getCollections';
 import useInfiniteList from '../use-infinite-list';
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { TableCell } from '../../../../../components/ui/table';
-import { ANIME_MEDIA_TYPE } from '../../../../../utils/constants/common';
+import { TableCell } from '@/components/ui/table';
+import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
     media_type: API.AnimeMediaType;

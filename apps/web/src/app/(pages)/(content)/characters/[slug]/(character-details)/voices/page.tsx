@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Voices from '../../../../../../../features/characters/character-view/voices.component';
+import Voices from '@/features/characters/character-view/voices.component';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

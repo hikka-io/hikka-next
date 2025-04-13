@@ -5,12 +5,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-import FormInput from '../../../components/form/form-input';
-import { Button } from '../../../components/ui/button';
-import { Form } from '../../../components/ui/form';
-import changeUserPassword from '../../../services/api/settings/changeUserPassword';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { z } from '../../../utils/zod';
+import FormInput from '@/components/form/form-input';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import changeUserPassword from '@/services/api/settings/changeUserPassword';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
 const formSchema = z
     .object({

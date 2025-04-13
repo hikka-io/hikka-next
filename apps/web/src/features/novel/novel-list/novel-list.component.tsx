@@ -3,14 +3,14 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import FiltersNotFound from '../../../components/filters-not-found';
-import LoadMoreButton from '../../../components/load-more-button';
-import NovelCard from '../../../components/novel-card';
-import Block from '../../../components/ui/block';
-import Card from '../../../components/ui/card';
-import Pagination from '../../../components/ui/pagination';
-import Stack from '../../../components/ui/stack';
-import useNovelCatalog from '../../../services/hooks/novel/use-novel-catalog';
+import FiltersNotFound from '@/components/filters-not-found';
+import LoadMoreButton from '@/components/load-more-button';
+import NovelCard from '@/components/novel-card';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import Pagination from '@/components/ui/pagination';
+import Stack from '@/components/ui/stack';
+import useNovelCatalog from '@/services/hooks/novel/use-novel-catalog';
 import NovelListSkeleton from './novel-list-skeleton';
 import { useNextPage, useUpdatePage } from './novel-list.hooks';
 

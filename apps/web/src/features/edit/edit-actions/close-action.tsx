@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Button } from '../../../components/ui/button';
-import useActionEdit from '../../../services/hooks/edit/use-action-edit';
+import { Button } from '@/components/ui/button';
+import useActionEdit from '@/services/hooks/edit/use-action-edit';
 
 interface Props {}
 

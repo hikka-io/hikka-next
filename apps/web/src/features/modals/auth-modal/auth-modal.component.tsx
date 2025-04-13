@@ -1,9 +1,9 @@
 'use client';
 
-import BxBxlGoogle from '../../../components/icons/bx/BxBxlGoogle';
-import { Button } from '../../../components/ui/button';
-import Image from '../../../components/ui/image';
-import getOAuth from '../../../services/api/auth/getOAuth';
+import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
+import { Button } from '@/components/ui/button';
+import Image from '@/components/ui/image';
+import getOAuth from '@/services/api/auth/getOAuth';
 import ForgotPasswordForm from './forgot-password-form';
 import LoginForm from './login-form';
 import PasswordConfirmForm from './password-confirm-form';

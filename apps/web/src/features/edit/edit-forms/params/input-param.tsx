@@ -5,10 +5,10 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
-import { Label } from '../../../../components/ui/label';
-import useEdit from '../../../../services/hooks/edit/use-edit';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import useEdit from '@/services/hooks/edit/use-edit';
 
 interface Props {
     param: Hikka.EditParam;

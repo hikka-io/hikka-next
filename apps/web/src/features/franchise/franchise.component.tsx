@@ -3,6 +3,8 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import useFranchise from '@/services/hooks/related/use-franchise';
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import AnimeCard from '../../components/anime-card';
 import MangaCard from '../../components/manga-card';
 import NovelCard from '../../components/novel-card';
@@ -14,8 +16,6 @@ import {
     HeaderTitle,
 } from '../../components/ui/header';
 import Stack from '../../components/ui/stack';
-import useFranchise from '../../services/hooks/related/use-franchise';
-import { useMediaQuery } from '../../services/hooks/use-media-query';
 import FranchiseFilters from './franchise-filters';
 import FranchiseItem from './franchise-item';
 

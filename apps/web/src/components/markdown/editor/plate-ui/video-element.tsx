@@ -4,7 +4,7 @@ import { cn, withRef } from '@udecode/cn';
 import { useElement } from '@udecode/plate/react';
 import { useCallback } from 'react';
 
-import parseYouTubeThumbnail from '../../../../utils/parse-youtube-thumb';
+import parseYouTubeThumbnail from '@/utils/parse-youtube-thumb';
 import MaterialSymbolsDeleteForever from '../../../icons/material-symbols/MaterialSymbolsDeleteForever';
 import { Button } from '../../../ui/button';
 import { VideoElement as VideoElementType } from '../plugins/video-plugin/video-plugin';

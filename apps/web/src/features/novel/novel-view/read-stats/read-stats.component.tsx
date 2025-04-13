@@ -1,19 +1,19 @@
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
+} from '@/components/ui/header';
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '../../../../components/ui/tabs';
+} from '@/components/ui/tabs';
 import {
     ToggleGroup,
     ToggleGroupItem,
-} from '../../../../components/ui/toggle-group';
+} from '@/components/ui/toggle-group';
 import Readlist from './readlist';
 import Score from './score';
 

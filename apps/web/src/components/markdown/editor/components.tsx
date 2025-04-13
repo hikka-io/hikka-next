@@ -17,7 +17,7 @@ import {
 } from '@udecode/plate-table/react'; */
 import { ParagraphPlugin, PlateElement, PlateLeaf } from '@udecode/plate/react';
 
-import { cn } from '../../../utils/utils';
+import { cn } from '@/utils/utils';
 import Blockquote, { BLOCKQUOTE_CLASSNAME } from '../../typography/blockquote';
 import H3 from '../../typography/h3';
 import H4 from '../../typography/h4';

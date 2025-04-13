@@ -3,7 +3,7 @@
 import NextImage, { ImageProps } from 'next/image';
 import { Ref, forwardRef, useState } from 'react';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 
 interface Props extends ImageProps {
     transitionDisabled?: boolean;

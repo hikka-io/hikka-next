@@ -1,14 +1,14 @@
 import { FC } from 'react';
 
-import P from '../../../../../../components/typography/p';
+import P from '@/components/typography/p';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../../../components/ui/header';
-import Appearance from '../../../../../../features/settings/profile/appearance.component';
-import Description from '../../../../../../features/settings/profile/description.component';
-import Username from '../../../../../../features/settings/profile/username.component';
+} from '@/components/ui/header';
+import Appearance from '@/features/settings/profile/appearance.component';
+import Description from '@/features/settings/profile/description.component';
+import Username from '@/features/settings/profile/username.component';
 
 interface Props {
     params: {

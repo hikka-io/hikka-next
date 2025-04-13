@@ -1,7 +1,7 @@
 import { QueryKey } from '@tanstack/react-query';
 
-import { convertTitle } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getWatchList, { Params } from '../../api/watch/getWatchList';
 import { useSettingsContext } from '../../providers/settings-provider';
 import useInfiniteList from '../use-infinite-list';

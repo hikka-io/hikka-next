@@ -2,7 +2,7 @@ import { formatDuration } from 'date-fns/formatDuration';
 import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { FC } from 'react';
 
-import { Label } from '../../../../components/ui/label';
+import { Label } from '@/components/ui/label';
 
 interface Props {
     duration: number;

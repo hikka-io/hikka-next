@@ -3,12 +3,12 @@
 import { FC } from 'react';
 import { NumericFormat } from 'react-number-format';
 
-import Small from '../../../../components/typography/small';
+import Small from '@/components/typography/small';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
+} from '@/components/ui/tooltip';
 
 interface Props {
     stats: Hikka.ListStat[];

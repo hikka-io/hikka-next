@@ -3,6 +3,10 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
+import useSession from '@/services/hooks/auth/use-session';
+import useCommentThread from '@/services/hooks/comments/use-comment-thread';
+import useComments from '@/services/hooks/comments/use-comments';
+import CommentsProvider from '@/services/providers/comments-provider';
 import CommentInput from '../../components/comments/comment-input';
 import Comments from '../../components/comments/comments';
 import LoadMoreButton from '../../components/load-more-button';
@@ -14,10 +18,6 @@ import {
     HeaderTitle,
 } from '../../components/ui/header';
 import NotFound from '../../components/ui/not-found';
-import useSession from '../../services/hooks/auth/use-session';
-import useCommentThread from '../../services/hooks/comments/use-comment-thread';
-import useComments from '../../services/hooks/comments/use-comments';
-import CommentsProvider from '../../services/providers/comments-provider';
 
 interface Props {
     slug: string;

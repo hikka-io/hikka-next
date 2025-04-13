@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useAnimeInfo from '../../services/hooks/anime/use-anime-info';
-import useSession from '../../services/hooks/auth/use-session';
-import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '../../utils/constants/common';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useSession from '@/services/hooks/auth/use-session';
+import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import H5 from '../typography/h5';
 import { Badge } from '../ui/badge';

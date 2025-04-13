@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 
 const Drawer = ({
     shouldScaleBackground = true,
@@ -114,5 +114,6 @@ export {
     DrawerOverlay,
     DrawerPortal,
     DrawerTitle,
-    DrawerTrigger,
+    DrawerTrigger
 };
+

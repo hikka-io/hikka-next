@@ -5,7 +5,7 @@ import Markdown, { Components, Options } from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
-import { cn } from '../../../utils/utils';
+import { cn } from '@/utils/utils';
 import Blockquote from '../../typography/blockquote';
 import Li from '../../typography/li';
 import Link from '../../typography/link';

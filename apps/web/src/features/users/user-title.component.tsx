@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
+import useUser from '@/services/hooks/user/use-user';
 import MaterialSymbolsSecurity from '../../components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '../../components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '../../components/markdown/viewer/MD-viewer';
@@ -12,7 +13,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '../../components/ui/tooltip';
-import useUser from '../../services/hooks/user/use-user';
 
 const UserTitle = () => {
     const params = useParams();

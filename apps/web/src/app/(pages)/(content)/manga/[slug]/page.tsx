@@ -1,14 +1,14 @@
 import { FC } from 'react';
 
-import ContentArticles from '../../../../../features/articles/article-view/content-articles/content-articles';
-import Followings from '../../../../../features/followings/followings.component';
-import Franchise from '../../../../../features/franchise/franchise.component';
-import Characters from '../../../../../features/manga/manga-view/characters/characters.component';
-import Description from '../../../../../features/manga/manga-view/description.component';
-import Details from '../../../../../features/manga/manga-view/details/details.component';
-import Links from '../../../../../features/manga/manga-view/links/links.component';
-import ReadStats from '../../../../../features/manga/manga-view/read-stats/read-stats.component';
-import Staff from '../../../../../features/manga/manga-view/staff.component';
+import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
+import Followings from '@/features/followings/followings.component';
+import Franchise from '@/features/franchise/franchise.component';
+import Characters from '@/features/manga/manga-view/characters/characters.component';
+import Description from '@/features/manga/manga-view/description.component';
+import Details from '@/features/manga/manga-view/details/details.component';
+import Links from '@/features/manga/manga-view/links/links.component';
+import ReadStats from '@/features/manga/manga-view/read-stats/read-stats.component';
+import Staff from '@/features/manga/manga-view/staff.component';
 
 interface Props {
     params: {

@@ -1,7 +1,7 @@
 import { ChevronsUpDown } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 import { Button } from '../ui/button';
 import {
     Collapsible,

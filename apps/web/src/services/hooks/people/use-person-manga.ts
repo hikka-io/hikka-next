@@ -1,5 +1,5 @@
-import { convertTitle } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getPersonManga, { Params } from '../../api/people/getPersonManga';
 import { useSettingsContext } from '../../providers/settings-provider';
 import useInfiniteList from '../use-infinite-list';

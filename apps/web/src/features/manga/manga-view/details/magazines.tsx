@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Label } from '../../../../components/ui/label';
+import { Label } from '@/components/ui/label';
 
 interface Props {
     magazines: API.Magazine[];

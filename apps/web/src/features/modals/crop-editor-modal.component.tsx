@@ -6,13 +6,13 @@ import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 
+import uploadImage from '@/services/api/upload/uploadImage';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsZoomInRounded from '../../components/icons/material-symbols/MaterialSymbolsZoomInRounded';
 import MaterialSymbolsZoomOutRounded from '../../components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
 import { Button } from '../../components/ui/button';
 import { Slider } from '../../components/ui/slider';
-import uploadImage from '../../services/api/upload/uploadImage';
-import { useModalContext } from '../../services/providers/modal-provider';
-import { cn } from '../../utils/utils';
 
 interface Props {
     file?: File;

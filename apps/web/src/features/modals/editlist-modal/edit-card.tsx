@@ -3,15 +3,15 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
 
-import MaterialSymbolsVisibilityOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import { Button } from '../../../components/ui/button';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
+import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
+} from '@/components/ui/horizontal-card';
 
 interface Props {
     edit: API.Edit;

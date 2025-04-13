@@ -1,16 +1,16 @@
 import { format } from 'date-fns/format';
 import { FC } from 'react';
 
-import MaterialSymbolsVerifiedRounded from '../../../components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
-import H5 from '../../../components/typography/h5';
-import P from '../../../components/typography/p';
-import Card from '../../../components/ui/card';
-import { Label } from '../../../components/ui/label';
+import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../components/ui/tooltip';
+} from '@/components/ui/tooltip';
 import ClientEditButton from './client-edit-button';
 
 interface Props {

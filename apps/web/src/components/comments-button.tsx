@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import getDeclensionWord from '../utils/get-declension-word';
+import getDeclensionWord from '@/utils/get-declension-word';
 import IconamoonCommentFill from './icons/iconamoon/IconamoonCommentFill';
 import { Button } from './ui/button';
 

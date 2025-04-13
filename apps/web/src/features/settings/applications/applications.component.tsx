@@ -1,7 +1,7 @@
 'use client';
 
-import NotFound from '../../../components/ui/not-found';
-import useClients from '../../../services/hooks/client/use-clients';
+import NotFound from '@/components/ui/not-found';
+import useClients from '@/services/hooks/client/use-clients';
 import ApplicationItem from './application-item';
 
 const Component = () => {

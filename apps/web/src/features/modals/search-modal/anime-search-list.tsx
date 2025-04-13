@@ -6,7 +6,7 @@ import {
     CommandGroup,
     CommandItem,
     CommandList,
-} from '../../../components/ui/command';
+} from '@/components/ui/command';
 import AnimeCard from './cards/anime-card';
 import useAnimeSearchList from './hooks/useAnimeSearchList';
 import SearchPlaceholders from './search-placeholders';

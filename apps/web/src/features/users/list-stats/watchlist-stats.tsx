@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Label } from '../../../components/ui/label';
-import RadialProgress from '../../../components/ui/radial-progress';
-import useWatchStats from '../../../services/hooks/watch/use-watch-stats';
-import { WATCH_STATUS } from '../../../utils/constants/common';
-import { cn } from '../../../utils/utils';
+import { Label } from '@/components/ui/label';
+import RadialProgress from '@/components/ui/radial-progress';
+import useWatchStats from '@/services/hooks/watch/use-watch-stats';
+import { WATCH_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 interface Props {}
 

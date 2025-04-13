@@ -3,11 +3,11 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '../../../../components/load-more-button';
-import NovelCard from '../../../../components/novel-card';
-import NotFound from '../../../../components/ui/not-found';
-import useFavorites from '../../../../services/hooks/favorite/use-favorites';
-import { cn } from '../../../../utils/utils';
+import LoadMoreButton from '@/components/load-more-button';
+import NovelCard from '@/components/novel-card';
+import NotFound from '@/components/ui/not-found';
+import useFavorites from '@/services/hooks/favorite/use-favorites';
+import { cn } from '@/utils/utils';
 
 interface Props {
     extended?: boolean;

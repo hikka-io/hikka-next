@@ -2,10 +2,10 @@
 
 import { FC, Fragment, memo } from 'react';
 
-import MaterialSymbolsEditRounded from '../../../components/icons/material-symbols/MaterialSymbolsEditRounded';
-import { Button } from '../../../components/ui/button';
-import useSession from '../../../services/hooks/auth/use-session';
-import { useModalContext } from '../../../services/providers/modal-provider';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import { Button } from '@/components/ui/button';
+import useSession from '@/services/hooks/auth/use-session';
+import { useModalContext } from '@/services/providers/modal-provider';
 import ClientEditModal from '../../modals/client-modal/client-edit-modal.component';
 
 interface Props {

@@ -6,7 +6,7 @@ import { EmojiPlugin } from '@udecode/plate-emoji/react';
 import { PlateElement, usePluginOption } from '@udecode/plate/react';
 import { useMemo, useState } from 'react';
 
-import useDebounce from '../../../../services/hooks/use-debounce';
+import useDebounce from '@/services/hooks/use-debounce';
 import {
     InlineCombobox,
     InlineComboboxContent,

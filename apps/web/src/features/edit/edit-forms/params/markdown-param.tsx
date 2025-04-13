@@ -5,13 +5,13 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import BasicEditor from '../../../../components/markdown/editor/basic-editor';
-import PlateDiff from '../../../../components/markdown/editor/plate-diff';
+import BasicEditor from '@/components/markdown/editor/basic-editor';
+import PlateDiff from '@/components/markdown/editor/plate-diff';
 // import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
-import MDViewer from '../../../../components/markdown/viewer/MD-viewer';
-import { Button } from '../../../../components/ui/button';
-import { Label } from '../../../../components/ui/label';
-import useEdit from '../../../../services/hooks/edit/use-edit';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import useEdit from '@/services/hooks/edit/use-edit';
 
 interface Props {
     param: Hikka.EditParam;

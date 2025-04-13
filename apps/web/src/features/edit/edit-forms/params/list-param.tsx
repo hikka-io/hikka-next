@@ -3,11 +3,11 @@
 import { FC, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import MaterialSymbolsCloseSmallRounded from '../../../../components/icons/material-symbols/MaterialSymbolsCloseSmallRounded';
-import MaterialSymbolsAddRounded from '../../../../components/icons/watch-status/planned';
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
-import { Label } from '../../../../components/ui/label';
+import MaterialSymbolsCloseSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseSmallRounded';
+import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface Props {
     param: Hikka.EditParam;

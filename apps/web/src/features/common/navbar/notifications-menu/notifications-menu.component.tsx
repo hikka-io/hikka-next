@@ -1,20 +1,20 @@
 'use client';
 
-import MaterialSymbolsNotificationsRounded from '../../../../components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
-import LoadMoreButton from '../../../../components/load-more-button';
-import { Badge } from '../../../../components/ui/badge';
-import { Button } from '../../../../components/ui/button';
+import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
+import LoadMoreButton from '@/components/load-more-button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '../../../../components/ui/dropdown-menu';
-import useNotifications from '../../../../services/hooks/notifications/use-notifications';
-import useNotificationsCount from '../../../../services/hooks/notifications/use-notifications-count';
-import useSeenNotification from '../../../../services/hooks/notifications/use-seen-notification';
-import { convertNotification } from '../../../../utils/adapters/convert-notification';
+} from '@/components/ui/dropdown-menu';
+import useNotifications from '@/services/hooks/notifications/use-notifications';
+import useNotificationsCount from '@/services/hooks/notifications/use-notifications-count';
+import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
+import { convertNotification } from '@/utils/adapters/convert-notification';
 import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';
 

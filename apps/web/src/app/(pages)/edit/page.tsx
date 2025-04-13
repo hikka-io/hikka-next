@@ -2,24 +2,24 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
 
-import AntDesignFilterFilled from '../../../components/icons/ant-design/AntDesignFilterFilled';
-import Breadcrumbs from '../../../components/navigation/nav-breadcrumbs';
-import NavMenu from '../../../components/navigation/nav-dropdown';
-import Block from '../../../components/ui/block';
-import { Button } from '../../../components/ui/button';
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import NavMenu from '@/components/navigation/nav-dropdown';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import EditList from '../../../features/edit/edit-list/edit-list.component';
-import EditTopStats from '../../../features/edit/edit-top-stats/edit-top-stats.component';
-import Filters from '../../../features/filters/edit-filters.component';
-import EditFiltersModal from '../../../features/modals/edit-filters-modal.component';
-import { prefetchEditList } from '../../../services/hooks/edit/use-edit-list';
-import { prefetchEditTop } from '../../../services/hooks/stats/edit/use-edit-top';
-import { EDIT_NAV_ROUTES } from '../../../utils/constants/navigation';
-import getQueryClient from '../../../utils/get-query-client';
+} from '@/components/ui/header';
+import EditList from '@/features/edit/edit-list/edit-list.component';
+import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats.component';
+import Filters from '@/features/filters/edit-filters.component';
+import EditFiltersModal from '@/features/modals/edit-filters-modal.component';
+import { prefetchEditList } from '@/services/hooks/edit/use-edit-list';
+import { prefetchEditTop } from '@/services/hooks/stats/edit/use-edit-top';
+import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
+import getQueryClient from '@/utils/get-query-client';
 
 const EditListPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

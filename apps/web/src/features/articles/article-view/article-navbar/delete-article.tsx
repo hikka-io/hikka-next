@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
-import MaterialSymbolsDeleteForeverRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,9 +14,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../../../../components/ui/alert-dialog';
-import { DropdownMenuItem } from '../../../../components/ui/dropdown-menu';
-import deleteArticle from '../../../../services/api/articles/deleteArticle';
+} from '@/components/ui/alert-dialog';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import deleteArticle from '@/services/api/articles/deleteArticle';
 
 interface Props {
     article: API.Article;

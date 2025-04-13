@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 
 import getAnimeInfo, {
     Response as AnimeResponse,
-} from '../../../../../services/api/anime/getAnimeInfo';
-import _generateMetadata from '../../../../../utils/generate-metadata';
-import parseTextFromMarkDown from '../../../../../utils/parse-text-from-markdown';
-import truncateText from '../../../../../utils/truncate-text';
+} from '@/services/api/anime/getAnimeInfo';
+import _generateMetadata from '@/utils/generate-metadata';
+import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
+import truncateText from '@/utils/truncate-text';
 
 export interface MetadataProps {
     params: { slug: string };

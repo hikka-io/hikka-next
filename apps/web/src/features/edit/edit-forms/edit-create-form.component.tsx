@@ -6,14 +6,14 @@ import { useRouter } from 'next/navigation';
 import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Button } from '../../../components/ui/button';
-import addEdit from '../../../services/api/edit/addEdit';
+import { Button } from '@/components/ui/button';
+import addEdit from '@/services/api/edit/addEdit';
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
-} from '../../../utils/edit-param-utils';
+} from '@/utils/edit-param-utils';
 import AutoButton from './auto-button';
 import EditDescription from './edit-description';
 import EditGroup from './edit-group';

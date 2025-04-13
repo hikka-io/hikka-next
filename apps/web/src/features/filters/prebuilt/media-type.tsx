@@ -7,7 +7,7 @@ import {
     ANIME_MEDIA_TYPE,
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
-} from '../../../utils/constants/common';
+} from '@/utils/constants/common';
 import BadgeFilter from '../badge-filter';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';

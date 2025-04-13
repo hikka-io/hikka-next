@@ -2,9 +2,9 @@
 
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useSession from '../../services/hooks/auth/use-session';
-import useCharacterAnime from '../../services/hooks/characters/use-character-anime';
-import useCharacterInfo from '../../services/hooks/characters/use-character-info';
+import useSession from '@/services/hooks/auth/use-session';
+import useCharacterAnime from '@/services/hooks/characters/use-character-anime';
+import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import {
     HoverCard,

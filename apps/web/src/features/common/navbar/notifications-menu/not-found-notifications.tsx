@@ -2,9 +2,9 @@
 
 import { FC } from 'react';
 
-import MaterialSymbolsNotificationImportantRounded from '../../../../components/icons/material-symbols/MaterialSymbolsNotificationImportantRounded';
-import P from '../../../../components/typography/p';
-import { Label } from '../../../../components/ui/label';
+import MaterialSymbolsNotificationImportantRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationImportantRounded';
+import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 
 interface Props {}
 

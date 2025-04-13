@@ -3,21 +3,21 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import Content from '../../../../features/edit/edit-content/edit-content.component';
-import EditForm from '../../../../features/edit/edit-forms/edit-create-form.component';
-import RulesAlert from '../../../../features/edit/edit-rules-alert.component';
-import { prefetchAnimeInfo } from '../../../../services/hooks/anime/use-anime-info';
-import { prefetchCharacterInfo } from '../../../../services/hooks/characters/use-character-info';
-import { prefetchMangaInfo } from '../../../../services/hooks/manga/use-manga-info';
-import { prefetchNovelInfo } from '../../../../services/hooks/novel/use-novel-info';
-import { prefetchPersonInfo } from '../../../../services/hooks/people/use-person-info';
-import getQueryClient from '../../../../utils/get-query-client';
+} from '@/components/ui/header';
+import Content from '@/features/edit/edit-content/edit-content.component';
+import EditForm from '@/features/edit/edit-forms/edit-create-form.component';
+import RulesAlert from '@/features/edit/edit-rules-alert.component';
+import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
+import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
+import { prefetchMangaInfo } from '@/services/hooks/manga/use-manga-info';
+import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
+import { prefetchPersonInfo } from '@/services/hooks/people/use-person-info';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };

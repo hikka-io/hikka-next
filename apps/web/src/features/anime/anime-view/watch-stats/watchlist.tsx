@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import useAnimeInfo from '../../../../services/hooks/anime/use-anime-info';
-import { WATCH_STATUS } from '../../../../utils/constants/common';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import { WATCH_STATUS } from '@/utils/constants/common';
 import Stats from './stats';
 
 const Watchlist = () => {

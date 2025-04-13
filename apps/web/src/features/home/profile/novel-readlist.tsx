@@ -4,30 +4,30 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-import ContentCard from '../../../components/content-card/content-card';
-import MaterialSymbolsAddRounded from '../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import MaterialSymbolsRemoveRounded from '../../../components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import { MaterialSymbolsSettingsOutlineRounded } from '../../../components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import H5 from '../../../components/typography/h5';
-import P from '../../../components/typography/p';
-import { Button } from '../../../components/ui/button';
-import Card from '../../../components/ui/card';
-import { Label } from '../../../components/ui/label';
-import NotFound from '../../../components/ui/not-found';
-import { Progress } from '../../../components/ui/progress';
-import Stack from '../../../components/ui/stack';
+import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
+import { MaterialSymbolsSettingsOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
+import H5 from '@/components/typography/h5';
+import P from '@/components/typography/p';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import NotFound from '@/components/ui/not-found';
+import { Progress } from '@/components/ui/progress';
+import Stack from '@/components/ui/stack';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../components/ui/tooltip';
-import useSession from '../../../services/hooks/auth/use-session';
-import useAddRead from '../../../services/hooks/read/use-add-read';
-import useReadList from '../../../services/hooks/read/use-read-list';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { NOVEL_MEDIA_TYPE } from '../../../utils/constants/common';
-import getDeclensionWord from '../../../utils/get-declension-word';
-import { cn } from '../../../utils/utils';
+} from '@/components/ui/tooltip';
+import useSession from '@/services/hooks/auth/use-session';
+import useAddRead from '@/services/hooks/read/use-add-read';
+import useReadList from '@/services/hooks/read/use-read-list';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
+import getDeclensionWord from '@/utils/get-declension-word';
+import { cn } from '@/utils/utils';
 import ReadEditModal from '../../modals/read-edit-modal.component';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [

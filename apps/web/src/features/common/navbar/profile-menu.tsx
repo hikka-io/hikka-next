@@ -2,19 +2,19 @@
 
 import Link from 'next/link';
 
-import MaterialSymbolsAnimatedImages from '../../../components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFavoriteRounded from '../../../components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
-import MaterialSymbolsLogoutRounded from '../../../components/icons/material-symbols/MaterialSymbolsLogoutRounded';
-import MaterialSymbolsMenuBookRounded from '../../../components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '../../../components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '../../../components/icons/material-symbols/MaterialSymbolsPerson';
-import MaterialSymbolsSettingsOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
+import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '../../../components/ui/avatar';
-import { Button } from '../../../components/ui/button';
+} from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,9 +22,9 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '../../../components/ui/dropdown-menu';
-import { Label } from '../../../components/ui/label';
-import useSession from '../../../services/hooks/auth/use-session';
+} from '@/components/ui/dropdown-menu';
+import { Label } from '@/components/ui/label';
+import useSession from '@/services/hooks/auth/use-session';
 
 const ProfileMenu = () => {
     const { user: loggedUser, logout } = useSession();

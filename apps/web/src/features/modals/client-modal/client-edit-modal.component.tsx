@@ -5,16 +5,16 @@ import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import FormInput from '../../../components/form/form-input';
-import FormSwitch from '../../../components/form/form-switch';
-import FormTextarea from '../../../components/form/form-textarea';
-import MaterialSymbolsContentCopy from '../../../components/icons/material-symbols/MaterialSymbolsContentCopy';
-import { Button } from '../../../components/ui/button';
-import { Form, FormLabel } from '../../../components/ui/form';
-import useClientInfo from '../../../services/hooks/client/use-client-info';
-import useDeleteClient from '../../../services/hooks/client/use-delete-client';
-import useUpdateClient from '../../../services/hooks/client/use-update-client';
-import { z } from '../../../utils/zod';
+import FormInput from '@/components/form/form-input';
+import FormSwitch from '@/components/form/form-switch';
+import FormTextarea from '@/components/form/form-textarea';
+import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
+import { Button } from '@/components/ui/button';
+import { Form, FormLabel } from '@/components/ui/form';
+import useClientInfo from '@/services/hooks/client/use-client-info';
+import useDeleteClient from '@/services/hooks/client/use-delete-client';
+import useUpdateClient from '@/services/hooks/client/use-update-client';
+import { z } from '@/utils/zod';
 
 const formSchema = z.object({
     name: z.coerce.string().min(3).max(128),

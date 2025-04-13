@@ -2,6 +2,8 @@
 
 import { FC } from 'react';
 
+import useLatestComments from '@/services/hooks/comments/use-latest-comments';
+import { cn } from '@/utils/utils';
 import GlobalComment from '../../components/comments/global-comment';
 import Block from '../../components/ui/block';
 import Card from '../../components/ui/card';
@@ -12,8 +14,6 @@ import {
     HeaderTitle,
 } from '../../components/ui/header';
 import Stack from '../../components/ui/stack';
-import useLatestComments from '../../services/hooks/comments/use-latest-comments';
-import { cn } from '../../utils/utils';
 
 interface Props {
     className?: string;

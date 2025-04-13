@@ -3,11 +3,11 @@
 import { useSnackbar } from 'notistack';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import MaterialSymbolsCheckSmallRounded from '../../../../components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
-import { Label } from '../../../../components/ui/label';
-import importAnilistWatch from '../../../../services/api/settings/importAnilistWatch';
+import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import importAnilistWatch from '@/services/api/settings/importAnilistWatch';
 import FoundList from './found-list';
 
 interface Props {

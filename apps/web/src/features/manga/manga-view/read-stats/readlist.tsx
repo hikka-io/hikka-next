@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import useMangaInfo from '../../../../services/hooks/manga/use-manga-info';
-import { READ_STATUS } from '../../../../utils/constants/common';
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import { READ_STATUS } from '@/utils/constants/common';
 import Stats from './stats';
 
 const Readlist = () => {

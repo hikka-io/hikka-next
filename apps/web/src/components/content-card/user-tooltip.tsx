@@ -2,10 +2,10 @@
 
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useFollowStats from '../../services/hooks/follow/use-follow-stats';
-import useReadStats from '../../services/hooks/read/use-read-stats';
-import useUser from '../../services/hooks/user/use-user';
-import useWatchStats from '../../services/hooks/watch/use-watch-stats';
+import useFollowStats from '@/services/hooks/follow/use-follow-stats';
+import useReadStats from '@/services/hooks/read/use-read-stats';
+import useUser from '@/services/hooks/user/use-user';
+import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 import FollowButton from '../follow-button';
 import MaterialSymbolsAnimatedImages from '../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../icons/material-symbols/MaterialSymbolsMenuBookRounded';

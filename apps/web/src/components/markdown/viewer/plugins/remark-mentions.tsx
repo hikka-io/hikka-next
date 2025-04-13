@@ -1,6 +1,6 @@
 import { findAndReplace } from 'mdast-util-find-and-replace';
 
-import useUser from '../../../../services/hooks/user/use-user';
+import useUser from '@/services/hooks/user/use-user';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../ui/avatar';
 
 const userGroup = '[\\da-z][-\\da-z_]{0,38}';

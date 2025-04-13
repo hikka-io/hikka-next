@@ -3,10 +3,10 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import Comments from '../../../../features/comments/latest-comments.component';
-import { prefetchGlobalComments } from '../../../../services/hooks/comments/use-global-comments';
-import _generateMetadata from '../../../../utils/generate-metadata';
-import getQueryClient from '../../../../utils/get-query-client';
+import Comments from '@/features/comments/latest-comments.component';
+import { prefetchGlobalComments } from '@/services/hooks/comments/use-global-comments';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Останні коментарі',

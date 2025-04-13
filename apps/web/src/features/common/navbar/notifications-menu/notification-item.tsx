@@ -4,15 +4,15 @@ import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { DropdownMenuItem } from '../../../../components/ui/dropdown-menu';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../../components/ui/horizontal-card';
-import useSeenNotification from '../../../../services/hooks/notifications/use-seen-notification';
+} from '@/components/ui/horizontal-card';
+import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
 
 interface Props {
     data: Hikka.TextNotification;

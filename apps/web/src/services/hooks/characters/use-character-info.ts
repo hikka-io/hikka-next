@@ -1,6 +1,6 @@
 import { QueryKey, useQuery } from '@tanstack/react-query';
 
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getCharacterInfo, {
     Params,
 } from '../../api/characters/getCharacterInfo';

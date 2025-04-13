@@ -13,8 +13,8 @@ import {
     SelectSearch,
     SelectTrigger,
     SelectValue,
-} from '../../../components/ui/select';
-import useUsers from '../../../services/hooks/user/use-users';
+} from '@/components/ui/select';
+import useUsers from '@/services/hooks/user/use-users';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 

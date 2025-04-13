@@ -3,8 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Label } from '../../../components/ui/label';
-import { Switch } from '../../../components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 

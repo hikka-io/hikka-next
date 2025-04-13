@@ -1,7 +1,7 @@
 'use client';
 
-import LoadMoreButton from '../../../components/load-more-button';
-import useEditTop from '../../../services/hooks/stats/edit/use-edit-top';
+import LoadMoreButton from '@/components/load-more-button';
+import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
 import EditTopItem from './edit-top-item';
 
 const Component = () => {

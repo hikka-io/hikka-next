@@ -2,8 +2,8 @@
 
 import { FC } from 'react';
 
-import useSession from '../services/hooks/auth/use-session';
-import useUser from '../services/hooks/user/use-user';
+import useSession from '@/services/hooks/auth/use-session';
+import useUser from '@/services/hooks/user/use-user';
 import Image from './ui/image';
 
 interface Props {

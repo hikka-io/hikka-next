@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '../../../../components/load-more-button';
-import useNovelCharacters from '../../../../services/hooks/novel/use-novel-characters';
+import LoadMoreButton from '@/components/load-more-button';
+import useNovelCharacters from '@/services/hooks/novel/use-novel-characters';
 import MainCharacters from './main-characters';
 import OtherCharacters from './other-characters';
 

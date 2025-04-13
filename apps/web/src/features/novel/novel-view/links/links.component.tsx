@@ -3,27 +3,27 @@
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import MaterialSymbolsInfoIRounded from '../../../../components/icons/material-symbols/MaterialSymbolsInfoIRounded';
-import MaterialSymbolsPlayArrowRounded from '../../../../components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
-import TextExpand from '../../../../components/text-expand';
-import P from '../../../../components/typography/p';
-import Block from '../../../../components/ui/block';
+import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
+import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
+import TextExpand from '@/components/text-expand';
+import P from '@/components/typography/p';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
+} from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../../components/ui/horizontal-card';
+} from '@/components/ui/horizontal-card';
 import {
     ToggleGroup,
     ToggleGroupItem,
-} from '../../../../components/ui/toggle-group';
-import useNovelInfo from '../../../../services/hooks/novel/use-novel-info';
+} from '@/components/ui/toggle-group';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
 interface Props {
     extended?: boolean;

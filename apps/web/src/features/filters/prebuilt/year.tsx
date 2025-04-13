@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 
-import { Slider } from '../../../components/ui/slider';
+import { Slider } from '@/components/ui/slider';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 import YearFilterInput from '../year-filter-input';

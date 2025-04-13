@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, FC } from 'react';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 
 // Define more explicit and comprehensive types
 type StackSize = 2 | 3 | 4 | 5 | 6 | 7 | 8;

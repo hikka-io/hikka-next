@@ -2,9 +2,9 @@
 
 import { memo } from 'react';
 
-import ArticleEditor from '../../../components/markdown/editor/article-editor';
-import { Label } from '../../../components/ui/label';
-import { useArticleContext } from '../../../services/providers/article-provider';
+import ArticleEditor from '@/components/markdown/editor/article-editor';
+import { Label } from '@/components/ui/label';
+import { useArticleContext } from '@/services/providers/article-provider';
 
 const ArticleDocument = () => {
     const document = useArticleContext((state) => state.document);

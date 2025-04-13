@@ -2,9 +2,9 @@
 
 import { FC } from 'react';
 
+import useEdit from '@/services/hooks/edit/use-edit';
+import { EDIT_STATUS } from '@/utils/constants/edit';
 import { Badge } from '../../components/ui/badge';
-import useEdit from '../../services/hooks/edit/use-edit';
-import { EDIT_STATUS } from '../../utils/constants/edit';
 
 interface Props {
     editId: string;

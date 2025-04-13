@@ -1,12 +1,12 @@
-import { prefetchAnimeCatalog } from '../../../services/hooks/anime/use-anime-catalog';
-import { key, prefetchSession } from '../../../services/hooks/auth/use-session';
-import { prefetchCollections } from '../../../services/hooks/collections/use-collections';
-import { prefetchLatestComments } from '../../../services/hooks/comments/use-latest-comments';
-import { prefetchFollowingHistory } from '../../../services/hooks/history/use-following-history';
-import { prefetchAnimeSchedule } from '../../../services/hooks/stats/use-anime-schedule';
-import { prefetchWatchList } from '../../../services/hooks/watch/use-watch-list';
-import getCurrentSeason from '../../../utils/get-current-season';
-import getQueryClient from '../../../utils/get-query-client';
+import { prefetchAnimeCatalog } from '@/services/hooks/anime/use-anime-catalog';
+import { key, prefetchSession } from '@/services/hooks/auth/use-session';
+import { prefetchCollections } from '@/services/hooks/collections/use-collections';
+import { prefetchLatestComments } from '@/services/hooks/comments/use-latest-comments';
+import { prefetchFollowingHistory } from '@/services/hooks/history/use-following-history';
+import { prefetchAnimeSchedule } from '@/services/hooks/stats/use-anime-schedule';
+import { prefetchWatchList } from '@/services/hooks/watch/use-watch-list';
+import getCurrentSeason from '@/utils/get-current-season';
+import getQueryClient from '@/utils/get-query-client';
 
 const prefetchQueries = async () => {
     const queryClient = getQueryClient();

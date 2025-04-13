@@ -1,6 +1,6 @@
-import InputParam from '../features/edit/edit-forms/params/input-param';
-import ListParam from '../features/edit/edit-forms/params/list-param';
-import MarkdownParam from '../features/edit/edit-forms/params/markdown-param';
+import InputParam from '@/features/edit/edit-forms/params/input-param';
+import ListParam from '@/features/edit/edit-forms/params/list-param';
+import MarkdownParam from '@/features/edit/edit-forms/params/markdown-param';
 import {
     ANIME_EDIT_GROUPS,
     ANIME_EDIT_PARAMS,

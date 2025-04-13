@@ -9,6 +9,7 @@ import {
     useState,
 } from 'react';
 
+import { cn } from '@/utils/utils';
 import {
     Dialog,
     DialogContent,
@@ -28,7 +29,6 @@ import {
     SheetHeader,
     SheetTitle,
 } from '../../components/ui/sheet';
-import { cn } from '../../utils/utils';
 import { useMediaQuery } from '../hooks/use-media-query';
 
 interface State {

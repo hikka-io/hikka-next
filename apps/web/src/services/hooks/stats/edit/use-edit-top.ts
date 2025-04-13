@@ -1,4 +1,4 @@
-import getQueryClient from '../../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getEditTop from '../../../api/stats/edit/getEditTop';
 import useInfiniteList from '../../use-infinite-list';
 

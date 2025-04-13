@@ -1,16 +1,16 @@
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
-import MaterialSymbolsDriveFileRenameOutlineRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
-import Small from '../../../../components/typography/small';
+import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
+import Small from '@/components/typography/small';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../../components/ui/horizontal-card';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
+} from '@/components/ui/horizontal-card';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     article: API.Article;

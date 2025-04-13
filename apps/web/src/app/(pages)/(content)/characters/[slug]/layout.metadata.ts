@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import getCharacterInfo, {
     Response as CharacterResponse,
-} from '../../../../../services/api/characters/getCharacterInfo';
+} from '@/services/api/characters/getCharacterInfo';
 
 export interface MetadataProps {
     params: {

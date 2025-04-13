@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
-import P from '../../../../../../components/typography/p';
+import P from '@/components/typography/p';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../../../components/ui/header';
-import Customization from '../../../../../../features/settings/customization/customization.component';
+} from '@/components/ui/header';
+import Customization from '@/features/settings/customization/customization.component';
 
 interface Props {
     params: {

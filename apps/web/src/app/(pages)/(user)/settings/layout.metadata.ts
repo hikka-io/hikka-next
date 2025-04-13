@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import _generateMetadata from '../../../../utils/generate-metadata';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export interface MetadataProps {
     searchParams: { [key: string]: string | string[] | undefined };

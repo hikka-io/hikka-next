@@ -1,17 +1,17 @@
 import { FC, PropsWithChildren } from 'react';
 
-import MaterialSymbolsCalendarClockRounded from '../../../components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
-import MaterialSymbolsCategoryOutlineRounded from '../../../components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';
-import Card from '../../../components/ui/card';
+import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
+import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';
+import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../components/ui/horizontal-card';
-import { CONTENT_TYPES } from '../../../utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '../../../utils/constants/navigation';
+} from '@/components/ui/horizontal-card';
+import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props extends PropsWithChildren {
     content: API.MainContent;

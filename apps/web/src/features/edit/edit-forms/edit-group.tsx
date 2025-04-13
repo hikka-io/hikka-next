@@ -4,14 +4,14 @@ import { LucideChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { FC } from 'react';
 
-import H5 from '../../../components/typography/h5';
-import { Button } from '../../../components/ui/button';
+import H5 from '@/components/typography/h5';
+import { Button } from '@/components/ui/button';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from '../../../components/ui/collapsible';
-import { getEditParamComponent } from '../../../utils/edit-param-utils';
+} from '@/components/ui/collapsible';
+import { getEditParamComponent } from '@/utils/edit-param-utils';
 
 interface Props {
     title: string;

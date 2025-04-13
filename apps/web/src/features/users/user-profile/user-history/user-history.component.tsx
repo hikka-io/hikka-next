@@ -4,20 +4,20 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import HistoryItem from '../../../../components/history-item';
-import { MaterialSymbolsGridViewRounded } from '../../../../components/icons/material-symbols/MaterialSymbolsGridViewRounded';
-import Block from '../../../../components/ui/block';
-import { Button } from '../../../../components/ui/button';
+import HistoryItem from '@/components/history-item';
+import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import NotFound from '../../../../components/ui/not-found';
-import useUserHistory from '../../../../services/hooks/history/use-user-history';
-import { useModalContext } from '../../../../services/providers/modal-provider';
-import { cn } from '../../../../utils/utils';
+} from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
+import useUserHistory from '@/services/hooks/history/use-user-history';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import ActivityModal from './history-modal';
 
 interface Props {

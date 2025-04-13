@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import P from '../../../components/typography/p';
-import { cn } from '../../../utils/utils';
+import P from '@/components/typography/p';
+import { cn } from '@/utils/utils';
 
 interface Props {
     scope: Hikka.Scope;

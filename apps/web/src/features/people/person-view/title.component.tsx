@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 
-import H2 from '../../../components/typography/h2';
-import P from '../../../components/typography/p';
-import usePersonInfo from '../../../services/hooks/people/use-person-info';
+import H2 from '@/components/typography/h2';
+import P from '@/components/typography/p';
+import usePersonInfo from '@/services/hooks/people/use-person-info';
 
 const Title = () => {
     const divRef = useRef<HTMLDivElement>(null);

@@ -1,10 +1,10 @@
-import { prefetchCharacters } from '../../../../../services/hooks/anime/use-characters';
-import { prefetchStaff } from '../../../../../services/hooks/anime/use-staff';
-import { prefetchFavorite } from '../../../../../services/hooks/favorite/use-favorite';
-import { prefetchFranchise } from '../../../../../services/hooks/related/use-franchise';
-import { prefetchFollowingWatchList } from '../../../../../services/hooks/watch/use-following-watch-list';
-import { prefetchWatch } from '../../../../../services/hooks/watch/use-watch';
-import { getCookie } from '../../../../../utils/cookies';
+import { prefetchCharacters } from '@/services/hooks/anime/use-characters';
+import { prefetchStaff } from '@/services/hooks/anime/use-staff';
+import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
+import { prefetchFranchise } from '@/services/hooks/related/use-franchise';
+import { prefetchFollowingWatchList } from '@/services/hooks/watch/use-following-watch-list';
+import { prefetchWatch } from '@/services/hooks/watch/use-watch';
+import { getCookie } from '@/utils/cookies';
 
 interface Props {
     params: {

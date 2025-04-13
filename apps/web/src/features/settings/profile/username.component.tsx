@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-import FormInput from '../../../components/form/form-input';
-import { Button } from '../../../components/ui/button';
-import { Form } from '../../../components/ui/form';
-import changeUserUsername from '../../../services/api/settings/changeUserUsername';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { z } from '../../../utils/zod';
+import FormInput from '@/components/form/form-input';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import changeUserUsername from '@/services/api/settings/changeUserUsername';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { z } from '@/utils/zod';
 
 const formSchema = z.object({
     username: z.string().min(2).max(50),

@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useSession from '../../services/hooks/auth/use-session';
-import useMangaInfo from '../../services/hooks/manga/use-manga-info';
-import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '../../utils/constants/common';
+import useSession from '@/services/hooks/auth/use-session';
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import ReadlistButton from '../readlist-button/readlist-button';
 import H5 from '../typography/h5';

@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import getPersonInfo from '../../../../../services/api/people/getPersonInfo';
+import getPersonInfo from '@/services/api/people/getPersonInfo';
 
 export interface MetadataProps {
     params: {

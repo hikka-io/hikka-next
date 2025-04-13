@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import useFollowingReadList from '@/services/hooks/read/use-following-read-list';
+import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
 import LoadMoreButton from '../../components/load-more-button';
-import useFollowingReadList from '../../services/hooks/read/use-following-read-list';
-import useFollowingWatchList from '../../services/hooks/watch/use-following-watch-list';
 import FollowingReadItem from './following-read-item';
 import FollowingWatchItem from './following-watch-item';
 

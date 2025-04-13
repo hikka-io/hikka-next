@@ -3,8 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-import { Input } from '../../../components/ui/input';
-import createQueryString from '../../../utils/create-query-string';
+import { Input } from '@/components/ui/input';
+import createQueryString from '@/utils/create-query-string';
 
 const Search = () => {
     const router = useRouter();

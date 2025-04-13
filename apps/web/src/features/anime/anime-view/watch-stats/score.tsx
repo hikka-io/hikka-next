@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import Small from '../../../../components/typography/small';
-import useAnimeInfo from '../../../../services/hooks/anime/use-anime-info';
+import Small from '@/components/typography/small';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import Stats from './stats';
 
 const Score = () => {

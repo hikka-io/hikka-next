@@ -1,7 +1,7 @@
-import { prefetchFollowStats } from '../../../../../services/hooks/follow/use-follow-stats';
-import { prefetchReadStats } from '../../../../../services/hooks/read/use-read-stats';
-import { prefetchUser } from '../../../../../services/hooks/user/use-user';
-import { prefetchWatchStats } from '../../../../../services/hooks/watch/use-watch-stats';
+import { prefetchFollowStats } from '@/services/hooks/follow/use-follow-stats';
+import { prefetchReadStats } from '@/services/hooks/read/use-read-stats';
+import { prefetchUser } from '@/services/hooks/user/use-user';
+import { prefetchWatchStats } from '@/services/hooks/watch/use-watch-stats';
 
 interface Props {
     params: {

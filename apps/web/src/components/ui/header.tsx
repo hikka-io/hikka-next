@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import H1 from '../typography/h1';
 import H2 from '../typography/h2';

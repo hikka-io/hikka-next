@@ -5,24 +5,24 @@ import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import MaterialSymbolsAddRounded from '../../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import PagePagination from '../../../../components/page-pagination';
-import Block from '../../../../components/ui/block';
-import { Button } from '../../../../components/ui/button';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import PagePagination from '@/components/page-pagination';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../components/ui/header';
-import CollectionList from '../../../../features/collections/collection-list/collection-list.component';
-import CollectionSort from '../../../../features/collections/collection-list/collection-sort';
+} from '@/components/ui/header';
+import CollectionList from '@/features/collections/collection-list/collection-list.component';
+import CollectionSort from '@/features/collections/collection-list/collection-sort';
 import {
     key,
     prefetchCollections,
-} from '../../../../services/hooks/collections/use-collections';
-import { getCookie } from '../../../../utils/cookies';
-import _generateMetadata from '../../../../utils/generate-metadata';
-import getQueryClient from '../../../../utils/get-query-client';
+} from '@/services/hooks/collections/use-collections';
+import { getCookie } from '@/utils/cookies';
+import _generateMetadata from '@/utils/generate-metadata';
+import getQueryClient from '@/utils/get-query-client';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

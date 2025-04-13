@@ -2,16 +2,16 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import Block from '../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../components/ui/header';
-import Stack from '../../../components/ui/stack';
-import useAnimeSchedule from '../../../services/hooks/stats/use-anime-schedule';
-import getCurrentSeason from '../../../utils/get-current-season';
+} from '@/components/ui/header';
+import Stack from '@/components/ui/stack';
+import useAnimeSchedule from '@/services/hooks/stats/use-anime-schedule';
+import getCurrentSeason from '@/utils/get-current-season';
 import ScheduleItem from './schedule-item';
 
 const Schedule = () => {

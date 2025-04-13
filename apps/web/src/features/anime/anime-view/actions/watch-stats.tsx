@@ -3,18 +3,18 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import MaterialSymbolsAddRounded from '../../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import { MaterialSymbolsRemoveRounded } from '../../../../components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import H3 from '../../../../components/typography/h3';
-import { Button } from '../../../../components/ui/button';
-import { Label } from '../../../../components/ui/label';
-import { Progress } from '../../../../components/ui/progress';
-import Rating from '../../../../components/ui/rating';
-import { Params as AddWatchParams } from '../../../../services/api/watch/addWatch';
-import useAnimeInfo from '../../../../services/hooks/anime/use-anime-info';
-import useDebounce from '../../../../services/hooks/use-debounce';
-import useAddWatch from '../../../../services/hooks/watch/use-add-watch';
-import useWatch from '../../../../services/hooks/watch/use-watch';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
+import H3 from '@/components/typography/h3';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import Rating from '@/components/ui/rating';
+import { Params as AddWatchParams } from '@/services/api/watch/addWatch';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useDebounce from '@/services/hooks/use-debounce';
+import useAddWatch from '@/services/hooks/watch/use-add-watch';
+import useWatch from '@/services/hooks/watch/use-watch';
 
 const WatchStats = () => {
     const params = useParams();

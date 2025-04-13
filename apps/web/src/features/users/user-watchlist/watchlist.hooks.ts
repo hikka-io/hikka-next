@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from 'next/navigation';
 
-import useWatchList from '../../../services/hooks/watch/use-watch-list';
+import useWatchList from '@/services/hooks/watch/use-watch-list';
 
 export const useList = () => {
     const searchParams = useSearchParams()!;

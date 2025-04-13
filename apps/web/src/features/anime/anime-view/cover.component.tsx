@@ -3,11 +3,11 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentCard from '../../../components/content-card/content-card';
-import EditButton from '../../../components/edit-button';
-import FavoriteButton from '../../../components/favorite-button';
-import useAnimeInfo from '../../../services/hooks/anime/use-anime-info';
-import useSession from '../../../services/hooks/auth/use-session';
+import ContentCard from '@/components/content-card/content-card';
+import EditButton from '@/components/edit-button';
+import FavoriteButton from '@/components/favorite-button';
+import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import useSession from '@/services/hooks/auth/use-session';
 
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();

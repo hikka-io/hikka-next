@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
-import P from '../../../../../../components/typography/p';
+import P from '@/components/typography/p';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../../../../components/ui/header';
-import Email from '../../../../../../features/settings/security/email.component';
-import Password from '../../../../../../features/settings/security/password.component';
+} from '@/components/ui/header';
+import Email from '@/features/settings/security/email.component';
+import Password from '@/features/settings/security/password.component';
 
 interface Props {
     params: {

@@ -4,10 +4,10 @@ import { format } from 'date-fns/format';
 import Link from 'next/link';
 import * as React from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import { Badge } from '../../../../components/ui/badge';
-import { Label } from '../../../../components/ui/label';
-import { USER_ROLE } from '../../../../utils/constants/common';
+import ContentCard from '@/components/content-card/content-card';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { USER_ROLE } from '@/utils/constants/common';
 
 interface Props {
     user: API.User;

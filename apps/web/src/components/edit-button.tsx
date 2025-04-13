@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import EditListModal from '../features/modals/editlist-modal/editlist-modal.component';
-import { useModalContext } from '../services/providers/modal-provider';
-import { cn } from '../utils/utils';
+import EditListModal from '@/features/modals/editlist-modal/editlist-modal.component';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';

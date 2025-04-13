@@ -2,10 +2,10 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { FC, memo, useMemo } from 'react';
 
-import ContentCard from '../../../../components/content-card/content-card';
-import MaterialSymbolsDeleteForever from '../../../../components/icons/material-symbols/MaterialSymbolsDeleteForever';
-import MaterialSymbolsDragIndicator from '../../../../components/icons/material-symbols/MaterialSymbolsDragIndicator';
-import { Button } from '../../../../components/ui/button';
+import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
+import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;

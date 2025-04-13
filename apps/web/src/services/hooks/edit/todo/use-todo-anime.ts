@@ -1,5 +1,5 @@
-import { convertTitleList } from '../../../../utils/adapters/convert-title';
-import getQueryClient from '../../../../utils/get-query-client';
+import { convertTitleList } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import getTodoAnime, { Params } from '../../../api/edit/todo/getTodoAnime';
 import { useSettingsContext } from '../../../providers/settings-provider';
 import useInfiniteList from '../../use-infinite-list';

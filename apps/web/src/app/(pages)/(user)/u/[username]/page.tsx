@@ -2,17 +2,17 @@ import { dehydrate } from '@tanstack/query-core';
 import { HydrationBoundary } from '@tanstack/react-query';
 import { FC } from 'react';
 
-import UserArticles from '../../../../../features/users/user-profile/user-articles/user-articles.component';
-import Collections from '../../../../../features/users/user-profile/user-collections/user-collections.component';
-import Favorites from '../../../../../features/users/user-profile/user-favorites/user-favorites.component';
-import History from '../../../../../features/users/user-profile/user-history/user-history.component';
-import Statistics from '../../../../../features/users/user-profile/user-statistics/user-statistics.component';
-import { prefetchArticles } from '../../../../../services/hooks/articles/use-articles';
-import { prefetchFavorites } from '../../../../../services/hooks/favorite/use-favorites';
-import { prefetchUserHistory } from '../../../../../services/hooks/history/use-user-history';
-import { prefetchUserActivity } from '../../../../../services/hooks/user/use-user-activity';
-import { prefetchUserCollections } from '../../../../../services/hooks/user/use-user-collections';
-import getQueryClient from '../../../../../utils/get-query-client';
+import UserArticles from '@/features/users/user-profile/user-articles/user-articles.component';
+import Collections from '@/features/users/user-profile/user-collections/user-collections.component';
+import Favorites from '@/features/users/user-profile/user-favorites/user-favorites.component';
+import History from '@/features/users/user-profile/user-history/user-history.component';
+import Statistics from '@/features/users/user-profile/user-statistics/user-statistics.component';
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
+import { prefetchFavorites } from '@/services/hooks/favorite/use-favorites';
+import { prefetchUserHistory } from '@/services/hooks/history/use-user-history';
+import { prefetchUserActivity } from '@/services/hooks/user/use-user-activity';
+import { prefetchUserCollections } from '@/services/hooks/user/use-user-collections';
+import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     params: {

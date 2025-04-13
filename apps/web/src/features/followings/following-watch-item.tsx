@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import { WATCH_STATUS } from '@/utils/constants/common';
 import MaterialSymbolsStarRounded from '../../components/icons/material-symbols/MaterialSymbolsStarRounded';
 import {
     HorizontalCard,
@@ -9,7 +10,6 @@ import {
     HorizontalCardTitle,
 } from '../../components/ui/horizontal-card';
 import { Label } from '../../components/ui/label';
-import { WATCH_STATUS } from '../../utils/constants/common';
 
 interface Props {
     data: {

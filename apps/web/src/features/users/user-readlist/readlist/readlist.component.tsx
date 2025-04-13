@@ -2,10 +2,10 @@
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-import LoadMoreButton from '../../../../components/load-more-button';
-import Block from '../../../../components/ui/block';
-import NotFound from '../../../../components/ui/not-found';
-import { READ_STATUS } from '../../../../utils/constants/common';
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
+import NotFound from '@/components/ui/not-found';
+import { READ_STATUS } from '@/utils/constants/common';
 import { useList } from '../readlist.hooks';
 import GridView from './grid-view';
 import TableView from './table-view/table-view';

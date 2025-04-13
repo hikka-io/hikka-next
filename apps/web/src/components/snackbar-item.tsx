@@ -3,7 +3,7 @@
 import { CustomContentProps, SnackbarContent } from 'notistack';
 import { ReactElement, SVGProps, forwardRef, memo } from 'react';
 
-import { cn } from '../utils/utils';
+import { cn } from '@/utils/utils';
 import EpSuccessFilled from './icons/ep/EpSuccessFilled';
 import MaterialSymbolsErrorCircleRounded from './icons/material-symbols/MaterialSymbolsErrorCircleRounded';
 import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';

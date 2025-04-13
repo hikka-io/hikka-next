@@ -2,9 +2,9 @@
 
 import { FC, memo } from 'react';
 
-import Small from '../../../components/typography/small';
-import HorizontalContentCard from '../../../components/ui/horizontal-content-card';
-import getScheduleDuration from '../../../utils/get-schedule-duration';
+import Small from '@/components/typography/small';
+import HorizontalContentCard from '@/components/ui/horizontal-content-card';
+import getScheduleDuration from '@/utils/get-schedule-duration';
 
 interface Props {
     item: API.AnimeSchedule;

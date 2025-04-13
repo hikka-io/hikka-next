@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getUsers from '../../../../services/api/user/getUsers';
+import getUsers from '@/services/api/user/getUsers';
 
 interface Props {
     value?: string;

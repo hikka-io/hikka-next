@@ -2,20 +2,20 @@
 
 import { FC } from 'react';
 
-import MaterialSymbolsDeleteForeverRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import { Button } from '../../../../components/ui/button';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../../../components/ui/horizontal-card';
-import { Label } from '../../../../components/ui/label';
-import { useArticleContext } from '../../../../services/providers/article-provider';
-import { useSettingsContext } from '../../../../services/providers/settings-provider';
-import { convertTitle } from '../../../../utils/adapters/convert-title';
-import { CONTENT_TYPES } from '../../../../utils/constants/common';
+} from '@/components/ui/horizontal-card';
+import { Label } from '@/components/ui/label';
+import { useArticleContext } from '@/services/providers/article-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import { CONTENT_TYPES } from '@/utils/constants/common';
 import SearchModal from '../../../modals/search-modal/search-modal.component';
 
 interface Props {}

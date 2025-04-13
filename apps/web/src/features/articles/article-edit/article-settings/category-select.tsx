@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { Label } from '../../../../components/ui/label';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -11,10 +11,10 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../../../components/ui/select';
-import useSession from '../../../../services/hooks/auth/use-session';
-import { useArticleContext } from '../../../../services/providers/article-provider';
-import { ARTICLE_CATEGORY_OPTIONS } from '../../../../utils/constants/common';
+} from '@/components/ui/select';
+import useSession from '@/services/hooks/auth/use-session';
+import { useArticleContext } from '@/services/providers/article-provider';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
 interface Props {}
 

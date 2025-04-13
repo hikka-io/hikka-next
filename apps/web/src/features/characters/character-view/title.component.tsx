@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 
-import H2 from '../../../components/typography/h2';
-import P from '../../../components/typography/p';
-import useCharacterInfo from '../../../services/hooks/characters/use-character-info';
+import H2 from '@/components/typography/h2';
+import P from '@/components/typography/p';
+import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 
 const Title = () => {
     const params = useParams();

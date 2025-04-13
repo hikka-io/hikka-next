@@ -1,4 +1,4 @@
-import getQueryClient from '../../../utils/get-query-client';
+import getQueryClient from '@/utils/get-query-client';
 import getNotifications from '../../api/notifications/getNotifications';
 import useInfiniteList from '../use-infinite-list';
 

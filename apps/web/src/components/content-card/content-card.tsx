@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { UrlObject } from 'url';
 
-import { cn } from '../../utils/utils';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import P from '../typography/p';
 import { AspectRatio } from '../ui/aspect-ratio';

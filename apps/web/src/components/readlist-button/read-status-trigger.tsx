@@ -2,12 +2,12 @@
 
 import { FC, createElement } from 'react';
 
-import ReadEditModal from '../../features/modals/read-edit-modal.component';
-import useMangaInfo from '../../services/hooks/manga/use-manga-info';
-import useNovelInfo from '../../services/hooks/novel/use-novel-info';
-import { useModalContext } from '../../services/providers/modal-provider';
-import { READ_STATUS } from '../../utils/constants/common';
-import { cn } from '../../utils/utils';
+import ReadEditModal from '@/features/modals/read-edit-modal.component';
+import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import useNovelInfo from '@/services/hooks/novel/use-novel-info';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { READ_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';

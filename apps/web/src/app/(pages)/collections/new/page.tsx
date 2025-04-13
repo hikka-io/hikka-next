@@ -1,14 +1,14 @@
 import { Metadata } from 'next';
 
-import Breadcrumbs from '../../../../components/navigation/nav-breadcrumbs';
-import Block from '../../../../components/ui/block';
-import Card from '../../../../components/ui/card';
-import { Label } from '../../../../components/ui/label';
-import CollectionGroups from '../../../../features/collections/collection-edit/collection-groups.component';
-import CollectionSettings from '../../../../features/collections/collection-edit/collection-settings/collection-settings.component';
-import CollectionTitle from '../../../../features/collections/collection-edit/collection-title.component';
-import CollectionProvider from '../../../../services/providers/collection-provider';
-import _generateMetadata from '../../../../utils/generate-metadata';
+import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import CollectionGroups from '@/features/collections/collection-edit/collection-groups.component';
+import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings.component';
+import CollectionTitle from '@/features/collections/collection-edit/collection-title.component';
+import CollectionProvider from '@/services/providers/collection-provider';
+import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

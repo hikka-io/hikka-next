@@ -2,6 +2,8 @@
 
 import { FC } from 'react';
 
+import useGlobalComments from '@/services/hooks/comments/use-global-comments';
+import { cn } from '@/utils/utils';
 import GlobalComment from '../../components/comments/global-comment';
 import LoadMoreButton from '../../components/load-more-button';
 import { Badge } from '../../components/ui/badge';
@@ -14,8 +16,6 @@ import {
 } from '../../components/ui/header';
 import NotFound from '../../components/ui/not-found';
 import Stack from '../../components/ui/stack';
-import useGlobalComments from '../../services/hooks/comments/use-global-comments';
-import { cn } from '../../utils/utils';
 
 interface Props {
     className?: string;

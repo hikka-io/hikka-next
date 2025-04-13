@@ -1,14 +1,14 @@
 import { FC } from 'react';
 
-import ContentNews from '../../../../../features/articles/article-view/content-articles/content-articles';
-import Followings from '../../../../../features/followings/followings.component';
-import Franchise from '../../../../../features/franchise/franchise.component';
-import Characters from '../../../../../features/novel/novel-view/characters/characters.component';
-import Description from '../../../../../features/novel/novel-view/description.component';
-import Details from '../../../../../features/novel/novel-view/details/details.component';
-import Links from '../../../../../features/novel/novel-view/links/links.component';
-import ReadStats from '../../../../../features/novel/novel-view/read-stats/read-stats.component';
-import Staff from '../../../../../features/novel/novel-view/staff.component';
+import ContentNews from '@/features/articles/article-view/content-articles/content-articles';
+import Followings from '@/features/followings/followings.component';
+import Franchise from '@/features/franchise/franchise.component';
+import Characters from '@/features/novel/novel-view/characters/characters.component';
+import Description from '@/features/novel/novel-view/description.component';
+import Details from '@/features/novel/novel-view/details/details.component';
+import Links from '@/features/novel/novel-view/links/links.component';
+import ReadStats from '@/features/novel/novel-view/read-stats/read-stats.component';
+import Staff from '@/features/novel/novel-view/staff.component';
 
 interface Props {
     params: {

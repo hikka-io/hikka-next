@@ -1,13 +1,13 @@
-import MaterialSymbolsAnimatedImages from '../../../components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '../../../components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '../../../components/icons/material-symbols/MaterialSymbolsPalette';
-import Block from '../../../components/ui/block';
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import Block from '@/components/ui/block';
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '../../../components/ui/tabs';
+} from '@/components/ui/tabs';
 import AnimeWatchlist from './anime-watchlist';
 import MangaReadlist from './manga-readlist';
 import NovelReadlist from './novel-readlist';

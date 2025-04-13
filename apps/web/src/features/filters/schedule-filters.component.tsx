@@ -5,6 +5,11 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import useSession from '@/services/hooks/auth/use-session';
+import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
+import createQueryString from '@/utils/create-query-string';
+import getCurrentSeason from '@/utils/get-current-season';
+import { cn } from '@/utils/utils';
 import AntDesignClearOutlined from '../../components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '../../components/ui/button';
 import { Label } from '../../components/ui/label';
@@ -18,11 +23,6 @@ import {
     SelectValue,
 } from '../../components/ui/select';
 import { Switch } from '../../components/ui/switch';
-import useSession from '../../services/hooks/auth/use-session';
-import { RELEASE_STATUS, SEASON } from '../../utils/constants/common';
-import createQueryString from '../../utils/create-query-string';
-import getCurrentSeason from '../../utils/get-current-season';
-import { cn } from '../../utils/utils';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
 

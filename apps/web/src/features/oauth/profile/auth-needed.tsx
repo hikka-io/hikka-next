@@ -2,16 +2,16 @@
 
 import { FC } from 'react';
 
-import MaterialSymbolsLoginRounded from '../../../components/icons/material-symbols/MaterialSymbolsLoginRounded';
-import P from '../../../components/typography/p';
-import { Button } from '../../../components/ui/button';
-import Card from '../../../components/ui/card';
+import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
+import P from '@/components/typography/p';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
     HeaderTitle,
-} from '../../../components/ui/header';
-import { useModalContext } from '../../../services/providers/modal-provider';
+} from '@/components/ui/header';
+import { useModalContext } from '@/services/providers/modal-provider';
 import AuthModal from '../../modals/auth-modal/auth-modal.component';
 
 interface Props {}

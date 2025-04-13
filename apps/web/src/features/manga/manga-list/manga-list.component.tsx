@@ -3,14 +3,14 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import FiltersNotFound from '../../../components/filters-not-found';
-import LoadMoreButton from '../../../components/load-more-button';
-import MangaCard from '../../../components/manga-card';
-import Block from '../../../components/ui/block';
-import Card from '../../../components/ui/card';
-import Pagination from '../../../components/ui/pagination';
-import Stack from '../../../components/ui/stack';
-import useMangaCatalog from '../../../services/hooks/manga/use-manga-catalog';
+import FiltersNotFound from '@/components/filters-not-found';
+import LoadMoreButton from '@/components/load-more-button';
+import MangaCard from '@/components/manga-card';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import Pagination from '@/components/ui/pagination';
+import Stack from '@/components/ui/stack';
+import useMangaCatalog from '@/services/hooks/manga/use-manga-catalog';
 import MangaListSkeleton from './manga-list-skeleton';
 import { useNextPage, useUpdatePage } from './manga-list.hooks';
 

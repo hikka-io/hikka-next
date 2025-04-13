@@ -3,8 +3,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import useNovelCatalog, {
     Props,
-} from '../../../services/hooks/novel/use-novel-catalog';
-import createQueryString from '../../../utils/create-query-string';
+} from '@/services/hooks/novel/use-novel-catalog';
+import createQueryString from '@/utils/create-query-string';
 
 export const useUpdatePage = ({ page, iPage }: Props) => {
     const queryClient = useQueryClient();

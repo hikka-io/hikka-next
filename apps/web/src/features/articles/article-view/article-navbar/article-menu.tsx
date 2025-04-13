@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import MaterialSymbolsEditRounded from '../../../../components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsMoreHoriz from '../../../../components/icons/material-symbols/MaterialSymbolsMoreHoriz';
-import { Button } from '../../../../components/ui/button';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '../../../../components/ui/dropdown-menu';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
+} from '@/components/ui/dropdown-menu';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import DeleteArticle from './delete-article';
 
 interface Props {

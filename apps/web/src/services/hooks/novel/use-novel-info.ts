@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { convertTitle } from '../../../utils/adapters/convert-title';
-import getQueryClient from '../../../utils/get-query-client';
+import { convertTitle } from '@/utils/adapters/convert-title';
+import getQueryClient from '@/utils/get-query-client';
 import { Params } from '../../api/anime/getAnimeInfo';
 import getNovelInfo from '../../api/novel/getNovelInfo';
 import { useSettingsContext } from '../../providers/settings-provider';

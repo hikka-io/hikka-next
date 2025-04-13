@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 
 import getNovelInfo, {
     Response as NovelResponse,
-} from '../../../../../services/api/novel/getNovelInfo';
-import _generateMetadata from '../../../../../utils/generate-metadata';
-import parseTextFromMarkDown from '../../../../../utils/parse-text-from-markdown';
-import truncateText from '../../../../../utils/truncate-text';
+} from '@/services/api/novel/getNovelInfo';
+import _generateMetadata from '@/utils/generate-metadata';
+import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
+import truncateText from '@/utils/truncate-text';
 
 export interface MetadataProps {
     params: { slug: string };

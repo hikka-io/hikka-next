@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEditorRef } from '@udecode/plate/react';
 import { FC } from 'react';
 
-import addComment from '../../services/api/comments/addComment';
-import editComment from '../../services/api/comments/editComment';
-import { useCommentsContext } from '../../services/providers/comments-provider';
+import addComment from '@/services/api/comments/addComment';
+import editComment from '@/services/api/comments/editComment';
+import { useCommentsContext } from '@/services/providers/comments-provider';
 import MaterialSymbolsReplyRounded from '../icons/material-symbols/MaterialSymbolsReplyRounded';
 import { serializeMd } from '../markdown/editor/plugins/markdown-plugin/serialize-md';
 import { Avatar, AvatarImage } from '../ui/avatar';

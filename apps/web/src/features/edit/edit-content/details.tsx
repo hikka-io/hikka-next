@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import P from '../../../components/typography/p';
-import { Label } from '../../../components/ui/label';
+import P from '@/components/typography/p';
+import { Label } from '@/components/ui/label';
 
 interface Props {
     content: API.MainContent;

@@ -4,14 +4,14 @@ import * as React from 'react';
 import { FC } from 'react';
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
-import MaterialSymbolsAddRounded from '../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
-import MaterialSymbolsCheckSmallRounded from '../../../components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
-import MaterialSymbolsDeleteForeverRounded from '../../../components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import P from '../../../components/typography/p';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { useModalContext } from '../../../services/providers/modal-provider';
-import { useSettingsContext } from '../../../services/providers/settings-provider';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import P from '@/components/typography/p';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { useSettingsContext } from '@/services/providers/settings-provider';
 
 interface Props {
     setValue: UseFormSetValue<any>;

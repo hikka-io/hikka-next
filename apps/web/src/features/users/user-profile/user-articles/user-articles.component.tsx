@@ -4,23 +4,23 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import MaterialSymbolsDraftRounded from '../../../../components/icons/material-symbols/MaterialSymbolsDraftRounded';
-import Block from '../../../../components/ui/block';
-import { Button } from '../../../../components/ui/button';
+import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
+} from '@/components/ui/header';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../../../components/ui/tooltip';
-import useArticles from '../../../../services/hooks/articles/use-articles';
-import useSession from '../../../../services/hooks/auth/use-session';
-import { CONTENT_TYPE_LINKS } from '../../../../utils/constants/navigation';
+} from '@/components/ui/tooltip';
+import useArticles from '@/services/hooks/articles/use-articles';
+import useSession from '@/services/hooks/auth/use-session';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import ArticleItem from './article-item';
 
 interface Props {}

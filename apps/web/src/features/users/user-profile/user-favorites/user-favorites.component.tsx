@@ -3,17 +3,17 @@
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import Block from '../../../../components/ui/block';
+import Block from '@/components/ui/block';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../../../components/ui/header';
+} from '@/components/ui/header';
 import {
     ToggleGroup,
     ToggleGroupItem,
-} from '../../../../components/ui/toggle-group';
+} from '@/components/ui/toggle-group';
 import Anime from './anime';
 import Character from './characters';
 import Collections from './collections';

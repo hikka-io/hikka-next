@@ -1,16 +1,16 @@
 import { FC } from 'react';
 
-import BxBxsDownvote from '../../../../components/icons/bx/BxBxsDownvote';
-import BxBxsUpvote from '../../../../components/icons/bx/BxBxsUpvote';
-import BxDownvote from '../../../../components/icons/bx/BxDownvote';
-import BxUpvote from '../../../../components/icons/bx/BxUpvote';
-import { Button, buttonVariants } from '../../../../components/ui/button';
-import Card from '../../../../components/ui/card';
-import { Label } from '../../../../components/ui/label';
-import useSession from '../../../../services/hooks/auth/use-session';
-import useVote from '../../../../services/hooks/vote/useVote';
-import { useModalContext } from '../../../../services/providers/modal-provider';
-import { cn } from '../../../../utils/utils';
+import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
+import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
+import BxDownvote from '@/components/icons/bx/BxDownvote';
+import BxUpvote from '@/components/icons/bx/BxUpvote';
+import { Button, buttonVariants } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import useSession from '@/services/hooks/auth/use-session';
+import useVote from '@/services/hooks/vote/useVote';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import AuthModal from '../../../modals/auth-modal/auth-modal.component';
 
 interface Props {

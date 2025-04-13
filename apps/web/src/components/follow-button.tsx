@@ -3,13 +3,13 @@
 import { VariantProps } from 'class-variance-authority';
 import { FC } from 'react';
 
-import AuthModal from '../features/modals/auth-modal/auth-modal.component';
-import useSession from '../services/hooks/auth/use-session';
-import useFollow from '../services/hooks/follow/use-follow';
-import useUnfollow from '../services/hooks/follow/use-unfollow';
-import useUser from '../services/hooks/user/use-user';
-import { useModalContext } from '../services/providers/modal-provider';
-import { cn } from '../utils/utils';
+import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
+import useSession from '@/services/hooks/auth/use-session';
+import useFollow from '@/services/hooks/follow/use-follow';
+import useUnfollow from '@/services/hooks/follow/use-unfollow';
+import useUser from '@/services/hooks/user/use-user';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/utils';
 import MaterialSymbolsPersonAddOutlineRounded from './icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from './icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button, buttonVariants } from './ui/button';

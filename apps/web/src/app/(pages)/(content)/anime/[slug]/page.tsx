@@ -1,18 +1,18 @@
 import { FC } from 'react';
 
-import Characters from '../../../../../features/anime/anime-view/characters/characters.component';
-import Description from '../../../../../features/anime/anime-view/description.component';
-import Details from '../../../../../features/anime/anime-view/details/details.component';
-import Links from '../../../../../features/anime/anime-view/links/links.component';
-import Media from '../../../../../features/anime/anime-view/media/media.component';
-import Staff from '../../../../../features/anime/anime-view/staff.component';
-import WatchStats from '../../../../../features/anime/anime-view/watch-stats/watch-stats.component';
-import ContentArticles from '../../../../../features/articles/article-view/content-articles/content-articles';
-import Followings from '../../../../../features/followings/followings.component';
-import Franchise from '../../../../../features/franchise/franchise.component';
-import { prefetchAnimeInfo } from '../../../../../services/hooks/anime/use-anime-info';
-import { prefetchArticles } from '../../../../../services/hooks/articles/use-articles';
-import getQueryClient from '../../../../../utils/get-query-client';
+import Characters from '@/features/anime/anime-view/characters/characters.component';
+import Description from '@/features/anime/anime-view/description.component';
+import Details from '@/features/anime/anime-view/details/details.component';
+import Links from '@/features/anime/anime-view/links/links.component';
+import Media from '@/features/anime/anime-view/media/media.component';
+import Staff from '@/features/anime/anime-view/staff.component';
+import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.component';
+import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
+import Followings from '@/features/followings/followings.component';
+import Franchise from '@/features/franchise/franchise.component';
+import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
+import { prefetchArticles } from '@/services/hooks/articles/use-articles';
+import getQueryClient from '@/utils/get-query-client';
 import jsonSchema from './anime.schema';
 
 interface Props {
