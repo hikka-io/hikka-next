@@ -1,0 +1,23 @@
+import { useQuery } from '@tanstack/react-query';
+
+import getCharacters from '../../../../services/api/characters/getCharacters';
+
+interface Props {
+    value?: string;
+}
+
+const useCharacterSearchList = ({ value }: Props) => {
+    return useQuery<API.WithPagination<API.Character>, Error>({
+        queryKey: ['characterSearchList', value],
+        queryFn: () =>
+            getCharacters({
+                params: {
+                    query: value,
+                },
+                size: 60,
+            }),
+        enabled: value !== undefined && value.length >= 3,
+    });
+};
+
+export default useCharacterSearchList;

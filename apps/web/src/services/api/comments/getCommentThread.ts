@@ -1,0 +1,16 @@
+import { BaseFetchRequestProps, fetchRequest } from '../fetchRequest';
+
+export interface Params {
+    reference: string;
+}
+
+export default async function req({
+    params,
+    ...props
+}: BaseFetchRequestProps<Params>): Promise<API.Comment> {
+    return fetchRequest<API.Comment>({
+        ...props,
+        path: `/comments/thread/${params?.reference}`,
+        method: 'get',
+    });
+}

@@ -15,16 +15,7 @@
         "target": "es2017",
         "jsx": "preserve",
         "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
-        "paths": {
-            "@/*": ["./src/*"]
-        },
         "lib": ["dom", "dom.iterable", "esnext"]
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-    "exclude": ["node_modules", ".next"]
+    "exclude": ["node_modules"]
 }
