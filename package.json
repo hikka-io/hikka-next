@@ -12,7 +12,9 @@
         "lint": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\"",
         "lint:fix": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\" --fix",
         "dev:web": "yarn workspace @hikka/web dev",
-        "build:web": "yarn workspace @hikka/web build"
+        "build:web": "yarn workspace @hikka/web build",
+        "dev:client": "yarn workspace @hikka/client dev",
+        "build:client": "yarn workspace @hikka/client build"
     },
     "packageManager": "yarn@4.5.3",
     "syncpack": {
