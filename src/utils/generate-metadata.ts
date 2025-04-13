@@ -4,6 +4,9 @@ import {
     TemplateString,
 } from 'next/dist/lib/metadata/types/metadata-types';
 
+/**
+ * Default metadata values for the Hikka application
+ */
 export const DEFAULTS = {
     siteName: 'Hikka',
     images: '/preview.jpg',
@@ -15,6 +18,9 @@ export const DEFAULTS = {
         'Hikka - українська онлайн енциклопедія аніме, манґи та ранобе. Весь список, манґи та ранобе, детальна інформація до кожного тайтлу та зручний інтерфейс. Заповнюй власний список переглянутого та прочитаного, кастомізуй профіль та ділись з друзями.',
 };
 
+/**
+ * Defines the structure for Open Graph image metadata
+ */
 type OGImageDescriptor = {
     url: string | URL;
     secureUrl?: string | URL;
@@ -24,9 +30,15 @@ type OGImageDescriptor = {
     height?: string | number;
 };
 
+/**
+ * Types that Open Graph images can take
+ */
 type OGImage = string | OGImageDescriptor | URL;
 
-interface Props extends Metadata {
+/**
+ * Extended metadata properties interface
+ */
+interface MetadataProps extends Metadata {
     title?: string | TemplateString | null | undefined;
     description?: string | null | undefined;
     images?: OGImage | OGImage[] | undefined;
@@ -36,6 +48,12 @@ interface Props extends Metadata {
     } & DeprecatedMetadataFields;
 }
 
+/**
+ * Generates complete metadata for the application by combining provided values with defaults
+ *
+ * @param props - Metadata properties to be used, with any missing values falling back to defaults
+ * @returns Complete Metadata object ready for Next.js
+ */
 const generateMetadata = ({
     title,
     description,
@@ -44,27 +62,42 @@ const generateMetadata = ({
     other,
     openGraph,
     twitter,
-    ...props
-}: Props): Metadata => {
+    ...restProps
+}: MetadataProps): Metadata => {
+    // Determine values, falling back to defaults when needed
+    const resolvedSiteName = siteName || DEFAULTS.siteName;
+    const resolvedTitle = title || DEFAULTS.title;
+    const resolvedDescription = description || DEFAULTS.description;
+    const resolvedImages = images || DEFAULTS.images;
+
     return {
-        title: title || DEFAULTS.title,
-        description: description || DEFAULTS.description,
+        // Base metadata
+        title: resolvedTitle,
+        description: resolvedDescription,
+
+        // Open Graph metadata
         openGraph: {
-            siteName: siteName || DEFAULTS.siteName,
-            title: title || DEFAULTS.title,
-            description: description || DEFAULTS.description,
-            images: images || DEFAULTS.images,
-            ...openGraph,
+            siteName: resolvedSiteName,
+            title: resolvedTitle,
+            description: resolvedDescription,
+            images: resolvedImages,
+            ...openGraph, // Allow overriding default OG properties
         },
+
+        // Twitter metadata
         twitter: {
-            site: siteName || DEFAULTS.siteName,
-            title: title || DEFAULTS.title,
-            description: description || DEFAULTS.description,
-            images: images || DEFAULTS.images,
-            ...twitter,
+            site: resolvedSiteName,
+            title: resolvedTitle,
+            description: resolvedDescription,
+            images: resolvedImages,
+            ...twitter, // Allow overriding default Twitter properties
         },
+
+        // Other custom metadata
         other,
-        ...props,
+
+        // Any additional properties passed
+        ...restProps,
     };
 };
 

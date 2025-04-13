@@ -14,7 +14,10 @@ import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/Ma
 import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
 
-const TITLES: Record<API.NotificationType, string> = {
+/**
+ * Notification title mapping
+ */
+const NOTIFICATION_TITLES: Record<API.NotificationType, string> = {
     edit_accepted: 'Правка прийнята',
     edit_denied: 'Правка відхилена',
     edit_updated: 'Правка оновлена',
@@ -32,19 +35,22 @@ const TITLES: Record<API.NotificationType, string> = {
     article_comment: 'Новий коментар у статті',
 };
 
-const DESCRIPTIONS: Record<
+/**
+ * Functions to generate description text for each notification type
+ */
+const NOTIFICATION_DESCRIPTIONS: Record<
     API.NotificationType,
-    (...args: any) => string | ReactNode
+    (...args: any[]) => string | ReactNode
 > = {
     edit_accepted: () => 'Ваша правка була прийнята',
     edit_denied: () => 'Ваша правка була відхилена',
     edit_updated: () => 'Ваша правка була оновлена',
-    comment_reply: (comment_author: string) =>
-        `Користувач **${comment_author}** відповів на Ваш коментар`,
+    comment_reply: (username: string) =>
+        `Користувач **${username}** відповів на Ваш коментар`,
     comment_vote: (username: string) =>
         `Користувач **${username}** оцінив Ваш коментар`,
-    comment_tag: (comment_author: string) =>
-        `Користувач **${comment_author}** згадав Вас у коментарі`,
+    comment_tag: (username: string) =>
+        `Користувач **${username}** згадав Вас у коментарі`,
     edit_comment: (username: string) =>
         `Користувач **${username}** залишив коментар`,
     collection_comment: (username: string) =>
@@ -57,13 +63,16 @@ const DESCRIPTIONS: Record<
         `Користувач **${username}** оцінив Вашу колекцію`,
     article_vote: (username: string) =>
         `Користувач **${username}** оцінив Вашу статтю`,
-    thirdparty_login: (client_name: string) =>
-        `Ви авторизувались через сторонній застосунок **${client_name}**`,
+    thirdparty_login: (clientName: string) =>
+        `Ви авторизувались через сторонній застосунок **${clientName}**`,
     article_comment: (username: string) =>
         `Користувач **${username}** залишив коментар`,
 };
 
-const ICONS: Record<API.NotificationType, ReactNode> = {
+/**
+ * Default icons for each notification type
+ */
+const NOTIFICATION_ICONS: Record<API.NotificationType, ReactNode> = {
     edit_accepted: <MaterialSymbolsCheckCircleRounded />,
     edit_denied: <MaterialSymbolsFlagCircleRounded />,
     edit_updated: <MaterialSymbolsChangeCircleRounded />,
@@ -81,304 +90,374 @@ const ICONS: Record<API.NotificationType, ReactNode> = {
     article_vote: <MaterialSymbolsFavoriteRounded />,
 };
 
+/**
+ * Type for all supported notification data types
+ */
+type SupportedNotificationData =
+    | API.NotificationCommentVoteData
+    | API.NotificationCommentData
+    | API.NotificationEditData
+    | API.NotificationHikkaData
+    | API.NotificationScheduleAnimeData
+    | API.NotificationFollowData
+    | API.NotificationVoteData
+    | API.NotificationThirdpartyLoginData;
+
+/**
+ * Generates a comment link based on content type and references
+ *
+ * @param contentType - Type of content the comment belongs to
+ * @param slug - Content slug
+ * @param commentReference - Comment reference ID
+ * @returns URL string for the comment
+ */
 const getCommentLink = (
-    content_type: API.ContentType,
+    contentType: API.ContentType,
     slug: string,
-    comment_reference: string,
-) => {
-    return `/comments/${content_type}/${slug}/${comment_reference}`;
+    commentReference: string,
+): string => {
+    return `/comments/${contentType}/${slug}/${commentReference}`;
 };
 
+/**
+ * Creates a user avatar component
+ *
+ * @param avatar - Avatar image URL
+ * @returns React component for the avatar
+ */
+const createAvatarImage = (avatar?: string) => (
+    <ContentCard containerRatio={1} className="w-10" image={avatar} />
+);
+
+/**
+ * Extracts common initial data from any notification
+ *
+ * @param notification - Notification object
+ * @returns Base notification data
+ */
 const getInitialData = (
-    notification: API.Notification<
-        | API.NotificationCommentData
-        | API.NotificationCommentVoteData
-        | API.NotificationEditData
-        | API.NotificationHikkaData
-        | API.NotificationScheduleAnimeData
-        | API.NotificationFollowData
-        | API.NotificationThirdpartyLoginData
-    >,
-) => {
+    notification: API.Notification<SupportedNotificationData>,
+): Pick<
+    Hikka.TextNotification,
+    'icon' | 'type' | 'title' | 'reference' | 'created' | 'seen'
+> => {
     return {
-        icon: ICONS[notification.notification_type],
+        icon: NOTIFICATION_ICONS[notification.notification_type],
         type: notification.notification_type,
-        title: TITLES[notification.notification_type],
+        title: NOTIFICATION_TITLES[notification.notification_type],
         reference: notification.reference,
         created: notification.created,
         seen: notification.seen,
     };
 };
 
-const commentReply = (
-    notification: API.Notification<API.NotificationCommentData>,
-): Hikka.TextNotification => {
-    const { username, slug, content_type, base_comment_reference, avatar } =
-        notification.data;
-
-    return {
-        ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: getCommentLink(content_type, slug, base_comment_reference),
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
+/**
+ * Gets the appropriate icon for vote notifications based on score
+ *
+ * @param score - The vote score
+ * @returns React component for the appropriate icon
+ */
+const getVoteIcon = (score: number): ReactNode => {
+    return score > 0 ? (
+        <MaterialSymbolsHeartPlusRounded />
+    ) : (
+        <MaterialSymbolsHeartMinusRounded />
+    );
 };
 
-const commentVote = (
-    notification: API.Notification<API.NotificationCommentVoteData>,
-): Hikka.TextNotification => {
-    const {
-        slug,
-        content_type,
-        comment_reference,
-        base_comment_reference,
-        username,
-        avatar,
-        user_score,
-    } = notification.data;
+/**
+ * Creates vote-related notification title with score
+ *
+ * @param baseTitle - Base title text
+ * @param score - Vote score
+ * @returns Formatted title with score
+ */
+const createVoteTitle = (baseTitle: string, score: number): string => {
+    return `${baseTitle} (${score > 0 ? '+' : ''}${score})`;
+};
 
-    return {
-        ...getInitialData(notification),
-        title: `${TITLES[notification.notification_type]} (${user_score > 0 ? '+' : ''}${user_score})`,
-        icon:
-            user_score > 0 ? (
-                <MaterialSymbolsHeartPlusRounded />
-            ) : (
-                <MaterialSymbolsHeartMinusRounded />
+/**
+ * Handlers for each notification type
+ */
+const notificationHandlers = {
+    /**
+     * Handles comment reply notifications
+     */
+    comment_reply: (
+        notification: API.Notification<API.NotificationCommentData>,
+    ): Hikka.TextNotification => {
+        const { username, slug, content_type, base_comment_reference, avatar } =
+            notification.data;
+
+        return {
+            ...getInitialData(notification),
+            description: NOTIFICATION_DESCRIPTIONS.comment_reply(username),
+            href: getCommentLink(content_type, slug, base_comment_reference),
+            image: createAvatarImage(avatar),
+        };
+    },
+
+    /**
+     * Handles article vote notifications
+     */
+    article_vote: (
+        notification: API.Notification<API.NotificationVoteData>,
+    ): Hikka.TextNotification => {
+        const { slug, username, avatar, user_score } = notification.data;
+
+        return {
+            ...getInitialData(notification),
+            title: createVoteTitle(
+                NOTIFICATION_TITLES.article_vote,
+                user_score,
             ),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: getCommentLink(content_type, slug, base_comment_reference),
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
-};
+            icon: getVoteIcon(user_score),
+            description: NOTIFICATION_DESCRIPTIONS.article_vote(username),
+            href: `/articles/${slug}`,
+            image: createAvatarImage(avatar),
+        };
+    },
 
-const commentTag = (
-    notification: API.Notification<API.NotificationCommentData>,
-): Hikka.TextNotification => {
-    const { username, slug, content_type, base_comment_reference, avatar } =
-        notification.data;
+    /**
+     * Handles comment vote notifications
+     */
+    comment_vote: (
+        notification: API.Notification<API.NotificationCommentVoteData>,
+    ): Hikka.TextNotification => {
+        const {
+            slug,
+            content_type,
+            base_comment_reference,
+            username,
+            avatar,
+            user_score,
+        } = notification.data;
 
-    return {
-        ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: getCommentLink(content_type, slug, base_comment_reference),
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
-};
-
-const editComment = (
-    notification: API.Notification<API.NotificationCommentData>,
-): Hikka.TextNotification => {
-    const { username, slug, content_type, base_comment_reference, avatar } =
-        notification.data;
-
-    return {
-        ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: getCommentLink(content_type, slug, base_comment_reference),
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
-};
-
-const editActions = (
-    notification: API.Notification<API.NotificationEditData>,
-): Hikka.TextNotification => {
-    const { edit_id } = notification.data;
-
-    return {
-        ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](),
-        href: `/edit/${edit_id}`,
-    };
-};
-
-const hikkaUpdate = (
-    notification: API.Notification<API.NotificationHikkaData>,
-) => {
-    return {
-        ...getInitialData(notification),
-        title:
-            notification.data.title || TITLES[notification.notification_type],
-        description: DESCRIPTIONS[notification.notification_type](
-            notification.data.description,
-        ),
-        href: notification.data.link,
-    };
-};
-
-const scheduleAnime = (
-    notification: API.Notification<API.NotificationScheduleAnimeData>,
-) => {
-    return {
-        ...getInitialData(notification),
-        title:
-            notification.data.title_ua ||
-            notification.data.title_en ||
-            notification.data.title_ja,
-        description: DESCRIPTIONS[notification.notification_type](
-            notification.data.after.episodes_released,
-        ),
-        href: `/anime/${notification.data.slug}`,
-        image: (
-            <ContentCard
-                containerRatio={1}
-                className="w-10"
-                image={notification.data.image}
-            />
-        ),
-    };
-};
-
-const follow = (
-    notification: API.Notification<API.NotificationFollowData>,
-): Hikka.TextNotification => {
-    const { username, avatar } = notification.data;
-
-    return {
-        ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: `/u/${username}`,
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
-};
-
-const collectionVote = (
-    notification: API.Notification<API.NotificationVoteData>,
-): Hikka.TextNotification => {
-    const { slug, username, avatar, user_score } = notification.data;
-
-    return {
-        ...getInitialData(notification),
-        title: `${TITLES[notification.notification_type]} (${user_score > 0 ? '+' : ''}${user_score})`,
-        icon:
-            user_score > 0 ? (
-                <MaterialSymbolsHeartPlusRounded />
-            ) : (
-                <MaterialSymbolsHeartMinusRounded />
+        return {
+            ...getInitialData(notification),
+            title: createVoteTitle(
+                NOTIFICATION_TITLES.comment_vote,
+                user_score,
             ),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: `/collections/${slug}`,
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
-};
+            icon: getVoteIcon(user_score),
+            description: NOTIFICATION_DESCRIPTIONS.comment_vote(username),
+            href: getCommentLink(content_type, slug, base_comment_reference),
+            image: createAvatarImage(avatar),
+        };
+    },
 
-const articleVote = (
-    notification: API.Notification<API.NotificationVoteData>,
-): Hikka.TextNotification => {
-    const { slug, username, avatar, user_score } = notification.data;
+    /**
+     * Handles collection vote notifications
+     */
+    collection_vote: (
+        notification: API.Notification<API.NotificationVoteData>,
+    ): Hikka.TextNotification => {
+        const { slug, username, avatar, user_score } = notification.data;
 
-    return {
-        ...getInitialData(notification),
-        title: `${TITLES[notification.notification_type]} (${user_score > 0 ? '+' : ''}${user_score})`,
-        icon:
-            user_score > 0 ? (
-                <MaterialSymbolsHeartPlusRounded />
-            ) : (
-                <MaterialSymbolsHeartMinusRounded />
+        return {
+            ...getInitialData(notification),
+            title: createVoteTitle(
+                NOTIFICATION_TITLES.collection_vote,
+                user_score,
             ),
-        description: DESCRIPTIONS[notification.notification_type](username),
-        href: `/articles/${slug}`,
-        image: (
-            <ContentCard containerRatio={1} className="w-10" image={avatar} />
-        ),
-    };
+            icon: getVoteIcon(user_score),
+            description: NOTIFICATION_DESCRIPTIONS.collection_vote(username),
+            href: `/collections/${slug}`,
+            image: createAvatarImage(avatar),
+        };
+    },
+
+    /**
+     * Handles comment tag notifications
+     */
+    comment_tag: (
+        notification: API.Notification<API.NotificationCommentData>,
+    ): Hikka.TextNotification => {
+        const { username, slug, content_type, base_comment_reference, avatar } =
+            notification.data;
+
+        return {
+            ...getInitialData(notification),
+            description: NOTIFICATION_DESCRIPTIONS.comment_tag(username),
+            href: getCommentLink(content_type, slug, base_comment_reference),
+            image: createAvatarImage(avatar),
+        };
+    },
+
+    /**
+     * Generic handler for comment notifications on different content types
+     */
+    handleGenericComment: (
+        notification: API.Notification<API.NotificationCommentData>,
+        type: 'edit_comment' | 'collection_comment' | 'article_comment',
+    ): Hikka.TextNotification => {
+        const { username, slug, content_type, base_comment_reference, avatar } =
+            notification.data;
+
+        return {
+            ...getInitialData(notification),
+            description: NOTIFICATION_DESCRIPTIONS[type](username),
+            href: getCommentLink(content_type, slug, base_comment_reference),
+            image: createAvatarImage(avatar),
+        };
+    },
+
+    /**
+     * Generic handler for edit action notifications
+     */
+    handleEditAction: (
+        notification: API.Notification<API.NotificationEditData>,
+        type: 'edit_accepted' | 'edit_denied' | 'edit_updated',
+    ): Hikka.TextNotification => {
+        const { edit_id } = notification.data;
+
+        return {
+            ...getInitialData(notification),
+            description: NOTIFICATION_DESCRIPTIONS[type](),
+            href: `/edit/${edit_id}`,
+        };
+    },
+
+    /**
+     * Handles Hikka update notifications
+     */
+    hikka_update: (
+        notification: API.Notification<API.NotificationHikkaData>,
+    ): Hikka.TextNotification => {
+        return {
+            ...getInitialData(notification),
+            title: notification.data.title || NOTIFICATION_TITLES.hikka_update,
+            description: NOTIFICATION_DESCRIPTIONS.hikka_update(
+                notification.data.description,
+            ),
+            href: notification.data.link,
+        };
+    },
+
+    /**
+     * Handles anime schedule notifications
+     */
+    schedule_anime: (
+        notification: API.Notification<API.NotificationScheduleAnimeData>,
+    ): Hikka.TextNotification => {
+        const { title_ua, title_en, title_ja, slug, image, after } =
+            notification.data;
+
+        return {
+            ...getInitialData(notification),
+            title: title_ua || title_en || title_ja,
+            description: NOTIFICATION_DESCRIPTIONS.schedule_anime(
+                after.episodes_released,
+            ),
+            href: `/anime/${slug}`,
+            image: createAvatarImage(image),
+        };
+    },
+
+    /**
+     * Handles follow notifications
+     */
+    follow: (
+        notification: API.Notification<API.NotificationFollowData>,
+    ): Hikka.TextNotification => {
+        const { username, avatar } = notification.data;
+
+        return {
+            ...getInitialData(notification),
+            description: NOTIFICATION_DESCRIPTIONS.follow(username),
+            href: `/u/${username}`,
+            image: createAvatarImage(avatar),
+        };
+    },
+
+    /**
+     * Handles third-party login notifications
+     */
+    thirdparty_login: (
+        notification: API.Notification<API.NotificationThirdpartyLoginData>,
+    ): Hikka.TextNotification => {
+        const { client } = notification.data;
+
+        return {
+            ...getInitialData(notification),
+            description: NOTIFICATION_DESCRIPTIONS.thirdparty_login(
+                client.name,
+            ),
+            href: `#`,
+        };
+    },
 };
 
-const thirdpartyLogin = (
-    notification: API.Notification<API.NotificationThirdpartyLoginData>,
-): Hikka.TextNotification => {
-    const { client } = notification.data;
-
-    return {
-        ...getInitialData(notification),
-        description: DESCRIPTIONS[notification.notification_type](client.name),
-        href: `#`,
-    };
-};
-
+/**
+ * Converts API notification object to application's TextNotification format
+ *
+ * @param notification - Raw API notification object
+ * @returns Formatted TextNotification ready for display
+ */
 export const convertNotification = (
-    notification: API.Notification<
-        | API.NotificationCommentVoteData
-        | API.NotificationCommentData
-        | API.NotificationEditData
-        | API.NotificationHikkaData
-        | API.NotificationScheduleAnimeData
-        | API.NotificationFollowData
-        | API.NotificationVoteData
-        | API.NotificationThirdpartyLoginData
-    >,
+    notification: API.Notification<SupportedNotificationData>,
 ): Hikka.TextNotification => {
-    switch (notification.notification_type) {
+    const type = notification.notification_type;
+
+    switch (type) {
         case 'comment_reply':
-            return commentReply(
+            return notificationHandlers.comment_reply(
                 notification as API.Notification<API.NotificationCommentData>,
             );
+
         case 'article_vote':
-            return articleVote(
+            return notificationHandlers.article_vote(
                 notification as API.Notification<API.NotificationVoteData>,
             );
+
         case 'comment_vote':
-            return commentVote(
+            return notificationHandlers.comment_vote(
                 notification as API.Notification<API.NotificationCommentVoteData>,
             );
+
         case 'collection_vote':
-            return collectionVote(
+            return notificationHandlers.collection_vote(
                 notification as API.Notification<API.NotificationVoteData>,
             );
+
         case 'comment_tag':
-            return commentTag(
+            return notificationHandlers.comment_tag(
                 notification as API.Notification<API.NotificationCommentData>,
             );
+
         case 'edit_comment':
-            return editComment(
-                notification as API.Notification<API.NotificationCommentData>,
-            );
         case 'collection_comment':
-            return editComment(
-                notification as API.Notification<API.NotificationCommentData>,
-            );
         case 'article_comment':
-            return editComment(
+            return notificationHandlers.handleGenericComment(
                 notification as API.Notification<API.NotificationCommentData>,
+                type,
             );
+
         case 'edit_accepted':
-            return editActions(
-                notification as API.Notification<API.NotificationEditData>,
-            );
         case 'edit_denied':
-            return editActions(
-                notification as API.Notification<API.NotificationEditData>,
-            );
         case 'edit_updated':
-            return editActions(
+            return notificationHandlers.handleEditAction(
                 notification as API.Notification<API.NotificationEditData>,
+                type,
             );
+
         case 'hikka_update':
-            return hikkaUpdate(
+            return notificationHandlers.hikka_update(
                 notification as API.Notification<API.NotificationHikkaData>,
             );
+
         case 'schedule_anime':
-            return scheduleAnime(
+            return notificationHandlers.schedule_anime(
                 notification as API.Notification<API.NotificationScheduleAnimeData>,
             );
+
         case 'follow':
-            return follow(
+            return notificationHandlers.follow(
                 notification as API.Notification<API.NotificationFollowData>,
             );
+
         case 'thirdparty_login':
-            return thirdpartyLogin(
+            return notificationHandlers.thirdparty_login(
                 notification as API.Notification<API.NotificationThirdpartyLoginData>,
             );
     }
