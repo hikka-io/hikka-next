@@ -7,6 +7,8 @@ import {
     PlateProps,
 } from '@udecode/plate/react';
 import { FC } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { cn } from '@/utils/utils';
 
@@ -40,14 +42,18 @@ const ArticleEditor: FC<ArticleEditorProps> = ({
                 className,
             )}
         >
-            <Plate {...props} onValueChange={onValueChange} editor={editor}>
-                <EditorContainer>
-                    <Editor
-                        placeholder={placeholder || 'Напишіть повідомлення...'}
-                    />
-                    {children}
-                </EditorContainer>
-            </Plate>
+            <DndProvider backend={HTML5Backend}>
+                <Plate {...props} onValueChange={onValueChange} editor={editor}>
+                    <EditorContainer>
+                        <Editor
+                            placeholder={
+                                placeholder || 'Напишіть повідомлення...'
+                            }
+                        />
+                        {children}
+                    </EditorContainer>
+                </Plate>
+            </DndProvider>
         </div>
     );
 };

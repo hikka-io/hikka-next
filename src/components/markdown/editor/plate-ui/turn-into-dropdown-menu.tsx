@@ -10,10 +10,11 @@ import { EyeOff, PilcrowIcon, QuoteIcon } from 'lucide-react';
 import React from 'react';
 
 import { SpoilerPlugin } from '@/components/markdown/editor/plugins/spoiler-plugin/spoiler-plugin';
-import {
+
+/* import {
     getBlockType,
     setBlockType,
-} from '@/components/markdown/editor/transforms';
+} from '@/components/markdown/editor/transforms'; */
 import { useOpenState } from '@/components/ui/dropdown-menu';
 import { PopoverPortal } from '@/components/ui/popover';
 import {
@@ -57,7 +58,7 @@ export function TurnIntoDropdownMenu(props: SelectProps) {
 
     const value = useSelectionFragmentProp({
         defaultValue: ParagraphPlugin.key,
-        getProp: (node) => getBlockType(node as any),
+        getProp: (node) => /* getBlockType(node as any) */ null,
     });
     const selectedItem = React.useMemo(
         () =>
@@ -73,7 +74,7 @@ export function TurnIntoDropdownMenu(props: SelectProps) {
             {...props}
             value={value ? [value] : []}
             onValueChange={(type) => {
-                setBlockType(editor, type[0]);
+                /* setBlockType(editor, type[0]); */
                 editor.tf.focus();
             }}
         >

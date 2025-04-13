@@ -13,5 +13,14 @@
     "aliases": {
         "components": "@/components",
         "utils": "@/utils/utils"
+    },
+    "registries": {
+        "plate": {
+            "url": "https://platejs.org/r",
+            "style": "default",
+            "aliases": {
+                "ui": "@/components/markdown/editor/plate-ui"
+            }
+        }
     }
 }

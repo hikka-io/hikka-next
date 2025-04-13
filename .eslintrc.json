@@ -33,6 +33,7 @@
         "react/prop-types": "off",
         "react/display-name": "off",
         "@tanstack/query/exhaustive-deps": "error",
+        "tailwindcss/no-custom-classname": "off",
         "react/jsx-filename-extension": [
             1,
             {

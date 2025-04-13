@@ -8,6 +8,13 @@ import {
     ListItemPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
+
+/* import {
+    TableCellHeaderPlugin,
+    TableCellPlugin,
+    TablePlugin,
+    TableRowPlugin,
+} from '@udecode/plate-table/react'; */
 import { ParagraphPlugin, PlateElement, PlateLeaf } from '@udecode/plate/react';
 
 import Blockquote, {
@@ -84,6 +91,10 @@ export const editorComponents = {
     [ImageGroupPlugin.key]: ImageGroupElement,
     [ImagePlugin.key]: ImageElement,
     [VideoPlugin.key]: VideoElement,
+    /*     [TableCellHeaderPlugin.key]: TableCellHeaderElement,
+    [TableCellPlugin.key]: TableCellElement,
+    [TablePlugin.key]: TableElement,
+    [TableRowPlugin.key]: TableRowElement, */
 };
 
 export const viewerComponents = {

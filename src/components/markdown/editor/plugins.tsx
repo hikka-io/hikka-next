@@ -4,6 +4,7 @@ import emojiMartData from '@emoji-mart/data';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
+import { DndPlugin } from '@udecode/plate-dnd';
 import { EmojiPlugin } from '@udecode/plate-emoji/react';
 import { HEADING_LEVELS } from '@udecode/plate-heading';
 import { HeadingPlugin } from '@udecode/plate-heading/react';
@@ -12,8 +13,10 @@ import {
     ListPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
+import { NodeIdPlugin } from '@udecode/plate-node-id';
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
 import { DeletePlugin } from '@udecode/plate-select';
+// import { TablePlugin } from '@udecode/plate-table/react';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 import { ParagraphPlugin } from '@udecode/plate/react';
 
@@ -116,4 +119,11 @@ export const articlePlugins = [
         },
     }),
     VideoPlugin,
+    DndPlugin,
+    NodeIdPlugin,
+    /* TablePlugin.configure({
+        options: {
+            initialTableWidth: 600,
+        },
+    }), */
 ];

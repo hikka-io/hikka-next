@@ -9,6 +9,7 @@ import { ImageGroupToolbarButton } from './image-group-toolbar-button';
 import { InsertDropdownMenu } from './insert-dropdown-menu';
 import { LinkToolbarButton } from './link-toolbar-button';
 import { MarkToolbarButton } from './mark-toolbar-button';
+// import { TableDropdownMenu } from './table-dropdown-menu';
 import { ToolbarGroup } from './toolbar';
 import { VideoToolbarButton } from './video-toolbar-button';
 
@@ -41,7 +42,7 @@ export function ArticleToolbarButtons() {
 
                     <ToolbarGroup>
                         <LinkToolbarButton />
-
+                        {/* <TableDropdownMenu /> */}
                         <EmojiDropdownMenu />
                     </ToolbarGroup>
                     <ToolbarGroup>
