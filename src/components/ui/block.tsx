@@ -8,7 +8,9 @@ interface Props extends PropsWithChildren {
 
 const Block = ({ children, className }: Props) => {
     return (
-        <div className={cn('flex flex-col gap-8', className)}>{children}</div>
+        <section className={cn('flex flex-col gap-8', className)}>
+            {children}
+        </section>
     );
 };
 

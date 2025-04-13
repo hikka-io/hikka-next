@@ -111,7 +111,7 @@ const ArticlePage = async (props: MetadataProps) => {
                         <ArticleAuthor />
                     </Card>
                 )}
-                <Block>
+                <Block className="isolate">
                     <ArticleTitle />
                     <ArticleDocument />
                     <ArticleTags />
