@@ -1,13 +1,14 @@
 import { FC, createElement } from 'react';
 
-import MaterialSymbolsInfoRounded from '../../components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import P from '../../components/typography/p';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from '../../components/ui/tooltip';
+} from '@/components/ui/tooltip';
+
+import MaterialSymbolsInfoRounded from '../../components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import P from '../../components/typography/p';
 
 interface Props {
     property: string;

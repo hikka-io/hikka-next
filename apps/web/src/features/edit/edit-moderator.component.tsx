@@ -3,15 +3,16 @@
 import { format } from 'date-fns';
 import { FC } from 'react';
 
-import useEdit from '@/services/hooks/edit/use-edit';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../components/ui/horizontal-card';
-import { Label } from '../../components/ui/label';
+} from '@/components/ui/horizontal-card';
+import { Label } from '@/components/ui/label';
+
+import useEdit from '@/services/hooks/edit/use-edit';
 
 interface Props {
     editId: string;

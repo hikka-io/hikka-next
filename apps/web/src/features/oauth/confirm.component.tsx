@@ -3,9 +3,10 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 import useRequestTokenReference from '@/services/hooks/auth/use-request-token-reference';
 import useSession from '@/services/hooks/auth/use-session';
-import { Button } from '../../components/ui/button';
 
 interface Props {}
 
@@ -21,8 +22,8 @@ const Confirm: FC<Props> = () => {
 
     const handleConfirm = () => {
         mutate({
-            params: {
-                client_reference: reference,
+            clientReference: reference,
+            args: {
                 scope: scopes!,
             },
         });

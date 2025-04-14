@@ -6,19 +6,17 @@ import { ChangeEvent, useRef } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import P from '@/components/typography/p';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+
 import deleteUserImage from '@/services/api/settings/deleteUserImage';
 import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
+
 import CropEditorModal from '../../modals/crop-editor-modal.component';
 
 const Appearance = () => {
@@ -71,7 +69,7 @@ const Appearance = () => {
         <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <Label>Зображення профілю</Label>
-                <P className="text-sm text-muted-foreground">
+                <P className="text-muted-foreground text-sm">
                     Рекомендований розмір обкладинки 1500x500, аватару 400x400
                 </P>
             </div>
@@ -88,7 +86,7 @@ const Appearance = () => {
                         <MaterialSymbolsDeleteForeverRounded className="size-4" />
                     </Button>
                 )}
-                <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
+                <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"
@@ -99,7 +97,7 @@ const Appearance = () => {
                         />
                     ) : (
                         <div className="flex flex-1 items-center justify-center">
-                            <P className="text-sm text-muted-foreground">
+                            <P className="text-muted-foreground text-sm">
                                 Натисність, щоб завантажити обкладинку
                             </P>
                         </div>

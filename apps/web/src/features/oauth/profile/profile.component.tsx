@@ -3,19 +3,13 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import useSession from '@/services/hooks/auth/use-session';
+
 import AuthNeeded from './auth-needed';
 
 interface Props {}
@@ -42,7 +36,7 @@ const Profle: FC<Props> = () => {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-muted-foreground text-sm">
                         Ваш обліковий запис
                     </P>
                 </div>

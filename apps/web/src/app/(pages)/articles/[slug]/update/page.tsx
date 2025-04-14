@@ -6,14 +6,13 @@ import { permanentRedirect } from 'next/navigation';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+
 import ArticleDocument from '@/features/articles/article-edit/article-document.component';
 import ArticlePreview from '@/features/articles/article-edit/article-preview.component';
 import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
 import ArticleTitle from '@/features/articles/article-edit/article-title.component';
-import {
-    key,
-    prefetchArticle,
-} from '@/services/hooks/articles/use-article';
+
+import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
 import ArticleProvider from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import getQueryClient from '@/utils/get-query-client';
@@ -75,7 +74,7 @@ const ArticleUpdatePage = async (props: {
                         <ArticlePreview />
                         <ArticleDocument />
                     </Block>
-                    <Card className="sticky top-20 order-1 self-start hidden w-full p-0 md:flex">
+                    <Card className="sticky top-20 order-1 hidden w-full self-start p-0 md:flex">
                         <ArticleSettings />
                     </Card>
                 </div>

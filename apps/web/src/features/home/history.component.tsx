@@ -3,14 +3,16 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import NotFound from '@/components/ui/not-found';
+
 import useSession from '@/services/hooks/auth/use-session';
 import useUserHistory from '@/services/hooks/history/use-following-history';
 import { cn } from '@/utils/utils';
+
 import HistoryItem from '../../components/history-item';
-import Block from '../../components/ui/block';
-import { Button } from '../../components/ui/button';
-import Card from '../../components/ui/card';
-import NotFound from '../../components/ui/not-found';
 
 interface Props {
     className?: string;

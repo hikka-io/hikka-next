@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { APP_SIDEBAR } from '@/utils/constants/navigation';
 import {
     Sidebar,
     SidebarContent,
@@ -20,7 +19,9 @@ import {
     SidebarMenuSubItem,
     SidebarTrigger,
     useSidebar,
-} from '../../components/ui/sidebar';
+} from '@/components/ui/sidebar';
+
+import { APP_SIDEBAR } from '@/utils/constants/navigation';
 
 function AppSidebar() {
     const pathname = usePathname();

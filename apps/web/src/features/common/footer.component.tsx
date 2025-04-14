@@ -2,19 +2,21 @@
 
 import Link from 'next/link';
 
-import { useModalContext } from '@/services/providers/modal-provider';
-import BxBxlGithub from '../../components/icons/bx/BxBxlGithub';
-import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
-import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
-import PhTipJarFill from '../../components/icons/ph/PhTipJarFill';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '../../components/ui/dropdown-menu';
-import { Label } from '../../components/ui/label';
+} from '@/components/ui/dropdown-menu';
+import { Label } from '@/components/ui/label';
+
+import { useModalContext } from '@/services/providers/modal-provider';
+
+import BxBxlGithub from '../../components/icons/bx/BxBxlGithub';
+import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
+import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
+import PhTipJarFill from '../../components/icons/ph/PhTipJarFill';
 
 const Footer = () => {
     const { openModal } = useModalContext();

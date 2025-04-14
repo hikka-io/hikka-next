@@ -3,11 +3,13 @@
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+
 import useFollowStats from '@/services/hooks/follow/use-follow-stats';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
-import { Button } from '../../components/ui/button';
-import { Label } from '../../components/ui/label';
+
 import FollowlistModal from '../modals/followlist-modal/followlist-modal.component';
 
 interface Props {

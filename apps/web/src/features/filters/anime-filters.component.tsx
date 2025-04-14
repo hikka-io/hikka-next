@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 import { cn } from '@/utils/utils';
+
 import AntDesignClearOutlined from '../../components/icons/ant-design/AntDesignClearOutlined';
-import { Button } from '../../components/ui/button';
 import AgeRating from './prebuilt/age-rating';
 import Genre from './prebuilt/genre';
 import Localization from './prebuilt/localization';

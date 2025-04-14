@@ -2,10 +2,12 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
 import createQueryString from '@/utils/create-query-string';
+
 import MaterialSymbolsEventList from '../../components/icons/material-symbols/MaterialSymbolsEventList';
 import { MaterialSymbolsGridViewRounded } from '../../components/icons/material-symbols/MaterialSymbolsGridViewRounded';
-import { ToggleGroup, ToggleGroupItem } from '../../components/ui/toggle-group';
 
 const ViewCombobox = () => {
     const searchParams = useSearchParams();

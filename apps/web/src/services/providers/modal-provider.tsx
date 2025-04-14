@@ -9,26 +9,28 @@ import {
     useState,
 } from 'react';
 
-import { cn } from '@/utils/utils';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from '../../components/ui/dialog';
+} from '@/components/ui/dialog';
 import {
     Drawer,
     DrawerContent,
     DrawerHeader,
     DrawerTitle,
-} from '../../components/ui/drawer';
-import { Separator } from '../../components/ui/separator';
+} from '@/components/ui/drawer';
+import { Separator } from '@/components/ui/separator';
 import {
     Sheet,
     SheetContent,
     SheetHeader,
     SheetTitle,
-} from '../../components/ui/sheet';
+} from '@/components/ui/sheet';
+
+import { cn } from '@/utils/utils';
+
 import { useMediaQuery } from '../hooks/use-media-query';
 
 interface State {

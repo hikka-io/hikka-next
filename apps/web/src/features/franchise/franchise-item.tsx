@@ -1,16 +1,18 @@
 import { FC } from 'react';
 
-import { MEDIA_TYPE } from '@/utils/constants/common';
-import ReadlistButton from '../../components/readlist-button/readlist-button';
-import P from '../../components/typography/p';
-import Card from '../../components/ui/card';
+import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../../components/ui/horizontal-card';
+} from '@/components/ui/horizontal-card';
+
+import { MEDIA_TYPE } from '@/utils/constants/common';
+
+import ReadlistButton from '../../components/readlist-button/readlist-button';
+import P from '../../components/typography/p';
 import WatchlistButton from '../../components/watchlist-button/watchlist-button';
 
 interface Props {

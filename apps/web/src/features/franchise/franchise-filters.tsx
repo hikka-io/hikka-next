@@ -3,9 +3,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import createQueryString from '@/utils/create-query-string';
-import MaterialSymbolsEventList from '../../components/icons/material-symbols/MaterialSymbolsEventList';
-import MaterialSymbolsGridViewRounded from '../../components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import {
     Select,
     SelectContent,
@@ -14,8 +11,13 @@ import {
     SelectList,
     SelectTrigger,
     SelectValue,
-} from '../../components/ui/select';
-import { ToggleGroup, ToggleGroupItem } from '../../components/ui/toggle-group';
+} from '@/components/ui/select';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
+import createQueryString from '@/utils/create-query-string';
+
+import MaterialSymbolsEventList from '../../components/icons/material-symbols/MaterialSymbolsEventList';
+import MaterialSymbolsGridViewRounded from '../../components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 
 interface Props {}
 

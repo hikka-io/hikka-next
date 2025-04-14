@@ -1,15 +1,16 @@
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
+import Image from '@/components/ui/image';
+
 import H1 from '../components/typography/h1';
 import P from '../components/typography/p';
-import { Button } from '../components/ui/button';
-import Image from '../components/ui/image';
 
 const NotFound = () => {
     return (
         <div className="flex min-h-screen flex-col">
             <div className="flex grow flex-col items-center justify-center">
-                <div className="flex flex-col gap-8 w-52">
+                <div className="flex w-52 flex-col gap-8">
                     <Image
                         unoptimized
                         src="/hikka.notfound.png"
@@ -18,13 +19,13 @@ const NotFound = () => {
                         className="size-full"
                         alt="hikka face"
                     />
-                    <div className="flex flex-col h-52 justify-between">
+                    <div className="flex h-52 flex-col justify-between">
                         <div>
-                            <div className="w-full flex items-center justify-between">
+                            <div className="flex w-full items-center justify-between">
                                 <H1 className="text-[3rem]">404</H1>
-                                <div className="logo-full w-[80px] h-[24px]" />
+                                <div className="logo-full h-[24px] w-[80px]" />
                             </div>
-                            <P className="text-lg text-center">
+                            <P className="text-center text-lg">
                                 На жаль, такої сторінки не існує 😢
                             </P>
                         </div>

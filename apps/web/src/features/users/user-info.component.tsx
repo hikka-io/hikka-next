@@ -3,21 +3,23 @@
 import { useParams } from 'next/navigation';
 import { ChangeEvent, useRef } from 'react';
 
-import useSession from '@/services/hooks/auth/use-session';
-import useUser from '@/services/hooks/user/use-user';
-import { useModalContext } from '@/services/providers/modal-provider';
-import MaterialSymbolsImageOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
-import MaterialSymbolsPerson2OutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
-import MaterialSymbolsUploadRounded from '../../components/icons/material-symbols/MaterialSymbolsUploadRounded';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '../../components/ui/dropdown-menu';
-import Image from '../../components/ui/image';
-import { Input } from '../../components/ui/input';
+} from '@/components/ui/dropdown-menu';
+import Image from '@/components/ui/image';
+import { Input } from '@/components/ui/input';
+
+import useSession from '@/services/hooks/auth/use-session';
+import useUser from '@/services/hooks/user/use-user';
+import { useModalContext } from '@/services/providers/modal-provider';
+
+import MaterialSymbolsImageOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
+import MaterialSymbolsPerson2OutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
+import MaterialSymbolsUploadRounded from '../../components/icons/material-symbols/MaterialSymbolsUploadRounded';
 import CropEditorModal from '../modals/crop-editor-modal.component';
 
 const UserInfo = () => {

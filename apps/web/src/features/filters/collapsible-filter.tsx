@@ -1,16 +1,18 @@
 import { CollapsibleProps } from '@radix-ui/react-collapsible';
 import { FC } from 'react';
 
-import { cn } from '@/utils/utils';
-import MaterialSymbolsKeyboardArrowDownRounded from '../../components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
-import MaterialSymbolsKeyboardArrowUpRounded from '../../components/icons/material-symbols/MaterialSymbolsKeyboardArrowUpRounded';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from '../../components/ui/collapsible';
-import { Label } from '../../components/ui/label';
+} from '@/components/ui/collapsible';
+import { Label } from '@/components/ui/label';
+
+import { cn } from '@/utils/utils';
+
+import MaterialSymbolsKeyboardArrowDownRounded from '../../components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
+import MaterialSymbolsKeyboardArrowUpRounded from '../../components/icons/material-symbols/MaterialSymbolsKeyboardArrowUpRounded';
 
 interface Props extends CollapsibleProps {
     active?: boolean;

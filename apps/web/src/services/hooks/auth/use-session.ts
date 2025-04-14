@@ -1,15 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
+import { useAPIClient } from '@/services/providers/api-client-provider';
+import getAPIClient from '@/utils/get-api-client';
 import getQueryClient from '@/utils/get-query-client';
-import getLoggedUserInfo from '../../api/user/getLoggedUserInfo';
 
 export const key = () => ['logged-user'];
 
 const useSession = () => {
+    const apiClient = useAPIClient();
     const { data: user } = useQuery({
         queryKey: key(),
-        queryFn: () => getLoggedUserInfo(),
+        queryFn: () => apiClient.user.getMe(),
     });
 
     const isAdmin = useCallback(() => {
@@ -31,10 +33,11 @@ const useSession = () => {
 
 export const prefetchSession = async () => {
     const queryClient = getQueryClient();
+    const apiClient = await getAPIClient();
 
     await queryClient.prefetchQuery({
         queryKey: key(),
-        queryFn: () => getLoggedUserInfo(),
+        queryFn: () => apiClient.user.getMe(),
     });
 };
 

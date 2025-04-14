@@ -3,14 +3,8 @@
 import { range } from '@antfu/utils';
 import { FC, useState } from 'react';
 
-import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
-import { cn } from '@/utils/utils';
-import ContentCard from '../../components/content-card/content-card';
-import LoadMoreButton from '../../components/load-more-button';
-import SkeletonCard from '../../components/skeletons/content-card-skeleton';
-import H5 from '../../components/typography/h5';
-import Block from '../../components/ui/block';
-import { Label } from '../../components/ui/label';
+import Block from '@/components/ui/block';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -19,7 +13,15 @@ import {
     SelectItem,
     SelectList,
     SelectTrigger,
-} from '../../components/ui/select';
+} from '@/components/ui/select';
+
+import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
+import { cn } from '@/utils/utils';
+
+import ContentCard from '../../components/content-card/content-card';
+import LoadMoreButton from '../../components/load-more-button';
+import SkeletonCard from '../../components/skeletons/content-card-skeleton';
+import H5 from '../../components/typography/h5';
 
 interface Props {
     extended?: boolean;

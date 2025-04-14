@@ -1,11 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '../../components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 interface Props {}
 

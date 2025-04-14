@@ -3,18 +3,20 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { CONTENT_TYPES } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import ContentCard from '../../components/content-card/content-card';
-import Breadcrumbs from '../../components/navigation/nav-breadcrumbs';
-import P from '../../components/typography/p';
-import Card from '../../components/ui/card';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
-} from '../../components/ui/header';
+} from '@/components/ui/header';
+
+import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
+import ContentCard from '../../components/content-card/content-card';
+import Breadcrumbs from '../../components/navigation/nav-breadcrumbs';
+import P from '../../components/typography/p';
 import useContent from './use-content';
 
 interface Props {

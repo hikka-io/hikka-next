@@ -4,17 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import useAddRead from '@/services/hooks/read/use-add-read';
-import useDeleteRead from '@/services/hooks/read/use-delete-read';
-import useRead from '@/services/hooks/read/use-read';
-import { useModalContext } from '@/services/providers/modal-provider';
-import { READ_STATUS } from '@/utils/constants/common';
-import { z } from '@/utils/zod';
-import FormInput from '../../components/form/form-input';
-import FormTextarea from '../../components/form/form-textarea';
-import { Button } from '../../components/ui/button';
-import { Form } from '../../components/ui/form';
-import { Label } from '../../components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -23,7 +15,17 @@ import {
     SelectItem,
     SelectList,
     SelectTrigger,
-} from '../../components/ui/select';
+} from '@/components/ui/select';
+
+import useAddRead from '@/services/hooks/read/use-add-read';
+import useDeleteRead from '@/services/hooks/read/use-delete-read';
+import useRead from '@/services/hooks/read/use-read';
+import { useModalContext } from '@/services/providers/modal-provider';
+import { READ_STATUS } from '@/utils/constants/common';
+import { z } from '@/utils/zod';
+
+import FormInput from '../../components/form/form-input';
+import FormTextarea from '../../components/form/form-textarea';
 
 const formSchema = z.object({
     score: z.coerce.number().min(0).max(10).nullable().optional(),

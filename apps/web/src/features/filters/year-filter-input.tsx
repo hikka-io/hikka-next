@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 
+import { Input } from '@/components/ui/input';
+
 import { cn } from '@/utils/utils';
-import { Input } from '../../components/ui/input';
 
 enum RANGE {
     MIN = 'min',

@@ -9,11 +9,7 @@ import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -24,6 +20,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
+
 import useSession from '@/services/hooks/auth/use-session';
 
 const ProfileMenu = () => {
@@ -54,7 +51,7 @@ const ProfileMenu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-                <div className="-m-1 flex items-center gap-2 bg-secondary/20 p-1">
+                <div className="bg-secondary/20 -m-1 flex items-center gap-2 p-1">
                     <Avatar className="size-9 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>
@@ -127,7 +124,7 @@ const ProfileMenu = () => {
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout}>
-                        <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-destructive" />
+                        <MaterialSymbolsLogoutRounded className="text-destructive mr-2 size-4" />
                         Вийти
                     </DropdownMenuItem>
                 </DropdownMenuGroup>

@@ -6,7 +6,7 @@ export interface UserResponse {
     updated: number | null;
     created: number;
     description: string | null;
-    username: string | null;
+    username: string;
     cover: string | null;
     active: boolean;
     avatar: string;

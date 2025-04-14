@@ -1,15 +1,16 @@
 import { ReactNode } from 'react';
 
-import AntDesignFilterFilled from '../../components/icons/ant-design/AntDesignFilterFilled';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Drawer,
     DrawerContent,
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from '../../components/ui/drawer';
-import { Separator } from '../../components/ui/separator';
+} from '@/components/ui/drawer';
+import { Separator } from '@/components/ui/separator';
+
+import AntDesignFilterFilled from '../../components/icons/ant-design/AntDesignFilterFilled';
 import AnimeFilters from '../filters/anime-filters.component';
 
 interface Props {
