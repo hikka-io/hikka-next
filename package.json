@@ -14,7 +14,10 @@
         "dev:web": "yarn workspace @hikka/web dev",
         "build:web": "yarn workspace @hikka/web build",
         "dev:client": "yarn workspace @hikka/client dev",
-        "build:client": "yarn workspace @hikka/client build"
+        "build:client": "yarn workspace @hikka/client build",
+        "dev:react": "yarn workspace @hikka/react dev",
+        "build:react": "yarn workspace @hikka/react build",
+        "test:react": "yarn workspace @hikka/react test"
     },
     "packageManager": "yarn@4.5.3",
     "syncpack": {

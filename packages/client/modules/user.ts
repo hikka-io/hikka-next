@@ -1,7 +1,6 @@
 import {
     ActivityResponse,
     QuerySearchRequiredArgs,
-    UserExportResponse,
     UserResponse,
     UserResponseFollowed,
     UserWithEmailResponse,
@@ -41,12 +40,5 @@ export class UserModule extends BaseModule {
         return this.client.get<ActivityResponse[]>(
             `/user/${username}/activity`,
         );
-    }
-
-    /**
-     * Export user lists
-     */
-    public async exportLists(): Promise<UserExportResponse> {
-        return this.client.post<UserExportResponse>('/settings/export');
     }
 }

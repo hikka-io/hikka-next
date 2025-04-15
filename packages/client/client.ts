@@ -1,3 +1,5 @@
+import fetch from 'cross-fetch';
+
 import { HikkaApiError } from './errors';
 import { AnimeModule } from './modules/anime';
 import { ArticlesModule } from './modules/articles';

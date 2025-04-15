@@ -1,0 +1,52 @@
+{
+    "name": "@hikka/react",
+    "version": "0.1.0",
+    "description": "React hooks and utilities for the Hikka API with TanStack Query integration",
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "lint": "tsc --noEmit && eslint \"**/*.{ts,tsx}\"",
+        "clean": "rimraf dist",
+        "test": "NODE_NO_WARNINGS=1 jest --watch",
+        "test:watch": "NODE_NO_WARNINGS=1 jest --watch"
+    },
+    "dependencies": {
+        "@hikka/client": "workspace:*",
+        "@tanstack/react-query": "^5.0.0"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^6.4.2",
+        "@testing-library/react": "^14.2.1",
+        "@testing-library/react-hooks": "^8.0.1",
+        "@types/jest": "^29.5.12",
+        "@types/react": "^19.1.1",
+        "@types/react-dom": "^19.1.2",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "rimraf": "^5.0.1",
+        "ts-jest": "^29.1.2",
+        "tsup": "^8.4.0"
+    },
+    "keywords": [
+        "hikka",
+        "react",
+        "hooks",
+        "anime",
+        "manga",
+        "api",
+        "tanstack",
+        "query",
+        "server-components"
+    ],
+    "author": "",
+    "license": "MIT"
+}

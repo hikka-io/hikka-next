@@ -46,5 +46,8 @@
             "!**/*.spec.ts"
         ]
     },
-    "packageManager": "yarn@4.5.3"
+    "packageManager": "yarn@4.5.3",
+    "dependencies": {
+        "cross-fetch": "^4.1.0"
+    }
 }
