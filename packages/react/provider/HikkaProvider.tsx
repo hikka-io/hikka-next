@@ -1,17 +1,19 @@
-import { HikkaClient } from '@hikka/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HikkaClient, HikkaClientConfig } from '@hikka/client';
+import {
+    QueryClient,
+    QueryClientConfig,
+    QueryClientProvider,
+} from '@tanstack/react-query';
 import { ReactNode, useMemo } from 'react';
 
 import { HikkaContext } from './context';
 
 export interface HikkaProviderProps {
     children: ReactNode;
-    client: HikkaClient;
+    clientConfig?: HikkaClientConfig;
+    client?: HikkaClient;
     queryClient?: QueryClient;
-    /** Default stale time for queries (in ms) - defaults to 5 minutes */
-    defaultStaleTime?: number;
-    /** Default cache time for queries (in ms) - defaults to 10 minutes */
-    defaultCacheTime?: number;
+    queryClientConfig?: QueryClientConfig;
 }
 
 /**
@@ -21,9 +23,9 @@ export interface HikkaProviderProps {
 export function HikkaProvider({
     children,
     client,
+    clientConfig,
     queryClient,
-    defaultStaleTime = 5 * 60 * 1000, // 5 minutes
-    defaultCacheTime = 10 * 60 * 1000, // 10 minutes
+    queryClientConfig,
 }: HikkaProviderProps) {
     // Create a new QueryClient if one is not provided
     const qClient = useMemo(() => {
@@ -32,26 +34,27 @@ export function HikkaProvider({
         return new QueryClient({
             defaultOptions: {
                 queries: {
-                    staleTime: defaultStaleTime,
-                    gcTime: defaultCacheTime,
                     refetchOnWindowFocus: false,
                     retry: 1,
+                    ...queryClientConfig,
                 },
             },
         });
-    }, [queryClient, defaultStaleTime, defaultCacheTime]);
+    }, [queryClient, queryClientConfig]);
 
-    // Create the context value with the Hikka client
-    const contextValue = useMemo(
-        () => ({
-            client,
-        }),
-        [client],
-    );
+    // Create a new Hikka client if one is not provided
+    const apiClient = useMemo(() => {
+        if (client) return client;
+
+        return new HikkaClient({
+            baseUrl: 'https://api.hikka.io',
+            ...clientConfig,
+        });
+    }, [client, clientConfig]);
 
     return (
         <QueryClientProvider client={qClient}>
-            <HikkaContext.Provider value={contextValue}>
+            <HikkaContext.Provider value={apiClient}>
                 {children}
             </HikkaContext.Provider>
         </QueryClientProvider>

@@ -16,5 +16,5 @@ export function useHikkaClient() {
         );
     }
 
-    return context.client;
+    return context;
 }

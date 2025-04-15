@@ -1,8 +1,13 @@
 'use client';
 
 import { ProgressProvider } from '@bprogress/next/app';
-import { HikkaClient } from '@hikka/client';
-import { MutationCache, QueryClientProvider } from '@tanstack/react-query';
+import { HikkaClientConfig } from '@hikka/client';
+import { HikkaProvider } from '@hikka/react';
+import {
+    MutationCache,
+    QueryClientConfig,
+    QueryClientProvider,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
@@ -11,12 +16,10 @@ import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-import { APIClientProvider } from '@/services/providers/api-client-provider';
 import ModalProvider from '@/services/providers/modal-provider';
 import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { getCookie } from '@/utils/cookies';
-import { createAPIClient } from '@/utils/get-api-client';
 import { createQueryClient } from '@/utils/get-query-client';
 
 import SnackbarItem from '../../components/snackbar-item';
@@ -26,28 +29,35 @@ interface Props extends PropsWithChildren {}
 const Providers: FC<Props> = ({ children }) => {
     setDefaultOptions({ locale: uk });
 
-    const [queryClient] = useState(() =>
-        createQueryClient({
-            mutationCache: new MutationCache({
-                onError: (error, vars, context, mutation) => {
-                    enqueueSnackbar(error.message, {
-                        variant: 'error',
-                    });
-                },
-            }),
+    const [queryClientConfig] = useState<QueryClientConfig>({
+        mutationCache: new MutationCache({
+            onError: (error, vars, context, mutation) => {
+                enqueueSnackbar(error.message, {
+                    variant: 'error',
+                });
+            },
         }),
-    );
+    });
 
-    const [apiClient] = useState<HikkaClient>(createAPIClient);
+    const [queryClient] = useState(() => createQueryClient(queryClientConfig));
+
+    const [apiClientConfig, setApiClientConfig] = useState<HikkaClientConfig>({
+        baseUrl: 'https://api.hikka.io',
+    });
 
     useEffect(() => {
         getCookie('auth').then(
-            (authToken) => authToken && apiClient?.setAuthToken(authToken),
+            (authToken) =>
+                authToken &&
+                setApiClientConfig({ ...apiClientConfig, authToken }),
         );
     }, []);
 
     return (
-        <APIClientProvider client={apiClient}>
+        <HikkaProvider
+            clientConfig={apiClientConfig}
+            queryClientConfig={queryClientConfig}
+        >
             <SettingsProvider>
                 <ThemeProvider
                     attribute="class"
@@ -93,7 +103,7 @@ const Providers: FC<Props> = ({ children }) => {
                     </QueryClientProvider>
                 </ThemeProvider>
             </SettingsProvider>
-        </APIClientProvider>
+        </HikkaProvider>
     );
 };
 

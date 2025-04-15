@@ -1,6 +1,8 @@
+// Server utilities
+export * from './server';
+
 // Provider exports
-export * from './provider/HikkaProvider';
-export * from './provider/useHikkaClient';
+export * from './provider';
 
 // Core hook utilities
 export * from './hooks/core/queryKeys';

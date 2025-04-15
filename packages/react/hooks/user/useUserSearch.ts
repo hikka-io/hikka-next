@@ -1,7 +1,7 @@
 import { QuerySearchRequiredArgs, UserResponse } from '@hikka/client';
 import { QueryClient, UseQueryOptions } from '@tanstack/react-query';
 
-import { prefetchQuery } from '@/server/prefetchQuery';
+import { prefetchQuery } from '../../server/prefetchQuery';
 
 import { queryKeys } from '../core/queryKeys';
 import { useQuery } from '../core/useQuery';
