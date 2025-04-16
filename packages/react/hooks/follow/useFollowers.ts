@@ -15,6 +15,7 @@ export interface UseFollowersOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    username: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseFollowersOptions
 /**
  * Hook for getting a user's followers
  */
-export function useFollowers(
-    username: string,
-    options: UseFollowersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useFollowers(params: UseFollowersOptions) {
+    const { username, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.follow.followers(username),
@@ -38,12 +36,18 @@ export function useFollowers(
     );
 }
 
-export async function prefetchFollowers(
-    queryClient: QueryClient,
-    username: string,
-    options: UseFollowersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchFollowersParams extends UseFollowersOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchFollowers(params: PrefetchFollowersParams) {
+    const {
+        queryClient,
+        username,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

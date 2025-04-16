@@ -8,18 +8,21 @@ type MarkNotificationSeenVariables = {
     reference: string;
 };
 
-/**
- * Hook for marking a notification as seen
- */
-export function useMarkNotificationSeen(
-    options?: Omit<
+export interface UseMarkNotificationSeenOptions
+    extends Omit<
         UseMutationOptions<
             NotificationResponse,
             Error,
             MarkNotificationSeenVariables
         >,
         'mutationFn'
-    >,
+    > {}
+
+/**
+ * Hook for marking a notification as seen
+ */
+export function useMarkNotificationSeen(
+    params: UseMarkNotificationSeenOptions = {},
 ): UseMutationResult<
     NotificationResponse,
     Error,
@@ -36,5 +39,5 @@ export function useMarkNotificationSeen(
             queryKeys.notifications.unseenCount(),
             queryKeys.notifications.markAsSeen(variables.reference),
         ],
-    )(options);
+    )(params);
 }

@@ -15,6 +15,7 @@ export interface UseAnimeFranchiseOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseAnimeFranchiseOptions
 /**
  * Hook for getting anime franchise entries by anime slug
  */
-export function useAnimeFranchise(
-    slug: string,
-    options: UseAnimeFranchiseOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useAnimeFranchise(params: UseAnimeFranchiseOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.anime.franchise(slug),
@@ -38,12 +36,14 @@ export function useAnimeFranchise(
     );
 }
 
+export interface PrefetchAnimeFranchiseParams extends UseAnimeFranchiseOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchAnimeFranchise(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseAnimeFranchiseOptions = {},
+    params: PrefetchAnimeFranchiseParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

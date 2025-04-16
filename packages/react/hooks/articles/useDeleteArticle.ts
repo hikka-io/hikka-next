@@ -3,11 +3,14 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseDeleteArticleOptions
+    extends Omit<UseMutationOptions<void, Error, string>, 'mutationFn'> {}
+
 /**
  * Hook for deleting an article
  */
 export function useDeleteArticle(
-    options?: Omit<UseMutationOptions<void, Error, string>, 'mutationFn'>,
+    params: UseDeleteArticleOptions = {},
 ): UseMutationResult<void, Error, string> {
     return createMutation<void, Error, string>(
         (client, slug) => client.articles.deleteArticle(slug),
@@ -17,5 +20,5 @@ export function useDeleteArticle(
             // Invalidate articles list
             queryKeys.articles.all,
         ],
-    )(options);
+    )(params);
 }

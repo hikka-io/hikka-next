@@ -15,6 +15,7 @@ export interface UseWatchingUsersOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseWatchingUsersOptions
 /**
  * Hook for getting users who are watching an anime
  */
-export function useWatchingUsers(
-    slug: string,
-    options: UseWatchingUsersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useWatchingUsers(params: UseWatchingUsersOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.watch.following(slug),
@@ -38,12 +36,14 @@ export function useWatchingUsers(
     );
 }
 
+export interface PrefetchWatchingUsersParams extends UseWatchingUsersOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchWatchingUsers(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseWatchingUsersOptions = {},
+    params: PrefetchWatchingUsersParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

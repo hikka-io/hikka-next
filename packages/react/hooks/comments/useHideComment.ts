@@ -8,14 +8,17 @@ type HideCommentVariables = {
     commentReference: string;
 };
 
+export interface UseHideCommentOptions
+    extends Omit<
+        UseMutationOptions<SuccessResponse, Error, HideCommentVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for hiding/deleting a comment
  */
 export function useHideComment(
-    options?: Omit<
-        UseMutationOptions<SuccessResponse, Error, HideCommentVariables>,
-        'mutationFn'
-    >,
+    params: UseHideCommentOptions = {},
 ): UseMutationResult<SuccessResponse, Error, HideCommentVariables> {
     return createMutation<SuccessResponse, Error, HideCommentVariables>(
         (client, { commentReference }) =>
@@ -27,5 +30,5 @@ export function useHideComment(
             // Note: we don't know the content type and slug here,
             // so we can't invalidate specific content comments
         ],
-    )(options);
+    )(params);
 }

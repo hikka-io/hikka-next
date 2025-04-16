@@ -15,6 +15,7 @@ export interface UseCharacterAnimeOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseCharacterAnimeOptions
 /**
  * Hook for getting character's anime appearances
  */
-export function useCharacterAnime(
-    slug: string,
-    options: UseCharacterAnimeOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCharacterAnime(params: UseCharacterAnimeOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.characters.anime(slug),
@@ -38,12 +36,14 @@ export function useCharacterAnime(
     );
 }
 
+export interface PrefetchCharacterAnimeParams extends UseCharacterAnimeOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCharacterAnime(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseCharacterAnimeOptions = {},
+    params: PrefetchCharacterAnimeParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

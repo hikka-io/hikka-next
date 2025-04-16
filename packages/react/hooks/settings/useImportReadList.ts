@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseImportReadListOptions
+    extends Omit<
+        UseMutationOptions<SuccessResponse, Error, ImportReadListArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for importing a read list from an external source
  */
 export function useImportReadList(
-    options?: Omit<
-        UseMutationOptions<SuccessResponse, Error, ImportReadListArgs>,
-        'mutationFn'
-    >,
+    params: UseImportReadListOptions = {},
 ): UseMutationResult<SuccessResponse, Error, ImportReadListArgs> {
     return createMutation<SuccessResponse, Error, ImportReadListArgs>(
         (client, args) => client.settings.importReadList(args),
@@ -22,5 +25,5 @@ export function useImportReadList(
             queryKeys.read.stats('manga', ''),
             queryKeys.read.stats('novel', ''),
         ],
-    )(options);
+    )(params);
 }

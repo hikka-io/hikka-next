@@ -29,10 +29,16 @@ export function useIgnoredNotifications(
     );
 }
 
+export interface PrefetchIgnoredNotificationsParams
+    extends UseIgnoredNotificationsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchIgnoredNotifications(
-    queryClient: QueryClient,
-    options: UseIgnoredNotificationsOptions = {},
+    params: PrefetchIgnoredNotificationsParams,
 ) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.settings.ignoredNotifications(),

@@ -19,18 +19,23 @@ export interface UseLatestCommentsOptions
 /**
  * Hook for getting latest comments
  */
-export function useLatestComments(options: UseLatestCommentsOptions = {}) {
+export function useLatestComments(params: UseLatestCommentsOptions = {}) {
     return useQuery(
         queryKeys.comments.latest(),
         (client) => client.comments.getLatest(),
-        options,
+        params,
     );
 }
 
+export interface PrefetchLatestCommentsParams extends UseLatestCommentsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchLatestComments(
-    queryClient: QueryClient,
-    options: UseLatestCommentsOptions = {},
+    params: PrefetchLatestCommentsParams,
 ) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.comments.latest(),

@@ -15,6 +15,7 @@ export interface UseAnimeEpisodesOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseAnimeEpisodesOptions
 /**
  * Hook for getting anime episodes by anime slug
  */
-export function useAnimeEpisodes(
-    slug: string,
-    options: UseAnimeEpisodesOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useAnimeEpisodes(params: UseAnimeEpisodesOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.anime.episodes(slug),
@@ -38,12 +36,14 @@ export function useAnimeEpisodes(
     );
 }
 
+export interface PrefetchAnimeEpisodesParams extends UseAnimeEpisodesOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchAnimeEpisodes(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseAnimeEpisodesOptions = {},
+    params: PrefetchAnimeEpisodesParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

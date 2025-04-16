@@ -9,14 +9,17 @@ type UpdateEditVariables<T = any> = {
     args: UpdateEditArgs<T>;
 };
 
+export interface UseUpdateEditOptions<T = any, R = any>
+    extends Omit<
+        UseMutationOptions<EditResponse<T, R>, Error, UpdateEditVariables<T>>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for updating an existing edit
  */
 export function useUpdateEdit<T = any, R = any>(
-    options?: Omit<
-        UseMutationOptions<EditResponse<T, R>, Error, UpdateEditVariables<T>>,
-        'mutationFn'
-    >,
+    params: UseUpdateEditOptions<T, R> = {},
 ): UseMutationResult<EditResponse<T, R>, Error, UpdateEditVariables<T>> {
     return createMutation<EditResponse<T, R>, Error, UpdateEditVariables<T>>(
         (client, { editId, args }) =>
@@ -27,5 +30,5 @@ export function useUpdateEdit<T = any, R = any>(
             // Invalidate edit list
             queryKeys.edit.all,
         ],
-    )(options);
+    )(params);
 }

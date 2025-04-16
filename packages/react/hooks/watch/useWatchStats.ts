@@ -14,15 +14,16 @@ export interface UseWatchStatsOptions
             ReturnType<typeof queryKeys.watch.stats>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    username: string;
+}
 
 /**
  * Hook for getting a user's watch stats
  */
-export function useWatchStats(
-    username: string,
-    options: UseWatchStatsOptions = {},
-) {
+export function useWatchStats(params: UseWatchStatsOptions) {
+    const { username, ...options } = params;
+
     return useQuery(
         queryKeys.watch.stats(username),
         (client) => client.watch.getStats(username),
@@ -33,11 +34,13 @@ export function useWatchStats(
     );
 }
 
-export async function prefetchWatchStats(
-    queryClient: QueryClient,
-    username: string,
-    options: UseWatchStatsOptions = {},
-) {
+export interface PrefetchWatchStatsParams extends UseWatchStatsOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchWatchStats(params: PrefetchWatchStatsParams) {
+    const { queryClient, username, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.watch.stats(username),

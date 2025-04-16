@@ -15,6 +15,7 @@ export interface UseNovelCharactersOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseNovelCharactersOptions
 /**
  * Hook for getting novel characters by novel slug
  */
-export function useNovelCharacters(
-    slug: string,
-    options: UseNovelCharactersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useNovelCharacters(params: UseNovelCharactersOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.novel.characters(slug),
@@ -38,12 +36,15 @@ export function useNovelCharacters(
     );
 }
 
+export interface PrefetchNovelCharactersParams
+    extends UseNovelCharactersOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchNovelCharacters(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseNovelCharactersOptions = {},
+    params: PrefetchNovelCharactersParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

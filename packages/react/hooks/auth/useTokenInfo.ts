@@ -19,18 +19,21 @@ export interface UseTokenInfoOptions
 /**
  * Hook for getting current token info
  */
-export function useTokenInfo(options: UseTokenInfoOptions = {}) {
+export function useTokenInfo(params: UseTokenInfoOptions = {}) {
     return useQuery(
         queryKeys.auth.tokenInfo(),
         (client) => client.auth.getTokenInfo(),
-        options,
+        params,
     );
 }
 
-export async function prefetchTokenInfo(
-    queryClient: QueryClient,
-    options: UseTokenInfoOptions = {},
-) {
+export interface PrefetchTokenInfoParams extends UseTokenInfoOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchTokenInfo(params: PrefetchTokenInfoParams) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.auth.tokenInfo(),

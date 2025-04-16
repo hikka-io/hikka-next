@@ -9,18 +9,21 @@ type UpdateCollectionVariables = {
     args: CollectionArgs;
 };
 
-/**
- * Hook for updating a collection
- */
-export function useUpdateCollection(
-    options?: Omit<
+export interface UseUpdateCollectionOptions
+    extends Omit<
         UseMutationOptions<
             CollectionResponse,
             Error,
             UpdateCollectionVariables
         >,
         'mutationFn'
-    >,
+    > {}
+
+/**
+ * Hook for updating a collection
+ */
+export function useUpdateCollection(
+    params: UseUpdateCollectionOptions = {},
 ): UseMutationResult<CollectionResponse, Error, UpdateCollectionVariables> {
     return createMutation<CollectionResponse, Error, UpdateCollectionVariables>(
         (client, { reference, args }) =>
@@ -31,5 +34,5 @@ export function useUpdateCollection(
             // Invalidate collections list
             queryKeys.collections.all,
         ],
-    )(options);
+    )(params);
 }

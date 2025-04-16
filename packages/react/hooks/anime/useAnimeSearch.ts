@@ -15,6 +15,7 @@ export interface UseAnimeSearchOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: AnimeSearchArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseAnimeSearchOptions
 /**
  * Hook for searching anime with filters
  */
-export function useAnimeSearch(
-    args: AnimeSearchArgs,
-    options: UseAnimeSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useAnimeSearch(params: UseAnimeSearchOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.anime.search({ ...args, page, size }),
@@ -35,12 +33,12 @@ export function useAnimeSearch(
     );
 }
 
-export async function prefetchAnimeSearch(
-    queryClient: QueryClient,
-    args: AnimeSearchArgs,
-    options: UseAnimeSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchAnimeSearchParams extends UseAnimeSearchOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchAnimeSearch(params: PrefetchAnimeSearchParams) {
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

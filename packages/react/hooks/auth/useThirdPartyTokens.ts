@@ -22,8 +22,8 @@ export interface UseThirdPartyTokensOptions
 /**
  * Hook for listing third-party tokens
  */
-export function useThirdPartyTokens(options: UseThirdPartyTokensOptions = {}) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useThirdPartyTokens(params: UseThirdPartyTokensOptions = {}) {
+    const { page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.auth.thirdPartyTokens({ page, size }),
@@ -32,11 +32,15 @@ export function useThirdPartyTokens(options: UseThirdPartyTokensOptions = {}) {
     );
 }
 
+export interface PrefetchThirdPartyTokensParams
+    extends UseThirdPartyTokensOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchThirdPartyTokens(
-    queryClient: QueryClient,
-    options: UseThirdPartyTokensOptions = {},
+    params: PrefetchThirdPartyTokensParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

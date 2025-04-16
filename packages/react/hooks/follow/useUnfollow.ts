@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseUnfollowOptions
+    extends Omit<
+        UseMutationOptions<FollowResponse, Error, string>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for unfollowing a user
  */
 export function useUnfollow(
-    options?: Omit<
-        UseMutationOptions<FollowResponse, Error, string>,
-        'mutationFn'
-    >,
+    params: UseUnfollowOptions = {},
 ): UseMutationResult<FollowResponse, Error, string> {
     return createMutation<FollowResponse, Error, string>(
         (client, username) => client.follow.unfollow(username),
@@ -27,5 +30,5 @@ export function useUnfollow(
             // Invalidate followers list for target user
             queryKeys.follow.followers(username),
         ],
-    )(options);
+    )(params);
 }

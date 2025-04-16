@@ -14,16 +14,17 @@ export interface UseFranchiseOptions
             ReturnType<typeof queryKeys.related.franchise>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    contentType: RelatedContentTypeEnum;
+    slug: string;
+}
 
 /**
  * Hook for getting franchise information for content
  */
-export function useFranchise(
-    contentType: RelatedContentTypeEnum,
-    slug: string,
-    options: UseFranchiseOptions = {},
-) {
+export function useFranchise(params: UseFranchiseOptions) {
+    const { contentType, slug, ...options } = params;
+
     return useQuery(
         queryKeys.related.franchise(contentType, slug),
         (client) => client.related.getFranchise(contentType, slug),
@@ -34,12 +35,13 @@ export function useFranchise(
     );
 }
 
-export async function prefetchFranchise(
-    queryClient: QueryClient,
-    contentType: RelatedContentTypeEnum,
-    slug: string,
-    options: UseFranchiseOptions = {},
-) {
+export interface PrefetchFranchiseParams extends UseFranchiseOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchFranchise(params: PrefetchFranchiseParams) {
+    const { queryClient, contentType, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.related.franchise(contentType, slug),

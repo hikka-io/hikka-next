@@ -29,10 +29,16 @@ export function useNotificationsUnseenCount(
     );
 }
 
+export interface PrefetchNotificationsUnseenCountParams
+    extends UseNotificationsUnseenCountOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchNotificationsUnseenCount(
-    queryClient: QueryClient,
-    options: UseNotificationsUnseenCountOptions = {},
+    params: PrefetchNotificationsUnseenCountParams,
 ) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.notifications.unseenCount(),

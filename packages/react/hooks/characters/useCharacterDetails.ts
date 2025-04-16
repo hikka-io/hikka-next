@@ -14,15 +14,16 @@ export interface UseCharacterDetailsOptions
             ReturnType<typeof queryKeys.characters.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
  * Hook for getting character details by slug
  */
-export function useCharacterDetails(
-    slug: string,
-    options: UseCharacterDetailsOptions = {},
-) {
+export function useCharacterDetails(params: UseCharacterDetailsOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.characters.details(slug),
         (client) => client.characters.getBySlug(slug),
@@ -33,11 +34,16 @@ export function useCharacterDetails(
     );
 }
 
+export interface PrefetchCharacterDetailsParams
+    extends UseCharacterDetailsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCharacterDetails(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseCharacterDetailsOptions = {},
+    params: PrefetchCharacterDetailsParams,
 ) {
+    const { queryClient, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.characters.details(slug),

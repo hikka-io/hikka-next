@@ -15,6 +15,7 @@ export interface UsePersonSearchOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: QuerySearchArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UsePersonSearchOptions
 /**
  * Hook for searching people
  */
-export function usePersonSearch(
-    args: QuerySearchArgs,
-    options: UsePersonSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function usePersonSearch(params: UsePersonSearchOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
     const query = args.query || '';
 
     return useQuery(
@@ -39,12 +37,12 @@ export function usePersonSearch(
     );
 }
 
-export async function prefetchPersonSearch(
-    queryClient: QueryClient,
-    args: QuerySearchArgs,
-    options: UsePersonSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchPersonSearchParams extends UsePersonSearchOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchPersonSearch(params: PrefetchPersonSearchParams) {
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
     const query = args.query || '';
 
     return await prefetchQuery(

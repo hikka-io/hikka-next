@@ -15,6 +15,7 @@ export interface UseCharacterVoicesOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseCharacterVoicesOptions
 /**
  * Hook for getting character's voice actors
  */
-export function useCharacterVoices(
-    slug: string,
-    options: UseCharacterVoicesOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCharacterVoices(params: UseCharacterVoicesOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.characters.voices(slug),
@@ -38,12 +36,15 @@ export function useCharacterVoices(
     );
 }
 
+export interface PrefetchCharacterVoicesParams
+    extends UseCharacterVoicesOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCharacterVoices(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseCharacterVoicesOptions = {},
+    params: PrefetchCharacterVoicesParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

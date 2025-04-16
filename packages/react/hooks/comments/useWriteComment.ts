@@ -14,14 +14,17 @@ type WriteCommentVariables = {
     args: CommentArgs;
 };
 
+export interface UseWriteCommentOptions
+    extends Omit<
+        UseMutationOptions<CommentResponse, Error, WriteCommentVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for writing a comment
  */
 export function useWriteComment(
-    options?: Omit<
-        UseMutationOptions<CommentResponse, Error, WriteCommentVariables>,
-        'mutationFn'
-    >,
+    params: UseWriteCommentOptions = {},
 ): UseMutationResult<CommentResponse, Error, WriteCommentVariables> {
     return createMutation<CommentResponse, Error, WriteCommentVariables>(
         (client, { contentType, slug, args }) =>
@@ -34,5 +37,5 @@ export function useWriteComment(
             // Invalidate comments list
             queryKeys.comments.list(),
         ],
-    )(options);
+    )(params);
 }

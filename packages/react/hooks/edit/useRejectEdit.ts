@@ -9,14 +9,17 @@ type RejectEditVariables = {
     reason?: string;
 };
 
+export interface UseRejectEditOptions
+    extends Omit<
+        UseMutationOptions<EditResponse, Error, RejectEditVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for rejecting an edit
  */
 export function useRejectEdit(
-    options?: Omit<
-        UseMutationOptions<EditResponse, Error, RejectEditVariables>,
-        'mutationFn'
-    >,
+    params: UseRejectEditOptions = {},
 ): UseMutationResult<EditResponse, Error, RejectEditVariables> {
     return createMutation<EditResponse, Error, RejectEditVariables>(
         (client, { editId, reason }) => client.edit.rejectEdit(editId, reason),
@@ -26,5 +29,5 @@ export function useRejectEdit(
             // Invalidate edit list
             queryKeys.edit.all,
         ],
-    )(options);
+    )(params);
 }

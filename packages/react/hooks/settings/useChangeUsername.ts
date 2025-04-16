@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseChangeUsernameOptions
+    extends Omit<
+        UseMutationOptions<UserResponse, Error, UsernameArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for changing username
  */
 export function useChangeUsername(
-    options?: Omit<
-        UseMutationOptions<UserResponse, Error, UsernameArgs>,
-        'mutationFn'
-    >,
+    params: UseChangeUsernameOptions = {},
 ): UseMutationResult<UserResponse, Error, UsernameArgs> {
     return createMutation<UserResponse, Error, UsernameArgs>(
         (client, args) => client.settings.changeUsername(args),
@@ -19,5 +22,5 @@ export function useChangeUsername(
             // Invalidate user profile
             queryKeys.user.me(),
         ],
-    )(options);
+    )(params);
 }

@@ -15,6 +15,7 @@ export interface UseAnimeRecommendationsOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -23,10 +24,9 @@ export interface UseAnimeRecommendationsOptions
  * Hook for getting anime recommendations by anime slug
  */
 export function useAnimeRecommendations(
-    slug: string,
-    options: UseAnimeRecommendationsOptions = {},
+    params: UseAnimeRecommendationsOptions,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.anime.recommendations(slug),
@@ -38,12 +38,15 @@ export function useAnimeRecommendations(
     );
 }
 
+export interface PrefetchAnimeRecommendationsParams
+    extends UseAnimeRecommendationsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchAnimeRecommendations(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseAnimeRecommendationsOptions = {},
+    params: PrefetchAnimeRecommendationsParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

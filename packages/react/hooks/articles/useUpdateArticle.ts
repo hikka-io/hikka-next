@@ -9,14 +9,17 @@ type UpdateArticleVariables = {
     args: ArticleArgs;
 };
 
+export interface UseUpdateArticleOptions
+    extends Omit<
+        UseMutationOptions<ArticleResponse, Error, UpdateArticleVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for updating an existing article
  */
 export function useUpdateArticle(
-    options?: Omit<
-        UseMutationOptions<ArticleResponse, Error, UpdateArticleVariables>,
-        'mutationFn'
-    >,
+    params: UseUpdateArticleOptions = {},
 ): UseMutationResult<ArticleResponse, Error, UpdateArticleVariables> {
     return createMutation<ArticleResponse, Error, UpdateArticleVariables>(
         (client, { slug, args }) => client.articles.updateArticle(slug, args),
@@ -26,5 +29,5 @@ export function useUpdateArticle(
             // Invalidate articles list
             queryKeys.articles.all,
         ],
-    )(options);
+    )(params);
 }

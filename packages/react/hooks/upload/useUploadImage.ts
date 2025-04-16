@@ -8,18 +8,21 @@ type UploadImageVariables = {
     file: File | Blob;
 };
 
+export interface UseUploadImageOptions
+    extends Omit<
+        UseMutationOptions<ImageResponse, Error, UploadImageVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for uploading an image
  */
 export function useUploadImage(
-    options?: Omit<
-        UseMutationOptions<ImageResponse, Error, UploadImageVariables>,
-        'mutationFn'
-    >,
+    params: UseUploadImageOptions = {},
 ): UseMutationResult<ImageResponse, Error, UploadImageVariables> {
     return createMutation<ImageResponse, Error, UploadImageVariables>(
         (client, { uploadType, file }) =>
             client.upload.uploadImage(uploadType, file),
         undefined, // No invalidation needed as uploads don't affect existing data
-    )(options);
+    )(params);
 }

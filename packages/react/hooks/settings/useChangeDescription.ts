@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseChangeDescriptionOptions
+    extends Omit<
+        UseMutationOptions<UserResponse, Error, DescriptionArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for changing user description
  */
 export function useChangeDescription(
-    options?: Omit<
-        UseMutationOptions<UserResponse, Error, DescriptionArgs>,
-        'mutationFn'
-    >,
+    params: UseChangeDescriptionOptions = {},
 ): UseMutationResult<UserResponse, Error, DescriptionArgs> {
     return createMutation<UserResponse, Error, DescriptionArgs>(
         (client, args) => client.settings.changeDescription(args),
@@ -19,5 +22,5 @@ export function useChangeDescription(
             // Invalidate user profile
             queryKeys.user.me(),
         ],
-    )(options);
+    )(params);
 }

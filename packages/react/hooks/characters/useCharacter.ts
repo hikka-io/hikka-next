@@ -1,4 +1,4 @@
-import { CharacterCountResponse } from '@hikka/client';
+import { CharacterResponse } from '@hikka/client';
 import { QueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 import { prefetchQuery } from '../../server/prefetchQuery';
@@ -8,18 +8,22 @@ import { useQuery } from '../core/useQuery';
 export interface UseCharacterOptions
     extends Omit<
         UseQueryOptions<
-            CharacterCountResponse,
+            CharacterResponse,
             Error,
-            CharacterCountResponse,
+            CharacterResponse,
             ReturnType<typeof queryKeys.characters.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
- * Hook for getting character details by slug
+ * Hook for getting a character by slug
  */
-export function useCharacter(slug: string, options: UseCharacterOptions = {}) {
+export function useCharacter(params: UseCharacterOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.characters.details(slug),
         (client) => client.characters.getBySlug(slug),
@@ -30,12 +34,14 @@ export function useCharacter(slug: string, options: UseCharacterOptions = {}) {
     );
 }
 
-export async function prefetchCharacter(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseCharacterOptions = {},
-) {
-    return await prefetchQuery(
+export interface PrefetchCharacterParams extends UseCharacterOptions {
+    queryClient: QueryClient;
+}
+
+export function prefetchCharacter(params: PrefetchCharacterParams) {
+    const { queryClient, slug, ...options } = params;
+
+    return prefetchQuery(
         queryClient,
         queryKeys.characters.details(slug),
         (client) => client.characters.getBySlug(slug),

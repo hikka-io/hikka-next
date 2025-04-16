@@ -9,14 +9,17 @@ type UpdateWatchEntryVariables = {
     args: WatchArgs;
 };
 
+export interface UseUpdateWatchEntryOptions
+    extends Omit<
+        UseMutationOptions<WatchResponse, Error, UpdateWatchEntryVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for adding or updating a watch entry
  */
 export function useUpdateWatchEntry(
-    options?: Omit<
-        UseMutationOptions<WatchResponse, Error, UpdateWatchEntryVariables>,
-        'mutationFn'
-    >,
+    params: UseUpdateWatchEntryOptions = {},
 ): UseMutationResult<WatchResponse, Error, UpdateWatchEntryVariables> {
     return createMutation<WatchResponse, Error, UpdateWatchEntryVariables>(
         (client, { slug, args }) => client.watch.addOrUpdate(slug, args),
@@ -28,5 +31,5 @@ export function useUpdateWatchEntry(
             // Invalidate user stats
             queryKeys.watch.stats(''),
         ],
-    )(options);
+    )(params);
 }

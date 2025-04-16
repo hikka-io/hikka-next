@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseApproveEditOptions
+    extends Omit<
+        UseMutationOptions<EditResponse, Error, number | string>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for approving an edit
  */
 export function useApproveEdit(
-    options?: Omit<
-        UseMutationOptions<EditResponse, Error, number | string>,
-        'mutationFn'
-    >,
+    params: UseApproveEditOptions = {},
 ): UseMutationResult<EditResponse, Error, number | string> {
     return createMutation<EditResponse, Error, number | string>(
         (client, editId) => client.edit.approveEdit(editId),
@@ -21,5 +24,5 @@ export function useApproveEdit(
             // Invalidate edit list
             queryKeys.edit.all,
         ],
-    )(options);
+    )(params);
 }

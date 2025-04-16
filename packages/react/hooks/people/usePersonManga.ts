@@ -15,6 +15,7 @@ export interface UsePersonMangaOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UsePersonMangaOptions
 /**
  * Hook for getting a person's manga work
  */
-export function usePersonManga(
-    slug: string,
-    options: UsePersonMangaOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function usePersonManga(params: UsePersonMangaOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.people.manga(slug),
@@ -38,12 +36,12 @@ export function usePersonManga(
     );
 }
 
-export async function prefetchPersonManga(
-    queryClient: QueryClient,
-    slug: string,
-    options: UsePersonMangaOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchPersonMangaParams extends UsePersonMangaOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchPersonManga(params: PrefetchPersonMangaParams) {
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

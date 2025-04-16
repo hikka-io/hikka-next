@@ -10,14 +10,17 @@ type UpdateReadEntryVariables = {
     args: ReadArgs;
 };
 
+export interface UseUpdateReadEntryOptions
+    extends Omit<
+        UseMutationOptions<ReadResponse, Error, UpdateReadEntryVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for adding or updating a read entry
  */
 export function useUpdateReadEntry(
-    options?: Omit<
-        UseMutationOptions<ReadResponse, Error, UpdateReadEntryVariables>,
-        'mutationFn'
-    >,
+    params: UseUpdateReadEntryOptions = {},
 ): UseMutationResult<ReadResponse, Error, UpdateReadEntryVariables> {
     return createMutation<ReadResponse, Error, UpdateReadEntryVariables>(
         (client, { contentType, slug, args }) =>
@@ -30,5 +33,5 @@ export function useUpdateReadEntry(
             // Invalidate read stats
             queryKeys.read.stats(variables.contentType, ''),
         ],
-    )(options);
+    )(params);
 }

@@ -18,6 +18,7 @@ export interface UseAnimeScheduleOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: AnimeScheduleArgs;
     page?: number;
     size?: number;
 }
@@ -25,11 +26,8 @@ export interface UseAnimeScheduleOptions
 /**
  * Hook for getting anime schedule
  */
-export function useAnimeSchedule(
-    args: AnimeScheduleArgs,
-    options: UseAnimeScheduleOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useAnimeSchedule(params: UseAnimeScheduleOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.schedule.anime(args),
@@ -38,12 +36,14 @@ export function useAnimeSchedule(
     );
 }
 
+export interface PrefetchAnimeScheduleParams extends UseAnimeScheduleOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchAnimeSchedule(
-    queryClient: QueryClient,
-    args: AnimeScheduleArgs,
-    options: UseAnimeScheduleOptions = {},
+    params: PrefetchAnimeScheduleParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

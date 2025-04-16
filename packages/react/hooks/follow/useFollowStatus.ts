@@ -14,15 +14,16 @@ export interface UseFollowStatusOptions
             ReturnType<typeof queryKeys.follow.check>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    username: string;
+}
 
 /**
  * Hook for checking if the current user is following another user
  */
-export function useFollowStatus(
-    username: string,
-    options: UseFollowStatusOptions = {},
-) {
+export function useFollowStatus(params: UseFollowStatusOptions) {
+    const { username, ...options } = params;
+
     return useQuery(
         queryKeys.follow.check(username),
         (client) => client.follow.checkFollow(username),
@@ -33,11 +34,13 @@ export function useFollowStatus(
     );
 }
 
-export async function prefetchFollowStatus(
-    queryClient: QueryClient,
-    username: string,
-    options: UseFollowStatusOptions = {},
-) {
+export interface PrefetchFollowStatusParams extends UseFollowStatusOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchFollowStatus(params: PrefetchFollowStatusParams) {
+    const { queryClient, username, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.follow.check(username),

@@ -14,15 +14,16 @@ export interface UseCollectionOptions
             ReturnType<typeof queryKeys.collections.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    reference: string;
+}
 
 /**
  * Hook for getting a collection by reference
  */
-export function useCollection(
-    reference: string,
-    options: UseCollectionOptions = {},
-) {
+export function useCollection(params: UseCollectionOptions) {
+    const { reference, ...options } = params;
+
     return useQuery(
         queryKeys.collections.details(reference),
         (client) => client.collections.getByReference(reference),
@@ -33,11 +34,13 @@ export function useCollection(
     );
 }
 
-export async function prefetchCollection(
-    queryClient: QueryClient,
-    reference: string,
-    options: UseCollectionOptions = {},
-) {
+export interface PrefetchCollectionParams extends UseCollectionOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchCollection(params: PrefetchCollectionParams) {
+    const { queryClient, reference, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.collections.details(reference),

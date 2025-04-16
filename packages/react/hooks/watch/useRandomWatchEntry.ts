@@ -3,7 +3,11 @@ import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 
 import { useQuery } from '../core/useQuery';
 
-interface UseRandomWatchEntryParams {
+export interface UseRandomWatchEntryOptions
+    extends Omit<
+        UseQueryOptions<AnimeResponse, Error>,
+        'queryKey' | 'queryFn'
+    > {
     username: string;
     status: WatchStatusEnum;
 }
@@ -12,13 +16,9 @@ interface UseRandomWatchEntryParams {
  * Hook for getting a random watch entry from a user's list
  */
 export function useRandomWatchEntry(
-    params: UseRandomWatchEntryParams,
-    options?: Omit<
-        UseQueryOptions<AnimeResponse, Error>,
-        'queryKey' | 'queryFn'
-    >,
+    params: UseRandomWatchEntryOptions,
 ): UseQueryResult<AnimeResponse, Error> {
-    const { username, status } = params;
+    const { username, status, ...options } = params;
 
     return useQuery(
         ['watch', 'random', username, status],

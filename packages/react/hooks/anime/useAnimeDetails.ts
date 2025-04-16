@@ -14,15 +14,16 @@ export interface UseAnimeDetailsOptions
             ReturnType<typeof queryKeys.anime.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
  * Hook for getting anime details by slug
  */
-export function useAnimeDetails(
-    slug: string,
-    options: UseAnimeDetailsOptions = {},
-) {
+export function useAnimeDetails(params: UseAnimeDetailsOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.anime.details(slug),
         (client) => client.anime.getBySlug(slug),
@@ -33,11 +34,13 @@ export function useAnimeDetails(
     );
 }
 
-export function prefetchAnimeDetails(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseAnimeDetailsOptions = {},
-) {
+export interface PrefetchAnimeDetailsParams extends UseAnimeDetailsOptions {
+    queryClient: QueryClient;
+}
+
+export function prefetchAnimeDetails(params: PrefetchAnimeDetailsParams) {
+    const { queryClient, slug, ...options } = params;
+
     return prefetchQuery(
         queryClient,
         queryKeys.anime.details(slug),

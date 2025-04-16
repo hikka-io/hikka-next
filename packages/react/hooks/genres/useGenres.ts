@@ -19,18 +19,21 @@ export interface UseGenresOptions
 /**
  * Hook for getting all genres
  */
-export function useGenres(options: UseGenresOptions = {}) {
+export function useGenres(params: UseGenresOptions = {}) {
     return useQuery(
         queryKeys.genres.list(),
         (client) => client.genres.getGenres(),
-        options,
+        params,
     );
 }
 
-export async function prefetchGenres(
-    queryClient: QueryClient,
-    options: UseGenresOptions = {},
-) {
+export interface PrefetchGenresParams extends UseGenresOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchGenres(params: PrefetchGenresParams) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.genres.list(),

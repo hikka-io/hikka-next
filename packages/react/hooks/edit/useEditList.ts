@@ -15,6 +15,7 @@ export interface UseEditListOptions<T = any>
         >,
         'queryKey' | 'queryFn'
     > {
+    args?: GetEditListArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseEditListOptions<T = any>
 /**
  * Hook for getting a list of edits
  */
-export function useEditList<T = any>(
-    args: GetEditListArgs = {},
-    options: UseEditListOptions<T> = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useEditList<T = any>(params: UseEditListOptions<T> = {}) {
+    const { args = {}, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.edit.list(args),
@@ -35,12 +33,20 @@ export function useEditList<T = any>(
     );
 }
 
+export interface PrefetchEditListParams<T = any> extends UseEditListOptions<T> {
+    queryClient: QueryClient;
+}
+
 export async function prefetchEditList<T = any>(
-    queryClient: QueryClient,
-    args: GetEditListArgs = {},
-    options: UseEditListOptions<T> = {},
+    params: PrefetchEditListParams<T>,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const {
+        queryClient,
+        args = {},
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

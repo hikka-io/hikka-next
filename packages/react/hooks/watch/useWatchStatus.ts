@@ -15,6 +15,7 @@ export interface UseWatchStatusOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     /**
      * Whether to enable the query.
      * By default, the query is enabled if there's a slug and an auth token
@@ -25,10 +26,9 @@ export interface UseWatchStatusOptions
 /**
  * Hook for getting the watch status of an anime for the current user
  */
-export function useWatchStatus(
-    slug: string,
-    options: UseWatchStatusOptions = {},
-) {
+export function useWatchStatus(params: UseWatchStatusOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.watch.get(slug),
         async (client) => {
@@ -40,17 +40,19 @@ export function useWatchStatus(
         },
         {
             // By default, the query is enabled if there's a slug and an auth token
-            enabled: options.enabled ?? (!!slug && !!options.enabled),
+            enabled: options.enabled ?? !!slug,
             ...options,
         },
     );
 }
 
-export function prefetchWatchStatus(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseWatchStatusOptions = {},
-) {
+export interface PrefetchWatchStatusParams extends UseWatchStatusOptions {
+    queryClient: QueryClient;
+}
+
+export function prefetchWatchStatus(params: PrefetchWatchStatusParams) {
+    const { queryClient, slug, ...options } = params;
+
     return prefetchQuery(
         queryClient,
         queryKeys.watch.get(slug),

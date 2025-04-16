@@ -1,12 +1,12 @@
 import { HikkaClient } from '@hikka/client';
-import { FetchInfiniteQueryOptions } from '@tanstack/query-core';
+import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
 
 import { getHikkaClient } from './createHikkaClient';
-import { getQueryClient } from './createQueryClient';
 
 /**
  * Prefetches data for an infinite query and dehydrates it for use in server components.
  *
+ * @param queryClient The query client to use
  * @param queryKey The query key to use
  * @param queryFn The function that will fetch the data
  * @param options Additional options for the query
@@ -17,10 +17,17 @@ export async function prefetchInfiniteQuery<
     TData = TQueryFnData,
     TQueryKey extends readonly unknown[] = readonly unknown[],
 >(
+    queryClient: QueryClient,
     queryKey: TQueryKey,
     queryFn: (client: HikkaClient, pageParam: number) => Promise<TQueryFnData>,
     options?: Omit<
-        FetchInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+        FetchInfiniteQueryOptions<
+            TQueryFnData,
+            TError,
+            TData,
+            TQueryKey,
+            number
+        >,
         'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
     > & {
         getNextPageParam?: (
@@ -28,7 +35,6 @@ export async function prefetchInfiniteQuery<
         ) => number | undefined | null;
     },
 ): Promise<void> {
-    const queryClient = getQueryClient();
     const hikkaClient = getHikkaClient();
 
     // Prefetch the data

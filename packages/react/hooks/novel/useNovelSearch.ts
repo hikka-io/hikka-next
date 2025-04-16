@@ -15,6 +15,7 @@ export interface UseNovelSearchOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: NovelSearchArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseNovelSearchOptions
 /**
  * Hook for searching novels with filters
  */
-export function useNovelSearch(
-    args: NovelSearchArgs,
-    options: UseNovelSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useNovelSearch(params: UseNovelSearchOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.novel.search({ ...args, page, size }),
@@ -35,12 +33,12 @@ export function useNovelSearch(
     );
 }
 
-export async function prefetchNovelSearch(
-    queryClient: QueryClient,
-    args: NovelSearchArgs,
-    options: UseNovelSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchNovelSearchParams extends UseNovelSearchOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchNovelSearch(params: PrefetchNovelSearchParams) {
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

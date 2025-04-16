@@ -14,16 +14,17 @@ export interface UseFavouriteStatusOptions
             ReturnType<typeof queryKeys.favourite.get>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    contentType: FavouriteContentTypeEnum;
+    slug: string;
+}
 
 /**
  * Hook for getting favourite status for content
  */
-export function useFavouriteStatus(
-    contentType: FavouriteContentTypeEnum,
-    slug: string,
-    options: UseFavouriteStatusOptions = {},
-) {
+export function useFavouriteStatus(params: UseFavouriteStatusOptions) {
+    const { contentType, slug, ...options } = params;
+
     return useQuery(
         queryKeys.favourite.get(contentType, slug),
         (client) => client.favourite.get(contentType, slug),
@@ -34,12 +35,16 @@ export function useFavouriteStatus(
     );
 }
 
+export interface PrefetchFavouriteStatusParams
+    extends UseFavouriteStatusOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchFavouriteStatus(
-    queryClient: QueryClient,
-    contentType: FavouriteContentTypeEnum,
-    slug: string,
-    options: UseFavouriteStatusOptions = {},
+    params: PrefetchFavouriteStatusParams,
 ) {
+    const { queryClient, contentType, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.favourite.get(contentType, slug),

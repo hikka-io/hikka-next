@@ -14,15 +14,16 @@ export interface UseWatchEntryOptions
             ReturnType<typeof queryKeys.watch.get>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
  * Hook for getting a watch entry for an anime
  */
-export function useWatchEntry(
-    slug: string,
-    options: UseWatchEntryOptions = {},
-) {
+export function useWatchEntry(params: UseWatchEntryOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.watch.get(slug),
         (client) => client.watch.get(slug),
@@ -33,11 +34,13 @@ export function useWatchEntry(
     );
 }
 
-export async function prefetchWatchEntry(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseWatchEntryOptions = {},
-) {
+export interface PrefetchWatchEntryParams extends UseWatchEntryOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchWatchEntry(params: PrefetchWatchEntryParams) {
+    const { queryClient, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.watch.get(slug),

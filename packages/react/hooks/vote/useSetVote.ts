@@ -10,14 +10,17 @@ type SetVoteVariables = {
     args: VoteArgs;
 };
 
+export interface UseSetVoteOptions
+    extends Omit<
+        UseMutationOptions<VoteResponse, Error, SetVoteVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for setting a vote for content
  */
 export function useSetVote(
-    options?: Omit<
-        UseMutationOptions<VoteResponse, Error, SetVoteVariables>,
-        'mutationFn'
-    >,
+    params: UseSetVoteOptions = {},
 ): UseMutationResult<VoteResponse, Error, SetVoteVariables> {
     return createMutation<VoteResponse, Error, SetVoteVariables>(
         (client, { contentType, slug, args }) =>
@@ -26,5 +29,5 @@ export function useSetVote(
             // Invalidate the vote status for this content
             queryKeys.vote.get(variables.contentType, variables.slug),
         ],
-    )(options);
+    )(params);
 }

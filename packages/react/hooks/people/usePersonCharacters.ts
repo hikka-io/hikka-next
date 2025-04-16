@@ -15,6 +15,7 @@ export interface UsePersonCharactersOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UsePersonCharactersOptions
 /**
  * Hook for getting characters voiced by a person
  */
-export function usePersonCharacters(
-    slug: string,
-    options: UsePersonCharactersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function usePersonCharacters(params: UsePersonCharactersOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.people.characters(slug),
@@ -38,12 +36,15 @@ export function usePersonCharacters(
     );
 }
 
+export interface PrefetchPersonCharactersParams
+    extends UsePersonCharactersOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchPersonCharacters(
-    queryClient: QueryClient,
-    slug: string,
-    options: UsePersonCharactersOptions = {},
+    params: PrefetchPersonCharactersParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

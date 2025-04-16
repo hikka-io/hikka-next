@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseCreateCollectionOptions
+    extends Omit<
+        UseMutationOptions<CollectionResponse, Error, CollectionArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for creating a collection
  */
 export function useCreateCollection(
-    options?: Omit<
-        UseMutationOptions<CollectionResponse, Error, CollectionArgs>,
-        'mutationFn'
-    >,
+    params: UseCreateCollectionOptions = {},
 ): UseMutationResult<CollectionResponse, Error, CollectionArgs> {
     return createMutation<CollectionResponse, Error, CollectionArgs>(
         (client, args) => client.collections.create(args),
@@ -19,5 +22,5 @@ export function useCreateCollection(
             // Invalidate all collections queries
             queryKeys.collections.all,
         ],
-    )(options);
+    )(params);
 }

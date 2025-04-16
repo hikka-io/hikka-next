@@ -15,6 +15,8 @@ export interface UseWatchListOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    username: string;
+    args: AnimeWatchSearchArgs;
     page?: number;
     size?: number;
 }
@@ -22,12 +24,8 @@ export interface UseWatchListOptions
 /**
  * Hook for getting a user's watch list
  */
-export function useWatchList(
-    username: string,
-    args: AnimeWatchSearchArgs,
-    options: UseWatchListOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useWatchList(params: UseWatchListOptions) {
+    const { username, args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.watch.list(username, { ...args, page, size }),
@@ -39,13 +37,19 @@ export function useWatchList(
     );
 }
 
-export async function prefetchWatchList(
-    queryClient: QueryClient,
-    username: string,
-    args: AnimeWatchSearchArgs,
-    options: UseWatchListOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchWatchListParams extends UseWatchListOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchWatchList(params: PrefetchWatchListParams) {
+    const {
+        queryClient,
+        username,
+        args,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

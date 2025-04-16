@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseDeleteWatchListOptions
+    extends Omit<
+        UseMutationOptions<SuccessResponse, Error, void>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for deleting a user's entire watch list
  */
 export function useDeleteWatchList(
-    options?: Omit<
-        UseMutationOptions<SuccessResponse, Error, void>,
-        'mutationFn'
-    >,
+    params: UseDeleteWatchListOptions = {},
 ): UseMutationResult<SuccessResponse, Error, void> {
     return createMutation<SuccessResponse, Error, void>(
         (client) => client.settings.deleteWatchList(),
@@ -21,5 +24,5 @@ export function useDeleteWatchList(
             // Invalidate watch stats for the current user
             queryKeys.watch.stats(''),
         ],
-    )(options);
+    )(params);
 }

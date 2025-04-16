@@ -15,6 +15,7 @@ export interface UseAnimeStaffOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseAnimeStaffOptions
 /**
  * Hook for getting anime staff by anime slug
  */
-export function useAnimeStaff(
-    slug: string,
-    options: UseAnimeStaffOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useAnimeStaff(params: UseAnimeStaffOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.anime.staff(slug),
@@ -38,12 +36,12 @@ export function useAnimeStaff(
     );
 }
 
-export async function prefetchAnimeStaff(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseAnimeStaffOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchAnimeStaffParams extends UseAnimeStaffOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchAnimeStaff(params: PrefetchAnimeStaffParams) {
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

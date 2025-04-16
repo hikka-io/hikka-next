@@ -15,6 +15,8 @@ export interface UseReadingUsersOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    contentType: ReadContentTypeEnum;
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,12 +24,8 @@ export interface UseReadingUsersOptions
 /**
  * Hook for getting users who are reading a manga or novel
  */
-export function useReadingUsers(
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    options: UseReadingUsersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useReadingUsers(params: UseReadingUsersOptions) {
+    const { contentType, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.read.following(contentType, slug),
@@ -40,13 +38,19 @@ export function useReadingUsers(
     );
 }
 
-export async function prefetchReadingUsers(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    options: UseReadingUsersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchReadingUsersParams extends UseReadingUsersOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchReadingUsers(params: PrefetchReadingUsersParams) {
+    const {
+        queryClient,
+        contentType,
+        slug,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

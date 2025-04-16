@@ -9,18 +9,21 @@ type SignupVariables = {
     captcha: string;
 };
 
+export interface UseSignupOptions
+    extends Omit<
+        UseMutationOptions<TokenResponse, Error, SignupVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for registering a new user
  */
 export function useSignup(
-    options?: Omit<
-        UseMutationOptions<TokenResponse, Error, SignupVariables>,
-        'mutationFn'
-    >,
+    params: UseSignupOptions = {},
 ): UseMutationResult<TokenResponse, Error, SignupVariables> {
     return createMutation<TokenResponse, Error, SignupVariables>(
         (client, { args, captcha }) => client.auth.signup(args, captcha),
         // Update user data and token info on successful signup
         [queryKeys.user.me(), queryKeys.auth.tokenInfo()],
-    )(options);
+    )(params);
 }

@@ -6,6 +6,7 @@ import { getHikkaClient } from './createHikkaClient';
 /**
  * Prefetches data for a query and dehydrates it for use in server components.
  *
+ * @param queryClient The query client to use
  * @param queryKey The query key to use
  * @param queryFn The function that will fetch the data
  * @param options Additional options for the query

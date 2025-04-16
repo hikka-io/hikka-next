@@ -19,6 +19,9 @@ export interface UseReadListOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    contentType: ReadContentTypeEnum;
+    username: string;
+    args: ReadSearchArgs;
     page?: number;
     size?: number;
 }
@@ -26,13 +29,15 @@ export interface UseReadListOptions
 /**
  * Hook for getting a user's read list
  */
-export function useReadList(
-    contentType: ReadContentTypeEnum,
-    username: string,
-    args: ReadSearchArgs,
-    options: UseReadListOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useReadList(params: UseReadListOptions) {
+    const {
+        contentType,
+        username,
+        args,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return useQuery(
         queryKeys.read.list(contentType, username, { ...args, page, size }),
@@ -45,14 +50,20 @@ export function useReadList(
     );
 }
 
-export async function prefetchReadList(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    username: string,
-    args: ReadSearchArgs,
-    options: UseReadListOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchReadListParams extends UseReadListOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchReadList(params: PrefetchReadListParams) {
+    const {
+        queryClient,
+        contentType,
+        username,
+        args,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

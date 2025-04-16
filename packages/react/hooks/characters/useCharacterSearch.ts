@@ -18,6 +18,7 @@ export interface UseCharacterSearchOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: QuerySearchArgs;
     page?: number;
     size?: number;
 }
@@ -25,11 +26,8 @@ export interface UseCharacterSearchOptions
 /**
  * Hook for searching characters
  */
-export function useCharacterSearch(
-    args: QuerySearchArgs,
-    options: UseCharacterSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCharacterSearch(params: UseCharacterSearchOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
     const query = args.query || '';
 
     return useQuery(
@@ -42,12 +40,15 @@ export function useCharacterSearch(
     );
 }
 
+export interface PrefetchCharacterSearchParams
+    extends UseCharacterSearchOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCharacterSearch(
-    queryClient: QueryClient,
-    args: QuerySearchArgs,
-    options: UseCharacterSearchOptions = {},
+    params: PrefetchCharacterSearchParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
     const query = args.query || '';
 
     return await prefetchQuery(

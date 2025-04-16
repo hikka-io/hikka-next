@@ -15,6 +15,7 @@ export interface UseCollectionsOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: CollectionsListArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseCollectionsOptions
 /**
  * Hook for getting collections
  */
-export function useCollections(
-    args: CollectionsListArgs,
-    options: UseCollectionsOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCollections(params: UseCollectionsOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.collections.list(args),
@@ -35,12 +33,12 @@ export function useCollections(
     );
 }
 
-export async function prefetchCollections(
-    queryClient: QueryClient,
-    args: CollectionsListArgs,
-    options: UseCollectionsOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchCollectionsParams extends UseCollectionsOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchCollections(params: PrefetchCollectionsParams) {
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

@@ -15,6 +15,8 @@ export interface UseContentCommentsOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    contentType: CommentsContentTypeEnum;
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,12 +24,8 @@ export interface UseContentCommentsOptions
 /**
  * Hook for getting comments for a specific content
  */
-export function useContentComments(
-    contentType: CommentsContentTypeEnum,
-    slug: string,
-    options: UseContentCommentsOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useContentComments(params: UseContentCommentsOptions) {
+    const { contentType, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.comments.content(contentType, slug),
@@ -40,13 +38,22 @@ export function useContentComments(
     );
 }
 
+export interface PrefetchContentCommentsParams
+    extends UseContentCommentsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchContentComments(
-    queryClient: QueryClient,
-    contentType: CommentsContentTypeEnum,
-    slug: string,
-    options: UseContentCommentsOptions = {},
+    params: PrefetchContentCommentsParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const {
+        queryClient,
+        contentType,
+        slug,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

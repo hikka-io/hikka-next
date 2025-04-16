@@ -14,15 +14,16 @@ export interface UseCommentThreadOptions
             ReturnType<typeof queryKeys.comments.thread>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    reference: string;
+}
 
 /**
  * Hook for getting a comment thread
  */
-export function useCommentThread(
-    reference: string,
-    options: UseCommentThreadOptions = {},
-) {
+export function useCommentThread(params: UseCommentThreadOptions) {
+    const { reference, ...options } = params;
+
     return useQuery(
         queryKeys.comments.thread(reference),
         (client) => client.comments.getThread(reference),
@@ -33,11 +34,15 @@ export function useCommentThread(
     );
 }
 
+export interface PrefetchCommentThreadParams extends UseCommentThreadOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCommentThread(
-    queryClient: QueryClient,
-    reference: string,
-    options: UseCommentThreadOptions = {},
+    params: PrefetchCommentThreadParams,
 ) {
+    const { queryClient, reference, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.comments.thread(reference),

@@ -14,16 +14,17 @@ export interface UseReadEntryOptions
             ReturnType<typeof queryKeys.read.get>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    contentType: ReadContentTypeEnum;
+    slug: string;
+}
 
 /**
  * Hook for getting a read entry for manga or novel
  */
-export function useReadEntry(
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    options: UseReadEntryOptions = {},
-) {
+export function useReadEntry(params: UseReadEntryOptions) {
+    const { contentType, slug, ...options } = params;
+
     return useQuery(
         queryKeys.read.get(contentType, slug),
         (client) => client.read.get(contentType, slug),
@@ -34,12 +35,13 @@ export function useReadEntry(
     );
 }
 
-export async function prefetchReadEntry(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    options: UseReadEntryOptions = {},
-) {
+export interface PrefetchReadEntryParams extends UseReadEntryOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchReadEntry(params: PrefetchReadEntryParams) {
+    const { queryClient, contentType, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.read.get(contentType, slug),

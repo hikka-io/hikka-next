@@ -18,6 +18,8 @@ export interface UseFavouriteListOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    contentType: FavouriteContentTypeEnum;
+    username: string;
     page?: number;
     size?: number;
 }
@@ -25,12 +27,14 @@ export interface UseFavouriteListOptions
 /**
  * Hook for getting a user's favourite list
  */
-export function useFavouriteList(
-    contentType: FavouriteContentTypeEnum,
-    username: string,
-    options: UseFavouriteListOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useFavouriteList(params: UseFavouriteListOptions) {
+    const {
+        contentType,
+        username,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return useQuery(
         queryKeys.favourite.list(contentType, username),
@@ -42,13 +46,21 @@ export function useFavouriteList(
     );
 }
 
+export interface PrefetchFavouriteListParams extends UseFavouriteListOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchFavouriteList(
-    queryClient: QueryClient,
-    contentType: FavouriteContentTypeEnum,
-    username: string,
-    options: UseFavouriteListOptions = {},
+    params: PrefetchFavouriteListParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const {
+        queryClient,
+        contentType,
+        username,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

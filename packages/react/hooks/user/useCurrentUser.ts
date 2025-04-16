@@ -27,10 +27,13 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
     );
 }
 
-export async function prefetchCurrentUser(
-    queryClient: QueryClient,
-    options: UseCurrentUserOptions = {},
-) {
+export interface PrefetchCurrentUserParams extends UseCurrentUserOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchCurrentUser(params: PrefetchCurrentUserParams) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.user.me(),

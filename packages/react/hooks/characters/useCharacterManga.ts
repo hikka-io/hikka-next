@@ -15,6 +15,7 @@ export interface UseCharacterMangaOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseCharacterMangaOptions
 /**
  * Hook for getting character's manga appearances
  */
-export function useCharacterManga(
-    slug: string,
-    options: UseCharacterMangaOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCharacterManga(params: UseCharacterMangaOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.characters.manga(slug),
@@ -38,12 +36,14 @@ export function useCharacterManga(
     );
 }
 
+export interface PrefetchCharacterMangaParams extends UseCharacterMangaOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCharacterManga(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseCharacterMangaOptions = {},
+    params: PrefetchCharacterMangaParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

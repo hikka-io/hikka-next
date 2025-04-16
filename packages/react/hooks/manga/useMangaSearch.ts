@@ -15,6 +15,7 @@ export interface UseMangaSearchOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: MangaSearchArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseMangaSearchOptions
 /**
  * Hook for searching manga with filters
  */
-export function useMangaSearch(
-    args: MangaSearchArgs,
-    options: UseMangaSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useMangaSearch(params: UseMangaSearchOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.manga.search({ ...args, page, size }),
@@ -35,12 +33,12 @@ export function useMangaSearch(
     );
 }
 
-export async function prefetchMangaSearch(
-    queryClient: QueryClient,
-    args: MangaSearchArgs,
-    options: UseMangaSearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchMangaSearchParams extends UseMangaSearchOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchMangaSearch(params: PrefetchMangaSearchParams) {
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

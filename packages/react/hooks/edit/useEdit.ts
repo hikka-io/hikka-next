@@ -14,15 +14,16 @@ export interface UseEditOptions<T = any, R = any>
             ReturnType<typeof queryKeys.edit.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    editId: number | string;
+}
 
 /**
  * Hook for getting a specific edit by ID
  */
-export function useEdit<T = any, R = any>(
-    editId: number | string,
-    options: UseEditOptions<T, R> = {},
-) {
+export function useEdit<T = any, R = any>(params: UseEditOptions<T, R>) {
+    const { editId, ...options } = params;
+
     return useQuery(
         queryKeys.edit.details(editId),
         (client) => client.edit.getEdit<T, R>(editId),
@@ -33,11 +34,16 @@ export function useEdit<T = any, R = any>(
     );
 }
 
+export interface PrefetchEditParams<T = any, R = any>
+    extends UseEditOptions<T, R> {
+    queryClient: QueryClient;
+}
+
 export async function prefetchEdit<T = any, R = any>(
-    queryClient: QueryClient,
-    editId: number | string,
-    options: UseEditOptions<T, R> = {},
+    params: PrefetchEditParams<T, R>,
 ) {
+    const { queryClient, editId, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.edit.details(editId),

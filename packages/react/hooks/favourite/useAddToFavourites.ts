@@ -9,14 +9,17 @@ type AddToFavouritesVariables = {
     slug: string;
 };
 
+export interface UseAddToFavouritesOptions
+    extends Omit<
+        UseMutationOptions<FavouriteResponse, Error, AddToFavouritesVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for adding content to favourites
  */
 export function useAddToFavourites(
-    options?: Omit<
-        UseMutationOptions<FavouriteResponse, Error, AddToFavouritesVariables>,
-        'mutationFn'
-    >,
+    params: UseAddToFavouritesOptions = {},
 ): UseMutationResult<FavouriteResponse, Error, AddToFavouritesVariables> {
     return createMutation<FavouriteResponse, Error, AddToFavouritesVariables>(
         (client, { contentType, slug }) =>
@@ -27,5 +30,5 @@ export function useAddToFavourites(
             // Invalidate favourite lists in general
             queryKeys.favourite.list(variables.contentType, ''),
         ],
-    )(options);
+    )(params);
 }

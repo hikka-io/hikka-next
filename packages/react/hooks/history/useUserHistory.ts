@@ -15,6 +15,7 @@ export interface UseUserHistoryOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    username: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseUserHistoryOptions
 /**
  * Hook for getting the history of a specific user
  */
-export function useUserHistory(
-    username: string,
-    options: UseUserHistoryOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useUserHistory(params: UseUserHistoryOptions) {
+    const { username, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.history.user(username),
@@ -38,12 +36,18 @@ export function useUserHistory(
     );
 }
 
-export async function prefetchUserHistory(
-    queryClient: QueryClient,
-    username: string,
-    options: UseUserHistoryOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchUserHistoryParams extends UseUserHistoryOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchUserHistory(params: PrefetchUserHistoryParams) {
+    const {
+        queryClient,
+        username,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

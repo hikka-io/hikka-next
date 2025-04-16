@@ -14,16 +14,17 @@ export interface UseVoteOptions
             ReturnType<typeof queryKeys.vote.get>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    contentType: VoteContentTypeEnum;
+    slug: string;
+}
 
 /**
  * Hook for getting vote status for content
  */
-export function useVote(
-    contentType: VoteContentTypeEnum,
-    slug: string,
-    options: UseVoteOptions = {},
-) {
+export function useVote(params: UseVoteOptions) {
+    const { contentType, slug, ...options } = params;
+
     return useQuery(
         queryKeys.vote.get(contentType, slug),
         (client) => client.vote.getVote(contentType, slug),
@@ -34,12 +35,13 @@ export function useVote(
     );
 }
 
-export async function prefetchVote(
-    queryClient: QueryClient,
-    contentType: VoteContentTypeEnum,
-    slug: string,
-    options: UseVoteOptions = {},
-) {
+export interface PrefetchVoteParams extends UseVoteOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchVote(params: PrefetchVoteParams) {
+    const { queryClient, contentType, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.vote.get(contentType, slug),

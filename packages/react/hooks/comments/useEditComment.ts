@@ -9,14 +9,17 @@ type EditCommentVariables = {
     args: CommentTextArgs;
 };
 
+export interface UseEditCommentOptions
+    extends Omit<
+        UseMutationOptions<CommentResponse, Error, EditCommentVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for editing a comment
  */
 export function useEditComment(
-    options?: Omit<
-        UseMutationOptions<CommentResponse, Error, EditCommentVariables>,
-        'mutationFn'
-    >,
+    params: UseEditCommentOptions = {},
 ): UseMutationResult<CommentResponse, Error, EditCommentVariables> {
     return createMutation<CommentResponse, Error, EditCommentVariables>(
         (client, { commentReference, args }) =>
@@ -28,5 +31,5 @@ export function useEditComment(
             // Note: we don't know the content type and slug here,
             // so we can't invalidate specific content comments
         ],
-    )(options);
+    )(params);
 }

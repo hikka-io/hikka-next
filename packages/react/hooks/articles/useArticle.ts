@@ -14,12 +14,16 @@ export interface UseArticleOptions
             ReturnType<typeof queryKeys.articles.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
  * Hook for getting article details
  */
-export function useArticle(slug: string, options: UseArticleOptions = {}) {
+export function useArticle(params: UseArticleOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.articles.details(slug),
         (client) => client.articles.getArticle(slug),
@@ -30,11 +34,13 @@ export function useArticle(slug: string, options: UseArticleOptions = {}) {
     );
 }
 
-export async function prefetchArticle(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseArticleOptions = {},
-) {
+export interface PrefetchArticleParams extends UseArticleOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchArticle(params: PrefetchArticleParams) {
+    const { queryClient, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.articles.details(slug),

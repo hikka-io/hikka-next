@@ -22,8 +22,8 @@ export interface UseCommentsListOptions
 /**
  * Hook for getting a user's comments list
  */
-export function useCommentsList(options: UseCommentsListOptions = {}) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCommentsList(params: UseCommentsListOptions = {}) {
+    const { page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.comments.list(),
@@ -32,11 +32,12 @@ export function useCommentsList(options: UseCommentsListOptions = {}) {
     );
 }
 
-export async function prefetchCommentsList(
-    queryClient: QueryClient,
-    options: UseCommentsListOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchCommentsListParams extends UseCommentsListOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchCommentsList(params: PrefetchCommentsListParams) {
+    const { queryClient, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

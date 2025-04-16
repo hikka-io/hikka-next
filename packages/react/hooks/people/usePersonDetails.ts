@@ -14,15 +14,16 @@ export interface UsePersonDetailsOptions
             ReturnType<typeof queryKeys.people.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
  * Hook for getting person details by slug
  */
-export function usePersonDetails(
-    slug: string,
-    options: UsePersonDetailsOptions = {},
-) {
+export function usePersonDetails(params: UsePersonDetailsOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.people.details(slug),
         (client) => client.people.getBySlug(slug),
@@ -33,11 +34,15 @@ export function usePersonDetails(
     );
 }
 
+export interface PrefetchPersonDetailsParams extends UsePersonDetailsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchPersonDetails(
-    queryClient: QueryClient,
-    slug: string,
-    options: UsePersonDetailsOptions = {},
+    params: PrefetchPersonDetailsParams,
 ) {
+    const { queryClient, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.people.details(slug),

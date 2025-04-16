@@ -15,6 +15,7 @@ export interface UseArticlesOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: ArticlesListArgs;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseArticlesOptions
 /**
  * Hook for getting a list of articles
  */
-export function useArticles(
-    args: ArticlesListArgs,
-    options: UseArticlesOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useArticles(params: UseArticlesOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.articles.list(args),
@@ -35,12 +33,12 @@ export function useArticles(
     );
 }
 
-export async function prefetchArticles(
-    queryClient: QueryClient,
-    args: ArticlesListArgs,
-    options: UseArticlesOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchArticlesParams extends UseArticlesOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchArticles(params: PrefetchArticlesParams) {
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

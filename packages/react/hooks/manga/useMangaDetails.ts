@@ -14,15 +14,16 @@ export interface UseMangaDetailsOptions
             ReturnType<typeof queryKeys.manga.details>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    slug: string;
+}
 
 /**
  * Hook for getting manga details by slug
  */
-export function useMangaDetails(
-    slug: string,
-    options: UseMangaDetailsOptions = {},
-) {
+export function useMangaDetails(params: UseMangaDetailsOptions) {
+    const { slug, ...options } = params;
+
     return useQuery(
         queryKeys.manga.details(slug),
         (client) => client.manga.getBySlug(slug),
@@ -33,11 +34,13 @@ export function useMangaDetails(
     );
 }
 
-export async function prefetchMangaDetails(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseMangaDetailsOptions = {},
-) {
+export interface PrefetchMangaDetailsParams extends UseMangaDetailsOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchMangaDetails(params: PrefetchMangaDetailsParams) {
+    const { queryClient, slug, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.manga.details(slug),

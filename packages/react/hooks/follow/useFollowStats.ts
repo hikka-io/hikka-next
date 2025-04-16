@@ -14,15 +14,16 @@ export interface UseFollowStatsOptions
             ReturnType<typeof queryKeys.follow.stats>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    username: string;
+}
 
 /**
  * Hook for getting follow statistics for a user
  */
-export function useFollowStats(
-    username: string,
-    options: UseFollowStatsOptions = {},
-) {
+export function useFollowStats(params: UseFollowStatsOptions) {
+    const { username, ...options } = params;
+
     return useQuery(
         queryKeys.follow.stats(username),
         (client) => client.follow.getStats(username),
@@ -33,11 +34,13 @@ export function useFollowStats(
     );
 }
 
-export async function prefetchFollowStats(
-    queryClient: QueryClient,
-    username: string,
-    options: UseFollowStatsOptions = {},
-) {
+export interface PrefetchFollowStatsParams extends UseFollowStatsOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchFollowStats(params: PrefetchFollowStatsParams) {
+    const { queryClient, username, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.follow.stats(username),

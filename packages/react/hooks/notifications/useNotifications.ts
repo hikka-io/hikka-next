@@ -22,8 +22,8 @@ export interface UseNotificationsOptions
 /**
  * Hook for getting user notifications
  */
-export function useNotifications(options: UseNotificationsOptions = {}) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useNotifications(params: UseNotificationsOptions = {}) {
+    const { page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.notifications.list(),
@@ -32,11 +32,14 @@ export function useNotifications(options: UseNotificationsOptions = {}) {
     );
 }
 
+export interface PrefetchNotificationsParams extends UseNotificationsOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchNotifications(
-    queryClient: QueryClient,
-    options: UseNotificationsOptions = {},
+    params: PrefetchNotificationsParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

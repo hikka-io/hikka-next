@@ -15,6 +15,7 @@ export interface UsePersonAnimeOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UsePersonAnimeOptions
 /**
  * Hook for getting a person's anime work
  */
-export function usePersonAnime(
-    slug: string,
-    options: UsePersonAnimeOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function usePersonAnime(params: UsePersonAnimeOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.people.anime(slug),
@@ -38,12 +36,12 @@ export function usePersonAnime(
     );
 }
 
-export async function prefetchPersonAnime(
-    queryClient: QueryClient,
-    slug: string,
-    options: UsePersonAnimeOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchPersonAnimeParams extends UsePersonAnimeOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchPersonAnime(params: PrefetchPersonAnimeParams) {
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

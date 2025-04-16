@@ -9,19 +9,22 @@ type OAuthLoginVariables = {
     args: CodeArgs;
 };
 
+export interface UseOAuthLoginOptions
+    extends Omit<
+        UseMutationOptions<TokenResponse, Error, OAuthLoginVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for authenticating with an OAuth provider
  */
 export function useOAuthLogin(
-    options?: Omit<
-        UseMutationOptions<TokenResponse, Error, OAuthLoginVariables>,
-        'mutationFn'
-    >,
+    params: UseOAuthLoginOptions = {},
 ): UseMutationResult<TokenResponse, Error, OAuthLoginVariables> {
     return createMutation<TokenResponse, Error, OAuthLoginVariables>(
         (client, { provider, args }) =>
             client.auth.getOAuthToken(provider, args),
         // Update user data and token info on successful OAuth login
         [queryKeys.user.me(), queryKeys.auth.tokenInfo()],
-    )(options);
+    )(params);
 }

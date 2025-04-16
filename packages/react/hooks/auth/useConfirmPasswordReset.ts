@@ -4,18 +4,21 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseConfirmPasswordResetOptions
+    extends Omit<
+        UseMutationOptions<TokenResponse, Error, ComfirmResetArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for confirming a password reset
  */
 export function useConfirmPasswordReset(
-    options?: Omit<
-        UseMutationOptions<TokenResponse, Error, ComfirmResetArgs>,
-        'mutationFn'
-    >,
+    params: UseConfirmPasswordResetOptions = {},
 ): UseMutationResult<TokenResponse, Error, ComfirmResetArgs> {
     return createMutation<TokenResponse, Error, ComfirmResetArgs>(
         (client, args) => client.auth.confirmPasswordReset(args),
         // Update user data and token info on successful password reset
         [queryKeys.user.me(), queryKeys.auth.tokenInfo()],
-    )(options);
+    )(params);
 }

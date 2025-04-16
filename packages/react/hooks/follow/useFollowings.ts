@@ -15,6 +15,7 @@ export interface UseFollowingsOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    username: string;
     page?: number;
     size?: number;
 }
@@ -22,11 +23,8 @@ export interface UseFollowingsOptions
 /**
  * Hook for getting a user's followings
  */
-export function useFollowings(
-    username: string,
-    options: UseFollowingsOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useFollowings(params: UseFollowingsOptions) {
+    const { username, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.follow.following(username),
@@ -38,12 +36,18 @@ export function useFollowings(
     );
 }
 
-export async function prefetchFollowings(
-    queryClient: QueryClient,
-    username: string,
-    options: UseFollowingsOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchFollowingsParams extends UseFollowingsOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchFollowings(params: PrefetchFollowingsParams) {
+    const {
+        queryClient,
+        username,
+        page = 1,
+        size = 15,
+        ...queryOptions
+    } = params;
 
     return await prefetchQuery(
         queryClient,

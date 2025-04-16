@@ -2,7 +2,6 @@ import { QuerySearchRequiredArgs, UserResponse } from '@hikka/client';
 import { QueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 import { prefetchQuery } from '../../server/prefetchQuery';
-
 import { queryKeys } from '../core/queryKeys';
 import { useQuery } from '../core/useQuery';
 
@@ -15,15 +14,15 @@ export interface UseUserSearchOptions
             ReturnType<typeof queryKeys.user.search>
         >,
         'queryKey' | 'queryFn'
-    > {}
+    > {
+    args: QuerySearchRequiredArgs;
+}
 
 /**
  * Hook for searching users
  */
-export function useUserSearch(
-    args: QuerySearchRequiredArgs,
-    options: UseUserSearchOptions = {},
-) {
+export function useUserSearch(params: UseUserSearchOptions) {
+    const { args, ...options } = params;
     const query = args.query || '';
 
     return useQuery(
@@ -36,11 +35,12 @@ export function useUserSearch(
     );
 }
 
-export async function prefetchUserSearch(
-    queryClient: QueryClient,
-    args: QuerySearchRequiredArgs,
-    options: UseUserSearchOptions = {},
-) {
+export interface PrefetchUserSearchParams extends UseUserSearchOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchUserSearch(params: PrefetchUserSearchParams) {
+    const { queryClient, args, ...options } = params;
     const query = args.query || '';
 
     return await prefetchQuery(

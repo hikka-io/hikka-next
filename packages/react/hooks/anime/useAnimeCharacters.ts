@@ -1,20 +1,24 @@
 import { ContentCharacterPaginationResponse } from '@hikka/client';
-import { QueryClient, UseQueryOptions } from '@tanstack/react-query';
+import { QueryClient, UseInfiniteQueryOptions } from '@tanstack/react-query';
 
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { prefetchInfiniteQuery } from '@/server/prefetchInfiniteQuery';
+
+import { useInfiniteQuery } from '../core';
 import { queryKeys } from '../core/queryKeys';
-import { useQuery } from '../core/useQuery';
 
 export interface UseAnimeCharactersOptions
     extends Omit<
-        UseQueryOptions<
+        UseInfiniteQueryOptions<
             ContentCharacterPaginationResponse,
             Error,
             ContentCharacterPaginationResponse,
-            ReturnType<typeof queryKeys.anime.characters>
+            ContentCharacterPaginationResponse,
+            ReturnType<typeof queryKeys.anime.characters>,
+            number
         >,
-        'queryKey' | 'queryFn'
+        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
     > {
+    slug: string;
     page?: number;
     size?: number;
 }
@@ -22,15 +26,13 @@ export interface UseAnimeCharactersOptions
 /**
  * Hook for getting anime characters by anime slug
  */
-export function useAnimeCharacters(
-    slug: string,
-    options: UseAnimeCharactersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useAnimeCharacters(params: UseAnimeCharactersOptions) {
+    const { slug, page = 1, size = 15, ...queryOptions } = params;
 
-    return useQuery(
+    return useInfiniteQuery(
         queryKeys.anime.characters(slug),
-        (client) => client.anime.getCharacters(slug, page, size),
+        (client, pageParam = page) =>
+            client.anime.getCharacters(slug, pageParam, size),
         {
             enabled: !!slug,
             ...queryOptions,
@@ -38,14 +40,17 @@ export function useAnimeCharacters(
     );
 }
 
-export async function prefetchAnimeCharacters(
-    queryClient: QueryClient,
-    slug: string,
-    options: UseAnimeCharactersOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchAnimeCharactersParams
+    extends UseAnimeCharactersOptions {
+    queryClient: QueryClient;
+}
 
-    return await prefetchQuery(
+export async function prefetchAnimeCharacters(
+    params: PrefetchAnimeCharactersParams,
+) {
+    const { queryClient, slug, page = 1, size = 15, ...queryOptions } = params;
+
+    return await prefetchInfiniteQuery(
         queryClient,
         queryKeys.anime.characters(slug),
         (client) => client.anime.getCharacters(slug, page, size),

@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseDeleteCollectionOptions
+    extends Omit<
+        UseMutationOptions<SuccessResponse, Error, string>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for deleting a collection
  */
 export function useDeleteCollection(
-    options?: Omit<
-        UseMutationOptions<SuccessResponse, Error, string>,
-        'mutationFn'
-    >,
+    params: UseDeleteCollectionOptions = {},
 ): UseMutationResult<SuccessResponse, Error, string> {
     return createMutation<SuccessResponse, Error, string>(
         (client, reference) => client.collections.delete(reference),
@@ -21,5 +24,5 @@ export function useDeleteCollection(
             // Invalidate collections list
             queryKeys.collections.all,
         ],
-    )(options);
+    )(params);
 }

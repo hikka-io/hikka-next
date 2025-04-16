@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseImportWatchListOptions
+    extends Omit<
+        UseMutationOptions<SuccessResponse, Error, ImportWatchListArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for importing a watch list from an external source
  */
 export function useImportWatchList(
-    options?: Omit<
-        UseMutationOptions<SuccessResponse, Error, ImportWatchListArgs>,
-        'mutationFn'
-    >,
+    params: UseImportWatchListOptions = {},
 ): UseMutationResult<SuccessResponse, Error, ImportWatchListArgs> {
     return createMutation<SuccessResponse, Error, ImportWatchListArgs>(
         (client, args) => client.settings.importWatchList(args),
@@ -21,5 +24,5 @@ export function useImportWatchList(
             // Invalidate watch stats
             queryKeys.watch.stats(''),
         ],
-    )(options);
+    )(params);
 }

@@ -4,14 +4,17 @@ import { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { queryKeys } from '../core/queryKeys';
 import { createMutation } from '../core/useMutation';
 
+export interface UseCreateArticleOptions
+    extends Omit<
+        UseMutationOptions<ArticleResponse, Error, ArticleArgs>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for creating a new article
  */
 export function useCreateArticle(
-    options?: Omit<
-        UseMutationOptions<ArticleResponse, Error, ArticleArgs>,
-        'mutationFn'
-    >,
+    params: UseCreateArticleOptions = {},
 ): UseMutationResult<ArticleResponse, Error, ArticleArgs> {
     return createMutation<ArticleResponse, Error, ArticleArgs>(
         (client, args) => client.articles.createArticle(args),
@@ -19,5 +22,5 @@ export function useCreateArticle(
             // Invalidate articles list
             queryKeys.articles.all,
         ],
-    )(options);
+    )(params);
 }

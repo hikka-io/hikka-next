@@ -19,18 +19,21 @@ export interface UseAnimeGenresOptions
 /**
  * Hook for getting all anime genres
  */
-export function useAnimeGenres(options: UseAnimeGenresOptions = {}) {
+export function useAnimeGenres(params: UseAnimeGenresOptions = {}) {
     return useQuery(
         queryKeys.anime.genres(),
         (client) => client.anime.getGenres(),
-        options,
+        params,
     );
 }
 
-export async function prefetchAnimeGenres(
-    queryClient: QueryClient,
-    options: UseAnimeGenresOptions = {},
-) {
+export interface PrefetchAnimeGenresParams extends UseAnimeGenresOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchAnimeGenres(params: PrefetchAnimeGenresParams) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.anime.genres(),

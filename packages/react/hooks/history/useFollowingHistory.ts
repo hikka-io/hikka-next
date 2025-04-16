@@ -22,8 +22,8 @@ export interface UseFollowingHistoryOptions
 /**
  * Hook for getting the history of users that the current user follows
  */
-export function useFollowingHistory(options: UseFollowingHistoryOptions = {}) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useFollowingHistory(params: UseFollowingHistoryOptions = {}) {
+    const { page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.history.following(),
@@ -32,11 +32,15 @@ export function useFollowingHistory(options: UseFollowingHistoryOptions = {}) {
     );
 }
 
+export interface PrefetchFollowingHistoryParams
+    extends UseFollowingHistoryOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchFollowingHistory(
-    queryClient: QueryClient,
-    options: UseFollowingHistoryOptions = {},
+    params: PrefetchFollowingHistoryParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

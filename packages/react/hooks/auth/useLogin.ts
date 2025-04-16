@@ -9,18 +9,21 @@ type LoginVariables = {
     captcha: string;
 };
 
+export interface UseLoginOptions
+    extends Omit<
+        UseMutationOptions<TokenResponse, Error, LoginVariables>,
+        'mutationFn'
+    > {}
+
 /**
  * Hook for logging in to the application
  */
 export function useLogin(
-    options?: Omit<
-        UseMutationOptions<TokenResponse, Error, LoginVariables>,
-        'mutationFn'
-    >,
+    params: UseLoginOptions = {},
 ): UseMutationResult<TokenResponse, Error, LoginVariables> {
     return createMutation<TokenResponse, Error, LoginVariables>(
         (client, { args, captcha }) => client.auth.login(args, captcha),
         // Update user data and token info on successful login
         [queryKeys.user.me(), queryKeys.auth.tokenInfo()],
-    )(options);
+    )(params);
 }

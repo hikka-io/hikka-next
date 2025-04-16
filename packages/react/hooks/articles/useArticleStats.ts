@@ -19,18 +19,21 @@ export interface UseArticleStatsOptions
 /**
  * Hook for getting article stats (top authors and tags)
  */
-export function useArticleStats(options: UseArticleStatsOptions = {}) {
+export function useArticleStats(params: UseArticleStatsOptions = {}) {
     return useQuery(
         queryKeys.articles.stats(),
         (client) => client.articles.getArticleStats(),
-        options,
+        params,
     );
 }
 
-export async function prefetchArticleStats(
-    queryClient: QueryClient,
-    options: UseArticleStatsOptions = {},
-) {
+export interface PrefetchArticleStatsParams extends UseArticleStatsOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchArticleStats(params: PrefetchArticleStatsParams) {
+    const { queryClient, ...options } = params;
+
     return await prefetchQuery(
         queryClient,
         queryKeys.articles.stats(),

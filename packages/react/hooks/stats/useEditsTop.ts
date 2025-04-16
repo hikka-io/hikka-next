@@ -22,8 +22,8 @@ export interface UseEditsTopOptions
 /**
  * Hook for getting top editors by edit count
  */
-export function useEditsTop(options: UseEditsTopOptions = {}) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useEditsTop(params: UseEditsTopOptions = {}) {
+    const { page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.stats.editsTop(),
@@ -32,11 +32,12 @@ export function useEditsTop(options: UseEditsTopOptions = {}) {
     );
 }
 
-export async function prefetchEditsTop(
-    queryClient: QueryClient,
-    options: UseEditsTopOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export interface PrefetchEditsTopParams extends UseEditsTopOptions {
+    queryClient: QueryClient;
+}
+
+export async function prefetchEditsTop(params: PrefetchEditsTopParams) {
+    const { queryClient, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,

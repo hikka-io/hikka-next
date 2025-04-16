@@ -18,6 +18,7 @@ export interface UseCompanySearchOptions
         >,
         'queryKey' | 'queryFn'
     > {
+    args: CompaniesSearchArgs;
     page?: number;
     size?: number;
 }
@@ -25,11 +26,8 @@ export interface UseCompanySearchOptions
 /**
  * Hook for searching companies
  */
-export function useCompanySearch(
-    args: CompaniesSearchArgs,
-    options: UseCompanySearchOptions = {},
-) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+export function useCompanySearch(params: UseCompanySearchOptions) {
+    const { args, page = 1, size = 15, ...queryOptions } = params;
 
     return useQuery(
         queryKeys.companies.search(args),
@@ -38,12 +36,14 @@ export function useCompanySearch(
     );
 }
 
+export interface PrefetchCompanySearchParams extends UseCompanySearchOptions {
+    queryClient: QueryClient;
+}
+
 export async function prefetchCompanySearch(
-    queryClient: QueryClient,
-    args: CompaniesSearchArgs,
-    options: UseCompanySearchOptions = {},
+    params: PrefetchCompanySearchParams,
 ) {
-    const { page = 1, size = 15, ...queryOptions } = options;
+    const { queryClient, args, page = 1, size = 15, ...queryOptions } = params;
 
     return await prefetchQuery(
         queryClient,
