@@ -29,7 +29,9 @@
         "hooks/**/*.ts",
         "hooks/**/*.tsx",
         "server/**/*.ts",
-        "server/**/*.tsx"
+        "server/**/*.tsx",
+        "core/createQueryClient.ts",
+        "core/createHikkaClient.ts"
     ],
     "exclude": [
         "node_modules",

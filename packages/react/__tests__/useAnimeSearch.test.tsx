@@ -2,13 +2,13 @@ import { AnimePaginationResponse, HikkaClient } from '@hikka/client';
 import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 
+import { getQueryClient } from '../core/createQueryClient';
 import {
     HikkaProvider,
     prefetchAnimeSearch,
     queryKeys,
     useAnimeSearch,
 } from '../index';
-import { getQueryClient } from '../server/createQueryClient';
 
 const createWrapper = () => {
     const queryClient = new QueryClient({

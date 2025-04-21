@@ -1,35 +1,36 @@
-import { HikkaClient } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    UseInfiniteQueryOptions,
+    UseInfiniteQueryResult,
+    useInfiniteQuery as useTanstackInfiniteQuery,
+} from '@tanstack/react-query';
 
-import { getHikkaClient } from '../core/createHikkaClient';
+import { useHikkaClient } from '../provider/useHikkaClient';
 
 /**
- * Prefetches data for an infinite query and dehydrates it for use in server components.
- *
- * @param queryClient The query client to use
- * @param queryKey The query key to use
- * @param queryFn The function that will fetch the data
- * @param options Additional options for the query
+ * Hook for creating infinite queries with the Hikka client.
+ * Automatically provides the client to the queryFn.
  */
-export async function prefetchInfiniteQuery<
+export function useInfiniteQuery<
     TQueryFnData,
     TError = Error,
     TData = TQueryFnData,
     TQueryKey extends readonly unknown[] = readonly unknown[],
 >({
-    queryClient,
     queryKey,
     queryFn,
     options,
 }: {
-    queryClient: QueryClient;
     queryKey: TQueryKey;
-    queryFn: (client: HikkaClient, pageParam: number) => Promise<TQueryFnData>;
+    queryFn: (
+        client: ReturnType<typeof useHikkaClient>,
+        pageParam: number,
+    ) => Promise<TQueryFnData>;
     options?: Omit<
-        FetchInfiniteQueryOptions<
+        UseInfiniteQueryOptions<
             TQueryFnData,
             TError,
             TData,
+            TQueryFnData,
             TQueryKey,
             number
         >,
@@ -39,15 +40,20 @@ export async function prefetchInfiniteQuery<
             lastPage: TQueryFnData,
         ) => number | undefined | null;
     };
-}): Promise<void> {
-    const hikkaClient = getHikkaClient();
+}): UseInfiniteQueryResult<TData, TError> {
+    const client = useHikkaClient();
 
-    // Prefetch the data
-    await queryClient.prefetchInfiniteQuery({
+    return useTanstackInfiniteQuery<
+        TQueryFnData,
+        TError,
+        TData,
+        TQueryKey,
+        number
+    >({
         queryKey,
-        queryFn: (context) => queryFn(hikkaClient, context.pageParam as number),
+        queryFn: ({ pageParam }) => queryFn(client, pageParam),
         initialPageParam: 1, // Default to page 1
-        getNextPageParam: (lastPage: TQueryFnData) => {
+        getNextPageParam: (lastPage, _, lastPageParam) => {
             // Use custom getNextPageParam if provided
             if (options?.getNextPageParam) {
                 return options.getNextPageParam(lastPage);
@@ -62,7 +68,7 @@ export async function prefetchInfiniteQuery<
                 'pagination' in lastPage &&
                 typeof (lastPage as any).pagination === 'object'
             ) {
-                const pagination = (lastPage as any).pagination as {
+                const pagination = lastPage.pagination as {
                     page: number;
                     pages: number;
                     total: number;
@@ -70,7 +76,7 @@ export async function prefetchInfiniteQuery<
 
                 // If we haven't reached the last page, return the next page number
                 if (pagination.page < pagination.pages) {
-                    return pagination.page + 1;
+                    return lastPageParam + 1;
                 }
             }
 

@@ -1,7 +1,7 @@
 import { HikkaClient } from '@hikka/client';
 import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
 
-import { getHikkaClient } from './createHikkaClient';
+import { getHikkaClient } from '../core/createHikkaClient';
 
 /**
  * Prefetches data for a query and dehydrates it for use in server components.
@@ -16,15 +16,20 @@ export async function prefetchQuery<
     TError = Error,
     TData = TQueryFnData,
     TQueryKey extends readonly unknown[] = readonly unknown[],
->(
-    queryClient: QueryClient,
-    queryKey: TQueryKey,
-    queryFn: (client: HikkaClient) => Promise<TQueryFnData>,
+>({
+    queryClient,
+    queryKey,
+    queryFn,
+    options,
+}: {
+    queryClient: QueryClient;
+    queryKey: TQueryKey;
+    queryFn: (client: HikkaClient) => Promise<TQueryFnData>;
     options?: Omit<
         FetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
         'queryKey' | 'queryFn'
-    >,
-): Promise<void> {
+    >;
+}): Promise<void> {
     const hikkaClient = getHikkaClient();
 
     // Prefetch the data
