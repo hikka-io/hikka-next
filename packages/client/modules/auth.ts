@@ -1,10 +1,12 @@
 import {
     AuthTokenInfoPaginationResponse,
     AuthTokenInfoResponse,
+    CaptchaArgs,
     CodeArgs,
     ComfirmResetArgs,
     EmailArgs,
     LoginArgs,
+    PaginationArgs,
     ProviderUrlResponse,
     SignupArgs,
     TokenArgs,
@@ -22,7 +24,7 @@ export class AuthModule extends BaseModule {
      */
     public async login(
         args: LoginArgs,
-        captcha: string,
+        { captcha }: CaptchaArgs,
     ): Promise<TokenResponse> {
         return this.client.post<TokenResponse>('/auth/login', args, {
             headers: { captcha },
@@ -34,7 +36,7 @@ export class AuthModule extends BaseModule {
      */
     public async signup(
         args: SignupArgs,
-        captcha: string,
+        { captcha }: CaptchaArgs,
     ): Promise<TokenResponse> {
         return this.client.post<TokenResponse>('/auth/signup', args, {
             headers: { captcha },
@@ -121,8 +123,7 @@ export class AuthModule extends BaseModule {
      * List third-party tokens
      */
     public async listThirdPartyTokens(
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AuthTokenInfoPaginationResponse> {
         return this.client.get<AuthTokenInfoPaginationResponse>(
             '/auth/token/thirdparty',

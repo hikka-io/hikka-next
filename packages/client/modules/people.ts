@@ -1,4 +1,5 @@
 import {
+    PaginationArgs,
     PersonAnimePaginationResponse,
     PersonCharactersPaginationResponse,
     PersonCountResponse,
@@ -22,8 +23,7 @@ export class PeopleModule extends BaseModule {
      */
     public async search(
         args: QuerySearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonSearchPaginationResponse> {
         return this.client.post<PersonSearchPaginationResponse>(
             '/people',
@@ -40,8 +40,7 @@ export class PeopleModule extends BaseModule {
      */
     public async getAnime(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonAnimePaginationResponse> {
         return this.client.get<PersonAnimePaginationResponse>(
             `/people/${slug}/anime`,
@@ -57,8 +56,7 @@ export class PeopleModule extends BaseModule {
      */
     public async getManga(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonMangaPaginationResponse> {
         return this.client.get<PersonMangaPaginationResponse>(
             `/people/${slug}/manga`,
@@ -74,8 +72,7 @@ export class PeopleModule extends BaseModule {
      */
     public async getNovel(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonNovelPaginationResponse> {
         return this.client.get<PersonNovelPaginationResponse>(
             `/people/${slug}/novel`,
@@ -91,8 +88,7 @@ export class PeopleModule extends BaseModule {
      */
     public async getCharacters(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonCharactersPaginationResponse> {
         return this.client.get<PersonCharactersPaginationResponse>(
             `/people/${slug}/characters`,

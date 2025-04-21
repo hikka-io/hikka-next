@@ -5,6 +5,7 @@ import {
     CharacterNovelPaginationResponse,
     CharacterVoicesPaginationResponse,
     CharactersSearchPaginationResponse,
+    PaginationArgs,
     QuerySearchArgs,
 } from '../types';
 import { BaseModule } from './base';
@@ -22,8 +23,7 @@ export class CharactersModule extends BaseModule {
      */
     public async search(
         args: QuerySearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharactersSearchPaginationResponse> {
         return this.client.post<CharactersSearchPaginationResponse>(
             '/characters',
@@ -40,8 +40,7 @@ export class CharactersModule extends BaseModule {
      */
     public async getAnime(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterAnimePaginationResponse> {
         return this.client.get<CharacterAnimePaginationResponse>(
             `/characters/${slug}/anime`,
@@ -57,8 +56,7 @@ export class CharactersModule extends BaseModule {
      */
     public async getManga(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterMangaPaginationResponse> {
         return this.client.get<CharacterMangaPaginationResponse>(
             `/characters/${slug}/manga`,
@@ -74,8 +72,7 @@ export class CharactersModule extends BaseModule {
      */
     public async getNovel(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterNovelPaginationResponse> {
         return this.client.get<CharacterNovelPaginationResponse>(
             `/characters/${slug}/novel`,
@@ -91,8 +88,7 @@ export class CharactersModule extends BaseModule {
      */
     public async getVoices(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterVoicesPaginationResponse> {
         return this.client.get<CharacterVoicesPaginationResponse>(
             `/characters/${slug}/voices`,

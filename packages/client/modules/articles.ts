@@ -5,6 +5,7 @@ import {
     ArticlesListResponse,
     ArticlesTopResponse,
 } from '../types/articles';
+import { PaginationArgs } from '../types/common';
 import { BaseModule } from './base';
 
 /**
@@ -16,8 +17,7 @@ export class ArticlesModule extends BaseModule {
      */
     public async getArticles(
         args: ArticlesListArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ArticlesListResponse> {
         return this.client.post<ArticlesListResponse>('/articles', args, {
             page,

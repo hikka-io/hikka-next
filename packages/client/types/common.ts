@@ -91,3 +91,18 @@ export interface RoleResponse {
     weight: number | null;
     slug: string;
 }
+
+/**
+ * Pagination args
+ */
+export interface PaginationArgs {
+    page?: number;
+    size?: number;
+}
+
+/**
+ * Captcha args
+ */
+export interface CaptchaArgs {
+    captcha: string;
+}

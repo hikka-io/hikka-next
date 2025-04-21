@@ -4,6 +4,7 @@ import {
     CommentResponse,
     CommentTextArgs,
     CommentsContentTypeEnum,
+    PaginationArgs,
     SuccessResponse,
 } from '../types';
 import { BaseModule } from './base';
@@ -20,8 +21,7 @@ export class CommentsModule extends BaseModule {
      * Get comments list for user
      */
     public async getList(
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>('/comments/list', {
             page,
@@ -49,8 +49,7 @@ export class CommentsModule extends BaseModule {
     public async getContentComments(
         contentType: CommentsContentTypeEnum,
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>(
             `/comments/${contentType}/${slug}/list`,

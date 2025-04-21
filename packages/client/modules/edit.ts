@@ -1,3 +1,4 @@
+import { PaginationArgs } from '../types';
 import {
     AddEditArgs,
     EditPaginationResponse,
@@ -55,8 +56,7 @@ export class EditModule extends BaseModule {
      */
     public async getEditList<T = any>(
         args: GetEditListArgs = {},
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<EditPaginationResponse<T>> {
         return this.client.get<EditPaginationResponse<T>>('/edit', {
             ...args,

@@ -2,6 +2,7 @@ import {
     FavouriteContentTypeEnum,
     FavouritePaginationResponse,
     FavouriteResponse,
+    PaginationArgs,
     SuccessResponse,
 } from '../types';
 import { BaseModule } from './base';
@@ -49,8 +50,7 @@ export class FavouriteModule extends BaseModule {
     public async getList(
         contentType: FavouriteContentTypeEnum,
         username: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<FavouritePaginationResponse> {
         return this.client.post<FavouritePaginationResponse>(
             `/favourite/${contentType}/${username}/list`,

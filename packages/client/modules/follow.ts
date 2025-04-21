@@ -1,3 +1,4 @@
+import { PaginationArgs } from '../types';
 import {
     FollowListResponse,
     FollowResponse,
@@ -44,8 +45,7 @@ export class FollowModule extends BaseModule {
      */
     public async getFollowings(
         username: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<FollowListResponse> {
         return this.client.get<FollowListResponse>(
             `/follow/${username}/following`,
@@ -61,8 +61,7 @@ export class FollowModule extends BaseModule {
      */
     public async getFollowers(
         username: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<FollowListResponse> {
         return this.client.get<FollowListResponse>(
             `/follow/${username}/followers`,

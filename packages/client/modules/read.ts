@@ -1,6 +1,7 @@
 import {
     MangaResponse,
     NovelResponse,
+    PaginationArgs,
     ReadArgs,
     ReadContentTypeEnum,
     ReadPaginationResponse,
@@ -56,8 +57,7 @@ export class ReadModule extends BaseModule {
     public async getFollowingUsers(
         contentType: ReadContentTypeEnum,
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<UserReadPaginationResponse> {
         return this.client.get<UserReadPaginationResponse>(
             `/read/${contentType}/${slug}/following`,
@@ -100,8 +100,7 @@ export class ReadModule extends BaseModule {
         contentType: ReadContentTypeEnum,
         username: string,
         args: ReadSearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ReadPaginationResponse> {
         return this.client.post<ReadPaginationResponse>(
             `/read/${contentType}/${username}/list`,

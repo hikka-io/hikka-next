@@ -3,6 +3,7 @@ import {
     NovelInfoResponse,
     NovelPaginationResponse,
     NovelSearchArgs,
+    PaginationArgs,
 } from '../types';
 import { BaseModule } from './base';
 
@@ -12,8 +13,7 @@ export class NovelModule extends BaseModule {
      */
     public async search(
         args: NovelSearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<NovelPaginationResponse> {
         return this.client.post<NovelPaginationResponse>('/novel', args, {
             page,
@@ -33,8 +33,7 @@ export class NovelModule extends BaseModule {
      */
     public async getCharacters(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/novel/${slug}/characters`,

@@ -3,6 +3,7 @@ import {
     CollectionResponse,
     CollectionsListArgs,
     CollectionsListResponse,
+    PaginationArgs,
     SuccessResponse,
 } from '../types';
 import { BaseModule } from './base';
@@ -13,8 +14,7 @@ export class CollectionsModule extends BaseModule {
      */
     public async getCollections(
         args: CollectionsListArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CollectionsListResponse> {
         return this.client.post<CollectionsListResponse>('/collections', args, {
             page,

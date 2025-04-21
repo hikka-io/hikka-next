@@ -6,6 +6,7 @@ import {
     AnimeStaffPaginationResponse,
     ContentCharacterPaginationResponse,
     GenreListResponse,
+    PaginationArgs,
 } from '../types';
 import { BaseModule } from './base';
 
@@ -15,8 +16,7 @@ export class AnimeModule extends BaseModule {
      */
     public async search(
         args: AnimeSearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AnimePaginationResponse> {
         return this.client.post<AnimePaginationResponse>('/anime', args, {
             page,
@@ -36,8 +36,7 @@ export class AnimeModule extends BaseModule {
      */
     public async getCharacters(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/anime/${slug}/characters`,
@@ -53,8 +52,7 @@ export class AnimeModule extends BaseModule {
      */
     public async getStaff(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AnimeStaffPaginationResponse> {
         return this.client.get<AnimeStaffPaginationResponse>(
             `/anime/${slug}/staff`,
@@ -70,8 +68,7 @@ export class AnimeModule extends BaseModule {
      */
     public async getEpisodes(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AnimeEpisodesListResponse> {
         return this.client.get<AnimeEpisodesListResponse>(
             `/anime/${slug}/episodes`,
@@ -87,8 +84,7 @@ export class AnimeModule extends BaseModule {
      */
     public async getRecommendations(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AnimePaginationResponse> {
         return this.client.get<AnimePaginationResponse>(
             `/anime/${slug}/recommendations`,
@@ -104,8 +100,7 @@ export class AnimeModule extends BaseModule {
      */
     public async getFranchise(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AnimePaginationResponse> {
         return this.client.get<AnimePaginationResponse>(
             `/anime/${slug}/franchise`,

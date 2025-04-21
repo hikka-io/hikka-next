@@ -1,3 +1,4 @@
+import { PaginationArgs } from '../types';
 import { HistoryPaginationResponse } from '../types/history';
 import { BaseModule } from './base';
 
@@ -9,8 +10,7 @@ export class HistoryModule extends BaseModule {
      * Get the history of users that the current user follows
      */
     public async getFollowingHistory(
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<HistoryPaginationResponse> {
         return this.client.get<HistoryPaginationResponse>(
             '/history/following',
@@ -26,8 +26,7 @@ export class HistoryModule extends BaseModule {
      */
     public async getUserHistory(
         username: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<HistoryPaginationResponse> {
         return this.client.get<HistoryPaginationResponse>(
             `/history/user/${username}`,

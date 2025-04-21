@@ -3,6 +3,7 @@ import {
     MangaInfoResponse,
     MangaPaginationResponse,
     MangaSearchArgs,
+    PaginationArgs,
 } from '../types';
 import { BaseModule } from './base';
 
@@ -12,8 +13,7 @@ export class MangaModule extends BaseModule {
      */
     public async search(
         args: MangaSearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<MangaPaginationResponse> {
         return this.client.post<MangaPaginationResponse>('/manga', args, {
             page,
@@ -33,8 +33,7 @@ export class MangaModule extends BaseModule {
      */
     public async getCharacters(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/manga/${slug}/characters`,

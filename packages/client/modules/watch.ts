@@ -1,6 +1,7 @@
 import {
     AnimeResponse,
     AnimeWatchSearchArgs,
+    PaginationArgs,
     SuccessResponse,
     UserWatchPaginationResponse,
     WatchArgs,
@@ -42,8 +43,7 @@ export class WatchModule extends BaseModule {
     public async getList(
         username: string,
         args: AnimeWatchSearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<WatchPaginationResponse> {
         return this.client.post<WatchPaginationResponse>(
             `/watch/${username}/list`,
@@ -72,8 +72,7 @@ export class WatchModule extends BaseModule {
      */
     public async getFollowingUsers(
         slug: string,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<UserWatchPaginationResponse> {
         return this.client.get<UserWatchPaginationResponse>(
             `/watch/${slug}/following`,

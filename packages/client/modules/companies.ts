@@ -1,3 +1,4 @@
+import { PaginationArgs } from '../types';
 import {
     CompaniesPaginationResponse,
     CompaniesSearchArgs,
@@ -13,8 +14,7 @@ export class CompaniesModule extends BaseModule {
      */
     public async search(
         args: CompaniesSearchArgs,
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CompaniesPaginationResponse> {
         return this.client.post<CompaniesPaginationResponse>(
             '/companies',

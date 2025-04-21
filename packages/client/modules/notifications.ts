@@ -2,6 +2,7 @@ import {
     NotificationPaginationResponse,
     NotificationResponse,
     NotificationUnseenResponse,
+    PaginationArgs,
 } from '../types';
 import { BaseModule } from './base';
 
@@ -10,8 +11,7 @@ export class NotificationsModule extends BaseModule {
      * Get notifications
      */
     public async getNotifications(
-        page: number = 1,
-        size: number = 15,
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<NotificationPaginationResponse> {
         return this.client.get<NotificationPaginationResponse>(
             '/notifications',
