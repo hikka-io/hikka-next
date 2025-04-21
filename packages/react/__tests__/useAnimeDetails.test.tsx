@@ -2,7 +2,7 @@ import { HikkaClient } from '@hikka/client';
 import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { HikkaProvider, useAnimeDetails } from '../index';
+import { HikkaProvider, useAnimeInfo } from '../index';
 
 const createWrapper = () => {
     const queryClient = new QueryClient({
@@ -24,14 +24,14 @@ const createWrapper = () => {
     );
 };
 
-describe('useAnimeDetails', () => {
+describe('useAnimeInfo', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it('should fetch anime details when slug is provided', async () => {
         const { result } = renderHook(
-            () => useAnimeDetails('tu-bian-yingxiong-x-8d3a06'),
+            () => useAnimeInfo('tu-bian-yingxiong-x-8d3a06'),
             {
                 wrapper: createWrapper(),
             },
@@ -42,7 +42,7 @@ describe('useAnimeDetails', () => {
     });
 
     it('should not fetch when slug is not provided', async () => {
-        const { result } = renderHook(() => useAnimeDetails(''), {
+        const { result } = renderHook(() => useAnimeInfo(''), {
             wrapper: createWrapper(),
         });
 
@@ -50,7 +50,7 @@ describe('useAnimeDetails', () => {
     });
 
     it('should handle errors', async () => {
-        const { result } = renderHook(() => useAnimeDetails('test-anime'), {
+        const { result } = renderHook(() => useAnimeInfo('test-anime'), {
             wrapper: createWrapper(),
         });
 

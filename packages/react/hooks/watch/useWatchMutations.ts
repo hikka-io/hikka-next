@@ -1,0 +1,32 @@
+import { WatchArgs } from '@hikka/client';
+
+import { queryKeys } from '../../core/queryKeys';
+import { createMutation } from '../../core/useMutation';
+
+type AddOrUpdateWatchVariables = {
+    slug: string;
+    args: WatchArgs;
+};
+
+/**
+ * Hook for adding or updating a watch entry
+ */
+export const useAddOrUpdateWatch = createMutation({
+    mutationFn: (client, { slug, args }: AddOrUpdateWatchVariables) =>
+        client.watch.addOrUpdate(slug, args),
+    invalidateQueries: ({ slug }) => [
+        queryKeys.watch.entry(slug),
+        queryKeys.watch.all,
+    ],
+});
+
+/**
+ * Hook for deleting a watch entry
+ */
+export const useDeleteWatch = createMutation({
+    mutationFn: (client, slug: string) => client.watch.delete(slug),
+    invalidateQueries: (slug) => [
+        queryKeys.watch.entry(slug),
+        queryKeys.watch.all,
+    ],
+});

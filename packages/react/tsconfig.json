@@ -15,7 +15,8 @@
         "paths": {
             "@/server/*": ["./server/*"],
             "@/hooks/*": ["./hooks/*"],
-            "@/provider/*": ["./provider/*"]
+            "@/provider/*": ["./provider/*"],
+            "@/core/*": ["./core/*"]
         },
         "baseUrl": ".",
         "outDir": "./dist",
@@ -30,8 +31,8 @@
         "hooks/**/*.tsx",
         "server/**/*.ts",
         "server/**/*.tsx",
-        "core/createQueryClient.ts",
-        "core/createHikkaClient.ts"
+        "core/**/*.ts",
+        "core/**/*.tsx"
     ],
     "exclude": [
         "node_modules",
