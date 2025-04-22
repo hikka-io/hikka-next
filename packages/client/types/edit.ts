@@ -44,8 +44,9 @@ export interface EditResponse<
 /**
  * Edit list response
  */
-export interface EditPaginationResponse<T = any> extends PaginationResponse {
+export interface EditPaginationResponse<T = any> {
     list: EditResponse<T>[];
+    pagination: PaginationResponse;
 }
 
 /**

@@ -26,6 +26,7 @@ export interface FollowStatsResponse {
 /**
  * Follow list response
  */
-export interface FollowListResponse extends PaginationResponse {
+export interface FollowListResponse {
     list: UserResponse[];
+    pagination: PaginationResponse;
 }

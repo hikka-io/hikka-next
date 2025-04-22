@@ -22,6 +22,7 @@ export interface CompaniesSearchArgs {
 /**
  * Companies list response
  */
-export interface CompaniesPaginationResponse extends PaginationResponse {
+export interface CompaniesPaginationResponse {
     list: CompanyResponse[];
+    pagination: PaginationResponse;
 }
