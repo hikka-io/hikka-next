@@ -3,7 +3,11 @@ import {
     AnimeScheduleResponsePaginationResponse,
     PaginationArgs,
 } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -20,7 +24,7 @@ export function useAnimeSchedule(
         UseInfiniteQueryOptions<
             AnimeScheduleResponsePaginationResponse,
             Error,
-            AnimeScheduleResponsePaginationResponse,
+            InfiniteData<AnimeScheduleResponsePaginationResponse>,
             AnimeScheduleResponsePaginationResponse,
             readonly unknown[],
             number

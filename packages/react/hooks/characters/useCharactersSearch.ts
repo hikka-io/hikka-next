@@ -3,7 +3,11 @@ import {
     PaginationArgs,
     QuerySearchArgs,
 } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -20,7 +24,7 @@ export function useCharactersSearch(
         UseInfiniteQueryOptions<
             CharactersSearchPaginationResponse,
             Error,
-            CharactersSearchPaginationResponse,
+            InfiniteData<CharactersSearchPaginationResponse>,
             CharactersSearchPaginationResponse,
             readonly unknown[],
             number

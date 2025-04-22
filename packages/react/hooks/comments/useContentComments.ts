@@ -3,7 +3,11 @@ import {
     CommentsContentTypeEnum,
     PaginationArgs,
 } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -21,7 +25,7 @@ export function useContentComments(
         UseInfiniteQueryOptions<
             CommentListResponse,
             Error,
-            CommentListResponse,
+            InfiniteData<CommentListResponse>,
             CommentListResponse,
             readonly unknown[],
             number

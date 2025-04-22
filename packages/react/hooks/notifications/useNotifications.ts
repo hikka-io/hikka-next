@@ -6,6 +6,7 @@ import {
 import {
     FetchInfiniteQueryOptions,
     FetchQueryOptions,
+    InfiniteData,
     QueryClient,
 } from '@tanstack/query-core';
 import {
@@ -28,7 +29,7 @@ export function useNotifications(
         UseInfiniteQueryOptions<
             NotificationPaginationResponse,
             Error,
-            NotificationPaginationResponse,
+            InfiniteData<NotificationPaginationResponse>,
             NotificationPaginationResponse,
             readonly unknown[],
             number

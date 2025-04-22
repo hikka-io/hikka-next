@@ -3,7 +3,11 @@ import {
     GetEditListArgs,
     PaginationArgs,
 } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -20,7 +24,7 @@ export function useEditList<T = any>(
         UseInfiniteQueryOptions<
             EditPaginationResponse<T>,
             Error,
-            EditPaginationResponse<T>,
+            InfiniteData<EditPaginationResponse<T>>,
             EditPaginationResponse<T>,
             readonly unknown[],
             number

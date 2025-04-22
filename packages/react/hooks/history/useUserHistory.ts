@@ -1,5 +1,9 @@
 import { HistoryPaginationResponse, PaginationArgs } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -16,7 +20,7 @@ export function useUserHistory(
         UseInfiniteQueryOptions<
             HistoryPaginationResponse,
             Error,
-            HistoryPaginationResponse,
+            InfiniteData<HistoryPaginationResponse>,
             HistoryPaginationResponse,
             readonly unknown[],
             number

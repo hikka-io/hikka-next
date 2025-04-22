@@ -1,5 +1,9 @@
 import { PaginationArgs, UserWatchPaginationResponse } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -16,7 +20,7 @@ export function useFollowingWatchers(
         UseInfiniteQueryOptions<
             UserWatchPaginationResponse,
             Error,
-            UserWatchPaginationResponse,
+            InfiniteData<UserWatchPaginationResponse>,
             UserWatchPaginationResponse,
             readonly unknown[],
             number

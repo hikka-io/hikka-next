@@ -3,7 +3,11 @@ import {
     PaginationArgs,
     WatchPaginationResponse,
 } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -21,7 +25,7 @@ export function useWatchList(
         UseInfiniteQueryOptions<
             WatchPaginationResponse,
             Error,
-            WatchPaginationResponse,
+            InfiniteData<WatchPaginationResponse>,
             WatchPaginationResponse,
             readonly unknown[],
             number

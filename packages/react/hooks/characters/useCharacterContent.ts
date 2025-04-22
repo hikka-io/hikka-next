@@ -5,7 +5,11 @@ import {
     CharacterVoicesPaginationResponse,
     PaginationArgs,
 } from '@hikka/client';
-import { FetchInfiniteQueryOptions, QueryClient } from '@tanstack/query-core';
+import {
+    FetchInfiniteQueryOptions,
+    InfiniteData,
+    QueryClient,
+} from '@tanstack/query-core';
 import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
@@ -22,7 +26,7 @@ export function useCharacterAnime(
         UseInfiniteQueryOptions<
             CharacterAnimePaginationResponse,
             Error,
-            CharacterAnimePaginationResponse,
+            InfiniteData<CharacterAnimePaginationResponse>,
             CharacterAnimePaginationResponse,
             readonly unknown[],
             number
@@ -81,7 +85,7 @@ export function useCharacterManga(
         UseInfiniteQueryOptions<
             CharacterMangaPaginationResponse,
             Error,
-            CharacterMangaPaginationResponse,
+            InfiniteData<CharacterMangaPaginationResponse>,
             CharacterMangaPaginationResponse,
             readonly unknown[],
             number
@@ -140,7 +144,7 @@ export function useCharacterNovel(
         UseInfiniteQueryOptions<
             CharacterNovelPaginationResponse,
             Error,
-            CharacterNovelPaginationResponse,
+            InfiniteData<CharacterNovelPaginationResponse>,
             CharacterNovelPaginationResponse,
             readonly unknown[],
             number
@@ -199,7 +203,7 @@ export function useCharacterVoices(
         UseInfiniteQueryOptions<
             CharacterVoicesPaginationResponse,
             Error,
-            CharacterVoicesPaginationResponse,
+            InfiniteData<CharacterVoicesPaginationResponse>,
             CharacterVoicesPaginationResponse,
             readonly unknown[],
             number

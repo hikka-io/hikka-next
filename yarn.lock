@@ -1191,7 +1191,7 @@ __metadata:
   resolution: "@hikka/react@workspace:packages/react"
   dependencies:
     "@hikka/client": "workspace:*"
-    "@tanstack/react-query": "npm:^5.74.3"
+    "@tanstack/react-query": "npm:5.74.4"
     "@testing-library/jest-dom": "npm:^6.4.2"
     "@testing-library/react": "npm:^14.2.1"
     "@testing-library/react-hooks": "npm:^8.0.1"
@@ -1200,6 +1200,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
+    react-intersection-observer: "npm:9.16.0"
     rimraf: "npm:^5.0.1"
     ts-jest: "npm:^29.1.2"
     tsup: "npm:^8.4.0"
@@ -4999,6 +5000,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/query-core@npm:5.74.4"
+  checksum: 10c0/e74d0520b2ee14c8a65f9ff00e335cb9d25453b8af08d776ff3f7a6ba24178cbf4d6a884412df5a0747737e4ca87f637dafaad2c0f0e6afd7cd22e32e0d7dced
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-devtools@npm:5.73.3":
   version: 5.73.3
   resolution: "@tanstack/query-devtools@npm:5.73.3"
@@ -5015,6 +5023,17 @@ __metadata:
     "@tanstack/react-query": ^5.74.3
     react: ^18 || ^19
   checksum: 10c0/e94ae8ab43acf65390b97fb3c0a9600ff6be597f41fb71b080e09591b2c363e8c180cf1078b94948f7e18e1f1b1061f8eadafac047dde00f6b7b0eba30a477f1
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/react-query@npm:5.74.4"
+  dependencies:
+    "@tanstack/query-core": "npm:5.74.4"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/4434b1764efd5e5a7f35046e7411fed06d42372ebbd6e784dcfd81c3d107b41c86fec2b59652fccadb1bab25ca35ef9b6720c7f5c89d6e4302cf1d2f60291200
   languageName: node
   linkType: hard
 
@@ -13982,7 +14001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-intersection-observer@npm:^9.13.1":
+"react-intersection-observer@npm:9.16.0, react-intersection-observer@npm:^9.13.1":
   version: 9.16.0
   resolution: "react-intersection-observer@npm:9.16.0"
   peerDependencies:

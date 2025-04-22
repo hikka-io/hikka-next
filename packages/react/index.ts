@@ -5,6 +5,8 @@ export * from './server';
 export * from './provider';
 
 // Core hook utilities
+export * from './core/createHikkaClient';
+export * from './core/createQueryClient';
 export * from './core/queryKeys';
 export * from './core/useInfiniteQuery';
 export * from './core/useMutation';

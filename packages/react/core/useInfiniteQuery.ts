@@ -1,19 +1,27 @@
+import { PaginationResponse } from '@hikka/client';
 import {
+    InfiniteData,
     UseInfiniteQueryOptions,
-    UseInfiniteQueryResult,
     useInfiniteQuery as useTanstackInfiniteQuery,
 } from '@tanstack/react-query';
+import React from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { useHikkaClient } from '../provider/useHikkaClient';
+
+// Define the structure of the API response
+export interface ListResponse<T> {
+    list: T[];
+    pagination: PaginationResponse;
+}
 
 /**
  * Hook for creating infinite queries with the Hikka client.
  * Automatically provides the client to the queryFn.
  */
 export function useInfiniteQuery<
-    TQueryFnData,
+    TItem,
     TError = Error,
-    TData = TQueryFnData,
     TQueryKey extends readonly unknown[] = readonly unknown[],
 >({
     queryKey,
@@ -24,29 +32,30 @@ export function useInfiniteQuery<
     queryFn: (
         client: ReturnType<typeof useHikkaClient>,
         pageParam: number,
-    ) => Promise<TQueryFnData>;
+    ) => Promise<ListResponse<TItem>>;
     options?: Omit<
         UseInfiniteQueryOptions<
-            TQueryFnData,
+            ListResponse<TItem>,
             TError,
-            TData,
-            TQueryFnData,
+            InfiniteData<ListResponse<TItem>>,
+            ListResponse<TItem>,
             TQueryKey,
             number
         >,
         'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
     > & {
         getNextPageParam?: (
-            lastPage: TQueryFnData,
+            lastPage: ListResponse<TItem>,
         ) => number | undefined | null;
     };
-}): UseInfiniteQueryResult<TData, TError> {
+}) {
+    const { ref, inView } = useInView();
     const client = useHikkaClient();
 
-    return useTanstackInfiniteQuery<
-        TQueryFnData,
+    const query = useTanstackInfiniteQuery<
+        ListResponse<TItem>,
         TError,
-        TData,
+        InfiniteData<ListResponse<TItem>>,
         TQueryKey,
         number
     >({
@@ -60,29 +69,26 @@ export function useInfiniteQuery<
             }
 
             // Default implementation for pagination
-            // This works if the response has a typical Hikka pagination structure
-            // with { pagination: { page: number, pages: number, total: number } }
-            if (
-                typeof lastPage === 'object' &&
-                lastPage !== null &&
-                'pagination' in lastPage &&
-                typeof (lastPage as any).pagination === 'object'
-            ) {
-                const pagination = lastPage.pagination as {
-                    page: number;
-                    pages: number;
-                    total: number;
-                };
-
-                // If we haven't reached the last page, return the next page number
-                if (pagination.page < pagination.pages) {
-                    return lastPageParam + 1;
-                }
-            }
-
-            // Otherwise, no more pages
-            return null;
+            const nextPage = lastPage.pagination.page + 1;
+            return nextPage > lastPage.pagination.pages ? null : nextPage;
         },
         ...options,
     });
+
+    const list =
+        query.data && query.data?.pages.map((data) => data.list).flat(1);
+    const pagination = query.data?.pages[0]?.pagination;
+
+    React.useEffect(() => {
+        if (inView) {
+            query.fetchNextPage();
+        }
+    }, [inView]);
+
+    return {
+        ...query,
+        list,
+        pagination,
+        ref,
+    };
 }
