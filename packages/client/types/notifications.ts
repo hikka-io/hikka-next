@@ -1,6 +1,7 @@
 import {
     ContentStatusEnum,
     ContentTypeEnum,
+    PaginatedResponse,
     PaginationResponse,
 } from './common';
 import { UserResponse } from './user';
@@ -16,6 +17,12 @@ export interface NotificationResponse<TData = NotificationData> {
     seen: boolean;
     data: TData;
 }
+
+/**
+ * Notifications response
+ */
+export interface NotificationsListResponse
+    extends PaginatedResponse<NotificationResponse> {}
 
 /**
  * Paginated notifications response

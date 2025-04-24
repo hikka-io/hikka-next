@@ -1,4 +1,4 @@
-import { PaginationResponse, SuccessResponse } from './common';
+import { PaginatedResponse, SuccessResponse } from './common';
 import { UserResponse } from './user';
 
 /**
@@ -35,10 +35,8 @@ export interface ClientArgs {
 /**
  * Clients pagination response
  */
-export interface ClientPaginationResponse {
-    list: ClientResponse[];
-    pagination: PaginationResponse;
-}
+export interface ClientPaginationResponse
+    extends PaginatedResponse<ClientResponse> {}
 
 /**
  * Client verification response

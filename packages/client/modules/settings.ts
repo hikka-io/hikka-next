@@ -3,7 +3,7 @@ import {
     EmailArgs,
     IgnoredNotificationsArgs,
     IgnoredNotificationsResponse,
-    ImageTypeEnum,
+    ImageType,
     ImportReadListArgs,
     ImportWatchListArgs,
     PasswordArgs,
@@ -98,7 +98,7 @@ export class SettingsModule extends BaseModule {
     /**
      * Delete user image (avatar or cover)
      */
-    public async deleteImage(imageType: ImageTypeEnum): Promise<UserResponse> {
+    public async deleteImage(imageType: ImageType): Promise<UserResponse> {
         return this.client.delete<UserResponse>(`/settings/image/${imageType}`);
     }
 

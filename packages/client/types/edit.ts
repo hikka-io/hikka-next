@@ -1,11 +1,11 @@
-import { ContentTypeEnum, PaginationResponse } from './common';
 import {
     AnimeResponse,
     CharacterResponse,
     MangaResponse,
     NovelResponse,
     PersonResponse,
-} from './content';
+} from './';
+import { ContentTypeEnum, PaginationResponse } from './common';
 import { UserResponse } from './user';
 
 /**

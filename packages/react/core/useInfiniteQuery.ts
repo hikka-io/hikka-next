@@ -1,4 +1,4 @@
-import { PaginationArgs, PaginationResponse } from '@hikka/client';
+import { PaginatedResponse, PaginationArgs } from '@hikka/client';
 import {
     InfiniteData,
     UseInfiniteQueryOptions,
@@ -29,12 +29,6 @@ export interface InfiniteQueryParams<T> {
     paginationArgs?: PaginationArgs;
 }
 
-// Define the structure of the API response
-export interface ListResponse<T> {
-    list: T[];
-    pagination: PaginationResponse;
-}
-
 /**
  * Hook for creating infinite queries with the Hikka client.
  * Automatically provides the client to the queryFn.
@@ -52,20 +46,20 @@ export function useInfiniteQuery<
     queryFn: (
         client: ReturnType<typeof useHikkaClient>,
         pageParam: number,
-    ) => Promise<ListResponse<TItem>>;
+    ) => Promise<PaginatedResponse<TItem>>;
     options?: Omit<
         UseInfiniteQueryOptions<
-            ListResponse<TItem>,
+            PaginatedResponse<TItem>,
             TError,
-            InfiniteData<ListResponse<TItem>>,
-            ListResponse<TItem>,
+            InfiniteData<PaginatedResponse<TItem>>,
+            PaginatedResponse<TItem>,
             TQueryKey,
             number
         >,
         'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
     > & {
         getNextPageParam?: (
-            lastPage: ListResponse<TItem>,
+            lastPage: PaginatedResponse<TItem>,
         ) => number | undefined | null;
     };
 }) {
@@ -73,9 +67,9 @@ export function useInfiniteQuery<
     const client = useHikkaClient();
 
     const query = useTanstackInfiniteQuery<
-        ListResponse<TItem>,
+        PaginatedResponse<TItem>,
         TError,
-        InfiniteData<ListResponse<TItem>>,
+        InfiniteData<PaginatedResponse<TItem>>,
         TQueryKey,
         number
     >({

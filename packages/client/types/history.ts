@@ -1,5 +1,5 @@
 import { AnimeResponse } from './anime';
-import { PaginationResponse } from './common';
+import { PaginatedResponse } from './common';
 import { MangaResponse } from './manga';
 import { NovelResponse } from './novel';
 import { ReadStatusEnum } from './read';
@@ -74,10 +74,8 @@ export interface HistoryReadImportData {
 /**
  * Paginated history response
  */
-export interface HistoryPaginationResponse {
-    list: HistoryResponse[];
-    pagination: PaginationResponse;
-}
+export interface HistoryPaginationResponse
+    extends PaginatedResponse<HistoryResponse> {}
 
 export enum HistoryTypeEnum {
     WATCH = 'watch',

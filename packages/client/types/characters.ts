@@ -1,5 +1,9 @@
 import { AnimeResponse } from './anime';
-import { ContentTypeEnum, PaginationResponse } from './common';
+import {
+    ContentTypeEnum,
+    PaginatedResponse,
+    PaginationResponse,
+} from './common';
 import { MangaResponse } from './manga';
 import { NovelResponse } from './novel';
 import { PersonResponse } from './people';
@@ -39,10 +43,8 @@ export interface QuerySearchArgs {
 /**
  * Paginated characters search response
  */
-export interface CharactersSearchPaginationResponse {
-    pagination: PaginationResponse;
-    list: CharacterResponse[];
-}
+export interface CharactersSearchPaginationResponse
+    extends PaginatedResponse<CharacterResponse> {}
 
 /**
  * Character anime response
@@ -55,10 +57,8 @@ export interface CharacterAnimeResponse {
 /**
  * Paginated character anime response
  */
-export interface CharacterAnimePaginationResponse {
-    pagination: PaginationResponse;
-    list: CharacterAnimeResponse[];
-}
+export interface CharacterAnimePaginationResponse
+    extends PaginatedResponse<CharacterAnimeResponse> {}
 
 /**
  * Character manga response
@@ -71,10 +71,8 @@ export interface CharacterMangaResponse {
 /**
  * Paginated character manga response
  */
-export interface CharacterMangaPaginationResponse {
-    pagination: PaginationResponse;
-    list: CharacterMangaResponse[];
-}
+export interface CharacterMangaPaginationResponse
+    extends PaginatedResponse<CharacterMangaResponse> {}
 
 /**
  * Character novel response
@@ -87,10 +85,8 @@ export interface CharacterNovelResponse {
 /**
  * Paginated character novel response
  */
-export interface CharacterNovelPaginationResponse {
-    pagination: PaginationResponse;
-    list: CharacterNovelResponse[];
-}
+export interface CharacterNovelPaginationResponse
+    extends PaginatedResponse<CharacterNovelResponse> {}
 
 /**
  * Character voice response

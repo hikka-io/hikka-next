@@ -3,7 +3,7 @@ import {
     ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
-    PaginationResponse,
+    PaginatedResponse,
     RoleResponse,
 } from './common';
 import { PersonResponse } from './people';
@@ -48,10 +48,8 @@ export interface MangaResponse {
 /**
  * Paginated manga response
  */
-export interface MangaPaginationResponse {
-    pagination: PaginationResponse;
-    list: MangaResponse[];
-}
+export interface MangaPaginationResponse
+    extends PaginatedResponse<MangaResponse> {}
 
 /**
  * Manga search parameters

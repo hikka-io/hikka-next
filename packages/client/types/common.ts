@@ -7,12 +7,20 @@ import { NovelInfoResponse, NovelResponse } from './novel';
 import { PersonResponse } from './people';
 
 /**
- * Standard pagination response
+ * Standard pagination metadata
  */
 export interface PaginationResponse {
     total: number;
     pages: number;
     page: number;
+}
+
+/**
+ * Generic paginated response that can be used for any list of items
+ */
+export interface PaginatedResponse<T> {
+    pagination: PaginationResponse;
+    list: T[];
 }
 
 /**

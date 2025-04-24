@@ -1,4 +1,8 @@
-import { ContentTypeEnum, PaginationResponse } from './common';
+import {
+    ContentTypeEnum,
+    PaginatedResponse,
+    PaginationResponse,
+} from './common';
 import { UserResponse } from './user';
 
 /**
@@ -56,3 +60,8 @@ export interface CommentArgs {
 export interface CommentTextArgs {
     text: string;
 }
+
+/**
+ * Comments response interface
+ */
+export interface CommentsResponse extends PaginatedResponse<CommentResponse> {}

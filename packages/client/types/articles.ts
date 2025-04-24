@@ -1,4 +1,4 @@
-import { ContentTypeEnum, PaginationResponse } from './common';
+import { ContentTypeEnum, PaginatedResponse } from './common';
 import { UserResponse } from './user';
 
 /**
@@ -114,10 +114,8 @@ export interface ArticlesListArgs {
 /**
  * Paginated articles response
  */
-export interface ArticlesListResponse {
-    pagination: PaginationResponse;
-    list: ArticleResponse[];
-}
+export interface ArticlesListResponse
+    extends PaginatedResponse<ArticleResponse> {}
 
 /**
  * User article stats response

@@ -3,7 +3,7 @@ import {
     ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
-    PaginationResponse,
+    PaginatedResponse,
     RoleResponse,
     SeasonEnum,
     SourceEnum,
@@ -76,10 +76,8 @@ export interface AnimeResponse {
 /**
  * Paginated anime response
  */
-export interface AnimePaginationResponse {
-    list: AnimeResponse[];
-    pagination: PaginationResponse;
-}
+export interface AnimePaginationResponse
+    extends PaginatedResponse<AnimeResponse> {}
 
 /**
  * Anime search parameters
@@ -112,10 +110,8 @@ export interface ContentCharacterResponse {
 /**
  * Paginated content characters response
  */
-export interface ContentCharacterPaginationResponse {
-    pagination: PaginationResponse;
-    list: ContentCharacterResponse[];
-}
+export interface ContentCharacterPaginationResponse
+    extends PaginatedResponse<ContentCharacterResponse> {}
 
 /**
  * Anime staff member response
@@ -129,10 +125,8 @@ export interface AnimeStaffResponse {
 /**
  * Paginated anime staff response
  */
-export interface AnimeStaffPaginationResponse {
-    pagination: PaginationResponse;
-    list: AnimeStaffResponse[];
-}
+export interface AnimeStaffPaginationResponse
+    extends PaginatedResponse<AnimeStaffResponse> {}
 
 /**
  * Anime episode response
@@ -148,10 +142,8 @@ export interface AnimeEpisodeResponse {
 /**
  * Paginated anime episodes response
  */
-export interface AnimeEpisodesListResponse {
-    pagination: PaginationResponse;
-    list: AnimeEpisodeResponse[];
-}
+export interface AnimeEpisodesListResponse
+    extends PaginatedResponse<AnimeEpisodeResponse> {}
 
 /**
  * Anime company response

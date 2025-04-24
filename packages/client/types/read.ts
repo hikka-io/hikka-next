@@ -1,7 +1,7 @@
 import {
     ContentStatusEnum,
     ContentTypeEnum,
-    PaginationResponse,
+    PaginatedResponse,
 } from './common';
 import { MangaMediaEnum, MangaResponse } from './manga';
 import { NovelMediaEnum, NovelResponse } from './novel';
@@ -60,10 +60,8 @@ export interface ReadResponse extends ReadResponseBase {
 /**
  * Paginated read response
  */
-export interface ReadPaginationResponse {
-    pagination: PaginationResponse;
-    list: ReadResponse[];
-}
+export interface ReadPaginationResponse
+    extends PaginatedResponse<ReadResponse> {}
 
 /**
  * Read search args
@@ -90,10 +88,8 @@ export interface UserResponseWithRead extends UserResponse {
 /**
  * Paginated user read response
  */
-export interface UserReadPaginationResponse {
-    pagination: PaginationResponse;
-    list: UserResponseWithRead[];
-}
+export interface UserReadPaginationResponse
+    extends PaginatedResponse<UserResponseWithRead> {}
 
 /**
  * Read stats response

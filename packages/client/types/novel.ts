@@ -3,7 +3,7 @@ import {
     ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
-    PaginationResponse,
+    PaginatedResponse,
 } from './common';
 import { ContentAuthorResponse, MagazineResponse } from './manga';
 import { ReadResponseBase, ReadStatsResponse } from './read';
@@ -44,10 +44,8 @@ export interface NovelResponse {
 /**
  * Paginated novel response
  */
-export interface NovelPaginationResponse {
-    pagination: PaginationResponse;
-    list: NovelResponse[];
-}
+export interface NovelPaginationResponse
+    extends PaginatedResponse<NovelResponse> {}
 
 /**
  * Novel search parameters

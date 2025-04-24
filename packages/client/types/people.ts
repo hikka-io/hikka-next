@@ -1,6 +1,11 @@
 import { AnimeResponse } from './anime';
 import { CharacterResponse } from './characters';
-import { ContentTypeEnum, PaginationResponse, RoleResponse } from './common';
+import {
+    ContentTypeEnum,
+    PaginatedResponse,
+    PaginationResponse,
+    RoleResponse,
+} from './common';
 import { MangaResponse } from './manga';
 import { NovelResponse } from './novel';
 
@@ -32,10 +37,8 @@ export interface PersonCountResponse extends PersonResponse {
 /**
  * Paginated people search response
  */
-export interface PersonSearchPaginationResponse {
-    pagination: PaginationResponse;
-    list: PersonResponse[];
-}
+export interface PersonSearchPaginationResponse
+    extends PaginatedResponse<PersonResponse> {}
 
 /**
  * Person anime response
@@ -48,10 +51,8 @@ export interface PersonAnimeResponse {
 /**
  * Paginated person anime response
  */
-export interface PersonAnimePaginationResponse {
-    pagination: PaginationResponse;
-    list: PersonAnimeResponse[];
-}
+export interface PersonAnimePaginationResponse
+    extends PaginatedResponse<PersonAnimeResponse> {}
 
 /**
  * Person manga response
@@ -64,10 +65,8 @@ export interface PersonMangaResponse {
 /**
  * Paginated person manga response
  */
-export interface PersonMangaPaginationResponse {
-    pagination: PaginationResponse;
-    list: PersonMangaResponse[];
-}
+export interface PersonMangaPaginationResponse
+    extends PaginatedResponse<PersonMangaResponse> {}
 
 /**
  * Person novel response
@@ -80,10 +79,8 @@ export interface PersonNovelResponse {
 /**
  * Paginated person novel response
  */
-export interface PersonNovelPaginationResponse {
-    pagination: PaginationResponse;
-    list: PersonNovelResponse[];
-}
+export interface PersonNovelPaginationResponse
+    extends PaginatedResponse<PersonNovelResponse> {}
 
 /**
  * Person characters response

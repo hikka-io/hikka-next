@@ -1,6 +1,6 @@
 import { AnimeResponse } from './anime';
 import { CharacterResponse } from './characters';
-import { ContentTypeEnum, PaginationResponse } from './common';
+import { ContentTypeEnum, PaginatedResponse } from './common';
 import { MangaResponse } from './manga';
 import { PersonResponse } from './people';
 import { UserResponse } from './user';
@@ -107,7 +107,5 @@ export interface CollectionsListArgs {
 /**
  * Paginated collections response
  */
-export interface CollectionsListResponse<TContent extends CollectionContent> {
-    pagination: PaginationResponse;
-    list: CollectionResponse<TContent>[];
-}
+export interface CollectionsListResponse<TContent extends CollectionContent>
+    extends PaginatedResponse<CollectionResponse<TContent>> {}
