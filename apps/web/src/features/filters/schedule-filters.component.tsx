@@ -1,6 +1,7 @@
 'use client';
 
 import { range } from '@antfu/utils';
+import { useSession } from '@hikka/react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
@@ -18,7 +19,6 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-import useSession from '@/services/hooks/auth/use-session';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
 import getCurrentSeason from '@/utils/get-current-season';

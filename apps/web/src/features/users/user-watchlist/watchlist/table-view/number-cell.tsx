@@ -1,5 +1,7 @@
 'use client';
 
+import { AnimeResponse, WatchResponse, WatchResponseBase } from '@hikka/client';
+import { useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -7,15 +9,16 @@ import MaterialSymbolsMoreVert from '@/components/icons/material-symbols/Materia
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
-import useSession from '@/services/hooks/auth/use-session';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import WatchEditModal from '../../../../modals/watch-edit-modal.component';
 
 interface Props {
     number: number;
-    anime: API.Anime;
-    watch?: API.Watch;
+    anime: AnimeResponse;
+    watch?: WatchResponse | WatchResponseBase;
 }
 
 const NumberCell: FC<Props> = ({ number, anime, watch }) => {

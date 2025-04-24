@@ -1,33 +1,27 @@
-import { AnimePaginationResponse, PaginationArgs } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { AnimePaginationResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseAnimeFranchiseParams {
+    slug: string;
+}
 
 /**
  * Hook for retrieving anime franchise entries with pagination
  */
-export function useAnimeFranchise(
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            AnimePaginationResponse,
-            Error,
-            InfiniteData<AnimePaginationResponse>,
-            AnimePaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useAnimeFranchise({
+    slug,
+    paginationArgs,
+    ...rest
+}: UseAnimeFranchiseParams & InfiniteQueryParams<AnimePaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.anime.franchise(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -35,36 +29,26 @@ export function useAnimeFranchise(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches anime franchise entries for server-side rendering
  */
-export async function prefetchAnimeFranchise(
-    queryClient: QueryClient,
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            AnimePaginationResponse,
-            Error,
-            AnimePaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchAnimeFranchise({
+    slug,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<AnimePaginationResponse> &
+    UseAnimeFranchiseParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.anime.franchise(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.anime.getFranchise(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

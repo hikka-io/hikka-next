@@ -1,3 +1,9 @@
+import {
+    HistoryTypeEnum,
+    HistoryWatchData,
+    WatchStatusEnum,
+} from '@hikka/client';
+
 import { WATCH_STATUS } from '../../constants/common';
 import getDeclensionWord from '../../get-declension-word';
 
@@ -9,8 +15,8 @@ const EPISODES_DECLENSION: [string, string, string] = [
 const TIMES_DECLENSION: [string, string, string] = ['раз', 'рази', 'разів'];
 
 export const convertStatus = (
-    before: API.WatchStatus | null,
-    after: API.WatchStatus | null,
+    before: WatchStatusEnum | null,
+    after: WatchStatusEnum | null,
 ) => {
     if (before === null && after) {
         return `${WATCH_STATUS[after].title_ua}`;
@@ -74,8 +80,8 @@ export const convertDeleteWatch = () => {
 };
 
 export const createWatchEvents = (
-    history_type: API.HistoryType,
-    data?: API.HistoryWatchData,
+    history_type: HistoryTypeEnum,
+    data?: HistoryWatchData,
 ) => {
     const events = [];
 

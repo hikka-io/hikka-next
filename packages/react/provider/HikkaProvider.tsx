@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { ReactNode, useMemo } from 'react';
 
+import { getHikkaClient, getQueryClient } from '../core';
 import { HikkaContext } from './context';
 
 export interface HikkaProviderProps {
@@ -31,25 +32,14 @@ export function HikkaProvider({
     const qClient = useMemo(() => {
         if (queryClient) return queryClient;
 
-        return new QueryClient({
-            defaultOptions: {
-                queries: {
-                    refetchOnWindowFocus: false,
-                    retry: 1,
-                    ...queryClientConfig,
-                },
-            },
-        });
+        return getQueryClient(queryClientConfig);
     }, [queryClient, queryClientConfig]);
 
     // Create a new Hikka client if one is not provided
     const apiClient = useMemo(() => {
         if (client) return client;
 
-        return new HikkaClient({
-            baseUrl: 'https://api.hikka.io',
-            ...clientConfig,
-        });
+        return getHikkaClient(clientConfig);
     }, [client, clientConfig]);
 
     return (

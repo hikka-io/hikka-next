@@ -1,8 +1,8 @@
 'use client';
 
+import { useLogin } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,10 +12,11 @@ import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import login from '@/services/api/auth/login';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { setCookie } from '@/utils/cookies';
 import { z } from '@/utils/zod';
+
 import AuthModal from './auth-modal.component';
 
 const formSchema = z.object({
@@ -32,23 +33,26 @@ const Component = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const mutation = useMutation({
-        mutationFn: login,
-        onSuccess: async (data) => {
-            await setCookie('auth', data.secret);
-            form.reset();
-            closeModal();
-            router.refresh();
-        },
-        onError: () => {
-            captchaRef.current?.reset();
+    const mutationLogin = useLogin({
+        options: {
+            onSuccess: async (data) => {
+                await setCookie('auth', data.secret);
+                form.reset();
+                closeModal();
+                router.refresh();
+            },
+            onError: () => {
+                captchaRef.current?.reset();
+            },
         },
     });
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutation.mutate({
-            params: data,
-            captcha: String(captchaRef.current?.getResponse()),
+        mutationLogin.mutate({
+            args: data,
+            captcha: {
+                captcha: String(captchaRef.current?.getResponse()),
+            },
         });
     };
 
@@ -57,7 +61,7 @@ const Component = () => {
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
                     <H2 className="text-primary">👋 З поверненням!</H2>
-                    <Small className="mt-2 text-muted-foreground">
+                    <Small className="text-muted-foreground mt-2">
                         Будь ласка, зареєструйтесь, або авторизуйтесь.
                     </Small>
                 </div>
@@ -107,18 +111,18 @@ const Component = () => {
                     <div className="flex w-full flex-col gap-4">
                         <Button
                             onClick={form.handleSubmit(handleFormSubmit)}
-                            disabled={mutation.isPending}
+                            disabled={mutationLogin.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {mutation.isPending && (
+                            {mutationLogin.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Увійти
                         </Button>
                         <Button
                             variant="secondary"
-                            disabled={mutation.isPending}
+                            disabled={mutationLogin.isPending}
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="signup" />,

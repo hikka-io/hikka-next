@@ -1,16 +1,14 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate, getQueryClient } from '@hikka/react';
 import { Metadata } from 'next';
 import { FC, PropsWithChildren } from 'react';
 
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import Menu from '@/features/settings/menu.component';
-import getQueryClient from '@/utils/get-query-client';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 
 interface Props extends PropsWithChildren {
@@ -27,13 +25,11 @@ export async function generateMetadata(
 
 const SettingsLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { slug } = params;
-
     const { children } = props;
 
     const queryClient = getQueryClient();
-
+    const clientConfig = await getHikkaClientConfig();
     const dehydratedState = dehydrate(queryClient);
 
     return (

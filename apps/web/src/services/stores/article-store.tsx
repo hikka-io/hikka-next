@@ -1,36 +1,41 @@
 'use client';
 
+import {
+    ArticleAnimeContentResponse,
+    ArticleCategoryEnum,
+    ArticleMangaNovelContentResponse,
+    ArticleResponse,
+} from '@hikka/client';
 import { Value } from '@udecode/plate';
 import { createStore } from 'zustand';
 
 export type ArticleState = {
     slug?: string;
     title?: string;
-    category?: API.ArticleCategory;
+    category?: ArticleCategoryEnum;
     document?: Value;
     tags: string[];
     draft?: boolean;
     content?:
-        | API.MainContent
-        | {
-              data_type: API.ContentType;
-              title_ua?: string;
-              title_en?: string;
-              title_ja?: string;
-              slug: string;
-              image: string;
-          };
+        | ArticleAnimeContentResponse
+        | ArticleMangaNovelContentResponse
+        | null;
     preview?: Value;
 };
 
 export type ArticleActions = {
-    setArticle: (article: API.Article) => void;
+    setArticle: (article: ArticleResponse) => void;
     setTitle: (title: string) => void;
-    setCategory: (category: API.ArticleCategory) => void;
+    setCategory: (category: ArticleCategoryEnum) => void;
     setDocument: (text: Value) => void;
     setTags: (tags: string[]) => void;
     setDraft: (draft: boolean) => void;
-    setContent: (content?: API.MainContent) => void;
+    setContent: (
+        content?:
+            | ArticleAnimeContentResponse
+            | ArticleMangaNovelContentResponse
+            | null,
+    ) => void;
     setPreview: (preview: Value) => void;
     getDocument: () => Value | undefined;
     getPreview: () => Value | undefined;
@@ -41,7 +46,7 @@ export type ArticleStore = ArticleState & ArticleActions;
 export const createArticleStore = (initProps?: Partial<ArticleState>) => {
     const DEFAULT_PROPS: ArticleState = {
         title: undefined,
-        category: 'news',
+        category: ArticleCategoryEnum.NEWS,
         document: undefined,
         tags: [],
         draft: true,
@@ -51,18 +56,23 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
     return createStore<ArticleStore>()((set, get) => ({
         ...DEFAULT_PROPS,
         ...initProps,
-        setArticle: (article: API.Article) => {
+        setArticle: (article: ArticleResponse) => {
             set({
                 ...article,
                 tags: article.tags.map((tag) => tag.name),
             });
         },
         setTitle: (title: string) => set({ title }),
-        setCategory: (category: API.ArticleCategory) => set({ category }),
+        setCategory: (category: ArticleCategoryEnum) => set({ category }),
         setDocument: (document: Value) => set({ document }),
         setTags: (tags: string[]) => set({ tags }),
         setDraft: (draft: boolean) => set({ draft }),
-        setContent: (content?: API.MainContent) => set({ content }),
+        setContent: (
+            content?:
+                | ArticleAnimeContentResponse
+                | ArticleMangaNovelContentResponse
+                | null,
+        ) => set({ content }),
         setPreview: (preview: Value) => set({ preview }),
         getDocument: () => get().document,
         getPreview: () => get().preview,

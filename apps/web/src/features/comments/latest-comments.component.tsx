@@ -1,5 +1,6 @@
 'use client';
 
+import { useCommentsList } from '@hikka/react';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +10,6 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
-import useGlobalComments from '@/services/hooks/comments/use-global-comments';
 import { cn } from '@/utils/utils';
 
 import GlobalComment from '../../components/comments/global-comment';
@@ -21,7 +21,7 @@ interface Props {
 
 const Comments: FC<Props> = ({ className }) => {
     const { list, hasNextPage, ref, isFetchingNextPage, fetchNextPage } =
-        useGlobalComments();
+        useCommentsList();
 
     return (
         <Block className={cn(className)}>

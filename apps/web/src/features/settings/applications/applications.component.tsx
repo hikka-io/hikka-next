@@ -1,17 +1,19 @@
 'use client';
 
+import { useAllClients } from '@hikka/react';
+
 import NotFound from '@/components/ui/not-found';
-import useClients from '@/services/hooks/client/use-clients';
+
 import ApplicationItem from './application-item';
 
 const Component = () => {
-    const { data } = useClients();
+    const { list } = useAllClients();
 
     return (
         <div className="flex w-full flex-col gap-6">
-            {data && data.list.length > 0 ? (
+            {list && list.length > 0 ? (
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                    {data?.list?.map((item) => (
+                    {list?.map((item) => (
                         <ApplicationItem key={item.reference} client={item} />
                     ))}
                 </div>

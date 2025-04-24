@@ -1,12 +1,16 @@
+import { useMangaSearch } from '@hikka/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import useMangaCatalog, {
-    Props,
-} from '@/services/hooks/manga/use-manga-catalog';
 import createQueryString from '@/utils/create-query-string';
 
-export const useUpdatePage = ({ page, iPage }: Props) => {
+export const useUpdatePage = ({
+    page,
+    iPage,
+}: {
+    page: number;
+    iPage: number;
+}) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const pathname = usePathname();
@@ -33,8 +37,8 @@ export const useUpdatePage = ({ page, iPage }: Props) => {
 };
 
 interface UseLoadInfinitePageProps {
-    pagination?: ReturnType<typeof useMangaCatalog>['pagination'];
-    fetchNextPage: ReturnType<typeof useMangaCatalog>['fetchNextPage'];
+    pagination?: ReturnType<typeof useMangaSearch>['pagination'];
+    fetchNextPage: ReturnType<typeof useMangaSearch>['fetchNextPage'];
 }
 
 export const useNextPage = ({

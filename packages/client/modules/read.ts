@@ -3,7 +3,7 @@ import {
     NovelResponse,
     PaginationArgs,
     ReadArgs,
-    ReadContentTypeEnum,
+    ReadContentType,
     ReadPaginationResponse,
     ReadResponse,
     ReadSearchArgs,
@@ -19,7 +19,7 @@ export class ReadModule extends BaseModule {
      * Get read entry for a manga or novel
      */
     public async get(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         slug: string,
     ): Promise<ReadResponse> {
         return this.client.get<ReadResponse>(`/read/${contentType}/${slug}`);
@@ -29,7 +29,7 @@ export class ReadModule extends BaseModule {
      * Add or update read entry
      */
     public async addOrUpdate(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         slug: string,
         args: ReadArgs,
     ): Promise<ReadResponse> {
@@ -43,7 +43,7 @@ export class ReadModule extends BaseModule {
      * Delete read entry
      */
     public async delete(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         slug: string,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
@@ -55,7 +55,7 @@ export class ReadModule extends BaseModule {
      * Get users reading a manga/novel
      */
     public async getFollowingUsers(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<UserReadPaginationResponse> {
@@ -72,7 +72,7 @@ export class ReadModule extends BaseModule {
      * Get user read stats
      */
     public async getStats(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         username: string,
     ): Promise<ReadStatsResponse> {
         return this.client.get<ReadStatsResponse>(
@@ -84,7 +84,7 @@ export class ReadModule extends BaseModule {
      * Get random read entry
      */
     public async getRandom(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         username: string,
         status: ReadStatusEnum,
     ): Promise<MangaResponse | NovelResponse> {
@@ -97,7 +97,7 @@ export class ReadModule extends BaseModule {
      * Get user's read list
      */
     public async getList(
-        contentType: ReadContentTypeEnum,
+        contentType: ReadContentType,
         username: string,
         args: ReadSearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },

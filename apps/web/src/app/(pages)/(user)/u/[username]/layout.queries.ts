@@ -1,7 +1,12 @@
-import { prefetchFollowStats } from '@/services/hooks/follow/use-follow-stats';
-import { prefetchReadStats } from '@/services/hooks/read/use-read-stats';
-import { prefetchUser } from '@/services/hooks/user/use-user';
-import { prefetchWatchStats } from '@/services/hooks/watch/use-watch-stats';
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    prefetchFollowStats,
+    prefetchReadStats,
+    prefetchUserByUsername,
+    prefetchWatchStats,
+} from '@hikka/react';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -10,12 +15,22 @@ interface Props {
 }
 
 const prefetchQueries = async ({ params: { username } }: Props) => {
+    const clientConfig = await getHikkaClientConfig();
+
     await Promise.all([
-        prefetchUser({ username }),
-        prefetchReadStats({ username, content_type: 'manga' }),
-        prefetchReadStats({ username, content_type: 'novel' }),
-        prefetchWatchStats({ username }),
-        prefetchFollowStats({ username }),
+        prefetchUserByUsername({ username, clientConfig }),
+        prefetchReadStats({
+            username,
+            contentType: ContentTypeEnum.MANGA,
+            clientConfig,
+        }),
+        prefetchReadStats({
+            username,
+            contentType: ContentTypeEnum.NOVEL,
+            clientConfig,
+        }),
+        prefetchWatchStats({ username, clientConfig }),
+        prefetchFollowStats({ username, clientConfig }),
     ]);
 };
 

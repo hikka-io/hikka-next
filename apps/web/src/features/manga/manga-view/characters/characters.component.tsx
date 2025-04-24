@@ -1,10 +1,11 @@
 'use client';
 
+import { useMangaCharacters } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import useMangaCharacters from '@/services/hooks/manga/use-manga-characters';
+
 import MainCharacters from './main-characters';
 import OtherCharacters from './other-characters';
 

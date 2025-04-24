@@ -1,43 +1,37 @@
 import { QuerySearchRequiredArgs, UserResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseUserSearchParams {
+    args: QuerySearchRequiredArgs;
+}
 
 /**
  * Hook for searching users
  */
-export function useUserSearch(
-    args: QuerySearchRequiredArgs,
-    options?: Omit<
-        UseQueryOptions<UserResponse[], Error, UserResponse[]>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useUserSearch({
+    args,
+    ...rest
+}: UseUserSearchParams & QueryParams<UserResponse[]>) {
     return useQuery({
         queryKey: queryKeys.user.search(args),
         queryFn: (client) => client.user.search(args),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches user search results for server-side rendering
  */
-export async function prefetchUserSearch(
-    queryClient: QueryClient,
-    args: QuerySearchRequiredArgs,
-    options?: Omit<
-        FetchQueryOptions<UserResponse[], Error, UserResponse[]>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchUserSearch({
+    args,
+    ...rest
+}: PrefetchQueryParams<UserResponse[]> & UseUserSearchParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.user.search(args),
         queryFn: (client) => client.user.search(args),
-        options,
+        ...rest,
     });
 }

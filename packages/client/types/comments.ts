@@ -1,17 +1,17 @@
-import { PaginationResponse } from './common';
+import { ContentTypeEnum, PaginationResponse } from './common';
 import { UserResponse } from './user';
 
 /**
- * Comments content type enum
+ * Comments content type
  */
-export enum CommentsContentTypeEnum {
-    COLLECTION = 'collection',
-    EDIT = 'edit',
-    ARTICLE = 'article',
-    ANIME = 'anime',
-    MANGA = 'manga',
-    NOVEL = 'novel',
-}
+export type CommentsContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.COLLECTION
+    | ContentTypeEnum.EDIT
+    | ContentTypeEnum.ARTICLE
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 
 /**
  * Comment response
@@ -23,7 +23,7 @@ export interface CommentResponse {
     created: number;
     author: UserResponse;
     parent: string | null;
-    content_type: string;
+    content_type: CommentsContentType;
     is_editable: boolean;
     text: string | null;
     vote_score: number;

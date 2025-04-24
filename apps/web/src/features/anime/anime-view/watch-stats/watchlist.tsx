@@ -1,10 +1,12 @@
 'use client';
 
+import { AnimeStatsResponse, WatchStatusEnum } from '@hikka/client';
+import { useAnimeInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 import { WATCH_STATUS } from '@/utils/constants/common';
+
 import Stats from './stats';
 
 const Watchlist = () => {
@@ -25,13 +27,14 @@ const Watchlist = () => {
     const stats = Object.keys(data.stats).reduce(
         (acc: Hikka.ListStat[], stat) => {
             if (!stat.includes('score')) {
-                const status = WATCH_STATUS[stat as API.WatchStatus];
+                const status = WATCH_STATUS[stat as WatchStatusEnum];
                 const percentage =
-                    (100 * data.stats[stat as API.StatType]) / sumStats;
+                    (100 * data.stats[stat as keyof AnimeStatsResponse]) /
+                    sumStats;
 
                 acc.push({
                     percentage,
-                    value: data.stats[stat as API.StatType],
+                    value: data.stats[stat as keyof AnimeStatsResponse],
                     icon: status.icon && createElement(status.icon),
                     color: status.color!,
                 });

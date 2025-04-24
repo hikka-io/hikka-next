@@ -1,18 +1,22 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import { useAnimeInfo } from '@hikka/react';
+import { useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import CommentsButton from '@/components/comments-button';
 import WatchListButton from '@/components/watchlist-button/watchlist-button';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
-import useSession from '@/services/hooks/auth/use-session';
+
 import WatchStats from './watch-stats';
 
 const Actions: FC = () => {
     const params = useParams();
     const { user } = useSession();
-    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
+    const { data: anime } = useAnimeInfo({
+        slug: String(params.slug),
+    });
 
     return (
         <div className="flex flex-col gap-12">
@@ -27,7 +31,7 @@ const Actions: FC = () => {
                     <CommentsButton
                         comments_count={anime.comments_count}
                         slug={anime?.slug}
-                        content_type="anime"
+                        content_type={ContentTypeEnum.ANIME}
                     />
                 )}
             </div>

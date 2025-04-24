@@ -1,5 +1,6 @@
 'use client';
 
+import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC, memo } from 'react';
 
@@ -19,11 +20,12 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import Stack from '@/components/ui/stack';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    collection: API.Collection<API.MainContent & { title?: string }>;
+    collection: CollectionResponse<CollectionContent>;
 }
 
 const CollectionItem: FC<Props> = ({ collection }) => {
@@ -40,7 +42,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                         {collection.title}
                     </HorizontalCardTitle>
 
-                    <HorizontalCardDescription className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                    <HorizontalCardDescription className="text-muted-foreground inline-flex items-center gap-2 text-xs">
                         <div className="flex items-center gap-1">
                             <MaterialSymbolsGridViewRounded />
                             <Small>{collection.entries}</Small>
@@ -107,7 +109,7 @@ const CollectionItem: FC<Props> = ({ collection }) => {
                 <ContentCard
                     href={`/collections/${collection.reference}`}
                     image={
-                        <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                        <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
                     }
                 />
             </Stack>

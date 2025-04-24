@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CollectionContent, CollectionResponse } from '@hikka/client';
+import { useDeleteCollection } from '@hikka/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
@@ -25,44 +26,28 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import deleteCollection from '@/services/api/collections/deleteCollection';
-import useSession from '@/services/hooks/auth/use-session';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
-    collection: API.Collection;
+    collection: CollectionResponse<CollectionContent>;
 }
 
 const CollectionMenu: FC<Props> = ({ collection }) => {
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
-    const queryClient = useQueryClient();
 
-    const { user: loggedUser } = useSession();
-
-    const deleteCollectionMutation = useMutation({
-        mutationFn: deleteCollection,
-        onSuccess: () => {
-            router.push('/');
-
-            queryClient.invalidateQueries({
-                queryKey: ['collections'],
-                exact: false,
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['collection'],
-                exact: false,
-            });
+    const deleteCollectionMutation = useDeleteCollection({
+        options: {
+            onSuccess: () => {
+                router.push('/');
+            },
         },
     });
 
     const handleDeleteCollection = async () => {
         try {
-            deleteCollectionMutation.mutate({
-                params: {
-                    reference: collection.reference,
-                },
-            });
+            deleteCollectionMutation.mutate(collection.reference);
         } catch (e) {
             enqueueSnackbar(
                 'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',

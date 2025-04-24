@@ -1,3 +1,4 @@
+import { UserRoleEnum } from '@hikka/client';
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
 declare global {
@@ -22,7 +23,7 @@ declare global {
             title_ua: string;
             url: string;
             icon?: (props: any) => ReactElement;
-            role?: API.UserRole[];
+            role?: UserRoleEnum[];
             visible?: boolean;
             items?: NavRoute[];
         };

@@ -1,3 +1,4 @@
+import { ReadResponseBase, UserResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import {
@@ -15,8 +16,8 @@ import MaterialSymbolsStarRounded from '../../components/icons/material-symbols/
 
 interface Props {
     data: {
-        read: API.Read[];
-    } & API.User;
+        read: ReadResponseBase[];
+    } & UserResponse;
     className?: string;
 }
 

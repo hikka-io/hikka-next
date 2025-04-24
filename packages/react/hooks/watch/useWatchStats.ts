@@ -1,43 +1,37 @@
 import { WatchStatsResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseWatchStatsParams {
+    username: string;
+}
 
 /**
  * Hook for retrieving watch stats for a user
  */
-export function useWatchStats(
-    username: string,
-    options?: Omit<
-        UseQueryOptions<WatchStatsResponse, Error, WatchStatsResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useWatchStats({
+    username,
+    ...rest
+}: UseWatchStatsParams & QueryParams<WatchStatsResponse>) {
     return useQuery({
         queryKey: queryKeys.watch.stats(username),
         queryFn: (client) => client.watch.getStats(username),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches watch stats for a user for server-side rendering
  */
-export async function prefetchWatchStats(
-    queryClient: QueryClient,
-    username: string,
-    options?: Omit<
-        FetchQueryOptions<WatchStatsResponse, Error, WatchStatsResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchWatchStats({
+    username,
+    ...rest
+}: PrefetchQueryParams<WatchStatsResponse> & UseWatchStatsParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.watch.stats(username),
         queryFn: (client) => client.watch.getStats(username),
-        options,
+        ...rest,
     });
 }

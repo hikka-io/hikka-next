@@ -1,30 +1,26 @@
 'use client';
 
+import { useAcceptEdit } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-import useActionEdit from '@/services/hooks/edit/use-action-edit';
 
 interface Props {}
 
 const AcceptAction: FC<Props> = () => {
     const params = useParams();
-    const mutation = useActionEdit({ action: 'accept' });
+    const acceptEditMutation = useAcceptEdit({});
 
     const handleClick = () => {
-        mutation.mutate({
-            params: {
-                edit_id: Number(params.editId),
-            },
-        });
+        acceptEditMutation.mutate(Number(params.editId));
     };
 
     return (
         <Button
             variant="success"
             size="md"
-            disabled={mutation.isPending}
+            disabled={acceptEditMutation.isPending}
             onClick={handleClick}
         >
             Прийняти

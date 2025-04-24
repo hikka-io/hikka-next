@@ -1,43 +1,37 @@
 import { CommentResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseCommentThreadParams {
+    commentReference: string;
+}
 
 /**
  * Hook for retrieving a comment thread
  */
-export function useCommentThread(
-    commentReference: string,
-    options?: Omit<
-        UseQueryOptions<CommentResponse, Error, CommentResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useCommentThread({
+    commentReference,
+    ...rest
+}: UseCommentThreadParams & QueryParams<CommentResponse>) {
     return useQuery({
         queryKey: queryKeys.comments.thread(commentReference),
         queryFn: (client) => client.comments.getThread(commentReference),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches a comment thread for server-side rendering
  */
-export async function prefetchCommentThread(
-    queryClient: QueryClient,
-    commentReference: string,
-    options?: Omit<
-        FetchQueryOptions<CommentResponse, Error, CommentResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchCommentThread({
+    commentReference,
+    ...rest
+}: PrefetchQueryParams<CommentResponse> & UseCommentThreadParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.comments.thread(commentReference),
         queryFn: (client) => client.comments.getThread(commentReference),
-        options,
+        ...rest,
     });
 }

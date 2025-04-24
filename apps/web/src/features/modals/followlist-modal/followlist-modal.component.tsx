@@ -1,33 +1,39 @@
 'use client';
 
+import { useFollowers, useFollowings } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
-import getFollowers from '@/services/api/follow/getFollowers';
-import getFollowings from '@/services/api/follow/getFollowings';
-import useInfiniteList from '@/services/hooks/use-infinite-list';
+
 import FollowUserItem from './follow-user-item';
 
 interface Props {
     type: 'followers' | 'followings';
 }
 
-const Component = ({ type }: Props) => {
+const FollowlistModal = ({ type }: Props) => {
     const params = useParams();
 
-    const func = type === 'followers' ? getFollowers : getFollowings;
+    const followersQuery = useFollowers({
+        username: String(params.username),
+        options: {
+            enabled: type === 'followers',
+        },
+    });
 
-    const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useInfiniteList({
-            queryKey: [type, params.username],
-            queryFn: ({ pageParam = 1 }) =>
-                func({
-                    params: {
-                        username: String(params.username),
-                    },
-                    page: pageParam,
-                }),
-        });
+    const followingsQuery = useFollowings({
+        username: String(params.username),
+        options: {
+            enabled: type === 'followings',
+        },
+    });
+
+    if (!followersQuery.data && !followingsQuery.data) {
+        return null;
+    }
+
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+        type === 'followers' ? followersQuery : followingsQuery;
 
     if (!list) {
         return null;
@@ -51,4 +57,4 @@ const Component = ({ type }: Props) => {
     );
 };
 
-export default Component;
+export default FollowlistModal;

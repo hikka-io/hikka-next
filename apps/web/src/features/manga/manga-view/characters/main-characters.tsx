@@ -1,5 +1,6 @@
 'use client';
 
+import { useMangaCharacters } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +13,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import useMangaCharacters from '@/services/hooks/manga/use-manga-characters';
 
 interface Props {
     extended?: boolean;

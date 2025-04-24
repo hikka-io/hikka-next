@@ -1,5 +1,6 @@
 'use client';
 
+import { PersonResponse } from '@hikka/client';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -7,7 +8,7 @@ import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
 
 interface Props {
-    person: API.Person;
+    person: PersonResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 }

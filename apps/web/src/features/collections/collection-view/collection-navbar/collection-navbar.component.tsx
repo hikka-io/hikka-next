@@ -1,5 +1,6 @@
 'use client';
 
+import { useCollection } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -12,7 +13,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import useCollection from '@/services/hooks/collections/use-collection';
+
 import CollectionMenu from './collection-menu';
 import CollectionVote from './collection-vote';
 

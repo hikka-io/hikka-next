@@ -1,5 +1,7 @@
 'use client';
 
+import { ContentTypeEnum, FavouriteCharacterResponse } from '@hikka/client';
+import { useFavouriteList } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -7,7 +9,6 @@ import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-import useFavorites from '@/services/hooks/favorite/use-favorites';
 
 interface Props {
     extended?: boolean;
@@ -22,9 +23,9 @@ const Characters: FC<Props> = ({ extended }) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useFavorites<API.Character>({
+    } = useFavouriteList<FavouriteCharacterResponse>({
         username: String(params.username),
-        content_type: 'character',
+        contentType: ContentTypeEnum.CHARACTER,
     });
 
     if (isPending) {
@@ -52,7 +53,7 @@ const Characters: FC<Props> = ({ extended }) => {
                             title={res.name_ua || res.name_en || res.name_ja}
                             image={res.image}
                             href={`/characters/${res.slug}`}
-                            content_type="character"
+                            content_type={ContentTypeEnum.CHARACTER}
                             slug={res.slug}
                         />
                     ))}

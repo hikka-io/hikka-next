@@ -1,9 +1,13 @@
+import { HikkaClient } from '@hikka/client';
 import { redirect } from 'next/navigation';
 
-import loginOAuth from '@/services/api/auth/loginOAuth';
 import { setCookie } from '@/utils/cookies';
 
 export const dynamic = 'force-dynamic';
+
+const client = new HikkaClient({
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+});
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -11,19 +15,16 @@ export async function GET(request: Request) {
     const code = searchParams.get('code');
 
     try {
-        const res = await loginOAuth({
-            params: {
-                code: String(code),
-                provider: 'google',
-            },
+        const res = await client.auth.getOAuthToken('google', {
+            code: String(code),
         });
 
         await setCookie('auth', res.secret);
     } catch (e) {
-        if ('code' in (e as API.Error)) {
+        if ('code' in (e as any)) {
             return redirect(
                 `${baseURL}?auth=error&provider=google&error=` +
-                    (e as API.Error).code,
+                    (e as any).code,
             );
         }
 

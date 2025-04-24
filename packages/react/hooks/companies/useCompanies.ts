@@ -1,37 +1,31 @@
 import {
     CompaniesPaginationResponse,
     CompaniesSearchArgs,
-    PaginationArgs,
 } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseCompaniesSearchParams {
+    args?: CompaniesSearchArgs;
+}
 
 /**
  * Hook for searching companies
  */
-export function useCompaniesSearch(
-    args: CompaniesSearchArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            CompaniesPaginationResponse,
-            Error,
-            InfiniteData<CompaniesPaginationResponse>,
-            CompaniesPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useCompaniesSearch({
+    args = {},
+    paginationArgs,
+    ...rest
+}: UseCompaniesSearchParams &
+    InfiniteQueryParams<CompaniesPaginationResponse> = {}) {
     return useInfiniteQuery({
         queryKey: queryKeys.companies.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -39,36 +33,26 @@ export function useCompaniesSearch(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches companies search for server-side rendering
  */
-export async function prefetchCompaniesSearch(
-    queryClient: QueryClient,
-    args: CompaniesSearchArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            CompaniesPaginationResponse,
-            Error,
-            CompaniesPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchCompaniesSearch({
+    args = {},
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<CompaniesPaginationResponse> &
+    UseCompaniesSearchParams = {}) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.companies.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.companies.search(args, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

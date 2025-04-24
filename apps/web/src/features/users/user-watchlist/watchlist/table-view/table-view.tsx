@@ -1,5 +1,6 @@
 'use client';
 
+import { WatchResponse } from '@hikka/client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -10,8 +11,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+
 import createQueryString from '@/utils/create-query-string';
 import { cn } from '@/utils/utils';
+
 import DetailsCell from './details-cell';
 import EpisodesCell from './episodes-cell';
 import MediaCell from './media-cell';
@@ -19,7 +22,7 @@ import NumberCell from './number-cell';
 import ScoreCell from './score-cell';
 
 interface Props {
-    data: API.Watch[];
+    data: WatchResponse[];
 }
 
 const TableView: FC<Props> = ({ data }) => {
@@ -52,7 +55,7 @@ const TableView: FC<Props> = ({ data }) => {
 
     return (
         <Table className="table">
-            <TableHeader className="overflow-hidden rounded-lg bg-secondary/20 backdrop-blur [&_tr]:border-b-0">
+            <TableHeader className="bg-secondary/20 overflow-hidden rounded-lg backdrop-blur [&_tr]:border-b-0">
                 <TableRow>
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>
@@ -97,15 +100,17 @@ const TableView: FC<Props> = ({ data }) => {
                             number={i + 1}
                         />
                         <DetailsCell
-                            note={res.note}
+                            note={res.note || undefined}
                             anime={res.anime}
                             rewatches={res.rewatches}
                         />
                         <EpisodesCell
                             episodes={res.episodes}
-                            total={res.anime.episodes_total}
+                            total={res.anime.episodes_total || undefined}
                         />
-                        <MediaCell media_type={res.anime.media_type} />
+                        <MediaCell
+                            media_type={res.anime.media_type || undefined}
+                        />
                         <ScoreCell score={res.score} />
                     </TableRow>
                 ))}

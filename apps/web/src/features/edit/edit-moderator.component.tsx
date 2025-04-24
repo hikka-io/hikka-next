@@ -1,5 +1,6 @@
 'use client';
 
+import { useEdit } from '@hikka/react';
 import { format } from 'date-fns';
 import { FC } from 'react';
 
@@ -12,14 +13,12 @@ import {
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
 
-import useEdit from '@/services/hooks/edit/use-edit';
-
 interface Props {
     editId: string;
 }
 
 const EditModerator: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ edit_id: Number(editId) });
+    const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit || !edit.moderator) {
         return null;
@@ -27,7 +26,7 @@ const EditModerator: FC<Props> = ({ editId }) => {
 
     return (
         <>
-            <hr className="my-4 h-px w-full text-muted-foreground" />
+            <hr className="text-muted-foreground my-4 h-px w-full" />
             <div className="flex flex-col gap-4">
                 <Label className="text-muted-foreground">Модератор</Label>
                 <HorizontalCard href={`/u/${edit.moderator.username}`}>

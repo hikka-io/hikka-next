@@ -1,5 +1,6 @@
 'use client';
 
+import { ImportWatchArgs } from '@hikka/client';
 import { useSnackbar } from 'notistack';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -7,12 +8,12 @@ import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbol
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import importAnilistWatch from '@/services/api/settings/importAnilistWatch';
+
 import FoundList from './found-list';
 
 interface Props {
-    watchList: Record<string, any>[];
-    setWatchList: Dispatch<SetStateAction<Record<string, any>[]>>;
+    watchList: ImportWatchArgs[];
+    setWatchList: Dispatch<SetStateAction<ImportWatchArgs[]>>;
     importing: boolean;
 }
 

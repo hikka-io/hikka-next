@@ -1,5 +1,6 @@
 'use client';
 
+import { EditResponse } from '@hikka/client';
 import { format } from 'date-fns';
 import Link from 'next/link';
 
@@ -14,7 +15,7 @@ import {
 } from '@/components/ui/horizontal-card';
 
 interface Props {
-    edit: API.Edit;
+    edit: EditResponse;
     className?: string;
     href: string;
 }

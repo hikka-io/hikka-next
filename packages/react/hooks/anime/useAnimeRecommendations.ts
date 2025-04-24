@@ -1,33 +1,28 @@
-import { AnimePaginationResponse, PaginationArgs } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { AnimePaginationResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseAnimeRecommendationsParams {
+    slug: string;
+}
 
 /**
  * Hook for retrieving anime recommendations with pagination
  */
-export function useAnimeRecommendations(
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            AnimePaginationResponse,
-            Error,
-            InfiniteData<AnimePaginationResponse>,
-            AnimePaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useAnimeRecommendations({
+    slug,
+    paginationArgs,
+    ...rest
+}: UseAnimeRecommendationsParams &
+    InfiniteQueryParams<AnimePaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.anime.recommendations(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -35,36 +30,26 @@ export function useAnimeRecommendations(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches anime recommendations for server-side rendering
  */
-export async function prefetchAnimeRecommendations(
-    queryClient: QueryClient,
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            AnimePaginationResponse,
-            Error,
-            AnimePaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchAnimeRecommendations({
+    slug,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<AnimePaginationResponse> &
+    UseAnimeRecommendationsParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.anime.recommendations(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.anime.getRecommendations(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

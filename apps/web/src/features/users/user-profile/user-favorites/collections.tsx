@@ -1,12 +1,14 @@
 'use client';
 
+import { ContentTypeEnum, FavouriteCollectionResponse } from '@hikka/client';
+import { useFavouriteList } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
-import useFavorites from '@/services/hooks/favorite/use-favorites';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -22,9 +24,9 @@ const Collections: FC<Props> = ({ extended }) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useFavorites<API.Collection<API.MainContent>>({
+    } = useFavouriteList<FavouriteCollectionResponse>({
         username: String(params.username),
-        content_type: 'collection',
+        contentType: ContentTypeEnum.COLLECTION,
     });
 
     if (isPending) {

@@ -1,5 +1,6 @@
 'use client';
 
+import { UserResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import FollowButton from '@/components/follow-button';
@@ -12,7 +13,7 @@ import {
 } from '@/components/ui/horizontal-card';
 
 interface Props {
-    user: API.User;
+    user: UserResponse;
 }
 
 const FollowUserItem: FC<Props> = ({ user }) => {

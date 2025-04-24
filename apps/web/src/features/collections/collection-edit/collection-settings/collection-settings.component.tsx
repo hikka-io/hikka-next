@@ -1,5 +1,7 @@
 'use client';
 
+import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
+import { useCreateCollection, useUpdateCollection } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -18,14 +20,14 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import useCreateCollection from '@/services/hooks/collections/use-create-collection';
-import useUpdateCollection from '@/services/hooks/collections/use-update-collection';
+
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useModalContext } from '@/services/providers/modal-provider';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
 } from '@/utils/constants/common';
+
 import GroupInputs from './group-inputs';
 
 interface Props {
@@ -57,15 +59,10 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const setSpoiler = useCollectionContext((state) => state.setSpoiler);
 
     const { mutate: mutateCreateCollection, isPending: isCreatePending } =
-        useCreateCollection({
-            ...getApiData(),
-        });
+        useCreateCollection({});
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
-        useUpdateCollection({
-            ...getApiData(),
-            reference: String(params.reference),
-        });
+        useUpdateCollection({});
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
@@ -116,7 +113,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             disabled={groups.some((g) => g.items.length > 0)}
                             value={[content_type]}
                             onValueChange={(value) =>
-                                setContentType(value[0] as API.ContentType)
+                                setContentType(
+                                    value[0] as CollectionContentType,
+                                )
                             }
                         >
                             <SelectTrigger>
@@ -150,9 +149,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Select
                         value={[visibility]}
                         onValueChange={(value) =>
-                            setVisibility(
-                                value[0] as 'private' | 'public' | 'unlisted',
-                            )
+                            setVisibility(value[0] as CollectionVisibilityEnum)
                         }
                     >
                         <SelectTrigger>
@@ -210,7 +207,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                 description.trim().length < 3
                             }
                             variant="default"
-                            onClick={() => mutateUpdateCollection()}
+                            onClick={() =>
+                                mutateUpdateCollection({
+                                    args: getApiData(),
+                                    reference: String(params.reference),
+                                })
+                            }
                         >
                             {isUpdatePending && (
                                 <span className="loading loading-spinner"></span>
@@ -230,7 +232,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                     description.trim().length < 3
                                 }
                                 variant="default"
-                                onClick={() => mutateCreateCollection()}
+                                onClick={() =>
+                                    mutateCreateCollection(getApiData())
+                                }
                             >
                                 {isCreatePending && (
                                     <span className="loading loading-spinner"></span>

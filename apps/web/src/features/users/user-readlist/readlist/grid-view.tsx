@@ -1,12 +1,13 @@
 'use client';
 
+import { ReadResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import MangaCard from '@/components/manga-card';
 import NovelCard from '@/components/novel-card';
 
 interface Props {
-    data: API.Read[];
+    data: ReadResponse[];
 }
 
 const GridView: FC<Props> = ({ data }) => {

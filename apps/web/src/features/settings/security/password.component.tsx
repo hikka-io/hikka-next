@@ -1,14 +1,14 @@
 'use client';
 
+import { useChangePassword } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import changeUserPassword from '@/services/api/settings/changeUserPassword';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
@@ -25,27 +25,24 @@ const formSchema = z
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
-    const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     });
 
-    const mutation = useMutation({
-        mutationFn: changeUserPassword,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries();
-            closeModal();
-            enqueueSnackbar('Ви успішно змінили пароль.', {
-                variant: 'success',
-            });
+    const mutationChangePassword = useChangePassword({
+        options: {
+            onSuccess: async () => {
+                closeModal();
+                enqueueSnackbar('Ви успішно змінили пароль.', {
+                    variant: 'success',
+                });
+            },
         },
     });
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutation.mutate({
-            params: {
-                password: data.password,
-            },
+        mutationChangePassword.mutate({
+            password: data.password,
         });
     };
 
@@ -71,11 +68,11 @@ const Component = () => {
                 />
                 <Button
                     size="md"
-                    disabled={mutation.isPending}
+                    disabled={mutationChangePassword.isPending}
                     variant="default"
                     type="submit"
                 >
-                    {mutation.isPending && (
+                    {mutationChangePassword.isPending && (
                         <span className="loading loading-spinner"></span>
                     )}
                     Зберегти

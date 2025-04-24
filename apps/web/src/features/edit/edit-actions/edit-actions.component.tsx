@@ -1,12 +1,12 @@
 'use client';
 
+import { useEdit, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-import useSession from '@/services/hooks/auth/use-session';
-import useEdit from '@/services/hooks/edit/use-edit';
+
 import AcceptAction from './accept-action';
 import CloseAction from './close-action';
 import DenyAction from './deny-action';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const EditActions: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ edit_id: Number(editId) });
+    const { data: edit } = useEdit({ editId: Number(editId) });
     const params = useParams();
 
     const { user: loggedUser } = useSession();

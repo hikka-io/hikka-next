@@ -1,5 +1,6 @@
 'use client';
 
+import { useWatchStats } from '@hikka/react';
 import { formatDuration } from 'date-fns/formatDuration';
 import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
@@ -14,7 +15,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 
 const WatchhourStats = () => {
     const params = useParams();
@@ -23,8 +23,8 @@ const WatchhourStats = () => {
     });
 
     return (
-        <div className="flex flex-1 flex-col gap-4 rounded-md border border-border bg-secondary/20 p-4">
-            <div className="flex items-center gap-2 text-muted-foreground">
+        <div className="border-border bg-secondary/20 flex flex-1 flex-col gap-4 rounded-md border p-4">
+            <div className="text-muted-foreground flex items-center gap-2">
                 <MaterialSymbolsClockLoader10 />
                 <Label>Час аніме</Label>
             </div>

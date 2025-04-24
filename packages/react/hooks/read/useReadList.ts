@@ -1,40 +1,35 @@
 import {
-    PaginationArgs,
-    ReadContentTypeEnum,
+    ReadContentType,
     ReadPaginationResponse,
     ReadSearchArgs,
 } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseReadListParams {
+    contentType: ReadContentType;
+    username: string;
+    args: ReadSearchArgs;
+}
 
 /**
  * Hook for retrieving a user's read list
  */
-export function useReadList(
-    contentType: ReadContentTypeEnum,
-    username: string,
-    args: ReadSearchArgs,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            ReadPaginationResponse,
-            Error,
-            InfiniteData<ReadPaginationResponse>,
-            ReadPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useReadList({
+    contentType,
+    username,
+    args,
+    paginationArgs,
+    ...rest
+}: UseReadListParams & InfiniteQueryParams<ReadPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.read.list(
             contentType,
@@ -47,32 +42,21 @@ export function useReadList(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches a user's read list for server-side rendering
  */
-export async function prefetchReadList(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    username: string,
-    args: ReadSearchArgs,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            ReadPaginationResponse,
-            Error,
-            ReadPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchReadList({
+    contentType,
+    username,
+    args,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<ReadPaginationResponse> & UseReadListParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.read.list(
             contentType,
             username,
@@ -84,6 +68,6 @@ export async function prefetchReadList(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

@@ -1,12 +1,10 @@
 'use client';
 
+import { useRequestThirdPartyToken, useSession } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-
-import useRequestTokenReference from '@/services/hooks/auth/use-request-token-reference';
-import useSession from '@/services/hooks/auth/use-session';
 
 interface Props {}
 
@@ -18,7 +16,7 @@ const Confirm: FC<Props> = () => {
 
     const { user } = useSession();
 
-    const { mutate, isPending } = useRequestTokenReference();
+    const { mutate, isPending } = useRequestThirdPartyToken({});
 
     const handleConfirm = () => {
         mutate({

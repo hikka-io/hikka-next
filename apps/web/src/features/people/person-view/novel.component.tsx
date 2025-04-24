@@ -1,5 +1,6 @@
 'use client';
 
+import { usePersonNovel } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -13,7 +14,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import usePersonNovel from '@/services/hooks/people/use-person-novel';
 
 interface Props {
     extended?: boolean;
@@ -47,7 +47,9 @@ const Novel: FC<Props> = ({ extended }) => {
                         key={ch.novel.slug}
                         novel={ch.novel}
                         description={
-                            ch.roles[0]?.name_ua || ch.roles[0]?.name_en
+                            ch.roles[0]?.name_ua ||
+                            ch.roles[0]?.name_en ||
+                            undefined
                         }
                     />
                 ))}

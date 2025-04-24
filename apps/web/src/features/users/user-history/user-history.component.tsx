@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from '@hikka/react';
 import {
     useParams,
     usePathname,
@@ -9,17 +10,11 @@ import {
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from '@/components/ui/toggle-group';
-import useSession from '@/services/hooks/auth/use-session';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
 import { cn } from '@/utils/utils';
+
 import FollowingHistory from './following-history';
 import History from './history';
 

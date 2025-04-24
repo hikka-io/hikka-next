@@ -1,33 +1,27 @@
-import { HistoryPaginationResponse, PaginationArgs } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { HistoryPaginationResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseUserHistoryParams {
+    username: string;
+}
 
 /**
  * Hook for retrieving a specific user's history
  */
-export function useUserHistory(
-    username: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            HistoryPaginationResponse,
-            Error,
-            InfiniteData<HistoryPaginationResponse>,
-            HistoryPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useUserHistory({
+    username,
+    paginationArgs,
+    ...rest
+}: UseUserHistoryParams & InfiniteQueryParams<HistoryPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.history.user(username, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -35,36 +29,26 @@ export function useUserHistory(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches a specific user's history for server-side rendering
  */
-export async function prefetchUserHistory(
-    queryClient: QueryClient,
-    username: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            HistoryPaginationResponse,
-            Error,
-            HistoryPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchUserHistory({
+    username,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<HistoryPaginationResponse> &
+    UseUserHistoryParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.history.user(username, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.history.getUserHistory(username, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

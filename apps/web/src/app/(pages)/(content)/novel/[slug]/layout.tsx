@@ -1,5 +1,11 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ContentTypeEnum, NovelInfoResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchArticlesList,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -9,14 +15,15 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
+
 import Actions from '@/features/novel/novel-view/actions/actions.component';
 import Cover from '@/features/novel/novel-view/cover.component';
 import Title from '@/features/novel/novel-view/title.component';
-import { prefetchArticles } from '@/services/hooks/articles/use-articles';
-import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
+
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 
@@ -37,20 +44,24 @@ export async function generateMetadata(
 
 const NovelLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { slug } = params;
-
     const { children } = props;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchNovelInfo({ slug });
-    await prefetchArticles({ content_slug: slug, content_type: 'novel' });
+    // await prefetchNovelInfo({ slug });
+    await prefetchArticlesList({
+        args: {
+            content_slug: slug,
+            content_type: ContentTypeEnum.NOVEL,
+        },
+        clientConfig,
+    });
 
-    const novel: API.NovelInfo | undefined = queryClient.getQueryData([
-        'novel',
-        slug,
-    ]);
+    const novel: NovelInfoResponse | undefined = queryClient.getQueryData(
+        queryKeys.novel.details(slug),
+    );
 
     if (!novel) {
         return permanentRedirect('/');
@@ -64,13 +75,15 @@ const NovelLayout: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <div
-                        className="size-2 rounded-full bg-white"
-                        style={{
-                            backgroundColor:
-                                RELEASE_STATUS[novel?.status].color,
-                        }}
-                    />
+                    {novel?.status && (
+                        <div
+                            className="size-2 rounded-full bg-white"
+                            style={{
+                                backgroundColor:
+                                    RELEASE_STATUS[novel?.status].color,
+                            }}
+                        />
+                    )}
                     <Link
                         href={'/novel/' + novel?.slug}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"

@@ -1,9 +1,8 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate, getQueryClient } from '@hikka/react';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import NovelList from '@/features/novel/novel-list/novel-list.component';
-import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     searchParams: Record<string, string>;

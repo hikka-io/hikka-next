@@ -1,5 +1,11 @@
 'use client';
 
+import {
+    ReadContentType,
+    ReadResponseBase,
+    ReadStatusEnum,
+} from '@hikka/client';
+import { useAddOrUpdateRead, useDeleteRead, useReadEntry } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,9 +23,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useAddRead from '@/services/hooks/read/use-add-read';
-import useDeleteRead from '@/services/hooks/read/use-delete-read';
-import useRead from '@/services/hooks/read/use-read';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/zod';
@@ -28,35 +31,39 @@ import FormInput from '../../components/form/form-input';
 import FormTextarea from '../../components/form/form-textarea';
 
 const formSchema = z.object({
-    score: z.coerce.number().min(0).max(10).nullable().optional(),
-    volumes: z.coerce.number().min(0).nullable().optional(),
-    chapters: z.coerce.number().min(0).nullable().optional(),
-    rereads: z.coerce.number().min(0).nullable().optional(),
+    score: z.coerce.number().min(0).max(10).optional(),
+    volumes: z.coerce.number().min(0).optional(),
+    chapters: z.coerce.number().min(0).optional(),
+    rereads: z.coerce.number().min(0).optional(),
     note: z.string().nullable().optional(),
 });
 
 interface Props {
     slug: string;
-    content_type: 'novel' | 'manga';
-    read?: API.Read;
+    content_type: ReadContentType;
+    read?: ReadResponseBase;
 }
 
 const Component = ({ slug, content_type, read: readProp }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: readQuery } = useRead(
-        { slug, content_type },
-        { enabled: !readProp },
-    );
+    const { data: readQuery } = useReadEntry({
+        contentType: content_type,
+        slug,
+        options: {
+            enabled: !readProp,
+        },
+    });
 
     const read = readProp || readQuery;
 
-    const { mutate: addRead, isPending: addToListLoading } = useAddRead();
+    const { mutate: addOrUpdateRead, isPending: addToListLoading } =
+        useAddOrUpdateRead({});
 
     const { mutate: deleteRead, isPending: deleteFromListLoading } =
-        useDeleteRead();
+        useDeleteRead({});
 
     const [selectedStatus, setSelectedStatus] = useState<
-        API.ReadStatus | undefined
+        ReadStatusEnum | undefined
     >(read?.status);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -65,7 +72,10 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
     });
 
     const onDelete = async () => {
-        deleteRead({ params: { slug, content_type } });
+        deleteRead({
+            contentType: content_type,
+            slug,
+        });
         closeModal();
     };
 
@@ -89,7 +99,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         <Select
                             value={selectedStatus && [selectedStatus]}
                             onValueChange={(value) => {
-                                setSelectedStatus(value[0] as API.ReadStatus);
+                                setSelectedStatus(value[0] as ReadStatusEnum);
                             }}
                         >
                             <SelectTrigger>
@@ -110,7 +120,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                                         {(
                                             Object.keys(
                                                 READ_STATUS,
-                                            ) as API.ReadStatus[]
+                                            ) as ReadStatusEnum[]
                                         ).map((status) => (
                                             <SelectItem
                                                 value={status}
@@ -178,10 +188,10 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                     <Button
                         variant="secondary"
                         onClick={form.handleSubmit((data) =>
-                            addRead({
-                                params: {
-                                    content_type,
-                                    slug,
+                            addOrUpdateRead({
+                                contentType: content_type,
+                                slug,
+                                args: {
                                     status: selectedStatus!,
                                     ...data,
                                 },

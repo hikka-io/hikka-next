@@ -1,12 +1,14 @@
 'use client';
 
+import { PaginationResponse } from '@hikka/client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import createQueryString from '@/utils/create-query-string';
+
 import Pagination from './ui/pagination';
 
 interface Props {
-    pagination: API.Pagination;
+    pagination: PaginationResponse;
 }
 
 const Component = ({ pagination }: Props) => {

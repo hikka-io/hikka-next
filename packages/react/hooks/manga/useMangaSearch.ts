@@ -1,37 +1,27 @@
-import {
-    MangaPaginationResponse,
-    MangaSearchArgs,
-    PaginationArgs,
-} from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { MangaPaginationResponse, MangaSearchArgs } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseMangaSearchParams {
+    args: MangaSearchArgs;
+}
 
 /**
  * Hook for searching manga with pagination
  */
-export function useMangaSearch(
-    args: MangaSearchArgs,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            MangaPaginationResponse,
-            Error,
-            InfiniteData<MangaPaginationResponse>,
-            MangaPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useMangaSearch({
+    args,
+    paginationArgs,
+    ...rest
+}: UseMangaSearchParams & InfiniteQueryParams<MangaPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.manga.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -39,36 +29,26 @@ export function useMangaSearch(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches manga search results for server-side rendering
  */
-export async function prefetchMangaSearch(
-    queryClient: QueryClient,
-    args: MangaSearchArgs,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            MangaPaginationResponse,
-            Error,
-            MangaPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchMangaSearch({
+    args,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<MangaPaginationResponse> &
+    UseMangaSearchParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.manga.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.manga.search(args, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

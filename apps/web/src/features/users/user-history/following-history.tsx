@@ -1,5 +1,6 @@
 'use client';
 
+import { useFollowingHistory } from '@hikka/react';
 import { FC, Fragment } from 'react';
 
 import HistoryItem from '@/components/history-item';
@@ -8,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-import useUserHistory from '@/services/hooks/history/use-following-history';
 
 interface Props {
     className?: string;
@@ -16,7 +16,7 @@ interface Props {
 
 const FollowingHistory: FC<Props> = ({ className }) => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useUserHistory();
+        useFollowingHistory();
 
     return (
         <Fragment>

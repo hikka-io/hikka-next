@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { useSearchParams } from 'next/navigation';
 import { FC, useCallback } from 'react';
 
@@ -8,13 +9,14 @@ import {
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
 } from '@/utils/constants/common';
+
 import BadgeFilter from '../badge-filter';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
 interface Props {
     className?: string;
-    content_type: API.ContentType;
+    content_type: ContentTypeEnum;
 }
 
 const MediaType: FC<Props> = ({ content_type }) => {
@@ -26,11 +28,11 @@ const MediaType: FC<Props> = ({ content_type }) => {
 
     const getMediaType = useCallback(() => {
         switch (content_type) {
-            case 'anime':
+            case ContentTypeEnum.ANIME:
                 return ANIME_MEDIA_TYPE;
-            case 'manga':
+            case ContentTypeEnum.MANGA:
                 return MANGA_MEDIA_TYPE;
-            case 'novel':
+            case ContentTypeEnum.NOVEL:
                 return NOVEL_MEDIA_TYPE;
             default:
                 return ANIME_MEDIA_TYPE;

@@ -1,43 +1,39 @@
-import { CollectionResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { CollectionContent, CollectionResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseCollectionParams {
+    reference: string;
+}
 
 /**
  * Hook for retrieving a collection by reference
  */
-export function useCollection(
-    reference: string,
-    options?: Omit<
-        UseQueryOptions<CollectionResponse, Error, CollectionResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
-    return useQuery({
+export function useCollection<TResult = CollectionResponse<CollectionContent>>({
+    reference,
+    ...rest
+}: UseCollectionParams &
+    QueryParams<CollectionResponse<CollectionContent>, TResult>) {
+    return useQuery<CollectionResponse<CollectionContent>, Error, TResult>({
         queryKey: queryKeys.collections.byReference(reference),
         queryFn: (client) => client.collections.getByReference(reference),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches a collection by reference for server-side rendering
  */
-export async function prefetchCollection(
-    queryClient: QueryClient,
-    reference: string,
-    options?: Omit<
-        FetchQueryOptions<CollectionResponse, Error, CollectionResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchCollection({
+    reference,
+    ...rest
+}: PrefetchQueryParams<CollectionResponse<CollectionContent>> &
+    UseCollectionParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.collections.byReference(reference),
         queryFn: (client) => client.collections.getByReference(reference),
-        options,
+        ...rest,
     });
 }

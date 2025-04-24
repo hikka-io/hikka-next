@@ -1,13 +1,18 @@
 'use client';
 
+import {
+    AnimeResponse,
+    WatchResponseBase,
+    WatchStatusEnum,
+} from '@hikka/client';
+import { useAddOrUpdateWatch, useAnimeInfo, useWatchEntry } from '@hikka/react';
 import { createElement } from 'react';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
-import useWatch from '@/services/hooks/watch/use-watch';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
+
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
     Select,
@@ -24,8 +29,8 @@ interface Props {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
-    watch?: API.Watch;
-    anime?: API.Anime;
+    watch?: WatchResponseBase;
+    anime?: AnimeResponse;
     size?: 'sm' | 'md';
 }
 
@@ -44,11 +49,11 @@ const SETTINGS_BUTTON = {
 const OPTIONS = [
     ...Object.keys(WATCH_STATUS).map((status) => ({
         value: status,
-        title: WATCH_STATUS[status as API.WatchStatus].title_ua,
+        title: WATCH_STATUS[status as WatchStatusEnum].title_ua,
         label: (
             <div className="flex items-center gap-2">
-                {createElement(WATCH_STATUS[status as API.WatchStatus].icon!)}
-                {WATCH_STATUS[status as API.WatchStatus].title_ua}
+                {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!)}
+                {WATCH_STATUS[status as WatchStatusEnum].title_ua}
             </div>
         ),
     })),
@@ -63,19 +68,19 @@ const Component = ({
 }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: watchQuery, isError: watchError } = useWatch(
-        {
-            slug,
+    const { data: watchQuery, isError: watchError } = useWatchEntry({
+        slug,
+        options: {
+            enabled: !disabled && !watchProp,
         },
-        { enabled: !disabled && !watchProp },
-    );
-    const { data: animeQuery } = useAnimeInfo(
-        {
-            slug,
+    });
+    const { data: animeQuery } = useAnimeInfo({
+        slug,
+        options: {
+            enabled: !disabled && !animeProp,
         },
-        { enabled: !disabled && !animeProp },
-    );
-    const { mutate: addWatch } = useAddWatch();
+    });
+    const { mutate: addWatch } = useAddOrUpdateWatch({});
 
     const watch =
         watchProp || (watchQuery && !watchError ? watchQuery : undefined);
@@ -110,18 +115,18 @@ const Component = ({
 
         if (options[0] === 'completed') {
             addWatch({
-                params: {
-                    slug,
-                    status: 'completed',
+                slug,
+                args: {
+                    status: WatchStatusEnum.COMPLETED,
                     ...params,
-                    episodes: anime?.episodes_total,
+                    episodes: anime?.episodes_total || undefined,
                 },
             });
         } else {
             addWatch({
-                params: {
-                    slug,
-                    status: options[0] as API.WatchStatus,
+                slug,
+                args: {
+                    status: options[0] as WatchStatusEnum,
                     ...params,
                 },
             });

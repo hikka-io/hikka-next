@@ -1,3 +1,17 @@
+import {
+    ContentTypeEnum,
+    NotificationCommentData,
+    NotificationCommentVoteData,
+    NotificationData,
+    NotificationEditData,
+    NotificationFollowData,
+    NotificationHikkaData,
+    NotificationResponse,
+    NotificationScheduleAnimeData,
+    NotificationThirdpartyLoginData,
+    NotificationTypeEnum,
+    NotificationVoteData,
+} from '@hikka/client';
 import { ReactNode } from 'react';
 
 import ContentCard from '../../components/content-card/content-card';
@@ -17,91 +31,85 @@ import MaterialSymbolsPersonAddRounded from '../../components/icons/material-sym
 /**
  * Notification title mapping
  */
-const NOTIFICATION_TITLES: Record<API.NotificationType, string> = {
-    edit_accepted: 'Правка прийнята',
-    edit_denied: 'Правка відхилена',
-    edit_updated: 'Правка оновлена',
-    comment_reply: 'Новий коментар',
-    comment_vote: 'Нова оцінка',
-    article_vote: 'Нова оцінка',
-    comment_tag: 'Нова згадка',
-    edit_comment: 'Новий коментар у правці',
-    collection_comment: 'Новий коментар у колекції',
-    hikka_update: 'Hikka',
-    schedule_anime: 'Новий епізод',
-    follow: 'Нова підписка',
-    collection_vote: 'Нова оцінка у колекції',
-    thirdparty_login: 'Стороння авторизація',
-    article_comment: 'Новий коментар у статті',
+const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
+    [NotificationTypeEnum.EDIT_ACCEPTED]: 'Правка прийнята',
+    [NotificationTypeEnum.EDIT_DENIED]: 'Правка відхилена',
+    [NotificationTypeEnum.EDIT_UPDATED]: 'Правка оновлена',
+    [NotificationTypeEnum.COMMENT_REPLY]: 'Новий коментар',
+    [NotificationTypeEnum.COMMENT_VOTE]: 'Нова оцінка',
+    [NotificationTypeEnum.ARTICLE_VOTE]: 'Нова оцінка',
+    [NotificationTypeEnum.COMMENT_TAG]: 'Нова згадка',
+    [NotificationTypeEnum.EDIT_COMMENT]: 'Новий коментар у правці',
+    [NotificationTypeEnum.COLLECTION_COMMENT]: 'Новий коментар у колекції',
+    [NotificationTypeEnum.HIKKA_UPDATE]: 'Hikka',
+    [NotificationTypeEnum.SCHEDULE_ANIME]: 'Новий епізод',
+    [NotificationTypeEnum.FOLLOW]: 'Нова підписка',
+    [NotificationTypeEnum.COLLECTION_VOTE]: 'Нова оцінка у колекції',
+    [NotificationTypeEnum.THIRDPARTY_LOGIN]: 'Стороння авторизація',
+    [NotificationTypeEnum.ARTICLE_COMMENT]: 'Новий коментар у статті',
 };
 
 /**
  * Functions to generate description text for each notification type
  */
 const NOTIFICATION_DESCRIPTIONS: Record<
-    API.NotificationType,
+    NotificationTypeEnum,
     (...args: any[]) => string | ReactNode
 > = {
-    edit_accepted: () => 'Ваша правка була прийнята',
-    edit_denied: () => 'Ваша правка була відхилена',
-    edit_updated: () => 'Ваша правка була оновлена',
-    comment_reply: (username: string) =>
+    [NotificationTypeEnum.EDIT_ACCEPTED]: () => 'Ваша правка була прийнята',
+    [NotificationTypeEnum.EDIT_DENIED]: () => 'Ваша правка була відхилена',
+    [NotificationTypeEnum.EDIT_UPDATED]: () => 'Ваша правка була оновлена',
+    [NotificationTypeEnum.COMMENT_REPLY]: (username: string) =>
         `Користувач **${username}** відповів на Ваш коментар`,
-    comment_vote: (username: string) =>
+    [NotificationTypeEnum.COMMENT_VOTE]: (username: string) =>
         `Користувач **${username}** оцінив Ваш коментар`,
-    comment_tag: (username: string) =>
+    [NotificationTypeEnum.COMMENT_TAG]: (username: string) =>
         `Користувач **${username}** згадав Вас у коментарі`,
-    edit_comment: (username: string) =>
+    [NotificationTypeEnum.EDIT_COMMENT]: (username: string) =>
         `Користувач **${username}** залишив коментар`,
-    collection_comment: (username: string) =>
+    [NotificationTypeEnum.COLLECTION_COMMENT]: (username: string) =>
         `Користувач **${username}** залишив коментар`,
-    hikka_update: (description: string) => description,
-    schedule_anime: (episode: number) => `Вийшов ${episode} епізод аніме`,
-    follow: (username: string) =>
+    [NotificationTypeEnum.HIKKA_UPDATE]: (description: string) => description,
+    [NotificationTypeEnum.SCHEDULE_ANIME]: (episode: number) =>
+        `Вийшов ${episode} епізод аніме`,
+    [NotificationTypeEnum.FOLLOW]: (username: string) =>
         `Користувач **${username}** підписався на Ваш профіль`,
-    collection_vote: (username: string) =>
+    [NotificationTypeEnum.COLLECTION_VOTE]: (username: string) =>
         `Користувач **${username}** оцінив Вашу колекцію`,
-    article_vote: (username: string) =>
+    [NotificationTypeEnum.ARTICLE_VOTE]: (username: string) =>
         `Користувач **${username}** оцінив Вашу статтю`,
-    thirdparty_login: (clientName: string) =>
+    [NotificationTypeEnum.THIRDPARTY_LOGIN]: (clientName: string) =>
         `Ви авторизувались через сторонній застосунок **${clientName}**`,
-    article_comment: (username: string) =>
+    [NotificationTypeEnum.ARTICLE_COMMENT]: (username: string) =>
         `Користувач **${username}** залишив коментар`,
 };
 
 /**
  * Default icons for each notification type
  */
-const NOTIFICATION_ICONS: Record<API.NotificationType, ReactNode> = {
-    edit_accepted: <MaterialSymbolsCheckCircleRounded />,
-    edit_denied: <MaterialSymbolsFlagCircleRounded />,
-    edit_updated: <MaterialSymbolsChangeCircleRounded />,
-    comment_reply: <MaterialSymbolsAddCommentRounded />,
-    comment_vote: <MaterialSymbolsFavoriteRounded />,
-    comment_tag: <FeMention />,
-    edit_comment: <MaterialSymbolsAddCommentRounded />,
-    collection_comment: <MaterialSymbolsAddCommentRounded />,
-    hikka_update: <MaterialSymbolsInfoRounded />,
-    schedule_anime: <MaterialSymbolsLiveTvRounded />,
-    follow: <MaterialSymbolsPersonAddRounded />,
-    collection_vote: <MaterialSymbolsFavoriteRounded />,
-    thirdparty_login: <MaterialSymbolsLockOpenRightOutlineRounded />,
-    article_comment: <MaterialSymbolsAddCommentRounded />,
-    article_vote: <MaterialSymbolsFavoriteRounded />,
+const NOTIFICATION_ICONS: Record<NotificationTypeEnum, ReactNode> = {
+    [NotificationTypeEnum.EDIT_ACCEPTED]: <MaterialSymbolsCheckCircleRounded />,
+    [NotificationTypeEnum.EDIT_DENIED]: <MaterialSymbolsFlagCircleRounded />,
+    [NotificationTypeEnum.EDIT_UPDATED]: <MaterialSymbolsChangeCircleRounded />,
+    [NotificationTypeEnum.COMMENT_REPLY]: <MaterialSymbolsAddCommentRounded />,
+    [NotificationTypeEnum.COMMENT_VOTE]: <MaterialSymbolsFavoriteRounded />,
+    [NotificationTypeEnum.COMMENT_TAG]: <FeMention />,
+    [NotificationTypeEnum.EDIT_COMMENT]: <MaterialSymbolsAddCommentRounded />,
+    [NotificationTypeEnum.COLLECTION_COMMENT]: (
+        <MaterialSymbolsAddCommentRounded />
+    ),
+    [NotificationTypeEnum.HIKKA_UPDATE]: <MaterialSymbolsInfoRounded />,
+    [NotificationTypeEnum.SCHEDULE_ANIME]: <MaterialSymbolsLiveTvRounded />,
+    [NotificationTypeEnum.FOLLOW]: <MaterialSymbolsPersonAddRounded />,
+    [NotificationTypeEnum.COLLECTION_VOTE]: <MaterialSymbolsFavoriteRounded />,
+    [NotificationTypeEnum.THIRDPARTY_LOGIN]: (
+        <MaterialSymbolsLockOpenRightOutlineRounded />
+    ),
+    [NotificationTypeEnum.ARTICLE_COMMENT]: (
+        <MaterialSymbolsAddCommentRounded />
+    ),
+    [NotificationTypeEnum.ARTICLE_VOTE]: <MaterialSymbolsFavoriteRounded />,
 };
-
-/**
- * Type for all supported notification data types
- */
-type SupportedNotificationData =
-    | API.NotificationCommentVoteData
-    | API.NotificationCommentData
-    | API.NotificationEditData
-    | API.NotificationHikkaData
-    | API.NotificationScheduleAnimeData
-    | API.NotificationFollowData
-    | API.NotificationVoteData
-    | API.NotificationThirdpartyLoginData;
 
 /**
  * Generates a comment link based on content type and references
@@ -112,7 +120,7 @@ type SupportedNotificationData =
  * @returns URL string for the comment
  */
 const getCommentLink = (
-    contentType: API.ContentType,
+    contentType: ContentTypeEnum,
     slug: string,
     commentReference: string,
 ): string => {
@@ -136,7 +144,7 @@ const createAvatarImage = (avatar?: string) => (
  * @returns Base notification data
  */
 const getInitialData = (
-    notification: API.Notification<SupportedNotificationData>,
+    notification: NotificationResponse<NotificationData>,
 ): Pick<
     Hikka.TextNotification,
     'icon' | 'type' | 'title' | 'reference' | 'created' | 'seen'
@@ -184,7 +192,7 @@ const notificationHandlers = {
      * Handles comment reply notifications
      */
     comment_reply: (
-        notification: API.Notification<API.NotificationCommentData>,
+        notification: NotificationResponse<NotificationCommentData>,
     ): Hikka.TextNotification => {
         const { username, slug, content_type, base_comment_reference, avatar } =
             notification.data;
@@ -201,7 +209,7 @@ const notificationHandlers = {
      * Handles article vote notifications
      */
     article_vote: (
-        notification: API.Notification<API.NotificationVoteData>,
+        notification: NotificationResponse<NotificationVoteData>,
     ): Hikka.TextNotification => {
         const { slug, username, avatar, user_score } = notification.data;
 
@@ -222,7 +230,7 @@ const notificationHandlers = {
      * Handles comment vote notifications
      */
     comment_vote: (
-        notification: API.Notification<API.NotificationCommentVoteData>,
+        notification: NotificationResponse<NotificationCommentVoteData>,
     ): Hikka.TextNotification => {
         const {
             slug,
@@ -250,7 +258,7 @@ const notificationHandlers = {
      * Handles collection vote notifications
      */
     collection_vote: (
-        notification: API.Notification<API.NotificationVoteData>,
+        notification: NotificationResponse<NotificationVoteData>,
     ): Hikka.TextNotification => {
         const { slug, username, avatar, user_score } = notification.data;
 
@@ -271,7 +279,7 @@ const notificationHandlers = {
      * Handles comment tag notifications
      */
     comment_tag: (
-        notification: API.Notification<API.NotificationCommentData>,
+        notification: NotificationResponse<NotificationCommentData>,
     ): Hikka.TextNotification => {
         const { username, slug, content_type, base_comment_reference, avatar } =
             notification.data;
@@ -288,7 +296,7 @@ const notificationHandlers = {
      * Generic handler for comment notifications on different content types
      */
     handleGenericComment: (
-        notification: API.Notification<API.NotificationCommentData>,
+        notification: NotificationResponse<NotificationCommentData>,
         type: 'edit_comment' | 'collection_comment' | 'article_comment',
     ): Hikka.TextNotification => {
         const { username, slug, content_type, base_comment_reference, avatar } =
@@ -306,7 +314,7 @@ const notificationHandlers = {
      * Generic handler for edit action notifications
      */
     handleEditAction: (
-        notification: API.Notification<API.NotificationEditData>,
+        notification: NotificationResponse<NotificationEditData>,
         type: 'edit_accepted' | 'edit_denied' | 'edit_updated',
     ): Hikka.TextNotification => {
         const { edit_id } = notification.data;
@@ -322,7 +330,7 @@ const notificationHandlers = {
      * Handles Hikka update notifications
      */
     hikka_update: (
-        notification: API.Notification<API.NotificationHikkaData>,
+        notification: NotificationResponse<NotificationHikkaData>,
     ): Hikka.TextNotification => {
         return {
             ...getInitialData(notification),
@@ -338,7 +346,7 @@ const notificationHandlers = {
      * Handles anime schedule notifications
      */
     schedule_anime: (
-        notification: API.Notification<API.NotificationScheduleAnimeData>,
+        notification: NotificationResponse<NotificationScheduleAnimeData>,
     ): Hikka.TextNotification => {
         const { title_ua, title_en, title_ja, slug, image, after } =
             notification.data;
@@ -358,7 +366,7 @@ const notificationHandlers = {
      * Handles follow notifications
      */
     follow: (
-        notification: API.Notification<API.NotificationFollowData>,
+        notification: NotificationResponse<NotificationFollowData>,
     ): Hikka.TextNotification => {
         const { username, avatar } = notification.data;
 
@@ -374,7 +382,7 @@ const notificationHandlers = {
      * Handles third-party login notifications
      */
     thirdparty_login: (
-        notification: API.Notification<API.NotificationThirdpartyLoginData>,
+        notification: NotificationResponse<NotificationThirdpartyLoginData>,
     ): Hikka.TextNotification => {
         const { client } = notification.data;
 
@@ -395,70 +403,73 @@ const notificationHandlers = {
  * @returns Formatted TextNotification ready for display
  */
 export const convertNotification = (
-    notification: API.Notification<SupportedNotificationData>,
-): Hikka.TextNotification => {
+    notification: NotificationResponse<NotificationData>,
+): Hikka.TextNotification | null => {
     const type = notification.notification_type;
 
     switch (type) {
-        case 'comment_reply':
+        case NotificationTypeEnum.COMMENT_REPLY:
             return notificationHandlers.comment_reply(
-                notification as API.Notification<API.NotificationCommentData>,
+                notification as NotificationResponse<NotificationCommentData>,
             );
 
-        case 'article_vote':
+        case NotificationTypeEnum.ARTICLE_VOTE:
             return notificationHandlers.article_vote(
-                notification as API.Notification<API.NotificationVoteData>,
+                notification as NotificationResponse<NotificationVoteData>,
             );
 
-        case 'comment_vote':
+        case NotificationTypeEnum.COMMENT_VOTE:
             return notificationHandlers.comment_vote(
-                notification as API.Notification<API.NotificationCommentVoteData>,
+                notification as NotificationResponse<NotificationCommentVoteData>,
             );
 
-        case 'collection_vote':
+        case NotificationTypeEnum.COLLECTION_VOTE:
             return notificationHandlers.collection_vote(
-                notification as API.Notification<API.NotificationVoteData>,
+                notification as NotificationResponse<NotificationVoteData>,
             );
 
-        case 'comment_tag':
+        case NotificationTypeEnum.COMMENT_TAG:
             return notificationHandlers.comment_tag(
-                notification as API.Notification<API.NotificationCommentData>,
+                notification as NotificationResponse<NotificationCommentData>,
             );
 
-        case 'edit_comment':
-        case 'collection_comment':
-        case 'article_comment':
+        case NotificationTypeEnum.EDIT_COMMENT:
+        case NotificationTypeEnum.COLLECTION_COMMENT:
+        case NotificationTypeEnum.ARTICLE_COMMENT:
             return notificationHandlers.handleGenericComment(
-                notification as API.Notification<API.NotificationCommentData>,
+                notification as NotificationResponse<NotificationCommentData>,
                 type,
             );
 
-        case 'edit_accepted':
-        case 'edit_denied':
-        case 'edit_updated':
+        case NotificationTypeEnum.EDIT_ACCEPTED:
+        case NotificationTypeEnum.EDIT_DENIED:
+        case NotificationTypeEnum.EDIT_UPDATED:
             return notificationHandlers.handleEditAction(
-                notification as API.Notification<API.NotificationEditData>,
+                notification as NotificationResponse<NotificationEditData>,
                 type,
             );
 
-        case 'hikka_update':
+        case NotificationTypeEnum.HIKKA_UPDATE:
             return notificationHandlers.hikka_update(
-                notification as API.Notification<API.NotificationHikkaData>,
+                notification as NotificationResponse<NotificationHikkaData>,
             );
 
-        case 'schedule_anime':
+        case NotificationTypeEnum.SCHEDULE_ANIME:
             return notificationHandlers.schedule_anime(
-                notification as API.Notification<API.NotificationScheduleAnimeData>,
+                notification as NotificationResponse<NotificationScheduleAnimeData>,
             );
 
-        case 'follow':
+        case NotificationTypeEnum.FOLLOW:
             return notificationHandlers.follow(
-                notification as API.Notification<API.NotificationFollowData>,
+                notification as NotificationResponse<NotificationFollowData>,
             );
 
-        case 'thirdparty_login':
+        case NotificationTypeEnum.THIRDPARTY_LOGIN:
             return notificationHandlers.thirdparty_login(
-                notification as API.Notification<API.NotificationThirdpartyLoginData>,
+                notification as NotificationResponse<NotificationThirdpartyLoginData>,
             );
+
+        default:
+            return null;
     }
 };

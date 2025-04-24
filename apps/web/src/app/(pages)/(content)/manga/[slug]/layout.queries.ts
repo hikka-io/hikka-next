@@ -1,7 +1,11 @@
-import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
-import { prefetchMangaCharacters } from '@/services/hooks/manga/use-manga-characters';
-import { prefetchFranchise } from '@/services/hooks/related/use-franchise';
-import { getCookie } from '@/utils/cookies';
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    prefetchFavouriteStatus,
+    prefetchFranchise,
+    prefetchMangaCharacters,
+} from '@hikka/react';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -10,12 +14,22 @@ interface Props {
 }
 
 const prefetchQueries = async ({ params: { slug } }: Props) => {
-    const auth = await getCookie('auth');
+    const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
-        prefetchMangaCharacters({ slug }),
-        prefetchFranchise({ slug, content_type: 'manga' }),
-        auth ? prefetchFavorite({ slug, content_type: 'manga' }) : undefined,
+        prefetchMangaCharacters({ slug, clientConfig }),
+        prefetchFranchise({
+            slug,
+            contentType: ContentTypeEnum.MANGA,
+            clientConfig,
+        }),
+        clientConfig.authToken
+            ? prefetchFavouriteStatus({
+                  slug,
+                  contentType: ContentTypeEnum.MANGA,
+                  clientConfig,
+              })
+            : undefined,
     ]);
 };
 

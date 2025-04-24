@@ -1,5 +1,7 @@
 'use client';
 
+import { RelatedContentType } from '@hikka/client';
+import { useFranchise } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +14,6 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useFranchise from '@/services/hooks/related/use-franchise';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 
 import AnimeCard from '../../components/anime-card';
@@ -23,7 +24,7 @@ import FranchiseItem from './franchise-item';
 
 interface Props {
     extended?: boolean;
-    content_type: API.ContentType;
+    content_type: RelatedContentType;
 }
 
 const Franchise: FC<Props> = ({ extended, content_type }) => {
@@ -36,8 +37,8 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     const content_types = searchParams.getAll('content_types');
 
     const { data: franchise } = useFranchise({
+        contentType: content_type,
         slug: String(params.slug),
-        content_type,
     });
 
     if (!franchise) {
@@ -47,7 +48,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     const sortedList = franchise.list.sort((a, b) => {
         if (a.status === 'announced') return -1;
         if (b.status === 'announced') return 1;
-        return b.year - a.year;
+        return (b?.year ?? 0) - (a?.year ?? 0);
     });
     const filteredData = extended
         ? sortedList.filter((v) => content_types.includes(v.data_type))

@@ -1,8 +1,12 @@
 'use client';
 
-import useAddFavorite from '@/services/hooks/favorite/use-add-favorite';
-import useDeleteFavorite from '@/services/hooks/favorite/use-delete-favorite';
-import useFavorite from '@/services/hooks/favorite/use-favorite';
+import { FavouriteContentType } from '@hikka/client';
+import {
+    useAddFavourite,
+    useFavouriteStatus,
+    useRemoveFavourite,
+} from '@hikka/react';
+
 import { MaterialSymbolsFavoriteOutlineRounded } from './icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
 import { MaterialSymbolsFavoriteRounded } from './icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button, ButtonProps } from './ui/button';
@@ -11,7 +15,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 interface Props extends ButtonProps {
     slug: string;
     disabled?: boolean;
-    content_type: API.ContentType;
+    content_type: FavouriteContentType;
 }
 
 const Component = ({
@@ -21,16 +25,16 @@ const Component = ({
     children,
     ...props
 }: Props) => {
-    const { data: favorite, isError: favoriteError } = useFavorite({
+    const { data: favorite, isError: favoriteError } = useFavouriteStatus({
         slug,
-        content_type,
+        contentType: content_type,
     });
 
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
-        useAddFavorite({ slug, content_type });
+        useAddFavourite({});
 
     const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
-        useDeleteFavorite({ slug, content_type });
+        useRemoveFavourite({});
 
     return (
         <Tooltip delayDuration={0}>
@@ -41,15 +45,18 @@ const Component = ({
                     disabled={disabled}
                     onClick={() =>
                         favorite && !favoriteError
-                            ? deleteFromFavorite()
-                            : addToFavorite()
+                            ? deleteFromFavorite({
+                                  contentType: content_type,
+                                  slug,
+                              })
+                            : addToFavorite({ contentType: content_type, slug })
                     }
                     {...props}
                 >
                     {favorite && !favoriteError ? (
-                        <MaterialSymbolsFavoriteRounded className="!size-5 text-destructive" />
+                        <MaterialSymbolsFavoriteRounded className="text-destructive !size-5" />
                     ) : (
-                        <MaterialSymbolsFavoriteOutlineRounded className="!size-5 text-foreground" />
+                        <MaterialSymbolsFavoriteOutlineRounded className="text-foreground !size-5" />
                     )}
                     {children}
                 </Button>

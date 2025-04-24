@@ -1,3 +1,3 @@
 export * from './usePeopleSearch';
-export * from './usePerson';
 export * from './usePersonContent';
+export * from './usePersonInfo';

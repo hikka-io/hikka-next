@@ -1,5 +1,6 @@
 'use client';
 
+import { WatchStatusEnum } from '@hikka/client';
 import {
     useParams,
     usePathname,
@@ -19,8 +20,10 @@ import {
     SelectList,
     SelectTrigger,
 } from '@/components/ui/select';
+
 import { WATCH_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
+
 import { useList } from './watchlist.hooks';
 
 const StatusCombobox = () => {
@@ -29,7 +32,7 @@ const StatusCombobox = () => {
     const params = useParams();
     const router = useRouter();
 
-    const watchStatus = searchParams.get('status')! as API.WatchStatus;
+    const watchStatus = searchParams.get('status')! as WatchStatusEnum;
 
     const { pagination } = useList();
 
@@ -48,7 +51,7 @@ const StatusCombobox = () => {
         <Select value={[watchStatus]} onValueChange={handleWatchStatusChange}>
             <SelectTrigger>
                 <div className="flex items-center gap-4">
-                    <div className="hidden rounded-md border border-border bg-secondary/20 p-1 sm:block">
+                    <div className="border-border bg-secondary/20 hidden rounded-md border p-1 sm:block">
                         {createElement(WATCH_STATUS[watchStatus].icon!)}
                     </div>
                     <div className="flex items-center gap-2">
@@ -65,7 +68,7 @@ const StatusCombobox = () => {
             <SelectContent>
                 <SelectList>
                     <SelectGroup>
-                        {(Object.keys(WATCH_STATUS) as API.WatchStatus[]).map(
+                        {(Object.keys(WATCH_STATUS) as WatchStatusEnum[]).map(
                             (o) => (
                                 <SelectItem key={o} value={o}>
                                     {WATCH_STATUS[o].title_ua}

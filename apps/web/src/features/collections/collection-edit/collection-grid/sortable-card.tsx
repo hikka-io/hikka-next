@@ -1,5 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { CollectionContent } from '@hikka/client';
 import { FC, memo, useMemo } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -9,7 +10,7 @@ import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;
-    content: API.MainContent & { title?: string };
+    content: CollectionContent & { title?: string };
     onRemove: () => void;
 }
 

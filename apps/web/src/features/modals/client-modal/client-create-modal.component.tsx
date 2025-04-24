@@ -1,5 +1,6 @@
 'use client';
 
+import { useCreateClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -7,7 +8,7 @@ import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import useCreateClient from '@/services/hooks/client/use-create-client';
+
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -18,14 +19,14 @@ const formSchema = z.object({
 
 const Component = () => {
     const { mutate: createClient, isPending: createClientLoading } =
-        useCreateClient();
+        useCreateClient({});
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     });
 
     const onCreate = async (formData: z.infer<typeof formSchema>) => {
-        createClient({ params: { ...formData } });
+        createClient({ ...formData });
     };
 
     return (

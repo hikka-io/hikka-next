@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession, useUserHistory } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -8,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 
-import useSession from '@/services/hooks/auth/use-session';
-import useUserHistory from '@/services/hooks/history/use-following-history';
 import { cn } from '@/utils/utils';
 
 import HistoryItem from '../../components/history-item';
@@ -20,7 +19,7 @@ interface Props {
 
 const History: FC<Props> = ({ className }) => {
     const { user } = useSession();
-    const { list } = useUserHistory();
+    const { list } = useUserHistory({ username: user?.username! });
 
     const filteredHistory = list?.slice(0, 3);
 

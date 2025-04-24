@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { Label } from '@/components/ui/label';
 
 interface Props {
-    duration: number;
+    duration: number | null;
 }
 
 const Duration: FC<Props> = ({ duration }) => {

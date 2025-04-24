@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,13 +13,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+
 import { CONTENT_TYPES } from '@/utils/constants/common';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
 interface Props {
     className?: string;
-    contentTypes: API.ContentType[];
+    contentTypes: ContentTypeEnum[];
 }
 
 const ContentType: FC<Props> = ({ contentTypes }) => {

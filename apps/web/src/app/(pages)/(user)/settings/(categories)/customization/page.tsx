@@ -1,11 +1,8 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import Customization from '@/features/settings/customization/customization.component';
 
 interface Props {
@@ -24,7 +21,7 @@ const CustomizationSettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle>Кастомізація</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <P className="text-sm text-muted-foreground">
+                <P className="text-muted-foreground text-sm">
                     Налаштуйте відображення контенту, теми та інше
                 </P>
             </div>

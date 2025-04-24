@@ -1,5 +1,6 @@
 'use client';
 
+import { useDenyEdit } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -14,20 +15,15 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import useActionEdit from '@/services/hooks/edit/use-action-edit';
 
 interface Props {}
 
 const DenyAction: FC<Props> = () => {
     const params = useParams();
-    const mutation = useActionEdit({ action: 'deny' });
+    const denyEditMutation = useDenyEdit({});
 
     const handleClick = () => {
-        mutation.mutate({
-            params: {
-                edit_id: Number(params.editId),
-            },
-        });
+        denyEditMutation.mutate(Number(params.editId));
     };
 
     return (
@@ -36,7 +32,7 @@ const DenyAction: FC<Props> = () => {
                 <Button
                     variant="destructive"
                     size="md"
-                    disabled={mutation.isPending}
+                    disabled={denyEditMutation.isPending}
                 >
                     Відхилити
                 </Button>

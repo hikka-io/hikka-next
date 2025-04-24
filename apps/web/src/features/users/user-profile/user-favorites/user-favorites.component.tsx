@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum, FavouriteContentType } from '@hikka/client';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -10,10 +11,8 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from '@/components/ui/toggle-group';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
 import Anime from './anime';
 import Character from './characters';
 import Collections from './collections';
@@ -25,20 +24,22 @@ interface Props {
 }
 
 const Favorites: FC<Props> = ({ extended }) => {
-    const [content, setContent] = useState<API.ContentType>('anime');
+    const [content, setContent] = useState<FavouriteContentType>(
+        ContentTypeEnum.ANIME,
+    );
     const params = useParams();
 
     const getComponent = () => {
         switch (content) {
-            case 'anime':
+            case ContentTypeEnum.ANIME:
                 return <Anime extended={extended} />;
-            case 'character':
+            case ContentTypeEnum.CHARACTER:
                 return <Character extended={extended} />;
-            case 'manga':
+            case ContentTypeEnum.MANGA:
                 return <Manga extended={extended} />;
-            case 'novel':
+            case ContentTypeEnum.NOVEL:
                 return <Novel extended={extended} />;
-            case 'collection':
+            case ContentTypeEnum.COLLECTION:
                 return <Collections extended={extended} />;
             default:
                 return null;
@@ -59,37 +60,37 @@ const Favorites: FC<Props> = ({ extended }) => {
                     <ToggleGroup
                         type="single"
                         value={content}
-                        onValueChange={(value: API.ContentType) =>
+                        onValueChange={(value: FavouriteContentType) =>
                             value && setContent(value)
                         }
                         size="badge"
                     >
                         <ToggleGroupItem
-                            value="anime"
+                            value={ContentTypeEnum.ANIME}
                             aria-label="Улюблені аніме"
                         >
                             Аніме
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            value="manga"
+                            value={ContentTypeEnum.MANGA}
                             aria-label="Улюблена манґа"
                         >
                             Манґа
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            value="novel"
+                            value={ContentTypeEnum.NOVEL}
                             aria-label="Улюблене ранобе"
                         >
                             Ранобе
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            value="character"
+                            value={ContentTypeEnum.CHARACTER}
                             aria-label="Улюблені персонажі"
                         >
                             Персонажі
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            value="collection"
+                            value={ContentTypeEnum.COLLECTION}
                             aria-label="Улюблені колекції"
                         >
                             Колекції

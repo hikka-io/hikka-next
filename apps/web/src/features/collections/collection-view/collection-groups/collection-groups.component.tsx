@@ -1,8 +1,9 @@
 'use client';
 
+import { CollectionContent, CollectionContentResponse } from '@hikka/client';
+import { useCollection } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
-import useCollection from '@/services/hooks/collections/use-collection';
 import CollectionGrid from './collection-grid';
 
 const CollectionGroups = () => {
@@ -20,7 +21,10 @@ const CollectionGroups = () => {
         collection?.labels_order.length !== 0 &&
         collection?.collection.reduce(
             (
-                acc: Record<string, API.CollectionItem<API.MainContent>[]>,
+                acc: Record<
+                    string,
+                    CollectionContentResponse<CollectionContent>[]
+                >,
                 item,
             ) => {
                 if (item.label) {

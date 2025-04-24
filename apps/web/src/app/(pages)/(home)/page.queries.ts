@@ -1,21 +1,34 @@
-import { prefetchAnimeCatalog } from '@/services/hooks/anime/use-anime-catalog';
-import { key, prefetchSession } from '@/services/hooks/auth/use-session';
-import { prefetchCollections } from '@/services/hooks/collections/use-collections';
-import { prefetchLatestComments } from '@/services/hooks/comments/use-latest-comments';
-import { prefetchFollowingHistory } from '@/services/hooks/history/use-following-history';
-import { prefetchAnimeSchedule } from '@/services/hooks/stats/use-anime-schedule';
-import { prefetchWatchList } from '@/services/hooks/watch/use-watch-list';
+import {
+    ContentStatusEnum,
+    UserResponse,
+    WatchStatusEnum,
+} from '@hikka/client';
+import {
+    getQueryClient,
+    prefetchAnimeSchedule,
+    prefetchAnimeSearch,
+    prefetchCollectionsList,
+    prefetchLatestComments,
+    prefetchSession,
+    prefetchUserHistory,
+    prefetchWatchList,
+    queryKeys,
+} from '@hikka/react';
+
 import getCurrentSeason from '@/utils/get-current-season';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 const prefetchQueries = async () => {
+    const clientConfig = await getHikkaClientConfig();
     const queryClient = getQueryClient();
     const season = getCurrentSeason()!;
-    const year = String(new Date().getFullYear());
+    const year = Number(new Date().getFullYear());
 
-    await prefetchSession();
+    await prefetchSession({ clientConfig });
 
-    const loggedUser: API.User | undefined = queryClient.getQueryData(key());
+    const loggedUser: UserResponse | undefined = queryClient.getQueryData(
+        queryKeys.user.me(),
+    );
 
     const promises = [];
 
@@ -23,33 +36,56 @@ const prefetchQueries = async () => {
         promises.push(
             prefetchWatchList({
                 username: loggedUser.username,
-                watch_status: 'watching',
-                sort: ['watch_updated:desc'],
+                args: {
+                    watch_status: WatchStatusEnum.WATCHING,
+                    sort: ['watch_updated:desc'],
+                },
+                clientConfig,
             }),
         );
 
         promises.push(
-            prefetchAnimeCatalog({
-                season: [season!],
-                score: [7, 8, 9, 10],
-                years: [year, year],
-                page: 1,
-                iPage: 1,
+            prefetchAnimeSearch({
+                args: {
+                    season: [season!],
+                    score: [7, 10],
+                    years: [year, year],
+                },
+                paginationArgs: {
+                    page: 1,
+                },
+                clientConfig,
             }),
         );
 
-        promises.push(prefetchFollowingHistory());
+        promises.push(
+            prefetchUserHistory({
+                username: loggedUser.username,
+                clientConfig,
+            }),
+        );
     }
 
     promises.push(
         prefetchAnimeSchedule({
-            airing_season: [season, String(new Date().getFullYear())],
-            status: ['ongoing', 'announced'],
+            args: {
+                airing_season: [season, Number(new Date().getFullYear())],
+                status: [
+                    ContentStatusEnum.ONGOING,
+                    ContentStatusEnum.ANNOUNCED,
+                ],
+            },
+            clientConfig,
         }),
     );
 
-    promises.push(prefetchCollections({ sort: 'created' }));
-    promises.push(prefetchLatestComments());
+    promises.push(
+        prefetchCollectionsList({
+            args: { sort: ['created:desc'] },
+            clientConfig,
+        }),
+    );
+    promises.push(prefetchLatestComments({ clientConfig }));
 
     await Promise.all(promises);
 };

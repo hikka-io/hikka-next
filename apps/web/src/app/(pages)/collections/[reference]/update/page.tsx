@@ -1,8 +1,10 @@
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+
 import CollectionGroups from '@/features/collections/collection-edit/collection-groups.component';
 import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings.component';
 import CollectionTitle from '@/features/collections/collection-edit/collection-title.component';
+
 import CollectionProvider from '@/services/providers/collection-provider';
 
 const CollectionUpdatePage = () => {
@@ -12,7 +14,7 @@ const CollectionUpdatePage = () => {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                     <Block>
                         <CollectionTitle />
-                        <div className="block rounded-md border border-border bg-secondary/20 lg:hidden">
+                        <div className="border-border bg-secondary/20 block rounded-md border lg:hidden">
                             <CollectionSettings mode="edit" />
                         </div>
                         <CollectionGroups mode="edit" />

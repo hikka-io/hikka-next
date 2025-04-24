@@ -1,10 +1,9 @@
 'use client';
 
+import { useCharacterAnime, useCharacterInfo } from '@hikka/react';
+import { useSession } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useSession from '@/services/hooks/auth/use-session';
-import useCharacterAnime from '@/services/hooks/characters/use-character-anime';
-import useCharacterInfo from '@/services/hooks/characters/use-character-info';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import {
     HoverCard,
@@ -37,19 +36,19 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     if (!data) {
         return (
             <div className="flex w-96 animate-pulse gap-4 text-left">
-                <div className="h-28 w-20 rounded-lg bg-secondary/20" />
+                <div className="bg-secondary/20 h-28 w-20 rounded-lg" />
                 <div className="flex w-full flex-1 flex-col gap-2">
                     <div className="flex flex-col gap-2">
                         <div className="flex w-full flex-1 flex-col gap-2">
-                            <div className="h-5 w-20 rounded-lg bg-secondary/20" />
-                            <div className="h-2 w-full rounded-lg bg-secondary/20" />
-                            <div className="h-2 w-full rounded-lg bg-secondary/20" />
-                            <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                            <div className="bg-secondary/20 h-5 w-20 rounded-lg" />
+                            <div className="bg-secondary/20 h-2 w-full rounded-lg" />
+                            <div className="bg-secondary/20 h-2 w-full rounded-lg" />
+                            <div className="bg-secondary/20 h-2 w-full rounded-lg" />
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
                 </div>
             </div>
         );
@@ -71,7 +70,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <MDViewer className="whitespace-normal break-normal text-sm text-muted-foreground md:line-clamp-3">
+                        <MDViewer className="text-muted-foreground whitespace-normal break-normal text-sm md:line-clamp-3">
                             {data.description_ua}
                         </MDViewer>
                     </div>

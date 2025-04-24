@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentNews from '@/features/articles/article-view/content-articles/content-articles';
@@ -23,12 +24,15 @@ const NovelPage: FC<Props> = async (props) => {
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />
-                <Franchise content_type="novel" />
+                <Franchise content_type={ContentTypeEnum.NOVEL} />
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <ReadStats />
-                    <Followings content_type="novel" key="followings" />
-                    <ContentNews content_type="novel" />
+                    <Followings
+                        content_type={ContentTypeEnum.NOVEL}
+                        key="followings"
+                    />
+                    <ContentNews content_type={ContentTypeEnum.NOVEL} />
                     <Links />
                 </div>
             </div>
@@ -36,8 +40,11 @@ const NovelPage: FC<Props> = async (props) => {
                 <Details />
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <ReadStats />
-                    <Followings content_type="novel" key="followings" />
-                    <ContentNews content_type="novel" />
+                    <Followings
+                        content_type={ContentTypeEnum.NOVEL}
+                        key="followings"
+                    />
+                    <ContentNews content_type={ContentTypeEnum.NOVEL} />
                     <Links />
                 </div>
             </div>

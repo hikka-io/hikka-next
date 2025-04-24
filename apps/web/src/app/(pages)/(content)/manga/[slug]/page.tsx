@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
@@ -17,18 +18,20 @@ interface Props {
 }
 
 const MangaPage: FC<Props> = async (props) => {
-    const params = await props.params;
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />
-                <Franchise content_type="manga" />
+                <Franchise content_type={ContentTypeEnum.MANGA} />
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <ReadStats />
-                    <Followings content_type="manga" key="followings" />
-                    <ContentArticles content_type="manga" />
+                    <Followings
+                        content_type={ContentTypeEnum.MANGA}
+                        key="followings"
+                    />
+                    <ContentArticles content_type={ContentTypeEnum.MANGA} />
                     <Links />
                 </div>
             </div>
@@ -36,8 +39,11 @@ const MangaPage: FC<Props> = async (props) => {
                 <Details />
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <ReadStats />
-                    <Followings content_type="manga" key="followings" />
-                    <ContentArticles content_type="manga" />
+                    <Followings
+                        content_type={ContentTypeEnum.MANGA}
+                        key="followings"
+                    />
+                    <ContentArticles content_type={ContentTypeEnum.MANGA} />
                     <Links />
                 </div>
             </div>

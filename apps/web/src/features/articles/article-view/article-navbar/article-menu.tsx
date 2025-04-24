@@ -1,3 +1,4 @@
+import { ArticleResponse } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -10,11 +11,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import DeleteArticle from './delete-article';
 
 interface Props {
-    article: API.Article;
+    article: ArticleResponse;
 }
 
 const ArticleMenu: FC<Props> = ({ article }) => {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useUserSearch } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -14,7 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import useUsers from '@/services/hooks/user/use-users';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
@@ -27,8 +28,13 @@ interface Props {
 const User: FC<Props> = ({ className, paramKey, title }) => {
     const searchParams = useSearchParams()!;
     const [userSearch, setUserSearch] = useState<string>();
-    const { data: users, isFetching: isUsersFetching } = useUsers({
-        query: userSearch,
+    const { data: users, isFetching: isUsersFetching } = useUserSearch({
+        args: {
+            query: userSearch || '',
+        },
+        options: {
+            enabled: !!userSearch,
+        },
     });
 
     const user = searchParams.get(paramKey);

@@ -1,3 +1,4 @@
+import { UserResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import { MaterialSymbolsKidStar } from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
@@ -9,10 +10,11 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
-    user: API.User;
+    user: UserResponse;
     rank: number;
     accepted: number;
     closed: number;

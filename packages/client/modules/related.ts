@@ -1,4 +1,4 @@
-import { FranchiseResponse, RelatedContentTypeEnum } from '../types/related';
+import { FranchiseResponse, RelatedContentType } from '../types/related';
 import { BaseModule } from './base';
 
 /**
@@ -9,7 +9,7 @@ export class RelatedModule extends BaseModule {
      * Get franchise information for a content
      */
     public async getFranchise(
-        contentType: RelatedContentTypeEnum,
+        contentType: RelatedContentType,
         slug: string,
     ): Promise<FranchiseResponse> {
         return this.client.get<FranchiseResponse>(

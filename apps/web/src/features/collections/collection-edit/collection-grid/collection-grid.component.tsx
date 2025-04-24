@@ -14,17 +14,16 @@ import {
     arrayMove,
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
+import { CollectionContent } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { Group, Item } from '@/services/stores/collection-store';
+
 import SearchModal from '../../../modals/search-modal/search-modal.component';
 import SortableCard from './sortable-card';
 
@@ -79,7 +78,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
         }
     };
 
-    const handleAddItem = (content: API.MainContent & { title?: string }) => {
+    const handleAddItem = (content: CollectionContent & { title?: string }) => {
         if (JSON.stringify(groups).includes(content.slug)) {
             return;
         }
@@ -153,7 +152,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                             content_type={content_type}
                             onClick={(value) =>
                                 handleAddItem(
-                                    value as API.MainContent & {
+                                    value as CollectionContent & {
                                         title?: string;
                                     },
                                 )

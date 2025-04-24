@@ -1,43 +1,37 @@
 import { AnimeInfoResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseAnimeInfoParams {
+    slug: string;
+}
 
 /**
  * Hook for retrieving anime details by slug
  */
-export function useAnimeInfo(
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<AnimeInfoResponse, Error, AnimeInfoResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
-    return useQuery({
+export function useAnimeInfo<TResult = AnimeInfoResponse>({
+    slug,
+    ...rest
+}: UseAnimeInfoParams & QueryParams<AnimeInfoResponse, TResult>) {
+    return useQuery<AnimeInfoResponse, Error, TResult>({
         queryKey: queryKeys.anime.details(slug),
         queryFn: (client) => client.anime.getBySlug(slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches anime details for server-side rendering
  */
-export async function prefetchAnimeInfo(
-    queryClient: QueryClient,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<AnimeInfoResponse, Error, AnimeInfoResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchAnimeInfo({
+    slug,
+    ...rest
+}: PrefetchQueryParams<AnimeInfoResponse> & UseAnimeInfoParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.anime.details(slug),
         queryFn: (client) => client.anime.getBySlug(slug),
-        options,
+        ...rest,
     });
 }

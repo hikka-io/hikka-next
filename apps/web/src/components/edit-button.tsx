@@ -1,15 +1,18 @@
+import { EditContentType } from '@hikka/client';
 import { FC } from 'react';
 
 import EditListModal from '@/features/modals/editlist-modal/editlist-modal.component';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface Props {
     slug: string;
-    content_type: API.ContentType;
+    content_type: EditContentType;
     className?: string;
 }
 

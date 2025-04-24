@@ -1,14 +1,16 @@
 'use client';
 
+import { useSession } from '@hikka/react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
-import useSession from '@/services/hooks/auth/use-session';
+
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import AuthModal from '../../modals/auth-modal/auth-modal.component';
 import SearchModal from '../../modals/search-modal/search-modal.component';
 import AppSidebar from '../app-sidebar';

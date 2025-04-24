@@ -1,5 +1,10 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { UserResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -11,13 +16,16 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 import UserCover from '@/components/user-cover';
+
 import ActivationAlert from '@/features/users/activation-alert.component';
 import FollowStats from '@/features/users/follow-stats.component';
 import ListStats from '@/features/users/list-stats/list-stats.component';
 import UserInfo from '@/features/users/user-info.component';
 import UserTitle from '@/features/users/user-title.component';
+
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 
@@ -38,12 +46,11 @@ export async function generateMetadata(
 
 const UserLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { username } = params;
-
     const { children } = props;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
     await prefetchQueries({ params: { username } });
 
@@ -53,10 +60,9 @@ const UserLayout: FC<Props> = async (props) => {
         return permanentRedirect('/404');
     }
 
-    const user: API.User | undefined = queryClient.getQueryData([
-        'user',
-        username,
-    ]);
+    const user: UserResponse | undefined = queryClient.getQueryData(
+        queryKeys.user.byUsername(username),
+    );
 
     if (!user) {
         return permanentRedirect('/');

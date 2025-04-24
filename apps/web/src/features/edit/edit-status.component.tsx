@@ -1,10 +1,10 @@
 'use client';
 
+import { useEdit } from '@hikka/react';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 
-import useEdit from '@/services/hooks/edit/use-edit';
 import { EDIT_STATUS } from '@/utils/constants/edit';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const EditStatus: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ edit_id: Number(editId) });
+    const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit || !edit.status) {
         return null;

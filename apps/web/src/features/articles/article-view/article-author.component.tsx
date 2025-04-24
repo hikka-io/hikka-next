@@ -1,10 +1,10 @@
 'use client';
 
+import { useArticle } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import Author from '@/components/article-item/article-author';
-import useArticle from '@/services/hooks/articles/use-article';
 
 interface Props {}
 

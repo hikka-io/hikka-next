@@ -1,10 +1,12 @@
+import { CommentResponse, ContentTypeEnum } from '@hikka/client';
+import { useSession, useSetVote } from '@hikka/react';
 import { FC } from 'react';
 
 import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
-import useSession from '@/services/hooks/auth/use-session';
-import useVote from '@/services/hooks/vote/useVote';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import BxBxsDownvote from '../icons/bx/BxBxsDownvote';
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import BxDownvote from '../icons/bx/BxDownvote';
@@ -13,17 +15,17 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 
 interface Props {
-    comment: API.Comment;
+    comment: CommentResponse;
 }
 
 const CommentVote: FC<Props> = ({ comment }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
-    const mutation = useVote();
+    const mutation = useSetVote({});
 
-    const currentScore = mutation.variables?.params?.score
-        ? mutation.variables?.params?.score
+    const currentScore = mutation.variables?.score
+        ? mutation.variables?.score
         : comment.my_score;
 
     const handleCommentVote = async (score: -1 | 1) => {
@@ -40,11 +42,9 @@ const CommentVote: FC<Props> = ({ comment }) => {
         const updated = currentScore === score ? 0 : score;
 
         mutation.mutate({
-            params: {
-                slug: comment.reference,
-                score: updated,
-                content_type: 'comment',
-            },
+            contentType: ContentTypeEnum.COMMENT,
+            slug: comment.reference,
+            score: updated,
         });
     };
 

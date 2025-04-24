@@ -1,5 +1,6 @@
 import {
     CollectionArgs,
+    CollectionContent,
     CollectionResponse,
     CollectionsListArgs,
     CollectionsListResponse,
@@ -15,18 +16,24 @@ export class CollectionsModule extends BaseModule {
     public async getCollections(
         args: CollectionsListArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
-    ): Promise<CollectionsListResponse> {
-        return this.client.post<CollectionsListResponse>('/collections', args, {
-            page,
-            size,
-        });
+    ): Promise<CollectionsListResponse<CollectionContent>> {
+        return this.client.post<CollectionsListResponse<CollectionContent>>(
+            '/collections',
+            args,
+            {
+                page,
+                size,
+            },
+        );
     }
 
     /**
      * Create a collection
      */
-    public async create(args: CollectionArgs): Promise<CollectionResponse> {
-        return this.client.post<CollectionResponse>(
+    public async create(
+        args: CollectionArgs,
+    ): Promise<CollectionResponse<CollectionContent>> {
+        return this.client.post<CollectionResponse<CollectionContent>>(
             '/collections/create',
             args,
         );
@@ -37,8 +44,10 @@ export class CollectionsModule extends BaseModule {
      */
     public async getByReference(
         reference: string,
-    ): Promise<CollectionResponse> {
-        return this.client.get<CollectionResponse>(`/collections/${reference}`);
+    ): Promise<CollectionResponse<CollectionContent>> {
+        return this.client.get<CollectionResponse<CollectionContent>>(
+            `/collections/${reference}`,
+        );
     }
 
     /**
@@ -47,8 +56,8 @@ export class CollectionsModule extends BaseModule {
     public async update(
         reference: string,
         args: CollectionArgs,
-    ): Promise<CollectionResponse> {
-        return this.client.put<CollectionResponse>(
+    ): Promise<CollectionResponse<CollectionContent>> {
+        return this.client.put<CollectionResponse<CollectionContent>>(
             `/collections/${reference}`,
             args,
         );

@@ -8,7 +8,14 @@ export interface CompanyResponse {
     name_en: string | null;
     description: string | null;
     slug: string;
-    type: string;
+    type: CompanyTypeEnum;
+}
+/**
+ * Company type enum
+ */
+export enum CompanyTypeEnum {
+    PRODUCER = 'producer',
+    STUDIO = 'studio',
 }
 
 /**
@@ -16,7 +23,7 @@ export interface CompanyResponse {
  */
 export interface CompaniesSearchArgs {
     query?: string;
-    type?: string;
+    type?: CompanyTypeEnum;
 }
 
 /**

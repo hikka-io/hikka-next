@@ -1,3 +1,4 @@
+import { ReadContentType } from '@hikka/client';
 import { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ import AntDesignFilterFilled from '../../components/icons/ant-design/AntDesignFi
 import ReadFilters from '../filters/read-filters.component';
 
 interface Props {
-    content_type: API.ContentType;
+    content_type: ReadContentType;
     sort_type: 'manga' | 'novel' | 'read';
     children?: ReactNode;
 }

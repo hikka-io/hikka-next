@@ -26,11 +26,11 @@ export const useUpdateEdit = createMutation({
 });
 
 /**
- * Hook for approving an edit
+ * Hook for accepting an edit
  */
-export const useApproveEdit = createMutation({
+export const useAcceptEdit = createMutation({
     mutationFn: (client, editId: number | string) =>
-        client.edit.approveEdit(editId),
+        client.edit.acceptEdit(editId),
     invalidateQueries: (editId) => [
         queryKeys.edit.all,
         queryKeys.edit.byId(editId),
@@ -38,13 +38,25 @@ export const useApproveEdit = createMutation({
 });
 
 /**
- * Hook for rejecting an edit
+ * Hook for denying an edit
  */
-export const useRejectEdit = createMutation({
-    mutationFn: (client, args: { editId: number | string; reason?: string }) =>
-        client.edit.rejectEdit(args.editId, args.reason),
-    invalidateQueries: (args) => [
+export const useDenyEdit = createMutation({
+    mutationFn: (client, editId: number | string) =>
+        client.edit.denyEdit(editId),
+    invalidateQueries: (editId) => [
         queryKeys.edit.all,
-        queryKeys.edit.byId(args.editId),
+        queryKeys.edit.byId(editId),
+    ],
+});
+
+/**
+ * Hook for closing an edit
+ */
+export const useCloseEdit = createMutation({
+    mutationFn: (client, editId: number | string) =>
+        client.edit.closeEdit(editId),
+    invalidateQueries: (editId) => [
+        queryKeys.edit.all,
+        queryKeys.edit.byId(editId),
     ],
 });

@@ -1,5 +1,6 @@
 'use client';
 
+import { useArticle, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { enqueueSnackbar } from 'notistack';
@@ -14,8 +15,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import useArticle from '@/services/hooks/articles/use-article';
-import useSession from '@/services/hooks/auth/use-session';
+
 import ArticleMenu from './article-menu';
 import ArticleVote from './article-vote';
 

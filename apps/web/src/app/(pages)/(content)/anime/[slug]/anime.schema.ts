@@ -1,6 +1,8 @@
+import { AnimeInfoResponse } from '@hikka/client';
+
 import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
 
-const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
+const jsonSchema = ({ anime }: { anime: AnimeInfoResponse }) => ({
     '@context': 'http://schema.org',
     '@type': 'WebPage',
     breadcrumb: {
@@ -33,7 +35,7 @@ const jsonSchema = ({ anime }: { anime: API.AnimeInfo }) => ({
         alternateName: anime.synonyms,
         image: anime.image,
         description: parseTextFromMarkDown(
-            anime.synopsis_ua || anime.synopsis_en,
+            anime.synopsis_ua || anime.synopsis_en || '',
         ),
         startDate: anime.start_date,
         endDate: anime.end_date,

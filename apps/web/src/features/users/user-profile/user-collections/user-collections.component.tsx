@@ -1,5 +1,6 @@
 'use client';
 
+import { useCollectionsList, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -14,10 +15,10 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import useSession from '@/services/hooks/auth/use-session';
-import useUserCollections from '@/services/hooks/user/use-user-collections';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import CollectionItem from './collection-item';
 import CollectionsModal from './collections-modal';
 
@@ -31,9 +32,11 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     const { user: loggedUser } = useSession();
 
-    const { list: collections } = useUserCollections({
-        author: String(params.username),
-        sort: 'created',
+    const { list: collections } = useCollectionsList({
+        args: {
+            author: String(params.username),
+            sort: ['created:desc'],
+        },
     });
 
     if (!collections) {

@@ -1,9 +1,11 @@
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+
 import ArticleText from '@/features/articles/article-edit/article-document.component';
 import ArticlePreview from '@/features/articles/article-edit/article-preview.component';
 import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
 import ArticleTitle from '@/features/articles/article-edit/article-title.component';
+
 import ArticleProvider from '@/services/providers/article-provider';
 
 const ArticleNewPage = async (props: {
@@ -20,7 +22,7 @@ const ArticleNewPage = async (props: {
                     <ArticlePreview />
                     <ArticleText />
                 </Block>
-                <Card className="sticky top-20 order-1 self-start hidden w-full p-0 md:flex">
+                <Card className="sticky top-20 order-1 hidden w-full self-start p-0 md:flex">
                     <ArticleSettings />
                 </Card>
             </div>

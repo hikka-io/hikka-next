@@ -1,3 +1,4 @@
+import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
 import { FC, memo } from 'react';
 
@@ -13,15 +14,16 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
-    data: API.Collection<API.MainContent>;
+    data: CollectionResponse<CollectionContent>;
     className?: string;
 }
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
-    const image = (content: API.MainContent) =>
+    const image = (content: CollectionContent) =>
         content.data_type === 'anime' ? content.image : content.image;
 
     return (
@@ -41,10 +43,10 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                         {data.title}
                     </HorizontalCardTitle>
                     {data.spoiler && (
-                        <div className="size-2 rounded-full bg-warning" />
+                        <div className="bg-warning size-2 rounded-full" />
                     )}
                     {data.nsfw && (
-                        <div className="size-2 rounded-full bg-destructive" />
+                        <div className="bg-destructive size-2 rounded-full" />
                     )}
                 </div>
                 <HorizontalCardDescription
@@ -52,7 +54,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 >
                     {data.description}
                 </HorizontalCardDescription>
-                <HorizontalCardContainer className="flex-row text-xs text-muted-foreground">
+                <HorizontalCardContainer className="text-muted-foreground flex-row text-xs">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsGridViewRounded />
                         <Small>{data.entries}</Small>

@@ -1,5 +1,7 @@
 'use client';
 
+import { WatchArgs, WatchStatusEnum } from '@hikka/client';
+import { useAddOrUpdateWatch, useSession, useWatchList } from '@hikka/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -21,15 +23,13 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Params as AddWatchParams } from '@/services/api/watch/addWatch';
-import useSession from '@/services/hooks/auth/use-session';
+
 import useDebounce from '@/services/hooks/use-debounce';
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
-import useWatchList from '@/services/hooks/watch/use-watch-list';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
+
 import WatchEditModal from '../../modals/watch-edit-modal.component';
 
 const EPISODES_DECLENSION: [string, string, string] = [
@@ -48,15 +48,15 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
 
     // State Management
     const [selectedSlug, setSelectedSlug] = useState<string>();
-    const [updatedWatch, setUpdatedWatch] = useState<AddWatchParams | null>(
-        null,
-    );
+    const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
     // Fetch Watchlist
     const { list } = useWatchList({
         username: String(loggedUser?.username),
-        watch_status: 'watching',
-        sort: ['watch_updated:desc'],
+        args: {
+            watch_status: WatchStatusEnum.WATCHING,
+            sort: ['watch_updated:desc'],
+        },
     });
 
     // Derived State
@@ -68,7 +68,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         value: updatedWatch,
         delay: 500,
     });
-    const { mutate: mutateAddWatch, reset } = useAddWatch();
+    const { mutate: mutateAddOrUpdateWatch, reset } = useAddOrUpdateWatch({});
 
     // Event Handlers
     const handleSelect = (slug: string) => {
@@ -113,9 +113,8 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
             ...selectedWatch,
             status:
                 episodes === selectedWatch.anime.episodes_total
-                    ? 'completed'
-                    : 'watching',
-            slug: selectedWatch.anime.slug,
+                    ? WatchStatusEnum.COMPLETED
+                    : WatchStatusEnum.WATCHING,
             episodes,
         });
     };
@@ -129,7 +128,6 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
 
         setUpdatedWatch({
             ...selectedWatch,
-            slug: selectedWatch.anime.slug,
             episodes,
         });
     };
@@ -145,9 +143,12 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
 
     useEffect(() => {
         if (deboucedUpdatedWatch) {
-            mutateAddWatch({ params: deboucedUpdatedWatch });
+            mutateAddOrUpdateWatch({
+                slug: selectedWatch!.anime.slug,
+                args: deboucedUpdatedWatch,
+            });
         }
-    }, [mutateAddWatch, deboucedUpdatedWatch]);
+    }, [mutateAddOrUpdateWatch, deboucedUpdatedWatch]);
 
     // Rendering Helper: Anime Details
     const renderAnimeDetails = () => {
@@ -156,14 +157,14 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         return (
             <div className="mt-1 flex cursor-pointer items-center gap-2">
                 {selectedWatch.anime.year && (
-                    <Label className="cursor-pointer text-xs text-muted-foreground">
+                    <Label className="text-muted-foreground cursor-pointer text-xs">
                         {selectedWatch.anime.year}
                     </Label>
                 )}
                 {selectedWatch.anime.media_type && (
                     <>
-                        <div className="size-1 rounded-full bg-muted-foreground" />
-                        <Label className="cursor-pointer text-xs text-muted-foreground">
+                        <div className="bg-muted-foreground size-1 rounded-full" />
+                        <Label className="text-muted-foreground cursor-pointer text-xs">
                             {
                                 ANIME_MEDIA_TYPE[selectedWatch.anime.media_type]
                                     .title_ua
@@ -173,8 +174,8 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                 )}
                 {selectedWatch.anime.episodes_total && (
                     <>
-                        <div className="size-1 rounded-full bg-muted-foreground" />
-                        <Label className="cursor-pointer text-xs text-muted-foreground">
+                        <div className="bg-muted-foreground size-1 rounded-full" />
+                        <Label className="text-muted-foreground cursor-pointer text-xs">
                             {selectedWatch.anime.episodes_total}{' '}
                             {getDeclensionWord(
                                 selectedWatch.anime.episodes_total,
@@ -273,8 +274,8 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                             </Link>
 
                             <div className="flex w-full flex-col gap-2">
-                                <P className="text-sm text-muted-foreground">
-                                    <span className="font-bold text-foreground">
+                                <P className="text-muted-foreground text-sm">
+                                    <span className="text-foreground font-bold">
                                         {updatedWatch?.episodes ??
                                             selectedWatch.episodes}
                                     </span>

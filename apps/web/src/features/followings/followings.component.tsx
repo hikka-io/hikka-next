@@ -1,5 +1,7 @@
 'use client';
 
+import { ContentTypeEnum, ReadContentType } from '@hikka/client';
+import { useFollowingReaders, useFollowingWatchers } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -11,8 +13,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 
-import useFollowingReadList from '@/services/hooks/read/use-following-read-list';
-import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import FollowingReadItem from './following-read-item';
@@ -20,27 +20,23 @@ import FollowingWatchItem from './following-watch-item';
 import FollowingsModal from './followings-modal';
 
 interface Props {
-    content_type: API.ContentType;
+    content_type: ContentTypeEnum;
 }
 
 const Followings: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
-    const watchListQuery = useFollowingWatchList(
-        {
-            slug: String(params.slug),
-        },
-        { enabled: content_type === 'anime' },
-    );
+    const watchListQuery = useFollowingWatchers({
+        slug: String(params.slug),
+        options: { enabled: content_type === ContentTypeEnum.ANIME },
+    });
 
-    const readListQuery = useFollowingReadList(
-        {
-            slug: String(params.slug),
-            content_type: content_type as 'manga' | 'novel',
-        },
-        { enabled: content_type !== 'anime' },
-    );
+    const readListQuery = useFollowingReaders({
+        slug: String(params.slug),
+        contentType: content_type as ReadContentType,
+        options: { enabled: content_type !== ContentTypeEnum.ANIME },
+    });
 
     const list =
         content_type === 'anime' ? watchListQuery.list : readListQuery.list;

@@ -1,5 +1,7 @@
 'use client';
 
+import { ArticleCategoryEnum } from '@hikka/client';
+import { useArticlesList, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
@@ -12,16 +14,12 @@ import LoadMoreButton from '@/components/load-more-button';
 import ArticleItemSkeleton from '@/components/skeletons/article-item-skeleton';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import useArticles from '@/services/hooks/articles/use-articles';
-import useSession from '@/services/hooks/auth/use-session';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
+
 import ArticleFiltersModal from '../../modals/article-filters-modal.component';
 
 interface Props {}
@@ -36,7 +34,7 @@ const ArticleList: FC<Props> = () => {
     const tags = searchParams.getAll('tags') || undefined;
     const draft = Boolean(searchParams.get('draft')) ?? false;
     const categories =
-        (searchParams.getAll('categories') as API.ArticleCategory[]) || [];
+        (searchParams.getAll('categories') as ArticleCategoryEnum[]) || [];
 
     const selectedCategory = categories.length === 1 && categories[0];
 
@@ -48,12 +46,14 @@ const ArticleList: FC<Props> = () => {
         isFetchingNextPage,
         isPending,
         hasNextPage,
-    } = useArticles({
-        categories,
-        author,
-        sort: [`${sort}:${order}`],
-        tags,
-        draft,
+    } = useArticlesList({
+        args: {
+            categories,
+            author,
+            sort: [`${sort}:${order}`],
+            tags,
+            draft,
+        },
     });
 
     return (

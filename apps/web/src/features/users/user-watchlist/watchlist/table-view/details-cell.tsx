@@ -1,3 +1,4 @@
+import { AnimeResponse } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -8,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
-    anime: API.Anime;
+    anime: AnimeResponse;
     rewatches: number;
     note?: string;
 }
@@ -37,7 +38,7 @@ const DetailsCell: FC<Props> = ({ anime, rewatches, note }) => {
                     </div>
                     {note && (
                         <TextExpand>
-                            <MDViewer className="text-xs text-muted-foreground">
+                            <MDViewer className="text-muted-foreground text-xs">
                                 {note}
                             </MDViewer>
                         </TextExpand>

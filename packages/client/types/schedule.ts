@@ -1,5 +1,5 @@
 import { AnimeInfoResponse } from './anime';
-import { PaginationResponse, SeasonEnum } from './common';
+import { ContentStatusEnum, PaginationResponse, SeasonEnum } from './common';
 
 /**
  * Anime schedule arguments
@@ -7,7 +7,7 @@ import { PaginationResponse, SeasonEnum } from './common';
 export interface AnimeScheduleArgs {
     airing_season?: (SeasonEnum | number)[] | null;
     rating?: string[];
-    status?: string[];
+    status?: ContentStatusEnum[];
     only_watch?: boolean;
 }
 

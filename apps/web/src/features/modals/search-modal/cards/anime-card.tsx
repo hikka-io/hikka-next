@@ -1,5 +1,6 @@
 'use client';
 
+import { AnimeResponse } from '@hikka/client';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -8,13 +9,11 @@ import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import {
-    ANIME_MEDIA_TYPE,
-    RELEASE_STATUS,
-} from '@/utils/constants/common';
+
+import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 interface Props {
-    anime: API.Anime;
+    anime: AnimeResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 }
@@ -44,32 +43,34 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                     <div className="flex items-center gap-2">
                         {anime.year && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {anime.year}
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
                         {anime.media_type && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {
                                         ANIME_MEDIA_TYPE[anime.media_type]
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
-                        <Badge
-                            className="text-xs"
-                            variant="status"
-                            bgColor={RELEASE_STATUS[anime.status].color}
-                        >
-                            {RELEASE_STATUS[anime.status].title_ua}
-                        </Badge>
+                        {anime.status && (
+                            <Badge
+                                className="text-xs"
+                                variant="status"
+                                bgColor={RELEASE_STATUS[anime.status].color}
+                            >
+                                {RELEASE_STATUS[anime.status].title_ua}
+                            </Badge>
+                        )}
                     </div>
                 </div>
             </div>

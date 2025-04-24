@@ -1,20 +1,22 @@
 'use client';
 
+import { ReadContentType, ReadResponseBase } from '@hikka/client';
+import { useMangaInfo, useNovelInfo } from '@hikka/react';
 import { FC, createElement } from 'react';
 
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';
 
 interface ReadStatusTriggerProps {
-    read: API.Read;
-    content_type: 'novel' | 'manga';
+    read: ReadResponseBase;
+    content_type: ReadContentType;
     disabled?: boolean;
     slug: string;
     size?: 'sm' | 'md';
@@ -29,19 +31,19 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
 }) => {
     const { openModal } = useModalContext();
 
-    const { data: manga } = useMangaInfo(
-        {
-            slug,
+    const { data: manga } = useMangaInfo({
+        slug,
+        options: {
+            enabled: !disabled && content_type === 'manga',
         },
-        { enabled: !disabled && content_type === 'manga' },
-    );
+    });
 
-    const { data: novel } = useNovelInfo(
-        {
-            slug,
+    const { data: novel } = useNovelInfo({
+        slug,
+        options: {
+            enabled: !disabled && content_type === 'novel',
         },
-        { enabled: !disabled && content_type === 'novel' },
-    );
+    });
 
     const openReadEditModal = () => {
         if (manga || novel) {

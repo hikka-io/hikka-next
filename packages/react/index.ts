@@ -17,6 +17,7 @@ export * from './hooks/anime';
 export * from './hooks/articles';
 export * from './hooks/auth';
 export * from './hooks/characters';
+export * from './hooks/client';
 export * from './hooks/collections';
 export * from './hooks/comments';
 export * from './hooks/companies';
@@ -39,27 +40,7 @@ export * from './hooks/user';
 export * from './hooks/vote';
 export * from './hooks/watch';
 
-// Re-export types from the client for convenience
-export type {
-    AnimeInfoResponse,
-    AnimeResponse,
-    CharacterResponse,
-    CollectionResponse,
-    MangaResponse,
-    NotificationResponse,
-    NovelResponse,
-    PersonResponse,
-    ReadResponse,
-    UserResponse,
-    UserWithEmailResponse,
-    WatchResponse,
-} from '@hikka/client';
+export type { HikkaClientConfig } from '@hikka/client';
+export type { QueryClientConfig } from '@tanstack/react-query';
 
-// Re-export enums from the client for convenience
-export {
-    AnimeStatusEnum,
-    ContentStatusEnum,
-    FavouriteContentTypeEnum,
-    ReadStatusEnum,
-    WatchStatusEnum,
-} from '@hikka/client';
+export { dehydrate, HydrationBoundary } from '@tanstack/react-query';

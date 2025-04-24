@@ -1,15 +1,15 @@
 /**
  * Vote related types
  */
+import { ContentTypeEnum } from './common';
 
 /**
- * Content type enum for votable content
+ * Content type for votable content
  */
-export enum VoteContentTypeEnum {
-    COLLECTION = 'collection',
-    COMMENT = 'comment',
-    ARTICLE = 'article',
-}
+export type VoteContentType =
+    | ContentTypeEnum.COLLECTION
+    | ContentTypeEnum.COMMENT
+    | ContentTypeEnum.ARTICLE;
 
 /**
  * Vote arguments

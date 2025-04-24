@@ -1,37 +1,31 @@
 import {
     CharactersSearchPaginationResponse,
-    PaginationArgs,
     QuerySearchArgs,
 } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseCharactersSearchParams {
+    args?: QuerySearchArgs;
+}
 
 /**
  * Hook for searching characters
  */
-export function useCharactersSearch(
-    args: QuerySearchArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            CharactersSearchPaginationResponse,
-            Error,
-            InfiniteData<CharactersSearchPaginationResponse>,
-            CharactersSearchPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useCharactersSearch({
+    args = {},
+    paginationArgs,
+    ...rest
+}: UseCharactersSearchParams &
+    InfiniteQueryParams<CharactersSearchPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.characters.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -39,36 +33,26 @@ export function useCharactersSearch(
                 page,
                 size: paginationArgs?.size,
             }),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Function for prefetching character search results
  */
-export async function prefetchCharactersSearch(
-    queryClient: QueryClient,
-    args: QuerySearchArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            CharactersSearchPaginationResponse,
-            Error,
-            CharactersSearchPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchCharactersSearch({
+    args = {},
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<CharactersSearchPaginationResponse> &
+    UseCharactersSearchParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.characters.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.characters.search(args, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options: options || {},
+        ...rest,
     });
 }

@@ -1,12 +1,12 @@
 'use client';
 
+import { useFollowStats } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import useFollowStats from '@/services/hooks/follow/use-follow-stats';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
@@ -40,7 +40,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                     })
                 }
                 variant="link"
-                className="p-0 text-foreground"
+                className="text-foreground p-0"
             >
                 <span className="font-bold">
                     {followStats ? followStats.followers : 0}
@@ -57,7 +57,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                         type: 'sheet',
                     })
                 }
-                className="p-0 text-foreground"
+                className="text-foreground p-0"
             >
                 <Label>
                     <span className="font-bold">

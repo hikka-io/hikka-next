@@ -1,20 +1,21 @@
 'use client';
 
+import { queryKeys, useEdit, useUpdateEdit } from '@hikka/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
-import updateEdit from '@/services/api/edit/updateEdit';
-import useEdit, { key as editKey } from '@/services/hooks/edit/use-edit';
+
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
 } from '@/utils/edit-param-utils';
+
 import AutoButton from './auto-button';
 import EditDescription from './edit-description';
 import EditGroup from './edit-group';
@@ -31,7 +32,7 @@ interface Props {
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const queryClient = useQueryClient();
-    const { data: edit } = useEdit({ edit_id: Number(editId) });
+    const { data: edit } = useEdit({ editId: Number(editId) });
     const captchaRef = useRef<TurnstileInstance>(null);
 
     const router = useRouter();
@@ -57,21 +58,22 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         form.reset();
 
         await queryClient.invalidateQueries({
-            queryKey: editKey({ edit_id: Number(editId) }),
+            queryKey: queryKeys.edit.byId(Number(editId)),
         });
 
         router.push('/edit/' + editId);
     };
 
-    const mutation = useMutation({
-        mutationFn: updateEdit,
-        onSuccess: onDismiss,
+    const mutationUpdateEdit = useUpdateEdit({
+        options: {
+            onSuccess: onDismiss,
+        },
     });
 
     const onSubmit = async (data: FormValues) => {
-        mutation.mutate({
-            params: {
-                edit_id: edit!.edit_id,
+        mutationUpdateEdit.mutate({
+            editId: edit!.edit_id,
+            edit: {
                 after: {
                     ...getFilteredEditParams(paramSlugs, data),
                 },
@@ -79,7 +81,6 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
 
                 auto: data.auto || false,
             },
-            captcha: String(captchaRef.current?.getResponse()),
         });
     };
 
@@ -110,12 +111,12 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                             />
                             <div className="flex items-center gap-2">
                                 <Button
-                                    disabled={mutation.isPending}
+                                    disabled={mutationUpdateEdit.isPending}
                                     onClick={form.handleSubmit(onSubmit)}
                                     type="submit"
                                     className="w-fit"
                                 >
-                                    {mutation.isPending && (
+                                    {mutationUpdateEdit.isPending && (
                                         <span className="loading loading-spinner"></span>
                                     )}
                                     Оновити

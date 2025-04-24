@@ -1,5 +1,6 @@
 'use client';
 
+import { useMarkNotificationAsSeen } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -12,20 +13,21 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
 
 interface Props {
-    data: Hikka.TextNotification;
+    data: Hikka.TextNotification | null;
 }
 
 const NotificationItem: FC<Props> = ({ data }) => {
-    const { mutate: asSeen } = useSeenNotification();
+    const { mutate: asSeen } = useMarkNotificationAsSeen({});
+
+    if (!data) {
+        return null;
+    }
 
     const handleOnClick = () => {
         if (!data.seen) {
-            asSeen({
-                reference: data.reference,
-            });
+            asSeen(data.reference);
         }
     };
 
@@ -44,7 +46,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
                         className="w-8"
                     >
                         {!data.seen && (
-                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning" />
+                            <div className="border-border bg-warning absolute -bottom-0.5 -right-0.5 size-2 rounded-full border" />
                         )}
                     </HorizontalCardImage>
                     <HorizontalCardContainer>

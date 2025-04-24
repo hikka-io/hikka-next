@@ -1,5 +1,6 @@
 'use client';
 
+import { AnimeResponse } from '@hikka/client';
 import { ReactNode } from 'react';
 
 import {
@@ -7,12 +8,13 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
+
 import AnimeCard from './cards/anime-card';
 import useAnimeSearchList from './hooks/useAnimeSearchList';
 import SearchPlaceholders from './search-placeholders';
 
 interface Props {
-    onDismiss: (anime: API.Anime) => void;
+    onDismiss: (anime: AnimeResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     value?: string;

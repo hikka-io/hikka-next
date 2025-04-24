@@ -182,6 +182,8 @@ export const queryKeys = {
                 'thirdParty',
                 paginationArgs,
             ] as const,
+        oauthUrl: (provider: string) =>
+            [...queryKeys.auth.all, 'oauth', 'url', provider] as const,
     },
 
     // Watch module keys
@@ -398,6 +400,14 @@ export const queryKeys = {
             [...queryKeys.edit.all, 'id', editId] as const,
         list: (args: unknown, paginationArgs?: PaginationArgs) =>
             [...queryKeys.edit.all, 'list', args, paginationArgs] as const,
+        todoList: (args: unknown, paginationArgs?: PaginationArgs) =>
+            [
+                ...queryKeys.edit.all,
+                'todo',
+                'list',
+                args,
+                paginationArgs,
+            ] as const,
     },
 
     // Settings module keys
@@ -406,5 +416,16 @@ export const queryKeys = {
         ignoredNotifications: () =>
             [...queryKeys.settings.all, 'ignored-notifications'] as const,
         userProfile: () => [...queryKeys.settings.all, 'profile'] as const,
+    },
+
+    // Client module keys
+    client: {
+        all: ['client'] as const,
+        byReference: (reference: string) =>
+            [...queryKeys.client.all, 'reference', reference] as const,
+        fullInfo: (reference: string) =>
+            [...queryKeys.client.all, 'full-info', reference] as const,
+        list: (paginationArgs?: PaginationArgs) =>
+            [...queryKeys.client.all, 'list', paginationArgs] as const,
     },
 };

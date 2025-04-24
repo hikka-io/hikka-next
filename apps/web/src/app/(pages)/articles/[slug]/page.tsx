@@ -1,5 +1,12 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ArticleResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getHikkaClient,
+    getQueryClient,
+    prefetchArticle,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -7,20 +14,17 @@ import { permanentRedirect } from 'next/navigation';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+
 import ArticleAuthor from '@/features/articles/article-view/article-author.component';
 import ArticleDocument from '@/features/articles/article-view/article-document.component';
 import ArticleNavbar from '@/features/articles/article-view/article-navbar/article-navbar.component';
 import ArticleTags from '@/features/articles/article-view/article-tags.component';
 import ArticleTitle from '@/features/articles/article-view/article-title.component';
-import getArticle from '@/services/api/articles/getArticle';
-import {
-    key,
-    prefetchArticle,
-} from '@/services/hooks/articles/use-article';
+
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 export interface MetadataProps {
     params: Promise<{ slug: string }>;
@@ -32,11 +36,9 @@ export async function generateMetadata({
 }: MetadataProps): Promise<Metadata> {
     const { slug } = await params;
 
-    const article = await getArticle({
-        params: {
-            slug: slug,
-        },
-    });
+    const client = getHikkaClient();
+
+    const article: ArticleResponse = await client.articles.getArticle(slug);
 
     return _generateMetadata({
         title: `${article.title} / ${ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}`,
@@ -57,11 +59,12 @@ const ArticlePage = async (props: MetadataProps) => {
     const { slug } = params;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchArticle({ slug: slug });
+    await prefetchArticle({ slug: slug, clientConfig });
 
-    const article: API.Article | undefined = queryClient.getQueryData(
-        key({ slug }),
+    const article: ArticleResponse | undefined = queryClient.getQueryData(
+        queryKeys.articles.bySlug(slug),
     );
 
     if (!article) {

@@ -1,7 +1,8 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { ReadContentType, ReadStatusEnum } from '@hikka/client';
+import { useRandomRead } from '@hikka/react';
+import { useParams, useSearchParams } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -13,29 +14,25 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import getRandomWatch from '@/services/api/watch/getRandomWatch';
+
+import { CONTENT_TYPES } from '@/utils/constants/common';
+
 import ReadFiltersModal from '../../modals/read-filters-modal.component';
 
 const ToolsCombobox = () => {
     const searchParams = useSearchParams();
     const params = useParams();
-    const router = useRouter();
 
-    const watchStatus = searchParams.get('status')!;
+    const readStatus = searchParams.get('status')! as ReadStatusEnum;
+    const contentType = params.content_type as ReadContentType;
 
-    const mutation = useMutation({
-        mutationFn: getRandomWatch,
-        onSuccess: (data) => {
-            router.push('/anime/' + data.slug);
-        },
-    });
+    const mutationRandomRead = useRandomRead({});
 
     const handleRandomAnime = async () => {
-        mutation.mutate({
-            params: {
-                username: String(params.username),
-                status: watchStatus as API.WatchStatus,
-            },
+        mutationRandomRead.mutate({
+            contentType: contentType,
+            username: String(params.username),
+            status: readStatus,
         });
     };
 
@@ -48,11 +45,12 @@ const ToolsCombobox = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={handleRandomAnime}>
-                    <FeRandom className="mr-2 size-4" /> Випадкове аніме
+                    <FeRandom className="mr-2 size-4" /> Випадкове{' '}
+                    {CONTENT_TYPES[contentType].title_ua}
                 </DropdownMenuItem>
                 <ReadFiltersModal
                     sort_type="read"
-                    content_type={params.content_type as API.ContentType}
+                    content_type={params.content_type as ReadContentType}
                 >
                     <DropdownMenuItem
                         className="flex lg:hidden"

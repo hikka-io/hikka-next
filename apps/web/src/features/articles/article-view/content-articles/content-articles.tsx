@@ -1,5 +1,7 @@
 'use client';
 
+import { ArticleContentType } from '@hikka/client';
+import { useArticlesList } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -10,22 +12,25 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import useArticles from '@/services/hooks/articles/use-articles';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+
 import ContentNewsItem from './content-articles-item';
 import ContentNewsModal from './content-articles-modal';
 
 interface Props {
-    content_type: API.ContentType;
+    content_type: ArticleContentType;
 }
 
 const ContentArticles: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
-    const { list } = useArticles({
-        content_type: content_type,
-        content_slug: String(params.slug),
+    const { list } = useArticlesList({
+        args: {
+            content_type: content_type,
+            content_slug: String(params.slug),
+        },
     });
 
     const handleOpenContentNewsModal = () => {

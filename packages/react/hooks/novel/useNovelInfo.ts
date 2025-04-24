@@ -1,43 +1,37 @@
 import { NovelInfoResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseNovelInfoParams {
+    slug: string;
+}
 
 /**
  * Hook for retrieving novel details by slug
  */
-export function useNovelInfo(
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<NovelInfoResponse, Error, NovelInfoResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
-    return useQuery({
+export function useNovelInfo<TResult = NovelInfoResponse>({
+    slug,
+    ...rest
+}: UseNovelInfoParams & QueryParams<NovelInfoResponse, TResult>) {
+    return useQuery<NovelInfoResponse, Error, TResult>({
         queryKey: queryKeys.novel.details(slug),
         queryFn: (client) => client.novel.getBySlug(slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches novel details for server-side rendering
  */
-export async function prefetchNovelInfo(
-    queryClient: QueryClient,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<NovelInfoResponse, Error, NovelInfoResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchNovelInfo({
+    slug,
+    ...rest
+}: PrefetchQueryParams<NovelInfoResponse> & UseNovelInfoParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.novel.details(slug),
         queryFn: (client) => client.novel.getBySlug(slug),
-        options,
+        ...rest,
     });
 }

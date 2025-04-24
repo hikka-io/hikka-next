@@ -1,15 +1,11 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useArticleStats } from '@hikka/react';
 import { FC } from 'react';
 
 import FollowButton from '@/components/follow-button';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -17,16 +13,11 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import useArticleTop from '@/services/hooks/articles/use-article-stats';
 
 interface Props {}
 
 const PopularAuthors: FC<Props> = () => {
-    const params = useParams();
-
-    const { data: articleTop } = useArticleTop({
-        category: params.category as API.ArticleCategory,
-    });
+    const { data: articleTop } = useArticleStats();
 
     return (
         <Block>

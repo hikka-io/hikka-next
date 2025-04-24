@@ -1,7 +1,7 @@
 import {
     DescriptionArgs,
     EmailArgs,
-    ImageTypeEnum,
+    ImageType,
     PasswordArgs,
     UsernameArgs,
 } from '@hikka/client';
@@ -57,7 +57,7 @@ export const useChangeEmail = createMutation({
  * Hook for deleting user image (avatar or cover)
  */
 export const useDeleteImage = createMutation({
-    mutationFn: (client, imageType: ImageTypeEnum) =>
+    mutationFn: (client, imageType: ImageType) =>
         client.settings.deleteImage(imageType),
     invalidateQueries: () => [
         queryKeys.settings.userProfile(),

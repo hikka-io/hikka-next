@@ -1,3 +1,5 @@
+import { EditStatusEnum } from '@hikka/client';
+
 export const ANIME_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
     title: [
         {
@@ -259,7 +261,7 @@ export const PERSON_EDIT_GROUPS: Record<string, string> = {
     title: 'Імʼя',
     synonyms: 'Синоніми',
 };
-export const EDIT_STATUS: Hikka.FilterProperty<API.EditStatus> = {
+export const EDIT_STATUS: Hikka.FilterProperty<EditStatusEnum> = {
     pending: {
         title_ua: 'На Розгляді',
         title_en: 'Pending',

@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ArticleResponse } from '@hikka/client';
+import { useDeleteArticle } from '@hikka/react';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
@@ -16,42 +17,28 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import deleteArticle from '@/services/api/articles/deleteArticle';
 
 interface Props {
-    article: API.Article;
+    article: ArticleResponse;
 }
 
 const DeleteArticle: FC<Props> = ({ article }) => {
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
-    const queryClient = useQueryClient();
 
-    const deleteArticleMutation = useMutation({
-        mutationFn: deleteArticle,
-        onSuccess: () => {
-            enqueueSnackbar('Статтю успішно видалено.', {
-                variant: 'success',
-            });
-            router.push('/articles');
-
-            queryClient.invalidateQueries({
-                queryKey: ['articles'],
-                exact: false,
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['article'],
-                exact: false,
-            });
+    const deleteArticleMutation = useDeleteArticle({
+        options: {
+            onSuccess: () => {
+                enqueueSnackbar('Статтю успішно видалено.', {
+                    variant: 'success',
+                });
+                router.push('/articles');
+            },
         },
     });
 
     const handleDeleteArticle = async () => {
-        deleteArticleMutation.mutate({
-            params: {
-                slug: article.slug,
-            },
-        });
+        deleteArticleMutation.mutate(article.slug);
     };
 
     return (

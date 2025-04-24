@@ -1,5 +1,10 @@
-import { AnimeResponse } from './anime';
-import { PaginationResponse } from './common';
+import {
+    AnimeAgeRatingEnum,
+    AnimeMediaEnum,
+    AnimeResponse,
+    AnimeStatusEnum,
+} from './anime';
+import { PaginationResponse, SeasonEnum, SourceEnum } from './common';
 import { UserResponse } from './user';
 
 /**
@@ -32,7 +37,7 @@ export interface WatchResponseBase {
     note: string | null;
     updated: number;
     created: number;
-    status: string;
+    status: WatchStatusEnum;
     rewatches: number;
     duration: number;
     episodes: number;
@@ -42,16 +47,7 @@ export interface WatchResponseBase {
 /**
  * Full watch entry response
  */
-export interface WatchResponse {
-    reference: string;
-    note: string | null;
-    updated: number;
-    created: number;
-    status: string;
-    rewatches: number;
-    duration: number;
-    episodes: number;
-    score: number;
+export interface WatchResponse extends WatchResponseBase {
     anime: AnimeResponse;
 }
 
@@ -71,11 +67,11 @@ export interface AnimeWatchSearchArgs {
     include_multiseason?: boolean;
     only_translated?: boolean;
     score?: [number | null, number | null];
-    media_type?: string[];
-    rating?: string[];
-    status?: string[];
-    source?: string[];
-    season?: string[];
+    media_type?: AnimeMediaEnum[];
+    rating?: AnimeAgeRatingEnum[];
+    status?: AnimeStatusEnum[];
+    source?: SourceEnum[];
+    season?: SeasonEnum[];
     producers?: string[];
     studios?: string[];
     genres?: string[];

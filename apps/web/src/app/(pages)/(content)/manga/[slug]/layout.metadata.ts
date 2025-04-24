@@ -1,8 +1,7 @@
+import { MangaInfoResponse } from '@hikka/client';
+import { getHikkaClient } from '@hikka/react';
 import { Metadata } from 'next';
 
-import getMangaInfo, {
-    Response as MangaResponse,
-} from '@/services/api/manga/getMangaInfo';
 import _generateMetadata from '@/utils/generate-metadata';
 import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
 import truncateText from '@/utils/truncate-text';
@@ -16,8 +15,8 @@ export default async function generateMetadata({
     params,
 }: MetadataProps): Promise<Metadata> {
     const slug = params.slug;
-
-    const manga: MangaResponse = await getMangaInfo({ params: { slug } });
+    const client = getHikkaClient();
+    const manga: MangaInfoResponse = await client.manga.getBySlug(slug);
 
     const startDate = manga.start_date
         ? new Date(manga.start_date * 1000).getFullYear()
@@ -26,7 +25,7 @@ export default async function generateMetadata({
         (manga.title_ua || manga.title_en || manga.title_original) +
         (startDate ? ` (${startDate})` : '');
     let synopsis: string | null = truncateText(
-        parseTextFromMarkDown(manga.synopsis_ua || manga.synopsis_en),
+        parseTextFromMarkDown(manga.synopsis_ua || manga.synopsis_en || ''),
         150,
         true,
     );

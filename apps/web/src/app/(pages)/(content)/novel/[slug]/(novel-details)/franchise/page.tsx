@@ -1,7 +1,9 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { Metadata, ResolvingMetadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 
 import Franchise from '@/features/franchise/franchise.component';
+
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
@@ -33,7 +35,7 @@ const NovelFranchisePage = async (props: {
 
     return (
         <div className="flex flex-col gap-12">
-            <Franchise content_type="novel" extended />
+            <Franchise content_type={ContentTypeEnum.NOVEL} extended />
         </div>
     );
 };

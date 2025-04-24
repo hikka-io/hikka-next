@@ -1,5 +1,12 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ContentTypeEnum, MangaInfoResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchArticlesList,
+    prefetchMangaInfo,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -9,14 +16,15 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
+
 import Actions from '@/features/manga/manga-view/actions/actions.component';
 import Cover from '@/features/manga/manga-view/cover.component';
 import Title from '@/features/manga/manga-view/title.component';
-import { prefetchArticles } from '@/services/hooks/articles/use-articles';
-import { prefetchMangaInfo } from '@/services/hooks/manga/use-manga-info';
+
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 
@@ -37,26 +45,30 @@ export async function generateMetadata(
 
 const MangaLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { slug } = params;
-
     const { children } = props;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchMangaInfo({ slug });
+    await prefetchMangaInfo({ slug, clientConfig });
 
-    const manga: API.MangaInfo | undefined = queryClient.getQueryData([
-        'manga',
-        slug,
-    ]);
+    const manga: MangaInfoResponse | undefined = queryClient.getQueryData(
+        queryKeys.manga.details(slug),
+    );
 
     if (!manga) {
         return permanentRedirect('/');
     }
 
     await prefetchQueries({ params: { slug } });
-    await prefetchArticles({ content_slug: slug, content_type: 'manga' });
+    await prefetchArticlesList({
+        args: {
+            content_slug: slug,
+            content_type: ContentTypeEnum.MANGA,
+        },
+        clientConfig,
+    });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -64,13 +76,15 @@ const MangaLayout: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <div
-                        className="size-2 rounded-full bg-white"
-                        style={{
-                            backgroundColor:
-                                RELEASE_STATUS[manga?.status].color,
-                        }}
-                    />
+                    {manga?.status && (
+                        <div
+                            className="size-2 rounded-full bg-white"
+                            style={{
+                                backgroundColor:
+                                    RELEASE_STATUS[manga?.status].color,
+                            }}
+                        />
+                    )}
                     <Link
                         href={'/manga/' + manga?.slug}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"

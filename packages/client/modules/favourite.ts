@@ -1,5 +1,6 @@
 import {
-    FavouriteContentTypeEnum,
+    FavouriteContentType,
+    FavouriteItem,
     FavouritePaginationResponse,
     FavouriteResponse,
     PaginationArgs,
@@ -12,7 +13,7 @@ export class FavouriteModule extends BaseModule {
      * Get favourite status
      */
     public async get(
-        contentType: FavouriteContentTypeEnum,
+        contentType: FavouriteContentType,
         slug: string,
     ): Promise<FavouriteResponse> {
         return this.client.get<FavouriteResponse>(
@@ -24,7 +25,7 @@ export class FavouriteModule extends BaseModule {
      * Add to favourites
      */
     public async add(
-        contentType: FavouriteContentTypeEnum,
+        contentType: FavouriteContentType,
         slug: string,
     ): Promise<FavouriteResponse> {
         return this.client.put<FavouriteResponse>(
@@ -36,7 +37,7 @@ export class FavouriteModule extends BaseModule {
      * Remove from favourites
      */
     public async remove(
-        contentType: FavouriteContentTypeEnum,
+        contentType: FavouriteContentType,
         slug: string,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
@@ -47,12 +48,12 @@ export class FavouriteModule extends BaseModule {
     /**
      * Get user's favourite list
      */
-    public async getList(
-        contentType: FavouriteContentTypeEnum,
+    public async getList<TItem extends FavouriteItem>(
+        contentType: FavouriteContentType,
         username: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
-    ): Promise<FavouritePaginationResponse> {
-        return this.client.post<FavouritePaginationResponse>(
+    ): Promise<FavouritePaginationResponse<TItem>> {
+        return this.client.post<FavouritePaginationResponse<TItem>>(
             `/favourite/${contentType}/${username}/list`,
             {},
             {

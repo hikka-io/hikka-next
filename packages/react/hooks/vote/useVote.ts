@@ -1,45 +1,40 @@
-import { VoteContentTypeEnum, VoteResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { VoteContentType, VoteResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseVoteStatusParams {
+    contentType: VoteContentType;
+    slug: string;
+}
 
 /**
  * Hook for getting vote status for content
  */
-export function useVoteStatus(
-    contentType: VoteContentTypeEnum,
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<VoteResponse, Error, VoteResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useVoteStatus({
+    contentType,
+    slug,
+    ...rest
+}: UseVoteStatusParams & QueryParams<VoteResponse>) {
     return useQuery({
         queryKey: queryKeys.vote.status(contentType, slug),
         queryFn: (client) => client.vote.getVote(contentType, slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Hook for prefetching vote status
  */
-export async function prefetchVoteStatus(
-    queryClient: QueryClient,
-    contentType: VoteContentTypeEnum,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<VoteResponse, Error, VoteResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchVoteStatus({
+    contentType,
+    slug,
+    ...rest
+}: PrefetchQueryParams<VoteResponse> & UseVoteStatusParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.vote.status(contentType, slug),
         queryFn: (client) => client.vote.getVote(contentType, slug),
-        options: options || {},
+        ...rest,
     });
 }

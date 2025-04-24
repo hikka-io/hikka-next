@@ -1,21 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-
-import getUsers from '@/services/api/user/getUsers';
+import { UserResponse } from '@hikka/client';
+import { useQuery } from '@hikka/react';
 
 interface Props {
     value?: string;
 }
 
 const useUserSearchList = ({ value }: Props) => {
-    return useQuery<Array<API.User>, Error>({
-        queryKey: ['userSearchList', value],
-        queryFn: () =>
-            getUsers({
-                params: {
-                    query: value,
-                },
-            }),
-        enabled: value !== undefined && value.length >= 3,
+    return useQuery<UserResponse[], Error>({
+        queryKey: ['user-search-list', value],
+        queryFn: (client) => client.user.search({ query: value || '' }),
+        options: {
+            enabled: value !== undefined && value.length >= 3,
+        },
     });
 };
 

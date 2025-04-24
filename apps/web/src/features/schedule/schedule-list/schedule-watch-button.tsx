@@ -1,17 +1,19 @@
 'use client';
 
+import { AnimeScheduleResponse, WatchStatusEnum } from '@hikka/client';
+import { useAddOrUpdateWatch, useSession } from '@hikka/react';
 import { useSnackbar } from 'notistack';
 import { FC, Fragment, createElement, memo } from 'react';
 
 import { Button } from '@/components/ui/button';
-import useSession from '@/services/hooks/auth/use-session';
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
+
 import WatchEditModal from '../../modals/watch-edit-modal.component';
 
 interface Props {
-    item: API.AnimeSchedule;
+    item: AnimeScheduleResponse;
     title: string;
 }
 
@@ -19,7 +21,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
     const { user: loggedUser } = useSession();
     const { enqueueSnackbar } = useSnackbar();
     const { openModal } = useModalContext();
-    const { mutate: addWatch } = useAddWatch();
+    const { mutate: addOrUpdateWatch } = useAddOrUpdateWatch({});
 
     const watch = item.anime.watch.length > 0 ? item.anime.watch[0] : undefined;
     const watchStatus = watch ? WATCH_STATUS[watch.status] : null;
@@ -38,7 +40,10 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
             return;
         }
 
-        addWatch({ params: { status: 'planned', slug: item.anime.slug } });
+        addOrUpdateWatch({
+            slug: item.anime.slug,
+            args: { status: WatchStatusEnum.PLANNED },
+        });
 
         enqueueSnackbar('Аніме додано до Вашого списку', {
             variant: 'success',

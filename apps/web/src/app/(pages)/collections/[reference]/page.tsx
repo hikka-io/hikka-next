@@ -1,23 +1,27 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { CollectionContent, CollectionResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getHikkaClient,
+    getQueryClient,
+    prefetchCollection,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
+
 import CollectionAuthor from '@/features/collections/collection-view/collection-author';
 import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups.component';
 import CollectionNavbar from '@/features/collections/collection-view/collection-navbar/collection-navbar.component';
 import CollectionTitle from '@/features/collections/collection-view/collection-title.component';
-import getCollection from '@/services/api/collections/getCollection';
-import {
-    key,
-    prefetchCollection,
-} from '@/services/hooks/collections/use-collection';
+
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generate-metadata';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 export async function generateMetadata(props: {
     params: Promise<Record<string, any>>;
@@ -27,11 +31,9 @@ export async function generateMetadata(props: {
     const { reference } = params;
 
     try {
-        const collection = await getCollection({
-            params: {
-                reference,
-            },
-        });
+        const client = getHikkaClient();
+        const collection: CollectionResponse<CollectionContent> =
+            await client.collections.getByReference(reference);
 
         return _generateMetadata({
             title: `${collection.title} / Колекції`,
@@ -47,15 +49,15 @@ const CollectionPage = async (props: {
     params: Promise<Record<string, any>>;
 }) => {
     const params = await props.params;
-
     const { reference } = params;
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchCollection({ reference });
+    await prefetchCollection({ reference, clientConfig });
 
-    const collection: API.Collection<API.MainContent> | undefined =
-        queryClient.getQueryData(key({ reference }));
+    const collection: CollectionResponse<CollectionContent> | undefined =
+        queryClient.getQueryData(queryKeys.collections.byReference(reference));
 
     if (!collection) {
         return permanentRedirect('/collections');

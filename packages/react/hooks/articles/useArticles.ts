@@ -1,37 +1,27 @@
-import {
-    ArticlesListArgs,
-    ArticlesListResponse,
-    PaginationArgs,
-} from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { ArticlesListArgs, ArticlesListResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseArticlesListParams {
+    args?: ArticlesListArgs;
+}
 
 /**
  * Hook for getting a list of articles
  */
-export function useArticlesList(
-    args: ArticlesListArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            ArticlesListResponse,
-            Error,
-            InfiniteData<ArticlesListResponse>,
-            ArticlesListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useArticlesList({
+    args = {},
+    paginationArgs,
+    ...rest
+}: UseArticlesListParams & InfiniteQueryParams<ArticlesListResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.articles.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -39,36 +29,25 @@ export function useArticlesList(
                 page,
                 size: paginationArgs?.size,
             }),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Function for prefetching articles list
  */
-export async function prefetchArticlesList(
-    queryClient: QueryClient,
-    args: ArticlesListArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            ArticlesListResponse,
-            Error,
-            ArticlesListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchArticlesList({
+    args = {},
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<ArticlesListResponse> & UseArticlesListParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.articles.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.articles.getArticles(args, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options: options || {},
+        ...rest,
     });
 }

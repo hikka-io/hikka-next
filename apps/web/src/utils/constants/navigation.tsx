@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { UsersIcon } from 'lucide-react';
 
 import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
@@ -320,16 +321,17 @@ export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     },
 ];
 
-export const CONTENT_TYPE_LINKS: Record<API.ContentType, string> = {
-    person: '/people',
-    character: '/characters',
-    anime: '/anime',
-    edit: '/edit',
-    comment: '/comments',
-    collection: '/collections',
-    manga: '/manga',
-    novel: '/novel',
-    article: '/articles',
+export const CONTENT_TYPE_LINKS: Record<ContentTypeEnum, string> = {
+    [ContentTypeEnum.PERSON]: '/people',
+    [ContentTypeEnum.CHARACTER]: '/characters',
+    [ContentTypeEnum.ANIME]: '/anime',
+    [ContentTypeEnum.EDIT]: '/edit',
+    [ContentTypeEnum.COMMENT]: '/comments',
+    [ContentTypeEnum.COLLECTION]: '/collections',
+    [ContentTypeEnum.MANGA]: '/manga',
+    [ContentTypeEnum.NOVEL]: '/novel',
+    [ContentTypeEnum.ARTICLE]: '/articles',
+    [ContentTypeEnum.USER]: '/u',
 };
 
 export const SETTINGS_MENU = [

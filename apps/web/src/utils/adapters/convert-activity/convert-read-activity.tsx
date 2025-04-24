@@ -1,3 +1,9 @@
+import {
+    HistoryReadData,
+    HistoryTypeEnum,
+    ReadStatusEnum,
+} from '@hikka/client';
+
 import { READ_STATUS } from '../../constants/common';
 import getDeclensionWord from '../../get-declension-word';
 
@@ -10,8 +16,8 @@ const VOLUMES_DECLENSION: [string, string, string] = ['том', 'томи', 'т�
 const TIMES_DECLENSION: [string, string, string] = ['раз', 'рази', 'разів'];
 
 export const convertStatus = (
-    before: API.ReadStatus | null,
-    after: API.ReadStatus | null,
+    before: ReadStatusEnum | null,
+    after: ReadStatusEnum | null,
 ) => {
     if (before === null && after) {
         return `${READ_STATUS[after].title_ua}`;
@@ -90,8 +96,8 @@ export const convertDeleteRead = () => {
 };
 
 export const createReadEvents = (
-    history_type: API.HistoryType,
-    data?: API.HistoryReadData,
+    history_type: HistoryTypeEnum,
+    data?: HistoryReadData,
 ) => {
     const events = [];
 

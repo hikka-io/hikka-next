@@ -1,3 +1,4 @@
+import { prefetchClientByReference } from '@hikka/react';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
 import { FC, Suspense } from 'react';
@@ -8,7 +9,7 @@ import Client from '@/features/oauth/client/client.component';
 import Confirm from '@/features/oauth/confirm.component';
 import Header from '@/features/oauth/oauth-header';
 import Profile from '@/features/oauth/profile/profile.component';
-import { prefetchClient } from '@/services/hooks/client/use-client';
+
 import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
@@ -26,7 +27,9 @@ const OAuthPage: FC<Props> = async (props) => {
 
     const queryClient = getQueryClient();
 
-    await prefetchClient({ client_reference: searchParams.reference });
+    await prefetchClientByReference({
+        reference: searchParams.reference,
+    });
 
     const dehydratedState = dehydrate(queryClient);
 

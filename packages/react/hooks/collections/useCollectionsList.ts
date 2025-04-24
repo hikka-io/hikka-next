@@ -1,37 +1,32 @@
 import {
+    CollectionContent,
     CollectionsListArgs,
     CollectionsListResponse,
-    PaginationArgs,
 } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseCollectionsListParams {
+    args: CollectionsListArgs;
+}
 
 /**
  * Hook for retrieving collections list
  */
-export function useCollectionsList(
-    args: CollectionsListArgs,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            CollectionsListResponse,
-            Error,
-            InfiniteData<CollectionsListResponse>,
-            CollectionsListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useCollectionsList({
+    args,
+    paginationArgs,
+    ...rest
+}: UseCollectionsListParams &
+    InfiniteQueryParams<CollectionsListResponse<CollectionContent>>) {
     return useInfiniteQuery({
         queryKey: queryKeys.collections.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -39,36 +34,26 @@ export function useCollectionsList(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches collections list for server-side rendering
  */
-export async function prefetchCollectionsList(
-    queryClient: QueryClient,
-    args: CollectionsListArgs,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            CollectionsListResponse,
-            Error,
-            CollectionsListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchCollectionsList({
+    args,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<CollectionsListResponse<CollectionContent>> &
+    UseCollectionsListParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.collections.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.collections.getCollections(args, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

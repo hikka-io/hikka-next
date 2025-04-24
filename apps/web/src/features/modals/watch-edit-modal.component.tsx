@@ -1,5 +1,15 @@
 'use client';
 
+import {
+    WatchResponse,
+    WatchResponseBase,
+    WatchStatusEnum,
+} from '@hikka/client';
+import {
+    useAddOrUpdateWatch,
+    useDeleteWatch,
+    useWatchEntry,
+} from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,9 +27,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
-import useDeleteWatch from '@/services/hooks/watch/use-delete-watch';
-import useWatch from '@/services/hooks/watch/use-watch';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/zod';
@@ -28,30 +35,34 @@ import FormInput from '../../components/form/form-input';
 import FormTextarea from '../../components/form/form-textarea';
 
 const formSchema = z.object({
-    score: z.coerce.number().min(0).max(10).nullable().optional(),
-    episodes: z.coerce.number().min(0).nullable().optional(),
-    rewatches: z.coerce.number().min(0).nullable().optional(),
+    score: z.coerce.number().min(0).max(10).optional(),
+    episodes: z.coerce.number().min(0).optional(),
+    rewatches: z.coerce.number().min(0).optional(),
     note: z.string().nullable().optional(),
 });
 
 interface Props {
     slug: string;
-    watch?: API.Watch;
+    watch?: WatchResponse | WatchResponseBase;
 }
 
 const Component = ({ slug, watch: watchProp }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: watchQuery } = useWatch({ slug }, { enabled: !watchProp });
+    const { data: watchQuery } = useWatchEntry({
+        slug,
+        options: { enabled: !watchProp },
+    });
 
     const watch = watchProp || watchQuery;
 
-    const { mutate: addWatch, isPending: addToListLoading } = useAddWatch();
+    const { mutate: addOrUpdateWatch, isPending: addToListLoading } =
+        useAddOrUpdateWatch({});
 
     const { mutate: deleteWatch, isPending: deleteFromListLoading } =
-        useDeleteWatch();
+        useDeleteWatch({});
 
     const [selectedStatus, setSelectedStatus] = useState<
-        API.WatchStatus | undefined
+        WatchStatusEnum | undefined
     >(watch?.status);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -60,7 +71,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
     });
 
     const onDelete = async () => {
-        deleteWatch({ params: { slug } });
+        deleteWatch(slug);
         closeModal();
     };
 
@@ -84,7 +95,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                         <Select
                             value={selectedStatus && [selectedStatus]}
                             onValueChange={(value) => {
-                                setSelectedStatus(value[0] as API.WatchStatus);
+                                setSelectedStatus(value[0] as WatchStatusEnum);
                             }}
                         >
                             <SelectTrigger>
@@ -106,7 +117,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                                         {(
                                             Object.keys(
                                                 WATCH_STATUS,
-                                            ) as API.WatchStatus[]
+                                            ) as WatchStatusEnum[]
                                         ).map((status) => (
                                             <SelectItem
                                                 value={status}
@@ -163,9 +174,9 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                     <Button
                         variant="secondary"
                         onClick={form.handleSubmit((data) =>
-                            addWatch({
-                                params: {
-                                    slug,
+                            addOrUpdateWatch({
+                                slug,
+                                args: {
                                     status: selectedStatus!,
                                     ...data,
                                 },

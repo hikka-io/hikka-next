@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useCreateArticle } from '@hikka/react';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
@@ -8,7 +8,7 @@ import { FC, useCallback } from 'react';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import { Button } from '@/components/ui/button';
-import createArticle from '@/services/api/articles/createArticle';
+
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
@@ -30,14 +30,17 @@ const CreateActions: FC<Props> = () => {
         mutate: mutateCreateArticle,
         isPending,
         isSuccess,
-    } = useMutation({
-        mutationFn: createArticle,
-        onSuccess: (data) => {
-            enqueueSnackbar('Ви успішно створили статтю.', {
-                variant: 'success',
-            });
+    } = useCreateArticle({
+        options: {
+            onSuccess: (data) => {
+                enqueueSnackbar('Ви успішно створили статтю.', {
+                    variant: 'success',
+                });
 
-            router.push(`${CONTENT_TYPE_LINKS['article']}/${data.slug}/update`);
+                router.push(
+                    `${CONTENT_TYPE_LINKS['article']}/${data.slug}/update`,
+                );
+            },
         },
     });
 
@@ -61,19 +64,17 @@ const CreateActions: FC<Props> = () => {
                 : [];
 
             mutateCreateArticle({
-                params: {
-                    document: [...preview, ...document],
-                    title: title || '',
-                    tags,
-                    draft,
-                    content: content
-                        ? {
-                              slug: content.slug,
-                              content_type: content.data_type,
-                          }
-                        : undefined,
-                    category: category!,
-                },
+                document: [...preview, ...document],
+                title: title || '',
+                tags,
+                draft,
+                content: content
+                    ? {
+                          slug: content.slug,
+                          content_type: content.data_type,
+                      }
+                    : undefined,
+                category: category!,
             });
         },
         [

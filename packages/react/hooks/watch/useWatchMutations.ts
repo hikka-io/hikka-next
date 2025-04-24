@@ -1,4 +1,4 @@
-import { WatchArgs } from '@hikka/client';
+import { WatchArgs, WatchStatusEnum } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
@@ -29,4 +29,21 @@ export const useDeleteWatch = createMutation({
         queryKeys.watch.entry(slug),
         queryKeys.watch.all,
     ],
+});
+
+/**
+ * Variables for the random anime mutation
+ */
+export interface RandomAnimeVariables {
+    username: string;
+    status: WatchStatusEnum;
+}
+
+/**
+ * Hook for getting a random anime from a user's watch list
+ */
+export const useRandomAnime = createMutation({
+    mutationFn: (client, { username, status }: RandomAnimeVariables) =>
+        client.watch.getRandom(username, status),
+    invalidateQueries: () => [],
 });

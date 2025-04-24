@@ -1,6 +1,9 @@
+import { ContentTypeEnum, EditContentType } from '@hikka/client';
+
 import InputParam from '@/features/edit/edit-forms/params/input-param';
 import ListParam from '@/features/edit/edit-forms/params/list-param';
 import MarkdownParam from '@/features/edit/edit-forms/params/markdown-param';
+
 import {
     ANIME_EDIT_GROUPS,
     ANIME_EDIT_PARAMS,
@@ -26,25 +29,25 @@ export const getEditParamComponent = (type: Hikka.EditParamType) => {
 };
 
 export const getEditParams = (
-    content_type: API.ContentType,
+    content_type: EditContentType,
     filter?: string[],
 ) => {
     let params: Record<string, Hikka.EditParam[]> = {};
 
     switch (content_type) {
-        case 'anime':
+        case ContentTypeEnum.ANIME:
             params = ANIME_EDIT_PARAMS;
             break;
-        case 'manga':
+        case ContentTypeEnum.MANGA:
             params = MANGA_EDIT_PARAMS;
             break;
-        case 'novel':
+        case ContentTypeEnum.NOVEL:
             params = NOVEL_EDIT_PARAMS;
             break;
-        case 'character':
+        case ContentTypeEnum.CHARACTER:
             params = CHARACTER_EDIT_PARAMS;
             break;
-        case 'person':
+        case ContentTypeEnum.PERSON:
             params = PERSON_EDIT_PARAMS;
             break;
     }
@@ -63,17 +66,17 @@ export const getEditParams = (
     return params;
 };
 
-export const getEditGroups = (content_type: API.ContentType) => {
+export const getEditGroups = (content_type: EditContentType) => {
     switch (content_type) {
-        case 'anime':
+        case ContentTypeEnum.ANIME:
             return ANIME_EDIT_GROUPS;
-        case 'manga':
+        case ContentTypeEnum.MANGA:
             return MANGA_EDIT_GROUPS;
-        case 'novel':
+        case ContentTypeEnum.NOVEL:
             return NOVEL_EDIT_GROUPS;
-        case 'character':
+        case ContentTypeEnum.CHARACTER:
             return CHARACTER_EDIT_GROUPS;
-        case 'person':
+        case ContentTypeEnum.PERSON:
             return PERSON_EDIT_GROUPS;
     }
 };

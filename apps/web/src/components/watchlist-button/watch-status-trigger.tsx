@@ -1,18 +1,21 @@
 'use client';
 
+import { WatchResponse, WatchResponseBase } from '@hikka/client';
+import { useAnimeInfo } from '@hikka/react';
 import { FC, createElement } from 'react';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';
 
 interface WatchStatusTriggerProps {
-    watch: API.Watch;
+    watch: WatchResponse | WatchResponseBase;
     disabled?: boolean;
     slug: string;
     size?: 'sm' | 'md';
@@ -25,12 +28,12 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     size,
 }) => {
     const { openModal } = useModalContext();
-    const { data: anime } = useAnimeInfo(
-        {
-            slug,
+    const { data: anime } = useAnimeInfo({
+        slug,
+        options: {
+            enabled: !disabled,
         },
-        { enabled: !disabled },
-    );
+    });
 
     const openWatchEditModal = () => {
         if (anime) {

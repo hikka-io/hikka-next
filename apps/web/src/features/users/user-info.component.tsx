@@ -1,5 +1,7 @@
 'use client';
 
+import { ImageType, UploadTypeEnum } from '@hikka/client';
+import { useSession, useUserByUsername } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, useRef } from 'react';
 
@@ -13,8 +15,6 @@ import {
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 
-import useSession from '@/services/hooks/auth/use-session';
-import useUser from '@/services/hooks/user/use-user';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import MaterialSymbolsImageOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
@@ -28,23 +28,28 @@ const UserInfo = () => {
     const { openModal } = useModalContext();
     const params = useParams();
 
-    const { data: user } = useUser({ username: String(params.username) });
+    const { data: user } = useUserByUsername({
+        username: String(params.username),
+        options: {
+            enabled: !!params.username,
+        },
+    });
     const { user: loggedUser } = useSession();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
-        type: 'avatar' | 'cover',
+        type: ImageType,
     ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
 
             switch (type) {
-                case 'avatar':
+                case UploadTypeEnum.AVATAR:
                     if (uploadAvatarRef.current) {
                         uploadAvatarRef.current.value = '';
                     }
                     break;
-                case 'cover':
+                case UploadTypeEnum.COVER:
                     if (uploadCoverRef.current) {
                         uploadCoverRef.current.value = '';
                     }
@@ -68,7 +73,9 @@ const UserInfo = () => {
             <Input
                 type="file"
                 id="avatar-input"
-                onChange={(e) => handleUploadImageSelected(e, 'avatar')}
+                onChange={(e) =>
+                    handleUploadImageSelected(e, UploadTypeEnum.AVATAR)
+                }
                 ref={uploadAvatarRef}
                 multiple={false}
                 className="absolute left-0 top-0 size-full opacity-0"
@@ -77,7 +84,9 @@ const UserInfo = () => {
             <Input
                 type="file"
                 id="cover-input"
-                onChange={(e) => handleUploadImageSelected(e, 'cover')}
+                onChange={(e) =>
+                    handleUploadImageSelected(e, UploadTypeEnum.COVER)
+                }
                 ref={uploadCoverRef}
                 multiple={false}
                 className="absolute left-0 top-0 size-full opacity-0"
@@ -126,7 +135,7 @@ const UserInfo = () => {
                 )}
             </div>
             {user.active && (
-                <div className="absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4 border-border bg-success" />
+                <div className="border-border bg-success absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4" />
             )}
         </div>
     );

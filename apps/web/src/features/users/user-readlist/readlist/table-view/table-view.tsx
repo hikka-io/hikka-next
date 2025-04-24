@@ -1,5 +1,6 @@
 'use client';
 
+import { ReadContentType, ReadResponse } from '@hikka/client';
 import {
     useParams,
     usePathname,
@@ -15,8 +16,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+
 import createQueryString from '@/utils/create-query-string';
 import { cn } from '@/utils/utils';
+
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
 import NumberCell from './number-cell';
@@ -24,7 +27,7 @@ import ScoreCell from './score-cell';
 import VolumesCell from './volumes-cell';
 
 interface Props {
-    data: API.Read[];
+    data: ReadResponse[];
 }
 
 const TableView: FC<Props> = ({ data }) => {
@@ -58,7 +61,7 @@ const TableView: FC<Props> = ({ data }) => {
 
     return (
         <Table className="table">
-            <TableHeader className="overflow-hidden rounded-lg bg-secondary/20 backdrop-blur [&_tr]:border-b-0">
+            <TableHeader className="bg-secondary/20 overflow-hidden rounded-lg backdrop-blur [&_tr]:border-b-0">
                 <TableRow>
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>
@@ -100,26 +103,26 @@ const TableView: FC<Props> = ({ data }) => {
                         <NumberCell
                             read={res}
                             content_type={
-                                params.content_type as 'manga' | 'novel'
+                                params.content_type as ReadContentType
                             }
                             content={res.content}
                             number={i + 1}
                         />
                         <DetailsCell
-                            note={res.note}
+                            note={res.note || undefined}
                             content_type={
-                                params.content_type as 'manga' | 'novel'
+                                params.content_type as ReadContentType
                             }
                             content={res.content}
                             rereads={res.rereads}
                         />
                         <ChaptersCell
                             chapters={res.chapters}
-                            total={res.content.chapters}
+                            total={res.content.chapters || undefined}
                         />
                         <VolumesCell
                             volumes={res.volumes}
-                            total={res.content.volumes}
+                            total={res.content.volumes || undefined}
                         />
                         <ScoreCell score={res.score} />
                     </TableRow>

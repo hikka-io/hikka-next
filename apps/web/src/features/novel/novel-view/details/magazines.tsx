@@ -1,10 +1,11 @@
+import { MagazineResponse } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 
 interface Props {
-    magazines: API.Magazine[];
+    magazines: MagazineResponse[];
 }
 
 const Magazines: FC<Props> = ({ magazines }) => {

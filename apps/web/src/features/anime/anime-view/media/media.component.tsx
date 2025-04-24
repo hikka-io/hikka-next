@@ -1,5 +1,6 @@
 'use client';
 
+import { useAnimeInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -10,11 +11,8 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from '@/components/ui/toggle-group';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
 import Ost from './ost';
 import Video from './video';
 

@@ -1,3 +1,10 @@
+import { AnimeInfoResponse, ContentTypeEnum } from '@hikka/client';
+import {
+    getQueryClient,
+    prefetchAnimeInfo,
+    prefetchArticlesList,
+    queryKeys,
+} from '@hikka/react';
 import { FC } from 'react';
 
 import Characters from '@/features/anime/anime-view/characters/characters.component';
@@ -10,9 +17,9 @@ import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.comp
 import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
 import Followings from '@/features/followings/followings.component';
 import Franchise from '@/features/franchise/franchise.component';
-import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
-import { prefetchArticles } from '@/services/hooks/articles/use-articles';
-import getQueryClient from '@/utils/get-query-client';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import jsonSchema from './anime.schema';
 
 interface Props {
@@ -27,14 +34,20 @@ const AnimePage: FC<Props> = async (props) => {
     const { slug } = params;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchAnimeInfo({ slug });
-    await prefetchArticles({ content_slug: slug, content_type: 'anime' });
+    await prefetchAnimeInfo({ slug, clientConfig });
+    await prefetchArticlesList({
+        args: {
+            content_slug: slug,
+            content_type: ContentTypeEnum.ANIME,
+        },
+        clientConfig,
+    });
 
-    const anime: API.AnimeInfo | undefined = queryClient.getQueryData([
-        'anime',
-        slug,
-    ]);
+    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData(
+        queryKeys.anime.details(slug),
+    );
 
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">
@@ -49,13 +62,16 @@ const AnimePage: FC<Props> = async (props) => {
             <div className="relative order-2 flex flex-col gap-12 lg:order-1">
                 <Description />
                 <Characters />
-                <Franchise content_type="anime" />
+                <Franchise content_type={ContentTypeEnum.ANIME} />
                 <Media />
                 <Staff />
                 <div className="flex flex-col gap-12 lg:hidden">
                     <WatchStats key="watch-stats" />
-                    <Followings content_type="anime" key="followings" />
-                    <ContentArticles content_type="anime" />
+                    <Followings
+                        content_type={ContentTypeEnum.ANIME}
+                        key="followings"
+                    />
+                    <ContentArticles content_type={ContentTypeEnum.ANIME} />
                     <Links key="links" />
                 </div>
             </div>
@@ -63,8 +79,11 @@ const AnimePage: FC<Props> = async (props) => {
                 <Details />
                 <div className="hidden lg:flex lg:flex-col lg:gap-12">
                     <WatchStats key="watch-stats" />
-                    <Followings content_type="anime" key="followings" />
-                    <ContentArticles content_type="anime" />
+                    <Followings
+                        content_type={ContentTypeEnum.ANIME}
+                        key="followings"
+                    />
+                    <ContentArticles content_type={ContentTypeEnum.ANIME} />
                     <Links key="links" />
                 </div>
             </div>

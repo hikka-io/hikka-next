@@ -1,29 +1,29 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { UserResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchSession,
+    queryKeys,
+} from '@hikka/react';
 import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 
-import getLoggedUserInfo from '@/services/api/user/getLoggedUserInfo';
-import { getCookie } from '@/utils/cookies';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props extends PropsWithChildren {}
 
 const SessionManager = async ({ children }: Props) => {
     const queryClient = await getQueryClient();
-    const auth = await getCookie('auth');
+    const clientConfig = await getHikkaClientConfig();
 
-    auth &&
-        (await queryClient.prefetchQuery({
-            queryKey: ['logged-user'],
-            queryFn: ({ meta }) => getLoggedUserInfo({}),
-        }));
+    clientConfig.authToken && (await prefetchSession({ clientConfig }));
 
-    const loggedUser: API.User | undefined = queryClient.getQueryData([
-        'logged-user',
-    ]);
+    const loggedUser: UserResponse | undefined = queryClient.getQueryData(
+        queryKeys.user.me(),
+    );
 
-    if (auth && !loggedUser) {
+    if (clientConfig.authToken && !loggedUser) {
         redirect(`${process.env.SITE_URL}/auth/logout`);
     }
 

@@ -1,3 +1,8 @@
+import {
+    ContentTypeEnum,
+    ReadResponseBase,
+    WatchResponseBase,
+} from '@hikka/client';
 import Link, { LinkProps } from 'next/link';
 import {
     FC,
@@ -10,6 +15,7 @@ import {
 import { UrlObject } from 'url';
 
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import P from '../typography/p';
 import { AspectRatio } from '../ui/aspect-ratio';
@@ -26,10 +32,10 @@ import WatchStatus from './watch-status';
 
 export interface Props {
     target?: string;
-    title?: string;
-    description?: string;
-    leftSubtitle?: string;
-    rightSubtitle?: string;
+    title?: string | null;
+    description?: string | null;
+    leftSubtitle?: string | null;
+    rightSubtitle?: string | null;
     image?: string | ReactNode;
     href?: string | UrlObject;
     containerRatio?: number;
@@ -41,10 +47,10 @@ export interface Props {
     children?: ReactNode;
     onClick?: MouseEventHandler<HTMLAnchorElement> &
         MouseEventHandler<HTMLDivElement>;
-    watch?: API.Watch;
-    read?: API.Read;
+    watch?: WatchResponseBase;
+    read?: ReadResponseBase;
     slug?: string;
-    content_type?: API.ContentType;
+    content_type?: ContentTypeEnum;
     withContextMenu?: boolean;
     imageProps?: {
         priority?: boolean;
@@ -54,10 +60,10 @@ export interface Props {
 
 interface TooltipProps {
     children: ReactNode;
-    content_type?: API.ContentType;
+    content_type?: ContentTypeEnum;
     slug?: string;
-    watch?: API.Watch;
-    read?: API.Read;
+    watch?: WatchResponseBase;
+    read?: ReadResponseBase;
 }
 
 const Tooltip: FC<TooltipProps> = ({
@@ -146,13 +152,13 @@ const Content = memo(
                         <AspectRatio
                             ratio={containerRatio || 0.7}
                             className={cn(
-                                'relative w-full overflow-hidden rounded-md bg-muted',
+                                'bg-muted relative w-full overflow-hidden rounded-md',
                                 containerClassName,
                             )}
                         >
                             <Comp
                                 href={href || '#'}
-                                className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/20"
+                                className="bg-secondary/20 absolute left-0 top-0 flex size-full items-center justify-center rounded-md"
                             >
                                 {image ? (
                                     typeof image === 'string' ? (
@@ -173,7 +179,7 @@ const Content = memo(
                                         image
                                     )
                                 ) : (
-                                    <MaterialSymbolsImageNotSupportedOutlineRounded className="text-4xl text-muted-foreground" />
+                                    <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground text-4xl" />
                                 )}
 
                                 {!disableChildrenLink && children}
@@ -192,7 +198,7 @@ const Content = memo(
                                 )}
                             >
                                 {description && (
-                                    <P className="mb-1 truncate text-xs text-muted-foreground">
+                                    <P className="text-muted-foreground mb-1 truncate text-xs">
                                         {description}
                                     </P>
                                 )}
@@ -212,15 +218,15 @@ const Content = memo(
                                 {(leftSubtitle || rightSubtitle) && (
                                     <div className="mt-1 flex cursor-pointer items-center gap-2">
                                         {leftSubtitle && (
-                                            <Label className="cursor-pointer text-xs text-muted-foreground">
+                                            <Label className="text-muted-foreground cursor-pointer text-xs">
                                                 {leftSubtitle}
                                             </Label>
                                         )}
                                         {leftSubtitle && rightSubtitle && (
-                                            <div className="size-1 rounded-full bg-muted-foreground" />
+                                            <div className="bg-muted-foreground size-1 rounded-full" />
                                         )}
                                         {rightSubtitle && (
-                                            <Label className="cursor-pointer text-xs text-muted-foreground">
+                                            <Label className="text-muted-foreground cursor-pointer text-xs">
                                                 {rightSubtitle}
                                             </Label>
                                         )}

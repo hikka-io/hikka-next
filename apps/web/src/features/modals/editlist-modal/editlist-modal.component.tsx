@@ -1,43 +1,31 @@
 'use client';
 
+import { EditContentType } from '@hikka/client';
+import { useEditList } from '@hikka/react';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import getEditList from '@/services/api/edit/getEditList';
-import useInfiniteList from '@/services/hooks/use-infinite-list';
+
 import { cn } from '@/utils/utils';
+
 import EditCard from './edit-card';
 
 interface Props {
-    content_type: API.ContentType;
+    content_type: EditContentType;
     slug: string;
 }
 
 const Component = ({ content_type, slug }: Props) => {
-    const { ref, inView } = useInView();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useInfiniteList({
-            queryKey: ['editList', slug, content_type],
-            queryFn: ({ pageParam }) =>
-                getEditList({
-                    params: {
-                        slug: slug,
-                        content_type: content_type,
-                    },
-                    page: pageParam,
-                }),
+    const { ref, list, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useEditList({
+            args: {
+                slug: slug,
+                content_type: content_type,
+            },
         });
-
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
 
     if (!list) {
         return null;

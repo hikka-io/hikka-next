@@ -1,12 +1,13 @@
 'use client';
 
+import { PersonAnimeResponse, PersonCharactersResponse } from '@hikka/client';
+import {
+    usePersonAnime,
+    usePersonCharacters,
+    usePersonInfo,
+} from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import { PersonAnime } from '@/services/api/people/getPersonAnime';
-import { PersonCharacter } from '@/services/api/people/getPersonCharacters';
-import usePersonAnime from '@/services/hooks/people/use-person-anime';
-import usePersonCharacters from '@/services/hooks/people/use-person-characters';
-import usePersonInfo from '@/services/hooks/people/use-person-info';
 import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import {
@@ -28,7 +29,7 @@ interface Props extends PropsWithChildren {
     withTrigger?: boolean;
 }
 
-const PersonAnimeList: FC<{ list?: PersonAnime[]; slug: string }> = ({
+const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
     list,
     slug,
 }) => {
@@ -55,7 +56,7 @@ const PersonAnimeList: FC<{ list?: PersonAnime[]; slug: string }> = ({
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
                         }
                         containerRatio={0.7}
                     />
@@ -65,10 +66,10 @@ const PersonAnimeList: FC<{ list?: PersonAnime[]; slug: string }> = ({
     );
 };
 
-const PersonCharactersList: FC<{ list?: PersonCharacter[]; slug: string }> = ({
-    list,
-    slug,
-}) => {
+const PersonCharactersList: FC<{
+    list?: PersonCharactersResponse[];
+    slug: string;
+}> = ({ list, slug }) => {
     if (!list || list.length === 0) return null;
 
     return (
@@ -92,7 +93,7 @@ const PersonCharactersList: FC<{ list?: PersonCharacter[]; slug: string }> = ({
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
                         }
                         containerRatio={0.7}
                     />
@@ -104,41 +105,41 @@ const PersonCharactersList: FC<{ list?: PersonCharacter[]; slug: string }> = ({
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     const { data } = usePersonInfo({ slug });
-    const { list: anime } = usePersonAnime(
-        { slug },
-        {
+    const { list: anime } = usePersonAnime({
+        slug,
+        options: {
             enabled:
                 data && data.characters_count === 0 && data.anime_count > 0,
         },
-    );
-    const { list: characters } = usePersonCharacters(
-        { slug },
-        {
+    });
+    const { list: characters } = usePersonCharacters({
+        slug,
+        options: {
             enabled: data && data.characters_count > 0,
         },
-    );
+    });
 
     if (!data || (!anime && !characters)) {
         return (
             <div className="flex w-96 animate-pulse gap-4 text-left">
-                <div className="h-28 w-20 rounded-lg bg-secondary/20" />
+                <div className="bg-secondary/20 h-28 w-20 rounded-lg" />
                 <div className="flex w-full flex-1 flex-col gap-2">
                     <div className="flex flex-col gap-2">
                         <div className="flex w-full flex-1 flex-col gap-2">
-                            <div className="h-5 w-20 rounded-lg bg-secondary/20" />
+                            <div className="bg-secondary/20 h-5 w-20 rounded-lg" />
                         </div>
                     </div>
 
                     <div className="flex gap-2">
-                        <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                        <div className="bg-secondary/20 h-3 w-1/4 rounded-lg" />
                     </div>
 
                     <div className="flex gap-2">
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
+                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
+                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
+                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
+                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
                     </div>
                 </div>
             </div>
@@ -161,7 +162,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                     </Label>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <MDViewer className="whitespace-normal break-normal text-sm text-muted-foreground md:line-clamp-3">
+                    <MDViewer className="text-muted-foreground whitespace-normal break-normal text-sm md:line-clamp-3">
                         {data.description_ua}
                     </MDViewer>
 

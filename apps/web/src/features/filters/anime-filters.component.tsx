@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -21,7 +22,7 @@ import Year from './prebuilt/year';
 
 interface Props {
     className?: string;
-    content_type: API.ContentType;
+    content_type: ContentTypeEnum;
     sort_type: 'anime' | 'watch';
 }
 

@@ -1,10 +1,12 @@
 'use client';
 
+import { ReadStatsResponse, ReadStatusEnum } from '@hikka/client';
+import { useNovelInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 import { READ_STATUS } from '@/utils/constants/common';
+
 import Stats from './stats';
 
 const Readlist = () => {
@@ -25,13 +27,14 @@ const Readlist = () => {
     const stats = Object.keys(data.stats).reduce(
         (acc: Hikka.ListStat[], stat) => {
             if (!stat.includes('score')) {
-                const status = READ_STATUS[stat as API.ReadStatus];
+                const status = READ_STATUS[stat as ReadStatusEnum];
                 const percentage =
-                    (100 * data.stats[stat as API.StatType]) / sumStats;
+                    (100 * data.stats[stat as keyof ReadStatsResponse]) /
+                    sumStats;
 
                 acc.push({
                     percentage,
-                    value: data.stats[stat as API.StatType],
+                    value: data.stats[stat as keyof ReadStatsResponse],
                     icon: status.icon && createElement(status.icon),
                     color: status.color!,
                 });

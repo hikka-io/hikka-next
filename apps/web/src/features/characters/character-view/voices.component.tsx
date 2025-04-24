@@ -1,5 +1,6 @@
 'use client';
 
+import { useCharacterVoices } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import VoiceCard from '@/components/voice-card';
-import useCharacterVoices from '@/services/hooks/characters/use-character-voices';
 
 interface Props {
     extended?: boolean;

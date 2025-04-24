@@ -1,5 +1,10 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { SeasonEnum } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchAnimeSchedule,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
@@ -7,18 +12,15 @@ import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilter
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import ScheduleFilters from '@/features/filters/schedule-filters.component';
 import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal.component';
 import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
-import { prefetchAnimeSchedule } from '@/services/hooks/stats/use-anime-schedule';
+
 import _generateMetadata from '@/utils/generate-metadata';
 import getCurrentSeason from '@/utils/get-current-season';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 export const metadata: Metadata = _generateMetadata({
     title: {
@@ -34,9 +36,10 @@ interface Props {
 const ScheduleListPage: FC<Props> = async (props) => {
     const searchParams = await props.searchParams;
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
     const only_watch = searchParams.only_watch || undefined;
-    const season = (searchParams.season as API.Season) || getCurrentSeason()!;
+    const season = (searchParams.season as SeasonEnum) || getCurrentSeason()!;
     const year = searchParams.year || String(new Date().getFullYear());
     const status =
         searchParams.status && searchParams.status.length > 0
@@ -44,9 +47,12 @@ const ScheduleListPage: FC<Props> = async (props) => {
             : ['ongoing', 'announced'];
 
     await prefetchAnimeSchedule({
-        status,
-        only_watch,
-        airing_season: [season, year],
+        args: {
+            status,
+            only_watch,
+            airing_season: [season, year],
+        },
+        clientConfig,
     });
 
     const dehydratedState = dehydrate(queryClient);

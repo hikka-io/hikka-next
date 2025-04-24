@@ -1,5 +1,6 @@
 import { UploadTypeEnum } from '@hikka/client';
 
+import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
 
 /**
@@ -16,5 +17,8 @@ type UploadImageVariables = {
 export const useUploadImage = createMutation({
     mutationFn: (client, args: UploadImageVariables) =>
         client.upload.uploadImage(args.uploadType, args.file),
-    invalidateQueries: () => [],
+    invalidateQueries: (args: UploadImageVariables) =>
+        args.uploadType !== UploadTypeEnum.ATTACHMENT
+            ? [queryKeys.user.me(), queryKeys.user.byUsername(args.uploadType)]
+            : [],
 });

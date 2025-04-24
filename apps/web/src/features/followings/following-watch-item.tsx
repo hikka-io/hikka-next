@@ -1,3 +1,4 @@
+import { UserResponse, WatchResponseBase } from '@hikka/client';
 import { FC } from 'react';
 
 import {
@@ -15,8 +16,8 @@ import MaterialSymbolsStarRounded from '../../components/icons/material-symbols/
 
 interface Props {
     data: {
-        watch: API.Watch[];
-    } & API.User;
+        watch: WatchResponseBase[];
+    } & UserResponse;
     className?: string;
 }
 

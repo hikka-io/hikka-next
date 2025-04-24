@@ -1,8 +1,10 @@
-import { SuccessResponse } from '../types';
+import { PaginationArgs, SuccessResponse } from '../types';
 import {
     ClientArgs,
-    ClientCreateResponse,
+    ClientInfoResponse,
+    ClientPaginationResponse,
     ClientResponse,
+    ClientVerifyResponse,
 } from '../types/client';
 import { BaseModule } from './base';
 
@@ -13,8 +15,8 @@ export class ClientModule extends BaseModule {
     /**
      * Create a new client
      */
-    public async create(args: ClientArgs): Promise<ClientCreateResponse> {
-        return this.client.post<ClientCreateResponse>('/client/create', args);
+    public async create(args: ClientArgs): Promise<ClientInfoResponse> {
+        return this.client.post<ClientInfoResponse>('/client', args);
     }
 
     /**
@@ -25,13 +27,37 @@ export class ClientModule extends BaseModule {
     }
 
     /**
+     * Get full client info including secret
+     */
+    public async getFullClientInfo(
+        reference: string,
+    ): Promise<ClientInfoResponse> {
+        return this.client.get<ClientInfoResponse>(`/client/${reference}/full`);
+    }
+
+    /**
+     * Get all clients for current user
+     */
+    public async getAll(
+        { page, size }: PaginationArgs = { page: 1, size: 15 },
+    ): Promise<ClientPaginationResponse> {
+        return this.client.get<ClientPaginationResponse>('/client', {
+            page,
+            size,
+        });
+    }
+
+    /**
      * Update client
      */
     public async update(
         reference: string,
         args: ClientArgs,
-    ): Promise<ClientResponse> {
-        return this.client.put<ClientResponse>(`/client/${reference}`, args);
+    ): Promise<ClientInfoResponse> {
+        return this.client.put<ClientInfoResponse>(
+            `/client/${reference}`,
+            args,
+        );
     }
 
     /**
@@ -39,5 +65,14 @@ export class ClientModule extends BaseModule {
      */
     public async delete(reference: string): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(`/client/${reference}`);
+    }
+
+    /**
+     * Verify client
+     */
+    public async verify(reference: string): Promise<ClientVerifyResponse> {
+        return this.client.post<ClientVerifyResponse>(
+            `/client/${reference}/verify`,
+        );
     }
 }

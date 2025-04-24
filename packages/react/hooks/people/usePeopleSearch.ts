@@ -1,37 +1,28 @@
-import {
-    PaginationArgs,
-    PersonSearchPaginationResponse,
-    QuerySearchArgs,
-} from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { PersonSearchPaginationResponse, QuerySearchArgs } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UsePeopleSearchParams {
+    args?: QuerySearchArgs;
+}
 
 /**
  * Hook for searching people
  */
-export function usePeopleSearch(
-    args: QuerySearchArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            PersonSearchPaginationResponse,
-            Error,
-            InfiniteData<PersonSearchPaginationResponse>,
-            PersonSearchPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function usePeopleSearch({
+    args = {},
+    paginationArgs,
+    ...rest
+}: UsePeopleSearchParams &
+    InfiniteQueryParams<PersonSearchPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.people.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -39,36 +30,26 @@ export function usePeopleSearch(
                 page,
                 size: paginationArgs?.size,
             }),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Function for prefetching people search results
  */
-export async function prefetchPeopleSearch(
-    queryClient: QueryClient,
-    args: QuerySearchArgs = {},
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            PersonSearchPaginationResponse,
-            Error,
-            PersonSearchPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchPeopleSearch({
+    args = {},
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<PersonSearchPaginationResponse> &
+    UsePeopleSearchParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.people.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.people.search(args, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options: options || {},
+        ...rest,
     });
 }

@@ -10,23 +10,21 @@ export interface UserResponse {
     cover: string | null;
     active: boolean;
     avatar: string;
-    role: string;
+    role: UserRoleEnum;
+    is_followed?: boolean;
+    email?: string | null;
 }
 
 /**
- * User response with followed status
+ * User role enum
  */
-export interface UserResponseFollowed extends UserResponse {
-    is_followed: boolean;
+export enum UserRoleEnum {
+    ADMIN = 'admin',
+    MODERATOR = 'moderator',
+    USER = 'user',
+    BANNED = 'banned',
+    NOT_ACTIVATED = 'not_activated',
 }
-
-/**
- * User response with email
- */
-export interface UserWithEmailResponse extends UserResponse {
-    email: string | null;
-}
-
 /**
  * Required query search parameters
  */

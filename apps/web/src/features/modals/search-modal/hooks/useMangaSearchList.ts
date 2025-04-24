@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { MangaPaginationResponse } from '@hikka/client';
+import { useQuery } from '@hikka/react';
 
-import getMangaCatalog from '@/services/api/manga/getMangaCatalog';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertTitleList } from '@/utils/adapters/convert-title';
 
@@ -11,23 +11,20 @@ interface Props {
 const useMangaSearchList = ({ value }: Props) => {
     const { titleLanguage } = useSettingsContext();
 
-    return useQuery<API.WithPagination<API.Manga>, Error>({
+    return useQuery<MangaPaginationResponse, Error>({
         queryKey: ['manga-search-list', value],
-        queryFn: () =>
-            getMangaCatalog({
-                params: {
-                    query: value,
-                },
-                size: 60,
+        queryFn: (client) =>
+            client.manga.search({ query: value }, { size: 60 }),
+        options: {
+            enabled: value !== undefined && value.length >= 3,
+            select: (data) => ({
+                ...data,
+                list: convertTitleList({
+                    titleLanguage: titleLanguage!,
+                    data: data.list as any,
+                }),
             }),
-        enabled: value !== undefined && value.length >= 3,
-        select: (data) => ({
-            ...data,
-            list: convertTitleList<API.Manga>({
-                titleLanguage: titleLanguage!,
-                data: data.list,
-            }),
-        }),
+        },
     });
 };
 

@@ -1,13 +1,15 @@
+import { AnimeOSTResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
 import Stack from '@/components/ui/stack';
+
 import { OST } from '@/utils/constants/common';
 
 interface Props {
     extended?: boolean;
-    ost: API.OST[];
+    ost: AnimeOSTResponse[];
 }
 
 const Ost: FC<Props> = ({ extended, ost }) => {
@@ -30,7 +32,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                         OST[ost.ost_type].title_ua || OST[ost.ost_type].title_en
                     }
                     image={
-                        <MaterialSymbolsLibraryMusicRounded className="text-4xl text-muted-foreground" />
+                        <MaterialSymbolsLibraryMusicRounded className="text-muted-foreground text-4xl" />
                     }
                 />
             ))}

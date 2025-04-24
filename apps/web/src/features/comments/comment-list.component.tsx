@@ -1,5 +1,7 @@
 'use client';
 
+import { CommentsContentType } from '@hikka/client';
+import { useCommentThread, useContentComments, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -8,9 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
-import useSession from '@/services/hooks/auth/use-session';
-import useCommentThread from '@/services/hooks/comments/use-comment-thread';
-import useComments from '@/services/hooks/comments/use-comments';
 import CommentsProvider from '@/services/providers/comments-provider';
 
 import CommentInput from '../../components/comments/comment-input';
@@ -19,7 +18,7 @@ import LoadMoreButton from '../../components/load-more-button';
 
 interface Props {
     slug: string;
-    content_type: API.ContentType;
+    content_type: CommentsContentType;
     comment_reference?: string;
 }
 
@@ -32,14 +31,18 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useComments({ slug, content_type }, { enabled: !comment_reference });
-
-    const { data: thread } = useCommentThread(
-        {
-            reference: String(comment_reference),
+    } = useContentComments({
+        contentType: content_type,
+        slug,
+        options: {
+            enabled: !comment_reference,
         },
-        { enabled: !!comment_reference },
-    );
+    });
+
+    const { data: thread } = useCommentThread({
+        commentReference: String(comment_reference),
+        options: { enabled: !!comment_reference },
+    });
 
     const list = comment_reference ? (thread ? [thread] : []) : comments;
 

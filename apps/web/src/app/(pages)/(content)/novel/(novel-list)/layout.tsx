@@ -1,6 +1,8 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { FC, ReactNode } from 'react';
 
 import Block from '@/components/ui/block';
+
 import ReadFilters from '@/features/filters/read-filters.component';
 import NavBar from '@/features/novel/novel-list-navbar/novel-list-navbar.component';
 
@@ -16,7 +18,10 @@ const NovelListLayout: FC<Props> = async ({ children }) => {
                 {children}
             </Block>
             <div className="sticky top-20 order-1 hidden w-full opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
-                <ReadFilters content_type="novel" sort_type="novel" />
+                <ReadFilters
+                    content_type={ContentTypeEnum.NOVEL}
+                    sort_type="novel"
+                />
             </div>
         </div>
     );

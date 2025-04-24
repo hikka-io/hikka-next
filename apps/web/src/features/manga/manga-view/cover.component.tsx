@@ -1,13 +1,13 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import { useMangaInfo, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import EditButton from '@/components/edit-button';
 import FavoriteButton from '@/components/favorite-button';
-import useSession from '@/services/hooks/auth/use-session';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
 
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();
@@ -22,12 +22,12 @@ const Cover: FC = () => {
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
-                            content_type="manga"
+                            content_type={ContentTypeEnum.MANGA}
                         />
                     )}
                     <FavoriteButton
                         slug={String(params.slug)}
-                        content_type="manga"
+                        content_type={ContentTypeEnum.MANGA}
                     />
                 </div>
 

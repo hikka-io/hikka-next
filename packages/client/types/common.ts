@@ -1,3 +1,11 @@
+import { AnimeInfoResponse, AnimeResponse } from './anime';
+import { ArticleResponse } from './articles';
+import { CharacterResponse } from './characters';
+import { CollectionContent, CollectionResponse } from './collections';
+import { MangaInfoResponse, MangaResponse } from './manga';
+import { NovelInfoResponse, NovelResponse } from './novel';
+import { PersonResponse } from './people';
+
 /**
  * Standard pagination response
  */
@@ -57,12 +65,31 @@ export enum SourceEnum {
 }
 
 /**
+ * External link type enum
+ */
+export enum ExternalTypeEnum {
+    GENERAL = 'general',
+    WATCH = 'watch',
+    READ = 'read',
+}
+
+/**
  * External link response
  */
 export interface ExternalResponse {
     url: string;
     text: string;
-    type: string;
+    type: ExternalTypeEnum;
+}
+
+/**
+ * Genre type enum
+ */
+export enum GenreTypeEnum {
+    THEME = 'theme',
+    EXPLICIT = 'explicit',
+    GENRE = 'genre',
+    DEMOGRAPHIC = 'demographic',
 }
 
 /**
@@ -72,7 +99,7 @@ export interface GenreResponse {
     name_ua: string | null;
     name_en: string | null;
     slug: string;
-    type: string;
+    type: GenreTypeEnum;
 }
 
 /**
@@ -105,4 +132,51 @@ export interface PaginationArgs {
  */
 export interface CaptchaArgs {
     captcha: string;
+}
+
+/**
+ * Content type enum
+ */
+export enum ContentTypeEnum {
+    CHARACTER = 'character',
+    PERSON = 'person',
+    ANIME = 'anime',
+    MANGA = 'manga',
+    NOVEL = 'novel',
+    ARTICLE = 'article',
+    COLLECTION = 'collection',
+    EDIT = 'edit',
+    COMMENT = 'comment',
+    USER = 'user',
+}
+
+/**
+ * Content type
+ */
+export type Content =
+    | AnimeResponse
+    | MangaResponse
+    | NovelResponse
+    | AnimeInfoResponse
+    | MangaInfoResponse
+    | NovelInfoResponse
+    | CharacterResponse
+    | PersonResponse
+    | CollectionResponse<CollectionContent>
+    | ArticleResponse;
+
+/**
+ * Main content type
+ */
+export type MainContent = Exclude<
+    Content,
+    CollectionResponse<CollectionContent> | ArticleResponse
+>;
+
+/**
+ * Sitemap response
+ */
+export interface SitemapResponse {
+    updated_at: number;
+    slug: string;
 }

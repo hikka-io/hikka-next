@@ -1,5 +1,5 @@
-import { FollowUserResponse } from './collections';
-import { PaginationResponse } from './common';
+import { ContentTypeEnum, PaginationResponse } from './common';
+import { UserResponse } from './user';
 
 /**
  * Tag response
@@ -22,17 +22,16 @@ export enum ArticleCategoryEnum {
 /**
  * Article content type enum
  */
-export enum ArticleContentEnum {
-    ANIME = 'anime',
-    MANGA = 'manga',
-    NOVEL = 'novel',
-}
+export type ArticleContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 
 /**
  * Article content arguments
  */
 export interface ArticleContentArgs {
-    content_type: ArticleContentEnum;
+    content_type: ArticleContentType;
     slug: string;
 }
 
@@ -53,8 +52,9 @@ export interface ArticleArgs {
  * Anime content in an article
  */
 export interface ArticleAnimeContentResponse {
-    data_type: string;
+    data_type: ContentTypeEnum.ANIME;
     image: string | null;
+    title?: string;
     title_en: string | null;
     title_ua: string | null;
     slug: string;
@@ -65,8 +65,9 @@ export interface ArticleAnimeContentResponse {
  * Manga/Novel content in an article
  */
 export interface ArticleMangaNovelContentResponse {
-    data_type: string;
+    data_type: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
     image: string | null;
+    title?: string;
     title_en: string | null;
     title_ua: string | null;
     slug: string;
@@ -77,8 +78,8 @@ export interface ArticleMangaNovelContentResponse {
  * Article response
  */
 export interface ArticleResponse {
-    data_type: string;
-    author: FollowUserResponse;
+    data_type: ContentTypeEnum.ARTICLE;
+    author: UserResponse;
     tags: TagResponse[];
     created: number;
     updated: number;
@@ -86,23 +87,20 @@ export interface ArticleResponse {
     comments_count: number;
     vote_score: number;
     my_score: number;
-    category: string;
+    category: ArticleCategoryEnum;
     trusted: boolean;
     draft: boolean;
     views: number;
     title: string;
     slug: string;
-    content:
-        | ArticleAnimeContentResponse
-        | ArticleMangaNovelContentResponse
-        | null;
+    content: ArticleContent;
 }
 
 /**
  * Arguments for listing articles
  */
 export interface ArticlesListArgs {
-    content_type?: ArticleContentEnum | null;
+    content_type?: ArticleContentType | null;
     min_vote_score?: number | null;
     categories?: ArticleCategoryEnum[];
     tags?: string[];
@@ -125,7 +123,7 @@ export interface ArticlesListResponse {
  * User article stats response
  */
 export interface UserArticleStatsResponse {
-    user: FollowUserResponse;
+    user: UserResponse;
     total_articles: number;
     total_comments: number;
     author_score: number;
@@ -139,3 +137,11 @@ export interface ArticlesTopResponse {
     authors: UserArticleStatsResponse[];
     tags: TagResponse[];
 }
+
+/**
+ * Article content
+ */
+export type ArticleContent =
+    | ArticleAnimeContentResponse
+    | ArticleMangaNovelContentResponse
+    | null;

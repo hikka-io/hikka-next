@@ -1,11 +1,12 @@
+import { AnimeStatusEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 
 interface Props {
-    status: API.Status;
-    episodes_total: number;
-    episodes_released: number;
+    status: AnimeStatusEnum | null;
+    episodes_total: number | null;
+    episodes_released: number | null;
 }
 
 const Episodes: FC<Props> = ({ status, episodes_released, episodes_total }) => {

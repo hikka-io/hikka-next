@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -39,11 +40,11 @@ const EditFilters: FC<Props> = ({ className }) => {
                 <EditStatus />
                 <ContentType
                     contentTypes={[
-                        'anime',
-                        'manga',
-                        'novel',
-                        'character',
-                        'person',
+                        ContentTypeEnum.ANIME,
+                        ContentTypeEnum.MANGA,
+                        ContentTypeEnum.NOVEL,
+                        ContentTypeEnum.CHARACTER,
+                        ContentTypeEnum.PERSON,
                     ]}
                 />
 

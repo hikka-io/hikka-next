@@ -1,10 +1,12 @@
+import { NovelMediaEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
+
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
-    media_type: API.NovelMediaType;
+    media_type: NovelMediaEnum | null;
 }
 
 const MediaType: FC<Props> = ({ media_type }) => {

@@ -2,8 +2,6 @@ import {
     ActivityResponse,
     QuerySearchRequiredArgs,
     UserResponse,
-    UserResponseFollowed,
-    UserWithEmailResponse,
 } from '../types';
 import { BaseModule } from './base';
 
@@ -11,17 +9,15 @@ export class UserModule extends BaseModule {
     /**
      * Get current user profile
      */
-    public async getMe(): Promise<UserWithEmailResponse> {
-        return this.client.get<UserWithEmailResponse>('/user/me');
+    public async getMe(): Promise<UserResponse> {
+        return this.client.get<UserResponse>('/user/me');
     }
 
     /**
      * Get user profile by username
      */
-    public async getByUsername(
-        username: string,
-    ): Promise<UserResponseFollowed> {
-        return this.client.get<UserResponseFollowed>(`/user/${username}`);
+    public async getByUsername(username: string): Promise<UserResponse> {
+        return this.client.get<UserResponse>(`/user/${username}`);
     }
 
     /**

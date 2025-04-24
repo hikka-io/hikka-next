@@ -1,5 +1,6 @@
 'use client';
 
+import { CommentsContentType } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -17,11 +18,11 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import ContentCard from '../../components/content-card/content-card';
 import Breadcrumbs from '../../components/navigation/nav-breadcrumbs';
 import P from '../../components/typography/p';
-import useContent from './use-content';
+import { useContent } from './use-content';
 
 interface Props {
     slug: string;
-    content_type: API.ContentType;
+    content_type: CommentsContentType;
 }
 
 const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
@@ -30,7 +31,7 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
         slug,
     });
 
-    const link = data?.link || `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
+    const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (
         <Card>
@@ -55,7 +56,7 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
                     )}
                     <div className="flex flex-1 flex-col">
                         <HeaderTitle variant="h4">{data?.title}</HeaderTitle>
-                        <P className="text-sm text-muted-foreground">
+                        <P className="text-muted-foreground text-sm">
                             {CONTENT_TYPES[content_type].title_ua}
                         </P>
                     </div>

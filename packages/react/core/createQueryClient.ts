@@ -24,4 +24,4 @@ export function createQueryClient(config?: QueryClientConfig) {
     });
 }
 
-export const getQueryClient = cache(() => createQueryClient());
+export const getQueryClient = cache(createQueryClient);

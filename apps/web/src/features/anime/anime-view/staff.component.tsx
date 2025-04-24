@@ -1,5 +1,6 @@
 'use client';
 
+import { useAnimeStaff } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -13,7 +14,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import useStaff from '@/services/hooks/anime/use-staff';
 
 interface Props {
     extended?: boolean;
@@ -22,7 +22,7 @@ interface Props {
 const Staff: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useStaff({ slug: String(params.slug) });
+        useAnimeStaff({ slug: String(params.slug) });
 
     if (!list || list.length === 0) {
         return null;

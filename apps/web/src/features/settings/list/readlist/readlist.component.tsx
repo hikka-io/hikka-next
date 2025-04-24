@@ -1,36 +1,28 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { ImportReadArgs } from '@hikka/client';
+import { useImportReadList } from '@hikka/react';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import importRead from '@/services/api/settings/importRead';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+
 import General from './general';
 
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
-    const queryClient = useQueryClient();
     const [rewrite, setRewrite] = useState(true);
-    const [readList, setReadList] = useState<Record<string, any>[]>([]);
+    const [readList, setReadList] = useState<ImportReadArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
 
-    const handleCompleteImport = async () => {
-        setImporting(true);
-
-        if (readList && readList.length > 0) {
-            try {
-                await importRead({
-                    params: {
-                        overwrite: rewrite,
-                        content: readList,
-                    },
-                });
-
+    const mutationImportReadList = useImportReadList({
+        options: {
+            onSuccess: () => {
                 enqueueSnackbar(
                     <span>
                         Ви успішно імпортували{' '}
@@ -40,8 +32,20 @@ const Component = () => {
                     { variant: 'success' },
                 );
 
-                await queryClient.invalidateQueries();
                 closeModal();
+            },
+        },
+    });
+
+    const handleCompleteImport = async () => {
+        setImporting(true);
+
+        if (readList && readList.length > 0) {
+            try {
+                mutationImportReadList.mutate({
+                    overwrite: rewrite,
+                    content: readList,
+                });
             } catch (e) {}
         }
 

@@ -1,4 +1,6 @@
-export const convertToDays = (data: API.Activity[]) => {
+import { ActivityResponse } from '@hikka/client';
+
+export const convertToDays = (data: ActivityResponse[]) => {
     if (data.length > 16) {
         return data.slice(data.length - 16, data.length);
     }

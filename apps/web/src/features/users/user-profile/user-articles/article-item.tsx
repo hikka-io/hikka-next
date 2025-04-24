@@ -1,3 +1,4 @@
+import { ArticleResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
@@ -9,13 +10,13 @@ import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
-    article: API.Article;
+    article: ArticleResponse;
 }
 
 const ArticleItem: FC<Props> = ({ article }) => {
@@ -27,13 +28,6 @@ const ArticleItem: FC<Props> = ({ article }) => {
                 <HorizontalCardContainer>
                     <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
                 </HorizontalCardContainer>
-                {article.cover && (
-                    <HorizontalCardImage
-                        image={article.cover}
-                        imageRatio={1.5}
-                        className="w-16"
-                    />
-                )}
             </HorizontalCard>
             <div className="flex items-center justify-between">
                 <Small className="text-muted-foreground">

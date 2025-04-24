@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -34,7 +35,7 @@ const AnimeFiltersModal = ({ sort_type, children }: Props) => {
                 </DrawerHeader>
                 <Separator className="w-auto" />
                 <AnimeFilters
-                    content_type="anime"
+                    content_type={ContentTypeEnum.ANIME}
                     className="px-6"
                     sort_type={sort_type}
                 />

@@ -1,7 +1,8 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { ImageType, UploadTypeEnum } from '@hikka/client';
+import { useUploadImage } from '@hikka/react';
+import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
@@ -9,7 +10,6 @@ import AvatarEditor from 'react-avatar-editor';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
-import uploadImage from '@/services/api/upload/uploadImage';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
@@ -18,7 +18,7 @@ import MaterialSymbolsZoomOutRounded from '../../components/icons/material-symbo
 
 interface Props {
     file?: File;
-    type: 'cover' | 'avatar';
+    type: ImageType;
 }
 
 const CROP_PARAMS = {
@@ -37,62 +37,39 @@ const CROP_PARAMS = {
 const Component = ({ file, type }: Props) => {
     const { closeModal } = useModalContext();
     const router = useRouter();
-    const queryClient = useQueryClient();
-    const params = useParams();
+
     const { enqueueSnackbar } = useSnackbar();
-    const [isLoading, setIsLoading] = useState(false);
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
 
-    const uploadFile = async (file: File) => {
-        if (type === 'avatar') {
-            try {
-                const res = await uploadImage({
-                    params: {
-                        file,
-                        upload_type: 'avatar',
-                    },
-                });
+    const uploadImageMutation = useUploadImage({
+        options: {
+            onSuccess: () => {
+                const successMessage =
+                    type === UploadTypeEnum.AVATAR
+                        ? 'Ви успішно оновили свій аватар.'
+                        : 'Ви успішно оновили свою обкладинку.';
 
-                enqueueSnackbar('Ви успішно оновили свій аватар.', {
+                enqueueSnackbar(successMessage, {
                     variant: 'success',
                 });
+            },
+            onError: () => {
+                const errorMessage =
+                    type === UploadTypeEnum.AVATAR
+                        ? 'Щось пішло не так. Перевірте файл та спробуйте завантажити аватар ще раз.'
+                        : 'Щось пішло не так. Перевірте файл та спробуйте завантажити обкладинку ще раз.';
 
-                return res;
-            } catch (e) {
-                enqueueSnackbar(
-                    'Щось пішло не так. Перевірте файл та спробуйте завантажити аватар ще раз.',
-                    { variant: 'error' },
-                );
-
-                throw e;
-            }
-        }
-
-        if (type === 'cover') {
-            try {
-                const res = await uploadImage({
-                    params: {
-                        file,
-                        upload_type: 'cover',
-                    },
+                enqueueSnackbar(errorMessage, {
+                    variant: 'error',
                 });
-
-                enqueueSnackbar('Ви успішно оновили свою обкладинку.', {
-                    variant: 'success',
-                });
-
-                return res;
-            } catch (e) {
-                enqueueSnackbar(
-                    'Щось пішло не так. Перевірте файл та спробуйте завантажити обкладинку ще раз.',
-                    { variant: 'error' },
-                );
-
-                throw e;
-            }
-        }
-    };
+            },
+            onSettled: () => {
+                router.refresh();
+                closeModal();
+            },
+        },
+    });
 
     const getBlob = async (
         canvas: HTMLCanvasElement,
@@ -114,37 +91,19 @@ const Component = ({ file, type }: Props) => {
     };
 
     const getImage = async (canvas: HTMLCanvasElement) => {
-        try {
-            setIsLoading(true);
-            let blob = await getBlob(canvas);
+        let blob = await getBlob(canvas);
 
-            if (blob.size > 100000) {
-                blob = await getBlob(canvas, 0.7);
-            }
-
-            const file = blobToFile(blob, 'avatar.jpg');
-
-            await uploadFile(file);
-
-            await queryClient.invalidateQueries({
-                queryKey: ['logged-user'],
-            });
-            await queryClient.invalidateQueries({
-                queryKey: ['user', params.username],
-            });
-
-            router.refresh();
-
-            setIsLoading(false);
-        } catch (e) {
-            setIsLoading(false);
+        if (blob.size > 100000) {
+            blob = await getBlob(canvas, 0.7);
         }
 
-        closeModal();
-    };
+        const file = blobToFile(blob, 'avatar.jpg');
 
-    // boxClassName="!max-w-lg"
-    // title="Редагувати медіафайл"
+        uploadImageMutation.mutate({
+            uploadType: type,
+            file,
+        });
+    };
 
     return (
         <>
@@ -152,9 +111,9 @@ const Component = ({ file, type }: Props) => {
                 <AvatarEditor
                     ref={editor}
                     className={cn(
-                        '!w-full !h-auto !m-auto',
+                        '!m-auto !h-auto !w-full',
                         'rounded',
-                        isLoading && 'pointer-events-none',
+                        uploadImageMutation.isPending && 'pointer-events-none',
                     )}
                     image={file!}
                     {...CROP_PARAMS[type]}
@@ -167,7 +126,7 @@ const Component = ({ file, type }: Props) => {
                 <div className="flex items-center gap-4">
                     <MaterialSymbolsZoomOutRounded className="text-muted-foreground" />
                     <Slider
-                        disabled={isLoading}
+                        disabled={uploadImageMutation.isPending}
                         onValueChange={(value) => setScale(value[0] as number)}
                         min={100}
                         max={130}
@@ -177,12 +136,12 @@ const Component = ({ file, type }: Props) => {
                 </div>
                 <Button
                     variant="secondary"
-                    disabled={isLoading}
+                    disabled={uploadImageMutation.isPending}
                     onClick={() =>
                         getImage(editor.current!.getImageScaledToCanvas())
                     }
                 >
-                    {isLoading && (
+                    {uploadImageMutation.isPending && (
                         <span className="loading loading-spinner"></span>
                     )}
                     Зберегти

@@ -1,45 +1,40 @@
-import { ReadContentTypeEnum, ReadResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { ReadContentType, ReadResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseReadEntryParams {
+    contentType: ReadContentType;
+    slug: string;
+}
 
 /**
  * Hook for retrieving a read entry for manga or novel
  */
-export function useReadEntry(
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<ReadResponse, Error, ReadResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useReadEntry({
+    contentType,
+    slug,
+    ...rest
+}: UseReadEntryParams & QueryParams<ReadResponse>) {
     return useQuery({
         queryKey: queryKeys.read.entry(contentType, slug),
         queryFn: (client) => client.read.get(contentType, slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches a read entry for server-side rendering
  */
-export async function prefetchReadEntry(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<ReadResponse, Error, ReadResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchReadEntry({
+    contentType,
+    slug,
+    ...rest
+}: PrefetchQueryParams<ReadResponse> & UseReadEntryParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.read.entry(contentType, slug),
         queryFn: (client) => client.read.get(contentType, slug),
-        options,
+        ...rest,
     });
 }

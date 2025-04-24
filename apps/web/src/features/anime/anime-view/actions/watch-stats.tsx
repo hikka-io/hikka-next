@@ -1,5 +1,7 @@
 'use client';
 
+import { WatchArgs, WatchStatusEnum } from '@hikka/client';
+import { useAddOrUpdateWatch, useAnimeInfo, useWatchEntry } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -10,30 +12,27 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-import { Params as AddWatchParams } from '@/services/api/watch/addWatch';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+
 import useDebounce from '@/services/hooks/use-debounce';
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
-import useWatch from '@/services/hooks/watch/use-watch';
 
 const WatchStats = () => {
     const params = useParams();
 
-    const [updatedWatch, setUpdatedWatch] = useState<AddWatchParams | null>(
-        null,
-    );
+    const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
     const deboucedUpdatedWatch = useDebounce({
         value: updatedWatch,
         delay: 500,
     });
 
-    const { data: watch, isError: watchError } = useWatch({
+    const { data: watch, isError: watchError } = useWatchEntry({
         slug: String(params.slug),
     });
-    const { data } = useAnimeInfo({ slug: String(params.slug) });
+    const { data } = useAnimeInfo({
+        slug: String(params.slug),
+    });
 
-    const { mutate: mutateAddWatch } = useAddWatch();
+    const { mutate: mutateAddOrUpdateWatch } = useAddOrUpdateWatch({});
 
     const handleAddEpisode = () => {
         if (watch) {
@@ -48,17 +47,16 @@ const WatchStats = () => {
             let status = updatedWatch?.status ?? watch.status;
 
             if (episodes === watch.anime.episodes_total) {
-                status = 'completed';
+                status = WatchStatusEnum.COMPLETED;
             }
 
-            if (!watch.episodes && watch.status === 'planned') {
-                status = 'watching';
+            if (!watch.episodes && watch.status === WatchStatusEnum.PLANNED) {
+                status = WatchStatusEnum.WATCHING;
             }
 
             setUpdatedWatch({
                 ...watch,
                 status,
-                slug: watch.anime.slug,
                 episodes,
             });
         }
@@ -72,7 +70,6 @@ const WatchStats = () => {
 
             setUpdatedWatch({
                 ...watch,
-                slug: watch.anime.slug,
                 episodes,
             });
         }
@@ -80,10 +77,10 @@ const WatchStats = () => {
 
     const handleRating = (value: number) => {
         if (watch) {
-            mutateAddWatch({
-                params: {
+            mutateAddOrUpdateWatch({
+                slug: watch.anime.slug,
+                args: {
                     ...watch,
-                    slug: watch.anime.slug,
                     score: value * 2,
                 },
             });
@@ -92,9 +89,12 @@ const WatchStats = () => {
 
     useEffect(() => {
         if (deboucedUpdatedWatch) {
-            mutateAddWatch({ params: deboucedUpdatedWatch });
+            mutateAddOrUpdateWatch({
+                slug: watch!.anime.slug,
+                args: deboucedUpdatedWatch,
+            });
         }
-    }, [mutateAddWatch, deboucedUpdatedWatch]);
+    }, [mutateAddOrUpdateWatch, deboucedUpdatedWatch]);
 
     if (!watch || watchError || !data) {
         return null;
@@ -102,7 +102,7 @@ const WatchStats = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between gap-4 rounded-lg border border-border bg-secondary/20 p-4">
+            <div className="border-border bg-secondary/20 flex justify-between gap-4 rounded-lg border p-4">
                 <Rating
                     // className="rating-md lg:flex"
                     onChange={handleRating}
@@ -112,12 +112,12 @@ const WatchStats = () => {
                 />
                 <H3>
                     {watch.score}
-                    <Label className="text-sm font-normal text-muted-foreground">
+                    <Label className="text-muted-foreground text-sm font-normal">
                         /10
                     </Label>
                 </H3>
             </div>
-            <div className="rounded-lg border border-border bg-secondary/20 p-4">
+            <div className="border-border bg-secondary/20 rounded-lg border p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
                     <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Епізоди
@@ -143,7 +143,7 @@ const WatchStats = () => {
                 </div>
                 <H3>
                     {updatedWatch?.episodes ?? watch.episodes}
-                    <Label className="text-sm font-normal text-muted-foreground">
+                    <Label className="text-muted-foreground text-sm font-normal">
                         /{watch.anime.episodes_total || '?'}
                     </Label>
                 </H3>

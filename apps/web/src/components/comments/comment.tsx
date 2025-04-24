@@ -1,10 +1,12 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { CommentResponse, CommentsContentType } from '@hikka/client';
+import { useSession } from '@hikka/react';
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';
+
 import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 import MDViewer from '../markdown/viewer/MD-viewer';
@@ -24,13 +26,12 @@ import CommentVote from './comment-vote';
 import Comments from './comments';
 
 interface Props {
-    comment: API.Comment;
+    comment: CommentResponse;
     slug: string;
-    content_type: API.ContentType;
+    content_type: CommentsContentType;
 }
 
 const Comment: FC<Props> = ({ comment, slug, content_type }) => {
-    const queryClient = useQueryClient();
     const {
         currentReply,
         currentEdit,
@@ -39,9 +40,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
     const [expand, setExpand] = useState<boolean>(comment.depth < 2);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
-    const loggedUser: API.User | undefined = queryClient.getQueryData([
-        'logged-user',
-    ]);
+    const { user: loggedUser } = useSession();
 
     const addReplyInput = () => {
         setCommentsState!((prev) => ({
@@ -51,7 +50,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         setIsInputVisible(true);
     };
 
-    const getRepliesCount = (comments: API.Comment[]) => {
+    const getRepliesCount = (comments: CommentResponse[]) => {
         let count = comments.length;
 
         comments.forEach((comment) => {

@@ -1,5 +1,11 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { EditContentType, EditStatusEnum } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchEditList,
+    prefetchEditsTop,
+} from '@hikka/react';
 import { permanentRedirect } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -7,19 +13,15 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import EditList from '@/features/edit/edit-list/edit-list.component';
 import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats.component';
 import Filters from '@/features/filters/edit-filters.component';
 import EditFiltersModal from '@/features/modals/edit-filters-modal.component';
-import { prefetchEditList } from '@/services/hooks/edit/use-edit-list';
-import { prefetchEditTop } from '@/services/hooks/stats/edit/use-edit-top';
+
 import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 const EditListPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -33,15 +35,21 @@ const EditListPage = async (props: {
     }
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
     await prefetchEditList({
-        page: Number(page),
-        content_type: (content_type as API.ContentType) || undefined,
-        sort: [`${sort || 'edit_id'}:${order || 'desc'}`],
-        status: edit_status ? (edit_status as API.EditStatus) : undefined,
+        args: {
+            content_type: (content_type as EditContentType) || undefined,
+            sort: [`${sort || 'edit_id'}:${order || 'desc'}`],
+            status: edit_status ? (edit_status as EditStatusEnum) : undefined,
+        },
+        paginationArgs: {
+            page: Number(page),
+        },
+        clientConfig,
     });
 
-    await prefetchEditTop();
+    await prefetchEditsTop({ clientConfig });
 
     const dehydratedState = dehydrate(queryClient);
 

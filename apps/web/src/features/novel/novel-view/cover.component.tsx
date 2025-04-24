@@ -1,13 +1,13 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import { useNovelInfo, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import EditButton from '@/components/edit-button';
 import FavoriteButton from '@/components/favorite-button';
-import useSession from '@/services/hooks/auth/use-session';
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();
@@ -22,16 +22,16 @@ const Cover: FC = () => {
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
-                            content_type="novel"
+                            content_type={ContentTypeEnum.NOVEL}
                         />
                     )}
                     <FavoriteButton
                         slug={String(params.slug)}
-                        content_type="novel"
+                        content_type={ContentTypeEnum.NOVEL}
                     />
                 </div>
 
-                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-background to-transparent" />
+                <div className="from-background absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t to-transparent" />
             </ContentCard>
         </div>
     );

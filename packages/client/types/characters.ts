@@ -1,27 +1,28 @@
-import { AnimeResponseWithWatch } from './anime';
-import { PaginationResponse } from './common';
-import { MangaResponseWithRead } from './manga';
-import { NovelResponseWithRead } from './novel';
+import { AnimeResponse } from './anime';
+import { ContentTypeEnum, PaginationResponse } from './common';
+import { MangaResponse } from './manga';
+import { NovelResponse } from './novel';
 import { PersonResponse } from './people';
 
 /**
  * Character response
  */
 export interface CharacterResponse {
-    data_type: string;
+    data_type: ContentTypeEnum.CHARACTER;
     name_ua: string | null;
     name_en: string | null;
     name_ja: string | null;
+    title?: string;
     image: string | null;
     slug: string;
     synonyms: string[];
+    description_ua: string | null;
 }
 
 /**
  * Character count response
  */
 export interface CharacterCountResponse extends CharacterResponse {
-    description_ua: string | null;
     voices_count: number;
     anime_count: number;
     manga_count: number;
@@ -48,7 +49,7 @@ export interface CharactersSearchPaginationResponse {
  */
 export interface CharacterAnimeResponse {
     main: boolean;
-    anime: AnimeResponseWithWatch;
+    anime: AnimeResponse;
 }
 
 /**
@@ -64,7 +65,7 @@ export interface CharacterAnimePaginationResponse {
  */
 export interface CharacterMangaResponse {
     main: boolean;
-    manga: MangaResponseWithRead;
+    manga: MangaResponse;
 }
 
 /**
@@ -80,7 +81,7 @@ export interface CharacterMangaPaginationResponse {
  */
 export interface CharacterNovelResponse {
     main: boolean;
-    novel: NovelResponseWithRead;
+    novel: NovelResponse;
 }
 
 /**
@@ -95,7 +96,7 @@ export interface CharacterNovelPaginationResponse {
  * Character voice response
  */
 export interface CharacterVoiceResponse {
-    anime: AnimeResponseWithWatch;
+    anime: AnimeResponse;
     person: PersonResponse;
     language: string;
 }

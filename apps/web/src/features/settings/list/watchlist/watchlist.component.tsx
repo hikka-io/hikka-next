@@ -1,20 +1,17 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { ImportWatchArgs } from '@hikka/client';
+import { useImportWatchList } from '@hikka/react';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/components/ui/tabs';
-import importWatch from '@/services/api/settings/importWatch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+
 import Anilist from './anilist';
 import General from './general';
 
@@ -22,23 +19,13 @@ const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const { closeModal } = useModalContext();
-    const queryClient = useQueryClient();
     const [rewrite, setRewrite] = useState(true);
-    const [watchList, setWatchList] = useState<Record<string, any>[]>([]);
+    const [watchList, setWatchList] = useState<ImportWatchArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
 
-    const handleCompleteImport = async () => {
-        setImporting(true);
-
-        if (watchList && watchList.length > 0) {
-            try {
-                await importWatch({
-                    params: {
-                        overwrite: rewrite,
-                        anime: watchList,
-                    },
-                });
-
+    const mutationImportWatchList = useImportWatchList({
+        options: {
+            onSuccess: () => {
                 enqueueSnackbar(
                     <span>
                         Ви успішно імпортували{' '}
@@ -48,9 +35,19 @@ const Component = () => {
                     { variant: 'success' },
                 );
 
-                await queryClient.invalidateQueries();
                 closeModal();
-            } catch (e) {}
+            },
+        },
+    });
+
+    const handleCompleteImport = async () => {
+        setImporting(true);
+
+        if (watchList && watchList.length > 0) {
+            mutationImportWatchList.mutate({
+                overwrite: rewrite,
+                anime: watchList,
+            });
         }
 
         setImporting(false);

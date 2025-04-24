@@ -1,5 +1,11 @@
 'use client';
 
+import {
+    useMarkNotificationAsSeen,
+    useNotifications,
+    useUnseenNotificationsCount,
+} from '@hikka/react';
+
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
@@ -11,15 +17,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useNotifications from '@/services/hooks/notifications/use-notifications';
-import useNotificationsCount from '@/services/hooks/notifications/use-notifications-count';
-import useSeenNotification from '@/services/hooks/notifications/use-seen-notification';
+
 import { convertNotification } from '@/utils/adapters/convert-notification';
+
 import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';
 
 const NotificationsMenu = () => {
-    const { data: countData } = useNotificationsCount();
+    const { data: countData } = useUnseenNotificationsCount();
 
     const {
         list,
@@ -30,7 +35,7 @@ const NotificationsMenu = () => {
         ref,
     } = useNotifications();
 
-    const { mutate: asSeen } = useSeenNotification();
+    const { mutate: asSeen } = useMarkNotificationAsSeen({});
 
     return (
         <DropdownMenu onOpenChange={(open) => open && refetch()}>
@@ -38,7 +43,7 @@ const NotificationsMenu = () => {
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />
                     {countData && countData.unseen > 0 && (
-                        <div className="absolute -bottom-0.5 -right-0.5 rounded-full border border-border bg-warning p-0.5 px-1 text-[0.6rem] font-bold leading-none text-warning-foreground">
+                        <div className="border-border bg-warning text-warning-foreground absolute -bottom-0.5 -right-0.5 rounded-full border p-0.5 px-1 text-[0.6rem] font-bold leading-none">
                             {countData.unseen < 100 ? countData.unseen : '99+'}
                         </div>
                     )}
@@ -48,7 +53,7 @@ const NotificationsMenu = () => {
                 align="end"
                 className="flex max-h-96 w-80 flex-col sm:w-96"
             >
-                <DropdownMenuLabel className="-m-1 flex items-center justify-between gap-2 bg-secondary/20 px-3 py-3.5">
+                <DropdownMenuLabel className="bg-secondary/20 -m-1 flex items-center justify-between gap-2 px-3 py-3.5">
                     <div className="flex gap-2">
                         Сповіщення
                         {countData && countData.unseen > 0 && (
@@ -59,9 +64,7 @@ const NotificationsMenu = () => {
                         <Button
                             size="badge"
                             variant="outline"
-                            onClick={() =>
-                                asSeen({ reference: list![0].reference })
-                            }
+                            onClick={() => asSeen(list![0].reference)}
                         >
                             Прочитати
                         </Button>

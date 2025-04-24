@@ -1,5 +1,6 @@
 'use client';
 
+import { NovelResponse } from '@hikka/client';
 import { ReactNode } from 'react';
 
 import {
@@ -7,12 +8,13 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
+
 import NovelCard from './cards/novel-card';
 import useNovelSearchList from './hooks/useNovelSearchList';
 import SearchPlaceholders from './search-placeholders';
 
 interface Props {
-    onDismiss: (novel: API.Novel) => void;
+    onDismiss: (novel: NovelResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     value?: string;

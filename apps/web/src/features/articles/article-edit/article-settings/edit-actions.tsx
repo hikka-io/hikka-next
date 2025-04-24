@@ -1,6 +1,7 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useUpdateArticle } from '@hikka/react';
+import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
@@ -9,7 +10,7 @@ import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/M
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
-import updateArticle from '@/services/api/articles/updateArticle';
+
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
@@ -30,17 +31,18 @@ const EditActions: FC<Props> = () => {
     const getPreview = useArticleContext((state) => state.getPreview);
     const setArticle = useArticleContext((state) => state.setArticle);
 
-    const { mutate: mutateUpdateArticle, isPending } = useMutation({
-        mutationFn: updateArticle,
-        onSuccess: (data) => {
-            enqueueSnackbar('Ви успішно оновили статтю.', {
-                variant: 'success',
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['article', slug],
-            });
+    const { mutate: mutateUpdateArticle, isPending } = useUpdateArticle({
+        options: {
+            onSuccess: (data) => {
+                enqueueSnackbar('Ви успішно оновили статтю.', {
+                    variant: 'success',
+                });
+                queryClient.invalidateQueries({
+                    queryKey: ['article', slug],
+                });
 
-            setArticle(data);
+                setArticle(data);
+            },
         },
     });
 
@@ -64,8 +66,8 @@ const EditActions: FC<Props> = () => {
                 : [];
 
             mutateUpdateArticle({
-                params: {
-                    slug: slug!,
+                slug: slug!,
+                article: {
                     document: [...preview, ...document],
                     title: title || '',
                     tags,

@@ -1,12 +1,14 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import { useMangaInfo } from '@hikka/react';
+import { useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import CommentsButton from '@/components/comments-button';
 import ReadListButton from '@/components/readlist-button/readlist-button';
-import useSession from '@/services/hooks/auth/use-session';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+
 import ReadStats from './read-stats';
 
 const Actions: FC = () => {
@@ -18,7 +20,7 @@ const Actions: FC = () => {
         <div className="flex flex-col gap-12">
             <div className="flex flex-col gap-4">
                 <ReadListButton
-                    content_type="manga"
+                    content_type={ContentTypeEnum.MANGA}
                     disabled={!user}
                     additional
                     slug={String(params.slug)}
@@ -28,7 +30,7 @@ const Actions: FC = () => {
                     <CommentsButton
                         comments_count={manga.comments_count}
                         slug={manga?.slug}
-                        content_type="manga"
+                        content_type={ContentTypeEnum.MANGA}
                     />
                 )}
             </div>

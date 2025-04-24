@@ -1,8 +1,7 @@
+import { UserResponse } from '@hikka/client';
+import { getHikkaClient } from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 
-import getUserInfo, {
-    Response as UserResponse,
-} from '@/services/api/user/getUserInfo';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export interface MetadataProps {
@@ -17,11 +16,8 @@ export default async function generateMetadata(
 ): Promise<Metadata> {
     const username = params.username;
 
-    const user: UserResponse = await getUserInfo({
-        params: {
-            username,
-        },
-    });
+    const client = getHikkaClient();
+    const user: UserResponse = await client.user.getByUsername(username);
 
     return _generateMetadata({
         title: {

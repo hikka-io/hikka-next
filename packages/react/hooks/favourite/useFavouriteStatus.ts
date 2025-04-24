@@ -1,45 +1,40 @@
-import { FavouriteContentTypeEnum, FavouriteResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { FavouriteContentType, FavouriteResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseFavouriteStatusParams {
+    contentType: FavouriteContentType;
+    slug: string;
+}
 
 /**
  * Hook for checking favourite status
  */
-export function useFavouriteStatus(
-    contentType: FavouriteContentTypeEnum,
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<FavouriteResponse, Error, FavouriteResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useFavouriteStatus({
+    contentType,
+    slug,
+    ...rest
+}: UseFavouriteStatusParams & QueryParams<FavouriteResponse>) {
     return useQuery({
         queryKey: queryKeys.favourite.status(contentType, slug),
         queryFn: (client) => client.favourite.get(contentType, slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches favourite status for server-side rendering
  */
-export async function prefetchFavouriteStatus(
-    queryClient: QueryClient,
-    contentType: FavouriteContentTypeEnum,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<FavouriteResponse, Error, FavouriteResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchFavouriteStatus({
+    contentType,
+    slug,
+    ...rest
+}: PrefetchQueryParams<FavouriteResponse> & UseFavouriteStatusParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.favourite.status(contentType, slug),
         queryFn: (client) => client.favourite.get(contentType, slug),
-        options,
+        ...rest,
     });
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { useNovelInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +13,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
 
 interface Props {
     extended?: boolean;

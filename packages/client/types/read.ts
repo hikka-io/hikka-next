@@ -1,15 +1,16 @@
-import { PaginationResponse } from './common';
-import { MangaResponse } from './manga';
-import { NovelResponse } from './novel';
+import {
+    ContentStatusEnum,
+    ContentTypeEnum,
+    PaginationResponse,
+} from './common';
+import { MangaMediaEnum, MangaResponse } from './manga';
+import { NovelMediaEnum, NovelResponse } from './novel';
 import { UserResponse } from './user';
 
 /**
  * Read content type enum
  */
-export enum ReadContentTypeEnum {
-    MANGA = 'manga',
-    NOVEL = 'novel',
-}
+export type ReadContentType = ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
 
 /**
  * Read status enum
@@ -42,7 +43,7 @@ export interface ReadResponseBase {
     note: string | null;
     updated: number;
     created: number;
-    status: string;
+    status: ReadStatusEnum;
     chapters: number;
     volumes: number;
     rereads: number;
@@ -52,16 +53,7 @@ export interface ReadResponseBase {
 /**
  * Full read entry response
  */
-export interface ReadResponse {
-    reference: string;
-    note: string | null;
-    updated: number;
-    created: number;
-    status: string;
-    chapters: number;
-    volumes: number;
-    rereads: number;
-    score: number;
+export interface ReadResponse extends ReadResponseBase {
     content: MangaResponse | NovelResponse;
 }
 
@@ -78,8 +70,8 @@ export interface ReadPaginationResponse {
  */
 export interface ReadSearchArgs {
     years?: [number | null, number | null];
-    media_type?: string[];
-    status?: string[];
+    media_type?: (NovelMediaEnum | MangaMediaEnum)[];
+    status?: ContentStatusEnum[];
     only_translated?: boolean;
     magazines?: string[];
     genres?: string[];
@@ -112,4 +104,14 @@ export interface ReadStatsResponse {
     planned: number;
     dropped: number;
     on_hold: number;
+    score_1: number;
+    score_2: number;
+    score_3: number;
+    score_4: number;
+    score_5: number;
+    score_6: number;
+    score_7: number;
+    score_8: number;
+    score_9: number;
+    score_10: number;
 }

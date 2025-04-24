@@ -1,6 +1,6 @@
 import { ERRORS } from './constants/common';
 
-export default function (error: API.Error) {
+export default function getApiErrorMessage(error: any) {
     const splittedCode = error.code.split(':');
 
     if (splittedCode.length === 2) {

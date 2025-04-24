@@ -1,5 +1,6 @@
 'use client';
 
+import { useClientByReference } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -7,9 +8,10 @@ import P from '@/components/typography/p';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import useClient from '@/services/hooks/client/use-client';
+
 import { SCOPES, SCOPE_GROUPS } from '@/utils/constants/oauth';
 import { cn } from '@/utils/utils';
+
 import Scope from './scope';
 
 interface Props {}
@@ -29,8 +31,8 @@ const Client: FC<Props> = () => {
         .flat()
         .filter((s) => s) as Hikka.Scope[];
 
-    const { data: client } = useClient({
-        client_reference: reference,
+    const { data: client } = useClientByReference({
+        reference,
     });
 
     return (
@@ -49,7 +51,7 @@ const Client: FC<Props> = () => {
                 </P>
             </div>
             <Separator className="-mx-4 w-auto" />
-            <div className="-m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4 gradient-mask-b-90-d">
+            <div className="gradient-mask-b-90-d -m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4">
                 {scopes.map((s) => (
                     <Scope key={s.slug} scope={s} />
                 ))}

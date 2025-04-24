@@ -1,4 +1,4 @@
-import { PaginationResponse } from '@hikka/client';
+import { PaginationArgs, PaginationResponse } from '@hikka/client';
 import {
     InfiniteData,
     UseInfiniteQueryOptions,
@@ -8,6 +8,26 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { useHikkaClient } from '../provider/useHikkaClient';
+
+/**
+ * Hook params for creating infinite queries
+ */
+export interface InfiniteQueryParams<T> {
+    /** Query options */
+    options?: Omit<
+        UseInfiniteQueryOptions<
+            T,
+            Error,
+            InfiniteData<T>,
+            T,
+            readonly unknown[],
+            number
+        >,
+        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
+    >;
+    /** Pagination arguments */
+    paginationArgs?: PaginationArgs;
+}
 
 // Define the structure of the API response
 export interface ListResponse<T> {
@@ -62,7 +82,7 @@ export function useInfiniteQuery<
         queryKey,
         queryFn: ({ pageParam }) => queryFn(client, pageParam),
         initialPageParam: 1, // Default to page 1
-        getNextPageParam: (lastPage, _, lastPageParam) => {
+        getNextPageParam: (lastPage) => {
             // Use custom getNextPageParam if provided
             if (options?.getNextPageParam) {
                 return options.getNextPageParam(lastPage);

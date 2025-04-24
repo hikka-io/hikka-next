@@ -1,24 +1,26 @@
 'use client';
 
+import { ReadContentType, ReadStatusEnum } from '@hikka/client';
+import { useReadStats } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
-import useReadStats from '@/services/hooks/read/use-read-stats';
+
 import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    content_type: 'manga' | 'novel';
+    content_type: ReadContentType;
 }
 
 const ReadlistStats: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const { data } = useReadStats({
         username: String(params.username),
-        content_type,
+        contentType: content_type,
     });
 
     if (!data) {
@@ -31,10 +33,10 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
     );
 
     return (
-        <div className="flex h-fit w-full items-center gap-2 rounded-md border border-border bg-secondary/20 p-2 backdrop-blur">
+        <div className="border-border bg-secondary/20 flex h-fit w-full items-center gap-2 rounded-md border p-2 backdrop-blur">
             <Link
                 href={`/u/${params.username}/list/${content_type}?status=completed&sort=read_score`}
-                className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20"
+                className="hover:bg-secondary/20 flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer"
             >
                 <RadialProgress
                     style={{
@@ -58,30 +60,30 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
                             href={`/u/${params.username}/list/${content_type}?status=${status}&sort=read_score`}
                             key={status}
                             className={cn(
-                                'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20',
+                                'hover:bg-secondary/20 rounded-md p-2 hover:cursor-pointer',
                             )}
                         >
                             <div className="flex justify-between gap-4">
                                 <div className="flex min-w-0 items-center gap-2">
                                     <div
-                                        className="size-2 rounded-full bg-secondary/20"
+                                        className="bg-secondary/20 size-2 rounded-full"
                                         style={{
                                             backgroundColor:
                                                 READ_STATUS[
-                                                    status as API.ReadStatus
+                                                    status as ReadStatusEnum
                                                 ].color,
                                         }}
                                     />
-                                    <Label className="cursor-pointer truncate text-muted-foreground">
-                                        {READ_STATUS[status as API.ReadStatus]
+                                    <Label className="text-muted-foreground cursor-pointer truncate">
+                                        {READ_STATUS[status as ReadStatusEnum]
                                             .title_ua ||
                                             READ_STATUS[
-                                                status as API.ReadStatus
+                                                status as ReadStatusEnum
                                             ].title_en}
                                     </Label>
                                 </div>
                                 <Label className="cursor-pointer">
-                                    {data[status as API.ReadStatus]}
+                                    {data[status as ReadStatusEnum]}
                                 </Label>
                             </div>
                         </Link>

@@ -1,12 +1,18 @@
+import {
+    AnimeInfoResponse,
+    AnimeResponse,
+    ContentTypeEnum,
+} from '@hikka/client';
 import { FC } from 'react';
 
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
+
 import ContentCard, {
     Props as ContentCardProps,
 } from './content-card/content-card';
 
 interface Props extends ContentCardProps {
-    anime: API.Anime | API.AnimeInfo;
+    anime: AnimeInfoResponse | AnimeResponse;
 }
 
 const AnimeCard: FC<Props> = ({ anime, ...props }) => {
@@ -14,14 +20,16 @@ const AnimeCard: FC<Props> = ({ anime, ...props }) => {
         <ContentCard
             watch={anime.watch ? anime.watch[0] : undefined}
             slug={anime.slug}
-            content_type="anime"
+            content_type={ContentTypeEnum.ANIME}
             withContextMenu
             href={`/anime/${anime.slug}`}
             image={anime.image}
             title={anime.title}
             leftSubtitle={anime.year ? String(anime.year) : undefined}
             rightSubtitle={
-                anime.media_type && ANIME_MEDIA_TYPE[anime.media_type].title_ua
+                anime.media_type
+                    ? ANIME_MEDIA_TYPE[anime.media_type].title_ua
+                    : undefined
             }
             {...props}
         />

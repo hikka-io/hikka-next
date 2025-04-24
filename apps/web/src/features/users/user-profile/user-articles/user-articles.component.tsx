@@ -1,5 +1,6 @@
 'use client';
 
+import { useArticlesList, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -18,9 +19,9 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import useArticles from '@/services/hooks/articles/use-articles';
-import useSession from '@/services/hooks/auth/use-session';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import ArticleItem from './article-item';
 
 interface Props {}
@@ -28,8 +29,10 @@ interface Props {}
 const UserArticles: FC<Props> = () => {
     const { user } = useSession();
     const params = useParams();
-    const { list } = useArticles({
-        author: String(params.username),
+    const { list } = useArticlesList({
+        args: {
+            author: String(params.username),
+        },
     });
 
     if (!list || list.length === 0) return null;

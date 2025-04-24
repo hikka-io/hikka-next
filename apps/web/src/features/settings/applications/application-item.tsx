@@ -1,3 +1,4 @@
+import { ClientResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
 import { FC } from 'react';
 
@@ -11,10 +12,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
 import ClientEditButton from './client-edit-button';
 
 interface Props {
-    client: API.Client;
+    client: ClientResponse;
 }
 
 const ApplicationItem: FC<Props> = ({ client }) => {
@@ -26,7 +28,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     {client.verified && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-card-foreground backdrop-blur">
+                                <div className="border-border bg-secondary/20 text-card-foreground rounded-sm border p-1 text-xs font-bold backdrop-blur">
                                     <MaterialSymbolsVerifiedRounded className="text-primary" />
                                 </div>
                             </TooltipTrigger>
@@ -37,14 +39,14 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     )}
                 </div>
                 {client.description && (
-                    <P className="line-clamp-6 text-sm text-muted-foreground">
+                    <P className="text-muted-foreground line-clamp-6 text-sm">
                         {client.description}
                     </P>
                 )}
             </div>
             <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
                 <div className="flex flex-1 flex-col">
-                    <P className="text-xs text-muted-foreground opacity-60">
+                    <P className="text-muted-foreground text-xs opacity-60">
                         {format(new Date(client.updated * 1000), 'd MMMM yyyy')}
                     </P>
                 </div>

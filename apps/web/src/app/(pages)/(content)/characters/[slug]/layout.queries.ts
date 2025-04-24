@@ -1,8 +1,13 @@
-import { prefetchCharacterAnime } from '@/services/hooks/characters/use-character-anime';
-import { prefetchCharacterManga } from '@/services/hooks/characters/use-character-manga';
-import { prefetchCharacterNovel } from '@/services/hooks/characters/use-character-novel';
-import { prefetchCharacterVoices } from '@/services/hooks/characters/use-character-voices';
-import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    prefetchCharacterAnime,
+    prefetchCharacterManga,
+    prefetchCharacterNovel,
+    prefetchCharacterVoices,
+    prefetchFavouriteStatus,
+} from '@hikka/react';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -11,12 +16,18 @@ interface Props {
 }
 
 const prefetchQueries = async ({ params: { slug } }: Props) => {
+    const clientConfig = await getHikkaClientConfig();
+
     await Promise.all([
-        prefetchCharacterAnime({ slug }),
-        prefetchCharacterManga({ slug }),
-        prefetchCharacterNovel({ slug }),
-        prefetchCharacterVoices({ slug }),
-        prefetchFavorite({ slug, content_type: 'character' }),
+        prefetchCharacterAnime({ slug, clientConfig }),
+        prefetchCharacterManga({ slug, clientConfig }),
+        prefetchCharacterNovel({ slug, clientConfig }),
+        prefetchCharacterVoices({ slug, clientConfig }),
+        prefetchFavouriteStatus({
+            slug,
+            contentType: ContentTypeEnum.CHARACTER,
+            clientConfig,
+        }),
     ]);
 };
 

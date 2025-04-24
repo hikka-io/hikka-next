@@ -1,5 +1,12 @@
 'use client';
 
+import {
+    MangaResponse,
+    NovelResponse,
+    ReadContentType,
+    ReadResponseBase,
+} from '@hikka/client';
+import { useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -7,16 +14,17 @@ import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/Mat
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
-import useSession from '@/services/hooks/auth/use-session';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import ReadEditModal from '../../../../modals/read-edit-modal.component';
 
 interface Props {
     number: number;
-    content: API.Manga | API.Novel;
-    content_type: 'manga' | 'novel';
-    read?: API.Read;
+    content: MangaResponse | NovelResponse;
+    content_type: ReadContentType;
+    read?: ReadResponseBase;
 }
 
 const NumberCell: FC<Props> = ({ number, content, content_type, read }) => {

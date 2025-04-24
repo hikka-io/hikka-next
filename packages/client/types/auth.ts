@@ -1,3 +1,5 @@
+import { ClientResponse } from './client';
+
 /**
  * Login request parameters
  */
@@ -58,29 +60,6 @@ export interface CodeArgs {
  */
 export interface ProviderUrlResponse {
     url: string;
-}
-
-/**
- * Client response for auth token
- */
-export interface ClientResponse {
-    reference: string;
-    name: string;
-    description: string;
-    verified: boolean;
-    user: {
-        reference: string;
-        updated: number | null;
-        created: number;
-        description: string | null;
-        username: string | null;
-        cover: string | null;
-        active: boolean;
-        avatar: string;
-        role: string;
-    };
-    created: number;
-    updated: number;
 }
 
 /**

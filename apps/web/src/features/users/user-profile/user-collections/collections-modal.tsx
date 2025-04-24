@@ -1,10 +1,11 @@
 'use client';
 
+import { useCollectionsList } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import useUserCollections from '@/services/hooks/user/use-user-collections';
+
 import CollectionItem from './collection-item';
 
 interface Props {
@@ -20,9 +21,11 @@ const CollectionModal: FC<Props> = ({ className }) => {
         isFetchingNextPage,
         ref,
         fetchNextPage,
-    } = useUserCollections({
-        author: String(params.username),
-        sort: 'created',
+    } = useCollectionsList({
+        args: {
+            author: String(params.username),
+            sort: ['created:desc'],
+        },
     });
 
     return (

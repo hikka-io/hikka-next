@@ -1,3 +1,4 @@
+import { PaginationResponse, SuccessResponse } from './common';
 import { UserResponse } from './user';
 
 /**
@@ -14,6 +15,14 @@ export interface ClientResponse {
 }
 
 /**
+ * Full client info response
+ */
+export interface ClientInfoResponse extends ClientResponse {
+    secret: string;
+    endpoint: string;
+}
+
+/**
  * Client create/update arguments
  */
 export interface ClientArgs {
@@ -24,8 +33,16 @@ export interface ClientArgs {
 }
 
 /**
- * Client create response
+ * Clients pagination response
  */
-export interface ClientCreateResponse extends ClientResponse {
-    secret: string;
+export interface ClientPaginationResponse {
+    list: ClientResponse[];
+    pagination: PaginationResponse;
+}
+
+/**
+ * Client verification response
+ */
+export interface ClientVerifyResponse extends SuccessResponse {
+    verified: boolean;
 }

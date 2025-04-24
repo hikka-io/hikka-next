@@ -1,12 +1,12 @@
 'use client';
 
+import { useSession } from '@hikka/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import useSession from '@/services/hooks/auth/use-session';
 import { cn } from '@/utils/utils';
 
 import AntDesignClearOutlined from '../../components/icons/ant-design/AntDesignClearOutlined';

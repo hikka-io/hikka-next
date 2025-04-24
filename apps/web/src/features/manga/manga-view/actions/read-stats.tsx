@@ -1,5 +1,7 @@
 'use client';
 
+import { ContentTypeEnum, ReadStatusEnum } from '@hikka/client';
+import { useAddOrUpdateRead, useMangaInfo, useReadEntry } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -9,24 +11,25 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
-import useAddRead from '@/services/hooks/read/use-add-read';
-import useRead from '@/services/hooks/read/use-read';
 
 const ReadStats = () => {
     const params = useParams();
 
-    const { data: read, isError: readError } = useRead({
+    const { data: read, isError: readError } = useReadEntry({
         slug: String(params.slug),
-        content_type: 'manga',
+        contentType: ContentTypeEnum.MANGA,
     });
     const { data } = useMangaInfo({ slug: String(params.slug) });
 
-    const { mutate: mutateAddRead, variables, isPending } = useAddRead();
+    const {
+        mutate: mutateAddOrUpdateRead,
+        variables,
+        isPending,
+    } = useAddOrUpdateRead({});
 
     const handleAddEpisode = () => {
         if (read) {
-            const chapters = (variables?.params?.chapters || read.chapters) + 1;
+            const chapters = (variables?.args?.chapters || read.chapters) + 1;
 
             if (read.content.chapters && chapters > read.content.chapters)
                 return;
@@ -34,22 +37,22 @@ const ReadStats = () => {
             let status = read.status;
 
             if (chapters === read.content.chapters) {
-                status = 'completed';
+                status = ReadStatusEnum.COMPLETED;
             }
 
-            if (!read.chapters && read.status === 'planned') {
-                status = 'reading';
+            if (!read.chapters && read.status === ReadStatusEnum.PLANNED) {
+                status = ReadStatusEnum.READING;
             }
 
-            mutateAddRead({
-                params: {
-                    content_type: 'manga',
+            mutateAddOrUpdateRead({
+                contentType: ContentTypeEnum.MANGA,
+                slug: read.content.slug,
+                args: {
                     note: read.note,
                     volumes: read.volumes,
                     rereads: read.rereads,
                     score: read.score,
                     status,
-                    slug: read.content.slug,
                     chapters,
                 },
             });
@@ -58,19 +61,19 @@ const ReadStats = () => {
 
     const handleRemoveEpisode = () => {
         if (read) {
-            const chapters = (variables?.params?.chapters || read.chapters) - 1;
+            const chapters = (variables?.args?.chapters || read.chapters) - 1;
 
             if (chapters < 0) return;
 
-            mutateAddRead({
-                params: {
+            mutateAddOrUpdateRead({
+                contentType: ContentTypeEnum.MANGA,
+                slug: read.content.slug,
+                args: {
                     note: read.note,
                     volumes: read.volumes,
                     rereads: read.rereads,
                     score: read.score,
                     status: read.status,
-                    content_type: 'manga',
-                    slug: read.content.slug,
                     chapters,
                 },
             });
@@ -79,15 +82,15 @@ const ReadStats = () => {
 
     const handleRating = (value: number) => {
         if (read) {
-            mutateAddRead({
-                params: {
+            mutateAddOrUpdateRead({
+                contentType: ContentTypeEnum.MANGA,
+                slug: read.content.slug,
+                args: {
                     note: read.note,
                     volumes: read.volumes,
                     chapters: read.chapters,
                     rereads: read.rereads,
                     status: read.status,
-                    content_type: 'manga',
-                    slug: read.content.slug,
                     score: value * 2,
                 },
             });
@@ -100,7 +103,7 @@ const ReadStats = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between gap-4 rounded-lg border border-border bg-secondary/20 p-4">
+            <div className="border-border bg-secondary/20 flex justify-between gap-4 rounded-lg border p-4">
                 <Rating
                     // className="rating-md lg:flex"
                     onChange={handleRating}
@@ -110,12 +113,12 @@ const ReadStats = () => {
                 />
                 <H3>
                     {read.score}
-                    <Label className="text-sm font-normal text-muted-foreground">
+                    <Label className="text-muted-foreground text-sm font-normal">
                         /10
                     </Label>
                 </H3>
             </div>
-            <div className="rounded-lg border border-border bg-secondary/20 p-4">
+            <div className="border-border bg-secondary/20 rounded-lg border p-4">
                 <div className="flex justify-between gap-2 overflow-hidden">
                     <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Розділи
@@ -140,8 +143,8 @@ const ReadStats = () => {
                     </div>
                 </div>
                 <H3>
-                    {isPending ? variables?.params?.chapters : read.chapters}
-                    <Label className="text-sm font-normal text-muted-foreground">
+                    {isPending ? variables?.args?.chapters : read.chapters}
+                    <Label className="text-muted-foreground text-sm font-normal">
                         /{read.content.chapters || '?'}
                     </Label>
                 </H3>
@@ -149,7 +152,7 @@ const ReadStats = () => {
                     className="mt-2 h-2"
                     max={read.content.chapters || read.chapters}
                     value={
-                        isPending ? variables?.params?.chapters : read.chapters
+                        isPending ? variables?.args?.chapters : read.chapters
                     }
                 />
             </div>

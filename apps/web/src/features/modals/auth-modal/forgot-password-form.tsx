@@ -1,7 +1,7 @@
 'use client';
 
+import { useRequestPasswordReset } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
@@ -10,9 +10,10 @@ import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import passwordReset from '@/services/api/auth/passwordReset';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
+
 import AuthModal from './auth-modal.component';
 
 const formSchema = z.object({
@@ -26,25 +27,24 @@ const Component = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const mutation = useMutation({
-        mutationFn: passwordReset,
-        onSuccess: (data) => {
-            closeModal();
-            enqueueSnackbar(
-                <span>
-                    <span className="font-bold">{data.username}</span>, ми
-                    успішно надіслали Вам лист для відновлення паролю на вашу
-                    поштову адресу.
-                </span>,
-                { variant: 'info' },
-            );
+    const mutationRequestPasswordReset = useRequestPasswordReset({
+        options: {
+            onSuccess: (data) => {
+                closeModal();
+                enqueueSnackbar(
+                    <span>
+                        <span className="font-bold">{data.username}</span>, ми
+                        успішно надіслали Вам лист для відновлення паролю на
+                        вашу поштову адресу.
+                    </span>,
+                    { variant: 'info' },
+                );
+            },
         },
     });
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutation.mutate({
-            params: data,
-        });
+        mutationRequestPasswordReset.mutate(data);
     };
 
     return (
@@ -52,7 +52,7 @@ const Component = () => {
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
                     <H2 className="text-primary">🔐 Відновити пароль</H2>
-                    <Small className="mt-2 text-muted-foreground">
+                    <Small className="text-muted-foreground mt-2">
                         Будь ласка, введіть дані для отримання листа
                         відновлення.
                     </Small>
@@ -73,18 +73,18 @@ const Component = () => {
                     <div className="flex w-full flex-col gap-4">
                         <Button
                             onClick={form.handleSubmit(handleFormSubmit)}
-                            disabled={mutation.isPending}
+                            disabled={mutationRequestPasswordReset.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {mutation.isPending && (
+                            {mutationRequestPasswordReset.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Відновити
                         </Button>
                         <Button
                             variant="secondary"
-                            disabled={mutation.isPending}
+                            disabled={mutationRequestPasswordReset.isPending}
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="login" />,

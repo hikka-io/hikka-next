@@ -1,12 +1,15 @@
+import { HikkaClient } from '@hikka/client';
 import { toDate } from 'date-fns/toDate';
 import { MetadataRoute } from 'next';
 
-import getAnimeSitemap from '@/services/api/sitemap/getAnimeSitemap';
-
 export const dynamic = 'force-dynamic';
 
+const client = new HikkaClient({
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+});
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const res = await getAnimeSitemap();
+    const res = await client.sitemap.getAnimeSitemap();
 
     return res.map((anime) => ({
         url: 'https://hikka.io/anime/' + anime.slug,

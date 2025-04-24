@@ -1,6 +1,6 @@
+import { useUserByUsername } from '@hikka/react';
 import { findAndReplace } from 'mdast-util-find-and-replace';
 
-import useUser from '@/services/hooks/user/use-user';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../ui/avatar';
 
 const userGroup = '[\\da-z][-\\da-z_]{0,38}';
@@ -18,7 +18,7 @@ export default function remarkMentions(
     function replaceMention(value: string, username: string) {
         let whitespace = [];
 
-        const { data: user } = useUser({ username });
+        const { data: user } = useUserByUsername({ username });
 
         if (value.indexOf('@') > 0) {
             whitespace.push({

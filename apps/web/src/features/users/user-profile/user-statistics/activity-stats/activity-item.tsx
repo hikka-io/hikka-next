@@ -1,3 +1,4 @@
+import { ActivityResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
 import { toDate } from 'date-fns/toDate';
 import { FC } from 'react';
@@ -9,10 +10,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
 import getDeclensionWord from '@/utils/get-declension-word';
 
 interface Props {
-    item: API.Activity;
+    item: ActivityResponse;
     max: number;
 }
 
@@ -27,9 +29,9 @@ const ActivityItem: FC<Props> = ({ item, max }) => {
                         style={{
                             height: `${(100 * item.actions) / max}%`,
                         }}
-                        className="w-2 rounded-full bg-primary"
+                        className="bg-primary w-2 rounded-full"
                     />
-                    <div className="absolute -z-10 h-full w-2 rounded-full bg-secondary/20" />
+                    <div className="bg-secondary/20 absolute -z-10 h-full w-2 rounded-full" />
                 </div>
             </TooltipTrigger>
             {item.timestamp !== 0 && (

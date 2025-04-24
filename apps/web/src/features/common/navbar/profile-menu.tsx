@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from '@hikka/react';
 import Link from 'next/link';
 
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
@@ -20,8 +21,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
-
-import useSession from '@/services/hooks/auth/use-session';
 
 const ProfileMenu = () => {
     const { user: loggedUser, logout } = useSession();

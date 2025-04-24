@@ -1,43 +1,42 @@
-import { UserResponseFollowed } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { UserResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+interface UseUserByUsernameParams extends QueryParams<UserResponse> {
+    username: string;
+}
 
 /**
  * Hook for retrieving a user profile by username
  */
-export function useUserByUsername(
-    username: string,
-    options?: Omit<
-        UseQueryOptions<UserResponseFollowed, Error, UserResponseFollowed>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useUserByUsername({
+    username,
+    ...rest
+}: UseUserByUsernameParams) {
     return useQuery({
         queryKey: queryKeys.user.byUsername(username),
         queryFn: (client) => client.user.getByUsername(username),
-        options: options || {},
+        ...rest,
     });
+}
+
+interface PrefetchUserByUsernameParams
+    extends PrefetchQueryParams<UserResponse> {
+    username: string;
 }
 
 /**
  * Prefetches a user profile by username for server-side rendering
  */
-export async function prefetchUserByUsername(
-    queryClient: QueryClient,
-    username: string,
-    options?: Omit<
-        FetchQueryOptions<UserResponseFollowed, Error, UserResponseFollowed>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchUserByUsername({
+    username,
+    ...rest
+}: PrefetchUserByUsernameParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.user.byUsername(username),
         queryFn: (client) => client.user.getByUsername(username),
-        options,
+        ...rest,
     });
 }

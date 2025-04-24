@@ -1,5 +1,6 @@
 'use client';
 
+import { useAnimeCharacters } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +13,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import useCharacters from '@/services/hooks/anime/use-characters';
 
 interface Props {
     extended?: boolean;
@@ -20,8 +20,9 @@ interface Props {
 
 const MainCharacters: FC<Props> = ({ extended }) => {
     const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useCharacters({ slug: String(params.slug) });
+    const { list } = useAnimeCharacters({
+        slug: String(params.slug),
+    });
 
     if (!list || list.length === 0) {
         return null;

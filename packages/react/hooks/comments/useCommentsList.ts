@@ -1,32 +1,22 @@
-import { CommentListResponse, PaginationArgs } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { CommentListResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
 
 /**
  * Hook for retrieving a user's comments list
  */
-export function useCommentsList(
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            CommentListResponse,
-            Error,
-            InfiniteData<CommentListResponse>,
-            CommentListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useCommentsList({
+    paginationArgs,
+    ...rest
+}: InfiniteQueryParams<CommentListResponse> = {}) {
     return useInfiniteQuery({
         queryKey: queryKeys.comments.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -34,35 +24,24 @@ export function useCommentsList(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches a user's comments list for server-side rendering
  */
-export async function prefetchCommentsList(
-    queryClient: QueryClient,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            CommentListResponse,
-            Error,
-            CommentListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchCommentsList({
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<CommentListResponse> = {}) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.comments.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.comments.getList({
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

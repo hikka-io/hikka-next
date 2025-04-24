@@ -1,3 +1,5 @@
+import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
+import { useSession, useSetVote } from '@hikka/react';
 import { FC } from 'react';
 
 import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
@@ -7,24 +9,24 @@ import BxUpvote from '@/components/icons/bx/BxUpvote';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import useSession from '@/services/hooks/auth/use-session';
-import useVote from '@/services/hooks/vote/useVote';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import AuthModal from '../../../modals/auth-modal/auth-modal.component';
 
 interface Props {
-    article: API.Article;
+    article: ArticleResponse;
 }
 
 const ArticleVote: FC<Props> = ({ article }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
-    const mutation = useVote();
+    const mutation = useSetVote({});
 
-    const currentScore = mutation.variables?.params?.score
-        ? mutation.variables?.params?.score
+    const currentScore = mutation.variables?.score
+        ? mutation.variables?.score
         : article.my_score;
 
     const handleArticleVote = async (score: -1 | 1) => {
@@ -41,11 +43,9 @@ const ArticleVote: FC<Props> = ({ article }) => {
         const updated = currentScore === score ? 0 : score;
 
         mutation.mutate({
-            params: {
-                slug: article.slug,
-                score: updated,
-                content_type: 'article',
-            },
+            contentType: ContentTypeEnum.ARTICLE,
+            slug: article.slug,
+            score: updated,
         });
     };
 

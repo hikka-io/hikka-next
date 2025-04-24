@@ -1,5 +1,13 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ContentTypeEnum, EditContentType, EditResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getHikkaClient,
+    getQueryClient,
+    prefetchContentComments,
+    prefetchEdit,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -10,21 +18,16 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import Author from '@/features/edit/edit-author.component';
 import Content from '@/features/edit/edit-content/edit-content.component';
 import Moderator from '@/features/edit/edit-moderator.component';
 import EditStatus from '@/features/edit/edit-status.component';
-import getEdit from '@/services/api/edit/getEdit';
-import { prefetchComments } from '@/services/hooks/comments/use-comments';
-import { key, prefetchEdit } from '@/services/hooks/edit/use-edit';
+
 import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: { editId: string };
@@ -38,11 +41,8 @@ export async function generateMetadata(props: {
     }>;
 }): Promise<Metadata> {
     const params = await props.params;
-    const edit = await getEdit({
-        params: {
-            edit_id: Number(params.editId),
-        },
-    });
+    const client = await getHikkaClient();
+    const edit = await client.edit.getEdit(Number(params.editId));
 
     return _generateMetadata({
         title: `#${params.editId}`,
@@ -52,24 +52,27 @@ export async function generateMetadata(props: {
 
 const EditLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { editId } = params;
-
     const { children } = props;
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchEdit({ edit_id: Number(editId) });
+    await prefetchEdit({ editId: Number(editId), clientConfig });
 
-    const edit: API.Edit | undefined = queryClient.getQueryData(
-        key({ edit_id: Number(editId) }),
+    const edit: EditResponse | undefined = queryClient.getQueryData(
+        queryKeys.edit.byId(editId),
     );
 
     if (!edit) {
         permanentRedirect('/edit');
     }
 
-    await prefetchComments({ slug: editId, content_type: 'edit' });
+    await prefetchContentComments({
+        contentType: ContentTypeEnum.EDIT,
+        slug: editId,
+        clientConfig,
+    });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -103,7 +106,7 @@ const EditLayout: FC<Props> = async (props) => {
                     </Block>
                     <Content
                         slug={edit.content.slug as string}
-                        content_type={edit.content_type as API.ContentType}
+                        content_type={edit.content_type as EditContentType}
                         content={edit.content}
                     />
                 </div>

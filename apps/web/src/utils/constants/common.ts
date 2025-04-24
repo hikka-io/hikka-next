@@ -1,3 +1,20 @@
+import {
+    AnimeAgeRatingEnum,
+    AnimeMediaEnum,
+    AnimeOSTTypeEnum,
+    AnimeVideoTypeEnum,
+    ArticleCategoryEnum,
+    ContentStatusEnum,
+    ContentTypeEnum,
+    GenreTypeEnum,
+    MangaMediaEnum,
+    NovelMediaEnum,
+    ReadStatusEnum,
+    SeasonEnum,
+    SourceEnum,
+    WatchStatusEnum,
+} from '@hikka/client';
+
 import MaterialSymbolsBookmarkFlagOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
 import MaterialSymbolsBookmarkOutline from '../../components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import MaterialSymbolsNewsmodeRounded from '../../components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
@@ -9,7 +26,7 @@ import OnHold from '../../components/icons/watch-status/on-hold';
 import Planned from '../../components/icons/watch-status/planned';
 import Watching from '../../components/icons/watch-status/watching';
 
-export const SEASON: Hikka.FilterProperty<API.Season> = {
+export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
     winter: {
         title_ua: 'Зима',
         title_en: 'Winter',
@@ -40,237 +57,236 @@ export const SEASON: Hikka.FilterProperty<API.Season> = {
     },
 };
 
-export const RELEASE_STATUS: Hikka.FilterProperty<API.Status> = {
-    discontinued: {
+export const RELEASE_STATUS: Hikka.FilterProperty<ContentStatusEnum> = {
+    [ContentStatusEnum.DISCONTINUED]: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
         color: '#952828',
     },
-    ongoing: {
+    [ContentStatusEnum.ONGOING]: {
         title_ua: 'Онґоінґ',
         title_en: 'Ongoing',
 
         color: '#2B94AB',
     },
-    finished: {
+    [ContentStatusEnum.FINISHED]: {
         title_ua: 'Завершено',
         title_en: 'Finished',
         color: '#518146',
     },
-    announced: {
+    [ContentStatusEnum.ANNOUNCED]: {
         title_ua: 'Анонс',
         title_en: 'Announced',
         color: '#AB872B',
     },
-
-    paused: {
+    [ContentStatusEnum.PAUSED]: {
         title_ua: 'Зупинено',
         title_en: 'Paused',
         color: '#5C5C5C',
     },
 };
 
-export const ANIME_MEDIA_TYPE: Hikka.FilterProperty<API.AnimeMediaType> = {
-    special: {
+export const ANIME_MEDIA_TYPE: Hikka.FilterProperty<AnimeMediaEnum> = {
+    [AnimeMediaEnum.SPECIAL]: {
         title_ua: 'Спешл',
         title_en: 'Special',
     },
-    movie: {
+    [AnimeMediaEnum.MOVIE]: {
         title_ua: 'Фільм',
         title_en: 'Movie',
     },
-    ova: {
+    [AnimeMediaEnum.OVA]: {
         title_ua: 'OVA',
         title_en: 'OVA',
     },
-    ona: {
+    [AnimeMediaEnum.ONA]: {
         title_ua: 'ONA',
         title_en: 'ONA',
     },
-    tv: {
+    [AnimeMediaEnum.TV]: {
         title_ua: 'TV Серіал',
         title_en: 'TV',
     },
-    music: {
+    [AnimeMediaEnum.MUSIC]: {
         title_ua: 'Музика',
         title_en: 'Music',
     },
 };
 
-export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<API.MangaMediaType> = {
-    one_shot: {
+export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<MangaMediaEnum> = {
+    [MangaMediaEnum.ONE_SHOT]: {
         title_ua: 'Ваншот',
         title_en: 'One Shot',
     },
-    doujin: {
+    [MangaMediaEnum.DOUJIN]: {
         title_ua: 'Доджінші',
         title_en: 'Doujin',
     },
-    manhua: {
+    [MangaMediaEnum.MANHUA]: {
         title_ua: 'Манхуа',
         title_en: 'Manhua',
     },
-    manhwa: {
+    [MangaMediaEnum.MANHWA]: {
         title_ua: 'Манхва',
         title_en: 'Manhwa',
     },
-    manga: {
+    [MangaMediaEnum.MANGA]: {
         title_ua: 'Манґа',
         title_en: 'Manga',
     },
 };
 
-export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<API.NovelMediaType> = {
-    light_novel: {
+export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<NovelMediaEnum> = {
+    [NovelMediaEnum.LIGHT_NOVEL]: {
         title_ua: 'Ранобе',
         title_en: 'Light Novel',
     },
-    novel: {
+    [NovelMediaEnum.NOVEL]: {
         title_ua: 'Веб-новела',
         title_en: 'Novel',
     },
 };
 
 export const MEDIA_TYPE: Hikka.FilterProperty<
-    API.NovelMediaType | API.MangaMediaType | API.AnimeMediaType
+    NovelMediaEnum | MangaMediaEnum | AnimeMediaEnum
 > = {
     ...ANIME_MEDIA_TYPE,
     ...MANGA_MEDIA_TYPE,
     ...NOVEL_MEDIA_TYPE,
 };
 
-export const AGE_RATING: Hikka.FilterProperty<API.AgeRating> = {
-    g: {
+export const AGE_RATING: Hikka.FilterProperty<AnimeAgeRatingEnum> = {
+    [AnimeAgeRatingEnum.G]: {
         title_ua: 'G',
         title_en: 'G',
         description: 'Немає вікових обмежень',
     },
-    pg: {
+    [AnimeAgeRatingEnum.PG]: {
         title_ua: 'PG',
         title_en: 'PG',
         description: 'Рекомендується присутність батьків',
     },
-    pg_13: {
+    [AnimeAgeRatingEnum.PG_13]: {
         title_ua: 'PG-13',
         title_en: 'PG-13',
         description: 'Дітям до 13 років перегляд небажаний',
     },
-    r: {
+    [AnimeAgeRatingEnum.R]: {
         title_ua: 'R',
         title_en: 'R',
         description: 'Особам до 18 років обовʼязкова присутність дорослого',
     },
-    r_plus: {
+    [AnimeAgeRatingEnum.R_PLUS]: {
         title_ua: 'R PLUS',
         title_en: 'R PLUS',
         description: 'Особам до 18 років перегляд заборонений',
     },
-    rx: {
+    [AnimeAgeRatingEnum.RX]: {
         title_ua: 'RX',
         title_en: 'RX',
         description: 'Хентай',
     },
 };
 
-export const VIDEO: Hikka.FilterProperty<API.VideoType> = {
-    video_promo: {
+export const VIDEO: Hikka.FilterProperty<AnimeVideoTypeEnum> = {
+    [AnimeVideoTypeEnum.VIDEO_PROMO]: {
         title_ua: 'Промо-відео',
         title_en: 'Promo Video',
     },
-    video_music: {
+    [AnimeVideoTypeEnum.VIDEO_MUSIC]: {
         title_ua: 'Музичне Відео',
         title_en: 'Music Video',
     },
 };
 
-export const OST: Hikka.FilterProperty<API.OSTType> = {
-    opening: {
+export const OST: Hikka.FilterProperty<AnimeOSTTypeEnum> = {
+    [AnimeOSTTypeEnum.OPENING]: {
         title_ua: 'Опенінґ',
         title_en: 'Opening',
     },
-    ending: {
+    [AnimeOSTTypeEnum.ENDING]: {
         title_ua: 'Ендінґ',
         title_en: 'Ending',
     },
 };
 
-export const SOURCE: Hikka.FilterProperty<API.Source> = {
-    digital_manga: {
+export const SOURCE: Hikka.FilterProperty<SourceEnum> = {
+    [SourceEnum.DIGITAL_MANGA]: {
         title_ua: 'Цифрова Манґа',
         title_en: 'Digital Manga',
     },
-    picture_book: {
+    [SourceEnum.PICTURE_BOOK]: {
         title_ua: 'Книга з Ілюстраціями',
         title_en: 'Picture Book',
     },
-    visual_novel: {
+    [SourceEnum.VISUAL_NOVEL]: {
         title_ua: 'Візуальна Новала',
         title_en: 'Visual Novel',
     },
-    '4_koma_manga': {
+    [SourceEnum.KOMA_MANGA]: {
         title_ua: 'Чотирьохпанельна Манґа',
         title_en: 'Yonkoma manga',
     },
-    light_novel: {
+    [SourceEnum.LIGHT_NOVEL]: {
         title_ua: 'Ранобе',
         title_en: 'Light Novel',
     },
-    card_game: {
+    [SourceEnum.CARD_GAME]: {
         title_ua: 'Карткова Гра',
         title_en: 'Card Game',
     },
-    web_manga: {
+    [SourceEnum.WEB_MANGA]: {
         title_ua: 'Веб-манга',
         title_en: 'Web Manga',
     },
-    original: {
+    [SourceEnum.ORIGINAL]: {
         title_ua: 'Оригінальний Твір',
         title_en: 'Original',
     },
-    manga: {
+    [SourceEnum.MANGA]: {
         title_ua: 'Манґа',
         title_en: 'Manga',
     },
-    music: {
+    [SourceEnum.MUSIC]: {
         title_ua: 'Музика',
         title_en: 'Music',
     },
-    novel: {
+    [SourceEnum.NOVEL]: {
         title_ua: 'Новела',
         title_en: 'Novel',
     },
-    other: {
+    [SourceEnum.OTHER]: {
         title_ua: 'Інше',
         title_en: 'Other',
     },
-    radio: {
+    [SourceEnum.RADIO]: {
         title_ua: 'Радіо',
         title_en: 'Radio',
     },
-    game: {
+    [SourceEnum.GAME]: {
         title_ua: 'Гра',
         title_en: 'Game',
     },
-    book: {
+    [SourceEnum.BOOK]: {
         title_ua: 'Книга',
         title_en: 'Book',
     },
 };
 
-export const GENRE_TYPES: Hikka.FilterProperty<API.GenreType> = {
-    theme: {
+export const GENRE_TYPES: Hikka.FilterProperty<GenreTypeEnum> = {
+    [GenreTypeEnum.THEME]: {
         title_ua: 'Тематичне',
         title_en: 'Theme',
     },
-    explicit: {
+    [GenreTypeEnum.EXPLICIT]: {
         title_ua: 'Для дорослих',
         title_en: 'Explicit',
     },
-    genre: {
+    [GenreTypeEnum.GENRE]: {
         title_ua: 'Основне',
         title_en: 'General',
     },
-    demographic: {
+    [GenreTypeEnum.DEMOGRAPHIC]: {
         title_ua: 'Демографічне',
         title_en: 'Demographic',
     },
@@ -369,44 +385,44 @@ export const ERRORS: Record<string, Record<string, string>> = {
     },
 };
 
-export const CONTENT_TYPES: Hikka.FilterProperty<API.ContentType | 'user'> = {
-    anime: {
+export const CONTENT_TYPES: Hikka.FilterProperty<ContentTypeEnum | 'user'> = {
+    [ContentTypeEnum.ANIME]: {
         title_ua: 'Аніме',
         title_en: 'Anime',
     },
-    character: {
+    [ContentTypeEnum.CHARACTER]: {
         title_ua: 'Персонаж',
         title_en: 'Character',
     },
-    person: {
+    [ContentTypeEnum.PERSON]: {
         title_ua: 'Автор',
         title_en: 'Person',
     },
-    edit: {
+    [ContentTypeEnum.EDIT]: {
         title_ua: 'Правка',
         title_en: 'Edit',
     },
-    comment: {
+    [ContentTypeEnum.COMMENT]: {
         title_ua: 'Коментар',
         title_en: 'Comment',
     },
-    collection: {
+    [ContentTypeEnum.COLLECTION]: {
         title_ua: 'Колекція',
         title_en: 'Collection',
     },
-    manga: {
+    [ContentTypeEnum.MANGA]: {
         title_ua: 'Манґа',
         title_en: 'Manga',
     },
-    novel: {
+    [ContentTypeEnum.NOVEL]: {
         title_ua: 'Ранобе',
         title_en: 'Ranobe',
     },
-    user: {
+    [ContentTypeEnum.USER]: {
         title_ua: 'Користувач',
         title_en: 'User',
     },
-    article: {
+    [ContentTypeEnum.ARTICLE]: {
         title_ua: 'Стаття',
         title_en: 'Article',
     },
@@ -460,32 +476,32 @@ export const USER_ROLE = {
         color: '#40518F',
     },
 };
-export const READ_STATUS: Hikka.FilterProperty<API.ReadStatus> = {
-    planned: {
+export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
+    [ReadStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
         icon: Planned,
         color: '#AB872B',
     },
-    completed: {
+    [ReadStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
         color: '#399A54',
     },
-    on_hold: {
+    [ReadStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
         icon: MaterialSymbolsBookmarkFlagOutlineRounded,
         color: '#5C5C5C',
     },
-    dropped: {
+    [ReadStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
         icon: Dropped,
         color: '#952828',
     },
-    reading: {
+    [ReadStatusEnum.READING]: {
         title_ua: 'Читаю',
         title_en: 'Reading',
         icon: MaterialSymbolsBookmarkOutline,
@@ -493,32 +509,32 @@ export const READ_STATUS: Hikka.FilterProperty<API.ReadStatus> = {
     },
 };
 
-export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
-    planned: {
+export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
+    [WatchStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
         icon: Planned,
         color: '#AB872B',
     },
-    watching: {
+    [WatchStatusEnum.WATCHING]: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
         icon: Watching,
         color: '#2B94AB',
     },
-    completed: {
+    [WatchStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
         color: '#399A54',
     },
-    on_hold: {
+    [WatchStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
         icon: OnHold,
         color: '#5C5C5C',
     },
-    dropped: {
+    [WatchStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
         icon: Dropped,
@@ -527,25 +543,25 @@ export const WATCH_STATUS: Hikka.FilterProperty<API.WatchStatus> = {
 };
 
 export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
-    API.ArticleCategory,
+    ArticleCategoryEnum,
     { admin?: boolean }
 > = {
-    news: {
+    [ArticleCategoryEnum.NEWS]: {
         title_ua: 'Новини',
         title_en: 'News',
         icon: MaterialSymbolsNewsmodeRounded,
     },
-    system: {
+    [ArticleCategoryEnum.SYSTEM]: {
         title_ua: 'Системне',
         title_en: 'System',
         admin: true,
     },
-    reviews: {
+    [ArticleCategoryEnum.REVIEWS]: {
         title_ua: 'Огляди',
         title_en: 'Reviews',
         icon: MaterialSymbolsReviewsRounded,
     },
-    original: {
+    [ArticleCategoryEnum.ORIGINAL]: {
         title_ua: 'Авторське',
         title_en: 'Original',
         icon: MaterialSymbolsStarsRounded,

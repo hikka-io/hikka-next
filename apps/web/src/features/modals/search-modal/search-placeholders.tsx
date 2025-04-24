@@ -1,10 +1,15 @@
 'use client';
 
-import * as React from 'react';
+import { PaginationArgs } from '@hikka/client';
 import { memo } from 'react';
 
 interface Props {
-    data?: API.WithPagination<unknown> | Array<unknown>;
+    data?:
+        | {
+              list: unknown[];
+              pagination: PaginationArgs;
+          }
+        | Array<unknown>;
     isFetching: boolean;
     isRefetching: boolean;
 }
@@ -16,7 +21,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
                 (Array.isArray(data)
                     ? data.length === 0
                     : data.list.length === 0) && (
-                    <p className="py-6 text-center text-sm text-muted-foreground">
+                    <p className="text-muted-foreground py-6 text-center text-sm">
                         За Вашим запитом нічого не знайдено
                     </p>
                 )}
@@ -26,7 +31,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
                 </div>
             )}
             {!data && !isFetching && (
-                <p className="py-6 text-center text-sm text-muted-foreground">
+                <p className="text-muted-foreground py-6 text-center text-sm">
                     Введіть назву, щоб розпочати пошук...
                 </p>
             )}

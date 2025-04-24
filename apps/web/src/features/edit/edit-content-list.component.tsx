@@ -1,6 +1,8 @@
 'use client';
 
 import { range } from '@antfu/utils';
+import { ContentTypeEnum } from '@hikka/client';
+import { useTodoEditList } from '@hikka/react';
 import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
@@ -15,7 +17,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import useTodoAnime from '@/services/hooks/edit/todo/use-todo-anime';
 import { cn } from '@/utils/utils';
 
 import ContentCard from '../../components/content-card/content-card';
@@ -47,7 +48,12 @@ const ContentList: FC<Props> = ({ extended }) => {
         isFetchingNextPage,
         isLoading,
         ref,
-    } = useTodoAnime({ param });
+    } = useTodoEditList({
+        args: {
+            todo_type: param as 'title_ua' | 'synopsis_ua',
+            content_type: ContentTypeEnum.ANIME,
+        },
+    });
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -103,7 +109,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                 {list.map((anime) => (
                     <ContentCard
                         withContextMenu
-                        content_type="anime"
+                        content_type={ContentTypeEnum.ANIME}
                         key={anime.slug}
                         watch={
                             anime.watch.length > 0 ? anime.watch[0] : undefined

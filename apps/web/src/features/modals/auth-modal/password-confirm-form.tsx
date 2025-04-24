@@ -1,7 +1,7 @@
 'use client';
 
+import { useConfirmPasswordReset } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,7 @@ import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import confirmPasswordReset from '@/services/api/auth/confirmPasswordReset';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { setCookie } from '@/utils/cookies';
 import { z } from '@/utils/zod';
@@ -38,22 +38,17 @@ const Component = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const mutation = useMutation({
-        mutationFn: ({ password }: z.infer<typeof formSchema>) =>
-            confirmPasswordReset({
-                params: {
-                    password,
-                    token,
-                },
-            }),
-        onSuccess: async (data) => {
-            await setCookie('auth', data.secret);
-            form.reset();
-            closeModal();
-            router.push('/anime');
-            enqueueSnackbar('Ви успішно змінили Ваш пароль.', {
-                variant: 'success',
-            });
+    const mutationConfirmPasswordReset = useConfirmPasswordReset({
+        options: {
+            onSuccess: async (data) => {
+                await setCookie('auth', data.secret);
+                form.reset();
+                closeModal();
+                router.push('/anime');
+                enqueueSnackbar('Ви успішно змінили Ваш пароль.', {
+                    variant: 'success',
+                });
+            },
         },
     });
 
@@ -62,7 +57,7 @@ const Component = () => {
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
                     <H2 className="text-primary">🔓 Відновити пароль</H2>
-                    <Small className="mt-2 text-muted-foreground">
+                    <Small className="text-muted-foreground mt-2">
                         Будь ласка, введіть новий пароль.
                     </Small>
                 </div>
@@ -90,13 +85,16 @@ const Component = () => {
                     <div className="flex w-full flex-col gap-4">
                         <Button
                             onClick={form.handleSubmit((data) =>
-                                mutation.mutate(data),
+                                mutationConfirmPasswordReset.mutate({
+                                    password: data.password,
+                                    token,
+                                }),
                             )}
-                            disabled={mutation.isPending}
+                            disabled={mutationConfirmPasswordReset.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {mutation.isPending && (
+                            {mutationConfirmPasswordReset.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Відновити

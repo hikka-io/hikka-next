@@ -1,11 +1,14 @@
 'use client';
 
+import { ReadStatusEnum } from '@hikka/client';
 import { useParams, useSearchParams } from 'next/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import NotFound from '@/components/ui/not-found';
+
 import { READ_STATUS } from '@/utils/constants/common';
+
 import { useList } from '../readlist.hooks';
 import GridView from './grid-view';
 import TableView from './table-view/table-view';
@@ -39,7 +42,7 @@ const List = () => {
                             У списку{' '}
                             <span className="font-black">
                                 {
-                                    READ_STATUS[readStatus as API.ReadStatus]
+                                    READ_STATUS[readStatus as ReadStatusEnum]
                                         .title_ua
                                 }
                             </span>{' '}

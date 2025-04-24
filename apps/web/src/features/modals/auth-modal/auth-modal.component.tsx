@@ -1,9 +1,11 @@
 'use client';
 
+import { useAuthOAuthUrl } from '@hikka/react';
+
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
 import Image from '@/components/ui/image';
-import getOAuth from '@/services/api/auth/getOAuth';
+
 import ForgotPasswordForm from './forgot-password-form';
 import LoginForm from './login-form';
 import PasswordConfirmForm from './password-confirm-form';
@@ -14,14 +16,13 @@ const Component = ({
 }: {
     type: 'login' | 'signup' | 'forgotPassword' | 'passwordConfirm';
 }) => {
+    const { data: oauthUrl } = useAuthOAuthUrl('google');
     const onOAuthSubmit = async () => {
-        try {
-            const res = await getOAuth({ params: { provider: 'google' } });
-            window.location.href = res.url + `&state=${window.location.href}`;
-            return;
-        } catch (e) {
+        if (!oauthUrl) {
             return;
         }
+
+        window.location.href = oauthUrl?.url + `&state=${window.location.href}`;
     };
 
     return (

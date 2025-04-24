@@ -1,7 +1,7 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { enqueueSnackbar } from 'notistack';
+import { UploadTypeEnum } from '@hikka/client';
+import { useDeleteImage, useSession } from '@hikka/react';
 import { ChangeEvent, useRef } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
@@ -13,33 +13,22 @@ import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import deleteUserImage from '@/services/api/settings/deleteUserImage';
-import useSession from '@/services/hooks/auth/use-session';
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import CropEditorModal from '../../modals/crop-editor-modal.component';
 
 const Appearance = () => {
-    const queryClient = useQueryClient();
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const { openModal } = useModalContext();
 
     const { user: loggedUser } = useSession();
 
-    const mutation = useMutation({
-        mutationFn: deleteUserImage,
-        onSuccess: (data) => {
-            enqueueSnackbar('Медіафайл успішно видалено.', {
-                variant: 'success',
-            });
-            queryClient.invalidateQueries();
-        },
-    });
+    const mutationDeleteImage = useDeleteImage({});
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
-        type: 'avatar' | 'cover',
+        type: UploadTypeEnum.AVATAR | UploadTypeEnum.COVER,
     ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
@@ -80,7 +69,7 @@ const Appearance = () => {
                         variant="destructive"
                         size={'icon-sm'}
                         onClick={() =>
-                            mutation.mutate({ params: { image_type: 'cover' } })
+                            mutationDeleteImage.mutate(UploadTypeEnum.COVER)
                         }
                     >
                         <MaterialSymbolsDeleteForeverRounded className="size-4" />
@@ -106,7 +95,9 @@ const Appearance = () => {
                     <Input
                         type="file"
                         id="cover-input"
-                        onChange={(e) => handleUploadImageSelected(e, 'cover')}
+                        onChange={(e) =>
+                            handleUploadImageSelected(e, UploadTypeEnum.COVER)
+                        }
                         ref={uploadCoverRef}
                         multiple={false}
                         className="absolute left-0 top-0 size-full cursor-pointer opacity-0"
@@ -121,7 +112,9 @@ const Appearance = () => {
                     <Input
                         type="file"
                         id="avatar-input"
-                        onChange={(e) => handleUploadImageSelected(e, 'avatar')}
+                        onChange={(e) =>
+                            handleUploadImageSelected(e, UploadTypeEnum.AVATAR)
+                        }
                         ref={uploadAvatarRef}
                         multiple={false}
                         // eslint-disable-next-line tailwindcss/classnames-order

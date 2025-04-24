@@ -1,5 +1,7 @@
 'use client';
 
+import { ContentTypeEnum, MangaMediaEnum, ReadStatusEnum } from '@hikka/client';
+import { useAddOrUpdateRead, useReadList, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -21,13 +23,12 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import useSession from '@/services/hooks/auth/use-session';
-import useAddRead from '@/services/hooks/read/use-add-read';
-import useReadList from '@/services/hooks/read/use-read-list';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
+
 import ReadEditModal from '../../modals/read-edit-modal.component';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
@@ -49,10 +50,12 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
 
     // Fetch Readlist
     const { list } = useReadList({
+        contentType: ContentTypeEnum.MANGA,
         username: String(loggedUser?.username),
-        read_status: 'reading',
-        sort: ['read_updated:desc'],
-        content_type: 'manga',
+        args: {
+            read_status: ReadStatusEnum.READING,
+            sort: ['read_updated:desc'],
+        },
     });
 
     // Derived State
@@ -60,7 +63,12 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
 
     // Hooks
-    const { mutate: mutateAddRead, variables, isPending, reset } = useAddRead();
+    const {
+        mutate: mutateAddOrUpdateRead,
+        variables,
+        isPending,
+        reset,
+    } = useAddOrUpdateRead({});
 
     // Event Handlers
     const handleSelect = (slug: string) => {
@@ -79,7 +87,7 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
                     <ReadEditModal
                         read={selectedRead}
                         slug={selectedRead.content.slug}
-                        content_type={'manga'}
+                        content_type={ContentTypeEnum.MANGA}
                     />
                 ),
                 className: '!max-w-xl',
@@ -93,7 +101,7 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
         if (!selectedRead) return;
 
         const chapters =
-            (variables?.params?.chapters || selectedRead.chapters) + 1;
+            (variables?.args?.chapters || selectedRead.chapters) + 1;
 
         // Prevent exceeding total chapters
         if (
@@ -102,18 +110,18 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
         )
             return;
 
-        mutateAddRead({
-            params: {
+        mutateAddOrUpdateRead({
+            contentType: ContentTypeEnum.MANGA,
+            slug: selectedRead.content.slug,
+            args: {
                 note: selectedRead.note,
                 volumes: selectedRead.volumes,
                 rereads: selectedRead.rereads,
                 score: selectedRead.score,
-                content_type: 'manga',
                 status:
                     chapters === selectedRead.content.chapters
-                        ? 'completed'
-                        : 'reading',
-                slug: selectedRead.content.slug,
+                        ? ReadStatusEnum.COMPLETED
+                        : ReadStatusEnum.READING,
                 chapters,
             },
         });
@@ -123,19 +131,19 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
         if (!selectedRead) return;
 
         const chapters =
-            (variables?.params?.chapters || selectedRead.chapters) - 1;
+            (variables?.args?.chapters || selectedRead.chapters) - 1;
 
         if (chapters < 0) return;
 
-        mutateAddRead({
-            params: {
+        mutateAddOrUpdateRead({
+            contentType: ContentTypeEnum.MANGA,
+            slug: selectedRead.content.slug,
+            args: {
                 note: selectedRead.note,
                 volumes: selectedRead.volumes,
                 rereads: selectedRead.rereads,
                 score: selectedRead.score,
                 status: selectedRead.status,
-                content_type: 'manga',
-                slug: selectedRead.content.slug,
                 chapters,
             },
         });
@@ -153,18 +161,18 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
         return (
             <div className="mt-1 flex cursor-pointer items-center gap-2">
                 {selectedRead.content.year && (
-                    <Label className="cursor-pointer text-xs text-muted-foreground">
+                    <Label className="text-muted-foreground cursor-pointer text-xs">
                         {selectedRead.content.year}
                     </Label>
                 )}
                 {selectedRead.content.media_type && (
                     <>
-                        <div className="size-1 rounded-full bg-muted-foreground" />
-                        <Label className="cursor-pointer text-xs text-muted-foreground">
+                        <div className="bg-muted-foreground size-1 rounded-full" />
+                        <Label className="text-muted-foreground cursor-pointer text-xs">
                             {
                                 MANGA_MEDIA_TYPE[
                                     selectedRead.content
-                                        .media_type as API.MangaMediaType
+                                        .media_type as MangaMediaEnum
                                 ].title_ua
                             }
                         </Label>
@@ -172,8 +180,8 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
                 )}
                 {selectedRead.content.chapters && (
                     <>
-                        <div className="size-1 rounded-full bg-muted-foreground" />
-                        <Label className="cursor-pointer text-xs text-muted-foreground">
+                        <div className="bg-muted-foreground size-1 rounded-full" />
+                        <Label className="text-muted-foreground cursor-pointer text-xs">
                             {selectedRead.content.chapters}{' '}
                             {getDeclensionWord(
                                 selectedRead.content.chapters,
@@ -271,10 +279,10 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
                             </Link>
 
                             <div className="flex w-full flex-col gap-2">
-                                <P className="text-sm text-muted-foreground">
-                                    <span className="font-bold text-foreground">
+                                <P className="text-muted-foreground text-sm">
+                                    <span className="text-foreground font-bold">
                                         {isPending
-                                            ? variables?.params?.chapters
+                                            ? variables?.args?.chapters
                                             : selectedRead.chapters || 0}
                                     </span>
                                     /{selectedRead.content.chapters || '?'}{' '}
@@ -285,7 +293,7 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
                                     className="h-2"
                                     value={
                                         isPending
-                                            ? variables?.params?.chapters
+                                            ? variables?.args?.chapters
                                             : selectedRead.chapters
                                     }
                                     max={

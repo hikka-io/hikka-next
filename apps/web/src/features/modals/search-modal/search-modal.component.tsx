@@ -1,9 +1,12 @@
 'use client';
 
+import { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
 import { FC, Fragment, ReactNode, useRef, useState } from 'react';
 
 import { CommandDialog, CommandInput } from '@/components/ui/command';
+
 import useDebounce from '@/services/hooks/use-debounce';
+
 import AnimeSearchList from './anime-search-list';
 import CharacterSearchList from './character-search-list';
 import useSearchModal from './hooks/useSearchModal';
@@ -15,11 +18,11 @@ import SearchToggle from './search-toggle';
 import UserSearchList from './user-search-list';
 
 interface Props {
-    onClick?: (content: API.MainContent | API.User) => void;
+    onClick?: (content: MainContent | UserResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
-    content_type?: API.ContentType;
-    allowedTypes?: (API.ContentType | 'user')[];
+    content_type?: ContentTypeEnum;
+    allowedTypes?: ContentTypeEnum[];
 }
 
 const SearchModal: FC<Props> = ({
@@ -30,8 +33,8 @@ const SearchModal: FC<Props> = ({
     allowedTypes,
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [searchType, setSearchType] = useState<API.ContentType | 'user'>(
-        content_type || 'anime',
+    const [searchType, setSearchType] = useState<ContentTypeEnum>(
+        content_type || ContentTypeEnum.ANIME,
     );
     const [open, setOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string | undefined>(
@@ -39,7 +42,7 @@ const SearchModal: FC<Props> = ({
     );
     const value = useDebounce({ value: searchValue, delay: 500 });
 
-    const onDismiss = (content: API.MainContent | API.User) => {
+    const onDismiss = (content: MainContent | UserResponse) => {
         setSearchValue('');
         setOpen(false);
 

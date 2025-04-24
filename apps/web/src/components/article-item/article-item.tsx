@@ -1,7 +1,9 @@
+import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '../icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '../icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
@@ -14,7 +16,7 @@ import { Header, HeaderContainer, HeaderTitle } from '../ui/header';
 import Author from './article-author';
 
 interface Props {
-    article: API.Article;
+    article: ArticleResponse;
 }
 
 const ArticleItem: FC<Props> = ({ article }) => {
@@ -24,7 +26,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
             : article.document;
 
     return (
-        <Card className="isolate gap-0 overflow-hidden p-0 rounded-none md:rounded-lg">
+        <Card className="isolate gap-0 overflow-hidden rounded-none p-0 md:rounded-lg">
             <Author article={article} />
             <div className="relative flex flex-col gap-4 p-4 py-0">
                 <Link
@@ -36,7 +38,9 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         <Muted>
                             {article.content.title_ua ||
                                 article.content.title_en ||
-                                article.content.title_ja}
+                                (article.content.data_type ===
+                                    ContentTypeEnum.ANIME &&
+                                    article.content.title_ja)}
                         </Muted>
                     )}
                     <Header>
@@ -67,7 +71,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="pointer-events-none gap-1 text-muted-foreground"
+                            className="text-muted-foreground pointer-events-none gap-1"
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
                             {article.views}
@@ -77,7 +81,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="gap-1 text-muted-foreground"
+                        className="text-muted-foreground gap-1"
                     >
                         <Link href={`/comments/article/${article.slug}`}>
                             <IconamoonCommentFill className="size-3" />
@@ -87,7 +91,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="pointer-events-none gap-1 text-muted-foreground"
+                        className="text-muted-foreground pointer-events-none gap-1"
                     >
                         <BxBxsUpvote className="size-3" />
                         {article.vote_score}

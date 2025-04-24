@@ -1,3 +1,4 @@
+import { ContentTypeEnum, PersonResponse, RoleResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentCard, {
@@ -5,12 +6,8 @@ import ContentCard, {
 } from './content-card/content-card';
 
 interface Props extends ContentCardProps {
-    person: API.Person;
-    roles: {
-        name_ua: string;
-        name_en: string;
-        slug: string;
-    }[];
+    person: PersonResponse;
+    roles: RoleResponse[];
 }
 
 const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
@@ -29,7 +26,7 @@ const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
             description={getRole(roles)}
             image={person.image}
             slug={person.slug}
-            content_type="person"
+            content_type={ContentTypeEnum.PERSON}
             withContextMenu
             title={person.name_ua || person.name_en || person.name_native}
             {...props}

@@ -1252,8 +1252,8 @@ __metadata:
     "@react-hook/resize-observer": "npm:^2.0.2"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
-    "@tanstack/react-query": "npm:^5.74.3"
-    "@tanstack/react-query-devtools": "npm:^5.74.3"
+    "@tanstack/react-query": "npm:5.74.4"
+    "@tanstack/react-query-devtools": "npm:5.74.4"
     "@types/react-avatar-editor": "npm:^13.0.3"
     "@udecode/cn": "npm:^44.0.1"
     "@udecode/plate": "npm:46.0.4"
@@ -4993,13 +4993,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/query-core@npm:5.74.3"
-  checksum: 10c0/ad28c2a4b9c39b23fb4a621474f134320f4cf5a2ea62a12918ca27d95b4b4a8b15316d5eceba04debbe2ecc7453f4dbaeb8deede7eeef07a83ad6ee42659b326
-  languageName: node
-  linkType: hard
-
 "@tanstack/query-core@npm:5.74.4":
   version: 5.74.4
   resolution: "@tanstack/query-core@npm:5.74.4"
@@ -5014,15 +5007,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:^5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/react-query-devtools@npm:5.74.3"
+"@tanstack/react-query-devtools@npm:5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/react-query-devtools@npm:5.74.4"
   dependencies:
     "@tanstack/query-devtools": "npm:5.73.3"
   peerDependencies:
-    "@tanstack/react-query": ^5.74.3
+    "@tanstack/react-query": ^5.74.4
     react: ^18 || ^19
-  checksum: 10c0/e94ae8ab43acf65390b97fb3c0a9600ff6be597f41fb71b080e09591b2c363e8c180cf1078b94948f7e18e1f1b1061f8eadafac047dde00f6b7b0eba30a477f1
+  checksum: 10c0/25f9e79fbc29a1f8379fb1fb45a745efd2c106e0ab92e4bf963cd2707996156916432c1a1c862d2b6d29b110a31f5d3c678f79b94add4b751bde13e52d77a62b
   languageName: node
   linkType: hard
 
@@ -5034,17 +5027,6 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19
   checksum: 10c0/4434b1764efd5e5a7f35046e7411fed06d42372ebbd6e784dcfd81c3d107b41c86fec2b59652fccadb1bab25ca35ef9b6720c7f5c89d6e4302cf1d2f60291200
-  languageName: node
-  linkType: hard
-
-"@tanstack/react-query@npm:^5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/react-query@npm:5.74.3"
-  dependencies:
-    "@tanstack/query-core": "npm:5.74.3"
-  peerDependencies:
-    react: ^18 || ^19
-  checksum: 10c0/5bb0c55383ba1fdb88cddcc43ee308d201dc7bfece01e8bbd1e41b21ba21c3b58c6546670de411b83566fd42cf771061c8d6ccf6af5aef200bfeed068332b21e
   languageName: node
   linkType: hard
 

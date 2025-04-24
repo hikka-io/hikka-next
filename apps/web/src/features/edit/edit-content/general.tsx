@@ -1,3 +1,4 @@
+import { ContentTypeEnum, EditContentType, MainContent } from '@hikka/client';
 import { FC, PropsWithChildren } from 'react';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
@@ -10,17 +11,21 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props extends PropsWithChildren {
-    content: API.MainContent;
-    content_type: API.ContentType;
+    content: MainContent;
+    content_type: EditContentType;
     slug: string;
 }
 
 const General: FC<Props> = ({ content, content_type, slug }) => {
-    const image = content.data_type === 'anime' ? content.image : content.image;
+    const image =
+        content.data_type === ContentTypeEnum.ANIME
+            ? content.image
+            : content.image;
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (
@@ -30,14 +35,14 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
                 <HorizontalCardContainer>
                     <HorizontalCardTitle>Інформація</HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        <MaterialSymbolsCategoryOutlineRounded className="size-4 text-muted-foreground" />
+                        <MaterialSymbolsCategoryOutlineRounded className="text-muted-foreground size-4" />
                         {CONTENT_TYPES[content_type].title_ua}
                     </HorizontalCardDescription>
-                    {(content.data_type === 'anime' ||
-                        content.data_type === 'manga' ||
-                        content.data_type === 'novel') && (
+                    {(content.data_type === ContentTypeEnum.ANIME ||
+                        content.data_type === ContentTypeEnum.MANGA ||
+                        content.data_type === ContentTypeEnum.NOVEL) && (
                         <HorizontalCardDescription>
-                            <MaterialSymbolsCalendarClockRounded className="size-4 text-muted-foreground" />
+                            <MaterialSymbolsCalendarClockRounded className="text-muted-foreground size-4" />
                             {content.year}
                         </HorizontalCardDescription>
                     )}

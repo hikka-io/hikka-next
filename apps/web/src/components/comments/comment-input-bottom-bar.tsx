@@ -1,12 +1,13 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CommentResponse, CommentsContentType } from '@hikka/client';
+import { useEditComment, useWriteComment } from '@hikka/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEditorRef } from '@udecode/plate/react';
 import { FC } from 'react';
 
-import addComment from '@/services/api/comments/addComment';
-import editComment from '@/services/api/comments/editComment';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+
 import MaterialSymbolsReplyRounded from '../icons/material-symbols/MaterialSymbolsReplyRounded';
 import { serializeMd } from '../markdown/editor/plugins/markdown-plugin/serialize-md';
 import { Avatar, AvatarImage } from '../ui/avatar';
@@ -16,8 +17,8 @@ import { Label } from '../ui/label';
 
 interface Props {
     slug: string;
-    content_type: API.ContentType;
-    comment?: API.Comment;
+    content_type: CommentsContentType;
+    comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;
 }
@@ -55,17 +56,19 @@ const CommentInputBottomBar: FC<Props> = ({
         }
     };
 
-    const { mutate: mutateEditComment, isPending: isEditPending } = useMutation(
-        {
-            mutationFn: editComment,
-            onSuccess,
-        },
-    );
+    const { mutate: mutateEditComment, isPending: isEditPending } =
+        useEditComment({
+            options: {
+                onSuccess,
+            },
+        });
 
-    const { mutate: mutateAddComment, isPending: isAddPending } = useMutation({
-        mutationFn: addComment,
-        onSuccess,
-    });
+    const { mutate: mutateWriteComment, isPending: isAddPending } =
+        useWriteComment({
+            options: {
+                onSuccess,
+            },
+        });
 
     const handleCancel = () => {
         setCommentsState!((prev) => ({
@@ -80,16 +83,16 @@ const CommentInputBottomBar: FC<Props> = ({
 
         if (isEdit) {
             mutateEditComment({
-                params: {
-                    reference: comment!.reference,
+                commentReference: comment!.reference,
+                args: {
                     text,
                 },
             });
         } else {
-            mutateAddComment({
-                params: {
-                    content_type: content_type,
-                    slug: slug,
+            mutateWriteComment({
+                contentType: content_type,
+                slug: slug,
+                args: {
                     parent: comment?.depth
                         ? comment?.depth < 5
                             ? comment?.reference

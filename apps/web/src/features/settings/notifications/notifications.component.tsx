@@ -1,5 +1,10 @@
 'use client';
 
+import { NotificationTypeEnum } from '@hikka/client';
+import {
+    useIgnoredNotifications,
+    useUpdateIgnoredNotifications,
+} from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
@@ -9,13 +14,8 @@ import { useForm } from 'react-hook-form';
 import FormSwitch from '@/components/form/form-switch';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import useChangeIgnoredNotifications from '@/services/hooks/settings/use-change-ignored-notifications';
-import useIgnoredNotifications from '@/services/hooks/settings/use-ignored-notifications';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
@@ -48,16 +48,21 @@ const Component = () => {
 
     const { data } = useIgnoredNotifications();
     const { mutate: changeIgnoredNotifications, isPending } =
-        useChangeIgnoredNotifications({
-            onSuccess: async () => {
-                await queryClient.invalidateQueries({
-                    queryKey: ['ignored-notifications'],
-                    exact: false,
-                });
-                closeModal();
-                enqueueSnackbar('Ви успішно змінили налаштування сповіщень.', {
-                    variant: 'success',
-                });
+        useUpdateIgnoredNotifications({
+            options: {
+                onSuccess: async () => {
+                    await queryClient.invalidateQueries({
+                        queryKey: ['ignored-notifications'],
+                        exact: false,
+                    });
+                    closeModal();
+                    enqueueSnackbar(
+                        'Ви успішно змінили налаштування сповіщень.',
+                        {
+                            variant: 'success',
+                        },
+                    );
+                },
             },
         });
 
@@ -65,7 +70,7 @@ const Component = () => {
         changeIgnoredNotifications({
             ignored_notifications: Object.keys(data).filter(
                 (key) => !data[key as keyof z.infer<typeof formSchema>],
-            ) as API.NotificationType[],
+            ) as NotificationTypeEnum[],
         });
     };
 
@@ -74,7 +79,7 @@ const Component = () => {
             form.reset(
                 data.ignored_notifications.reduce(
                     (acc, key) => {
-                        acc[key] = false;
+                        acc[key as keyof z.infer<typeof formSchema>] = false;
                         return acc;
                     },
                     {} as z.infer<typeof formSchema>,

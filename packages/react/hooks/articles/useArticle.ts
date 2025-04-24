@@ -1,43 +1,37 @@
 import { ArticleResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseArticleParams {
+    slug: string;
+}
 
 /**
  * Hook for getting article details
  */
-export function useArticle(
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<ArticleResponse, Error, ArticleResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
-    return useQuery({
+export function useArticle<TResult = ArticleResponse>({
+    slug,
+    ...rest
+}: UseArticleParams & QueryParams<ArticleResponse, TResult>) {
+    return useQuery<ArticleResponse, Error, TResult>({
         queryKey: queryKeys.articles.bySlug(slug),
         queryFn: (client) => client.articles.getArticle(slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Function for prefetching article details
  */
-export async function prefetchArticle(
-    queryClient: QueryClient,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<ArticleResponse, Error, ArticleResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchArticle({
+    slug,
+    ...rest
+}: PrefetchQueryParams<ArticleResponse> & UseArticleParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.articles.bySlug(slug),
         queryFn: (client) => client.articles.getArticle(slug),
-        options: options || {},
+        ...rest,
     });
 }

@@ -1,5 +1,11 @@
 'use client';
 
+import { ClientResponse } from '@hikka/client';
+import {
+    useDeleteClient,
+    useFullClientInfo,
+    useUpdateClient,
+} from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
@@ -11,9 +17,7 @@ import FormTextarea from '@/components/form/form-textarea';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
-import useClientInfo from '@/services/hooks/client/use-client-info';
-import useDeleteClient from '@/services/hooks/client/use-delete-client';
-import useUpdateClient from '@/services/hooks/client/use-update-client';
+
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -26,15 +30,15 @@ const formSchema = z.object({
 });
 
 interface Props {
-    client: API.Client;
+    client: ClientResponse;
 }
 
 const Component = ({ client }: Props) => {
     const { mutate: updateClient, isPending: updateClientLoading } =
-        useUpdateClient();
+        useUpdateClient({});
     const { mutate: deleteClient, isPending: deleteClientLoading } =
-        useDeleteClient();
-    const { data } = useClientInfo({ client_reference: client.reference });
+        useDeleteClient({});
+    const { data } = useFullClientInfo({ reference: client.reference });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,12 +59,13 @@ const Component = ({ client }: Props) => {
     }, [data, form]);
 
     const onDelete = async () => {
-        deleteClient({ params: { client_reference: client.reference } });
+        deleteClient(client.reference);
     };
 
     const onUpdate = async (formData: z.infer<typeof formSchema>) => {
         updateClient({
-            params: {
+            reference: client.reference,
+            args: {
                 ...formData,
             },
         });

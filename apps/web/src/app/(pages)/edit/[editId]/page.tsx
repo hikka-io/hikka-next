@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import Comments from '@/features/comments/comment-list.component';
@@ -17,7 +18,7 @@ const EditPage: FC<Props> = async (props) => {
         <div className="flex flex-col gap-12">
             <EditView editId={editId} mode="view" />
             <Actions editId={editId} />
-            <Comments slug={editId} content_type="edit" />
+            <Comments slug={editId} content_type={ContentTypeEnum.EDIT} />
         </div>
     );
 };

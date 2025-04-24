@@ -7,6 +7,17 @@ import {
 import { useHikkaClient } from '../provider/useHikkaClient';
 
 /**
+ * Hook params for creating queries
+ */
+export interface QueryParams<TData, TResult = TData> {
+    /** Query options */
+    options?: Omit<
+        UseQueryOptions<TData, Error, TResult>,
+        'queryKey' | 'queryFn'
+    >;
+}
+
+/**
  * Hook for creating queries with the Hikka client.
  * Automatically provides the client to the queryFn.
  */
@@ -24,7 +35,7 @@ export function useQuery<
     queryFn: (
         client: ReturnType<typeof useHikkaClient>,
     ) => Promise<TQueryFnData>;
-    options: Omit<
+    options?: Omit<
         UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
         'queryKey' | 'queryFn'
     >;

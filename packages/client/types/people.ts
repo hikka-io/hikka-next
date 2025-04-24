@@ -1,17 +1,18 @@
-import { AnimeResponseWithWatch } from './anime';
+import { AnimeResponse } from './anime';
 import { CharacterResponse } from './characters';
-import { PaginationResponse, RoleResponse } from './common';
-import { MangaResponseWithRead } from './manga';
-import { NovelResponseWithRead } from './novel';
+import { ContentTypeEnum, PaginationResponse, RoleResponse } from './common';
+import { MangaResponse } from './manga';
+import { NovelResponse } from './novel';
 
 /**
  * Person response
  */
 export interface PersonResponse {
-    data_type: string;
+    data_type: ContentTypeEnum.PERSON;
     name_native: string | null;
     name_ua: string | null;
     name_en: string | null;
+    title?: string;
     image: string | null;
     slug: string;
     description_ua: string | null;
@@ -41,7 +42,7 @@ export interface PersonSearchPaginationResponse {
  */
 export interface PersonAnimeResponse {
     roles: RoleResponse[];
-    anime: AnimeResponseWithWatch;
+    anime: AnimeResponse;
 }
 
 /**
@@ -57,7 +58,7 @@ export interface PersonAnimePaginationResponse {
  */
 export interface PersonMangaResponse {
     roles: RoleResponse[];
-    manga: MangaResponseWithRead;
+    manga: MangaResponse;
 }
 
 /**
@@ -73,7 +74,7 @@ export interface PersonMangaPaginationResponse {
  */
 export interface PersonNovelResponse {
     roles: RoleResponse[];
-    novel: NovelResponseWithRead;
+    novel: NovelResponse;
 }
 
 /**
@@ -89,7 +90,7 @@ export interface PersonNovelPaginationResponse {
  */
 export interface PersonCharactersResponse {
     character: CharacterResponse;
-    anime: AnimeResponseWithWatch;
+    anime: AnimeResponse;
     language: string;
 }
 

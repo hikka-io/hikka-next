@@ -1,7 +1,8 @@
+import { ContentTypeEnum } from '@hikka/client';
+import { useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
-import useSession from '@/services/hooks/auth/use-session';
 import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
 import {
     ContextMenu,
@@ -13,7 +14,7 @@ import {
 interface Props {
     children: ReactNode;
     slug: string;
-    content_type: API.ContentType;
+    content_type: ContentTypeEnum;
 }
 
 const ContextMenuOverlay: FC<Props> = ({ children, slug, content_type }) => {

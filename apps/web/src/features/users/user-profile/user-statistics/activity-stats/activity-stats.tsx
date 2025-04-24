@@ -1,24 +1,31 @@
 'use client';
 
+import { useUserActivity } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import { MaterialSymbolsBarChartRounded } from '@/components/icons/material-symbols/MaterialSymbolsBarChartRounded';
 import { Label } from '@/components/ui/label';
-import useUserActivity from '@/services/hooks/user/use-user-activity';
+
 import { convertToDays } from '@/utils/adapters/convert-activity-stats';
+
 import ActivityItem from './activity-item';
 
 const ActivityStats = () => {
     const params = useParams();
 
-    const { data } = useUserActivity({ username: String(params.username) });
+    const { data } = useUserActivity({
+        username: String(params.username),
+        options: {
+            enabled: !!params.username,
+        },
+    });
 
     const convertedData = convertToDays(data || []);
     const max = Math.max(...convertedData.map((day) => day.actions));
 
     return (
-        <div className="flex min-h-28 flex-1 flex-col gap-4 rounded-md border border-border bg-secondary/20 p-4 md:min-h-0">
-            <div className="flex items-center gap-2 text-muted-foreground">
+        <div className="border-border bg-secondary/20 flex min-h-28 flex-1 flex-col gap-4 rounded-md border p-4 md:min-h-0">
+            <div className="text-muted-foreground flex items-center gap-2">
                 <MaterialSymbolsBarChartRounded />
                 <Label>Активність</Label>
             </div>

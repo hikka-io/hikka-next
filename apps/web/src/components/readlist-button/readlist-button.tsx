@@ -1,14 +1,25 @@
 'use client';
 
+import {
+    MangaResponse,
+    NovelResponse,
+    ReadContentType,
+    ReadResponseBase,
+    ReadStatusEnum,
+} from '@hikka/client';
+import {
+    useAddOrUpdateRead,
+    useMangaInfo,
+    useNovelInfo,
+    useReadEntry,
+} from '@hikka/react';
 import { createElement } from 'react';
 
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
-import useAddRead from '@/services/hooks/read/use-add-read';
-import useRead from '@/services/hooks/read/use-read';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
+
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
     Select,
@@ -25,9 +36,9 @@ interface Props {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
-    content_type: 'novel' | 'manga';
-    read?: API.Read;
-    content?: API.Manga | API.Novel;
+    content_type: ReadContentType;
+    read?: ReadResponseBase;
+    content?: MangaResponse | NovelResponse;
     size?: 'sm' | 'md';
 }
 
@@ -46,11 +57,11 @@ const SETTINGS_BUTTON = {
 const OPTIONS = [
     ...Object.keys(READ_STATUS).map((status) => ({
         value: status,
-        title: READ_STATUS[status as API.ReadStatus].title_ua,
+        title: READ_STATUS[status as ReadStatusEnum].title_ua,
         label: (
             <div className="flex items-center gap-2">
-                {createElement(READ_STATUS[status as API.ReadStatus].icon!)}
-                {READ_STATUS[status as API.ReadStatus].title_ua}
+                {createElement(READ_STATUS[status as ReadStatusEnum].icon!)}
+                {READ_STATUS[status as ReadStatusEnum].title_ua}
             </div>
         ),
     })),
@@ -66,29 +77,29 @@ const Component = ({
 }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: readQuery, isError: readError } = useRead(
-        {
-            slug,
-            content_type,
+    const { data: readQuery, isError: readError } = useReadEntry({
+        contentType: content_type,
+        slug,
+        options: {
+            enabled: !disabled && !readProp,
         },
-        { enabled: !disabled && !readProp },
-    );
+    });
 
-    const { data: manga } = useMangaInfo(
-        {
-            slug,
+    const { data: manga } = useMangaInfo({
+        slug,
+        options: {
+            enabled: !disabled && content_type === 'manga' && !contentProp,
         },
-        { enabled: !disabled && content_type === 'manga' && !contentProp },
-    );
+    });
 
-    const { data: novel } = useNovelInfo(
-        {
-            slug,
+    const { data: novel } = useNovelInfo({
+        slug,
+        options: {
+            enabled: !disabled && content_type === 'novel' && !contentProp,
         },
-        { enabled: !disabled && content_type === 'novel' && !contentProp },
-    );
+    });
 
-    const { mutate: addRead } = useAddRead();
+    const { mutate: addOrUpdateRead } = useAddOrUpdateRead({});
 
     const read = readProp || (readQuery && !readError ? readQuery : undefined);
     const content = contentProp || manga || novel;
@@ -127,22 +138,22 @@ const Component = ({
         }
 
         if (options[0] === 'completed') {
-            addRead({
-                params: {
-                    slug,
-                    content_type,
-                    status: 'completed',
+            addOrUpdateRead({
+                contentType: content_type,
+                slug,
+                args: {
+                    status: ReadStatusEnum.COMPLETED,
                     ...params,
                     volumes: manga?.volumes || undefined,
                     chapters: manga?.chapters || undefined,
                 },
             });
         } else {
-            addRead({
-                params: {
-                    slug,
-                    content_type,
-                    status: options[0] as API.ReadStatus,
+            addOrUpdateRead({
+                contentType: content_type,
+                slug,
+                args: {
+                    status: options[0] as ReadStatusEnum,
                     ...params,
                 },
             });

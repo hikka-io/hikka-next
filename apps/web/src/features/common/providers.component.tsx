@@ -3,11 +3,7 @@
 import { ProgressProvider } from '@bprogress/next/app';
 import { HikkaClientConfig } from '@hikka/client';
 import { HikkaProvider } from '@hikka/react';
-import {
-    MutationCache,
-    QueryClientConfig,
-    QueryClientProvider,
-} from '@tanstack/react-query';
+import { MutationCache, QueryClientConfig } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
@@ -19,8 +15,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import ModalProvider from '@/services/providers/modal-provider';
 import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
+import { convertTitleDeep } from '@/utils/adapters/convert-title';
 import { getCookie } from '@/utils/cookies';
-import { createQueryClient } from '@/utils/get-query-client';
 
 import SnackbarItem from '../../components/snackbar-item';
 
@@ -37,19 +33,22 @@ const Providers: FC<Props> = ({ children }) => {
                 });
             },
         }),
+        defaultOptions: {
+            queries: {
+                select: (data) =>
+                    convertTitleDeep({ data, titleLanguage: 'title_ua' }),
+            },
+        },
     });
-
-    const [queryClient] = useState(() => createQueryClient(queryClientConfig));
 
     const [apiClientConfig, setApiClientConfig] = useState<HikkaClientConfig>({
-        baseUrl: 'https://api.hikka.io',
+        baseUrl: process.env.API_URL || process.env.NEXT_PUBLIC_API_URL,
     });
-
     useEffect(() => {
         getCookie('auth').then(
             (authToken) =>
                 authToken &&
-                setApiClientConfig({ ...apiClientConfig, authToken }),
+                setApiClientConfig((config) => ({ ...config, authToken })),
         );
     }, []);
 
@@ -65,42 +64,40 @@ const Providers: FC<Props> = ({ children }) => {
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <QueryClientProvider client={queryClient}>
-                        <SnackbarProvider
-                            Components={{
-                                default: SnackbarItem,
-                                success: SnackbarItem,
-                                error: SnackbarItem,
-                                warning: SnackbarItem,
-                                info: SnackbarItem,
-                            }}
-                            maxSnack={2}
-                            preventDuplicate
-                            autoHideDuration={3000}
-                            anchorOrigin={{
-                                horizontal: 'right',
-                                vertical: 'bottom',
-                            }}
-                        >
-                            <TooltipProvider delayDuration={0}>
-                                <ModalProvider>
-                                    <ProgressProvider
-                                        height="4px"
-                                        color="#e779c1"
-                                        options={{
-                                            showSpinner: false,
-                                            easing: 'ease',
-                                            trickle: true,
-                                        }}
-                                        shallowRouting
-                                    />
+                    <SnackbarProvider
+                        Components={{
+                            default: SnackbarItem,
+                            success: SnackbarItem,
+                            error: SnackbarItem,
+                            warning: SnackbarItem,
+                            info: SnackbarItem,
+                        }}
+                        maxSnack={2}
+                        preventDuplicate
+                        autoHideDuration={3000}
+                        anchorOrigin={{
+                            horizontal: 'right',
+                            vertical: 'bottom',
+                        }}
+                    >
+                        <TooltipProvider delayDuration={0}>
+                            <ModalProvider>
+                                <ProgressProvider
+                                    height="4px"
+                                    color="#e779c1"
+                                    options={{
+                                        showSpinner: false,
+                                        easing: 'ease',
+                                        trickle: true,
+                                    }}
+                                    shallowRouting
+                                />
 
-                                    {children}
-                                    <ReactQueryDevtools initialIsOpen={false} />
-                                </ModalProvider>
-                            </TooltipProvider>
-                        </SnackbarProvider>
-                    </QueryClientProvider>
+                                {children}
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            </ModalProvider>
+                        </TooltipProvider>
+                    </SnackbarProvider>
                 </ThemeProvider>
             </SettingsProvider>
         </HikkaProvider>

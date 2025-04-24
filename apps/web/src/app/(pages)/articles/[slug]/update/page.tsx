@@ -1,5 +1,11 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ArticleResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchArticle,
+    queryKeys,
+} from '@hikka/react';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 
@@ -12,25 +18,24 @@ import ArticlePreview from '@/features/articles/article-edit/article-preview.com
 import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
 import ArticleTitle from '@/features/articles/article-edit/article-title.component';
 
-import { key, prefetchArticle } from '@/services/hooks/articles/use-article';
 import ArticleProvider from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 import { cn } from '@/utils/utils';
 
 const ArticleUpdatePage = async (props: {
     params: Promise<Record<string, any>>;
 }) => {
     const params = await props.params;
-
     const { slug } = params;
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchArticle({ slug: slug });
+    await prefetchArticle({ slug: slug, clientConfig });
 
-    const article: API.Article | undefined = queryClient.getQueryData(
-        key({ slug }),
+    const article: ArticleResponse | undefined = queryClient.getQueryData(
+        queryKeys.articles.bySlug(slug),
     );
 
     if (!article) {

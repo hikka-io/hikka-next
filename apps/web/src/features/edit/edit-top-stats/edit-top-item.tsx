@@ -1,3 +1,4 @@
+import { UserResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
@@ -15,10 +16,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
-    user: API.User;
+    user: UserResponse;
     rank: number;
     accepted: number;
     closed: number;
@@ -35,7 +37,7 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                     imageRatio={1}
                 />
                 <HorizontalCardContainer>
-                    <div className="inline-flex justify-between items-center">
+                    <div className="inline-flex items-center justify-between">
                         <HorizontalCardTitle>
                             {user.username}
                         </HorizontalCardTitle>
@@ -55,8 +57,8 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                     <HorizontalCardDescription>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <div className="flex size-2 items-center justify-center rounded-full bg-success" />
+                                <div className="text-muted-foreground flex items-center gap-2">
+                                    <div className="bg-success flex size-2 items-center justify-center rounded-full" />
                                     <Small>{accepted}</Small>
                                 </div>
                             </TooltipTrigger>
@@ -64,8 +66,8 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                         </Tooltip>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <div className="flex size-2 items-center justify-center rounded-full bg-destructive" />
+                                <div className="text-muted-foreground flex items-center gap-2">
+                                    <div className="bg-destructive flex size-2 items-center justify-center rounded-full" />
                                     <Small>{denied}</Small>
                                 </div>
                             </TooltipTrigger>
@@ -74,8 +76,8 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
 
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <div className="flex size-2 items-center justify-center rounded-full bg-muted-foreground" />
+                                <div className="text-muted-foreground flex items-center gap-2">
+                                    <div className="bg-muted-foreground flex size-2 items-center justify-center rounded-full" />
                                     <Small>{closed}</Small>
                                 </div>
                             </TooltipTrigger>

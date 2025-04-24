@@ -1,5 +1,6 @@
 'use client';
 
+import { useCollectionsList, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -13,8 +14,6 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useSession from '@/services/hooks/auth/use-session';
-import useCollections from '@/services/hooks/collections/use-collections';
 import { cn } from '@/utils/utils';
 
 import ContentCard from '../../components/content-card/content-card';
@@ -27,12 +26,13 @@ interface Props {
 const Collections: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
 
-    const { data: collections } = useCollections({
-        sort: 'created',
-        page: 1,
+    const { list } = useCollectionsList({
+        args: {
+            sort: ['created:desc'],
+        },
     });
 
-    const filteredCollections = collections?.list?.slice(0, 8);
+    const filteredCollections = list?.slice(0, 8);
 
     return (
         <Block className={cn(className)}>

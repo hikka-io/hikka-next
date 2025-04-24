@@ -1,5 +1,6 @@
 'use client';
 
+import { useGenres } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -11,9 +12,12 @@ import {
     SelectSearch,
     SelectTrigger,
     SelectValue,
+    groupOptions,
     renderSelectOptions,
 } from '@/components/ui/select';
-import useGenres from '@/services/hooks/genres/use-genres';
+
+import { GENRE_TYPES } from '@/utils/constants/common';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
@@ -27,7 +31,19 @@ const Genre: FC<Props> = () => {
     const genres = searchParams.getAll('genres');
 
     const handleChangeParam = useChangeParam();
-    const { data: genresList } = useGenres();
+    const { data: genreList } = useGenres({
+        options: {
+            select: (data) => {
+                return groupOptions(
+                    data.list.map((genre) => ({
+                        value: genre.slug,
+                        label: genre.name_ua,
+                        group: GENRE_TYPES[genre.type].title_ua,
+                    })),
+                );
+            },
+        },
+    });
 
     return (
         <CollapsibleFilter defaultOpen title="Жанри" active={genres.length > 0}>
@@ -42,7 +58,7 @@ const Genre: FC<Props> = () => {
                 <SelectContent>
                     <SelectSearch placeholder="Назва жанру..." />
                     <SelectList>
-                        {genresList && renderSelectOptions(genresList)}
+                        {genreList && renderSelectOptions(genreList)}
                         <SelectEmpty>Жанрів не знайдено</SelectEmpty>
                     </SelectList>
                 </SelectContent>

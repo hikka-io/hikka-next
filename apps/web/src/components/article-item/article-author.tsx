@@ -1,8 +1,10 @@
+import { ArticleResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
 import { FC } from 'react';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+
 import FollowButton from '../follow-button';
 import {
     HorizontalCard,
@@ -13,7 +15,7 @@ import {
 } from '../ui/horizontal-card';
 
 interface Props {
-    article: API.Article;
+    article: ArticleResponse;
 }
 
 const Author: FC<Props> = ({ article }) => {
@@ -33,7 +35,7 @@ const Author: FC<Props> = ({ article }) => {
                     >
                         {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
                     </HorizontalCardDescription>
-                    <div className="size-1 rounded-full bg-muted-foreground" />
+                    <div className="bg-muted-foreground size-1 rounded-full" />
                     <HorizontalCardDescription>
                         {article.draft
                             ? 'Чернетка'

@@ -1,5 +1,6 @@
 'use client';
 
+import { useUserHistory } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, Fragment } from 'react';
 
@@ -9,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-import useUserHistory from '@/services/hooks/history/use-user-history';
 
 interface Props {
     className?: string;

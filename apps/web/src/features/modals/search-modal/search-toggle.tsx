@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import * as React from 'react';
 import { FC, ReactNode } from 'react';
 
@@ -19,50 +20,51 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
-    type?: API.ContentType | 'user';
-    setType: (type: API.ContentType) => void;
+    type?: ContentTypeEnum;
+    setType: (type: ContentTypeEnum) => void;
     disabled?: boolean;
     inputRef: React.RefObject<HTMLInputElement | null>;
-    allowedTypes?: (API.ContentType | 'user')[];
+    allowedTypes?: ContentTypeEnum[];
 }
 
 type SearchType = {
-    slug: API.ContentType | 'user';
+    slug: ContentTypeEnum;
     title_ua: string;
     icon: ReactNode;
 };
 
 const SEARCH_TYPES: SearchType[] = [
     {
-        slug: 'anime',
+        slug: ContentTypeEnum.ANIME,
         title_ua: 'Аніме',
         icon: <MaterialSymbolsAnimatedImages className="!size-4" />,
     },
     {
-        slug: 'manga',
+        slug: ContentTypeEnum.MANGA,
         title_ua: 'Манґа',
         icon: <MaterialSymbolsPalette className="!size-4" />,
     },
     {
-        slug: 'novel',
+        slug: ContentTypeEnum.NOVEL,
         title_ua: 'Ранобе',
         icon: <MaterialSymbolsMenuBookRounded className="!size-4" />,
     },
     {
-        slug: 'character',
+        slug: ContentTypeEnum.CHARACTER,
         title_ua: 'Персонаж',
         icon: <MaterialSymbolsFace3 className="!size-4" />,
     },
     {
-        slug: 'person',
+        slug: ContentTypeEnum.PERSON,
         title_ua: 'Людина',
         icon: <MaterialSymbolsPerson className="!size-4" />,
     },
     {
-        slug: 'user',
+        slug: ContentTypeEnum.USER,
         title_ua: 'Користувач',
         icon: <MaterialSymbolsAccountBox className="!size-4" />,
     },
@@ -75,7 +77,7 @@ const SearchToggle: FC<Props> = ({
     disabled,
     inputRef,
 }) => {
-    const handleOnValueChange = (value: API.ContentType[]) => {
+    const handleOnValueChange = (value: ContentTypeEnum[]) => {
         value && setType(value[0]);
         inputRef.current?.focus();
     };

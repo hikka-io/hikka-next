@@ -29,5 +29,8 @@ export const useUpdateArticle = createMutation({
  */
 export const useDeleteArticle = createMutation({
     mutationFn: (client, slug: string) => client.articles.deleteArticle(slug),
-    invalidateQueries: () => [queryKeys.articles.all],
+    invalidateQueries: (slug: string) => [
+        queryKeys.articles.all,
+        queryKeys.articles.bySlug(slug),
+    ],
 });

@@ -1,14 +1,14 @@
 import {
     CommentArgs,
     CommentTextArgs,
-    CommentsContentTypeEnum,
+    CommentsContentType,
 } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
 
 type WriteCommentVariables = {
-    contentType: CommentsContentTypeEnum;
+    contentType: CommentsContentType;
     slug: string;
     args: CommentArgs;
 };

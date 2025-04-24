@@ -1,11 +1,11 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import { usePersonInfo, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import ContentCard from '@/components/content-card/content-card';
 import EditButton from '@/components/edit-button';
-import useSession from '@/services/hooks/auth/use-session';
-import usePersonInfo from '@/services/hooks/people/use-person-info';
 
 const Cover = () => {
     const { user: loggedUser } = useSession();
@@ -25,12 +25,12 @@ const Cover = () => {
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
-                            content_type="person"
+                            content_type={ContentTypeEnum.PERSON}
                         />
                     )}
                 </div>
 
-                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-background to-transparent" />
+                <div className="from-background absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t to-transparent" />
             </ContentCard>
         </div>
     );

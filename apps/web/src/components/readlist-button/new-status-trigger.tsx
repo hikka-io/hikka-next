@@ -1,11 +1,13 @@
 'use client';
 
+import { ReadContentType, ReadStatusEnum } from '@hikka/client';
+import { useAddOrUpdateRead } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
-import useAddRead from '@/services/hooks/read/use-add-read';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsArrowDropDownRounded from '../icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';
@@ -13,7 +15,7 @@ import { SelectTrigger } from '../ui/select';
 interface NewStatusTriggerProps {
     disabled?: boolean;
     slug: string;
-    content_type: 'novel' | 'manga';
+    content_type: ReadContentType;
     size?: 'sm' | 'md';
 }
 
@@ -23,16 +25,16 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     content_type,
     size,
 }) => {
-    const { mutate: addRead } = useAddRead();
+    const { mutate: addOrUpdateRead } = useAddOrUpdateRead({});
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addRead({
-            params: {
-                content_type,
-                slug,
-                status: 'planned',
+        addOrUpdateRead({
+            contentType: content_type,
+            slug,
+            args: {
+                status: ReadStatusEnum.PLANNED,
             },
         });
     };
@@ -56,7 +58,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    <div className="rounded-sm bg-muted-foreground p-0.5">
+                    <div className="bg-muted-foreground rounded-sm p-0.5">
                         {createElement(WATCH_STATUS.planned.icon!)}
                     </div>
                     <span className="truncate rounded-none">

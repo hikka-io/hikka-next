@@ -3,7 +3,7 @@ import {
     CommentListResponse,
     CommentResponse,
     CommentTextArgs,
-    CommentsContentTypeEnum,
+    CommentsContentType,
     PaginationArgs,
     SuccessResponse,
 } from '../types';
@@ -33,7 +33,7 @@ export class CommentsModule extends BaseModule {
      * Write a comment
      */
     public async write(
-        contentType: CommentsContentTypeEnum,
+        contentType: CommentsContentType,
         slug: string,
         args: CommentArgs,
     ): Promise<CommentResponse> {
@@ -47,7 +47,7 @@ export class CommentsModule extends BaseModule {
      * Get content's comments
      */
     public async getContentComments(
-        contentType: CommentsContentTypeEnum,
+        contentType: CommentsContentType,
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CommentListResponse> {

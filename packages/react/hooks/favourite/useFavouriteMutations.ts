@@ -1,10 +1,10 @@
-import { FavouriteContentTypeEnum } from '@hikka/client';
+import { FavouriteContentType } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
 
 type FavouriteVariables = {
-    contentType: FavouriteContentTypeEnum;
+    contentType: FavouriteContentType;
     slug: string;
 };
 

@@ -1,5 +1,11 @@
 'use client';
 
+import {
+    AnimeScheduleResponse,
+    ContentStatusEnum,
+    SeasonEnum,
+} from '@hikka/client';
+import { useAnimeSchedule } from '@hikka/react';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 import { useSearchParams } from 'next/navigation';
@@ -7,13 +13,10 @@ import { useSearchParams } from 'next/navigation';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import useAnimeSchedule from '@/services/hooks/stats/use-anime-schedule';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import getCurrentSeason from '@/utils/get-current-season';
+
 import ScheduleItem from './schedule-item';
 
 const ScheduleList = () => {
@@ -23,13 +26,13 @@ const ScheduleList = () => {
         ? Boolean(searchParams.get('only_watch'))
         : undefined;
     const season =
-        (searchParams.get('season') as API.Season) || getCurrentSeason()!;
-    const year = searchParams.get('year') || String(new Date().getFullYear());
+        (searchParams.get('season') as SeasonEnum) || getCurrentSeason()!;
+    const year = Number(searchParams.get('year')) || new Date().getFullYear();
     const status = (
         searchParams.getAll('status').length > 0
             ? searchParams.getAll('status')
             : ['ongoing', 'announced']
-    ) as API.Status[];
+    ) as ContentStatusEnum[];
 
     const {
         list,
@@ -39,13 +42,15 @@ const ScheduleList = () => {
         isLoading,
         ref,
     } = useAnimeSchedule({
-        airing_season: [season, year],
-        status,
-        only_watch,
+        args: {
+            airing_season: [season, year],
+            status,
+            only_watch,
+        },
     });
 
     const sortedList = list?.reduce(
-        (acc: Record<string, API.AnimeSchedule[]>, item) => {
+        (acc: Record<string, AnimeScheduleResponse[]>, item) => {
             const day = getUnixTime(startOfDay(item.airing_at * 1000));
             if (!(day in acc)) {
                 acc[day] = [];
@@ -72,7 +77,7 @@ const ScheduleList = () => {
                                 <HeaderContainer>
                                     <HeaderTitle>
                                         {formattedDay[0]}
-                                        <span className="rounded-sm bg-primary p-1 text-primary-foreground">
+                                        <span className="bg-primary text-primary-foreground rounded-sm p-1">
                                             {formattedDay[1]}
                                         </span>
                                     </HeaderTitle>

@@ -1,19 +1,21 @@
 'use client';
 
+import { EditContentType, MainContent } from '@hikka/client';
+import { useAddEdit } from '@hikka/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
-import addEdit from '@/services/api/edit/addEdit';
+
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
 } from '@/utils/edit-param-utils';
+
 import AutoButton from './auto-button';
 import EditDescription from './edit-description';
 import EditGroup from './edit-group';
@@ -25,9 +27,9 @@ type FormValues = Record<string, unknown> & {
 
 interface Props {
     slug: string;
-    content_type: API.ContentType;
+    content_type: EditContentType;
     mode?: 'view' | 'edit';
-    content: API.MainContent;
+    content: MainContent;
 }
 
 const EditForm: FC<Props> = ({
@@ -59,9 +61,10 @@ const EditForm: FC<Props> = ({
         },
     });
 
-    const mutation = useMutation({
-        mutationFn: addEdit,
-        onSuccess: (data) => onDismiss(data.edit_id),
+    const mutationAddEdit = useAddEdit({
+        options: {
+            onSuccess: (data) => onDismiss(data.edit_id),
+        },
     });
 
     const onDismiss = (editId: number) => {
@@ -70,17 +73,14 @@ const EditForm: FC<Props> = ({
     };
 
     const onSubmit = async (data: FormValues) => {
-        mutation.mutate({
-            params: {
-                content_type: content_type,
-                slug: slug,
-                after: {
-                    ...getFilteredEditParams(paramSlugs, data),
-                },
-                auto: data.auto || false,
-                description: data.description,
+        mutationAddEdit.mutate({
+            content_type: content_type,
+            slug: slug,
+            after: {
+                ...getFilteredEditParams(paramSlugs, data),
             },
-            captcha: String(captchaRef.current?.getResponse()),
+            auto: data.auto || false,
+            description: data.description,
         });
     };
 
@@ -113,12 +113,12 @@ const EditForm: FC<Props> = ({
                         />
                         <div className="flex items-center gap-2">
                             <Button
-                                disabled={mutation.isPending}
+                                disabled={mutationAddEdit.isPending}
                                 onClick={form.handleSubmit(onSubmit)}
                                 type="submit"
                                 className="w-fit"
                             >
-                                {mutation.isPending && (
+                                {mutationAddEdit.isPending && (
                                     <span className="loading loading-spinner"></span>
                                 )}
                                 Створити

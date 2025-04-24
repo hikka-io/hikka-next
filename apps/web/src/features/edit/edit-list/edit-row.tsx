@@ -1,5 +1,6 @@
 'use client';
 
+import { EditResponse } from '@hikka/client';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -10,6 +11,7 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
+
 import { getTitle } from '@/utils/adapters/convert-title';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
@@ -17,7 +19,7 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    edit: API.Edit;
+    edit: EditResponse;
 }
 
 const EditRow: FC<Props> = ({ edit }) => {
@@ -64,7 +66,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                         })}
                     </Link>
                 </div>
-                <Label className="text-xs text-muted-foreground">
+                <Label className="text-muted-foreground text-xs">
                     {CONTENT_TYPES[edit.content_type].title_ua}
                 </Label>
             </TableCell>

@@ -1,24 +1,41 @@
-import { PaginationResponse } from './common';
+import { ContentTypeEnum, PaginationResponse } from './common';
+import {
+    AnimeResponse,
+    CharacterResponse,
+    MangaResponse,
+    NovelResponse,
+    PersonResponse,
+} from './content';
 import { UserResponse } from './user';
+
+/**
+ * Edit content type
+ */
+export type EditContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL
+    | ContentTypeEnum.CHARACTER
+    | ContentTypeEnum.PERSON;
+
+/**
+ * Edit content
+ */
+export type EditContent =
+    | AnimeResponse
+    | MangaResponse
+    | NovelResponse
+    | CharacterResponse
+    | PersonResponse;
 
 /**
  * Edit status enum
  */
 export enum EditStatusEnum {
     PENDING = 'pending',
-    APPROVED = 'approved',
-    REJECTED = 'rejected',
-}
-
-/**
- * Content type enum
- */
-export enum ContentTypeEnum {
-    ANIME = 'anime',
-    MANGA = 'manga',
-    NOVEL = 'novel',
-    CHARACTER = 'character',
-    PERSON = 'person',
+    ACCEPTED = 'accepted',
+    DENIED = 'denied',
+    CLOSED = 'closed',
 }
 
 /**
@@ -28,7 +45,7 @@ export interface EditResponse<
     TEditParams = Record<string, any>,
     TContent = any,
 > {
-    content_type: ContentTypeEnum;
+    content_type: EditContentType;
     status: EditStatusEnum;
     description: string | null;
     created: number;
@@ -50,14 +67,30 @@ export interface EditPaginationResponse<T = any> {
 }
 
 /**
+ * Todo edit response
+ */
+export interface TodoEditResponse<T = any> {
+    list: T[];
+    pagination: PaginationResponse;
+}
+
+/**
  * Add edit arguments
  */
 export interface AddEditArgs<T = any> {
     description?: string;
-    content_type: ContentTypeEnum;
+    content_type: EditContentType;
     after: T;
     slug: string;
     auto?: boolean;
+}
+
+/**
+ * Todo edit arguments
+ */
+export interface TodoEditArgs {
+    todo_type: 'synopsis_ua' | 'title_ua';
+    content_type: EditContentType;
 }
 
 /**
@@ -73,10 +106,9 @@ export interface UpdateEditArgs<T = any> {
  * Get edit list arguments
  */
 export interface GetEditListArgs {
-    page?: number;
     sort?: string[];
     status?: EditStatusEnum;
-    content_type?: ContentTypeEnum;
+    content_type?: EditContentType;
     slug?: string;
     author?: string | null;
     moderator?: string | null;

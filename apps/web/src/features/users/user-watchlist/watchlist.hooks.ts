@@ -1,6 +1,12 @@
+import {
+    AnimeAgeRatingEnum,
+    AnimeMediaEnum,
+    AnimeStatusEnum,
+    SeasonEnum,
+    WatchStatusEnum,
+} from '@hikka/client';
+import { useWatchList } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
-
-import useWatchList from '@/services/hooks/watch/use-watch-list';
 
 export const useList = () => {
     const searchParams = useSearchParams()!;
@@ -9,11 +15,14 @@ export const useList = () => {
     const watchStatus = searchParams.get('status');
     const view = searchParams.get('view') || 'table';
 
-    const media_type = searchParams.getAll('types');
-    const status = searchParams.getAll('statuses');
-    const season = searchParams.getAll('seasons');
-    const rating = searchParams.getAll('ratings');
-    const years = searchParams.getAll('years');
+    const media_type = searchParams.getAll('types') as AnimeMediaEnum[];
+    const status = searchParams.getAll('statuses') as AnimeStatusEnum[];
+    const season = searchParams.getAll('seasons') as SeasonEnum[];
+    const rating = searchParams.getAll('ratings') as AnimeAgeRatingEnum[];
+    const years = searchParams.getAll('years') as unknown as [
+        number | null,
+        number | null,
+    ];
     const genres = searchParams.getAll('genres');
     const studios = searchParams.getAll('studios');
 
@@ -22,14 +31,16 @@ export const useList = () => {
 
     return useWatchList({
         username: String(params.username),
-        watch_status: String(watchStatus) as API.WatchStatus,
-        media_type,
-        status,
-        season,
-        rating,
-        years,
-        genres,
-        studios,
-        sort: sort && order ? [`${sort}:${order}`] : undefined,
+        args: {
+            watch_status: String(watchStatus) as WatchStatusEnum,
+            media_type,
+            status,
+            season,
+            rating,
+            years,
+            genres,
+            studios,
+            sort: sort && order ? [`${sort}:${order}`] : undefined,
+        },
     });
 };

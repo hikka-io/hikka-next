@@ -1,32 +1,22 @@
-import { AuthTokenInfoPaginationResponse, PaginationArgs } from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { AuthTokenInfoPaginationResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
 
 /**
  * Hook for retrieving third-party tokens with pagination
  */
-export function useAuthThirdPartyTokens(
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            AuthTokenInfoPaginationResponse,
-            Error,
-            InfiniteData<AuthTokenInfoPaginationResponse>,
-            AuthTokenInfoPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useAuthThirdPartyTokens({
+    paginationArgs,
+    ...rest
+}: InfiniteQueryParams<AuthTokenInfoPaginationResponse> = {}) {
     return useInfiniteQuery({
         queryKey: queryKeys.auth.thirdPartyTokens(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -34,35 +24,24 @@ export function useAuthThirdPartyTokens(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches third-party tokens for server-side rendering
  */
-export async function prefetchAuthThirdPartyTokens(
-    queryClient: QueryClient,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            AuthTokenInfoPaginationResponse,
-            Error,
-            AuthTokenInfoPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchAuthThirdPartyTokens({
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<AuthTokenInfoPaginationResponse> = {}) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.auth.thirdPartyTokens(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.auth.listThirdPartyTokens({
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

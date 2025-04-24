@@ -1,10 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CommentResponse } from '@hikka/client';
+import { useHideComment, useSession } from '@hikka/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
-import deleteComment from '@/services/api/comments/deleteComment';
-import useSession from '@/services/hooks/auth/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+
 import MaterialSymbolsDeleteForeverRounded from '../icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '../icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
@@ -28,7 +29,7 @@ import {
 } from '../ui/dropdown-menu';
 
 interface Props {
-    comment: API.Comment;
+    comment: CommentResponse;
 }
 
 const CommentMenu: FC<Props> = ({ comment }) => {
@@ -38,27 +39,11 @@ const CommentMenu: FC<Props> = ({ comment }) => {
 
     const { user: loggedUser } = useSession();
 
-    const deleteCommentMutation = useMutation({
-        mutationFn: deleteComment,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['comments'],
-                exact: false,
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['comment-thread'],
-                exact: false,
-            });
-        },
-    });
+    const deleteCommentMutation = useHideComment({});
 
     const handleDeleteComment = async () => {
         try {
-            deleteCommentMutation.mutate({
-                params: {
-                    reference: comment.reference,
-                },
-            });
+            deleteCommentMutation.mutate(comment.reference);
         } catch (e) {
             enqueueSnackbar(
                 'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
@@ -73,7 +58,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
                 <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="text-sm text-muted-foreground"
+                    className="text-muted-foreground text-sm"
                 >
                     <MaterialSymbolsMoreHoriz />
                 </Button>

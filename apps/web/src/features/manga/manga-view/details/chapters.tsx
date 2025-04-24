@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Label } from '@/components/ui/label';
 
 interface Props {
-    chapters: number;
+    chapters: number | null;
 }
 
 const Chapters: FC<Props> = ({ chapters }) => {

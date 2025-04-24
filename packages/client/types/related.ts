@@ -1,15 +1,15 @@
 import { AnimeResponse } from './anime';
+import { ContentTypeEnum } from './common';
 import { MangaResponse } from './manga';
 import { NovelResponse } from './novel';
 
 /**
- * Related content types enum
+ * Related content types
  */
-export enum RelatedContentTypeEnum {
-    ANIME = 'anime',
-    MANGA = 'manga',
-    NOVEL = 'novel',
-}
+export type RelatedContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 
 /**
  * Franchise response

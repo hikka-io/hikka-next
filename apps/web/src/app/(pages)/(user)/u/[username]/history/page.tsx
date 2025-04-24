@@ -1,13 +1,16 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchFollowingHistory,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
 import History from '@/features/users/user-history/user-history.component';
-import { prefetchFollowingHistory } from '@/services/hooks/history/use-following-history';
-import { getCookie } from '@/utils/cookies';
+
 import _generateMetadata from '@/utils/generate-metadata';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Активність',
@@ -18,11 +21,11 @@ interface Props {
 }
 
 const FollowingHistoryPage: FC<Props> = async (props) => {
-    const searchParams = await props.searchParams;
     const queryClient = getQueryClient();
-    const auth = await getCookie('auth');
+    const clientConfig = await getHikkaClientConfig();
 
-    auth && (await prefetchFollowingHistory());
+    clientConfig.authToken &&
+        (await prefetchFollowingHistory({ clientConfig }));
 
     const dehydratedState = dehydrate(queryClient);
 

@@ -1,9 +1,11 @@
+import { CommentResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import Small from '../typography/small';
@@ -18,7 +20,7 @@ import {
 import { Label } from '../ui/label';
 
 interface Props {
-    comment: API.Comment;
+    comment: CommentResponse;
     href: string;
 }
 

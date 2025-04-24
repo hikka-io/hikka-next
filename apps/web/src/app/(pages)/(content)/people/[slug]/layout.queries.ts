@@ -1,7 +1,11 @@
-import { prefetchPersonAnime } from '@/services/hooks/people/use-person-anime';
-import { prefetchPersonCharacters } from '@/services/hooks/people/use-person-characters';
-import { prefetchPersonManga } from '@/services/hooks/people/use-person-manga';
-import { prefetchPersonNovel } from '@/services/hooks/people/use-person-novel';
+import {
+    prefetchPersonAnime,
+    prefetchPersonCharacters,
+    prefetchPersonManga,
+    prefetchPersonNovel,
+} from '@hikka/react';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -10,11 +14,13 @@ interface Props {
 }
 
 const prefetchQueries = async ({ params: { slug } }: Props) => {
+    const clientConfig = await getHikkaClientConfig();
+
     await Promise.all([
-        prefetchPersonAnime({ slug }),
-        prefetchPersonManga({ slug }),
-        prefetchPersonNovel({ slug }),
-        prefetchPersonCharacters({ slug }),
+        prefetchPersonAnime({ slug, clientConfig }),
+        prefetchPersonManga({ slug, clientConfig }),
+        prefetchPersonNovel({ slug, clientConfig }),
+        prefetchPersonCharacters({ slug, clientConfig }),
     ]);
 };
 

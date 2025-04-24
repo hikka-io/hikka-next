@@ -1,5 +1,6 @@
 'use client';
 
+import { useUserByUsername } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import {
@@ -7,8 +8,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
-import useUser from '@/services/hooks/user/use-user';
 
 import MaterialSymbolsSecurity from '../../components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '../../components/icons/material-symbols/MaterialSymbolsShieldPerson';
@@ -18,7 +17,9 @@ import P from '../../components/typography/p';
 
 const UserTitle = () => {
     const params = useParams();
-    const { data: user } = useUser({ username: String(params.username) });
+    const { data: user } = useUserByUsername({
+        username: String(params.username),
+    });
 
     if (!user) {
         return null;
@@ -31,7 +32,7 @@ const UserTitle = () => {
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-card-foreground backdrop-blur">
+                            <div className="border-border bg-secondary/20 text-card-foreground rounded-sm border p-1 text-xs font-bold backdrop-blur">
                                 {user.role === 'admin' && (
                                     <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                 )}
@@ -51,7 +52,7 @@ const UserTitle = () => {
                 )}
             </div>
             {user.description && (
-                <MDViewer className="line-clamp-4 text-sm text-muted-foreground">
+                <MDViewer className="text-muted-foreground line-clamp-4 text-sm">
                     {user.description}
                 </MDViewer>
             )}

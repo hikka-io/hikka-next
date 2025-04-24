@@ -1,11 +1,12 @@
+import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { FC } from 'react';
 
 import Comment from './comment';
 
 interface Props {
-    comments: API.Comment[];
+    comments: CommentResponse[];
     slug: string;
-    content_type: API.ContentType;
+    content_type: CommentsContentType;
 }
 
 const Comments: FC<Props> = ({ comments, slug, content_type }) => {

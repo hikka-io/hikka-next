@@ -1,5 +1,6 @@
 import { CharacterResponse } from './characters';
 import {
+    ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
     PaginationResponse,
@@ -7,7 +8,9 @@ import {
     SeasonEnum,
     SourceEnum,
 } from './common';
+import { CompanyTypeEnum } from './companies';
 import { PersonResponse } from './people';
+import { WatchResponseBase } from './watch';
 
 /**
  * Anime media types
@@ -46,15 +49,16 @@ export enum AnimeStatusEnum {
  * Base anime response
  */
 export interface AnimeResponse {
-    data_type: string;
-    media_type: string | null;
+    data_type: ContentTypeEnum.ANIME;
+    media_type: AnimeMediaEnum | null;
+    title?: string;
     title_ua: string | null;
     title_en: string | null;
     title_ja: string | null;
     episodes_released: number | null;
     episodes_total: number | null;
     image: string | null;
-    status: string | null;
+    status: AnimeStatusEnum | null;
     scored_by: number;
     score: number;
     slug: string;
@@ -62,38 +66,18 @@ export interface AnimeResponse {
     end_date: number | null;
     translated_ua: boolean;
     season: string | null;
-    source: string | null;
-    rating: string | null;
+    source: SourceEnum | null;
+    rating: AnimeAgeRatingEnum | null;
     year: number | null;
-}
-
-/**
- * Watch status base response
- */
-export interface WatchResponseBase {
-    reference: string;
-    note: string | null;
-    updated: number;
-    created: number;
-    status: string;
-    rewatches: number;
-    duration: number;
-    episodes: number;
-    score: number;
-}
-
-/**
- * Anime response with watch status
- */
-export interface AnimeResponseWithWatch extends AnimeResponse {
     watch: WatchResponseBase[];
+    comments_count: number;
 }
 
 /**
  * Paginated anime response
  */
 export interface AnimePaginationResponse {
-    list: AnimeResponseWithWatch[];
+    list: AnimeResponse[];
     pagination: PaginationResponse;
 }
 
@@ -170,28 +154,23 @@ export interface AnimeEpisodesListResponse {
 }
 
 /**
- * Company response
- */
-export interface CompanyResponse {
-    image: string | null;
-    slug: string;
-    name: string;
-}
-
-/**
- * Company type enum
- */
-export enum CompanyTypeEnum {
-    PRODUCER = 'producer',
-    STUDIO = 'studio',
-}
-
-/**
  * Anime company response
  */
 export interface AnimeCompanyResponse {
-    company: CompanyResponse;
+    company: {
+        image: string | null;
+        slug: string;
+        name: string;
+    };
     type: CompanyTypeEnum;
+}
+
+/**
+ * Anime video type enum
+ */
+export enum AnimeVideoTypeEnum {
+    VIDEO_PROMO = 'video_promo',
+    VIDEO_MUSIC = 'video_music',
 }
 
 /**
@@ -201,7 +180,15 @@ export interface AnimeVideoResponse {
     url: string;
     title: string | null;
     description: string | null;
-    video_type: string;
+    video_type: AnimeVideoTypeEnum;
+}
+
+/**
+ * Anime OST type enum
+ */
+export enum AnimeOSTTypeEnum {
+    OPENING = 'opening',
+    ENDING = 'ending',
 }
 
 /**
@@ -212,7 +199,7 @@ export interface AnimeOSTResponse {
     title: string | null;
     author: string | null;
     spotify: string | null;
-    ost_type: string;
+    ost_type: AnimeOSTTypeEnum;
 }
 
 /**
@@ -239,40 +226,20 @@ export interface AnimeStatsResponse {
 /**
  * Detailed anime info response
  */
-export interface AnimeInfoResponse {
-    data_type: string;
+export interface AnimeInfoResponse extends AnimeResponse {
     companies: AnimeCompanyResponse[];
+    duration: number | null;
+    external: ExternalResponse[];
     genres: GenreResponse[];
-    start_date: number | null;
-    end_date: number | null;
-    updated: number;
-    comments_count: number;
-    episodes_released: number | null;
-    episodes_total: number | null;
+    has_franchise: boolean;
+    mal_id: number;
+    nsfw: boolean;
+    ost: AnimeOSTResponse[];
+    schedule: any[];
+    stats: AnimeStatsResponse;
     synopsis_en: string | null;
     synopsis_ua: string | null;
-    media_type: string | null;
-    title_ua: string | null;
-    title_en: string | null;
-    title_ja: string | null;
-    duration: number | null;
-    image: string | null;
-    status: string | null;
-    source: string | null;
-    rating: string | null;
-    has_franchise: boolean;
-    scored_by: number;
-    score: number;
-    nsfw: boolean;
-    slug: string;
-    season: string | null;
-    year: number | null;
     synonyms: string[];
-    external: ExternalResponse[];
+    updated: number;
     videos: AnimeVideoResponse[];
-    ost: AnimeOSTResponse[];
-    stats: AnimeStatsResponse;
-    schedule: any[];
-    translated_ua: boolean;
-    mal_id: number;
 }

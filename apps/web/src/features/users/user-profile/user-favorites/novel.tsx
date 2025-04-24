@@ -1,12 +1,14 @@
 'use client';
 
+import { ContentTypeEnum, FavouriteNovelResponse } from '@hikka/client';
+import { useFavouriteList } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import NovelCard from '@/components/novel-card';
 import NotFound from '@/components/ui/not-found';
-import useFavorites from '@/services/hooks/favorite/use-favorites';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -22,9 +24,9 @@ const Novel: FC<Props> = ({ extended }) => {
         isFetchingNextPage,
         isPending,
         ref,
-    } = useFavorites<API.NovelInfo>({
+    } = useFavouriteList<FavouriteNovelResponse>({
+        contentType: ContentTypeEnum.NOVEL,
         username: String(params.username),
-        content_type: 'novel',
     });
 
     if (isPending) {
@@ -44,7 +46,7 @@ const Novel: FC<Props> = ({ extended }) => {
                     className={cn(
                         'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
                         !extended &&
-                            'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
+                            'grid-min-10 no-scrollbar auto-cols-scroll grid-cols-scroll -mx-4 grid-flow-col overflow-x-auto px-4',
                     )}
                 >
                     {filteredData.map((res) => (

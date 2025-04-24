@@ -1,22 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-
-import getPeople from '@/services/api/people/getPeople';
+import { PersonSearchPaginationResponse } from '@hikka/client';
+import { useQuery } from '@hikka/react';
 
 interface Props {
     value?: string;
 }
 
 const usePersonSearchList = ({ value }: Props) => {
-    return useQuery<API.WithPagination<API.Person>, Error>({
-        queryKey: ['personSearchList', value],
-        queryFn: () =>
-            getPeople({
-                params: {
-                    query: value,
-                },
-                size: 60,
-            }),
-        enabled: value !== undefined && value.length >= 3,
+    return useQuery<PersonSearchPaginationResponse, Error>({
+        queryKey: ['person-search-list', value],
+        queryFn: (client) =>
+            client.people.search({ query: value }, { size: 60 }),
+        options: {
+            enabled: value !== undefined && value.length >= 3,
+        },
     });
 };
 

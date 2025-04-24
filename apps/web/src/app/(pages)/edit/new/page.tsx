@@ -1,23 +1,25 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { EditContent, EditContentType } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchAnimeInfo,
+    prefetchCharacterInfo,
+    prefetchMangaInfo,
+    prefetchNovelInfo,
+    prefetchPersonInfo,
+} from '@hikka/react';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import Content from '@/features/edit/edit-content/edit-content.component';
 import EditForm from '@/features/edit/edit-forms/edit-create-form.component';
 import RulesAlert from '@/features/edit/edit-rules-alert.component';
-import { prefetchAnimeInfo } from '@/services/hooks/anime/use-anime-info';
-import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
-import { prefetchMangaInfo } from '@/services/hooks/manga/use-manga-info';
-import { prefetchNovelInfo } from '@/services/hooks/novel/use-novel-info';
-import { prefetchPersonInfo } from '@/services/hooks/people/use-person-info';
-import getQueryClient from '@/utils/get-query-client';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };
@@ -25,10 +27,10 @@ interface Props {
 
 const EditNewPage: FC<Props> = async (props) => {
     const searchParams = await props.searchParams;
-
     const { content_type, slug } = searchParams;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
     if (
         !content_type &&
@@ -40,26 +42,26 @@ const EditNewPage: FC<Props> = async (props) => {
     }
 
     if (content_type === 'anime') {
-        await prefetchAnimeInfo({ slug: String(slug) });
+        await prefetchAnimeInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'manga') {
-        await prefetchMangaInfo({ slug: String(slug) });
+        await prefetchMangaInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'novel') {
-        await prefetchNovelInfo({ slug: String(slug) });
+        await prefetchNovelInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'character') {
-        await prefetchCharacterInfo({ slug: String(slug) });
+        await prefetchCharacterInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'person') {
-        await prefetchPersonInfo({ slug: String(slug) });
+        await prefetchPersonInfo({ slug: String(slug), clientConfig });
     }
 
-    const content: API.MainContent | undefined = queryClient.getQueryData([
+    const content: EditContent | undefined = queryClient.getQueryData([
         content_type,
         slug,
     ]);
@@ -82,14 +84,14 @@ const EditNewPage: FC<Props> = async (props) => {
                     <RulesAlert />
                     <EditForm
                         slug={slug as string}
-                        content_type={content_type as API.ContentType}
+                        content_type={content_type as EditContentType}
                         content={content}
                     />
                 </Block>
                 <div className="flex flex-col gap-12">
                     <Content
                         slug={slug as string}
-                        content_type={content_type as API.ContentType}
+                        content_type={content_type as EditContentType}
                         content={content}
                     />
                 </div>

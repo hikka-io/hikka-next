@@ -1,3 +1,4 @@
+import { AnimeScheduleResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
 import { FC } from 'react';
 
@@ -8,10 +9,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
 import getScheduleDuration from '@/utils/get-schedule-duration';
 
 interface Props {
-    schedule: API.Schedule[];
+    schedule: AnimeScheduleResponse[];
 }
 
 const EpisodeSchedule: FC<Props> = ({ schedule }) => {

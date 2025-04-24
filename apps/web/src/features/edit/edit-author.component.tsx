@@ -1,5 +1,6 @@
 'use client';
 
+import { useEdit } from '@hikka/react';
 import { format } from 'date-fns';
 import { FC } from 'react';
 
@@ -12,14 +13,12 @@ import {
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
 
-import useEdit from '@/services/hooks/edit/use-edit';
-
 interface Props {
     editId: string;
 }
 
 const EditAuthor: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ edit_id: Number(editId) });
+    const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit) {
         return null;

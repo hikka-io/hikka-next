@@ -4,7 +4,7 @@ import { TableCell } from '@/components/ui/table';
 
 interface Props {
     volumes: number;
-    total: number;
+    total?: number;
 }
 
 const VolumesCell: FC<Props> = ({ volumes, total }) => (

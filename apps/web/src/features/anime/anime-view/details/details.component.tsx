@@ -1,15 +1,12 @@
 'use client';
 
+import { useAnimeInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import Duration from './duration';
 import EpisodeSchedule from './episode-schedule';
 import Episodes from './episodes';

@@ -1,5 +1,6 @@
 'use client';
 
+import { PersonResponse } from '@hikka/client';
 import { ReactNode } from 'react';
 
 import {
@@ -7,12 +8,13 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
+
 import PersonCard from './cards/person-card';
 import usePersonSearchList from './hooks/usePersonSearchList';
 import SearchPlaceholders from './search-placeholders';
 
 interface Props {
-    onDismiss: (character: API.Person) => void;
+    onDismiss: (person: PersonResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     value?: string;

@@ -1,5 +1,6 @@
 'use client';
 
+import { ArticleContent, ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
@@ -12,10 +13,12 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
+
 import { useArticleContext } from '@/services/providers/article-provider';
 import { useSettingsContext } from '@/services/providers/settings-provider';
 import { convertTitle } from '@/utils/adapters/convert-title';
 import { CONTENT_TYPES } from '@/utils/constants/common';
+
 import SearchModal from '../../../modals/search-modal/search-modal.component';
 
 interface Props {}
@@ -27,7 +30,7 @@ const ContentInput: FC<Props> = () => {
 
     const contentWithTitle = content
         ? convertTitle({
-              data: content,
+              data: content as any,
               titleLanguage: titleLanguage!,
           })
         : undefined;
@@ -57,10 +60,14 @@ const ContentInput: FC<Props> = () => {
             )}
             {!content && (
                 <SearchModal
-                    allowedTypes={['anime', 'manga', 'novel']}
+                    allowedTypes={[
+                        ContentTypeEnum.ANIME,
+                        ContentTypeEnum.MANGA,
+                        ContentTypeEnum.NOVEL,
+                    ]}
                     onClick={(value) =>
                         setContent(
-                            value as API.MainContent & {
+                            value as ArticleContent & {
                                 title?: string;
                             },
                         )

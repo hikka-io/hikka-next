@@ -1,5 +1,6 @@
 'use client';
 
+import { MangaResponse } from '@hikka/client';
 import { ReactNode } from 'react';
 
 import {
@@ -7,12 +8,13 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
+
 import MangaCard from './cards/manga-card';
 import useMangaSearchList from './hooks/useMangaSearchList';
 import SearchPlaceholders from './search-placeholders';
 
 interface Props {
-    onDismiss: (manga: API.Manga) => void;
+    onDismiss: (manga: MangaResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     value?: string;

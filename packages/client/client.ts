@@ -22,6 +22,7 @@ import { ReadModule } from './modules/read';
 import { RelatedModule } from './modules/related';
 import { ScheduleModule } from './modules/schedule';
 import { SettingsModule } from './modules/settings';
+import { SitemapModule } from './modules/sitemap';
 import { StatsModule } from './modules/stats';
 import { UploadModule } from './modules/upload';
 import { UserModule } from './modules/user';
@@ -29,7 +30,7 @@ import { VoteModule } from './modules/vote';
 import { WatchModule } from './modules/watch';
 
 export interface HikkaClientConfig {
-    baseUrl: string;
+    baseUrl?: string;
     authToken?: string;
 }
 
@@ -67,9 +68,10 @@ export class HikkaClient {
     public settings: SettingsModule;
     public upload: UploadModule;
     public vote: VoteModule;
+    public sitemap: SitemapModule;
 
     constructor(config: HikkaClientConfig) {
-        this.baseUrl = config.baseUrl;
+        this.baseUrl = config.baseUrl || 'https://api.hikka.io';
         this.authToken = config.authToken;
 
         // Initialize modules
@@ -99,6 +101,7 @@ export class HikkaClient {
         this.settings = new SettingsModule(this);
         this.upload = new UploadModule(this);
         this.vote = new VoteModule(this);
+        this.sitemap = new SitemapModule(this);
     }
 
     /**

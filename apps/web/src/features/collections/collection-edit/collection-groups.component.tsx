@@ -1,10 +1,11 @@
 'use client';
 
+import { useCollection } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
-import useCollection from '@/services/hooks/collections/use-collection';
 import { useCollectionContext } from '@/services/providers/collection-provider';
+
 import CollectionGrid from './collection-grid/collection-grid.component';
 
 interface Props {
@@ -17,12 +18,10 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const groups = useCollectionContext((state) => state.groups);
     const setApiData = useCollectionContext((state) => state.setApiData);
 
-    const { data } = useCollection(
-        {
-            reference: String(params.reference),
-        },
-        { enabled: mode === 'edit' },
-    );
+    const { data } = useCollection({
+        reference: String(params.reference),
+        options: { enabled: mode === 'edit' },
+    });
 
     useEffect(() => {
         if (data) {

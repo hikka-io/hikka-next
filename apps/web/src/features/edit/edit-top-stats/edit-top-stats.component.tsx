@@ -1,16 +1,19 @@
 'use client';
 
+import { useEditsTop } from '@hikka/react';
+
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
+
 import { useModalContext } from '@/services/providers/modal-provider';
+
 import EditTopStatsModal from '../../modals/edit-top-stats-modal/edit-top-stats-modal.component';
 import EditTopItem from './edit-top-item';
 
 function EditTopStats() {
     const { openModal } = useModalContext();
-    const { list } = useEditTop();
+    const { list } = useEditsTop();
 
     if (!list || list.length === 0) {
         return null;
@@ -25,7 +28,7 @@ function EditTopStats() {
     };
 
     return (
-        <ScrollArea className="-mx-4 no-scrollbar">
+        <ScrollArea className="no-scrollbar -mx-4">
             <div className="flex gap-4 px-4">
                 {list.slice(0, 4).map((stat, index) => (
                     <EditTopItem
@@ -40,9 +43,9 @@ function EditTopStats() {
                 <Button
                     onClick={handleOpenModal}
                     variant="outline"
-                    className="flex-1 h-auto"
+                    className="h-auto flex-1"
                 >
-                    <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                    <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
                 </Button>
             </div>
             <ScrollBar orientation="horizontal" />

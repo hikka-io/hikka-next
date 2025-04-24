@@ -1,9 +1,12 @@
+import { HikkaClient } from '@hikka/client';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import activation from '@/services/api/auth/activation';
-
 export const dynamic = 'force-dynamic';
+
+const client = new HikkaClient({
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+});
 
 export async function GET(
     request: Request,
@@ -14,17 +17,17 @@ export async function GET(
     const { token } = params;
 
     try {
-        const res = await activation({ params: { token } });
+        const res = await client.auth.activate({ token });
         (await cookies()).set('auth', res.secret);
     } catch (e) {
-        if ('code' in (e as API.Error)) {
-            if ((e as API.Error).code === 'auth-modal:activation_expired') {
+        if ('code' in (e as any)) {
+            if ((e as any).code === 'auth-modal:activation_expired') {
                 return redirect('/anime?activation=resend');
             }
 
             return redirect(
                 '/anime?page=1&iPage=1&activation=error&error=' +
-                    (e as API.Error).code,
+                    (e as any).code,
             );
         }
 

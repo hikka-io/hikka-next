@@ -1,15 +1,46 @@
-import { HikkaClient } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
+import { HikkaClient, HikkaClientConfig } from '@hikka/client';
+import { FetchQueryOptions, QueryClientConfig } from '@tanstack/query-core';
 
-import { getHikkaClient } from '../core/createHikkaClient';
+import { getHikkaClient, getQueryClient } from '../core';
+
+/**
+ * Params for prefetching a query
+ */
+export interface PrefetchQueryParams<T> {
+    /** Query client config */
+    queryClientConfig?: QueryClientConfig;
+    /** Hikka client config */
+    clientConfig?: HikkaClientConfig;
+    /** Query options */
+    options?: Omit<FetchQueryOptions<T, Error, T>, 'queryKey' | 'queryFn'>;
+}
+
+/**
+ * Options for prefetching a query
+ */
+export interface PrefetchQueryOptions<
+    TQueryFnData,
+    TError = Error,
+    TData = TQueryFnData,
+    TQueryKey extends readonly unknown[] = readonly unknown[],
+> {
+    queryKey: TQueryKey;
+    queryFn: (client: HikkaClient) => Promise<TQueryFnData>;
+    clientConfig?: HikkaClientConfig;
+    queryClientConfig?: QueryClientConfig;
+    options?: Omit<
+        FetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+        'queryKey' | 'queryFn'
+    >;
+}
 
 /**
  * Prefetches data for a query and dehydrates it for use in server components.
  *
- * @param queryClient The query client to use
  * @param queryKey The query key to use
  * @param queryFn The function that will fetch the data
- * @param options Additional options for the query
+ * @param clientConfig The Hikka client config
+ * @param queryClientConfig The query client config
  */
 export async function prefetchQuery<
     TQueryFnData,
@@ -17,20 +48,23 @@ export async function prefetchQuery<
     TData = TQueryFnData,
     TQueryKey extends readonly unknown[] = readonly unknown[],
 >({
-    queryClient,
+    queryClientConfig,
+    clientConfig,
     queryKey,
     queryFn,
     options,
-}: {
-    queryClient: QueryClient;
-    queryKey: TQueryKey;
-    queryFn: (client: HikkaClient) => Promise<TQueryFnData>;
-    options?: Omit<
-        FetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-        'queryKey' | 'queryFn'
-    >;
-}): Promise<void> {
-    const hikkaClient = getHikkaClient();
+}: PrefetchQueryOptions<
+    TQueryFnData,
+    TError,
+    TData,
+    TQueryKey
+>): Promise<void> {
+    const queryClient = queryClientConfig
+        ? getQueryClient(queryClientConfig)
+        : getQueryClient();
+    const hikkaClient = clientConfig
+        ? getHikkaClient(clientConfig)
+        : getHikkaClient();
 
     // Prefetch the data
     await queryClient.prefetchQuery<TQueryFnData, TError, TData, TQueryKey>({

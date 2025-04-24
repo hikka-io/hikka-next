@@ -1,12 +1,3 @@
-import { ReadResponseBase, ReadStatsResponse } from './read';
-import {
-    IgnoredNotificationsArgs,
-    IgnoredNotificationsResponse,
-} from './settings';
-import { WatchResponseBase } from './watch';
-
-// Export all types by group
-
 // Anime related types
 export * from './anime';
 
@@ -66,63 +57,24 @@ export * from './follow';
 
 // Companies related types
 // Re-export specific types to avoid naming conflicts
-export { CompaniesPaginationResponse, CompaniesSearchArgs } from './companies';
+export * from './companies';
 
 // Related content types
 export * from './related';
 
 // Client related types
 // Re-export specific types to avoid naming conflicts
-export { ClientArgs, ClientCreateResponse } from './client';
+export * from './client';
 
 // Edit related types
 // Re-export with type alias to avoid naming conflicts
-export {
-    AddEditArgs,
-    ContentTypeEnum as EditContentTypeEnum,
-    EditPaginationResponse,
-    EditResponse,
-    EditStatusEnum,
-    GetEditListArgs,
-    UpdateEditArgs,
-} from './edit';
+export * from './edit';
 
-// The following types are defined in multiple modules
-// We'll export them from their "primary" module to avoid ambiguity
+// Watch related types
+export * from './watch';
 
-// Watch related types (primary: watch.ts)
-export {
-    AnimeWatchSearchArgs,
-    UserWatchPaginationResponse,
-    WatchArgs,
-    WatchPaginationResponse,
-    WatchResponse,
-    WatchStatsResponse,
-    WatchStatusEnum,
-} from './watch';
+// Read related types
+export * from './read';
 
-// Read related types (primary: read.ts)
-export {
-    ReadArgs,
-    ReadContentTypeEnum,
-    ReadPaginationResponse,
-    ReadResponse,
-    ReadSearchArgs,
-    ReadStatusEnum,
-    UserReadPaginationResponse,
-} from './read';
-
-// Notification related types (primary: notifications.ts)
-export {
-    NotificationPaginationResponse,
-    NotificationResponse,
-    NotificationUnseenResponse,
-} from './notifications';
-
-export {
-    IgnoredNotificationsArgs,
-    IgnoredNotificationsResponse,
-    ReadResponseBase,
-    ReadStatsResponse,
-    WatchResponseBase,
-};
+// Notification related types
+export * from './notifications';

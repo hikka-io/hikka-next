@@ -1,20 +1,19 @@
-import { AnimeResponseWithWatch } from './anime';
+import { AnimeResponse } from './anime';
 import { CharacterResponse } from './characters';
-import { CollectionResponse } from './collections';
-import { PaginationResponse } from './common';
-import { MangaResponseWithRead } from './manga';
-import { NovelResponseWithRead } from './novel';
+import { CollectionContent, CollectionResponse } from './collections';
+import { ContentTypeEnum, PaginationResponse } from './common';
+import { MangaResponse } from './manga';
+import { NovelResponse } from './novel';
 
 /**
- * Favourite content type enum
+ * Favourite content type
  */
-export enum FavouriteContentTypeEnum {
-    COLLECTION = 'collection',
-    CHARACTER = 'character',
-    ANIME = 'anime',
-    MANGA = 'manga',
-    NOVEL = 'novel',
-}
+export type FavouriteContentType =
+    | ContentTypeEnum.COLLECTION
+    | ContentTypeEnum.CHARACTER
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 
 /**
  * Favourite response
@@ -27,24 +26,21 @@ export interface FavouriteResponse {
 /**
  * Favourite anime response
  */
-export interface FavouriteAnimeResponse extends AnimeResponseWithWatch {
-    data_type: string;
+export interface FavouriteAnimeResponse extends AnimeResponse {
     favourite_created: number;
 }
 
 /**
  * Favourite manga response
  */
-export interface FavouriteMangaResponse extends MangaResponseWithRead {
-    data_type: string;
+export interface FavouriteMangaResponse extends MangaResponse {
     favourite_created: number;
 }
 
 /**
  * Favourite novel response
  */
-export interface FavouriteNovelResponse extends NovelResponseWithRead {
-    data_type: string;
+export interface FavouriteNovelResponse extends NovelResponse {
     favourite_created: number;
 }
 
@@ -52,28 +48,28 @@ export interface FavouriteNovelResponse extends NovelResponseWithRead {
  * Favourite character response
  */
 export interface FavouriteCharacterResponse extends CharacterResponse {
-    data_type: string;
     favourite_created: number;
 }
 
 /**
  * Favourite collection response
  */
-export interface FavouriteCollectionResponse extends CollectionResponse {
-    data_type: string;
+export interface FavouriteCollectionResponse
+    extends CollectionResponse<CollectionContent> {
     favourite_created: number;
 }
+
+export type FavouriteItem =
+    | FavouriteAnimeResponse
+    | FavouriteMangaResponse
+    | FavouriteNovelResponse
+    | FavouriteCollectionResponse
+    | FavouriteCharacterResponse;
 
 /**
  * Favourite pagination response
  */
-export interface FavouritePaginationResponse {
-    list: Array<
-        | FavouriteAnimeResponse
-        | FavouriteMangaResponse
-        | FavouriteNovelResponse
-        | FavouriteCollectionResponse
-        | FavouriteCharacterResponse
-    >;
+export interface FavouritePaginationResponse<TItem extends FavouriteItem> {
+    list: TItem[];
     pagination: PaginationResponse;
 }

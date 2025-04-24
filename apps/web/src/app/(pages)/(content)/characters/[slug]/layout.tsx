@@ -1,5 +1,11 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { CharacterResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchCharacterInfo,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -9,11 +15,13 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
+
 import Cover from '@/features/characters/character-view/cover.component';
 import Title from '@/features/characters/character-view/title.component';
-import { prefetchCharacterInfo } from '@/services/hooks/characters/use-character-info';
+
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 
@@ -34,19 +42,17 @@ export async function generateMetadata(
 
 const CharacterLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { slug } = params;
-
     const { children } = props;
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchCharacterInfo({ slug });
+    await prefetchCharacterInfo({ slug, clientConfig });
 
-    const character: API.Character | undefined = queryClient.getQueryData([
-        'character',
-        slug,
-    ]);
+    const character: CharacterResponse | undefined = queryClient.getQueryData(
+        queryKeys.characters.bySlug(slug),
+    );
 
     if (!character) {
         return permanentRedirect('/');

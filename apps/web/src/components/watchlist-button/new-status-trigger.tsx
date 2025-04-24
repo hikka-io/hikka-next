@@ -1,11 +1,13 @@
 'use client';
 
+import { WatchStatusEnum } from '@hikka/client';
+import { useAddOrUpdateWatch } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
-import useAddWatch from '@/services/hooks/watch/use-add-watch';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsArrowDropDownRounded from '../icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '../ui/button';
 import { SelectTrigger } from '../ui/select';
@@ -21,15 +23,15 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     slug,
     size,
 }) => {
-    const { mutate: addWatch } = useAddWatch();
+    const { mutate: addWatch } = useAddOrUpdateWatch({});
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
         addWatch({
-            params: {
-                slug,
-                status: 'planned',
+            slug,
+            args: {
+                status: WatchStatusEnum.PLANNED,
             },
         });
     };
@@ -53,7 +55,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    <div className="rounded-sm bg-muted-foreground p-0.5">
+                    <div className="bg-muted-foreground rounded-sm p-0.5">
                         {createElement(WATCH_STATUS.planned.icon!)}
                     </div>
                     <span className="truncate rounded-none">

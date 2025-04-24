@@ -1,16 +1,12 @@
 'use client';
 
+import { useCollection } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import useCollection from '@/services/hooks/collections/use-collection';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 const CollectionTitle = () => {
     const params = useParams();

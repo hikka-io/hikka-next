@@ -1,10 +1,12 @@
+import { MangaMediaEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
+
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
-    media_type: API.MangaMediaType;
+    media_type: MangaMediaEnum | null;
 }
 
 const MediaType: FC<Props> = ({ media_type }) => {

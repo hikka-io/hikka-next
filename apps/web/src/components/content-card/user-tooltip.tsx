@@ -1,11 +1,14 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    useFollowStats,
+    useReadStats,
+    useUserByUsername,
+    useWatchStats,
+} from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useFollowStats from '@/services/hooks/follow/use-follow-stats';
-import useReadStats from '@/services/hooks/read/use-read-stats';
-import useUser from '@/services/hooks/user/use-user';
-import useWatchStats from '@/services/hooks/watch/use-watch-stats';
 import FollowButton from '../follow-button';
 import MaterialSymbolsAnimatedImages from '../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../icons/material-symbols/MaterialSymbolsMenuBookRounded';
@@ -36,16 +39,16 @@ interface Props extends PropsWithChildren {
 }
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
-    const { data: user } = useUser({ username });
+    const { data: user } = useUserByUsername({ username });
     const { data: followStats } = useFollowStats({ username });
     const { data: watchStats } = useWatchStats({ username });
     const { data: mangaStats } = useReadStats({
         username,
-        content_type: 'manga',
+        contentType: ContentTypeEnum.MANGA,
     });
     const { data: novelStats } = useReadStats({
         username,
-        content_type: 'novel',
+        contentType: ContentTypeEnum.NOVEL,
     });
 
     if (!user && !followStats) {
@@ -54,22 +57,22 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 <div className="flex animate-pulse flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="size-10 rounded-md bg-secondary/20" />
-                            <div className="h-3 w-20 rounded-lg bg-secondary/20" />
+                            <div className="bg-secondary/20 size-10 rounded-md" />
+                            <div className="bg-secondary/20 h-3 w-20 rounded-lg" />
                         </div>
-                        <div className="size-9 rounded-md bg-secondary/20" />
+                        <div className="bg-secondary/20 size-9 rounded-md" />
                     </div>
-                    <div className="h-3 w-full rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-3 w-full rounded-lg" />
                 </div>
                 <div className="flex animate-pulse gap-4">
-                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
-                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-3 w-24 rounded-lg" />
+                    <div className="bg-secondary/20 h-3 w-24 rounded-lg" />
                 </div>
                 <Separator className="-mx-4 w-auto animate-none" />
                 <div className="flex animate-pulse gap-2">
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-4 w-1/3 rounded-lg" />
+                    <div className="bg-secondary/20 h-4 w-1/3 rounded-lg" />
+                    <div className="bg-secondary/20 h-4 w-1/3 rounded-lg" />
                 </div>
             </div>
         );
@@ -91,7 +94,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 </AvatarFallback>
                             </Avatar>
                             {user?.active && (
-                                <div className="absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border border-border bg-success" />
+                                <div className="border-border bg-success absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border" />
                             )}
                         </div>
 
@@ -103,7 +106,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 user?.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-accent-foreground">
+                                        <div className="border-border bg-secondary/20 text-accent-foreground rounded-sm border p-1 text-xs font-bold">
                                             {user.role === 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                             )}
@@ -128,7 +131,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 {user?.description && (
                     <MDViewer
                         preview
-                        className="line-clamp-1 text-xs text-muted-foreground"
+                        className="text-muted-foreground line-clamp-1 text-xs"
                     >
                         {user.description}
                     </MDViewer>
@@ -137,14 +140,14 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             <div className="flex gap-4 text-xs">
                 <span className="font-bold">
                     {followStats ? followStats.followers : 0}
-                    <Label className="text-xs text-muted-foreground">
+                    <Label className="text-muted-foreground text-xs">
                         {' '}
                         стежать
                     </Label>
                 </span>
                 <span className="font-bold">
                     {followStats ? followStats.following : 0}
-                    <Label className="text-xs text-muted-foreground">
+                    <Label className="text-muted-foreground text-xs">
                         {' '}
                         відстежується
                     </Label>

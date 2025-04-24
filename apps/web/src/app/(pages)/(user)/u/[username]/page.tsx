@@ -1,5 +1,14 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchArticlesList,
+    prefetchCollectionsList,
+    prefetchFavouriteList,
+    prefetchUserActivity,
+    prefetchUserHistory,
+} from '@hikka/react';
 import { FC } from 'react';
 
 import UserArticles from '@/features/users/user-profile/user-articles/user-articles.component';
@@ -7,12 +16,8 @@ import Collections from '@/features/users/user-profile/user-collections/user-col
 import Favorites from '@/features/users/user-profile/user-favorites/user-favorites.component';
 import History from '@/features/users/user-profile/user-history/user-history.component';
 import Statistics from '@/features/users/user-profile/user-statistics/user-statistics.component';
-import { prefetchArticles } from '@/services/hooks/articles/use-articles';
-import { prefetchFavorites } from '@/services/hooks/favorite/use-favorites';
-import { prefetchUserHistory } from '@/services/hooks/history/use-user-history';
-import { prefetchUserActivity } from '@/services/hooks/user/use-user-activity';
-import { prefetchUserCollections } from '@/services/hooks/user/use-user-collections';
-import getQueryClient from '@/utils/get-query-client';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -26,13 +31,24 @@ const UserPage: FC<Props> = async (props) => {
     const { username } = params;
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
-        await prefetchFavorites({ username, content_type: 'anime' }),
-        await prefetchUserHistory({ username }),
-        await prefetchUserActivity({ username }),
-        await prefetchArticles({ author: username }),
-        await prefetchUserCollections({ author: username, sort: 'created' }),
+        await prefetchFavouriteList({
+            username,
+            contentType: ContentTypeEnum.ANIME,
+            clientConfig,
+        }),
+        await prefetchUserHistory({ username, clientConfig }),
+        await prefetchUserActivity({ username, clientConfig }),
+        await prefetchArticlesList({
+            args: { author: username },
+            clientConfig,
+        }),
+        await prefetchCollectionsList({
+            args: { author: username, sort: ['created:desc'] },
+            clientConfig,
+        }),
     ]);
 
     const dehydratedState = dehydrate(queryClient);

@@ -1,15 +1,18 @@
 'use client';
 
-import { createStore } from 'zustand';
-
 import {
-    Params as CollectionRequest,
-    Response as CollectionResponse,
-} from '../api/collections/createCollection';
+    CollectionArgs,
+    CollectionContent,
+    CollectionContentType,
+    CollectionResponse,
+    CollectionVisibilityEnum,
+    ContentTypeEnum,
+} from '@hikka/client';
+import { createStore } from 'zustand';
 
 export type Item = {
     id: string | number;
-    content: API.MainContent & { title?: string };
+    content: CollectionContent & { title?: string };
 };
 
 export type Group = {
@@ -22,11 +25,11 @@ export type Group = {
 export type CollectionState = {
     title?: string;
     description?: string;
-    content_type: API.ContentType;
+    content_type: CollectionContentType;
     groups: Group[];
     nsfw: boolean;
     spoiler: boolean;
-    visibility: 'private' | 'public' | 'unlisted';
+    visibility: CollectionVisibilityEnum;
     tags: string[];
 };
 
@@ -34,14 +37,14 @@ export type CollectionActions = {
     setTitle: (title: string) => void;
     setDescription: (description: string) => void;
     setTags: (tags: string[]) => void;
-    setContentType: (content_type: API.ContentType) => void;
+    setContentType: (content_type: CollectionContentType) => void;
     setNsfw: (nsfw: boolean) => void;
     setSpoiler: (spoiler: boolean) => void;
-    setVisibility: (visibility: 'private' | 'public' | 'unlisted') => void;
+    setVisibility: (visibility: CollectionVisibilityEnum) => void;
     setGroups: (groups: Group[]) => void;
     addGroup: () => void;
-    setApiData: (data: CollectionResponse) => void;
-    getApiData: () => CollectionRequest;
+    setApiData: (data: CollectionResponse<CollectionContent>) => void;
+    getApiData: () => CollectionArgs;
 };
 
 export type CollectionStore = CollectionState & CollectionActions;
@@ -50,11 +53,11 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
     const DEFAULT_PROPS: CollectionState = {
         title: undefined,
         description: undefined,
-        content_type: 'anime',
+        content_type: ContentTypeEnum.ANIME,
         groups: [],
         nsfw: false,
         spoiler: false,
-        visibility: 'private',
+        visibility: CollectionVisibilityEnum.PRIVATE,
         tags: [],
     };
     return createStore<CollectionStore>()((set, get) => ({
@@ -63,11 +66,11 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         setTitle: (title: string) => set({ title }),
         setDescription: (description: string) => set({ description }),
         setTags: (tags: string[]) => set({ tags }),
-        setContentType: (content_type: API.ContentType) =>
+        setContentType: (content_type: CollectionContentType) =>
             set({ content_type }),
         setNsfw: (nsfw: boolean) => set({ nsfw }),
         setSpoiler: (spoiler: boolean) => set({ spoiler }),
-        setVisibility: (visibility: 'private' | 'public' | 'unlisted') =>
+        setVisibility: (visibility: CollectionVisibilityEnum) =>
             set({ visibility }),
         setGroups: (groups: Group[]) => set({ groups }),
         addGroup: () => {
@@ -95,7 +98,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 });
             }
         },
-        setApiData: (data: API.Collection<API.MainContent>) => {
+        setApiData: (data: CollectionResponse<CollectionContent>) => {
             const groups = data.collection.reduce((acc: Group[], item) => {
                 let group = acc.find((g) => g.title === item.label);
                 if (!group) {
@@ -131,8 +134,8 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 .map((group, i) => {
                     return group.items.map((item, k) => {
                         return {
-                            comment: null,
-                            label: group.title || null,
+                            comment: undefined,
+                            label: group.title || undefined,
                             order: 0,
                             slug: item.content.slug,
                         };

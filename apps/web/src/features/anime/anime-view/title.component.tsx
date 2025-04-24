@@ -1,12 +1,12 @@
 'use client';
 
+import { useAnimeInfo } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
 
 const Title = () => {
     const params = useParams();

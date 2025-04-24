@@ -1,45 +1,40 @@
-import { ReadContentTypeEnum, ReadStatsResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
+import { ReadContentType, ReadStatsResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseReadStatsParams {
+    contentType: ReadContentType;
+    username: string;
+}
 
 /**
  * Hook for retrieving read stats for a user
  */
-export function useReadStats(
-    contentType: ReadContentTypeEnum,
-    username: string,
-    options?: Omit<
-        UseQueryOptions<ReadStatsResponse, Error, ReadStatsResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useReadStats({
+    contentType,
+    username,
+    ...rest
+}: UseReadStatsParams & QueryParams<ReadStatsResponse>) {
     return useQuery({
         queryKey: queryKeys.read.stats(contentType, username),
         queryFn: (client) => client.read.getStats(contentType, username),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches read stats for a user for server-side rendering
  */
-export async function prefetchReadStats(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    username: string,
-    options?: Omit<
-        FetchQueryOptions<ReadStatsResponse, Error, ReadStatsResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchReadStats({
+    contentType,
+    username,
+    ...rest
+}: PrefetchQueryParams<ReadStatsResponse> & UseReadStatsParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.read.stats(contentType, username),
         queryFn: (client) => client.read.getStats(contentType, username),
-        options,
+        ...rest,
     });
 }

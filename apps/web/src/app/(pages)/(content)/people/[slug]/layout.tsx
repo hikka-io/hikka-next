@@ -1,5 +1,11 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { PersonResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchPersonInfo,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -9,11 +15,13 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
+
 import Cover from '@/features/people/person-view/cover.component';
 import Title from '@/features/people/person-view/title.component';
-import { prefetchPersonInfo } from '@/services/hooks/people/use-person-info';
+
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
 
@@ -34,19 +42,17 @@ export async function generateMetadata(
 
 const PersonLayout: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { slug } = params;
-
     const { children } = props;
 
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchPersonInfo({ slug });
+    await prefetchPersonInfo({ slug, clientConfig });
 
-    const person: API.Person | undefined = queryClient.getQueryData([
-        'person',
-        slug,
-    ]);
+    const person: PersonResponse | undefined = queryClient.getQueryData(
+        queryKeys.people.bySlug(slug),
+    );
 
     if (!person) {
         return permanentRedirect('/');

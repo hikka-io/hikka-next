@@ -1,38 +1,29 @@
-import {
-    CommentListResponse,
-    CommentsContentTypeEnum,
-    PaginationArgs,
-} from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { CommentListResponse, CommentsContentType } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseContentCommentsParams {
+    contentType: CommentsContentType;
+    slug: string;
+}
 
 /**
  * Hook for retrieving comments for a specific content
  */
-export function useContentComments(
-    contentType: CommentsContentTypeEnum,
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            CommentListResponse,
-            Error,
-            InfiniteData<CommentListResponse>,
-            CommentListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useContentComments({
+    contentType,
+    slug,
+    paginationArgs,
+    ...rest
+}: UseContentCommentsParams & InfiniteQueryParams<CommentListResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.comments.content(contentType, slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
@@ -40,37 +31,27 @@ export function useContentComments(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches comments for a specific content for server-side rendering
  */
-export async function prefetchContentComments(
-    queryClient: QueryClient,
-    contentType: CommentsContentTypeEnum,
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            CommentListResponse,
-            Error,
-            CommentListResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchContentComments({
+    contentType,
+    slug,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<CommentListResponse> &
+    UseContentCommentsParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.comments.content(contentType, slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.comments.getContentComments(contentType, slug, {
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

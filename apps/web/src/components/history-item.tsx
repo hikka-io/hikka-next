@@ -1,9 +1,11 @@
+import { HistoryResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
@@ -16,7 +18,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface Props {
-    data: API.History;
+    data: HistoryResponse;
     className?: string;
     withUser?: boolean;
 }
@@ -70,10 +72,7 @@ const HistoryItem: FC<Props> = (props) => {
                 </HorizontalCardTitle>
                 <HorizontalCardDescription
                     className="line-clamp-2"
-                    href={
-                        data.content &&
-                        `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
-                    }
+                    href={`${CONTENT_TYPE_LINKS[data.content!.data_type]}/${data.content!.slug}`}
                 >
                     {activity.join(', ')}
                 </HorizontalCardDescription>

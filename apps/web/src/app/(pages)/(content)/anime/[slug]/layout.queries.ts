@@ -1,10 +1,14 @@
-import { prefetchCharacters } from '@/services/hooks/anime/use-characters';
-import { prefetchStaff } from '@/services/hooks/anime/use-staff';
-import { prefetchFavorite } from '@/services/hooks/favorite/use-favorite';
-import { prefetchFranchise } from '@/services/hooks/related/use-franchise';
-import { prefetchFollowingWatchList } from '@/services/hooks/watch/use-following-watch-list';
-import { prefetchWatch } from '@/services/hooks/watch/use-watch';
-import { getCookie } from '@/utils/cookies';
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    prefetchAnimeCharacters,
+    prefetchAnimeStaff,
+    prefetchFavouriteStatus,
+    prefetchFollowingWatchers,
+    prefetchFranchise,
+    prefetchWatchEntry,
+} from '@hikka/react';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -13,15 +17,29 @@ interface Props {
 }
 
 const prefetchQueries = async ({ params: { slug } }: Props) => {
-    const auth = await getCookie('auth');
+    const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
-        prefetchCharacters({ slug }),
-        prefetchFranchise({ slug, content_type: 'anime' }),
-        prefetchStaff({ slug }),
-        auth ? prefetchWatch({ slug }) : undefined,
-        auth ? prefetchFavorite({ slug, content_type: 'anime' }) : undefined,
-        auth ? prefetchFollowingWatchList({ slug }) : undefined,
+        prefetchAnimeCharacters({ slug, clientConfig }),
+        prefetchFranchise({
+            slug,
+            contentType: ContentTypeEnum.ANIME,
+            clientConfig,
+        }),
+        prefetchAnimeStaff({ slug, clientConfig }),
+        clientConfig.authToken
+            ? prefetchWatchEntry({ slug, clientConfig })
+            : undefined,
+        clientConfig.authToken
+            ? prefetchFavouriteStatus({
+                  slug,
+                  contentType: ContentTypeEnum.ANIME,
+                  clientConfig,
+              })
+            : undefined,
+        clientConfig.authToken
+            ? prefetchFollowingWatchers({ slug, clientConfig })
+            : undefined,
     ]);
 };
 

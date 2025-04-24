@@ -2,6 +2,7 @@ export * from './anime';
 export * from './articles';
 export * from './auth';
 export * from './characters';
+export * from './client';
 export * from './collections';
 export * from './comments';
 export * from './companies';

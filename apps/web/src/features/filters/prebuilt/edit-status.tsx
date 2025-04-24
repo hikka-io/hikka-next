@@ -1,5 +1,6 @@
 'use client';
 
+import { EditStatusEnum } from '@hikka/client';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +13,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+
 import { EDIT_STATUS } from '@/utils/constants/edit';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
@@ -41,7 +44,7 @@ const EditStatus: FC<Props> = ({ className }) => {
                 <SelectContent>
                     <SelectList>
                         <SelectGroup>
-                            {(Object.keys(EDIT_STATUS) as API.EditStatus[]).map(
+                            {(Object.keys(EDIT_STATUS) as EditStatusEnum[]).map(
                                 (item) => (
                                     <SelectItem key={item} value={item}>
                                         {EDIT_STATUS[item].title_ua}

@@ -1,8 +1,8 @@
 'use client';
 
+import { useSignup } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useRef } from 'react';
@@ -13,10 +13,11 @@ import H2 from '@/components/typography/h2';
 import Small from '@/components/typography/small';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import signup from '@/services/api/auth/signup';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { setCookie } from '@/utils/cookies';
 import { z } from '@/utils/zod';
+
 import AuthModal from './auth-modal.component';
 
 const formSchema = z
@@ -41,36 +42,28 @@ const Component = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const mutation = useMutation({
-        mutationFn: ({
-            passwordConfirmation,
-            ...data
-        }: z.infer<typeof formSchema>) =>
-            signup({
-                params: {
-                    ...data,
-                },
-                captcha: String(captchaRef.current?.getResponse()),
-            }),
-        onSuccess: async (data) => {
-            await setCookie('auth', data.secret);
-            closeModal();
-            router.refresh();
+    const mutationSignup = useSignup({
+        options: {
+            onSuccess: async (data) => {
+                await setCookie('auth', data.secret);
+                closeModal();
+                router.refresh();
 
-            enqueueSnackbar(
-                <span>
-                    <span className="font-bold">
-                        {form.getValues('username')}
-                    </span>
-                    , Ви успішно зареєструвались.
-                </span>,
-                { variant: 'success' },
-            );
+                enqueueSnackbar(
+                    <span>
+                        <span className="font-bold">
+                            {form.getValues('username')}
+                        </span>
+                        , Ви успішно зареєструвались.
+                    </span>,
+                    { variant: 'success' },
+                );
 
-            form.reset();
-        },
-        onError: () => {
-            captchaRef.current?.reset();
+                form.reset();
+            },
+            onError: () => {
+                captchaRef.current?.reset();
+            },
         },
     });
 
@@ -79,7 +72,7 @@ const Component = () => {
             <div className="flex w-full flex-col items-center gap-4 text-center">
                 <div>
                     <H2 className="text-primary">✌️ Раді познайомитись!</H2>
-                    <Small className="mt-2 text-muted-foreground">
+                    <Small className="text-muted-foreground mt-2">
                         Будь ласка, заповніть форму реєстрації.
                     </Small>
                 </div>
@@ -125,20 +118,27 @@ const Component = () => {
                     <div className="flex w-full flex-col gap-4">
                         <Button
                             onClick={form.handleSubmit((data) =>
-                                mutation.mutate(data),
+                                mutationSignup.mutate({
+                                    args: data,
+                                    captcha: {
+                                        captcha: String(
+                                            captchaRef.current?.getResponse(),
+                                        ),
+                                    },
+                                }),
                             )}
-                            disabled={mutation.isPending}
+                            disabled={mutationSignup.isPending}
                             type="submit"
                             className="w-full"
                         >
-                            {mutation.isPending && (
+                            {mutationSignup.isPending && (
                                 <span className="loading loading-spinner"></span>
                             )}
                             Зареєструватись
                         </Button>
                         <Button
                             variant="secondary"
-                            disabled={mutation.isPending}
+                            disabled={mutationSignup.isPending}
                             onClick={() =>
                                 openModal({
                                     content: <AuthModal type="login" />,

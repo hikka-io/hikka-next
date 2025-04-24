@@ -1,43 +1,37 @@
 import { MangaInfoResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseMangaInfoParams {
+    slug: string;
+}
 
 /**
  * Hook for retrieving manga details by slug
  */
-export function useMangaInfo(
-    slug: string,
-    options?: Omit<
-        UseQueryOptions<MangaInfoResponse, Error, MangaInfoResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
-    return useQuery({
+export function useMangaInfo<TResult = MangaInfoResponse>({
+    slug,
+    ...rest
+}: UseMangaInfoParams & QueryParams<MangaInfoResponse, TResult>) {
+    return useQuery<MangaInfoResponse, Error, TResult>({
         queryKey: queryKeys.manga.details(slug),
         queryFn: (client) => client.manga.getBySlug(slug),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches manga details for server-side rendering
  */
-export async function prefetchMangaInfo(
-    queryClient: QueryClient,
-    slug: string,
-    options?: Omit<
-        FetchQueryOptions<MangaInfoResponse, Error, MangaInfoResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchMangaInfo({
+    slug,
+    ...rest
+}: PrefetchQueryParams<MangaInfoResponse> & UseMangaInfoParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.manga.details(slug),
         queryFn: (client) => client.manga.getBySlug(slug),
-        options,
+        ...rest,
     });
 }

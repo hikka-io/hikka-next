@@ -1,8 +1,19 @@
-import { AnimeResponseWithWatch } from './anime';
+import { AnimeResponse } from './anime';
 import { CharacterResponse } from './characters';
-import { PaginationResponse } from './common';
-import { MangaResponseWithRead } from './manga';
+import { ContentTypeEnum, PaginationResponse } from './common';
+import { MangaResponse } from './manga';
 import { PersonResponse } from './people';
+import { UserResponse } from './user';
+
+/**
+ * Collection content type
+ */
+export type CollectionContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL
+    | ContentTypeEnum.CHARACTER
+    | ContentTypeEnum.PERSON;
 
 /**
  * Collection visibility enum
@@ -11,17 +22,6 @@ export enum CollectionVisibilityEnum {
     UNLISTED = 'unlisted',
     PRIVATE = 'private',
     PUBLIC = 'public',
-}
-
-/**
- * Content type enum
- */
-export enum ContentTypeEnum {
-    CHARACTER = 'character',
-    PERSON = 'person',
-    ANIME = 'anime',
-    MANGA = 'manga',
-    NOVEL = 'novel',
 }
 
 /**
@@ -35,48 +35,37 @@ export interface CollectionContentArgs {
 }
 
 /**
- * User response with follow status
+ * Collection content type
  */
-export interface FollowUserResponse {
-    reference: string;
-    updated: number | null;
-    created: number;
-    description: string | null;
-    username: string | null;
-    cover: string | null;
-    active: boolean;
-    avatar: string;
-    role: string;
-    is_followed: boolean;
-}
+export type CollectionContent =
+    | AnimeResponse
+    | MangaResponse
+    | CharacterResponse
+    | PersonResponse;
 
 /**
  * Collection content response
  */
-export interface CollectionContentResponse {
+export interface CollectionContentResponse<TContent extends CollectionContent> {
     comment: string | null;
     label: string | null;
-    content_type: string;
+    content_type: CollectionContentType;
     order: number;
-    content:
-        | AnimeResponseWithWatch
-        | MangaResponseWithRead
-        | CharacterResponse
-        | PersonResponse;
+    content: TContent;
 }
 
 /**
  * Collection response
  */
-export interface CollectionResponse {
-    data_type: string;
+export interface CollectionResponse<TContent extends CollectionContent> {
+    data_type: ContentTypeEnum.COLLECTION;
     visibility: CollectionVisibilityEnum;
-    author: FollowUserResponse;
+    author: UserResponse;
     labels_order: string[];
     created: number;
     updated: number;
     comments_count: number;
-    content_type: string;
+    content_type: CollectionContentType;
     description: string;
     vote_score: number;
     tags: string[];
@@ -86,7 +75,7 @@ export interface CollectionResponse {
     entries: number;
     title: string;
     nsfw: boolean;
-    collection: CollectionContentResponse[];
+    collection: CollectionContentResponse<TContent>[];
 }
 
 /**
@@ -98,7 +87,7 @@ export interface CollectionArgs {
     tags: string[];
     visibility: CollectionVisibilityEnum;
     content: CollectionContentArgs[];
-    content_type: ContentTypeEnum;
+    content_type: CollectionContentType;
     labels_order: string[];
     spoiler: boolean;
     nsfw: boolean;
@@ -110,7 +99,7 @@ export interface CollectionArgs {
 export interface CollectionsListArgs {
     sort?: string[];
     content?: string[];
-    content_type?: ContentTypeEnum;
+    content_type?: CollectionContentType;
     author?: string;
     only_public?: boolean;
 }
@@ -118,7 +107,7 @@ export interface CollectionsListArgs {
 /**
  * Paginated collections response
  */
-export interface CollectionsListResponse {
+export interface CollectionsListResponse<TContent extends CollectionContent> {
     pagination: PaginationResponse;
-    list: CollectionResponse[];
+    list: CollectionResponse<TContent>[];
 }

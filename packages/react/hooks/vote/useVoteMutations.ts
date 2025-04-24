@@ -1,4 +1,4 @@
-import { VoteContentTypeEnum } from '@hikka/client';
+import { VoteContentType } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
@@ -10,7 +10,7 @@ export const useSetVote = createMutation({
     mutationFn: (
         client,
         args: {
-            contentType: VoteContentTypeEnum;
+            contentType: VoteContentType;
             slug: string;
             score: number;
         },

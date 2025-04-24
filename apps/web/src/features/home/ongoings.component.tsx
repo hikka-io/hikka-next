@@ -1,6 +1,8 @@
 'use client';
 
 import { range } from '@antfu/utils';
+import { SeasonEnum } from '@hikka/client';
+import { useAnimeSearch } from '@hikka/react';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
@@ -12,7 +14,6 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useAnimeCatalog from '@/services/hooks/anime/use-anime-catalog';
 import getCurrentSeason from '@/utils/get-current-season';
 import { cn } from '@/utils/utils';
 
@@ -24,15 +25,18 @@ interface Props {
 }
 
 const Ongoings: FC<Props> = ({ className }) => {
-    const currentSeason = getCurrentSeason();
+    const currentSeason = getCurrentSeason() as SeasonEnum;
     const year = String(new Date().getFullYear());
 
-    const { list, isLoading } = useAnimeCatalog({
-        season: [currentSeason!],
-        years: [year, year],
-        score: [7, 8, 9, 10],
-        page: 1,
-        iPage: 1,
+    const { list, isLoading } = useAnimeSearch({
+        args: {
+            season: [currentSeason!],
+            years: [Number(year), Number(year)],
+            score: [7, 10],
+        },
+        paginationArgs: {
+            page: 1,
+        },
     });
 
     const filteredList = list?.slice(0, 8);

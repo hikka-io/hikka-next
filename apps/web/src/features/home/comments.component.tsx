@@ -1,5 +1,6 @@
 'use client';
 
+import { useLatestComments } from '@hikka/react';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
@@ -12,7 +13,6 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import useLatestComments from '@/services/hooks/comments/use-latest-comments';
 import { cn } from '@/utils/utils';
 
 import GlobalComment from '../../components/comments/global-comment';

@@ -1,5 +1,7 @@
 'use client';
 
+import { CompanyTypeEnum } from '@hikka/client';
+import { useCompaniesSearch } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -14,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import useCompanies from '@/services/hooks/companies/use-companies';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
@@ -28,12 +30,12 @@ const Studio: FC<Props> = () => {
     const studios = searchParams.getAll('studios');
 
     const [studioSearch, setStudioSearch] = useState<string>();
-    const { data: studioList, isFetching: isStudioListFetching } = useCompanies(
-        {
-            type: 'studio',
+    const { list, isFetching: isStudioListFetching } = useCompaniesSearch({
+        args: {
+            type: CompanyTypeEnum.STUDIO,
             query: studioSearch,
         },
-    );
+    });
 
     const handleChangeParam = useChangeParam();
 
@@ -62,12 +64,12 @@ const Studio: FC<Props> = () => {
                     <SelectList>
                         <SelectGroup>
                             {!isStudioListFetching &&
-                                studioList?.list.map((studio) => (
+                                list?.map((studio) => (
                                     <SelectItem
                                         key={studio.slug}
                                         value={studio.slug}
                                     >
-                                        {studio.name}
+                                        {studio.name_ua || studio.name_en}
                                     </SelectItem>
                                 ))}
                             <SelectEmpty>

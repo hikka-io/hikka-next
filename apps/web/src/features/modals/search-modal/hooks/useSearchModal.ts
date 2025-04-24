@@ -1,3 +1,4 @@
+import { AnimeResponse, ContentTypeEnum } from '@hikka/client';
 import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
@@ -5,19 +6,19 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     open: boolean;
-    onClick?: (anime: API.Anime) => void;
+    onClick?: (anime: AnimeResponse) => void;
     setOpen: Dispatch<SetStateAction<boolean>>;
-    setSearchType?: Dispatch<SetStateAction<API.ContentType | 'user'>>;
-    content_type?: API.ContentType | 'user';
+    setSearchType?: Dispatch<SetStateAction<ContentTypeEnum>>;
+    content_type?: ContentTypeEnum;
 }
 
-const ALLOWED_SEARCH_TYPES: (API.ContentType | 'user')[] = [
-    'anime',
-    'manga',
-    'novel',
-    'character',
-    'person',
-    'user',
+const ALLOWED_SEARCH_TYPES: ContentTypeEnum[] = [
+    ContentTypeEnum.ANIME,
+    ContentTypeEnum.MANGA,
+    ContentTypeEnum.NOVEL,
+    ContentTypeEnum.CHARACTER,
+    ContentTypeEnum.PERSON,
+    ContentTypeEnum.USER,
 ];
 
 const useSearchModal = ({
@@ -62,11 +63,11 @@ const useSearchModal = ({
     useEffect(() => {
         if (open) {
             const currentPageContentType = ALLOWED_SEARCH_TYPES.find((ct) =>
-                pathname.startsWith(CONTENT_TYPE_LINKS[ct as API.ContentType]),
+                pathname.startsWith(CONTENT_TYPE_LINKS[ct as ContentTypeEnum]),
             );
 
             if (currentPageContentType) {
-                setSearchType!(currentPageContentType as API.ContentType);
+                setSearchType!(currentPageContentType as ContentTypeEnum);
             }
         }
     }, [open]);

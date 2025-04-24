@@ -2,53 +2,35 @@ import {
     IgnoredNotificationsArgs,
     IgnoredNotificationsResponse,
 } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
 
 /**
  * Hook for getting ignored notification types
  */
-export function useIgnoredNotifications(
-    options?: Omit<
-        UseQueryOptions<
-            IgnoredNotificationsResponse,
-            Error,
-            IgnoredNotificationsResponse
-        >,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useIgnoredNotifications({
+    ...rest
+}: QueryParams<IgnoredNotificationsResponse> = {}) {
     return useQuery({
         queryKey: queryKeys.settings.ignoredNotifications(),
         queryFn: (client) => client.settings.getIgnoredNotifications(),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Function for prefetching ignored notification types
  */
-export async function prefetchIgnoredNotifications(
-    queryClient: QueryClient,
-    options?: Omit<
-        FetchQueryOptions<
-            IgnoredNotificationsResponse,
-            Error,
-            IgnoredNotificationsResponse
-        >,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchIgnoredNotifications({
+    ...rest
+}: PrefetchQueryParams<IgnoredNotificationsResponse> = {}) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.settings.ignoredNotifications(),
         queryFn: (client) => client.settings.getIgnoredNotifications(),
-        options: options || {},
+        ...rest,
     });
 }
 

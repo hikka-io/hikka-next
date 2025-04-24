@@ -1,35 +1,31 @@
 'use client';
 
+import { ContentTypeEnum, ReadContentType } from '@hikka/client';
+import { useFollowingReaders, useFollowingWatchers } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import useFollowingReadList from '@/services/hooks/read/use-following-read-list';
-import useFollowingWatchList from '@/services/hooks/watch/use-following-watch-list';
 import LoadMoreButton from '../../components/load-more-button';
 import FollowingReadItem from './following-read-item';
 import FollowingWatchItem from './following-watch-item';
 
 interface Props {
-    content_type: API.ContentType;
+    content_type: ContentTypeEnum;
 }
 
 const FollowingsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
-    const watchListQuery = useFollowingWatchList(
-        {
-            slug: String(params.slug),
-        },
-        { enabled: content_type === 'anime' },
-    );
+    const watchListQuery = useFollowingWatchers({
+        slug: String(params.slug),
+        options: { enabled: content_type === ContentTypeEnum.ANIME },
+    });
 
-    const readListQuery = useFollowingReadList(
-        {
-            slug: String(params.slug),
-            content_type: content_type as 'manga' | 'novel',
-        },
-        { enabled: content_type !== 'anime' },
-    );
+    const readListQuery = useFollowingReaders({
+        slug: String(params.slug),
+        contentType: content_type as ReadContentType,
+        options: { enabled: content_type !== ContentTypeEnum.ANIME },
+    });
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
         content_type === 'anime' ? watchListQuery : readListQuery;

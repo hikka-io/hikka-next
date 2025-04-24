@@ -1,43 +1,37 @@
 import { FollowResponse } from '@hikka/client';
-import { FetchQueryOptions, QueryClient } from '@tanstack/query-core';
-import { UseQueryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useQuery } from '../../core/useQuery';
-import { prefetchQuery } from '../../server/prefetchQuery';
+import { QueryParams, useQuery } from '../../core/useQuery';
+import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
+
+export interface UseFollowStatusParams {
+    username: string;
+}
 
 /**
  * Hook for checking if a user is followed
  */
-export function useFollowStatus(
-    username: string,
-    options?: Omit<
-        UseQueryOptions<FollowResponse, Error, FollowResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export function useFollowStatus({
+    username,
+    ...rest
+}: UseFollowStatusParams & QueryParams<FollowResponse>) {
     return useQuery({
         queryKey: queryKeys.follow.status(username),
         queryFn: (client) => client.follow.checkFollow(username),
-        options: options || {},
+        ...rest,
     });
 }
 
 /**
  * Prefetches follow status for server-side rendering
  */
-export async function prefetchFollowStatus(
-    queryClient: QueryClient,
-    username: string,
-    options?: Omit<
-        FetchQueryOptions<FollowResponse, Error, FollowResponse>,
-        'queryKey' | 'queryFn'
-    >,
-) {
+export async function prefetchFollowStatus({
+    username,
+    ...rest
+}: PrefetchQueryParams<FollowResponse> & UseFollowStatusParams) {
     return prefetchQuery({
-        queryClient,
         queryKey: queryKeys.follow.status(username),
         queryFn: (client) => client.follow.checkFollow(username),
-        options,
+        ...rest,
     });
 }

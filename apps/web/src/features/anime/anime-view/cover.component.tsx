@@ -1,13 +1,13 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
+import { useAnimeInfo, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import EditButton from '@/components/edit-button';
 import FavoriteButton from '@/components/favorite-button';
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
-import useSession from '@/services/hooks/auth/use-session';
 
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();
@@ -22,16 +22,16 @@ const Cover: FC = () => {
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
-                            content_type="anime"
+                            content_type={ContentTypeEnum.ANIME}
                         />
                     )}
                     <FavoriteButton
                         slug={String(params.slug)}
-                        content_type="anime"
+                        content_type={ContentTypeEnum.ANIME}
                     />
                 </div>
 
-                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-background to-transparent" />
+                <div className="from-background absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t to-transparent" />
             </ContentCard>
         </div>
     );

@@ -1,15 +1,20 @@
 'use client';
 
+import { UserResponse } from '@hikka/client';
+import {
+    useFollow,
+    useSession,
+    useUnfollow,
+    useUserByUsername,
+} from '@hikka/react';
 import { VariantProps } from 'class-variance-authority';
 import { FC } from 'react';
 
 import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
-import useSession from '@/services/hooks/auth/use-session';
-import useFollow from '@/services/hooks/follow/use-follow';
-import useUnfollow from '@/services/hooks/follow/use-unfollow';
-import useUser from '@/services/hooks/user/use-user';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
+
 import MaterialSymbolsPersonAddOutlineRounded from './icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from './icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button, buttonVariants } from './ui/button';
@@ -17,7 +22,7 @@ import { Button, buttonVariants } from './ui/button';
 interface Props {
     className?: string;
     username?: string;
-    user?: API.User;
+    user?: UserResponse;
     iconOnly?: boolean;
     size?: VariantProps<typeof buttonVariants>['size'];
 }
@@ -33,30 +38,26 @@ const FollowButton: FC<Props> = ({
 
     const { user: loggedUser } = useSession();
 
-    const { data: userQuery } = useUser(
-        {
-            username: username!,
-        },
-        {
+    const { data: userQuery } = useUserByUsername({
+        username: username!,
+        options: {
             enabled: username !== undefined,
         },
-    );
+    });
 
     const user = userProp || userQuery;
 
-    const { mutate: mutateFollow, isPending: followLoading } = useFollow({
-        username: user?.username!,
-    });
+    const { mutate: mutateFollow, isPending: followLoading } = useFollow({});
 
-    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow({
-        username: user?.username!,
-    });
+    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow(
+        {},
+    );
 
     const handleFollowToggle = () => {
         if (user?.is_followed) {
-            mutateUnfollow();
+            mutateUnfollow(user?.username!);
         } else {
-            mutateFollow();
+            mutateFollow(user?.username!);
         }
     };
 

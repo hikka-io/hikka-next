@@ -1,5 +1,6 @@
 'use client';
 
+import { useCollection } from '@hikka/react';
 import { formatDistance } from 'date-fns';
 import { useParams } from 'next/navigation';
 
@@ -12,7 +13,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import useCollection from '@/services/hooks/collections/use-collection';
 
 const CollectionAuthor = () => {
     const params = useParams();

@@ -1,5 +1,6 @@
 'use client';
 
+import { EditContentType, MainContent } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -7,14 +8,16 @@ import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-sym
 import H3 from '@/components/typography/h3';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import Details from './details';
 import General from './general';
 
 interface Props {
     slug: string;
-    content_type: API.ContentType;
-    content?: API.MainContent;
+    content_type: EditContentType;
+    content?: MainContent;
 }
 
 const EditContent: FC<Props> = ({ slug, content_type, content }) => {

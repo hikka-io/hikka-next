@@ -1,11 +1,13 @@
 import {
     ContentStatusEnum,
+    ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
     PaginationResponse,
     RoleResponse,
 } from './common';
 import { PersonResponse } from './people';
+import { ReadResponseBase, ReadStatsResponse } from './read';
 
 /**
  * Manga media types
@@ -22,44 +24,25 @@ export enum MangaMediaEnum {
  * Base manga response
  */
 export interface MangaResponse {
-    data_type: string;
+    data_type: ContentTypeEnum.MANGA;
     start_date: number | null;
     end_date: number | null;
     title_original: string | null;
-    media_type: string | null;
+    media_type: MangaMediaEnum | null;
+    title?: string;
     title_ua: string | null;
     title_en: string | null;
     chapters: number | null;
     volumes: number | null;
     translated_ua: boolean;
-    status: string | null;
+    status: ContentStatusEnum | null;
     image: string | null;
     year: number | null;
     scored_by: number;
     score: number;
     slug: string;
-}
-
-/**
- * Read status base response
- */
-export interface ReadResponseBase {
-    reference: string;
-    note: string | null;
-    updated: number;
-    created: number;
-    status: string;
-    chapters: number;
-    volumes: number;
-    rereads: number;
-    score: number;
-}
-
-/**
- * Manga response with read status
- */
-export interface MangaResponseWithRead extends MangaResponse {
     read: ReadResponseBase[];
+    comments_count: number;
 }
 
 /**
@@ -67,7 +50,7 @@ export interface MangaResponseWithRead extends MangaResponse {
  */
 export interface MangaPaginationResponse {
     pagination: PaginationResponse;
-    list: MangaResponseWithRead[];
+    list: MangaResponse[];
 }
 
 /**
@@ -102,31 +85,9 @@ export interface ContentAuthorResponse {
 }
 
 /**
- * Read statistics response
- */
-export interface ReadStatsResponse {
-    completed: number;
-    reading: number;
-    planned: number;
-    dropped: number;
-    on_hold: number;
-    score_1: number;
-    score_2: number;
-    score_3: number;
-    score_4: number;
-    score_5: number;
-    score_6: number;
-    score_7: number;
-    score_8: number;
-    score_9: number;
-    score_10: number;
-}
-
-/**
  * Detailed manga info response
  */
-export interface MangaInfoResponse {
-    data_type: string;
+export interface MangaInfoResponse extends MangaResponse {
     authors: ContentAuthorResponse[];
     magazines: MagazineResponse[];
     external: ExternalResponse[];
@@ -137,22 +98,13 @@ export interface MangaInfoResponse {
     stats: ReadStatsResponse;
     synopsis_en: string | null;
     synopsis_ua: string | null;
-    media_type: string | null;
     chapters: number | null;
-    title_en: string | null;
-    title_ua: string | null;
+    volumes: number | null;
     updated: number;
     synonyms: string[];
     comments_count: number;
     has_franchise: boolean;
     translated_ua: boolean;
-    volumes: number | null;
-    status: string | null;
-    image: string | null;
-    year: number | null;
     scored_by: number;
-    score: number;
     mal_id: number;
-    nsfw: boolean;
-    slug: string;
 }

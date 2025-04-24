@@ -1,6 +1,8 @@
 'use client';
 
 import emojiMartData from '@emoji-mart/data';
+import { UploadTypeEnum } from '@hikka/client';
+import { getHikkaClient } from '@hikka/react';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
@@ -20,7 +22,6 @@ import { DeletePlugin } from '@udecode/plate-select';
 import { TrailingBlockPlugin } from '@udecode/plate-trailing-block';
 import { ParagraphPlugin } from '@udecode/plate/react';
 
-import uploadImage from '@/services/api/upload/uploadImage';
 import { autoformatListPlugin } from './plugins/autoformat-list-plugin';
 import { DiffPlugin } from './plugins/diff-plugin';
 import { ImageGroupPlugin } from './plugins/image-group-plugin/image-group-plugin';
@@ -28,6 +29,8 @@ import { linkPlugin } from './plugins/link-plugin';
 import { MarkdownPlugin } from './plugins/markdown-plugin/markdown-plugin';
 import { SpoilerPlugin } from './plugins/spoiler-plugin/spoiler-plugin';
 import { VideoPlugin } from './plugins/video-plugin/video-plugin';
+
+const client = getHikkaClient();
 
 const resetBlockTypesCommonRule = {
     types: [...HEADING_LEVELS, BlockquotePlugin.key],
@@ -114,7 +117,7 @@ export const articlePlugins = [
     ImageGroupPlugin.configure({
         options: {
             uploadImage: (file) =>
-                uploadImage({ params: { file, upload_type: 'attachment' } }),
+                client.upload.uploadImage(UploadTypeEnum.ATTACHMENT, file),
         },
     }),
     VideoPlugin,

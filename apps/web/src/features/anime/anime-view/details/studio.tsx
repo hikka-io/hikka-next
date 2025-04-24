@@ -1,3 +1,4 @@
+import { AnimeCompanyResponse } from '@hikka/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -11,7 +12,7 @@ import {
 } from '@/components/ui/tooltip';
 
 interface Props {
-    companies: API.CompanyWithType[];
+    companies: AnimeCompanyResponse[];
 }
 
 const Studio: FC<Props> = ({ companies }) => {

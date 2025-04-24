@@ -1,12 +1,14 @@
 'use client';
 
+import { WatchStatusEnum } from '@hikka/client';
+import { useWatchStats } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
-import useWatchStats from '@/services/hooks/watch/use-watch-stats';
+
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
@@ -26,10 +28,10 @@ const WatchlistStats: FC<Props> = () => {
     );
 
     return (
-        <div className="flex h-fit w-full items-center gap-2 rounded-md border border-border bg-secondary/20 p-2 backdrop-blur">
+        <div className="border-border bg-secondary/20 flex h-fit w-full items-center gap-2 rounded-md border p-2 backdrop-blur">
             <Link
                 href={`/u/${params.username}/list/anime?status=completed&sort=watch_score`}
-                className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20"
+                className="hover:bg-secondary/20 flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer"
             >
                 <RadialProgress
                     style={{
@@ -53,30 +55,30 @@ const WatchlistStats: FC<Props> = () => {
                             href={`/u/${params.username}/list/anime?status=${status}&sort=watch_score`}
                             key={status}
                             className={cn(
-                                'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20',
+                                'hover:bg-secondary/20 rounded-md p-2 hover:cursor-pointer',
                             )}
                         >
                             <div className="flex justify-between gap-4">
                                 <div className="flex min-w-0 items-center gap-2">
                                     <div
-                                        className="size-2 rounded-full bg-secondary/20"
+                                        className="bg-secondary/20 size-2 rounded-full"
                                         style={{
                                             backgroundColor:
                                                 WATCH_STATUS[
-                                                    status as API.WatchStatus
+                                                    status as WatchStatusEnum
                                                 ].color,
                                         }}
                                     />
-                                    <Label className="cursor-pointer truncate text-muted-foreground">
-                                        {WATCH_STATUS[status as API.WatchStatus]
+                                    <Label className="text-muted-foreground cursor-pointer truncate">
+                                        {WATCH_STATUS[status as WatchStatusEnum]
                                             .title_ua ||
                                             WATCH_STATUS[
-                                                status as API.WatchStatus
+                                                status as WatchStatusEnum
                                             ].title_en}
                                     </Label>
                                 </div>
                                 <Label className="cursor-pointer">
-                                    {data[status as API.WatchStatus]}
+                                    {data[status as WatchStatusEnum]}
                                 </Label>
                             </div>
                         </Link>

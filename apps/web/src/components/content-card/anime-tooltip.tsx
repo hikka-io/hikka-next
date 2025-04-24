@@ -1,11 +1,13 @@
 'use client';
 
+import { WatchResponseBase } from '@hikka/client';
+import { useAnimeInfo } from '@hikka/react';
+import { useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import useAnimeInfo from '@/services/hooks/anime/use-anime-info';
-import useSession from '@/services/hooks/auth/use-session';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+
 import MDViewer from '../markdown/viewer/MD-viewer';
 import H5 from '../typography/h5';
 import { Badge } from '../ui/badge';
@@ -21,13 +23,13 @@ import WatchListButton from '../watchlist-button/watchlist-button';
 
 interface TooltipDataProps {
     slug: string;
-    watch?: API.Watch;
+    watch?: WatchResponseBase;
 }
 
 interface Props extends PropsWithChildren {
     slug?: string;
     withTrigger?: boolean;
-    watch?: API.Watch;
+    watch?: WatchResponseBase;
 }
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
@@ -38,25 +40,25 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
         return (
             <div className="flex animate-pulse flex-col gap-4">
                 <div className="flex justify-between gap-2">
-                    <div className="h-4 flex-1 rounded-lg bg-secondary/20" />
-                    <div className="h-4 w-10 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-4 flex-1 rounded-lg" />
+                    <div className="bg-secondary/20 h-4 w-10 rounded-lg" />
                 </div>
                 <div className="flex flex-col gap-2 py-3">
-                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
-                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
-                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
-                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
-                    <div className="h-2 w-1/3 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
+                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
+                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
+                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
+                    <div className="bg-secondary/20 h-2 w-1/3 rounded-lg" />
                 </div>
                 <div className="flex gap-2">
-                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
-                    <div className="h-3 flex-1 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-3 w-1/4 rounded-lg" />
+                    <div className="bg-secondary/20 h-3 flex-1 rounded-lg" />
                 </div>
                 <div className="flex gap-2">
-                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
-                    <div className="h-3 w-2/4 rounded-lg bg-secondary/20" />
+                    <div className="bg-secondary/20 h-3 w-1/4 rounded-lg" />
+                    <div className="bg-secondary/20 h-3 w-2/4 rounded-lg" />
                 </div>
-                <div className="h-12 w-full rounded-md bg-secondary/20" />
+                <div className="bg-secondary/20 h-12 w-full rounded-md" />
             </div>
         );
     }
@@ -69,13 +71,13 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
                 <div className="flex justify-between gap-2">
                     <H5>{data.title}</H5>
                     {data.score > 0 ? (
-                        <div className="size-fit rounded-md border  border-accent bg-accent px-2 text-sm text-accent-foreground">
+                        <div className="border-accent bg-accent text-accent-foreground  size-fit rounded-md border px-2 text-sm">
                             {data.score}
                         </div>
                     ) : null}
                 </div>
                 {synopsis && (
-                    <MDViewer className="mb-2 line-clamp-4 text-sm text-muted-foreground">
+                    <MDViewer className="text-muted-foreground mb-2 line-clamp-4 text-sm">
                         {synopsis}
                     </MDViewer>
                 )}
@@ -89,12 +91,14 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
                                 {ANIME_MEDIA_TYPE[data.media_type].title_ua}
                             </Label>
                         )}
-                        <Badge
-                            variant="status"
-                            bgColor={RELEASE_STATUS[data.status].color}
-                        >
-                            {RELEASE_STATUS[data.status].title_ua}
-                        </Badge>
+                        {data.status && (
+                            <Badge
+                                variant="status"
+                                bgColor={RELEASE_STATUS[data.status].color}
+                            >
+                                {RELEASE_STATUS[data.status].title_ua}
+                            </Badge>
+                        )}
                     </div>
                 </div>
                 {data.media_type !== 'movie' &&
@@ -123,7 +127,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
                         {data.genres.map((genre, i) => (
                             <span key={genre.slug}>
                                 <Link
-                                    className="rounded-sm text-sm underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
+                                    className="decoration-primary hover:bg-primary hover:text-primary-foreground rounded-sm text-sm underline decoration-dashed transition-colors duration-100"
                                     href={`/anime?genres=${genre.slug}`}
                                 >
                                     {genre.name_ua}

@@ -1,20 +1,22 @@
 'use client';
 
+import {
+    CollectionContent,
+    CollectionContentResponse,
+    ContentTypeEnum,
+} from '@hikka/client';
 import { FC, memo, useRef } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     group?: string;
-    items: API.CollectionItem<API.MainContent>[];
-    content_type: API.ContentType;
+    items: CollectionContentResponse<CollectionContent>[];
+    content_type: ContentTypeEnum;
 }
 
 const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
@@ -30,7 +32,7 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
     */
 
     return (
-        <div className="flex flex-col gap-4 scroll-mt-20" id={group} ref={ref}>
+        <div className="flex scroll-mt-20 flex-col gap-4" id={group} ref={ref}>
             {group && (
                 <Header href={`#${group}`}>
                     <HeaderContainer>

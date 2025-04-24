@@ -1,9 +1,11 @@
 'use client';
 
+import { ReadStatsResponse } from '@hikka/client';
+import { useNovelInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import Small from '@/components/typography/small';
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
+
 import Stats from './stats';
 
 const Score = () => {
@@ -31,15 +33,16 @@ const Score = () => {
         .reduce((acc: Hikka.ListStat[], stat) => {
             if (
                 stat.includes('score') &&
-                data.stats[stat as API.StatType] > 0
+                data.stats[stat as keyof ReadStatsResponse] > 0
             ) {
                 const percentage =
-                    (100 * data.stats[stat as API.StatType]) / sumStats;
+                    (100 * data.stats[stat as keyof ReadStatsResponse]) /
+                    sumStats;
 
                 acc.push({
                     icon: <Small>{stat.split('score_')[1]}</Small>,
                     percentage,
-                    value: data.stats[stat as API.StatType],
+                    value: data.stats[stat as keyof ReadStatsResponse],
                 });
             }
 

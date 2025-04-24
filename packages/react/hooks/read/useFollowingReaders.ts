@@ -1,38 +1,30 @@
-import {
-    PaginationArgs,
-    ReadContentTypeEnum,
-    UserReadPaginationResponse,
-} from '@hikka/client';
-import {
-    FetchInfiniteQueryOptions,
-    InfiniteData,
-    QueryClient,
-} from '@tanstack/query-core';
-import { UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { ReadContentType, UserReadPaginationResponse } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
-import { useInfiniteQuery } from '../../core/useInfiniteQuery';
-import { prefetchInfiniteQuery } from '../../server/prefetchInfiniteQuery';
+import {
+    InfiniteQueryParams,
+    useInfiniteQuery,
+} from '../../core/useInfiniteQuery';
+import {
+    PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '../../server/prefetchInfiniteQuery';
+
+export interface UseFollowingReadersParams {
+    contentType: ReadContentType;
+    slug: string;
+}
 
 /**
  * Hook for retrieving users from following list that are reading a manga/novel
  */
-export function useFollowingReaders(
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            UserReadPaginationResponse,
-            Error,
-            InfiniteData<UserReadPaginationResponse>,
-            UserReadPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export function useFollowingReaders({
+    contentType,
+    slug,
+    paginationArgs,
+    ...rest
+}: UseFollowingReadersParams &
+    InfiniteQueryParams<UserReadPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.read.followingUsers(
             contentType,
@@ -44,31 +36,21 @@ export function useFollowingReaders(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }
 
 /**
  * Prefetches users from following list that are reading a manga/novel for server-side rendering
  */
-export async function prefetchFollowingReaders(
-    queryClient: QueryClient,
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    paginationArgs?: PaginationArgs,
-    options?: Omit<
-        FetchInfiniteQueryOptions<
-            UserReadPaginationResponse,
-            Error,
-            UserReadPaginationResponse,
-            readonly unknown[],
-            number
-        >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >,
-) {
+export async function prefetchFollowingReaders({
+    contentType,
+    slug,
+    paginationArgs,
+    ...rest
+}: PrefetchInfiniteQueryParams<UserReadPaginationResponse> &
+    UseFollowingReadersParams) {
     return prefetchInfiniteQuery({
-        queryClient,
         queryKey: queryKeys.read.followingUsers(
             contentType,
             slug,
@@ -79,6 +61,6 @@ export async function prefetchFollowingReaders(
                 page,
                 size: paginationArgs?.size,
             }),
-        options,
+        ...rest,
     });
 }

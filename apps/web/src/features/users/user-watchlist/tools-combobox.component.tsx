@@ -1,7 +1,8 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { WatchStatusEnum } from '@hikka/client';
+import { useRandomAnime } from '@hikka/react';
+import { useParams, useSearchParams } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -13,29 +14,21 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import getRandomWatch from '@/services/api/watch/getRandomWatch';
+
 import AnimeFiltersModal from '../../modals/anime-filters-modal.component';
 
 const ToolsCombobox = () => {
     const searchParams = useSearchParams();
     const params = useParams();
-    const router = useRouter();
 
-    const watchStatus = searchParams.get('status')!;
+    const watchStatus = searchParams.get('status')! as WatchStatusEnum;
 
-    const mutation = useMutation({
-        mutationFn: getRandomWatch,
-        onSuccess: (data) => {
-            router.push('/anime/' + data.slug);
-        },
-    });
+    const mutationRandomAnime = useRandomAnime({});
 
     const handleRandomAnime = async () => {
-        mutation.mutate({
-            params: {
-                username: String(params.username),
-                status: watchStatus as API.WatchStatus,
-            },
+        mutationRandomAnime.mutate({
+            username: String(params.username),
+            status: watchStatus,
         });
     };
 

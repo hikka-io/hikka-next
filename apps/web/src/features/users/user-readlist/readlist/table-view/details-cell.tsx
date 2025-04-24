@@ -1,3 +1,4 @@
+import { MangaResponse, NovelResponse, ReadContentType } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -8,8 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
-    content: API.Manga | API.Novel;
-    content_type: 'manga' | 'novel';
+    content: MangaResponse | NovelResponse;
+    content_type: ReadContentType;
     rereads: number;
     note?: string;
 }
@@ -38,7 +39,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, rereads, note }) => {
                     </div>
                     {note && (
                         <TextExpand>
-                            <MDViewer className="text-xs text-muted-foreground">
+                            <MDViewer className="text-muted-foreground text-xs">
                                 {note}
                             </MDViewer>
                         </TextExpand>

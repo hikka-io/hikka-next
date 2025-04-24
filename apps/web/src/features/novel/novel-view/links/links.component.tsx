@@ -1,5 +1,7 @@
 'use client';
 
+import { ExternalTypeEnum } from '@hikka/client';
+import { useNovelInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -8,22 +10,14 @@ import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols
 import TextExpand from '@/components/text-expand';
 import P from '@/components/typography/p';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from '@/components/ui/toggle-group';
-import useNovelInfo from '@/services/hooks/novel/use-novel-info';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface Props {
     extended?: boolean;
@@ -31,7 +25,9 @@ interface Props {
 
 const Links: FC<Props> = ({ extended }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const [active, setActive] = useState<API.External['type']>('general');
+    const [active, setActive] = useState<ExternalTypeEnum>(
+        ExternalTypeEnum.GENERAL,
+    );
     const params = useParams();
     const { data: novel } = useNovelInfo({ slug: String(params.slug) });
 
@@ -43,12 +39,17 @@ const Links: FC<Props> = ({ extended }) => {
         return null;
     }
 
-    const readLinksData = novel.external.filter((l) => l.type === 'read');
-    const generalLinksData = novel.external.filter((l) => l.type === 'general');
+    const readLinksData = novel.external.filter(
+        (l) => l.type === ExternalTypeEnum.READ,
+    );
+    const generalLinksData = novel.external.filter(
+        (l) => l.type === ExternalTypeEnum.GENERAL,
+    );
 
-    const linksData = active === 'general' ? generalLinksData : readLinksData;
+    const linksData =
+        active === ExternalTypeEnum.GENERAL ? generalLinksData : readLinksData;
 
-    const handleChangeActive = (value: API.External['type']) => {
+    const handleChangeActive = (value: ExternalTypeEnum) => {
         if (value) {
             setActive(value);
             setIsExpanded(false);
@@ -67,14 +68,14 @@ const Links: FC<Props> = ({ extended }) => {
                         size="badge"
                     >
                         <ToggleGroupItem
-                            value="general"
+                            value={ExternalTypeEnum.GENERAL}
                             aria-label="Загальні посилання"
                         >
                             <MaterialSymbolsInfoIRounded />
                         </ToggleGroupItem>
                         {readLinksData.length > 0 && (
                             <ToggleGroupItem
-                                value="read"
+                                value={ExternalTypeEnum.READ}
                                 aria-label="Посилання для читання"
                             >
                                 <MaterialSymbolsPlayArrowRounded />

@@ -1,16 +1,11 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate, getQueryClient } from '@hikka/react';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import Applications from '@/features/settings/applications/applications.component';
 import ClientCreateButton from '@/features/settings/applications/client-create-button.component';
-import { prefetchClients } from '@/services/hooks/client/use-clients';
-import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     params: {
@@ -22,7 +17,7 @@ const ApplicationsSettingsPage: FC<Props> = async (props) => {
     const params = await props.params;
     const queryClient = getQueryClient();
 
-    await prefetchClients();
+    // await prefetchClients();
 
     const dehydratedState = dehydrate(queryClient);
 

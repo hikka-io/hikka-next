@@ -1,3 +1,5 @@
+'use client';
+
 import { HikkaClient } from '@hikka/client';
 import { createContext } from 'react';
 

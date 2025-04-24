@@ -1,5 +1,6 @@
 'use client';
 
+import { ImportReadArgs } from '@hikka/client';
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -8,12 +9,14 @@ import { xml2json } from 'xml-js';
 import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
+
 import { cn } from '@/utils/utils';
+
 import FoundList from './found-list';
 
 interface Props {
-    readList: Record<string, any>[];
-    setReadList: Dispatch<SetStateAction<Record<string, any>[]>>;
+    readList: ImportReadArgs[];
+    setReadList: Dispatch<SetStateAction<ImportReadArgs[]>>;
 }
 
 const Component = ({ readList, setReadList }: Props) => {
@@ -87,9 +90,9 @@ const Component = ({ readList, setReadList }: Props) => {
             <div
                 {...getRootProps({
                     className: cn(
-                        'w-full h-28 p-4',
-                        'flex justify-center items-center',
-                        'cursor-pointer bg-secondary/20 rounded-lg text-center',
+                        'h-28 w-full p-4',
+                        'flex items-center justify-center',
+                        'bg-secondary/20 cursor-pointer rounded-lg text-center',
                         'transition duration-100',
                         'hover:bg-secondary/20/90',
                         isDragActive && 'bg-secondary/20/90',
@@ -98,11 +101,11 @@ const Component = ({ readList, setReadList }: Props) => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-muted-foreground text-sm">
                         Перетягніть файл сюди...
                     </P>
                 ) : readList.length === 0 ? (
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-muted-foreground text-sm">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
                     </P>

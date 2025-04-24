@@ -1,15 +1,12 @@
 'use client';
 
+import { useArticle } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import useArticle from '@/services/hooks/articles/use-article';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {}
@@ -26,7 +23,7 @@ const ArticleTitle: FC<Props> = () => {
             {article?.content && (
                 <Link
                     href={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
-                    className="w-fit text-sm text-muted-foreground hover:underline"
+                    className="text-muted-foreground w-fit text-sm hover:underline"
                 >
                     {article.content.title}
                 </Link>

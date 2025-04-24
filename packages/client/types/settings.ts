@@ -1,3 +1,5 @@
+import { UploadTypeEnum } from './upload';
+
 /**
  * Description arguments
  */
@@ -20,26 +22,9 @@ export interface UsernameArgs {
 }
 
 /**
- * Ignored notifications arguments
- */
-export interface IgnoredNotificationsArgs {
-    ignored_notifications: string[];
-}
-
-/**
- * Ignored notifications response
- */
-export interface IgnoredNotificationsResponse {
-    ignored_notifications: string[];
-}
-
-/**
  * Image type enum
  */
-export enum ImageTypeEnum {
-    AVATAR = 'avatar',
-    COVER = 'cover',
-}
+export type ImageType = UploadTypeEnum.AVATAR | UploadTypeEnum.COVER;
 
 /**
  * Import watch status enum

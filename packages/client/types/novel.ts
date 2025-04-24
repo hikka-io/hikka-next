@@ -1,15 +1,12 @@
 import {
     ContentStatusEnum,
+    ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
     PaginationResponse,
 } from './common';
-import {
-    ContentAuthorResponse,
-    MagazineResponse,
-    ReadResponseBase,
-    ReadStatsResponse,
-} from './manga';
+import { ContentAuthorResponse, MagazineResponse } from './manga';
+import { ReadResponseBase, ReadStatsResponse } from './read';
 
 /**
  * Novel media types
@@ -23,29 +20,25 @@ export enum NovelMediaEnum {
  * Base novel response
  */
 export interface NovelResponse {
-    data_type: string;
+    data_type: ContentTypeEnum.NOVEL;
     start_date: number | null;
     end_date: number | null;
     title_original: string | null;
-    media_type: string | null;
+    media_type: NovelMediaEnum | null;
+    title?: string;
     title_ua: string | null;
     title_en: string | null;
     chapters: number | null;
     volumes: number | null;
     translated_ua: boolean;
-    status: string | null;
+    status: ContentStatusEnum | null;
     image: string | null;
     year: number | null;
     scored_by: number;
     score: number;
     slug: string;
-}
-
-/**
- * Novel response with read status
- */
-export interface NovelResponseWithRead extends NovelResponse {
     read: ReadResponseBase[];
+    comments_count: number;
 }
 
 /**
@@ -53,7 +46,7 @@ export interface NovelResponseWithRead extends NovelResponse {
  */
 export interface NovelPaginationResponse {
     pagination: PaginationResponse;
-    list: NovelResponseWithRead[];
+    list: NovelResponse[];
 }
 
 /**
@@ -74,34 +67,18 @@ export interface NovelSearchArgs {
 /**
  * Detailed novel info response
  */
-export interface NovelInfoResponse {
-    data_type: string;
+export interface NovelInfoResponse extends NovelResponse {
     authors: ContentAuthorResponse[];
     magazines: MagazineResponse[];
     external: ExternalResponse[];
-    start_date: number | null;
-    end_date: number | null;
     genres: GenreResponse[];
-    title_original: string | null;
     stats: ReadStatsResponse;
     synopsis_en: string | null;
     synopsis_ua: string | null;
-    media_type: string | null;
-    chapters: number | null;
-    title_en: string | null;
-    title_ua: string | null;
     updated: number;
     synonyms: string[];
     comments_count: number;
     has_franchise: boolean;
-    translated_ua: boolean;
-    volumes: number | null;
-    status: string | null;
-    image: string | null;
-    year: number | null;
-    scored_by: number;
-    score: number;
     mal_id: number;
     nsfw: boolean;
-    slug: string;
 }

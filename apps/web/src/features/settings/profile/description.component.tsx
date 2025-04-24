@@ -1,15 +1,14 @@
 'use client';
 
+import { useChangeDescription, useSession } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import changeUserDescription from '@/services/api/settings/changeUserDescription';
-import useSession from '@/services/hooks/auth/use-session';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
@@ -20,7 +19,6 @@ const formSchema = z.object({
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
-    const queryClient = useQueryClient();
 
     const { user: loggedUser } = useSession();
 
@@ -31,21 +29,21 @@ const Component = () => {
         },
     });
 
-    const mutation = useMutation({
-        mutationFn: changeUserDescription,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries();
-            closeModal();
-            enqueueSnackbar(
-                'Ви успішно змінили загальні налаштування профілю.',
-                { variant: 'success' },
-            );
+    const mutationChangeDescription = useChangeDescription({
+        options: {
+            onSuccess: async () => {
+                closeModal();
+                enqueueSnackbar(
+                    'Ви успішно змінили загальні налаштування профілю.',
+                    { variant: 'success' },
+                );
+            },
         },
     });
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutation.mutate({
-            params: data,
+        mutationChangeDescription.mutate({
+            description: data.description,
         });
     };
 
@@ -63,11 +61,11 @@ const Component = () => {
                 />
                 <Button
                     size="md"
-                    disabled={mutation.isPending}
+                    disabled={mutationChangeDescription.isPending}
                     variant="default"
                     type="submit"
                 >
-                    {mutation.isPending && (
+                    {mutationChangeDescription.isPending && (
                         <span className="loading loading-spinner"></span>
                     )}
                     Зберегти

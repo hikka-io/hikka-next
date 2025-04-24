@@ -1,4 +1,4 @@
-import { VoteArgs, VoteContentTypeEnum, VoteResponse } from '../types/vote';
+import { VoteArgs, VoteContentType, VoteResponse } from '../types/vote';
 import { BaseModule } from './base';
 
 /**
@@ -9,7 +9,7 @@ export class VoteModule extends BaseModule {
      * Get the current vote for content
      */
     public async getVote(
-        contentType: VoteContentTypeEnum,
+        contentType: VoteContentType,
         slug: string,
     ): Promise<VoteResponse> {
         return this.client.get<VoteResponse>(`/vote/${contentType}/${slug}`);
@@ -19,7 +19,7 @@ export class VoteModule extends BaseModule {
      * Set vote for content
      */
     public async setVote(
-        contentType: VoteContentTypeEnum,
+        contentType: VoteContentType,
         slug: string,
         args: VoteArgs,
     ): Promise<VoteResponse> {

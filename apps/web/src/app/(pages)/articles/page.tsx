@@ -1,13 +1,18 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { ArticleCategoryEnum } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchArticleStats,
+    prefetchArticlesList,
+} from '@hikka/react';
 
 import ArticleList from '@/features/articles/article-list/article-list.component';
 import PopularAuthors from '@/features/articles/article-list/popular-authors.component';
 import PopularTags from '@/features/articles/article-list/popular-tags.component';
 import ArticleFilters from '@/features/filters/article-filters.component';
-import { prefetchArticleStats } from '@/services/hooks/articles/use-article-stats';
-import { prefetchArticles } from '@/services/hooks/articles/use-articles';
-import getQueryClient from '@/utils/get-query-client';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 const ArticlesPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -16,6 +21,7 @@ const ArticlesPage = async (props: {
     const searchParams = await props.searchParams;
 
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
     const author = searchParams.author || undefined;
     const sort = searchParams.sort || 'created';
@@ -24,15 +30,18 @@ const ArticlesPage = async (props: {
     const draft = Boolean(searchParams.draft) ?? false;
     const categories = searchParams.categories || [];
 
-    await prefetchArticles({
-        author: author as string,
-        sort: [`${sort}:${order}`],
-        tags: tags as string[],
-        draft: draft,
-        categories: categories as API.ArticleCategory[],
+    await prefetchArticlesList({
+        args: {
+            author: author as string,
+            sort: [`${sort}:${order}`],
+            tags: tags as string[],
+            draft: draft,
+            categories: categories as ArticleCategoryEnum[],
+        },
+        clientConfig,
     });
 
-    await prefetchArticleStats({});
+    await prefetchArticleStats({ clientConfig });
 
     const dehydratedState = dehydrate(queryClient);
 

@@ -1,5 +1,7 @@
 'use client';
 
+import { ContentStatusEnum, NovelMediaEnum } from '@hikka/client';
+import { useNovelSearch } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -10,7 +12,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
-import useNovelCatalog from '@/services/hooks/novel/use-novel-catalog';
+
 import NovelListSkeleton from './novel-list-skeleton';
 import { useNextPage, useUpdatePage } from './novel-list.hooks';
 
@@ -22,10 +24,13 @@ const NovelList: FC<Props> = () => {
     const searchParams = useSearchParams();
 
     const query = searchParams.get('search');
-    const media_type = searchParams.getAll('types');
-    const status = searchParams.getAll('statuses');
+    const media_type = searchParams.getAll('types') as NovelMediaEnum[];
+    const status = searchParams.getAll('statuses') as ContentStatusEnum[];
 
-    const years = searchParams.getAll('years');
+    const years = searchParams.getAll('years') as unknown as [
+        number | null,
+        number | null,
+    ];
     const genres = searchParams.getAll('genres');
 
     const only_translated = searchParams.get('only_translated');
@@ -55,9 +60,25 @@ const NovelList: FC<Props> = () => {
         hasNextPage,
         list,
         pagination,
-    } = useNovelCatalog(dataKeys);
+    } = useNovelSearch({
+        args: {
+            query: query || undefined,
+            media_type: media_type,
+            status: status,
+            years: years,
+            genres: genres,
+            only_translated: Boolean(only_translated),
+            sort: sort ? [`${sort}:${order}`] : undefined,
+        },
+        paginationArgs: {
+            page: Number(page),
+        },
+    });
 
-    const updatePage = useUpdatePage(dataKeys);
+    const updatePage = useUpdatePage({
+        page: Number(page),
+        iPage: Number(iPage),
+    });
     const nextPage = useNextPage({ fetchNextPage, pagination });
 
     if (isLoading && !isFetchingNextPage) {
@@ -71,7 +92,7 @@ const NovelList: FC<Props> = () => {
     return (
         <Block>
             <Stack extended={true} size={5} extendedSize={5}>
-                {list.map((novel: API.Novel) => {
+                {list.map((novel) => {
                     return <NovelCard key={novel.slug} novel={novel} />;
                 })}
             </Stack>
@@ -83,7 +104,7 @@ const NovelList: FC<Props> = () => {
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
-                    <Card className="flex-row gap-2 p-2 bg-background/60 backdrop-blur-xl border-none">
+                    <Card className="bg-background/60 flex-row gap-2 border-none p-2 backdrop-blur-xl">
                         <Pagination
                             page={Number(iPage)}
                             pages={pagination.pages}

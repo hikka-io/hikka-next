@@ -1,23 +1,27 @@
 'use client';
 
+import { ArticleContentType } from '@hikka/client';
+import { useArticlesList } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import useArticles from '@/services/hooks/articles/use-articles';
+
 import ContentArticlesItem from './content-articles-item';
 
 interface Props {
-    content_type: API.ContentType;
+    content_type: ArticleContentType;
 }
 
 const ContentArticlesModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
-        useArticles({
-            content_type: content_type,
-            content_slug: String(params.slug),
+        useArticlesList({
+            args: {
+                content_type: content_type,
+                content_slug: String(params.slug),
+            },
         });
 
     return (

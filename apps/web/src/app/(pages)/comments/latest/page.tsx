@@ -1,12 +1,16 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchLatestComments,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
 import Comments from '@/features/comments/latest-comments.component';
-import { prefetchGlobalComments } from '@/services/hooks/comments/use-global-comments';
+
 import _generateMetadata from '@/utils/generate-metadata';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Останні коментарі',
@@ -16,11 +20,11 @@ interface Props {
     searchParams: Record<string, any>;
 }
 
-const FollowingHistoryPage: FC<Props> = async (props) => {
-    const searchParams = await props.searchParams;
+const LatestCommentsPage: FC = async () => {
     const queryClient = await getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    await prefetchGlobalComments();
+    await prefetchLatestComments({ clientConfig });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -33,4 +37,4 @@ const FollowingHistoryPage: FC<Props> = async (props) => {
     );
 };
 
-export default FollowingHistoryPage;
+export default LatestCommentsPage;

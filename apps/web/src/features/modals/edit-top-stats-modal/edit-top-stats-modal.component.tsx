@@ -1,12 +1,14 @@
 'use client';
 
+import { useEditsTop } from '@hikka/react';
+
 import LoadMoreButton from '@/components/load-more-button';
-import useEditTop from '@/services/hooks/stats/edit/use-edit-top';
+
 import EditTopItem from './edit-top-item';
 
 const Component = () => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useEditTop();
+        useEditsTop();
 
     if (!list) {
         return null;

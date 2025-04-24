@@ -1,3 +1,4 @@
+import { CharacterResponse, ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentCard, {
@@ -5,7 +6,7 @@ import ContentCard, {
 } from './content-card/content-card';
 
 interface Props extends ContentCardProps {
-    character: API.Character;
+    character: CharacterResponse;
 }
 
 const CharacterCard: FC<Props> = ({ character, ...props }) => {
@@ -13,7 +14,7 @@ const CharacterCard: FC<Props> = ({ character, ...props }) => {
         <ContentCard
             slug={character.slug}
             withContextMenu
-            content_type="character"
+            content_type={ContentTypeEnum.CHARACTER}
             href={`/characters/${character.slug}`}
             image={character.image}
             title={character.name_ua || character.name_en || character.name_ja}

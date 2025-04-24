@@ -1,5 +1,6 @@
 'use client';
 
+import { useEdit } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import * as React from 'react';
 import { FC } from 'react';
@@ -11,7 +12,6 @@ import PlateDiff from '@/components/markdown/editor/plate-diff';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import useEdit from '@/services/hooks/edit/use-edit';
 
 interface Props {
     param: Hikka.EditParam;
@@ -22,12 +22,12 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
     const { control } = useFormContext();
     const params = useParams();
     const [showDiff, setShowDiff] = React.useState(false);
-    const { data: edit } = useEdit(
-        {
-            edit_id: Number(params.editId),
+    const { data: edit } = useEdit({
+        editId: Number(params.editId),
+        options: {
+            enabled: mode === 'view',
         },
-        { enabled: mode === 'view' },
-    );
+    });
 
     if (mode === 'view') {
         return (
@@ -48,7 +48,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                     control={control}
                     name={param.slug}
                     render={({ field: { value } }) => (
-                        <MDViewer className="markdown rounded-md border border-border bg-secondary/20 p-4 text-sm">
+                        <MDViewer className="markdown border-border bg-secondary/20 rounded-md border p-4 text-sm">
                             {value}
                         </MDViewer>
                     )}
@@ -73,7 +73,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
             <Controller
                 control={control}
                 name={param.slug}
-                render={({ field: { onChange, onBlur, ref, value } }) => (
+                render={({ field: { onChange, value } }) => (
                     <BasicEditor
                         placeholder={param.placeholder}
                         initialValue={value || ''}

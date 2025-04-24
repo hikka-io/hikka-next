@@ -1,5 +1,11 @@
-import { dehydrate } from '@tanstack/query-core';
-import { HydrationBoundary } from '@tanstack/react-query';
+import { CollectionContent, CollectionsListResponse } from '@hikka/client';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+    prefetchCollectionsList,
+    queryKeys,
+} from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -9,20 +15,13 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import CollectionList from '@/features/collections/collection-list/collection-list.component';
 import CollectionSort from '@/features/collections/collection-list/collection-sort';
-import {
-    key,
-    prefetchCollections,
-} from '@/services/hooks/collections/use-collections';
-import { getCookie } from '@/utils/cookies';
+
 import _generateMetadata from '@/utils/generate-metadata';
-import getQueryClient from '@/utils/get-query-client';
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({
@@ -48,15 +47,21 @@ const CollectionsPage: FC<Props> = async (props) => {
     }
 
     const queryClient = await getQueryClient();
-    const auth = await getCookie('auth');
+    const clientConfig = await getHikkaClientConfig();
 
-    const params = { page: Number(page), sort };
+    await prefetchCollectionsList({
+        args: { sort: [sort] },
+        paginationArgs: { page: Number(page) },
+        clientConfig,
+    });
 
-    await prefetchCollections(params);
-
-    const collections:
-        | API.WithPagination<API.Collection<API.MainContent>>
-        | undefined = queryClient.getQueryData(key(params));
+    const collections: CollectionsListResponse<CollectionContent> | undefined =
+        queryClient.getQueryData(
+            queryKeys.collections.list(
+                { sort: [sort] },
+                { page: Number(page) },
+            ),
+        );
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -67,7 +72,7 @@ const CollectionsPage: FC<Props> = async (props) => {
                     <Header>
                         <HeaderContainer>
                             <HeaderTitle variant="h2">Колекції</HeaderTitle>
-                            {auth && (
+                            {clientConfig.authToken && (
                                 <Button
                                     asChild
                                     size="icon-sm"

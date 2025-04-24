@@ -1,21 +1,14 @@
 'use client';
 
+import { useMangaInfo } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from '@/components/ui/toggle-group';
-import useMangaInfo from '@/services/hooks/manga/use-manga-info';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Description = () => {
     const [active, setActive] = useState<'synopsis_ua' | 'synopsis_en'>(

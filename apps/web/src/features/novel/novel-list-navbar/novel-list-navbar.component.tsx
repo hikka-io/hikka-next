@@ -1,6 +1,8 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { Suspense } from 'react';
 
 import { cn } from '@/utils/utils';
+
 import ReadFiltersModal from '../../modals/read-filters-modal.component';
 import Search from './search';
 
@@ -15,7 +17,10 @@ const NovelListNavbar = () => {
                 <Search />
             </Suspense>
             <div className="lg:hidden">
-                <ReadFiltersModal sort_type="novel" content_type="novel" />
+                <ReadFiltersModal
+                    sort_type="novel"
+                    content_type={ContentTypeEnum.NOVEL}
+                />
             </div>
         </div>
     );

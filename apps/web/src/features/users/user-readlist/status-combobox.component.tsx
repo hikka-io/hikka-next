@@ -1,5 +1,6 @@
 'use client';
 
+import { ReadStatusEnum } from '@hikka/client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { createElement } from 'react';
 
@@ -14,8 +15,10 @@ import {
     SelectList,
     SelectTrigger,
 } from '@/components/ui/select';
+
 import { READ_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
+
 import { useList } from './readlist.hooks';
 
 const StatusCombobox = () => {
@@ -23,7 +26,7 @@ const StatusCombobox = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    const readStatus = searchParams.get('status')! as API.ReadStatus;
+    const readStatus = searchParams.get('status')! as ReadStatusEnum;
 
     const { pagination } = useList();
 
@@ -42,7 +45,7 @@ const StatusCombobox = () => {
         <Select value={[readStatus]} onValueChange={handleWatchStatusChange}>
             <SelectTrigger>
                 <div className="flex items-center gap-4">
-                    <div className="hidden rounded-md border border-border bg-secondary/20 p-1 sm:block">
+                    <div className="border-border bg-secondary/20 hidden rounded-md border p-1 sm:block">
                         {createElement(READ_STATUS[readStatus].icon!)}
                     </div>
                     <div className="flex items-center gap-2">
@@ -59,7 +62,7 @@ const StatusCombobox = () => {
             <SelectContent>
                 <SelectList>
                     <SelectGroup>
-                        {(Object.keys(READ_STATUS) as API.ReadStatus[]).map(
+                        {(Object.keys(READ_STATUS) as ReadStatusEnum[]).map(
                             (o) => (
                                 <SelectItem key={o} value={o}>
                                     {READ_STATUS[o].title_ua}
