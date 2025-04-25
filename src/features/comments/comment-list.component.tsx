@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
+import RulesAlert from '@/features/comments/comment-rules-alert.component';
+
 import useSession from '@/services/hooks/auth/use-session';
 import useCommentThread from '@/services/hooks/comments/use-comment-thread';
 import useComments from '@/services/hooks/comments/use-comments';
@@ -68,6 +70,7 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
                 </HeaderContainer>
             </Header>
             <div className="flex flex-col gap-4">
+                <RulesAlert />
                 {loggedUser && !comment_reference && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}
