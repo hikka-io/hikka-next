@@ -47,11 +47,10 @@ const FollowButton: FC<Props> = ({
 
     const user = userProp || userQuery;
 
-    const { mutate: mutateFollow, isPending: followLoading } = useFollow({});
+    const { mutate: mutateFollow, isPending: followLoading } = useFollow();
 
-    const { mutate: mutateUnfollow, isPending: unfollowLoading } = useUnfollow(
-        {},
-    );
+    const { mutate: mutateUnfollow, isPending: unfollowLoading } =
+        useUnfollow();
 
     const handleFollowToggle = () => {
         if (user?.is_followed) {

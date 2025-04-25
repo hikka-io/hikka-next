@@ -26,7 +26,7 @@ const ToolsCombobox = () => {
     const readStatus = searchParams.get('status')! as ReadStatusEnum;
     const contentType = params.content_type as ReadContentType;
 
-    const mutationRandomRead = useRandomRead({});
+    const mutationRandomRead = useRandomRead();
 
     const handleRandomAnime = async () => {
         mutationRandomRead.mutate({

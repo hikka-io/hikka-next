@@ -19,7 +19,7 @@ const formSchema = z.object({
 
 const Component = () => {
     const { mutate: createClient, isPending: createClientLoading } =
-        useCreateClient({});
+        useCreateClient();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

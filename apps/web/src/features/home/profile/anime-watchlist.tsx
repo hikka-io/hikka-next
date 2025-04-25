@@ -68,7 +68,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         value: updatedWatch,
         delay: 500,
     });
-    const { mutate: mutateAddOrUpdateWatch, reset } = useAddOrUpdateWatch({});
+    const { mutate: mutateAddOrUpdateWatch, reset } = useAddOrUpdateWatch();
 
     // Event Handlers
     const handleSelect = (slug: string) => {

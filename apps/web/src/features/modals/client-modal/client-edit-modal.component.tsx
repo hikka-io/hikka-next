@@ -35,9 +35,9 @@ interface Props {
 
 const Component = ({ client }: Props) => {
     const { mutate: updateClient, isPending: updateClientLoading } =
-        useUpdateClient({});
+        useUpdateClient();
     const { mutate: deleteClient, isPending: deleteClientLoading } =
-        useDeleteClient({});
+        useDeleteClient();
     const { data } = useFullClientInfo({ reference: client.reference });
 
     const form = useForm<z.infer<typeof formSchema>>({

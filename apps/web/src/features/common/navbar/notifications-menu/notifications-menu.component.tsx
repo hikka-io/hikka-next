@@ -35,7 +35,7 @@ const NotificationsMenu = () => {
         ref,
     } = useNotifications();
 
-    const { mutate: asSeen } = useMarkNotificationAsSeen({});
+    const { mutate: asSeen } = useMarkNotificationAsSeen();
 
     return (
         <DropdownMenu onOpenChange={(open) => open && refetch()}>

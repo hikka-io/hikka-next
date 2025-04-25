@@ -57,10 +57,10 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
     const read = readProp || readQuery;
 
     const { mutate: addOrUpdateRead, isPending: addToListLoading } =
-        useAddOrUpdateRead({});
+        useAddOrUpdateRead();
 
     const { mutate: deleteRead, isPending: deleteFromListLoading } =
-        useDeleteRead({});
+        useDeleteRead();
 
     const [selectedStatus, setSelectedStatus] = useState<
         ReadStatusEnum | undefined

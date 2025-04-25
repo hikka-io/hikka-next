@@ -63,7 +63,7 @@ const generateMetadata = ({
     openGraph,
     twitter,
     ...restProps
-}: MetadataProps): Metadata => {
+}: MetadataProps = {}): Metadata => {
     // Determine values, falling back to defaults when needed
     const resolvedSiteName = siteName || DEFAULTS.siteName;
     const resolvedTitle = title || DEFAULTS.title;

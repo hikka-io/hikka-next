@@ -99,7 +99,7 @@ const Component = ({
         },
     });
 
-    const { mutate: addOrUpdateRead } = useAddOrUpdateRead({});
+    const { mutate: addOrUpdateRead } = useAddOrUpdateRead();
 
     const read = readProp || (readQuery && !readError ? readQuery : undefined);
     const content = contentProp || manga || novel;

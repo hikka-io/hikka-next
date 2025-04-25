@@ -56,10 +56,10 @@ const Component = ({ slug, watch: watchProp }: Props) => {
     const watch = watchProp || watchQuery;
 
     const { mutate: addOrUpdateWatch, isPending: addToListLoading } =
-        useAddOrUpdateWatch({});
+        useAddOrUpdateWatch();
 
     const { mutate: deleteWatch, isPending: deleteFromListLoading } =
-        useDeleteWatch({});
+        useDeleteWatch();
 
     const [selectedStatus, setSelectedStatus] = useState<
         WatchStatusEnum | undefined

@@ -32,7 +32,7 @@ const WatchStats = () => {
         slug: String(params.slug),
     });
 
-    const { mutate: mutateAddOrUpdateWatch } = useAddOrUpdateWatch({});
+    const { mutate: mutateAddOrUpdateWatch } = useAddOrUpdateWatch();
 
     const handleAddEpisode = () => {
         if (watch) {

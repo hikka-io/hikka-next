@@ -59,10 +59,10 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const setSpoiler = useCollectionContext((state) => state.setSpoiler);
 
     const { mutate: mutateCreateCollection, isPending: isCreatePending } =
-        useCreateCollection({});
+        useCreateCollection();
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
-        useUpdateCollection({});
+        useUpdateCollection();
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">

@@ -25,7 +25,7 @@ const ReadStats = () => {
         mutate: mutateAddOrUpdateRead,
         variables,
         isPending,
-    } = useAddOrUpdateRead({});
+    } = useAddOrUpdateRead();
 
     const handleAddEpisode = () => {
         if (read) {

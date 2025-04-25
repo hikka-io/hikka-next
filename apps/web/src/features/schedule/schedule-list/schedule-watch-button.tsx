@@ -21,7 +21,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
     const { user: loggedUser } = useSession();
     const { enqueueSnackbar } = useSnackbar();
     const { openModal } = useModalContext();
-    const { mutate: addOrUpdateWatch } = useAddOrUpdateWatch({});
+    const { mutate: addOrUpdateWatch } = useAddOrUpdateWatch();
 
     const watch = item.anime.watch.length > 0 ? item.anime.watch[0] : undefined;
     const watchStatus = watch ? WATCH_STATUS[watch.status] : null;

@@ -10,7 +10,7 @@ interface Props {}
 
 const CloseAction: FC<Props> = () => {
     const params = useParams();
-    const closeEditMutation = useCloseEdit({});
+    const closeEditMutation = useCloseEdit();
 
     const handleClick = () => {
         closeEditMutation.mutate(Number(params.editId));

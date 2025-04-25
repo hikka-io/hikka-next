@@ -39,7 +39,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
 
     const { user: loggedUser } = useSession();
 
-    const deleteCommentMutation = useHideComment({});
+    const deleteCommentMutation = useHideComment();
 
     const handleDeleteComment = async () => {
         try {

@@ -19,7 +19,7 @@ interface Props {
 }
 
 const NotificationItem: FC<Props> = ({ data }) => {
-    const { mutate: asSeen } = useMarkNotificationAsSeen({});
+    const { mutate: asSeen } = useMarkNotificationAsSeen();
 
     if (!data) {
         return null;

@@ -31,10 +31,10 @@ const Component = ({
     });
 
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
-        useAddFavourite({});
+        useAddFavourite();
 
     const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
-        useRemoveFavourite({});
+        useRemoveFavourite();
 
     return (
         <Tooltip delayDuration={0}>

@@ -68,7 +68,7 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
         variables,
         isPending,
         reset,
-    } = useAddOrUpdateRead({});
+    } = useAddOrUpdateRead();
 
     // Event Handlers
     const handleSelect = (slug: string) => {

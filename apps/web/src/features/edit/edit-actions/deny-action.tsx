@@ -20,7 +20,7 @@ interface Props {}
 
 const DenyAction: FC<Props> = () => {
     const params = useParams();
-    const denyEditMutation = useDenyEdit({});
+    const denyEditMutation = useDenyEdit();
 
     const handleClick = () => {
         denyEditMutation.mutate(Number(params.editId));

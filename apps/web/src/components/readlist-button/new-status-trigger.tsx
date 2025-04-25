@@ -25,7 +25,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     content_type,
     size,
 }) => {
-    const { mutate: addOrUpdateRead } = useAddOrUpdateRead({});
+    const { mutate: addOrUpdateRead } = useAddOrUpdateRead();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();

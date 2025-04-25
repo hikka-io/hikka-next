@@ -23,7 +23,7 @@ const ToolsCombobox = () => {
 
     const watchStatus = searchParams.get('status')! as WatchStatusEnum;
 
-    const mutationRandomAnime = useRandomAnime({});
+    const mutationRandomAnime = useRandomAnime();
 
     const handleRandomAnime = async () => {
         mutationRandomAnime.mutate({

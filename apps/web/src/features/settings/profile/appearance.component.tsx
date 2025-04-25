@@ -24,7 +24,7 @@ const Appearance = () => {
 
     const { user: loggedUser } = useSession();
 
-    const mutationDeleteImage = useDeleteImage({});
+    const mutationDeleteImage = useDeleteImage();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,

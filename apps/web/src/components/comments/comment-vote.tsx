@@ -22,7 +22,7 @@ const CommentVote: FC<Props> = ({ comment }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
-    const mutation = useSetVote({});
+    const mutation = useSetVote();
 
     const currentScore = mutation.variables?.score
         ? mutation.variables?.score

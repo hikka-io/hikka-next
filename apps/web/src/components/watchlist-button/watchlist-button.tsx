@@ -80,7 +80,7 @@ const Component = ({
             enabled: !disabled && !animeProp,
         },
     });
-    const { mutate: addWatch } = useAddOrUpdateWatch({});
+    const { mutate: addWatch } = useAddOrUpdateWatch();
 
     const watch =
         watchProp || (watchQuery && !watchError ? watchQuery : undefined);

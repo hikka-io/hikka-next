@@ -23,7 +23,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
-    const mutation = useSetVote({});
+    const mutation = useSetVote();
 
     const currentScore = mutation.variables?.score
         ? mutation.variables?.score

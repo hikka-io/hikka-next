@@ -16,7 +16,7 @@ const Confirm: FC<Props> = () => {
 
     const { user } = useSession();
 
-    const { mutate, isPending } = useRequestThirdPartyToken({});
+    const { mutate, isPending } = useRequestThirdPartyToken();
 
     const handleConfirm = () => {
         mutate({

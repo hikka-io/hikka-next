@@ -23,7 +23,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     slug,
     size,
 }) => {
-    const { mutate: addWatch } = useAddOrUpdateWatch({});
+    const { mutate: addWatch } = useAddOrUpdateWatch();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();

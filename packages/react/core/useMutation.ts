@@ -83,7 +83,7 @@ export function createMutation<
             UseMutationOptions<TData, TError, TVariables, TContext>,
             'mutationFn'
         >;
-    }) => {
+    } = {}) => {
         const queryClient = useQueryClient();
 
         const customOptions = {

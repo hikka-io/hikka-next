@@ -10,7 +10,7 @@ interface Props {}
 
 const AcceptAction: FC<Props> = () => {
     const params = useParams();
-    const acceptEditMutation = useAcceptEdit({});
+    const acceptEditMutation = useAcceptEdit();
 
     const handleClick = () => {
         acceptEditMutation.mutate(Number(params.editId));
