@@ -53,7 +53,7 @@ export async function prefetchInfiniteQuery<
     TError,
     TData,
     TQueryKey
->): Promise<void> {
+>): Promise<TData | undefined> {
     const queryClient = queryClientConfig
         ? getQueryClient(queryClientConfig)
         : getQueryClient();
@@ -67,4 +67,7 @@ export async function prefetchInfiniteQuery<
         queryFn: (context) => queryFn(hikkaClient, context.pageParam as number),
         initialPageParam: 1, // Default to page 1
     });
+
+    // Return the prefetched data
+    return queryClient.getQueryData<TData>(queryKey);
 }

@@ -53,12 +53,9 @@ export async function prefetchQuery<
     queryKey,
     queryFn,
     options,
-}: PrefetchQueryOptions<
-    TQueryFnData,
-    TError,
-    TData,
-    TQueryKey
->): Promise<void> {
+}: PrefetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>): Promise<
+    TData | undefined
+> {
     const queryClient = queryClientConfig
         ? getQueryClient(queryClientConfig)
         : getQueryClient();
@@ -73,4 +70,7 @@ export async function prefetchQuery<
         staleTime: options?.staleTime,
         gcTime: options?.gcTime,
     });
+
+    // Return the prefetched data
+    return queryClient.getQueryData<TData>(queryKey);
 }
