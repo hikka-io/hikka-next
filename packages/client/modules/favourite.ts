@@ -10,9 +10,9 @@ import { BaseModule } from './base';
 
 export class FavouriteModule extends BaseModule {
     /**
-     * Get favourite status
+     * Get favourite status for content
      */
-    public async get(
+    public async getFavouriteStatus(
         contentType: FavouriteContentType,
         slug: string,
     ): Promise<FavouriteResponse> {
@@ -22,9 +22,9 @@ export class FavouriteModule extends BaseModule {
     }
 
     /**
-     * Add to favourites
+     * Create a favourite for content
      */
-    public async add(
+    public async createFavourite(
         contentType: FavouriteContentType,
         slug: string,
     ): Promise<FavouriteResponse> {
@@ -34,9 +34,9 @@ export class FavouriteModule extends BaseModule {
     }
 
     /**
-     * Remove from favourites
+     * Delete a favourite for content
      */
-    public async remove(
+    public async deleteFavourite(
         contentType: FavouriteContentType,
         slug: string,
     ): Promise<SuccessResponse> {
@@ -46,9 +46,9 @@ export class FavouriteModule extends BaseModule {
     }
 
     /**
-     * Get user's favourite list
+     * Get user's favourites list by content type
      */
-    public async getList<TItem extends FavouriteItem>(
+    public async getUserFavourites<TItem extends FavouriteItem>(
         contentType: FavouriteContentType,
         username: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },

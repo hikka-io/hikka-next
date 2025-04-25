@@ -16,9 +16,9 @@ import { BaseModule } from './base';
 
 export class ReadModule extends BaseModule {
     /**
-     * Get read entry for a manga or novel
+     * Get read entry details for a manga or novel
      */
-    public async get(
+    public async getReadBySlug(
         contentType: ReadContentType,
         slug: string,
     ): Promise<ReadResponse> {
@@ -26,9 +26,9 @@ export class ReadModule extends BaseModule {
     }
 
     /**
-     * Add or update read entry
+     * Create or update a read entry
      */
-    public async addOrUpdate(
+    public async createRead(
         contentType: ReadContentType,
         slug: string,
         args: ReadArgs,
@@ -40,9 +40,9 @@ export class ReadModule extends BaseModule {
     }
 
     /**
-     * Delete read entry
+     * Delete a read entry
      */
-    public async delete(
+    public async deleteRead(
         contentType: ReadContentType,
         slug: string,
     ): Promise<SuccessResponse> {
@@ -52,9 +52,9 @@ export class ReadModule extends BaseModule {
     }
 
     /**
-     * Get users reading a manga/novel
+     * Get users who are reading a specific manga/novel
      */
-    public async getFollowingUsers(
+    public async getReadingUsers(
         contentType: ReadContentType,
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
@@ -69,9 +69,9 @@ export class ReadModule extends BaseModule {
     }
 
     /**
-     * Get user read stats
+     * Get read statistics for a user
      */
-    public async getStats(
+    public async getUserReadStats(
         contentType: ReadContentType,
         username: string,
     ): Promise<ReadStatsResponse> {
@@ -81,9 +81,9 @@ export class ReadModule extends BaseModule {
     }
 
     /**
-     * Get random read entry
+     * Get a random manga/novel from user's read list by status
      */
-    public async getRandom(
+    public async getRandomReadByStatus(
         contentType: ReadContentType,
         username: string,
         status: ReadStatusEnum,
@@ -94,9 +94,9 @@ export class ReadModule extends BaseModule {
     }
 
     /**
-     * Get user's read list
+     * Search read list for a user with filtering criteria
      */
-    public async getList(
+    public async searchUserReads(
         contentType: ReadContentType,
         username: string,
         args: ReadSearchArgs,

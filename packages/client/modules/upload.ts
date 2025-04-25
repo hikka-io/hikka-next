@@ -6,9 +6,9 @@ import { BaseModule } from './base';
  */
 export class UploadModule extends BaseModule {
     /**
-     * Upload an image
+     * Create a new image upload
      */
-    public async uploadImage(
+    public async createImageUpload(
         uploadType: UploadTypeEnum,
         file: File | Blob,
     ): Promise<ImageResponse> {

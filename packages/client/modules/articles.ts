@@ -13,9 +13,9 @@ import { BaseModule } from './base';
  */
 export class ArticlesModule extends BaseModule {
     /**
-     * Get a list of articles
+     * Search for articles with filtering criteria
      */
-    public async getArticles(
+    public async searchArticles(
         args: ArticlesListArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ArticlesListResponse> {
@@ -28,7 +28,7 @@ export class ArticlesModule extends BaseModule {
     /**
      * Get article details by slug
      */
-    public async getArticle(slug: string): Promise<ArticleResponse> {
+    public async getArticleBySlug(slug: string): Promise<ArticleResponse> {
         return this.client.get<ArticleResponse>(`/articles/${slug}`);
     }
 
@@ -57,7 +57,7 @@ export class ArticlesModule extends BaseModule {
     }
 
     /**
-     * Get article stats (top authors and tags)
+     * Get article statistics
      */
     public async getArticleStats(): Promise<ArticlesTopResponse> {
         return this.client.get<ArticlesTopResponse>('/articles/stats');

@@ -11,9 +11,9 @@ import { BaseModule } from './base';
 
 export class CollectionsModule extends BaseModule {
     /**
-     * Get collections
+     * Search for collections with filtering criteria
      */
-    public async getCollections(
+    public async searchCollections(
         args: CollectionsListArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CollectionsListResponse<CollectionContent>> {
@@ -28,9 +28,9 @@ export class CollectionsModule extends BaseModule {
     }
 
     /**
-     * Create a collection
+     * Create a new collection
      */
-    public async create(
+    public async createCollection(
         args: CollectionArgs,
     ): Promise<CollectionResponse<CollectionContent>> {
         return this.client.post<CollectionResponse<CollectionContent>>(
@@ -40,9 +40,9 @@ export class CollectionsModule extends BaseModule {
     }
 
     /**
-     * Get a collection by reference
+     * Get collection details by reference
      */
-    public async getByReference(
+    public async getCollectionByReference(
         reference: string,
     ): Promise<CollectionResponse<CollectionContent>> {
         return this.client.get<CollectionResponse<CollectionContent>>(
@@ -51,9 +51,9 @@ export class CollectionsModule extends BaseModule {
     }
 
     /**
-     * Update a collection
+     * Update an existing collection
      */
-    public async update(
+    public async updateCollection(
         reference: string,
         args: CollectionArgs,
     ): Promise<CollectionResponse<CollectionContent>> {
@@ -66,7 +66,7 @@ export class CollectionsModule extends BaseModule {
     /**
      * Delete a collection
      */
-    public async delete(reference: string): Promise<SuccessResponse> {
+    public async deleteCollection(reference: string): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(`/collections/${reference}`);
     }
 }

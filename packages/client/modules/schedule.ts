@@ -10,9 +10,9 @@ import { BaseModule } from './base';
  */
 export class ScheduleModule extends BaseModule {
     /**
-     * Get anime schedule
+     * Search anime schedule with filtering criteria
      */
-    public async getAnimeSchedule(
+    public async searchAnimeSchedule(
         args: AnimeScheduleArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AnimeScheduleResponsePaginationResponse> {

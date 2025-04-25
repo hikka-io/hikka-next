@@ -6,9 +6,9 @@ import { BaseModule } from './base';
  */
 export class VoteModule extends BaseModule {
     /**
-     * Get the current vote for content
+     * Get current vote for specific content
      */
-    public async getVote(
+    public async getContentVote(
         contentType: VoteContentType,
         slug: string,
     ): Promise<VoteResponse> {
@@ -16,9 +16,9 @@ export class VoteModule extends BaseModule {
     }
 
     /**
-     * Set vote for content
+     * Create or update a vote for content
      */
-    public async setVote(
+    public async createVote(
         contentType: VoteContentType,
         slug: string,
         args: VoteArgs,

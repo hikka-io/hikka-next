@@ -11,39 +11,41 @@ import { BaseModule } from './base';
  */
 export class FollowModule extends BaseModule {
     /**
-     * Follow a user
+     * Create a follow relationship with a user
      */
-    public async follow(username: string): Promise<FollowResponse> {
+    public async createFollow(username: string): Promise<FollowResponse> {
         return this.client.put<FollowResponse>(`/follow/${username}`);
     }
 
     /**
-     * Unfollow a user
+     * Delete a follow relationship with a user
      */
-    public async unfollow(username: string): Promise<FollowResponse> {
+    public async deleteFollow(username: string): Promise<FollowResponse> {
         return this.client.delete<FollowResponse>(`/follow/${username}`);
     }
 
     /**
-     * Check if following a user
+     * Get follow status for a user
      */
-    public async checkFollow(username: string): Promise<FollowResponse> {
+    public async getFollowStatus(username: string): Promise<FollowResponse> {
         return this.client.get<FollowResponse>(`/follow/${username}`);
     }
 
     /**
-     * Get follow stats for a user
+     * Get follow statistics for a user
      */
-    public async getStats(username: string): Promise<FollowStatsResponse> {
+    public async getUserFollowStats(
+        username: string,
+    ): Promise<FollowStatsResponse> {
         return this.client.get<FollowStatsResponse>(
             `/follow/${username}/stats`,
         );
     }
 
     /**
-     * Get user followings
+     * Get users followed by a specific user
      */
-    public async getFollowings(
+    public async getUserFollowings(
         username: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<FollowListResponse> {
@@ -57,9 +59,9 @@ export class FollowModule extends BaseModule {
     }
 
     /**
-     * Get user followers
+     * Get users following a specific user
      */
-    public async getFollowers(
+    public async getUserFollowers(
         username: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<FollowListResponse> {

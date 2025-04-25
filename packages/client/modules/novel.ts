@@ -9,9 +9,9 @@ import { BaseModule } from './base';
 
 export class NovelModule extends BaseModule {
     /**
-     * Search for novels
+     * Search for novels with filtering criteria
      */
-    public async search(
+    public async searchNovels(
         args: NovelSearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<NovelPaginationResponse> {
@@ -24,14 +24,14 @@ export class NovelModule extends BaseModule {
     /**
      * Get novel details by slug
      */
-    public async getBySlug(slug: string): Promise<NovelInfoResponse> {
+    public async getNovelBySlug(slug: string): Promise<NovelInfoResponse> {
         return this.client.get<NovelInfoResponse>(`/novel/${slug}`);
     }
 
     /**
-     * Get novel characters
+     * Get characters for a novel
      */
-    public async getCharacters(
+    public async getNovelCharacters(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ContentCharacterPaginationResponse> {

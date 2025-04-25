@@ -15,30 +15,32 @@ export class ClientModule extends BaseModule {
     /**
      * Create a new client
      */
-    public async create(args: ClientArgs): Promise<ClientInfoResponse> {
+    public async createClient(args: ClientArgs): Promise<ClientInfoResponse> {
         return this.client.post<ClientInfoResponse>('/client', args);
     }
 
     /**
      * Get client by reference
      */
-    public async getByReference(reference: string): Promise<ClientResponse> {
+    public async getClientByReference(
+        reference: string,
+    ): Promise<ClientResponse> {
         return this.client.get<ClientResponse>(`/client/${reference}`);
     }
 
     /**
-     * Get full client info including secret
+     * Get full client details including secret
      */
-    public async getFullClientInfo(
+    public async getClientFullDetails(
         reference: string,
     ): Promise<ClientInfoResponse> {
         return this.client.get<ClientInfoResponse>(`/client/${reference}/full`);
     }
 
     /**
-     * Get all clients for current user
+     * Get clients list for current user
      */
-    public async getAll(
+    public async getClientList(
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ClientPaginationResponse> {
         return this.client.get<ClientPaginationResponse>('/client', {
@@ -48,9 +50,9 @@ export class ClientModule extends BaseModule {
     }
 
     /**
-     * Update client
+     * Update an existing client
      */
-    public async update(
+    public async updateClient(
         reference: string,
         args: ClientArgs,
     ): Promise<ClientInfoResponse> {
@@ -61,16 +63,18 @@ export class ClientModule extends BaseModule {
     }
 
     /**
-     * Delete client
+     * Delete a client
      */
-    public async delete(reference: string): Promise<SuccessResponse> {
+    public async deleteClient(reference: string): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(`/client/${reference}`);
     }
 
     /**
-     * Verify client
+     * Update client verification status
      */
-    public async verify(reference: string): Promise<ClientVerifyResponse> {
+    public async updateClientVerification(
+        reference: string,
+    ): Promise<ClientVerifyResponse> {
         return this.client.post<ClientVerifyResponse>(
             `/client/${reference}/verify`,
         );

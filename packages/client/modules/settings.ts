@@ -1,6 +1,5 @@
 import {
     DescriptionArgs,
-    EmailArgs,
     IgnoredNotificationsArgs,
     IgnoredNotificationsResponse,
     ImageType,
@@ -36,13 +35,6 @@ export class SettingsModule extends BaseModule {
      * Change username
      */
     public async changeUsername(args: UsernameArgs): Promise<UserResponse> {
-        return this.client.put<UserResponse>('/settings/username', args);
-    }
-
-    /**
-     * Change email
-     */
-    public async changeEmail(args: EmailArgs): Promise<UserResponse> {
         return this.client.put<UserResponse>('/settings/email', args);
     }
 

@@ -15,9 +15,9 @@ import { BaseModule } from './base';
  */
 export class EditModule extends BaseModule {
     /**
-     * Add an edit to content
+     * Create an edit to content
      */
-    public async addEdit<T = any, R = any>(
+    public async createEdit<T = any, R = any>(
         args: AddEditArgs<T>,
     ): Promise<EditResponse<T, R>> {
         return this.client.put<EditResponse<T, R>>(
@@ -88,9 +88,9 @@ export class EditModule extends BaseModule {
     }
 
     /**
-     * Get a list of non-edited content
+     * Search for non-edited content
      */
-    public async getTodoEditList<T = any>(
+    public async searchTodoEdits<T = any>(
         args: TodoEditArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<TodoEditResponse<T>> {

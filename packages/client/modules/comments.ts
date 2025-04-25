@@ -13,14 +13,14 @@ export class CommentsModule extends BaseModule {
     /**
      * Get latest comments
      */
-    public async getLatest(): Promise<CommentResponse[]> {
+    public async getLatestComments(): Promise<CommentResponse[]> {
         return this.client.get<CommentResponse[]>('/comments/latest');
     }
 
     /**
-     * Get comments list for user
+     * Get comments list for current user
      */
-    public async getList(
+    public async getCommentList(
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>('/comments/list', {
@@ -30,9 +30,9 @@ export class CommentsModule extends BaseModule {
     }
 
     /**
-     * Write a comment
+     * Create a new comment
      */
-    public async write(
+    public async createComment(
         contentType: CommentsContentType,
         slug: string,
         args: CommentArgs,
@@ -44,7 +44,7 @@ export class CommentsModule extends BaseModule {
     }
 
     /**
-     * Get content's comments
+     * Get comments for a specific content
      */
     public async getContentComments(
         contentType: CommentsContentType,
@@ -61,9 +61,9 @@ export class CommentsModule extends BaseModule {
     }
 
     /**
-     * Edit a comment
+     * Update an existing comment
      */
-    public async edit(
+    public async updateComment(
         commentReference: string,
         args: CommentTextArgs,
     ): Promise<CommentResponse> {
@@ -74,18 +74,22 @@ export class CommentsModule extends BaseModule {
     }
 
     /**
-     * Hide/delete a comment
+     * Delete a comment
      */
-    public async hide(commentReference: string): Promise<SuccessResponse> {
+    public async deleteComment(
+        commentReference: string,
+    ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
             `/comments/${commentReference}`,
         );
     }
 
     /**
-     * Get comment thread
+     * Get a comment thread
      */
-    public async getThread(commentReference: string): Promise<CommentResponse> {
+    public async getCommentThread(
+        commentReference: string,
+    ): Promise<CommentResponse> {
         return this.client.get<CommentResponse>(
             `/comments/thread/${commentReference}`,
         );

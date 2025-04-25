@@ -12,16 +12,18 @@ import { BaseModule } from './base';
 
 export class CharactersModule extends BaseModule {
     /**
-     * Get character info by slug
+     * Get character details by slug
      */
-    public async getBySlug(slug: string): Promise<CharacterCountResponse> {
+    public async getCharacterBySlug(
+        slug: string,
+    ): Promise<CharacterCountResponse> {
         return this.client.get<CharacterCountResponse>(`/characters/${slug}`);
     }
 
     /**
-     * Search for characters
+     * Search for characters with filtering criteria
      */
-    public async search(
+    public async searchCharacters(
         args: QuerySearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharactersSearchPaginationResponse> {
@@ -36,9 +38,9 @@ export class CharactersModule extends BaseModule {
     }
 
     /**
-     * Get character's anime appearances
+     * Get anime appearances for a character
      */
-    public async getAnime(
+    public async getCharacterAnime(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterAnimePaginationResponse> {
@@ -52,9 +54,9 @@ export class CharactersModule extends BaseModule {
     }
 
     /**
-     * Get character's manga appearances
+     * Get manga appearances for a character
      */
-    public async getManga(
+    public async getCharacterManga(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterMangaPaginationResponse> {
@@ -68,9 +70,9 @@ export class CharactersModule extends BaseModule {
     }
 
     /**
-     * Get character's novel appearances
+     * Get novel appearances for a character
      */
-    public async getNovel(
+    public async getCharacterNovel(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterNovelPaginationResponse> {
@@ -84,9 +86,9 @@ export class CharactersModule extends BaseModule {
     }
 
     /**
-     * Get character's voice actors
+     * Get voice actors for a character
      */
-    public async getVoices(
+    public async getCharacterVoices(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CharacterVoicesPaginationResponse> {

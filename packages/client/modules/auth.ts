@@ -20,9 +20,9 @@ import { BaseModule } from './base';
 
 export class AuthModule extends BaseModule {
     /**
-     * Login to the API
+     * Create a user session with credentials
      */
-    public async login(
+    public async createUserSession(
         args: LoginArgs,
         { captcha }: CaptchaArgs,
     ): Promise<TokenResponse> {
@@ -32,9 +32,9 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * Register a new user
+     * Create a new user account
      */
-    public async signup(
+    public async createUser(
         args: SignupArgs,
         { captcha }: CaptchaArgs,
     ): Promise<TokenResponse> {
@@ -44,28 +44,30 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * Activate an account
+     * Activate a user account with token
      */
-    public async activate(args: TokenArgs): Promise<TokenResponse> {
+    public async activateUser(args: TokenArgs): Promise<TokenResponse> {
         return this.client.post<TokenResponse>('/auth/activation', args);
     }
 
     /**
-     * Resend activation link
+     * Create a new activation link request
      */
-    public async resendActivation(): Promise<UserResponse> {
+    public async createActivationRequest(): Promise<UserResponse> {
         return this.client.post<UserResponse>('/auth/activation/resend');
     }
 
     /**
-     * Request password reset
+     * Create a password reset request
      */
-    public async requestPasswordReset(args: EmailArgs): Promise<UserResponse> {
+    public async createPasswordResetRequest(
+        args: EmailArgs,
+    ): Promise<UserResponse> {
         return this.client.post<UserResponse>('/auth/password/reset', args);
     }
 
     /**
-     * Confirm password reset
+     * Confirm password reset with token
      */
     public async confirmPasswordReset(
         args: ComfirmResetArgs,
@@ -74,16 +76,18 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * Get OAuth provider URL
+     * Get OAuth provider authorization URL
      */
-    public async getOAuthUrl(provider: string): Promise<ProviderUrlResponse> {
+    public async getOAuthProviderUrl(
+        provider: string,
+    ): Promise<ProviderUrlResponse> {
         return this.client.get<ProviderUrlResponse>(`/auth/oauth/${provider}`);
     }
 
     /**
-     * Get token from OAuth code
+     * Create a token from OAuth authorization code
      */
-    public async getOAuthToken(
+    public async createOAuthToken(
         provider: string,
         args: CodeArgs,
     ): Promise<TokenResponse> {
@@ -91,16 +95,16 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * Get current token info
+     * Get current authentication token details
      */
-    public async getTokenInfo(): Promise<AuthTokenInfoResponse> {
+    public async getAuthTokenDetails(): Promise<AuthTokenInfoResponse> {
         return this.client.get<AuthTokenInfoResponse>('/auth/token/info');
     }
 
     /**
-     * Request token for a third-party client
+     * Create a token request for a third-party client
      */
-    public async requestThirdPartyToken(
+    public async createThirdPartyTokenRequest(
         clientReference: string,
         args: TokenRequestArgs,
     ): Promise<TokenRequestResponse> {
@@ -111,7 +115,7 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * Create token for a third-party client
+     * Create a token for a third-party client
      */
     public async createThirdPartyToken(
         args: TokenProceedArgs,
@@ -120,9 +124,9 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * List third-party tokens
+     * Get third-party tokens list
      */
-    public async listThirdPartyTokens(
+    public async getThirdPartyTokenList(
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<AuthTokenInfoPaginationResponse> {
         return this.client.get<AuthTokenInfoPaginationResponse>(
@@ -135,9 +139,9 @@ export class AuthModule extends BaseModule {
     }
 
     /**
-     * Revoke token
+     * Delete an authentication token
      */
-    public async revokeToken(
+    public async deleteAuthToken(
         tokenReference: string,
     ): Promise<AuthTokenInfoResponse> {
         return this.client.delete<AuthTokenInfoResponse>(

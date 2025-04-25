@@ -9,9 +9,9 @@ import { BaseModule } from './base';
 
 export class MangaModule extends BaseModule {
     /**
-     * Search for manga
+     * Search for manga with filtering criteria
      */
-    public async search(
+    public async searchMangas(
         args: MangaSearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<MangaPaginationResponse> {
@@ -24,14 +24,14 @@ export class MangaModule extends BaseModule {
     /**
      * Get manga details by slug
      */
-    public async getBySlug(slug: string): Promise<MangaInfoResponse> {
+    public async getMangaBySlug(slug: string): Promise<MangaInfoResponse> {
         return this.client.get<MangaInfoResponse>(`/manga/${slug}`);
     }
 
     /**
-     * Get manga characters
+     * Get characters for a manga
      */
-    public async getCharacters(
+    public async getMangaCharacters(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<ContentCharacterPaginationResponse> {

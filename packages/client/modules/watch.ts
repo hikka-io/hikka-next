@@ -14,16 +14,16 @@ import { BaseModule } from './base';
 
 export class WatchModule extends BaseModule {
     /**
-     * Get watch entry for an anime
+     * Get watch entry details for an anime
      */
-    public async get(slug: string): Promise<WatchResponse> {
+    public async getWatchBySlug(slug: string): Promise<WatchResponse> {
         return this.client.get<WatchResponse>(`/watch/${slug}`);
     }
 
     /**
-     * Add or update watch entry
+     * Create or update a watch entry
      */
-    public async addOrUpdate(
+    public async createWatch(
         slug: string,
         args: WatchArgs,
     ): Promise<WatchResponse> {
@@ -31,16 +31,16 @@ export class WatchModule extends BaseModule {
     }
 
     /**
-     * Delete watch entry
+     * Delete a watch entry
      */
-    public async delete(slug: string): Promise<SuccessResponse> {
+    public async deleteWatch(slug: string): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(`/watch/${slug}`);
     }
 
     /**
-     * Get user's watch list
+     * Search watch list for a user with filtering criteria
      */
-    public async getList(
+    public async searchUserWatches(
         username: string,
         args: AnimeWatchSearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
@@ -56,9 +56,9 @@ export class WatchModule extends BaseModule {
     }
 
     /**
-     * Get random watch entry
+     * Get a random anime from user's watch list by status
      */
-    public async getRandom(
+    public async getRandomWatchByStatus(
         username: string,
         status: WatchStatusEnum,
     ): Promise<AnimeResponse> {
@@ -68,9 +68,9 @@ export class WatchModule extends BaseModule {
     }
 
     /**
-     * Get users watching an anime
+     * Get users who are watching a specific anime
      */
-    public async getFollowingUsers(
+    public async getWatchingUsers(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<UserWatchPaginationResponse> {
@@ -84,9 +84,11 @@ export class WatchModule extends BaseModule {
     }
 
     /**
-     * Get user watch stats
+     * Get watch statistics for a user
      */
-    public async getStats(username: string): Promise<WatchStatsResponse> {
+    public async getUserWatchStats(
+        username: string,
+    ): Promise<WatchStatsResponse> {
         return this.client.get<WatchStatsResponse>(`/watch/${username}/stats`);
     }
 }

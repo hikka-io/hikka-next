@@ -12,16 +12,16 @@ import { BaseModule } from './base';
 
 export class PeopleModule extends BaseModule {
     /**
-     * Get person info by slug
+     * Get person details by slug
      */
-    public async getBySlug(slug: string): Promise<PersonCountResponse> {
+    public async getPersonBySlug(slug: string): Promise<PersonCountResponse> {
         return this.client.get<PersonCountResponse>(`/people/${slug}`);
     }
 
     /**
-     * Search for people
+     * Search for people with filtering criteria
      */
-    public async search(
+    public async searchPeople(
         args: QuerySearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonSearchPaginationResponse> {
@@ -36,9 +36,9 @@ export class PeopleModule extends BaseModule {
     }
 
     /**
-     * Get person's anime work
+     * Get anime work for a person
      */
-    public async getAnime(
+    public async getPersonAnime(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonAnimePaginationResponse> {
@@ -52,9 +52,9 @@ export class PeopleModule extends BaseModule {
     }
 
     /**
-     * Get person's manga work
+     * Get manga work for a person
      */
-    public async getManga(
+    public async getPersonManga(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonMangaPaginationResponse> {
@@ -68,9 +68,9 @@ export class PeopleModule extends BaseModule {
     }
 
     /**
-     * Get person's novel work
+     * Get novel work for a person
      */
-    public async getNovel(
+    public async getPersonNovel(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonNovelPaginationResponse> {
@@ -84,9 +84,9 @@ export class PeopleModule extends BaseModule {
     }
 
     /**
-     * Get character voiced by this person
+     * Get characters voiced by a person
      */
-    public async getCharacters(
+    public async getPersonCharacters(
         slug: string,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<PersonCharactersPaginationResponse> {

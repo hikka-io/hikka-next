@@ -7,9 +7,9 @@ import { BaseModule } from './base';
  */
 export class StatsModule extends BaseModule {
     /**
-     * Get top editors
+     * Get top editors list with statistics
      */
-    public async getEditsTop(
+    public async getTopEditorsList(
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<EditsTopPaginationResponse> {
         return this.client.get<EditsTopPaginationResponse>('/stats/edits/top', {

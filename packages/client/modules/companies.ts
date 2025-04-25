@@ -12,7 +12,7 @@ export class CompaniesModule extends BaseModule {
     /**
      * Search for companies
      */
-    public async search(
+    public async searchCompanies(
         args: CompaniesSearchArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<CompaniesPaginationResponse> {
