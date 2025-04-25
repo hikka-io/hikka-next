@@ -26,7 +26,7 @@ export function useAnimeRecommendations({
     return useInfiniteQuery({
         queryKey: queryKeys.anime.recommendations(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getRecommendations(slug, {
+            client.anime.getAnimeRecommendations(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -46,7 +46,7 @@ export async function prefetchAnimeRecommendations({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.recommendations(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getRecommendations(slug, {
+            client.anime.getAnimeRecommendations(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

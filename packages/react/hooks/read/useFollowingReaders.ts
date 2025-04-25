@@ -22,6 +22,7 @@ export function useFollowingReaders({
     contentType,
     slug,
     paginationArgs,
+    options,
     ...rest
 }: UseFollowingReadersParams &
     InfiniteQueryParams<UserReadPaginationResponse>) {
@@ -32,10 +33,14 @@ export function useFollowingReaders({
             paginationArgs,
         ),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.getFollowingUsers(contentType, slug, {
+            client.read.getReadingUsers(contentType, slug, {
                 page,
                 size: paginationArgs?.size,
             }),
+        options: {
+            authProtected: true,
+            ...options,
+        },
         ...rest,
     });
 }
@@ -57,7 +62,7 @@ export async function prefetchFollowingReaders({
             paginationArgs,
         ),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.getFollowingUsers(contentType, slug, {
+            client.read.getReadingUsers(contentType, slug, {
                 page,
                 size: paginationArgs?.size,
             }),

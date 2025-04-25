@@ -20,7 +20,7 @@ export function useCommentsList({
     return useInfiniteQuery({
         queryKey: queryKeys.comments.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.comments.getList({
+            client.comments.getCommentList({
                 page,
                 size: paginationArgs?.size,
             }),
@@ -38,7 +38,7 @@ export async function prefetchCommentsList({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.comments.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.comments.getList({
+            client.comments.getCommentList({
                 page,
                 size: paginationArgs?.size,
             }),

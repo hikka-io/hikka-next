@@ -6,7 +6,7 @@ import { createMutation } from '../../core/useMutation';
  */
 export const useMarkNotificationAsSeen = createMutation({
     mutationFn: (client, reference: string) =>
-        client.notifications.markAsSeen(reference),
+        client.notifications.updateNotificationSeen(reference),
     invalidateQueries: () => [
         queryKeys.notifications.all,
         queryKeys.notifications.unseenCount(),

@@ -20,16 +20,21 @@ export interface UseFollowingWatchersParams {
 export function useFollowingWatchers({
     slug,
     paginationArgs,
+    options,
     ...rest
 }: UseFollowingWatchersParams &
     InfiniteQueryParams<UserWatchPaginationResponse>) {
     return useInfiniteQuery({
         queryKey: queryKeys.watch.followingUsers(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.getFollowingUsers(slug, {
+            client.watch.getWatchingUsers(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
+        options: {
+            authProtected: true,
+            ...options,
+        },
         ...rest,
     });
 }
@@ -46,7 +51,7 @@ export async function prefetchFollowingWatchers({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.watch.followingUsers(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.getFollowingUsers(slug, {
+            client.watch.getWatchingUsers(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

@@ -17,7 +17,7 @@ export function useWatchStats({
 }: UseWatchStatsParams & QueryParams<WatchStatsResponse>) {
     return useQuery({
         queryKey: queryKeys.watch.stats(username),
-        queryFn: (client) => client.watch.getStats(username),
+        queryFn: (client) => client.watch.getUserWatchStats(username),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchWatchStats({
 }: PrefetchQueryParams<WatchStatsResponse> & UseWatchStatsParams) {
     return prefetchQuery({
         queryKey: queryKeys.watch.stats(username),
-        queryFn: (client) => client.watch.getStats(username),
+        queryFn: (client) => client.watch.getUserWatchStats(username),
         ...rest,
     });
 }

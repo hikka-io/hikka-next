@@ -12,7 +12,7 @@ export function useAnimeGenres({
 }: QueryParams<GenreListResponse> = {}) {
     return useQuery({
         queryKey: queryKeys.anime.genres(),
-        queryFn: (client) => client.anime.getGenres(),
+        queryFn: (client) => client.anime.getGenreList(),
         ...rest,
     });
 }
@@ -25,7 +25,7 @@ export async function prefetchAnimeGenres({
 }: PrefetchQueryParams<GenreListResponse> = {}) {
     return prefetchQuery({
         queryKey: queryKeys.anime.genres(),
-        queryFn: (client) => client.anime.getGenres(),
+        queryFn: (client) => client.anime.getGenreList(),
         ...rest,
     });
 }

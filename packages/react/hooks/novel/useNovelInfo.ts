@@ -17,7 +17,7 @@ export function useNovelInfo<TResult = NovelInfoResponse>({
 }: UseNovelInfoParams & QueryParams<NovelInfoResponse, TResult>) {
     return useQuery<NovelInfoResponse, Error, TResult>({
         queryKey: queryKeys.novel.details(slug),
-        queryFn: (client) => client.novel.getBySlug(slug),
+        queryFn: (client) => client.novel.getNovelBySlug(slug),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchNovelInfo({
 }: PrefetchQueryParams<NovelInfoResponse> & UseNovelInfoParams) {
     return prefetchQuery({
         queryKey: queryKeys.novel.details(slug),
-        queryFn: (client) => client.novel.getBySlug(slug),
+        queryFn: (client) => client.novel.getNovelBySlug(slug),
         ...rest,
     });
 }

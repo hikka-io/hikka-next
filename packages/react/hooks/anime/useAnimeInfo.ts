@@ -17,7 +17,7 @@ export function useAnimeInfo<TResult = AnimeInfoResponse>({
 }: UseAnimeInfoParams & QueryParams<AnimeInfoResponse, TResult>) {
     return useQuery<AnimeInfoResponse, Error, TResult>({
         queryKey: queryKeys.anime.details(slug),
-        queryFn: (client) => client.anime.getBySlug(slug),
+        queryFn: (client) => client.anime.getAnimeBySlug(slug),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchAnimeInfo({
 }: PrefetchQueryParams<AnimeInfoResponse> & UseAnimeInfoParams) {
     return prefetchQuery({
         queryKey: queryKeys.anime.details(slug),
-        queryFn: (client) => client.anime.getBySlug(slug),
+        queryFn: (client) => client.anime.getAnimeBySlug(slug),
         ...rest,
     });
 }

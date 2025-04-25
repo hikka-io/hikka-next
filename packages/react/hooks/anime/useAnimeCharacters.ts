@@ -26,7 +26,7 @@ export function useAnimeCharacters({
     return useInfiniteQuery({
         queryKey: queryKeys.anime.characters(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getCharacters(slug, {
+            client.anime.getAnimeCharacters(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -46,7 +46,7 @@ export async function prefetchAnimeCharacters({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.characters(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getCharacters(slug, {
+            client.anime.getAnimeCharacters(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

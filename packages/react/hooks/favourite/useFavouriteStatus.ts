@@ -15,11 +15,17 @@ export interface UseFavouriteStatusParams {
 export function useFavouriteStatus({
     contentType,
     slug,
+    options,
     ...rest
 }: UseFavouriteStatusParams & QueryParams<FavouriteResponse>) {
     return useQuery({
         queryKey: queryKeys.favourite.status(contentType, slug),
-        queryFn: (client) => client.favourite.get(contentType, slug),
+        queryFn: (client) =>
+            client.favourite.getFavouriteStatus(contentType, slug),
+        options: {
+            authProtected: true,
+            ...options,
+        },
         ...rest,
     });
 }
@@ -34,7 +40,8 @@ export async function prefetchFavouriteStatus({
 }: PrefetchQueryParams<FavouriteResponse> & UseFavouriteStatusParams) {
     return prefetchQuery({
         queryKey: queryKeys.favourite.status(contentType, slug),
-        queryFn: (client) => client.favourite.get(contentType, slug),
+        queryFn: (client) =>
+            client.favourite.getFavouriteStatus(contentType, slug),
         ...rest,
     });
 }

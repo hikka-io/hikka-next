@@ -20,7 +20,7 @@ export function useAuthThirdPartyTokens({
     return useInfiniteQuery({
         queryKey: queryKeys.auth.thirdPartyTokens(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.auth.listThirdPartyTokens({
+            client.auth.getThirdPartyTokenList({
                 page,
                 size: paginationArgs?.size,
             }),
@@ -38,7 +38,7 @@ export async function prefetchAuthThirdPartyTokens({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.auth.thirdPartyTokens(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.auth.listThirdPartyTokens({
+            client.auth.getThirdPartyTokenList({
                 page,
                 size: paginationArgs?.size,
             }),

@@ -7,7 +7,8 @@ import { createMutation } from '../../core/useMutation';
  * Hook for adding an edit to content
  */
 export const useAddEdit = createMutation({
-    mutationFn: (client, args: AddEditArgs<any>) => client.edit.addEdit(args),
+    mutationFn: (client, args: AddEditArgs<any>) =>
+        client.edit.createEdit(args),
     invalidateQueries: () => [queryKeys.edit.all],
 });
 

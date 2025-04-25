@@ -19,7 +19,8 @@ export function useReadStats({
 }: UseReadStatsParams & QueryParams<ReadStatsResponse>) {
     return useQuery({
         queryKey: queryKeys.read.stats(contentType, username),
-        queryFn: (client) => client.read.getStats(contentType, username),
+        queryFn: (client) =>
+            client.read.getUserReadStats(contentType, username),
         ...rest,
     });
 }
@@ -34,7 +35,8 @@ export async function prefetchReadStats({
 }: PrefetchQueryParams<ReadStatsResponse> & UseReadStatsParams) {
     return prefetchQuery({
         queryKey: queryKeys.read.stats(contentType, username),
-        queryFn: (client) => client.read.getStats(contentType, username),
+        queryFn: (client) =>
+            client.read.getUserReadStats(contentType, username),
         ...rest,
     });
 }

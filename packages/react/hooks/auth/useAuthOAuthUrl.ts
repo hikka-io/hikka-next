@@ -13,7 +13,7 @@ export function useAuthOAuthUrl(
 ) {
     return useQuery({
         queryKey: queryKeys.auth.oauthUrl(provider),
-        queryFn: (client) => client.auth.getOAuthUrl(provider),
+        queryFn: (client) => client.auth.getOAuthProviderUrl(provider),
         ...rest,
     });
 }
@@ -27,7 +27,7 @@ export async function prefetchAuthOAuthUrl(
 ) {
     return prefetchQuery({
         queryKey: queryKeys.auth.oauthUrl(provider),
-        queryFn: (client) => client.auth.getOAuthUrl(provider),
+        queryFn: (client) => client.auth.getOAuthProviderUrl(provider),
         ...rest,
     });
 }

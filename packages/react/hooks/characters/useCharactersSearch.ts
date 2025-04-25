@@ -29,7 +29,7 @@ export function useCharactersSearch({
     return useInfiniteQuery({
         queryKey: queryKeys.characters.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.search(args, {
+            client.characters.searchCharacters(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -49,7 +49,7 @@ export async function prefetchCharactersSearch({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.characters.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.search(args, {
+            client.characters.searchCharacters(args, {
                 page,
                 size: paginationArgs?.size,
             }),

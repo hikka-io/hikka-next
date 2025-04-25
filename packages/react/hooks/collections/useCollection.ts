@@ -18,7 +18,8 @@ export function useCollection<TResult = CollectionResponse<CollectionContent>>({
     QueryParams<CollectionResponse<CollectionContent>, TResult>) {
     return useQuery<CollectionResponse<CollectionContent>, Error, TResult>({
         queryKey: queryKeys.collections.byReference(reference),
-        queryFn: (client) => client.collections.getByReference(reference),
+        queryFn: (client) =>
+            client.collections.getCollectionByReference(reference),
         ...rest,
     });
 }
@@ -33,7 +34,8 @@ export async function prefetchCollection({
     UseCollectionParams) {
     return prefetchQuery({
         queryKey: queryKeys.collections.byReference(reference),
-        queryFn: (client) => client.collections.getByReference(reference),
+        queryFn: (client) =>
+            client.collections.getCollectionByReference(reference),
         ...rest,
     });
 }

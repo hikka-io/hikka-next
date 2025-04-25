@@ -25,7 +25,7 @@ export function useAnimeEpisodes({
     return useInfiniteQuery({
         queryKey: queryKeys.anime.episodes(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getEpisodes(slug, {
+            client.anime.getAnimeEpisodes(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -45,7 +45,7 @@ export async function prefetchAnimeEpisodes({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.episodes(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getEpisodes(slug, {
+            client.anime.getAnimeEpisodes(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

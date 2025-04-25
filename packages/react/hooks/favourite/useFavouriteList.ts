@@ -36,7 +36,7 @@ export function useFavouriteList<TItem extends FavouriteItem>({
             paginationArgs,
         ),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.favourite.getList<TItem>(contentType, username, {
+            client.favourite.getUserFavourites<TItem>(contentType, username, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -61,7 +61,7 @@ export async function prefetchFavouriteList<TItem extends FavouriteItem>({
             paginationArgs,
         ),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.favourite.getList<TItem>(contentType, username, {
+            client.favourite.getUserFavourites<TItem>(contentType, username, {
                 page,
                 size: paginationArgs?.size,
             }),

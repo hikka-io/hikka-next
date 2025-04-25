@@ -27,7 +27,7 @@ export function useWatchList({
     return useInfiniteQuery({
         queryKey: queryKeys.watch.list(username, args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.getList(username, args, {
+            client.watch.searchUserWatches(username, args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -47,7 +47,7 @@ export async function prefetchWatchList({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.watch.list(username, args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.getList(username, args, {
+            client.watch.searchUserWatches(username, args, {
                 page,
                 size: paginationArgs?.size,
             }),

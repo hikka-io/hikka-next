@@ -13,11 +13,16 @@ export interface UseWatchEntryParams {
  */
 export function useWatchEntry({
     slug,
+    options,
     ...rest
 }: UseWatchEntryParams & QueryParams<WatchResponse>) {
     return useQuery({
         queryKey: queryKeys.watch.entry(slug),
-        queryFn: (client) => client.watch.get(slug),
+        queryFn: (client) => client.watch.getWatchBySlug(slug),
+        options: {
+            authProtected: true,
+            ...options,
+        },
         ...rest,
     });
 }
@@ -31,7 +36,7 @@ export async function prefetchWatchEntry({
 }: PrefetchQueryParams<WatchResponse> & UseWatchEntryParams) {
     return prefetchQuery({
         queryKey: queryKeys.watch.entry(slug),
-        queryFn: (client) => client.watch.get(slug),
+        queryFn: (client) => client.watch.getWatchBySlug(slug),
         ...rest,
     });
 }

@@ -15,11 +15,16 @@ export interface UseReadEntryParams {
 export function useReadEntry({
     contentType,
     slug,
+    options,
     ...rest
 }: UseReadEntryParams & QueryParams<ReadResponse>) {
     return useQuery({
         queryKey: queryKeys.read.entry(contentType, slug),
-        queryFn: (client) => client.read.get(contentType, slug),
+        queryFn: (client) => client.read.getReadBySlug(contentType, slug),
+        options: {
+            authProtected: true,
+            ...options,
+        },
         ...rest,
     });
 }
@@ -34,7 +39,7 @@ export async function prefetchReadEntry({
 }: PrefetchQueryParams<ReadResponse> & UseReadEntryParams) {
     return prefetchQuery({
         queryKey: queryKeys.read.entry(contentType, slug),
-        queryFn: (client) => client.read.get(contentType, slug),
+        queryFn: (client) => client.read.getReadBySlug(contentType, slug),
         ...rest,
     });
 }

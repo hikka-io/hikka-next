@@ -20,7 +20,7 @@ export function useEditsTop({
     return useInfiniteQuery({
         queryKey: queryKeys.stats.editsTop(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.stats.getEditsTop({
+            client.stats.getTopEditorsList({
                 page,
                 size: paginationArgs?.size,
             }),
@@ -38,7 +38,7 @@ export async function prefetchEditsTop({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.stats.editsTop(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.stats.getEditsTop({
+            client.stats.getTopEditorsList({
                 page,
                 size: paginationArgs?.size,
             }),

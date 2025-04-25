@@ -17,7 +17,7 @@ export function useCommentThread({
 }: UseCommentThreadParams & QueryParams<CommentResponse>) {
     return useQuery({
         queryKey: queryKeys.comments.thread(commentReference),
-        queryFn: (client) => client.comments.getThread(commentReference),
+        queryFn: (client) => client.comments.getCommentThread(commentReference),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchCommentThread({
 }: PrefetchQueryParams<CommentResponse> & UseCommentThreadParams) {
     return prefetchQuery({
         queryKey: queryKeys.comments.thread(commentReference),
-        queryFn: (client) => client.comments.getThread(commentReference),
+        queryFn: (client) => client.comments.getCommentThread(commentReference),
         ...rest,
     });
 }

@@ -25,7 +25,7 @@ export function useAnimeSearch({
     return useInfiniteQuery({
         queryKey: queryKeys.anime.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.search(args, {
+            client.anime.searchAnimes(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -45,7 +45,7 @@ export async function prefetchAnimeSearch({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.search(args, {
+            client.anime.searchAnimes(args, {
                 page,
                 size: paginationArgs?.size,
             }),

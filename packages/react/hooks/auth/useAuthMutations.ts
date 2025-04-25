@@ -25,7 +25,7 @@ export const useRequestThirdPartyToken = createMutation({
     mutationFn: (
         client,
         { clientReference, args }: RequestThirdPartyTokenVariables,
-    ) => client.auth.requestThirdPartyToken(clientReference, args),
+    ) => client.auth.createThirdPartyTokenRequest(clientReference, args),
     invalidateQueries: () => [queryKeys.auth.thirdPartyTokens()],
 });
 
@@ -34,7 +34,7 @@ export const useRequestThirdPartyToken = createMutation({
  */
 export const useRequestPasswordReset = createMutation({
     mutationFn: (client, args: EmailArgs) =>
-        client.auth.requestPasswordReset(args),
+        client.auth.createPasswordResetRequest(args),
 });
 
 /**
@@ -44,7 +44,7 @@ export const useLogin = createMutation({
     mutationFn: (
         client,
         { args, captcha }: { args: LoginArgs; captcha: CaptchaArgs },
-    ) => client.auth.login(args, captcha),
+    ) => client.auth.createUserSession(args, captcha),
     invalidateQueries: () => [queryKeys.auth.tokenInfo()],
 });
 
@@ -55,7 +55,7 @@ export const useSignup = createMutation({
     mutationFn: (
         client,
         { args, captcha }: { args: SignupArgs; captcha: CaptchaArgs },
-    ) => client.auth.signup(args, captcha),
+    ) => client.auth.createUser(args, captcha),
     invalidateQueries: () => [queryKeys.auth.tokenInfo()],
 });
 
@@ -63,7 +63,7 @@ export const useSignup = createMutation({
  * Hook for account activation
  */
 export const useActivateAccount = createMutation({
-    mutationFn: (client, args: TokenArgs) => client.auth.activate(args),
+    mutationFn: (client, args: TokenArgs) => client.auth.activateUser(args),
     invalidateQueries: () => [queryKeys.auth.tokenInfo()],
 });
 
@@ -71,7 +71,7 @@ export const useActivateAccount = createMutation({
  * Hook for resending activation link
  */
 export const useResendActivation = createMutation({
-    mutationFn: (client) => client.auth.resendActivation(),
+    mutationFn: (client) => client.auth.createActivationRequest(),
 });
 
 /**
@@ -90,7 +90,7 @@ export const useOAuthToken = createMutation({
     mutationFn: (
         client,
         { provider, args }: { provider: string; args: CodeArgs },
-    ) => client.auth.getOAuthToken(provider, args),
+    ) => client.auth.createOAuthToken(provider, args),
     invalidateQueries: () => [queryKeys.auth.tokenInfo()],
 });
 
@@ -108,6 +108,6 @@ export const useCreateThirdPartyToken = createMutation({
  */
 export const useRevokeToken = createMutation({
     mutationFn: (client, tokenReference: string) =>
-        client.auth.revokeToken(tokenReference),
+        client.auth.deleteAuthToken(tokenReference),
     invalidateQueries: () => [queryKeys.auth.thirdPartyTokens()],
 });

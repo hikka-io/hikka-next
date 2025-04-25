@@ -17,7 +17,7 @@ export function usePersonInfo<TResult = PersonCountResponse>({
 }: UsePersonInfoParams & QueryParams<PersonCountResponse, TResult>) {
     return useQuery<PersonCountResponse, Error, TResult>({
         queryKey: queryKeys.people.bySlug(slug),
-        queryFn: (client) => client.people.getBySlug(slug),
+        queryFn: (client) => client.people.getPersonBySlug(slug),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchPersonInfo({
 }: PrefetchQueryParams<PersonCountResponse> & UsePersonInfoParams) {
     return prefetchQuery({
         queryKey: queryKeys.people.bySlug(slug),
-        queryFn: (client) => client.people.getBySlug(slug),
+        queryFn: (client) => client.people.getPersonBySlug(slug),
         ...rest,
     });
 }

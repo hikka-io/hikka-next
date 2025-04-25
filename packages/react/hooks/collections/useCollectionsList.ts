@@ -30,7 +30,7 @@ export function useCollectionsList({
     return useInfiniteQuery({
         queryKey: queryKeys.collections.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.collections.getCollections(args, {
+            client.collections.searchCollections(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -50,7 +50,7 @@ export async function prefetchCollectionsList({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.collections.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.collections.getCollections(args, {
+            client.collections.searchCollections(args, {
                 page,
                 size: paginationArgs?.size,
             }),

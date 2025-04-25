@@ -23,7 +23,7 @@ export function useTodoEditList<T = any>({
     return useInfiniteQuery({
         queryKey: queryKeys.edit.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.edit.getTodoEditList<T>(args, {
+            client.edit.searchTodoEdits<T>(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -39,7 +39,7 @@ export async function prefetchTodoEditList<T = any>({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.edit.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.edit.getTodoEditList<T>(args, {
+            client.edit.searchTodoEdits<T>(args, {
                 page,
                 size: paginationArgs?.size,
             }),

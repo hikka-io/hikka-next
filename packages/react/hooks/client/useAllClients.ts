@@ -20,7 +20,7 @@ export function useAllClients({
     return useInfiniteQuery({
         queryKey: queryKeys.client.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.client.getAll({
+            client.client.getClientList({
                 page,
                 size: paginationArgs?.size,
             }),
@@ -38,7 +38,7 @@ export async function prefetchAllClients({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.client.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.client.getAll({
+            client.client.getClientList({
                 page,
                 size: paginationArgs?.size,
             }),

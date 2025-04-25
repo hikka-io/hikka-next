@@ -17,7 +17,7 @@ export function useArticle<TResult = ArticleResponse>({
 }: UseArticleParams & QueryParams<ArticleResponse, TResult>) {
     return useQuery<ArticleResponse, Error, TResult>({
         queryKey: queryKeys.articles.bySlug(slug),
-        queryFn: (client) => client.articles.getArticle(slug),
+        queryFn: (client) => client.articles.getArticleBySlug(slug),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchArticle({
 }: PrefetchQueryParams<ArticleResponse> & UseArticleParams) {
     return prefetchQuery({
         queryKey: queryKeys.articles.bySlug(slug),
-        queryFn: (client) => client.articles.getArticle(slug),
+        queryFn: (client) => client.articles.getArticleBySlug(slug),
         ...rest,
     });
 }

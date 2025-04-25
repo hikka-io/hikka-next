@@ -17,7 +17,7 @@ export function useClientByReference<TResult = ClientResponse>({
 }: UseClientByReferenceParams & QueryParams<ClientResponse, TResult>) {
     return useQuery<ClientResponse, Error, TResult>({
         queryKey: queryKeys.client.byReference(reference),
-        queryFn: (client) => client.client.getByReference(reference),
+        queryFn: (client) => client.client.getClientByReference(reference),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchClientByReference({
 }: PrefetchQueryParams<ClientResponse> & UseClientByReferenceParams) {
     return prefetchQuery({
         queryKey: queryKeys.client.byReference(reference),
-        queryFn: (client) => client.client.getByReference(reference),
+        queryFn: (client) => client.client.getClientByReference(reference),
         ...rest,
     });
 }

@@ -26,7 +26,7 @@ export function useNovelCharacters({
     return useInfiniteQuery({
         queryKey: queryKeys.novel.characters(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.getCharacters(slug, {
+            client.novel.getNovelCharacters(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -46,7 +46,7 @@ export async function prefetchNovelCharacters({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.novel.characters(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.getCharacters(slug, {
+            client.novel.getNovelCharacters(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

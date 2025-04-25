@@ -110,7 +110,9 @@ export function createMutation<
                     ) {
                         (queriesToInvalidate as readonly unknown[][]).forEach(
                             (queryKey) => {
-                                queryClient.invalidateQueries({ queryKey });
+                                queryClient.invalidateQueries({
+                                    queryKey,
+                                });
                             },
                         );
                     } else {

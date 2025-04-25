@@ -26,7 +26,7 @@ export function useMangaCharacters({
     return useInfiniteQuery({
         queryKey: queryKeys.manga.characters(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.getCharacters(slug, {
+            client.manga.getMangaCharacters(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -46,7 +46,7 @@ export async function prefetchMangaCharacters({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.manga.characters(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.getCharacters(slug, {
+            client.manga.getMangaCharacters(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

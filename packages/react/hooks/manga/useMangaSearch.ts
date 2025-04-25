@@ -25,7 +25,7 @@ export function useMangaSearch({
     return useInfiniteQuery({
         queryKey: queryKeys.manga.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.search(args, {
+            client.manga.searchMangas(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -45,7 +45,7 @@ export async function prefetchMangaSearch({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.manga.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.search(args, {
+            client.manga.searchMangas(args, {
                 page,
                 size: paginationArgs?.size,
             }),

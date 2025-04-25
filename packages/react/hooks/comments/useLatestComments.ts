@@ -12,7 +12,7 @@ export function useLatestComments({
 }: QueryParams<CommentResponse[]> = {}) {
     return useQuery({
         queryKey: queryKeys.comments.latest(),
-        queryFn: (client) => client.comments.getLatest(),
+        queryFn: (client) => client.comments.getLatestComments(),
         ...rest,
     });
 }
@@ -25,7 +25,7 @@ export async function prefetchLatestComments({
 }: PrefetchQueryParams<CommentResponse[]> = {}) {
     return prefetchQuery({
         queryKey: queryKeys.comments.latest(),
-        queryFn: (client) => client.comments.getLatest(),
+        queryFn: (client) => client.comments.getLatestComments(),
         ...rest,
     });
 }

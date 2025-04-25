@@ -26,7 +26,7 @@ export function usePeopleSearch({
     return useInfiniteQuery({
         queryKey: queryKeys.people.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.search(args, {
+            client.people.searchPeople(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -46,7 +46,7 @@ export async function prefetchPeopleSearch({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.people.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.search(args, {
+            client.people.searchPeople(args, {
                 page,
                 size: paginationArgs?.size,
             }),

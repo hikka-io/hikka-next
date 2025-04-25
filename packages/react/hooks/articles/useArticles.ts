@@ -25,7 +25,7 @@ export function useArticlesList({
     return useInfiniteQuery({
         queryKey: queryKeys.articles.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.articles.getArticles(args, {
+            client.articles.searchArticles(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -44,7 +44,7 @@ export async function prefetchArticlesList({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.articles.list(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.articles.getArticles(args, {
+            client.articles.searchArticles(args, {
                 page,
                 size: paginationArgs?.size,
             }),

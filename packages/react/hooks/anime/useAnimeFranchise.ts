@@ -25,7 +25,7 @@ export function useAnimeFranchise({
     return useInfiniteQuery({
         queryKey: queryKeys.anime.franchise(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getFranchise(slug, {
+            client.anime.getAnimeFranchise(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -45,7 +45,7 @@ export async function prefetchAnimeFranchise({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.franchise(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getFranchise(slug, {
+            client.anime.getAnimeFranchise(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

@@ -25,11 +25,14 @@ export function useNotifications({
     return useInfiniteQuery({
         queryKey: queryKeys.notifications.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.notifications.getNotifications({
+            client.notifications.getNotificationList({
                 page,
                 size: paginationArgs?.size,
             }),
-        ...rest,
+        options: {
+            authProtected: true,
+            ...rest.options,
+        },
     });
 }
 
@@ -43,7 +46,7 @@ export async function prefetchNotifications({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.notifications.list(paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.notifications.getNotifications({
+            client.notifications.getNotificationList({
                 page,
                 size: paginationArgs?.size,
             }),
@@ -59,7 +62,11 @@ export function useUnseenNotificationsCount({
 }: QueryParams<NotificationUnseenResponse> = {}) {
     return useQuery({
         queryKey: queryKeys.notifications.unseenCount(),
-        queryFn: (client) => client.notifications.getUnseenCount(),
+        queryFn: (client) => client.notifications.getNotificationUnseenCount(),
+        options: {
+            authProtected: true,
+            ...rest.options,
+        },
         ...rest,
     });
 }
@@ -72,7 +79,7 @@ export async function prefetchUnseenNotificationsCount({
 }: PrefetchQueryParams<NotificationUnseenResponse> = {}) {
     return prefetchQuery({
         queryKey: queryKeys.notifications.unseenCount(),
-        queryFn: (client) => client.notifications.getUnseenCount(),
+        queryFn: (client) => client.notifications.getNotificationUnseenCount(),
         ...rest,
     });
 }

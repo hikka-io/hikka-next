@@ -15,7 +15,9 @@ export const useSetVote = createMutation({
             score: number;
         },
     ) =>
-        client.vote.setVote(args.contentType, args.slug, { score: args.score }),
+        client.vote.createVote(args.contentType, args.slug, {
+            score: args.score,
+        }),
     invalidateQueries: (args) => [
         queryKeys.vote.status(args.contentType, args.slug),
     ],

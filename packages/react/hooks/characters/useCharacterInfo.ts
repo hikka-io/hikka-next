@@ -17,7 +17,7 @@ export function useCharacterInfo<TResult = CharacterResponse>({
 }: UseCharacterInfoParams & QueryParams<CharacterResponse, TResult>) {
     return useQuery<CharacterResponse, Error, TResult>({
         queryKey: queryKeys.characters.bySlug(slug),
-        queryFn: (client) => client.characters.getBySlug(slug),
+        queryFn: (client) => client.characters.getCharacterBySlug(slug),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchCharacterInfo({
 }: PrefetchQueryParams<CharacterResponse> & UseCharacterInfoParams) {
     return prefetchQuery({
         queryKey: queryKeys.characters.bySlug(slug),
-        queryFn: (client) => client.characters.getBySlug(slug),
+        queryFn: (client) => client.characters.getCharacterBySlug(slug),
         ...rest,
     });
 }

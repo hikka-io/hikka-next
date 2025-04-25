@@ -38,7 +38,9 @@ export function useQuery<
     options?: Omit<
         UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
         'queryKey' | 'queryFn'
-    >;
+    > & {
+        authProtected?: boolean;
+    };
 }): UseQueryResult<TData, TError> {
     const client = useHikkaClient();
 
@@ -46,5 +48,8 @@ export function useQuery<
         queryKey,
         queryFn: () => queryFn(client),
         ...options,
+        enabled: options?.authProtected
+            ? !!client.getAuthToken() && options?.enabled
+            : options?.enabled,
     });
 }

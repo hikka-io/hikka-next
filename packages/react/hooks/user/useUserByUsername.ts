@@ -17,7 +17,7 @@ export function useUserByUsername({
 }: UseUserByUsernameParams) {
     return useQuery({
         queryKey: queryKeys.user.byUsername(username),
-        queryFn: (client) => client.user.getByUsername(username),
+        queryFn: (client) => client.user.getUserByUsername(username),
         ...rest,
     });
 }
@@ -36,7 +36,7 @@ export async function prefetchUserByUsername({
 }: PrefetchUserByUsernameParams) {
     return prefetchQuery({
         queryKey: queryKeys.user.byUsername(username),
-        queryFn: (client) => client.user.getByUsername(username),
+        queryFn: (client) => client.user.getUserByUsername(username),
         ...rest,
     });
 }

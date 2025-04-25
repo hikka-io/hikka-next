@@ -61,6 +61,7 @@ export function useInfiniteQuery<
         getNextPageParam?: (
             lastPage: PaginatedResponse<TItem>,
         ) => number | undefined | null;
+        authProtected?: boolean;
     };
 }) {
     const { ref, inView } = useInView();
@@ -87,6 +88,9 @@ export function useInfiniteQuery<
             return nextPage > lastPage.pagination.pages ? null : nextPage;
         },
         ...options,
+        enabled: options?.authProtected
+            ? !!client.getAuthToken() && options?.enabled
+            : options?.enabled,
     });
 
     const list =

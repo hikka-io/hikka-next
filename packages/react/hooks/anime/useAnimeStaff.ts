@@ -25,7 +25,7 @@ export function useAnimeStaff({
     return useInfiniteQuery({
         queryKey: queryKeys.anime.staff(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getStaff(slug, {
+            client.anime.getAnimeStaff(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -45,7 +45,7 @@ export async function prefetchAnimeStaff({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.staff(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getStaff(slug, {
+            client.anime.getAnimeStaff(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

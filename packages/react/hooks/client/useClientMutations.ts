@@ -7,7 +7,7 @@ import { createMutation } from '../../core/useMutation';
  * Hook for creating a new client
  */
 export const useCreateClient = createMutation({
-    mutationFn: (client, args: ClientArgs) => client.client.create(args),
+    mutationFn: (client, args: ClientArgs) => client.client.createClient(args),
     invalidateQueries: () => [queryKeys.client.all],
 });
 
@@ -18,7 +18,7 @@ export const useUpdateClient = createMutation({
     mutationFn: (
         client,
         { reference, args }: { reference: string; args: ClientArgs },
-    ) => client.client.update(reference, args),
+    ) => client.client.updateClient(reference, args),
     invalidateQueries: (variables) => [
         queryKeys.client.all,
         queryKeys.client.byReference(variables.reference),
@@ -30,7 +30,8 @@ export const useUpdateClient = createMutation({
  * Hook for deleting a client
  */
 export const useDeleteClient = createMutation({
-    mutationFn: (client, reference: string) => client.client.delete(reference),
+    mutationFn: (client, reference: string) =>
+        client.client.deleteClient(reference),
     invalidateQueries: () => [queryKeys.client.all],
 });
 
@@ -38,7 +39,8 @@ export const useDeleteClient = createMutation({
  * Hook for verifying a client
  */
 export const useVerifyClient = createMutation({
-    mutationFn: (client, reference: string) => client.client.verify(reference),
+    mutationFn: (client, reference: string) =>
+        client.client.updateClientVerification(reference),
     invalidateQueries: (reference) => [
         queryKeys.client.byReference(reference),
         queryKeys.client.fullInfo(reference),

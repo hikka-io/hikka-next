@@ -12,7 +12,7 @@ export function useAuthTokenInfo({
 }: QueryParams<AuthTokenInfoResponse> = {}) {
     return useQuery({
         queryKey: queryKeys.auth.tokenInfo(),
-        queryFn: (client) => client.auth.getTokenInfo(),
+        queryFn: (client) => client.auth.getAuthTokenDetails(),
         ...rest,
     });
 }
@@ -25,7 +25,7 @@ export async function prefetchAuthTokenInfo({
 }: PrefetchQueryParams<AuthTokenInfoResponse> = {}) {
     return prefetchQuery({
         queryKey: queryKeys.auth.tokenInfo(),
-        queryFn: (client) => client.auth.getTokenInfo(),
+        queryFn: (client) => client.auth.getAuthTokenDetails(),
         ...rest,
     });
 }

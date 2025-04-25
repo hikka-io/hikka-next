@@ -25,7 +25,7 @@ export function useFollowers({
     return useInfiniteQuery({
         queryKey: queryKeys.follow.followers(username, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.follow.getFollowers(username, {
+            client.follow.getUserFollowers(username, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -44,7 +44,7 @@ export async function prefetchFollowers({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.follow.followers(username, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.follow.getFollowers(username, {
+            client.follow.getUserFollowers(username, {
                 page,
                 size: paginationArgs?.size,
             }),

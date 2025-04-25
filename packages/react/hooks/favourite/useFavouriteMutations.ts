@@ -13,7 +13,7 @@ type FavouriteVariables = {
  */
 export const useAddFavourite = createMutation({
     mutationFn: (client, { contentType, slug }: FavouriteVariables) =>
-        client.favourite.add(contentType, slug),
+        client.favourite.createFavourite(contentType, slug),
     invalidateQueries: ({ contentType, slug }) => [
         queryKeys.favourite.status(contentType, slug),
     ],
@@ -24,7 +24,7 @@ export const useAddFavourite = createMutation({
  */
 export const useRemoveFavourite = createMutation({
     mutationFn: (client, { contentType, slug }: FavouriteVariables) =>
-        client.favourite.remove(contentType, slug),
+        client.favourite.deleteFavourite(contentType, slug),
     invalidateQueries: ({ contentType, slug }) => [
         queryKeys.favourite.status(contentType, slug),
     ],

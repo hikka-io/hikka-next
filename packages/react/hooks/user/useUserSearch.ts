@@ -17,7 +17,7 @@ export function useUserSearch({
 }: UseUserSearchParams & QueryParams<UserResponse[]>) {
     return useQuery({
         queryKey: queryKeys.user.search(args),
-        queryFn: (client) => client.user.search(args),
+        queryFn: (client) => client.user.searchUsers(args),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchUserSearch({
 }: PrefetchQueryParams<UserResponse[]> & UseUserSearchParams) {
     return prefetchQuery({
         queryKey: queryKeys.user.search(args),
-        queryFn: (client) => client.user.search(args),
+        queryFn: (client) => client.user.searchUsers(args),
         ...rest,
     });
 }

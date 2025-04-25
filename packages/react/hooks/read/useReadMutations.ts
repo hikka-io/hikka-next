@@ -1,10 +1,4 @@
-import {
-    MangaResponse,
-    NovelResponse,
-    ReadArgs,
-    ReadContentType,
-    ReadStatusEnum,
-} from '@hikka/client';
+import { ReadArgs, ReadContentType, ReadStatusEnum } from '@hikka/client';
 
 import { queryKeys } from '../../core/queryKeys';
 import { createMutation } from '../../core/useMutation';
@@ -22,7 +16,7 @@ export const useAddOrUpdateRead = createMutation({
     mutationFn: (
         client,
         { contentType, slug, args }: AddOrUpdateReadVariables,
-    ) => client.read.addOrUpdate(contentType, slug, args),
+    ) => client.read.createRead(contentType, slug, args),
     invalidateQueries: ({ contentType, slug }) => [
         queryKeys.read.entry(contentType, slug),
         queryKeys.read.all,
@@ -39,7 +33,7 @@ type DeleteReadVariables = {
  */
 export const useDeleteRead = createMutation({
     mutationFn: (client, { contentType, slug }: DeleteReadVariables) =>
-        client.read.delete(contentType, slug),
+        client.read.deleteRead(contentType, slug),
     invalidateQueries: ({ contentType, slug }) => [
         queryKeys.read.entry(contentType, slug),
         queryKeys.read.all,
@@ -56,9 +50,9 @@ type RandomReadVariables = {
  * Hook for retrieving a random manga/novel from a user's read list
  */
 export const useRandomRead = createMutation({
-    mutationFn: <T extends MangaResponse | NovelResponse>(
-        client: any,
+    mutationFn: (
+        client,
         { contentType, username, status }: RandomReadVariables,
-    ) => client.read.getRandom(contentType, username, status) as Promise<T>,
+    ) => client.read.getRandomReadByStatus(contentType, username, status),
     invalidateQueries: () => [queryKeys.read.all],
 });

@@ -16,7 +16,7 @@ type UploadImageVariables = {
  */
 export const useUploadImage = createMutation({
     mutationFn: (client, args: UploadImageVariables) =>
-        client.upload.uploadImage(args.uploadType, args.file),
+        client.upload.createImageUpload(args.uploadType, args.file),
     invalidateQueries: (args: UploadImageVariables) =>
         args.uploadType !== UploadTypeEnum.ATTACHMENT
             ? [queryKeys.user.me(), queryKeys.user.byUsername(args.uploadType)]

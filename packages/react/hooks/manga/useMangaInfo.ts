@@ -17,7 +17,7 @@ export function useMangaInfo<TResult = MangaInfoResponse>({
 }: UseMangaInfoParams & QueryParams<MangaInfoResponse, TResult>) {
     return useQuery<MangaInfoResponse, Error, TResult>({
         queryKey: queryKeys.manga.details(slug),
-        queryFn: (client) => client.manga.getBySlug(slug),
+        queryFn: (client) => client.manga.getMangaBySlug(slug),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchMangaInfo({
 }: PrefetchQueryParams<MangaInfoResponse> & UseMangaInfoParams) {
     return prefetchQuery({
         queryKey: queryKeys.manga.details(slug),
-        queryFn: (client) => client.manga.getBySlug(slug),
+        queryFn: (client) => client.manga.getMangaBySlug(slug),
         ...rest,
     });
 }

@@ -8,10 +8,17 @@ import { PrefetchQueryParams, prefetchQuery } from '../../server/prefetchQuery';
 /**
  * Hook for retrieving the current user's profile
  */
-export function useSession({ ...rest }: QueryParams<UserResponse> = {}) {
+export function useSession({
+    options,
+    ...rest
+}: QueryParams<UserResponse> = {}) {
     const query = useQuery({
         queryKey: queryKeys.user.me(),
-        queryFn: (client) => client.user.getMe(),
+        queryFn: (client) => client.user.getCurrentUser(),
+        options: {
+            authProtected: true,
+            ...options,
+        },
         ...rest,
     });
 
@@ -40,7 +47,7 @@ export async function prefetchSession({
 }: PrefetchQueryParams<UserResponse> = {}) {
     return prefetchQuery({
         queryKey: queryKeys.user.me(),
-        queryFn: (client) => client.user.getMe(),
+        queryFn: (client) => client.user.getCurrentUser(),
         ...rest,
     });
 }

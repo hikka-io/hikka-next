@@ -29,7 +29,7 @@ export function useAnimeSchedule({
     return useInfiniteQuery({
         queryKey: queryKeys.schedule.anime(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.schedule.getAnimeSchedule(args, {
+            client.schedule.searchAnimeSchedule(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -49,7 +49,7 @@ export async function prefetchAnimeSchedule({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.schedule.anime(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.schedule.getAnimeSchedule(args, {
+            client.schedule.searchAnimeSchedule(args, {
                 page,
                 size: paginationArgs?.size,
             }),

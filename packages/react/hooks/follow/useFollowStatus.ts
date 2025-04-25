@@ -17,7 +17,7 @@ export function useFollowStatus({
 }: UseFollowStatusParams & QueryParams<FollowResponse>) {
     return useQuery({
         queryKey: queryKeys.follow.status(username),
-        queryFn: (client) => client.follow.checkFollow(username),
+        queryFn: (client) => client.follow.getFollowStatus(username),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchFollowStatus({
 }: PrefetchQueryParams<FollowResponse> & UseFollowStatusParams) {
     return prefetchQuery({
         queryKey: queryKeys.follow.status(username),
-        queryFn: (client) => client.follow.checkFollow(username),
+        queryFn: (client) => client.follow.getFollowStatus(username),
         ...rest,
     });
 }

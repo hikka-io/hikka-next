@@ -17,7 +17,7 @@ export function useFullClientInfo<TResult = ClientInfoResponse>({
 }: UseFullClientInfoParams & QueryParams<ClientInfoResponse, TResult>) {
     return useQuery<ClientInfoResponse, Error, TResult>({
         queryKey: queryKeys.client.fullInfo(reference),
-        queryFn: (client) => client.client.getFullClientInfo(reference),
+        queryFn: (client) => client.client.getClientFullDetails(reference),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchFullClientInfo({
 }: PrefetchQueryParams<ClientInfoResponse> & UseFullClientInfoParams) {
     return prefetchQuery({
         queryKey: queryKeys.client.fullInfo(reference),
-        queryFn: (client) => client.client.getFullClientInfo(reference),
+        queryFn: (client) => client.client.getClientFullDetails(reference),
         ...rest,
     });
 }

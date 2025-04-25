@@ -11,16 +11,16 @@ import { cache } from 'react';
  */
 export function createQueryClient(config?: QueryClientConfig) {
     return new QueryClient({
+        ...config,
         defaultOptions: {
+            ...config?.defaultOptions,
             queries: {
                 staleTime: 60 * 1000,
                 gcTime: Infinity,
                 retry: false,
                 ...config?.defaultOptions?.queries,
             },
-            ...config?.defaultOptions,
         },
-        ...config,
     });
 }
 

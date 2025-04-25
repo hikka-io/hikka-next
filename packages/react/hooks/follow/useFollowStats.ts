@@ -17,7 +17,7 @@ export function useFollowStats({
 }: UseFollowStatsParams & QueryParams<FollowStatsResponse>) {
     return useQuery({
         queryKey: queryKeys.follow.stats(username),
-        queryFn: (client) => client.follow.getStats(username),
+        queryFn: (client) => client.follow.getUserFollowStats(username),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchFollowStats({
 }: PrefetchQueryParams<FollowStatsResponse> & UseFollowStatsParams) {
     return prefetchQuery({
         queryKey: queryKeys.follow.stats(username),
-        queryFn: (client) => client.follow.getStats(username),
+        queryFn: (client) => client.follow.getUserFollowStats(username),
         ...rest,
     });
 }

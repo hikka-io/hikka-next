@@ -17,7 +17,7 @@ export function useUserActivity({
 }: UseUserActivityParams & QueryParams<ActivityResponse[]>) {
     return useQuery({
         queryKey: queryKeys.user.activity(username),
-        queryFn: (client) => client.user.getActivity(username),
+        queryFn: (client) => client.user.getUserActivity(username),
         ...rest,
     });
 }
@@ -31,7 +31,7 @@ export async function prefetchUserActivity({
 }: PrefetchQueryParams<ActivityResponse[]> & UseUserActivityParams) {
     return prefetchQuery({
         queryKey: queryKeys.user.activity(username),
-        queryFn: (client) => client.user.getActivity(username),
+        queryFn: (client) => client.user.getUserActivity(username),
         ...rest,
     });
 }

@@ -29,7 +29,7 @@ export function useCompaniesSearch({
     return useInfiniteQuery({
         queryKey: queryKeys.companies.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.companies.search(args, {
+            client.companies.searchCompanies(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -49,7 +49,7 @@ export async function prefetchCompaniesSearch({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.companies.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.companies.search(args, {
+            client.companies.searchCompanies(args, {
                 page,
                 size: paginationArgs?.size,
             }),

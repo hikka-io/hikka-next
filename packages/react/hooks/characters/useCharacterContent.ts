@@ -31,7 +31,7 @@ export function useCharacterAnime({
     return useInfiniteQuery({
         queryKey: queryKeys.characters.anime(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getAnime(slug, {
+            client.characters.getCharacterAnime(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -51,7 +51,7 @@ export async function prefetchCharacterAnime({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.characters.anime(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getAnime(slug, {
+            client.characters.getCharacterAnime(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -71,7 +71,7 @@ export function useCharacterManga({
     return useInfiniteQuery({
         queryKey: queryKeys.characters.manga(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getManga(slug, {
+            client.characters.getCharacterManga(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -91,7 +91,7 @@ export async function prefetchCharacterManga({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.characters.manga(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getManga(slug, {
+            client.characters.getCharacterManga(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -111,7 +111,7 @@ export function useCharacterNovel({
     return useInfiniteQuery({
         queryKey: queryKeys.characters.novel(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getNovel(slug, {
+            client.characters.getCharacterNovel(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -131,7 +131,7 @@ export async function prefetchCharacterNovel({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.characters.novel(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getNovel(slug, {
+            client.characters.getCharacterNovel(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -151,7 +151,7 @@ export function useCharacterVoices({
     return useInfiniteQuery({
         queryKey: queryKeys.characters.voices(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getVoices(slug, {
+            client.characters.getCharacterVoices(slug, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -171,7 +171,7 @@ export async function prefetchCharacterVoices({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.characters.voices(slug, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getVoices(slug, {
+            client.characters.getCharacterVoices(slug, {
                 page,
                 size: paginationArgs?.size,
             }),

@@ -25,7 +25,7 @@ export function useNovelSearch({
     return useInfiniteQuery({
         queryKey: queryKeys.novel.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.search(args, {
+            client.novel.searchNovels(args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -45,7 +45,7 @@ export async function prefetchNovelSearch({
     return prefetchInfiniteQuery({
         queryKey: queryKeys.novel.search(args, paginationArgs),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.search(args, {
+            client.novel.searchNovels(args, {
                 page,
                 size: paginationArgs?.size,
             }),

@@ -38,7 +38,7 @@ export function useReadList({
             paginationArgs,
         ),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.getList(contentType, username, args, {
+            client.read.searchUserReads(contentType, username, args, {
                 page,
                 size: paginationArgs?.size,
             }),
@@ -64,7 +64,7 @@ export async function prefetchReadList({
             paginationArgs,
         ),
         queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.getList(contentType, username, args, {
+            client.read.searchUserReads(contentType, username, args, {
                 page,
                 size: paginationArgs?.size,
             }),

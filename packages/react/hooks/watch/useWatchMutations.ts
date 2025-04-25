@@ -13,10 +13,11 @@ type AddOrUpdateWatchVariables = {
  */
 export const useAddOrUpdateWatch = createMutation({
     mutationFn: (client, { slug, args }: AddOrUpdateWatchVariables) =>
-        client.watch.addOrUpdate(slug, args),
+        client.watch.createWatch(slug, args),
     invalidateQueries: ({ slug }) => [
         queryKeys.watch.entry(slug),
         queryKeys.watch.all,
+        queryKeys.anime.search({}),
     ],
 });
 
@@ -24,7 +25,7 @@ export const useAddOrUpdateWatch = createMutation({
  * Hook for deleting a watch entry
  */
 export const useDeleteWatch = createMutation({
-    mutationFn: (client, slug: string) => client.watch.delete(slug),
+    mutationFn: (client, slug: string) => client.watch.deleteWatch(slug),
     invalidateQueries: (slug) => [
         queryKeys.watch.entry(slug),
         queryKeys.watch.all,
@@ -44,6 +45,6 @@ export interface RandomAnimeVariables {
  */
 export const useRandomAnime = createMutation({
     mutationFn: (client, { username, status }: RandomAnimeVariables) =>
-        client.watch.getRandom(username, status),
+        client.watch.getRandomWatchByStatus(username, status),
     invalidateQueries: () => [],
 });

@@ -19,7 +19,7 @@ export function useVoteStatus({
 }: UseVoteStatusParams & QueryParams<VoteResponse>) {
     return useQuery({
         queryKey: queryKeys.vote.status(contentType, slug),
-        queryFn: (client) => client.vote.getVote(contentType, slug),
+        queryFn: (client) => client.vote.getContentVote(contentType, slug),
         ...rest,
     });
 }
@@ -34,7 +34,7 @@ export async function prefetchVoteStatus({
 }: PrefetchQueryParams<VoteResponse> & UseVoteStatusParams) {
     return prefetchQuery({
         queryKey: queryKeys.vote.status(contentType, slug),
-        queryFn: (client) => client.vote.getVote(contentType, slug),
+        queryFn: (client) => client.vote.getContentVote(contentType, slug),
         ...rest,
     });
 }
