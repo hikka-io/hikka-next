@@ -3,8 +3,8 @@
 import { PersonAnimeResponse, PersonCharactersResponse } from '@hikka/client';
 import {
     usePersonAnime,
+    usePersonBySlug,
     usePersonCharacters,
-    usePersonInfo,
 } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
@@ -104,7 +104,7 @@ const PersonCharactersList: FC<{
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
-    const { data } = usePersonInfo({ slug });
+    const { data } = usePersonBySlug({ slug });
     const { list: anime } = usePersonAnime({
         slug,
         options: {

@@ -1,7 +1,7 @@
 'use client';
 
 import { ReadContentType, ReadResponseBase } from '@hikka/client';
-import { useMangaInfo, useNovelInfo } from '@hikka/react';
+import { useMangaBySlug, useNovelBySlug } from '@hikka/react';
 import { FC, createElement } from 'react';
 
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
@@ -31,14 +31,14 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
 }) => {
     const { openModal } = useModalContext();
 
-    const { data: manga } = useMangaInfo({
+    const { data: manga } = useMangaBySlug({
         slug,
         options: {
             enabled: !disabled && content_type === 'manga',
         },
     });
 
-    const { data: novel } = useNovelInfo({
+    const { data: novel } = useNovelBySlug({
         slug,
         options: {
             enabled: !disabled && content_type === 'novel',

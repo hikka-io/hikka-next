@@ -6,7 +6,7 @@ import {
     AnimeStatusEnum,
     SeasonEnum,
 } from '@hikka/client';
-import { useAnimeSearch } from '@hikka/react';
+import { useSearchAnimes } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -53,7 +53,7 @@ const AnimeList: FC<Props> = () => {
         hasNextPage,
         list,
         pagination,
-    } = useAnimeSearch({
+    } = useSearchAnimes({
         args: {
             query: query || undefined,
             media_type: media_type,

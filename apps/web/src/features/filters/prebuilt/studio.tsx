@@ -1,7 +1,7 @@
 'use client';
 
 import { CompanyTypeEnum } from '@hikka/client';
-import { useCompaniesSearch } from '@hikka/react';
+import { useSearchCompanies } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -30,7 +30,7 @@ const Studio: FC<Props> = () => {
     const studios = searchParams.getAll('studios');
 
     const [studioSearch, setStudioSearch] = useState<string>();
-    const { list, isFetching: isStudioListFetching } = useCompaniesSearch({
+    const { list, isFetching: isStudioListFetching } = useSearchCompanies({
         args: {
             type: CompanyTypeEnum.STUDIO,
             query: studioSearch,

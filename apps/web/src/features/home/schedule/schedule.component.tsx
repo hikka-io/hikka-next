@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
-import { useAnimeSchedule } from '@hikka/react';
+import { useSearchAnimeSchedule } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
@@ -32,7 +32,7 @@ const Schedule = () => {
             : ['ongoing', 'announced']
     ) as ContentStatusEnum[];
 
-    const { list } = useAnimeSchedule({
+    const { list } = useSearchAnimeSchedule({
         args: {
             airing_season: [season, Number(year)],
             status,

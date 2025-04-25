@@ -1,7 +1,7 @@
 'use client';
 
 import { ReadStatsResponse, ReadStatusEnum } from '@hikka/client';
-import { useNovelInfo } from '@hikka/react';
+import { useNovelBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
@@ -11,7 +11,7 @@ import Stats from './stats';
 
 const Readlist = () => {
     const params = useParams();
-    const { data } = useNovelInfo({ slug: String(params.slug) });
+    const { data } = useNovelBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

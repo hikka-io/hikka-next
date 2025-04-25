@@ -1,6 +1,6 @@
 'use client';
 
-import { useRequestThirdPartyToken, useSession } from '@hikka/react';
+import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -16,7 +16,7 @@ const Confirm: FC<Props> = () => {
 
     const { user } = useSession();
 
-    const { mutate, isPending } = useRequestThirdPartyToken();
+    const { mutate, isPending } = useCreateThirdPartyTokenRequest();
 
     const handleConfirm = () => {
         mutate({

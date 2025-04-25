@@ -21,7 +21,7 @@ type RequestThirdPartyTokenVariables = {
 /**
  * Hook for requesting a third-party token
  */
-export const useRequestThirdPartyToken = createMutation({
+export const useCreateThirdPartyTokenRequest = createMutation({
     mutationFn: (
         client,
         { clientReference, args }: RequestThirdPartyTokenVariables,
@@ -32,7 +32,7 @@ export const useRequestThirdPartyToken = createMutation({
 /**
  * Hook for requesting a password reset
  */
-export const useRequestPasswordReset = createMutation({
+export const useCreatePasswordResetRequest = createMutation({
     mutationFn: (client, args: EmailArgs) =>
         client.auth.createPasswordResetRequest(args),
 });
@@ -40,7 +40,7 @@ export const useRequestPasswordReset = createMutation({
 /**
  * Hook for user login
  */
-export const useLogin = createMutation({
+export const useCreateUserSession = createMutation({
     mutationFn: (
         client,
         { args, captcha }: { args: LoginArgs; captcha: CaptchaArgs },
@@ -51,7 +51,7 @@ export const useLogin = createMutation({
 /**
  * Hook for user registration
  */
-export const useSignup = createMutation({
+export const useCreateUser = createMutation({
     mutationFn: (
         client,
         { args, captcha }: { args: SignupArgs; captcha: CaptchaArgs },
@@ -62,7 +62,7 @@ export const useSignup = createMutation({
 /**
  * Hook for account activation
  */
-export const useActivateAccount = createMutation({
+export const useActivateUser = createMutation({
     mutationFn: (client, args: TokenArgs) => client.auth.activateUser(args),
     invalidateQueries: () => [queryKeys.auth.tokenInfo()],
 });
@@ -70,7 +70,7 @@ export const useActivateAccount = createMutation({
 /**
  * Hook for resending activation link
  */
-export const useResendActivation = createMutation({
+export const useCreateActivationRequest = createMutation({
     mutationFn: (client) => client.auth.createActivationRequest(),
 });
 
@@ -86,7 +86,7 @@ export const useConfirmPasswordReset = createMutation({
 /**
  * Hook for getting token from OAuth code
  */
-export const useOAuthToken = createMutation({
+export const useCreateOAuthToken = createMutation({
     mutationFn: (
         client,
         { provider, args }: { provider: string; args: CodeArgs },
@@ -106,7 +106,7 @@ export const useCreateThirdPartyToken = createMutation({
 /**
  * Hook for revoking a token
  */
-export const useRevokeToken = createMutation({
+export const useDeleteAuthToken = createMutation({
     mutationFn: (client, tokenReference: string) =>
         client.auth.deleteAuthToken(tokenReference),
     invalidateQueries: () => [queryKeys.auth.thirdPartyTokens()],

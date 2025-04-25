@@ -3,7 +3,7 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchAnimeSchedule,
+    prefetchSearchAnimeSchedule,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import { FC } from 'react';
@@ -46,7 +46,7 @@ const ScheduleListPage: FC<Props> = async (props) => {
             ? searchParams.status
             : ['ongoing', 'announced'];
 
-    await prefetchAnimeSchedule({
+    await prefetchSearchAnimeSchedule({
         args: {
             status,
             only_watch,

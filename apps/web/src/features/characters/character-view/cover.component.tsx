@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useCharacterInfo, useSession } from '@hikka/react';
+import { useCharacterBySlug, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -12,7 +12,9 @@ const Cover = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
 
-    const { data: character } = useCharacterInfo({ slug: String(params.slug) });
+    const { data: character } = useCharacterBySlug({
+        slug: String(params.slug),
+    });
 
     if (!character) {
         return null;

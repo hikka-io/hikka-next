@@ -20,7 +20,7 @@ export interface UseAnimeScheduleParams {
 /**
  * Hook for retrieving anime schedule
  */
-export function useAnimeSchedule({
+export function useSearchAnimeSchedule({
     args = {},
     paginationArgs,
     ...rest
@@ -40,7 +40,7 @@ export function useAnimeSchedule({
 /**
  * Prefetches anime schedule for server-side rendering
  */
-export async function prefetchAnimeSchedule({
+export async function prefetchSearchAnimeSchedule({
     args = {},
     paginationArgs,
     ...rest

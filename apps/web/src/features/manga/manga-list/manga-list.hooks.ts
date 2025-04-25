@@ -1,4 +1,4 @@
-import { useMangaSearch } from '@hikka/react';
+import { useSearchMangas } from '@hikka/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
@@ -37,8 +37,8 @@ export const useUpdatePage = ({
 };
 
 interface UseLoadInfinitePageProps {
-    pagination?: ReturnType<typeof useMangaSearch>['pagination'];
-    fetchNextPage: ReturnType<typeof useMangaSearch>['fetchNextPage'];
+    pagination?: ReturnType<typeof useSearchMangas>['pagination'];
+    fetchNextPage: ReturnType<typeof useSearchMangas>['fetchNextPage'];
 }
 
 export const useNextPage = ({

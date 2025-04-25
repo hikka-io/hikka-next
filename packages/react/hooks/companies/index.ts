@@ -1,1 +1,1 @@
-export * from './useCompanies';
+export * from './useSearchCompanies';

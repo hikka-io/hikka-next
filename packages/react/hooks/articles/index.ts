@@ -1,4 +1,4 @@
-export * from './useArticle';
+export * from './useArticleBySlug';
 export * from './useArticleMutations';
-export * from './useArticles';
 export * from './useArticleStats';
+export * from './useSearchArticles';

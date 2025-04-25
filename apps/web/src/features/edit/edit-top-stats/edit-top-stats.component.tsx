@@ -1,6 +1,6 @@
 'use client';
 
-import { useEditsTop } from '@hikka/react';
+import { useTopEditorsList } from '@hikka/react';
 
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import EditTopItem from './edit-top-item';
 
 function EditTopStats() {
     const { openModal } = useModalContext();
-    const { list } = useEditsTop();
+    const { list } = useTopEditorsList();
 
     if (!list || list.length === 0) {
         return null;

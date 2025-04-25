@@ -1,9 +1,9 @@
 'use client';
 
 import {
-    useMarkNotificationAsSeen,
-    useNotifications,
+    useNotificationList,
     useUnseenNotificationsCount,
+    useUpdateNotificationSeen,
 } from '@hikka/react';
 
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
@@ -33,9 +33,9 @@ const NotificationsMenu = () => {
         fetchNextPage,
         refetch,
         ref,
-    } = useNotifications();
+    } = useNotificationList();
 
-    const { mutate: asSeen } = useMarkNotificationAsSeen();
+    const { mutate: asSeen } = useUpdateNotificationSeen();
 
     return (
         <DropdownMenu onOpenChange={(open) => open && refetch()}>

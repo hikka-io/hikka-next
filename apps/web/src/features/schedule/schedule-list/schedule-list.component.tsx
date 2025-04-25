@@ -5,7 +5,7 @@ import {
     ContentStatusEnum,
     SeasonEnum,
 } from '@hikka/client';
-import { useAnimeSchedule } from '@hikka/react';
+import { useSearchAnimeSchedule } from '@hikka/react';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 import { useSearchParams } from 'next/navigation';
@@ -41,7 +41,7 @@ const ScheduleList = () => {
         fetchNextPage,
         isLoading,
         ref,
-    } = useAnimeSchedule({
+    } = useSearchAnimeSchedule({
         args: {
             airing_season: [season, year],
             status,

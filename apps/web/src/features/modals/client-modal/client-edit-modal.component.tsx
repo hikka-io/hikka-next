@@ -2,8 +2,8 @@
 
 import { ClientResponse } from '@hikka/client';
 import {
+    useClientFullDetails,
     useDeleteClient,
-    useFullClientInfo,
     useUpdateClient,
 } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -38,7 +38,7 @@ const Component = ({ client }: Props) => {
         useUpdateClient();
     const { mutate: deleteClient, isPending: deleteClientLoading } =
         useDeleteClient();
-    const { data } = useFullClientInfo({ reference: client.reference });
+    const { data } = useClientFullDetails({ reference: client.reference });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

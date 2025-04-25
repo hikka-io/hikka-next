@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useNovelInfo, useSession } from '@hikka/react';
+import { useNovelBySlug, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +12,7 @@ import FavoriteButton from '@/components/favorite-button';
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
-    const { data: novel } = useNovelInfo({ slug: String(params.slug) });
+    const { data: novel } = useNovelBySlug({ slug: String(params.slug) });
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">

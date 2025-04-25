@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { usePersonInfo, useSession } from '@hikka/react';
+import { usePersonBySlug, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -11,7 +11,7 @@ const Cover = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
 
-    const { data: person } = usePersonInfo({ slug: String(params.slug) });
+    const { data: person } = usePersonBySlug({ slug: String(params.slug) });
 
     if (!person) {
         return null;

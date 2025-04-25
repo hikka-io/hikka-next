@@ -1,7 +1,7 @@
 'use client';
 
 import { WatchResponse, WatchResponseBase } from '@hikka/client';
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import { FC, createElement } from 'react';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
@@ -28,7 +28,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     size,
 }) => {
     const { openModal } = useModalContext();
-    const { data: anime } = useAnimeInfo({
+    const { data: anime } = useAnimeBySlug({
         slug,
         options: {
             enabled: !disabled,

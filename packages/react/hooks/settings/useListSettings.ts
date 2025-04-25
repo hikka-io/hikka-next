@@ -29,7 +29,7 @@ export const useImportReadList = createMutation({
  * Hook for exporting user lists
  */
 export const useExportLists = createMutation({
-    mutationFn: (client) => client.settings.export(),
+    mutationFn: (client) => client.settings.exportLists(),
     invalidateQueries: () => [],
 });
 

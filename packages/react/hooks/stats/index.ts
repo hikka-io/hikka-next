@@ -1,1 +1,1 @@
-export * from './useEditStats';
+export * from './useTopEditorsList';

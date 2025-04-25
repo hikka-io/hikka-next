@@ -1,7 +1,7 @@
 'use client';
 
 import { EditContentType, MainContent } from '@hikka/client';
-import { useAddEdit } from '@hikka/react';
+import { useCreateEdit } from '@hikka/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useRouter } from 'next/navigation';
 import { FC, useRef } from 'react';
@@ -61,7 +61,7 @@ const EditForm: FC<Props> = ({
         },
     });
 
-    const mutationAddEdit = useAddEdit({
+    const mutationAddEdit = useCreateEdit({
         options: {
             onSuccess: (data) => onDismiss(data.edit_id),
         },

@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadStatusEnum } from '@hikka/client';
-import { useAddOrUpdateRead, useNovelInfo, useReadEntry } from '@hikka/react';
+import { useAddOrUpdateRead, useNovelBySlug, useReadEntry } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -19,7 +19,7 @@ const ReadStats = () => {
         slug: String(params.slug),
         contentType: ContentTypeEnum.NOVEL,
     });
-    const { data } = useNovelInfo({ slug: String(params.slug) });
+    const { data } = useNovelBySlug({ slug: String(params.slug) });
 
     const {
         mutate: mutateAddOrUpdateRead,

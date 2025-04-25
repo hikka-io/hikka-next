@@ -14,7 +14,7 @@ type UploadImageVariables = {
 /**
  * Hook for uploading an image
  */
-export const useUploadImage = createMutation({
+export const useCreateImageUpload = createMutation({
     mutationFn: (client, args: UploadImageVariables) =>
         client.upload.createImageUpload(args.uploadType, args.file),
     invalidateQueries: (args: UploadImageVariables) =>

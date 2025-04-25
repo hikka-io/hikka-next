@@ -1,7 +1,11 @@
 'use client';
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
-import { useAddOrUpdateWatch, useAnimeInfo, useWatchEntry } from '@hikka/react';
+import {
+    useAddOrUpdateWatch,
+    useAnimeBySlug,
+    useWatchEntry,
+} from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -28,7 +32,7 @@ const WatchStats = () => {
     const { data: watch, isError: watchError } = useWatchEntry({
         slug: String(params.slug),
     });
-    const { data } = useAnimeInfo({
+    const { data } = useAnimeBySlug({
         slug: String(params.slug),
     });
 

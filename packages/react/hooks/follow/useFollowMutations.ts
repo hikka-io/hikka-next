@@ -4,7 +4,7 @@ import { createMutation } from '../../core/useMutation';
 /**
  * Hook for following a user
  */
-export const useFollow = createMutation({
+export const useCreateFollow = createMutation({
     mutationFn: (client, username: string) =>
         client.follow.createFollow(username),
     invalidateQueries: (username: string) => [
@@ -17,7 +17,7 @@ export const useFollow = createMutation({
 /**
  * Hook for unfollowing a user
  */
-export const useUnfollow = createMutation({
+export const useDeleteFollow = createMutation({
     mutationFn: (client, username: string) =>
         client.follow.deleteFollow(username),
     invalidateQueries: (username: string) => [

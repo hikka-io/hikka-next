@@ -4,7 +4,7 @@ import {
     dehydrate,
     getQueryClient,
     prefetchEditList,
-    prefetchEditsTop,
+    prefetchTopEditorsList,
 } from '@hikka/react';
 import { permanentRedirect } from 'next/navigation';
 
@@ -49,7 +49,7 @@ const EditListPage = async (props: {
         clientConfig,
     });
 
-    await prefetchEditsTop({ clientConfig });
+    await prefetchTopEditorsList({ clientConfig });
 
     const dehydratedState = dehydrate(queryClient);
 

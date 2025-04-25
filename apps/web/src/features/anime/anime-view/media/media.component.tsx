@@ -1,6 +1,6 @@
 'use client';
 
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -22,7 +22,7 @@ interface Props {
 
 const Media: FC<Props> = ({ extended }) => {
     const params = useParams();
-    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
+    const { data: anime } = useAnimeBySlug({ slug: String(params.slug) });
     const [active, setActive] = useState<'video' | 'music'>(
         anime?.videos && anime.videos.length === 0 ? 'music' : 'video',
     );

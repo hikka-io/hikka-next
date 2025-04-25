@@ -1,6 +1,12 @@
-export { prefetchFavouriteList, useFavouriteList } from './useFavouriteList';
-export { useAddFavourite, useRemoveFavourite } from './useFavouriteMutations';
+export {
+    useCreateFavourite as useAddFavourite,
+    useDeleteFavourite as useRemoveFavourite,
+} from './useFavouriteMutations';
 export {
     prefetchFavouriteStatus,
     useFavouriteStatus,
 } from './useFavouriteStatus';
+export {
+    prefetchUserFavourites as prefetchFavouriteList,
+    useUserFavourites as useFavouriteList,
+} from './useUserFavourites';

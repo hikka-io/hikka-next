@@ -3,9 +3,9 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchArticlesList,
     prefetchCollectionsList,
     prefetchFavouriteList,
+    prefetchSearchArticles,
     prefetchUserActivity,
     prefetchUserHistory,
 } from '@hikka/react';
@@ -41,7 +41,7 @@ const UserPage: FC<Props> = async (props) => {
         }),
         await prefetchUserHistory({ username, clientConfig }),
         await prefetchUserActivity({ username, clientConfig }),
-        await prefetchArticlesList({
+        await prefetchSearchArticles({
             args: { author: username },
             clientConfig,
         }),

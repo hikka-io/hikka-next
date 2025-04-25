@@ -1,7 +1,7 @@
 'use client';
 
 import {
-    useResendActivation,
+    useCreateActivationRequest,
     useSession,
     useUserByUsername,
 } from '@hikka/react';
@@ -21,7 +21,7 @@ const ActivationAlert = () => {
     });
     const { user: loggedUser } = useSession();
 
-    const { mutate: resendActivation } = useResendActivation({
+    const { mutate: resendActivation } = useCreateActivationRequest({
         options: {
             onSuccess: (user) => {
                 enqueueSnackbar(

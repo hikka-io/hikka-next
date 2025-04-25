@@ -1,8 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useMangaInfo } from '@hikka/react';
-import { useSession } from '@hikka/react';
+import { useMangaBySlug, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -14,7 +13,7 @@ import ReadStats from './read-stats';
 const Actions: FC = () => {
     const params = useParams();
     const { user } = useSession();
-    const { data: manga } = useMangaInfo({ slug: String(params.slug) });
+    const { data: manga } = useMangaBySlug({ slug: String(params.slug) });
 
     return (
         <div className="flex flex-col gap-12">

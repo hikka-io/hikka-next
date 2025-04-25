@@ -1,6 +1,6 @@
 'use client';
 
-import { usePersonInfo } from '@hikka/react';
+import { usePersonBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 
@@ -10,7 +10,7 @@ import P from '@/components/typography/p';
 const Title = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const params = useParams();
-    const { data: person } = usePersonInfo({ slug: String(params.slug) });
+    const { data: person } = usePersonBySlug({ slug: String(params.slug) });
 
     if (!person) {
         return null;

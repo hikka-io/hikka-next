@@ -4,7 +4,7 @@ import {
     dehydrate,
     getQueryClient,
     prefetchArticleStats,
-    prefetchArticlesList,
+    prefetchSearchArticles,
 } from '@hikka/react';
 
 import ArticleList from '@/features/articles/article-list/article-list.component';
@@ -30,7 +30,7 @@ const ArticlesPage = async (props: {
     const draft = Boolean(searchParams.draft) ?? false;
     const categories = searchParams.categories || [];
 
-    await prefetchArticlesList({
+    await prefetchSearchArticles({
         args: {
             author: author as string,
             sort: [`${sort}:${order}`],

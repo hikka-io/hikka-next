@@ -1,2 +1,2 @@
-export * from './useVote';
+export * from './useContentVote';
 export * from './useVoteMutations';

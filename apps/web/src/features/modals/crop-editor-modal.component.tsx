@@ -1,7 +1,7 @@
 'use client';
 
 import { ImageType, UploadTypeEnum } from '@hikka/client';
-import { useUploadImage } from '@hikka/react';
+import { useCreateImageUpload } from '@hikka/react';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
@@ -42,7 +42,7 @@ const Component = ({ file, type }: Props) => {
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
 
-    const uploadImageMutation = useUploadImage({
+    const uploadImageMutation = useCreateImageUpload({
         options: {
             onSuccess: () => {
                 const successMessage =

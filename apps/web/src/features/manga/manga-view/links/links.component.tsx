@@ -1,7 +1,7 @@
 'use client';
 
 import { ExternalTypeEnum } from '@hikka/client';
-import { useMangaInfo } from '@hikka/react';
+import { useMangaBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -32,7 +32,7 @@ const Links: FC<Props> = ({ extended }) => {
     );
     const params = useParams();
     const { openModal } = useModalContext();
-    const { data: manga } = useMangaInfo({ slug: String(params.slug) });
+    const { data: manga } = useMangaBySlug({ slug: String(params.slug) });
 
     if (!manga) {
         return null;

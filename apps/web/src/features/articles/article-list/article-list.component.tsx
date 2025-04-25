@@ -1,7 +1,7 @@
 'use client';
 
 import { ArticleCategoryEnum } from '@hikka/client';
-import { useArticlesList, useSession } from '@hikka/react';
+import { useSearchArticles, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
@@ -46,7 +46,7 @@ const ArticleList: FC<Props> = () => {
         isFetchingNextPage,
         isPending,
         hasNextPage,
-    } = useArticlesList({
+    } = useSearchArticles({
         args: {
             categories,
             author,

@@ -1,4 +1,4 @@
 export * from './useAuthMutations';
-export * from './useAuthOAuthUrl';
-export * from './useAuthThirdPartyTokens';
-export * from './useAuthTokenInfo';
+export * from './useAuthTokenDetails';
+export * from './useOAuthProviderUrl';
+export * from './useThirdPartyTokenList';

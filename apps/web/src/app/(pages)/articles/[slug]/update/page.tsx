@@ -2,7 +2,7 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchArticle,
+    prefetchArticleBySlug,
 } from '@hikka/react';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -30,7 +30,7 @@ const ArticleUpdatePage = async (props: {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const article = await prefetchArticle({ slug: slug, clientConfig });
+    const article = await prefetchArticleBySlug({ slug: slug, clientConfig });
 
     if (!article) {
         return permanentRedirect('/');

@@ -70,7 +70,7 @@ export class SettingsModule extends BaseModule {
     /**
      * Export user lists
      */
-    public async export(): Promise<UserExportResponse> {
+    public async exportLists(): Promise<UserExportResponse> {
         return this.client.post<UserExportResponse>('/settings/export');
     }
 

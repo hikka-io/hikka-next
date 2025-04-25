@@ -1,6 +1,6 @@
 'use client';
 
-import { useMangaInfo } from '@hikka/react';
+import { useMangaBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -15,7 +15,7 @@ const Description = () => {
         'synopsis_ua',
     );
     const params = useParams();
-    const { data } = useMangaInfo({ slug: String(params.slug) });
+    const { data } = useMangaBySlug({ slug: String(params.slug) });
 
     if (!data || (!data.synopsis_ua && !data.synopsis_en)) {
         return null;

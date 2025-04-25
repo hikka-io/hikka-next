@@ -2,7 +2,7 @@
 
 import { range } from '@antfu/utils';
 import { SeasonEnum } from '@hikka/client';
-import { useAnimeSearch } from '@hikka/react';
+import { useSearchAnimes } from '@hikka/react';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
@@ -28,7 +28,7 @@ const Ongoings: FC<Props> = ({ className }) => {
     const currentSeason = getCurrentSeason() as SeasonEnum;
     const year = String(new Date().getFullYear());
 
-    const { list, isLoading } = useAnimeSearch({
+    const { list, isLoading } = useSearchAnimes({
         args: {
             season: [currentSeason!],
             years: [Number(year), Number(year)],

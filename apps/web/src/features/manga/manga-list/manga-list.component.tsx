@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
-import { useMangaSearch } from '@hikka/react';
+import { useSearchMangas } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -58,7 +58,7 @@ const MangaList: FC<Props> = () => {
         hasNextPage,
         list,
         pagination,
-    } = useMangaSearch({
+    } = useSearchMangas({
         args: {
             query: query || undefined,
             media_type: media_type,

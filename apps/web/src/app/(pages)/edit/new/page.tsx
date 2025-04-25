@@ -3,11 +3,11 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchAnimeInfo,
-    prefetchCharacterInfo,
-    prefetchMangaInfo,
-    prefetchNovelInfo,
-    prefetchPersonInfo,
+    prefetchAnimeBySlug,
+    prefetchCharacterBySlug,
+    prefetchMangaBySlug,
+    prefetchNovelBySlug,
+    prefetchPersonBySlug,
 } from '@hikka/react';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
@@ -44,26 +44,35 @@ const EditNewPage: FC<Props> = async (props) => {
     let content: EditContent | undefined;
 
     if (content_type === 'anime') {
-        content = await prefetchAnimeInfo({ slug: String(slug), clientConfig });
+        content = await prefetchAnimeBySlug({
+            slug: String(slug),
+            clientConfig,
+        });
     }
 
     if (content_type === 'manga') {
-        content = await prefetchMangaInfo({ slug: String(slug), clientConfig });
+        content = await prefetchMangaBySlug({
+            slug: String(slug),
+            clientConfig,
+        });
     }
 
     if (content_type === 'novel') {
-        content = await prefetchNovelInfo({ slug: String(slug), clientConfig });
+        content = await prefetchNovelBySlug({
+            slug: String(slug),
+            clientConfig,
+        });
     }
 
     if (content_type === 'character') {
-        content = await prefetchCharacterInfo({
+        content = await prefetchCharacterBySlug({
             slug: String(slug),
             clientConfig,
         });
     }
 
     if (content_type === 'person') {
-        content = await prefetchPersonInfo({
+        content = await prefetchPersonBySlug({
             slug: String(slug),
             clientConfig,
         });

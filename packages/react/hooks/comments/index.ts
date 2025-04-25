@@ -1,9 +1,12 @@
 export {
-    useEditComment,
-    useHideComment,
-    useWriteComment,
+    prefetchCommentList as prefetchCommentsList,
+    useCommentList as useCommentsList,
+} from './useCommentList';
+export {
+    useUpdateComment as useEditComment,
+    useDeleteComment as useHideComment,
+    useCreateComment as useWriteComment,
 } from './useCommentMutations';
-export { prefetchCommentsList, useCommentsList } from './useCommentsList';
 export { prefetchCommentThread, useCommentThread } from './useCommentThread';
 export {
     prefetchContentComments,

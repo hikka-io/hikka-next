@@ -1,6 +1,6 @@
 'use client';
 
-import { useArticle, useSession } from '@hikka/react';
+import { useArticleBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { enqueueSnackbar } from 'notistack';
@@ -25,7 +25,7 @@ const ArticleNavbar: FC<Props> = () => {
     const params = useParams();
     const { user: loggedUser, isAdmin, isModerator } = useSession();
 
-    const { data: article } = useArticle({
+    const { data: article } = useArticleBySlug({
         slug: String(params.slug),
     });
 

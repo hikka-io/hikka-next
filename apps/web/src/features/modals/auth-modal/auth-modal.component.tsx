@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthOAuthUrl } from '@hikka/react';
+import { useOAuthProviderUrl } from '@hikka/react';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ const Component = ({
 }: {
     type: 'login' | 'signup' | 'forgotPassword' | 'passwordConfirm';
 }) => {
-    const { data: oauthUrl } = useAuthOAuthUrl('google');
+    const { data: oauthUrl } = useOAuthProviderUrl('google');
     const onOAuthSubmit = async () => {
         if (!oauthUrl) {
             return;

@@ -90,7 +90,7 @@ export class EditModule extends BaseModule {
     /**
      * Search for non-edited content
      */
-    public async searchTodoEdits<T = any>(
+    public async getTodoEditList<T = any>(
         args: TodoEditArgs,
         { page, size }: PaginationArgs = { page: 1, size: 15 },
     ): Promise<TodoEditResponse<T>> {

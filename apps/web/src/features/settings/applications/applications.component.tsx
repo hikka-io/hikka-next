@@ -1,13 +1,13 @@
 'use client';
 
-import { useAllClients } from '@hikka/react';
+import { useClientList } from '@hikka/react';
 
 import NotFound from '@/components/ui/not-found';
 
 import ApplicationItem from './application-item';
 
 const Component = () => {
-    const { list } = useAllClients();
+    const { list } = useClientList();
 
     return (
         <div className="flex w-full flex-col gap-6">

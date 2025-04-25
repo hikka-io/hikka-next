@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentStatusEnum, NovelMediaEnum } from '@hikka/client';
-import { useNovelSearch } from '@hikka/react';
+import { useSearchNovels } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -60,7 +60,7 @@ const NovelList: FC<Props> = () => {
         hasNextPage,
         list,
         pagination,
-    } = useNovelSearch({
+    } = useSearchNovels({
         args: {
             query: query || undefined,
             media_type: media_type,

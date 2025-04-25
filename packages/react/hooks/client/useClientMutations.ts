@@ -38,7 +38,7 @@ export const useDeleteClient = createMutation({
 /**
  * Hook for verifying a client
  */
-export const useVerifyClient = createMutation({
+export const useUpdateClientVerification = createMutation({
     mutationFn: (client, reference: string) =>
         client.client.updateClientVerification(reference),
     invalidateQueries: (reference) => [

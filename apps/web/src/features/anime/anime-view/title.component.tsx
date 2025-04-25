@@ -1,6 +1,6 @@
 'use client';
 
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -10,7 +10,7 @@ import P from '@/components/typography/p';
 
 const Title = () => {
     const params = useParams();
-    const { data } = useAnimeInfo({ slug: String(params.slug) });
+    const { data } = useAnimeBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

@@ -1,7 +1,7 @@
 'use client';
 
 import { ExternalTypeEnum } from '@hikka/client';
-import { useNovelInfo } from '@hikka/react';
+import { useNovelBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -29,7 +29,7 @@ const Links: FC<Props> = ({ extended }) => {
         ExternalTypeEnum.GENERAL,
     );
     const params = useParams();
-    const { data: novel } = useNovelInfo({ slug: String(params.slug) });
+    const { data: novel } = useNovelBySlug({ slug: String(params.slug) });
 
     if (!novel) {
         return null;

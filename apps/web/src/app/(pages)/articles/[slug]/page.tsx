@@ -4,7 +4,7 @@ import {
     dehydrate,
     getHikkaClient,
     getQueryClient,
-    prefetchArticle,
+    prefetchArticleBySlug,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -61,7 +61,7 @@ const ArticlePage = async (props: MetadataProps) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const article = await prefetchArticle({ slug: slug, clientConfig });
+    const article = await prefetchArticleBySlug({ slug: slug, clientConfig });
 
     if (!article) {
         return permanentRedirect('/articles');

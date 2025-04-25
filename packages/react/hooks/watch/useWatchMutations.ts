@@ -11,7 +11,7 @@ type AddOrUpdateWatchVariables = {
 /**
  * Hook for adding or updating a watch entry
  */
-export const useAddOrUpdateWatch = createMutation({
+export const useCreateWatch = createMutation({
     mutationFn: (client, { slug, args }: AddOrUpdateWatchVariables) =>
         client.watch.createWatch(slug, args),
     invalidateQueries: ({ slug }) => [
@@ -43,7 +43,7 @@ export interface RandomAnimeVariables {
 /**
  * Hook for getting a random anime from a user's watch list
  */
-export const useRandomAnime = createMutation({
+export const useRandomWatchByStatus = createMutation({
     mutationFn: (client, { username, status }: RandomAnimeVariables) =>
         client.watch.getRandomWatchByStatus(username, status),
     invalidateQueries: () => [],

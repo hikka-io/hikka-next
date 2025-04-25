@@ -1,6 +1,6 @@
 'use client';
 
-import { useRequestPasswordReset } from '@hikka/react';
+import { useCreatePasswordResetRequest } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -27,7 +27,7 @@ const Component = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const mutationRequestPasswordReset = useRequestPasswordReset({
+    const mutationRequestPasswordReset = useCreatePasswordResetRequest({
         options: {
             onSuccess: (data) => {
                 closeModal();

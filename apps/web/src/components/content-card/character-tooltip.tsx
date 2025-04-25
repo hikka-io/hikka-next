@@ -1,7 +1,10 @@
 'use client';
 
-import { useCharacterAnime, useCharacterInfo } from '@hikka/react';
-import { useSession } from '@hikka/react';
+import {
+    useCharacterAnime,
+    useCharacterBySlug,
+    useSession,
+} from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
@@ -26,7 +29,7 @@ interface Props extends PropsWithChildren {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useCharacterInfo({ slug });
+    const { data } = useCharacterBySlug({ slug });
     const { list } = useCharacterAnime({ slug });
 
     const characterAnime = list?.sort(

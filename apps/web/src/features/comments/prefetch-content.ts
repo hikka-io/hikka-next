@@ -1,13 +1,13 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
-    prefetchAnimeInfo,
-    prefetchArticle,
-    prefetchCharacterInfo,
+    prefetchAnimeBySlug,
+    prefetchArticleBySlug,
+    prefetchCharacterBySlug,
     prefetchCollection,
     prefetchEdit,
-    prefetchMangaInfo,
-    prefetchNovelInfo,
-    prefetchPersonInfo,
+    prefetchMangaBySlug,
+    prefetchNovelBySlug,
+    prefetchPersonBySlug,
 } from '@hikka/react';
 import { PrefetchQueryParams } from '@hikka/react/server/prefetchQuery';
 
@@ -27,15 +27,19 @@ export async function prefetchContent({
 
     switch (content_type) {
         case ContentTypeEnum.ANIME:
-            return await prefetchAnimeInfo({ slug, clientConfig, ...rest });
+            return await prefetchAnimeBySlug({ slug, clientConfig, ...rest });
         case ContentTypeEnum.MANGA:
-            return await prefetchMangaInfo({ slug, clientConfig, ...rest });
+            return await prefetchMangaBySlug({ slug, clientConfig, ...rest });
         case ContentTypeEnum.NOVEL:
-            return await prefetchNovelInfo({ slug, clientConfig, ...rest });
+            return await prefetchNovelBySlug({ slug, clientConfig, ...rest });
         case ContentTypeEnum.CHARACTER:
-            return await prefetchCharacterInfo({ slug, clientConfig, ...rest });
+            return await prefetchCharacterBySlug({
+                slug,
+                clientConfig,
+                ...rest,
+            });
         case ContentTypeEnum.PERSON:
-            return await prefetchPersonInfo({ slug, clientConfig, ...rest });
+            return await prefetchPersonBySlug({ slug, clientConfig, ...rest });
         case ContentTypeEnum.COLLECTION:
             return await prefetchCollection({
                 reference: slug,
@@ -45,7 +49,7 @@ export async function prefetchContent({
         case ContentTypeEnum.EDIT:
             return await prefetchEdit({ editId: slug, clientConfig, ...rest });
         case ContentTypeEnum.ARTICLE:
-            return await prefetchArticle({ slug, clientConfig, ...rest });
+            return await prefetchArticleBySlug({ slug, clientConfig, ...rest });
         default:
             return null;
     }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMangaInfo } from '@hikka/react';
+import { useMangaBySlug } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -10,7 +10,7 @@ import P from '@/components/typography/p';
 
 const Title = () => {
     const params = useParams();
-    const { data } = useMangaInfo({ slug: String(params.slug) });
+    const { data } = useMangaBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

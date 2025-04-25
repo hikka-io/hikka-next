@@ -2,7 +2,7 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchAnimeInfo,
+    prefetchAnimeBySlug,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -48,7 +48,7 @@ const AnimeLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const anime = await prefetchAnimeInfo({
+    const anime = await prefetchAnimeBySlug({
         slug,
         clientConfig,
     });

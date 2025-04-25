@@ -1,6 +1,6 @@
 'use client';
 
-import { useMangaInfo } from '@hikka/react';
+import { useMangaBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
@@ -16,7 +16,7 @@ import Volumes from './volumes';
 const Details = () => {
     const params = useParams();
 
-    const { data } = useMangaInfo({ slug: String(params.slug) });
+    const { data } = useMangaBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

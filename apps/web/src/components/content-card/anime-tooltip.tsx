@@ -1,8 +1,7 @@
 'use client';
 
 import { WatchResponseBase } from '@hikka/client';
-import { useAnimeInfo } from '@hikka/react';
-import { useSession } from '@hikka/react';
+import { useAnimeBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
@@ -34,7 +33,7 @@ interface Props extends PropsWithChildren {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useAnimeInfo({ slug });
+    const { data } = useAnimeBySlug({ slug });
 
     if (!data) {
         return (

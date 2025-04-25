@@ -1,10 +1,10 @@
 import { ContentStatusEnum, WatchStatusEnum } from '@hikka/client';
 import {
     getQueryClient,
-    prefetchAnimeSchedule,
-    prefetchAnimeSearch,
     prefetchCollectionsList,
     prefetchLatestComments,
+    prefetchSearchAnimeSchedule,
+    prefetchSearchAnimes,
     prefetchSession,
     prefetchUserHistory,
     prefetchWatchList,
@@ -44,7 +44,7 @@ const prefetchQueries = async () => {
     }
 
     promises.push(
-        prefetchAnimeSearch({
+        prefetchSearchAnimes({
             args: {
                 season: [season!],
                 score: [7, 10],
@@ -55,7 +55,7 @@ const prefetchQueries = async () => {
     );
 
     promises.push(
-        prefetchAnimeSchedule({
+        prefetchSearchAnimeSchedule({
             args: {
                 airing_season: [season, Number(new Date().getFullYear())],
                 status: [

@@ -1,3 +1,3 @@
+export * from './useNovelBySlug';
 export * from './useNovelCharacters';
-export * from './useNovelInfo';
-export * from './useNovelSearch';
+export * from './useSearchNovels';

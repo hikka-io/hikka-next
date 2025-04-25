@@ -1,6 +1,6 @@
 'use client';
 
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
@@ -18,7 +18,7 @@ import Studio from './studio';
 const Details = () => {
     const params = useParams();
 
-    const { data } = useAnimeInfo({ slug: String(params.slug) });
+    const { data } = useAnimeBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

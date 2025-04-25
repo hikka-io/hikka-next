@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserSearch } from '@hikka/react';
+import { useSearchUsers } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -28,7 +28,7 @@ interface Props {
 const User: FC<Props> = ({ className, paramKey, title }) => {
     const searchParams = useSearchParams()!;
     const [userSearch, setUserSearch] = useState<string>();
-    const { data: users, isFetching: isUsersFetching } = useUserSearch({
+    const { data: users, isFetching: isUsersFetching } = useSearchUsers({
         args: {
             query: userSearch || '',
         },

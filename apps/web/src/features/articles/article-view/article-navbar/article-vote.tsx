@@ -1,5 +1,5 @@
 import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
-import { useSession, useSetVote } from '@hikka/react';
+import { useCreateVote, useSession } from '@hikka/react';
 import { FC } from 'react';
 
 import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
@@ -23,7 +23,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
-    const mutation = useSetVote();
+    const mutation = useCreateVote();
 
     const currentScore = mutation.variables?.score
         ? mutation.variables?.score

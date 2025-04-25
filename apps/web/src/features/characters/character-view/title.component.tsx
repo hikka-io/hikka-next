@@ -1,6 +1,6 @@
 'use client';
 
-import { useCharacterInfo } from '@hikka/react';
+import { useCharacterBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import H2 from '@/components/typography/h2';
@@ -8,7 +8,9 @@ import P from '@/components/typography/p';
 
 const Title = () => {
     const params = useParams();
-    const { data: character } = useCharacterInfo({ slug: String(params.slug) });
+    const { data: character } = useCharacterBySlug({
+        slug: String(params.slug),
+    });
 
     if (!character) {
         return null;

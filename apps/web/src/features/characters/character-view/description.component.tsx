@@ -1,6 +1,6 @@
 'use client';
 
-import { useCharacterInfo } from '@hikka/react/hooks/characters';
+import { useCharacterBySlug } from '@hikka/react/hooks/characters';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -13,7 +13,9 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 const Description = () => {
     const [active, setActive] = useState<'description_ua'>('description_ua');
     const params = useParams();
-    const { data: character } = useCharacterInfo({ slug: String(params.slug) });
+    const { data: character } = useCharacterBySlug({
+        slug: String(params.slug),
+    });
 
     if (!character || !character.description_ua) {
         return null;

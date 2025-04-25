@@ -1,5 +1,5 @@
 import { CommentResponse, ContentTypeEnum } from '@hikka/client';
-import { useSession, useSetVote } from '@hikka/react';
+import { useCreateVote, useSession } from '@hikka/react';
 import { FC } from 'react';
 
 import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
@@ -22,7 +22,7 @@ const CommentVote: FC<Props> = ({ comment }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
-    const mutation = useSetVote();
+    const mutation = useCreateVote();
 
     const currentScore = mutation.variables?.score
         ? mutation.variables?.score

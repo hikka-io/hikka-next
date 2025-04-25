@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimeStatsResponse, WatchStatusEnum } from '@hikka/client';
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
@@ -11,7 +11,7 @@ import Stats from './stats';
 
 const Watchlist = () => {
     const params = useParams();
-    const { data } = useAnimeInfo({ slug: String(params.slug) });
+    const { data } = useAnimeBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

@@ -1,2 +1,2 @@
+export * from './useNotificationList';
 export * from './useNotificationMutations';
-export * from './useNotifications';

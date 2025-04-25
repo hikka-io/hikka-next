@@ -5,9 +5,9 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { getQueryClient } from '../core/createQueryClient';
 import {
     HikkaProvider,
-    prefetchAnimeSearch,
+    prefetchSearchAnimes,
     queryKeys,
-    useAnimeSearch,
+    useSearchAnimes,
 } from '../index';
 
 const createWrapper = () => {
@@ -40,7 +40,7 @@ describe('useAnimeSearch', () => {
             query: 'naruto',
         };
 
-        const { result } = renderHook(() => useAnimeSearch(searchArgs), {
+        const { result } = renderHook(() => useSearchAnimes(searchArgs), {
             wrapper: createWrapper(),
         });
 
@@ -55,7 +55,7 @@ describe('useAnimeSearch', () => {
         };
 
         const { result } = renderHook(
-            () => useAnimeSearch(searchArgs, { page: 2, size: 10 }),
+            () => useSearchAnimes(searchArgs, { page: 2, size: 10 }),
             {
                 wrapper: createWrapper(),
             },
@@ -71,7 +71,7 @@ describe('useAnimeSearch', () => {
             query: 'i',
         };
 
-        const { result } = renderHook(() => useAnimeSearch(searchArgs), {
+        const { result } = renderHook(() => useSearchAnimes(searchArgs), {
             wrapper: createWrapper(),
         });
 
@@ -82,7 +82,7 @@ describe('useAnimeSearch', () => {
     it('should handle empty search args', async () => {
         const searchArgs = {};
 
-        const { result } = renderHook(() => useAnimeSearch(searchArgs), {
+        const { result } = renderHook(() => useSearchAnimes(searchArgs), {
             wrapper: createWrapper(),
         });
 
@@ -105,7 +105,7 @@ describe('prefetchAnimeSearch', () => {
 
         await waitFor(() =>
             expect(
-                prefetchAnimeSearch(queryClient, searchArgs),
+                prefetchSearchAnimes(queryClient, searchArgs),
             ).resolves.not.toThrow(),
         );
 
@@ -123,7 +123,10 @@ describe('prefetchAnimeSearch', () => {
         const queryClient = getQueryClient();
 
         await expect(
-            prefetchAnimeSearch(queryClient, searchArgs, { page: 2, size: 10 }),
+            prefetchSearchAnimes(queryClient, searchArgs, {
+                page: 2,
+                size: 10,
+            }),
         ).resolves.not.toThrow();
     });
 
@@ -132,7 +135,7 @@ describe('prefetchAnimeSearch', () => {
         const queryClient = getQueryClient();
 
         await expect(
-            prefetchAnimeSearch(queryClient, searchArgs),
+            prefetchSearchAnimes(queryClient, searchArgs),
         ).resolves.not.toThrow();
     });
 
@@ -143,7 +146,7 @@ describe('prefetchAnimeSearch', () => {
         const queryClient = getQueryClient();
 
         await expect(
-            prefetchAnimeSearch(queryClient, searchArgs, {
+            prefetchSearchAnimes(queryClient, searchArgs, {
                 staleTime: 1000,
                 gcTime: 2000,
             }),

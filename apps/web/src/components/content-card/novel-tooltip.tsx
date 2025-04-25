@@ -1,8 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadResponseBase } from '@hikka/client';
-import { useNovelInfo } from '@hikka/react';
-import { useSession } from '@hikka/react';
+import { useNovelBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
@@ -34,7 +33,7 @@ interface Props extends PropsWithChildren {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useNovelInfo({ slug });
+    const { data } = useNovelBySlug({ slug });
 
     if (!data) {
         return (

@@ -1,3 +1,3 @@
+export * from './useMangaBySlug';
 export * from './useMangaCharacters';
-export * from './useMangaInfo';
-export * from './useMangaSearch';
+export * from './useSearchMangas';

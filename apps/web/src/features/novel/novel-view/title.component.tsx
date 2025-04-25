@@ -1,7 +1,6 @@
 'use client';
 
-import { useNovelInfo } from '@hikka/react';
-import { useSession } from '@hikka/react';
+import { useNovelBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -12,7 +11,7 @@ import P from '@/components/typography/p';
 const Title = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
-    const { data } = useNovelInfo({ slug: String(params.slug) });
+    const { data } = useNovelBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

@@ -1,7 +1,7 @@
 'use client';
 
 import { ExternalTypeEnum } from '@hikka/client';
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -33,7 +33,7 @@ const Links: FC<Props> = ({ extended }) => {
     );
     const params = useParams();
     const { openModal } = useModalContext();
-    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
+    const { data: anime } = useAnimeBySlug({ slug: String(params.slug) });
 
     if (!anime) {
         return null;

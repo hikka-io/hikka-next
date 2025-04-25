@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { prefetchAnimeInfo, prefetchArticlesList } from '@hikka/react';
+import { prefetchAnimeBySlug, prefetchSearchArticles } from '@hikka/react';
 import { FC } from 'react';
 
 import Characters from '@/features/anime/anime-view/characters/characters.component';
@@ -30,8 +30,8 @@ const AnimePage: FC<Props> = async (props) => {
 
     const clientConfig = await getHikkaClientConfig();
 
-    const anime = await prefetchAnimeInfo({ slug, clientConfig });
-    await prefetchArticlesList({
+    const anime = await prefetchAnimeBySlug({ slug, clientConfig });
+    await prefetchSearchArticles({
         args: {
             content_slug: slug,
             content_type: ContentTypeEnum.ANIME,

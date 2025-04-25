@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimeStatsResponse } from '@hikka/client';
-import { useAnimeInfo } from '@hikka/react';
+import { useAnimeBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import Small from '@/components/typography/small';
@@ -10,7 +10,7 @@ import Stats from './stats';
 
 const Score = () => {
     const params = useParams();
-    const { data } = useAnimeInfo({ slug: String(params.slug) });
+    const { data } = useAnimeBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

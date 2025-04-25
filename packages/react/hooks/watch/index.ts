@@ -1,12 +1,21 @@
 export {
-    prefetchFollowingWatchers,
-    useFollowingWatchers,
-} from './useFollowingWatchers';
-export { prefetchWatchEntry, useWatchEntry } from './useWatchEntry';
-export { prefetchWatchList, useWatchList } from './useWatchList';
+    prefetchSearchUserWatches as prefetchWatchList,
+    useSearchUserWatches as useWatchList,
+} from './useSearchUserWatches';
 export {
-    useAddOrUpdateWatch,
+    prefetchUserWatchStats as prefetchWatchStats,
+    useUserWatchStats as useWatchStats,
+} from './useUserWatchStats';
+export {
+    prefetchWatchBySlug as prefetchWatchEntry,
+    useWatchBySlug as useWatchEntry,
+} from './useWatchBySlug';
+export {
+    prefetchWatchingUsers as prefetchFollowingWatchers,
+    useWatchingUsers as useFollowingWatchers,
+} from './useWatchingUsers';
+export {
+    useCreateWatch as useAddOrUpdateWatch,
     useDeleteWatch,
-    useRandomAnime,
+    useRandomWatchByStatus as useRandomAnime,
 } from './useWatchMutations';
-export { prefetchWatchStats, useWatchStats } from './useWatchStats';

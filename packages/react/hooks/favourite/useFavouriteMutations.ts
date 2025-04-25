@@ -11,7 +11,7 @@ type FavouriteVariables = {
 /**
  * Hook for adding to favourites
  */
-export const useAddFavourite = createMutation({
+export const useCreateFavourite = createMutation({
     mutationFn: (client, { contentType, slug }: FavouriteVariables) =>
         client.favourite.createFavourite(contentType, slug),
     invalidateQueries: ({ contentType, slug }) => [
@@ -22,7 +22,7 @@ export const useAddFavourite = createMutation({
 /**
  * Hook for removing from favourites
  */
-export const useRemoveFavourite = createMutation({
+export const useDeleteFavourite = createMutation({
     mutationFn: (client, { contentType, slug }: FavouriteVariables) =>
         client.favourite.deleteFavourite(contentType, slug),
     invalidateQueries: ({ contentType, slug }) => [

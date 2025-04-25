@@ -16,7 +16,7 @@ type WriteCommentVariables = {
 /**
  * Hook for writing a comment
  */
-export const useWriteComment = createMutation({
+export const useCreateComment = createMutation({
     mutationFn: (client, { contentType, slug, args }: WriteCommentVariables) =>
         client.comments.createComment(contentType, slug, args),
     invalidateQueries: ({ contentType, slug }) => [
@@ -32,7 +32,7 @@ type EditCommentVariables = {
 /**
  * Hook for editing a comment
  */
-export const useEditComment = createMutation({
+export const useUpdateComment = createMutation({
     mutationFn: (client, { commentReference, args }: EditCommentVariables) =>
         client.comments.updateComment(commentReference, args),
     invalidateQueries: ({ commentReference }) => [
@@ -43,7 +43,7 @@ export const useEditComment = createMutation({
 /**
  * Hook for hiding/deleting a comment
  */
-export const useHideComment = createMutation({
+export const useDeleteComment = createMutation({
     mutationFn: (client, commentReference: string) =>
         client.comments.deleteComment(commentReference),
     invalidateQueries: (commentReference) => [

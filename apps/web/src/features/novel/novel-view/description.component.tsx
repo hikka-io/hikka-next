@@ -1,6 +1,6 @@
 'use client';
 
-import { useNovelInfo } from '@hikka/react';
+import { useNovelBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -15,7 +15,7 @@ const Description = () => {
         'synopsis_ua',
     );
     const params = useParams();
-    const { data } = useNovelInfo({ slug: String(params.slug) });
+    const { data } = useNovelBySlug({ slug: String(params.slug) });
 
     if (!data || (!data.synopsis_ua && !data.synopsis_en)) {
         return null;

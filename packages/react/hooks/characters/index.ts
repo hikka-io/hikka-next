@@ -1,3 +1,3 @@
+export * from './useCharacterBySlug';
 export * from './useCharacterContent';
-export * from './useCharacterInfo';
-export * from './useCharactersSearch';
+export * from './useSearchCharacters';

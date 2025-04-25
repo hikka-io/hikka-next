@@ -12,7 +12,7 @@ type AddOrUpdateReadVariables = {
 /**
  * Hook for adding or updating a read entry
  */
-export const useAddOrUpdateRead = createMutation({
+export const useCreateRead = createMutation({
     mutationFn: (
         client,
         { contentType, slug, args }: AddOrUpdateReadVariables,
@@ -49,7 +49,7 @@ type RandomReadVariables = {
 /**
  * Hook for retrieving a random manga/novel from a user's read list
  */
-export const useRandomRead = createMutation({
+export const useRandomReadByStatus = createMutation({
     mutationFn: (
         client,
         { contentType, username, status }: RandomReadVariables,

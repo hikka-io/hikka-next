@@ -1,7 +1,7 @@
 'use client';
 
 import { ReadStatsResponse } from '@hikka/client';
-import { useNovelInfo } from '@hikka/react';
+import { useNovelBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import Small from '@/components/typography/small';
@@ -10,7 +10,7 @@ import Stats from './stats';
 
 const Score = () => {
     const params = useParams();
-    const { data } = useNovelInfo({ slug: String(params.slug) });
+    const { data } = useNovelBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

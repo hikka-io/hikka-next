@@ -9,8 +9,8 @@ import {
 } from '@hikka/client';
 import {
     useAddOrUpdateRead,
-    useMangaInfo,
-    useNovelInfo,
+    useMangaBySlug,
+    useNovelBySlug,
     useReadEntry,
 } from '@hikka/react';
 import { createElement } from 'react';
@@ -85,14 +85,14 @@ const Component = ({
         },
     });
 
-    const { data: manga } = useMangaInfo({
+    const { data: manga } = useMangaBySlug({
         slug,
         options: {
             enabled: !disabled && content_type === 'manga' && !contentProp,
         },
     });
 
-    const { data: novel } = useNovelInfo({
+    const { data: novel } = useNovelBySlug({
         slug,
         options: {
             enabled: !disabled && content_type === 'novel' && !contentProp,

@@ -1,6 +1,6 @@
 'use client';
 
-import { useArticlesList, useSession } from '@hikka/react';
+import { useSearchArticles, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -29,7 +29,7 @@ interface Props {}
 const UserArticles: FC<Props> = () => {
     const { user } = useSession();
     const params = useParams();
-    const { list } = useArticlesList({
+    const { list } = useSearchArticles({
         args: {
             author: String(params.username),
         },

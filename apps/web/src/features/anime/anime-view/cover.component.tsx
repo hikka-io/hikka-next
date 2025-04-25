@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useAnimeInfo, useSession } from '@hikka/react';
+import { useAnimeBySlug, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -12,7 +12,7 @@ import FavoriteButton from '@/components/favorite-button';
 const Cover: FC = () => {
     const { user: loggedUser } = useSession();
     const params = useParams();
-    const { data: anime } = useAnimeInfo({ slug: String(params.slug) });
+    const { data: anime } = useAnimeBySlug({ slug: String(params.slug) });
 
     return (
         <div className="z-0 flex items-center px-16 md:px-48 lg:px-0">

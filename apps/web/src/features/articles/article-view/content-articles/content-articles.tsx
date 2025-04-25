@@ -1,7 +1,7 @@
 'use client';
 
 import { ArticleContentType } from '@hikka/client';
-import { useArticlesList } from '@hikka/react';
+import { useSearchArticles } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -26,7 +26,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
-    const { list } = useArticlesList({
+    const { list } = useSearchArticles({
         args: {
             content_type: content_type,
             content_slug: String(params.slug),

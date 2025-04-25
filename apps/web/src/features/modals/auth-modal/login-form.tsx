@@ -1,6 +1,6 @@
 'use client';
 
-import { useLogin } from '@hikka/react';
+import { useCreateUserSession } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ const Component = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const mutationLogin = useLogin({
+    const mutationLogin = useCreateUserSession({
         options: {
             onSuccess: async (data) => {
                 await setCookie('auth', data.secret);

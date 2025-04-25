@@ -1,6 +1,6 @@
 'use client';
 
-import { useArticle } from '@hikka/react';
+import { useArticleBySlug } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -14,7 +14,7 @@ interface Props {}
 const ArticleTitle: FC<Props> = () => {
     const params = useParams();
 
-    const { data: article } = useArticle({
+    const { data: article } = useArticleBySlug({
         slug: String(params.slug),
     });
 

@@ -2,7 +2,7 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchPersonInfo,
+    prefetchPersonBySlug,
 } from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
@@ -46,7 +46,7 @@ const PersonLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const person = await prefetchPersonInfo({ slug, clientConfig });
+    const person = await prefetchPersonBySlug({ slug, clientConfig });
 
     if (!person) {
         return permanentRedirect('/');

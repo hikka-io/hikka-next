@@ -3,8 +3,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchArticlesList,
-    prefetchMangaInfo,
+    prefetchMangaBySlug,
+    prefetchSearchArticles,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -50,14 +50,14 @@ const MangaLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const manga = await prefetchMangaInfo({ slug, clientConfig });
+    const manga = await prefetchMangaBySlug({ slug, clientConfig });
 
     if (!manga) {
         return permanentRedirect('/');
     }
 
     await prefetchQueries({ params: { slug } });
-    await prefetchArticlesList({
+    await prefetchSearchArticles({
         args: {
             content_slug: slug,
             content_type: ContentTypeEnum.MANGA,

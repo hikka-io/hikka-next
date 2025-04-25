@@ -2,7 +2,7 @@ import { HikkaClient } from '@hikka/client';
 import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { HikkaProvider, useAnimeInfo } from '../index';
+import { HikkaProvider, useAnimeBySlug } from '../index';
 
 const createWrapper = () => {
     const queryClient = new QueryClient({
@@ -31,7 +31,7 @@ describe('useAnimeInfo', () => {
 
     it('should fetch anime details when slug is provided', async () => {
         const { result } = renderHook(
-            () => useAnimeInfo('tu-bian-yingxiong-x-8d3a06'),
+            () => useAnimeBySlug('tu-bian-yingxiong-x-8d3a06'),
             {
                 wrapper: createWrapper(),
             },
@@ -42,7 +42,7 @@ describe('useAnimeInfo', () => {
     });
 
     it('should not fetch when slug is not provided', async () => {
-        const { result } = renderHook(() => useAnimeInfo(''), {
+        const { result } = renderHook(() => useAnimeBySlug(''), {
             wrapper: createWrapper(),
         });
 
@@ -50,7 +50,7 @@ describe('useAnimeInfo', () => {
     });
 
     it('should handle errors', async () => {
-        const { result } = renderHook(() => useAnimeInfo('test-anime'), {
+        const { result } = renderHook(() => useAnimeBySlug('test-anime'), {
             wrapper: createWrapper(),
         });
 

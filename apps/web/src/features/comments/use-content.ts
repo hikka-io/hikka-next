@@ -4,14 +4,14 @@ import {
     EditContentType,
 } from '@hikka/client';
 import {
-    useAnimeInfo,
-    useArticle,
-    useCharacterInfo,
+    useAnimeBySlug,
+    useArticleBySlug,
+    useCharacterBySlug,
     useCollection,
     useEdit,
-    useMangaInfo,
-    useNovelInfo,
-    usePersonInfo,
+    useMangaBySlug,
+    useNovelBySlug,
+    usePersonBySlug,
 } from '@hikka/react';
 
 import { useSettingsContext } from '@/services/providers/settings-provider';
@@ -25,7 +25,7 @@ interface UseContentParams {
 export function useContent({ content_type, slug }: UseContentParams) {
     const { titleLanguage } = useSettingsContext();
 
-    const animeQuery = useAnimeInfo({
+    const animeQuery = useAnimeBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.ANIME,
@@ -40,7 +40,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         },
     });
 
-    const mangaQuery = useMangaInfo({
+    const mangaQuery = useMangaBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.MANGA,
@@ -55,7 +55,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         },
     });
 
-    const novelQuery = useNovelInfo({
+    const novelQuery = useNovelBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.NOVEL,
@@ -70,7 +70,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         },
     });
 
-    const characterQuery = useCharacterInfo({
+    const characterQuery = useCharacterBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.CHARACTER,
@@ -82,7 +82,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         },
     });
 
-    const personQuery = usePersonInfo({
+    const personQuery = usePersonBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.PERSON,
@@ -125,7 +125,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         },
     });
 
-    const articleQuery = useArticle({
+    const articleQuery = useArticleBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.ARTICLE,

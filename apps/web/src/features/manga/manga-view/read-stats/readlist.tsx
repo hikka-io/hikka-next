@@ -1,7 +1,7 @@
 'use client';
 
 import { ReadStatsResponse, ReadStatusEnum } from '@hikka/client';
-import { useMangaInfo } from '@hikka/react';
+import { useMangaBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { createElement } from 'react';
 
@@ -11,7 +11,7 @@ import Stats from './stats';
 
 const Readlist = () => {
     const params = useParams();
-    const { data } = useMangaInfo({ slug: String(params.slug) });
+    const { data } = useMangaBySlug({ slug: String(params.slug) });
 
     if (!data) {
         return null;

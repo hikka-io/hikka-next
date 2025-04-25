@@ -6,7 +6,7 @@ import { createMutation } from '../../core/useMutation';
 /**
  * Hook for setting vote on content
  */
-export const useSetVote = createMutation({
+export const useCreateVote = createMutation({
     mutationFn: (
         client,
         args: {

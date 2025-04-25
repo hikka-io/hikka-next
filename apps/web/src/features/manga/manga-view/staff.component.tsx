@@ -1,6 +1,6 @@
 'use client';
 
-import { useMangaInfo } from '@hikka/react';
+import { useMangaBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -20,7 +20,7 @@ interface Props {
 
 const Staff: FC<Props> = ({ extended }) => {
     const params = useParams();
-    const { data } = useMangaInfo({ slug: String(params.slug) });
+    const { data } = useMangaBySlug({ slug: String(params.slug) });
 
     if (!data || data.authors.length === 0) {
         return null;

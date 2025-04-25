@@ -1,6 +1,6 @@
 'use client';
 
-import { useMarkNotificationAsSeen } from '@hikka/react';
+import { useUpdateNotificationSeen } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const NotificationItem: FC<Props> = ({ data }) => {
-    const { mutate: asSeen } = useMarkNotificationAsSeen();
+    const { mutate: asSeen } = useUpdateNotificationSeen();
 
     if (!data) {
         return null;

@@ -1,8 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useAnimeInfo } from '@hikka/react';
-import { useSession } from '@hikka/react';
+import { useAnimeBySlug, useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -14,7 +13,7 @@ import WatchStats from './watch-stats';
 const Actions: FC = () => {
     const params = useParams();
     const { user } = useSession();
-    const { data: anime } = useAnimeInfo({
+    const { data: anime } = useAnimeBySlug({
         slug: String(params.slug),
     });
 
