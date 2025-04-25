@@ -1,4 +1,4 @@
-import { ContentTypeEnum, EditContentType, EditResponse } from '@hikka/client';
+import { ContentTypeEnum, EditContentType } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -6,7 +6,6 @@ import {
     getQueryClient,
     prefetchContentComments,
     prefetchEdit,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -58,11 +57,7 @@ const EditLayout: FC<Props> = async (props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchEdit({ editId: Number(editId), clientConfig });
-
-    const edit: EditResponse | undefined = queryClient.getQueryData(
-        queryKeys.edit.byId(editId),
-    );
+    const edit = await prefetchEdit({ editId: Number(editId), clientConfig });
 
     if (!edit) {
         permanentRedirect('/edit');

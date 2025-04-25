@@ -1,10 +1,8 @@
-import { ArticleResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
     prefetchArticle,
-    queryKeys,
 } from '@hikka/react';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -32,11 +30,7 @@ const ArticleUpdatePage = async (props: {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchArticle({ slug: slug, clientConfig });
-
-    const article: ArticleResponse | undefined = queryClient.getQueryData(
-        queryKeys.articles.bySlug(slug),
-    );
+    const article = await prefetchArticle({ slug: slug, clientConfig });
 
     if (!article) {
         return permanentRedirect('/');

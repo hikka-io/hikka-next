@@ -1,10 +1,8 @@
-import { CharacterResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
     prefetchCharacterInfo,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
@@ -48,11 +46,7 @@ const CharacterLayout: FC<Props> = async (props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchCharacterInfo({ slug, clientConfig });
-
-    const character: CharacterResponse | undefined = queryClient.getQueryData(
-        queryKeys.characters.bySlug(slug),
-    );
+    const character = await prefetchCharacterInfo({ slug, clientConfig });
 
     if (!character) {
         return permanentRedirect('/');

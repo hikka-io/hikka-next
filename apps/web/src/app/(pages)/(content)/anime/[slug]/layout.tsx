@@ -1,10 +1,8 @@
-import { AnimeInfoResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
     prefetchAnimeInfo,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -47,14 +45,13 @@ const AnimeLayout: FC<Props> = async (props) => {
     const { slug } = params;
     const { children } = props;
 
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchAnimeInfo({ slug, clientConfig });
-
-    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData(
-        queryKeys.anime.details(slug),
-    );
+    const anime = await prefetchAnimeInfo({
+        slug,
+        clientConfig,
+    });
 
     if (!anime) {
         console.log('Anime not found');

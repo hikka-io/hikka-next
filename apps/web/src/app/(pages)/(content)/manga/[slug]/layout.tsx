@@ -1,11 +1,10 @@
-import { ContentTypeEnum, MangaInfoResponse } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
     prefetchArticlesList,
     prefetchMangaInfo,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -51,11 +50,7 @@ const MangaLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchMangaInfo({ slug, clientConfig });
-
-    const manga: MangaInfoResponse | undefined = queryClient.getQueryData(
-        queryKeys.manga.details(slug),
-    );
+    const manga = await prefetchMangaInfo({ slug, clientConfig });
 
     if (!manga) {
         return permanentRedirect('/');

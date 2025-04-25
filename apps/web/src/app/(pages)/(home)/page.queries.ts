@@ -1,8 +1,4 @@
-import {
-    ContentStatusEnum,
-    UserResponse,
-    WatchStatusEnum,
-} from '@hikka/client';
+import { ContentStatusEnum, WatchStatusEnum } from '@hikka/client';
 import {
     getQueryClient,
     prefetchAnimeSchedule,
@@ -12,7 +8,6 @@ import {
     prefetchSession,
     prefetchUserHistory,
     prefetchWatchList,
-    queryKeys,
 } from '@hikka/react';
 
 import getCurrentSeason from '@/utils/get-current-season';
@@ -24,11 +19,7 @@ const prefetchQueries = async () => {
     const season = getCurrentSeason()!;
     const year = Number(new Date().getFullYear());
 
-    await prefetchSession({ clientConfig });
-
-    const loggedUser: UserResponse | undefined = queryClient.getQueryData(
-        queryKeys.user.me(),
-    );
+    const loggedUser = await prefetchSession({ clientConfig });
 
     const promises = [];
 

@@ -4,7 +4,6 @@ import {
     dehydrate,
     getQueryClient,
     prefetchSession,
-    queryKeys,
 } from '@hikka/react';
 import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
@@ -17,11 +16,10 @@ const SessionManager = async ({ children }: Props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    clientConfig.authToken && (await prefetchSession({ clientConfig }));
+    let loggedUser: UserResponse | undefined;
 
-    const loggedUser: UserResponse | undefined = queryClient.getQueryData(
-        queryKeys.user.me(),
-    );
+    clientConfig.authToken &&
+        (loggedUser = await prefetchSession({ clientConfig }));
 
     if (clientConfig.authToken && !loggedUser) {
         redirect(`${process.env.SITE_URL}/auth/logout`);

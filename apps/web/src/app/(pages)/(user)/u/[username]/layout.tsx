@@ -1,9 +1,8 @@
-import { UserResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    queryKeys,
+    prefetchUserByUsername,
 } from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
@@ -52,20 +51,18 @@ const UserLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
+    const user = await prefetchUserByUsername({ username, clientConfig });
+
+    if (!user) {
+        return permanentRedirect('/');
+    }
+
     await prefetchQueries({ params: { username } });
 
     const dehydratedState = dehydrate(queryClient);
 
     if (dehydratedState.queries.length === 0) {
         return permanentRedirect('/404');
-    }
-
-    const user: UserResponse | undefined = queryClient.getQueryData(
-        queryKeys.user.byUsername(username),
-    );
-
-    if (!user) {
-        return permanentRedirect('/');
     }
 
     return (

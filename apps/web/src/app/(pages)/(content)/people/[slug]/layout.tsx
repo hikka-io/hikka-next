@@ -1,10 +1,8 @@
-import { PersonResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
     prefetchPersonInfo,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
@@ -48,11 +46,7 @@ const PersonLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchPersonInfo({ slug, clientConfig });
-
-    const person: PersonResponse | undefined = queryClient.getQueryData(
-        queryKeys.people.bySlug(slug),
-    );
+    const person = await prefetchPersonInfo({ slug, clientConfig });
 
     if (!person) {
         return permanentRedirect('/');

@@ -5,7 +5,6 @@ import {
     getHikkaClient,
     getQueryClient,
     prefetchCollection,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -54,10 +53,7 @@ const CollectionPage = async (props: {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchCollection({ reference, clientConfig });
-
-    const collection: CollectionResponse<CollectionContent> | undefined =
-        queryClient.getQueryData(queryKeys.collections.byReference(reference));
+    const collection = await prefetchCollection({ reference, clientConfig });
 
     if (!collection) {
         return permanentRedirect('/collections');

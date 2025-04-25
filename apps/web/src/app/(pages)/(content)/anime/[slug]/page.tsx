@@ -1,10 +1,5 @@
-import { AnimeInfoResponse, ContentTypeEnum } from '@hikka/client';
-import {
-    getQueryClient,
-    prefetchAnimeInfo,
-    prefetchArticlesList,
-    queryKeys,
-} from '@hikka/react';
+import { ContentTypeEnum } from '@hikka/client';
+import { prefetchAnimeInfo, prefetchArticlesList } from '@hikka/react';
 import { FC } from 'react';
 
 import Characters from '@/features/anime/anime-view/characters/characters.component';
@@ -33,10 +28,9 @@ const AnimePage: FC<Props> = async (props) => {
 
     const { slug } = params;
 
-    const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchAnimeInfo({ slug, clientConfig });
+    const anime = await prefetchAnimeInfo({ slug, clientConfig });
     await prefetchArticlesList({
         args: {
             content_slug: slug,
@@ -44,10 +38,6 @@ const AnimePage: FC<Props> = async (props) => {
         },
         clientConfig,
     });
-
-    const anime: AnimeInfoResponse | undefined = queryClient.getQueryData(
-        queryKeys.anime.details(slug),
-    );
 
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_33%] lg:gap-16 xl:grid-cols-[1fr_30%]">

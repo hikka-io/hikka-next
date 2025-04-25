@@ -1,6 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
-    getQueryClient,
     prefetchAnimeInfo,
     prefetchArticle,
     prefetchCharacterInfo,
@@ -9,7 +8,6 @@ import {
     prefetchMangaInfo,
     prefetchNovelInfo,
     prefetchPersonInfo,
-    queryKeys,
 } from '@hikka/react';
 import { PrefetchQueryParams } from '@hikka/react/server/prefetchQuery';
 
@@ -25,40 +23,29 @@ export async function prefetchContent({
     content_type,
     ...rest
 }: UseContentParams & PrefetchQueryParams<any>) {
-    const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
     switch (content_type) {
         case ContentTypeEnum.ANIME:
-            await prefetchAnimeInfo({ slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.anime.details(slug));
+            return await prefetchAnimeInfo({ slug, clientConfig, ...rest });
         case ContentTypeEnum.MANGA:
-            await prefetchMangaInfo({ slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.manga.details(slug));
+            return await prefetchMangaInfo({ slug, clientConfig, ...rest });
         case ContentTypeEnum.NOVEL:
-            await prefetchNovelInfo({ slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.novel.details(slug));
+            return await prefetchNovelInfo({ slug, clientConfig, ...rest });
         case ContentTypeEnum.CHARACTER:
-            await prefetchCharacterInfo({ slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.characters.bySlug(slug));
+            return await prefetchCharacterInfo({ slug, clientConfig, ...rest });
         case ContentTypeEnum.PERSON:
-            await prefetchPersonInfo({ slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.people.bySlug(slug));
+            return await prefetchPersonInfo({ slug, clientConfig, ...rest });
         case ContentTypeEnum.COLLECTION:
-            await prefetchCollection({
+            return await prefetchCollection({
                 reference: slug,
                 clientConfig,
                 ...rest,
             });
-            return queryClient.getQueryData(
-                queryKeys.collections.byReference(slug),
-            );
         case ContentTypeEnum.EDIT:
-            await prefetchEdit({ editId: slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.edit.byId(slug));
+            return await prefetchEdit({ editId: slug, clientConfig, ...rest });
         case ContentTypeEnum.ARTICLE:
-            await prefetchArticle({ slug, clientConfig, ...rest });
-            return queryClient.getQueryData(queryKeys.articles.bySlug(slug));
+            return await prefetchArticle({ slug, clientConfig, ...rest });
         default:
             return null;
     }

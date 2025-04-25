@@ -1,6 +1,5 @@
 import { CommentResponse } from '@hikka/client';
 import { useHideComment, useSession } from '@hikka/react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
@@ -34,7 +33,6 @@ interface Props {
 
 const CommentMenu: FC<Props> = ({ comment }) => {
     const { enqueueSnackbar } = useSnackbar();
-    const queryClient = useQueryClient();
     const { setState: setCommentsState } = useCommentsContext();
 
     const { user: loggedUser } = useSession();

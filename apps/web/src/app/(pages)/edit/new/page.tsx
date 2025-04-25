@@ -41,30 +41,33 @@ const EditNewPage: FC<Props> = async (props) => {
         permanentRedirect('/edit');
     }
 
+    let content: EditContent | undefined;
+
     if (content_type === 'anime') {
-        await prefetchAnimeInfo({ slug: String(slug), clientConfig });
+        content = await prefetchAnimeInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'manga') {
-        await prefetchMangaInfo({ slug: String(slug), clientConfig });
+        content = await prefetchMangaInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'novel') {
-        await prefetchNovelInfo({ slug: String(slug), clientConfig });
+        content = await prefetchNovelInfo({ slug: String(slug), clientConfig });
     }
 
     if (content_type === 'character') {
-        await prefetchCharacterInfo({ slug: String(slug), clientConfig });
+        content = await prefetchCharacterInfo({
+            slug: String(slug),
+            clientConfig,
+        });
     }
 
     if (content_type === 'person') {
-        await prefetchPersonInfo({ slug: String(slug), clientConfig });
+        content = await prefetchPersonInfo({
+            slug: String(slug),
+            clientConfig,
+        });
     }
-
-    const content: EditContent | undefined = queryClient.getQueryData([
-        content_type,
-        slug,
-    ]);
 
     if (!content) {
         permanentRedirect('/edit');

@@ -1,10 +1,8 @@
-import { CollectionContent, CollectionsListResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
     prefetchCollectionsList,
-    queryKeys,
 } from '@hikka/react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -49,19 +47,11 @@ const CollectionsPage: FC<Props> = async (props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchCollectionsList({
+    const collections = await prefetchCollectionsList({
         args: { sort: [sort] },
         paginationArgs: { page: Number(page) },
         clientConfig,
     });
-
-    const collections: CollectionsListResponse<CollectionContent> | undefined =
-        queryClient.getQueryData(
-            queryKeys.collections.list(
-                { sort: [sort] },
-                { page: Number(page) },
-            ),
-        );
 
     const dehydratedState = dehydrate(queryClient);
 
