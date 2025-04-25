@@ -162,6 +162,7 @@ const Component = ({
 
     return (
         <Select
+            disabled={disabled}
             value={read && !readError ? [read.status] : []}
             onValueChange={handleChangeStatus}
         >

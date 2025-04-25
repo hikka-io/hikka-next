@@ -55,7 +55,9 @@ const WatchStats = () => {
             }
 
             setUpdatedWatch({
-                ...watch,
+                rewatches: watch.rewatches,
+                note: watch.note,
+                score: watch.score,
                 status,
                 episodes,
             });
@@ -69,7 +71,10 @@ const WatchStats = () => {
             if (episodes < 0) return;
 
             setUpdatedWatch({
-                ...watch,
+                rewatches: watch.rewatches,
+                note: watch.note,
+                score: watch.score,
+                status: watch.status,
                 episodes,
             });
         }
@@ -80,8 +85,11 @@ const WatchStats = () => {
             mutateAddOrUpdateWatch({
                 slug: watch.anime.slug,
                 args: {
-                    ...watch,
                     score: value * 2,
+                    status: watch.status,
+                    episodes: watch.episodes,
+                    rewatches: watch.rewatches,
+                    note: watch.note,
                 },
             });
         }

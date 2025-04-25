@@ -38,7 +38,8 @@ export async function generateMetadata({
 
     const client = getHikkaClient();
 
-    const article: ArticleResponse = await client.articles.getArticle(slug);
+    const article: ArticleResponse =
+        await client.articles.getArticleBySlug(slug);
 
     return _generateMetadata({
         title: `${article.title} / ${ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}`,

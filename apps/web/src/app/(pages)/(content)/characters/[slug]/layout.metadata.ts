@@ -17,7 +17,7 @@ export default async function generateMetadata(
     const client = getHikkaClient();
 
     const character: CharacterResponse =
-        await client.characters.getBySlug(slug);
+        await client.characters.getCharacterBySlug(slug);
 
     const title =
         character.name_ua || character.name_en || character.name_ja || '';

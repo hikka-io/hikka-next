@@ -16,7 +16,7 @@ export default async function generateMetadata(
     const slug = params.slug;
 
     const client = getHikkaClient();
-    const person: PersonResponse = await client.people.getBySlug(slug);
+    const person: PersonResponse = await client.people.getPersonBySlug(slug);
 
     const title = person.name_ua || person.name_en || person.name_native || '';
 

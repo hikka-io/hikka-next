@@ -14,7 +14,7 @@ const useMangaSearchList = ({ value }: Props) => {
     return useQuery<MangaPaginationResponse, Error>({
         queryKey: ['manga-search-list', value],
         queryFn: (client) =>
-            client.manga.search({ query: value }, { size: 60 }),
+            client.manga.searchMangas({ query: value }, { size: 60 }),
         options: {
             enabled: value !== undefined && value.length >= 3,
             select: (data) => ({

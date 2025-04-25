@@ -33,7 +33,7 @@ export async function generateMetadata(props: {
     try {
         const client = getHikkaClient();
         const collection: CollectionResponse<CollectionContent> =
-            await client.collections.getByReference(reference);
+            await client.collections.getCollectionByReference(reference);
 
         return _generateMetadata({
             title: `${collection.title} / Колекції`,

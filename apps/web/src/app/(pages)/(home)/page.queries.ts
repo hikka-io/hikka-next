@@ -45,26 +45,23 @@ const prefetchQueries = async () => {
         );
 
         promises.push(
-            prefetchAnimeSearch({
-                args: {
-                    season: [season!],
-                    score: [7, 10],
-                    years: [year, year],
-                },
-                paginationArgs: {
-                    page: 1,
-                },
-                clientConfig,
-            }),
-        );
-
-        promises.push(
             prefetchUserHistory({
                 username: loggedUser.username,
                 clientConfig,
             }),
         );
     }
+
+    promises.push(
+        prefetchAnimeSearch({
+            args: {
+                season: [season!],
+                score: [7, 10],
+                years: [year, year],
+            },
+            clientConfig,
+        }),
+    );
 
     promises.push(
         prefetchAnimeSchedule({

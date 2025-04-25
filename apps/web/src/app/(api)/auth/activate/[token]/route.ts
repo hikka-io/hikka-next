@@ -17,7 +17,7 @@ export async function GET(
     const { token } = params;
 
     try {
-        const res = await client.auth.activate({ token });
+        const res = await client.auth.activateUser({ token });
         (await cookies()).set('auth', res.secret);
     } catch (e) {
         if ('code' in (e as any)) {

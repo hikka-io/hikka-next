@@ -17,7 +17,7 @@ export default async function generateMetadata({
     const slug = params.slug;
     const client = getHikkaClient();
 
-    const anime: AnimeInfoResponse = await client.anime.getBySlug(slug);
+    const anime: AnimeInfoResponse = await client.anime.getAnimeBySlug(slug);
 
     const startDate = anime.start_date
         ? new Date(anime.start_date * 1000).getFullYear()

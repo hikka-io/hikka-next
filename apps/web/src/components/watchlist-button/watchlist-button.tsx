@@ -135,6 +135,7 @@ const Component = ({
 
     return (
         <Select
+            disabled={disabled}
             value={watch ? [watch.status] : []}
             onValueChange={handleChangeStatus}
         >

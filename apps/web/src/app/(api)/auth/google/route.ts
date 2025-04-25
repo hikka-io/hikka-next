@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     const code = searchParams.get('code');
 
     try {
-        const res = await client.auth.getOAuthToken('google', {
+        const res = await client.auth.createOAuthToken('google', {
             code: String(code),
         });
 

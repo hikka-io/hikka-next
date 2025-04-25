@@ -117,7 +117,10 @@ export const articlePlugins = [
     ImageGroupPlugin.configure({
         options: {
             uploadImage: (file) =>
-                client.upload.uploadImage(UploadTypeEnum.ATTACHMENT, file),
+                client.upload.createImageUpload(
+                    UploadTypeEnum.ATTACHMENT,
+                    file,
+                ),
         },
     }),
     VideoPlugin,

@@ -25,8 +25,8 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
     const getFromAniList = async () => {
         setAniListLoading(true);
         try {
-            const res = await importAnilistWatch({ username: aniListUsername });
-            res.length > 0 && setWatchList(res);
+            /* const res = await importAnilistWatch({ username: aniListUsername });
+            res.length > 0 && setWatchList(res); */
         } catch (e) {
             enqueueSnackbar(
                 'Не вдалось завантажити список даного користувача',

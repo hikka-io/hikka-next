@@ -17,7 +17,7 @@ export default async function generateMetadata(
     const username = params.username;
 
     const client = getHikkaClient();
-    const user: UserResponse = await client.user.getByUsername(username);
+    const user: UserResponse = await client.user.getUserByUsername(username);
 
     return _generateMetadata({
         title: {

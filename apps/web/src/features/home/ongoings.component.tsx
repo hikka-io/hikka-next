@@ -34,9 +34,6 @@ const Ongoings: FC<Props> = ({ className }) => {
             years: [Number(year), Number(year)],
             score: [7, 10],
         },
-        paginationArgs: {
-            page: 1,
-        },
     });
 
     const filteredList = list?.slice(0, 8);

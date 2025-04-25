@@ -13,6 +13,7 @@
         "lint:fix": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\" --fix",
         "dev:web": "yarn workspace @hikka/web dev",
         "build:web": "yarn workspace @hikka/web build",
+        "start:web": "yarn workspace @hikka/web start",
         "dev:client": "yarn workspace @hikka/client dev",
         "build:client": "yarn workspace @hikka/client build",
         "dev:react": "yarn workspace @hikka/react dev",

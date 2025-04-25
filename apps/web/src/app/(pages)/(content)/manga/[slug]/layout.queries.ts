@@ -1,6 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
     prefetchFavouriteStatus,
+    prefetchFollowingReaders,
     prefetchFranchise,
     prefetchMangaCharacters,
 } from '@hikka/react';
@@ -23,6 +24,13 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
             contentType: ContentTypeEnum.MANGA,
             clientConfig,
         }),
+        clientConfig.authToken
+            ? prefetchFollowingReaders({
+                  slug,
+                  contentType: ContentTypeEnum.MANGA,
+                  clientConfig,
+              })
+            : undefined,
         clientConfig.authToken
             ? prefetchFavouriteStatus({
                   slug,

@@ -16,7 +16,7 @@ export default async function generateMetadata({
 }: MetadataProps): Promise<Metadata> {
     const slug = params.slug;
     const client = getHikkaClient();
-    const novel: NovelInfoResponse = await client.novel.getBySlug(slug);
+    const novel: NovelInfoResponse = await client.novel.getNovelBySlug(slug);
 
     const startDate = novel.start_date
         ? new Date(novel.start_date * 1000).getFullYear()
