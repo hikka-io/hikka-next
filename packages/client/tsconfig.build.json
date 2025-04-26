@@ -1,0 +1,23 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./dist",
+        "incremental": false,
+        "composite": false,
+        "rootDir": "../../"
+    },
+    "include": [
+        "index.ts",
+        "client.ts",
+        "errors.ts",
+        "modules/**/*.ts",
+        "types/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "tsup.config.ts"
+    ]
+}
