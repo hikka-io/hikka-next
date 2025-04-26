@@ -16,7 +16,9 @@ const Component = ({
 }: {
     type: 'login' | 'signup' | 'forgotPassword' | 'passwordConfirm';
 }) => {
-    const { data: oauthUrl } = useOAuthProviderUrl('google');
+    const { data: oauthUrl } = useOAuthProviderUrl({
+        provider: 'google',
+    });
     const onOAuthSubmit = async () => {
         if (!oauthUrl) {
             return;

@@ -2,10 +2,10 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import {
-    useFollowStats,
     useReadStats,
     useUserByUsername,
-    useWatchStats,
+    useUserFollowStats,
+    useUserWatchStats,
 } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
@@ -40,8 +40,8 @@ interface Props extends PropsWithChildren {
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
     const { data: user } = useUserByUsername({ username });
-    const { data: followStats } = useFollowStats({ username });
-    const { data: watchStats } = useWatchStats({ username });
+    const { data: followStats } = useUserFollowStats({ username });
+    const { data: watchStats } = useUserWatchStats({ username });
     const { data: mangaStats } = useReadStats({
         username,
         contentType: ContentTypeEnum.MANGA,

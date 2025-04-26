@@ -3,10 +3,10 @@ import {
     prefetchAnimeCharacters,
     prefetchAnimeStaff,
     prefetchFavouriteStatus,
-    prefetchFollowingWatchers,
     prefetchFranchise,
-    prefetchWatchEntry,
-} from '@hikka/react';
+    prefetchWatchBySlug,
+    prefetchWatchingUsers,
+} from '@hikka/react/server';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -28,7 +28,7 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
         }),
         prefetchAnimeStaff({ slug, clientConfig }),
         clientConfig.authToken
-            ? prefetchWatchEntry({ slug, clientConfig })
+            ? prefetchWatchBySlug({ slug, clientConfig })
             : undefined,
         clientConfig.authToken
             ? prefetchFavouriteStatus({
@@ -38,7 +38,7 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
               })
             : undefined,
         clientConfig.authToken
-            ? prefetchFollowingWatchers({ slug, clientConfig })
+            ? prefetchWatchingUsers({ slug, clientConfig })
             : undefined,
     ]);
 };

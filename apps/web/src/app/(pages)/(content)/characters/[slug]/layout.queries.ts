@@ -5,7 +5,7 @@ import {
     prefetchCharacterNovel,
     prefetchCharacterVoices,
     prefetchFavouriteStatus,
-} from '@hikka/react';
+} from '@hikka/react/server';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

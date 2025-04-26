@@ -4,9 +4,8 @@ import {
     dehydrate,
     getHikkaClient,
     getQueryClient,
-    prefetchContentComments,
-    prefetchEdit,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchContentComments, prefetchEdit } from '@hikka/react/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';

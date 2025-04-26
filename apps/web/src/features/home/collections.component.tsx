@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollectionsList, useSession } from '@hikka/react';
+import { useSearchCollections, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -26,7 +26,7 @@ interface Props {
 const Collections: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
 
-    const { list } = useCollectionsList({
+    const { list } = useSearchCollections({
         args: {
             sort: ['created:desc'],
         },

@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadContentType } from '@hikka/client';
-import { useFollowingReaders, useFollowingWatchers } from '@hikka/react';
+import { useReadingUsers, useWatchingUsers } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -16,12 +16,12 @@ interface Props {
 const FollowingsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
-    const watchListQuery = useFollowingWatchers({
+    const watchListQuery = useWatchingUsers({
         slug: String(params.slug),
         options: { enabled: content_type === ContentTypeEnum.ANIME },
     });
 
-    const readListQuery = useFollowingReaders({
+    const readListQuery = useReadingUsers({
         slug: String(params.slug),
         contentType: content_type as ReadContentType,
         options: { enabled: content_type !== ContentTypeEnum.ANIME },

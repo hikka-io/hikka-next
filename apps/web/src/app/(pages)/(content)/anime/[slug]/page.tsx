@@ -1,5 +1,8 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { prefetchAnimeBySlug, prefetchSearchArticles } from '@hikka/react';
+import {
+    prefetchAnimeBySlug,
+    prefetchSearchArticles,
+} from '@hikka/react/server';
 import { FC } from 'react';
 
 import Characters from '@/features/anime/anime-view/characters/characters.component';

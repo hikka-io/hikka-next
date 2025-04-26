@@ -1,7 +1,7 @@
 'use client';
 
 import { CollectionContent, CollectionContentResponse } from '@hikka/client';
-import { useCollection } from '@hikka/react';
+import { useCollectionByReference } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import CollectionGrid from './collection-grid';
@@ -9,7 +9,7 @@ import CollectionGrid from './collection-grid';
 const CollectionGroups = () => {
     const params = useParams();
 
-    const { data: collection } = useCollection({
+    const { data: collection } = useCollectionByReference({
         reference: String(params.reference),
     });
 

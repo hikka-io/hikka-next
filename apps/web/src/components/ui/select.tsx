@@ -11,6 +11,7 @@ import React, { FC, Fragment, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '@/utils/utils';
+
 import { Badge } from './badge';
 import { buttonVariants } from './button';
 import { Checkbox } from './checkbox';
@@ -115,13 +116,13 @@ const Select: React.FC<SelectProps> = ({
 
     const [value, setValue] = useControllableState({
         prop: valueProp,
-        defaultProp: defaultValue,
+        defaultProp: defaultValue || [],
         onChange: handleValueChange,
     });
 
     const [open, setOpen] = useControllableState({
         prop: openProp,
-        defaultProp: defaultOpen,
+        defaultProp: defaultOpen || false,
         onChange: onOpenChange,
     });
 
@@ -300,7 +301,7 @@ const SelectValue = React.forwardRef<
         if (!value.length || !firstRendered) {
             return (
                 <Fragment>
-                    <p className="pointer-events-none flex-1 truncate text-muted-foreground">
+                    <p className="text-muted-foreground pointer-events-none flex-1 truncate">
                         {placeholder}
                     </p>
                     <SelectIcon className="!size-4" />
@@ -363,7 +364,7 @@ const SelectValue = React.forwardRef<
                                     }}
                                 >
                                     <span>{child}</span>
-                                    <X className="ml-1 size-3 text-muted-foreground group-hover/select-badge:text-foreground" />
+                                    <X className="text-muted-foreground group-hover/select-badge:text-foreground ml-1 size-3" />
                                 </Badge>
                             );
 
@@ -387,7 +388,7 @@ const SelectValue = React.forwardRef<
                             return el;
                         })}
                         {renderRemain ? (
-                            <span className="text-xs leading-4 text-muted-foreground">
+                            <span className="text-muted-foreground text-xs leading-4">
                                 +{renderRemain}
                             </span>
                         ) : null}
@@ -459,7 +460,7 @@ const SelectContent = React.forwardRef<
             sideOffset={4}
             collisionPadding={10}
             className={cn(
-                'z-50 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+                'bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-full rounded-md border shadow-md outline-none',
             )}
             style={
                 {
@@ -566,7 +567,7 @@ const SelectItem = React.forwardRef<
                 {...props}
                 value={value}
                 className={cn(
-                    disabled && 'cursor-not-allowed text-muted-foreground',
+                    disabled && 'text-muted-foreground cursor-not-allowed',
                     'gap-2',
                     className,
                 )}
@@ -612,7 +613,7 @@ const SelectEmpty = React.forwardRef<
             {...props}
             className={cn(
                 className,
-                'py-4 text-center text-sm text-muted-foreground',
+                'text-muted-foreground py-4 text-center text-sm',
             )}
             ref={forwardRef}
         >
@@ -622,8 +623,7 @@ const SelectEmpty = React.forwardRef<
 });
 
 SelectEmpty.displayName = 'SelectEmpty';
-`
-|]`;
+
 export interface SelectOptionSeparator {
     type: 'separator';
 }
@@ -708,6 +708,5 @@ export {
     SelectSearch,
     SelectSeparator,
     SelectTrigger,
-    SelectValue
+    SelectValue,
 };
-

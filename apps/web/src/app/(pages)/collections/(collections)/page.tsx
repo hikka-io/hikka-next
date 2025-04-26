@@ -2,8 +2,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchCollectionsList,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchSearchCollections } from '@hikka/react/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -47,7 +47,7 @@ const CollectionsPage: FC<Props> = async (props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const collections = await prefetchCollectionsList({
+    const collections = await prefetchSearchCollections({
         args: { sort: [sort] },
         paginationArgs: { page: Number(page) },
         clientConfig,

@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, FavouriteCharacterResponse } from '@hikka/client';
-import { useFavouriteList } from '@hikka/react';
+import { useUserFavourites } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -23,7 +23,7 @@ const Characters: FC<Props> = ({ extended }) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useFavouriteList<FavouriteCharacterResponse>({
+    } = useUserFavourites<FavouriteCharacterResponse>({
         username: String(params.username),
         contentType: ContentTypeEnum.CHARACTER,
     });

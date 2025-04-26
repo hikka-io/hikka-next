@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimeScheduleResponse, WatchStatusEnum } from '@hikka/client';
-import { useAddOrUpdateWatch, useSession } from '@hikka/react';
+import { useCreateWatch, useSession } from '@hikka/react';
 import { useSnackbar } from 'notistack';
 import { FC, Fragment, createElement, memo } from 'react';
 
@@ -21,7 +21,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
     const { user: loggedUser } = useSession();
     const { enqueueSnackbar } = useSnackbar();
     const { openModal } = useModalContext();
-    const { mutate: addOrUpdateWatch } = useAddOrUpdateWatch();
+    const { mutate: createWatch } = useCreateWatch();
 
     const watch = item.anime.watch.length > 0 ? item.anime.watch[0] : undefined;
     const watchStatus = watch ? WATCH_STATUS[watch.status] : null;
@@ -40,7 +40,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
             return;
         }
 
-        addOrUpdateWatch({
+        createWatch({
             slug: item.anime.slug,
             args: { status: WatchStatusEnum.PLANNED },
         });

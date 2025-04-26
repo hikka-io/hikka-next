@@ -1,5 +1,5 @@
 import { UserResponse } from '@hikka/client';
-import { getHikkaClient } from '@hikka/react';
+import { getHikkaClient } from '@hikka/react/core';
 import { Metadata, ResolvingMetadata } from 'next';
 
 import _generateMetadata from '@/utils/generate-metadata';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useWatchStats } from '@hikka/react';
+import { useUserWatchStats } from '@hikka/react';
 import { formatDuration } from 'date-fns/formatDuration';
 import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { useParams } from 'next/navigation';
@@ -18,7 +18,7 @@ import {
 
 const WatchhourStats = () => {
     const params = useParams();
-    const { data: stats } = useWatchStats({
+    const { data: stats } = useUserWatchStats({
         username: String(params.username),
     });
 

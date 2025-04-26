@@ -1,5 +1,5 @@
 import { CommentResponse } from '@hikka/client';
-import { useHideComment, useSession } from '@hikka/react';
+import { useDeleteComment, useSession } from '@hikka/react';
 import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
@@ -37,7 +37,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
 
     const { user: loggedUser } = useSession();
 
-    const deleteCommentMutation = useHideComment();
+    const deleteCommentMutation = useDeleteComment();
 
     const handleDeleteComment = async () => {
         try {

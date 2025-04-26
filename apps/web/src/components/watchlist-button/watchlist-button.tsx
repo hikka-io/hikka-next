@@ -5,11 +5,7 @@ import {
     WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
-import {
-    useAddOrUpdateWatch,
-    useAnimeBySlug,
-    useWatchEntry,
-} from '@hikka/react';
+import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
 import { createElement } from 'react';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
@@ -72,7 +68,7 @@ const Component = ({
 }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: watchQuery, isError: watchError } = useWatchEntry({
+    const { data: watchQuery, isError: watchError } = useWatchBySlug({
         slug,
         options: {
             enabled: !disabled && !watchProp,
@@ -84,7 +80,7 @@ const Component = ({
             enabled: !disabled && !animeProp,
         },
     });
-    const { mutate: addWatch } = useAddOrUpdateWatch();
+    const { mutate: addWatch } = useCreateWatch();
 
     const watch =
         watchProp || (watchQuery && !watchError ? watchQuery : undefined);

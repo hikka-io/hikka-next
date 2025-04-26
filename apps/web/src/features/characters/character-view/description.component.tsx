@@ -1,6 +1,6 @@
 'use client';
 
-import { useCharacterBySlug } from '@hikka/react/hooks/characters';
+import { useCharacterBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 

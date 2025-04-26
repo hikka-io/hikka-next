@@ -1,6 +1,7 @@
 'use client';
 
-import { queryKeys, useEdit, useUpdateEdit } from '@hikka/react';
+import { useEdit, useUpdateEdit } from '@hikka/react';
+import { queryKeys } from '@hikka/react/core';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';

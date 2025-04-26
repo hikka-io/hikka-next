@@ -1,11 +1,6 @@
 'use client';
 
-import {
-    cn,
-    createPrimitiveComponent,
-    withCn,
-    withVariants,
-} from '@udecode/cn';
+import { cn, createPrimitiveComponent, withVariants } from '@udecode/cn';
 import {
     Caption as CaptionPrimitive,
     CaptionTextarea as CaptionTextareaPrimitive,
@@ -13,6 +8,7 @@ import {
     useCaptionButtonState,
 } from '@udecode/plate-caption/react';
 import { cva } from 'class-variance-authority';
+import { ReactNode } from 'react';
 
 import { Button } from '../../../ui/button';
 
@@ -33,13 +29,22 @@ export const Caption = withVariants(CaptionPrimitive, captionVariants, [
     'align',
 ]);
 
-export const CaptionTextarea = withCn(
-    CaptionTextareaPrimitive,
-    cn(
-        'mt-2 w-full resize-none border-none bg-inherit p-0 font-[inherit] text-inherit',
-        'focus:outline-none focus:[&::placeholder]:opacity-0',
-        'text-center print:placeholder:text-transparent',
-    ),
+type CaptionTextareaProps = {
+    className?: string;
+    children?: ReactNode;
+    [key: string]: any;
+};
+
+export const CaptionTextarea = (props: CaptionTextareaProps) => (
+    <CaptionTextareaPrimitive
+        {...props}
+        className={cn(
+            'mt-2 w-full resize-none border-none bg-inherit p-0 font-[inherit] text-inherit',
+            'focus:outline-none focus:[&::placeholder]:opacity-0',
+            'text-center print:placeholder:text-transparent',
+            props.className,
+        )}
+    />
 );
 
 export const CaptionButton = createPrimitiveComponent(Button)({

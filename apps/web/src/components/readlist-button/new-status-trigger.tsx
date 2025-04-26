@@ -1,7 +1,7 @@
 'use client';
 
 import { ReadContentType, ReadStatusEnum } from '@hikka/client';
-import { useAddOrUpdateRead } from '@hikka/react';
+import { useCreateRead } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
@@ -25,12 +25,12 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     content_type,
     size,
 }) => {
-    const { mutate: addOrUpdateRead } = useAddOrUpdateRead();
+    const { mutate: createRead } = useCreateRead();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addOrUpdateRead({
+        createRead({
             contentType: content_type,
             slug,
             args: {

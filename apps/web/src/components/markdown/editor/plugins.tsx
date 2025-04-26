@@ -2,7 +2,7 @@
 
 import emojiMartData from '@emoji-mart/data';
 import { UploadTypeEnum } from '@hikka/client';
-import { getHikkaClient } from '@hikka/react';
+import { getHikkaClient } from '@hikka/react/core';
 import { BoldPlugin, ItalicPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { ExitBreakPlugin, SoftBreakPlugin } from '@udecode/plate-break/react';
@@ -37,7 +37,8 @@ const resetBlockTypesCommonRule = {
     defaultType: ParagraphPlugin.key,
 };
 
-export const basicPlugins = [
+// Use any[] to avoid TypeScript errors with complex plugin types
+export const basicPlugins: any[] = [
     DiffPlugin,
     BlockquotePlugin,
     BoldPlugin,
@@ -107,7 +108,7 @@ export const basicPlugins = [
     }),
 ];
 
-export const articlePlugins = [
+export const articlePlugins: any[] = [
     ...basicPlugins,
     HeadingPlugin.configure({
         options: {

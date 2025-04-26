@@ -18,6 +18,7 @@ import {
 import { ParagraphPlugin, PlateElement, PlateLeaf } from '@udecode/plate/react';
 
 import { cn } from '@/utils/utils';
+
 import Blockquote, { BLOCKQUOTE_CLASSNAME } from '../../typography/blockquote';
 import H3 from '../../typography/h3';
 import H4 from '../../typography/h4';
@@ -93,32 +94,57 @@ export const editorComponents = {
     [TableRowPlugin.key]: TableRowElement, */
 };
 
+// Define the components object directly to avoid type issues
 export const viewerComponents = {
-    [HEADING_KEYS.h3]: withProps(H3, {
-        className: 'mb-4',
-    }),
-    [HEADING_KEYS.h4]: withProps(H4, {
-        className: 'mb-4',
-    }),
-    [HEADING_KEYS.h5]: withProps(H5, {
-        className: 'mb-4',
-    }),
-    [SpoilerPlugin.key]: withProps(Spoiler, {
-        className: 'mb-4',
-    }),
+    [HEADING_KEYS.h3]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof H3>) => (
+        <H3 className={cn('mb-4', className)} {...props} />
+    ),
+    [HEADING_KEYS.h4]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof H4>) => (
+        <H4 className={cn('mb-4', className)} {...props} />
+    ),
+    [HEADING_KEYS.h5]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof H5>) => (
+        <H5 className={cn('mb-4', className)} {...props} />
+    ),
+    [SpoilerPlugin.key]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof Spoiler>) => (
+        <Spoiler className={cn('mb-4', className)} {...props} />
+    ),
     [LinkPlugin.key]: LinkViewElement,
-    [ParagraphPlugin.key]: withProps(P, {
-        className: 'mb-4',
-    }),
-    blockquote: withProps(Blockquote, {
-        className: 'mb-4',
-    }),
-    [BulletedListPlugin.key]: withProps(Ul, {
-        className: 'mb-4',
-    }),
-    [NumberedListPlugin.key]: withProps(Ol, {
-        className: 'mb-4',
-    }),
+    [ParagraphPlugin.key]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof P>) => (
+        <P className={cn('mb-4', className)} {...props} />
+    ),
+    blockquote: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof Blockquote>) => (
+        <Blockquote className={cn('mb-4', className)} {...props} />
+    ),
+    [BulletedListPlugin.key]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof Ul>) => (
+        <Ul className={cn('mb-4', className)} {...props} />
+    ),
+    [NumberedListPlugin.key]: ({
+        className,
+        ...props
+    }: React.ComponentProps<typeof Ol>) => (
+        <Ol className={cn('mb-4', className)} {...props} />
+    ),
     [ListItemPlugin.key]: Li,
     [ImageGroupPlugin.key]: ImageGroupViewElement,
     [ImagePlugin.key]: ImageViewElement,

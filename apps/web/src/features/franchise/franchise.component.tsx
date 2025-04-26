@@ -39,6 +39,13 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     const { data: franchise } = useFranchise({
         contentType: content_type,
         slug: String(params.slug),
+        options: {
+            select: (data) => {
+                return {
+                    list: [...data.anime, ...data.manga, ...data.novel],
+                };
+            },
+        },
     });
 
     if (!franchise) {

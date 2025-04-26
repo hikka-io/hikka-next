@@ -2,8 +2,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchArticleBySlug,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchArticleBySlug } from '@hikka/react/server';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 

@@ -3,9 +3,11 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
+} from '@hikka/react/core';
+import {
     prefetchCommentThread,
     prefetchContentComments,
-} from '@hikka/react';
+} from '@hikka/react/server';
 import { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';

@@ -1,4 +1,8 @@
-import { HydrationBoundary, dehydrate, getQueryClient } from '@hikka/react';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+} from '@hikka/react/core';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 

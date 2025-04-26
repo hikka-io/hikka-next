@@ -1,5 +1,5 @@
 import { CharacterResponse } from '@hikka/client';
-import { getHikkaClient } from '@hikka/react';
+import { getHikkaClient } from '@hikka/react/core';
 import { Metadata, ResolvingMetadata } from 'next';
 
 export interface MetadataProps {

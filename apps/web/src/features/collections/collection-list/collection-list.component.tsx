@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollectionsList } from '@hikka/react';
+import { useSearchCollections } from '@hikka/react';
 import { FC, Fragment } from 'react';
 
 import { Separator } from '@/components/ui/separator';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CollectionList: FC<Props> = ({ page, sort }) => {
-    const { list } = useCollectionsList({
+    const { list } = useSearchCollections({
         args: { sort: [`${sort}:desc`] },
         paginationArgs: {
             page,

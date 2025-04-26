@@ -1,11 +1,7 @@
 'use client';
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
-import {
-    useAddOrUpdateWatch,
-    useAnimeBySlug,
-    useWatchEntry,
-} from '@hikka/react';
+import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -29,14 +25,14 @@ const WatchStats = () => {
         delay: 500,
     });
 
-    const { data: watch, isError: watchError } = useWatchEntry({
+    const { data: watch, isError: watchError } = useWatchBySlug({
         slug: String(params.slug),
     });
     const { data } = useAnimeBySlug({
         slug: String(params.slug),
     });
 
-    const { mutate: mutateAddOrUpdateWatch } = useAddOrUpdateWatch();
+    const { mutate: mutateCreateWatch } = useCreateWatch();
 
     const handleAddEpisode = () => {
         if (watch) {
@@ -86,7 +82,7 @@ const WatchStats = () => {
 
     const handleRating = (value: number) => {
         if (watch) {
-            mutateAddOrUpdateWatch({
+            mutateCreateWatch({
                 slug: watch.anime.slug,
                 args: {
                     score: value * 2,
@@ -101,12 +97,12 @@ const WatchStats = () => {
 
     useEffect(() => {
         if (deboucedUpdatedWatch) {
-            mutateAddOrUpdateWatch({
+            mutateCreateWatch({
                 slug: watch!.anime.slug,
                 args: deboucedUpdatedWatch,
             });
         }
-    }, [mutateAddOrUpdateWatch, deboucedUpdatedWatch]);
+    }, [mutateCreateWatch, deboucedUpdatedWatch]);
 
     if (!watch || watchError || !data) {
         return null;

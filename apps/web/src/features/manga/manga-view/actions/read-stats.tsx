@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadStatusEnum } from '@hikka/client';
-import { useAddOrUpdateRead, useMangaBySlug, useReadEntry } from '@hikka/react';
+import { useCreateRead, useMangaBySlug, useReadBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -15,17 +15,13 @@ import Rating from '@/components/ui/rating';
 const ReadStats = () => {
     const params = useParams();
 
-    const { data: read, isError: readError } = useReadEntry({
+    const { data: read, isError: readError } = useReadBySlug({
         slug: String(params.slug),
         contentType: ContentTypeEnum.MANGA,
     });
     const { data } = useMangaBySlug({ slug: String(params.slug) });
 
-    const {
-        mutate: mutateAddOrUpdateRead,
-        variables,
-        isPending,
-    } = useAddOrUpdateRead();
+    const { mutate: mutateCreateRead, variables, isPending } = useCreateRead();
 
     const handleAddEpisode = () => {
         if (read) {
@@ -44,7 +40,7 @@ const ReadStats = () => {
                 status = ReadStatusEnum.READING;
             }
 
-            mutateAddOrUpdateRead({
+            mutateCreateRead({
                 contentType: ContentTypeEnum.MANGA,
                 slug: read.content.slug,
                 args: {
@@ -65,7 +61,7 @@ const ReadStats = () => {
 
             if (chapters < 0) return;
 
-            mutateAddOrUpdateRead({
+            mutateCreateRead({
                 contentType: ContentTypeEnum.MANGA,
                 slug: read.content.slug,
                 args: {
@@ -82,7 +78,7 @@ const ReadStats = () => {
 
     const handleRating = (value: number) => {
         if (read) {
-            mutateAddOrUpdateRead({
+            mutateCreateRead({
                 contentType: ContentTypeEnum.MANGA,
                 slug: read.content.slug,
                 args: {

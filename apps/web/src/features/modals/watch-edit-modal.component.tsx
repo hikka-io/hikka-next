@@ -5,11 +5,7 @@ import {
     WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
-import {
-    useAddOrUpdateWatch,
-    useDeleteWatch,
-    useWatchEntry,
-} from '@hikka/react';
+import { useCreateWatch, useDeleteWatch, useWatchBySlug } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -48,15 +44,15 @@ interface Props {
 
 const Component = ({ slug, watch: watchProp }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: watchQuery } = useWatchEntry({
+    const { data: watchQuery } = useWatchBySlug({
         slug,
         options: { enabled: !watchProp },
     });
 
     const watch = watchProp || watchQuery;
 
-    const { mutate: addOrUpdateWatch, isPending: addToListLoading } =
-        useAddOrUpdateWatch();
+    const { mutate: createWatch, isPending: addToListLoading } =
+        useCreateWatch();
 
     const { mutate: deleteWatch, isPending: deleteFromListLoading } =
         useDeleteWatch();
@@ -174,7 +170,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                     <Button
                         variant="secondary"
                         onClick={form.handleSubmit((data) =>
-                            addOrUpdateWatch({
+                            createWatch({
                                 slug,
                                 args: {
                                     status: selectedStatus!,

@@ -3,8 +3,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchSession,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchSession } from '@hikka/react/server';
 import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
-import { useAddOrUpdateWatch, useSession, useWatchList } from '@hikka/react';
+import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -51,7 +51,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
     // Fetch Watchlist
-    const { list } = useWatchList({
+    const { list } = useSearchUserWatches({
         username: String(loggedUser?.username),
         args: {
             watch_status: WatchStatusEnum.WATCHING,
@@ -68,7 +68,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         value: updatedWatch,
         delay: 500,
     });
-    const { mutate: mutateAddOrUpdateWatch, reset } = useAddOrUpdateWatch();
+    const { mutate: mutateCreateWatch, reset } = useCreateWatch();
 
     // Event Handlers
     const handleSelect = (slug: string) => {
@@ -143,12 +143,12 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
 
     useEffect(() => {
         if (deboucedUpdatedWatch) {
-            mutateAddOrUpdateWatch({
+            mutateCreateWatch({
                 slug: selectedWatch!.anime.slug,
                 args: deboucedUpdatedWatch,
             });
         }
-    }, [mutateAddOrUpdateWatch, deboucedUpdatedWatch]);
+    }, [mutateCreateWatch, deboucedUpdatedWatch]);
 
     // Rendering Helper: Anime Details
     const renderAnimeDetails = () => {

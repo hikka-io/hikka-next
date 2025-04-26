@@ -1,4 +1,4 @@
-import { prefetchClientByReference } from '@hikka/react';
+import { prefetchClientByReference } from '@hikka/react/server';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
 import { FC, Suspense } from 'react';

@@ -4,7 +4,7 @@ import {
     dehydrate,
     getQueryClient,
     queryKeys,
-} from '@hikka/react';
+} from '@hikka/react/core';
 
 import Block from '@/components/ui/block';
 import {

@@ -1,7 +1,7 @@
 'use client';
 
 import { WatchStatusEnum } from '@hikka/client';
-import { useAddOrUpdateWatch } from '@hikka/react';
+import { useCreateWatch } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
@@ -23,12 +23,12 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     slug,
     size,
 }) => {
-    const { mutate: addWatch } = useAddOrUpdateWatch();
+    const { mutate: createWatch } = useCreateWatch();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addWatch({
+        createWatch({
             slug,
             args: {
                 status: WatchStatusEnum.PLANNED,

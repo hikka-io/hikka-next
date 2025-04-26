@@ -5,7 +5,7 @@ import {
     SeasonEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { useWatchList } from '@hikka/react';
+import { useSearchUserWatches } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 
 export const useList = () => {
@@ -29,7 +29,7 @@ export const useList = () => {
     const order = searchParams.get('order') || 'desc';
     const sort = searchParams.get('sort') || 'watch_score';
 
-    return useWatchList({
+    return useSearchUserWatches({
         username: String(params.username),
         args: {
             watch_status: String(watchStatus) as WatchStatusEnum,

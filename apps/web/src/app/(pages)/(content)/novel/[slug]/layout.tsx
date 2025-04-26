@@ -3,9 +3,11 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
+} from '@hikka/react/core';
+import {
     prefetchNovelBySlug,
     prefetchSearchArticles,
-} from '@hikka/react';
+} from '@hikka/react/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';

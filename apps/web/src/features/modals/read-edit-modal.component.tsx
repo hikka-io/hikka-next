@@ -5,7 +5,7 @@ import {
     ReadResponseBase,
     ReadStatusEnum,
 } from '@hikka/client';
-import { useAddOrUpdateRead, useDeleteRead, useReadEntry } from '@hikka/react';
+import { useCreateRead, useDeleteRead, useReadBySlug } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -46,7 +46,7 @@ interface Props {
 
 const Component = ({ slug, content_type, read: readProp }: Props) => {
     const { closeModal } = useModalContext();
-    const { data: readQuery } = useReadEntry({
+    const { data: readQuery } = useReadBySlug({
         contentType: content_type,
         slug,
         options: {
@@ -56,8 +56,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
 
     const read = readProp || readQuery;
 
-    const { mutate: addOrUpdateRead, isPending: addToListLoading } =
-        useAddOrUpdateRead();
+    const { mutate: createRead, isPending: addToListLoading } = useCreateRead();
 
     const { mutate: deleteRead, isPending: deleteFromListLoading } =
         useDeleteRead();
@@ -188,7 +187,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                     <Button
                         variant="secondary"
                         onClick={form.handleSubmit((data) =>
-                            addOrUpdateRead({
+                            createRead({
                                 contentType: content_type,
                                 slug,
                                 args: {

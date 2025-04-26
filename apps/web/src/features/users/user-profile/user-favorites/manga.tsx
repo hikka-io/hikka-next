@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, FavouriteMangaResponse } from '@hikka/client';
-import { useFavouriteList } from '@hikka/react';
+import { useUserFavourites } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -24,7 +24,7 @@ const Manga: FC<Props> = ({ extended }) => {
         isFetchingNextPage,
         isPending,
         ref,
-    } = useFavouriteList<FavouriteMangaResponse>({
+    } = useUserFavourites<FavouriteMangaResponse>({
         contentType: ContentTypeEnum.MANGA,
         username: String(params.username),
         options: {

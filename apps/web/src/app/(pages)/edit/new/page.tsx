@@ -3,12 +3,14 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
+} from '@hikka/react/core';
+import {
     prefetchAnimeBySlug,
     prefetchCharacterBySlug,
     prefetchMangaBySlug,
     prefetchNovelBySlug,
     prefetchPersonBySlug,
-} from '@hikka/react';
+} from '@hikka/react/server';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 

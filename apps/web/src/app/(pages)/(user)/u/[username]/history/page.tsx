@@ -2,8 +2,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchFollowingHistory,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchFollowingHistory } from '@hikka/react/server';
 import { Metadata } from 'next';
 import { FC } from 'react';
 

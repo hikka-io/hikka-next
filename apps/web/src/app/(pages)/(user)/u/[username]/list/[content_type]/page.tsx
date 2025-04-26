@@ -3,8 +3,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchReadList,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchSearchUserReads } from '@hikka/react/server';
 import { Metadata, ResolvingMetadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
@@ -60,7 +60,7 @@ const ListPage: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchReadList({
+    await prefetchSearchUserReads({
         username,
         contentType: content_type as ReadContentType,
         args: {

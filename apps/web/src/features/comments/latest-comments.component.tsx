@@ -1,6 +1,6 @@
 'use client';
 
-import { useCommentsList } from '@hikka/react';
+import { useCommentList } from '@hikka/react';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -21,7 +21,7 @@ interface Props {
 
 const Comments: FC<Props> = ({ className }) => {
     const { list, hasNextPage, ref, isFetchingNextPage, fetchNextPage } =
-        useCommentsList();
+        useCommentList();
 
     return (
         <Block className={cn(className)}>

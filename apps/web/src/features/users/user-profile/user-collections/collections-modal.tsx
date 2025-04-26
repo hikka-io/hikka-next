@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollectionsList } from '@hikka/react';
+import { useSearchCollections } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -21,7 +21,7 @@ const CollectionModal: FC<Props> = ({ className }) => {
         isFetchingNextPage,
         ref,
         fetchNextPage,
-    } = useCollectionsList({
+    } = useSearchCollections({
         args: {
             author: String(params.username),
             sort: ['created:desc'],

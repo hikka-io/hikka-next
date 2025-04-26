@@ -7,7 +7,7 @@ import {
     useAnimeBySlug,
     useArticleBySlug,
     useCharacterBySlug,
-    useCollection,
+    useCollectionByReference,
     useEdit,
     useMangaBySlug,
     useNovelBySlug,
@@ -94,7 +94,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         },
     });
 
-    const collectionQuery = useCollection({
+    const collectionQuery = useCollectionByReference({
         reference: slug,
         options: {
             enabled: content_type === ContentTypeEnum.COLLECTION,

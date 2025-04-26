@@ -4,8 +4,8 @@ import {
     dehydrate,
     getHikkaClient,
     getQueryClient,
-    prefetchCollection,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchCollectionByReference } from '@hikka/react/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
@@ -53,7 +53,10 @@ const CollectionPage = async (props: {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const collection = await prefetchCollection({ reference, clientConfig });
+    const collection = await prefetchCollectionByReference({
+        reference,
+        clientConfig,
+    });
 
     if (!collection) {
         return permanentRedirect('/collections');

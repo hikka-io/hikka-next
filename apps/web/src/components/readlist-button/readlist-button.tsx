@@ -8,10 +8,10 @@ import {
     ReadStatusEnum,
 } from '@hikka/client';
 import {
-    useAddOrUpdateRead,
+    useCreateRead,
     useMangaBySlug,
     useNovelBySlug,
-    useReadEntry,
+    useReadBySlug,
 } from '@hikka/react';
 import { createElement } from 'react';
 
@@ -77,7 +77,7 @@ const Component = ({
 }: Props) => {
     const { openModal } = useModalContext();
 
-    const { data: readQuery, isError: readError } = useReadEntry({
+    const { data: readQuery, isError: readError } = useReadBySlug({
         contentType: content_type,
         slug,
         options: {
@@ -99,7 +99,7 @@ const Component = ({
         },
     });
 
-    const { mutate: addOrUpdateRead } = useAddOrUpdateRead();
+    const { mutate: createRead } = useCreateRead();
 
     const read = readProp || (readQuery && !readError ? readQuery : undefined);
     const content = contentProp || manga || novel;
@@ -138,7 +138,7 @@ const Component = ({
         }
 
         if (options[0] === 'completed') {
-            addOrUpdateRead({
+            createRead({
                 contentType: content_type,
                 slug,
                 args: {
@@ -149,7 +149,7 @@ const Component = ({
                 },
             });
         } else {
-            addOrUpdateRead({
+            createRead({
                 contentType: content_type,
                 slug,
                 args: {

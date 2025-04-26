@@ -24,7 +24,8 @@ const Appearance = () => {
 
     const { user: loggedUser } = useSession();
 
-    const mutationDeleteImage = useDeleteImage();
+    const { mutate: deleteImage, isPending: isDeletingImage } =
+        useDeleteImage();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
@@ -69,10 +70,15 @@ const Appearance = () => {
                         variant="destructive"
                         size={'icon-sm'}
                         onClick={() =>
-                            mutationDeleteImage.mutate(UploadTypeEnum.COVER)
+                            deleteImage({ imageType: UploadTypeEnum.COVER })
                         }
+                        disabled={isDeletingImage}
                     >
-                        <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                        {isDeletingImage ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                        )}
                     </Button>
                 )}
                 <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">

@@ -3,7 +3,7 @@ import {
     prefetchPersonCharacters,
     prefetchPersonManga,
     prefetchPersonNovel,
-} from '@hikka/react';
+} from '@hikka/react/server';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

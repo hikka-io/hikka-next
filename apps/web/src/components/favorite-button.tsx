@@ -2,9 +2,9 @@
 
 import { FavouriteContentType } from '@hikka/client';
 import {
-    useAddFavourite,
+    useCreateFavourite,
+    useDeleteFavourite,
     useFavouriteStatus,
-    useRemoveFavourite,
 } from '@hikka/react';
 
 import { MaterialSymbolsFavoriteOutlineRounded } from './icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
@@ -31,10 +31,10 @@ const Component = ({
     });
 
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
-        useAddFavourite();
+        useCreateFavourite();
 
     const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
-        useRemoveFavourite();
+        useDeleteFavourite();
 
     return (
         <Tooltip delayDuration={0}>

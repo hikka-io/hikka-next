@@ -1,10 +1,10 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
     prefetchFavouriteStatus,
-    prefetchFollowingReaders,
     prefetchFranchise,
     prefetchNovelCharacters,
-} from '@hikka/react';
+    prefetchReadingUsers,
+} from '@hikka/react/server';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -25,7 +25,7 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
             clientConfig,
         }),
         clientConfig.authToken
-            ? prefetchFollowingReaders({
+            ? prefetchReadingUsers({
                   slug,
                   contentType: ContentTypeEnum.NOVEL,
                   clientConfig,

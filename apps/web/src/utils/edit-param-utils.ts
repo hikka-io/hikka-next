@@ -1,4 +1,5 @@
 import { ContentTypeEnum, EditContentType } from '@hikka/client';
+import { ComponentType } from 'react';
 
 import InputParam from '@/features/edit/edit-forms/params/input-param';
 import ListParam from '@/features/edit/edit-forms/params/list-param';
@@ -17,7 +18,9 @@ import {
     PERSON_EDIT_PARAMS,
 } from './constants/edit';
 
-export const getEditParamComponent = (type: Hikka.EditParamType) => {
+export const getEditParamComponent = (
+    type: Hikka.EditParamType,
+): ComponentType<any> => {
     switch (type) {
         case 'input':
             return InputParam;

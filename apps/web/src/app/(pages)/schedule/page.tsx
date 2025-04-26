@@ -3,8 +3,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchSearchAnimeSchedule,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchSearchAnimeSchedule } from '@hikka/react/server';
 import { Metadata } from 'next';
 import { FC } from 'react';
 

@@ -3,9 +3,11 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
+} from '@hikka/react/core';
+import {
     prefetchArticleStats,
     prefetchSearchArticles,
-} from '@hikka/react';
+} from '@hikka/react/server';
 
 import ArticleList from '@/features/articles/article-list/article-list.component';
 import PopularAuthors from '@/features/articles/article-list/popular-authors.component';

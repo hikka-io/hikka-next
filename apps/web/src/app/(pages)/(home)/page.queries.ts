@@ -1,14 +1,14 @@
 import { ContentStatusEnum, WatchStatusEnum } from '@hikka/client';
+import { getQueryClient } from '@hikka/react/core';
 import {
-    getQueryClient,
-    prefetchCollectionsList,
     prefetchLatestComments,
     prefetchSearchAnimeSchedule,
     prefetchSearchAnimes,
+    prefetchSearchCollections,
+    prefetchSearchUserWatches,
     prefetchSession,
     prefetchUserHistory,
-    prefetchWatchList,
-} from '@hikka/react';
+} from '@hikka/react/server';
 
 import getCurrentSeason from '@/utils/get-current-season';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -25,7 +25,7 @@ const prefetchQueries = async () => {
 
     if (loggedUser) {
         promises.push(
-            prefetchWatchList({
+            prefetchSearchUserWatches({
                 username: loggedUser.username,
                 args: {
                     watch_status: WatchStatusEnum.WATCHING,
@@ -68,7 +68,7 @@ const prefetchQueries = async () => {
     );
 
     promises.push(
-        prefetchCollectionsList({
+        prefetchSearchCollections({
             args: { sort: ['created:desc'] },
             clientConfig,
         }),

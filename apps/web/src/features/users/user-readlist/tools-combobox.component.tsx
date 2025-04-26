@@ -1,7 +1,7 @@
 'use client';
 
 import { ReadContentType, ReadStatusEnum } from '@hikka/client';
-import { useRandomRead } from '@hikka/react';
+import { useRandomReadByStatus } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -26,7 +26,7 @@ const ToolsCombobox = () => {
     const readStatus = searchParams.get('status')! as ReadStatusEnum;
     const contentType = params.content_type as ReadContentType;
 
-    const mutationRandomRead = useRandomRead();
+    const mutationRandomRead = useRandomReadByStatus();
 
     const handleRandomAnime = async () => {
         mutationRandomRead.mutate({

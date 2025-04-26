@@ -1,15 +1,15 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
+    PrefetchQueryParams,
     prefetchAnimeBySlug,
     prefetchArticleBySlug,
     prefetchCharacterBySlug,
-    prefetchCollection,
+    prefetchCollectionByReference,
     prefetchEdit,
     prefetchMangaBySlug,
     prefetchNovelBySlug,
     prefetchPersonBySlug,
-} from '@hikka/react';
-import { PrefetchQueryParams } from '@hikka/react/server/prefetchQuery';
+} from '@hikka/react/server';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -41,7 +41,7 @@ export async function prefetchContent({
         case ContentTypeEnum.PERSON:
             return await prefetchPersonBySlug({ slug, clientConfig, ...rest });
         case ContentTypeEnum.COLLECTION:
-            return await prefetchCollection({
+            return await prefetchCollectionByReference({
                 reference: slug,
                 clientConfig,
                 ...rest,

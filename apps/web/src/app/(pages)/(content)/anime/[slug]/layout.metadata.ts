@@ -1,5 +1,5 @@
 import { AnimeInfoResponse } from '@hikka/client';
-import { getHikkaClient } from '@hikka/react';
+import { getHikkaClient } from '@hikka/react/core';
 import { Metadata } from 'next';
 
 import _generateMetadata from '@/utils/generate-metadata';

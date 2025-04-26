@@ -1,4 +1,8 @@
-import { HydrationBoundary, dehydrate, getQueryClient } from '@hikka/react';
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+} from '@hikka/react/core';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';

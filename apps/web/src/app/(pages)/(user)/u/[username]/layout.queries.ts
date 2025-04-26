@@ -1,9 +1,9 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
-    prefetchFollowStats,
     prefetchReadStats,
-    prefetchWatchStats,
-} from '@hikka/react';
+    prefetchUserFollowStats,
+    prefetchUserWatchStats,
+} from '@hikka/react/server';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -27,8 +27,8 @@ const prefetchQueries = async ({ params: { username } }: Props) => {
             contentType: ContentTypeEnum.NOVEL,
             clientConfig,
         }),
-        prefetchWatchStats({ username, clientConfig }),
-        prefetchFollowStats({ username, clientConfig }),
+        prefetchUserWatchStats({ username, clientConfig }),
+        prefetchUserFollowStats({ username, clientConfig }),
     ]);
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, FavouriteCollectionResponse } from '@hikka/client';
-import { useFavouriteList } from '@hikka/react';
+import { useUserFavourites } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -24,7 +24,7 @@ const Collections: FC<Props> = ({ extended }) => {
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useFavouriteList<FavouriteCollectionResponse>({
+    } = useUserFavourites<FavouriteCollectionResponse>({
         username: String(params.username),
         contentType: ContentTypeEnum.COLLECTION,
     });

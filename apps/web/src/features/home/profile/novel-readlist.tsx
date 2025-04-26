@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, NovelMediaEnum, ReadStatusEnum } from '@hikka/client';
-import { useAddOrUpdateRead, useReadList, useSession } from '@hikka/react';
+import { useCreateRead, useSearchUserReads, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -49,7 +49,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
 
     // Fetch Readlist
-    const { list } = useReadList({
+    const { list } = useSearchUserReads({
         contentType: ContentTypeEnum.NOVEL,
         username: String(loggedUser?.username),
         args: {
@@ -64,11 +64,11 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
 
     // Hooks
     const {
-        mutate: mutateAddOrUpdateRead,
+        mutate: mutateCreateRead,
         variables,
         isPending,
         reset,
-    } = useAddOrUpdateRead();
+    } = useCreateRead();
 
     // Event Handlers
     const handleSelect = (slug: string) => {
@@ -110,7 +110,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
         )
             return;
 
-        mutateAddOrUpdateRead({
+        mutateCreateRead({
             contentType: ContentTypeEnum.NOVEL,
             slug: selectedRead.content.slug,
             args: {
@@ -135,7 +135,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
 
         if (chapters < 0) return;
 
-        mutateAddOrUpdateRead({
+        mutateCreateRead({
             contentType: ContentTypeEnum.NOVEL,
             slug: selectedRead.content.slug,
             args: {

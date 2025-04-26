@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollection } from '@hikka/react';
+import { useCollectionByReference } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -22,7 +22,7 @@ interface Props {}
 const CollectionNavbar: FC<Props> = () => {
     const params = useParams();
 
-    const { data: collection } = useCollection({
+    const { data: collection } = useCollectionByReference({
         reference: String(params.reference),
     });
 

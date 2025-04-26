@@ -5,7 +5,7 @@ import {
     ReadContentType,
     ReadStatusEnum,
 } from '@hikka/client';
-import { useReadList } from '@hikka/react';
+import { useSearchUserReads } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 
 export const useList = () => {
@@ -29,7 +29,7 @@ export const useList = () => {
     const order = searchParams.get('order') || 'desc';
     const sort = searchParams.get('sort') || 'read_score';
 
-    return useReadList({
+    return useSearchUserReads({
         contentType: params.content_type as ReadContentType,
         username: String(params.username),
         args: {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollection } from '@hikka/react';
+import { useCollectionByReference } from '@hikka/react';
 import { formatDistance } from 'date-fns';
 import { useParams } from 'next/navigation';
 
@@ -17,7 +17,7 @@ import {
 const CollectionAuthor = () => {
     const params = useParams();
 
-    const { data: collection } = useCollection({
+    const { data: collection } = useCollectionByReference({
         reference: String(params.reference),
     });
 

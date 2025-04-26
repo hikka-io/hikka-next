@@ -2,8 +2,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchAnimeBySlug,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchAnimeBySlug } from '@hikka/react/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';

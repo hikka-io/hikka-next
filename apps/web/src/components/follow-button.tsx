@@ -2,9 +2,9 @@
 
 import { UserResponse } from '@hikka/client';
 import {
-    useFollow,
+    useCreateFollow,
+    useDeleteFollow,
     useSession,
-    useUnfollow,
     useUserByUsername,
 } from '@hikka/react';
 import { VariantProps } from 'class-variance-authority';
@@ -47,10 +47,11 @@ const FollowButton: FC<Props> = ({
 
     const user = userProp || userQuery;
 
-    const { mutate: mutateFollow, isPending: followLoading } = useFollow();
+    const { mutate: mutateFollow, isPending: followLoading } =
+        useCreateFollow();
 
     const { mutate: mutateUnfollow, isPending: unfollowLoading } =
-        useUnfollow();
+        useDeleteFollow();
 
     const handleFollowToggle = () => {
         if (user?.is_followed) {

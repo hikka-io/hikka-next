@@ -3,8 +3,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchWatchList,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchSearchUserWatches } from '@hikka/react/server';
 import { Metadata, ResolvingMetadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
@@ -60,7 +60,7 @@ const ListPage: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchWatchList({
+    await prefetchSearchUserWatches({
         username,
         args: {
             watch_status: status as WatchStatusEnum,

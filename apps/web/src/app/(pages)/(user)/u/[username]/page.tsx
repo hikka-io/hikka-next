@@ -3,12 +3,14 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchCollectionsList,
-    prefetchFavouriteList,
+} from '@hikka/react/core';
+import {
     prefetchSearchArticles,
+    prefetchSearchCollections,
     prefetchUserActivity,
+    prefetchUserFavourites,
     prefetchUserHistory,
-} from '@hikka/react';
+} from '@hikka/react/server';
 import { FC } from 'react';
 
 import UserArticles from '@/features/users/user-profile/user-articles/user-articles.component';
@@ -34,7 +36,7 @@ const UserPage: FC<Props> = async (props) => {
     const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
-        await prefetchFavouriteList({
+        await prefetchUserFavourites({
             username,
             contentType: ContentTypeEnum.ANIME,
             clientConfig,
@@ -45,7 +47,7 @@ const UserPage: FC<Props> = async (props) => {
             args: { author: username },
             clientConfig,
         }),
-        await prefetchCollectionsList({
+        await prefetchSearchCollections({
             args: { author: username, sort: ['created:desc'] },
             clientConfig,
         }),

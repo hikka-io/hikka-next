@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useWatchStats } from '@hikka/react';
+import { useUserWatchStats } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -13,7 +13,7 @@ import WatchlistStats from './watchlist-stats';
 
 const ListStats = () => {
     const params = useParams();
-    const { data } = useWatchStats({ username: String(params.username) });
+    const { data } = useUserWatchStats({ username: String(params.username) });
 
     if (!data) {
         return null;

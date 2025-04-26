@@ -1,6 +1,6 @@
 'use client';
 
-import { useFollowers, useFollowings } from '@hikka/react';
+import { useUserFollowers, useUserFollowings } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
@@ -14,14 +14,14 @@ interface Props {
 const FollowlistModal = ({ type }: Props) => {
     const params = useParams();
 
-    const followersQuery = useFollowers({
+    const followersQuery = useUserFollowers({
         username: String(params.username),
         options: {
             enabled: type === 'followers',
         },
     });
 
-    const followingsQuery = useFollowings({
+    const followingsQuery = useUserFollowings({
         username: String(params.username),
         options: {
             enabled: type === 'followings',

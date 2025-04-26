@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollection } from '@hikka/react';
+import { useCollectionByReference } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
@@ -18,7 +18,7 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const groups = useCollectionContext((state) => state.groups);
     const setApiData = useCollectionContext((state) => state.setApiData);
 
-    const { data } = useCollection({
+    const { data } = useCollectionByReference({
         reference: String(params.reference),
         options: { enabled: mode === 'edit' },
     });

@@ -1,7 +1,7 @@
 'use client';
 
 import { WatchStatusEnum } from '@hikka/client';
-import { useRandomAnime } from '@hikka/react';
+import { useRandomWatchByStatus } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -23,10 +23,10 @@ const ToolsCombobox = () => {
 
     const watchStatus = searchParams.get('status')! as WatchStatusEnum;
 
-    const mutationRandomAnime = useRandomAnime();
+    const mutationRandomWatch = useRandomWatchByStatus();
 
     const handleRandomAnime = async () => {
-        mutationRandomAnime.mutate({
+        mutationRandomWatch.mutate({
             username: String(params.username),
             status: watchStatus,
         });

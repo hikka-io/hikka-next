@@ -4,8 +4,8 @@ import {
     dehydrate,
     getHikkaClient,
     getQueryClient,
-    prefetchArticleBySlug,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchArticleBySlug } from '@hikka/react/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';

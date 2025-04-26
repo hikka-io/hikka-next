@@ -1,6 +1,6 @@
 'use client';
 
-import { useFollowStats } from '@hikka/react';
+import { useUserFollowStats } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -20,7 +20,7 @@ const FollowStats: FC<Props> = ({ className }) => {
     const { openModal } = useModalContext();
     const params = useParams();
 
-    const { data: followStats } = useFollowStats({
+    const { data: followStats } = useUserFollowStats({
         username: String(params.username),
     });
 

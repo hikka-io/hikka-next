@@ -1,7 +1,7 @@
 'use client';
 
 import { CommentResponse, CommentsContentType } from '@hikka/client';
-import { useEditComment, useWriteComment } from '@hikka/react';
+import { useCreateComment, useUpdateComment } from '@hikka/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEditorRef } from '@udecode/plate/react';
 import { FC } from 'react';
@@ -57,14 +57,14 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     const { mutate: mutateEditComment, isPending: isEditPending } =
-        useEditComment({
+        useUpdateComment({
             options: {
                 onSuccess,
             },
         });
 
     const { mutate: mutateWriteComment, isPending: isAddPending } =
-        useWriteComment({
+        useCreateComment({
             options: {
                 onSuccess,
             },

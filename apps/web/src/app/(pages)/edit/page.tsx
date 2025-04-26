@@ -3,9 +3,8 @@ import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
-    prefetchEditList,
-    prefetchTopEditorsList,
-} from '@hikka/react';
+} from '@hikka/react/core';
+import { prefetchEditList, prefetchTopEditorsList } from '@hikka/react/server';
 import { permanentRedirect } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';

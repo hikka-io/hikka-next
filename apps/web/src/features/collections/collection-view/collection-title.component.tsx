@@ -1,6 +1,6 @@
 'use client';
 
-import { useCollection } from '@hikka/react';
+import { useCollectionByReference } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -10,7 +10,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 const CollectionTitle = () => {
     const params = useParams();
-    const { data: collection } = useCollection({
+    const { data: collection } = useCollectionByReference({
         reference: String(params.reference),
     });
 
@@ -24,7 +24,7 @@ const CollectionTitle = () => {
                         </HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                     {collection!.spoiler && (
                         <Badge variant="warning">Спойлери</Badge>
                     )}
