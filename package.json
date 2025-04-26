@@ -11,6 +11,10 @@
         "format:check": "npm run prettier -- --check",
         "lint": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\"",
         "lint:fix": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\" --fix",
+        "clean": "yarn workspaces foreach -p run clean",
+        "dev": "yarn workspaces foreach -pi run dev",
+        "build": "yarn workspaces foreach -pt run build",
+        "test": "yarn workspaces foreach -p run test",
         "dev:web": "yarn workspace @hikka/web dev",
         "build:web": "yarn workspace @hikka/web build",
         "start:web": "yarn workspace @hikka/web start",
@@ -43,12 +47,16 @@
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-functional": "^6.0.0",
         "eslint-plugin-tailwindcss": "^3.15.1",
+        "jest": "^29.7.0",
         "postcss": "8.4.47",
         "postcss-import": "^16.1.0",
         "postcss-nesting": "^12.1.0",
         "prettier": "^3.0.3",
         "prettier-plugin-tailwindcss": "^0.5.9",
+        "rimraf": "^5.0.1",
         "tailwindcss": "3.4.14",
+        "ts-jest": "^29.1.2",
+        "tsup": "^8.4.0",
         "typescript": "5.7.2"
     }
 }
