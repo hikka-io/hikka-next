@@ -1,6 +1,14 @@
 export * from './createHikkaClient';
 export * from './createQueryClient';
 export * from './queryKeys';
-export * from './useInfiniteQuery';
-export * from './useMutation';
-export * from './useQuery';
+
+// Hikka client exports
+export * as HikkaClient from '@hikka/client';
+
+// TanStack Query exports
+export {
+    dehydrate,
+    HydrationBoundary,
+    MutationCache,
+    QueryCache,
+} from '@tanstack/react-query';

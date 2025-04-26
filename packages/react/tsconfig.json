@@ -1,38 +1,27 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "target": "ES2020",
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "module": "ESNext",
-        "moduleResolution": "bundler",
         "jsx": "react-jsx",
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "skipLibCheck": true,
-        "declaration": true,
         "paths": {
+            "@/client/*": ["./client/*"],
             "@/server/*": ["./server/*"],
-            "@/hooks/*": ["./hooks/*"],
-            "@/provider/*": ["./provider/*"],
-            "@/core/*": ["./core/*"]
+            "@/core/*": ["./core/*"],
+            "@/types/*": ["./types/*"],
+            "@/core": ["./core/index.ts"],
+            "@/client": ["./client/index.ts"],
+            "@/server": ["./server/index.ts"],
+            "@/types": ["./types/index.ts"]
         },
-        "baseUrl": ".",
         "outDir": "./dist",
-        "composite": true,
-        "rootDir": "."
+        "rootDir": ".",
+        "composite": true
     },
     "include": [
-        "index.ts",
-        "provider/**/*.ts",
-        "provider/**/*.tsx",
-        "hooks/**/*.ts",
-        "hooks/**/*.tsx",
-        "server/**/*.ts",
-        "server/**/*.tsx",
-        "core/**/*.ts",
-        "core/**/*.tsx"
+        "./*ts",
+        "client/**/*",
+        "server/**/*",
+        "core/**/*",
+        "types/**/*"
     ],
     "exclude": [
         "node_modules",

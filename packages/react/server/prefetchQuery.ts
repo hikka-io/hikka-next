@@ -1,7 +1,7 @@
 import { HikkaClient, HikkaClientConfig } from '@hikka/client';
 import { FetchQueryOptions, QueryClientConfig } from '@tanstack/query-core';
 
-import { getHikkaClient, getQueryClient } from '../core';
+import { getHikkaClient, getQueryClient } from '@/core';
 
 /**
  * Params for prefetching a query

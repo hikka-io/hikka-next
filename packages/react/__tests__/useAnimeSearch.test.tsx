@@ -2,7 +2,8 @@ import { AnimePaginationResponse, HikkaClient } from '@hikka/client';
 import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { getQueryClient } from '../core/createQueryClient';
+import { getQueryClient } from '@/core';
+
 import {
     HikkaProvider,
     prefetchSearchAnimes,
@@ -55,7 +56,11 @@ describe('useAnimeSearch', () => {
         };
 
         const { result } = renderHook(
-            () => useSearchAnimes(searchArgs, { page: 2, size: 10 }),
+            () =>
+                useSearchAnimes({
+                    args: searchArgs,
+                    paginationArgs: { page: 2, size: 10 },
+                }),
             {
                 wrapper: createWrapper(),
             },
@@ -123,9 +128,9 @@ describe('prefetchAnimeSearch', () => {
         const queryClient = getQueryClient();
 
         await expect(
-            prefetchSearchAnimes(queryClient, searchArgs, {
-                page: 2,
-                size: 10,
+            prefetchSearchAnimes({
+                args: searchArgs,
+                paginationArgs: { page: 2, size: 10 },
             }),
         ).resolves.not.toThrow();
     });
@@ -135,7 +140,10 @@ describe('prefetchAnimeSearch', () => {
         const queryClient = getQueryClient();
 
         await expect(
-            prefetchSearchAnimes(queryClient, searchArgs),
+            prefetchSearchAnimes({
+                args: searchArgs,
+                paginationArgs: { page: 2, size: 10 },
+            }),
         ).resolves.not.toThrow();
     });
 
@@ -143,10 +151,11 @@ describe('prefetchAnimeSearch', () => {
         const searchArgs = {
             query: 'naruto',
         };
-        const queryClient = getQueryClient();
 
         await expect(
-            prefetchSearchAnimes(queryClient, searchArgs, {
+            prefetchSearchAnimes({
+                args: searchArgs,
+                paginationArgs: { page: 2, size: 10 },
                 staleTime: 1000,
                 gcTime: 2000,
             }),

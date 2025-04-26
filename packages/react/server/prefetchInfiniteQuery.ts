@@ -1,7 +1,7 @@
 import { HikkaClient, HikkaClientConfig, PaginationArgs } from '@hikka/client';
 import { QueryClientConfig } from '@tanstack/query-core';
 
-import { getHikkaClient, getQueryClient } from '../core';
+import { getHikkaClient, getQueryClient } from '@/core';
 
 /**
  * Params for prefetching infinite queries
