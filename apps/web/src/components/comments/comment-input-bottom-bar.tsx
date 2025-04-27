@@ -2,7 +2,6 @@
 
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useEditorRef } from '@udecode/plate/react';
 import { FC } from 'react';
 
@@ -32,19 +31,8 @@ const CommentInputBottomBar: FC<Props> = ({
 }) => {
     const { setState: setCommentsState } = useCommentsContext();
     const editor = useEditorRef();
-    const queryClient = useQueryClient();
 
     const onSuccess = async () => {
-        await queryClient.invalidateQueries({
-            queryKey: ['comments', slug, content_type],
-            exact: false,
-        });
-
-        await queryClient.invalidateQueries({
-            queryKey: ['comment-thread'],
-            exact: false,
-        });
-
         editor.tf.reset();
 
         if (comment) {

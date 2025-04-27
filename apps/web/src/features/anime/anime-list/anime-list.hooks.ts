@@ -1,5 +1,4 @@
 import { useSearchAnimes } from '@hikka/react';
-import { useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import createQueryString from '@/utils/create-query-string';
@@ -11,17 +10,12 @@ export const useUpdatePage = ({
     page: number;
     iPage: number;
 }) => {
-    const queryClient = useQueryClient();
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
     return (newPage: number) => {
         if (newPage !== Number(page) || newPage !== Number(iPage)) {
-            queryClient.removeQueries({
-                queryKey: ['anime-list', page, {}],
-                exact: false,
-            });
             const query = createQueryString(
                 'iPage',
                 String(newPage),

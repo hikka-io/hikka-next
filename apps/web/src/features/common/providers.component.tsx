@@ -3,7 +3,7 @@
 import { ProgressProvider } from '@bprogress/next/app';
 import { HikkaClientConfig } from '@hikka/client';
 import { HikkaProvider } from '@hikka/react';
-import { MutationCache, QueryClientConfig } from '@tanstack/react-query';
+import { MutationCache, QueryClientConfig } from '@hikka/react/core';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';

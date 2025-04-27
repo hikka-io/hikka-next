@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from '@hikka/react';
 import { TElement } from '@udecode/plate';
 import { PlateEditor } from '@udecode/plate/react';
 import { Plus } from 'lucide-react';
@@ -26,8 +26,8 @@ const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
     children,
 }) => {
     const { mutate: uploadImages, isPending } = useMutation({
-        mutationFn: (files: FileList) =>
-            insertImageGroupFromFiles(editor, files, element),
+        mutationFn: (client, files: FileList) =>
+            insertImageGroupFromFiles({ editor, files, element }),
     });
 
     const insertImage = useCallback(({ files }: { files: FileList | null }) => {

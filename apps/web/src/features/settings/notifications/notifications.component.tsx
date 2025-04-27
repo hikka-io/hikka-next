@@ -6,7 +6,6 @@ import {
     useUpdateIgnoredNotifications,
 } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,7 +39,6 @@ const formSchema = z.object({
 const Component = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
-    const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: formSchema.parse({}),
@@ -51,10 +49,6 @@ const Component = () => {
         useUpdateIgnoredNotifications({
             options: {
                 onSuccess: async () => {
-                    await queryClient.invalidateQueries({
-                        queryKey: ['ignored-notifications'],
-                        exact: false,
-                    });
                     closeModal();
                     enqueueSnackbar(
                         'Ви успішно змінили налаштування сповіщень.',

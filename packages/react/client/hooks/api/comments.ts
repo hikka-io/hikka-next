@@ -100,6 +100,7 @@ export const useCreateComment = createMutation({
     mutationFn: (client, { contentType, slug, args }: WriteCommentVariables) =>
         client.comments.createComment(contentType, slug, args),
     invalidateQueries: ({ contentType, slug }) => [
+        queryKeys.comments.all,
         queryKeys.comments.content(contentType, slug),
     ],
 });
@@ -116,6 +117,7 @@ export const useUpdateComment = createMutation({
     mutationFn: (client, { commentReference, args }: EditCommentVariables) =>
         client.comments.updateComment(commentReference, args),
     invalidateQueries: ({ commentReference }) => [
+        queryKeys.comments.all,
         queryKeys.comments.thread(commentReference),
     ],
 });

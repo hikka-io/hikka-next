@@ -1,9 +1,7 @@
 'use client';
 
 import { useEdit, useUpdateEdit } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -32,7 +30,6 @@ interface Props {
 }
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
-    const queryClient = useQueryClient();
     const { data: edit } = useEdit({ editId: Number(editId) });
     const captchaRef = useRef<TurnstileInstance>(null);
 
@@ -57,10 +54,6 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
 
     const onDismiss = async () => {
         form.reset();
-
-        await queryClient.invalidateQueries({
-            queryKey: queryKeys.edit.byId(Number(editId)),
-        });
 
         router.push('/edit/' + editId);
     };

@@ -12,3 +12,5 @@ export {
     MutationCache,
     QueryCache,
 } from '@tanstack/react-query';
+
+export type { QueryClientConfig } from '@tanstack/react-query';

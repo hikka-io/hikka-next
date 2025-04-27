@@ -1,5 +1,9 @@
+import {
+    HydrationBoundary,
+    dehydrate,
+    getQueryClient,
+} from '@hikka/react/core';
 import { prefetchClientByReference } from '@hikka/react/server';
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { permanentRedirect } from 'next/navigation';
 import { FC, Suspense } from 'react';
 
@@ -9,8 +13,6 @@ import Client from '@/features/oauth/client/client.component';
 import Confirm from '@/features/oauth/confirm.component';
 import Header from '@/features/oauth/oauth-header';
 import Profile from '@/features/oauth/profile/profile.component';
-
-import getQueryClient from '@/utils/get-query-client';
 
 interface Props {
     searchParams: {

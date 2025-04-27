@@ -30,7 +30,7 @@ export const withImageGroup: ExtendEditor<ImageGroupConfig> = ({
         const { files } = data;
 
         if (!text && files && files.length > 0) {
-            insertImageGroupFromFiles(editor, files);
+            insertImageGroupFromFiles({ editor, files });
         } else {
             return editor.tf.insertData(data);
         }
