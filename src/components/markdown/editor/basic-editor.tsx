@@ -52,7 +52,11 @@ const PlateEditor: FC<PlateEditorProps> = ({
                 className,
             )}
         >
-            <Plate {...props} editor={editor} onValueChange={onChange}>
+            <Plate
+                {...props}
+                editor={editor}
+                onValueChange={onChange}
+            >
                 <EditorContainer>
                     <Editor
                         placeholder={placeholder || 'Напишіть повідомлення...'}
