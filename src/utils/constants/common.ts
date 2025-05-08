@@ -107,7 +107,7 @@ export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<API.MangaMediaType> = {
         title_en: 'Doujin',
     },
     manhua: {
-        title_ua: 'Манхуа',
+        title_ua: 'Маньхва',
         title_en: 'Manhua',
     },
     manhwa: {
