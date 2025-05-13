@@ -61,7 +61,7 @@ export class EditModule extends BaseModule {
         args: GetEditListArgs = {},
         { page, size }: PaginationArgs,
     ): Promise<EditPaginationResponse<T>> {
-        return this.client.post<EditPaginationResponse<T>>('/edit', args, {
+        return this.client.post<EditPaginationResponse<T>>('/edit/list', args, {
             ...DEFAULT_PAGINATION,
             page,
             size,
