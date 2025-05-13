@@ -45,9 +45,9 @@ export function useEditList<T = any>({
 }: UseEditListParams & InfiniteQueryParams<EditPaginationResponse<T>>) {
     return useInfiniteQuery({
         queryKey: queryKeys.edit.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
+        queryFn: (client, pageParam) =>
             client.edit.getEditList<T>(args, {
-                page,
+                page: paginationArgs?.page ?? pageParam,
                 size: paginationArgs?.size,
             }),
         ...rest,
@@ -64,9 +64,9 @@ export function useTodoEditList<T = any>({
 }: UseTodoEditListParams & InfiniteQueryParams<TodoEditResponse<T>>) {
     return useInfiniteQuery({
         queryKey: queryKeys.edit.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
+        queryFn: (client, pageParam) =>
             client.edit.getTodoEditList<T>(args, {
-                page,
+                page: paginationArgs?.page ?? pageParam,
                 size: paginationArgs?.size,
             }),
         ...rest,

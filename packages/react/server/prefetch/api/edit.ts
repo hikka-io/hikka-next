@@ -40,9 +40,9 @@ export async function prefetchEditList<T = any>({
 }: PrefetchInfiniteQueryParams<EditPaginationResponse<T>> & UseEditListParams) {
     return prefetchInfiniteQuery({
         queryKey: queryKeys.edit.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
+        queryFn: (client, pageParam) =>
             client.edit.getEditList<T>(args, {
-                page,
+                page: paginationArgs?.page ?? pageParam,
                 size: paginationArgs?.size,
             }),
         ...rest,

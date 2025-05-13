@@ -1,5 +1,9 @@
 import { HikkaClient, HikkaClientConfig, PaginationArgs } from '@hikka/client';
-import { QueryClient, QueryClientConfig } from '@tanstack/query-core';
+import {
+    InfiniteData,
+    QueryClient,
+    QueryClientConfig,
+} from '@tanstack/query-core';
 
 import { getHikkaClient, getQueryClient } from '@/core';
 
@@ -55,9 +59,9 @@ export async function prefetchInfiniteQuery<
 }: PrefetchInfiniteQueryOptions<
     TQueryFnData,
     TError,
-    TData,
+    InfiniteData<TData>,
     TQueryKey
->): Promise<TData | undefined> {
+>): Promise<InfiniteData<TData> | undefined> {
     const queryClient =
         queryClientProp ??
         (queryClientConfig
@@ -75,5 +79,5 @@ export async function prefetchInfiniteQuery<
     });
 
     // Return the prefetched data
-    return queryClient.getQueryData<TData>(queryKey);
+    return queryClient.getQueryData<InfiniteData<TData>>(queryKey);
 }

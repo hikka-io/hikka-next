@@ -42,9 +42,9 @@ export async function prefetchSearchCollections({
     UseCollectionsListParams) {
     return prefetchInfiniteQuery({
         queryKey: queryKeys.collections.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
+        queryFn: (client, pageParam) =>
             client.collections.searchCollections(args, {
-                page,
+                page: paginationArgs?.page ?? pageParam,
                 size: paginationArgs?.size,
             }),
         ...rest,
