@@ -13,13 +13,13 @@ import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 interface Props extends PropsWithChildren {}
 
 const SessionManager = async ({ children }: Props) => {
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
     let loggedUser: UserResponse | undefined;
 
     clientConfig.authToken &&
-        (loggedUser = await prefetchSession({ clientConfig }));
+        (loggedUser = await prefetchSession({ clientConfig, queryClient }));
 
     if (clientConfig.authToken && !loggedUser) {
         redirect(`${process.env.SITE_URL}/auth/logout`);

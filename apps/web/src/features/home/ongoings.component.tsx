@@ -31,8 +31,8 @@ const Ongoings: FC<Props> = ({ className }) => {
     const { list, isLoading } = useSearchAnimes({
         args: {
             season: [currentSeason!],
-            years: [Number(year), Number(year)],
             score: [7, 10],
+            years: [Number(year), Number(year)],
         },
     });
 
