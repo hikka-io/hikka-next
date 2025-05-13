@@ -14,13 +14,12 @@ import EditHead from './edit-head';
 import EditRow from './edit-row';
 import EditSkeleton from './edit-skeleton';
 
-interface Props {
-    page: string;
-}
+interface Props {}
 
-const EditList: FC<Props> = ({ page }) => {
+const EditList: FC<Props> = () => {
     const searchParams = useSearchParams();
 
+    const page = searchParams.get('page') || '1';
     const content_type =
         (searchParams.get('content_type') as EditContentType) || undefined;
     const order = searchParams.get('order') || 'desc';
@@ -30,7 +29,7 @@ const EditList: FC<Props> = ({ page }) => {
     const author = searchParams.get('author');
     const moderator = searchParams.get('moderator');
 
-    const { data: edits, isLoading } = useEditList({
+    const { list, isLoading, pagination } = useEditList({
         args: {
             content_type,
             sort: [`${sort}:${order}`],
@@ -47,12 +46,9 @@ const EditList: FC<Props> = ({ page }) => {
         return <EditSkeleton />;
     }
 
-    if (!edits) return null;
+    if (!list) return null;
 
-    if (
-        edits.pages[Number(page) - 1] &&
-        edits.pages[Number(page) - 1].list.length === 0
-    ) {
+    if (list && list.length === 0) {
         return <FiltersNotFound />;
     }
 
@@ -61,14 +57,12 @@ const EditList: FC<Props> = ({ page }) => {
             <Table className="table">
                 <EditHead />
                 <TableBody>
-                    {edits.pages[Number(page) - 1].list.map((edit) => (
+                    {list.map((edit) => (
                         <EditRow key={edit.edit_id} edit={edit} />
                     ))}
                 </TableBody>
             </Table>
-            <PagePagination
-                pagination={edits.pages[Number(page) - 1].pagination}
-            />
+            {pagination && <PagePagination pagination={pagination} />}
         </Block>
     );
 };
