@@ -62,7 +62,7 @@ const HistoryItem: FC<Props> = (props) => {
                     data.content?.data_type === 'anime'
                         ? data.content?.image
                         : data.content?.image || (
-                              <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
+                              <MaterialSymbolsInfoRounded className="text-muted-foreground flex-1 text-xl" />
                           )
                 }
             />
@@ -72,7 +72,11 @@ const HistoryItem: FC<Props> = (props) => {
                 </HorizontalCardTitle>
                 <HorizontalCardDescription
                     className="line-clamp-2"
-                    href={`${CONTENT_TYPE_LINKS[data.content!.data_type]}/${data.content!.slug}`}
+                    href={
+                        data.content
+                            ? `${CONTENT_TYPE_LINKS[data.content!.data_type]}/${data.content!.slug}`
+                            : undefined
+                    }
                 >
                     {activity.join(', ')}
                 </HorizontalCardDescription>
