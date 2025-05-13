@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     AuthTokenInfoPaginationResponse,
     AuthTokenInfoResponse,
@@ -126,9 +127,10 @@ export class AuthModule extends BaseModule {
     /**
      * Get third-party tokens list
      */
-    public async getThirdPartyTokenList(
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
-    ): Promise<AuthTokenInfoPaginationResponse> {
+    public async getThirdPartyTokenList({
+        page,
+        size,
+    }: PaginationArgs = DEFAULT_PAGINATION): Promise<AuthTokenInfoPaginationResponse> {
         return this.client.get<AuthTokenInfoPaginationResponse>(
             '/auth/token/thirdparty',
             {

@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import { PaginationArgs } from '../types';
 import {
     AddEditArgs,
@@ -58,9 +59,10 @@ export class EditModule extends BaseModule {
      */
     public async getEditList<T = any>(
         args: GetEditListArgs = {},
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<EditPaginationResponse<T>> {
         return this.client.post<EditPaginationResponse<T>>('/edit', args, {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });
@@ -92,11 +94,12 @@ export class EditModule extends BaseModule {
      */
     public async getTodoEditList<T = any>(
         args: TodoEditArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<TodoEditResponse<T>> {
         return this.client.get<TodoEditResponse<T>>(
             `/edit/todo/${args.content_type}/${args.todo_type}`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

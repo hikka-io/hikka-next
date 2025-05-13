@@ -6,6 +6,12 @@
         "rootDir": ".",
         "composite": true
     },
-    "include": ["./*ts", "modules/**/*", "types/**/*", "tsup.config.ts"],
+    "include": [
+        "./*ts",
+        "modules/**/*",
+        "types/**/*",
+        "tsup.config.ts",
+        "constants.ts"
+    ],
     "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

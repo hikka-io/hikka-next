@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import { PaginationArgs } from '../types';
 import {
     FollowListResponse,
@@ -47,11 +48,12 @@ export class FollowModule extends BaseModule {
      */
     public async getUserFollowings(
         username: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<FollowListResponse> {
         return this.client.get<FollowListResponse>(
             `/follow/${username}/following`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -63,11 +65,12 @@ export class FollowModule extends BaseModule {
      */
     public async getUserFollowers(
         username: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<FollowListResponse> {
         return this.client.get<FollowListResponse>(
             `/follow/${username}/followers`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

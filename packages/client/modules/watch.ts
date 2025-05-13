@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     AnimeResponse,
     AnimeWatchSearchArgs,
@@ -43,12 +44,13 @@ export class WatchModule extends BaseModule {
     public async searchUserWatches(
         username: string,
         args: AnimeWatchSearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<WatchPaginationResponse> {
         return this.client.post<WatchPaginationResponse>(
             `/watch/${username}/list`,
             args,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -72,11 +74,12 @@ export class WatchModule extends BaseModule {
      */
     public async getWatchingUsers(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<UserWatchPaginationResponse> {
         return this.client.get<UserWatchPaginationResponse>(
             `/watch/${slug}/following`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

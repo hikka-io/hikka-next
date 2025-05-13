@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     PaginationArgs,
     PersonAnimePaginationResponse,
@@ -23,12 +24,13 @@ export class PeopleModule extends BaseModule {
      */
     public async searchPeople(
         args: QuerySearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<PersonSearchPaginationResponse> {
         return this.client.post<PersonSearchPaginationResponse>(
             '/people',
             args,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -40,11 +42,12 @@ export class PeopleModule extends BaseModule {
      */
     public async getPersonAnime(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<PersonAnimePaginationResponse> {
         return this.client.get<PersonAnimePaginationResponse>(
             `/people/${slug}/anime`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -56,11 +59,12 @@ export class PeopleModule extends BaseModule {
      */
     public async getPersonManga(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<PersonMangaPaginationResponse> {
         return this.client.get<PersonMangaPaginationResponse>(
             `/people/${slug}/manga`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -72,11 +76,12 @@ export class PeopleModule extends BaseModule {
      */
     public async getPersonNovel(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<PersonNovelPaginationResponse> {
         return this.client.get<PersonNovelPaginationResponse>(
             `/people/${slug}/novel`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -88,11 +93,12 @@ export class PeopleModule extends BaseModule {
      */
     public async getPersonCharacters(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<PersonCharactersPaginationResponse> {
         return this.client.get<PersonCharactersPaginationResponse>(
             `/people/${slug}/characters`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

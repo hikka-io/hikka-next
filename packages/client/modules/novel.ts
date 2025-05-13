@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     ContentCharacterPaginationResponse,
     NovelInfoResponse,
@@ -13,9 +14,10 @@ export class NovelModule extends BaseModule {
      */
     public async searchNovels(
         args: NovelSearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<NovelPaginationResponse> {
         return this.client.post<NovelPaginationResponse>('/novel', args, {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });
@@ -33,11 +35,12 @@ export class NovelModule extends BaseModule {
      */
     public async getNovelCharacters(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/novel/${slug}/characters`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

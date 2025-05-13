@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     CharacterAnimePaginationResponse,
     CharacterCountResponse,
@@ -25,12 +26,13 @@ export class CharactersModule extends BaseModule {
      */
     public async searchCharacters(
         args: QuerySearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CharactersSearchPaginationResponse> {
         return this.client.post<CharactersSearchPaginationResponse>(
             '/characters',
             args,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -42,11 +44,12 @@ export class CharactersModule extends BaseModule {
      */
     public async getCharacterAnime(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CharacterAnimePaginationResponse> {
         return this.client.get<CharacterAnimePaginationResponse>(
             `/characters/${slug}/anime`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -58,11 +61,12 @@ export class CharactersModule extends BaseModule {
      */
     public async getCharacterManga(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CharacterMangaPaginationResponse> {
         return this.client.get<CharacterMangaPaginationResponse>(
             `/characters/${slug}/manga`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -74,11 +78,12 @@ export class CharactersModule extends BaseModule {
      */
     public async getCharacterNovel(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CharacterNovelPaginationResponse> {
         return this.client.get<CharacterNovelPaginationResponse>(
             `/characters/${slug}/novel`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -90,11 +95,12 @@ export class CharactersModule extends BaseModule {
      */
     public async getCharacterVoices(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CharacterVoicesPaginationResponse> {
         return this.client.get<CharacterVoicesPaginationResponse>(
             `/characters/${slug}/voices`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

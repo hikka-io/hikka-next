@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import { PaginationArgs, SuccessResponse } from '../types';
 import {
     ClientArgs,
@@ -40,10 +41,12 @@ export class ClientModule extends BaseModule {
     /**
      * Get clients list for current user
      */
-    public async getClientList(
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
-    ): Promise<ClientPaginationResponse> {
+    public async getClientList({
+        page,
+        size,
+    }: PaginationArgs): Promise<ClientPaginationResponse> {
         return this.client.get<ClientPaginationResponse>('/client', {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });

@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     AnimeEpisodesListResponse,
     AnimeInfoResponse,
@@ -16,9 +17,10 @@ export class AnimeModule extends BaseModule {
      */
     public async searchAnimes(
         args: AnimeSearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<AnimePaginationResponse> {
         return this.client.post<AnimePaginationResponse>('/anime', args, {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });
@@ -36,11 +38,12 @@ export class AnimeModule extends BaseModule {
      */
     public async getAnimeCharacters(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/anime/${slug}/characters`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -52,11 +55,12 @@ export class AnimeModule extends BaseModule {
      */
     public async getAnimeStaff(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<AnimeStaffPaginationResponse> {
         return this.client.get<AnimeStaffPaginationResponse>(
             `/anime/${slug}/staff`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -68,11 +72,12 @@ export class AnimeModule extends BaseModule {
      */
     public async getAnimeEpisodes(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<AnimeEpisodesListResponse> {
         return this.client.get<AnimeEpisodesListResponse>(
             `/anime/${slug}/episodes`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -84,11 +89,12 @@ export class AnimeModule extends BaseModule {
      */
     public async getAnimeRecommendations(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<AnimePaginationResponse> {
         return this.client.get<AnimePaginationResponse>(
             `/anime/${slug}/recommendations`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -100,11 +106,12 @@ export class AnimeModule extends BaseModule {
      */
     public async getAnimeFranchise(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<AnimePaginationResponse> {
         return this.client.get<AnimePaginationResponse>(
             `/anime/${slug}/franchise`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

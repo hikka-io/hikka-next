@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     CollectionArgs,
     CollectionContent,
@@ -15,12 +16,13 @@ export class CollectionsModule extends BaseModule {
      */
     public async searchCollections(
         args: CollectionsListArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CollectionsListResponse<CollectionContent>> {
         return this.client.post<CollectionsListResponse<CollectionContent>>(
             '/collections',
             args,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

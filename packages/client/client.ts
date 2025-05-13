@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 
+import { API_HOST } from './constants';
 import { HikkaApiError } from './errors';
 import { AnimeModule } from './modules/anime';
 import { ArticlesModule } from './modules/articles';
@@ -71,7 +72,7 @@ export class HikkaClient {
     public sitemap: SitemapModule;
 
     constructor(config: HikkaClientConfig) {
-        this.baseUrl = config.baseUrl || 'https://api.hikka.io';
+        this.baseUrl = config.baseUrl || API_HOST;
         this.authToken = config.authToken;
 
         // Initialize modules

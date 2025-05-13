@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     ContentCharacterPaginationResponse,
     MangaInfoResponse,
@@ -13,9 +14,10 @@ export class MangaModule extends BaseModule {
      */
     public async searchMangas(
         args: MangaSearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<MangaPaginationResponse> {
         return this.client.post<MangaPaginationResponse>('/manga', args, {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });
@@ -33,11 +35,12 @@ export class MangaModule extends BaseModule {
      */
     public async getMangaCharacters(
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/manga/${slug}/characters`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

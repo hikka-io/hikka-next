@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     CommentArgs,
     CommentListResponse,
@@ -20,10 +21,12 @@ export class CommentsModule extends BaseModule {
     /**
      * Get comments list for current user
      */
-    public async getCommentList(
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
-    ): Promise<CommentListResponse> {
+    public async getCommentList({
+        page,
+        size,
+    }: PaginationArgs): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>('/comments/list', {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });
@@ -49,11 +52,12 @@ export class CommentsModule extends BaseModule {
     public async getContentComments(
         contentType: CommentsContentType,
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>(
             `/comments/${contentType}/${slug}/list`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     NotificationPaginationResponse,
     NotificationResponse,
@@ -10,12 +11,14 @@ export class NotificationsModule extends BaseModule {
     /**
      * Get user notifications list
      */
-    public async getNotificationList(
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
-    ): Promise<NotificationPaginationResponse> {
+    public async getNotificationList({
+        page,
+        size,
+    }: PaginationArgs): Promise<NotificationPaginationResponse> {
         return this.client.get<NotificationPaginationResponse>(
             '/notifications',
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

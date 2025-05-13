@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     MangaResponse,
     NovelResponse,
@@ -57,11 +58,12 @@ export class ReadModule extends BaseModule {
     public async getReadingUsers(
         contentType: ReadContentType,
         slug: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<UserReadPaginationResponse> {
         return this.client.get<UserReadPaginationResponse>(
             `/read/${contentType}/${slug}/following`,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
@@ -100,12 +102,13 @@ export class ReadModule extends BaseModule {
         contentType: ReadContentType,
         username: string,
         args: ReadSearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<ReadPaginationResponse> {
         return this.client.post<ReadPaginationResponse>(
             `/read/${contentType}/${username}/list`,
             args,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

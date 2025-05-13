@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import { PaginationArgs } from '../types';
 import {
     CompaniesPaginationResponse,
@@ -14,12 +15,13 @@ export class CompaniesModule extends BaseModule {
      */
     public async searchCompanies(
         args: CompaniesSearchArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<CompaniesPaginationResponse> {
         return this.client.post<CompaniesPaginationResponse>(
             '/companies',
             args,
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },

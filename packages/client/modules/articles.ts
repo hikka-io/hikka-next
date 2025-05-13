@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     ArticleArgs,
     ArticleResponse,
@@ -17,9 +18,10 @@ export class ArticlesModule extends BaseModule {
      */
     public async searchArticles(
         args: ArticlesListArgs,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<ArticlesListResponse> {
         return this.client.post<ArticlesListResponse>('/articles', args, {
+            ...DEFAULT_PAGINATION,
             page,
             size,
         });

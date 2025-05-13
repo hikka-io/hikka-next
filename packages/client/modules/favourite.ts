@@ -1,3 +1,4 @@
+import { DEFAULT_PAGINATION } from '../constants';
 import {
     FavouriteContentType,
     FavouriteItem,
@@ -51,12 +52,13 @@ export class FavouriteModule extends BaseModule {
     public async getUserFavourites<TItem extends FavouriteItem>(
         contentType: FavouriteContentType,
         username: string,
-        { page, size }: PaginationArgs = { page: 1, size: 15 },
+        { page, size }: PaginationArgs,
     ): Promise<FavouritePaginationResponse<TItem>> {
         return this.client.post<FavouritePaginationResponse<TItem>>(
             `/favourite/${contentType}/${username}/list`,
             {},
             {
+                ...DEFAULT_PAGINATION,
                 page,
                 size,
             },
