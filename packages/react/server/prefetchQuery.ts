@@ -1,5 +1,9 @@
 import { HikkaClient, HikkaClientConfig } from '@hikka/client';
-import { FetchQueryOptions, QueryClientConfig } from '@tanstack/query-core';
+import {
+    FetchQueryOptions,
+    QueryClient,
+    QueryClientConfig,
+} from '@tanstack/query-core';
 
 import { getHikkaClient, getQueryClient } from '@/core';
 
@@ -13,6 +17,8 @@ export interface PrefetchQueryParams<T> {
     clientConfig?: HikkaClientConfig;
     /** Query options */
     options?: Omit<FetchQueryOptions<T, Error, T>, 'queryKey' | 'queryFn'>;
+    /** Query client */
+    queryClient?: QueryClient;
 }
 
 /**
@@ -32,6 +38,7 @@ export interface PrefetchQueryOptions<
         FetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
         'queryKey' | 'queryFn'
     >;
+    queryClient?: QueryClient;
 }
 
 /**
@@ -50,15 +57,18 @@ export async function prefetchQuery<
 >({
     queryClientConfig,
     clientConfig,
+    queryClient: queryClientProp,
     queryKey,
     queryFn,
     options,
 }: PrefetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>): Promise<
     TData | undefined
 > {
-    const queryClient = queryClientConfig
-        ? getQueryClient(queryClientConfig)
-        : getQueryClient();
+    const queryClient =
+        queryClientProp ??
+        (queryClientConfig
+            ? getQueryClient(queryClientConfig)
+            : getQueryClient());
     const hikkaClient = clientConfig
         ? getHikkaClient(clientConfig)
         : getHikkaClient();

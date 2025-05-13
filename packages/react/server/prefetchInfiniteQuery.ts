@@ -1,5 +1,5 @@
 import { HikkaClient, HikkaClientConfig, PaginationArgs } from '@hikka/client';
-import { QueryClientConfig } from '@tanstack/query-core';
+import { QueryClient, QueryClientConfig } from '@tanstack/query-core';
 
 import { getHikkaClient, getQueryClient } from '@/core';
 
@@ -13,6 +13,8 @@ export interface PrefetchInfiniteQueryParams<T> {
     clientConfig?: HikkaClientConfig;
     /** Query client config */
     queryClientConfig?: QueryClientConfig;
+    /** Query client */
+    queryClient?: QueryClient;
 }
 
 /**
@@ -28,6 +30,7 @@ export interface PrefetchInfiniteQueryOptions<
     queryFn: (client: HikkaClient, pageParam: number) => Promise<TQueryFnData>;
     clientConfig?: HikkaClientConfig;
     queryClientConfig?: QueryClientConfig;
+    queryClient?: QueryClient;
 }
 
 /**
@@ -48,15 +51,18 @@ export async function prefetchInfiniteQuery<
     queryFn,
     clientConfig,
     queryClientConfig,
+    queryClient: queryClientProp,
 }: PrefetchInfiniteQueryOptions<
     TQueryFnData,
     TError,
     TData,
     TQueryKey
 >): Promise<TData | undefined> {
-    const queryClient = queryClientConfig
-        ? getQueryClient(queryClientConfig)
-        : getQueryClient();
+    const queryClient =
+        queryClientProp ??
+        (queryClientConfig
+            ? getQueryClient(queryClientConfig)
+            : getQueryClient());
     const hikkaClient = clientConfig
         ? getHikkaClient(clientConfig)
         : getHikkaClient();
