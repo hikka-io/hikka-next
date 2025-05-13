@@ -30,7 +30,11 @@ const ArticleUpdatePage = async (props: {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const article = await prefetchArticleBySlug({ slug: slug, clientConfig });
+    const article = await prefetchArticleBySlug({
+        slug: slug,
+        clientConfig,
+        queryClient,
+    });
 
     if (!article) {
         return permanentRedirect('/');

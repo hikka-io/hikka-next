@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { QueryClient } from '@hikka/react/core';
 import {
     prefetchReadStats,
     prefetchUserFollowStats,
@@ -11,9 +12,13 @@ interface Props {
     params: {
         username: string;
     };
+    queryClient: QueryClient;
 }
 
-const prefetchQueries = async ({ params: { username } }: Props) => {
+const prefetchQueries = async ({
+    params: { username },
+    queryClient,
+}: Props) => {
     const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
@@ -21,14 +26,16 @@ const prefetchQueries = async ({ params: { username } }: Props) => {
             username,
             contentType: ContentTypeEnum.MANGA,
             clientConfig,
+            queryClient,
         }),
         prefetchReadStats({
             username,
             contentType: ContentTypeEnum.NOVEL,
             clientConfig,
+            queryClient,
         }),
-        prefetchUserWatchStats({ username, clientConfig }),
-        prefetchUserFollowStats({ username, clientConfig }),
+        prefetchUserWatchStats({ username, clientConfig, queryClient }),
+        prefetchUserFollowStats({ username, clientConfig, queryClient }),
     ]);
 };
 

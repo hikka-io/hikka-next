@@ -25,7 +25,7 @@ const FollowingHistoryPage: FC<Props> = async (props) => {
     const clientConfig = await getHikkaClientConfig();
 
     clientConfig.authToken &&
-        (await prefetchFollowingHistory({ clientConfig }));
+        (await prefetchFollowingHistory({ clientConfig, queryClient }));
 
     const dehydratedState = dehydrate(queryClient);
 

@@ -1,4 +1,4 @@
-import { EditContent, EditContentType } from '@hikka/client';
+import { ContentTypeEnum, EditContent, EditContentType } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -45,38 +45,43 @@ const EditNewPage: FC<Props> = async (props) => {
 
     let content: EditContent | undefined;
 
-    if (content_type === 'anime') {
+    if (content_type === ContentTypeEnum.ANIME) {
         content = await prefetchAnimeBySlug({
             slug: String(slug),
             clientConfig,
+            queryClient,
         });
     }
 
-    if (content_type === 'manga') {
+    if (content_type === ContentTypeEnum.MANGA) {
         content = await prefetchMangaBySlug({
             slug: String(slug),
             clientConfig,
+            queryClient,
         });
     }
 
-    if (content_type === 'novel') {
+    if (content_type === ContentTypeEnum.NOVEL) {
         content = await prefetchNovelBySlug({
             slug: String(slug),
             clientConfig,
+            queryClient,
         });
     }
 
-    if (content_type === 'character') {
+    if (content_type === ContentTypeEnum.CHARACTER) {
         content = await prefetchCharacterBySlug({
             slug: String(slug),
             clientConfig,
+            queryClient,
         });
     }
 
-    if (content_type === 'person') {
+    if (content_type === ContentTypeEnum.PERSON) {
         content = await prefetchPersonBySlug({
             slug: String(slug),
             clientConfig,
+            queryClient,
         });
     }
 

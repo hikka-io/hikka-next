@@ -46,13 +46,17 @@ const CharacterLayout: FC<Props> = async (props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const character = await prefetchCharacterBySlug({ slug, clientConfig });
+    const character = await prefetchCharacterBySlug({
+        slug,
+        clientConfig,
+        queryClient,
+    });
 
     if (!character) {
         return permanentRedirect('/');
     }
 
-    await prefetchQueries({ params: { slug } });
+    await prefetchQueries({ params: { slug }, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 

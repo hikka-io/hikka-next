@@ -1,5 +1,5 @@
 import { ContentStatusEnum, WatchStatusEnum } from '@hikka/client';
-import { getQueryClient } from '@hikka/react/core';
+import { QueryClient } from '@hikka/react/core';
 import {
     prefetchLatestComments,
     prefetchSearchAnimeSchedule,
@@ -13,13 +13,16 @@ import {
 import getCurrentSeason from '@/utils/get-current-season';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
-const prefetchQueries = async () => {
+const prefetchQueries = async ({
+    queryClient,
+}: {
+    queryClient: QueryClient;
+}) => {
     const clientConfig = await getHikkaClientConfig();
-    const queryClient = getQueryClient();
     const season = getCurrentSeason()!;
     const year = Number(new Date().getFullYear());
 
-    const loggedUser = await prefetchSession({ clientConfig });
+    const loggedUser = await prefetchSession({ clientConfig, queryClient });
 
     const promises = [];
 
@@ -32,6 +35,7 @@ const prefetchQueries = async () => {
                     sort: ['watch_updated:desc'],
                 },
                 clientConfig,
+                queryClient,
             }),
         );
 
@@ -39,6 +43,7 @@ const prefetchQueries = async () => {
             prefetchUserHistory({
                 username: loggedUser.username,
                 clientConfig,
+                queryClient,
             }),
         );
     }
@@ -51,6 +56,7 @@ const prefetchQueries = async () => {
                 years: [year, year],
             },
             clientConfig,
+            queryClient,
         }),
     );
 
@@ -64,6 +70,7 @@ const prefetchQueries = async () => {
                 ],
             },
             clientConfig,
+            queryClient,
         }),
     );
 
@@ -71,9 +78,10 @@ const prefetchQueries = async () => {
         prefetchSearchCollections({
             args: { sort: ['created:desc'] },
             clientConfig,
+            queryClient,
         }),
     );
-    promises.push(prefetchLatestComments({ clientConfig }));
+    promises.push(prefetchLatestComments({ clientConfig, queryClient }));
 
     await Promise.all(promises);
 };

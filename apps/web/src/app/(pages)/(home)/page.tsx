@@ -27,7 +27,7 @@ import prefetchQueries from './page.queries';
 const Page = async () => {
     const queryClient = getQueryClient();
 
-    await prefetchQueries();
+    await prefetchQueries({ queryClient });
 
     const loggedUser: UserResponse | undefined = queryClient.getQueryData(
         queryKeys.user.me(),

@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { getQueryClient } from '@hikka/react/core';
 import {
     prefetchAnimeBySlug,
     prefetchSearchArticles,
@@ -31,15 +32,21 @@ const AnimePage: FC<Props> = async (props) => {
 
     const { slug } = params;
 
+    const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const anime = await prefetchAnimeBySlug({ slug, clientConfig });
+    const anime = await prefetchAnimeBySlug({
+        slug,
+        clientConfig,
+        queryClient,
+    });
     await prefetchSearchArticles({
         args: {
             content_slug: slug,
             content_type: ContentTypeEnum.ANIME,
         },
         clientConfig,
+        queryClient,
     });
 
     return (

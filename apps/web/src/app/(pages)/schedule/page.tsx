@@ -1,4 +1,4 @@
-import { SeasonEnum } from '@hikka/client';
+import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -44,7 +44,7 @@ const ScheduleListPage: FC<Props> = async (props) => {
     const status =
         searchParams.status && searchParams.status.length > 0
             ? searchParams.status
-            : ['ongoing', 'announced'];
+            : [ContentStatusEnum.ONGOING, ContentStatusEnum.ANNOUNCED];
 
     await prefetchSearchAnimeSchedule({
         args: {
@@ -53,6 +53,7 @@ const ScheduleListPage: FC<Props> = async (props) => {
             airing_season: [season, year],
         },
         clientConfig,
+        queryClient,
     });
 
     const dehydratedState = dehydrate(queryClient);

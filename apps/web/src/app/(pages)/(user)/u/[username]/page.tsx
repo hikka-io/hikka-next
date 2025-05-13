@@ -40,16 +40,19 @@ const UserPage: FC<Props> = async (props) => {
             username,
             contentType: ContentTypeEnum.ANIME,
             clientConfig,
+            queryClient,
         }),
-        await prefetchUserHistory({ username, clientConfig }),
-        await prefetchUserActivity({ username, clientConfig }),
+        await prefetchUserHistory({ username, clientConfig, queryClient }),
+        await prefetchUserActivity({ username, clientConfig, queryClient }),
         await prefetchSearchArticles({
             args: { author: username },
             clientConfig,
+            queryClient,
         }),
         await prefetchSearchCollections({
             args: { author: username, sort: ['created:desc'] },
             clientConfig,
+            queryClient,
         }),
     ]);
 

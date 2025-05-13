@@ -32,10 +32,12 @@ export async function generateMetadata({
     params,
 }: MetadataProps): Promise<Metadata> {
     const { content_type, slug } = await params;
+    const queryClient = getQueryClient();
 
     const content = await prefetchContent({
         content_type,
         slug,
+        queryClient,
     });
 
     const coverted = convertTitle({
@@ -65,7 +67,10 @@ const CommentsPage: FC<Props> = async (props) => {
     const comment_reference =
         params.comment_reference && params.comment_reference[0];
 
-    const content = await prefetchContent(params);
+    const content = await prefetchContent({
+        ...params,
+        queryClient,
+    });
 
     if (!content) {
         return permanentRedirect('/');
@@ -76,12 +81,14 @@ const CommentsPage: FC<Props> = async (props) => {
             slug: params.slug,
             contentType: params.content_type,
             clientConfig,
+            queryClient,
         }));
 
     comment_reference &&
         (await prefetchCommentThread({
             commentReference: comment_reference,
             clientConfig,
+            queryClient,
         }));
 
     const dehydratedState = dehydrate(queryClient);

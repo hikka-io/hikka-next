@@ -48,9 +48,10 @@ const CollectionsPage: FC<Props> = async (props) => {
     const clientConfig = await getHikkaClientConfig();
 
     const collections = await prefetchSearchCollections({
-        args: { sort: [sort] },
+        args: { sort: [`${sort}:desc`] },
         paginationArgs: { page: Number(page) },
         clientConfig,
+        queryClient,
     });
 
     const dehydratedState = dehydrate(queryClient);
@@ -80,7 +81,9 @@ const CollectionsPage: FC<Props> = async (props) => {
                 </div>
                 <CollectionList page={Number(page)} sort={sort} />
                 {collections && (
-                    <PagePagination pagination={collections.pagination} />
+                    <PagePagination
+                        pagination={collections.pages[0].pagination}
+                    />
                 )}
             </Block>
         </HydrationBoundary>

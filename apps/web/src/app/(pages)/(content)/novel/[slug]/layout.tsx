@@ -52,19 +52,20 @@ const NovelLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const novel = await prefetchNovelBySlug({ slug });
+    const novel = await prefetchNovelBySlug({ slug, queryClient });
 
     if (!novel) {
         return permanentRedirect('/');
     }
 
-    await prefetchQueries({ params: { slug } });
+    await prefetchQueries({ params: { slug }, queryClient });
     await prefetchSearchArticles({
         args: {
             content_slug: slug,
             content_type: ContentTypeEnum.NOVEL,
         },
         clientConfig,
+        queryClient,
     });
 
     const dehydratedState = dehydrate(queryClient);

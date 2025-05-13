@@ -24,7 +24,7 @@ const LatestCommentsPage: FC = async () => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchLatestComments({ clientConfig });
+    await prefetchLatestComments({ clientConfig, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 

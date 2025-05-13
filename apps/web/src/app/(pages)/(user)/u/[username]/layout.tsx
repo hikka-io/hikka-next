@@ -51,13 +51,17 @@ const UserLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const user = await prefetchUserByUsername({ username, clientConfig });
+    const user = await prefetchUserByUsername({
+        username,
+        clientConfig,
+        queryClient,
+    });
 
     if (!user) {
         return permanentRedirect('/');
     }
 
-    await prefetchQueries({ params: { username } });
+    await prefetchQueries({ params: { username }, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 

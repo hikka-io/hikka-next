@@ -52,19 +52,24 @@ const MangaLayout: FC<Props> = async (props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const manga = await prefetchMangaBySlug({ slug, clientConfig });
+    const manga = await prefetchMangaBySlug({
+        slug,
+        clientConfig,
+        queryClient,
+    });
 
     if (!manga) {
         return permanentRedirect('/');
     }
 
-    await prefetchQueries({ params: { slug } });
+    await prefetchQueries({ params: { slug }, queryClient });
     await prefetchSearchArticles({
         args: {
             content_slug: slug,
             content_type: ContentTypeEnum.MANGA,
         },
         clientConfig,
+        queryClient,
     });
 
     const dehydratedState = dehydrate(queryClient);

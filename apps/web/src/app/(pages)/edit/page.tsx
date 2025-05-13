@@ -36,7 +36,7 @@ const EditListPage = async (props: {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchEditList({
+    const edits = await prefetchEditList({
         args: {
             content_type: (content_type as EditContentType) || undefined,
             sort: [`${sort || 'edit_id'}:${order || 'desc'}`],
@@ -46,9 +46,10 @@ const EditListPage = async (props: {
             page: Number(page),
         },
         clientConfig,
+        queryClient,
     });
 
-    await prefetchTopEditorsList({ clientConfig });
+    await prefetchTopEditorsList({ clientConfig, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -80,7 +81,7 @@ const EditListPage = async (props: {
                                     </Button>
                                 </EditFiltersModal>
                             </div>
-                            <EditList page={page as string} />
+                            <EditList />
                         </Block>
                     </div>
                     <div className="sticky top-20 order-1 hidden opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">

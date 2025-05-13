@@ -68,6 +68,7 @@ const ListPage: FC<Props> = async (props) => {
             sort: [`${sort}:desc`],
         },
         clientConfig,
+        queryClient,
     });
 
     const dehydratedState = dehydrate(queryClient);

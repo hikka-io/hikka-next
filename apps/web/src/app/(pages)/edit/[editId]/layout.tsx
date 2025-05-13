@@ -56,7 +56,11 @@ const EditLayout: FC<Props> = async (props) => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    const edit = await prefetchEdit({ editId: Number(editId), clientConfig });
+    const edit = await prefetchEdit({
+        editId: Number(editId),
+        clientConfig,
+        queryClient,
+    });
 
     if (!edit) {
         permanentRedirect('/edit');
@@ -66,6 +70,7 @@ const EditLayout: FC<Props> = async (props) => {
         contentType: ContentTypeEnum.EDIT,
         slug: editId,
         clientConfig,
+        queryClient,
     });
 
     const dehydratedState = dehydrate(queryClient);

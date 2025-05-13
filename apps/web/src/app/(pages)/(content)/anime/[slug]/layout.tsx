@@ -51,6 +51,7 @@ const AnimeLayout: FC<Props> = async (props) => {
     const anime = await prefetchAnimeBySlug({
         slug,
         clientConfig,
+        queryClient,
     });
 
     if (!anime) {
@@ -58,7 +59,7 @@ const AnimeLayout: FC<Props> = async (props) => {
         return permanentRedirect('/');
     }
 
-    await prefetchQueries({ params: { slug } });
+    await prefetchQueries({ params: { slug }, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 

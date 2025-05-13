@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { QueryClient } from '@hikka/react/core';
 import {
     prefetchFavouriteStatus,
     prefetchFranchise,
@@ -12,13 +13,14 @@ interface Props {
     params: {
         slug: string;
     };
+    queryClient: QueryClient;
 }
 
-const prefetchQueries = async ({ params: { slug } }: Props) => {
+const prefetchQueries = async ({ params: { slug }, queryClient }: Props) => {
     const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
-        prefetchMangaCharacters({ slug, clientConfig }),
+        prefetchMangaCharacters({ slug, clientConfig, queryClient }),
         prefetchFranchise({
             slug,
             contentType: ContentTypeEnum.MANGA,
@@ -29,6 +31,7 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
                   slug,
                   contentType: ContentTypeEnum.MANGA,
                   clientConfig,
+                  queryClient,
               })
             : undefined,
         clientConfig.authToken
@@ -36,6 +39,7 @@ const prefetchQueries = async ({ params: { slug } }: Props) => {
                   slug,
                   contentType: ContentTypeEnum.MANGA,
                   clientConfig,
+                  queryClient,
               })
             : undefined,
     ]);

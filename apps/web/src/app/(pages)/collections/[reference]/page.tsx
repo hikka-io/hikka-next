@@ -56,6 +56,7 @@ const CollectionPage = async (props: {
     const collection = await prefetchCollectionByReference({
         reference,
         clientConfig,
+        queryClient,
     });
 
     if (!collection) {
