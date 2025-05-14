@@ -56,12 +56,12 @@ export function useNovelCharacters({
  * Hook for searching novels
  */
 export function useSearchNovels({
-    args = {},
+    args,
     paginationArgs,
     ...rest
 }: UseSearchNovelsParams & InfiniteQueryParams<NovelPaginationResponse>) {
     return useInfiniteQuery({
-        queryKey: queryKeys.novel.search(args, paginationArgs),
+        queryKey: queryKeys.novel.search({ args, paginationArgs }),
         queryFn: (client, page = paginationArgs?.page || 1) =>
             client.novel.searchNovels(args, {
                 page,
