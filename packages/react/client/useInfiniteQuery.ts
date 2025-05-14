@@ -25,8 +25,10 @@ export interface InfiniteQueryParams<T> {
             readonly unknown[],
             number
         >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
-    >;
+        'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
+    > & {
+        initialPageParam?: number;
+    };
     /** Pagination arguments */
     paginationArgs?: PaginationArgs;
 }
@@ -97,7 +99,9 @@ export function useInfiniteQuery<
 
     const list =
         query.data && query.data?.pages.map((data) => data.list).flat(1);
-    const pagination = query.data?.pages[0]?.pagination;
+    const pagination =
+        query.data &&
+        query.data?.pages[query.data?.pages.length - 1]?.pagination;
 
     React.useEffect(() => {
         if (inView) {
