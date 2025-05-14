@@ -36,6 +36,7 @@ const UserCollections: FC<Props> = ({ className }) => {
         args: {
             author: String(params.username),
             sort: ['created:desc'],
+            only_public: false,
         },
     });
 

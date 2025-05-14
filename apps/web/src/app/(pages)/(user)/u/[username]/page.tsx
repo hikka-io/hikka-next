@@ -50,7 +50,11 @@ const UserPage: FC<Props> = async (props) => {
             queryClient,
         }),
         await prefetchSearchCollections({
-            args: { author: username, sort: ['created:desc'] },
+            args: {
+                author: username,
+                sort: ['created:desc'],
+                only_public: false,
+            },
             clientConfig,
             queryClient,
         }),
