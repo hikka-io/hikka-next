@@ -190,7 +190,8 @@ export class HikkaClient {
                 if (
                     value !== undefined &&
                     value !== null &&
-                    key !== 'headers'
+                    key !== 'headers' &&
+                    key !== 'next'
                 ) {
                     url.searchParams.append(key, String(value));
                 }
