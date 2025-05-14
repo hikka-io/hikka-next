@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
+
 import createQueryString from '@/utils/create-query-string';
 
 const Search = () => {
@@ -17,15 +18,7 @@ const Search = () => {
         const query = createQueryString(
             'search',
             value,
-            createQueryString(
-                'page',
-                '1',
-                createQueryString(
-                    'iPage',
-                    '1',
-                    new URLSearchParams(searchParams),
-                ),
-            ),
+            createQueryString('page', '1', new URLSearchParams(searchParams)),
         );
         setSearch(value);
 

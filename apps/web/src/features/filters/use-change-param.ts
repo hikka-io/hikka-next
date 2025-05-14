@@ -14,15 +14,7 @@ const useChangeParam = () => {
         const query = createQueryString(
             name,
             value,
-            createQueryString(
-                'page',
-                '1',
-                createQueryString(
-                    'iPage',
-                    '1',
-                    new URLSearchParams(searchParams),
-                ),
-            ),
+            createQueryString('page', '1', new URLSearchParams(searchParams)),
         );
         router.replace(`${pathname}?${query}`);
     };

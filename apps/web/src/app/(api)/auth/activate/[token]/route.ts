@@ -26,13 +26,12 @@ export async function GET(
             }
 
             return redirect(
-                '/anime?page=1&iPage=1&activation=error&error=' +
-                    (e as any).code,
+                '/anime?page=1&activation=error&error=' + (e as any).code,
             );
         }
 
-        return redirect('/anime?page=1&iPage=1&activation=error&error=' + e);
+        return redirect('/anime?page=1&activation=error&error=' + e);
     }
 
-    return redirect('/anime?page=1&iPage=1&activation=success');
+    return redirect('/anime?page=1&activation=success');
 }
