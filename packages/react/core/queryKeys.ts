@@ -59,8 +59,8 @@ export const queryKeys = {
     // Novel module keys
     novel: {
         all: ['novel'] as const,
-        search: (args: unknown, paginationArgs?: PaginationArgs) =>
-            [...queryKeys.novel.all, 'search', args, paginationArgs] as const,
+        search: (params: unknown) =>
+            [...queryKeys.novel.all, 'search', params] as const,
         details: (slug: string) =>
             [...queryKeys.novel.all, 'details', slug] as const,
         characters: (slug: string, paginationArgs?: PaginationArgs) =>

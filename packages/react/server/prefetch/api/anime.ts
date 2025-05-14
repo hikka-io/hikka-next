@@ -153,9 +153,9 @@ export async function prefetchSearchAnimes({
     UseAnimeSearchParams) {
     return prefetchInfiniteQuery({
         queryKey: queryKeys.anime.search({ args, paginationArgs }),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
+        queryFn: (client, pageParam) =>
             client.anime.searchAnimes(args, {
-                page,
+                page: paginationArgs?.page ?? pageParam,
                 size: paginationArgs?.size,
             }),
         ...rest,
