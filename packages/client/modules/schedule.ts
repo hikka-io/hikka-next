@@ -1,5 +1,5 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { PaginationArgs } from '../types';
+import { BaseRequestOptionsArgs, PaginationArgs } from '../types';
 import {
     AnimeScheduleArgs,
     AnimeScheduleResponsePaginationResponse,
@@ -16,6 +16,7 @@ export class ScheduleModule extends BaseModule {
     public async searchAnimeSchedule(
         args: AnimeScheduleArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimeScheduleResponsePaginationResponse> {
         return this.client.post<AnimeScheduleResponsePaginationResponse>(
             '/schedule/anime',
@@ -24,6 +25,7 @@ export class ScheduleModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

@@ -1,5 +1,5 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { PaginationArgs } from '../types';
+import { BaseRequestOptionsArgs, PaginationArgs } from '../types';
 import {
     CompaniesPaginationResponse,
     CompaniesSearchArgs,
@@ -16,6 +16,7 @@ export class CompaniesModule extends BaseModule {
     public async searchCompanies(
         args: CompaniesSearchArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CompaniesPaginationResponse> {
         return this.client.post<CompaniesPaginationResponse>(
             '/companies',
@@ -24,6 +25,7 @@ export class CompaniesModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

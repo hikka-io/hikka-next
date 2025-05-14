@@ -1,5 +1,6 @@
 import {
     ActivityResponse,
+    BaseRequestOptionsArgs,
     QuerySearchRequiredArgs,
     UserResponse,
 } from '../types';
@@ -9,15 +10,20 @@ export class UserModule extends BaseModule {
     /**
      * Get current user profile details
      */
-    public async getCurrentUser(): Promise<UserResponse> {
-        return this.client.get<UserResponse>('/user/me');
+    public async getCurrentUser(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.get<UserResponse>('/user/me', options);
     }
 
     /**
      * Get user details by username
      */
-    public async getUserByUsername(username: string): Promise<UserResponse> {
-        return this.client.get<UserResponse>(`/user/${username}`);
+    public async getUserByUsername(
+        username: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.get<UserResponse>(`/user/${username}`, options);
     }
 
     /**
@@ -25,8 +31,9 @@ export class UserModule extends BaseModule {
      */
     public async searchUsers(
         args: QuerySearchRequiredArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<UserResponse[]> {
-        return this.client.post<UserResponse[]>('/user/list', args);
+        return this.client.post<UserResponse[]>('/user/list', args, options);
     }
 
     /**
@@ -34,9 +41,11 @@ export class UserModule extends BaseModule {
      */
     public async getUserActivity(
         username: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ActivityResponse[]> {
         return this.client.get<ActivityResponse[]>(
             `/user/${username}/activity`,
+            options,
         );
     }
 }

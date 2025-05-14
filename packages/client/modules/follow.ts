@@ -1,5 +1,5 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { PaginationArgs } from '../types';
+import { BaseRequestOptionsArgs, PaginationArgs } from '../types';
 import {
     FollowListResponse,
     FollowResponse,
@@ -14,22 +14,38 @@ export class FollowModule extends BaseModule {
     /**
      * Create a follow relationship with a user
      */
-    public async createFollow(username: string): Promise<FollowResponse> {
-        return this.client.put<FollowResponse>(`/follow/${username}`);
+    public async createFollow(
+        username: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<FollowResponse> {
+        return this.client.put<FollowResponse>(
+            `/follow/${username}`,
+            undefined,
+            options,
+        );
     }
 
     /**
      * Delete a follow relationship with a user
      */
-    public async deleteFollow(username: string): Promise<FollowResponse> {
-        return this.client.delete<FollowResponse>(`/follow/${username}`);
+    public async deleteFollow(
+        username: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<FollowResponse> {
+        return this.client.delete<FollowResponse>(
+            `/follow/${username}`,
+            options,
+        );
     }
 
     /**
      * Get follow status for a user
      */
-    public async getFollowStatus(username: string): Promise<FollowResponse> {
-        return this.client.get<FollowResponse>(`/follow/${username}`);
+    public async getFollowStatus(
+        username: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<FollowResponse> {
+        return this.client.get<FollowResponse>(`/follow/${username}`, options);
     }
 
     /**
@@ -37,9 +53,11 @@ export class FollowModule extends BaseModule {
      */
     public async getUserFollowStats(
         username: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<FollowStatsResponse> {
         return this.client.get<FollowStatsResponse>(
             `/follow/${username}/stats`,
+            options,
         );
     }
 
@@ -49,6 +67,7 @@ export class FollowModule extends BaseModule {
     public async getUserFollowings(
         username: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<FollowListResponse> {
         return this.client.get<FollowListResponse>(
             `/follow/${username}/following`,
@@ -56,6 +75,7 @@ export class FollowModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -66,6 +86,7 @@ export class FollowModule extends BaseModule {
     public async getUserFollowers(
         username: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<FollowListResponse> {
         return this.client.get<FollowListResponse>(
             `/follow/${username}/followers`,
@@ -73,6 +94,7 @@ export class FollowModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

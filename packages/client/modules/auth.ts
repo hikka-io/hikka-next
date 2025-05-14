@@ -2,6 +2,7 @@ import { DEFAULT_PAGINATION } from '../constants';
 import {
     AuthTokenInfoPaginationResponse,
     AuthTokenInfoResponse,
+    BaseRequestOptionsArgs,
     CaptchaArgs,
     CodeArgs,
     ComfirmResetArgs,
@@ -26,9 +27,11 @@ export class AuthModule extends BaseModule {
     public async createUserSession(
         args: LoginArgs,
         { captcha }: CaptchaArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TokenResponse> {
         return this.client.post<TokenResponse>('/auth/login', args, {
             headers: { captcha },
+            ...options,
         });
     }
 
@@ -38,24 +41,39 @@ export class AuthModule extends BaseModule {
     public async createUser(
         args: SignupArgs,
         { captcha }: CaptchaArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TokenResponse> {
         return this.client.post<TokenResponse>('/auth/signup', args, {
             headers: { captcha },
+            ...options,
         });
     }
 
     /**
      * Activate a user account with token
      */
-    public async activateUser(args: TokenArgs): Promise<TokenResponse> {
-        return this.client.post<TokenResponse>('/auth/activation', args);
+    public async activateUser(
+        args: TokenArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<TokenResponse> {
+        return this.client.post<TokenResponse>(
+            '/auth/activation',
+            args,
+            options,
+        );
     }
 
     /**
      * Create a new activation link request
      */
-    public async createActivationRequest(): Promise<UserResponse> {
-        return this.client.post<UserResponse>('/auth/activation/resend');
+    public async createActivationRequest(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.post<UserResponse>(
+            '/auth/activation/resend',
+            undefined,
+            options,
+        );
     }
 
     /**
@@ -63,8 +81,13 @@ export class AuthModule extends BaseModule {
      */
     public async createPasswordResetRequest(
         args: EmailArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<UserResponse> {
-        return this.client.post<UserResponse>('/auth/password/reset', args);
+        return this.client.post<UserResponse>(
+            '/auth/password/reset',
+            args,
+            options,
+        );
     }
 
     /**
@@ -72,8 +95,13 @@ export class AuthModule extends BaseModule {
      */
     public async confirmPasswordReset(
         args: ComfirmResetArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TokenResponse> {
-        return this.client.post<TokenResponse>('/auth/password/confirm', args);
+        return this.client.post<TokenResponse>(
+            '/auth/password/confirm',
+            args,
+            options,
+        );
     }
 
     /**
@@ -81,8 +109,12 @@ export class AuthModule extends BaseModule {
      */
     public async getOAuthProviderUrl(
         provider: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ProviderUrlResponse> {
-        return this.client.get<ProviderUrlResponse>(`/auth/oauth/${provider}`);
+        return this.client.get<ProviderUrlResponse>(
+            `/auth/oauth/${provider}`,
+            options,
+        );
     }
 
     /**
@@ -91,15 +123,25 @@ export class AuthModule extends BaseModule {
     public async createOAuthToken(
         provider: string,
         args: CodeArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TokenResponse> {
-        return this.client.post<TokenResponse>(`/auth/oauth/${provider}`, args);
+        return this.client.post<TokenResponse>(
+            `/auth/oauth/${provider}`,
+            args,
+            options,
+        );
     }
 
     /**
      * Get current authentication token details
      */
-    public async getAuthTokenDetails(): Promise<AuthTokenInfoResponse> {
-        return this.client.get<AuthTokenInfoResponse>('/auth/token/info');
+    public async getAuthTokenDetails(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<AuthTokenInfoResponse> {
+        return this.client.get<AuthTokenInfoResponse>(
+            '/auth/token/info',
+            options,
+        );
     }
 
     /**
@@ -108,10 +150,12 @@ export class AuthModule extends BaseModule {
     public async createThirdPartyTokenRequest(
         clientReference: string,
         args: TokenRequestArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TokenRequestResponse> {
         return this.client.post<TokenRequestResponse>(
             `/auth/token/request/${clientReference}`,
             args,
+            options,
         );
     }
 
@@ -120,22 +164,24 @@ export class AuthModule extends BaseModule {
      */
     public async createThirdPartyToken(
         args: TokenProceedArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TokenResponse> {
-        return this.client.post<TokenResponse>('/auth/token', args);
+        return this.client.post<TokenResponse>('/auth/token', args, options);
     }
 
     /**
      * Get third-party tokens list
      */
-    public async getThirdPartyTokenList({
-        page,
-        size,
-    }: PaginationArgs = DEFAULT_PAGINATION): Promise<AuthTokenInfoPaginationResponse> {
+    public async getThirdPartyTokenList(
+        { page, size }: PaginationArgs = DEFAULT_PAGINATION,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<AuthTokenInfoPaginationResponse> {
         return this.client.get<AuthTokenInfoPaginationResponse>(
             '/auth/token/thirdparty',
             {
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -145,9 +191,11 @@ export class AuthModule extends BaseModule {
      */
     public async deleteAuthToken(
         tokenReference: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AuthTokenInfoResponse> {
         return this.client.delete<AuthTokenInfoResponse>(
             `/auth/token/${tokenReference}`,
+            options,
         );
     }
 }

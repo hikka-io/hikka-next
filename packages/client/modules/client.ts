@@ -1,5 +1,9 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { PaginationArgs, SuccessResponse } from '../types';
+import {
+    BaseRequestOptionsArgs,
+    PaginationArgs,
+    SuccessResponse,
+} from '../types';
 import {
     ClientArgs,
     ClientInfoResponse,
@@ -16,8 +20,11 @@ export class ClientModule extends BaseModule {
     /**
      * Create a new client
      */
-    public async createClient(args: ClientArgs): Promise<ClientInfoResponse> {
-        return this.client.post<ClientInfoResponse>('/client', args);
+    public async createClient(
+        args: ClientArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<ClientInfoResponse> {
+        return this.client.post<ClientInfoResponse>('/client', args, options);
     }
 
     /**
@@ -25,8 +32,9 @@ export class ClientModule extends BaseModule {
      */
     public async getClientByReference(
         reference: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ClientResponse> {
-        return this.client.get<ClientResponse>(`/client/${reference}`);
+        return this.client.get<ClientResponse>(`/client/${reference}`, options);
     }
 
     /**
@@ -34,21 +42,26 @@ export class ClientModule extends BaseModule {
      */
     public async getClientFullDetails(
         reference: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ClientInfoResponse> {
-        return this.client.get<ClientInfoResponse>(`/client/${reference}/full`);
+        return this.client.get<ClientInfoResponse>(
+            `/client/${reference}/full`,
+            options,
+        );
     }
 
     /**
      * Get clients list for current user
      */
-    public async getClientList({
-        page,
-        size,
-    }: PaginationArgs): Promise<ClientPaginationResponse> {
+    public async getClientList(
+        { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<ClientPaginationResponse> {
         return this.client.get<ClientPaginationResponse>('/client', {
             ...DEFAULT_PAGINATION,
             page,
             size,
+            ...options,
         });
     }
 
@@ -58,18 +71,26 @@ export class ClientModule extends BaseModule {
     public async updateClient(
         reference: string,
         args: ClientArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ClientInfoResponse> {
         return this.client.put<ClientInfoResponse>(
             `/client/${reference}`,
             args,
+            options,
         );
     }
 
     /**
      * Delete a client
      */
-    public async deleteClient(reference: string): Promise<SuccessResponse> {
-        return this.client.delete<SuccessResponse>(`/client/${reference}`);
+    public async deleteClient(
+        reference: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<SuccessResponse> {
+        return this.client.delete<SuccessResponse>(
+            `/client/${reference}`,
+            options,
+        );
     }
 
     /**
@@ -77,9 +98,12 @@ export class ClientModule extends BaseModule {
      */
     public async updateClientVerification(
         reference: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ClientVerifyResponse> {
         return this.client.post<ClientVerifyResponse>(
             `/client/${reference}/verify`,
+            undefined,
+            options,
         );
     }
 }

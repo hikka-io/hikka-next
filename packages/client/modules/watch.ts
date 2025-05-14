@@ -2,6 +2,7 @@ import { DEFAULT_PAGINATION } from '../constants';
 import {
     AnimeResponse,
     AnimeWatchSearchArgs,
+    BaseRequestOptionsArgs,
     PaginationArgs,
     SuccessResponse,
     UserWatchPaginationResponse,
@@ -17,8 +18,11 @@ export class WatchModule extends BaseModule {
     /**
      * Get watch entry details for an anime
      */
-    public async getWatchBySlug(slug: string): Promise<WatchResponse> {
-        return this.client.get<WatchResponse>(`/watch/${slug}`);
+    public async getWatchBySlug(
+        slug: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<WatchResponse> {
+        return this.client.get<WatchResponse>(`/watch/${slug}`, options);
     }
 
     /**
@@ -27,15 +31,19 @@ export class WatchModule extends BaseModule {
     public async createWatch(
         slug: string,
         args: WatchArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<WatchResponse> {
-        return this.client.put<WatchResponse>(`/watch/${slug}`, args);
+        return this.client.put<WatchResponse>(`/watch/${slug}`, args, options);
     }
 
     /**
      * Delete a watch entry
      */
-    public async deleteWatch(slug: string): Promise<SuccessResponse> {
-        return this.client.delete<SuccessResponse>(`/watch/${slug}`);
+    public async deleteWatch(
+        slug: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<SuccessResponse> {
+        return this.client.delete<SuccessResponse>(`/watch/${slug}`, options);
     }
 
     /**
@@ -45,6 +53,7 @@ export class WatchModule extends BaseModule {
         username: string,
         args: AnimeWatchSearchArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<WatchPaginationResponse> {
         return this.client.post<WatchPaginationResponse>(
             `/watch/${username}/list`,
@@ -53,6 +62,7 @@ export class WatchModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -63,9 +73,11 @@ export class WatchModule extends BaseModule {
     public async getRandomWatchByStatus(
         username: string,
         status: WatchStatusEnum,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimeResponse> {
         return this.client.get<AnimeResponse>(
             `/watch/random/${username}/${status}`,
+            options,
         );
     }
 
@@ -75,6 +87,7 @@ export class WatchModule extends BaseModule {
     public async getWatchingUsers(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<UserWatchPaginationResponse> {
         return this.client.get<UserWatchPaginationResponse>(
             `/watch/${slug}/following`,
@@ -82,6 +95,7 @@ export class WatchModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -91,7 +105,11 @@ export class WatchModule extends BaseModule {
      */
     public async getUserWatchStats(
         username: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<WatchStatsResponse> {
-        return this.client.get<WatchStatsResponse>(`/watch/${username}/stats`);
+        return this.client.get<WatchStatsResponse>(
+            `/watch/${username}/stats`,
+            options,
+        );
     }
 }

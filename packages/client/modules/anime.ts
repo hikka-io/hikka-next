@@ -5,6 +5,7 @@ import {
     AnimePaginationResponse,
     AnimeSearchArgs,
     AnimeStaffPaginationResponse,
+    BaseRequestOptionsArgs,
     ContentCharacterPaginationResponse,
     GenreListResponse,
     PaginationArgs,
@@ -18,19 +19,24 @@ export class AnimeModule extends BaseModule {
     public async searchAnimes(
         args: AnimeSearchArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimePaginationResponse> {
         return this.client.post<AnimePaginationResponse>('/anime', args, {
             ...DEFAULT_PAGINATION,
             page,
             size,
+            ...options,
         });
     }
 
     /**
      * Get anime details by slug
      */
-    public async getAnimeBySlug(slug: string): Promise<AnimeInfoResponse> {
-        return this.client.get<AnimeInfoResponse>(`/anime/${slug}`);
+    public async getAnimeBySlug(
+        slug: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<AnimeInfoResponse> {
+        return this.client.get<AnimeInfoResponse>(`/anime/${slug}`, options);
     }
 
     /**
@@ -39,6 +45,7 @@ export class AnimeModule extends BaseModule {
     public async getAnimeCharacters(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/anime/${slug}/characters`,
@@ -46,6 +53,7 @@ export class AnimeModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -56,6 +64,7 @@ export class AnimeModule extends BaseModule {
     public async getAnimeStaff(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimeStaffPaginationResponse> {
         return this.client.get<AnimeStaffPaginationResponse>(
             `/anime/${slug}/staff`,
@@ -63,6 +72,7 @@ export class AnimeModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -73,6 +83,7 @@ export class AnimeModule extends BaseModule {
     public async getAnimeEpisodes(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimeEpisodesListResponse> {
         return this.client.get<AnimeEpisodesListResponse>(
             `/anime/${slug}/episodes`,
@@ -80,6 +91,7 @@ export class AnimeModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -90,6 +102,7 @@ export class AnimeModule extends BaseModule {
     public async getAnimeRecommendations(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimePaginationResponse> {
         return this.client.get<AnimePaginationResponse>(
             `/anime/${slug}/recommendations`,
@@ -97,6 +110,7 @@ export class AnimeModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -107,6 +121,7 @@ export class AnimeModule extends BaseModule {
     public async getAnimeFranchise(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<AnimePaginationResponse> {
         return this.client.get<AnimePaginationResponse>(
             `/anime/${slug}/franchise`,
@@ -114,6 +129,7 @@ export class AnimeModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -121,7 +137,9 @@ export class AnimeModule extends BaseModule {
     /**
      * Get all anime genres
      */
-    public async getGenreList(): Promise<GenreListResponse> {
-        return this.client.get<GenreListResponse>('/anime/genres');
+    public async getGenreList(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<GenreListResponse> {
+        return this.client.get<GenreListResponse>('/anime/genres', options);
     }
 }

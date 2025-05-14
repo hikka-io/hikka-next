@@ -9,6 +9,7 @@
     "include": [
         "./*ts",
         "modules/**/*",
+        "modules/*.ts",
         "types/**/*",
         "tsup.config.ts",
         "constants.ts"

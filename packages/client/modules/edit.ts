@@ -1,5 +1,5 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { PaginationArgs } from '../types';
+import { BaseRequestOptionsArgs, PaginationArgs } from '../types';
 import {
     AddEditArgs,
     EditPaginationResponse,
@@ -20,6 +20,7 @@ export class EditModule extends BaseModule {
      */
     public async createEdit<T = any, R = any>(
         args: AddEditArgs<T>,
+        options?: BaseRequestOptionsArgs,
     ): Promise<EditResponse<T, R>> {
         return this.client.put<EditResponse<T, R>>(
             `/edit/${args.content_type}/${args.slug}`,
@@ -28,6 +29,7 @@ export class EditModule extends BaseModule {
                 description: args.description,
                 auto: args.auto,
             },
+            options,
         );
     }
 
@@ -36,8 +38,9 @@ export class EditModule extends BaseModule {
      */
     public async getEdit<T = any, R = any>(
         editId: number | string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<EditResponse<T, R>> {
-        return this.client.get<EditResponse<T, R>>(`/edit/${editId}`);
+        return this.client.get<EditResponse<T, R>>(`/edit/${editId}`, options);
     }
 
     /**
@@ -46,12 +49,17 @@ export class EditModule extends BaseModule {
     public async updateEdit<T = any, R = any>(
         editId: number | string,
         args: UpdateEditArgs<T>,
+        options?: BaseRequestOptionsArgs,
     ): Promise<EditResponse<T, R>> {
-        return this.client.post<EditResponse<T, R>>(`/edit/${editId}/update`, {
-            after: args.after,
-            description: args.description,
-            auto: args.auto,
-        });
+        return this.client.post<EditResponse<T, R>>(
+            `/edit/${editId}/update`,
+            {
+                after: args.after,
+                description: args.description,
+                auto: args.auto,
+            },
+            options,
+        );
     }
 
     /**
@@ -60,33 +68,56 @@ export class EditModule extends BaseModule {
     public async getEditList<T = any>(
         args: GetEditListArgs = {},
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<EditPaginationResponse<T>> {
         return this.client.post<EditPaginationResponse<T>>('/edit/list', args, {
             ...DEFAULT_PAGINATION,
             page,
             size,
+            ...options,
         });
     }
 
     /**
      * Accept an edit
      */
-    public async acceptEdit(editId: number | string): Promise<EditResponse> {
-        return this.client.post<EditResponse>(`/edit/${editId}/accept`);
+    public async acceptEdit(
+        editId: number | string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<EditResponse> {
+        return this.client.post<EditResponse>(
+            `/edit/${editId}/accept`,
+            undefined,
+            options,
+        );
     }
 
     /**
      * Deny an edit
      */
-    public async denyEdit(editId: number | string): Promise<EditResponse> {
-        return this.client.post<EditResponse>(`/edit/${editId}/deny`);
+    public async denyEdit(
+        editId: number | string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<EditResponse> {
+        return this.client.post<EditResponse>(
+            `/edit/${editId}/deny`,
+            undefined,
+            options,
+        );
     }
 
     /**
      * Close an edit
      */
-    public async closeEdit(editId: number | string): Promise<EditResponse> {
-        return this.client.post<EditResponse>(`/edit/${editId}/close`);
+    public async closeEdit(
+        editId: number | string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<EditResponse> {
+        return this.client.post<EditResponse>(
+            `/edit/${editId}/close`,
+            undefined,
+            options,
+        );
     }
 
     /**
@@ -95,6 +126,7 @@ export class EditModule extends BaseModule {
     public async getTodoEditList<T = any>(
         args: TodoEditArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<TodoEditResponse<T>> {
         return this.client.get<TodoEditResponse<T>>(
             `/edit/todo/${args.content_type}/${args.todo_type}`,
@@ -102,6 +134,7 @@ export class EditModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

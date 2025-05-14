@@ -188,3 +188,27 @@ export interface SitemapResponse {
     updated_at: number;
     slug: string;
 }
+
+/**
+ * Cache strategy enum
+ */
+export enum CacheStrategyEnum {
+    DEFAULT = 'default',
+    NO_CACHE = 'no-cache',
+    FORCE_CACHE = 'force-cache',
+    NO_STORE = 'no-store',
+}
+
+/**
+ * Base request options that all endpoint requests can extend
+ */
+export type BaseRequestOptionsArgs = {
+    headers?: {
+        cache?: CacheStrategyEnum;
+        captcha?: string;
+    };
+    next?: {
+        revalidate?: number;
+        tags?: string[];
+    };
+};

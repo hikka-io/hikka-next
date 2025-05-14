@@ -1,5 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
+    BaseRequestOptionsArgs,
     ContentCharacterPaginationResponse,
     NovelInfoResponse,
     NovelPaginationResponse,
@@ -15,19 +16,24 @@ export class NovelModule extends BaseModule {
     public async searchNovels(
         args: NovelSearchArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<NovelPaginationResponse> {
         return this.client.post<NovelPaginationResponse>('/novel', args, {
             ...DEFAULT_PAGINATION,
             page,
             size,
+            ...options,
         });
     }
 
     /**
      * Get novel details by slug
      */
-    public async getNovelBySlug(slug: string): Promise<NovelInfoResponse> {
-        return this.client.get<NovelInfoResponse>(`/novel/${slug}`);
+    public async getNovelBySlug(
+        slug: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<NovelInfoResponse> {
+        return this.client.get<NovelInfoResponse>(`/novel/${slug}`, options);
     }
 
     /**
@@ -36,6 +42,7 @@ export class NovelModule extends BaseModule {
     public async getNovelCharacters(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ContentCharacterPaginationResponse> {
         return this.client.get<ContentCharacterPaginationResponse>(
             `/novel/${slug}/characters`,
@@ -43,6 +50,7 @@ export class NovelModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

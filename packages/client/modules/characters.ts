@@ -1,5 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
+    BaseRequestOptionsArgs,
     CharacterAnimePaginationResponse,
     CharacterCountResponse,
     CharacterMangaPaginationResponse,
@@ -17,8 +18,12 @@ export class CharactersModule extends BaseModule {
      */
     public async getCharacterBySlug(
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CharacterCountResponse> {
-        return this.client.get<CharacterCountResponse>(`/characters/${slug}`);
+        return this.client.get<CharacterCountResponse>(
+            `/characters/${slug}`,
+            options,
+        );
     }
 
     /**
@@ -27,6 +32,7 @@ export class CharactersModule extends BaseModule {
     public async searchCharacters(
         args: QuerySearchArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CharactersSearchPaginationResponse> {
         return this.client.post<CharactersSearchPaginationResponse>(
             '/characters',
@@ -35,6 +41,7 @@ export class CharactersModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -45,6 +52,7 @@ export class CharactersModule extends BaseModule {
     public async getCharacterAnime(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CharacterAnimePaginationResponse> {
         return this.client.get<CharacterAnimePaginationResponse>(
             `/characters/${slug}/anime`,
@@ -52,6 +60,7 @@ export class CharactersModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -62,6 +71,7 @@ export class CharactersModule extends BaseModule {
     public async getCharacterManga(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CharacterMangaPaginationResponse> {
         return this.client.get<CharacterMangaPaginationResponse>(
             `/characters/${slug}/manga`,
@@ -69,6 +79,7 @@ export class CharactersModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -79,6 +90,7 @@ export class CharactersModule extends BaseModule {
     public async getCharacterNovel(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CharacterNovelPaginationResponse> {
         return this.client.get<CharacterNovelPaginationResponse>(
             `/characters/${slug}/novel`,
@@ -86,6 +98,7 @@ export class CharactersModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -96,6 +109,7 @@ export class CharactersModule extends BaseModule {
     public async getCharacterVoices(
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CharacterVoicesPaginationResponse> {
         return this.client.get<CharacterVoicesPaginationResponse>(
             `/characters/${slug}/voices`,
@@ -103,6 +117,7 @@ export class CharactersModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

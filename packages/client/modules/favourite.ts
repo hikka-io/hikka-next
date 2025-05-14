@@ -1,5 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
+    BaseRequestOptionsArgs,
     FavouriteContentType,
     FavouriteItem,
     FavouritePaginationResponse,
@@ -16,9 +17,11 @@ export class FavouriteModule extends BaseModule {
     public async getFavouriteStatus(
         contentType: FavouriteContentType,
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<FavouriteResponse> {
         return this.client.get<FavouriteResponse>(
             `/favourite/${contentType}/${slug}`,
+            options,
         );
     }
 
@@ -28,9 +31,12 @@ export class FavouriteModule extends BaseModule {
     public async createFavourite(
         contentType: FavouriteContentType,
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<FavouriteResponse> {
         return this.client.put<FavouriteResponse>(
             `/favourite/${contentType}/${slug}`,
+            undefined,
+            options,
         );
     }
 
@@ -40,9 +46,11 @@ export class FavouriteModule extends BaseModule {
     public async deleteFavourite(
         contentType: FavouriteContentType,
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
             `/favourite/${contentType}/${slug}`,
+            options,
         );
     }
 
@@ -53,6 +61,7 @@ export class FavouriteModule extends BaseModule {
         contentType: FavouriteContentType,
         username: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<FavouritePaginationResponse<TItem>> {
         return this.client.post<FavouritePaginationResponse<TItem>>(
             `/favourite/${contentType}/${username}/list`,
@@ -61,6 +70,7 @@ export class FavouriteModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

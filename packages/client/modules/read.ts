@@ -1,5 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
+    BaseRequestOptionsArgs,
     MangaResponse,
     NovelResponse,
     PaginationArgs,
@@ -22,8 +23,12 @@ export class ReadModule extends BaseModule {
     public async getReadBySlug(
         contentType: ReadContentType,
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ReadResponse> {
-        return this.client.get<ReadResponse>(`/read/${contentType}/${slug}`);
+        return this.client.get<ReadResponse>(
+            `/read/${contentType}/${slug}`,
+            options,
+        );
     }
 
     /**
@@ -33,10 +38,12 @@ export class ReadModule extends BaseModule {
         contentType: ReadContentType,
         slug: string,
         args: ReadArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ReadResponse> {
         return this.client.put<ReadResponse>(
             `/read/${contentType}/${slug}`,
             args,
+            options,
         );
     }
 
@@ -46,9 +53,11 @@ export class ReadModule extends BaseModule {
     public async deleteRead(
         contentType: ReadContentType,
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
             `/read/${contentType}/${slug}`,
+            options,
         );
     }
 
@@ -59,6 +68,7 @@ export class ReadModule extends BaseModule {
         contentType: ReadContentType,
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<UserReadPaginationResponse> {
         return this.client.get<UserReadPaginationResponse>(
             `/read/${contentType}/${slug}/following`,
@@ -66,6 +76,7 @@ export class ReadModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -76,9 +87,11 @@ export class ReadModule extends BaseModule {
     public async getUserReadStats(
         contentType: ReadContentType,
         username: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ReadStatsResponse> {
         return this.client.get<ReadStatsResponse>(
             `/read/${contentType}/${username}/stats`,
+            options,
         );
     }
 
@@ -89,9 +102,11 @@ export class ReadModule extends BaseModule {
         contentType: ReadContentType,
         username: string,
         status: ReadStatusEnum,
+        options?: BaseRequestOptionsArgs,
     ): Promise<MangaResponse | NovelResponse> {
         return this.client.get<MangaResponse | NovelResponse>(
             `/read/${contentType}/random/${username}/${status}`,
+            options,
         );
     }
 
@@ -103,6 +118,7 @@ export class ReadModule extends BaseModule {
         username: string,
         args: ReadSearchArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ReadPaginationResponse> {
         return this.client.post<ReadPaginationResponse>(
             `/read/${contentType}/${username}/list`,
@@ -111,6 +127,7 @@ export class ReadModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }

@@ -1,3 +1,4 @@
+import { BaseRequestOptionsArgs } from '../types';
 import { VoteArgs, VoteContentType, VoteResponse } from '../types/vote';
 import { BaseModule } from './base';
 
@@ -11,8 +12,12 @@ export class VoteModule extends BaseModule {
     public async getContentVote(
         contentType: VoteContentType,
         slug: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<VoteResponse> {
-        return this.client.get<VoteResponse>(`/vote/${contentType}/${slug}`);
+        return this.client.get<VoteResponse>(
+            `/vote/${contentType}/${slug}`,
+            options,
+        );
     }
 
     /**
@@ -22,10 +27,12 @@ export class VoteModule extends BaseModule {
         contentType: VoteContentType,
         slug: string,
         args: VoteArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<VoteResponse> {
         return this.client.put<VoteResponse>(
             `/vote/${contentType}/${slug}`,
             args,
+            options,
         );
     }
 }

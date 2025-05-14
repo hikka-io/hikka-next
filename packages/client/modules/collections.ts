@@ -1,5 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
+    BaseRequestOptionsArgs,
     CollectionArgs,
     CollectionContent,
     CollectionResponse,
@@ -17,6 +18,7 @@ export class CollectionsModule extends BaseModule {
     public async searchCollections(
         args: CollectionsListArgs,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CollectionsListResponse<CollectionContent>> {
         return this.client.post<CollectionsListResponse<CollectionContent>>(
             '/collections',
@@ -25,6 +27,7 @@ export class CollectionsModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -58,10 +61,12 @@ export class CollectionsModule extends BaseModule {
     public async updateCollection(
         reference: string,
         args: CollectionArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CollectionResponse<CollectionContent>> {
         return this.client.put<CollectionResponse<CollectionContent>>(
             `/collections/${reference}`,
             args,
+            options,
         );
     }
 

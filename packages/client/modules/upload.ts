@@ -1,3 +1,4 @@
+import { BaseRequestOptionsArgs } from '../types';
 import { ImageResponse, UploadTypeEnum } from '../types/upload';
 import { BaseModule } from './base';
 
@@ -11,17 +12,26 @@ export class UploadModule extends BaseModule {
     public async createImageUpload(
         uploadType: UploadTypeEnum,
         file: File | Blob,
+        options?: BaseRequestOptionsArgs,
     ): Promise<ImageResponse> {
         const formData = new FormData();
         formData.append('file', file);
 
         const url = `${this.client.getBaseUrl()}/upload/${uploadType}`;
-        const headers: HeadersInit = {};
+        let headers: HeadersInit = {};
 
         // Add auth token if available
         const authToken = this.client.getAuthToken();
         if (authToken) {
             headers['auth'] = authToken;
+        }
+
+        // Handle headers
+        if (options?.headers) {
+            headers = {
+                ...headers,
+                ...options.headers,
+            };
         }
 
         const response = await fetch(url, {

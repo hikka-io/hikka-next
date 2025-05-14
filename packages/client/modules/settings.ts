@@ -1,4 +1,5 @@
 import {
+    BaseRequestOptionsArgs,
     DescriptionArgs,
     EmailArgs,
     IgnoredNotificationsArgs,
@@ -21,29 +22,51 @@ export class SettingsModule extends BaseModule {
      */
     public async changeDescription(
         args: DescriptionArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<UserResponse> {
-        return this.client.put<UserResponse>('/settings/description', args);
+        return this.client.put<UserResponse>(
+            '/settings/description',
+            args,
+            options,
+        );
     }
 
     /**
      * Change user password
      */
-    public async changePassword(args: PasswordArgs): Promise<UserResponse> {
-        return this.client.put<UserResponse>('/settings/password', args);
+    public async changePassword(
+        args: PasswordArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.put<UserResponse>(
+            '/settings/password',
+            args,
+            options,
+        );
     }
 
     /**
      * Change username
      */
-    public async changeUsername(args: UsernameArgs): Promise<UserResponse> {
-        return this.client.put<UserResponse>('/settings/username', args);
+    public async changeUsername(
+        args: UsernameArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.put<UserResponse>(
+            '/settings/username',
+            args,
+            options,
+        );
     }
 
     /**
      * Change email
      */
-    public async changeEmail(args: EmailArgs): Promise<UserResponse> {
-        return this.client.put<UserResponse>('/settings/email', args);
+    public async changeEmail(
+        args: EmailArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.put<UserResponse>('/settings/email', args, options);
     }
 
     /**
@@ -51,10 +74,12 @@ export class SettingsModule extends BaseModule {
      */
     public async importWatchList(
         args: ImportWatchListArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
         return this.client.post<SuccessResponse>(
             '/settings/import/watch',
             args,
+            options,
         );
     }
 
@@ -63,23 +88,37 @@ export class SettingsModule extends BaseModule {
      */
     public async importReadList(
         args: ImportReadListArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
-        return this.client.post<SuccessResponse>('/settings/import/read', args);
+        return this.client.post<SuccessResponse>(
+            '/settings/import/read',
+            args,
+            options,
+        );
     }
 
     /**
      * Export user lists
      */
-    public async exportLists(): Promise<UserExportResponse> {
-        return this.client.post<UserExportResponse>('/settings/export');
+    public async exportLists(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserExportResponse> {
+        return this.client.post<UserExportResponse>(
+            '/settings/export',
+            undefined,
+            options,
+        );
     }
 
     /**
      * Get ignored notification types
      */
-    public async getIgnoredNotifications(): Promise<IgnoredNotificationsResponse> {
+    public async getIgnoredNotifications(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<IgnoredNotificationsResponse> {
         return this.client.get<IgnoredNotificationsResponse>(
             '/settings/notifications',
+            options,
         );
     }
 
@@ -88,25 +127,35 @@ export class SettingsModule extends BaseModule {
      */
     public async updateIgnoredNotifications(
         args: IgnoredNotificationsArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<IgnoredNotificationsResponse> {
         return this.client.put<IgnoredNotificationsResponse>(
             '/settings/notifications',
             args,
+            options,
         );
     }
 
     /**
      * Delete user image (avatar or cover)
      */
-    public async deleteImage(imageType: ImageType): Promise<UserResponse> {
-        return this.client.delete<UserResponse>(`/settings/image/${imageType}`);
+    public async deleteImage(
+        imageType: ImageType,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserResponse> {
+        return this.client.delete<UserResponse>(
+            `/settings/image/${imageType}`,
+            options,
+        );
     }
 
     /**
      * Delete user watch list
      */
-    public async deleteWatchList(): Promise<SuccessResponse> {
-        return this.client.delete<SuccessResponse>('/settings/watch');
+    public async deleteWatchList(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<SuccessResponse> {
+        return this.client.delete<SuccessResponse>('/settings/watch', options);
     }
 
     /**
@@ -114,9 +163,11 @@ export class SettingsModule extends BaseModule {
      */
     public async deleteReadList(
         contentType: ReadDeleteContenType,
+        options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
             `/settings/read/${contentType}`,
+            options,
         );
     }
 }

@@ -1,5 +1,3 @@
-import fetch from 'cross-fetch';
-
 import { API_HOST } from './constants';
 import { HikkaApiError } from './errors';
 import { AnimeModule } from './modules/anime';
@@ -199,7 +197,9 @@ export class HikkaClient {
             });
         }
 
-        const headers: HeadersInit = {
+        let next = {};
+
+        let headers: HeadersInit = {
             'Content-Type': 'application/json',
         };
 
@@ -208,16 +208,28 @@ export class HikkaClient {
             headers['auth'] = this.authToken;
         }
 
-        // Special handling for captcha header
-        if (queryParams?.headers?.captcha) {
-            headers['captcha'] = queryParams.headers.captcha;
+        // Handle headers
+        if (queryParams?.headers) {
+            headers = {
+                ...headers,
+                ...queryParams.headers,
+            };
+        }
+
+        // Handle next
+        if (queryParams?.next) {
+            next = {
+                ...next,
+                ...queryParams.next,
+            };
         }
 
         const response = await fetch(url.toString(), {
             method,
             headers,
+            next,
             body: body ? JSON.stringify(body) : undefined,
-        });
+        } as RequestInit);
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => null);

@@ -1,5 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
+    BaseRequestOptionsArgs,
     CommentArgs,
     CommentListResponse,
     CommentResponse,
@@ -14,21 +15,24 @@ export class CommentsModule extends BaseModule {
     /**
      * Get latest comments
      */
-    public async getLatestComments(): Promise<CommentResponse[]> {
-        return this.client.get<CommentResponse[]>('/comments/latest');
+    public async getLatestComments(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<CommentResponse[]> {
+        return this.client.get<CommentResponse[]>('/comments/latest', options);
     }
 
     /**
      * Get comments list for current user
      */
-    public async getCommentList({
-        page,
-        size,
-    }: PaginationArgs): Promise<CommentListResponse> {
+    public async getCommentList(
+        { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>('/comments/list', {
             ...DEFAULT_PAGINATION,
             page,
             size,
+            ...options,
         });
     }
 
@@ -39,10 +43,12 @@ export class CommentsModule extends BaseModule {
         contentType: CommentsContentType,
         slug: string,
         args: CommentArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CommentResponse> {
         return this.client.put<CommentResponse>(
             `/comments/${contentType}/${slug}`,
             args,
+            options,
         );
     }
 
@@ -53,6 +59,7 @@ export class CommentsModule extends BaseModule {
         contentType: CommentsContentType,
         slug: string,
         { page, size }: PaginationArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CommentListResponse> {
         return this.client.get<CommentListResponse>(
             `/comments/${contentType}/${slug}/list`,
@@ -60,6 +67,7 @@ export class CommentsModule extends BaseModule {
                 ...DEFAULT_PAGINATION,
                 page,
                 size,
+                ...options,
             },
         );
     }
@@ -70,10 +78,12 @@ export class CommentsModule extends BaseModule {
     public async updateComment(
         commentReference: string,
         args: CommentTextArgs,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CommentResponse> {
         return this.client.put<CommentResponse>(
             `/comments/${commentReference}`,
             args,
+            options,
         );
     }
 
@@ -82,9 +92,11 @@ export class CommentsModule extends BaseModule {
      */
     public async deleteComment(
         commentReference: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
             `/comments/${commentReference}`,
+            options,
         );
     }
 
@@ -93,9 +105,11 @@ export class CommentsModule extends BaseModule {
      */
     public async getCommentThread(
         commentReference: string,
+        options?: BaseRequestOptionsArgs,
     ): Promise<CommentResponse> {
         return this.client.get<CommentResponse>(
             `/comments/thread/${commentReference}`,
+            options,
         );
     }
 }
