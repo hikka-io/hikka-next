@@ -7,7 +7,8 @@ import {
     SeasonEnum,
 } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
-import { useSearchParams } from 'next/navigation';
+import { queryKeys, useQueryClient } from '@hikka/react/core';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/anime-card';
@@ -19,12 +20,14 @@ import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
 import AnimeListSkeleton from './anime-list-skeleton';
-import { useNextPage, useUpdatePage } from './anime-list.hooks';
 
 interface Props {}
 
 const AnimeList: FC<Props> = () => {
+    const queryClient = useQueryClient();
     const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const query = searchParams.get('search');
     const media_type = searchParams.getAll('types') as AnimeMediaEnum[];
@@ -43,39 +46,69 @@ const AnimeList: FC<Props> = () => {
     const sort = searchParams.get('sort') || 'score';
     const order = searchParams.get('order') || 'desc';
 
-    const page = searchParams.get('page');
-    const iPage = searchParams.get('iPage');
+    const page = Number(searchParams.get('page')) || 1;
+
+    const args = {
+        query: query || undefined,
+        media_type: media_type,
+        status: status,
+        season: season,
+        rating: rating,
+        years: years,
+        genres: genres,
+        studios: studios,
+        only_translated: Boolean(only_translated),
+        sort: sort ? [`${sort}:${order}`] : undefined,
+    };
+
+    const paginationArgs = {
+        page: page,
+    };
 
     const {
         fetchNextPage,
         isFetchingNextPage,
         isLoading,
         hasNextPage,
+        data,
         list,
         pagination,
     } = useSearchAnimes({
-        args: {
-            query: query || undefined,
-            media_type: media_type,
-            status: status,
-            season: season,
-            rating: rating,
-            years: years,
-            genres: genres,
-            studios: studios,
-            only_translated: Boolean(only_translated),
-            sort: sort ? [`${sort}:${order}`] : undefined,
-        },
-        paginationArgs: {
-            page: Number(page),
+        args,
+        paginationArgs,
+        options: {
+            initialPageParam: page,
         },
     });
 
-    const updatePage = useUpdatePage({
-        page: Number(page),
-        iPage: Number(iPage),
-    });
-    const nextPage = useNextPage({ fetchNextPage, pagination });
+    const handlePageChange = (newPage: number) => {
+        if (data && data?.pages.length > 1) {
+            queryClient.removeQueries({
+                queryKey: queryKeys.anime.search({ args, paginationArgs }),
+            });
+        }
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('page', String(newPage));
+        router.replace(`${pathname}?${params.toString()}`);
+    };
+
+    const handleLoadMore = async () => {
+        const result = await fetchNextPage();
+
+        const last = result?.data?.pages.at(-1)!.pagination.page;
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('page', String(last));
+
+        const newUrl = `${pathname}?${params.toString()}`;
+
+        window.history.replaceState(
+            { ...window.history.state, as: newUrl, url: newUrl },
+            '',
+            newUrl,
+        );
+    };
 
     if (isLoading && !isFetchingNextPage) {
         return <AnimeListSkeleton />;
@@ -95,16 +128,16 @@ const AnimeList: FC<Props> = () => {
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={nextPage}
+                    fetchNextPage={handleLoadMore}
                 />
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
                     <Card className="bg-background/60 flex-row gap-2 border-none p-2 backdrop-blur-xl">
                         <Pagination
-                            page={Number(iPage)}
+                            page={pagination.page}
                             pages={pagination.pages}
-                            setPage={updatePage}
+                            setPage={handlePageChange}
                         />
                     </Card>
                 </div>

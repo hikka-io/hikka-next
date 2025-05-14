@@ -2,7 +2,8 @@
 
 import { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
 import { useSearchMangas } from '@hikka/react';
-import { useSearchParams } from 'next/navigation';
+import { queryKeys, useQueryClient } from '@hikka/react/core';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
@@ -14,12 +15,14 @@ import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
 import MangaListSkeleton from './manga-list-skeleton';
-import { useNextPage, useUpdatePage } from './manga-list.hooks';
 
 interface Props {}
 
 const MangaList: FC<Props> = () => {
+    const queryClient = useQueryClient();
     const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const query = searchParams.get('search');
     const media_type = searchParams.getAll('types') as MangaMediaEnum[];
@@ -36,19 +39,20 @@ const MangaList: FC<Props> = () => {
     const sort = searchParams.get('sort') || 'score';
     const order = searchParams.get('order') || 'desc';
 
-    const page = searchParams.get('page');
-    const iPage = searchParams.get('iPage');
+    const page = Number(searchParams.get('page')) || 1;
 
-    const dataKeys = {
-        query,
-        media_type,
-        status,
-        years,
-        genres,
+    const args = {
+        query: query || undefined,
+        media_type: media_type,
+        status: status,
+        years: years,
+        genres: genres,
         only_translated: Boolean(only_translated),
         sort: sort ? [`${sort}:${order}`] : undefined,
-        page: Number(page),
-        iPage: Number(iPage),
+    };
+
+    const paginationArgs = {
+        page: page,
     };
 
     const {
@@ -56,28 +60,45 @@ const MangaList: FC<Props> = () => {
         isFetchingNextPage,
         isLoading,
         hasNextPage,
+        data,
         list,
         pagination,
     } = useSearchMangas({
-        args: {
-            query: query || undefined,
-            media_type: media_type,
-            status: status,
-            years: years,
-            genres: genres,
-            only_translated: Boolean(only_translated),
-            sort: sort ? [`${sort}:${order}`] : undefined,
-        },
-        paginationArgs: {
-            page: Number(page),
+        args,
+        paginationArgs,
+        options: {
+            initialPageParam: page,
         },
     });
 
-    const updatePage = useUpdatePage({
-        page: Number(page),
-        iPage: Number(iPage),
-    });
-    const nextPage = useNextPage({ fetchNextPage, pagination });
+    const handlePageChange = (newPage: number) => {
+        if (data && data?.pages.length > 1) {
+            queryClient.removeQueries({
+                queryKey: queryKeys.manga.search({ args, paginationArgs }),
+            });
+        }
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('page', String(newPage));
+        router.replace(`${pathname}?${params.toString()}`);
+    };
+
+    const handleLoadMore = async () => {
+        const result = await fetchNextPage();
+
+        const last = result?.data?.pages.at(-1)!.pagination.page;
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('page', String(last));
+
+        const newUrl = `${pathname}?${params.toString()}`;
+
+        window.history.replaceState(
+            { ...window.history.state, as: newUrl, url: newUrl },
+            '',
+            newUrl,
+        );
+    };
 
     if (isLoading && !isFetchingNextPage) {
         return <MangaListSkeleton />;
@@ -97,16 +118,16 @@ const MangaList: FC<Props> = () => {
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={nextPage}
+                    fetchNextPage={handleLoadMore}
                 />
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
                     <Card className="bg-background/60 flex-row gap-2 border-none p-2 backdrop-blur-xl">
                         <Pagination
-                            page={Number(iPage)}
+                            page={pagination.page}
                             pages={pagination.pages}
-                            setPage={updatePage}
+                            setPage={handlePageChange}
                         />
                     </Card>
                 </div>

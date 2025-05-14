@@ -3,7 +3,6 @@ import {
     dehydrate,
     getQueryClient,
 } from '@hikka/react/core';
-import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import MangaList from '@/features/manga/manga-list/manga-list.component';
@@ -13,15 +12,6 @@ interface Props {
 }
 
 const MangaListPage: FC<Props> = async (props) => {
-    const searchParams = await props.searchParams;
-    const page = searchParams.page;
-
-    if (!page) {
-        return permanentRedirect(
-            `/manga?page=1&iPage=1&${new URLSearchParams(searchParams as Record<string, string>).toString()}`,
-        );
-    }
-
     const queryClient = getQueryClient();
 
     // await prefetchMangaCatalog(dataKeys);
