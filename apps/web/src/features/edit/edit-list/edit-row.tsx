@@ -1,6 +1,7 @@
 'use client';
 
 import { EditResponse } from '@hikka/client';
+import { addTitleProperty } from '@hikka/react/utils';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -12,7 +13,6 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
 
-import { getTitle } from '@/utils/adapters/convert-title';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -24,6 +24,7 @@ interface Props {
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
+    const content = addTitleProperty(edit.content, 'title_ua');
 
     return (
         <TableRow
@@ -60,10 +61,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                             edit.content.slug
                         }`}
                     >
-                        {getTitle({
-                            data: edit.content,
-                            titleLanguage: 'title_ua',
-                        })}
+                        {content.title}
                     </Link>
                 </div>
                 <Label className="text-muted-foreground text-xs">
@@ -72,7 +70,7 @@ const EditRow: FC<Props> = ({ edit }) => {
             </TableCell>
             <TableCell className="hidden sm:table-cell" align="left">
                 <div className="flex flex-wrap gap-2">
-                    {Object.keys(edit.after).map((key) => (
+                    {Object.keys(edit.after).map((key, index) => (
                         <Badge variant="outline" key={key}>
                             {EDIT_PARAMS[key as keyof typeof EDIT_PARAMS]}
                         </Badge>

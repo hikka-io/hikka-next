@@ -2,12 +2,12 @@
 
 import Snowfall from 'react-snowfall';
 
-import { useSettingsContext } from '@/services/providers/settings-provider';
+import { useSettingsStore } from '@/services/stores/settings-store';
 
 const SnowfallManager = () => {
-    const { snowflakes } = useSettingsContext();
+    const settings = useSettingsStore();
 
-    if (!snowflakes) {
+    if (!settings.snowflakes) {
         return null;
     }
 

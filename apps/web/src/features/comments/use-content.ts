@@ -14,27 +14,19 @@ import {
     usePersonBySlug,
 } from '@hikka/react';
 
-import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertTitle } from '@/utils/adapters/convert-title';
-
 interface UseContentParams {
     content_type: CommentsContentType | EditContentType;
     slug: string;
 }
 
 export function useContent({ content_type, slug }: UseContentParams) {
-    const { titleLanguage } = useSettingsContext();
-
     const animeQuery = useAnimeBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.ANIME,
             select: (data) => ({
                 content_type: ContentTypeEnum.ANIME,
-                title: convertTitle({
-                    data: data as any,
-                    titleLanguage: titleLanguage!,
-                }).title,
+                title: data.title,
                 image: data.image,
             }),
         },
@@ -46,10 +38,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             enabled: content_type === ContentTypeEnum.MANGA,
             select: (data) => ({
                 content_type: ContentTypeEnum.MANGA,
-                title: convertTitle({
-                    data: data as any,
-                    titleLanguage: titleLanguage!,
-                }).title,
+                title: data.title,
                 image: data.image,
             }),
         },
@@ -61,10 +50,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             enabled: content_type === ContentTypeEnum.NOVEL,
             select: (data) => ({
                 content_type: ContentTypeEnum.NOVEL,
-                title: convertTitle({
-                    data: data as any,
-                    titleLanguage: titleLanguage!,
-                }).title,
+                title: data.title,
                 image: data.image,
             }),
         },

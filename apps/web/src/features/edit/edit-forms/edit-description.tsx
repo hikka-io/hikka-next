@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
+
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useSettingsContext } from '@/services/providers/settings-provider';
+import { useSettingsStore } from '@/services/stores/settings-store';
+
 import TagsModal from './tags-modal';
 
 interface Props {
@@ -18,7 +20,7 @@ interface Props {
 const EditDescription: FC<Props> = ({ mode }) => {
     const { control, setValue, getValues } = useFormContext();
     const { openModal } = useModalContext();
-    const { editTags } = useSettingsContext();
+    const settings = useSettingsStore();
 
     return (
         <div className="flex w-full flex-col gap-4">
@@ -29,7 +31,7 @@ const EditDescription: FC<Props> = ({ mode }) => {
             {mode === 'edit' && (
                 <ScrollArea className="w-full whitespace-nowrap">
                     <div className="flex w-full gap-2">
-                        {editTags?.slice(0, 3).map((tag) => (
+                        {settings.editTags?.slice(0, 3).map((tag) => (
                             <Button
                                 size="badge"
                                 variant="outline"

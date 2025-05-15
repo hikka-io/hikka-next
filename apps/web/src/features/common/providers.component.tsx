@@ -1,7 +1,7 @@
 'use client';
 
 import { ProgressProvider } from '@bprogress/next/app';
-import { HikkaClientConfig } from '@hikka/client';
+import { DEFAULT_CACHE_CONTROL, HikkaClientConfig } from '@hikka/client';
 import { HikkaProvider } from '@hikka/react';
 import { MutationCache, QueryClientConfig } from '@hikka/react/core';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -13,9 +13,8 @@ import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 import ModalProvider from '@/services/providers/modal-provider';
-import SettingsProvider from '@/services/providers/settings-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
-import { convertTitleDeep } from '@/utils/adapters/convert-title';
+import { useSettingsStore } from '@/services/stores/settings-store';
 import { getCookie } from '@/utils/cookies';
 
 import SnackbarItem from '../../components/snackbar-item';
@@ -23,26 +22,22 @@ import SnackbarItem from '../../components/snackbar-item';
 interface Props extends PropsWithChildren {}
 
 const Providers: FC<Props> = ({ children }) => {
+    const settings = useSettingsStore();
     setDefaultOptions({ locale: uk });
 
     const [queryClientConfig] = useState<QueryClientConfig>({
         mutationCache: new MutationCache({
-            onError: (error, vars, context, mutation) => {
+            onError: (error) => {
                 enqueueSnackbar(error.message, {
                     variant: 'error',
                 });
             },
         }),
-        defaultOptions: {
-            queries: {
-                select: (data) =>
-                    convertTitleDeep({ data, titleLanguage: 'title_ua' }),
-            },
-        },
     });
 
     const [apiClientConfig, setApiClientConfig] = useState<HikkaClientConfig>({
         baseUrl: process.env.API_URL || process.env.NEXT_PUBLIC_API_URL,
+        cacheControl: DEFAULT_CACHE_CONTROL,
     });
     useEffect(() => {
         getCookie('auth').then(
@@ -54,52 +49,54 @@ const Providers: FC<Props> = ({ children }) => {
 
     return (
         <HikkaProvider
+            defaultOptions={{
+                title: settings.titleLanguage,
+                name: 'name_ua',
+            }}
             clientConfig={apiClientConfig}
             queryClientConfig={queryClientConfig}
         >
-            <SettingsProvider>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                enableSystem
+                disableTransitionOnChange
+            >
+                <SnackbarProvider
+                    Components={{
+                        default: SnackbarItem,
+                        success: SnackbarItem,
+                        error: SnackbarItem,
+                        warning: SnackbarItem,
+                        info: SnackbarItem,
+                    }}
+                    maxSnack={2}
+                    preventDuplicate
+                    autoHideDuration={3000}
+                    anchorOrigin={{
+                        horizontal: 'right',
+                        vertical: 'bottom',
+                    }}
                 >
-                    <SnackbarProvider
-                        Components={{
-                            default: SnackbarItem,
-                            success: SnackbarItem,
-                            error: SnackbarItem,
-                            warning: SnackbarItem,
-                            info: SnackbarItem,
-                        }}
-                        maxSnack={2}
-                        preventDuplicate
-                        autoHideDuration={3000}
-                        anchorOrigin={{
-                            horizontal: 'right',
-                            vertical: 'bottom',
-                        }}
-                    >
-                        <TooltipProvider delayDuration={0}>
-                            <ModalProvider>
-                                <ProgressProvider
-                                    height="4px"
-                                    color="#e779c1"
-                                    options={{
-                                        showSpinner: false,
-                                        easing: 'ease',
-                                        trickle: true,
-                                    }}
-                                    shallowRouting
-                                />
+                    <TooltipProvider delayDuration={0}>
+                        <ModalProvider>
+                            <ProgressProvider
+                                height="4px"
+                                color="#e779c1"
+                                options={{
+                                    showSpinner: false,
+                                    easing: 'ease',
+                                    trickle: true,
+                                }}
+                                shallowRouting
+                            />
 
-                                {children}
-                                <ReactQueryDevtools initialIsOpen={false} />
-                            </ModalProvider>
-                        </TooltipProvider>
-                    </SnackbarProvider>
-                </ThemeProvider>
-            </SettingsProvider>
+                            {children}
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        </ModalProvider>
+                    </TooltipProvider>
+                </SnackbarProvider>
+            </ThemeProvider>
         </HikkaProvider>
     );
 };

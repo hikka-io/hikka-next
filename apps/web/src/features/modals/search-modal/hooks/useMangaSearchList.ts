@@ -1,29 +1,17 @@
 import { MangaPaginationResponse } from '@hikka/client';
 import { useQuery } from '@hikka/react';
 
-import { useSettingsContext } from '@/services/providers/settings-provider';
-import { convertTitleList } from '@/utils/adapters/convert-title';
-
 interface Props {
     value?: string;
 }
 
 const useMangaSearchList = ({ value }: Props) => {
-    const { titleLanguage } = useSettingsContext();
-
     return useQuery<MangaPaginationResponse, Error>({
         queryKey: ['manga-search-list', value],
         queryFn: (client) =>
             client.manga.searchMangas({ query: value }, { size: 60 }),
         options: {
             enabled: value !== undefined && value.length >= 3,
-            select: (data) => ({
-                ...data,
-                list: convertTitleList({
-                    titleLanguage: titleLanguage!,
-                    data: data.list as any,
-                }),
-            }),
         },
     });
 };

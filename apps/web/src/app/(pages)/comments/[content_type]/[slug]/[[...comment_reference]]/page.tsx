@@ -8,6 +8,7 @@ import {
     prefetchCommentThread,
     prefetchContentComments,
 } from '@hikka/react/server';
+import { addTitleProperty } from '@hikka/react/utils';
 import { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
@@ -16,7 +17,6 @@ import ContentHeader from '@/features/comments/comment-content-header.component'
 import Comments from '@/features/comments/comment-list.component';
 import { prefetchContent } from '@/features/comments/prefetch-content';
 
-import { convertTitle } from '@/utils/adapters/convert-title';
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -40,10 +40,7 @@ export async function generateMetadata({
         queryClient,
     });
 
-    const coverted = convertTitle({
-        data: content as any,
-        titleLanguage: 'title_ua',
-    });
+    const coverted = addTitleProperty(content as any, 'title_ua');
 
     return _generateMetadata({
         title: `Коментарі / ${coverted.title}`,

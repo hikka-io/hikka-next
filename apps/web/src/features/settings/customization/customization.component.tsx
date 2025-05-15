@@ -17,34 +17,21 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useSettingsContext } from '@/services/providers/settings-provider';
+
+import { useSettingsStore } from '@/services/stores/settings-store';
 
 const Component = () => {
-    const {
-        titleLanguage,
-        snowflakes,
-        setState: setSettingsState,
-    } = useSettingsContext();
+    const settings = useSettingsStore();
+
     const { setTheme, theme } = useTheme();
 
     const handleChangeTitleLanguage = (value: string[]) =>
-        setSettingsState!((prev) =>
-            prev
-                ? {
-                      ...prev,
-                      titleLanguage: value[0] as
-                          | 'title_ua'
-                          | 'title_en'
-                          | 'title_ja',
-                  }
-                : prev,
+        settings.setTitleLanguage(
+            value[0] as 'title_ua' | 'title_en' | 'title_ja',
         );
 
     const handleChangeSnowflakes = (value: boolean) => {
-        setSettingsState!((prev) => ({
-            ...prev,
-            snowflakes: value,
-        }));
+        settings.setSnowflakes(value);
     };
 
     return (
@@ -88,7 +75,7 @@ const Component = () => {
                 <Label>Мова назв контенту</Label>
 
                 <Select
-                    value={[titleLanguage!]}
+                    value={[settings.titleLanguage!]}
                     onValueChange={handleChangeTitleLanguage}
                 >
                     <SelectTrigger>
@@ -117,7 +104,7 @@ const Component = () => {
                     </Small>
                 </div>
                 <Switch
-                    checked={snowflakes}
+                    checked={settings.snowflakes}
                     onCheckedChange={handleChangeSnowflakes}
                 />
             </div>

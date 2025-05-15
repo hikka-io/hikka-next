@@ -10,8 +10,9 @@ import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-sym
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useSettingsContext } from '@/services/providers/settings-provider';
+import { useSettingsStore } from '@/services/stores/settings-store';
 
 interface Props {
     setValue: UseFormSetValue<any>;
@@ -21,13 +22,10 @@ interface Props {
 const TagsModal: FC<Props> = ({ setValue, getValues }) => {
     const { closeModal } = useModalContext();
     const [newTag, setNewTag] = React.useState('');
-    const { setState: setSettingsState, editTags } = useSettingsContext();
+    const settings = useSettingsStore();
 
     const handleAddTag = () => {
-        setSettingsState!((prev) => ({
-            ...prev,
-            editTags: [...(prev?.editTags || []), newTag],
-        }));
+        settings.setEditTags([...settings.editTags, newTag]);
         setNewTag('');
     };
 
@@ -44,10 +42,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
     };
 
     const handleRemoveTag = (tag: string) => {
-        setSettingsState!((prev) => ({
-            ...prev,
-            editTags: prev?.editTags?.filter((t) => t !== tag) || [],
-        }));
+        settings.setEditTags(settings.editTags.filter((t) => t !== tag));
     };
 
     return (
@@ -73,7 +68,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
             <hr className="-mx-6 h-px w-auto bg-border" />
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
-                {editTags?.map((tag, index) => (
+                {settings.editTags?.map((tag, index) => (
                     <div
                         key={tag + index}
                         className="flex items-center justify-between gap-2 px-6 py-2"
@@ -98,7 +93,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
                     </div>
                 ))}
 
-                {editTags?.length === 0 && (
+                {settings.editTags?.length === 0 && (
                     <div className="px-6">
                         <P className="text-center text-sm text-muted-foreground">
                             Не знайдено збережених тегів редагування
