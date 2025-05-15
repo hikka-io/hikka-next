@@ -12,12 +12,23 @@ import { getHikkaClient, getQueryClient } from '@/core';
 
 import { HikkaContext } from './context';
 
+export type DefaultOptions = {
+    title?: 'title_ua' | 'title_en' | 'title_ja' | 'title_original';
+    name?: 'name_ua' | 'name_en' | 'name_ja' | 'name_native';
+};
+
 export interface HikkaProviderProps {
     children: ReactNode;
     clientConfig?: HikkaClientConfig;
     client?: HikkaClient;
     queryClient?: QueryClient;
     queryClientConfig?: QueryClientConfig;
+    defaultOptions?: DefaultOptions;
+}
+
+export interface HikkaProviderValue {
+    defaultOptions?: DefaultOptions;
+    client: HikkaClient;
 }
 
 /**
@@ -30,13 +41,14 @@ export function HikkaProvider({
     clientConfig,
     queryClient,
     queryClientConfig,
+    defaultOptions,
 }: HikkaProviderProps) {
     // Create a new QueryClient if one is not provided
     const qClient = useMemo(() => {
         if (queryClient) return queryClient;
 
-        return getQueryClient(queryClientConfig);
-    }, [queryClient, queryClientConfig]);
+        return getQueryClient(queryClientConfig, defaultOptions?.title);
+    }, [queryClient, queryClientConfig, defaultOptions]);
 
     // Create a new Hikka client if one is not provided
     const apiClient = useMemo(() => {
@@ -45,9 +57,17 @@ export function HikkaProvider({
         return getHikkaClient(clientConfig);
     }, [client, clientConfig]);
 
+    const value = useMemo(
+        () => ({
+            defaultOptions,
+            client: apiClient,
+        }),
+        [defaultOptions, apiClient],
+    );
+
     return (
         <QueryClientProvider client={qClient}>
-            <HikkaContext.Provider value={apiClient}>
+            <HikkaContext.Provider value={value}>
                 {children}
             </HikkaContext.Provider>
         </QueryClientProvider>

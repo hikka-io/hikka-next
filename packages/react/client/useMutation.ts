@@ -1,5 +1,6 @@
 'use client';
 
+import { HikkaClient } from '@hikka/client';
 import {
     UseMutationOptions,
     UseMutationResult,
@@ -22,16 +23,13 @@ export function useMutation<
     mutationFn,
     options,
 }: {
-    mutationFn: (
-        client: ReturnType<typeof useHikkaClient>,
-        variables: TVariables,
-    ) => Promise<TData>;
+    mutationFn: (client: HikkaClient, variables: TVariables) => Promise<TData>;
     options?: Omit<
         UseMutationOptions<TData, TError, TVariables, TContext>,
         'mutationFn'
     >;
 }): UseMutationResult<TData, TError, TVariables, TContext> {
-    const client = useHikkaClient();
+    const { client } = useHikkaClient();
 
     return useTanstackMutation<TData, TError, TVariables, TContext>({
         mutationFn: (variables) => mutationFn(client, variables),
@@ -68,10 +66,7 @@ export function createMutation<
     mutationFn,
     invalidateQueries,
 }: {
-    mutationFn: (
-        client: ReturnType<typeof useHikkaClient>,
-        variables: TVariables,
-    ) => Promise<TData>;
+    mutationFn: (client: HikkaClient, variables: TVariables) => Promise<TData>;
     invalidateQueries?:
         | readonly unknown[]
         | readonly unknown[][]

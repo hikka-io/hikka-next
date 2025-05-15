@@ -1,5 +1,6 @@
 'use client';
 
+import { HikkaClient } from '@hikka/client';
 import {
     UseQueryOptions,
     UseQueryResult,
@@ -34,9 +35,7 @@ export function useQuery<
     options,
 }: {
     queryKey: TQueryKey;
-    queryFn: (
-        client: ReturnType<typeof useHikkaClient>,
-    ) => Promise<TQueryFnData>;
+    queryFn: (client: HikkaClient) => Promise<TQueryFnData>;
     options?: Omit<
         UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
         'queryKey' | 'queryFn'
@@ -44,7 +43,7 @@ export function useQuery<
         authProtected?: boolean;
     };
 }): UseQueryResult<TData, TError> {
-    const client = useHikkaClient();
+    const { client } = useHikkaClient();
 
     return useTanstackQuery<TQueryFnData, TError, TData, TQueryKey>({
         queryKey,

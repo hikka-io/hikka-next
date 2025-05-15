@@ -1,6 +1,9 @@
 'use client';
 
-import { HikkaClient } from '@hikka/client';
 import { createContext } from 'react';
 
-export const HikkaContext = createContext<HikkaClient | undefined>(undefined);
+import { HikkaProviderValue } from './HikkaProvider';
+
+export const HikkaContext = createContext<HikkaProviderValue | undefined>(
+    undefined,
+);

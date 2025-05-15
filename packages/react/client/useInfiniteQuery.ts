@@ -1,6 +1,6 @@
 'use client';
 
-import { PaginatedResponse, PaginationArgs } from '@hikka/client';
+import { HikkaClient, PaginatedResponse, PaginationArgs } from '@hikka/client';
 import {
     InfiniteData,
     UseInfiniteQueryOptions,
@@ -48,7 +48,7 @@ export function useInfiniteQuery<
 }: {
     queryKey: TQueryKey;
     queryFn: (
-        client: ReturnType<typeof useHikkaClient>,
+        client: HikkaClient,
         pageParam: number,
     ) => Promise<PaginatedResponse<TItem>>;
     options?: Omit<
@@ -69,7 +69,7 @@ export function useInfiniteQuery<
     };
 }) {
     const { ref, inView } = useInView();
-    const client = useHikkaClient();
+    const { client } = useHikkaClient();
 
     const query = useTanstackInfiniteQuery<
         PaginatedResponse<TItem>,

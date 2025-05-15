@@ -31,3 +31,5 @@ export * from './hooks/api/upload';
 export * from './hooks/api/user';
 export * from './hooks/api/vote';
 export * from './hooks/api/watch';
+
+export * from './hooks/utils/useTitleUtils';
