@@ -31,6 +31,11 @@ import { WatchModule } from './modules/watch';
 export interface HikkaClientConfig {
     baseUrl?: string;
     authToken?: string;
+    cacheControl?: {
+        defaultMaxAge?: number;
+        byPath?: Record<string, number>;
+        noCache?: string[];
+    };
 }
 
 /**
@@ -39,6 +44,11 @@ export interface HikkaClientConfig {
 export class HikkaClient {
     private baseUrl: string;
     private authToken?: string;
+    private cacheControl?: {
+        defaultMaxAge?: number;
+        byPath?: Record<string, number>;
+        noCache?: string[];
+    };
 
     // API modules
     public auth: AuthModule;
@@ -72,6 +82,7 @@ export class HikkaClient {
     constructor(config: HikkaClientConfig) {
         this.baseUrl = config.baseUrl || API_HOST;
         this.authToken = config.authToken;
+        this.cacheControl = config.cacheControl;
 
         // Initialize modules
         this.auth = new AuthModule(this);
@@ -129,6 +140,15 @@ export class HikkaClient {
      */
     public getBaseUrl(): string {
         return this.baseUrl;
+    }
+
+    /**
+     * Configure cache control settings
+     */
+    public setCacheControl(
+        cacheControl: HikkaClientConfig['cacheControl'],
+    ): void {
+        this.cacheControl = cacheControl;
     }
 
     /**
@@ -190,15 +210,12 @@ export class HikkaClient {
                 if (
                     value !== undefined &&
                     value !== null &&
-                    key !== 'headers' &&
-                    key !== 'next'
+                    key !== 'headers'
                 ) {
                     url.searchParams.append(key, String(value));
                 }
             });
         }
-
-        let next = {};
 
         let headers: HeadersInit = {
             'Content-Type': 'application/json',
@@ -209,6 +226,14 @@ export class HikkaClient {
             headers['auth'] = this.authToken;
         }
 
+        // Apply cache control headers for GET requests
+        if (method === 'GET' && this.cacheControl) {
+            const cacheHeaders = this.getCacheControlHeaders(path);
+            if (cacheHeaders) {
+                headers = { ...headers, ...cacheHeaders };
+            }
+        }
+
         // Handle headers
         if (queryParams?.headers) {
             headers = {
@@ -217,20 +242,26 @@ export class HikkaClient {
             };
         }
 
-        // Handle next
-        if (queryParams?.next) {
-            next = {
-                ...next,
-                ...queryParams.next,
-            };
-        }
-
-        const response = await fetch(url.toString(), {
+        const requestInit: RequestInit = {
             method,
             headers,
-            next,
             body: body ? JSON.stringify(body) : undefined,
-        } as RequestInit);
+        };
+
+        // Only apply cache settings for GET requests
+        if (method === 'GET') {
+            // Set cache mode based on configuration
+            if (this.shouldUseNoCache(path)) {
+                requestInit.cache = 'no-cache';
+            } else {
+                requestInit.cache = 'default';
+            }
+        } else {
+            // For non-GET requests, always bypass cache
+            requestInit.cache = 'no-cache';
+        }
+
+        const response = await fetch(url.toString(), requestInit);
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => null);
@@ -244,5 +275,81 @@ export class HikkaClient {
         }
 
         return response.json() as Promise<T>;
+    }
+
+    /**
+     * Determine if a path should use no-cache
+     */
+    private shouldUseNoCache(path: string): boolean {
+        if (!this.cacheControl || !this.cacheControl.noCache) {
+            return false;
+        }
+
+        return this.cacheControl.noCache.some((pattern) => {
+            if (pattern.includes('*')) {
+                const regex = new RegExp(
+                    '^' + pattern.replace(/\*/g, '.*') + '$',
+                );
+                return regex.test(path);
+            }
+            return path === pattern;
+        });
+    }
+
+    /**
+     * Get appropriate Cache-Control headers for a path
+     */
+    private getCacheControlHeaders(
+        path: string,
+    ): Record<string, string> | null {
+        if (!this.cacheControl) {
+            return null;
+        }
+
+        // Check if path is in no-cache list
+        if (this.shouldUseNoCache(path)) {
+            return {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                Pragma: 'no-cache',
+                Expires: '0',
+            };
+        }
+
+        // Check for path-specific max age
+        let maxAge: number | undefined;
+        if (this.cacheControl.byPath) {
+            for (const [pattern, age] of Object.entries(
+                this.cacheControl.byPath,
+            )) {
+                if (pattern.includes('*')) {
+                    const regex = new RegExp(
+                        '^' + pattern.replace(/\*/g, '.*') + '$',
+                    );
+                    if (regex.test(path)) {
+                        maxAge = age;
+                        break;
+                    }
+                } else if (path === pattern) {
+                    maxAge = age;
+                    break;
+                }
+            }
+        }
+
+        // Fall back to default max age
+        if (
+            maxAge === undefined &&
+            this.cacheControl.defaultMaxAge !== undefined
+        ) {
+            maxAge = this.cacheControl.defaultMaxAge;
+        }
+
+        if (maxAge !== undefined) {
+            return {
+                'Cache-Control': `max-age=${maxAge}`,
+            };
+        }
+
+        return null;
     }
 }
