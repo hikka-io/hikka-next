@@ -10,6 +10,7 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook params for creating infinite queries
@@ -69,7 +70,7 @@ export function useInfiniteQuery<
     };
 }) {
     const { ref, inView } = useInView();
-    const { client } = useHikkaClient();
+    const { client, defaultOptions } = useHikkaClient();
 
     const query = useTanstackInfiniteQuery<
         PaginatedResponse<TItem>,
@@ -95,6 +96,16 @@ export function useInfiniteQuery<
         enabled: options?.authProtected
             ? !!client.getAuthToken() && options?.enabled
             : options?.enabled,
+        select: options?.select
+            ? (data) =>
+                  options.select!(
+                      addDeepTitleProperties(data, defaultOptions?.title),
+                  )
+            : (data) =>
+                  addDeepTitleProperties(
+                      data,
+                      defaultOptions?.title,
+                  ) as unknown as InfiniteData<PaginatedResponse<TItem>>,
     });
 
     const list =

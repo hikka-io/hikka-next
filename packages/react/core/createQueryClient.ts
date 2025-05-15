@@ -2,7 +2,7 @@ import { QueryClient } from '@tanstack/query-core';
 import { QueryClientConfig } from '@tanstack/react-query';
 import { cache } from 'react';
 
-import { TitleLanguage, addDeepTitleProperties } from '@/utils';
+import { TitleLanguage } from '@/utils';
 
 /**
  * Creates a QueryClient instance.
@@ -24,15 +24,6 @@ export function createQueryClient(
                 gcTime: Infinity,
                 retry: false,
                 ...config?.defaultOptions?.queries,
-                select: (data) => {
-                    if (config?.defaultOptions?.queries?.select) {
-                        return config.defaultOptions.queries.select(
-                            addDeepTitleProperties(data, defaultTitle),
-                        );
-                    }
-
-                    return addDeepTitleProperties(data, defaultTitle);
-                },
             },
         },
     });

@@ -35,4 +35,9 @@ export default defineConfig([
         entry: ['core/index.ts'],
         outDir: 'dist/core',
     },
+    {
+        ...commonConfig,
+        entry: ['utils/index.ts'],
+        outDir: 'dist/utils',
+    },
 ]);

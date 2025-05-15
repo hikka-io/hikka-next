@@ -27,6 +27,12 @@
             "import": "./dist/core/index.mjs",
             "require": "./dist/core/index.cjs",
             "default": "./dist/core/index.mjs"
+        },
+        "./utils": {
+            "types": "./dist/utils/index.d.ts",
+            "import": "./dist/utils/index.mjs",
+            "require": "./dist/utils/index.cjs",
+            "default": "./dist/utils/index.mjs"
         }
     },
     "scripts": {

@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook params for creating queries
@@ -43,7 +44,7 @@ export function useQuery<
         authProtected?: boolean;
     };
 }): UseQueryResult<TData, TError> {
-    const { client } = useHikkaClient();
+    const { client, defaultOptions } = useHikkaClient();
 
     return useTanstackQuery<TQueryFnData, TError, TData, TQueryKey>({
         queryKey,
@@ -52,5 +53,15 @@ export function useQuery<
         enabled: options?.authProtected
             ? !!client.getAuthToken() && options?.enabled
             : options?.enabled,
+        select: options?.select
+            ? (data) =>
+                  options.select!(
+                      addDeepTitleProperties(data, defaultOptions?.title),
+                  )
+            : (data) =>
+                  addDeepTitleProperties(
+                      data,
+                      defaultOptions?.title,
+                  ) as unknown as TData,
     });
 }
