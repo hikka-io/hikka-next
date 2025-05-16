@@ -28,9 +28,7 @@ const CharacterCard = ({ character, onClick, type }: Props) => {
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <Label className="font-bold">
-                        {character.name_ua ||
-                            character.name_en ||
-                            character.name_ja}{' '}
+                        {character.title}{' '}
                         <Label className="text-muted-foreground">
                             / {character.name_ja}
                         </Label>

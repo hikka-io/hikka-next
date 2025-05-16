@@ -17,7 +17,7 @@ const CharacterCard: FC<Props> = ({ character, ...props }) => {
             content_type={ContentTypeEnum.CHARACTER}
             href={`/characters/${character.slug}`}
             image={character.image}
-            title={character.name_ua || character.name_en || character.name_ja}
+            title={character.title}
             {...props}
         />
     );

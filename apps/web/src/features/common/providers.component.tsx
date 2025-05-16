@@ -50,7 +50,7 @@ const Providers: FC<Props> = ({ children }) => {
         <HikkaProvider
             defaultOptions={{
                 title: settings.titleLanguage,
-                name: 'name_ua',
+                name: settings.nameLanguage,
             }}
             clientConfig={apiClientConfig}
             queryClientConfig={queryClientConfig}

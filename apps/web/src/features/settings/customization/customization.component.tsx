@@ -30,6 +30,11 @@ const Component = () => {
             value[0] as 'title_ua' | 'title_en' | 'title_ja',
         );
 
+    const handleChangeNameLanguage = (value: string[]) =>
+        settings.setNameLanguage(
+            value[0] as 'name_ua' | 'name_en' | 'name_native',
+        );
+
     const handleChangeSnowflakes = (value: boolean) => {
         settings.setSnowflakes(value);
     };
@@ -91,6 +96,33 @@ const Component = () => {
                                     Англійська
                                 </SelectItem>
                                 <SelectItem value="title_ja">Рідна</SelectItem>
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex w-full flex-col gap-2">
+                <Label>Мова імен</Label>
+
+                <Select
+                    value={[settings.nameLanguage!]}
+                    onValueChange={handleChangeNameLanguage}
+                >
+                    <SelectTrigger>
+                        <SelectValue placeholder="Виберіть мову..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                <SelectItem value="name_ua">
+                                    Українська
+                                </SelectItem>
+                                <SelectItem value="name_en">
+                                    Англійська
+                                </SelectItem>
+                                <SelectItem value="name_native">
+                                    Рідна
+                                </SelectItem>
                             </SelectGroup>
                         </SelectList>
                     </SelectContent>

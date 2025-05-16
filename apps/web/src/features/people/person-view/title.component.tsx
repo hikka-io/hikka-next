@@ -21,11 +21,7 @@ const Title = () => {
             <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
                     <div className="flex gap-4">
-                        <H2>
-                            {person.name_ua ||
-                                person.name_en ||
-                                person.name_native}
-                        </H2>
+                        <H2>{person.title}</H2>
                     </div>
                     <P className="mt-2">{person.name_native}</P>
                 </div>

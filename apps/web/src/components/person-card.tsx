@@ -28,7 +28,7 @@ const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
             slug={person.slug}
             content_type={ContentTypeEnum.PERSON}
             withContextMenu
-            title={person.name_ua || person.name_en || person.name_native}
+            title={person.title}
             {...props}
         />
     );

@@ -52,7 +52,7 @@
         "@radix-ui/react-tooltip": "^1.1.6",
         "@react-email/components": "0.0.28",
         "@react-hook/resize-observer": "^2.0.2",
-        "@tanstack/react-query-devtools": "5.74.4",
+        "@tanstack/react-query-devtools": "5.76.1",
         "@types/react-avatar-editor": "^13.0.3",
         "@udecode/cn": "^44.0.1",
         "@udecode/plate": "46.0.4",

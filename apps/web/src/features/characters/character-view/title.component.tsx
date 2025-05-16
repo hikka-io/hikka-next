@@ -20,12 +20,7 @@ const Title = () => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-4">
                 <div>
-                    <H2>
-                        {character.name_ua ||
-                            character.name_en ||
-                            character.name_ja ||
-                            ''}{' '}
-                    </H2>
+                    <H2>{character.title}</H2>
 
                     <P className="mt-2">{character.name_ja}</P>
                 </div>

@@ -40,15 +40,13 @@ const UserCard = ({ user, onClick, type }: Props) => {
                     )}
 
                     {(user.role === 'admin' || user.role === 'moderator') && (
-                        <>
-                            <Badge
-                                className="text-xs"
-                                variant="status"
-                                bgColor={USER_ROLE[user.role].color}
-                            >
-                                {USER_ROLE[user.role].label}
-                            </Badge>
-                        </>
+                        <Badge
+                            className="text-xs"
+                            variant="status"
+                            bgColor={USER_ROLE[user.role].color}
+                        >
+                            {USER_ROLE[user.role].label}
+                        </Badge>
                     )}
                 </div>
 
