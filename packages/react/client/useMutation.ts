@@ -109,6 +109,7 @@ export function createMutation<
                             (queryKey) => {
                                 queryClient.invalidateQueries({
                                     queryKey,
+                                    exact: false,
                                 });
                             },
                         );
@@ -116,6 +117,7 @@ export function createMutation<
                         // Otherwise, invalidate a single query key
                         queryClient.invalidateQueries({
                             queryKey: queriesToInvalidate as readonly unknown[],
+                            exact: false,
                         });
                     }
                 }

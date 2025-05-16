@@ -62,6 +62,7 @@ export function useQuery<
                   addDeepTitleProperties(
                       data,
                       defaultOptions?.title,
+                      defaultOptions?.name,
                   ) as unknown as TData,
     });
 }

@@ -9,12 +9,13 @@ import {
 import { ReactNode, useMemo } from 'react';
 
 import { getHikkaClient, getQueryClient } from '@/core';
+import { NameLanguage, TitleLanguage } from '@/utils';
 
 import { HikkaContext } from './context';
 
 export type DefaultOptions = {
-    title?: 'title_ua' | 'title_en' | 'title_ja' | 'title_original';
-    name?: 'name_ua' | 'name_en' | 'name_ja' | 'name_native';
+    title?: TitleLanguage;
+    name?: NameLanguage;
 };
 
 export interface HikkaProviderProps {
@@ -47,8 +48,8 @@ export function HikkaProvider({
     const qClient = useMemo(() => {
         if (queryClient) return queryClient;
 
-        return getQueryClient(queryClientConfig, defaultOptions?.title);
-    }, [queryClient, queryClientConfig, defaultOptions]);
+        return getQueryClient(queryClientConfig);
+    }, [queryClient, queryClientConfig]);
 
     // Create a new Hikka client if one is not provided
     const apiClient = useMemo(() => {
