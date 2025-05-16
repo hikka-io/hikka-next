@@ -19,6 +19,7 @@
 </div>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 ### Built With
@@ -32,6 +33,7 @@ The list of frameworks and core libraries, that uses in the project
 - [Typescript](https://www.typescriptlang.org/)
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps.
@@ -39,23 +41,24 @@ To get a local copy up and running follow these simple example steps.
 ### Installation
 
 1. Clone the repo
-   ```sh
-   git clone https://github.com/hikka-io/hikka-next.git
-   ```
+    ```sh
+    git clone https://github.com/hikka-io/hikka-next.git
+    ```
 1. Install and enable corepack to activate yarn as a default package manager
-   ```sh
-   npm install -g corepack && corepack enable yarn
-   ```   
-2. Install NPM packages
-   ```sh
-   yarn install
-   ```
-3. Run the Next.js development server
-   ```sh
-   yarn dev
-   ```
+    ```sh
+    npm install -g corepack && corepack enable yarn
+    ```
+1. Install NPM packages
+    ```sh
+    yarn install
+    ```
+1. Run the Next.js development server
+    ```sh
+    yarn dev:web
+    ```
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -68,8 +71,8 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
 <!-- LICENSE -->
+
 ## License
 
 Hikka is distributed under [AGPL-3.0-only](LICENSE). See `LICENSE` for more information.
