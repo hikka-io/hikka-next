@@ -50,7 +50,7 @@ const CollectionPage = async (props: {
     const params = await props.params;
     const { reference } = params;
 
-    const queryClient = await getQueryClient();
+    const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
     const collection = await prefetchCollectionByReference({
@@ -67,7 +67,7 @@ const CollectionPage = async (props: {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <CollectionProvider>
+            <CollectionProvider initialState={collection}>
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <Link

@@ -1,7 +1,7 @@
 'use client';
 
 import { ProgressProvider } from '@bprogress/next/app';
-import { DEFAULT_CACHE_CONTROL, HikkaClientConfig } from '@hikka/client';
+import { HikkaClientConfig } from '@hikka/client';
 import { HikkaProvider } from '@hikka/react';
 import { MutationCache, QueryClientConfig } from '@hikka/react/core';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -37,7 +37,6 @@ const Providers: FC<Props> = ({ children }) => {
 
     const [apiClientConfig, setApiClientConfig] = useState<HikkaClientConfig>({
         baseUrl: process.env.API_URL || process.env.NEXT_PUBLIC_API_URL,
-        cacheControl: DEFAULT_CACHE_CONTROL,
     });
     useEffect(() => {
         getCookie('auth').then(

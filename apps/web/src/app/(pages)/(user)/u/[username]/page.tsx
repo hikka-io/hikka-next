@@ -45,7 +45,7 @@ const UserPage: FC<Props> = async (props) => {
         await prefetchUserHistory({ username, clientConfig, queryClient }),
         await prefetchUserActivity({ username, clientConfig, queryClient }),
         await prefetchSearchArticles({
-            args: { author: username },
+            args: { author: username, draft: true },
             clientConfig,
             queryClient,
         }),

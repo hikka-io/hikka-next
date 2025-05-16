@@ -32,6 +32,7 @@ const UserArticles: FC<Props> = () => {
     const { list } = useSearchArticles({
         args: {
             author: String(params.username),
+            draft: true,
         },
     });
 

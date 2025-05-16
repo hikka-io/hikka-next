@@ -15,7 +15,7 @@ import {
     ListPlugin,
     NumberedListPlugin,
 } from '@udecode/plate-list/react';
-import { NodeIdPlugin } from '@udecode/plate-node-id';
+// import { NodeIdPlugin } from '@udecode/plate-node-id';
 import { ResetNodePlugin } from '@udecode/plate-reset-node/react';
 import { DeletePlugin } from '@udecode/plate-select';
 // import { TablePlugin } from '@udecode/plate-table/react';
@@ -126,7 +126,7 @@ export const articlePlugins: any[] = [
     }),
     VideoPlugin,
     DndPlugin,
-    NodeIdPlugin,
+    // NodeIdPlugin,
     /* TablePlugin.configure({
         options: {
             initialTableWidth: 600,

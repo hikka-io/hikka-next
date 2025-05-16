@@ -1,3 +1,4 @@
+import { UploadTypeEnum } from '@hikka/client';
 import { useMutation } from '@hikka/react';
 import { TElement } from '@udecode/plate';
 import { PlateEditor } from '@udecode/plate/react';
@@ -27,7 +28,16 @@ const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
 }) => {
     const { mutate: uploadImages, isPending } = useMutation({
         mutationFn: (client, files: FileList) =>
-            insertImageGroupFromFiles({ editor, files, element }),
+            insertImageGroupFromFiles({
+                editor,
+                files,
+                element,
+                uploadImage: (file) =>
+                    client.upload.createImageUpload(
+                        UploadTypeEnum.ATTACHMENT,
+                        file,
+                    ),
+            }),
     });
 
     const insertImage = useCallback(({ files }: { files: FileList | null }) => {

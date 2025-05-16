@@ -1,5 +1,6 @@
 'use client';
 
+import { useArticleBySlug } from '@hikka/react';
 import { createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 
@@ -36,6 +37,12 @@ export default function ArticleProvider({
 
 export function useArticleContext<T>(selector: (state: ArticleStore) => T): T {
     const store = useContext(ArticleContext);
+    const articleQuery = useArticleBySlug({
+        slug: String(store?.getState().slug),
+        options: {
+            enabled: false,
+        },
+    });
     if (!store) throw new Error('Missing ArticleContext.Provider in the tree');
     return useStore(store, selector);
 }

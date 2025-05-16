@@ -20,12 +20,14 @@ type InsertImageGroupFromFilesOptions = {
     files: FileList | File[];
     element?: TElement;
     editor: PlateEditor;
+    uploadImage?: (file: File) => Promise<{ url: string } | undefined>;
 };
 
 export const insertImageGroupFromFiles = async ({
     files,
     element,
     editor,
+    uploadImage: customUploadImage,
 }: InsertImageGroupFromFilesOptions) => {
     const uploadedImages: string[] = [];
 
@@ -37,7 +39,9 @@ export const insertImageGroupFromFiles = async ({
                 file = await convertImage({ file });
             }
 
-            const uploadImage = editor.getOptions(ImageGroupPlugin).uploadImage;
+            const uploadImage =
+                customUploadImage ??
+                editor.getOptions(ImageGroupPlugin).uploadImage;
 
             const uploaded = uploadImage && (await uploadImage(file));
 

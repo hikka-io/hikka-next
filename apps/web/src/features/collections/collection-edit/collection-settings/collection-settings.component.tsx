@@ -2,7 +2,8 @@
 
 import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
 import { useCreateCollection, useUpdateCollection } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useSnackbar } from 'notistack';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -22,11 +23,11 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
-import { useModalContext } from '@/services/providers/modal-provider';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
 } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import GroupInputs from './group-inputs';
 
@@ -35,7 +36,8 @@ interface Props {
 }
 
 const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
-    const { openModal } = useModalContext();
+    const { enqueueSnackbar } = useSnackbar();
+    const router = useRouter();
     const params = useParams();
 
     const groups = useCollectionContext((state) => state.groups);
@@ -58,11 +60,34 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const setNsfw = useCollectionContext((state) => state.setNsfw);
     const setSpoiler = useCollectionContext((state) => state.setSpoiler);
 
-    const { mutate: mutateCreateCollection, isPending: isCreatePending } =
-        useCreateCollection();
+    const {
+        mutate: mutateCreateCollection,
+        isPending: isCreatePending,
+        isSuccess,
+    } = useCreateCollection({
+        options: {
+            onSuccess: (data) => {
+                enqueueSnackbar('Ви успішно створили колекцію.', {
+                    variant: 'success',
+                });
+
+                router.push(
+                    `${CONTENT_TYPE_LINKS['collection']}/${data.reference}/update`,
+                );
+            },
+        },
+    });
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
-        useUpdateCollection();
+        useUpdateCollection({
+            options: {
+                onSuccess: (data) => {
+                    enqueueSnackbar('Ви успішно оновили колекцію.', {
+                        variant: 'success',
+                    });
+                },
+            },
+        });
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
@@ -225,6 +250,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             <Button
                                 className="flex-1"
                                 disabled={
+                                    isSuccess ||
                                     isCreatePending ||
                                     !title ||
                                     title.trim().length < 3 ||

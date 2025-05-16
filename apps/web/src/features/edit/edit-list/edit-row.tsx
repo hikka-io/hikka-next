@@ -1,7 +1,6 @@
 'use client';
 
 import { EditResponse } from '@hikka/client';
-import { addTitleProperty } from '@hikka/react/utils';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -24,7 +23,6 @@ interface Props {
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
-    const content = addTitleProperty(edit.content, 'title_ua');
 
     return (
         <TableRow
@@ -61,7 +59,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                             edit.content.slug
                         }`}
                     >
-                        {content.title}
+                        {edit.content.title}
                     </Link>
                 </div>
                 <Label className="text-muted-foreground text-xs">

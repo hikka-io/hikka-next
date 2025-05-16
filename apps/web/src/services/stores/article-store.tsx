@@ -59,6 +59,8 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         setArticle: (article: ArticleResponse) => {
             set({
                 ...article,
+                document: article.document.slice(1),
+                preview: article.document[0].children,
                 tags: article.tags.map((tag) => tag.name),
             });
         },
