@@ -105,7 +105,7 @@ export const useCreateUserSession = createMutation({
         client,
         { args, captcha }: { args: LoginArgs; captcha: CaptchaArgs },
     ) => client.auth.createUserSession(args, captcha),
-    invalidateQueries: () => [queryKeys.auth.tokenInfo()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -116,7 +116,7 @@ export const useCreateUser = createMutation({
         client,
         { args, captcha }: { args: SignupArgs; captcha: CaptchaArgs },
     ) => client.auth.createUser(args, captcha),
-    invalidateQueries: () => [queryKeys.auth.tokenInfo()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -124,7 +124,7 @@ export const useCreateUser = createMutation({
  */
 export const useActivateUser = createMutation({
     mutationFn: (client, args: TokenArgs) => client.auth.activateUser(args),
-    invalidateQueries: () => [queryKeys.auth.tokenInfo()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -132,6 +132,7 @@ export const useActivateUser = createMutation({
  */
 export const useCreateActivationRequest = createMutation({
     mutationFn: (client) => client.auth.createActivationRequest(),
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -140,7 +141,7 @@ export const useCreateActivationRequest = createMutation({
 export const useConfirmPasswordReset = createMutation({
     mutationFn: (client, args: ComfirmResetArgs) =>
         client.auth.confirmPasswordReset(args),
-    invalidateQueries: () => [queryKeys.auth.tokenInfo()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -151,7 +152,7 @@ export const useCreateOAuthToken = createMutation({
         client,
         { provider, args }: { provider: string; args: CodeArgs },
     ) => client.auth.createOAuthToken(provider, args),
-    invalidateQueries: () => [queryKeys.auth.tokenInfo()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -160,7 +161,7 @@ export const useCreateOAuthToken = createMutation({
 export const useCreateThirdPartyToken = createMutation({
     mutationFn: (client, args: TokenProceedArgs) =>
         client.auth.createThirdPartyToken(args),
-    invalidateQueries: () => [queryKeys.auth.thirdPartyTokens()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });
 
 /**
@@ -169,5 +170,5 @@ export const useCreateThirdPartyToken = createMutation({
 export const useDeleteAuthToken = createMutation({
     mutationFn: (client, tokenReference: string) =>
         client.auth.deleteAuthToken(tokenReference),
-    invalidateQueries: () => [queryKeys.auth.thirdPartyTokens()],
+    invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });

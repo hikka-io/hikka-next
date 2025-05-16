@@ -93,8 +93,7 @@ export const useCreateFollow = createMutation({
     mutationFn: (client, username: string) =>
         client.follow.createFollow(username),
     invalidateQueries: (username: string) => [
-        queryKeys.follow.status(username),
-        queryKeys.follow.stats(username),
+        queryKeys.follow.all,
         queryKeys.user.byUsername(username),
     ],
 });
@@ -106,8 +105,7 @@ export const useDeleteFollow = createMutation({
     mutationFn: (client, username: string) =>
         client.follow.deleteFollow(username),
     invalidateQueries: (username: string) => [
-        queryKeys.follow.status(username),
-        queryKeys.follow.stats(username),
+        queryKeys.follow.all,
         queryKeys.user.byUsername(username),
     ],
 });

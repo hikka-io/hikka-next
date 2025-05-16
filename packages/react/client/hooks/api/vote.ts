@@ -32,5 +32,8 @@ export const useCreateVote = createMutation({
         }),
     invalidateQueries: (args) => [
         queryKeys.vote.status(args.contentType, args.slug),
+        queryKeys.articles.bySlug(args.slug),
+        queryKeys.collections.byReference(args.slug),
+        queryKeys.comments.all,
     ],
 });

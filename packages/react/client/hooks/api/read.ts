@@ -58,10 +58,7 @@ export const useCreateRead = createMutation({
         client,
         { contentType, slug, args }: AddOrUpdateReadVariables,
     ) => client.read.createRead(contentType, slug, args),
-    invalidateQueries: ({ contentType, slug }) => [
-        queryKeys.read.entry(contentType, slug),
-        queryKeys.read.all,
-    ],
+    invalidateQueries: ({ contentType, slug }) => [queryKeys.read.all],
 });
 
 type DeleteReadVariables = {
@@ -75,10 +72,7 @@ type DeleteReadVariables = {
 export const useDeleteRead = createMutation({
     mutationFn: (client, { contentType, slug }: DeleteReadVariables) =>
         client.read.deleteRead(contentType, slug),
-    invalidateQueries: ({ contentType, slug }) => [
-        queryKeys.read.entry(contentType, slug),
-        queryKeys.read.all,
-    ],
+    invalidateQueries: ({ contentType, slug }) => [queryKeys.read.all],
 });
 
 type RandomReadVariables = {

@@ -99,10 +99,7 @@ type WriteCommentVariables = {
 export const useCreateComment = createMutation({
     mutationFn: (client, { contentType, slug, args }: WriteCommentVariables) =>
         client.comments.createComment(contentType, slug, args),
-    invalidateQueries: ({ contentType, slug }) => [
-        queryKeys.comments.all,
-        queryKeys.comments.content(contentType, slug),
-    ],
+    invalidateQueries: ({ contentType, slug }) => [queryKeys.comments.all],
 });
 
 type EditCommentVariables = {
@@ -116,10 +113,7 @@ type EditCommentVariables = {
 export const useUpdateComment = createMutation({
     mutationFn: (client, { commentReference, args }: EditCommentVariables) =>
         client.comments.updateComment(commentReference, args),
-    invalidateQueries: ({ commentReference }) => [
-        queryKeys.comments.all,
-        queryKeys.comments.thread(commentReference),
-    ],
+    invalidateQueries: ({ commentReference }) => [queryKeys.comments.all],
 });
 
 /**
@@ -128,8 +122,5 @@ export const useUpdateComment = createMutation({
 export const useDeleteComment = createMutation({
     mutationFn: (client, commentReference: string) =>
         client.comments.deleteComment(commentReference),
-    invalidateQueries: (commentReference) => [
-        queryKeys.comments.thread(commentReference),
-        queryKeys.comments.list(),
-    ],
+    invalidateQueries: (commentReference) => [queryKeys.comments.all],
 });

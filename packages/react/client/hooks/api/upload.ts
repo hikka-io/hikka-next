@@ -21,6 +21,6 @@ export const useCreateImageUpload = createMutation({
         client.upload.createImageUpload(args.uploadType, args.file),
     invalidateQueries: (args: UploadImageVariables) =>
         args.uploadType !== UploadTypeEnum.ATTACHMENT
-            ? [queryKeys.user.me(), queryKeys.user.byUsername(args.uploadType)]
+            ? [queryKeys.user.all]
             : [],
 });

@@ -77,10 +77,7 @@ type UpdateCollectionVariables = {
 export const useUpdateCollection = createMutation({
     mutationFn: (client, { reference, args }: UpdateCollectionVariables) =>
         client.collections.updateCollection(reference, args),
-    invalidateQueries: ({ reference }) => [
-        queryKeys.collections.byReference(reference),
-        queryKeys.collections.all,
-    ],
+    invalidateQueries: ({ reference }) => [queryKeys.collections.all],
 });
 
 /**
@@ -89,5 +86,5 @@ export const useUpdateCollection = createMutation({
 export const useDeleteCollection = createMutation({
     mutationFn: (client, reference: string) =>
         client.collections.deleteCollection(reference),
-    invalidateQueries: () => [queryKeys.collections.all],
+    invalidateQueries: (reference: string) => [queryKeys.collections.all],
 });
