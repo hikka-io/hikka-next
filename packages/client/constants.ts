@@ -63,6 +63,8 @@ export const DEFAULT_CACHE_CONTROL = {
 
         '/user/*',
         '/user/*/activity',
+
+        '/articles/*',
     ],
 };
 
