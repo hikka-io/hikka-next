@@ -99,12 +99,17 @@ export function useInfiniteQuery<
         select: options?.select
             ? (data) =>
                   options.select!(
-                      addDeepTitleProperties(data, defaultOptions?.title),
+                      addDeepTitleProperties(
+                          data,
+                          defaultOptions?.title,
+                          defaultOptions?.name,
+                      ),
                   )
             : (data) =>
                   addDeepTitleProperties(
                       data,
                       defaultOptions?.title,
+                      defaultOptions?.name,
                   ) as unknown as InfiniteData<PaginatedResponse<TItem>>,
     });
 

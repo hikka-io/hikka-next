@@ -72,6 +72,26 @@ export function addTitleProperty<T extends Record<string, any>>(
                 titleValue = obj[nameKey];
                 break;
             }
+
+            // Special case for name_native and name_ja - treat them as interchangeable
+            if (
+                nameKey === 'name_native' &&
+                !obj[nameKey] &&
+                obj['name_ja'] &&
+                typeof obj['name_ja'] === 'string'
+            ) {
+                titleValue = obj['name_ja'];
+                break;
+            }
+            if (
+                nameKey === 'name_ja' &&
+                !obj[nameKey] &&
+                obj['name_native'] &&
+                typeof obj['name_native'] === 'string'
+            ) {
+                titleValue = obj['name_native'];
+                break;
+            }
         }
     }
 

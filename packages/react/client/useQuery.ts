@@ -56,7 +56,11 @@ export function useQuery<
         select: options?.select
             ? (data) =>
                   options.select!(
-                      addDeepTitleProperties(data, defaultOptions?.title),
+                      addDeepTitleProperties(
+                          data,
+                          defaultOptions?.title,
+                          defaultOptions?.name,
+                      ),
                   )
             : (data) =>
                   addDeepTitleProperties(
