@@ -32,4 +32,5 @@ export * from './hooks/api/user';
 export * from './hooks/api/vote';
 export * from './hooks/api/watch';
 
+export * from './hooks/utils/useAnilist';
 export * from './hooks/utils/useTitleUtils';
