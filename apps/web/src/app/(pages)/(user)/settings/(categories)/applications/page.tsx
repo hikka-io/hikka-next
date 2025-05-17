@@ -3,6 +3,7 @@ import {
     dehydrate,
     getQueryClient,
 } from '@hikka/react/core';
+import { prefetchClientList } from '@hikka/react/server';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
@@ -10,6 +11,8 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Applications from '@/features/settings/applications/applications.component';
 import ClientCreateButton from '@/features/settings/applications/client-create-button.component';
+
+import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
 interface Props {
     params: {
@@ -20,8 +23,12 @@ interface Props {
 const ApplicationsSettingsPage: FC<Props> = async (props) => {
     const params = await props.params;
     const queryClient = getQueryClient();
+    const clientConfig = await getHikkaClientConfig();
 
-    // await prefetchClients();
+    await prefetchClientList({
+        queryClient,
+        clientConfig,
+    });
 
     const dehydratedState = dehydrate(queryClient);
 
