@@ -51,11 +51,7 @@ export function useSession({
         return query.data?.role === 'moderator';
     }, [query.data]);
 
-    const logout = async () => {
-        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
-    };
-
-    return { logout, user: query.data, isAdmin, isModerator };
+    return { user: query.data, isAdmin, isModerator };
 }
 
 /**

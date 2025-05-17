@@ -82,11 +82,7 @@ export const useCreateClient = createMutation({
 export const useUpdateClient = createMutation({
     mutationFn: (client, args: UseUpdateClientParams) =>
         client.client.updateClient(args.reference, args.args),
-    invalidateQueries: (args) => [
-        queryKeys.client.all,
-        queryKeys.client.byReference(args.reference),
-        queryKeys.client.fullInfo(args.reference),
-    ],
+    invalidateQueries: (args) => [queryKeys.client.all],
 });
 
 /**
