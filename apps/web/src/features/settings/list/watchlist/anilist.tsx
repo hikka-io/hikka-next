@@ -1,6 +1,7 @@
 'use client';
 
 import { ImportWatchArgs } from '@hikka/client';
+import { useAnilist } from '@hikka/react';
 import { useSnackbar } from 'notistack';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -19,21 +20,20 @@ interface Props {
 
 const Component = ({ watchList, setWatchList, importing }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
-    const [aniListLoading, setAniListLoading] = useState(false);
     const [aniListUsername, setAniListUsername] = useState('');
+    const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
+        options: {
+            onSuccess: (data) => {
+                setWatchList(data);
+            },
+            onError: (error) => {
+                enqueueSnackbar(error.message, { variant: 'error' });
+            },
+        },
+    });
 
     const getFromAniList = async () => {
-        setAniListLoading(true);
-        try {
-            /* const res = await importAnilistWatch({ username: aniListUsername });
-            res.length > 0 && setWatchList(res); */
-        } catch (e) {
-            enqueueSnackbar(
-                'Не вдалось завантажити список даного користувача',
-                { variant: 'error' },
-            );
-        }
-        setAniListLoading(false);
+        fetchAnilist({ username: aniListUsername });
     };
 
     return (
