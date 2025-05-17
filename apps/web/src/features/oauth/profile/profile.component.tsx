@@ -14,7 +14,11 @@ import AuthNeeded from './auth-needed';
 interface Props {}
 
 const Profle: FC<Props> = () => {
-    const { user, logout } = useSession();
+    const { user } = useSession();
+
+    const logout = async () => {
+        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
+    };
 
     if (!user) return <AuthNeeded />;
 
