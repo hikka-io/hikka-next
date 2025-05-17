@@ -68,11 +68,18 @@ const EditRow: FC<Props> = ({ edit }) => {
             </TableCell>
             <TableCell className="hidden sm:table-cell" align="left">
                 <div className="flex flex-wrap gap-2">
-                    {Object.keys(edit.after).map((key, index) => (
-                        <Badge variant="outline" key={key}>
-                            {EDIT_PARAMS[key as keyof typeof EDIT_PARAMS]}
-                        </Badge>
-                    ))}
+                    {Object.keys(edit.after).map(
+                        (key) =>
+                            key !== 'title' && (
+                                <Badge variant="outline" key={key}>
+                                    {
+                                        EDIT_PARAMS[
+                                            key as keyof typeof EDIT_PARAMS
+                                        ]
+                                    }
+                                </Badge>
+                            ),
+                    )}
                 </div>
             </TableCell>
             <TableCell align="center" className="w-20">
