@@ -2,6 +2,7 @@
 
 import { useCreateClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '@/components/form/form-input';
@@ -9,6 +10,7 @@ import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
+import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -18,8 +20,20 @@ const formSchema = z.object({
 });
 
 const Component = () => {
+    const { enqueueSnackbar } = useSnackbar();
+    const { closeModal } = useModalContext();
+
     const { mutate: createClient, isPending: createClientLoading } =
-        useCreateClient();
+        useCreateClient({
+            options: {
+                onSuccess: () => {
+                    enqueueSnackbar('Застосунок створено успішно', {
+                        variant: 'success',
+                    });
+                    closeModal();
+                },
+            },
+        });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

@@ -18,6 +18,7 @@ import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/Mate
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
 
+import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -25,7 +26,7 @@ const formSchema = z.object({
     description: z.coerce.string().min(3).max(512),
     endpoint: z.coerce.string().min(3).max(128),
     revoke_secret: z.coerce.boolean(),
-    client_reference: z.coerce.string().max(128),
+    reference: z.coerce.string().max(128),
     secret: z.coerce.string().min(128).max(128),
 });
 
@@ -34,17 +35,36 @@ interface Props {
 }
 
 const Component = ({ client }: Props) => {
+    const { closeModal } = useModalContext();
+
     const { mutate: updateClient, isPending: updateClientLoading } =
-        useUpdateClient();
+        useUpdateClient({
+            options: {
+                onSuccess: () => {
+                    enqueueSnackbar('Застосунок оновлено успішно', {
+                        variant: 'success',
+                    });
+                    closeModal();
+                },
+            },
+        });
     const { mutate: deleteClient, isPending: deleteClientLoading } =
-        useDeleteClient();
+        useDeleteClient({
+            options: {
+                onSuccess: () => {
+                    enqueueSnackbar('Застосунок видалено успішно', {
+                        variant: 'success',
+                    });
+                    closeModal();
+                },
+            },
+        });
     const { data } = useClientFullDetails({ reference: client.reference });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             revoke_secret: false,
-            client_reference: client.reference,
             ...client,
         },
     });
@@ -63,17 +83,18 @@ const Component = ({ client }: Props) => {
     };
 
     const onUpdate = async (formData: z.infer<typeof formSchema>) => {
+        const { reference, secret, ...rest } = formData;
         updateClient({
-            reference: client.reference,
+            reference,
             args: {
-                ...formData,
+                ...rest,
             },
         });
     };
 
     const onCopy = async (
         formData: z.infer<typeof formSchema>,
-        field: 'client_reference' | 'secret',
+        field: 'reference' | 'secret',
     ) => {
         navigator.clipboard.writeText(formData[field]);
         enqueueSnackbar('Ви успішно скопіювали рядок.', {
@@ -109,7 +130,7 @@ const Component = ({ client }: Props) => {
                         <FormLabel>Референс</FormLabel>
                         <div className="flex w-full items-end gap-2">
                             <FormInput
-                                name="client_reference"
+                                name="reference"
                                 placeholder="123123-123123-123123-123123"
                                 disabled
                                 className="w-full"
@@ -117,7 +138,7 @@ const Component = ({ client }: Props) => {
                             <Button
                                 variant="outline"
                                 onClick={form.handleSubmit((data) =>
-                                    onCopy(data, 'client_reference'),
+                                    onCopy(data, 'reference'),
                                 )}
                             >
                                 <MaterialSymbolsContentCopy />
