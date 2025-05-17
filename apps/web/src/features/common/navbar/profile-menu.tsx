@@ -23,11 +23,15 @@ import {
 import { Label } from '@/components/ui/label';
 
 const ProfileMenu = () => {
-    const { user: loggedUser, logout } = useSession();
+    const { user: loggedUser } = useSession();
 
     if (!loggedUser) {
         return null;
     }
+
+    const logout = async () => {
+        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
+    };
 
     return (
         <DropdownMenu>
