@@ -49,8 +49,8 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
                         <div className="flex items-center gap-1">
-                            <BxBxsUpvote className="size-3 text-success" />
-                            <Label className="leading-none text-success">
+                            <BxBxsUpvote className="text-success size-3" />
+                            <Label className="text-success leading-none">
                                 {comment.vote_score}
                             </Label>
                         </div>
@@ -58,18 +58,18 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 )}
             </HorizontalCard>
 
-            <Link href={href} className="flex-1 hover:underline">
-                <MDViewer className="line-clamp-2 text-sm" preview>
+            <Link href={href} className="w-full flex-1 hover:underline">
+                <MDViewer className="line-clamp-2 break-words text-sm" preview>
                     {comment.text}
                 </MDViewer>
             </Link>
-            <div className="flex gap-2  items-center w-full">
+            <div className="flex w-full  items-center gap-2">
                 <Badge variant="secondary" className="shrink-0">
                     {CONTENT_TYPES[comment.content_type].title_ua}
                 </Badge>
                 <Link
                     href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
-                    className="flex items-center gap-1 text-primary hover:underline"
+                    className="text-primary flex items-center gap-1 hover:underline"
                 >
                     <Small className="line-clamp-1">
                         {comment.content_type === 'edit'

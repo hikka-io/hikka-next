@@ -58,7 +58,7 @@ const ProfileMenu = () => {
                     <Avatar className="size-9 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col overflow-hidden">
                         <Label className="truncate">
                             {loggedUser.username}
                         </Label>
