@@ -7,9 +7,7 @@ import { FC } from 'react';
 
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
-import ContentCard, {
-    Props as ContentCardProps,
-} from './content-card/content-card';
+import ContentCard, { ContentCardProps } from './content-card/content-card';
 
 interface Props extends ContentCardProps {
     novel: NovelResponse | NovelInfoResponse;
