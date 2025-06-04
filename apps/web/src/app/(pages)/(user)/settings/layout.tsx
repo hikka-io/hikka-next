@@ -35,17 +35,17 @@ const SettingsLayout: FC<Props> = async (props) => {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <Block>
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h2">Налаштування</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
+            <div className="container flex max-w-3xl flex-col gap-12 p-0">
+                <Block>
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h2">Налаштування</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
                     <Menu />
-                    <div className="flex flex-col gap-12">{children}</div>
-                </div>
-            </Block>
+                </Block>
+                <div className="flex flex-col gap-12">{children}</div>
+            </div>
         </HydrationBoundary>
     );
 };

@@ -58,13 +58,13 @@ const Component = () => {
     }, [tab]);
 
     return (
-        <div className="flex flex-col items-start gap-6">
+        <div className="flex w-full flex-col items-start gap-6">
             <Tabs
                 className="flex w-full flex-col gap-4"
                 value={tab}
                 onValueChange={(v) => setTab(v as 'general' | 'aniList')}
             >
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="w-fit gap-2">
                     <TabsTrigger value="general">Загальний</TabsTrigger>
                     <TabsTrigger value="aniList">AniList</TabsTrigger>
                 </TabsList>
