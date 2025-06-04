@@ -333,11 +333,16 @@ const renderSubtitles = (
 // Main Component
 const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
     (props, ref) => {
-        const { withContextMenu, slug, content_type } = props;
+        const { withContextMenu, slug, content_type, href, image } = props;
 
         if (withContextMenu && slug && content_type) {
             return (
-                <ContextMenuOverlay slug={slug} content_type={content_type}>
+                <ContextMenuOverlay
+                    href={href}
+                    slug={slug}
+                    content_type={content_type}
+                    image={image}
+                >
                     <Content {...props} ref={ref} key={`${props.title}`} />
                 </ContextMenuOverlay>
             );
