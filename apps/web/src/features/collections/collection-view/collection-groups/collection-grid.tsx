@@ -55,6 +55,12 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
                                 ? item.content.watch[0]
                                 : undefined
                         }
+                        read={
+                            'read' in item.content &&
+                            item.content.read.length > 0
+                                ? item.content.read[0]
+                                : undefined
+                        }
                     />
                 ))}
             </Stack>
