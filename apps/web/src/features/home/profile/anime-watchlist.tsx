@@ -157,14 +157,14 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         return (
             <div className="mt-1 flex cursor-pointer items-center gap-2">
                 {selectedWatch.anime.year && (
-                    <Label className="text-muted-foreground cursor-pointer text-xs">
+                    <Label className="cursor-pointer text-xs text-muted-foreground">
                         {selectedWatch.anime.year}
                     </Label>
                 )}
                 {selectedWatch.anime.media_type && (
                     <>
-                        <div className="bg-muted-foreground size-1 rounded-full" />
-                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                        <div className="size-1 rounded-full bg-muted-foreground" />
+                        <Label className="cursor-pointer text-xs text-muted-foreground">
                             {
                                 ANIME_MEDIA_TYPE[selectedWatch.anime.media_type]
                                     .title_ua
@@ -174,8 +174,8 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                 )}
                 {selectedWatch.anime.episodes_total && (
                     <>
-                        <div className="bg-muted-foreground size-1 rounded-full" />
-                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                        <div className="size-1 rounded-full bg-muted-foreground" />
+                        <Label className="cursor-pointer text-xs text-muted-foreground">
                             {selectedWatch.anime.episodes_total}{' '}
                             {getDeclensionWord(
                                 selectedWatch.anime.episodes_total,
@@ -274,8 +274,8 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                             </Link>
 
                             <div className="flex w-full flex-col gap-2">
-                                <P className="text-muted-foreground text-sm">
-                                    <span className="text-foreground font-bold">
+                                <P className="text-sm text-muted-foreground">
+                                    <span className="font-bold text-foreground">
                                         {updatedWatch?.episodes ??
                                             selectedWatch.episodes}
                                     </span>

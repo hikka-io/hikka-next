@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import H3 from '@/components/typography/h3';
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
@@ -110,57 +111,68 @@ const WatchStats = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="border-border bg-secondary/20 flex justify-between gap-4 rounded-lg border p-4">
-                <Rating
-                    // className="rating-md lg:flex"
-                    onChange={handleRating}
-                    totalStars={5}
-                    precision={0.5}
-                    value={watch.score ? watch.score / 2 : 0}
-                />
-                <H3>
-                    {watch.score}
-                    <Label className="text-muted-foreground text-sm font-normal">
+            <Card>
+                <Label>Оцінка</Label>
+                <div className="flex items-center justify-between gap-4">
+                    <Rating
+                        onChange={handleRating}
+                        totalStars={5}
+                        precision={0.5}
+                        value={watch.score ? watch.score / 2 : 0}
+                    />
+                    <P className="text-sm text-muted-foreground">
+                        <span className="font-bold text-foreground">
+                            {watch.score}
+                        </span>
                         /10
-                    </Label>
-                </H3>
-            </div>
-            <div className="border-border bg-secondary/20 rounded-lg border p-4">
+                    </P>
+                </div>
+            </Card>
+            <Card>
                 <div className="flex justify-between gap-2 overflow-hidden">
                     <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Епізоди
                     </Label>
-                    <div className="inline-flex">
-                        <Button
-                            variant="secondary"
-                            size="icon-sm"
-                            className="rounded-r-none"
-                            onClick={handleRemoveEpisode}
-                        >
-                            <MaterialSymbolsRemoveRounded />
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="icon-sm"
-                            className="rounded-l-none"
-                            onClick={handleAddEpisode}
-                        >
-                            <MaterialSymbolsAddRounded />
-                        </Button>
-                    </div>
                 </div>
-                <H3>
-                    {updatedWatch?.episodes ?? watch.episodes}
-                    <Label className="text-muted-foreground text-sm font-normal">
-                        /{watch.anime.episodes_total || '?'}
-                    </Label>
-                </H3>
-                <Progress
-                    className="mt-2 h-2"
-                    max={watch.anime.episodes_total ?? watch.episodes}
-                    value={updatedWatch?.episodes ?? watch.episodes}
-                />
-            </div>
+
+                <div className="flex w-full flex-col gap-2">
+                    <P className="text-sm text-muted-foreground">
+                        <span className="font-bold text-foreground">
+                            {updatedWatch?.episodes ?? watch.episodes}
+                        </span>
+                        /{watch.anime.episodes_total ?? '?'} епізодів
+                    </P>
+                    <Progress
+                        className="h-2"
+                        max={watch.anime.episodes_total ?? watch.episodes}
+                        value={updatedWatch?.episodes ?? watch.episodes}
+                    />
+                </div>
+                <div className="flex">
+                    <Button
+                        className="flex-1 rounded-r-none"
+                        onClick={handleAddEpisode}
+                        variant="secondary"
+                        size="md"
+                    >
+                        <MaterialSymbolsAddRounded />
+                        <div className="flex gap-1">
+                            <span className="hidden sm:block">Додати</span>
+                            <span className="capitalize sm:normal-case">
+                                епізод
+                            </span>
+                        </div>
+                    </Button>
+                    <Button
+                        className="rounded-l-none"
+                        onClick={handleRemoveEpisode}
+                        variant="secondary"
+                        size="icon-md"
+                    >
+                        <MaterialSymbolsRemoveRounded />
+                    </Button>
+                </div>
+            </Card>
         </div>
     );
 };
