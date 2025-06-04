@@ -3,7 +3,7 @@ import {
     dehydrate,
     getQueryClient,
 } from '@hikka/react/core';
-import { prefetchLatestComments } from '@hikka/react/server';
+import { prefetchCommentList } from '@hikka/react/server';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
@@ -24,7 +24,7 @@ const LatestCommentsPage: FC = async () => {
     const queryClient = await getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    await prefetchLatestComments({ clientConfig, queryClient });
+    await prefetchCommentList({ clientConfig, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 
