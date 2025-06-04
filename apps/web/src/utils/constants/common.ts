@@ -123,7 +123,7 @@ export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<MangaMediaEnum> = {
         title_en: 'Doujin',
     },
     [MangaMediaEnum.MANHUA]: {
-        title_ua: 'Манхуа',
+        title_ua: 'Маньхва',
         title_en: 'Manhua',
     },
     [MangaMediaEnum.MANHWA]: {

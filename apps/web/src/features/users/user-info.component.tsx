@@ -69,7 +69,7 @@ const UserInfo = () => {
     }
 
     return (
-        <div className="relative">
+        <div className="relative h-fit">
             <Input
                 type="file"
                 id="avatar-input"
