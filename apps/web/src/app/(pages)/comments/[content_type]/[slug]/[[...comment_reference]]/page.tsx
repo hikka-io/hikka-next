@@ -40,10 +40,22 @@ export async function generateMetadata({
         queryClient,
     });
 
-    const coverted = addTitleProperty(content as any, 'title_ua');
+    if (!content) {
+        return _generateMetadata({
+            title: `Коментарі`,
+        });
+    }
+
+    if ('title' in content) {
+        return _generateMetadata({
+            title: `Коментарі / ${content.title}`,
+        });
+    }
+
+    const converted = addTitleProperty(content as any, 'title_ua');
 
     return _generateMetadata({
-        title: `Коментарі / ${coverted.title}`,
+        title: `Коментарі / ${converted.title}`,
     });
 }
 
