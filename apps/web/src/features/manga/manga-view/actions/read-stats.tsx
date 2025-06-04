@@ -6,8 +6,9 @@ import { useParams } from 'next/navigation';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import H3 from '@/components/typography/h3';
+import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
@@ -99,59 +100,74 @@ const ReadStats = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="border-border bg-secondary/20 flex justify-between gap-4 rounded-lg border p-4">
-                <Rating
-                    // className="rating-md lg:flex"
-                    onChange={handleRating}
-                    totalStars={5}
-                    precision={0.5}
-                    value={read.score ? read.score / 2 : 0}
-                />
-                <H3>
-                    {read.score}
-                    <Label className="text-muted-foreground text-sm font-normal">
+            <Card>
+                <Label>Оцінка</Label>
+                <div className="flex items-center justify-between gap-4">
+                    <Rating
+                        onChange={handleRating}
+                        totalStars={5}
+                        precision={0.5}
+                        value={read.score ? read.score / 2 : 0}
+                    />
+                    <P className="text-sm text-muted-foreground">
+                        <span className="font-bold text-foreground">
+                            {read.score}
+                        </span>
                         /10
-                    </Label>
-                </H3>
-            </div>
-            <div className="border-border bg-secondary/20 rounded-lg border p-4">
+                    </P>
+                </div>
+            </Card>
+            <Card>
                 <div className="flex justify-between gap-2 overflow-hidden">
                     <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
                         Розділи
                     </Label>
-                    <div className="inline-flex">
-                        <Button
-                            variant="secondary"
-                            size="icon-sm"
-                            className="rounded-r-none"
-                            onClick={handleRemoveEpisode}
-                        >
-                            <MaterialSymbolsRemoveRounded />
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="icon-sm"
-                            className="rounded-l-none"
-                            onClick={handleAddEpisode}
-                        >
-                            <MaterialSymbolsAddRounded />
-                        </Button>
-                    </div>
                 </div>
-                <H3>
-                    {isPending ? variables?.args?.chapters : read.chapters}
-                    <Label className="text-muted-foreground text-sm font-normal">
-                        /{read.content.chapters || '?'}
-                    </Label>
-                </H3>
-                <Progress
-                    className="mt-2 h-2"
-                    max={read.content.chapters || read.chapters}
-                    value={
-                        isPending ? variables?.args?.chapters : read.chapters
-                    }
-                />
-            </div>
+
+                <div className="flex w-full flex-col gap-2">
+                    <P className="text-sm text-muted-foreground">
+                        <span className="font-bold text-foreground">
+                            {isPending
+                                ? variables?.args?.chapters
+                                : read.chapters}
+                        </span>
+                        /{read.content.chapters || '?'} розділів
+                    </P>
+                    <Progress
+                        className="h-2"
+                        max={read.content.chapters || read.chapters}
+                        value={
+                            isPending
+                                ? variables?.args?.chapters
+                                : read.chapters
+                        }
+                    />
+                </div>
+                <div className="flex">
+                    <Button
+                        className="flex-1 rounded-r-none"
+                        onClick={handleAddEpisode}
+                        variant="secondary"
+                        size="md"
+                    >
+                        <MaterialSymbolsAddRounded />
+                        <div className="flex gap-1">
+                            <span className="hidden sm:block">Додати</span>
+                            <span className="capitalize sm:normal-case">
+                                розділ
+                            </span>
+                        </div>
+                    </Button>
+                    <Button
+                        className="rounded-l-none"
+                        onClick={handleRemoveEpisode}
+                        variant="secondary"
+                        size="icon-md"
+                    >
+                        <MaterialSymbolsRemoveRounded />
+                    </Button>
+                </div>
+            </Card>
         </div>
     );
 };
