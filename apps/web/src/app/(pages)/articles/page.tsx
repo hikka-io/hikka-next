@@ -41,9 +41,10 @@ const ArticlesPage = async (props: {
             categories: categories as ArticleCategoryEnum[],
         },
         clientConfig,
+        queryClient,
     });
 
-    await prefetchArticleStats({ clientConfig });
+    await prefetchArticleStats({ clientConfig, queryClient });
 
     const dehydratedState = dehydrate(queryClient);
 
