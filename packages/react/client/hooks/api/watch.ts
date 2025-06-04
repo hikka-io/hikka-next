@@ -64,9 +64,9 @@ export const useCreateWatch = createMutation({
     mutationFn: (client, { slug, args }: UseCreateWatchParams) =>
         client.watch.createWatch(slug, args),
     invalidateQueries: ({ slug }) => [
-        queryKeys.watch.entry(slug),
         queryKeys.watch.all,
         queryKeys.anime.search({}),
+        queryKeys.collections.all,
     ],
 });
 
@@ -76,8 +76,9 @@ export const useCreateWatch = createMutation({
 export const useDeleteWatch = createMutation({
     mutationFn: (client, slug: string) => client.watch.deleteWatch(slug),
     invalidateQueries: (slug) => [
-        queryKeys.watch.entry(slug),
         queryKeys.watch.all,
+        queryKeys.anime.search({}),
+        queryKeys.collections.all,
     ],
 });
 
