@@ -56,7 +56,7 @@ const Appearance = () => {
     };
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="isolate flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <Label>Зображення профілю</Label>
                 <P className="text-muted-foreground text-sm">
