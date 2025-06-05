@@ -18,7 +18,10 @@
         "composite": true
     },
     "include": [
-        "./*ts",
+        "*.ts",
+        "*.tsx",
+        "**/*.ts",
+        "**/*.tsx",
         "client/**/*",
         "server/**/*",
         "core/**/*",

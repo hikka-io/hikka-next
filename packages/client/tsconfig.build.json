@@ -3,13 +3,13 @@
     "compilerOptions": {
         "outDir": "./dist",
         "incremental": false,
-        "composite": false,
-        "rootDir": "../../"
+        "composite": false
     },
     "include": [
         "index.ts",
         "client.ts",
         "errors.ts",
+        "constants.ts",
         "modules/**/*.ts",
         "types/**/*.ts"
     ],

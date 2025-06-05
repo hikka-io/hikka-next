@@ -7,12 +7,12 @@
         "composite": true
     },
     "include": [
-        "./*ts",
-        "modules/**/*",
-        "modules/*.ts",
-        "types/**/*",
-        "tsup.config.ts",
-        "constants.ts"
+        "index.ts",
+        "client.ts",
+        "constants.ts",
+        "errors.ts",
+        "modules/**/*.ts",
+        "types/**/*.ts"
     ],
     "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

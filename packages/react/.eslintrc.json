@@ -2,8 +2,7 @@
     "root": false,
     "extends": ["../../.eslintrc.json"],
     "parserOptions": {
-        "project": "./tsconfig.json",
-        "tsconfigRootDir": "."
+        "project": "./tsconfig.json"
     },
     "ignorePatterns": ["dist/", "node_modules/"],
     "rules": {

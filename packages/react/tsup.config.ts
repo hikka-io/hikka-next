@@ -2,12 +2,13 @@ import { Options, defineConfig } from 'tsup';
 
 const commonConfig: Options = {
     format: ['esm', 'cjs'],
-    dts: true,
+    dts: process.env.NODE_ENV === 'production',
     sourcemap: true,
     clean: true,
     shims: false,
     splitting: false,
     minify: true,
+    tsconfig: './tsconfig.json', // Explicitly specify tsconfig
     external: [
         'react',
         '@hikka/client',
