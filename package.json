@@ -11,18 +11,18 @@
         "format:check": "npm run prettier -- --check",
         "lint": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\"",
         "lint:fix": "eslint \"packages/**/*.{js,jsx,ts,tsx}\" \"apps/**/*.{js,jsx,ts,tsx}\" --fix",
-        "clean": "yarn workspaces foreach -Ap run clean",
-        "dev": "yarn workspaces foreach -Api run dev",
-        "build": "yarn workspaces foreach -Apt run build",
-        "test": "yarn workspaces foreach -Ap run test",
-        "dev:web": "yarn workspace @hikka/web dev",
-        "build:web": "yarn workspace @hikka/web build",
-        "start:web": "yarn workspace @hikka/web start",
-        "dev:client": "yarn workspace @hikka/client dev",
-        "build:client": "yarn workspace @hikka/client build",
-        "dev:react": "yarn workspace @hikka/react dev",
-        "build:react": "yarn workspace @hikka/react build",
-        "test:react": "yarn workspace @hikka/react test"
+        "clean": "turbo run clean",
+        "dev": "turbo run dev",
+        "build": "turbo run build",
+        "test": "turbo run test",
+        "dev:web": "turbo run dev --filter=@hikka/web",
+        "build:web": "turbo run build --filter=@hikka/web",
+        "start:web": "turbo run start --filter=@hikka/web",
+        "dev:client": "turbo run dev --filter=@hikka/client",
+        "build:client": "turbo run build --filter=@hikka/client",
+        "dev:react": "turbo run dev --filter=@hikka/react",
+        "build:react": "turbo run build --filter=@hikka/react",
+        "test:react": "turbo run test --filter=@hikka/react"
     },
     "packageManager": "yarn@4.5.3",
     "syncpack": {
@@ -57,6 +57,7 @@
         "tailwindcss": "3.4.14",
         "ts-jest": "^29.1.2",
         "tsup": "^8.4.0",
+        "turbo": "^1.12.4",
         "typescript": "5.7.2"
     }
 }

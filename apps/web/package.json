@@ -10,7 +10,8 @@
         "clean": "rimraf .next",
         "email": "email dev --dir src/emails",
         "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-        "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+        "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+        "check-types": "tsc --noEmit"
     },
     "dependencies": {
         "@antfu/utils": "^0.7.10",
