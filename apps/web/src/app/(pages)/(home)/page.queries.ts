@@ -1,13 +1,13 @@
 import { ContentStatusEnum, WatchStatusEnum } from '@hikka/client';
 import { QueryClient } from '@hikka/react/core';
 import {
+    prefetchFollowingHistory,
     prefetchLatestComments,
     prefetchSearchAnimeSchedule,
     prefetchSearchAnimes,
     prefetchSearchCollections,
     prefetchSearchUserWatches,
     prefetchSession,
-    prefetchUserHistory,
 } from '@hikka/react/server';
 
 import getCurrentSeason from '@/utils/get-current-season';
@@ -40,8 +40,7 @@ const prefetchQueries = async ({
         );
 
         promises.push(
-            prefetchUserHistory({
-                username: loggedUser.username,
+            prefetchFollowingHistory({
                 clientConfig,
                 queryClient,
             }),
