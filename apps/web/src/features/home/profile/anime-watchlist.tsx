@@ -145,7 +145,13 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         if (deboucedUpdatedWatch) {
             mutateCreateWatch({
                 slug: selectedWatch!.anime.slug,
-                args: deboucedUpdatedWatch,
+                args: {
+                    note: deboucedUpdatedWatch.note,
+                    episodes: deboucedUpdatedWatch.episodes,
+                    rewatches: deboucedUpdatedWatch.rewatches,
+                    score: deboucedUpdatedWatch.score,
+                    status: deboucedUpdatedWatch.status,
+                },
             });
         }
     }, [mutateCreateWatch, deboucedUpdatedWatch]);
