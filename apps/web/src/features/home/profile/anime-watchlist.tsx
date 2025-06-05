@@ -72,7 +72,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
 
     // Event Handlers
     const handleSelect = (slug: string) => {
-        if (slug === selectedSlug) {
+        if (slug === selectedWatch?.anime.slug) {
             router.push(`/anime/${slug}`);
             return;
         }
