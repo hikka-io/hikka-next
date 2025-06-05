@@ -10,10 +10,6 @@ build
 Dockerfile*
 docker-compose*
 
-# Environment
-.env.development
-.env.production
-
 # Dependencies
 node_modules
 .yarn
