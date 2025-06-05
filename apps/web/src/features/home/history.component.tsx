@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession, useUserHistory } from '@hikka/react';
+import { useFollowingHistory, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -19,7 +19,7 @@ interface Props {
 
 const History: FC<Props> = ({ className }) => {
     const { user } = useSession();
-    const { list } = useUserHistory({ username: user?.username! });
+    const { list } = useFollowingHistory();
 
     const filteredHistory = list?.slice(0, 3);
 
