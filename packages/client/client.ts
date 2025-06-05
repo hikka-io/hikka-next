@@ -245,6 +245,7 @@ export class HikkaClient {
         const requestInit: RequestInit = {
             method,
             headers,
+            credentials: 'include',
             body: body ? JSON.stringify(body) : undefined,
         };
 
