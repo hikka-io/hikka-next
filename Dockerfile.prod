@@ -8,10 +8,22 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json yarn.lock .yarnrc.yml ./
+COPY tsconfig.base.json ./
+COPY packages/client/package.json ./packages/client/
+COPY packages/react/package.json ./packages/react/
+COPY apps/web/package.json ./apps/web/
 RUN corepack enable yarn && yarn install
 
+# Build client and react packages
+FROM deps AS packages-builder
+WORKDIR /app
+COPY tsconfig.base.json ./
+COPY packages/client ./packages/client
+COPY packages/react ./packages/react
+RUN yarn run build:client && yarn run build:react
+
 # Rebuild the source code only when needed
-FROM deps AS builder
+FROM packages-builder AS builder
 WORKDIR /app
 COPY . .
 
@@ -20,38 +32,38 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn run build
+RUN yarn run build:web
 
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
+# Copy necessary files from the builder stage
+COPY --from=builder /app/apps/web/public ./public
 
-# Set the correct permission for prerender cache
-RUN mkdir .next
+# Set up .next directory and permissions
+RUN mkdir -p .next
 RUN chown nextjs:nodejs .next
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
+# Copy Next.js build output
+COPY --from=builder /app/apps/web/.next/standalone/apps/web ./
+COPY --from=builder /app/apps/web/.next/standalone/node_modules ./node_modules
+COPY --from=builder /app/apps/web/.next/static ./.next/static
 
 USER nextjs
 
 EXPOSE 3000
 
-ENV HOSTNAME 0.0.0.0
-ENV PORT 3000
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD node server.js
+CMD ["node", "server.js"]

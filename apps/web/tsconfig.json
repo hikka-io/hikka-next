@@ -1,0 +1,34 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "noEmit": true,
+        "jsx": "preserve",
+        "allowSyntheticDefaultImports": true,
+        "allowJs": true,
+        "incremental": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "paths": {
+            "@/features/*": ["./src/features/*"],
+            "@/components/*": ["./src/components/*"],
+            "@/utils/*": ["./src/utils/*"],
+            "@/services/*": ["./src/services/*"]
+        }
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "exclude": ["node_modules", ".next"],
+    "references": [
+        {
+            "path": "../../packages/client"
+        },
+        {
+            "path": "../../packages/react"
+        }
+    ]
+}

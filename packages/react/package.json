@@ -1,0 +1,77 @@
+{
+    "name": "@hikka/react",
+    "version": "0.1.0",
+    "description": "React hooks and utilities for the Hikka API",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.cjs",
+            "default": "./dist/index.mjs"
+        },
+        "./server": {
+            "types": "./dist/server/index.d.ts",
+            "import": "./dist/server/index.mjs",
+            "require": "./dist/server/index.cjs",
+            "default": "./dist/server/index.mjs"
+        },
+        "./core": {
+            "types": "./dist/core/index.d.ts",
+            "import": "./dist/core/index.mjs",
+            "require": "./dist/core/index.cjs",
+            "default": "./dist/core/index.mjs"
+        },
+        "./utils": {
+            "types": "./dist/utils/index.d.ts",
+            "import": "./dist/utils/index.mjs",
+            "require": "./dist/utils/index.cjs",
+            "default": "./dist/utils/index.mjs"
+        }
+    },
+    "scripts": {
+        "build": "tsup --tsconfig tsconfig.build.json",
+        "dev": "tsup --watch",
+        "lint": "tsc --noEmit && eslint \"**/*.{ts,tsx}\"",
+        "clean": "rimraf dist",
+        "test": "NODE_NO_WARNINGS=1 jest --watch"
+    },
+    "dependencies": {
+        "@hikka/client": "workspace:*",
+        "@tanstack/react-query": "5.76.1",
+        "react-intersection-observer": "9.16.0"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^6.4.2",
+        "@testing-library/react": "^14.2.1",
+        "@testing-library/react-hooks": "^8.0.1",
+        "@types/jest": "^29.5.12",
+        "esbuild-plugin-alias": "0.2.1",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "react": "19.1.0",
+        "react-dom": "19.1.0",
+        "rimraf": "^5.0.1",
+        "ts-jest": "^29.1.2",
+        "tsup": "^8.4.0"
+    },
+    "keywords": [
+        "hikka",
+        "react",
+        "hooks",
+        "anime",
+        "manga",
+        "api",
+        "tanstack",
+        "query",
+        "server-components"
+    ],
+    "author": "olexh",
+    "license": "MIT"
+}

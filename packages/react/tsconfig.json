@@ -1,0 +1,37 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "paths": {
+            "@/client/*": ["./client/*"],
+            "@/server/*": ["./server/*"],
+            "@/core/*": ["./core/*"],
+            "@/types/*": ["./types/*"],
+            "@/core": ["./core/index.ts"],
+            "@/client": ["./client/index.ts"],
+            "@/server": ["./server/index.ts"],
+            "@/types": ["./types/index.ts"],
+            "@/utils": ["./utils/index.ts"]
+        },
+        "outDir": "./dist",
+        "rootDir": ".",
+        "composite": true
+    },
+    "include": [
+        "./*ts",
+        "client/**/*",
+        "server/**/*",
+        "core/**/*",
+        "types/**/*",
+        "utils/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx"
+    ],
+    "references": [{ "path": "../client" }]
+}

@@ -1,0 +1,42 @@
+'use client';
+
+import { PersonResponse } from '@hikka/client';
+import Link from 'next/link';
+import * as React from 'react';
+
+import ContentCard from '@/components/content-card/content-card';
+import { Label } from '@/components/ui/label';
+
+interface Props {
+    person: PersonResponse;
+    onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
+    type?: 'link' | 'button';
+}
+
+const PersonCard = ({ person, onClick, type }: Props) => {
+    const Comp = type === 'button' ? 'button' : Link;
+
+    return (
+        <Comp
+            href={'/people/' + person.slug}
+            onClick={onClick}
+            className="flex w-full gap-4 text-left"
+        >
+            <div className="w-12 sm:w-16">
+                <ContentCard image={person.image} />
+            </div>
+            <div className="flex w-full flex-1 flex-col gap-2">
+                <div className="flex items-center gap-2">
+                    <Label className="font-bold">
+                        {person.title}{' '}
+                        <Label className="text-muted-foreground">
+                            / {person.name_native}
+                        </Label>
+                    </Label>
+                </div>
+            </div>
+        </Comp>
+    );
+};
+
+export default PersonCard;

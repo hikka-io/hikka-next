@@ -1,0 +1,18 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "module": "esnext",
+        "outDir": "./dist",
+        "rootDir": ".",
+        "composite": true
+    },
+    "include": [
+        "./*ts",
+        "modules/**/*",
+        "modules/*.ts",
+        "types/**/*",
+        "tsup.config.ts",
+        "constants.ts"
+    ],
+    "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
+}
