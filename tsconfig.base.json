@@ -11,6 +11,10 @@
         "resolveJsonModule": true,
         "declaration": true,
         "sourceMap": true,
-        "lib": ["dom", "dom.iterable", "esnext"]
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "paths": {
+            "@hikka/client": ["packages/client/src/index.ts"],
+            "@hikka/react": ["packages/react/src/index.ts"]
+        }
     }
 }

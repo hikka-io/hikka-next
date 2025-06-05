@@ -8,22 +8,15 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json yarn.lock .yarnrc.yml ./
+COPY turbo.json ./
 COPY tsconfig.base.json ./
 COPY packages/client/package.json ./packages/client/
 COPY packages/react/package.json ./packages/react/
 COPY apps/web/package.json ./apps/web/
 RUN corepack enable yarn && yarn install
 
-# Build client and react packages
-FROM deps AS packages-builder
-WORKDIR /app
-COPY tsconfig.base.json ./
-COPY packages/client ./packages/client
-COPY packages/react ./packages/react
-RUN yarn run build:client && yarn run build:react
-
 # Rebuild the source code only when needed
-FROM packages-builder AS builder
+FROM deps AS builder
 WORKDIR /app
 COPY . .
 
@@ -32,7 +25,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn run build:web
+# Build using Turbo (builds all dependencies in correct order)
+RUN yarn turbo run build --filter=@hikka/web
 
 # Production image, copy all the files and run next
 FROM base AS runner
