@@ -72,7 +72,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
 
     // Event Handlers
     const handleSelect = (slug: string) => {
-        if (slug === selectedSlug) {
+        if (slug === selectedRead?.content.slug) {
             router.push(`/novel/${slug}`);
             return;
         }
