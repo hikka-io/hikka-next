@@ -1,7 +1,7 @@
 'use client';
 
 import { range } from '@antfu/utils';
-import { SeasonEnum } from '@hikka/client';
+import { AnimeMediaEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { FC } from 'react';
 
@@ -30,7 +30,9 @@ const Ongoings: FC<Props> = ({ className }) => {
 
     const { list, isLoading } = useSearchAnimes({
         args: {
+            sort: ['scored_by:desc', 'score:desc'],
             season: [currentSeason!],
+            media_type: [AnimeMediaEnum.TV],
             score: [7, 10],
             years: [Number(year), Number(year)],
         },

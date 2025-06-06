@@ -1,4 +1,8 @@
-import { ContentStatusEnum, WatchStatusEnum } from '@hikka/client';
+import {
+    AnimeMediaEnum,
+    ContentStatusEnum,
+    WatchStatusEnum,
+} from '@hikka/client';
 import { QueryClient } from '@hikka/react/core';
 import {
     prefetchFollowingHistory,
@@ -53,6 +57,8 @@ const prefetchQueries = async ({
                 season: [season!],
                 score: [7, 10],
                 years: [year, year],
+                media_type: [AnimeMediaEnum.TV],
+                sort: ['scored_by:desc', 'score:desc'],
             },
             clientConfig,
             queryClient,
