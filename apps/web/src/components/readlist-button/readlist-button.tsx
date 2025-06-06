@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    ContentTypeEnum,
     MangaResponse,
     NovelResponse,
     ReadContentType,
@@ -13,7 +14,7 @@ import {
     useNovelBySlug,
     useReadBySlug,
 } from '@hikka/react';
-import { createElement } from 'react';
+import { createElement, useCallback, useMemo } from 'react';
 
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
 
@@ -42,6 +43,7 @@ interface Props {
     size?: 'sm' | 'md';
 }
 
+// Move constants outside component to prevent recreation on each render
 const SETTINGS_BUTTON = {
     label: (
         <div className="flex items-center gap-2">
@@ -54,20 +56,18 @@ const SETTINGS_BUTTON = {
     title: 'Налаштування',
 };
 
-const OPTIONS = [
-    ...Object.keys(READ_STATUS).map((status) => ({
-        value: status,
-        title: READ_STATUS[status as ReadStatusEnum].title_ua,
-        label: (
-            <div className="flex items-center gap-2">
-                {createElement(READ_STATUS[status as ReadStatusEnum].icon!)}
-                {READ_STATUS[status as ReadStatusEnum].title_ua}
-            </div>
-        ),
-    })),
-];
+const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
+    value: status,
+    title: READ_STATUS[status as ReadStatusEnum].title_ua,
+    label: (
+        <div className="flex items-center gap-2">
+            {createElement(READ_STATUS[status as ReadStatusEnum].icon!)}
+            {READ_STATUS[status as ReadStatusEnum].title_ua}
+        </div>
+    ),
+}));
 
-const Component = ({
+const ReadlistButton = ({
     slug,
     content_type,
     disabled,
@@ -99,80 +99,115 @@ const Component = ({
         },
     });
 
-    const { mutate: createRead } = useCreateRead();
+    const { mutate: createRead, isPending: isChangingStatus } = useCreateRead();
 
-    const read = readProp || (readQuery && !readError ? readQuery : undefined);
-    const content = contentProp || manga || novel;
+    // Memoize derived values to prevent unnecessary recalculations
+    const read = useMemo(
+        () => readProp || (readQuery && !readError ? readQuery : undefined),
+        [readProp, readQuery, readError],
+    );
 
-    const openReadEditModal = () => {
+    const content = useMemo(
+        () => contentProp || manga || novel,
+        [contentProp, manga, novel],
+    );
+
+    const openReadEditModal = useCallback(() => {
         if (content) {
             openModal({
                 content: (
                     <ReadEditModal
                         read={read}
                         content_type={content_type}
-                        slug={content!.slug}
+                        slug={content.slug}
                     />
                 ),
                 className: '!max-w-xl',
-                title: content!.title,
+                title: content.title,
                 forceModal: true,
             });
         }
-    };
+    }, [content, read, content_type, openModal]);
 
-    const handleChangeStatus = (options: string[]) => {
-        const params =
-            read && !readError
-                ? {
-                      volumes: read?.volumes || undefined,
-                      score: read?.score || undefined,
-                      note: read?.note || undefined,
-                      rereads: read?.rereads || undefined,
-                  }
-                : {};
+    const handleChangeStatus = useCallback(
+        (options: string[]) => {
+            const selectedOption = options[0];
 
-        if (options[0] === 'settings') {
-            openReadEditModal();
-            return;
-        }
+            if (selectedOption === 'settings') {
+                openReadEditModal();
+                return;
+            }
 
-        if (options[0] === 'completed') {
+            // Extract current read parameters
+            const currentReadParams =
+                read && !readError
+                    ? {
+                          chapters: read.chapters || undefined,
+                          volumes: read.volumes || undefined,
+                          score: read.score || undefined,
+                          note: read.note || undefined,
+                          rereads: read.rereads || undefined,
+                      }
+                    : {};
+
+            // Handle completed status specially to set volumes and chapters for manga/novel
+            const readArgs =
+                selectedOption === 'completed'
+                    ? {
+                          status: ReadStatusEnum.COMPLETED,
+                          ...currentReadParams,
+                          volumes:
+                              (content_type === ContentTypeEnum.MANGA
+                                  ? manga?.volumes
+                                  : novel?.volumes) ||
+                              read?.volumes ||
+                              undefined,
+                          chapters:
+                              (content_type === ContentTypeEnum.MANGA
+                                  ? manga?.chapters
+                                  : novel?.chapters) ||
+                              read?.chapters ||
+                              undefined,
+                      }
+                    : {
+                          status: selectedOption as ReadStatusEnum,
+                          ...currentReadParams,
+                      };
+
             createRead({
                 contentType: content_type,
                 slug,
-                args: {
-                    status: ReadStatusEnum.COMPLETED,
-                    ...params,
-                    volumes: manga?.volumes || undefined,
-                    chapters: manga?.chapters || undefined,
-                },
+                args: readArgs,
             });
-        } else {
-            createRead({
-                contentType: content_type,
-                slug,
-                args: {
-                    status: options[0] as ReadStatusEnum,
-                    ...params,
-                },
-            });
-        }
-    };
+        },
+        [
+            read,
+            readError,
+            manga,
+            content_type,
+            slug,
+            createRead,
+            openReadEditModal,
+        ],
+    );
+
+    const hasValidRead = read && !readError;
+    const currentStatus = hasValidRead ? [read.status] : [];
 
     return (
         <Select
-            disabled={disabled}
-            value={read && !readError ? [read.status] : []}
+            disabled={disabled || isChangingStatus}
+            value={currentStatus}
             onValueChange={handleChangeStatus}
         >
-            {read && !readError ? (
+            {hasValidRead ? (
                 <ReadStatusTrigger
                     content_type={content_type}
-                    read={read!}
+                    read={read}
                     disabled={disabled}
                     slug={slug}
                     size={size}
+                    isLoading={isChangingStatus}
                 />
             ) : (
                 <NewStatusTrigger
@@ -180,27 +215,28 @@ const Component = ({
                     slug={slug}
                     disabled={disabled}
                     size={size}
+                    isLoading={isChangingStatus}
                 />
             )}
 
             <SelectContent>
                 <SelectList>
                     <SelectGroup>
-                        {OPTIONS.map((option) => (
+                        {STATUS_OPTIONS.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                                 {option.label}
                             </SelectItem>
                         ))}
                     </SelectGroup>
-                    {read && !readError && <SelectSeparator />}
-                    {read && !readError && (
-                        <SelectGroup>
-                            {read && !readError && (
+                    {hasValidRead && (
+                        <>
+                            <SelectSeparator />
+                            <SelectGroup>
                                 <SelectItem disableCheckbox value="settings">
                                     {SETTINGS_BUTTON.label}
                                 </SelectItem>
-                            )}
-                        </SelectGroup>
+                            </SelectGroup>
+                        </>
                     )}
                 </SelectList>
             </SelectContent>
@@ -208,4 +244,4 @@ const Component = ({
     );
 };
 
-export default Component;
+export default ReadlistButton;

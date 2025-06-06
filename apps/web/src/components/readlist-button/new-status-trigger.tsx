@@ -17,6 +17,7 @@ interface NewStatusTriggerProps {
     slug: string;
     content_type: ReadContentType;
     size?: 'sm' | 'md';
+    isLoading?: boolean;
 }
 
 const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
@@ -24,6 +25,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     slug,
     content_type,
     size,
+    isLoading,
 }) => {
     const { mutate: createRead } = useCreateRead();
 
@@ -58,9 +60,13 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    <div className="bg-muted-foreground rounded-sm p-0.5">
-                        {createElement(WATCH_STATUS.planned.icon!)}
-                    </div>
+                    {isLoading ? (
+                        <span className="loading loading-spinner"></span>
+                    ) : (
+                        <div className="bg-muted-foreground rounded-sm p-0.5">
+                            {createElement(WATCH_STATUS.planned.icon!)}
+                        </div>
+                    )}
                     <span className="truncate rounded-none">
                         Додати у список
                     </span>

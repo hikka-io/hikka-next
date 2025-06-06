@@ -20,6 +20,7 @@ interface ReadStatusTriggerProps {
     disabled?: boolean;
     slug: string;
     size?: 'sm' | 'md';
+    isLoading?: boolean;
 }
 
 const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
@@ -28,6 +29,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
     disabled,
     slug,
     size,
+    isLoading,
 }) => {
     const { openModal } = useModalContext();
 
@@ -77,12 +79,16 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    <div
-                        className="rounded-sm p-0.5"
-                        style={{ backgroundColor: readStatus.color }}
-                    >
-                        {createElement(READ_STATUS[read.status].icon!)}
-                    </div>
+                    {isLoading ? (
+                        <span className="loading loading-spinner"></span>
+                    ) : (
+                        <div
+                            className="rounded-sm p-0.5"
+                            style={{ backgroundColor: readStatus.color }}
+                        >
+                            {createElement(READ_STATUS[read.status].icon!)}
+                        </div>
+                    )}
                     <span className="truncate rounded-none">
                         {readStatus.title_ua || readStatus.title_en}
                     </span>
