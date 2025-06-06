@@ -156,7 +156,10 @@ const PasswordConfirmForm = () => {
                 <Button
                     type="submit"
                     className="w-full"
-                    disabled={mutationConfirmPasswordReset.isPending}
+                    disabled={
+                        mutationConfirmPasswordReset.isPending ||
+                        mutationConfirmPasswordReset.isSuccess
+                    }
                 >
                     {mutationConfirmPasswordReset.isPending && (
                         <span className="loading loading-spinner mr-2"></span>

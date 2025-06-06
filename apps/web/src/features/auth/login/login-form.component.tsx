@@ -148,7 +148,9 @@ const LoginForm = () => {
                 <Button
                     type="submit"
                     className="w-full"
-                    disabled={mutationLogin.isPending}
+                    disabled={
+                        mutationLogin.isPending || mutationLogin.isSuccess
+                    }
                 >
                     {mutationLogin.isPending && (
                         <span className="loading loading-spinner mr-2"></span>
@@ -156,7 +158,11 @@ const LoginForm = () => {
                     Увійти
                 </Button>
 
-                <OAuthLogin disabled={mutationLogin.isPending} />
+                <OAuthLogin
+                    disabled={
+                        mutationLogin.isPending || mutationLogin.isSuccess
+                    }
+                />
             </form>
         </Form>
     );
