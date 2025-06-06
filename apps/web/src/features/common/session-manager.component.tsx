@@ -1,8 +1,8 @@
-import { UserResponse } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
     getQueryClient,
+    queryKeys,
 } from '@hikka/react/core';
 import { prefetchSession } from '@hikka/react/server';
 import { redirect } from 'next/navigation';
@@ -16,12 +16,17 @@ const SessionManager = async ({ children }: Props) => {
     const queryClient = getQueryClient();
     const clientConfig = await getHikkaClientConfig();
 
-    let loggedUser: UserResponse | undefined;
-
     clientConfig.authToken &&
-        (loggedUser = await prefetchSession({ clientConfig, queryClient }));
+        (await prefetchSession({ clientConfig, queryClient }));
 
-    if (clientConfig.authToken && !loggedUser) {
+    const state = queryClient.getQueryState(queryKeys.user.me());
+
+    if (
+        state?.error &&
+        typeof state.error === 'object' &&
+        'code' in state.error &&
+        state.error.code === 'auth:invalid_token'
+    ) {
         redirect(`${process.env.SITE_URL}/auth/logout`);
     }
 
