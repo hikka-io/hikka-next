@@ -2,6 +2,7 @@
 
 import { HikkaClient } from '@hikka/client';
 import {
+    QueryClient,
     UseMutationOptions,
     UseMutationResult,
     useQueryClient,
@@ -65,6 +66,7 @@ export function createMutation<
 >({
     mutationFn,
     invalidateQueries,
+    cacheByQueryKey,
 }: {
     mutationFn: (client: HikkaClient, variables: TVariables) => Promise<TData>;
     invalidateQueries?:
@@ -72,6 +74,15 @@ export function createMutation<
         | readonly unknown[][]
         | ((args: TVariables) => readonly unknown[] | readonly unknown[][])
         | (() => readonly unknown[] | readonly unknown[][]);
+    cacheByQueryKey?: ({
+        data,
+        queryClient,
+        args,
+    }: {
+        data: TData;
+        queryClient: QueryClient;
+        args: TVariables;
+    }) => void;
 }) {
     return ({
         options,
@@ -91,6 +102,10 @@ export function createMutation<
                 context: TContext,
             ) => {
                 options?.onSuccess?.(data, variables, context);
+
+                if (cacheByQueryKey) {
+                    cacheByQueryKey({ data, queryClient, args: variables });
+                }
 
                 // Invalidate queries after successful mutation
                 if (invalidateQueries) {

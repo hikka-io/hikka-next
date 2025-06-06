@@ -63,11 +63,18 @@ export function useUserWatchStats({
 export const useCreateWatch = createMutation({
     mutationFn: (client, { slug, args }: UseCreateWatchParams) =>
         client.watch.createWatch(slug, args),
-    invalidateQueries: ({ slug }) => [
-        queryKeys.watch.all,
+    invalidateQueries: () => [
         queryKeys.anime.search({}),
         queryKeys.collections.all,
     ],
+    cacheByQueryKey: ({ data, queryClient, args }) => {
+        queryClient.setQueryData<WatchResponse>(
+            queryKeys.watch.entry(args.slug),
+            () => {
+                return data;
+            },
+        );
+    },
 });
 
 /**
@@ -75,11 +82,15 @@ export const useCreateWatch = createMutation({
  */
 export const useDeleteWatch = createMutation({
     mutationFn: (client, slug: string) => client.watch.deleteWatch(slug),
-    invalidateQueries: (slug) => [
-        queryKeys.watch.all,
+    invalidateQueries: () => [
         queryKeys.anime.search({}),
         queryKeys.collections.all,
     ],
+    cacheByQueryKey: ({ queryClient, args: slug }) => {
+        queryClient.resetQueries({
+            queryKey: queryKeys.watch.entry(slug),
+        });
+    },
 });
 
 /**

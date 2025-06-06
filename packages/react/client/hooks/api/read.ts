@@ -58,12 +58,19 @@ export const useCreateRead = createMutation({
         client,
         { contentType, slug, args }: AddOrUpdateReadVariables,
     ) => client.read.createRead(contentType, slug, args),
-    invalidateQueries: ({ contentType, slug }) => [
-        queryKeys.read.all,
+    invalidateQueries: () => [
         queryKeys.manga.search({}),
         queryKeys.novel.search({}),
         queryKeys.collections.all,
     ],
+    cacheByQueryKey: ({ data, queryClient, args }) => {
+        queryClient.setQueryData<ReadResponse>(
+            queryKeys.read.entry(args.contentType, args.slug),
+            () => {
+                return data;
+            },
+        );
+    },
 });
 
 type DeleteReadVariables = {
@@ -77,12 +84,16 @@ type DeleteReadVariables = {
 export const useDeleteRead = createMutation({
     mutationFn: (client, { contentType, slug }: DeleteReadVariables) =>
         client.read.deleteRead(contentType, slug),
-    invalidateQueries: ({ contentType, slug }) => [
-        queryKeys.read.all,
+    invalidateQueries: () => [
         queryKeys.manga.search({}),
         queryKeys.novel.search({}),
         queryKeys.collections.all,
     ],
+    cacheByQueryKey: ({ queryClient, args }) => {
+        queryClient.resetQueries({
+            queryKey: queryKeys.read.entry(args.contentType, args.slug),
+        });
+    },
 });
 
 type RandomReadVariables = {
