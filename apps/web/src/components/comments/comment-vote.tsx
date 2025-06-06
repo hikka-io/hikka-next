@@ -1,8 +1,7 @@
 import { CommentResponse, ContentTypeEnum } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
-
-import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
@@ -21,6 +20,7 @@ interface Props {
 const CommentVote: FC<Props> = ({ comment }) => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
+    const router = useRouter();
 
     const mutation = useCreateVote();
 
@@ -30,12 +30,7 @@ const CommentVote: FC<Props> = ({ comment }) => {
 
     const handleCommentVote = async (score: -1 | 1) => {
         if (!loggedUser) {
-            openModal({
-                content: <AuthModal type="login" />,
-                className: 'max-w-3xl p-0',
-                forceModal: true,
-            });
-
+            router.push('/login');
             return;
         }
 

@@ -1,6 +1,9 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { UsersIcon } from 'lucide-react';
 
+import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
+import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
+
 import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
 import IconamoonCommentFill from '../../components/icons/iconamoon/IconamoonCommentFill';
@@ -282,6 +285,27 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
         icon: () => <IconamoonCommentFill />,
         visible: false,
         slug: 'comments',
+    },
+    {
+        title_ua: 'Вхід',
+        url: '/login',
+        icon: () => <MaterialSymbolsLoginRounded />,
+        visible: false,
+        slug: 'login',
+    },
+    {
+        title_ua: 'Реєстрація',
+        url: '/signup',
+        icon: () => <MaterialSymbolsPersonAddOutlineRounded />,
+        visible: false,
+        slug: 'signup',
+    },
+    {
+        title_ua: 'Відновити пароль',
+        url: '/reset',
+        icon: () => <MaterialSymbolsLockOpenRounded />,
+        visible: false,
+        slug: 'reset',
     },
 ];
 

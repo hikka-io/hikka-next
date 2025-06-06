@@ -8,9 +8,8 @@ import {
     useUserByUsername,
 } from '@hikka/react';
 import { VariantProps } from 'class-variance-authority';
+import Link from 'next/link';
 import { FC } from 'react';
-
-import AuthModal from '@/features/modals/auth-modal/auth-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
@@ -70,17 +69,13 @@ const FollowButton: FC<Props> = ({
             <Button
                 variant="outline"
                 size={size}
-                onClick={() =>
-                    openModal({
-                        content: <AuthModal type="login" />,
-                        forceModal: true,
-                        className: 'max-w-3xl p-0',
-                    })
-                }
+                asChild
                 className={cn(className)}
             >
-                <MaterialSymbolsPersonAddOutlineRounded />
-                {!iconOnly && 'Відстежувати'}
+                <Link href="/login">
+                    <MaterialSymbolsPersonAddOutlineRounded />
+                    {!iconOnly && 'Відстежувати'}
+                </Link>
             </Button>
         );
     }

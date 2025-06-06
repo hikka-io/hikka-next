@@ -9,12 +9,12 @@ import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
+import CoverImage from '@/components/cover-image';
 import FollowButton from '@/components/follow-button';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
-import UserCover from '@/components/user-cover';
 
 import ActivationAlert from '@/features/users/activation-alert.component';
 import FollowStats from '@/features/users/follow-stats.component';
@@ -73,7 +73,7 @@ const UserLayout: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12 lg:gap-16">
                 <ActivationAlert />
-                <UserCover username={username} />
+                <CoverImage cover={user?.cover} />
                 <Breadcrumbs>
                     <Link
                         href={`/u/${username}`}

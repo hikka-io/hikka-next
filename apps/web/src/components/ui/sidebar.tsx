@@ -8,6 +8,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
 import { cn } from '@/utils/utils';
+
 import { Button } from './button';
 import { Input } from './input';
 import { Separator } from './separator';
@@ -158,7 +159,7 @@ const SidebarProvider = React.forwardRef<
                             } as React.CSSProperties
                         }
                         className={cn(
-                            'group/sidebar-wrapper min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar',
+                            'group/sidebar-wrapper w-full has-[[data-variant=inset]]:bg-sidebar',
                             className,
                         )}
                         ref={ref}
@@ -847,6 +848,5 @@ export {
     SidebarSeparator,
     SidebarShadowTrigger,
     SidebarTrigger,
-    useSidebar
+    useSidebar,
 };
-

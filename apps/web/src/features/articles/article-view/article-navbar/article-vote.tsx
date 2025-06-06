@@ -1,5 +1,6 @@
 import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
@@ -10,18 +11,15 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
-
-import AuthModal from '../../../modals/auth-modal/auth-modal.component';
 
 interface Props {
     article: ArticleResponse;
 }
 
 const ArticleVote: FC<Props> = ({ article }) => {
-    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
+    const router = useRouter();
 
     const mutation = useCreateVote();
 
@@ -31,12 +29,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
 
     const handleArticleVote = async (score: -1 | 1) => {
         if (!loggedUser) {
-            openModal({
-                content: <AuthModal type="login" />,
-                className: 'max-w-3xl p-0',
-                forceModal: true,
-            });
-
+            router.push('/login');
             return;
         }
 

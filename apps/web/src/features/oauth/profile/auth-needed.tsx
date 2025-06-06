@@ -1,24 +1,17 @@
 'use client';
 
+import Link from 'next/link';
 import { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import { useModalContext } from '@/services/providers/modal-provider';
-import AuthModal from '../../modals/auth-modal/auth-modal.component';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 interface Props {}
 
 const AuthNeeded: FC<Props> = () => {
-    const { openModal } = useModalContext();
-
     return (
         <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
@@ -36,18 +29,8 @@ const AuthNeeded: FC<Props> = () => {
                     </P>
                 </div>
             </div>
-            <Button
-                size="md"
-                variant="outline"
-                onClick={() =>
-                    openModal({
-                        content: <AuthModal type="login" />,
-                        className: 'max-w-3xl p-0',
-                        forceModal: true,
-                    })
-                }
-            >
-                Увійти
+            <Button size="md" variant="outline" asChild>
+                <Link href="/login">Увійти</Link>
             </Button>
         </Card>
     );

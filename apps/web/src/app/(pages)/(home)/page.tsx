@@ -6,6 +6,7 @@ import {
     queryKeys,
 } from '@hikka/react/core';
 
+import CoverImage from '@/components/cover-image';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -13,7 +14,6 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import UserCover from '@/components/user-cover';
 
 import Collections from '@/features/home/collections.component';
 import Comments from '@/features/home/comments.component';
@@ -38,7 +38,7 @@ const Page = async () => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-16">
-                <UserCover />
+                <CoverImage cover={loggedUser?.cover} />
                 <Ongoings />
                 {loggedUser && (
                     <Block>

@@ -8,10 +8,8 @@ import { useSidebar } from '@/components/ui/sidebar';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
-import AuthModal from '../../modals/auth-modal/auth-modal.component';
 import SearchModal from '../../modals/search-modal/search-modal.component';
 import AppSidebar from '../app-sidebar';
 import NotificationsMenu from './notifications-menu/notifications-menu.component';
@@ -19,7 +17,6 @@ import ProfileMenu from './profile-menu';
 
 const Navbar = () => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
-    const { openModal } = useModalContext();
     const { toggleSidebar, item } = useSidebar();
 
     let { user: loggedUser } = useSession();
@@ -33,10 +30,10 @@ const Navbar = () => {
         <header
             className={cn(
                 'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition',
-                trigger && 'border-b border-b-border !bg-background',
+                trigger && 'border-b-border !bg-background border-b',
             )}
         >
-            <nav className="container mx-auto flex min-h-16 items-center gap-4 px-4 md:gap-8 relative">
+            <nav className="container relative mx-auto flex min-h-16 items-center gap-4 px-4 md:gap-8">
                 <AppSidebar />
                 <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
                     <Link className="w-auto p-0" href="/">
@@ -67,31 +64,15 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <>
-                            <Button
-                                size="md"
-                                variant="ghost"
-                                onClick={() =>
-                                    openModal({
-                                        content: <AuthModal type="login" />,
-                                        className: 'max-w-3xl p-0',
-                                        forceModal: true,
-                                    })
-                                }
-                            >
-                                Увійти
+                            <Button size="md" variant="ghost" asChild>
+                                <Link href="/login">Увійти</Link>
                             </Button>
                             <Button
                                 size="md"
                                 className="hidden lg:flex"
-                                onClick={() =>
-                                    openModal({
-                                        content: <AuthModal type="signup" />,
-                                        className: 'max-w-3xl p-0',
-                                        forceModal: true,
-                                    })
-                                }
+                                asChild
                             >
-                                Реєстрація
+                                <Link href="/signup">Реєстрація</Link>
                             </Button>
                         </>
                     )}
