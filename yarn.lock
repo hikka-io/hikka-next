@@ -1222,7 +1222,7 @@ __metadata:
     "@hikka/client": "workspace:*"
     "@hikka/react": "workspace:*"
     "@hookform/resolvers": "npm:^3.9.1"
-    "@marsidev/react-turnstile": "npm:^1.0.2"
+    "@marsidev/react-turnstile": "npm:1.1.0"
     "@mobily/ts-belt": "npm:^3.13.1"
     "@next/bundle-analyzer": "npm:15.3.0"
     "@radix-ui/react-alert-dialog": "npm:^1.1.2"
@@ -2384,7 +2384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@marsidev/react-turnstile@npm:^1.0.2":
+"@marsidev/react-turnstile@npm:1.1.0":
   version: 1.1.0
   resolution: "@marsidev/react-turnstile@npm:1.1.0"
   peerDependencies:

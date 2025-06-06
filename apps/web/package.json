@@ -23,7 +23,7 @@
         "@hikka/client": "workspace:*",
         "@hikka/react": "workspace:*",
         "@hookform/resolvers": "^3.9.1",
-        "@marsidev/react-turnstile": "^1.0.2",
+        "@marsidev/react-turnstile": "1.1.0",
         "@mobily/ts-belt": "^3.13.1",
         "@next/bundle-analyzer": "15.3.0",
         "@radix-ui/react-alert-dialog": "^1.1.2",
