@@ -1,7 +1,6 @@
 'use client';
 
 import { useOAuthProviderUrl } from '@hikka/react';
-import Link from 'next/link';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
@@ -46,12 +45,14 @@ const OAuthLogin = ({
                 variant="outline"
                 className="w-full"
                 disabled={disabled || !oauthUrl}
-                asChild
+                onClick={() => {
+                    if (oauthUrl?.url) {
+                        window.location.href = oauthUrl.url;
+                    }
+                }}
             >
-                <Link href={oauthUrl?.url ?? ''}>
-                    <BxBxlGoogle className="mr-2 size-4" />
-                    {buttonText}
-                </Link>
+                <BxBxlGoogle className="mr-2 size-4" />
+                {buttonText}
             </Button>
         </>
     );
