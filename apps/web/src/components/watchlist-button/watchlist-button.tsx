@@ -6,7 +6,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
-import { createElement } from 'react';
+import { createElement, useCallback, useMemo } from 'react';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
@@ -46,20 +46,18 @@ const SETTINGS_BUTTON = {
     title: 'Налаштування',
 };
 
-const OPTIONS = [
-    ...Object.keys(WATCH_STATUS).map((status) => ({
-        value: status,
-        title: WATCH_STATUS[status as WatchStatusEnum].title_ua,
-        label: (
-            <div className="flex items-center gap-2">
-                {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!)}
-                {WATCH_STATUS[status as WatchStatusEnum].title_ua}
-            </div>
-        ),
-    })),
-];
+const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
+    value: status,
+    title: WATCH_STATUS[status as WatchStatusEnum].title_ua,
+    label: (
+        <div className="flex items-center gap-2">
+            {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!)}
+            {WATCH_STATUS[status as WatchStatusEnum].title_ua}
+        </div>
+    ),
+}));
 
-const Component = ({
+const WatchlistButton = ({
     slug,
     disabled,
     watch: watchProp,
@@ -74,20 +72,27 @@ const Component = ({
             enabled: !disabled && !watchProp,
         },
     });
+
     const { data: animeQuery } = useAnimeBySlug({
         slug,
         options: {
             enabled: !disabled && !animeProp,
         },
     });
-    const { mutate: addWatch } = useCreateWatch();
 
-    const watch =
-        watchProp || (watchQuery && !watchError ? watchQuery : undefined);
+    const { mutate: addWatch, isPending: isChangingStatus } = useCreateWatch();
 
-    const anime = animeProp || (animeQuery ? animeQuery : undefined);
+    const watch = useMemo(
+        () => watchProp || (watchQuery && !watchError ? watchQuery : undefined),
+        [watchProp, watchQuery, watchError],
+    );
 
-    const openWatchEditModal = () => {
+    const anime = useMemo(
+        () => animeProp || animeQuery,
+        [animeProp, animeQuery],
+    );
+
+    const openWatchEditModal = useCallback(() => {
         if (anime) {
             openModal({
                 content: <WatchEditModal slug={anime.slug} watch={watch} />,
@@ -96,78 +101,91 @@ const Component = ({
                 forceModal: true,
             });
         }
-    };
+    }, [anime, watch, openModal]);
 
-    const handleChangeStatus = (options: string[]) => {
-        const params = watch
-            ? {
-                  episodes: watch?.episodes || undefined,
-                  score: watch?.score || undefined,
-                  note: watch?.note || undefined,
-                  rewatches: watch?.rewatches || undefined,
-              }
-            : {};
+    const handleChangeStatus = useCallback(
+        (options: string[]) => {
+            const selectedOption = options[0];
 
-        if (options[0] === 'settings') {
-            openWatchEditModal();
-            return;
-        }
+            if (selectedOption === 'settings') {
+                openWatchEditModal();
+                return;
+            }
 
-        if (options[0] === 'completed') {
+            // Extract current watch parameters
+            const currentWatchParams = watch
+                ? {
+                      episodes: watch.episodes || undefined,
+                      score: watch.score || undefined,
+                      note: watch.note || undefined,
+                      rewatches: watch.rewatches || undefined,
+                  }
+                : {};
+
+            // Handle completed status specially to set episodes to total
+            const watchArgs =
+                selectedOption === 'completed'
+                    ? {
+                          status: WatchStatusEnum.COMPLETED,
+                          ...currentWatchParams,
+                          episodes: anime?.episodes_total || undefined,
+                      }
+                    : {
+                          status: selectedOption as WatchStatusEnum,
+                          ...currentWatchParams,
+                      };
+
             addWatch({
                 slug,
-                args: {
-                    status: WatchStatusEnum.COMPLETED,
-                    ...params,
-                    episodes: anime?.episodes_total || undefined,
-                },
+                args: watchArgs,
             });
-        } else {
-            addWatch({
-                slug,
-                args: {
-                    status: options[0] as WatchStatusEnum,
-                    ...params,
-                },
-            });
-        }
-    };
+        },
+        [watch, anime, slug, addWatch, openWatchEditModal],
+    );
+
+    const currentStatus = watch ? [watch.status] : [];
 
     return (
         <Select
-            disabled={disabled}
-            value={watch ? [watch.status] : []}
+            disabled={disabled || isChangingStatus}
+            value={currentStatus}
             onValueChange={handleChangeStatus}
         >
             {watch ? (
                 <WatchStatusTrigger
-                    watch={watch!}
+                    watch={watch}
                     disabled={disabled}
                     slug={slug}
                     size={size}
+                    isLoading={isChangingStatus}
                 />
             ) : (
-                <NewStatusTrigger size={size} slug={slug} disabled={disabled} />
+                <NewStatusTrigger
+                    size={size}
+                    slug={slug}
+                    disabled={disabled}
+                    isLoading={isChangingStatus}
+                />
             )}
 
             <SelectContent>
                 <SelectList>
                     <SelectGroup>
-                        {OPTIONS.map((option) => (
+                        {STATUS_OPTIONS.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                                 {option.label}
                             </SelectItem>
                         ))}
                     </SelectGroup>
-                    {watch && <SelectSeparator />}
                     {watch && (
-                        <SelectGroup>
-                            {watch && (
+                        <>
+                            <SelectSeparator />
+                            <SelectGroup>
                                 <SelectItem disableCheckbox value="settings">
                                     {SETTINGS_BUTTON.label}
                                 </SelectItem>
-                            )}
-                        </SelectGroup>
+                            </SelectGroup>
+                        </>
                     )}
                 </SelectList>
             </SelectContent>
@@ -175,4 +193,4 @@ const Component = ({
     );
 };
 
-export default Component;
+export default WatchlistButton;

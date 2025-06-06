@@ -19,6 +19,7 @@ interface WatchStatusTriggerProps {
     disabled?: boolean;
     slug: string;
     size?: 'sm' | 'md';
+    isLoading?: boolean;
 }
 
 const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
@@ -26,6 +27,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     disabled,
     slug,
     size,
+    isLoading,
 }) => {
     const { openModal } = useModalContext();
     const { data: anime } = useAnimeBySlug({
@@ -59,12 +61,16 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none',
                     )}
                 >
-                    <div
-                        className="rounded-sm p-0.5 text-white"
-                        style={{ backgroundColor: watchStatus.color }}
-                    >
-                        {createElement(watchStatus.icon!)}
-                    </div>
+                    {isLoading ? (
+                        <span className="loading loading-spinner"></span>
+                    ) : (
+                        <div
+                            className="rounded-sm p-0.5 text-white"
+                            style={{ backgroundColor: watchStatus.color }}
+                        >
+                            {createElement(watchStatus.icon!)}
+                        </div>
+                    )}
                     <span className="truncate rounded-none">
                         {watchStatus.title_ua || watchStatus.title_en}
                     </span>
