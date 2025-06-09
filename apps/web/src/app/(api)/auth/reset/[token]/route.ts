@@ -8,5 +8,5 @@ export async function GET(
 
     const { token } = params;
 
-    return redirect('/anime?page=1&modal=passwordConfirm&token=' + token);
+    return redirect('/reset/' + token);
 }
