@@ -1,10 +1,12 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import FavoriteButton from '@/components/favorite-button';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -49,6 +51,15 @@ const CollectionNavbar: FC<Props> = () => {
                     </TooltipTrigger>
                     <TooltipContent>Коментарі</TooltipContent>
                 </Tooltip>
+
+                {collection && (
+                    <FavoriteButton
+                        size="icon-md"
+                        variant="secondary"
+                        content_type={ContentTypeEnum.COLLECTION}
+                        slug={collection?.reference}
+                    />
+                )}
 
                 <CollectionMenu collection={collection!} />
             </Card>
