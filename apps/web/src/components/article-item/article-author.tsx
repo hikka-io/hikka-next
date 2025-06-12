@@ -16,14 +16,19 @@ import {
 
 interface Props {
     article: ArticleResponse;
+    preview?: boolean;
 }
 
-const Author: FC<Props> = ({ article }) => {
+const Author: FC<Props> = ({ article, preview }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     return (
         <HorizontalCard href={`/u/${article.author.username}`} className="p-4">
-            <HorizontalCardImage image={article.author.avatar} imageRatio={1} />
+            <HorizontalCardImage
+                className={preview ? 'w-10' : ''}
+                image={article.author.avatar}
+                imageRatio={1}
+            />
             <HorizontalCardContainer className="gap-1">
                 <HorizontalCardTitle>
                     {article.author.username}
@@ -50,8 +55,8 @@ const Author: FC<Props> = ({ article }) => {
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
             <FollowButton
-                iconOnly={!isDesktop}
-                size={!isDesktop ? 'icon-md' : 'md'}
+                iconOnly={!isDesktop || preview}
+                size={!isDesktop || preview ? 'icon-md' : 'md'}
                 user={article.author}
             />
         </HorizontalCard>

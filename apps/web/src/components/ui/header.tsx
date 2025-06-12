@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 
 import { cn } from '@/utils/utils';
+
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import H1 from '../typography/h1';
 import H2 from '../typography/h2';
@@ -147,13 +148,30 @@ const HeaderNavButton: FC = () => {
 
     if (href) {
         return (
-            <Button size="icon-sm" variant="outline" asChild>
-                <Link href={href} {...linkProps}>
+            <Button size="md" variant="ghost" asChild>
+                <Link
+                    href={href}
+                    className="flex items-center gap-2 text-muted-foreground"
+                    {...linkProps}
+                >
+                    Більше
                     <MaterialSymbolsArrowRightAltRounded className="text-lg" />
                 </Link>
             </Button>
         );
     }
+
+    return (
+        <Button
+            onClick={onClick}
+            size="md"
+            className="flex items-center gap-2 text-muted-foreground"
+            variant="ghost"
+        >
+            Більше
+            <MaterialSymbolsArrowRightAltRounded className="text-lg" />
+        </Button>
+    );
 
     return (
         <Button size="icon-sm" variant="outline" onClick={onClick}>

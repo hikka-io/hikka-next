@@ -16,8 +16,8 @@ import Stack from '@/components/ui/stack';
 
 import { cn } from '@/utils/utils';
 
-import ContentCard from '../../components/content-card/content-card';
-import MaterialSymbolsAddRounded from '../../components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsAddRounded from '../../../components/icons/material-symbols/MaterialSymbolsAddRounded';
+import CollectionCard from './collection-card';
 
 interface Props {
     className?: string;
@@ -30,15 +30,16 @@ const Collections: FC<Props> = ({ className }) => {
         args: {
             sort: ['created:desc'],
         },
+        paginationArgs: {
+            size: 3,
+        },
     });
-
-    const filteredCollections = list?.slice(0, 8);
 
     return (
         <Block className={cn(className)}>
             <Header href="/collections">
                 <HeaderContainer>
-                    <HeaderTitle>Колекції</HeaderTitle>
+                    <HeaderTitle variant="h2">Колекції</HeaderTitle>
                     {loggedUser?.username && (
                         <Button asChild size="icon-sm" variant="outline">
                             <Link href="/collections/new">
@@ -49,26 +50,14 @@ const Collections: FC<Props> = ({ className }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack size={8}>
-                {filteredCollections &&
-                    filteredCollections.map((item) => (
-                        <ContentCard
-                            key={item.reference}
-                            title={item.title}
-                            image={item.collection[0].content.image}
-                            href={`/collections/${item.reference}`}
-                            titleClassName={cn(
-                                item.spoiler && 'spoiler-blur-sm',
-                            )}
-                            containerClassName={cn(
-                                item.nsfw && 'spoiler-blur-md',
-                            )}
-                            leftSubtitle={(item.nsfw && '+18') || undefined}
-                            rightSubtitle={
-                                (item.spoiler && 'Спойлери') || undefined
-                            }
-                        />
-                    ))}
+            <Stack size={3} className="grid-min-20">
+                {list?.map((item) => (
+                    <CollectionCard
+                        maxPreviewItems={2}
+                        key={item.reference}
+                        collection={item}
+                    />
+                ))}
             </Stack>
         </Block>
     );

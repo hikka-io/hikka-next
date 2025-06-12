@@ -7,18 +7,12 @@ import {
 } from '@hikka/react/core';
 
 import CoverImage from '@/components/cover-image';
-import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
 
-import Collections from '@/features/home/collections.component';
+import Articles from '@/features/home/articles/articles.component';
+import Collections from '@/features/home/collections/collections.component';
 import Comments from '@/features/home/comments.component';
-import History from '@/features/home/history.component';
 import Ongoings from '@/features/home/ongoings.component';
+import History from '@/features/home/profile/history.component';
 import Profile from '@/features/home/profile/profile.component';
 import Schedule from '@/features/home/schedule/schedule.component';
 
@@ -41,20 +35,13 @@ const Page = async () => {
                 <CoverImage cover={loggedUser?.cover} />
                 <Ongoings />
                 {loggedUser && (
-                    <Block>
-                        <Header href={`/u/${loggedUser?.username}`}>
-                            <HeaderContainer>
-                                <HeaderTitle>Профіль</HeaderTitle>
-                            </HeaderContainer>
-                            <HeaderNavButton />
-                        </Header>
-                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                            <Profile />
-                            <History />
-                        </div>
-                    </Block>
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                        <Profile />
+                        <History />
+                    </div>
                 )}
                 <Comments />
+                <Articles />
 
                 <Collections />
                 <Schedule />

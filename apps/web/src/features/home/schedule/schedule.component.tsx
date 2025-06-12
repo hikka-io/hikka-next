@@ -48,7 +48,7 @@ const Schedule = () => {
         <Block>
             <Header href="/schedule">
                 <HeaderContainer>
-                    <HeaderTitle>Календар</HeaderTitle>
+                    <HeaderTitle variant="h2">Календар</HeaderTitle>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

@@ -28,7 +28,7 @@ const Comments: FC<Props> = ({ className }) => {
         <Block className={cn(className)}>
             <Header href="/comments/latest">
                 <HeaderContainer>
-                    <HeaderTitle>Коментарі</HeaderTitle>
+                    <HeaderTitle variant="h2">Коментарі</HeaderTitle>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

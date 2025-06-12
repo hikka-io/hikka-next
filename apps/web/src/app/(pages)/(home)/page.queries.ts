@@ -9,6 +9,7 @@ import {
     prefetchLatestComments,
     prefetchSearchAnimeSchedule,
     prefetchSearchAnimes,
+    prefetchSearchArticles,
     prefetchSearchCollections,
     prefetchSearchUserWatches,
     prefetchSession,
@@ -60,6 +61,9 @@ const prefetchQueries = async ({
                 media_type: [AnimeMediaEnum.TV],
                 sort: ['scored_by:desc', 'score:desc'],
             },
+            paginationArgs: {
+                size: 8,
+            },
             clientConfig,
             queryClient,
         }),
@@ -82,10 +86,25 @@ const prefetchQueries = async ({
     promises.push(
         prefetchSearchCollections({
             args: { sort: ['created:desc'] },
+            paginationArgs: {
+                size: 3,
+            },
             clientConfig,
             queryClient,
         }),
     );
+
+    promises.push(
+        prefetchSearchArticles({
+            args: { sort: ['created:desc'] },
+            paginationArgs: {
+                size: 3,
+            },
+            clientConfig,
+            queryClient,
+        }),
+    );
+
     promises.push(prefetchLatestComments({ clientConfig, queryClient }));
 
     await Promise.all(promises);

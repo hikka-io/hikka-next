@@ -45,7 +45,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     )}
                     <Header>
                         <HeaderContainer>
-                            <HeaderTitle variant="h4">
+                            <HeaderTitle variant="h3">
                                 {article.title}
                             </HeaderTitle>
                         </HeaderContainer>
@@ -71,7 +71,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="text-muted-foreground pointer-events-none gap-1"
+                            className="pointer-events-none gap-1 text-muted-foreground"
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
                             {article.views}
@@ -81,7 +81,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground gap-1"
+                        className="gap-1 text-muted-foreground"
                     >
                         <Link href={`/comments/article/${article.slug}`}>
                             <IconamoonCommentFill className="size-3" />
@@ -91,7 +91,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground pointer-events-none gap-1"
+                        className="pointer-events-none gap-1 text-muted-foreground"
                     >
                         <BxBxsUpvote className="size-3" />
                         {article.vote_score}

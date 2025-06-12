@@ -3,9 +3,7 @@
 import { useAnimeBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
-import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import Duration from './duration';
 import EpisodeSchedule from './episode-schedule';
@@ -25,28 +23,21 @@ const Details = () => {
     }
 
     return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle>Деталі</HeaderTitle>
-                </HeaderContainer>
-            </Header>
-            <Card>
-                <MediaType media_type={data.media_type} />
-                <Status status={data.status} />
-                {data.media_type !== 'movie' && (
-                    <Episodes
-                        status={data.status}
-                        episodes_released={data.episodes_released}
-                        episodes_total={data.episodes_total}
-                    />
-                )}
-                <EpisodeSchedule schedule={data.schedule} />
-                <Duration duration={data.duration} />
-                <Rating rating={data.rating} />
-                <Studio companies={data.companies} />
-            </Card>
-        </Block>
+        <Card>
+            <MediaType media_type={data.media_type} />
+            <Status status={data.status} />
+            {data.media_type !== 'movie' && (
+                <Episodes
+                    status={data.status}
+                    episodes_released={data.episodes_released}
+                    episodes_total={data.episodes_total}
+                />
+            )}
+            <EpisodeSchedule schedule={data.schedule} />
+            <Duration duration={data.duration} />
+            <Rating rating={data.rating} />
+            <Studio companies={data.companies} />
+        </Card>
     );
 };
 

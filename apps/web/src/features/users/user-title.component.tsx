@@ -32,7 +32,7 @@ const UserTitle = () => {
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="border-border bg-secondary/20 text-card-foreground rounded-sm border p-1 text-xs font-bold backdrop-blur">
+                            <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-card-foreground backdrop-blur">
                                 {user.role === 'admin' && (
                                     <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                 )}
@@ -52,7 +52,7 @@ const UserTitle = () => {
                 )}
             </div>
             {user.description && (
-                <MDViewer className="text-muted-foreground line-clamp-4 text-sm">
+                <MDViewer className="line-clamp-3 text-sm leading-4 text-muted-foreground md:line-clamp-2">
                     {user.description}
                 </MDViewer>
             )}

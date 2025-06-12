@@ -36,21 +36,22 @@ const Ongoings: FC<Props> = ({ className }) => {
             score: [7, 10],
             years: [Number(year), Number(year)],
         },
+        paginationArgs: {
+            size: 8,
+        },
     });
-
-    const filteredList = list?.slice(0, 8);
 
     return (
         <Block className={cn(className)}>
             <Header href="/anime?statuses=ongoing">
                 <HeaderContainer>
-                    <HeaderTitle>Онґоінґи</HeaderTitle>
+                    <HeaderTitle variant="h2">Онґоінґи</HeaderTitle>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
             <Stack size={8}>
                 {isLoading && range(0, 8).map((v) => <SkeletonCard key={v} />)}
-                {filteredList?.map((item) => (
+                {list?.map((item) => (
                     <AnimeCard anime={item} key={item.slug} />
                 ))}
             </Stack>

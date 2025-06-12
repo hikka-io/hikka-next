@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const H4_CLASSNAME =
-    'scroll-m-20 font-display text-lg font-bold tracking-normal';
+    'scroll-m-20 font-display text-base font-bold tracking-normal';
 
 export default function H4({ children, className }: Props) {
     return <h4 className={cn(H4_CLASSNAME, className)}>{children}</h4>;

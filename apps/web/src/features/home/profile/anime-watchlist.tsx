@@ -13,7 +13,6 @@ import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-s
 import H5 from '@/components/typography/h5';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
@@ -244,7 +243,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                 />
             )}
             {list && list.length > 0 && (
-                <Card className="h-full">
+                <div className="flex h-full flex-col gap-4">
                     <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4">
                         {list.map((item) => (
                             <Tooltip key={item.anime.slug}>
@@ -305,7 +304,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                             {renderActionButtons()}
                         </>
                     )}
-                </Card>
+                </div>
             )}
         </>
     );

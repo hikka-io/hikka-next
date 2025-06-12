@@ -1,11 +1,9 @@
 'use client';
 
 import { useSearchCollections } from '@hikka/react';
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 
-import { Separator } from '@/components/ui/separator';
-
-import CollectionItem from './collection-item';
+import CollectionCard from './collection-card';
 
 interface Props {
     page: number;
@@ -27,10 +25,11 @@ const CollectionList: FC<Props> = ({ page, sort }) => {
     return (
         <div className="grid grid-cols-1 gap-x-16 gap-y-8">
             {list?.map((collection, index) => (
-                <Fragment key={collection.reference}>
-                    {index !== 0 && <Separator />}
-                    <CollectionItem collection={collection} />
-                </Fragment>
+                <CollectionCard
+                    maxPreviewItems={6}
+                    collection={collection}
+                    key={collection.reference}
+                />
             ))}
         </div>
     );
