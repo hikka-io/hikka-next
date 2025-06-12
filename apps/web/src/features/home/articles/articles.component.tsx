@@ -37,7 +37,7 @@ const Articles: FC<Props> = ({ className }) => {
 
     return (
         <Block className={cn(className)}>
-            <Header href="/collections">
+            <Header href="/articles">
                 <HeaderContainer>
                     <HeaderTitle variant="h2">Статті</HeaderTitle>
                     {loggedUser?.username && (

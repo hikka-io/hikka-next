@@ -58,14 +58,15 @@ const ArticleCard: FC<Props> = ({ article }) => {
             <TextExpand alwaysCollapsed>{contentElement}</TextExpand>
             <div className="flex items-center justify-between p-4">
                 <div className="flex gap-2">
-                    {article.tags.slice(0, 2).map((tag) => (
-                        <Badge key={tag.name} variant="secondary">
-                            {tag.name}
+                    {article.tags.length > 0 && (
+                        <Badge variant="secondary">
+                            {article.tags[0].name}
                         </Badge>
-                    ))}
-                    {article.tags.length > 2 && (
+                    )}
+
+                    {article.tags.length > 1 && (
                         <Badge variant="outline">
-                            +{article.tags.length - 2}
+                            +{article.tags.length - 1}
                         </Badge>
                     )}
                 </div>
@@ -74,7 +75,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="text-muted-foreground pointer-events-none gap-1"
+                            className="pointer-events-none gap-1 text-muted-foreground"
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
                             {article.views}
@@ -84,7 +85,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground gap-1"
+                        className="gap-1 text-muted-foreground"
                     >
                         <Link href={`/comments/article/${article.slug}`}>
                             <IconamoonCommentFill className="size-3" />
@@ -94,7 +95,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground pointer-events-none gap-1"
+                        className="pointer-events-none gap-1 text-muted-foreground"
                     >
                         <BxBxsUpvote className="size-3" />
                         {article.vote_score}
