@@ -54,7 +54,7 @@ To get a local copy up and running follow these simple example steps.
     ```
 1. Run the Next.js development server
     ```sh
-    yarn dev:web
+    yarn dev
     ```
 
 <!-- CONTRIBUTING -->
