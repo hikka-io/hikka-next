@@ -29,10 +29,17 @@ const CollectionNavbar: FC<Props> = () => {
     });
 
     return (
-        <div className="sticky bottom-2 flex justify-center z-10">
-            <Card className="flex-row gap-2 p-2 bg-background/60 backdrop-blur-xl border-none">
+        <div className="sticky bottom-2 z-10 flex justify-center">
+            <Card className="flex-row gap-2 border-none bg-background/60 p-2 backdrop-blur-xl">
                 <CollectionVote collection={collection!} />
-
+                {collection && (
+                    <FavoriteButton
+                        size="icon-md"
+                        variant="secondary"
+                        content_type={ContentTypeEnum.COLLECTION}
+                        slug={collection?.reference}
+                    />
+                )}
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button asChild size="md" variant="secondary">
@@ -51,15 +58,6 @@ const CollectionNavbar: FC<Props> = () => {
                     </TooltipTrigger>
                     <TooltipContent>Коментарі</TooltipContent>
                 </Tooltip>
-
-                {collection && (
-                    <FavoriteButton
-                        size="icon-md"
-                        variant="secondary"
-                        content_type={ContentTypeEnum.COLLECTION}
-                        slug={collection?.reference}
-                    />
-                )}
 
                 <CollectionMenu collection={collection!} />
             </Card>
