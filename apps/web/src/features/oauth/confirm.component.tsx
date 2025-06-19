@@ -16,7 +16,13 @@ const Confirm: FC<Props> = () => {
 
     const { user } = useSession();
 
-    const { mutate, isPending } = useCreateThirdPartyTokenRequest();
+    const { mutate, isPending } = useCreateThirdPartyTokenRequest({
+        options: {
+            onSuccess: (data) => {
+                window.location.href = `${data.redirect_url}${data.reference}`;
+            },
+        },
+    });
 
     const handleConfirm = () => {
         mutate({
