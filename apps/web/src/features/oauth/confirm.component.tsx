@@ -19,7 +19,7 @@ const Confirm: FC<Props> = () => {
     const { mutate, isPending } = useCreateThirdPartyTokenRequest({
         options: {
             onSuccess: (data) => {
-                window.location.href = `${data.redirect_url}${data.reference}`;
+                window.location.href = data.redirect_url;
             },
         },
     });
