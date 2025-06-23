@@ -81,7 +81,11 @@ const SignupForm = () => {
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
         mutationSignup.mutate({
-            args: data,
+            args: {
+                email: data.email,
+                password: data.password,
+                username: data.username,
+            },
             captcha: {
                 captcha: String(captchaRef.current?.getResponse()),
             },
