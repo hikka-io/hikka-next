@@ -48,6 +48,7 @@ const Genre: FC<Props> = () => {
     return (
         <CollapsibleFilter defaultOpen title="Жанри" active={genres.length > 0}>
             <Select
+                triState={true}
                 multiple
                 value={genres}
                 onValueChange={(value) => handleChangeParam('genres', value)}

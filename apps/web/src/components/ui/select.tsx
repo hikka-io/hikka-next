@@ -30,10 +30,15 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from './tooltip';
+import { TriStateCheckbox, type TriState } from './tri-state-checkbox';
 
 export interface SelectOptionItem {
     value: string;
     label?: React.ReactNode;
+}
+
+export interface TriStateSelectOptionItem extends SelectOptionItem {
+    triState?: TriState;
 }
 
 interface SelectContextValue {
@@ -45,6 +50,7 @@ interface SelectContextValue {
     maxCount?: number;
     itemCache?: Record<string, SelectOptionItem>;
     multiple?: boolean;
+    triState?: boolean;
 
     onSelect(value: string, item: SelectOptionItem): void;
 
@@ -53,6 +59,9 @@ interface SelectContextValue {
     onSearch?(keyword: string | undefined): void;
 
     setItemCache(value: string, item: SelectOptionItem): void;
+
+    onTriStateChange?(value: string, state: TriState, item: SelectOptionItem): void;
+    getTriState?(value: string): TriState;
 }
 
 const SelectContext = React.createContext<SelectContextValue | undefined>(
@@ -82,6 +91,8 @@ export type SelectProps = React.ComponentPropsWithoutRef<
     disabled?: boolean;
     maxCount?: number;
     multiple?: boolean;
+    triState?: boolean;
+    onTriStateChange?(value: string, state: TriState, item: SelectOptionItem): void;
 };
 
 const Select: React.FC<SelectProps> = ({
@@ -98,6 +109,8 @@ const Select: React.FC<SelectProps> = ({
     disabled,
     maxCount,
     multiple,
+    triState,
+    onTriStateChange,
     ...popoverProps
 }) => {
     const [itemCache, setItemCache] =
@@ -126,8 +139,48 @@ const Select: React.FC<SelectProps> = ({
         onChange: onOpenChange,
     });
 
+    const getTriState = React.useCallback((itemValue: string): TriState => {
+        if (!triState || !value) return 'neutral';
+
+        if (value.includes(itemValue)) {
+            return 'include';
+        } else if (value.includes(`-${itemValue}`)) {
+            return 'exclude';
+        }
+        return 'neutral';
+    }, [triState, value]);
+
+    const handleTriStateChange = React.useCallback(
+        (itemValue: string, state: TriState, item: SelectOptionItem) => {
+            if (!triState) return;
+
+            setValue((prev) => {
+                const newValue = prev ? [...prev] : [];
+
+                const filteredValue = newValue.filter(
+                    (v) => v !== itemValue && v !== `-${itemValue}`
+                );
+
+                if (state === 'include') {
+                    filteredValue.push(itemValue);
+                } else if (state === 'exclude') {
+                    filteredValue.push(`-${itemValue}`);
+                }
+
+                return filteredValue;
+            });
+
+            onTriStateChange?.(itemValue, state, item);
+        },
+        [triState, setValue, onTriStateChange],
+    );
+
     const handleSelect = React.useCallback(
         (value: string, item: SelectOptionItem) => {
+            if (triState) {
+                return;
+            }
+
             if (!multiple) {
                 setValue([value]);
                 setOpen(false);
@@ -144,11 +197,15 @@ const Select: React.FC<SelectProps> = ({
                 return prev ? [...prev, value] : [value];
             });
         },
-        [onSelectProp, setValue, multiple],
+        [onSelectProp, setValue, multiple, triState],
     );
 
     const handleDeselect = React.useCallback(
         (value: string, item: SelectOptionItem) => {
+            if (triState) {
+                return;
+            }
+
             setValue((prev) => {
                 if (!prev || !prev.includes(value)) {
                     return prev;
@@ -159,7 +216,7 @@ const Select: React.FC<SelectProps> = ({
                 return prev.filter((v) => v !== value);
             });
         },
-        [onDeselectProp, setValue],
+        [onDeselectProp, setValue, triState],
     );
 
     const handleSetItemCache = React.useCallback(
@@ -187,6 +244,9 @@ const Select: React.FC<SelectProps> = ({
             setItemCache: handleSetItemCache,
             itemCache,
             multiple,
+            triState,
+            onTriStateChange: handleTriStateChange,
+            getTriState,
         };
     }, [
         value,
@@ -200,6 +260,9 @@ const Select: React.FC<SelectProps> = ({
         handleDeselect,
         handleSetItemCache,
         multiple,
+        triState,
+        handleTriStateChange,
+        getTriState,
     ]);
 
     return (
@@ -218,7 +281,7 @@ Select.displayName = 'Select';
 type SelectTriggerElement = React.ComponentRef<typeof Primitive.div>;
 
 interface SelectTriggerProps
-    extends PrimitivePropsWithRef<typeof Primitive.div> {}
+    extends PrimitivePropsWithRef<typeof Primitive.div> { }
 
 const PreventClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -239,9 +302,9 @@ const SelectTrigger = React.forwardRef<
                 {...props}
                 className={cn(
                     !asChild &&
-                        buttonVariants({ variant: 'outline', size: 'default' }),
+                    buttonVariants({ variant: 'outline', size: 'default' }),
                     !asChild &&
-                        'flex h-auto min-h-12 items-center justify-between',
+                    'flex h-auto min-h-12 items-center justify-between',
                     disabled
                         ? 'cursor-not-allowed opacity-50'
                         : 'cursor-pointer',
@@ -285,20 +348,24 @@ const SelectValue = React.forwardRef<
         { className, placeholder, maxDisplay, maxItemLength, ...props },
         forwardRef,
     ) => {
-        const { value, itemCache, onDeselect, multiple } = useSelect();
+        const { value, itemCache, onDeselect, multiple, triState, getTriState } = useSelect();
         const [firstRendered, setFirstRendered] = React.useState(false);
 
+        const displayValue = triState
+            ? value.filter(v => !v.startsWith('-'))
+            : value;
+
         const renderRemain =
-            maxDisplay && value.length > maxDisplay
-                ? value.length - maxDisplay
+            maxDisplay && displayValue.length > maxDisplay
+                ? displayValue.length - maxDisplay
                 : 0;
-        const renderItems = renderRemain ? value.slice(0, maxDisplay) : value;
+        const renderItems = renderRemain ? displayValue.slice(0, maxDisplay) : displayValue;
 
         React.useLayoutEffect(() => {
             setFirstRendered(true);
         }, []);
 
-        if (!value.length || !firstRendered) {
+        if (!displayValue.length || !firstRendered) {
             return (
                 <Fragment>
                     <p className="pointer-events-none flex-1 truncate text-muted-foreground">
@@ -309,8 +376,8 @@ const SelectValue = React.forwardRef<
             );
         }
 
-        if (!multiple) {
-            const item = itemCache ? itemCache[value[0]] : undefined;
+        if (!multiple && !triState) {
+            const item = itemCache ? itemCache[displayValue[0]] : undefined;
 
             return (
                 <Fragment>
@@ -318,7 +385,7 @@ const SelectValue = React.forwardRef<
                         item?.label
                     ) : (
                         <span className="pointer-events-none truncate">
-                            {value[0]}
+                            {displayValue[0]}
                         </span>
                     )}
 
@@ -338,29 +405,35 @@ const SelectValue = React.forwardRef<
                         {...props}
                         ref={forwardRef}
                     >
-                        {renderItems.map((value) => {
+                        {renderItems.map((itemValue) => {
                             const item = itemCache
-                                ? itemCache[value]
+                                ? itemCache[itemValue]
                                 : undefined;
 
-                            const content = item?.label || value;
+                            const content = item?.label || itemValue;
 
                             const child =
                                 maxItemLength &&
-                                typeof content === 'string' &&
-                                content.length > maxItemLength
+                                    typeof content === 'string' &&
+                                    content.length > maxItemLength
                                     ? `${content.slice(0, maxItemLength)}...`
                                     : content;
 
+                            const badgeVariant = triState && getTriState
+                                ? getTriState(itemValue) === 'include'
+                                    ? 'default'
+                                    : 'outline'
+                                : 'outline';
+
                             const el = (
                                 <Badge
-                                    variant="outline"
-                                    key={value}
+                                    variant={badgeVariant}
+                                    key={itemValue}
                                     className="group/select-badge cursor-pointer rounded-full pr-1.5"
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
-                                        onDeselect(value, item!);
+                                        onDeselect(itemValue, item!);
                                     }}
                                 >
                                     <span>{child}</span>
@@ -370,7 +443,7 @@ const SelectValue = React.forwardRef<
 
                             if (child !== content) {
                                 return (
-                                    <Tooltip key={value}>
+                                    <Tooltip key={itemValue}>
                                         <TooltipTrigger className="inline-flex">
                                             {el}
                                         </TooltipTrigger>
@@ -427,7 +500,7 @@ const SelectList = React.forwardRef<
 SelectList.displayName = 'SelectList';
 
 interface SelectContentProps
-    extends PrimitivePropsWithRef<typeof PopoverPrimitive.Content> {}
+    extends PrimitivePropsWithRef<typeof PopoverPrimitive.Content> { }
 
 const SelectContent = React.forwardRef<
     React.ComponentRef<typeof PopoverPrimitive.Content>,
@@ -523,18 +596,22 @@ const SelectItem = React.forwardRef<
             onDeselect,
             setItemCache,
             multiple,
+            triState,
+            onTriStateChange,
+            getTriState,
         } = useSelect();
 
         const item = React.useMemo(() => {
             return value
                 ? {
-                      value,
-                      label: label || children,
-                  }
+                    value,
+                    label: label || children,
+                }
                 : undefined;
         }, [value, label, children]);
 
         const selected = Boolean(value && contextValue.includes(value));
+        const triStateValue = triState && getTriState && value ? getTriState(value) : 'neutral';
 
         React.useEffect(() => {
             if (value) {
@@ -544,10 +621,14 @@ const SelectItem = React.forwardRef<
 
         const disabled = Boolean(
             disabledProp ||
-                (!selected && maxCount && contextValue.length >= maxCount),
+            (!triState && !selected && maxCount && contextValue.length >= maxCount),
         );
 
         const handleClick = () => {
+            if (triState && onTriStateChange && value) {
+                return;
+            }
+
             if (selected) {
                 onDeselectProp?.(value!, item!);
 
@@ -562,6 +643,12 @@ const SelectItem = React.forwardRef<
             }
         };
 
+        const handleTriStateChange = (newState: TriState) => {
+            if (onTriStateChange && value) {
+                onTriStateChange(value, newState, item!);
+            }
+        };
+
         return (
             <CommandItem
                 {...props}
@@ -573,11 +660,21 @@ const SelectItem = React.forwardRef<
                 )}
                 keywords={item ? [String(item.label)] : undefined}
                 disabled={disabled}
-                onSelect={!disabled && value ? handleClick : undefined}
+                onSelect={!disabled && value && !triState ? handleClick : undefined}
                 ref={forwardedRef}
             >
                 {!disableCheckbox && (
-                    <Checkbox className="border-border" checked={selected} />
+                    <>
+                        {triState ? (
+                            <TriStateCheckbox
+                                value={triStateValue}
+                                onValueChange={handleTriStateChange}
+                                disabled={disabled}
+                            />
+                        ) : (
+                            <Checkbox className="border-border" checked={selected} />
+                        )}
+                    </>
                 )}
 
                 <span className="truncate">{children || label || value}</span>
@@ -636,9 +733,9 @@ export interface SelectOptionGroup {
 
 export type SelectOption =
     | Pick<
-          SelectItemProps,
-          'value' | 'label' | 'disabled' | 'onSelect' | 'onDeselect'
-      >
+        SelectItemProps,
+        'value' | 'label' | 'disabled' | 'onSelect' | 'onDeselect'
+    >
     | SelectOptionSeparator
     | SelectOptionGroup;
 
@@ -708,5 +805,5 @@ export {
     SelectSearch,
     SelectSeparator,
     SelectTrigger,
-    SelectValue,
+    SelectValue
 };
