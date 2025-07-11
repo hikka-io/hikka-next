@@ -440,7 +440,7 @@ const SelectValue = React.forwardRef<
                             const badgeVariant = triState
                                 ? isExcluded
                                     ? 'destructive'
-                                    : 'default'
+                                    : 'success'
                                 : 'outline';
 
                             const el = (
@@ -455,7 +455,7 @@ const SelectValue = React.forwardRef<
                                     }}
                                 >
                                     <span>{child}</span>
-                                    <X className="ml-1 size-3 text-muted-foreground group-hover/select-badge:text-foreground" />
+                                    <X className="ml-1 size-3 opacity-70 transition-opacity group-hover/select-badge:opacity-100" />
                                 </Badge>
                             );
 
