@@ -119,7 +119,10 @@ const Select: React.FC<SelectProps> = ({
     const handleValueChange = React.useCallback(
         (state: string[]) => {
             if (onValueChangeProp) {
-                const items = state.map((value) => itemCache![value]);
+                const items = state.map((value) => {
+                    const baseValue = value.startsWith('-') ? value.substring(1) : value;
+                    return itemCache![baseValue];
+                }).filter(Boolean);
 
                 onValueChangeProp(state, items);
             }
@@ -197,12 +200,23 @@ const Select: React.FC<SelectProps> = ({
                 return prev ? [...prev, value] : [value];
             });
         },
-        [onSelectProp, setValue, multiple, triState],
+        [onSelectProp, setValue, multiple, setOpen, triState],
     );
 
     const handleDeselect = React.useCallback(
         (value: string, item: SelectOptionItem) => {
             if (triState) {
+                setValue((prev) => {
+                    const baseValue = value.startsWith('-')
+                        ? value.substring(1)
+                        : value;
+                    onDeselectProp?.(value, item);
+                    return (
+                        prev?.filter(
+                            (v) => v !== baseValue && v !== `-${baseValue}`,
+                        ) || []
+                    );
+                });
                 return;
             }
 
@@ -348,12 +362,10 @@ const SelectValue = React.forwardRef<
         { className, placeholder, maxDisplay, maxItemLength, ...props },
         forwardRef,
     ) => {
-        const { value, itemCache, onDeselect, multiple, triState, getTriState } = useSelect();
+        const { value, itemCache, onDeselect, multiple, triState } = useSelect();
         const [firstRendered, setFirstRendered] = React.useState(false);
 
-        const displayValue = triState
-            ? value.filter(v => !v.startsWith('-'))
-            : value;
+        const displayValue = value;
 
         const renderRemain =
             maxDisplay && displayValue.length > maxDisplay
@@ -406,11 +418,17 @@ const SelectValue = React.forwardRef<
                         ref={forwardRef}
                     >
                         {renderItems.map((itemValue) => {
-                            const item = itemCache
-                                ? itemCache[itemValue]
-                                : undefined;
+                            const isExcluded = triState && itemValue.startsWith('-');
+                            const baseValue = isExcluded
+                                ? itemValue.substring(1)
+                                : itemValue;
+                            const item = itemCache ? itemCache[baseValue] : undefined;
 
-                            const content = item?.label || itemValue;
+                            if (!item) {
+                                return null;
+                            }
+
+                            const content = item.label || baseValue;
 
                             const child =
                                 maxItemLength &&
@@ -419,10 +437,10 @@ const SelectValue = React.forwardRef<
                                     ? `${content.slice(0, maxItemLength)}...`
                                     : content;
 
-                            const badgeVariant = triState && getTriState
-                                ? getTriState(itemValue) === 'include'
-                                    ? 'default'
-                                    : 'outline'
+                            const badgeVariant = triState
+                                ? isExcluded
+                                    ? 'destructive'
+                                    : 'default'
                                 : 'outline';
 
                             const el = (
@@ -433,7 +451,7 @@ const SelectValue = React.forwardRef<
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
-                                        onDeselect(itemValue, item!);
+                                        onDeselect(itemValue, item);
                                     }}
                                 >
                                     <span>{child}</span>
@@ -617,18 +635,14 @@ const SelectItem = React.forwardRef<
             if (value) {
                 setItemCache(value, item!);
             }
-        }, [selected, value, item]);
+        }, [selected, value, item, setItemCache]);
 
         const disabled = Boolean(
             disabledProp ||
             (!triState && !selected && maxCount && contextValue.length >= maxCount),
         );
 
-        const handleClick = () => {
-            if (triState && onTriStateChange && value) {
-                return;
-            }
-
+        const handleNonTriStateClick = () => {
             if (selected) {
                 onDeselectProp?.(value!, item!);
 
@@ -643,7 +657,21 @@ const SelectItem = React.forwardRef<
             }
         };
 
-        const handleTriStateChange = (newState: TriState) => {
+        const handleTriStateClick = () => {
+            if (!onTriStateChange || !value || !item) return;
+
+            let nextState: TriState;
+            if (triStateValue === 'neutral') {
+                nextState = 'include';
+            } else if (triStateValue === 'include') {
+                nextState = 'exclude';
+            } else {
+                nextState = 'neutral';
+            }
+            onTriStateChange(value, nextState, item);
+        };
+
+        const handleTriStateChangeFromCheckbox = (newState: TriState) => {
             if (onTriStateChange && value) {
                 onTriStateChange(value, newState, item!);
             }
@@ -660,7 +688,7 @@ const SelectItem = React.forwardRef<
                 )}
                 keywords={item ? [String(item.label)] : undefined}
                 disabled={disabled}
-                onSelect={!disabled && value && !triState ? handleClick : undefined}
+                onSelect={!disabled && value ? (triState ? handleTriStateClick : handleNonTriStateClick) : undefined}
                 ref={forwardedRef}
             >
                 {!disableCheckbox && (
@@ -668,7 +696,7 @@ const SelectItem = React.forwardRef<
                         {triState ? (
                             <TriStateCheckbox
                                 value={triStateValue}
-                                onValueChange={handleTriStateChange}
+                                onValueChange={handleTriStateChangeFromCheckbox}
                                 disabled={disabled}
                             />
                         ) : (

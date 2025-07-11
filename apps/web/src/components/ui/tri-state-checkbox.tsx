@@ -21,7 +21,9 @@ const TriStateCheckbox = React.forwardRef<
     React.ElementRef<typeof CheckboxPrimitive.Root>,
     TriStateCheckboxProps
 >(({ className, value = 'neutral', onValueChange, ...props }, ref) => {
-    const handleInteraction = () => {
+    const handleInteraction = (e: React.MouseEvent) => {
+        e.stopPropagation();
+
         if (!onValueChange) return;
 
         if (value === 'neutral') {
