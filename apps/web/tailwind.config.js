@@ -26,10 +26,10 @@ module.exports = {
     		},
     		fontFamily: {
     			sans: [
-    				'var(--font-inter)'
+    				'var(--font-geist)'
     			],
     			display: [
-    				'var(--font-unity-sans)'
+    				'var(--font-geist)'
     			]
     		},
     		colors: {

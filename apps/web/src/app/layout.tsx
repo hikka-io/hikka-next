@@ -1,7 +1,6 @@
 import { Metadata, Viewport } from 'next';
 import PlausibleProvider from 'next-plausible';
-import { Inter } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Geist } from 'next/font/google';
 import { ReactNode } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
 
@@ -12,16 +11,10 @@ import generateMetadata from '@/utils/generate-metadata';
 import { TailwindIndicator } from '../components/tailwind-indicator';
 import './globals.css';
 
-const inter = Inter({
+const geist = Geist({
     subsets: ['latin', 'cyrillic'],
     display: 'swap',
-    variable: '--font-inter',
-});
-
-const unitySans = localFont({
-    src: '../fonts/UnitySans-Basic.woff2',
-    display: 'swap',
-    variable: '--font-unity-sans',
+    variable: '--font-geist',
 });
 
 export const metadata: Metadata = {
@@ -81,7 +74,7 @@ interface Props {
 const RootLayout = ({ children }: Props) => {
     return (
         <html
-            className={`${inter.variable} ${unitySans.variable}`}
+            className={`${geist.variable}`}
             lang="uk"
             data-theme="dark"
             suppressHydrationWarning
