@@ -23,22 +23,30 @@ const commonConfig: Options = {
 export default defineConfig([
     {
         ...commonConfig,
-        entry: ['client/index.ts'],
+        entry: {
+            index: 'client/index.ts',
+        },
         outDir: 'dist',
     },
     {
         ...commonConfig,
-        entry: ['server/index.ts'],
+        entry: {
+            index: 'server/index.ts',
+        },
         outDir: 'dist/server',
     },
     {
         ...commonConfig,
-        entry: ['core/index.ts'],
+        entry: {
+            index: 'core/index.ts',
+        },
         outDir: 'dist/core',
     },
     {
         ...commonConfig,
-        entry: ['utils/index.ts'],
+        entry: {
+            index: 'utils/index.ts',
+        },
         outDir: 'dist/utils',
     },
 ]);

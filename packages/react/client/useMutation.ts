@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-query';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook for creating mutations with the Hikka client.
@@ -30,13 +31,21 @@ export function useMutation<
         'mutationFn'
     >;
 }): UseMutationResult<TData, TError, TVariables, TContext> {
-    const { client } = useHikkaClient();
+    const { client, defaultOptions } = useHikkaClient();
 
     return useTanstackMutation<TData, TError, TVariables, TContext>({
         mutationFn: (variables) => mutationFn(client, variables),
         ...options,
         onSuccess: (data, variables, context) => {
-            options?.onSuccess?.(data, variables, context);
+            options?.onSuccess?.(
+                addDeepTitleProperties(
+                    data,
+                    defaultOptions?.title,
+                    defaultOptions?.name,
+                ),
+                variables,
+                context,
+            );
 
             // If invalidateQueries is provided, invalidate those queries
             if (options?.onSettled) {
