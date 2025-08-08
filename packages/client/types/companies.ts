@@ -6,6 +6,7 @@ import { PaginationResponse } from './common';
 export interface CompanyResponse {
     name_ua: string | null;
     name_en: string | null;
+    name: string;
     description: string | null;
     slug: string;
     type: CompanyTypeEnum;
