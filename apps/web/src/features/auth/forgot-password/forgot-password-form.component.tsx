@@ -3,8 +3,8 @@
 import { useCreatePasswordResetRequest } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -23,8 +23,6 @@ const formSchema = z.object({
 });
 
 const ForgotPasswordForm = () => {
-    const { enqueueSnackbar } = useSnackbar();
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -35,14 +33,14 @@ const ForgotPasswordForm = () => {
     const mutationRequestPasswordReset = useCreatePasswordResetRequest({
         options: {
             onSuccess: (data) => {
-                enqueueSnackbar(
+                toast.info(
                     <span>
                         <span className="font-bold">{data.username}</span>, ми
                         успішно надіслали Вам лист для відновлення паролю на
                         вашу поштову адресу.
                     </span>,
-                    { variant: 'info' },
                 );
+
                 form.reset();
             },
         },

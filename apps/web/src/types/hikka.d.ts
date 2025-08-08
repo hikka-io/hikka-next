@@ -134,5 +134,25 @@ declare global {
             icon: (props: SVGProps<SVGSVGElement>) => ReactElement;
             color: string;
         };
+
+        type FilterPreset = {
+            id: string;
+            name: string;
+            description?: string;
+            content_types: ContentTypeEnum[];
+            statuses?: string[];
+            seasons?: string[];
+            types?: string[];
+            genres?: string[];
+            only_translated?: boolean;
+            sort?: string;
+            order?: string;
+            ratings?: string[];
+            studios?: string[];
+            years?: number[];
+            date_range_enabled?: boolean;
+            date_min_range?: string | null;
+            date_max_range?: string | null;
+        };
     }
 }

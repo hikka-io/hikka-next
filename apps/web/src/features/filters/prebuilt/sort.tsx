@@ -1,10 +1,12 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 
+import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
+import { FormField, FormItem, FormLabel } from '@/components/ui/form';
 import {
     Select,
     SelectContent,
@@ -14,9 +16,20 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+
 import { cn } from '@/utils/utils';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
+
+export type SortType =
+    | 'anime'
+    | 'watch'
+    | 'manga'
+    | 'novel'
+    | 'read'
+    | 'edit'
+    | 'article';
 
 const SORT_CONTENT = [
     {
@@ -91,16 +104,30 @@ const SORT_ARTICLELIST = [
     },
 ];
 
+const getSort = (sort_type: SortType) => {
+    switch (sort_type) {
+        case 'anime':
+            return SORT_CONTENT;
+        case 'watch':
+            return SORT_WATCHLIST;
+        case 'manga':
+            return SORT_CONTENT;
+        case 'novel':
+            return SORT_CONTENT;
+        case 'read':
+            return SORT_READLIST;
+        case 'edit':
+            return SORT_EDITLIST;
+        case 'article':
+            return SORT_ARTICLELIST;
+        default:
+            return SORT_CONTENT;
+    }
+};
+
 interface Props {
     className?: string;
-    sort_type:
-        | 'anime'
-        | 'watch'
-        | 'manga'
-        | 'novel'
-        | 'read'
-        | 'edit'
-        | 'article';
+    sort_type: SortType;
 }
 
 const Sort: FC<Props> = ({ sort_type, className }) => {
@@ -110,27 +137,6 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
     const sort = searchParams.get('sort');
 
     const handleChangeParam = useChangeParam();
-
-    const getSort = useCallback(() => {
-        switch (sort_type) {
-            case 'anime':
-                return SORT_CONTENT;
-            case 'watch':
-                return SORT_WATCHLIST;
-            case 'manga':
-                return SORT_CONTENT;
-            case 'novel':
-                return SORT_CONTENT;
-            case 'read':
-                return SORT_READLIST;
-            case 'edit':
-                return SORT_EDITLIST;
-            case 'article':
-                return SORT_ARTICLELIST;
-            default:
-                return SORT_CONTENT;
-        }
-    }, [sort_type]);
 
     return (
         <CollapsibleFilter title="Сортування">
@@ -147,7 +153,7 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                {getSort().map((item) => (
+                                {getSort(sort_type).map((item) => (
                                     <SelectItem
                                         key={item.value}
                                         value={item.value}
@@ -175,6 +181,59 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
                 </Button>
             </div>
         </CollapsibleFilter>
+    );
+};
+
+export const FormSort: FC<Props & Partial<FormSelectProps>> = (props) => {
+    return (
+        <div className="flex flex-col gap-2">
+            <FormLabel>Сортування</FormLabel>
+            <div className="flex gap-2">
+                <FormSelect
+                    {...props}
+                    name="sort"
+                    className="flex-1"
+                    placeholder="Виберіть сортування..."
+                >
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {getSort(props.sort_type).map((item) => (
+                                    <SelectItem
+                                        key={item.value}
+                                        value={item.value}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </FormSelect>
+                <FormField
+                    name="order"
+                    render={({ field }) => (
+                        <FormItem>
+                            <Button
+                                size="icon"
+                                variant="outline"
+                                onClick={() =>
+                                    field.onChange(
+                                        field.value === 'asc' ? 'desc' : 'asc',
+                                    )
+                                }
+                            >
+                                <MaterialSymbolsSortRounded
+                                    className={cn(
+                                        field.value === 'asc' && '-scale-y-100',
+                                    )}
+                                />
+                            </Button>
+                        </FormItem>
+                    )}
+                />
+            </div>
+        </div>
     );
 };
 

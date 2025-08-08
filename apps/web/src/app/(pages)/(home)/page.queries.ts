@@ -15,8 +15,8 @@ import {
     prefetchSession,
 } from '@hikka/react/server';
 
-import getCurrentSeason from '@/utils/get-current-season';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import getCurrentSeason from '@/utils/season-utils';
 
 const prefetchQueries = async ({
     queryClient,

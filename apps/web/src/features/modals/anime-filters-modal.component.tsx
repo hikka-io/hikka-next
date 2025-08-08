@@ -24,8 +24,9 @@ const AnimeFiltersModal = ({ sort_type, children }: Props) => {
         <Drawer>
             <DrawerTrigger asChild>
                 {children || (
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="sm">
                         <AntDesignFilterFilled />
+                        Фільтри
                     </Button>
                 )}
             </DrawerTrigger>

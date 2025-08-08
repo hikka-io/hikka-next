@@ -2,8 +2,8 @@
 
 import { ImportWatchArgs } from '@hikka/client';
 import { useImportWatchList } from '@hikka/react';
-import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -16,7 +16,6 @@ import Anilist from './anilist';
 import General from './general';
 
 const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const { closeModal } = useModalContext();
     const [rewrite, setRewrite] = useState(true);
@@ -26,13 +25,12 @@ const Component = () => {
     const mutationImportWatchList = useImportWatchList({
         options: {
             onSuccess: () => {
-                enqueueSnackbar(
+                toast.success(
                     <span>
                         Ви успішно імпортували{' '}
                         <span className="font-bold">{watchList.length}</span>{' '}
                         аніме до Вашого списку.
                     </span>,
-                    { variant: 'success' },
                 );
 
                 closeModal();

@@ -2,8 +2,8 @@
 
 import { useCreateArticle } from '@hikka/react';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
+import { toast } from 'sonner';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
@@ -16,7 +16,6 @@ import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 interface Props {}
 
 const CreateActions: FC<Props> = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
 
     const title = useArticleContext((state) => state.title);
@@ -33,9 +32,7 @@ const CreateActions: FC<Props> = () => {
     } = useCreateArticle({
         options: {
             onSuccess: (data) => {
-                enqueueSnackbar('Ви успішно створили статтю.', {
-                    variant: 'success',
-                });
+                toast.success('Ви успішно створили статтю.');
 
                 router.push(
                     `${CONTENT_TYPE_LINKS['article']}/${data.slug}/update`,

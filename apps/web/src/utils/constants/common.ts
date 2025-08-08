@@ -428,6 +428,37 @@ export const CONTENT_TYPES: Hikka.FilterProperty<ContentTypeEnum | 'user'> = {
     },
 };
 
+export enum DateRangeEnum {
+    CURRENT_SEASON = 'current_season',
+    SEASON_1 = 'season_1',
+    SEASON_2 = 'season_2',
+    SEASON_3 = 'season_3',
+    YEAR = 'year',
+}
+
+export const DATE_RANGES: Hikka.FilterProperty<DateRangeEnum> = {
+    [DateRangeEnum.CURRENT_SEASON]: {
+        title_ua: 'Поточний сезон',
+        title_en: 'Current season',
+    },
+    [DateRangeEnum.SEASON_1]: {
+        title_ua: 'Один сезон',
+        title_en: 'One season',
+    },
+    [DateRangeEnum.SEASON_2]: {
+        title_ua: 'Два сезони',
+        title_en: 'Two seasons',
+    },
+    [DateRangeEnum.SEASON_3]: {
+        title_ua: 'Три сезони',
+        title_en: 'Three seasons',
+    },
+    [DateRangeEnum.YEAR]: {
+        title_ua: 'Рік',
+        title_en: 'Year',
+    },
+};
+
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [
     {
         value: 'anime',

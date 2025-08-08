@@ -7,9 +7,9 @@ import {
     useUpdateClient,
 } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import FormInput from '@/components/form/form-input';
 import FormSwitch from '@/components/form/form-switch';
@@ -41,9 +41,7 @@ const Component = ({ client }: Props) => {
         useUpdateClient({
             options: {
                 onSuccess: () => {
-                    enqueueSnackbar('Застосунок оновлено успішно', {
-                        variant: 'success',
-                    });
+                    toast.success('Застосунок успішно оновлено');
                     closeModal();
                 },
             },
@@ -52,9 +50,7 @@ const Component = ({ client }: Props) => {
         useDeleteClient({
             options: {
                 onSuccess: () => {
-                    enqueueSnackbar('Застосунок видалено успішно', {
-                        variant: 'success',
-                    });
+                    toast.success('Застосунок успішно видалено');
                     closeModal();
                 },
             },
@@ -97,9 +93,7 @@ const Component = ({ client }: Props) => {
         field: 'reference' | 'secret',
     ) => {
         navigator.clipboard.writeText(formData[field]);
-        enqueueSnackbar('Ви успішно скопіювали рядок.', {
-            variant: 'success',
-        });
+        toast.success('Ви успішно скопіювали рядок.');
     };
 
     return (

@@ -1,5 +1,7 @@
 import { ComponentProps, FC } from 'react';
 
+import { cn } from '@/utils/utils';
+
 import {
     FormControl,
     FormDescription,
@@ -14,6 +16,9 @@ interface Props extends ComponentProps<'input'> {
     name: string;
     label?: string;
     description?: string;
+    valueRenderer?: (value: string | string[]) => void;
+    inputClassName?: string;
+    onChangeValidator?: (value: string) => boolean;
 }
 
 const FormInput: FC<Props> = ({
@@ -22,6 +27,9 @@ const FormInput: FC<Props> = ({
     description,
     children,
     className,
+    valueRenderer,
+    inputClassName,
+    onChangeValidator,
     ...props
 }) => {
     return (
@@ -34,7 +42,25 @@ const FormInput: FC<Props> = ({
                         {children}
                     </div>
                     <FormControl>
-                        <Input {...props} {...field} />
+                        <Input
+                            {...props}
+                            {...field}
+                            className={cn(inputClassName)}
+                            value={
+                                valueRenderer
+                                    ? valueRenderer(field.value)
+                                    : field.value
+                            }
+                            onChange={(e) => {
+                                if (onChangeValidator) {
+                                    if (onChangeValidator(e.target.value)) {
+                                        field.onChange(e);
+                                    }
+                                } else {
+                                    field.onChange(e);
+                                }
+                            }}
+                        />
                     </FormControl>
                     {description && (
                         <FormDescription>{description}</FormDescription>

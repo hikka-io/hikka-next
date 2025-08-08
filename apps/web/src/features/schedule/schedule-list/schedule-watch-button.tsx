@@ -2,8 +2,8 @@
 
 import { AnimeScheduleResponse, WatchStatusEnum } from '@hikka/client';
 import { useCreateWatch, useSession } from '@hikka/react';
-import { useSnackbar } from 'notistack';
 import { FC, Fragment, createElement, memo } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +19,6 @@ interface Props {
 
 const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
     const { user: loggedUser } = useSession();
-    const { enqueueSnackbar } = useSnackbar();
     const { openModal } = useModalContext();
     const { mutate: createWatch } = useCreateWatch();
 
@@ -45,9 +44,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
             args: { status: WatchStatusEnum.PLANNED },
         });
 
-        enqueueSnackbar('Аніме додано до Вашого списку', {
-            variant: 'success',
-        });
+        toast.success('Аніме додано до Вашого списку');
     };
 
     if (!loggedUser) return null;

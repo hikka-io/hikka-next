@@ -148,13 +148,12 @@ const HeaderNavButton: FC = () => {
 
     if (href) {
         return (
-            <Button size="md" variant="ghost" asChild>
+            <Button size="icon-md" variant="ghost" asChild>
                 <Link
                     href={href}
                     className="flex items-center gap-2 text-muted-foreground"
                     {...linkProps}
                 >
-                    Більше
                     <MaterialSymbolsArrowRightAltRounded className="text-lg" />
                 </Link>
             </Button>
@@ -168,13 +167,6 @@ const HeaderNavButton: FC = () => {
             className="flex items-center gap-2 text-muted-foreground"
             variant="ghost"
         >
-            Більше
-            <MaterialSymbolsArrowRightAltRounded className="text-lg" />
-        </Button>
-    );
-
-    return (
-        <Button size="icon-sm" variant="outline" onClick={onClick}>
             <MaterialSymbolsArrowRightAltRounded className="text-lg" />
         </Button>
     );

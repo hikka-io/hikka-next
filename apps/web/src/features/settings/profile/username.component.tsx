@@ -3,8 +3,8 @@
 import { useChangeUsername } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,6 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const router = useRouter();
 
@@ -31,9 +30,7 @@ const Component = () => {
             onSuccess: async () => {
                 router.push('/u/' + form.getValues().username);
                 closeModal();
-                enqueueSnackbar('Ви успішно змінили імʼя користвача.', {
-                    variant: 'success',
-                });
+                toast.success('Ви успішно змінили імʼя користвача.');
             },
         },
     });

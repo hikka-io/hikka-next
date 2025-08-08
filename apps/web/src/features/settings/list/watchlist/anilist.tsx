@@ -2,8 +2,8 @@
 
 import { ImportWatchArgs } from '@hikka/client';
 import { useAnilist } from '@hikka/react';
-import { useSnackbar } from 'notistack';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { toast } from 'sonner';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,6 @@ interface Props {
 }
 
 const Component = ({ watchList, setWatchList, importing }: Props) => {
-    const { enqueueSnackbar } = useSnackbar();
     const [aniListUsername, setAniListUsername] = useState('');
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
@@ -27,7 +26,7 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
                 setWatchList(data);
             },
             onError: (error) => {
-                enqueueSnackbar(error.message, { variant: 'error' });
+                toast.error(error.message);
             },
         },
     });

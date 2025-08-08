@@ -9,7 +9,10 @@ import { useCreateRead, useDeleteRead, useReadBySlug } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
+import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
@@ -56,10 +59,29 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
 
     const read = readProp || readQuery;
 
-    const { mutate: createRead, isPending: addToListLoading } = useCreateRead();
+    const { mutate: createRead, isPending: addToListLoading } = useCreateRead({
+        options: {
+            onSuccess: (data) => {
+                toast.success(
+                    <span>
+                        <span className="font-bold">{data.content.title}</span>{' '}
+                        успішно оновлено.
+                    </span>,
+                );
+                closeModal();
+            },
+        },
+    });
 
     const { mutate: deleteRead, isPending: deleteFromListLoading } =
-        useDeleteRead();
+        useDeleteRead({
+            options: {
+                onSuccess: () => {
+                    toast.success('Контент успішно видалено.');
+                    closeModal();
+                },
+            },
+        });
 
     const [selectedStatus, setSelectedStatus] = useState<
         ReadStatusEnum | undefined
@@ -69,14 +91,6 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: read,
     });
-
-    const onDelete = async () => {
-        deleteRead({
-            contentType: content_type,
-            slug,
-        });
-        closeModal();
-    };
 
     useEffect(() => {
         if (read?.status) {
@@ -172,20 +186,28 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         placeholder="Залиште нотатку до аніме"
                     />
                 </div>
-                <div className="grid w-full grid-cols-2 gap-8">
+                <div className="flex w-full justify-end gap-4">
                     <Button
                         type="button"
                         variant="destructive"
-                        onClick={onDelete}
+                        size="md"
+                        onClick={() =>
+                            deleteRead({
+                                contentType: content_type,
+                                slug,
+                            })
+                        }
                         disabled={addToListLoading || deleteFromListLoading}
                     >
-                        {deleteFromListLoading && (
+                        {deleteFromListLoading ? (
                             <span className="loading loading-spinner"></span>
+                        ) : (
+                            <MaterialSymbolsDeleteForeverRounded className="size-4" />
                         )}
                         Видалити
                     </Button>
                     <Button
-                        variant="secondary"
+                        size="md"
                         onClick={form.handleSubmit((data) =>
                             createRead({
                                 contentType: content_type,
@@ -199,8 +221,10 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         type="submit"
                         disabled={addToListLoading || deleteFromListLoading}
                     >
-                        {addToListLoading && (
+                        {addToListLoading ? (
                             <span className="loading loading-spinner"></span>
+                        ) : (
+                            <MaterialSymbolsCheckRounded className="size-4" />
                         )}
                         Зберегти
                     </Button>

@@ -1,6 +1,7 @@
 import { FC, ReactNode, Suspense } from 'react';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { Toaster } from '@/components/ui/sonner';
 
 import Footer from '@/features/common/footer.component';
 import NavBar from '@/features/common/navbar/navbar.component';
@@ -35,6 +36,7 @@ const Layout: FC<Props> = ({ children }) => {
                 className="no-scrollbar sticky bottom-2 z-10 mb-2 mt-12 block w-full max-w-screen-xl overflow-x-auto px-2 md:hidden"
             />
             <Footer />
+            <Toaster richColors position="bottom-right" />
         </SessionManager>
     );
 };

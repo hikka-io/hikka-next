@@ -10,7 +10,7 @@ import {
 import MaterialSymbolsInfoRounded from '../../components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import P from '../../components/typography/p';
 
-interface Props {
+export interface BadgeFilterProps {
     property: string;
     title?: string;
     properties: Hikka.FilterProperty<string> | string[];
@@ -19,7 +19,7 @@ interface Props {
     onParamChange: (key: string, value: string | string[]) => void;
 }
 
-const BadgeFilter: FC<Props> = ({
+const BadgeFilter: FC<BadgeFilterProps> = ({
     title,
     properties,
     selected,

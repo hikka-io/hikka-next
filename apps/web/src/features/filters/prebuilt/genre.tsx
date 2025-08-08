@@ -2,8 +2,9 @@
 
 import { useGenres } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
+import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import {
     Select,
     SelectContent,
@@ -34,20 +35,23 @@ const Genre: FC<Props> = () => {
     const { data: genreList } = useGenres({
         options: {
             select: (data) => {
-                return groupOptions(
-                    data.list.map((genre) => ({
-                        value: genre.slug,
-                        label: genre.name_ua,
-                        group: GENRE_TYPES[genre.type].title_ua,
-                    })),
-                );
+                return data.list.map((genre) => ({
+                    value: genre.slug,
+                    label: genre.name_ua,
+                    group: GENRE_TYPES[genre.type].title_ua,
+                }));
             },
         },
     });
 
+    const options = useMemo(() => {
+        return genreList && renderSelectOptions(groupOptions(genreList));
+    }, [genreList]);
+
     return (
         <CollapsibleFilter defaultOpen title="Жанри" active={genres.length > 0}>
             <Select
+                options={genreList}
                 triState={true}
                 multiple
                 value={genres}
@@ -59,12 +63,50 @@ const Genre: FC<Props> = () => {
                 <SelectContent>
                     <SelectSearch placeholder="Назва жанру..." />
                     <SelectList>
-                        {genreList && renderSelectOptions(genreList)}
+                        {options}
                         <SelectEmpty>Жанрів не знайдено</SelectEmpty>
                     </SelectList>
                 </SelectContent>
             </Select>
         </CollapsibleFilter>
+    );
+};
+
+export const FormGenre: FC<Props & Partial<FormSelectProps>> = (props) => {
+    const { data: genreList } = useGenres({
+        options: {
+            select: (data) => {
+                return data.list.map((genre) => ({
+                    value: genre.slug,
+                    label: genre.name_ua,
+                    group: GENRE_TYPES[genre.type].title_ua,
+                }));
+            },
+        },
+    });
+
+    const options = useMemo(() => {
+        return genreList && renderSelectOptions(groupOptions(genreList));
+    }, [genreList]);
+
+    return (
+        <FormSelect
+            {...props}
+            name="genres"
+            label="Жанри"
+            multiple
+            triState
+            placeholder="Виберіть жанр/жанри..."
+            options={genreList}
+        >
+            <SelectContent>
+                <SelectSearch placeholder="Назва жанру..." />
+                <SelectList>
+                    {options}
+                    <SelectEmpty>Жанрів не знайдено</SelectEmpty>
+                </SelectList>
+            </SelectContent>
+        </FormSelect>
     );
 };
 

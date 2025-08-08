@@ -2,6 +2,7 @@ import { ContentTypeEnum } from '@hikka/client';
 import { FC, ReactNode } from 'react';
 
 import Block from '@/components/ui/block';
+import { Header, HeaderTitle } from '@/components/ui/header';
 
 import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar.component';
 import AnimeFilters from '@/features/filters/anime-filters.component';
@@ -14,6 +15,9 @@ const AnimeListLayout: FC<Props> = async ({ children }) => {
     return (
         <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
             <Block>
+                <Header>
+                    <HeaderTitle variant="h2">Каталог аніме</HeaderTitle>
+                </Header>
                 <NavBar />
                 {children}
             </Block>

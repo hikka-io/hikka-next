@@ -2,8 +2,8 @@
 
 import { useUpdateArticle } from '@hikka/react';
 import Link from 'next/link';
-import { useSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
+import { toast } from 'sonner';
 
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -17,8 +17,6 @@ import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 interface Props {}
 
 const EditActions: FC<Props> = () => {
-    const { enqueueSnackbar } = useSnackbar();
-
     const slug = useArticleContext((state) => state.slug);
     const draft = useArticleContext((state) => state.draft);
     const title = useArticleContext((state) => state.title);
@@ -32,9 +30,7 @@ const EditActions: FC<Props> = () => {
     const { mutate: mutateUpdateArticle, isPending } = useUpdateArticle({
         options: {
             onSuccess: (data) => {
-                enqueueSnackbar('Ви успішно оновили статтю.', {
-                    variant: 'success',
-                });
+                toast.success('Ви успішно оновили статтю.');
 
                 setArticle(data);
             },

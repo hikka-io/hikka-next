@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import getCurrentSeason from '@/utils/get-current-season';
+import getCurrentSeason from '@/utils/season-utils';
 
 import ScheduleItem from './schedule-item';
 

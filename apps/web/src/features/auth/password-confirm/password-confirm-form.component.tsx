@@ -4,9 +4,9 @@ import { useConfirmPasswordReset } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -33,7 +33,6 @@ const formSchema = z
 
 const PasswordConfirmForm = () => {
     const params = useParams();
-    const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] =
@@ -56,9 +55,7 @@ const PasswordConfirmForm = () => {
                 form.reset();
                 router.push('/');
                 router.refresh();
-                enqueueSnackbar('Ви успішно змінили Ваш пароль.', {
-                    variant: 'success',
-                });
+                toast.success('Ви успішно змінили Ваш пароль.');
             },
         },
     });

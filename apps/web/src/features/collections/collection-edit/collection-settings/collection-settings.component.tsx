@@ -3,8 +3,8 @@
 import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
 import { useCreateCollection, useUpdateCollection } from '@hikka/react';
 import { useParams, useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { FC } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,7 +36,6 @@ interface Props {
 }
 
 const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
-    const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
     const params = useParams();
 
@@ -67,9 +66,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     } = useCreateCollection({
         options: {
             onSuccess: (data) => {
-                enqueueSnackbar('Ви успішно створили колекцію.', {
-                    variant: 'success',
-                });
+                toast.success('Ви успішно створили колекцію.');
 
                 router.push(
                     `${CONTENT_TYPE_LINKS['collection']}/${data.reference}/update`,
@@ -82,9 +79,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
         useUpdateCollection({
             options: {
                 onSuccess: (data) => {
-                    enqueueSnackbar('Ви успішно оновили колекцію.', {
-                        variant: 'success',
-                    });
+                    toast.success('Ви успішно оновили колекцію.');
                 },
             },
         });

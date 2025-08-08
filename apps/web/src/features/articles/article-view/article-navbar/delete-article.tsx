@@ -1,8 +1,8 @@
 import { ArticleResponse } from '@hikka/client';
 import { useDeleteArticle } from '@hikka/react';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { FC } from 'react';
+import { toast } from 'sonner';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {
@@ -24,14 +24,12 @@ interface Props {
 
 const DeleteArticle: FC<Props> = ({ article }) => {
     const router = useRouter();
-    const { enqueueSnackbar } = useSnackbar();
 
     const deleteArticleMutation = useDeleteArticle({
         options: {
             onSuccess: () => {
-                enqueueSnackbar('Статтю успішно видалено.', {
-                    variant: 'success',
-                });
+                toast.success('Статтю успішно видалено.');
+
                 router.push('/articles');
             },
         },

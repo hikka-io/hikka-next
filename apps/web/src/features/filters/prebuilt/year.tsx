@@ -2,8 +2,13 @@
 
 import { useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
+import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
+import { Badge } from '@/components/ui/badge';
+import { FormLabel } from '@/components/ui/form';
 import { Slider } from '@/components/ui/slider';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 import YearFilterInput from '../year-filter-input';
@@ -73,6 +78,38 @@ const Year: FC<Props> = () => {
                 />
             </div>
         </CollapsibleFilter>
+    );
+};
+
+export const FormYear: FC<Props & Partial<FormSliderProps>> = (props) => {
+    const { watch } = useFormContext();
+
+    const years = watch('years');
+
+    return (
+        <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <FormLabel>Рік виходу</FormLabel>
+                {years && (
+                    <div className="flex items-center gap-2">
+                        <Badge variant="accent">
+                            {years[0]} - {years[1]}
+                        </Badge>
+                    </div>
+                )}
+            </div>
+
+            <div className="flex items-center gap-2">
+                <FormSlider
+                    {...props}
+                    name="years"
+                    min={Number(DEFAULT_YEAR_START)}
+                    max={Number(DEFAULT_YEAR_END)}
+                    minStepsBetweenThumbs={0}
+                    className="flex-1"
+                />
+            </div>
+        </div>
     );
 };
 

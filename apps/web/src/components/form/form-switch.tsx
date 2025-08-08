@@ -10,13 +10,13 @@ import {
 } from '../ui/form';
 import { Switch } from '../ui/switch';
 
-interface Props extends ComponentProps<typeof Switch> {
+export interface FormSwitchProps extends ComponentProps<typeof Switch> {
     name: string;
     label?: string;
     description?: string;
 }
 
-const FormSwitch: FC<Props> = ({
+const FormSwitch: FC<FormSwitchProps> = ({
     name,
     label,
     description,

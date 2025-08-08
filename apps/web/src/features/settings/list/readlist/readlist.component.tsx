@@ -2,8 +2,8 @@
 
 import { ImportReadArgs } from '@hikka/client';
 import { useImportReadList } from '@hikka/react';
-import { useSnackbar } from 'notistack';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -14,7 +14,6 @@ import { useModalContext } from '@/services/providers/modal-provider';
 import General from './general';
 
 const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const [rewrite, setRewrite] = useState(true);
     const [readList, setReadList] = useState<ImportReadArgs[]>([]);
@@ -23,13 +22,12 @@ const Component = () => {
     const mutationImportReadList = useImportReadList({
         options: {
             onSuccess: () => {
-                enqueueSnackbar(
+                toast.success(
                     <span>
                         Ви успішно імпортували{' '}
                         <span className="font-bold">{readList.length}</span>{' '}
                         манґи та ранобе до Вашого списку.
                     </span>,
-                    { variant: 'success' },
                 );
 
                 closeModal();

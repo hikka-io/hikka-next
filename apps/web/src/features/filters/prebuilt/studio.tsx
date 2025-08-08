@@ -3,8 +3,9 @@
 import { CompanyTypeEnum } from '@hikka/client';
 import { useSearchCompanies } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 
+import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import {
     Select,
     SelectContent,
@@ -37,6 +38,16 @@ const Studio: FC<Props> = () => {
         },
     });
 
+    const options = useMemo(() => {
+        return (
+            list &&
+            list.map((studio) => ({
+                value: studio.slug,
+                label: studio.name,
+            }))
+        );
+    }, [list]);
+
     const handleChangeParam = useChangeParam();
 
     const handleStudioSearch = (keyword: string) => {
@@ -55,6 +66,7 @@ const Studio: FC<Props> = () => {
                 value={studios}
                 onValueChange={(value) => handleChangeParam('studios', value)}
                 onSearch={handleStudioSearch}
+                options={options}
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Виберіть студію..." />
@@ -69,7 +81,7 @@ const Studio: FC<Props> = () => {
                                         key={studio.slug}
                                         value={studio.slug}
                                     >
-                                        {studio.name_ua || studio.name_en}
+                                        {studio.name}
                                     </SelectItem>
                                 ))}
                             <SelectEmpty>
@@ -82,6 +94,69 @@ const Studio: FC<Props> = () => {
                 </SelectContent>
             </Select>
         </CollapsibleFilter>
+    );
+};
+
+export const FormStudio: FC<Props & Partial<FormSelectProps>> = (props) => {
+    const [studioSearch, setStudioSearch] = useState<string>();
+    const { list, isFetching: isStudioListFetching } = useSearchCompanies({
+        args: {
+            type: CompanyTypeEnum.STUDIO,
+            query: studioSearch,
+        },
+    });
+
+    const options = useMemo(() => {
+        return (
+            list &&
+            list.map((studio) => ({
+                value: studio.slug,
+                label: studio.name,
+            }))
+        );
+    }, [list]);
+
+    const handleStudioSearch = (keyword: string) => {
+        if (keyword.length < 3) {
+            setStudioSearch(undefined);
+            return;
+        }
+
+        setStudioSearch(keyword);
+    };
+
+    return (
+        <FormSelect
+            {...props}
+            name="studios"
+            label="Студія"
+            placeholder="Виберіть студію..."
+            multiple
+            options={options}
+            onSearch={handleStudioSearch}
+        >
+            <SelectContent>
+                <SelectSearch placeholder="Назва студії..." />
+                <SelectList>
+                    <SelectGroup>
+                        {!isStudioListFetching &&
+                            list?.map((studio) => (
+                                <SelectItem
+                                    key={studio.slug}
+                                    value={studio.slug}
+                                >
+                                    {studio.name}
+                                </SelectItem>
+                            ))}
+                        <SelectEmpty>
+                            {isStudioListFetching
+                                ? 'Завантаження...'
+                                : 'Студій не знайдено'}
+                        </SelectEmpty>
+                    </SelectGroup>
+                </SelectList>
+            </SelectContent>
+        </FormSelect>
     );
 };
 

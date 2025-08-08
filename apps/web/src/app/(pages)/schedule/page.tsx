@@ -19,8 +19,8 @@ import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal.compo
 import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
 
 import _generateMetadata from '@/utils/generate-metadata';
-import getCurrentSeason from '@/utils/get-current-season';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import getCurrentSeason from '@/utils/season-utils';
 
 export const metadata: Metadata = _generateMetadata({
     title: {

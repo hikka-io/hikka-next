@@ -9,6 +9,7 @@ export interface SettingsState {
     nameLanguage: NameLanguage;
     editTags: string[];
     snowflakes: boolean;
+    filterPresets: Hikka.FilterPreset[];
 }
 
 export interface SettingsActions {
@@ -16,6 +17,7 @@ export interface SettingsActions {
     setNameLanguage: (nameLanguage: SettingsState['nameLanguage']) => void;
     setEditTags: (editTags: string[]) => void;
     setSnowflakes: (snowflakes: boolean) => void;
+    setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
     reset: () => void;
 }
 
@@ -24,6 +26,7 @@ const DEFAULT_SETTINGS: SettingsState = {
     nameLanguage: 'name_ua',
     editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
     snowflakes: false,
+    filterPresets: [],
 };
 
 export type SettingsStore = SettingsState & SettingsActions;
@@ -37,6 +40,7 @@ export const useSettingsStore = create<SettingsStore>()(
             setNameLanguage: (nameLanguage) => set({ nameLanguage }),
             setEditTags: (editTags) => set({ editTags }),
             setSnowflakes: (snowflakes) => set({ snowflakes }),
+            setFilterPresets: (filterPresets) => set({ filterPresets }),
             reset: () => set(DEFAULT_SETTINGS),
         }),
         {

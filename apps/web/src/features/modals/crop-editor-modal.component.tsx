@@ -3,9 +3,9 @@
 import { ImageType, UploadTypeEnum } from '@hikka/client';
 import { useCreateImageUpload } from '@hikka/react';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -38,7 +38,6 @@ const Component = ({ file, type }: Props) => {
     const { closeModal } = useModalContext();
     const router = useRouter();
 
-    const { enqueueSnackbar } = useSnackbar();
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
 
@@ -50,9 +49,7 @@ const Component = ({ file, type }: Props) => {
                         ? 'Ви успішно оновили свій аватар.'
                         : 'Ви успішно оновили свою обкладинку.';
 
-                enqueueSnackbar(successMessage, {
-                    variant: 'success',
-                });
+                toast.success(successMessage);
             },
             onError: () => {
                 const errorMessage =
@@ -60,9 +57,7 @@ const Component = ({ file, type }: Props) => {
                         ? 'Щось пішло не так. Перевірте файл та спробуйте завантажити аватар ще раз.'
                         : 'Щось пішло не так. Перевірте файл та спробуйте завантажити обкладинку ще раз.';
 
-                enqueueSnackbar(errorMessage, {
-                    variant: 'error',
-                });
+                toast.error(errorMessage);
             },
             onSettled: () => {
                 router.refresh();

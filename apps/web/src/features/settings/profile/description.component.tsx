@@ -2,8 +2,8 @@
 
 import { useChangeDescription, useSession } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,6 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
 
     const { user: loggedUser } = useSession();
@@ -33,9 +32,8 @@ const Component = () => {
         options: {
             onSuccess: async () => {
                 closeModal();
-                enqueueSnackbar(
+                toast.success(
                     'Ви успішно змінили загальні налаштування профілю.',
-                    { variant: 'success' },
                 );
             },
         },

@@ -6,7 +6,7 @@ import {
     useUserByUsername,
 } from '@hikka/react';
 import { useParams } from 'next/navigation';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 
@@ -14,7 +14,6 @@ import MaterialSymbolsInfoRounded from '../../components/icons/material-symbols/
 
 const ActivationAlert = () => {
     const params = useParams();
-    const { enqueueSnackbar } = useSnackbar();
 
     const { data: user } = useUserByUsername({
         username: String(params.username),
@@ -24,19 +23,18 @@ const ActivationAlert = () => {
     const { mutate: resendActivation } = useCreateActivationRequest({
         options: {
             onSuccess: (user) => {
-                enqueueSnackbar(
+                toast.success(
                     <span>
                         <span className="font-bold">{user.username}</span>, ми
                         успішно надіслали Вам лист для підтвердження поштової
                         адреси.
                     </span>,
-                    { variant: 'success' },
                 );
             },
             onError: (error) => {
                 if ('code' in (error as any)) {
                     if ((error as any).code === 'auth-modal:activation_valid') {
-                        enqueueSnackbar(
+                        toast.error(
                             <span>
                                 <span className="font-bold">
                                     {loggedUser?.username}
@@ -45,7 +43,6 @@ const ActivationAlert = () => {
                                 ласка, вашу поштову скриньку для активації
                                 акаунту.
                             </span>,
-                            { variant: 'error' },
                         );
                     }
                 }

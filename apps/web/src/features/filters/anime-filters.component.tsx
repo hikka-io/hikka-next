@@ -45,13 +45,13 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             <div className="mt-4 flex flex-col md:mt-0">
                 <ReleaseStatus />
                 <Season />
+                <Year />
                 <Genre />
                 <MediaType content_type={content_type} />
                 <Localization />
                 <Sort sort_type={sort_type} />
                 <AgeRating />
                 <Studio />
-                <Year />
             </div>
             <Button
                 variant="secondary"

@@ -2,8 +2,8 @@ import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useDeleteCollection } from '@hikka/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { FC } from 'react';
+import { toast } from 'sonner';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -35,7 +35,6 @@ interface Props {
 
 const CollectionMenu: FC<Props> = ({ collection }) => {
     const router = useRouter();
-    const { enqueueSnackbar } = useSnackbar();
 
     const deleteCollectionMutation = useDeleteCollection({
         options: {
@@ -49,9 +48,8 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
         try {
             deleteCollectionMutation.mutate(collection.reference);
         } catch (e) {
-            enqueueSnackbar(
+            toast.error(
                 'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
-                { variant: 'error' },
             );
         }
     };

@@ -1,7 +1,7 @@
 import { CommentResponse } from '@hikka/client';
 import { useDeleteComment, useSession } from '@hikka/react';
-import { useSnackbar } from 'notistack';
 import { FC } from 'react';
+import { toast } from 'sonner';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
@@ -32,7 +32,6 @@ interface Props {
 }
 
 const CommentMenu: FC<Props> = ({ comment }) => {
-    const { enqueueSnackbar } = useSnackbar();
     const { setState: setCommentsState } = useCommentsContext();
 
     const { user: loggedUser } = useSession();
@@ -43,9 +42,8 @@ const CommentMenu: FC<Props> = ({ comment }) => {
         try {
             deleteCommentMutation.mutate(comment.reference);
         } catch (e) {
-            enqueueSnackbar(
+            toast.error(
                 'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
-                { variant: 'error' },
             );
         }
     };

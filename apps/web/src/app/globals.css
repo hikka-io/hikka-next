@@ -121,7 +121,7 @@
     }
 
     body {
-        @apply bg-background bg-no-repeat text-foreground;
+        @apply bg-background text-foreground bg-no-repeat;
         background-size: 100% 100vh;
     }
 }
@@ -251,11 +251,6 @@
     100% {
         height: 0;
     }
-}
-
-.snackbar-timer {
-    animation: snack-progress 3000ms;
-    animation-fill-mode: forwards;
 }
 
 main {

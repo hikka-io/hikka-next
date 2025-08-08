@@ -3,8 +3,8 @@
 import { useArticleBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { enqueueSnackbar } from 'notistack';
 import { FC, useCallback } from 'react';
+import { toast } from 'sonner';
 
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
@@ -31,9 +31,7 @@ const ArticleNavbar: FC<Props> = () => {
 
     const handleCopyLink = useCallback(() => {
         navigator.clipboard.writeText(window.location.href);
-        enqueueSnackbar('Ви успішно скопіювали посилання.', {
-            variant: 'success',
-        });
+        toast.success('Ви успішно скопіювали посилання.');
     }, [params.slug]);
 
     if (article?.category === 'system') {

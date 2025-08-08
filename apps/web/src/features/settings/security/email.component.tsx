@@ -2,8 +2,8 @@
 
 import { useChangeEmail } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,6 @@ const formSchema = z
     });
 
 const Component = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const { closeModal } = useModalContext();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -33,9 +32,7 @@ const Component = () => {
         options: {
             onSuccess: async () => {
                 closeModal();
-                enqueueSnackbar('Ви успішно змінили поштову адресу.', {
-                    variant: 'success',
-                });
+                toast.success('Ви успішно змінили поштову адресу.');
             },
         },
     });

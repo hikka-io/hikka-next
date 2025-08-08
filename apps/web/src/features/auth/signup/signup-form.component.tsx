@@ -5,9 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +37,6 @@ const formSchema = z
     });
 
 const SignupForm = () => {
-    const { enqueueSnackbar } = useSnackbar();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
@@ -61,14 +60,13 @@ const SignupForm = () => {
                 router.push('/');
                 router.refresh();
 
-                enqueueSnackbar(
+                toast.success(
                     <span>
                         <span className="font-bold">
                             {form.getValues('username')}
                         </span>
                         , Ви успішно зареєструвались.
                     </span>,
-                    { variant: 'success' },
                 );
 
                 form.reset();

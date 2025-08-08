@@ -3,7 +3,12 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import FormBadgeFilter, {
+    FormBadgeFilterProps,
+} from '@/components/form/form-badge-filter';
+
 import { RELEASE_STATUS } from '@/utils/constants/common';
+
 import BadgeFilter from '../badge-filter';
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
@@ -32,6 +37,20 @@ const ReleaseStatus: FC<Props> = () => {
                 onParamChange={handleChangeParam}
             />
         </CollapsibleFilter>
+    );
+};
+
+export const FormReleaseStatus: FC<Props & Partial<FormBadgeFilterProps>> = (
+    props,
+) => {
+    return (
+        <FormBadgeFilter
+            {...props}
+            name="statuses"
+            properties={RELEASE_STATUS}
+            property="statuses"
+            label="Статус"
+        />
     );
 };
 

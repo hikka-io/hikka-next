@@ -21,7 +21,7 @@ import { Switch } from '@/components/ui/switch';
 
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
-import getCurrentSeason from '@/utils/get-current-season';
+import getCurrentSeason from '@/utils/season-utils';
 import { cn } from '@/utils/utils';
 
 import AntDesignClearOutlined from '../../components/icons/ant-design/AntDesignClearOutlined';

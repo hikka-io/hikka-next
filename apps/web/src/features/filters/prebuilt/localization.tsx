@@ -3,8 +3,10 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import FormSwitch, { FormSwitchProps } from '@/components/form/form-switch';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+
 import CollapsibleFilter from '../collapsible-filter';
 import useChangeParam from '../use-change-param';
 
@@ -37,6 +39,18 @@ const Genre: FC<Props> = () => {
                 />
             </div>
         </CollapsibleFilter>
+    );
+};
+
+export const FormLocalization: FC<Props & Partial<FormSwitchProps>> = (
+    props,
+) => {
+    return (
+        <FormSwitch
+            {...props}
+            name="only_translated"
+            label="Перекладено українською"
+        />
     );
 };
 
