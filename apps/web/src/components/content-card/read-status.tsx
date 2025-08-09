@@ -12,8 +12,7 @@ const ReadStatus: FC<Props> = ({ read }) => (
         <div
             className="absolute right-2 top-2 z-[1] w-fit rounded-md border-white p-1 text-white"
             style={{
-                backgroundColor:
-                    READ_STATUS[read.status as ReadStatusEnum].color,
+                backgroundColor: `hsl(${READ_STATUS[read.status as ReadStatusEnum].color})`,
             }}
         >
             {createElement(READ_STATUS[read.status as ReadStatusEnum].icon!)}

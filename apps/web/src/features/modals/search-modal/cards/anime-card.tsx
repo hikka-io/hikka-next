@@ -66,7 +66,14 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                             <Badge
                                 className="text-xs"
                                 variant="status"
-                                bgColor={RELEASE_STATUS[anime.status].color}
+                                style={{
+                                    backgroundColor: `hsl(${
+                                        RELEASE_STATUS[anime.status].color
+                                    } / 0.2)`,
+                                    color: `hsl(${
+                                        RELEASE_STATUS[anime.status].color
+                                    })`,
+                                }}
                             >
                                 {RELEASE_STATUS[anime.status].title_ua}
                             </Badge>

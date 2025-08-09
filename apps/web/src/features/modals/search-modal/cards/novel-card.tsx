@@ -66,7 +66,14 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                             <Badge
                                 className="text-xs"
                                 variant="status"
-                                bgColor={RELEASE_STATUS[novel.status].color}
+                                style={{
+                                    backgroundColor: `hsl(${
+                                        RELEASE_STATUS[novel.status].color
+                                    } / 0.2)`,
+                                    color: `hsl(${
+                                        RELEASE_STATUS[novel.status].color
+                                    })`,
+                                }}
                             >
                                 {RELEASE_STATUS[novel.status].title_ua}
                             </Badge>

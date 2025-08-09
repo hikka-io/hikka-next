@@ -21,7 +21,13 @@ const Status: FC<Props> = ({ status }) => {
                 <Label className="text-muted-foreground">Статус:</Label>
             </div>
             <div className="flex-1">
-                <Badge variant="status" bgColor={RELEASE_STATUS[status].color}>
+                <Badge
+                    variant="status"
+                    style={{
+                        backgroundColor: `hsl(${RELEASE_STATUS[status].color} / 0.2)`,
+                        color: `hsl(${RELEASE_STATUS[status].color})`,
+                    }}
+                >
                     {RELEASE_STATUS[status].title_ua}
                 </Badge>
             </div>

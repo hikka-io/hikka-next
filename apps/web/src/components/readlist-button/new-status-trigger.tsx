@@ -5,7 +5,7 @@ import { useCreateRead } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
-import { WATCH_STATUS } from '@/utils/constants/common';
+import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsArrowDropDownRounded from '../icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
@@ -63,8 +63,15 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     {isLoading ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
-                        <div className="bg-muted-foreground rounded-sm p-0.5">
-                            {createElement(WATCH_STATUS.planned.icon!)}
+                        <div
+                            className="text-white rounded-sm p-1"
+                            style={{
+                                backgroundColor: `hsl(${READ_STATUS.planned.color})`,
+                            }}
+                        >
+                            {createElement(READ_STATUS.planned.icon!, {
+                                className: '!size-3',
+                            })}
                         </div>
                     )}
                     <span className="truncate rounded-none">

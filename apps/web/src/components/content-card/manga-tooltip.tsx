@@ -93,7 +93,14 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                         {data.status && (
                             <Badge
                                 variant="status"
-                                bgColor={RELEASE_STATUS[data.status].color}
+                                style={{
+                                    backgroundColor: `hsl(${
+                                        RELEASE_STATUS[data.status].color
+                                    } / 0.2)`,
+                                    color: `hsl(${
+                                        RELEASE_STATUS[data.status].color
+                                    })`,
+                                }}
                             >
                                 {RELEASE_STATUS[data.status].title_ua}
                             </Badge>

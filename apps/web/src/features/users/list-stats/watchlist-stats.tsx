@@ -35,7 +35,7 @@ const WatchlistStats: FC<Props> = () => {
             >
                 <RadialProgress
                     style={{
-                        color: WATCH_STATUS.completed.color,
+                        color: `hsl(${WATCH_STATUS.completed.color})`,
                     }}
                     thickness={8}
                     value={(data.completed * 100) / sum}
@@ -61,12 +61,13 @@ const WatchlistStats: FC<Props> = () => {
                             <div className="flex justify-between gap-4">
                                 <div className="flex min-w-0 items-center gap-2">
                                     <div
-                                        className="bg-secondary/20 size-2 rounded-full"
+                                        className="size-2 rounded-full"
                                         style={{
-                                            backgroundColor:
+                                            backgroundColor: `hsl(${
                                                 WATCH_STATUS[
                                                     status as WatchStatusEnum
-                                                ].color,
+                                                ].color
+                                            })`,
                                         }}
                                     />
                                     <Label className="text-muted-foreground cursor-pointer truncate">

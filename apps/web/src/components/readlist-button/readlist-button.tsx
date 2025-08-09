@@ -61,7 +61,16 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
     title: READ_STATUS[status as ReadStatusEnum].title_ua,
     label: (
         <div className="flex items-center gap-2">
-            {createElement(READ_STATUS[status as ReadStatusEnum].icon!)}
+            <div
+                className="w-fit rounded-sm p-1 text-white"
+                style={{
+                    backgroundColor: `hsl(${READ_STATUS[status as ReadStatusEnum].color})`,
+                }}
+            >
+                {createElement(READ_STATUS[status as ReadStatusEnum].icon!, {
+                    className: '!size-3',
+                })}
+            </div>
             {READ_STATUS[status as ReadStatusEnum].title_ua}
         </div>
     ),

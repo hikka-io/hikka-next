@@ -51,7 +51,16 @@ const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
     title: WATCH_STATUS[status as WatchStatusEnum].title_ua,
     label: (
         <div className="flex items-center gap-2">
-            {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!)}
+            <div
+                className="w-fit rounded-sm border-white p-1 text-white"
+                style={{
+                    backgroundColor: `hsl(${WATCH_STATUS[status as WatchStatusEnum].color})`,
+                }}
+            >
+                {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!, {
+                    className: '!size-3',
+                })}
+            </div>
             {WATCH_STATUS[status as WatchStatusEnum].title_ua}
         </div>
     ),

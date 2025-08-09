@@ -116,10 +116,22 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                         >
                             <SelectTrigger>
                                 <div className="flex items-center gap-2">
-                                    {selectedStatus &&
-                                        createElement(
-                                            WATCH_STATUS[selectedStatus].icon!,
-                                        )}
+                                    {selectedStatus && (
+                                        <div
+                                            className="w-fit rounded-sm border-white p-1 text-white"
+                                            style={{
+                                                backgroundColor: `hsl(${WATCH_STATUS[selectedStatus].color})`,
+                                            }}
+                                        >
+                                            {createElement(
+                                                WATCH_STATUS[selectedStatus]
+                                                    .icon!,
+                                                {
+                                                    className: '!size-3',
+                                                },
+                                            )}
+                                        </div>
+                                    )}
                                     {(selectedStatus &&
                                         WATCH_STATUS[selectedStatus]
                                             .title_ua) ||

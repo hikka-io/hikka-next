@@ -61,28 +61,27 @@ export const RELEASE_STATUS: Hikka.FilterProperty<ContentStatusEnum> = {
     [ContentStatusEnum.DISCONTINUED]: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
-        color: '#952828',
+        color: '0 100% 50%',
     },
     [ContentStatusEnum.ONGOING]: {
         title_ua: 'Онґоінґ',
         title_en: 'Ongoing',
-
-        color: '#2B94AB',
+        color: '200 100% 50%',
     },
     [ContentStatusEnum.FINISHED]: {
         title_ua: 'Завершено',
         title_en: 'Finished',
-        color: '#518146',
+        color: '140 65% 50%',
     },
     [ContentStatusEnum.ANNOUNCED]: {
         title_ua: 'Анонс',
         title_en: 'Announced',
-        color: '#AB872B',
+        color: '40 100% 50%',
     },
     [ContentStatusEnum.PAUSED]: {
         title_ua: 'Зупинено',
         title_en: 'Paused',
-        color: '#5C5C5C',
+        color: '0 0% 50%',
     },
 };
 
@@ -512,31 +511,31 @@ export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
         title_ua: 'Заплановано',
         title_en: 'Planned',
         icon: Planned,
-        color: '#AB872B',
+        color: RELEASE_STATUS[ContentStatusEnum.ANNOUNCED].color,
     },
     [ReadStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
-        color: '#399A54',
+        color: RELEASE_STATUS[ContentStatusEnum.FINISHED].color,
     },
     [ReadStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
         icon: MaterialSymbolsBookmarkFlagOutlineRounded,
-        color: '#5C5C5C',
+        color: RELEASE_STATUS[ContentStatusEnum.PAUSED].color,
     },
     [ReadStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
         icon: Dropped,
-        color: '#952828',
+        color: RELEASE_STATUS[ContentStatusEnum.DISCONTINUED].color,
     },
     [ReadStatusEnum.READING]: {
         title_ua: 'Читаю',
         title_en: 'Reading',
         icon: MaterialSymbolsBookmarkOutline,
-        color: '#2B94AB',
+        color: RELEASE_STATUS[ContentStatusEnum.ONGOING].color,
     },
 };
 
@@ -545,31 +544,31 @@ export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
         title_ua: 'Заплановано',
         title_en: 'Planned',
         icon: Planned,
-        color: '#AB872B',
+        color: RELEASE_STATUS[ContentStatusEnum.ANNOUNCED].color,
     },
     [WatchStatusEnum.WATCHING]: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
         icon: Watching,
-        color: '#2B94AB',
+        color: RELEASE_STATUS[ContentStatusEnum.ONGOING].color,
     },
     [WatchStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
         icon: Completed,
-        color: '#399A54',
+        color: RELEASE_STATUS[ContentStatusEnum.FINISHED].color,
     },
     [WatchStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
         icon: OnHold,
-        color: '#5C5C5C',
+        color: RELEASE_STATUS[ContentStatusEnum.PAUSED].color,
     },
     [WatchStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
         icon: Dropped,
-        color: '#952828',
+        color: RELEASE_STATUS[ContentStatusEnum.DISCONTINUED].color,
     },
 };
 

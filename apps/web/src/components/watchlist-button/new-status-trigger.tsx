@@ -60,8 +60,15 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     {isLoading ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
-                        <div className="bg-muted-foreground rounded-sm p-0.5">
-                            {createElement(WATCH_STATUS.planned.icon!)}
+                        <div
+                            className="text-white rounded-sm p-1"
+                            style={{
+                                backgroundColor: `hsl(${WATCH_STATUS.planned.color})`,
+                            }}
+                        >
+                            {createElement(WATCH_STATUS.planned.icon!, {
+                                className: '!size-3',
+                            })}
                         </div>
                     )}
                     <span className="truncate rounded-none">

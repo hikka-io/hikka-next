@@ -50,9 +50,16 @@ const StatusCombobox = () => {
     return (
         <Select value={[watchStatus]} onValueChange={handleWatchStatusChange}>
             <SelectTrigger>
-                <div className="flex items-center gap-4">
-                    <div className="border-border bg-secondary/20 hidden rounded-md border p-1 sm:block">
-                        {createElement(WATCH_STATUS[watchStatus].icon!)}
+                <div className="flex items-center gap-2">
+                    <div
+                        className="w-fit rounded-sm p-1 text-white"
+                        style={{
+                            backgroundColor: `hsl(${WATCH_STATUS[watchStatus].color})`,
+                        }}
+                    >
+                        {createElement(WATCH_STATUS[watchStatus].icon!, {
+                            className: '!size-3',
+                        })}
                     </div>
                     <div className="flex items-center gap-2">
                         <H5>{WATCH_STATUS[watchStatus].title_ua}</H5>

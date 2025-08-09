@@ -78,8 +78,9 @@ const NovelLayout: FC<Props> = async (props) => {
                         <div
                             className="size-2 rounded-full bg-white"
                             style={{
-                                backgroundColor:
-                                    RELEASE_STATUS[novel?.status].color,
+                                backgroundColor: `hsl(${
+                                    RELEASE_STATUS[novel?.status].color
+                                })`,
                             }}
                         />
                     )}

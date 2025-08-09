@@ -40,7 +40,7 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
             >
                 <RadialProgress
                     style={{
-                        color: READ_STATUS.completed.color,
+                        color: `hsl(${READ_STATUS.completed.color})`,
                     }}
                     thickness={8}
                     value={(data.completed * 100) / sum}
@@ -66,12 +66,13 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
                             <div className="flex justify-between gap-4">
                                 <div className="flex min-w-0 items-center gap-2">
                                     <div
-                                        className="bg-secondary/20 size-2 rounded-full"
+                                        className="size-2 rounded-full"
                                         style={{
-                                            backgroundColor:
+                                            backgroundColor: `hsl(${
                                                 READ_STATUS[
                                                     status as ReadStatusEnum
-                                                ].color,
+                                                ].color
+                                            })`,
                                         }}
                                     />
                                     <Label className="text-muted-foreground cursor-pointer truncate">

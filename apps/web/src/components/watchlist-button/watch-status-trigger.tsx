@@ -65,10 +65,14 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                         <span className="loading loading-spinner"></span>
                     ) : (
                         <div
-                            className="rounded-sm p-0.5 text-white"
-                            style={{ backgroundColor: watchStatus.color }}
+                            className="w-fit rounded-sm border-white p-1 text-white"
+                            style={{
+                                backgroundColor: `hsl(${watchStatus.color})`,
+                            }}
                         >
-                            {createElement(watchStatus.icon!)}
+                            {createElement(watchStatus.icon!, {
+                                className: '!size-3',
+                            })}
                         </div>
                     )}
                     <span className="truncate rounded-none">

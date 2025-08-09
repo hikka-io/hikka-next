@@ -83,10 +83,14 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                         <span className="loading loading-spinner"></span>
                     ) : (
                         <div
-                            className="rounded-sm p-0.5"
-                            style={{ backgroundColor: readStatus.color }}
+                            className="rounded-sm p-1"
+                            style={{
+                                backgroundColor: `hsl(${readStatus.color})`,
+                            }}
                         >
-                            {createElement(READ_STATUS[read.status].icon!)}
+                            {createElement(READ_STATUS[read.status].icon!, {
+                                className: '!size-3',
+                            })}
                         </div>
                     )}
                     <span className="truncate rounded-none">

@@ -35,7 +35,11 @@ const Watchlist = () => {
                 acc.push({
                     percentage,
                     value: data.stats[stat as keyof AnimeStatsResponse],
-                    icon: status.icon && createElement(status.icon),
+                    icon:
+                        status.icon &&
+                        createElement(status.icon, {
+                            className: '!size-3',
+                        }),
                     color: status.color!,
                 });
             }

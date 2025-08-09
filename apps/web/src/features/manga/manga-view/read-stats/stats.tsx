@@ -34,15 +34,15 @@ const Stats: FC<Props> = ({ stats }) => {
                                         )}
                                         <div className="relative h-2 w-full flex-1 overflow-hidden rounded-md">
                                             <div
-                                                className="absolute bottom-0 left-0 size-full bg-primary opacity-10"
+                                                className="absolute bottom-0 left-0 size-full bg-primary/10"
                                                 style={{
-                                                    backgroundColor: stat.color,
+                                                    backgroundColor: `hsl(${stat.color} / 0.1)`,
                                                 }}
                                             />
                                             <div
                                                 className="absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary"
                                                 style={{
-                                                    backgroundColor: stat.color,
+                                                    backgroundColor: `hsl(${stat.color})`,
                                                     width: `${stat.percentage}%`,
                                                 }}
                                             ></div>

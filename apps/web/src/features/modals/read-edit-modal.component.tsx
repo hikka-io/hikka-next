@@ -117,10 +117,22 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         >
                             <SelectTrigger>
                                 <div className="flex items-center gap-2">
-                                    {selectedStatus &&
-                                        createElement(
-                                            READ_STATUS[selectedStatus].icon!,
-                                        )}
+                                    {selectedStatus && (
+                                        <div
+                                            className="w-fit rounded-sm border-white p-1 text-white"
+                                            style={{
+                                                backgroundColor: `hsl(${READ_STATUS[selectedStatus].color})`,
+                                            }}
+                                        >
+                                            {createElement(
+                                                READ_STATUS[selectedStatus]
+                                                    .icon!,
+                                                {
+                                                    className: '!size-3',
+                                                },
+                                            )}
+                                        </div>
+                                    )}
                                     {(selectedStatus &&
                                         READ_STATUS[selectedStatus].title_ua) ||
                                         'Виберіть список'}

@@ -54,7 +54,7 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
             <Button
                 className="hidden sm:flex"
                 style={{
-                    backgroundColor: watchStatus?.color,
+                    backgroundColor: `hsl(${watchStatus?.color})`,
                 }}
                 onClick={handleWatch}
                 variant={watchStatus ? 'secondary' : 'outline'}
@@ -71,9 +71,20 @@ const ScheduleWatchButton: FC<Props> = ({ item, title }) => {
                 variant={watchStatus ? 'secondary' : 'outline'}
                 size="md"
             >
-                {watchStatus
-                    ? createElement(watchStatus.icon!)
-                    : createElement(WATCH_STATUS.planned.icon!)}
+                <div
+                    className="w-fit rounded-sm border-white p-1 text-white"
+                    style={{
+                        backgroundColor: `hsl(${watchStatus?.color ?? WATCH_STATUS.planned.color})`,
+                    }}
+                >
+                    {watchStatus
+                        ? createElement(watchStatus.icon!, {
+                              className: '!size-3',
+                          })
+                        : createElement(WATCH_STATUS.planned.icon!, {
+                              className: '!size-3',
+                          })}
+                </div>
                 {watchStatus ? watchStatus.title_ua : 'Додати у список'}
             </Button>
         </Fragment>
