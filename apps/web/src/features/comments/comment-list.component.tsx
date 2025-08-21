@@ -5,9 +5,15 @@ import { useCommentThread, useContentComments, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
 import CommentsProvider from '@/services/providers/comments-provider';
@@ -20,9 +26,15 @@ interface Props {
     slug: string;
     content_type: CommentsContentType;
     comment_reference?: string;
+    preview?: boolean;
 }
 
-const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
+const CommentList: FC<Props> = ({
+    slug,
+    content_type,
+    comment_reference,
+    preview,
+}) => {
     const { user: loggedUser } = useSession();
     const {
         list: comments,
@@ -34,6 +46,7 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
     } = useContentComments({
         contentType: content_type,
         slug,
+        paginationArgs: preview ? { size: 3 } : undefined,
         options: {
             enabled: !comment_reference,
         },
@@ -58,8 +71,8 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
     );
 
     return (
-        <Block>
-            <Header>
+        <Block className="break-inside-avoid">
+            <Header href={`/comments/${content_type}/${slug}`}>
                 <HeaderContainer>
                     <HeaderTitle>{title}</HeaderTitle>
                     {comment_reference && (
@@ -70,9 +83,10 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
                         </Button>
                     )}
                 </HeaderContainer>
+                <HeaderNavButton />
             </Header>
             <div className="flex flex-col gap-4">
-                {loggedUser && !comment_reference && (
+                {loggedUser && !comment_reference && !preview && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}
                 {list && list.length === 0 && (
@@ -90,12 +104,20 @@ const CommentList: FC<Props> = ({ slug, content_type, comment_reference }) => {
                         />
                     </CommentsProvider>
                 )}
-                {hasNextPage && (
+                {hasNextPage && !preview && (
                     <LoadMoreButton
                         isFetchingNextPage={isFetchingNextPage}
                         fetchNextPage={fetchNextPage}
                         ref={ref}
                     />
+                )}
+                {list && list.length !== 0 && preview && (
+                    <Button variant="outline" asChild>
+                        <Link href={`/comments/${content_type}/${slug}`}>
+                            <AntDesignArrowDownOutlined />
+                            Переглянути всі
+                        </Link>
+                    </Button>
                 )}
             </div>
         </Block>

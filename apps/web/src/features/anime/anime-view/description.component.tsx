@@ -10,7 +10,7 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-const Description = () => {
+const Description = ({ className }: { className?: string }) => {
     const [active, setActive] = useState<'synopsis_ua' | 'synopsis_en'>(
         'synopsis_ua',
     );
@@ -22,7 +22,7 @@ const Description = () => {
     }
 
     return (
-        <Block>
+        <Block className={className}>
             <Header>
                 <HeaderContainer>
                     <HeaderTitle>Опис</HeaderTitle>

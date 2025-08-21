@@ -14,13 +14,14 @@ import MaterialSymbolsStarRounded from '../icons/material-symbols/MaterialSymbol
 
 interface Props {
     value: number;
-    onChange: (value: number) => void;
+    onChange?: (value: number) => void;
     precision?: number;
     totalStars?: number;
     emptyIcon?: (props: SVGProps<SVGSVGElement>) => ReactElement;
     filledIcon?: (props: SVGProps<SVGSVGElement>) => ReactElement;
     disabled?: boolean;
     ariaLabel?: string;
+    preview?: boolean;
 }
 
 const Rating = ({
@@ -32,6 +33,7 @@ const Rating = ({
     filledIcon = MaterialSymbolsStarRounded,
     disabled = false,
     ariaLabel = 'Rating',
+    preview = false,
 }: Props) => {
     const [selected, setSelected] = useState(value);
     const [hoverActiveStar, setHoverActiveStar] = useState(-1);
@@ -83,14 +85,14 @@ const Rating = ({
         if (e.button === 2) {
             e.preventDefault();
             setSelected(0);
-            onChange(0);
+            onChange?.(0);
             return;
         }
 
         setIsHovered(false);
         const current = calculateRating(e);
         setSelected(current);
-        onChange(current);
+        onChange?.(current);
     };
 
     const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
@@ -121,30 +123,30 @@ const Rating = ({
                     totalStars,
                 );
                 setSelected(nextValue);
-                onChange(nextValue);
+                onChange?.(nextValue);
                 break;
             case 'ArrowLeft':
             case 'ArrowDown':
                 e.preventDefault();
                 const prevValue = Math.max(currentValue - precision, 0);
                 setSelected(prevValue);
-                onChange(prevValue);
+                onChange?.(prevValue);
                 break;
             case 'Home':
                 e.preventDefault();
                 setSelected(0);
-                onChange(0);
+                onChange?.(0);
                 break;
             case 'End':
                 e.preventDefault();
                 setSelected(totalStars);
-                onChange(totalStars);
+                onChange?.(totalStars);
                 break;
             case 'Delete':
             case 'Backspace':
                 e.preventDefault();
                 setSelected(0);
-                onChange(0);
+                onChange?.(0);
                 break;
         }
     };
@@ -168,11 +170,11 @@ const Rating = ({
             className={`relative inline-flex items-center text-left ${
                 disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
             }`}
-            onClick={handleClick}
-            onContextMenu={handleClick}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            onKeyDown={handleKeyDown}
+            onClick={preview ? undefined : handleClick}
+            onContextMenu={preview ? undefined : handleClick}
+            onMouseMove={preview ? undefined : handleMouseMove}
+            onMouseLeave={preview ? undefined : handleMouseLeave}
+            onKeyDown={preview ? undefined : handleKeyDown}
             ref={ratingContainerRef}
         >
             {Array.from({ length: totalStars }, (_, index) => {

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
 import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 interface Props {
     novel: NovelResponse;
@@ -64,16 +65,10 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
 
                         {novel.status && (
                             <Badge
-                                className="text-xs"
                                 variant="status"
-                                style={{
-                                    backgroundColor: `hsl(${
-                                        RELEASE_STATUS[novel.status].color
-                                    } / 0.2)`,
-                                    color: `hsl(${
-                                        RELEASE_STATUS[novel.status].color
-                                    })`,
-                                }}
+                                className={cn(
+                                    `bg-${novel.status} text-${novel.status}-foreground border-${novel.status}-border`,
+                                )}
                             >
                                 {RELEASE_STATUS[novel.status].title_ua}
                             </Badge>

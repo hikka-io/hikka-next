@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
 import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 interface Props {
     manga: MangaResponse;
@@ -64,16 +65,10 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
 
                         {manga.status && (
                             <Badge
-                                className="text-xs"
                                 variant="status"
-                                style={{
-                                    backgroundColor: `hsl(${
-                                        RELEASE_STATUS[manga.status].color
-                                    } / 0.2)`,
-                                    color: `hsl(${
-                                        RELEASE_STATUS[manga.status].color
-                                    })`,
-                                }}
+                                className={cn(
+                                    `bg-${manga.status} text-${manga.status}-foreground border-${manga.status}-border`,
+                                )}
                             >
                                 {RELEASE_STATUS[manga.status].title_ua}
                             </Badge>

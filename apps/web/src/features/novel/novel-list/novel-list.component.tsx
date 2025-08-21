@@ -123,7 +123,7 @@ const NovelList: FC<Props> = () => {
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
-                    <Card className="bg-background/60 flex-row gap-2 border-none p-2 backdrop-blur-xl">
+                    <Card className="bg-background/60 flex-row gap-2 p-2 backdrop-blur-xl">
                         <Pagination
                             page={pagination.page}
                             pages={pagination.pages}

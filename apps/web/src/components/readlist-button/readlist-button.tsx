@@ -20,6 +20,7 @@ import ReadEditModal from '@/features/modals/read-edit-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
@@ -30,6 +31,7 @@ import {
     SelectList,
     SelectSeparator,
 } from '../ui/select';
+import IconReadStatusButton from './icon-read-status-button';
 import NewStatusTrigger from './new-status-trigger';
 import ReadStatusTrigger from './read-status-trigger';
 
@@ -38,9 +40,9 @@ interface Props {
     additional?: boolean;
     disabled?: boolean;
     content_type: ReadContentType;
-    read?: ReadResponseBase;
+    read?: ReadResponseBase | null;
     content?: MangaResponse | NovelResponse;
-    size?: 'sm' | 'md';
+    size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
 }
 
 // Move constants outside component to prevent recreation on each render
@@ -62,10 +64,10 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
     label: (
         <div className="flex items-center gap-2">
             <div
-                className="w-fit rounded-sm p-1 text-white"
-                style={{
-                    backgroundColor: `hsl(${READ_STATUS[status as ReadStatusEnum].color})`,
-                }}
+                className={cn(
+                    'w-fit rounded-sm border p-1',
+                    `bg-${status} text-${status}-foreground border-${status}-border`,
+                )}
             >
                 {createElement(READ_STATUS[status as ReadStatusEnum].icon!, {
                     className: '!size-3',
@@ -90,7 +92,7 @@ const ReadlistButton = ({
         contentType: content_type,
         slug,
         options: {
-            enabled: !disabled && !readProp,
+            enabled: !disabled && !readProp && readProp !== null,
         },
     });
 
@@ -193,6 +195,7 @@ const ReadlistButton = ({
             read,
             readError,
             manga,
+            novel,
             content_type,
             slug,
             createRead,
@@ -202,6 +205,20 @@ const ReadlistButton = ({
 
     const hasValidRead = read && !readError;
     const currentStatus = hasValidRead ? [read.status] : [];
+
+    if (size?.includes('icon')) {
+        return (
+            <IconReadStatusButton
+                read={read}
+                disabled={disabled}
+                size={size as 'icon-sm' | 'icon-md'}
+                slug={slug}
+                content_type={content_type}
+                content={content}
+                isLoading={isChangingStatus}
+            />
+        );
+    }
 
     return (
         <Select
@@ -214,8 +231,8 @@ const ReadlistButton = ({
                     content_type={content_type}
                     read={read}
                     disabled={disabled}
-                    slug={slug}
-                    size={size}
+                    content={content}
+                    size={size as 'sm' | 'md'}
                     isLoading={isChangingStatus}
                 />
             ) : (
@@ -223,7 +240,7 @@ const ReadlistButton = ({
                     content_type={content_type}
                     slug={slug}
                     disabled={disabled}
-                    size={size}
+                    size={size as 'sm' | 'md'}
                     isLoading={isChangingStatus}
                 />
             )}

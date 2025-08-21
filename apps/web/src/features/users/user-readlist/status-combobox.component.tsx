@@ -18,6 +18,7 @@ import {
 
 import { READ_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
+import { cn } from '@/utils/utils';
 
 import { useList } from './readlist.hooks';
 
@@ -46,10 +47,10 @@ const StatusCombobox = () => {
             <SelectTrigger>
                 <div className="flex items-center gap-2">
                     <div
-                        className="w-fit rounded-sm p-1 text-white"
-                        style={{
-                            backgroundColor: `hsl(${READ_STATUS[readStatus].color})`,
-                        }}
+                        className={cn(
+                            'w-fit rounded-sm p-1 text-white border',
+                            `bg-${readStatus} text-${readStatus}-foreground border-${readStatus}-border`,
+                        )}
                     >
                         {createElement(READ_STATUS[readStatus].icon!, {
                             className: '!size-3',

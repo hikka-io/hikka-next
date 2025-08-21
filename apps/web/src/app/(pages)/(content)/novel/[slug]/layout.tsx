@@ -15,16 +15,12 @@ import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
-import InternalNavBar from '@/components/navigation/nav-tabs';
-import SubBar from '@/components/navigation/sub-nav';
 
-import Actions from '@/features/novel/novel-view/actions/actions.component';
-import Cover from '@/features/novel/novel-view/cover.component';
-import Title from '@/features/novel/novel-view/title.component';
+import NovelNavbar from '@/features/novel/novel-view/novel-navbar/novel-navbar.component';
 
-import { RELEASE_STATUS } from '@/utils/constants/common';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { cn } from '@/utils/utils';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
@@ -76,12 +72,10 @@ const NovelLayout: FC<Props> = async (props) => {
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     {novel?.status && (
                         <div
-                            className="size-2 rounded-full bg-white"
-                            style={{
-                                backgroundColor: `hsl(${
-                                    RELEASE_STATUS[novel?.status].color
-                                })`,
-                            }}
+                            className={cn(
+                                'size-2 rounded-full bg-white',
+                                `bg-${novel?.status}-foreground`,
+                            )}
                         />
                     )}
                     <Link
@@ -98,24 +92,10 @@ const NovelLayout: FC<Props> = async (props) => {
                     urlPrefix={`/novel/${slug}`}
                 />
             </Breadcrumbs>
-            <SubBar>
-                <InternalNavBar
-                    routes={NOVEL_NAV_ROUTES}
-                    urlPrefix={`/novel/${slug}`}
-                />
-            </SubBar>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
-                <div className="flex flex-col gap-4">
-                    <Cover />
-                    <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                        <Actions />
-                    </div>
-                </div>
-                <div className="flex flex-col gap-12">
-                    <Title />
-                    {children}
-                </div>
-            </div>
+
+            {children}
+
+            <NovelNavbar className="mt-12" />
         </HydrationBoundary>
     );
 };

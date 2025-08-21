@@ -40,7 +40,7 @@ const Watchlist = () => {
                         createElement(status.icon, {
                             className: '!size-3',
                         }),
-                    color: status.color!,
+                    name: stat,
                 });
             }
 

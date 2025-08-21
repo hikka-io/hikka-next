@@ -34,9 +34,13 @@ const AnimeList: FC<Props> = () => {
     const status = searchParams.getAll('statuses') as AnimeStatusEnum[];
     const season = searchParams.getAll('seasons') as SeasonEnum[];
     const rating = searchParams.getAll('ratings') as AnimeAgeRatingEnum[];
-    const years = searchParams.getAll('years') as unknown as [
-        number | null,
-        number | null,
+    const years = searchParams
+        .getAll('years')
+        .map((year) =>
+            year.includes(',') ? year.split(',') : year,
+        ) as unknown as [
+        number | [SeasonEnum, number] | null,
+        number | [SeasonEnum, number] | null,
     ];
     const genres = searchParams.getAll('genres');
     const studios = searchParams.getAll('studios');
@@ -133,7 +137,7 @@ const AnimeList: FC<Props> = () => {
             )}
             {list && pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-2 z-10 flex items-center justify-center">
-                    <Card className="bg-background/60 flex-row gap-2 border-none p-2 backdrop-blur-xl">
+                    <Card className="bg-background/60 flex-row gap-2 p-2 backdrop-blur-xl">
                         <Pagination
                             page={pagination.page}
                             pages={pagination.pages}

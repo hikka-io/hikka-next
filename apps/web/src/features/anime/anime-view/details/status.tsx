@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
 import { RELEASE_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 interface Props {
     status: AnimeStatusEnum | null;
@@ -23,10 +24,9 @@ const Status: FC<Props> = ({ status }) => {
             <div className="flex-1">
                 <Badge
                     variant="status"
-                    style={{
-                        backgroundColor: `hsl(${RELEASE_STATUS[status].color} / 0.2)`,
-                        color: `hsl(${RELEASE_STATUS[status].color})`,
-                    }}
+                    className={cn(
+                        `bg-${status} text-${status}-foreground border-${status}-border`,
+                    )}
                 >
                     {RELEASE_STATUS[status].title_ua}
                 </Badge>

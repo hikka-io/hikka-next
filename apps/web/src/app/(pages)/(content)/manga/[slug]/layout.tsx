@@ -15,16 +15,12 @@ import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
-import InternalNavBar from '@/components/navigation/nav-tabs';
-import SubBar from '@/components/navigation/sub-nav';
 
-import Actions from '@/features/manga/manga-view/actions/actions.component';
-import Cover from '@/features/manga/manga-view/cover.component';
-import Title from '@/features/manga/manga-view/title.component';
+import MangaNavbar from '@/features/manga/manga-view/manga-navbar/manga-navbar.component';
 
-import { RELEASE_STATUS } from '@/utils/constants/common';
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { cn } from '@/utils/utils';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';
@@ -80,12 +76,10 @@ const MangaLayout: FC<Props> = async (props) => {
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     {manga?.status && (
                         <div
-                            className="size-2 rounded-full bg-white"
-                            style={{
-                                backgroundColor: `hsl(${
-                                    RELEASE_STATUS[manga?.status].color
-                                })`,
-                            }}
+                            className={cn(
+                                'size-2 rounded-full bg-white',
+                                `bg-${manga?.status}-foreground`,
+                            )}
                         />
                     )}
                     <Link
@@ -102,24 +96,10 @@ const MangaLayout: FC<Props> = async (props) => {
                     urlPrefix={`/manga/${slug}`}
                 />
             </Breadcrumbs>
-            <SubBar>
-                <InternalNavBar
-                    routes={MANGA_NAV_ROUTES}
-                    urlPrefix={`/manga/${slug}`}
-                />
-            </SubBar>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
-                <div className="flex flex-col gap-4">
-                    <Cover />
-                    <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                        <Actions />
-                    </div>
-                </div>
-                <div className="flex flex-col gap-12">
-                    <Title />
-                    {children}
-                </div>
-            </div>
+
+            {children}
+
+            <MangaNavbar className="mt-12" />
         </HydrationBoundary>
     );
 };

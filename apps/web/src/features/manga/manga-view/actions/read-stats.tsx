@@ -8,10 +8,10 @@ import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/M
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
+
+import CollapsibleFilter from '@/features/filters/collapsible-filter';
 
 const ReadStats = () => {
     const params = useParams();
@@ -99,9 +99,8 @@ const ReadStats = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            <Card>
-                <Label>Оцінка</Label>
+        <div className="flex flex-col">
+            <CollapsibleFilter title="Оцінка">
                 <div className="flex items-center justify-between gap-4">
                     <Rating
                         onChange={handleRating}
@@ -116,14 +115,8 @@ const ReadStats = () => {
                         /10
                     </P>
                 </div>
-            </Card>
-            <Card>
-                <div className="flex justify-between gap-2 overflow-hidden">
-                    <Label className="min-h-[24px] self-center overflow-hidden text-ellipsis">
-                        Розділи
-                    </Label>
-                </div>
-
+            </CollapsibleFilter>
+            <CollapsibleFilter title="Розділи">
                 <div className="flex w-full flex-col gap-2">
                     <P className="text-sm text-muted-foreground">
                         <span className="font-bold text-foreground">
@@ -167,7 +160,7 @@ const ReadStats = () => {
                         <MaterialSymbolsRemoveRounded />
                     </Button>
                 </div>
-            </Card>
+            </CollapsibleFilter>
         </div>
     );
 };

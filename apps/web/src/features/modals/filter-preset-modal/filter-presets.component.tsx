@@ -15,6 +15,7 @@ import {
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 import createQueryString from '@/utils/create-query-string';
+import { getSeasonByOffset } from '@/utils/season-utils';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -33,10 +34,16 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
             name,
             description,
             date_range_enabled,
-            date_min_range,
-            date_max_range,
+            date_range,
             ...rest
         } = preset;
+
+        if (date_range_enabled && date_range) {
+            rest.years = [
+                getSeasonByOffset(date_range?.[0]),
+                getSeasonByOffset(date_range?.[1]),
+            ];
+        }
 
         const query = createQueryString('filters', rest, new URLSearchParams());
 
@@ -46,7 +53,7 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
     return (
         <div
             className={cn(
-                'no-scrollbar flex flex-1 overflow-x-auto items-center -mx-4 px-4 lg:mx-0 lg:px-0 gradient-mask-r-90-d md:gradient-mask-none lg:border-r',
+                'no-scrollbar -mx-4 flex flex-1 items-center overflow-x-auto px-4 gradient-mask-r-90-d md:gradient-mask-none lg:mx-0 lg:border-r lg:px-0',
                 className,
             )}
         >

@@ -8,6 +8,8 @@ import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 
+import { cn } from '@/utils/utils';
+
 const Title = () => {
     const params = useParams();
     const { data } = useMangaBySlug({ slug: String(params.slug) });
@@ -17,8 +19,8 @@ const Title = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="flex justify-between gap-4">
+        <div className={cn('flex flex-col gap-4')}>
+            <div className="flex flex-col items-start justify-between gap-4 lg:flex-row">
                 <div>
                     <H2>
                         {data.title}{' '}
@@ -35,32 +37,33 @@ const Title = () => {
                         {data.title_original}
                     </P>
                 </div>
-                <div className="flex flex-col gap-2">
-                    {data.score > 0 && (
-                        <div className="flex items-start gap-2">
-                            <div className="font-display text-4xl font-bold">
-                                {data.score}
-                            </div>
-
-                            <MaterialSymbolsStarRounded className="text-2xl" />
+                {data.score > 0 && (
+                    <div className="flex items-center gap-1 rounded-md border bg-secondary/20 px-2">
+                        <div className="font-display text-xl font-bold">
+                            {data.score}
                         </div>
-                    )}
-                </div>
+
+                        <MaterialSymbolsStarRounded className="text-xl text-yellow-400" />
+                    </div>
+                )}
             </div>
-            {data.genres.length > 0 && (
-                <div className="flex flex-wrap gap-1">
-                    {data.genres.map((genre) => (
-                        <span key={genre.slug} className="text-sm">
-                            <Link
-                                className="rounded px-1 underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
-                                href={`/manga?genres=${genre.slug}`}
-                            >
-                                {genre.name_ua}
-                            </Link>
-                        </span>
-                    ))}
-                </div>
-            )}
+
+            <div className="flex items-center justify-between gap-2">
+                {data.genres.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                        {data.genres.map((genre) => (
+                            <span key={genre.slug} className="text-sm">
+                                <Link
+                                    className="rounded px-1 underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
+                                    href={`/anime?genres=${genre.slug}`}
+                                >
+                                    {genre.name_ua}
+                                </Link>
+                            </span>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

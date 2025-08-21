@@ -6,14 +6,17 @@ import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
+import { cn } from '@/utils/utils';
+
 import MainCharacters from './main-characters';
 import OtherCharacters from './other-characters';
 
 interface Props {
     extended?: boolean;
+    className?: string;
 }
 
-const Characters: FC<Props> = ({ extended }) => {
+const Characters: FC<Props> = ({ extended, className }) => {
     const params = useParams();
     const { fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useAnimeCharacters({
@@ -21,7 +24,7 @@ const Characters: FC<Props> = ({ extended }) => {
         });
 
     return (
-        <div className="flex flex-col gap-12">
+        <div className={cn('flex flex-col gap-12', className)}>
             <MainCharacters extended={extended} />
             {extended && <OtherCharacters extended={extended} />}
             {extended && hasNextPage && (

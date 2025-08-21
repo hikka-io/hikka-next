@@ -13,7 +13,7 @@ import Rating from './rating';
 import Status from './status';
 import Studio from './studio';
 
-const Details = () => {
+const Details = ({ className }: { className?: string }) => {
     const params = useParams();
 
     const { data } = useAnimeBySlug({ slug: String(params.slug) });
@@ -23,7 +23,7 @@ const Details = () => {
     }
 
     return (
-        <Card>
+        <Card className={className}>
             <MediaType media_type={data.media_type} />
             <Status status={data.status} />
             {data.media_type !== 'movie' && (

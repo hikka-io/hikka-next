@@ -87,7 +87,64 @@ module.exports = {
     				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
     				border: 'hsl(var(--sidebar-border))',
     				ring: 'hsl(var(--sidebar-ring))'
-    			}
+    			},
+				// status colors
+				ongoing: {
+					DEFAULT: 'hsl(var(--ongoing-background))',
+					foreground: 'hsl(var(--ongoing-foreground))',
+					border: 'hsl(var(--ongoing-border))'
+				},
+				finished: {
+					DEFAULT: 'hsl(var(--finished-background))',
+					foreground: 'hsl(var(--finished-foreground))',
+					border: 'hsl(var(--finished-border))'
+				},
+				announced: {
+					DEFAULT: 'hsl(var(--announced-background))',
+					foreground: 'hsl(var(--announced-foreground))',
+					border: 'hsl(var(--announced-border))'
+				},
+				discontinued: {
+					DEFAULT: 'hsl(var(--discontinued-background))',
+					foreground: 'hsl(var(--discontinued-foreground))',
+					border: 'hsl(var(--discontinued-border))'
+				},
+				paused: {
+					DEFAULT: 'hsl(var(--paused-background))',
+					foreground: 'hsl(var(--paused-foreground))',
+					border: 'hsl(var(--paused-border))'
+				},
+				// read/watch status colors
+				planned: {
+					DEFAULT: 'hsl(var(--planned-background))',
+					foreground: 'hsl(var(--planned-foreground))',
+					border: 'hsl(var(--planned-border))'
+				},
+				completed: {
+					DEFAULT: 'hsl(var(--completed-background))',
+					foreground: 'hsl(var(--completed-foreground))',
+					border: 'hsl(var(--completed-border))'
+				},
+				on_hold: {
+					DEFAULT: 'hsl(var(--on-hold-background))',
+					foreground: 'hsl(var(--on-hold-foreground))',
+					border: 'hsl(var(--on-hold-border))'
+				},
+				dropped: {
+					DEFAULT: 'hsl(var(--dropped-background))',
+					foreground: 'hsl(var(--dropped-foreground))',
+					border: 'hsl(var(--dropped-border))'
+				},
+				reading: {
+					DEFAULT: 'hsl(var(--reading-background))',
+					foreground: 'hsl(var(--reading-foreground))',
+					border: 'hsl(var(--reading-border))'
+				},
+				watching: {
+					DEFAULT: 'hsl(var(--watching-background))',
+					foreground: 'hsl(var(--watching-foreground))',
+					border: 'hsl(var(--watching-border))'
+				}
     		},
     		borderRadius: {
     			lg: 'var(--radius)',
@@ -132,4 +189,64 @@ module.exports = {
         require('tailwindcss-animate'),
         require('tailwind-gradient-mask-image'),
     ],
+	safelist: [
+		// status colors
+		'bg-ongoing',
+		'bg-ongoing-foreground',
+		'text-ongoing-foreground',
+		'border-ongoing-border',
+		'bg-finished',
+		'bg-finished-foreground',
+		'text-finished-foreground',
+		'border-finished-border',
+		'bg-announced',
+		'bg-announced-foreground',
+		'text-announced-foreground',
+		'border-announced-border',
+		'bg-discontinued',
+		'bg-discontinued-foreground',
+		'text-discontinued-foreground',
+		'border-discontinued-border',
+		'bg-paused',
+		'bg-paused-foreground',
+		'text-paused-foreground',
+		'border-paused-border',
+		// read/watch status colors
+		'bg-planned',
+		'bg-planned/80',
+		'bg-planned-foreground',
+		'text-planned-foreground',
+		'text-planned',
+		'border-planned-border',
+		'bg-completed',
+		'bg-completed/80',
+		'bg-completed-foreground',
+		'text-completed-foreground',
+		'text-completed',
+		'border-completed-border',
+		'bg-on_hold',
+		'bg-on_hold/80',
+		'bg-on_hold-foreground',
+		'text-on_hold-foreground',
+		'text-on_hold',
+		'border-on_hold-border',
+		'bg-dropped',
+		'bg-dropped/80',
+		'bg-dropped-foreground',
+		'text-dropped-foreground',
+		'text-dropped',
+		'border-dropped-border',
+		'bg-reading',
+		'bg-reading/80',
+		'bg-reading-foreground',
+		'text-reading-foreground',
+		'text-reading',
+		'border-reading-border',
+		'bg-watching',
+		'bg-watching/80',
+		'bg-watching-foreground',
+		'text-watching-foreground',
+		'text-watching',
+		'border-watching-border',
+	],
 };

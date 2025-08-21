@@ -12,6 +12,7 @@ import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
@@ -22,6 +23,7 @@ import {
     SelectList,
     SelectSeparator,
 } from '../ui/select';
+import IconWatchStatusButton from './icon-watch-status-button';
 import NewStatusTrigger from './new-status-trigger';
 import WatchStatusTrigger from './watch-status-trigger';
 
@@ -29,9 +31,9 @@ interface Props {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
-    watch?: WatchResponseBase;
+    watch?: WatchResponseBase | null;
     anime?: AnimeResponse;
-    size?: 'sm' | 'md';
+    size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
 }
 
 const SETTINGS_BUTTON = {
@@ -52,10 +54,10 @@ const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
     label: (
         <div className="flex items-center gap-2">
             <div
-                className="w-fit rounded-sm border-white p-1 text-white"
-                style={{
-                    backgroundColor: `hsl(${WATCH_STATUS[status as WatchStatusEnum].color})`,
-                }}
+                className={cn(
+                    'w-fit rounded-sm border p-1',
+                    `bg-${status} text-${status}-foreground border-${status}-border`,
+                )}
             >
                 {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!, {
                     className: '!size-3',
@@ -78,7 +80,7 @@ const WatchlistButton = ({
     const { data: watchQuery, isError: watchError } = useWatchBySlug({
         slug,
         options: {
-            enabled: !disabled && !watchProp,
+            enabled: !disabled && !watchProp && watchProp !== null,
         },
     });
 
@@ -154,6 +156,19 @@ const WatchlistButton = ({
 
     const currentStatus = watch ? [watch.status] : [];
 
+    if (size?.includes('icon')) {
+        return (
+            <IconWatchStatusButton
+                watch={watch}
+                disabled={disabled}
+                size={size as 'icon-sm' | 'icon-md'}
+                slug={slug}
+                anime={anime}
+                isLoading={isChangingStatus}
+            />
+        );
+    }
+
     return (
         <Select
             disabled={disabled || isChangingStatus}
@@ -164,13 +179,13 @@ const WatchlistButton = ({
                 <WatchStatusTrigger
                     watch={watch}
                     disabled={disabled}
-                    slug={slug}
-                    size={size}
+                    size={size as 'sm' | 'md'}
+                    anime={anime}
                     isLoading={isChangingStatus}
                 />
             ) : (
                 <NewStatusTrigger
-                    size={size}
+                    size={size as 'sm' | 'md'}
                     slug={slug}
                     disabled={disabled}
                     isLoading={isChangingStatus}

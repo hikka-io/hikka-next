@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 interface Props {
     anime: AnimeResponse;
@@ -64,16 +65,10 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
 
                         {anime.status && (
                             <Badge
-                                className="text-xs"
                                 variant="status"
-                                style={{
-                                    backgroundColor: `hsl(${
-                                        RELEASE_STATUS[anime.status].color
-                                    } / 0.2)`,
-                                    color: `hsl(${
-                                        RELEASE_STATUS[anime.status].color
-                                    })`,
-                                }}
+                                className={cn(
+                                    `bg-${anime.status} text-${anime.status}-foreground border-${anime.status}-border`,
+                                )}
                             >
                                 {RELEASE_STATUS[anime.status].title_ua}
                             </Badge>

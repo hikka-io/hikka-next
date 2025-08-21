@@ -30,7 +30,7 @@ const CollectionNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-2 z-10 flex justify-center">
-            <Card className="flex-row gap-2 border-none bg-background/60 p-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2  bg-background/60 p-2 backdrop-blur-xl">
                 <CollectionVote collection={collection!} />
                 {collection && (
                     <FavoriteButton

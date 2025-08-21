@@ -28,6 +28,7 @@ import {
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 import { z } from '@/utils/zod';
 
 import FormInput from '../../components/form/form-input';
@@ -119,10 +120,10 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                                 <div className="flex items-center gap-2">
                                     {selectedStatus && (
                                         <div
-                                            className="w-fit rounded-sm border-white p-1 text-white"
-                                            style={{
-                                                backgroundColor: `hsl(${READ_STATUS[selectedStatus].color})`,
-                                            }}
+                                            className={cn(
+                                                'w-fit rounded-sm border-white p-1 text-white border',
+                                                `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
+                                            )}
                                         >
                                             {createElement(
                                                 READ_STATUS[selectedStatus]
@@ -195,7 +196,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                     <FormTextarea
                         name="note"
                         label="Нотатки"
-                        placeholder="Залиште нотатку до аніме"
+                        placeholder="Залиште нотатку"
                     />
                 </div>
                 <div className="flex w-full justify-end gap-4">

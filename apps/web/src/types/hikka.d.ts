@@ -1,4 +1,4 @@
-import { UserRoleEnum } from '@hikka/client';
+import { SeasonEnum, UserRoleEnum } from '@hikka/client';
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
 declare global {
@@ -105,6 +105,7 @@ declare global {
             value: number;
             icon?: ReactNode;
             color?: string;
+            name?: string;
         };
 
         type QueryOptions = {
@@ -149,10 +150,9 @@ declare global {
             order?: string;
             ratings?: string[];
             studios?: string[];
-            years?: number[];
+            years?: number[] | [SeasonEnum, number][];
             date_range_enabled?: boolean;
-            date_min_range?: string | null;
-            date_max_range?: string | null;
+            date_range?: number[] | null;
         };
     }
 }

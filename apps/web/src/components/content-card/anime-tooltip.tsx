@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
 import H5 from '../typography/h5';
@@ -93,14 +94,9 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
                         {data.status && (
                             <Badge
                                 variant="status"
-                                style={{
-                                    backgroundColor: `hsl(${
-                                        RELEASE_STATUS[data.status].color
-                                    } / 0.2)`,
-                                    color: `hsl(${
-                                        RELEASE_STATUS[data.status].color
-                                    })`,
-                                }}
+                                className={cn(
+                                    `bg-${data.status} text-${data.status}-foreground border-${data.status}-border`,
+                                )}
                             >
                                 {RELEASE_STATUS[data.status].title_ua}
                             </Badge>

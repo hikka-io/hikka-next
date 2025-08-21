@@ -38,7 +38,12 @@ const Staff: FC<Props> = ({ extended }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack size={4} extended={extended}>
+            <Stack
+                size={4}
+                extendedSize={5}
+                className="grid-min-6"
+                extended={extended}
+            >
                 {filteredData.map((staff) => (
                     <PersonCard
                         key={staff.person.slug}

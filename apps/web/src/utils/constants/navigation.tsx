@@ -132,6 +132,16 @@ export const NOVEL_NAV_ROUTES: Hikka.NavRoute[] = [
         title_ua: 'Персонажі',
         url: '/characters',
     },
+    {
+        slug: 'franchise',
+        title_ua: "Пов'язане",
+        url: '/franchise',
+    },
+    {
+        slug: 'staff',
+        title_ua: 'Автори',
+        url: '/staff',
+    },
 ];
 
 export const MANGA_NAV_ROUTES: Hikka.NavRoute[] = [
@@ -144,6 +154,16 @@ export const MANGA_NAV_ROUTES: Hikka.NavRoute[] = [
         slug: 'characters',
         title_ua: 'Персонажі',
         url: '/characters',
+    },
+    {
+        slug: 'franchise',
+        title_ua: "Пов'язане",
+        url: '/franchise',
+    },
+    {
+        slug: 'staff',
+        title_ua: 'Автори',
+        url: '/staff',
     },
 ];
 

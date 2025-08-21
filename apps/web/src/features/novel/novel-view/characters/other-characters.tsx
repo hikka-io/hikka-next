@@ -34,7 +34,12 @@ const OtherCharacters: FC<Props> = ({ extended }) => {
                     <HeaderTitle>Другорядні Персонажі</HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <Stack size={5} className="grid-min-6" extended={extended}>
+            <Stack
+                size={5}
+                extendedSize={5}
+                className="grid-min-6"
+                extended={extended}
+            >
                 {other.map((ch) => (
                     <CharacterCard
                         key={ch.character.slug}

@@ -13,7 +13,8 @@ import { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentHeader from '@/features/comments/comment-content-header.component';
+import ContentHeader from '@/components/content-header';
+
 import Comments from '@/features/comments/comment-list.component';
 import { prefetchContent } from '@/features/comments/prefetch-content';
 

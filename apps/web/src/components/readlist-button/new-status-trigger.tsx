@@ -64,10 +64,9 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                         <span className="loading loading-spinner"></span>
                     ) : (
                         <div
-                            className="text-white rounded-sm p-1"
-                            style={{
-                                backgroundColor: `hsl(${READ_STATUS.planned.color})`,
-                            }}
+                            className={cn(
+                                'rounded-sm p-1 border border-secondary-foreground/20',
+                            )}
                         >
                             {createElement(READ_STATUS.planned.icon!, {
                                 className: '!size-3',

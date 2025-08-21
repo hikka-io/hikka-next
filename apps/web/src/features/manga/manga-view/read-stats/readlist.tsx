@@ -36,7 +36,7 @@ const Readlist = () => {
                     percentage,
                     value: data.stats[stat as keyof ReadStatsResponse],
                     icon: status.icon && createElement(status.icon),
-                    color: status.color!,
+                    name: stat,
                 });
             }
 

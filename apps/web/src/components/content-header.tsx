@@ -15,17 +15,22 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-import ContentCard from '../../components/content-card/content-card';
-import Breadcrumbs from '../../components/navigation/nav-breadcrumbs';
-import P from '../../components/typography/p';
-import { useContent } from './use-content';
+import { useContent } from '../features/comments/use-content';
+import ContentCard from './content-card/content-card';
+import Breadcrumbs from './navigation/nav-breadcrumbs';
+import P from './typography/p';
 
 interface Props {
     slug: string;
     content_type: CommentsContentType;
+    disableBreadcrumbs?: boolean;
 }
 
-const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
+const ContentHeader: FC<Props> = ({
+    slug,
+    content_type,
+    disableBreadcrumbs,
+}) => {
     const { data } = useContent({
         content_type,
         slug,
@@ -35,16 +40,18 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
 
     return (
         <Card>
-            <Breadcrumbs>
-                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <Link
-                        href={link}
-                        className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
-                    >
-                        {data?.title}
-                    </Link>
-                </div>
-            </Breadcrumbs>
+            {!disableBreadcrumbs && (
+                <Breadcrumbs>
+                    <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
+                        <Link
+                            href={link}
+                            className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                        >
+                            {data?.title}
+                        </Link>
+                    </div>
+                </Breadcrumbs>
+            )}
             <Header href={link}>
                 <HeaderContainer>
                     {data?.image && (
@@ -56,7 +63,7 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
                     )}
                     <div className="flex flex-1 flex-col">
                         <HeaderTitle variant="h4">{data?.title}</HeaderTitle>
-                        <P className="text-muted-foreground text-sm">
+                        <P className="text-sm text-muted-foreground">
                             {CONTENT_TYPES[content_type].title_ua}
                         </P>
                     </div>
@@ -67,4 +74,4 @@ const CommentContentHeader: FC<Props> = ({ slug, content_type }) => {
     );
 };
 
-export default CommentContentHeader;
+export default ContentHeader;

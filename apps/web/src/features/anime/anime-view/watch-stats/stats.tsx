@@ -10,13 +10,15 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { cn } from '@/utils/utils';
+
 interface Props {
     stats: Hikka.ListStat[];
 }
 
 const Stats: FC<Props> = ({ stats }) => {
     return (
-        <div className="relative overflow-hidden rounded-lg border border-border bg-secondary/20 p-4">
+        <div className="relative overflow-hidden rounded-lg border border-border p-4">
             <div className="flex flex-col justify-center gap-2">
                 {stats.map((stat) => {
                     return (
@@ -34,17 +36,21 @@ const Stats: FC<Props> = ({ stats }) => {
                                         )}
                                         <div className="relative h-2 w-full flex-1 overflow-hidden rounded-md">
                                             <div
-                                                className="absolute bottom-0 left-0 size-full bg-primary/10"
-                                                style={{
-                                                    backgroundColor: `hsl(${stat.color} / 0.1)`,
-                                                }}
+                                                className={cn(
+                                                    'absolute bottom-0 left-0 size-full bg-primary/10',
+                                                    !!stat.name &&
+                                                        `bg-${stat.name}`,
+                                                )}
                                             />
                                             <div
-                                                className="absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary"
                                                 style={{
-                                                    backgroundColor: `hsl(${stat.color})`,
                                                     width: `${stat.percentage}%`,
                                                 }}
+                                                className={cn(
+                                                    'absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary',
+                                                    !!stat.name &&
+                                                        `bg-${stat.name}-foreground`,
+                                                )}
                                             ></div>
                                         </div>
                                     </div>

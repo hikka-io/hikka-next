@@ -7,16 +7,16 @@ import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
-import { Button } from './ui/button';
+import { Button, ButtonProps } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
-interface Props {
+interface Props extends ButtonProps {
     slug: string;
     content_type: EditContentType;
     className?: string;
 }
 
-const EditButton: FC<Props> = ({ className, slug, content_type }) => {
+const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
     const { openModal } = useModalContext();
 
     return (
@@ -38,6 +38,7 @@ const EditButton: FC<Props> = ({ className, slug, content_type }) => {
                         })
                     }
                     className={cn(className)}
+                    {...props}
                 >
                     <MaterialSymbolsEditRounded className="!size-5" />
                 </Button>

@@ -38,7 +38,12 @@ const MainCharacters: FC<Props> = ({ extended }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack size={5} className="grid-min-6" extended={extended}>
+            <Stack
+                size={5}
+                extendedSize={5}
+                className="grid-min-6"
+                extended={extended}
+            >
                 {(extended ? main : main.slice(0, 5)).map((ch) => (
                     <CharacterCard
                         key={ch.character.slug}

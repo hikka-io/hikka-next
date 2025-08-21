@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
 import { FormAgeRating } from '@/features/filters/prebuilt/age-rating';
+import { FormDateRange } from '@/features/filters/prebuilt/date-range';
 import { FormGenre } from '@/features/filters/prebuilt/genre';
 import { FormLocalization } from '@/features/filters/prebuilt/localization';
 import { FormMediaType } from '@/features/filters/prebuilt/media-type';
@@ -43,8 +44,7 @@ const formSchema = z.object({
     studios: z.array(z.string()).optional(),
     years: z.array(z.number()).optional(),
     date_range_enabled: z.boolean().optional(),
-    date_min_range: z.string().nullable().optional(),
-    date_max_range: z.string().nullable().optional(),
+    date_range: z.array(z.number()).nullable().optional(),
 });
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
@@ -61,8 +61,7 @@ const DEFAULT_VALUES = {
     ratings: [],
     studios: [],
     date_range_enabled: false,
-    date_min_range: null,
-    date_max_range: null,
+    date_range: null,
 };
 
 interface Props {
@@ -87,6 +86,10 @@ const Component = ({ filterPreset }: Props) => {
             order: data.order ?? undefined,
             sort: data.sort ?? undefined,
             id: filterPreset?.id || crypto.randomUUID(),
+            ...(data.date_range_enabled && {
+                years: undefined,
+                seasons: undefined,
+            }),
         };
 
         if (filterPreset) {
@@ -145,7 +148,11 @@ const Component = ({ filterPreset }: Props) => {
                                 <FormSeason />
                             )}
                         {!date_range_enabled && <FormYear />}
-
+                        {content_types &&
+                            content_types.length === 1 &&
+                            content_types.includes(ContentTypeEnum.ANIME) && (
+                                <FormDateRange />
+                            )}
                         <FormGenre />
                         {content_types && content_types.length === 1 && (
                             <FormMediaType content_type={content_types[0]} />

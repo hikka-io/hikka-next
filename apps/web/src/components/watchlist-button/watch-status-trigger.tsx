@@ -1,7 +1,6 @@
 'use client';
 
-import { WatchResponse, WatchResponseBase } from '@hikka/client';
-import { useAnimeBySlug } from '@hikka/react';
+import { AnimeResponse, WatchResponse, WatchResponseBase } from '@hikka/client';
 import { FC, createElement } from 'react';
 
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
@@ -17,7 +16,7 @@ import { SelectTrigger } from '../ui/select';
 interface WatchStatusTriggerProps {
     watch: WatchResponse | WatchResponseBase;
     disabled?: boolean;
-    slug: string;
+    anime?: AnimeResponse;
     size?: 'sm' | 'md';
     isLoading?: boolean;
 }
@@ -25,17 +24,11 @@ interface WatchStatusTriggerProps {
 const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     watch,
     disabled,
-    slug,
     size,
+    anime,
     isLoading,
 }) => {
     const { openModal } = useModalContext();
-    const { data: anime } = useAnimeBySlug({
-        slug,
-        options: {
-            enabled: !disabled,
-        },
-    });
 
     const openWatchEditModal = () => {
         if (anime) {
@@ -51,24 +44,25 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     const watchStatus = WATCH_STATUS[watch.status];
 
     return (
-        <SelectTrigger asChild className="gap-0 border-none p-0">
-            <div className="flex w-full">
+        <SelectTrigger asChild>
+            <div className={cn('flex w-full')}>
                 <Button
                     size={size}
                     variant="secondary"
                     disabled={disabled}
                     className={cn(
-                        'flex-1 flex-nowrap overflow-hidden rounded-r-none',
+                        'flex-1 flex-nowrap overflow-hidden rounded-r-none border border-r-0',
+                        `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
                     )}
                 >
                     {isLoading ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
                         <div
-                            className="w-fit rounded-sm border-white p-1 text-white"
-                            style={{
-                                backgroundColor: `hsl(${watchStatus.color})`,
-                            }}
+                            className={cn(
+                                'rounded-sm p-1 border',
+                                `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
+                            )}
                         >
                             {createElement(watchStatus.icon!, {
                                 className: '!size-3',
@@ -91,7 +85,10 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     type="button"
                     onClick={openWatchEditModal}
                     disabled={disabled}
-                    className={cn('rounded-l-none')}
+                    className={cn(
+                        'rounded-l-none border border-l-0',
+                        `bg-${watch.status} text-${watch.status}-foreground  border-${watch.status}-border`,
+                    )}
                 >
                     <MaterialSymbolsSettingsOutlineRounded />
                 </Button>

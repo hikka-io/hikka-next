@@ -1,6 +1,7 @@
 'use client';
 
 import { WatchStatusEnum } from '@hikka/client';
+import { cn } from '@udecode/cn';
 import {
     useParams,
     usePathname,
@@ -52,10 +53,10 @@ const StatusCombobox = () => {
             <SelectTrigger>
                 <div className="flex items-center gap-2">
                     <div
-                        className="w-fit rounded-sm p-1 text-white"
-                        style={{
-                            backgroundColor: `hsl(${WATCH_STATUS[watchStatus].color})`,
-                        }}
+                        className={cn(
+                            'w-fit rounded-sm p-1 border',
+                            `bg-${watchStatus} text-${watchStatus}-foreground border-${watchStatus}-border`,
+                        )}
                     >
                         {createElement(WATCH_STATUS[watchStatus].icon!, {
                             className: '!size-3',

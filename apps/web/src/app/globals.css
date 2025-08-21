@@ -16,8 +16,8 @@
         --primary: 321 70% 69%;
         --primary-foreground: 321 85% 0%;
 
-        --secondary: 240 4.8% 95.9%;
-        --secondary-foreground: 240 5.9% 10%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
 
         --muted: 240 4.8% 95.9%;
         --muted-foreground: 240 3.8% 46.1%;
@@ -50,6 +50,54 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+
+        /* Status colors */
+
+        --finished-background: 143 85% 96%;
+        --finished-border: 145 92% 87%;
+        --finished-foreground: 140 100% 27%;
+
+        --ongoing-background: 208 100% 97%;
+        --ongoing-border: 221 91% 93%;
+        --ongoing-foreground: 210 92% 45%;
+
+        --announced-background: 49 100% 97%;
+        --announced-border: 49 91% 84%;
+        --announced-foreground: 31 92% 45%;
+
+        --discontinued-background: 359 100% 97%;
+        --discontinued-border: 359 100% 94%;
+        --discontinued-foreground: 360 100% 45%;
+
+        --paused-background: 0 0% 97%;
+        --paused-border: 0 0% 85%;
+        --paused-foreground: 0 0% 45%;
+
+        /* Read/Watch status colors */
+
+        --planned-background: var(--announced-background);
+        --planned-border: var(--announced-border);
+        --planned-foreground: var(--announced-foreground);
+
+        --completed-background: var(--finished-background);
+        --completed-border: var(--finished-border);
+        --completed-foreground: var(--finished-foreground);
+
+        --on-hold-background: var(--paused-background);
+        --on-hold-border: var(--paused-border);
+        --on-hold-foreground: var(--paused-foreground);
+
+        --dropped-background: var(--discontinued-background);
+        --dropped-border: var(--discontinued-border);
+        --dropped-foreground: var(--discontinued-foreground);
+
+        --reading-background: var(--ongoing-background);
+        --reading-border: var(--ongoing-border);
+        --reading-foreground: var(--ongoing-foreground);
+
+        --watching-background: var(--ongoing-background);
+        --watching-border: var(--ongoing-border);
+        --watching-foreground: var(--ongoing-foreground);
     }
 
     .dark {
@@ -112,6 +160,54 @@
         --sidebar-accent-foreground: 240 4.8% 95.9%;
         --sidebar-border: 240 3.7% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+
+        /* Status colors */
+
+        --finished-background: 150 100% 6%;
+        --finished-border: 147 100% 12%;
+        --finished-foreground: 150 86% 65%;
+
+        --ongoing-background: 215 100% 6%;
+        --ongoing-border: 223 43% 17%;
+        --ongoing-foreground: 216 87% 65%;
+
+        --announced-background: 64 100% 6%;
+        --announced-border: 60 100% 9%;
+        --announced-foreground: 46 87% 65%;
+
+        --discontinued-background: 358 76% 10%;
+        --discontinued-border: 357 89% 16%;
+        --discontinued-foreground: 358 100% 81%;
+
+        --paused-background: 0 0% 15%;
+        --paused-border: 0 0% 20%;
+        --paused-foreground: 0 0% 65%;
+
+        /* Read/Watch status colors */
+
+        --planned-background: var(--announced-background);
+        --planned-border: var(--announced-border);
+        --planned-foreground: var(--announced-foreground);
+
+        --completed-background: var(--finished-background);
+        --completed-border: var(--finished-border);
+        --completed-foreground: var(--finished-foreground);
+
+        --on-hold-background: var(--paused-background);
+        --on-hold-border: var(--paused-border);
+        --on-hold-foreground: var(--paused-foreground);
+
+        --dropped-background: var(--discontinued-background);
+        --dropped-border: var(--discontinued-border);
+        --dropped-foreground: var(--discontinued-foreground);
+
+        --reading-background: var(--ongoing-background);
+        --reading-border: var(--ongoing-border);
+        --reading-foreground: var(--ongoing-foreground);
+
+        --watching-background: var(--ongoing-background);
+        --watching-border: var(--ongoing-border);
+        --watching-foreground: var(--ongoing-foreground);
     }
 }
 

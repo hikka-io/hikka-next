@@ -1,7 +1,11 @@
 'use client';
 
-import { ReadContentType, ReadResponseBase } from '@hikka/client';
-import { useMangaBySlug, useNovelBySlug } from '@hikka/react';
+import {
+    MangaResponse,
+    NovelResponse,
+    ReadContentType,
+    ReadResponseBase,
+} from '@hikka/client';
 import { FC, createElement } from 'react';
 
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
@@ -18,39 +22,23 @@ interface ReadStatusTriggerProps {
     read: ReadResponseBase;
     content_type: ReadContentType;
     disabled?: boolean;
-    slug: string;
     size?: 'sm' | 'md';
     isLoading?: boolean;
+    content?: MangaResponse | NovelResponse;
 }
 
 const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
     read,
     content_type,
     disabled,
-    slug,
     size,
     isLoading,
+    content,
 }) => {
     const { openModal } = useModalContext();
 
-    const { data: manga } = useMangaBySlug({
-        slug,
-        options: {
-            enabled: !disabled && content_type === 'manga',
-        },
-    });
-
-    const { data: novel } = useNovelBySlug({
-        slug,
-        options: {
-            enabled: !disabled && content_type === 'novel',
-        },
-    });
-
     const openReadEditModal = () => {
-        if (manga || novel) {
-            const content = manga || novel;
-
+        if (content) {
             openModal({
                 content: (
                     <ReadEditModal
@@ -76,17 +64,18 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     variant="secondary"
                     disabled={disabled}
                     className={cn(
-                        'flex-1 flex-nowrap overflow-hidden rounded-r-none',
+                        'flex-1 flex-nowrap overflow-hidden rounded-r-none border border-r-0',
+                        `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
                     )}
                 >
                     {isLoading ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
                         <div
-                            className="rounded-sm p-1"
-                            style={{
-                                backgroundColor: `hsl(${readStatus.color})`,
-                            }}
+                            className={cn(
+                                'rounded-sm p-1 border',
+                                `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
+                            )}
                         >
                             {createElement(READ_STATUS[read.status].icon!, {
                                 className: '!size-3',
@@ -109,7 +98,10 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     type="button"
                     onClick={openReadEditModal}
                     disabled={disabled}
-                    className={cn('rounded-l-none')}
+                    className={cn(
+                        'rounded-l-none border border-l-0',
+                        `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
+                    )}
                 >
                     <MaterialSymbolsSettingsOutlineRounded />
                 </Button>
