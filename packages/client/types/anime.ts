@@ -83,7 +83,10 @@ export interface AnimePaginationResponse
  * Anime search parameters
  */
 export interface AnimeSearchArgs {
-    years?: [number | null, number | null];
+    years?: [
+        number | [SeasonEnum, number] | null,
+        number | [SeasonEnum, number] | null,
+    ];
     include_multiseason?: boolean;
     only_translated?: boolean;
     score?: [number | null, number | null];
