@@ -39,7 +39,7 @@ const OtherCharacters: FC<Props> = ({ extended }) => {
             <Stack
                 size={5}
                 extendedSize={5}
-                className="grid-min-6 grid-cols-3"
+                className="grid-min-6"
                 extended={extended}
             >
                 {other.map((ch) => (
