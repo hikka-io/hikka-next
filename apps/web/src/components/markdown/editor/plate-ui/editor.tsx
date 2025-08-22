@@ -39,7 +39,7 @@ export const EditorContainer = ({
             id={editor.uid}
             ref={containerRef}
             className={cn(
-                'ignore-click-outside/toolbar',
+                'ignore-click-outside/toolbar isolate',
                 editorContainerVariants({ variant }),
                 className,
             )}

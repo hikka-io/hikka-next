@@ -109,7 +109,7 @@ const ArticlePage = async (props: MetadataProps) => {
                     </Link>
                 </div>
             </Breadcrumbs>
-            <div className="container flex max-w-3xl flex-col gap-12 p-0">
+            <div className="p- container isolate flex max-w-3xl flex-col gap-12">
                 {article.category !== 'system' && (
                     <Card className="gap-0 overflow-hidden p-0">
                         <ArticleAuthor />

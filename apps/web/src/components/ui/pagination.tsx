@@ -5,6 +5,7 @@ import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/utils';
+
 import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
 import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRightOutlined';
 import { Button } from './button';
@@ -22,7 +23,7 @@ const PaginationEmpty: FC = () => {
     return (
         <Button
             size="icon-md"
-            variant="outline"
+            variant="ghost"
             disabled
             className={cn('size-9 sm:size-10')}
         >
@@ -45,7 +46,7 @@ const PaginationButton: FC<PaginationButtonProps> = ({
     return (
         <Button
             size="icon-md"
-            variant={value === page ? 'default' : 'secondary'}
+            variant={value === page ? 'default' : 'ghost'}
             disabled={!value}
             onClick={() => value && setPage(value)}
             className={cn('size-9 sm:size-10')}
@@ -97,7 +98,10 @@ const PaginationInput: FC<PaginationInputProps> = ({
                     setPageToMove('');
                 }
             }}
-            className={cn('size-9 sm:size-10', pageToMove && ' w-16 sm:w-16')}
+            className={cn(
+                'bg-secondary/60 size-9 border-none text-center sm:size-10',
+                pageToMove && ' w-16 sm:w-16',
+            )}
         />
     );
 };
@@ -140,10 +144,10 @@ const Pagination = ({ page, pages, setPage }: Props) => {
     }, [page, pages, isDesktop]);
 
     return (
-        <div className="flex w-full justify-center gap-2 lg:gap-4">
+        <div className="flex w-full justify-center gap-2">
             <Button
                 size="icon-md"
-                variant="secondary"
+                variant="ghost"
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
                 className={cn('size-9 text-xs sm:size-10')}
@@ -177,7 +181,7 @@ const Pagination = ({ page, pages, setPage }: Props) => {
             })}
             <Button
                 size="icon-md"
-                variant="secondary"
+                variant="ghost"
                 onClick={() => setPage(page + 1)}
                 disabled={page === pages}
                 className={cn('size-9 text-xs sm:size-10')}

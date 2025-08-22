@@ -57,7 +57,7 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="icon-md">
+                <Button variant="ghost" size="icon-md">
                     <MaterialSymbolsMoreHoriz className="size-4" />
                 </Button>
             </DropdownMenuTrigger>

@@ -9,6 +9,7 @@ import {
 import { FC, useCallback } from 'react';
 
 import { cn } from '@/utils/utils';
+
 import { Editor, EditorContainer } from './plate-ui/editor';
 import { serializeMd } from './plugins/markdown-plugin/serialize-md';
 import { useCreateEditor } from './use-create-editor';
@@ -47,7 +48,7 @@ const PlateEditor: FC<PlateEditorProps> = ({
     return (
         <div
             className={cn(
-                'relative grid w-full grid-cols-1 gap-2 rounded-md border border-border bg-secondary/20 focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1',
+                'border-border bg-secondary/20 focus-within:ring-ring relative grid w-full grid-cols-1 gap-2 rounded-md border focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-1',
                 className,
             )}
         >

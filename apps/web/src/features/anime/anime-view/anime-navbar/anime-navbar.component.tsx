@@ -35,21 +35,27 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
     return (
         <div
             className={cn(
-                'sticky bottom-2 z-10 flex justify-center',
+                'sticky bottom-4 z-10 flex justify-center',
                 className,
             )}
         >
-            <Card className="flex-row gap-2 bg-background/60 p-2 backdrop-blur-xl">
-                <WatchlistButton slug={String(params.slug)} size="icon-md" />
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+                <WatchlistButton
+                    buttonProps={{
+                        variant: 'ghost',
+                    }}
+                    slug={String(params.slug)}
+                    size="icon-md"
+                />
                 <FavoriteButton
                     slug={String(params.slug)}
                     content_type={ContentTypeEnum.ANIME}
                     size="icon-md"
-                    variant="secondary"
+                    variant="ghost"
                 />
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button asChild size="md" variant="secondary">
+                        <Button asChild size="md" variant="ghost">
                             <Link href={`/comments/anime/${params.slug}`}>
                                 <IconamoonCommentFill className="size-4" />
                                 {anime?.comments_count}
@@ -58,6 +64,7 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
                     </TooltipTrigger>
                     <TooltipContent>Коментарі</TooltipContent>
                 </Tooltip>
+                <div className="bg-secondary h-full w-px" />
 
                 {loggedUser && (
                     <EditButton
@@ -65,7 +72,7 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
                         slug={String(params.slug)}
                         content_type={ContentTypeEnum.ANIME}
                         size="icon-md"
-                        variant="secondary"
+                        variant="ghost"
                     />
                 )}
             </Card>

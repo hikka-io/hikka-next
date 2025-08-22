@@ -35,11 +35,11 @@ const NovelNavbar: FC<Props> = ({ className }) => {
     return (
         <div
             className={cn(
-                'sticky bottom-2 z-10 flex justify-center',
+                'sticky bottom-4 z-10 flex justify-center',
                 className,
             )}
         >
-            <Card className="flex-row gap-2 bg-background/60 p-2 backdrop-blur-xl">
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 <ReadlistButton
                     slug={String(params.slug)}
                     size="icon-md"
@@ -49,11 +49,11 @@ const NovelNavbar: FC<Props> = ({ className }) => {
                     slug={String(params.slug)}
                     content_type={ContentTypeEnum.NOVEL}
                     size="icon-md"
-                    variant="secondary"
+                    variant="ghost"
                 />
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button asChild size="md" variant="secondary">
+                        <Button asChild size="md" variant="ghost">
                             <Link href={`/comments/novel/${params.slug}`}>
                                 <IconamoonCommentFill className="size-4" />
                                 {novel?.comments_count}
@@ -62,14 +62,14 @@ const NovelNavbar: FC<Props> = ({ className }) => {
                     </TooltipTrigger>
                     <TooltipContent>Коментарі</TooltipContent>
                 </Tooltip>
-
+                <div className="bg-secondary h-full w-px" />
                 {loggedUser && (
                     <EditButton
                         key={String(params.slug)}
                         slug={String(params.slug)}
                         content_type={ContentTypeEnum.NOVEL}
                         size="icon-md"
-                        variant="secondary"
+                        variant="ghost"
                     />
                 )}
             </Card>

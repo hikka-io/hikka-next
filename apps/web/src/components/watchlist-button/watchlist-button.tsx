@@ -8,6 +8,8 @@ import {
 import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
 import { createElement, useCallback, useMemo } from 'react';
 
+import { ButtonProps } from '@/components/ui/button';
+
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -34,6 +36,7 @@ interface Props {
     watch?: WatchResponseBase | null;
     anime?: AnimeResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
+    buttonProps?: ButtonProps;
 }
 
 const SETTINGS_BUTTON = {
@@ -74,6 +77,7 @@ const WatchlistButton = ({
     watch: watchProp,
     anime: animeProp,
     size,
+    buttonProps,
 }: Props) => {
     const { openModal } = useModalContext();
 
@@ -159,6 +163,7 @@ const WatchlistButton = ({
     if (size?.includes('icon')) {
         return (
             <IconWatchStatusButton
+                {...buttonProps}
                 watch={watch}
                 disabled={disabled}
                 size={size as 'icon-sm' | 'icon-md'}

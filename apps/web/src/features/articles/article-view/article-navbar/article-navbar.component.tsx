@@ -41,8 +41,8 @@ const ArticleNavbar: FC<Props> = () => {
     }
 
     return (
-        <div className="sticky bottom-2 z-10 flex justify-center">
-            <Card className="flex-row gap-2 bg-background/60 p-2 backdrop-blur-xl">
+        <div className="sticky bottom-4 z-10 flex justify-center">
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />
                 )}
@@ -50,7 +50,7 @@ const ArticleNavbar: FC<Props> = () => {
                 {article?.category !== 'system' && (
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button asChild size="md" variant="secondary">
+                            <Button asChild size="md" variant="ghost">
                                 <Link href={`/comments/article/${params.slug}`}>
                                     <IconamoonCommentFill className="size-4" />
                                     {article?.comments_count}
@@ -60,13 +60,13 @@ const ArticleNavbar: FC<Props> = () => {
                         <TooltipContent>Коментарі</TooltipContent>
                     </Tooltip>
                 )}
-
+                <div className="bg-secondary h-full w-px" />
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button
                             onClick={handleCopyLink}
                             size="icon-md"
-                            variant="secondary"
+                            variant="ghost"
                         >
                             <MaterialSymbolsLinkRounded className="size-4" />
                         </Button>

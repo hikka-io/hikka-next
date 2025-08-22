@@ -78,7 +78,7 @@ const CollectionPage = async (props: {
                         </Link>
                     </div>
                 </Breadcrumbs>
-                <div className="container flex max-w-3xl flex-col gap-12 p-0">
+                <div className="container isolate flex max-w-3xl flex-col gap-12 p-0">
                     <CollectionAuthor />
                     <Block>
                         <CollectionTitle />

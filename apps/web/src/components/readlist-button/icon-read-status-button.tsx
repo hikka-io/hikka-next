@@ -10,15 +10,15 @@ import {
 import { useCreateRead } from '@hikka/react';
 import { FC, createElement } from 'react';
 
+import { Button, ButtonProps } from '@/components/ui/button';
+
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
-import { Button } from '../ui/button';
-
-interface IconReadStatusButtonProps {
+interface IconReadStatusButtonProps extends Omit<ButtonProps, 'content'> {
     read?: ReadResponseBase;
     disabled?: boolean;
     size?: 'icon-sm' | 'icon-md';
@@ -36,6 +36,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     content_type,
     content,
     isLoading,
+    ...props
 }) => {
     const { openModal } = useModalContext();
     const { mutate: createRead } = useCreateRead();
@@ -74,6 +75,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     if (!read || !readStatus) {
         return (
             <Button
+                {...props}
                 size={size}
                 variant="secondary"
                 disabled={disabled}
@@ -86,6 +88,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
 
     return (
         <Button
+            {...props}
             size={size}
             variant="secondary"
             disabled={disabled}

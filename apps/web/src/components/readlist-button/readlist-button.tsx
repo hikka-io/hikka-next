@@ -16,6 +16,8 @@ import {
 } from '@hikka/react';
 import { createElement, useCallback, useMemo } from 'react';
 
+import { ButtonProps } from '@/components/ui/button';
+
 import ReadEditModal from '@/features/modals/read-edit-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
@@ -43,6 +45,7 @@ interface Props {
     read?: ReadResponseBase | null;
     content?: MangaResponse | NovelResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
+    buttonProps?: ButtonProps;
 }
 
 // Move constants outside component to prevent recreation on each render
@@ -85,6 +88,7 @@ const ReadlistButton = ({
     read: readProp,
     content: contentProp,
     size,
+    buttonProps,
 }: Props) => {
     const { openModal } = useModalContext();
 
@@ -209,6 +213,7 @@ const ReadlistButton = ({
     if (size?.includes('icon')) {
         return (
             <IconReadStatusButton
+                {...buttonProps}
                 read={read}
                 disabled={disabled}
                 size={size as 'icon-sm' | 'icon-md'}

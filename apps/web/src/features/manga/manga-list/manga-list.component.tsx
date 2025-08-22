@@ -109,7 +109,7 @@ const MangaList: FC<Props> = () => {
     }
 
     return (
-        <Block>
+        <Block className="isolate">
             <Stack extended={true} size={5} extendedSize={5}>
                 {list.map((manga) => {
                     return <MangaCard key={manga.slug} manga={manga} />;
@@ -122,8 +122,8 @@ const MangaList: FC<Props> = () => {
                 />
             )}
             {list && pagination && pagination.pages > 1 && (
-                <div className="sticky bottom-2 z-10 flex items-center justify-center">
-                    <Card className="bg-background/60 flex-row gap-2 p-2 backdrop-blur-xl">
+                <div className="sticky bottom-4 z-10 flex items-center justify-center">
+                    <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                         <Pagination
                             page={pagination.page}
                             pages={pagination.pages}

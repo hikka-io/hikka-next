@@ -9,15 +9,15 @@ import {
 import { useCreateWatch } from '@hikka/react';
 import { FC, createElement } from 'react';
 
+import { Button, ButtonProps } from '@/components/ui/button';
+
 import WatchEditModal from '@/features/modals/watch-edit-modal.component';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
-import { Button } from '../ui/button';
-
-interface IconWatchStatusButtonProps {
+interface IconWatchStatusButtonProps extends ButtonProps {
     watch?: WatchResponse | WatchResponseBase;
     disabled?: boolean;
     size?: 'icon-sm' | 'icon-md';
@@ -33,6 +33,7 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
     slug,
     anime,
     isLoading,
+    ...props
 }) => {
     const { openModal } = useModalContext();
     const { mutate: createWatch } = useCreateWatch();
@@ -68,6 +69,7 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
                 variant="secondary"
                 disabled={disabled}
                 onClick={handleAddToPlanned}
+                {...props}
             >
                 {createElement(WATCH_STATUS.planned.icon!)}
             </Button>
@@ -81,8 +83,9 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
             disabled={disabled}
             onClick={openWatchEditModal}
             className={cn(
-                `bg-${watch.status} text-${watch.status}-foreground border border-${watch.status}-border`,
+                `bg-${watch.status} text-${watch.status}-foreground border- border${watch.status}-border`,
             )}
+            {...props}
         >
             {isLoading ? (
                 <span className="loading loading-spinner"></span>
