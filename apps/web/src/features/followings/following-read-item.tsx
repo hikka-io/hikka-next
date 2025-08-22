@@ -32,11 +32,9 @@ const FollowingReadItem: FC<Props> = ({ data, className }) => {
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
             {data.read[0].score > 0 && (
-                <div className="inline-flex gap-1">
-                    <Label className="leading-normal">
-                        {data.read[0].score}
-                    </Label>
-                    <MaterialSymbolsStarRounded />
+                <div className="inline-flex items-center gap-1">
+                    <Label className="font-bold">{data.read[0].score}</Label>
+                    <MaterialSymbolsStarRounded className="text-yellow-400" />
                 </div>
             )}
         </HorizontalCard>
