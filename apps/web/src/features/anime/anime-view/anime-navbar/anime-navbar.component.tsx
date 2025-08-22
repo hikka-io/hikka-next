@@ -34,10 +34,7 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
 
     return (
         <div
-            className={cn(
-                'sticky bottom-4 z-10 flex justify-center',
-                className,
-            )}
+            className={cn('sticky bottom-4 z-10 flex w-fit mx-auto', className)}
         >
             <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 <WatchlistButton
@@ -64,16 +61,17 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
                     </TooltipTrigger>
                     <TooltipContent>Коментарі</TooltipContent>
                 </Tooltip>
-                <div className="bg-secondary h-full w-px" />
-
                 {loggedUser && (
-                    <EditButton
-                        key={String(params.slug)}
-                        slug={String(params.slug)}
-                        content_type={ContentTypeEnum.ANIME}
-                        size="icon-md"
-                        variant="ghost"
-                    />
+                    <>
+                        <div className="bg-secondary h-full w-px" />
+                        <EditButton
+                            key={String(params.slug)}
+                            slug={String(params.slug)}
+                            content_type={ContentTypeEnum.ANIME}
+                            size="icon-md"
+                            variant="ghost"
+                        />
+                    </>
                 )}
             </Card>
         </div>
