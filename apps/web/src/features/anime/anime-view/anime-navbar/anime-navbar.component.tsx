@@ -61,16 +61,17 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
                     </TooltipTrigger>
                     <TooltipContent>Коментарі</TooltipContent>
                 </Tooltip>
-                <div className="bg-secondary h-full w-px" />
-
                 {loggedUser && (
-                    <EditButton
-                        key={String(params.slug)}
-                        slug={String(params.slug)}
-                        content_type={ContentTypeEnum.ANIME}
-                        size="icon-md"
-                        variant="ghost"
-                    />
+                    <>
+                        <div className="bg-secondary h-full w-px" />
+                        <EditButton
+                            key={String(params.slug)}
+                            slug={String(params.slug)}
+                            content_type={ContentTypeEnum.ANIME}
+                            size="icon-md"
+                            variant="ghost"
+                        />
+                    </>
                 )}
             </Card>
         </div>
