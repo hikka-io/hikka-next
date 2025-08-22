@@ -1,4 +1,8 @@
-import { CollectionContent, CollectionResponse } from '@hikka/client';
+import {
+    CollectionContent,
+    CollectionResponse,
+    ContentTypeEnum,
+} from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -17,6 +21,7 @@ import CollectionAuthor from '@/features/collections/collection-view/collection-
 import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups.component';
 import CollectionNavbar from '@/features/collections/collection-view/collection-navbar/collection-navbar.component';
 import CollectionTitle from '@/features/collections/collection-view/collection-title.component';
+import Comments from '@/features/comments/comment-list.component';
 
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generate-metadata';
@@ -83,6 +88,11 @@ const CollectionPage = async (props: {
                     <Block>
                         <CollectionTitle />
                         <CollectionGroups />
+                        <Comments
+                            preview
+                            slug={reference}
+                            content_type={ContentTypeEnum.COLLECTION}
+                        />
                     </Block>
                     <CollectionNavbar />
                 </div>

@@ -1,4 +1,4 @@
-import { ArticleResponse } from '@hikka/client';
+import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -19,6 +19,7 @@ import ArticleDocument from '@/features/articles/article-view/article-document.c
 import ArticleNavbar from '@/features/articles/article-view/article-navbar/article-navbar.component';
 import ArticleTags from '@/features/articles/article-view/article-tags.component';
 import ArticleTitle from '@/features/articles/article-view/article-title.component';
+import Comments from '@/features/comments/comment-list.component';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -119,6 +120,11 @@ const ArticlePage = async (props: MetadataProps) => {
                     <ArticleTitle />
                     <ArticleDocument />
                     <ArticleTags />
+                    <Comments
+                        preview
+                        slug={slug}
+                        content_type={ContentTypeEnum.ARTICLE}
+                    />
                 </Block>
                 <ArticleNavbar />
             </div>
