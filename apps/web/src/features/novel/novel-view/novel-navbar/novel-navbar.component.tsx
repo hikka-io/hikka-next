@@ -34,10 +34,7 @@ const NovelNavbar: FC<Props> = ({ className }) => {
 
     return (
         <div
-            className={cn(
-                'sticky bottom-4 z-10 flex justify-center',
-                className,
-            )}
+            className={cn('sticky bottom-4 z-10 flex w-fit mx-auto', className)}
         >
             <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 <ReadlistButton

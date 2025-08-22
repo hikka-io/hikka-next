@@ -136,7 +136,7 @@ const AnimeList: FC<Props> = () => {
                 />
             )}
             {list && pagination && pagination.pages > 1 && (
-                <div className="sticky bottom-4 z-10 flex items-center justify-center">
+                <div className="sticky bottom-4 z-10 flex items-center w-fit mx-auto">
                     <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                         <Pagination
                             page={pagination.page}
