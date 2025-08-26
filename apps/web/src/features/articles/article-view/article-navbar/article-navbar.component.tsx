@@ -44,8 +44,8 @@ const ArticleNavbar: FC<Props> = () => {
     }
 
     return (
-        <div className="sticky bottom-4 z-10 flex justify-center">
-            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
+        <div className="sticky bottom-4 z-10 mx-auto flex w-fit">
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />
                 )}
@@ -66,7 +66,7 @@ const ArticleNavbar: FC<Props> = () => {
                         </Link>
                     </Button>
                 )}
-                <div className="h-full w-px bg-secondary" />
+                <div className="bg-secondary h-full w-px" />
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button
