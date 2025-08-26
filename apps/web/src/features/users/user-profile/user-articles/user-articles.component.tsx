@@ -29,16 +29,16 @@ interface Props {}
 const UserArticles: FC<Props> = () => {
     const { user } = useSession();
     const params = useParams();
-    const { list } = useSearchArticles({
+    const { list: availableArticles } = useSearchArticles({
         args: {
             author: String(params.username),
-            draft: true,
+        },
+        paginationArgs: {
+            size: 3,
         },
     });
 
-    if (!list || list.length === 0) return null;
-
-    const filteredNews = list?.slice(0, 3);
+    if (!availableArticles || availableArticles.length === 0) return null;
 
     return (
         <Block>
@@ -69,7 +69,7 @@ const UserArticles: FC<Props> = () => {
                 <HeaderNavButton />
             </Header>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                {filteredNews?.map((article) => (
+                {availableArticles?.map((article) => (
                     <ArticleItem key={article.slug} article={article} />
                 ))}
             </div>
