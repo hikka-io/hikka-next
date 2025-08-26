@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -21,7 +21,6 @@ import FilterPresetEditModal from './filter-preset-edit-modal.component';
 const FilterPresetModal: FC = () => {
     const { closeModal, openModal } = useModalContext();
     const { filterPresets, setFilterPresets } = useSettingsStore();
-    const router = useRouter();
     const pathname = usePathname();
 
     const handleCreatePreset = () => {
@@ -49,15 +48,7 @@ const FilterPresetModal: FC = () => {
     };
 
     const buildFilterPresetLink = (preset: Hikka.FilterPreset) => {
-        const {
-            id,
-            name,
-            description,
-            date_range_enabled,
-            date_min_range,
-            date_max_range,
-            ...rest
-        } = preset;
+        const { id, name, description, date_range_enabled, ...rest } = preset;
 
         const query = createQueryString('filters', rest, new URLSearchParams());
 

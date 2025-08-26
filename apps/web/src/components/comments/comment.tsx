@@ -126,7 +126,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         </TextExpand>
                     )
                 ) : (
-                    <P className="text-[0.9375rem] text-muted-foreground">
+                    <P className="text-muted-foreground text-[0.9375rem]">
                         Коментар видалено
                     </P>
                 )}
@@ -135,7 +135,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <Button
                     disabled={!loggedUser}
                     variant="link"
-                    className="h-auto p-0 text-muted-foreground hover:text-primary-foreground hover:no-underline"
+                    className="text-muted-foreground hover:text-primary-foreground h-auto p-0 hover:no-underline"
                     size="md"
                     onClick={addReplyInput}
                 >
@@ -145,7 +145,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="text-sm text-muted-foreground"
+                    className="text-muted-foreground text-sm"
                     asChild
                 >
                     <Link
@@ -167,7 +167,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="h-full w-px bg-secondary/20 transition-colors duration-100 group-hover:bg-primary" />
+                            <div className="bg-secondary/20 group-hover:bg-primary h-full w-px transition-colors duration-100" />
                         </button>
                     )}
                     {!expand && (

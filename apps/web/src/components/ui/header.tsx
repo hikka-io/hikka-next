@@ -146,7 +146,7 @@ const HeaderNavButton: FC = () => {
             <Button size="icon-md" variant="ghost" asChild>
                 <Link
                     href={href}
-                    className="flex items-center gap-2 text-muted-foreground"
+                    className="text-muted-foreground flex items-center gap-2"
                     {...linkProps}
                 >
                     <MaterialSymbolsArrowRightAltRounded className="text-lg" />
@@ -159,7 +159,7 @@ const HeaderNavButton: FC = () => {
         <Button
             onClick={onClick}
             size="md"
-            className="flex items-center gap-2 text-muted-foreground"
+            className="text-muted-foreground flex items-center gap-2"
             variant="ghost"
         >
             <MaterialSymbolsArrowRightAltRounded className="text-lg" />

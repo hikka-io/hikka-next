@@ -49,8 +49,8 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
                         <div className="flex items-center gap-1">
-                            <BxBxsUpvote className="size-3 text-success-foreground" />
-                            <Label className="leading-none text-success-foreground">
+                            <BxBxsUpvote className="text-success-foreground size-3" />
+                            <Label className="text-success-foreground leading-none">
                                 {comment.vote_score}
                             </Label>
                         </div>
@@ -69,7 +69,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 </Badge>
                 <Link
                     href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
-                    className="flex items-center gap-1 text-primary-foreground hover:underline"
+                    className="text-primary-foreground flex items-center gap-1 hover:underline"
                 >
                     <Small className="line-clamp-1">
                         {comment.content_type === 'edit'

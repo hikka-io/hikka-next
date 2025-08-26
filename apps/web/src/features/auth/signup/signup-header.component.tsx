@@ -11,7 +11,7 @@ const SignupHeader = () => {
                 Вже маєте аккаунт?{' '}
                 <Link
                     href="/login"
-                    className="font-medium text-primary-foreground hover:underline"
+                    className="text-primary-foreground font-medium hover:underline"
                 >
                     Увійдіть зараз
                 </Link>

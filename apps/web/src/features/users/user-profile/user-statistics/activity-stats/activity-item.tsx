@@ -24,14 +24,14 @@ const ActivityItem: FC<Props> = ({ item, max }) => {
     return (
         <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
-                <div className="relative flex h-full items-end">
+                <div className="relative flex h-full items-end overflow-hidden rounded-full">
                     <div
                         style={{
                             height: `${(100 * item.actions) / max}%`,
                         }}
-                        className="bg-primary w-2 rounded-full"
+                        className="bg-primary-foreground w-2"
                     />
-                    <div className="bg-secondary/20 absolute -z-10 h-full w-2 rounded-full" />
+                    <div className="bg-primary-foreground/10 absolute -z-10 h-full w-2" />
                 </div>
             </TooltipTrigger>
             {item.timestamp !== 0 && (

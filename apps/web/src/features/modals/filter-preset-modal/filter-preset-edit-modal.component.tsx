@@ -48,6 +48,7 @@ const formSchema = z.object({
 });
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
+const DATE_RANGE: [number, number] = [-4, 4];
 
 const DEFAULT_VALUES = {
     years: YEARS,
@@ -61,7 +62,7 @@ const DEFAULT_VALUES = {
     ratings: [],
     studios: [],
     date_range_enabled: false,
-    date_range: null,
+    date_range: DATE_RANGE,
 };
 
 interface Props {
@@ -81,12 +82,23 @@ const Component = ({ filterPreset }: Props) => {
     const date_range_enabled = form.watch('date_range_enabled');
 
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
+        const filteredData = Object.fromEntries(
+            Object.entries(data).filter(
+                ([_, value]) =>
+                    value !== false &&
+                    value !== undefined &&
+                    value !== null &&
+                    !(Array.isArray(value) && value.length === 0),
+            ),
+        );
+
         const newFilterPreset: Hikka.FilterPreset = {
-            ...data,
-            order: data.order ?? undefined,
-            sort: data.sort ?? undefined,
+            name: data.name,
+            description: data.description,
+            content_types: data.content_types,
+            ...filteredData,
             id: filterPreset?.id || crypto.randomUUID(),
-            ...(data.date_range_enabled && {
+            ...(filteredData.date_range_enabled && {
                 years: undefined,
                 seasons: undefined,
             }),

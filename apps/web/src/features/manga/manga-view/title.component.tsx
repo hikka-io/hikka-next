@@ -33,12 +33,12 @@ const Title = () => {
                         )}
                     </H2>
 
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-muted-foreground text-sm">
                         {data.title_original}
                     </P>
                 </div>
                 {data.score > 0 && (
-                    <div className="flex items-center gap-1 rounded-md border bg-secondary/20 px-2">
+                    <div className="bg-secondary/20 flex items-center gap-1 rounded-md border px-2">
                         <div className="font-display text-xl font-bold">
                             {data.score}
                         </div>

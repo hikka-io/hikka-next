@@ -127,7 +127,7 @@ const ProfileMenu = () => {
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout}>
-                        <MaterialSymbolsLogoutRounded className="text-destructive mr-2 size-4" />
+                        <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-red-500" />
                         Вийти
                     </DropdownMenuItem>
                 </DropdownMenuGroup>

@@ -19,6 +19,8 @@ import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
+import { getSeasonByOffset } from '@/utils/season-utils';
+
 import AnimeListSkeleton from './anime-list-skeleton';
 
 interface Props {}
@@ -34,16 +36,13 @@ const AnimeList: FC<Props> = () => {
     const status = searchParams.getAll('statuses') as AnimeStatusEnum[];
     const season = searchParams.getAll('seasons') as SeasonEnum[];
     const rating = searchParams.getAll('ratings') as AnimeAgeRatingEnum[];
-    const years = searchParams
-        .getAll('years')
-        .map((year) =>
-            year.includes(',') ? year.split(',') : year,
-        ) as unknown as [
-        number | [SeasonEnum, number] | null,
-        number | [SeasonEnum, number] | null,
-    ];
+    const years = searchParams.getAll('years') as unknown as number[];
     const genres = searchParams.getAll('genres');
     const studios = searchParams.getAll('studios');
+    const date_range = searchParams.getAll('date_range') as unknown as [
+        number,
+        number,
+    ];
 
     const only_translated = searchParams.get('only_translated');
 
@@ -52,13 +51,24 @@ const AnimeList: FC<Props> = () => {
 
     const page = Number(searchParams.get('page')) || 1;
 
+    const convertYears = () => {
+        if (date_range && date_range.length === 2) {
+            return [
+                getSeasonByOffset(date_range[0]),
+                getSeasonByOffset(date_range[1]),
+            ];
+        }
+
+        return years;
+    };
+
     const args = {
         query: query || undefined,
         media_type: media_type,
         status: status,
         season: season,
         rating: rating,
-        years: years,
+        years: convertYears(),
         genres: genres,
         studios: studios,
         only_translated: Boolean(only_translated),
