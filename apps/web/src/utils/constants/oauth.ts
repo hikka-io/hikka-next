@@ -3,12 +3,12 @@ import MaterialSymbolsWarningOutlineRounded from '../../components/icons/materia
 
 const COMMON_LEVEL: Hikka.ScopeLevel = {
     icon: MaterialSymbolsCheckRounded,
-    color: 'text-success',
+    color: 'text-success-foreground',
 };
 
 const IMPORTANT_LEVEL: Hikka.ScopeLevel = {
     icon: MaterialSymbolsWarningOutlineRounded,
-    color: 'text-warning',
+    color: 'text-warning-foreground',
 };
 
 const SCOPE_READ_USER_DETAILS: Hikka.Scope = {

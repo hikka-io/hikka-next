@@ -135,7 +135,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                         {data.genres.map((genre, i) => (
                             <span key={genre.slug}>
                                 <Link
-                                    className="decoration-primary hover:bg-primary hover:text-primary-foreground rounded-sm text-sm underline decoration-dashed transition-colors duration-100"
+                                    className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground text-sm underline decoration-dashed transition-colors duration-100"
                                     href={`/manga?genres=${genre.slug}`}
                                 >
                                     {genre.name_ua}

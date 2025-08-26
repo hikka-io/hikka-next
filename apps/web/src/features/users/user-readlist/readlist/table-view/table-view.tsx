@@ -68,7 +68,8 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'cursor-pointer select-none text-center hover:underline',
-                            sort === 'read_chapters' && 'text-primary',
+                            sort === 'read_chapters' &&
+                                'text-primary-foreground',
                         )}
                         align="center"
                         onClick={() => switchSort('read_chapters')}
@@ -78,7 +79,8 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'cursor-pointer select-none text-center hover:underline',
-                            sort === 'read_volumes' && 'text-primary',
+                            sort === 'read_volumes' &&
+                                'text-primary-foreground',
                         )}
                         align="center"
                         onClick={() => switchSort('read_volumes')}
@@ -88,7 +90,7 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'w-4 cursor-pointer select-none text-right hover:underline',
-                            sort === 'read_score' && 'text-primary',
+                            sort === 'read_score' && 'text-primary-foreground',
                         )}
                         align="right"
                         onClick={() => switchSort('read_score')}

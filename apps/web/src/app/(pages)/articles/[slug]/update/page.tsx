@@ -49,7 +49,9 @@ const ArticleUpdatePage = async (props: {
                     <div
                         className={cn(
                             'size-2 rounded-full',
-                            article.draft ? 'bg-warning' : 'bg-success',
+                            article.draft
+                                ? 'bg-warning-foreground'
+                                : 'bg-success-foreground',
                         )}
                     />
                     <Link

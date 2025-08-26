@@ -55,7 +55,7 @@ const CommentVote: FC<Props> = ({ comment }) => {
                 )}
             >
                 {currentScore === 1 ? (
-                    <BxBxsUpvote className="text-success" />
+                    <BxBxsUpvote className="text-success-foreground" />
                 ) : (
                     <BxUpvote />
                 )}
@@ -63,10 +63,10 @@ const CommentVote: FC<Props> = ({ comment }) => {
             <Label
                 className={
                     comment.vote_score > 0
-                        ? 'text-success'
+                        ? 'text-success-foreground'
                         : comment.vote_score === 0
                           ? 'text-foreground'
-                          : 'text-destructive'
+                          : 'text-destructive-foreground'
                 }
             >
                 {comment.vote_score}
@@ -81,7 +81,7 @@ const CommentVote: FC<Props> = ({ comment }) => {
                 )}
             >
                 {currentScore === -1 ? (
-                    <BxBxsDownvote className="text-destructive" />
+                    <BxBxsDownvote className="text-destructive-foreground" />
                 ) : (
                     <BxDownvote />
                 )}

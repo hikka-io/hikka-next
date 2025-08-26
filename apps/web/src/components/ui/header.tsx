@@ -81,12 +81,7 @@ const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
     children,
 }) => {
     return (
-        <div
-            className={cn(
-                'flex flex-1 items-center gap-4 overflow-hidden',
-                className,
-            )}
-        >
+        <div className={cn('flex flex-1 items-center gap-4', className)}>
             {children}
         </div>
     );

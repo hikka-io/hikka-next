@@ -57,22 +57,22 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 <div className="flex animate-pulse flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="bg-secondary/20 size-10 rounded-md" />
-                            <div className="bg-secondary/20 h-3 w-20 rounded-lg" />
+                            <div className="size-10 rounded-md bg-secondary/20" />
+                            <div className="h-3 w-20 rounded-lg bg-secondary/20" />
                         </div>
-                        <div className="bg-secondary/20 size-9 rounded-md" />
+                        <div className="size-9 rounded-md bg-secondary/20" />
                     </div>
-                    <div className="bg-secondary/20 h-3 w-full rounded-lg" />
+                    <div className="h-3 w-full rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex animate-pulse gap-4">
-                    <div className="bg-secondary/20 h-3 w-24 rounded-lg" />
-                    <div className="bg-secondary/20 h-3 w-24 rounded-lg" />
+                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
+                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
                 </div>
                 <Separator className="-mx-4 w-auto animate-none" />
                 <div className="flex animate-pulse gap-2">
-                    <div className="bg-secondary/20 h-4 w-1/3 rounded-lg" />
-                    <div className="bg-secondary/20 h-4 w-1/3 rounded-lg" />
-                    <div className="bg-secondary/20 h-4 w-1/3 rounded-lg" />
+                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
+                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
+                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
                 </div>
             </div>
         );
@@ -94,7 +94,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 </AvatarFallback>
                             </Avatar>
                             {user?.active && (
-                                <div className="border-border bg-success absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border" />
+                                <div className="absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border border-border bg-success-foreground" />
                             )}
                         </div>
 
@@ -106,7 +106,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 user?.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="border-border bg-secondary/20 text-accent-foreground rounded-sm border p-1 text-xs font-bold">
+                                        <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-accent-foreground">
                                             {user.role === 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                             )}
@@ -131,7 +131,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 {user?.description && (
                     <MDViewer
                         preview
-                        className="text-muted-foreground line-clamp-1 text-xs"
+                        className="line-clamp-1 text-xs text-muted-foreground"
                     >
                         {user.description}
                     </MDViewer>
@@ -140,14 +140,14 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             <div className="flex gap-4 text-xs">
                 <span className="font-bold">
                     {followStats ? followStats.followers : 0}
-                    <Label className="text-muted-foreground text-xs">
+                    <Label className="text-xs text-muted-foreground">
                         {' '}
                         стежать
                     </Label>
                 </span>
                 <span className="font-bold">
                     {followStats ? followStats.following : 0}
-                    <Label className="text-muted-foreground text-xs">
+                    <Label className="text-xs text-muted-foreground">
                         {' '}
                         відстежується
                     </Label>

@@ -39,7 +39,7 @@ const EditRulesAlert = () => {
                             })
                         }
                         variant="link"
-                        className="h-auto p-0 text-primary hover:underline"
+                        className="h-auto p-0 text-primary-foreground hover:underline"
                     >
                         нашими правилами
                     </Button>{' '}

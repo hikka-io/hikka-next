@@ -9,7 +9,7 @@ const Component = ({ watchList }: Props) => {
         <div>
             <P>
                 У вашому списку знайдено{' '}
-                <span className="rounded-sm bg-primary px-1 text-primary-foreground">
+                <span className="bg-primary text-primary-foreground border-primary-border rounded-sm border px-1">
                     {watchList.length}
                 </span>{' '}
                 аніме, що готові до імпорту

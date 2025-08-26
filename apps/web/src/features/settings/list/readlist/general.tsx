@@ -119,11 +119,12 @@ const Component = ({ readList, setReadList }: Props) => {
                     <Link
                         target="_blank"
                         href="https://myanimelist.net/panel.php?go=export"
-                        className="text-primary hover:underline"
+                        className="text-primary-foreground hover:underline"
                     >
                         MyAnimeList
                     </Link>{' '}
-                    або <span className="text-primary">Shikimori</span>
+                    або{' '}
+                    <span className="text-primary-foreground">Shikimori</span>
                 </span>
             </Small>
         </div>

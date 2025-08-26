@@ -1,6 +1,7 @@
 import { CSSProperties, FC } from 'react';
 
 import { TableCell } from '@/components/ui/table';
+
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -10,7 +11,9 @@ interface Props {
 const ScoreCell: FC<Props> = ({ score }) => (
     <TableCell className="w-4 text-right" align="right">
         <div
-            className={cn('radial-progress border border-border text-primary')}
+            className={cn(
+                'radial-progress border-border text-primary-foreground border',
+            )}
             style={
                 {
                     '--value': score * 10,

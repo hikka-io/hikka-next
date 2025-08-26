@@ -6,6 +6,7 @@ import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
 import { cn } from '@/utils/utils';
+
 import Blockquote from '../../typography/blockquote';
 import Li from '../../typography/li';
 import Link from '../../typography/link';
@@ -29,7 +30,9 @@ type CustomComponents = Components & {
 const previewComponents: CustomComponents = {
     spoiler: NoSpoiler,
     a: ({ children, className }) => (
-        <span className={cn('text-primary hover:underline', className)}>
+        <span
+            className={cn('text-primary-foreground hover:underline', className)}
+        >
             {children}
         </span>
     ),

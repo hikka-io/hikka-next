@@ -33,12 +33,12 @@ const Title = ({ className }: { className?: string }) => {
                         )}
                     </H2>
 
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-muted-foreground text-sm">
                         {data.title_ja}
                     </P>
                 </div>
                 {data.score > 0 && (
-                    <div className="flex items-center gap-1 rounded-md border bg-secondary/20 px-2">
+                    <div className="bg-secondary/20 flex items-center gap-1 rounded-md border px-2">
                         <div className="font-display text-xl font-bold">
                             {data.score}
                         </div>
@@ -54,7 +54,7 @@ const Title = ({ className }: { className?: string }) => {
                         {data.genres.map((genre) => (
                             <span key={genre.slug} className="text-sm">
                                 <Link
-                                    className="rounded px-1 underline decoration-primary decoration-dashed transition-colors duration-100 hover:bg-primary hover:text-primary-foreground"
+                                    className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground rounded px-1 underline decoration-dashed transition-colors duration-100"
                                     href={`/anime?genres=${genre.slug}`}
                                 >
                                     {genre.name_ua}

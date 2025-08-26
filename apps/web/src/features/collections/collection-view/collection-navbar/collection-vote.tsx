@@ -64,7 +64,7 @@ const CollectionVote: FC<Props> = ({ collection }) => {
                 )}
             >
                 {currentScore === 1 ? (
-                    <BxBxsUpvote className="text-success" />
+                    <BxBxsUpvote className="text-success-foreground" />
                 ) : (
                     <BxUpvote />
                 )}
@@ -72,10 +72,10 @@ const CollectionVote: FC<Props> = ({ collection }) => {
             <Label
                 className={
                     collection.vote_score > 0
-                        ? 'text-success'
+                        ? 'text-success-foreground'
                         : collection.vote_score === 0
                           ? 'text-foreground'
-                          : 'text-destructive'
+                          : 'text-destructive-foreground'
                 }
             >
                 {collection.vote_score}
@@ -90,7 +90,7 @@ const CollectionVote: FC<Props> = ({ collection }) => {
                 )}
             >
                 {currentScore === -1 ? (
-                    <BxBxsDownvote className="text-destructive" />
+                    <BxBxsDownvote className="text-destructive-foreground" />
                 ) : (
                     <BxDownvote />
                 )}

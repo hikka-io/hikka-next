@@ -29,7 +29,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
                                 <div className="border-border bg-secondary/20 text-card-foreground rounded-sm border p-1 text-xs font-bold backdrop-blur">
-                                    <MaterialSymbolsVerifiedRounded className="text-primary" />
+                                    <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>

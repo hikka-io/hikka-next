@@ -16,6 +16,9 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
+import getDeclensionWord from '@/utils/get-declension-word';
+
 import ArticleMenu from './article-menu';
 import ArticleVote from './article-vote';
 
@@ -42,25 +45,28 @@ const ArticleNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-4 z-10 flex justify-center">
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
                     <ArticleVote article={article!} />
                 )}
 
                 {article?.category !== 'system' && (
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button asChild size="md" variant="ghost">
-                                <Link href={`/comments/article/${params.slug}`}>
-                                    <IconamoonCommentFill className="size-4" />
-                                    {article?.comments_count}
-                                </Link>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Коментарі</TooltipContent>
-                    </Tooltip>
+                    <Button asChild size="md" variant="ghost">
+                        <Link href={`/comments/article/${params.slug}`}>
+                            <IconamoonCommentFill className="size-4" />
+                            <span>
+                                {article?.comments_count}{' '}
+                                <span className="hidden sm:inline">
+                                    {getDeclensionWord(
+                                        article?.comments_count ?? 0,
+                                        COMMENT_DECLENSIONS,
+                                    )}
+                                </span>
+                            </span>
+                        </Link>
+                    </Button>
                 )}
-                <div className="bg-secondary h-full w-px" />
+                <div className="h-full w-px bg-secondary" />
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button

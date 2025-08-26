@@ -13,8 +13,9 @@
         --popover: 0 0% 100%;
         --popover-foreground: 240 10% 3.9%;
 
-        --primary: 321 70% 69%;
-        --primary-foreground: 321 85% 0%;
+        --primary: 321 100% 95%;
+        --primary-foreground: 321 70% 65%;
+        --primary-border: 321 90% 90%;
 
         --secondary: 0 0% 96.1%;
         --secondary-foreground: 0 0% 9%;
@@ -24,18 +25,6 @@
 
         --accent: 240 4.8% 95.9%;
         --accent-foreground: 240 5.9% 10%;
-
-        --destructive: 358 69% 52%;
-        --destructive-foreground: 0 0% 100%;
-
-        --warning: 37.43 91.3% 54.9%;
-        --warning-foreground: 0 0% 0%;
-
-        --success: 166.53 72.41% 60.2%;
-        --success-foreground: 0 0% 0%;
-
-        --info: 212.2 100% 59.8%;
-        --info-foreground: 0 0% 0%;
 
         --border: 240 5.9% 90%;
         --input: 240 5.9% 90%;
@@ -51,23 +40,41 @@
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
 
+        /* General colors */
+
+        --success: 143 85% 96%;
+        --success-foreground: 140 100% 27%;
+        --success-border: 145 92% 87%;
+
+        --info: 208 100% 97%;
+        --info-foreground: 210 92% 45%;
+        --info-border: 221 91% 93%;
+
+        --warning: 49 100% 97%;
+        --warning-foreground: 31 92% 45%;
+        --warning-border: 49 91% 84%;
+
+        --destructive: 359 100% 97%;
+        --destructive-foreground: 360 100% 45%;
+        --destructive-border: 359 100% 94%;
+
         /* Status colors */
 
-        --finished-background: 143 85% 96%;
-        --finished-border: 145 92% 87%;
-        --finished-foreground: 140 100% 27%;
+        --finished-background: var(--success);
+        --finished-border: var(--success-border);
+        --finished-foreground: var(--success-foreground);
 
-        --ongoing-background: 208 100% 97%;
-        --ongoing-border: 221 91% 93%;
-        --ongoing-foreground: 210 92% 45%;
+        --ongoing-background: var(--info);
+        --ongoing-border: var(--info-border);
+        --ongoing-foreground: var(--info-foreground);
 
-        --announced-background: 49 100% 97%;
-        --announced-border: 49 91% 84%;
-        --announced-foreground: 31 92% 45%;
+        --announced-background: var(--warning);
+        --announced-border: var(--warning-border);
+        --announced-foreground: var(--warning-foreground);
 
-        --discontinued-background: 359 100% 97%;
-        --discontinued-border: 359 100% 94%;
-        --discontinued-foreground: 360 100% 45%;
+        --discontinued-background: var(--destructive);
+        --discontinued-border: var(--destructive-border);
+        --discontinued-foreground: var(--destructive-foreground);
 
         --paused-background: 0 0% 97%;
         --paused-border: 0 0% 85%;
@@ -110,8 +117,9 @@
         --popover: 240 10% 3.9%;
         --popover-foreground: 0 0% 98%;
 
-        --primary: 321 70% 69%;
-        --primary-foreground: 321 85% 0%;
+        --primary: 300 10% 5%;
+        --primary-foreground: 321 70% 69%;
+        --primary-border: 321 43% 17%;
 
         --secondary: 240 3.7% 15.9%;
         --secondary-foreground: 0 0% 98%;
@@ -121,18 +129,6 @@
 
         --accent: 240 3.7% 15.9%;
         --accent-foreground: 0 0% 98%;
-
-        --destructive: 358 69% 52%;
-        --destructive-foreground: 0 0% 100%;
-
-        --warning: 37.43 91.3% 54.9%;
-        --warning-foreground: 0 0% 0%;
-
-        --success: 166.53 72.41% 60.2%;
-        --success-foreground: 0 0% 0%;
-
-        --info: 212.2 100% 59.8%;
-        --info-foreground: 0 0% 0%;
 
         --border: 240 3.7% 10%;
         --input: 240 3.7% 10%;
@@ -161,23 +157,41 @@
         --sidebar-border: 240 3.7% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;
 
+        /* General colors */
+
+        --success: 150 100% 6%;
+        --success-foreground: 150 86% 65%;
+        --success-border: 147 100% 12%;
+
+        --info: 215 100% 6%;
+        --info-foreground: 216 87% 65%;
+        --info-border: 223 43% 17%;
+
+        --warning: 64 100% 6%;
+        --warning-foreground: 46 87% 65%;
+        --warning-border: 60 100% 9%;
+
+        --destructive: 358 76% 10%;
+        --destructive-foreground: 358 100% 81%;
+        --destructive-border: 357 89% 16%;
+
         /* Status colors */
 
-        --finished-background: 150 100% 6%;
-        --finished-border: 147 100% 12%;
-        --finished-foreground: 150 86% 65%;
+        --finished-background: var(--success);
+        --finished-border: var(--success-border);
+        --finished-foreground: var(--success-foreground);
 
-        --ongoing-background: 215 100% 6%;
-        --ongoing-border: 223 43% 17%;
-        --ongoing-foreground: 216 87% 65%;
+        --ongoing-background: var(--info);
+        --ongoing-border: var(--info-border);
+        --ongoing-foreground: var(--info-foreground);
 
-        --announced-background: 64 100% 6%;
-        --announced-border: 60 100% 9%;
-        --announced-foreground: 46 87% 65%;
+        --announced-background: var(--warning);
+        --announced-border: var(--warning-border);
+        --announced-foreground: var(--warning-foreground);
 
-        --discontinued-background: 358 76% 10%;
-        --discontinued-border: 357 89% 16%;
-        --discontinued-foreground: 358 100% 81%;
+        --discontinued-background: var(--destructive);
+        --discontinued-border: var(--destructive-border);
+        --discontinued-foreground: var(--destructive-foreground);
 
         --paused-background: 0 0% 15%;
         --paused-border: 0 0% 20%;

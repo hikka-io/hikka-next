@@ -11,7 +11,7 @@ const ForgotPasswordHeader = () => {
                 Будь ласка, введіть дані для отримання листа відновлення.{' '}
                 <Link
                     href="/login"
-                    className="font-medium text-primary hover:underline"
+                    className="font-medium text-primary-foreground hover:underline"
                 >
                     Повернутись до входу
                 </Link>

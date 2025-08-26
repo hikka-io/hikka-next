@@ -32,11 +32,11 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                 <HorizontalCardTitle>{user.username}</HorizontalCardTitle>
                 <HorizontalCardDescription>
                     <div className="flex items-center gap-2 text-muted-foreground">
-                        <div className="flex size-2 items-center justify-center rounded-full bg-success" />
+                        <div className="flex size-2 items-center justify-center rounded-full bg-success-foreground" />
                         <Small>{accepted}</Small>
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground">
-                        <div className="flex size-2 items-center justify-center rounded-full bg-destructive" />
+                        <div className="flex size-2 items-center justify-center rounded-full bg-destructive-foreground" />
                         <Small>{denied}</Small>
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground">

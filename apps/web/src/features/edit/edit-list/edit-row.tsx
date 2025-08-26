@@ -24,6 +24,15 @@ interface Props {
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
 
+    const variant =
+        edit.status === 'pending'
+            ? 'warning'
+            : edit.status === 'accepted'
+              ? 'success'
+              : edit.status === 'denied'
+                ? 'destructive'
+                : 'secondary';
+
     return (
         <TableRow
             key={edit.edit_id}
@@ -86,8 +95,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                 <div className="flex justify-end">
                     <Badge
                         className="size-2 p-0 md:size-auto md:px-1.5"
-                        variant="status"
-                        bgColor={EDIT_STATUS[edit.status].color}
+                        variant={variant}
                     >
                         <span className="hidden md:block">
                             {EDIT_STATUS[edit.status].title_ua}

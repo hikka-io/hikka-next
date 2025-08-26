@@ -40,7 +40,8 @@ module.exports = {
     			foreground: 'hsl(var(--foreground))',
     			primary: {
     				DEFAULT: 'hsl(var(--primary))',
-    				foreground: 'hsl(var(--primary-foreground))'
+    				foreground: 'hsl(var(--primary-foreground))',
+					border: 'hsl(var(--primary-border))'
     			},
     			secondary: {
     				DEFAULT: 'hsl(var(--secondary))',
@@ -48,7 +49,8 @@ module.exports = {
     			},
     			destructive: {
     				DEFAULT: 'hsl(var(--destructive))',
-    				foreground: 'hsl(var(--destructive-foreground))'
+    				foreground: 'hsl(var(--destructive-foreground))',
+					border: 'hsl(var(--destructive-border))'
     			},
     			muted: {
     				DEFAULT: 'hsl(var(--muted))',
@@ -68,15 +70,18 @@ module.exports = {
     			},
     			warning: {
     				DEFAULT: 'hsl(var(--warning))',
-    				foreground: 'hsl(var(--warning-foreground))'
+    				foreground: 'hsl(var(--warning-foreground))',
+					border: 'hsl(var(--warning-border))'
     			},
     			info: {
     				DEFAULT: 'hsl(var(--info))',
-    				foreground: 'hsl(var(--info-foreground))'
+    				foreground: 'hsl(var(--info-foreground))',
+					border: 'hsl(var(--info-border))'
     			},
     			success: {
     				DEFAULT: 'hsl(var(--success))',
-    				foreground: 'hsl(var(--success-foreground))'
+    				foreground: 'hsl(var(--success-foreground))',
+					border: 'hsl(var(--success-border))'
     			},
     			sidebar: {
     				DEFAULT: 'hsl(var(--sidebar-background))',

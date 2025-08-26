@@ -77,7 +77,7 @@ const ScheduleList = () => {
                                 <HeaderContainer>
                                     <HeaderTitle>
                                         {formattedDay[0]}
-                                        <span className="bg-primary text-primary-foreground rounded-sm p-1">
+                                        <span className="bg-primary border-primary-border text-primary-foreground rounded-sm border p-1">
                                             {formattedDay[1]}
                                         </span>
                                     </HeaderTitle>

@@ -135,7 +135,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <Button
                     disabled={!loggedUser}
                     variant="link"
-                    className="h-auto p-0 text-muted-foreground hover:text-primary hover:no-underline"
+                    className="h-auto p-0 text-muted-foreground hover:text-primary-foreground hover:no-underline"
                     size="md"
                     onClick={addReplyInput}
                 >
@@ -174,7 +174,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         <Button
                             size="md"
                             variant="ghost"
-                            className="text-primary"
+                            className="text-primary-foreground"
                             onClick={() => setExpand(true)}
                         >
                             <MaterialSymbolsKeyboardArrowDownRounded />

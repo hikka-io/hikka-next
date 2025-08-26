@@ -582,3 +582,9 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
         icon: MaterialSymbolsStarsRounded,
     },
 };
+
+export const COMMENT_DECLENSIONS: [string, string, string] = [
+    'коментар',
+    'коментарі',
+    'коментарів',
+];

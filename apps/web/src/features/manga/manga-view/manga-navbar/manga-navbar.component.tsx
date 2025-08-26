@@ -12,12 +12,9 @@ import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentF
 import ReadlistButton from '@/components/readlist-button/readlist-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 
+import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
+import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
 
 interface Props {
@@ -39,7 +36,7 @@ const MangaNavbar: FC<Props> = ({ className }) => {
                 className,
             )}
         >
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 <ReadlistButton
                     slug={String(params.slug)}
                     size="icon-md"
@@ -54,18 +51,23 @@ const MangaNavbar: FC<Props> = ({ className }) => {
                     size="icon-md"
                     variant="ghost"
                 />
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button asChild size="md" variant="ghost">
-                            <Link href={`/comments/manga/${params.slug}`}>
-                                <IconamoonCommentFill className="size-4" />
-                                {manga?.comments_count}
-                            </Link>
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Коментарі</TooltipContent>
-                </Tooltip>
-                <div className="bg-secondary h-full w-px" />
+
+                <Button asChild size="md" variant="ghost">
+                    <Link href={`/comments/manga/${params.slug}`}>
+                        <IconamoonCommentFill className="size-4" />
+                        <span>
+                            {manga?.comments_count}{' '}
+                            <span className="hidden sm:inline">
+                                {getDeclensionWord(
+                                    manga?.comments_count ?? 0,
+                                    COMMENT_DECLENSIONS,
+                                )}
+                            </span>
+                        </span>
+                    </Link>
+                </Button>
+
+                <div className="h-full w-px bg-secondary" />
                 {loggedUser && (
                     <EditButton
                         key={String(params.slug)}

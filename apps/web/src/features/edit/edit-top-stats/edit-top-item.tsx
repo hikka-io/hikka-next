@@ -57,8 +57,8 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                     <HorizontalCardDescription>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="text-muted-foreground flex items-center gap-2">
-                                    <div className="bg-success flex size-2 items-center justify-center rounded-full" />
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <div className="flex size-2 items-center justify-center rounded-full bg-success-foreground" />
                                     <Small>{accepted}</Small>
                                 </div>
                             </TooltipTrigger>
@@ -66,8 +66,8 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                         </Tooltip>
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="text-muted-foreground flex items-center gap-2">
-                                    <div className="bg-destructive flex size-2 items-center justify-center rounded-full" />
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <div className="flex size-2 items-center justify-center rounded-full bg-destructive-foreground" />
                                     <Small>{denied}</Small>
                                 </div>
                             </TooltipTrigger>
@@ -76,8 +76,8 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
 
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="text-muted-foreground flex items-center gap-2">
-                                    <div className="bg-muted-foreground flex size-2 items-center justify-center rounded-full" />
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <div className="flex size-2 items-center justify-center rounded-full bg-muted-foreground" />
                                     <Small>{closed}</Small>
                                 </div>
                             </TooltipTrigger>

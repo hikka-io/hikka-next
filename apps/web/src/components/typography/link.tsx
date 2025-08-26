@@ -2,6 +2,7 @@ import NextLink, { LinkProps } from 'next/link';
 import { FC, PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/utils';
+
 import AnimeTooltip from '../content-card/anime-tooltip';
 import CharacterTooltip from '../content-card/character-tooltip';
 import MangaTooltip from '../content-card/manga-tooltip';
@@ -36,7 +37,7 @@ const ALLOWED_HOSTS = [
     'anilist.co',
 ];
 
-const LINK_CLASSNAME = 'cursor-pointer text-primary hover:underline';
+const LINK_CLASSNAME = 'cursor-pointer text-primary-foreground hover:underline';
 
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (href.includes('hikka.io') || !href.includes('http')) {

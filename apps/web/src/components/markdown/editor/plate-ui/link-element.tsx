@@ -17,7 +17,7 @@ export const LinkElement = withRef<typeof PlateElement>(
                 ref={ref}
                 as="span"
                 className={cn(
-                    'font-medium text-primary underline decoration-primary underline-offset-4',
+                    'text-primary-foreground decoration-primary-foreground font-medium underline underline-offset-4',
                     className,
                 )}
                 {...(linkProps as any)}

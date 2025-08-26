@@ -62,7 +62,8 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'cursor-pointer select-none text-center hover:underline',
-                            sort === 'watch_episodes' && 'text-primary',
+                            sort === 'watch_episodes' &&
+                                'text-primary-foreground',
                         )}
                         align="center"
                         onClick={() => switchSort('watch_episodes')}
@@ -72,7 +73,7 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'hidden w-20 cursor-pointer select-none text-center hover:underline lg:table-cell',
-                            sort === 'media_type' && 'text-primary',
+                            sort === 'media_type' && 'text-primary-foreground',
                         )}
                         align="center"
                         onClick={() => switchSort('media_type')}
@@ -82,7 +83,7 @@ const TableView: FC<Props> = ({ data }) => {
                     <TableHead
                         className={cn(
                             'w-4 cursor-pointer select-none text-right hover:underline',
-                            sort === 'watch_score' && 'text-primary',
+                            sort === 'watch_score' && 'text-primary-foreground',
                         )}
                         align="right"
                         onClick={() => switchSort('watch_score')}

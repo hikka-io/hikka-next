@@ -36,7 +36,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
                     </Label>
 
                     {user.active && (
-                        <div className="border-border bg-success -bottom-2 -right-2 z-[1] size-2 rounded-full border" />
+                        <div className="-bottom-2 -right-2 z-[1] size-2 rounded-full border border-success bg-success-foreground" />
                     )}
 
                     {(user.role === 'admin' || user.role === 'moderator') && (
@@ -52,7 +52,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
 
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <Label className="text-muted-foreground text-xs">
+                        <Label className="text-xs text-muted-foreground">
                             {format(
                                 new Date(user.created * 1000),
                                 'd MMMM yyyy',

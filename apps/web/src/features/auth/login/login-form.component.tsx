@@ -102,7 +102,7 @@ const LoginForm = () => {
                                 <FormLabel>Пароль</FormLabel>
                                 <Link
                                     href="/reset"
-                                    className="text-primary text-sm hover:underline"
+                                    className="text-primary-foreground text-sm hover:underline"
                                 >
                                     Забули пароль?
                                 </Link>

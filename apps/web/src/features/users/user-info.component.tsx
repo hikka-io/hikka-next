@@ -135,7 +135,7 @@ const UserInfo = () => {
                 )}
             </div>
             {user.active && (
-                <div className="border-border bg-success absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4" />
+                <div className="absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4 border-success bg-success-foreground" />
             )}
         </div>
     );

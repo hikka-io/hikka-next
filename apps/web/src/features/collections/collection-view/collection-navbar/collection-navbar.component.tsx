@@ -1,20 +1,18 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useCollectionByReference } from '@hikka/react';
+import { useCollectionByReference, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 
 import FavoriteButton from '@/components/favorite-button';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+
+import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
+import getDeclensionWord from '@/utils/get-declension-word';
 
 import CollectionMenu from './collection-menu';
 import CollectionVote from './collection-vote';
@@ -22,6 +20,7 @@ import CollectionVote from './collection-vote';
 interface Props {}
 
 const CollectionNavbar: FC<Props> = () => {
+    const { user: loggedUser, isAdmin, isModerator } = useSession();
     const params = useParams();
 
     const { data: collection } = useCollectionByReference({
@@ -30,7 +29,7 @@ const CollectionNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-4 z-10 flex justify-center">
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 <CollectionVote collection={collection!} />
                 {collection && (
                     <FavoriteButton
@@ -40,26 +39,34 @@ const CollectionNavbar: FC<Props> = () => {
                         slug={collection?.reference}
                     />
                 )}
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button asChild size="md" variant="ghost">
-                            <Link
-                                href={
-                                    '/comments' +
-                                    '/collection' +
-                                    '/' +
-                                    params.reference
-                                }
-                            >
-                                <IconamoonCommentFill className="size-4" />
-                                {collection?.comments_count}
-                            </Link>
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Коментарі</TooltipContent>
-                </Tooltip>
-                <div className="bg-secondary h-full w-px" />
-                <CollectionMenu collection={collection!} />
+
+                <Button asChild size="md" variant="ghost">
+                    <Link
+                        href={
+                            '/comments' + '/collection' + '/' + params.reference
+                        }
+                    >
+                        <IconamoonCommentFill className="size-4" />
+                        <span>
+                            {collection?.comments_count}{' '}
+                            <span className="hidden sm:inline">
+                                {getDeclensionWord(
+                                    collection?.comments_count ?? 0,
+                                    COMMENT_DECLENSIONS,
+                                )}
+                            </span>
+                        </span>
+                    </Link>
+                </Button>
+
+                {(loggedUser?.username === collection?.author.username ||
+                    isAdmin() ||
+                    isModerator()) && (
+                    <Fragment>
+                        <div className="h-full w-px bg-secondary" />
+                        <CollectionMenu collection={collection!} />
+                    </Fragment>
+                )}
             </Card>
         </div>
     );

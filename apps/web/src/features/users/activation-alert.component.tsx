@@ -68,7 +68,7 @@ const ActivationAlert = () => {
                 <Button
                     onClick={() => resendActivation()}
                     variant="link"
-                    className="text-primary h-auto p-0 hover:underline"
+                    className="text-primary-foreground h-auto p-0 hover:underline"
                 >
                     відправте його повторно
                 </Button>

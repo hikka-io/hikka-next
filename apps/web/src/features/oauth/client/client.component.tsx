@@ -42,7 +42,9 @@ const Client: FC<Props> = () => {
                 <P
                     className={cn(
                         'text-sm',
-                        client?.verified ? 'text-success' : 'text-warning',
+                        client?.verified
+                            ? 'text-success-foreground'
+                            : 'text-warning-foreground',
                     )}
                 >
                     {client?.verified

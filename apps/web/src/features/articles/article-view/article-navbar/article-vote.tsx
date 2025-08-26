@@ -60,7 +60,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
                 )}
             >
                 {currentScore === 1 ? (
-                    <BxBxsUpvote className="text-success" />
+                    <BxBxsUpvote className="text-success-foreground" />
                 ) : (
                     <BxUpvote />
                 )}
@@ -68,10 +68,10 @@ const ArticleVote: FC<Props> = ({ article }) => {
             <Label
                 className={
                     article.vote_score > 0
-                        ? 'text-success'
+                        ? 'text-success-foreground'
                         : article.vote_score === 0
                           ? 'text-foreground'
-                          : 'text-destructive'
+                          : 'text-destructive-foreground'
                 }
             >
                 {article.vote_score}
@@ -86,7 +86,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
                 )}
             >
                 {currentScore === -1 ? (
-                    <BxBxsDownvote className="text-destructive" />
+                    <BxBxsDownvote className="text-destructive-foreground" />
                 ) : (
                     <BxDownvote />
                 )}

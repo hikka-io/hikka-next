@@ -18,11 +18,16 @@ const EditStatus: FC<Props> = ({ editId }) => {
         return null;
     }
 
-    return (
-        <Badge variant="status" bgColor={EDIT_STATUS[edit.status].color}>
-            {EDIT_STATUS[edit.status].title_ua}
-        </Badge>
-    );
+    const variant =
+        edit.status === 'pending'
+            ? 'warning'
+            : edit.status === 'accepted'
+              ? 'success'
+              : edit.status === 'denied'
+                ? 'destructive'
+                : 'secondary';
+
+    return <Badge variant={variant}>{EDIT_STATUS[edit.status].title_ua}</Badge>;
 };
 
 export default EditStatus;
