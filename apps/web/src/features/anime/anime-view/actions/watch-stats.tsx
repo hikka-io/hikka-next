@@ -15,8 +15,10 @@ import Rating from '@/components/ui/rating';
 import CollapsibleFilter from '@/features/filters/collapsible-filter';
 
 import useDebounce from '@/services/hooks/use-debounce';
+import { useSettingsStore } from '@/services/stores/settings-store';
 
 const WatchStats = () => {
+    const { collapsibles, setCollapsibles } = useSettingsStore();
     const params = useParams();
 
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
@@ -111,7 +113,17 @@ const WatchStats = () => {
 
     return (
         <div className="flex flex-col">
-            <CollapsibleFilter title="Оцінка" defaultOpen>
+            <CollapsibleFilter
+                title="Оцінка"
+                open={collapsibles.content_score}
+                onOpenChange={(open) =>
+                    setCollapsibles({
+                        ...collapsibles,
+                        content_score: open,
+                    })
+                }
+                defaultOpen
+            >
                 <div className="flex items-center justify-between gap-4">
                     <Rating
                         onChange={handleRating}
@@ -128,7 +140,17 @@ const WatchStats = () => {
                 </div>
             </CollapsibleFilter>
 
-            <CollapsibleFilter title="Епізоди" defaultOpen>
+            <CollapsibleFilter
+                title="Епізоди"
+                open={collapsibles.content_progress}
+                onOpenChange={(open) =>
+                    setCollapsibles({
+                        ...collapsibles,
+                        content_progress: open,
+                    })
+                }
+                defaultOpen
+            >
                 <div className="flex w-full flex-col gap-2">
                     <P className="text-sm text-muted-foreground">
                         <span className="font-bold text-foreground">

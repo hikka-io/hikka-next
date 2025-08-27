@@ -13,8 +13,12 @@ import Rating from '@/components/ui/rating';
 
 import CollapsibleFilter from '@/features/filters/collapsible-filter';
 
+import { useSettingsStore } from '@/services/stores/settings-store';
+
 const ReadStats = () => {
     const params = useParams();
+
+    const { collapsibles, setCollapsibles } = useSettingsStore();
 
     const { data: read, isError: readError } = useReadBySlug({
         slug: String(params.slug),
@@ -100,7 +104,17 @@ const ReadStats = () => {
 
     return (
         <div className="flex flex-col">
-            <CollapsibleFilter title="Оцінка">
+            <CollapsibleFilter
+                title="Оцінка"
+                open={collapsibles.content_score}
+                onOpenChange={(open) =>
+                    setCollapsibles({
+                        ...collapsibles,
+                        content_score: open,
+                    })
+                }
+                defaultOpen
+            >
                 <div className="flex items-center justify-between gap-4">
                     <Rating
                         onChange={handleRating}
@@ -116,7 +130,17 @@ const ReadStats = () => {
                     </P>
                 </div>
             </CollapsibleFilter>
-            <CollapsibleFilter title="Розділи">
+            <CollapsibleFilter
+                title="Розділи"
+                open={collapsibles.content_progress}
+                onOpenChange={(open) =>
+                    setCollapsibles({
+                        ...collapsibles,
+                        content_progress: open,
+                    })
+                }
+                defaultOpen
+            >
                 <div className="flex w-full flex-col gap-2">
                     <P className="text-sm text-muted-foreground">
                         <span className="font-bold text-foreground">

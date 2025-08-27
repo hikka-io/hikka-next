@@ -23,7 +23,7 @@ interface Props {
 }
 
 const FilterPresets: FC<Props> = ({ className, content_type }) => {
-    const { filterPresets } = useSettingsStore();
+    const { filterPresets, _hasHydrated } = useSettingsStore();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -42,33 +42,39 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
                 className,
             )}
         >
-            {filterPresets
-                .filter((preset) => preset.content_types.includes(content_type))
-                .map((preset) => (
-                    <Button
-                        key={preset.id}
-                        size="badge"
-                        variant="outline"
-                        className="mr-2 h-fit"
-                        onClick={() => handleApplyFilterPreset(preset)}
-                    >
-                        {preset.name}
-                        {preset.description && (
-                            <Tooltip delayDuration={0}>
-                                <TooltipTrigger asChild>
-                                    <div>
-                                        <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <P className="text-sm">
-                                        {preset.description}
-                                    </P>
-                                </TooltipContent>
-                            </Tooltip>
-                        )}
-                    </Button>
-                ))}
+            {_hasHydrated &&
+                filterPresets
+                    .filter((preset) =>
+                        preset.content_types.includes(content_type),
+                    )
+                    .map((preset) => (
+                        <Button
+                            key={preset.id}
+                            size="badge"
+                            variant="outline"
+                            className="mr-2 h-fit"
+                            onClick={() => handleApplyFilterPreset(preset)}
+                        >
+                            {preset.name}
+                            {preset.description && (
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger
+                                        asChild
+                                        className="hidden md:block"
+                                    >
+                                        <div>
+                                            <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <P className="text-sm">
+                                            {preset.description}
+                                        </P>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                        </Button>
+                    ))}
         </div>
     );
 };
