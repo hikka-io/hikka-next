@@ -28,7 +28,7 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
     const pathname = usePathname();
 
     const handleApplyFilterPreset = (preset: Hikka.FilterPreset) => {
-        const { id, name, description, date_range_enabled, ...rest } = preset;
+        const { id, name, description, ...rest } = preset;
 
         const query = createQueryString('filters', rest, new URLSearchParams());
 
@@ -38,7 +38,7 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
     return (
         <div
             className={cn(
-                'no-scrollbar gradient-mask-r-90-d md:gradient-mask-none -mx-4 flex flex-1 items-center overflow-x-auto px-4 lg:mx-0 lg:border-r lg:px-0',
+                'no-scrollbar -mx-4 flex flex-1 items-center overflow-x-auto px-4 gradient-mask-r-90-d md:gradient-mask-none lg:mx-0 lg:border-r lg:px-0',
                 className,
             )}
         >

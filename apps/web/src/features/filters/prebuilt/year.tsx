@@ -30,6 +30,7 @@ const Year: FC<Props> = () => {
     const searchParams = useSearchParams()!;
 
     const years = searchParams.getAll('years');
+    const dateRangeEnabled = searchParams.get('date_range_enabled');
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
         years.length > 0 ? years : YEARS.map((y) => String(y)),
@@ -44,6 +45,10 @@ const Year: FC<Props> = () => {
             );
         }
     }, [searchParams]);
+
+    if (dateRangeEnabled) {
+        return null;
+    }
 
     return (
         <CollapsibleFilter title="Рік виходу" active={years.length > 0}>

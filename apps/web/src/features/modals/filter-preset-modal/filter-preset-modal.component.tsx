@@ -48,7 +48,7 @@ const FilterPresetModal: FC = () => {
     };
 
     const buildFilterPresetLink = (preset: Hikka.FilterPreset) => {
-        const { id, name, description, date_range_enabled, ...rest } = preset;
+        const { id, name, description, ...rest } = preset;
 
         const query = createQueryString('filters', rest, new URLSearchParams());
 

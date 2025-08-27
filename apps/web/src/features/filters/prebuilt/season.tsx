@@ -21,8 +21,13 @@ const Season: FC<Props> = () => {
     const searchParams = useSearchParams()!;
 
     const seasons = searchParams.getAll('seasons');
+    const dateRangeEnabled = searchParams.get('date_range_enabled');
 
     const handleChangeParam = useChangeParam();
+
+    if (dateRangeEnabled) {
+        return null;
+    }
 
     return (
         <CollapsibleFilter

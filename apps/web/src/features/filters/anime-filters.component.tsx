@@ -11,6 +11,7 @@ import { cn } from '@/utils/utils';
 
 import AntDesignClearOutlined from '../../components/icons/ant-design/AntDesignClearOutlined';
 import AgeRating from './prebuilt/age-rating';
+import DateRange from './prebuilt/date-range';
 import Genre from './prebuilt/genre';
 import Localization from './prebuilt/localization';
 import MediaType from './prebuilt/media-type';
@@ -46,6 +47,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 <ReleaseStatus />
                 <Season />
                 <Year />
+                <DateRange />
                 <Genre />
                 <MediaType content_type={content_type} />
                 <Localization />

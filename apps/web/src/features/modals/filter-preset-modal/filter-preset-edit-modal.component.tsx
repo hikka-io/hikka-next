@@ -75,7 +75,10 @@ const Component = ({ filterPreset }: Props) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: filterPreset ?? DEFAULT_VALUES,
+        defaultValues: {
+            ...DEFAULT_VALUES,
+            ...(filterPreset ?? {}),
+        },
     });
 
     const content_types = form.watch('content_types');
@@ -98,9 +101,12 @@ const Component = ({ filterPreset }: Props) => {
             content_types: data.content_types,
             ...filteredData,
             id: filterPreset?.id || crypto.randomUUID(),
-            ...(filteredData.date_range_enabled && {
+            ...(data.date_range_enabled && {
                 years: undefined,
                 seasons: undefined,
+            }),
+            ...(!data.date_range_enabled && {
+                date_range: undefined,
             }),
         };
 

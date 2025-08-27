@@ -43,7 +43,7 @@ const NotificationsMenu = () => {
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />
                     {countData && countData.unseen > 0 && (
-                        <div className="absolute -bottom-0.5 -right-0.5 rounded-full bg-warning p-0.5 px-1 text-[0.6rem] font-bold leading-none text-warning-foreground">
+                        <div className="absolute -bottom-0.5 -right-0.5 rounded-full border border-warning-border bg-warning p-0.5 px-1 text-[0.6rem] font-bold leading-none text-warning-foreground">
                             {countData.unseen < 100 ? countData.unseen : '99+'}
                         </div>
                     )}
