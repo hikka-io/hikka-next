@@ -12,7 +12,7 @@ import { cva } from 'class-variance-authority';
 import React from 'react';
 
 const editorContainerVariants = cva(
-    'relative w-full cursor-text caret-primary selection:bg-brand/25 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-brand/25 [&_.slate-selection-area]:bg-brand/15',
+    'relative w-full cursor-text caret-primary-foreground selection:bg-brand/25 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-brand/25 [&_.slate-selection-area]:bg-brand/15',
     {
         defaultVariants: {
             variant: 'default',
