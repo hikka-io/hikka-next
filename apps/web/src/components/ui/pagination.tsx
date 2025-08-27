@@ -113,17 +113,17 @@ const Pagination = ({ page, pages, setPage }: Props) => {
         const pagArr: PaginationType[] = [1];
 
         if (pages >= 7) {
-            if (pages - page <= 3) {
+            if (pages - page <= 2) {
                 pagArr.push('input');
                 pagArr.push(
-                    ...range(pages - 4 + Number(!isDesktop), pages + 1),
+                    ...range(pages - 4 + (isDesktop ? 0 : 2), pages + 1),
                 );
 
                 return pagArr;
             }
 
             if (page < 5 - Number(!isDesktop)) {
-                pagArr.push(...range(2, 6 - Number(!isDesktop)));
+                pagArr.push(...range(2, 6 - (isDesktop ? 0 : 2)));
                 pagArr.push('input');
                 pagArr.push(pages);
 
@@ -131,7 +131,12 @@ const Pagination = ({ page, pages, setPage }: Props) => {
             }
 
             pagArr.push('empty');
-            pagArr.push(...range(page - Number(isDesktop), page + 2));
+            pagArr.push(
+                ...range(
+                    page - Number(isDesktop),
+                    page + 1 + Number(isDesktop),
+                ),
+            );
             pagArr.push('input');
             pagArr.push(pages);
 
