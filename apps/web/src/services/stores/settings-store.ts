@@ -26,6 +26,7 @@ export interface SettingsActions {
 }
 
 const DEFAULT_SETTINGS: SettingsState = {
+    _hasHydrated: false,
     titleLanguage: 'title_ua',
     nameLanguage: 'name_ua',
     editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
@@ -53,7 +54,6 @@ export const useSettingsStore = create<SettingsStore>()(
     persist(
         (set) => ({
             ...DEFAULT_SETTINGS,
-            _hasHydrated: false,
             setHasHydrated: (state) => {
                 set({
                     _hasHydrated: state,
