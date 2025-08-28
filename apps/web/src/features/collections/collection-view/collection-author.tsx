@@ -14,8 +14,11 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
+import { useMediaQuery } from '@/services/hooks/use-media-query';
+
 const CollectionAuthor = () => {
     const params = useParams();
+    const isDesktop = useMediaQuery('(min-width: 768px)');
 
     const { data: collection } = useCollectionByReference({
         reference: String(params.reference),
@@ -42,7 +45,11 @@ const CollectionAuthor = () => {
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
-                <FollowButton size="md" user={collection?.author} />
+                <FollowButton
+                    size={!isDesktop ? 'icon-md' : 'md'}
+                    iconOnly={!isDesktop}
+                    user={collection?.author}
+                />
             </HorizontalCard>
         </Card>
     );

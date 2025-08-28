@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { cn } from '@/utils/utils';
 
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '../icons/iconamoon/IconamoonCommentFill';
@@ -17,16 +18,22 @@ import Author from './article-author';
 
 interface Props {
     article: ArticleResponse;
+    className?: string;
 }
 
-const ArticleItem: FC<Props> = ({ article }) => {
+const ArticleItem: FC<Props> = ({ article, className }) => {
     const document =
         article.document[0].type === 'preview'
             ? article.document[0].children
             : article.document;
 
     return (
-        <Card className="isolate gap-0 overflow-hidden rounded-none p-0 md:rounded-lg">
+        <Card
+            className={cn(
+                'isolate gap-0 overflow-hidden rounded-none border-x-0 p-0 md:rounded-lg md:border-x',
+                className,
+            )}
+        >
             <Author article={article} />
             <div className="relative flex flex-col gap-4 p-4 py-0">
                 <Link

@@ -22,6 +22,7 @@ import {
 import Image from '@/components/ui/image';
 import Stack, { StackSize } from '@/components/ui/stack';
 
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
 
@@ -38,6 +39,7 @@ const CollectionCard: FC<Props> = ({
     className,
     maxPreviewItems = 6,
 }) => {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
     const previewItems = collection.collection.slice(0, maxPreviewItems);
     const remainingCount = collection.entries - maxPreviewItems;
     const previewItem =
@@ -46,12 +48,17 @@ const CollectionCard: FC<Props> = ({
             : collection.collection[collection.collection.length - 1];
 
     return (
-        <Card className={cn(className)}>
+        <Card
+            className={cn(
+                'isolate -mx-4 overflow-hidden rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x',
+                className,
+            )}
+        >
             {/* User Header */}
 
             <HorizontalCard href={`/u/${collection.author.username}`}>
                 <HorizontalCardImage
-                    className="w-10"
+                    className="w-12"
                     image={collection.author.avatar}
                     imageRatio={1}
                 />
@@ -71,7 +78,11 @@ const CollectionCard: FC<Props> = ({
                         </HorizontalCardDescription>
                     </HorizontalCardContainer>
                 </HorizontalCardContainer>
-                <FollowButton user={collection.author} />
+                <FollowButton
+                    iconOnly={!isDesktop}
+                    size={!isDesktop ? 'icon-md' : 'md'}
+                    user={collection.author}
+                />
             </HorizontalCard>
 
             {/* Collection Title */}
