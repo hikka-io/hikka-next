@@ -28,8 +28,8 @@ const CollectionNavbar: FC<Props> = () => {
     });
 
     return (
-        <div className="sticky bottom-4 z-10 mx-auto flex w-fit">
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+        <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 <CollectionVote collection={collection!} />
                 {collection && (
                     <FavoriteButton
@@ -63,7 +63,7 @@ const CollectionNavbar: FC<Props> = () => {
                     isAdmin() ||
                     isModerator()) && (
                     <Fragment>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                         <CollectionMenu collection={collection!} />
                     </Fragment>
                 )}

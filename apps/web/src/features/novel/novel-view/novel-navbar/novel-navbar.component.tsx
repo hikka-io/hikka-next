@@ -31,9 +31,12 @@ const NovelNavbar: FC<Props> = ({ className }) => {
 
     return (
         <div
-            className={cn('sticky bottom-4 z-10 mx-auto flex w-fit', className)}
+            className={cn(
+                'sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4',
+                className,
+            )}
         >
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 <ReadlistButton
                     slug={String(params.slug)}
                     size="icon-md"
@@ -63,7 +66,7 @@ const NovelNavbar: FC<Props> = ({ className }) => {
 
                 {loggedUser && (
                     <>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
