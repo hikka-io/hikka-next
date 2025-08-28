@@ -55,7 +55,7 @@ const Favorites: FC<Props> = ({ extended }) => {
                         : undefined
                 }
             >
-                <HeaderContainer>
+                <HeaderContainer className="overflow-hidden">
                     <HeaderTitle>Улюблені</HeaderTitle>
                     <ToggleGroup
                         type="single"

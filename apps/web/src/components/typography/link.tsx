@@ -37,7 +37,8 @@ const ALLOWED_HOSTS = [
     'anilist.co',
 ];
 
-const LINK_CLASSNAME = 'cursor-pointer text-primary-foreground hover:underline';
+const LINK_CLASSNAME =
+    'cursor-pointer text-primary-foreground hover:underline break-all';
 
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
