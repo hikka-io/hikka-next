@@ -49,12 +49,12 @@ const WatchStats = () => {
 
             let status = updatedWatch?.status ?? watch.status;
 
-            if (episodes === watch.anime.episodes_total) {
-                status = WatchStatusEnum.COMPLETED;
-            }
-
             if (!watch.episodes && watch.status === WatchStatusEnum.PLANNED) {
                 status = WatchStatusEnum.WATCHING;
+            }
+
+            if (episodes === watch.anime.episodes_total) {
+                status = WatchStatusEnum.COMPLETED;
             }
 
             setUpdatedWatch({
