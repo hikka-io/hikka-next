@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 
 const CollectionRulesAlert = () => {
@@ -38,7 +39,7 @@ const CollectionRulesAlert = () => {
                             })
                         }
                         variant="link"
-                        className="h-auto p-0 text-primary hover:underline"
+                        className="h-auto p-0 text-primary-foreground hover:underline"
                     >
                         нашими правилами
                     </Button>{' '}

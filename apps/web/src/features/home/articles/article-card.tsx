@@ -6,7 +6,7 @@ import Author from '@/components/article-item/article-author';
 import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import ArticleViewer from '@/components/markdown/editor/article-viewer';
+import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import TextExpand from '@/components/text-expand';
 import Muted from '@/components/typography/muted';
 import { Badge } from '@/components/ui/badge';
@@ -48,7 +48,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                     </HeaderContainer>
                 </Header>
             </div>
-            <ArticleViewer initialValue={document} />
+            <StaticViewer value={document} />
         </div>
     );
 

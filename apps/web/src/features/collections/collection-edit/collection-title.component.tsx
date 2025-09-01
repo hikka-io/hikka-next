@@ -2,13 +2,11 @@
 
 import { useParams } from 'next/navigation';
 
-import BasicEditor from '@/components/markdown/editor/basic-editor';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { useCollectionContext } from '@/services/providers/collection-provider';
+
 import RulesAlert from './collection-rules-alert.component';
 
 const CollectionTitle = () => {
@@ -32,10 +30,10 @@ const CollectionTitle = () => {
             </Header>
             <RulesAlert />
             {((reference && description !== undefined) || !reference) && (
-                <BasicEditor
+                <CommentPlateEditor
                     onValueChange={setDescription}
                     placeholder="Введіть опис"
-                    initialValue={description}
+                    value={description}
                 />
             )}
         </div>

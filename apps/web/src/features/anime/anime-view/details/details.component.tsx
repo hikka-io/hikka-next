@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation';
 
 import Card from '@/components/ui/card';
 
+import { cn } from '@/utils/utils';
+
 import Duration from './duration';
 import EpisodeSchedule from './episode-schedule';
 import Episodes from './episodes';
@@ -23,7 +25,7 @@ const Details = ({ className }: { className?: string }) => {
     }
 
     return (
-        <Card className={className}>
+        <Card className={cn('bg-secondary/20 backdrop-blur', className)}>
             <MediaType media_type={data.media_type} />
             <Status status={data.status} />
             {data.media_type !== 'movie' && (

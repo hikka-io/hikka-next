@@ -1,9 +1,12 @@
 import { FC } from 'react';
 
+import {
+    CommentPlateEditor,
+    CommentPlateEditorProps,
+} from '@/components/plate/editor/plate-editor';
+
 import { cn } from '@/utils/utils';
-import BasePlateEditor, {
-    PlateEditorProps,
-} from '../markdown/editor/basic-editor';
+
 import {
     FormControl,
     FormDescription,
@@ -13,7 +16,7 @@ import {
     FormMessage,
 } from '../ui/form';
 
-interface Props extends PlateEditorProps {
+interface Props extends CommentPlateEditorProps {
     name: string;
     label?: string;
     description?: string;
@@ -34,9 +37,9 @@ const FormMarkdown: FC<Props> = ({
                 <FormItem>
                     {label && <FormLabel>{label}</FormLabel>}
                     <FormControl>
-                        <BasePlateEditor
+                        <CommentPlateEditor
                             {...props}
-                            initialValue={field.value || ''}
+                            value={field.value || ''}
                             onValueChange={field.onChange}
                             className={cn(className)}
                         />

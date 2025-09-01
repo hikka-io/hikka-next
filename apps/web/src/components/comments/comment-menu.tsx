@@ -77,7 +77,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
                     <AlertDialogTrigger asChild>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
-                            className="text-destructive"
+                            className="text-destructive-foreground"
                         >
                             <MaterialSymbolsDeleteForeverRounded className="mr-2" />
                             Видалити

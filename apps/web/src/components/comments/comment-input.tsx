@@ -3,7 +3,7 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { FC } from 'react';
 
-import BasicEditor from '../markdown/editor/basic-editor';
+import { CommentPlateEditor } from '../plate/editor/plate-editor';
 import CommentInputBottomBar from './comment-input-bottom-bar';
 
 interface Props {
@@ -15,17 +15,16 @@ interface Props {
 }
 const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
     return (
-        <BasicEditor
+        <CommentPlateEditor
             className={className}
-            initialValue={isEdit && comment ? comment.text! : undefined}
-            placeholder="Напишіть повідомлення..."
+            value={isEdit && comment ? comment.text! : undefined}
         >
             <CommentInputBottomBar
                 comment={comment}
                 isEdit={isEdit}
                 {...props}
             />
-        </BasicEditor>
+        </CommentPlateEditor>
     );
 };
 

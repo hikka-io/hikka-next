@@ -1,7 +1,6 @@
 'use client';
 
 import { WatchStatusEnum } from '@hikka/client';
-import { cn } from '@udecode/cn';
 import {
     useParams,
     usePathname,
@@ -24,6 +23,7 @@ import {
 
 import { WATCH_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';
+import { cn } from '@/utils/utils';
 
 import { useList } from './watchlist.hooks';
 

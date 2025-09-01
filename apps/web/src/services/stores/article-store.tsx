@@ -6,7 +6,7 @@ import {
     ArticleMangaNovelContentResponse,
     ArticleResponse,
 } from '@hikka/client';
-import { Value } from '@udecode/plate';
+import { Value } from 'platejs';
 import { createStore } from 'zustand';
 
 export type ArticleState = {

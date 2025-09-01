@@ -7,10 +7,8 @@ interface Props {
     className?: string;
 }
 
+export const OL_CLASSNAME = 'ml-6 list-decimal [&>li]:mt-2';
+
 export default function Ol({ children, className }: Props) {
-    return (
-        <ol className={cn('ml-6 list-decimal [&>li]:mt-2', className)}>
-            {children}
-        </ol>
-    );
+    return <ol className={cn(OL_CLASSNAME, className)}>{children}</ol>;
 }

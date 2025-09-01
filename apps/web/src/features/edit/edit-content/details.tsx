@@ -2,6 +2,7 @@ import { MainContent } from '@hikka/client';
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
+import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
 interface Props {
@@ -25,7 +26,7 @@ const Details: FC<Props> = ({ content }) => {
         content.data_type === 'person' || content.data_type === 'character';
 
     return (
-        <div className="border-border bg-secondary/20 flex flex-col gap-4 rounded-md border p-4">
+        <Card className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     {'title_ua' in content ? 'Назва' : 'Імʼя'} українською
@@ -44,7 +45,7 @@ const Details: FC<Props> = ({ content }) => {
                 </Label>
                 <P className="text-sm">{title_ja || '-'}</P>
             </div>
-        </div>
+        </Card>
     );
 };
 

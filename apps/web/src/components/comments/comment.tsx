@@ -123,6 +123,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             <MDViewer className="text-[0.9375rem]">
                                 {comment.text}
                             </MDViewer>
+                            {/* <StaticViewer value={comment.text} /> */}
                         </TextExpand>
                     )
                 ) : (
@@ -167,7 +168,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="bg-secondary/20 group-hover:bg-primary h-full w-px transition-colors duration-100" />
+                            <div className="bg-border group-hover:bg-primary-foreground h-full w-px transition-colors duration-100" />
                         </button>
                     )}
                     {!expand && (
