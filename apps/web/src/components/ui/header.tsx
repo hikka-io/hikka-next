@@ -143,7 +143,7 @@ const HeaderNavButton: FC = () => {
 
     if (href) {
         return (
-            <Button size="icon-md" variant="ghost" asChild>
+            <Button size="icon-sm" variant="ghost" asChild>
                 <Link
                     href={href}
                     className="text-muted-foreground flex items-center gap-2"
@@ -158,7 +158,7 @@ const HeaderNavButton: FC = () => {
     return (
         <Button
             onClick={onClick}
-            size="md"
+            size="icon-sm"
             className="text-muted-foreground flex items-center gap-2"
             variant="ghost"
         >

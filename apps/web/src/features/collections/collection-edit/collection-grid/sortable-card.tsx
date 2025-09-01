@@ -49,7 +49,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
                         </div>
                     </ContentCard>
                 ),
-                [content],
+                [content, onRemove],
             )}
         </div>
     );

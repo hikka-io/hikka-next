@@ -4,7 +4,7 @@ import { useArticleBySlug } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ArticleViewer from '@/components/markdown/editor/article-viewer';
+import { StaticViewer } from '@/components/plate/editor/static-viewer';
 
 interface Props {}
 
@@ -24,7 +24,7 @@ const ArticleDocument: FC<Props> = () => {
             ? [...article.document[0].children, ...article.document.slice(1)]
             : article.document;
 
-    return <ArticleViewer initialValue={document} />;
+    return <StaticViewer value={document} />;
 };
 
 export default ArticleDocument;

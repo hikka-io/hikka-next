@@ -2,13 +2,14 @@
 
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
-import { useEditorRef } from '@udecode/plate/react';
+import { MarkdownPlugin } from '@platejs/markdown';
+import { useEditorValue } from 'platejs/react';
 import { FC } from 'react';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 import MaterialSymbolsReplyRounded from '../icons/material-symbols/MaterialSymbolsReplyRounded';
-import { serializeMd } from '../markdown/editor/plugins/markdown-plugin/serialize-md';
+import { useCommentEditor } from '../plate/editor/comment-kit';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
@@ -30,7 +31,8 @@ const CommentInputBottomBar: FC<Props> = ({
     isEdit,
 }) => {
     const { setState: setCommentsState } = useCommentsContext();
-    const editor = useEditorRef();
+    const editor = useCommentEditor();
+    const editorValue = useEditorValue(editor.id);
 
     const onSuccess = async () => {
         editor.tf.reset();
@@ -67,7 +69,9 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     const onSubmit = () => {
-        const text = serializeMd({ editor });
+        const text = editor.getApi(MarkdownPlugin).markdown.serialize({
+            value: editorValue,
+        });
 
         if (isEdit) {
             mutateEditComment({
@@ -96,12 +100,12 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     return (
-        <div className="flex w-full items-center justify-between p-2">
+        <div className="absolute bottom-0 pointer-events-none flex w-full items-center justify-between p-2">
             {comment && !isEdit ? (
                 <Badge variant="secondary" className="gap-2 p-0 pr-2">
-                    <Avatar className="size-6">
+                    <Avatar className="size-6 rounded-sm">
                         <AvatarImage
-                            className="size-6"
+                            className="size-6 rounded-sm"
                             src={comment.author.avatar}
                         />
                     </Avatar>
@@ -120,6 +124,7 @@ const CommentInputBottomBar: FC<Props> = ({
                         onClick={handleCancel}
                         size="md"
                         variant="outline"
+                        className="pointer-events-auto"
                     >
                         Скасувати
                     </Button>
@@ -130,6 +135,7 @@ const CommentInputBottomBar: FC<Props> = ({
                     size="md"
                     type="submit"
                     variant="secondary"
+                    className="pointer-events-auto"
                 >
                     {(isAddPending || isEditPending) && (
                         <span className="loading loading-spinner"></span>

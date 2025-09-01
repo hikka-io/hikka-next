@@ -8,7 +8,7 @@ import { cn } from '@/utils/utils';
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '../icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '../icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import ArticleViewer from '../markdown/editor/article-viewer';
+import { StaticViewer } from '../plate/editor/static-viewer';
 import Muted from '../typography/muted';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
@@ -58,7 +58,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         </HeaderContainer>
                     </Header>
                 </div>
-                <ArticleViewer initialValue={document} />
+                <StaticViewer value={document} />
             </div>
             <div className="flex items-center justify-between p-4">
                 <div className="flex gap-2">

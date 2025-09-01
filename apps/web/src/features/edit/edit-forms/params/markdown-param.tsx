@@ -6,10 +6,11 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import BasicEditor from '@/components/markdown/editor/basic-editor';
-import PlateDiff from '@/components/markdown/editor/plate-diff';
+// import BasicEditor from '@/components/markdown/editor/basic-editor';
 // import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import { DiffViewer } from '@/components/plate/editor/diff-viewer';
+import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
@@ -57,8 +58,8 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                     edit &&
                     edit.before![param.slug] &&
                     showDiff && (
-                        <PlateDiff
-                            // className="opacity-50 hover:opacity-100"
+                        <DiffViewer
+                            className="opacity-50 hover:opacity-100"
                             current={edit.after![param.slug]}
                             previous={edit.before![param.slug]}
                         />
@@ -74,9 +75,9 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 control={control}
                 name={param.slug}
                 render={({ field: { onChange, value } }) => (
-                    <BasicEditor
+                    <CommentPlateEditor
                         placeholder={param.placeholder}
-                        initialValue={value || ''}
+                        value={value || ''}
                         onValueChange={onChange}
                     />
                 )}
