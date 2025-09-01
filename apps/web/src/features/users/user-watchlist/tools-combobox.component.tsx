@@ -2,7 +2,7 @@
 
 import { WatchStatusEnum } from '@hikka/client';
 import { useRandomWatchByStatus } from '@hikka/react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -20,10 +20,17 @@ import AnimeFiltersModal from '../../modals/anime-filters-modal.component';
 const ToolsCombobox = () => {
     const searchParams = useSearchParams();
     const params = useParams();
+    const router = useRouter();
 
     const watchStatus = searchParams.get('status')! as WatchStatusEnum;
 
-    const mutationRandomWatch = useRandomWatchByStatus();
+    const mutationRandomWatch = useRandomWatchByStatus({
+        options: {
+            onSuccess: (data) => {
+                router.push(`/anime/${data.slug}`);
+            },
+        },
+    });
 
     const handleRandomAnime = async () => {
         mutationRandomWatch.mutate({
