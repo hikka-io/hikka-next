@@ -83,8 +83,6 @@ export function FixedArticleToolbarButtons() {
 
                     <ToolbarGroup>
                         <LinkToolbarButton />
-                        <VideoToolbarButton />
-                        <ImageGroupToolbarButton />
                         <EmojiToolbarButton />
                     </ToolbarGroup>
                     <ToolbarGroup>
