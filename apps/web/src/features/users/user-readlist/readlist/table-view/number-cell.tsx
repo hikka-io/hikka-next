@@ -15,10 +15,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
 
+import { ReadEditModal } from '@/features/modals';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
-
-import ReadEditModal from '../../../../modals/read-edit-modal.component';
 
 interface Props {
     number: number;

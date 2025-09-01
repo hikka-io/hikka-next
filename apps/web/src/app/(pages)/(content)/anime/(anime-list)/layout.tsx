@@ -4,8 +4,8 @@ import { FC, ReactNode } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
-import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar.component';
-import AnimeFilters from '@/features/filters/anime-filters.component';
+import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar';
+import { AnimeFilters } from '@/features/filters';
 
 interface Props {
     children: ReactNode;

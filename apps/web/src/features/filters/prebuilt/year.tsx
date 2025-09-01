@@ -9,9 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { FormLabel } from '@/components/ui/form';
 import { Slider } from '@/components/ui/slider';
 
-import CollapsibleFilter from '../collapsible-filter';
-import useChangeParam from '../use-change-param';
-import YearFilterInput from '../year-filter-input';
+import CollapsibleFilter from '../components/collapsible-filter';
+import useChangeParam from '../hooks/use-change-param';
+import YearFilterInput from '../components/year-filter-input';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();

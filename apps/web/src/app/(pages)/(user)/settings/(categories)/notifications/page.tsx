@@ -9,7 +9,7 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Notifications from '@/features/settings/notifications/notifications.component';
+import Notifications from '@/features/settings/notifications/notifications';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

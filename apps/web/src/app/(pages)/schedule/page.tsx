@@ -14,9 +14,9 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import ScheduleFilters from '@/features/filters/schedule-filters.component';
-import ScheduleFiltersModal from '@/features/modals/schedule-filters-modal.component';
-import ScheduleList from '@/features/schedule/schedule-list/schedule-list.component';
+import { ScheduleFilters } from "@/features/filters";
+import { ScheduleFiltersModal } from "@/features/modals";
+import ScheduleList from '@/features/schedule/schedule-list/schedule-list';
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

@@ -15,8 +15,8 @@ import { FC } from 'react';
 
 import ContentHeader from '@/components/content-header';
 
-import Comments from '@/features/comments/comment-list.component';
-import { prefetchContent } from '@/features/comments/prefetch-content';
+import { CommentList as Comments } from "@/features/comments";
+import { prefetchContent } from "@/features/comments";
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

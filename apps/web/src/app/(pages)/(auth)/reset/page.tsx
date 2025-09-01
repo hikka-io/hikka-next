@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import ForgotPasswordForm from '@/features/auth/forgot-password/forgot-password-form.component';
-import ForgotPasswordHeader from '@/features/auth/forgot-password/forgot-password-header.component';
+import ForgotPasswordForm from '@/features/auth/forgot-password/forgot-password-form';
+import ForgotPasswordHeader from '@/features/auth/forgot-password/forgot-password-header';
 
 import _generateMetadata from '@/utils/generate-metadata';
 

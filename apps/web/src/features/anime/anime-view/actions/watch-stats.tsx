@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
 
-import CollapsibleFilter from '@/features/filters/collapsible-filter';
+import { CollapsibleFilter } from '@/features/filters';
 
 import useDebounce from '@/services/hooks/use-debounce';
 import { useSettingsStore } from '@/services/stores/settings-store';

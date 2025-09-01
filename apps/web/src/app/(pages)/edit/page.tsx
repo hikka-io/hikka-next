@@ -14,10 +14,10 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import EditList from '@/features/edit/edit-list/edit-list.component';
-import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats.component';
-import Filters from '@/features/filters/edit-filters.component';
-import EditFiltersModal from '@/features/modals/edit-filters-modal.component';
+import EditList from '@/features/edit/edit-list/edit-list';
+import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats';
+import { EditFilters as Filters } from "@/features/filters";
+import { EditFiltersModal } from "@/features/modals";
 
 import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

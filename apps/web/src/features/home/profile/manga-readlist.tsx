@@ -23,12 +23,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { ReadEditModal } from '@/features/modals';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
-
-import ReadEditModal from '../../modals/read-edit-modal.component';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',

@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import SignupForm from '@/features/auth/signup/signup-form.component';
-import SignupHeader from '@/features/auth/signup/signup-header.component';
+import SignupForm from '@/features/auth/signup/signup-form';
+import SignupHeader from '@/features/auth/signup/signup-header';
 
 import _generateMetadata from '@/utils/generate-metadata';
 

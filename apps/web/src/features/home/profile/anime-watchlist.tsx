@@ -23,13 +23,13 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { WatchEditModal } from '@/features/modals';
+
 import useDebounce from '@/services/hooks/use-debounce';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import getDeclensionWord from '@/utils/get-declension-word';
 import { cn } from '@/utils/utils';
-
-import WatchEditModal from '../../modals/watch-edit-modal.component';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',

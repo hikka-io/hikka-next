@@ -12,7 +12,7 @@ import { FC, PropsWithChildren } from 'react';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
-import AnimeNavbar from '@/features/anime/anime-view/anime-navbar/anime-navbar.component';
+import AnimeNavbar from '@/features/anime/anime-view/anime-navbar/anime-navbar';
 
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

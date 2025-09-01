@@ -10,7 +10,7 @@ import { createElement, useCallback, useMemo } from 'react';
 
 import { ButtonProps } from '@/components/ui/button';
 
-import WatchEditModal from '@/features/modals/watch-edit-modal.component';
+import { WatchEditModal } from "@/features/modals";
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';

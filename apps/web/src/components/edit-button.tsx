@@ -1,7 +1,7 @@
 import { EditContentType } from '@hikka/client';
 import { FC } from 'react';
 
-import EditListModal from '@/features/modals/editlist-modal/editlist-modal.component';
+import EditListModal from '@/features/modals/editlist-modal/editlist-modal';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';

@@ -4,8 +4,8 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { InputTags } from '@/components/ui/input-tags';
-import CollapsibleFilter from '../collapsible-filter';
-import useChangeParam from '../use-change-param';
+import CollapsibleFilter from '../components/collapsible-filter';
+import useChangeParam from '../hooks/use-change-param';
 
 interface Props {
     className?: string;

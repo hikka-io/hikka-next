@@ -8,7 +8,7 @@ import {
 } from '@hikka/client';
 import { FC, createElement } from 'react';
 
-import ReadEditModal from '@/features/modals/read-edit-modal.component';
+import { ReadEditModal } from "@/features/modals";
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';

@@ -6,20 +6,20 @@ import {
 } from '@hikka/react/server';
 import { FC } from 'react';
 
-import Actions from '@/features/anime/anime-view/actions/actions.component';
-import Characters from '@/features/anime/anime-view/characters/characters.component';
-import Cover from '@/features/anime/anime-view/cover.component';
-import Description from '@/features/anime/anime-view/description.component';
-import Details from '@/features/anime/anime-view/details/details.component';
-import Links from '@/features/anime/anime-view/links/links.component';
-import Media from '@/features/anime/anime-view/media/media.component';
-import Staff from '@/features/anime/anime-view/staff.component';
-import Title from '@/features/anime/anime-view/title.component';
-import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats.component';
+import Actions from '@/features/anime/anime-view/actions/actions';
+import Characters from '@/features/anime/anime-view/characters/characters';
+import Cover from '@/features/anime/anime-view/cover';
+import Description from '@/features/anime/anime-view/description';
+import Details from '@/features/anime/anime-view/details/details';
+import Links from '@/features/anime/anime-view/links/links';
+import Media from '@/features/anime/anime-view/media/media';
+import Staff from '@/features/anime/anime-view/staff';
+import Title from '@/features/anime/anime-view/title';
+import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats';
 import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
-import Comments from '@/features/comments/comment-list.component';
-import Followings from '@/features/followings/followings.component';
-import Franchise from '@/features/franchise/franchise.component';
+import { CommentList as Comments } from '@/features/comments';
+import { Franchise } from '@/features/franchise';
+import { Followings } from '@/features/modals';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

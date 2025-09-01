@@ -1,3 +1,5 @@
+'use client';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useFormContext } from 'react-hook-form';
 

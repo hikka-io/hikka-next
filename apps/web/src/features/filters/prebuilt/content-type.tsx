@@ -16,8 +16,8 @@ import {
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
-import CollapsibleFilter from '../collapsible-filter';
-import useChangeParam from '../use-change-param';
+import CollapsibleFilter from '../components/collapsible-filter';
+import useChangeParam from '../hooks/use-change-param';
 
 interface Props {
     className?: string;

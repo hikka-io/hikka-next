@@ -7,7 +7,7 @@ import { prefetchCommentList } from '@hikka/react/server';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import Comments from '@/features/comments/latest-comments.component';
+import { LatestComments } from '@/features/comments';
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -31,7 +31,7 @@ const LatestCommentsPage: FC = async () => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12">
-                <Comments />
+                <LatestComments />
             </div>
         </HydrationBoundary>
     );

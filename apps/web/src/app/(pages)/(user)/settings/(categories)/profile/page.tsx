@@ -6,9 +6,9 @@ import {
     HeaderContainer,
     HeaderTitle,
 } from '@/components/ui/header';
-import Appearance from '@/features/settings/profile/appearance.component';
-import Description from '@/features/settings/profile/description.component';
-import Username from '@/features/settings/profile/username.component';
+import Appearance from '@/features/settings/profile/appearance';
+import Description from '@/features/settings/profile/description';
+import Username from '@/features/settings/profile/username';
 
 interface Props {
     params: {

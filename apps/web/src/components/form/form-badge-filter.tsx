@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import BadgeFilter, { BadgeFilterProps } from '@/features/filters/badge-filter';
+import { BadgeFilter, BadgeFilterProps } from "@/features/filters";
 
 import {
     FormControl,

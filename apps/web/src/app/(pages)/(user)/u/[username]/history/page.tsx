@@ -7,7 +7,7 @@ import { prefetchFollowingHistory } from '@hikka/react/server';
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import History from '@/features/users/user-history/user-history.component';
+import History from '@/features/users/user-history/user-history';
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

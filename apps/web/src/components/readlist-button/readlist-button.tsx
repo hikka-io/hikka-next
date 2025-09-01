@@ -18,7 +18,7 @@ import { createElement, useCallback, useMemo } from 'react';
 
 import { ButtonProps } from '@/components/ui/button';
 
-import ReadEditModal from '@/features/modals/read-edit-modal.component';
+import { ReadEditModal } from "@/features/modals";
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';

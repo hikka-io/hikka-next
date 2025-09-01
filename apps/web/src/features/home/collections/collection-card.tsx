@@ -5,6 +5,7 @@ import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import ContentCard from '@/components/content-card/content-card';
 import FollowButton from '@/components/follow-button';
 import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
@@ -24,8 +25,6 @@ import Stack, { StackSize } from '@/components/ui/stack';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
-
-import ContentCard from '../../../components/content-card/content-card';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;

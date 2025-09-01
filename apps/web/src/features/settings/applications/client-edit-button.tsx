@@ -7,9 +7,9 @@ import { FC, Fragment, memo } from 'react';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';
 
-import { useModalContext } from '@/services/providers/modal-provider';
+import { ClientEditModal } from '@/features/modals';
 
-import ClientEditModal from '../../modals/client-modal/client-edit-modal.component';
+import { useModalContext } from '@/services/providers/modal-provider';
 
 interface Props {
     client: ClientResponse;

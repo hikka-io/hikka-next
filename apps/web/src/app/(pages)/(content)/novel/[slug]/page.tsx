@@ -2,18 +2,18 @@ import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import { default as ContentArticles } from '@/features/articles/article-view/content-articles/content-articles';
-import Comments from '@/features/comments/comment-list.component';
-import Followings from '@/features/followings/followings.component';
-import Franchise from '@/features/franchise/franchise.component';
-import Actions from '@/features/novel/novel-view/actions/actions.component';
-import Characters from '@/features/novel/novel-view/characters/characters.component';
-import Cover from '@/features/novel/novel-view/cover.component';
-import Description from '@/features/novel/novel-view/description.component';
-import Details from '@/features/novel/novel-view/details/details.component';
-import Links from '@/features/novel/novel-view/links/links.component';
-import ReadStats from '@/features/novel/novel-view/read-stats/read-stats.component';
-import Staff from '@/features/novel/novel-view/staff.component';
-import Title from '@/features/novel/novel-view/title.component';
+import { CommentList as Comments } from '@/features/comments';
+import { Franchise } from '@/features/franchise';
+import { Followings } from '@/features/modals';
+import Actions from '@/features/novel/novel-view/actions/actions';
+import Characters from '@/features/novel/novel-view/characters/characters';
+import Cover from '@/features/novel/novel-view/cover';
+import Description from '@/features/novel/novel-view/description';
+import Details from '@/features/novel/novel-view/details/details';
+import Links from '@/features/novel/novel-view/links/links';
+import ReadStats from '@/features/novel/novel-view/read-stats/read-stats';
+import Staff from '@/features/novel/novel-view/staff';
+import Title from '@/features/novel/novel-view/title';
 
 interface Props {
     params: {

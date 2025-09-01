@@ -14,10 +14,10 @@ import {
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
 
+import { SearchModal } from '@/features/modals';
+
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-
-import SearchModal from '../../../modals/search-modal/search-modal.component';
 
 interface Props {}
 

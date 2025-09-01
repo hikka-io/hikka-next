@@ -15,7 +15,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import CollectionList from '@/features/collections/collection-list/collection-list.component';
+import CollectionList from '@/features/collections/collection-list/collection-list';
 import CollectionSort from '@/features/collections/collection-list/collection-sort';
 
 import _generateMetadata from '@/utils/generate-metadata';

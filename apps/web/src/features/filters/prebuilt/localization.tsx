@@ -7,8 +7,8 @@ import FormSwitch, { FormSwitchProps } from '@/components/form/form-switch';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import CollapsibleFilter from '../collapsible-filter';
-import useChangeParam from '../use-change-param';
+import CollapsibleFilter from '../components/collapsible-filter';
+import useChangeParam from '../hooks/use-change-param';
 
 interface Props {
     className?: string;

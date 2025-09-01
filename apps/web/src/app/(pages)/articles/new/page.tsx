@@ -1,10 +1,10 @@
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
-import ArticleText from '@/features/articles/article-edit/article-document.component';
-import ArticlePreview from '@/features/articles/article-edit/article-preview.component';
-import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
-import ArticleTitle from '@/features/articles/article-edit/article-title.component';
+import ArticleText from '@/features/articles/article-edit/article-document';
+import ArticlePreview from '@/features/articles/article-edit/article-preview';
+import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings';
+import ArticleTitle from '@/features/articles/article-edit/article-title';
 
 import ArticleProvider from '@/services/providers/article-provider';
 

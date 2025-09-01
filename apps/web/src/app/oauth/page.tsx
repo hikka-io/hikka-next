@@ -7,11 +7,11 @@ import { prefetchClientByReference } from '@hikka/react/server';
 import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
-import SessionManager from '@/features/common/session-manager.component';
-import Client from '@/features/oauth/client/client.component';
-import Confirm from '@/features/oauth/confirm.component';
-import Header from '@/features/oauth/oauth-header';
-import Profile from '@/features/oauth/profile/profile.component';
+import { SessionManager } from "@/features/common";
+import Client from '@/features/oauth/client/client';
+import { OAuthConfirm as Confirm } from "@/features/oauth";
+import { OAuthHeader as Header } from "@/features/oauth";
+import Profile from '@/features/oauth/profile/profile';
 
 interface Props {
     searchParams: {

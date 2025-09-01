@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Characters from '@/features/novel/novel-view/characters/characters.component';
+import Characters from '@/features/novel/novel-view/characters/characters';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(

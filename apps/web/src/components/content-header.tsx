@@ -15,7 +15,7 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-import { useContent } from '../features/comments/use-content';
+import { useContent } from '@/features/comments';
 import ContentCard from './content-card/content-card';
 import Breadcrumbs from './navigation/nav-breadcrumbs';
 import P from './typography/p';

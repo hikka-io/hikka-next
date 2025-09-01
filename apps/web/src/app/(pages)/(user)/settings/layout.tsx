@@ -9,7 +9,7 @@ import { FC, PropsWithChildren } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Menu from '@/features/settings/menu.component';
+import { Menu } from '@/features/settings';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 

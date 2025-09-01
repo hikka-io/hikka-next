@@ -19,8 +19,8 @@ import {
 
 import { cn } from '@/utils/utils';
 
-import CollapsibleFilter from '../collapsible-filter';
-import useChangeParam from '../use-change-param';
+import CollapsibleFilter from '../components/collapsible-filter';
+import useChangeParam from '../hooks/use-change-param';
 
 export type SortType =
     | 'anime'

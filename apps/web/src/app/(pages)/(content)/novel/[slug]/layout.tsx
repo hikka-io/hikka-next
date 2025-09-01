@@ -16,7 +16,7 @@ import { FC, PropsWithChildren } from 'react';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
-import NovelNavbar from '@/features/novel/novel-view/novel-navbar/novel-navbar.component';
+import NovelNavbar from '@/features/novel/novel-view/novel-navbar/novel-navbar';
 
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

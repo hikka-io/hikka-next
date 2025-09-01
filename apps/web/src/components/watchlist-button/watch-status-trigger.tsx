@@ -3,7 +3,7 @@
 import { AnimeResponse, WatchResponse, WatchResponseBase } from '@hikka/client';
 import { FC, createElement } from 'react';
 
-import WatchEditModal from '@/features/modals/watch-edit-modal.component';
+import { WatchEditModal } from "@/features/modals";
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';

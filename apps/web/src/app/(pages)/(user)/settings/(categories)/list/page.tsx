@@ -6,8 +6,8 @@ import {
     HeaderContainer,
     HeaderTitle,
 } from '@/components/ui/header';
-import Readlist from '@/features/settings/list/readlist/readlist.component';
-import Watchlist from '@/features/settings/list/watchlist/watchlist.component';
+import Readlist from '@/features/settings/list/readlist/readlist';
+import Watchlist from '@/features/settings/list/watchlist/watchlist';
 
 interface Props {
     params: {

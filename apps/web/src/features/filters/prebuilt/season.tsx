@@ -9,9 +9,9 @@ import FormBadgeFilter, {
 
 import { SEASON } from '@/utils/constants/common';
 
-import BadgeFilter from '../badge-filter';
-import CollapsibleFilter from '../collapsible-filter';
-import useChangeParam from '../use-change-param';
+import BadgeFilter from '../components/badge-filter';
+import CollapsibleFilter from '../components/collapsible-filter';
+import useChangeParam from '../hooks/use-change-param';
 
 interface Props {
     className?: string;

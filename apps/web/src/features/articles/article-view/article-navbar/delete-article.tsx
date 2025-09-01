@@ -1,3 +1,5 @@
+'use client';
+
 import { ArticleResponse } from '@hikka/client';
 import { useDeleteArticle } from '@hikka/react';
 import { useRouter } from 'next/navigation';

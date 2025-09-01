@@ -11,11 +11,11 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import Filters from '@/features/filters/anime-filters.component';
-import StatusCombobox from '@/features/users/user-watchlist/status-combobox.component';
-import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox.component';
-import List from '@/features/users/user-watchlist/watchlist/watchlist.component';
-import ViewCombobox from '@/features/users/view-combobox.component';
+import { AnimeFilters as Filters } from "@/features/filters";
+import StatusCombobox from '@/features/users/user-watchlist/status-combobox';
+import ToolsCombobox from '@/features/users/user-watchlist/tools-combobox';
+import List from '@/features/users/user-watchlist/watchlist/watchlist';
+import { ViewCombobox } from "@/features/users";
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

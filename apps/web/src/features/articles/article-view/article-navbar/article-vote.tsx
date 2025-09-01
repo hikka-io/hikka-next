@@ -1,3 +1,5 @@
+'use client';
+
 import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
 import { useRouter } from 'next/navigation';

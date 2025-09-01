@@ -6,8 +6,8 @@ import {
     HeaderContainer,
     HeaderTitle,
 } from '@/components/ui/header';
-import Email from '@/features/settings/security/email.component';
-import Password from '@/features/settings/security/password.component';
+import Email from '@/features/settings/security/email';
+import Password from '@/features/settings/security/password';
 
 interface Props {
     params: {

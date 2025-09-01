@@ -8,13 +8,15 @@ import {
 
 import CoverImage from '@/components/cover-image';
 
-import Articles from '@/features/home/articles/articles.component';
-import Collections from '@/features/home/collections/collections.component';
-import Comments from '@/features/home/comments.component';
-import Ongoings from '@/features/home/ongoings.component';
-import History from '@/features/home/profile/history.component';
-import Profile from '@/features/home/profile/profile.component';
-import Schedule from '@/features/home/schedule/schedule.component';
+import {
+    HomeArticles as Articles,
+    HomeCollections as Collections,
+    HomeComments as Comments,
+    HomeOngoings as Ongoings,
+    HomeHistory as History,
+    HomeProfile as Profile,
+    HomeSchedule as Schedule,
+} from '@/features/home';
 
 import prefetchQueries from './page.queries';
 

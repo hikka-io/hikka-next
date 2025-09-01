@@ -1,7 +1,7 @@
-import Anime from '@/features/people/person-view/anime.component';
-import Characters from '@/features/people/person-view/characters.component';
-import Manga from '@/features/people/person-view/manga.component';
-import Novel from '@/features/people/person-view/novel.component';
+import Anime from '@/features/people/person-view/anime';
+import Characters from '@/features/people/person-view/characters';
+import Manga from '@/features/people/person-view/manga';
+import Novel from '@/features/people/person-view/novel';
 
 const PersonPage = () => {
     return (

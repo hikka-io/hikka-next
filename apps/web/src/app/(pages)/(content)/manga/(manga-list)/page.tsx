@@ -5,7 +5,7 @@ import {
 } from '@hikka/react/core';
 import { FC } from 'react';
 
-import MangaList from '@/features/manga/manga-list/manga-list.component';
+import MangaList from '@/features/manga/manga-list/manga-list';
 
 interface Props {
     searchParams: Record<string, string>;
