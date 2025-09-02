@@ -9,9 +9,11 @@ import { permanentRedirect } from 'next/navigation';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
-import CollectionGroups from '@/features/collections/collection-edit/collection-groups';
-import CollectionSettings from '@/features/collections/collection-edit/collection-settings/collection-settings';
-import CollectionTitle from '@/features/collections/collection-edit/collection-title';
+import {
+    CollectionGroups,
+    CollectionSettings,
+    CollectionEditTitle as CollectionTitle,
+} from '@/features/collections';
 
 import CollectionProvider from '@/services/providers/collection-provider';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

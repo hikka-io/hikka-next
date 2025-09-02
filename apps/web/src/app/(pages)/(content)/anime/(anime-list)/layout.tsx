@@ -4,7 +4,7 @@ import { FC, ReactNode } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
-import NavBar from '@/features/anime/anime-list-navbar/anime-list-navbar';
+import { AnimeListNavbar as NavBar } from '@/features/anime';
 import { AnimeFilters } from '@/features/filters';
 
 interface Props {

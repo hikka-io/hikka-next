@@ -1,8 +1,10 @@
-import Anime from '@/features/characters/components/anime';
-import Description from '@/features/characters/components/description';
-import Manga from '@/features/characters/components/manga';
-import Novel from '@/features/characters/components/novel';
-import Voices from '@/features/characters/components/voices';
+import {
+    CharacterAnime as Anime,
+    CharacterDescription as Description,
+    CharacterManga as Manga,
+    CharacterNovel as Novel,
+    CharacterVoices as Voices,
+} from '@/features/characters';
 
 const CharacterPage = () => {
     return (

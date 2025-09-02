@@ -6,8 +6,7 @@ import {
     HeaderContainer,
     HeaderTitle,
 } from '@/components/ui/header';
-import Readlist from '@/features/settings/list/readlist/readlist';
-import Watchlist from '@/features/settings/list/watchlist/watchlist';
+import { ReadlistSettings, WatchlistSettings } from '@/features/settings';
 
 interface Props {
     params: {
@@ -35,7 +34,7 @@ const ListSettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle variant="h4">Імпорт аніме</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <Watchlist />
+                <WatchlistSettings />
             </div>
             <div className="flex flex-col gap-4">
                 <Header>
@@ -45,7 +44,7 @@ const ListSettingsPage: FC<Props> = async (props) => {
                         </HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <Readlist />
+                <ReadlistSettings />
             </div>
         </div>
     );

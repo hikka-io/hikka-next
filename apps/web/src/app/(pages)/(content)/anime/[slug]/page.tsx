@@ -6,17 +6,19 @@ import {
 } from '@hikka/react/server';
 import { FC } from 'react';
 
-import Actions from '@/features/anime/anime-view/actions/actions';
-import Characters from '@/features/anime/anime-view/characters/characters';
-import Cover from '@/features/anime/anime-view/cover';
-import Description from '@/features/anime/anime-view/description';
-import Details from '@/features/anime/anime-view/details/details';
-import Links from '@/features/anime/anime-view/links/links';
-import Media from '@/features/anime/anime-view/media/media';
-import Staff from '@/features/anime/anime-view/staff';
-import Title from '@/features/anime/anime-view/title';
-import WatchStats from '@/features/anime/anime-view/watch-stats/watch-stats';
-import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
+import {
+    AnimeActions as Actions,
+    AnimeCharacters as Characters,
+    AnimeCover as Cover,
+    AnimeDescription as Description,
+    AnimeDetails as Details,
+    AnimeLinks as Links,
+    AnimeMedia as Media,
+    AnimeStaff as Staff,
+    AnimeTitle as Title,
+    AnimeWatchStats as WatchStats,
+} from '@/features/anime';
+import { ContentArticles } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
 import { Franchise } from '@/features/franchise';
 import { Followings } from '@/features/modals';

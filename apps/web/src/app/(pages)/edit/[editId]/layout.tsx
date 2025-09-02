@@ -19,7 +19,7 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { EditAuthor as Author } from "@/features/edit";
-import Content from '@/features/edit/edit-content/edit-content';
+import { EditContent as Content } from '@/features/edit';
 import { EditModerator as Moderator } from "@/features/edit";
 import { EditStatus } from "@/features/edit";
 

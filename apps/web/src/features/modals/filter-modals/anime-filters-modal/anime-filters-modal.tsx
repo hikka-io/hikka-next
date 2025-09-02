@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import AnimeFilters from '@/features/filters/components/anime-filters';
+import { AnimeFilters } from '@/features/filters';
 
 interface Props {
     sort_type: 'anime' | 'watch';

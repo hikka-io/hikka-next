@@ -16,7 +16,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import { useReadList } from '@/features/users/hooks/use-readlist';
+import { useReadList } from '@/features/users';
 
 import { READ_STATUS } from '@/utils/constants/common';
 import createQueryString from '@/utils/create-query-string';

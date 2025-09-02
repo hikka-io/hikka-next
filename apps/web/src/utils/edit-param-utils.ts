@@ -1,9 +1,7 @@
 import { ContentTypeEnum, EditContentType } from '@hikka/client';
 import { ComponentType } from 'react';
 
-import InputParam from '@/features/edit/edit-forms/params/input-param';
-import ListParam from '@/features/edit/edit-forms/params/list-param';
-import MarkdownParam from '@/features/edit/edit-forms/params/markdown-param';
+import { InputParam, ListParam, MarkdownParam } from '@/features/edit';
 
 import {
     ANIME_EDIT_GROUPS,

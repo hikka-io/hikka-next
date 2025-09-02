@@ -1,3 +1,5 @@
+'use client';
+
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useDeleteCollection } from '@hikka/react';
 import Link from 'next/link';

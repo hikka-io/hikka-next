@@ -1,18 +1,20 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
-import ContentArticles from '@/features/articles/article-view/content-articles/content-articles';
+import { ContentArticles } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
 import { Franchise } from '@/features/franchise';
-import Actions from '@/features/manga/manga-view/actions/actions';
-import Characters from '@/features/manga/manga-view/characters/characters';
-import Cover from '@/features/manga/manga-view/cover';
-import Description from '@/features/manga/manga-view/description';
-import Details from '@/features/manga/manga-view/details/details';
-import Links from '@/features/manga/manga-view/links/links';
-import ReadStats from '@/features/manga/manga-view/read-stats/read-stats';
-import Staff from '@/features/manga/manga-view/staff';
-import Title from '@/features/manga/manga-view/title';
+import {
+    MangaActions as Actions,
+    MangaCharacters as Characters,
+    MangaCover as Cover,
+    MangaDescription as Description,
+    MangaDetails as Details,
+    MangaLinks as Links,
+    MangaReadStats as ReadStats,
+    MangaStaff as Staff,
+    MangaTitle as Title,
+} from '@/features/manga';
 import { Followings } from '@/features/modals';
 
 interface Props {

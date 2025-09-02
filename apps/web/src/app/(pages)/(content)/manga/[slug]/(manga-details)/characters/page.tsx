@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Characters from '@/features/manga/manga-view/characters/characters';
+import { MangaCharacters as Characters } from '@/features/manga';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(

@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Staff from '@/features/anime/anime-view/staff';
+import { AnimeStaff as Staff } from '@/features/anime';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(

@@ -17,10 +17,12 @@ import { permanentRedirect } from 'next/navigation';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 
-import CollectionAuthor from '@/features/collections/collection-view/collection-author';
-import CollectionGroups from '@/features/collections/collection-view/collection-groups/collection-groups';
-import CollectionNavbar from '@/features/collections/collection-view/collection-navbar/collection-navbar';
-import CollectionTitle from '@/features/collections/collection-view/collection-title';
+import {
+    CollectionAuthor,
+    CollectionViewGroups as CollectionGroups,
+    CollectionNavbar,
+    CollectionTitle,
+} from '@/features/collections';
 import { CommentList as Comments } from "@/features/comments";
 
 import CollectionProvider from '@/services/providers/collection-provider';

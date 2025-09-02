@@ -25,6 +25,8 @@ export { default as WatchlistGeneral } from './list/watchlist/general';
 
 // Applications Settings
 export { default as ApplicationsSettings } from './applications/applications';
+export { default as ClientCreateButton } from './applications/client-create-button';
+export { default as ClientEditButton } from './applications/client-edit-button';
 
 // Notifications Settings
 export { default as NotificationsSettings } from './notifications/notifications';

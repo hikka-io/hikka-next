@@ -3,10 +3,7 @@ import { FC, ReactNode, Suspense } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
-import { Footer } from "@/features/common";
-import NavBar from '@/features/common/navbar/navbar';
-import { ScrollTop } from "@/features/common";
-import { SessionManager } from "@/features/common";
+import { Footer, Navbar as NavBar, ScrollTop, SessionManager } from '@/features/common';
 
 import SnowfallManager from '../../components/snowfall-manager';
 

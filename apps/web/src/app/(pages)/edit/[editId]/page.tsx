@@ -2,8 +2,7 @@ import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import { CommentList as Comments } from "@/features/comments";
-import Actions from '@/features/edit/edit-actions/edit-actions';
-import EditView from '@/features/edit/edit-forms/edit-view-form';
+import { EditActions as Actions, EditViewForm as EditView } from '@/features/edit';
 
 interface Props {
     params: { editId: string };

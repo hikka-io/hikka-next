@@ -8,10 +8,12 @@ import { permanentRedirect } from 'next/navigation';
 import { FC } from 'react';
 
 import { SessionManager } from "@/features/common";
-import Client from '@/features/oauth/client/client';
-import { OAuthConfirm as Confirm } from "@/features/oauth";
-import { OAuthHeader as Header } from "@/features/oauth";
-import Profile from '@/features/oauth/profile/profile';
+import {
+    OAuthClient as Client,
+    OAuthConfirm as Confirm,
+    OAuthHeader as Header,
+    OAuthProfile as Profile,
+} from '@/features/oauth';
 
 interface Props {
     searchParams: {

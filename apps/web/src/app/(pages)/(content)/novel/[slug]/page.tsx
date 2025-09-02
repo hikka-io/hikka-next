@@ -1,19 +1,21 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
-import { default as ContentArticles } from '@/features/articles/article-view/content-articles/content-articles';
+import { ContentArticles } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
 import { Franchise } from '@/features/franchise';
 import { Followings } from '@/features/modals';
-import Actions from '@/features/novel/novel-view/actions/actions';
-import Characters from '@/features/novel/novel-view/characters/characters';
-import Cover from '@/features/novel/novel-view/cover';
-import Description from '@/features/novel/novel-view/description';
-import Details from '@/features/novel/novel-view/details/details';
-import Links from '@/features/novel/novel-view/links/links';
-import ReadStats from '@/features/novel/novel-view/read-stats/read-stats';
-import Staff from '@/features/novel/novel-view/staff';
-import Title from '@/features/novel/novel-view/title';
+import {
+    NovelActions as Actions,
+    NovelCharacters as Characters,
+    NovelCover as Cover,
+    NovelDescription as Description,
+    NovelDetails as Details,
+    NovelLinks as Links,
+    NovelReadStats as ReadStats,
+    NovelStaff as Staff,
+    NovelTitle as Title,
+} from '@/features/novel';
 
 interface Props {
     params: {

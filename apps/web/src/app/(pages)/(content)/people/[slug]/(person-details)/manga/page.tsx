@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Manga from '@/features/people/components/manga';
+import { PersonManga as Manga } from '@/features/people';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

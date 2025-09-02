@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import ReadFilters from '@/features/filters/components/read-filters';
+import { ReadFilters } from '@/features/filters';
 
 interface Props {
     content_type: ReadContentType;

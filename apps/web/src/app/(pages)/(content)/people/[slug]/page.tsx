@@ -1,7 +1,9 @@
-import Anime from '@/features/people/components/anime';
-import Characters from '@/features/people/components/characters';
-import Manga from '@/features/people/components/manga';
-import Novel from '@/features/people/components/novel';
+import {
+    PersonAnime as Anime,
+    PersonCharacters as Characters,
+    PersonManga as Manga,
+    PersonNovel as Novel,
+} from '@/features/people';
 
 const PersonPage = () => {
     return (

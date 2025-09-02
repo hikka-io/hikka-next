@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Novel from '@/features/characters/components/novel';
+import { CharacterNovel as Novel } from '@/features/characters';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

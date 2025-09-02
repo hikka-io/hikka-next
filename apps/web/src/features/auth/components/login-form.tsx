@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import OAuthLogin from '@/features/auth/components/oauth-login';
+import { OAuthLogin } from '@/features/auth';
 
 import { setCookie } from '@/utils/cookies';
 import { z } from '@/utils/zod';

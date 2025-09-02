@@ -1,9 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { Suspense } from 'react';
 
-import { AnimeFiltersModal as FiltersModal } from "@/features/modals";
-import FilterPresetButton from '@/features/modals/admin-modals/filter-preset-modal/filter-preset-button';
-import FilterPresets from '@/features/modals/admin-modals/filter-preset-modal/filter-presets';
+import { AnimeFiltersModal as FiltersModal, FilterPresetButton, FilterPresets } from "@/features/modals";
 
 import { cn } from '@/utils/utils';
 

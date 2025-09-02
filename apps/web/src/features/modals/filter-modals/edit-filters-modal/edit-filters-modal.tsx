@@ -11,7 +11,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import Filters from '@/features/filters/components/edit-filters';
+import { EditFilters as Filters } from '@/features/filters';
 
 interface Props {
     children?: ReactNode;

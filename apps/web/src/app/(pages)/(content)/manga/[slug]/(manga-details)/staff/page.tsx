@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Staff from '@/features/manga/manga-view/staff';
+import { MangaStaff as Staff } from '@/features/manga';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(

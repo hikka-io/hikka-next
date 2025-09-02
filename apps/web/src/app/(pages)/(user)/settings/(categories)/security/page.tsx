@@ -6,8 +6,7 @@ import {
     HeaderContainer,
     HeaderTitle,
 } from '@/components/ui/header';
-import Email from '@/features/settings/security/email';
-import Password from '@/features/settings/security/password';
+import { EmailSettings, PasswordSettings } from '@/features/settings';
 
 interface Props {
     params: {
@@ -35,7 +34,7 @@ const SecuritySettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle variant="h4">Поштова адреса</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <Email />
+                <EmailSettings />
             </div>
             <div className="flex flex-col gap-4">
                 <Header>
@@ -48,7 +47,7 @@ const SecuritySettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle variant="h4">Пароль</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <Password />
+                <PasswordSettings />
             </div>
         </div>
     );

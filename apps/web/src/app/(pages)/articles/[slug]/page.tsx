@@ -14,11 +14,13 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
-import ArticleAuthor from '@/features/articles/article-view/article-author';
-import ArticleDocument from '@/features/articles/article-view/article-document';
-import ArticleNavbar from '@/features/articles/article-view/article-navbar/article-navbar';
-import ArticleTags from '@/features/articles/article-view/article-tags';
-import ArticleTitle from '@/features/articles/article-view/article-title';
+import {
+    ArticleAuthor,
+    ArticleDocument,
+    ArticleNavbar,
+    ArticleTags,
+    ArticleTitle,
+} from '@/features/articles';
 import { CommentList as Comments } from "@/features/comments";
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';

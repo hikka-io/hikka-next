@@ -14,8 +14,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import EditList from '@/features/edit/edit-list/edit-list';
-import EditTopStats from '@/features/edit/edit-top-stats/edit-top-stats';
+import { EditList, EditTopStats } from '@/features/edit';
 import { EditFilters as Filters } from "@/features/filters";
 import { EditFiltersModal } from "@/features/modals";
 

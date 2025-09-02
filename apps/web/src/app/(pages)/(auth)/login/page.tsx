@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import LoginForm from '@/features/auth/components/login-form';
-import LoginHeader from '@/features/auth/components/login-header';
+import { LoginForm, LoginHeader } from '@/features/auth';
 
 import _generateMetadata from '@/utils/generate-metadata';
 

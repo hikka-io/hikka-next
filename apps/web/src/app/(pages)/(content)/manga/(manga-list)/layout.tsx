@@ -5,7 +5,7 @@ import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { ReadFilters } from '@/features/filters';
-import NavBar from '@/features/manga/manga-list-navbar/manga-list-navbar';
+import { MangaListNavbar as NavBar } from '@/features/manga';
 
 interface Props {
     children: ReactNode;

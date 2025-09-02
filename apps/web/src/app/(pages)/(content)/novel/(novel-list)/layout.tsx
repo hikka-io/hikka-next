@@ -5,7 +5,7 @@ import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { ReadFilters } from '@/features/filters';
-import NavBar from '@/features/novel/novel-list-navbar/novel-list-navbar';
+import { NovelListNavbar as NavBar } from '@/features/novel';
 
 interface Props {
     children: ReactNode;

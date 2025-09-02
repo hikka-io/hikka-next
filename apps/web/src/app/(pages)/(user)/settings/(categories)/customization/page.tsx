@@ -3,7 +3,7 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Customization from '@/features/settings/customization/customization';
+import { Customization } from '@/features/settings';
 
 interface Props {
     params: {

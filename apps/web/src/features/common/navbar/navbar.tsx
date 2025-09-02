@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
 
 import { AppSidebar } from '@/features/common';
-import SearchModal from '@/features/modals/utility-modals/search-modal/search-modal';
+import { SearchModal } from '@/features/modals';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';

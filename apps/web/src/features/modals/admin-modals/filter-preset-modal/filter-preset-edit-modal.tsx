@@ -10,16 +10,19 @@ import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import { FormAgeRating } from '@/features/filters/prebuilt/age-rating';
-import { FormDateRange } from '@/features/filters/prebuilt/date-range';
-import { FormGenre } from '@/features/filters/prebuilt/genre';
-import { FormLocalization } from '@/features/filters/prebuilt/localization';
-import { FormMediaType } from '@/features/filters/prebuilt/media-type';
-import { FormReleaseStatus } from '@/features/filters/prebuilt/release-status';
-import { FormSeason } from '@/features/filters/prebuilt/season';
-import { FormSort, SortType } from '@/features/filters/prebuilt/sort';
-import { FormStudio } from '@/features/filters/prebuilt/studio';
-import { FormYear } from '@/features/filters/prebuilt/year';
+import {
+    FormAgeRating,
+    FormDateRange,
+    FormGenre,
+    FormLocalization,
+    FormMediaType,
+    FormReleaseStatus,
+    FormSeason,
+    FormSort,
+    FormStudio,
+    FormYear,
+    type SortType,
+} from '@/features/filters';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';

@@ -16,7 +16,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { ScheduleFilters } from "@/features/filters";
 import { ScheduleFiltersModal } from "@/features/modals";
-import ScheduleList from '@/features/schedule/components/schedule-list';
+import { ScheduleList } from '@/features/schedule';
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Staff from '@/features/novel/novel-view/staff';
+import { NovelStaff as Staff } from '@/features/novel';
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
