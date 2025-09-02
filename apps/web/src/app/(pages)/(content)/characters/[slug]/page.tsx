@@ -1,8 +1,8 @@
-import Anime from '@/features/characters/character-view/anime';
-import Description from '@/features/characters/character-view/description';
-import Manga from '@/features/characters/character-view/manga';
-import Novel from '@/features/characters/character-view/novel';
-import Voices from '@/features/characters/character-view/voices';
+import Anime from '@/features/characters/components/anime';
+import Description from '@/features/characters/components/description';
+import Manga from '@/features/characters/components/manga';
+import Novel from '@/features/characters/components/novel';
+import Voices from '@/features/characters/components/voices';
 
 const CharacterPage = () => {
     return (

@@ -1,6 +1,5 @@
 // Settings Core
 export { default as SettingsMenu } from './components/menu';
-export { default as Menu } from './components/menu';
 
 // Customization Settings
 export { default as Customization } from './customization/customization';

@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import { FollowlistModal } from '@/features/modals';
+import { FollowListModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
@@ -34,7 +34,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                 size="md"
                 onClick={() =>
                     openModal({
-                        content: <FollowlistModal type="followers" />,
+                        content: <FollowListModal type="followers" />,
                         title: 'Стежать',
                         type: 'sheet',
                     })
@@ -52,7 +52,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                 variant="link"
                 onClick={() =>
                     openModal({
-                        content: <FollowlistModal type="followings" />,
+                        content: <FollowListModal type="followings" />,
                         title: 'Відстежується',
                         type: 'sheet',
                     })

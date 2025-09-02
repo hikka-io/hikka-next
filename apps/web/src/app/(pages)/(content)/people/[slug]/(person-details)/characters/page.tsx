@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import Characters from '@/features/people/person-view/characters';
+import Characters from '@/features/people/components/characters';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

@@ -1,8 +1,8 @@
-// Character View Components
-export { default as CharacterCover } from './character-view/cover';
-export { default as CharacterDescription } from './character-view/description';
-export { default as CharacterTitle } from './character-view/title';
-export { default as CharacterAnime } from './character-view/anime';
-export { default as CharacterManga } from './character-view/manga';
-export { default as CharacterNovel } from './character-view/novel';
-export { default as CharacterVoices } from './character-view/voices';
+// Character Components
+export { default as CharacterCover } from './components/cover';
+export { default as CharacterDescription } from './components/description';
+export { default as CharacterTitle } from './components/title';
+export { default as CharacterAnime } from './components/anime';
+export { default as CharacterManga } from './components/manga';
+export { default as CharacterNovel } from './components/novel';
+export { default as CharacterVoices } from './components/voices';
