@@ -69,7 +69,7 @@ const MangaNavbar: FC<Props> = ({ className }) => {
 
                 {loggedUser && (
                     <>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

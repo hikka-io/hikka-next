@@ -54,7 +54,7 @@ const ProfileMenu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-                <div className="bg-secondary/20 -m-1 flex items-center gap-2 p-1">
+                <div className="-m-1 flex items-center gap-2 bg-secondary/20 p-1">
                     <Avatar className="size-9 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>

@@ -3,7 +3,8 @@
 import { MarkdownPlugin } from '@platejs/markdown';
 import { Value, createSlateEditor } from 'platejs';
 
-import { EditorStatic } from '../ui/editor-static';
+import { EditorStatic } from '@/components/plate/ui/editor-static';
+
 import { StaticKit } from './static-kit';
 
 interface StaticEditorProps {

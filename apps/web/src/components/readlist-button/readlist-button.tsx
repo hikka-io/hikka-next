@@ -17,14 +17,6 @@ import {
 import { createElement, useCallback, useMemo } from 'react';
 
 import { ButtonProps } from '@/components/ui/button';
-
-import { ReadEditModal } from "@/features/modals";
-
-import { useModalContext } from '@/services/providers/modal-provider';
-import { READ_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
-
-import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
     Select,
     SelectContent,
@@ -32,7 +24,15 @@ import {
     SelectItem,
     SelectList,
     SelectSeparator,
-} from '../ui/select';
+} from '@/components/ui/select';
+
+import { ReadEditModal } from '@/features/modals';
+
+import { useModalContext } from '@/services/providers/modal-provider';
+import { READ_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
+
+import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import IconReadStatusButton from './icon-read-status-button';
 import NewStatusTrigger from './new-status-trigger';
 import ReadStatusTrigger from './read-status-trigger';

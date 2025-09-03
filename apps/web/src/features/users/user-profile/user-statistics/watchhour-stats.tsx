@@ -23,8 +23,8 @@ const WatchhourStats = () => {
     });
 
     return (
-        <div className="border-border bg-secondary/20 flex flex-1 flex-col gap-4 rounded-md border p-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+        <div className="flex flex-1 flex-col gap-4 rounded-md border border-border bg-secondary/20 p-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <MaterialSymbolsClockLoader10 />
                 <Label>Час аніме</Label>
             </div>

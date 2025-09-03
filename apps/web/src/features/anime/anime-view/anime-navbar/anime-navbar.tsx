@@ -36,7 +36,7 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
                 className,
             )}
         >
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 <WatchlistButton
                     buttonProps={{
                         variant: 'ghost',
@@ -68,7 +68,7 @@ const AnimeNavbar: FC<Props> = ({ className }) => {
 
                 {loggedUser && (
                     <>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

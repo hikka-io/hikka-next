@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback } from '../ui/avatar';
-import { TableCell, TableRow } from '../ui/table';
+import { Avatar, AvatarFallback } from '../../../components/ui/avatar';
+import { TableCell, TableRow } from '../../../components/ui/table';
 
 interface Props {}
 

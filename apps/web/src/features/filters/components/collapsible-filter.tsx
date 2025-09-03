@@ -29,7 +29,7 @@ const CollapsibleFilter: FC<Props> = ({
         <Collapsible
             defaultOpen={active}
             className={cn(
-                'border-border group border px-4 py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
+                'group border border-border px-4 py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
                 '[&+div]:data-[state=open]:rounded-t-lg data-[state=open]:[&+div]:data-[state=closed]:rounded-b-lg',
                 'data-[state=closed]:border-b-0 data-[state=closed]:has-[+div[data-state=open]]:mb-4 data-[state=closed]:has-[+div[data-state=open]]:rounded-b-lg data-[state=closed]:has-[+div[data-state=open]]:border-b',
                 'first:rounded-t-lg last:rounded-b-lg last:!border-b',
@@ -44,7 +44,7 @@ const CollapsibleFilter: FC<Props> = ({
                             {title}
                         </Label>
                         {active && (
-                            <div className="bg-success-foreground size-2 rounded-full" />
+                            <div className="size-2 rounded-full bg-success-foreground" />
                         )}
                     </div>
                     <Button id="title-collapse" variant="ghost" size="icon-sm">
@@ -54,7 +54,7 @@ const CollapsibleFilter: FC<Props> = ({
                 </div>
             </CollapsibleTrigger>
 
-            <CollapsibleContent className="data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down w-full overflow-hidden">
+            <CollapsibleContent className="w-full overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                 <div className="mt-4 space-y-4">{children}</div>
             </CollapsibleContent>
         </Collapsible>

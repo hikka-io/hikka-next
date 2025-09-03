@@ -25,7 +25,7 @@ const Component = ({
         <div className={cn('relative size-24', containerClassName)} role={role}>
             <svg className="size-full" viewBox="0 0 100 100">
                 <circle
-                    className="text-secondary stroke-current"
+                    className="stroke-current text-secondary"
                     strokeWidth={thickness || 10}
                     cx="50"
                     cy="50"
@@ -34,7 +34,7 @@ const Component = ({
                 ></circle>
                 <circle
                     className={cn(
-                        'progress-ring__circle text-primary-foreground stroke-current',
+                        'progress-ring__circle stroke-current text-primary-foreground',
                         className,
                     )}
                     style={style}

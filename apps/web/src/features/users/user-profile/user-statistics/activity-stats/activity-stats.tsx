@@ -24,8 +24,8 @@ const ActivityStats = () => {
     const max = Math.max(...convertedData.map((day) => day.actions));
 
     return (
-        <div className="border-border bg-secondary/20 flex min-h-28 flex-1 flex-col gap-4 rounded-md border p-4 md:min-h-0">
-            <div className="text-muted-foreground flex items-center gap-2">
+        <div className="flex min-h-28 flex-1 flex-col gap-4 rounded-md border border-border bg-secondary/20 p-4 md:min-h-0">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <MaterialSymbolsBarChartRounded />
                 <Label>Активність</Label>
             </div>

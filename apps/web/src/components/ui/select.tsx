@@ -335,7 +335,7 @@ const SelectTrigger = React.forwardRef<
                     !asChild &&
                         buttonVariants({ variant: 'outline', size: 'default' }),
                     !asChild &&
-                        'flex h-auto min-h-12 items-center justify-between min-w-0',
+                        'flex h-auto min-h-12 min-w-0 items-center justify-between',
                     disabled
                         ? 'cursor-not-allowed opacity-50'
                         : 'cursor-pointer',
@@ -400,7 +400,7 @@ const SelectValue = React.forwardRef<
         if (!displayValue.length || !firstRendered) {
             return (
                 <Fragment>
-                    <p className="pointer-events-none flex-1 min-w-0 truncate text-muted-foreground">
+                    <p className="pointer-events-none min-w-0 flex-1 truncate text-muted-foreground">
                         {placeholder}
                     </p>
                     <SelectIcon className="!size-4" />
@@ -413,7 +413,7 @@ const SelectValue = React.forwardRef<
 
             return (
                 <Fragment>
-                    <span className="pointer-events-none flex-1 min-w-0 truncate">
+                    <span className="pointer-events-none min-w-0 flex-1 truncate">
                         {item?.label ?? displayValue[0]}
                     </span>
 
@@ -427,7 +427,7 @@ const SelectValue = React.forwardRef<
                 <TooltipProvider delayDuration={300}>
                     <div
                         className={cn(
-                            'flex flex-1 min-w-0 flex-wrap items-center gap-1.5 overflow-x-hidden',
+                            'flex min-w-0 flex-1 flex-wrap items-center gap-1.5 overflow-x-hidden',
                             className,
                         )}
                         {...props}

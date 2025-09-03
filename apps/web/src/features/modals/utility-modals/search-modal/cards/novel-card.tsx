@@ -44,22 +44,22 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                     <div className="flex items-center gap-2">
                         {novel.year && (
                             <>
-                                <Label className="text-muted-foreground text-xs">
+                                <Label className="text-xs text-muted-foreground">
                                     {novel.year}
                                 </Label>
-                                <div className="bg-muted-foreground size-1 rounded-full" />
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
 
                         {novel.media_type && (
                             <>
-                                <Label className="text-muted-foreground text-xs">
+                                <Label className="text-xs text-muted-foreground">
                                     {
                                         NOVEL_MEDIA_TYPE[novel.media_type]
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="bg-muted-foreground size-1 rounded-full" />
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
 

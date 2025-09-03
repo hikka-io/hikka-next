@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import Image from './ui/image';
+import Image from '@/components/ui/image';
 
 interface Props {
     cover?: string | null;
@@ -25,7 +25,7 @@ const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
     };
 
     return (
-        <div className="gradient-mask-b-0 absolute left-0 top-0 -z-20 h-80 w-full overflow-hidden opacity-40">
+        <div className="absolute left-0 top-0 -z-20 h-80 w-full overflow-hidden opacity-40 gradient-mask-b-0">
             <Image
                 src={cover}
                 className={`relative size-full object-cover ${getPositionClass()}`}

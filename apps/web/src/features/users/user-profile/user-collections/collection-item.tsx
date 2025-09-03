@@ -43,10 +43,10 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                         {data.title}
                     </HorizontalCardTitle>
                     {data.spoiler && (
-                        <div className="bg-warning-foreground size-2 rounded-full" />
+                        <div className="size-2 rounded-full bg-warning-foreground" />
                     )}
                     {data.nsfw && (
-                        <div className="bg-destructive-foreground size-2 rounded-full" />
+                        <div className="size-2 rounded-full bg-destructive-foreground" />
                     )}
                 </div>
                 <HorizontalCardDescription
@@ -54,7 +54,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 >
                     {data.description}
                 </HorizontalCardDescription>
-                <HorizontalCardContainer className="text-muted-foreground flex-row text-xs">
+                <HorizontalCardContainer className="flex-row text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsGridViewRounded />
                         <Small>{data.entries}</Small>

@@ -71,7 +71,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                         {edit.content.title}
                     </Link>
                 </div>
-                <Label className="text-muted-foreground text-xs">
+                <Label className="text-xs text-muted-foreground">
                     {CONTENT_TYPES[edit.content_type].title_ua}
                 </Label>
             </TableCell>

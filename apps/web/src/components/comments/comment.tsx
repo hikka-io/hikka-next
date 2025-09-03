@@ -4,6 +4,15 @@ import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
+
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';
 
@@ -12,14 +21,6 @@ import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbol
 import MDViewer from '../markdown/viewer/MD-viewer';
 import TextExpand from '../text-expand';
 import P from '../typography/p';
-import { Button } from '../ui/button';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardDescription,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '../ui/horizontal-card';
 import CommentInput from './comment-input';
 import CommentMenu from './comment-menu';
 import CommentVote from './comment-vote';
@@ -127,7 +128,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         </TextExpand>
                     )
                 ) : (
-                    <P className="text-muted-foreground text-[0.9375rem]">
+                    <P className="text-[0.9375rem] text-muted-foreground">
                         Коментар видалено
                     </P>
                 )}
@@ -136,7 +137,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <Button
                     disabled={!loggedUser}
                     variant="link"
-                    className="text-muted-foreground hover:text-primary-foreground h-auto p-0 hover:no-underline"
+                    className="h-auto p-0 text-muted-foreground hover:text-primary-foreground hover:no-underline"
                     size="md"
                     onClick={addReplyInput}
                 >
@@ -146,7 +147,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="text-muted-foreground text-sm"
+                    className="text-sm text-muted-foreground"
                     asChild
                 >
                     <Link
@@ -168,7 +169,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="bg-border group-hover:bg-primary-foreground h-full w-px transition-colors duration-100" />
+                            <div className="h-full w-px bg-border transition-colors duration-100 group-hover:bg-primary-foreground" />
                         </button>
                     )}
                     {!expand && (

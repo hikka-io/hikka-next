@@ -54,7 +54,7 @@ const StatusCombobox = () => {
                 <div className="flex items-center gap-2">
                     <div
                         className={cn(
-                            'w-fit rounded-sm p-1 border',
+                            'w-fit rounded-sm border p-1',
                             `bg-${watchStatus} text-${watchStatus}-foreground border-${watchStatus}-border`,
                         )}
                     >

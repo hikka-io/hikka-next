@@ -9,7 +9,7 @@ interface Props {
 }
 
 const WatchStatus: FC<Props> = ({ watch }) => (
-    <div className="absolute left-0 top-0 w-full isolate">
+    <div className="absolute left-0 top-0 isolate w-full">
         <div
             className={cn(
                 'absolute right-2 top-2 z-[1] w-fit rounded-md border p-1 text-white',
@@ -18,7 +18,7 @@ const WatchStatus: FC<Props> = ({ watch }) => (
         >
             {createElement(WATCH_STATUS[watch.status].icon!)}
         </div>
-        <div className="from-black/60 absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b to-transparent" />
+        <div className="absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b from-black/60 to-transparent" />
     </div>
 );
 

@@ -4,9 +4,6 @@ import {
     CommentPlateEditor,
     CommentPlateEditorProps,
 } from '@/components/plate/editor/plate-editor';
-
-import { cn } from '@/utils/utils';
-
 import {
     FormControl,
     FormDescription,
@@ -14,7 +11,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../ui/form';
+} from '@/components/ui/form';
+
+import { cn } from '@/utils/utils';
 
 interface Props extends CommentPlateEditorProps {
     name: string;

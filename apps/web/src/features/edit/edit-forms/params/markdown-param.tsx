@@ -49,7 +49,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                     control={control}
                     name={param.slug}
                     render={({ field: { value } }) => (
-                        <MDViewer className="markdown border-border bg-secondary/20 rounded-md border p-4 text-sm">
+                        <MDViewer className="markdown rounded-md border border-border bg-secondary/20 p-4 text-sm">
                             {value}
                         </MDViewer>
                     )}

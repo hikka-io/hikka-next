@@ -28,10 +28,10 @@ const WatchlistStats: FC<Props> = () => {
     );
 
     return (
-        <div className="border-border bg-secondary/20 flex h-fit w-full items-center gap-2 rounded-md border p-2 backdrop-blur">
+        <div className="flex h-fit w-full items-center gap-2 rounded-md border border-border bg-secondary/20 p-2 backdrop-blur">
             <Link
                 href={`/u/${params.username}/list/anime?status=completed&sort=watch_score`}
-                className="hover:bg-secondary/20 flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer"
+                className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20"
             >
                 <RadialProgress
                     className="text-completed-foreground"
@@ -53,7 +53,7 @@ const WatchlistStats: FC<Props> = () => {
                             href={`/u/${params.username}/list/anime?status=${status}&sort=watch_score`}
                             key={status}
                             className={cn(
-                                'hover:bg-secondary/20 rounded-md p-2 hover:cursor-pointer',
+                                'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20',
                             )}
                         >
                             <div className="flex justify-between gap-4">
@@ -64,7 +64,7 @@ const WatchlistStats: FC<Props> = () => {
                                             `bg-${status}-foreground`,
                                         )}
                                     />
-                                    <Label className="text-muted-foreground cursor-pointer truncate">
+                                    <Label className="cursor-pointer truncate text-muted-foreground">
                                         {WATCH_STATUS[status as WatchStatusEnum]
                                             .title_ua ||
                                             WATCH_STATUS[

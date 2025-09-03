@@ -30,7 +30,7 @@ const Cover = () => {
                     )}
                 </div>
 
-                <div className="from-background absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t to-transparent" />
+                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-background to-transparent" />
             </ContentCard>
         </div>
     );

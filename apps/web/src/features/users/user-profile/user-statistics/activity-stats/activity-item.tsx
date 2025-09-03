@@ -29,9 +29,9 @@ const ActivityItem: FC<Props> = ({ item, max }) => {
                         style={{
                             height: `${(100 * item.actions) / max}%`,
                         }}
-                        className="bg-primary-foreground w-2"
+                        className="w-2 bg-primary-foreground"
                     />
-                    <div className="bg-primary-foreground/10 absolute -z-10 h-full w-2" />
+                    <div className="absolute -z-10 h-full w-2 bg-primary-foreground/10" />
                 </div>
             </TooltipTrigger>
             {item.timestamp !== 0 && (

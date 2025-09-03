@@ -3,15 +3,16 @@
 import { AnimeResponse, WatchResponse, WatchResponseBase } from '@hikka/client';
 import { FC, createElement } from 'react';
 
-import { WatchEditModal } from "@/features/modals";
+import { Button } from '@/components/ui/button';
+import { SelectTrigger } from '@/components/ui/select';
+
+import { WatchEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import { Button } from '../ui/button';
-import { SelectTrigger } from '../ui/select';
 
 interface WatchStatusTriggerProps {
     watch: WatchResponse | WatchResponseBase;
@@ -60,7 +61,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm p-1 border',
+                                'rounded-sm border p-1',
                                 `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
                             )}
                         >

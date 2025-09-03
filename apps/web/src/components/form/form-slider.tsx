@@ -7,8 +7,8 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../ui/form';
-import { Slider } from '../ui/slider';
+} from '@/components/ui/form';
+import { Slider } from '@/components/ui/slider';
 
 export interface FormSliderProps extends ComponentProps<typeof Slider> {
     name: string;

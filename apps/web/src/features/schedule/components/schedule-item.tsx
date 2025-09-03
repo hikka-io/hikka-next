@@ -36,10 +36,10 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
             image={item.anime.image || undefined}
             {...props}
         >
-            <div className="flex w-full gap-4 items-end">
-                <div className="flex flex-col justify-between gap-2 flex-1">
-                    <P className="text-muted-foreground text-sm">
-                        <span className="text-foreground font-bold">
+            <div className="flex w-full items-end gap-4">
+                <div className="flex flex-1 flex-col justify-between gap-2">
+                    <P className="text-sm text-muted-foreground">
+                        <span className="font-bold text-foreground">
                             {item.episode}
                         </span>
                         /{item.anime.episodes_total || '?'}

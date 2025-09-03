@@ -7,8 +7,8 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../ui/form';
-import { Switch } from '../ui/switch';
+} from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
 
 export interface FormSwitchProps extends ComponentProps<typeof Switch> {
     name: string;

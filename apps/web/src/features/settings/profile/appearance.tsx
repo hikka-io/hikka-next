@@ -59,7 +59,7 @@ const Appearance = () => {
         <div className="isolate flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <Label>Зображення профілю</Label>
-                <P className="text-muted-foreground text-sm">
+                <P className="text-sm text-muted-foreground">
                     Рекомендований розмір обкладинки 1500x500, аватару 400x400
                 </P>
             </div>
@@ -81,7 +81,7 @@ const Appearance = () => {
                         )}
                     </Button>
                 )}
-                <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
+                <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"
@@ -92,7 +92,7 @@ const Appearance = () => {
                         />
                     ) : (
                         <div className="flex flex-1 items-center justify-center">
-                            <P className="text-muted-foreground text-sm">
+                            <P className="text-sm text-muted-foreground">
                                 Натисність, щоб завантажити обкладинку
                             </P>
                         </div>

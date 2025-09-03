@@ -20,12 +20,12 @@ const MangaListNavbar = () => {
                 </Suspense>
             </div>
 
-            <div className="grid lg:grid-cols-[1fr_auto] grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto]">
                 <FilterPresets
                     className="order-2 lg:order-1"
                     content_type={ContentTypeEnum.MANGA}
                 />
-                <div className="order-1 lg:order-2 flex items-center gap-2">
+                <div className="order-1 flex items-center gap-2 lg:order-2">
                     <div className="lg:hidden">
                         <ReadFiltersModal
                             sort_type="manga"

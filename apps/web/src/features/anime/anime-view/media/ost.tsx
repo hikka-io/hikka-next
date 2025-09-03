@@ -32,7 +32,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                         OST[ost.ost_type].title_ua || OST[ost.ost_type].title_en
                     }
                     image={
-                        <MaterialSymbolsLibraryMusicRounded className="text-muted-foreground text-4xl" />
+                        <MaterialSymbolsLibraryMusicRounded className="text-4xl text-muted-foreground" />
                     }
                 />
             ))}

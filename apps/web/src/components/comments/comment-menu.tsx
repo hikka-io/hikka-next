@@ -3,11 +3,6 @@ import { useDeleteComment, useSession } from '@hikka/react';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
-import { useCommentsContext } from '@/services/providers/comments-provider';
-
-import MaterialSymbolsDeleteForeverRounded from '../icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import MaterialSymbolsEditRounded from '../icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,14 +13,20 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../ui/alert-dialog';
-import { Button } from '../ui/button';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
+
+import { useCommentsContext } from '@/services/providers/comments-provider';
+
+import MaterialSymbolsDeleteForeverRounded from '../icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsEditRounded from '../icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
 
 interface Props {
     comment: CommentResponse;
@@ -54,7 +55,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
                 <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="text-muted-foreground text-sm"
+                    className="text-sm text-muted-foreground"
                 >
                     <MaterialSymbolsMoreHoriz />
                 </Button>

@@ -45,7 +45,7 @@ const CollectionUpdatePage = async (props: {
                     <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
                         <Block>
                             <CollectionTitle />
-                            <div className="border-border bg-secondary/20 block rounded-md border lg:hidden">
+                            <div className="block rounded-md border border-border bg-secondary/20 lg:hidden">
                                 <CollectionSettings mode="edit" />
                             </div>
                             <CollectionGroups mode="edit" />

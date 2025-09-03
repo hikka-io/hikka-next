@@ -33,7 +33,7 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
             />
             <HorizontalCardContainer>
                 <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
-                <HorizontalCardDescription className="text-muted-foreground flex-row text-xs">
+                <HorizontalCardDescription className="flex-row text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />
                         <Small>

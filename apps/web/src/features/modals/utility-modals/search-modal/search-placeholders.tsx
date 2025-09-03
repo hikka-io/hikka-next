@@ -21,7 +21,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
                 (Array.isArray(data)
                     ? data.length === 0
                     : data.list.length === 0) && (
-                    <p className="text-muted-foreground py-6 text-center text-sm">
+                    <p className="py-6 text-center text-sm text-muted-foreground">
                         За Вашим запитом нічого не знайдено
                     </p>
                 )}
@@ -31,7 +31,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
                 </div>
             )}
             {!data && !isFetching && (
-                <p className="text-muted-foreground py-6 text-center text-sm">
+                <p className="py-6 text-center text-sm text-muted-foreground">
                     Введіть назву, щоб розпочати пошук...
                 </p>
             )}

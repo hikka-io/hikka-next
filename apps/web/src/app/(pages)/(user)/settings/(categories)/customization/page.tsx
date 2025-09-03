@@ -21,7 +21,7 @@ const CustomizationSettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle>Кастомізація</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <P className="text-muted-foreground text-sm">
+                <P className="text-sm text-muted-foreground">
                     Налаштуйте відображення контенту, теми та інше
                 </P>
             </div>

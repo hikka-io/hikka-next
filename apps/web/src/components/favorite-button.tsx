@@ -7,10 +7,15 @@ import {
     useFavouriteStatus,
 } from '@hikka/react';
 
+import { Button, ButtonProps } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import { MaterialSymbolsFavoriteOutlineRounded } from './icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
 import { MaterialSymbolsFavoriteRounded } from './icons/material-symbols/MaterialSymbolsFavoriteRounded';
-import { Button, ButtonProps } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface Props extends ButtonProps {
     slug: string;
@@ -56,7 +61,7 @@ const Component = ({
                     {favorite && !favoriteError ? (
                         <MaterialSymbolsFavoriteRounded className="!size-5 text-red-500" />
                     ) : (
-                        <MaterialSymbolsFavoriteOutlineRounded className="text-foreground !size-5" />
+                        <MaterialSymbolsFavoriteOutlineRounded className="!size-5 text-foreground" />
                     )}
                     {children}
                 </Button>

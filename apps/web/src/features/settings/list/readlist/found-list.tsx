@@ -9,7 +9,7 @@ const Component = ({ readList }: Props) => {
         <div>
             <P>
                 У вашому списку знайдено{' '}
-                <span className="bg-primary text-primary-foreground border-primary-border rounded-sm border px-1">
+                <span className="rounded-sm border border-primary-border bg-primary px-1 text-primary-foreground">
                     {readList.length}
                 </span>{' '}
                 манґи та ранобе, що готові до імпорту

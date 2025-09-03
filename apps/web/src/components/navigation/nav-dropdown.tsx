@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, createElement, memo } from 'react';
 
-import { useMediaQuery } from '@/services/hooks/use-media-query';
-import P from '../typography/p';
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -13,7 +11,11 @@ import {
     NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
-} from '../ui/navigation-menu';
+} from '@/components/ui/navigation-menu';
+
+import { useMediaQuery } from '@/services/hooks/use-media-query';
+
+import P from '../typography/p';
 
 interface Props {
     routes: Hikka.NavRoute[];

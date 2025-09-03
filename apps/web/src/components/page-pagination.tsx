@@ -3,9 +3,9 @@
 import { PaginationResponse } from '@hikka/client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import createQueryString from '@/utils/create-query-string';
+import Pagination from '@/components/ui/pagination';
 
-import Pagination from './ui/pagination';
+import createQueryString from '@/utils/create-query-string';
 
 interface Props {
     pagination: PaginationResponse;

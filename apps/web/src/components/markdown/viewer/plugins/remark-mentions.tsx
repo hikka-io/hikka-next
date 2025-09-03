@@ -1,7 +1,7 @@
 import { useUserByUsername } from '@hikka/react';
 import { findAndReplace } from 'mdast-util-find-and-replace';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../../../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const userGroup = '[\\da-z][-\\da-z_]{0,38}';
 const mentionRegex = new RegExp('(?:^|\\s)@(' + userGroup + ')', 'gi');

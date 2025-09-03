@@ -33,10 +33,10 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
     );
 
     return (
-        <div className="border-border bg-secondary/20 flex h-fit w-full items-center gap-2 rounded-md border p-2 backdrop-blur">
+        <div className="flex h-fit w-full items-center gap-2 rounded-md border border-border bg-secondary/20 p-2 backdrop-blur">
             <Link
                 href={`/u/${params.username}/list/${content_type}?status=completed&sort=read_score`}
-                className="hover:bg-secondary/20 flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer"
+                className="flex flex-col items-center gap-2 rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20"
             >
                 <RadialProgress
                     className={cn(`text-completed-foreground`)}
@@ -58,7 +58,7 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
                             href={`/u/${params.username}/list/${content_type}?status=${status}&sort=read_score`}
                             key={status}
                             className={cn(
-                                'hover:bg-secondary/20 rounded-md p-2 hover:cursor-pointer',
+                                'rounded-md p-2 hover:cursor-pointer hover:bg-secondary/20',
                             )}
                         >
                             <div className="flex justify-between gap-4">
@@ -69,7 +69,7 @@ const ReadlistStats: FC<Props> = ({ content_type }) => {
                                             `bg-${status}-foreground`,
                                         )}
                                     />
-                                    <Label className="text-muted-foreground cursor-pointer truncate">
+                                    <Label className="cursor-pointer truncate text-muted-foreground">
                                         {READ_STATUS[status as ReadStatusEnum]
                                             .title_ua ||
                                             READ_STATUS[

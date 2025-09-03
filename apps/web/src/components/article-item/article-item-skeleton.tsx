@@ -1,11 +1,11 @@
-import Card from '../ui/card';
+import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../ui/horizontal-card';
+} from '@/components/ui/horizontal-card';
 
 interface Props {}
 

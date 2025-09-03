@@ -1,14 +1,19 @@
 import { EditContentType } from '@hikka/client';
 import { FC } from 'react';
 
+import { Button, ButtonProps } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import { EditListModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
-import { Button, ButtonProps } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 interface Props extends ButtonProps {
     slug: string;

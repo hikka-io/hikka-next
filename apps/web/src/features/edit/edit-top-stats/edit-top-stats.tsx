@@ -46,7 +46,7 @@ function EditTopStats() {
                     variant="outline"
                     className="h-auto flex-1"
                 >
-                    <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                    <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                 </Button>
             </div>
             <ScrollBar orientation="horizontal" />

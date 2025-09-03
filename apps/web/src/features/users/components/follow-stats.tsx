@@ -40,7 +40,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                     })
                 }
                 variant="link"
-                className="text-foreground p-0"
+                className="p-0 text-foreground"
             >
                 <span className="font-bold">
                     {followStats ? followStats.followers : 0}
@@ -57,7 +57,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                         type: 'sheet',
                     })
                 }
-                className="text-foreground p-0"
+                className="p-0 text-foreground"
             >
                 <Label>
                     <span className="font-bold">

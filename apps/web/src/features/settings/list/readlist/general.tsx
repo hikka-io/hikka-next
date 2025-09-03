@@ -92,7 +92,7 @@ const Component = ({ readList, setReadList }: Props) => {
                     className: cn(
                         'h-28 w-full p-4',
                         'flex items-center justify-center',
-                        'bg-secondary/20 cursor-pointer rounded-lg text-center',
+                        'cursor-pointer rounded-lg bg-secondary/20 text-center',
                         'transition duration-100',
                         'hover:bg-secondary/20/90',
                         isDragActive && 'bg-secondary/20/90',
@@ -101,11 +101,11 @@ const Component = ({ readList, setReadList }: Props) => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <P className="text-muted-foreground text-sm">
+                    <P className="text-sm text-muted-foreground">
                         Перетягніть файл сюди...
                     </P>
                 ) : readList.length === 0 ? (
-                    <P className="text-muted-foreground text-sm">
+                    <P className="text-sm text-muted-foreground">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
                     </P>

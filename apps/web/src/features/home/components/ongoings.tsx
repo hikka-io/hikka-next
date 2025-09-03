@@ -5,6 +5,8 @@ import { AnimeMediaEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { FC } from 'react';
 
+import AnimeCard from '@/components/anime-card';
+import SkeletonCard from '@/components/content-card/content-card-skeleton';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -16,9 +18,6 @@ import Stack from '@/components/ui/stack';
 
 import getCurrentSeason from '@/utils/season-utils';
 import { cn } from '@/utils/utils';
-
-import AnimeCard from '@/components/anime-card';
-import SkeletonCard from '@/components/skeletons/content-card-skeleton';
 
 interface Props {
     className?: string;

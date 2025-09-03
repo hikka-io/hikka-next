@@ -33,7 +33,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                     <HorizontalCardDescription>
                         {content.year && <P>{content.year}</P>}
                         {content.year && content.media_type && (
-                            <div className="bg-muted-foreground size-1 rounded-full" />
+                            <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
                             <P>{MEDIA_TYPE[content.media_type].title_ua}</P>

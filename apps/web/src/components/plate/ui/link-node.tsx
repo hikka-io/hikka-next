@@ -10,7 +10,7 @@ export function LinkElement(props: PlateElementProps<TLinkElement>) {
         <PlateElement
             {...props}
             as="span"
-            className="text-primary-foreground hover:underline decoration-primary-foreground underline-offset-2"
+            className="text-primary-foreground decoration-primary-foreground underline-offset-2 hover:underline"
             attributes={{
                 ...props.attributes,
                 ...getLinkAttributes(props.editor, props.element),

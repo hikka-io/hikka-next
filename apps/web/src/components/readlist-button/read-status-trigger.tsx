@@ -8,15 +8,16 @@ import {
 } from '@hikka/client';
 import { FC, createElement } from 'react';
 
-import { ReadEditModal } from "@/features/modals";
+import { Button } from '@/components/ui/button';
+import { SelectTrigger } from '@/components/ui/select';
+
+import { ReadEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { READ_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import { Button } from '../ui/button';
-import { SelectTrigger } from '../ui/select';
 
 interface ReadStatusTriggerProps {
     read: ReadResponseBase;
@@ -73,7 +74,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm p-1 border',
+                                'rounded-sm border p-1',
                                 `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
                             )}
                         >

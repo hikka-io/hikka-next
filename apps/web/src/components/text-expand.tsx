@@ -9,9 +9,9 @@ import {
     useState,
 } from 'react';
 
-import { cn } from '@/utils/utils';
+import { Button } from '@/components/ui/button';
 
-import { Button } from './ui/button';
+import { cn } from '@/utils/utils';
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     expanded?: boolean;
@@ -105,7 +105,7 @@ const TextExpand = ({
                 {/* Gradient overlay when collapsed */}
                 {shouldShowCollapsed && showGradient && (
                     <div
-                        className="from-background pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t to-transparent"
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent"
                         aria-hidden="true"
                     />
                 )}
@@ -117,7 +117,7 @@ const TextExpand = ({
                     <Button
                         variant="link"
                         size="sm"
-                        className="text-muted-foreground hover:text-foreground h-auto p-0 text-sm font-medium"
+                        className="h-auto p-0 text-sm font-medium text-muted-foreground hover:text-foreground"
                         onClick={handleToggle}
                         aria-label={expanded ? collapseText : expandText}
                     >

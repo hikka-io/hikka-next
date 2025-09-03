@@ -68,13 +68,13 @@ const FilterPresetModal: FC = () => {
                 </Button>
             </div>
 
-            <hr className="bg-border -mx-6 h-px w-auto" />
+            <hr className="-mx-6 h-px w-auto bg-border" />
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {filterPresets?.map((preset) => (
                     <div
                         key={preset.id}
-                        className="border-border flex items-center justify-between gap-2 px-6 py-3 last:border-b-0"
+                        className="flex items-center justify-between gap-2 border-border px-6 py-3 last:border-b-0"
                     >
                         <div className="flex-1 space-y-1">
                             <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ const FilterPresetModal: FC = () => {
                                 </div>
                             </div>
                             {preset.description && (
-                                <P className="text-muted-foreground line-clamp-2 text-xs">
+                                <P className="line-clamp-2 text-xs text-muted-foreground">
                                     {preset.description}
                                 </P>
                             )}
@@ -128,7 +128,7 @@ const FilterPresetModal: FC = () => {
 
                 {filterPresets?.length === 0 && (
                     <div className="px-6 py-8">
-                        <P className="text-muted-foreground text-center text-sm">
+                        <P className="text-center text-sm text-muted-foreground">
                             Не знайдено збережених пресетів фільтрів
                         </P>
                     </div>

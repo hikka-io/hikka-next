@@ -44,22 +44,22 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                     <div className="flex items-center gap-2">
                         {anime.year && (
                             <>
-                                <Label className="text-muted-foreground text-xs">
+                                <Label className="text-xs text-muted-foreground">
                                     {anime.year}
                                 </Label>
-                                <div className="bg-muted-foreground size-1 rounded-full" />
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
 
                         {anime.media_type && (
                             <>
-                                <Label className="text-muted-foreground text-xs">
+                                <Label className="text-xs text-muted-foreground">
                                     {
                                         ANIME_MEDIA_TYPE[anime.media_type]
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="bg-muted-foreground size-1 rounded-full" />
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
 

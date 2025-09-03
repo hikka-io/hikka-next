@@ -3,19 +3,24 @@ import { formatDistance } from 'date-fns/formatDistance';
 import Link from 'next/link';
 import { FC, memo } from 'react';
 
-import { convertActivity } from '@/utils/adapters/convert-activity';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-
-import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from './ui/horizontal-card';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+} from '@/components/ui/horizontal-card';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
+import { convertActivity } from '@/utils/adapters/convert-activity';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
+import MaterialSymbolsInfoRounded from './icons/material-symbols/MaterialSymbolsInfoRounded';
 
 interface Props {
     data: HistoryResponse;
@@ -62,7 +67,7 @@ const HistoryItem: FC<Props> = (props) => {
                     data.content?.data_type === 'anime'
                         ? data.content?.image
                         : data.content?.image || (
-                              <MaterialSymbolsInfoRounded className="text-muted-foreground flex-1 text-xl" />
+                              <MaterialSymbolsInfoRounded className="flex-1 text-xl text-muted-foreground" />
                           )
                 }
             />

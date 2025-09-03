@@ -240,7 +240,7 @@ const InlineComboboxInput = React.forwardRef<
                 <Combobox
                     ref={ref}
                     className={cn(
-                        'absolute top-0 left-0 size-full bg-transparent outline-none',
+                        'absolute left-0 top-0 size-full bg-transparent outline-none',
                         className,
                     )}
                     value={value}
@@ -264,7 +264,7 @@ const InlineComboboxContent: typeof ComboboxPopover = ({
         <Portal>
             <ComboboxPopover
                 className={cn(
-                    'z-[100] max-h-[288px] w-[300px] overflow-y-auto rounded-md bg-secondary/20 backdrop-blur-sm border',
+                    'z-[100] max-h-[288px] w-[300px] overflow-y-auto rounded-md border bg-secondary/20 backdrop-blur-sm',
                     className,
                 )}
                 {...props}
@@ -373,7 +373,7 @@ function InlineComboboxGroup({
         <ComboboxGroup
             {...props}
             className={cn(
-                'hidden py-1.5 not-last:border-b [&:has([role=option])]:block',
+                'not-last:border-b hidden py-1.5 [&:has([role=option])]:block',
                 className,
             )}
         />
@@ -388,7 +388,7 @@ function InlineComboboxGroupLabel({
         <ComboboxGroupLabel
             {...props}
             className={cn(
-                'mt-1.5 mb-2 px-3 text-xs font-medium text-muted-foreground',
+                'mb-2 mt-1.5 px-3 text-xs font-medium text-muted-foreground',
                 className,
             )}
         />

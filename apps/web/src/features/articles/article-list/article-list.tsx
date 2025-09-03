@@ -7,11 +7,11 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import ArticleItem from '@/components/article-item/article-item';
+import ArticleItemSkeleton from '@/components/article-item/article-item-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
 import LoadMoreButton from '@/components/load-more-button';
-import ArticleItemSkeleton from '@/components/skeletons/article-item-skeleton';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

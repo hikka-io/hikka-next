@@ -9,14 +9,6 @@ import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
 import { createElement, useCallback, useMemo } from 'react';
 
 import { ButtonProps } from '@/components/ui/button';
-
-import { WatchEditModal } from "@/features/modals";
-
-import { useModalContext } from '@/services/providers/modal-provider';
-import { WATCH_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
-
-import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import {
     Select,
     SelectContent,
@@ -24,7 +16,15 @@ import {
     SelectItem,
     SelectList,
     SelectSeparator,
-} from '../ui/select';
+} from '@/components/ui/select';
+
+import { WatchEditModal } from '@/features/modals';
+
+import { useModalContext } from '@/services/providers/modal-provider';
+import { WATCH_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
+
+import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import IconWatchStatusButton from './icon-watch-status-button';
 import NewStatusTrigger from './new-status-trigger';
 import WatchStatusTrigger from './watch-status-trigger';

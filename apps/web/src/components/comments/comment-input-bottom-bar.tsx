@@ -6,14 +6,15 @@ import { MarkdownPlugin } from '@platejs/markdown';
 import { useEditorValue } from 'platejs/react';
 import { FC } from 'react';
 
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 import MaterialSymbolsReplyRounded from '../icons/material-symbols/MaterialSymbolsReplyRounded';
 import { useCommentEditor } from '../plate/editor/comment-kit';
-import { Avatar, AvatarImage } from '../ui/avatar';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { Label } from '../ui/label';
 
 interface Props {
     slug: string;
@@ -100,7 +101,7 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     return (
-        <div className="absolute bottom-0 pointer-events-none flex w-full items-center justify-between p-2">
+        <div className="pointer-events-none absolute bottom-0 flex w-full items-center justify-between p-2">
             {comment && !isEdit ? (
                 <Badge variant="secondary" className="gap-2 p-0 pr-2">
                     <Avatar className="size-6 rounded-sm">

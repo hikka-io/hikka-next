@@ -240,7 +240,7 @@ const Sidebar = React.forwardRef<
         return (
             <div
                 ref={ref}
-                className="group peer absolute hidden text-sidebar-foreground md:block top-0 left-0"
+                className="group peer absolute left-0 top-0 hidden text-sidebar-foreground md:block"
                 data-state={state}
                 data-collapsible={state === 'collapsed' ? collapsible : ''}
                 data-variant={variant}
@@ -253,7 +253,7 @@ const Sidebar = React.forwardRef<
                             'relative h-svh w-[--sidebar-width] bg-transparent transition-[opacity,width] duration-150 ease-in-out',
                             'group-data-[collapsible=offcanvas]:w-0',
                             'group-data-[side=right]:rotate-180',
-                            'group-data-[collapsible=dropdown]:w-0 group-data-[collapsible=dropdown]:opacity-0 group-data-[collapsible=dropdown]:group-data-[side=open]:opacity-100',
+                            'group-data-[collapsible=dropdown]:w-0 group-data-[collapsible=dropdown]:group-data-[side=open]:opacity-100 group-data-[collapsible=dropdown]:opacity-0',
                             variant === 'floating' || variant === 'inset'
                                 ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]'
                                 : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon]',
@@ -270,10 +270,10 @@ const Sidebar = React.forwardRef<
                             side === 'top' &&
                                 'left-0 opacity-100 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] group-data-[collapsible=offcanvas]:opacity-100',
                             // Adjust the padding for floating and inset variants.
-                            'group-data-[collapsible=dropdown]:w-0 group-data-[collapsible=dropdown]:opacity-0 group-data-[collapsible=dropdown]:group-data-[side=open]:opacity-100',
+                            'group-data-[collapsible=dropdown]:w-0 group-data-[collapsible=dropdown]:group-data-[side=open]:opacity-100 group-data-[collapsible=dropdown]:opacity-0',
                             variant === 'floating' || variant === 'inset'
                                 ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]'
-                                : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=top]:border-x group-data-[side=right]:border-l',
+                                : 'group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=top]:border-x group-data-[side=left]:border-r group-data-[side=right]:border-l',
                             className,
                         )}
                         {...props}
@@ -333,7 +333,7 @@ const SidebarRail = React.forwardRef<
             onClick={toggleSidebar}
             title="Toggle Sidebar"
             className={cn(
-                'absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-in-out after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=top]:-right-4 group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex',
+                'absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-in-out after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 group-data-[side=top]:-right-4 sm:flex',
                 '[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize',
                 '[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize',
                 'group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full group-data-[collapsible=offcanvas]:hover:bg-sidebar',

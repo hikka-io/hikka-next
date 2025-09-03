@@ -31,7 +31,7 @@ const Navbar = () => {
         <header
             className={cn(
                 'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition',
-                trigger && 'border-b-border !bg-background border-b',
+                trigger && 'border-b border-b-border !bg-background',
             )}
         >
             <nav className="container relative mx-auto flex min-h-16 items-center gap-4 px-4 md:gap-8">

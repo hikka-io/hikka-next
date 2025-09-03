@@ -43,7 +43,7 @@ const ApplicationsSettingsPage: FC<Props> = async (props) => {
                         </HeaderContainer>
                     </Header>
 
-                    <P className="text-muted-foreground text-sm">
+                    <P className="text-sm text-muted-foreground">
                         Підключіть OAuth авторизацію через hikka за допомогою
                         застосунку (для розробників)
                     </P>
