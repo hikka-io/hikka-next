@@ -49,7 +49,7 @@ const Title = ({ className, content_type }: TitleProps) => {
                     </P>
                 </div>
                 {data.score > 0 && (
-                    <div className="flex items-center gap-1 rounded-md border bg-secondary/20 px-2">
+                    <div className="flex items-center gap-1 rounded-md border bg-secondary/20 px-2 backdrop-blur">
                         <div className="font-display text-xl font-bold">
                             {data.score}
                         </div>
