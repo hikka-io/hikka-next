@@ -94,7 +94,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             <Stack
                 extended={extended}
                 size={2}
-                extendedSize={view === 'list' ? 2 : 6}
+                extendedSize={view === 'list' ? 2 : 5}
                 className="grid-min-20"
             >
                 {view === 'list' &&
