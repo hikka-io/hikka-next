@@ -6,8 +6,13 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../ui/form';
-import { Select, SelectProps, SelectTrigger, SelectValue } from '../ui/select';
+} from '@/components/ui/form';
+import {
+    Select,
+    SelectProps,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 export interface FormSelectProps
     extends Omit<SelectProps, 'value' | 'onValueChange'> {

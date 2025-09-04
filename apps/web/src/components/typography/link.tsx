@@ -1,15 +1,6 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FC, PropsWithChildren } from 'react';
 
-import { cn } from '@/utils/utils';
-
-import AnimeTooltip from '../content-card/anime-tooltip';
-import CharacterTooltip from '../content-card/character-tooltip';
-import MangaTooltip from '../content-card/manga-tooltip';
-import NovelTooltip from '../content-card/novel-tooltip';
-import PersonTooltip from '../content-card/person-tooltip';
-import UserTooltip from '../content-card/user-tooltip';
-import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -20,7 +11,17 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '../ui/alert-dialog';
+} from '@/components/ui/alert-dialog';
+
+import { cn } from '@/utils/utils';
+
+import AnimeTooltip from '../content-card/anime-tooltip';
+import CharacterTooltip from '../content-card/character-tooltip';
+import MangaTooltip from '../content-card/manga-tooltip';
+import NovelTooltip from '../content-card/novel-tooltip';
+import PersonTooltip from '../content-card/person-tooltip';
+import UserTooltip from '../content-card/user-tooltip';
+import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 import P from './p';
 
 interface Props extends LinkProps {

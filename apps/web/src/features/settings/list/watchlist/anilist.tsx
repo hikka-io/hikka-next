@@ -1,6 +1,6 @@
 'use client';
 
-import { ImportWatchArgs } from '@hikka/client';
+import { ContentTypeEnum, ImportWatchArgs } from '@hikka/client';
 import { useAnilist } from '@hikka/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { toast } from 'sonner';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import FoundList from './found-list';
+import FoundList from '../../components/list/found-list';
 
 interface Props {
     watchList: ImportWatchArgs[];
@@ -64,7 +64,9 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
                     </Button>
                 </div>
             </div>
-            {watchList.length > 0 && <FoundList watchList={watchList} />}
+            {watchList.length > 0 && (
+                <FoundList list={watchList} type={ContentTypeEnum.ANIME} />
+            )}
         </div>
     );
 };

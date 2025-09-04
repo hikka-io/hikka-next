@@ -208,7 +208,7 @@ function VersionHistoryPlate({
         <Plate {...props}>
             <PlateContent
                 className={cn(
-                    'border-border bg-secondary/20 rounded-md border p-4 text-sm',
+                    'rounded-md border border-border bg-secondary/20 p-4 text-sm',
                     className,
                 )}
             />

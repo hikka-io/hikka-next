@@ -12,7 +12,7 @@ const ScoreCell: FC<Props> = ({ score }) => (
     <TableCell className="w-4 text-right" align="right">
         <div
             className={cn(
-                'radial-progress border-border text-primary-foreground border',
+                'radial-progress border border-border text-primary-foreground',
             )}
             style={
                 {

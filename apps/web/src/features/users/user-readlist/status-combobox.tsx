@@ -1,0 +1,87 @@
+'use client';
+
+import { ReadStatusEnum } from '@hikka/client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { createElement } from 'react';
+
+import H5 from '@/components/typography/h5';
+import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectIcon,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+} from '@/components/ui/select';
+
+import { useReadList } from '@/features/users';
+
+import { READ_STATUS } from '@/utils/constants/common';
+import createQueryString from '@/utils/create-query-string';
+import { cn } from '@/utils/utils';
+
+const StatusCombobox = () => {
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const readStatus = searchParams.get('status')! as ReadStatusEnum;
+
+    const { pagination } = useReadList();
+
+    const handleWatchStatusChange = (value: string[]) => {
+        {
+            const query = createQueryString(
+                'status',
+                value[0],
+                new URLSearchParams(searchParams),
+            );
+            router.replace(`${pathname}?${query}`);
+        }
+    };
+
+    return (
+        <Select value={[readStatus]} onValueChange={handleWatchStatusChange}>
+            <SelectTrigger>
+                <div className="flex items-center gap-2">
+                    <div
+                        className={cn(
+                            'w-fit rounded-sm border p-1 text-white',
+                            `bg-${readStatus} text-${readStatus}-foreground border-${readStatus}-border`,
+                        )}
+                    >
+                        {createElement(READ_STATUS[readStatus].icon!, {
+                            className: '!size-3',
+                        })}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <H5>{READ_STATUS[readStatus].title_ua}</H5>
+                        {pagination && (
+                            <Label className="text-muted-foreground">
+                                ({pagination.total})
+                            </Label>
+                        )}
+                    </div>
+                </div>
+                <SelectIcon />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectList>
+                    <SelectGroup>
+                        {(Object.keys(READ_STATUS) as ReadStatusEnum[]).map(
+                            (o) => (
+                                <SelectItem key={o} value={o}>
+                                    {READ_STATUS[o].title_ua}
+                                </SelectItem>
+                            ),
+                        )}
+                    </SelectGroup>
+                </SelectList>
+            </SelectContent>
+        </Select>
+    );
+};
+
+export default StatusCombobox;

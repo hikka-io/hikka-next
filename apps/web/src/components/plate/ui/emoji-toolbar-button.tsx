@@ -351,7 +351,7 @@ function EmojiPickerContent({
     const SearchList = React.useCallback(() => {
         return (
             <div style={{ width: getRowWidth }} data-id="search">
-                <div className="sticky -top-px z-[1] bg-popover/90 p-1 py-2 text-sm font-semibold text-card-foreground backdrop-blur-xs">
+                <div className="backdrop-blur-xs sticky -top-px z-[1] bg-popover/90 p-1 py-2 text-sm font-semibold text-card-foreground">
                     {i18n.searchResult}
                 </div>
                 <div className="relative flex flex-wrap">
@@ -380,7 +380,7 @@ function EmojiPickerContent({
         <div
             ref={refs.current.contentRoot}
             className={cn(
-                'h-full min-h-[50%] overflow-x-hidden overflow-y-auto px-2',
+                'h-full min-h-[50%] overflow-y-auto overflow-x-hidden px-2',
                 '[&::-webkit-scrollbar]:w-4',
                 '[&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-button]:size-0',
                 '[&::-webkit-scrollbar-thumb]:min-h-11 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted [&::-webkit-scrollbar-thumb]:hover:bg-muted-foreground/25',
@@ -431,7 +431,7 @@ function EmojiPickerSearchAndClear({
         <div className="flex items-center text-foreground">
             <div
                 className={cn(
-                    'absolute top-1/2 left-2.5 z-[10] flex size-5 -translate-y-1/2 items-center justify-center text-foreground',
+                    'absolute left-2.5 top-1/2 z-10 flex size-5 -translate-y-1/2 items-center justify-center text-foreground',
                 )}
             >
                 {emojiSearchIcons.loupe}
@@ -441,7 +441,7 @@ function EmojiPickerSearchAndClear({
                     size="icon"
                     variant="ghost"
                     className={cn(
-                        'absolute top-1/2 right-0.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-none bg-transparent text-popover-foreground hover:bg-transparent',
+                        'absolute right-0.5 top-1/2 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-none bg-transparent text-popover-foreground hover:bg-transparent',
                     )}
                     onClick={clearSearch}
                     title={i18n.clear}

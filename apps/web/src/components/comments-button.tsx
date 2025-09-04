@@ -4,10 +4,11 @@ import { CommentsContentType } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 import getDeclensionWord from '@/utils/get-declension-word';
 
 import IconamoonCommentFill from './icons/iconamoon/IconamoonCommentFill';
-import { Button } from './ui/button';
 
 const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментар',

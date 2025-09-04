@@ -1,7 +1,5 @@
 import { ComponentProps, FC } from 'react';
 
-import { cn } from '@/utils/utils';
-
 import {
     FormControl,
     FormDescription,
@@ -9,8 +7,10 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+
+import { cn } from '@/utils/utils';
 
 interface Props extends ComponentProps<'input'> {
     name: string;

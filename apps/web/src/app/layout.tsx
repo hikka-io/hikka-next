@@ -4,7 +4,7 @@ import { Geist } from 'next/font/google';
 import { ReactNode } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
 
-import Providers from '@/features/common/providers.component';
+import { Providers } from "@/features/common";
 
 import generateMetadata from '@/utils/generate-metadata';
 

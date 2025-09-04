@@ -5,7 +5,7 @@ import {
 } from '@hikka/react/core';
 import { FC } from 'react';
 
-import NovelList from '@/features/novel/novel-list/novel-list.component';
+import { NovelList } from '@/features/novel';
 
 interface Props {
     searchParams: Record<string, string>;

@@ -15,7 +15,7 @@ export function SpoilerElementStatic(props: SlateElementProps) {
         <SlateElement
             as={Collapsible as any}
             {...props}
-            className={cn('spoiler w-full space-y-2 mb-4')}
+            className={cn('spoiler mb-4 w-full space-y-2')}
         >
             <CollapsibleTrigger asChild>
                 <Button variant="secondary" size="badge">

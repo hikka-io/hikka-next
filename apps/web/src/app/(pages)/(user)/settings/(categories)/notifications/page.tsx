@@ -9,7 +9,7 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Notifications from '@/features/settings/notifications/notifications.component';
+import { NotificationsSettings } from '@/features/settings';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -43,7 +43,7 @@ const NotificationsSettingsPage: FC<Props> = async (props) => {
                         Налаштуйте персоналізовані сповіщення
                     </P>
                 </div>
-                <Notifications />
+                <NotificationsSettings />
             </div>
         </HydrationBoundary>
     );

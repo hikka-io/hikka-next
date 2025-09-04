@@ -55,7 +55,7 @@ const TableView: FC<Props> = ({ data }) => {
 
     return (
         <Table className="table">
-            <TableHeader className="bg-secondary/20 overflow-hidden rounded-lg backdrop-blur [&_tr]:border-b-0">
+            <TableHeader className="overflow-hidden rounded-lg bg-secondary/20 backdrop-blur [&_tr]:border-b-0">
                 <TableRow>
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>

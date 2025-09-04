@@ -18,10 +18,10 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Author from '@/features/edit/edit-author.component';
-import Content from '@/features/edit/edit-content/edit-content.component';
-import Moderator from '@/features/edit/edit-moderator.component';
-import EditStatus from '@/features/edit/edit-status.component';
+import { EditAuthor as Author } from "@/features/edit";
+import { EditContent as Content } from '@/features/edit';
+import { EditModerator as Moderator } from "@/features/edit";
+import { EditStatus } from "@/features/edit";
 
 import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';

@@ -63,7 +63,7 @@ export function VideoElement({ className, ...props }: VideoElementProps) {
             {...props}
             className={cn(
                 className,
-                'relative h-28 w-44 cursor-pointer rounded-md bg-cover bg-center mb-4',
+                'relative mb-4 h-28 w-44 cursor-pointer rounded-md bg-cover bg-center',
             )}
             style={{
                 backgroundImage: `url(${videoInfo.thumbnailUrl})`,

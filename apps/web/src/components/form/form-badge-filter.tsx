@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
-import BadgeFilter, { BadgeFilterProps } from '@/features/filters/badge-filter';
-
+import { BadgeFilter, BadgeFilterProps } from '@/components/badge-filter';
 import {
     FormControl,
     FormDescription,
@@ -9,7 +8,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../ui/form';
+} from '@/components/ui/form';
 
 export interface FormBadgeFilterProps
     extends Omit<BadgeFilterProps, 'onParamChange' | 'selected'> {

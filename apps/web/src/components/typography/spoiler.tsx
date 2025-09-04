@@ -1,13 +1,14 @@
 import { ChevronsUpDown } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
-import { cn } from '@/utils/utils';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from '../ui/collapsible';
+} from '@/components/ui/collapsible';
+
+import { cn } from '@/utils/utils';
 
 interface Props {
     children: ReactNode;

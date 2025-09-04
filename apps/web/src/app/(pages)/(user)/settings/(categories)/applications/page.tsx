@@ -9,8 +9,8 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Applications from '@/features/settings/applications/applications.component';
-import ClientCreateButton from '@/features/settings/applications/client-create-button.component';
+import { ApplicationsSettings } from '@/features/settings';
+import { ClientCreateButton } from '@/features/settings';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -43,12 +43,12 @@ const ApplicationsSettingsPage: FC<Props> = async (props) => {
                         </HeaderContainer>
                     </Header>
 
-                    <P className="text-muted-foreground text-sm">
+                    <P className="text-sm text-muted-foreground">
                         Підключіть OAuth авторизацію через hikka за допомогою
                         застосунку (для розробників)
                     </P>
                 </div>
-                <Applications />
+                <ApplicationsSettings />
             </div>
         </HydrationBoundary>
     );

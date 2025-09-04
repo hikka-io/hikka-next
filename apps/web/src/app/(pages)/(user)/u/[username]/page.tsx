@@ -13,11 +13,13 @@ import {
 } from '@hikka/react/server';
 import { FC } from 'react';
 
-import UserArticles from '@/features/users/user-profile/user-articles/user-articles.component';
-import Collections from '@/features/users/user-profile/user-collections/user-collections.component';
-import Favorites from '@/features/users/user-profile/user-favorites/user-favorites.component';
-import History from '@/features/users/user-profile/user-history/user-history.component';
-import Statistics from '@/features/users/user-profile/user-statistics/user-statistics.component';
+import {
+    UserArticles,
+    UserCollections as Collections,
+    UserFavorites as Favorites,
+    UserHistoryProfile as History,
+    UserStatistics as Statistics,
+} from '@/features/users';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

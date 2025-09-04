@@ -14,8 +14,7 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 
-import Cover from '@/features/people/person-view/cover.component';
-import Title from '@/features/people/person-view/title.component';
+import { PersonCover as Cover, PersonTitle as Title } from '@/features/people';
 
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

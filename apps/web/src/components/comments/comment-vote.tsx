@@ -3,6 +3,9 @@ import { useCreateVote, useSession } from '@hikka/react';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
@@ -10,8 +13,6 @@ import BxBxsDownvote from '../icons/bx/BxBxsDownvote';
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import BxDownvote from '../icons/bx/BxDownvote';
 import BxUpvote from '../icons/bx/BxUpvote';
-import { Button } from '../ui/button';
-import { Label } from '../ui/label';
 
 interface Props {
     comment: CommentResponse;

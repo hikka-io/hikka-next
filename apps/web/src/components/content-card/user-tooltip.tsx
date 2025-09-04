@@ -9,6 +9,22 @@ import {
 } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+    HoverCard,
+    HoverCardArrow,
+    HoverCardContent,
+    HoverCardPortal,
+    HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import FollowButton from '../follow-button';
 import MaterialSymbolsAnimatedImages from '../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../icons/material-symbols/MaterialSymbolsMenuBookRounded';
@@ -17,17 +33,6 @@ import MaterialSymbolsSecurity from '../icons/material-symbols/MaterialSymbolsSe
 import MaterialSymbolsShieldPerson from '../icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import P from '../typography/p';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import {
-    HoverCard,
-    HoverCardArrow,
-    HoverCardContent,
-    HoverCardPortal,
-    HoverCardTrigger,
-} from '../ui/hover-card';
-import { Label } from '../ui/label';
-import { Separator } from '../ui/separator';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 interface TooltipDataProps {
     username: string;

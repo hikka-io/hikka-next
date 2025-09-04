@@ -4,7 +4,8 @@ import { MarkdownPlugin } from '@platejs/markdown';
 import { Value } from 'platejs';
 import { Plate, usePlateEditor } from 'platejs/react';
 
-import { Editor, EditorContainer } from '../ui/editor';
+import { Editor, EditorContainer } from '@/components/plate/ui/editor';
+
 import { ArticleKit } from './article-kit';
 import { CommentKit } from './comment-kit';
 

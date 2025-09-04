@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createElement } from 'react';
 
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
-import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface Props {
     routes: Hikka.NavRoute[];

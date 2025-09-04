@@ -11,12 +11,13 @@ import { VariantProps } from 'class-variance-authority';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { Button, buttonVariants } from '@/components/ui/button';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsPersonAddOutlineRounded from './icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from './icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
-import { Button, buttonVariants } from './ui/button';
 
 interface Props {
     className?: string;

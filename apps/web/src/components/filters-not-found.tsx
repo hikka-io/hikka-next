@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { Button } from '@/components/ui/button';
+import NotFound from '@/components/ui/not-found';
+
 import AntDesignClearOutlined from './icons/ant-design/AntDesignClearOutlined';
-import { Button } from './ui/button';
-import NotFound from './ui/not-found';
 
 const FiltersNotFound = () => {
     const pathname = usePathname();

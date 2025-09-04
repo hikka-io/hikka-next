@@ -11,10 +11,12 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
-import ArticleDocument from '@/features/articles/article-edit/article-document.component';
-import ArticlePreview from '@/features/articles/article-edit/article-preview.component';
-import ArticleSettings from '@/features/articles/article-edit/article-settings/article-settings.component';
-import ArticleTitle from '@/features/articles/article-edit/article-title.component';
+import {
+    ArticleEditDocument as ArticleDocument,
+    ArticlePreview,
+    ArticleSettings,
+    ArticleEditTitle as ArticleTitle,
+} from '@/features/articles';
 
 import ArticleProvider from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';

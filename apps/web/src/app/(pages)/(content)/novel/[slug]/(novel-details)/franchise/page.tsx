@@ -2,7 +2,7 @@ import { ContentTypeEnum } from '@hikka/client';
 import { Metadata, ResolvingMetadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 
-import Franchise from '@/features/franchise/franchise.component';
+import { Franchise } from '@/features/content';
 
 import _generateMetadata from '@/utils/generate-metadata';
 

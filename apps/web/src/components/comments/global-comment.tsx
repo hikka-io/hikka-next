@@ -3,21 +3,22 @@ import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { CONTENT_TYPES } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-
-import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
-import MDViewer from '../markdown/viewer/MD-viewer';
-import Small from '../typography/small';
-import { Badge } from '../ui/badge';
+import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '../ui/horizontal-card';
-import { Label } from '../ui/label';
+} from '@/components/ui/horizontal-card';
+import { Label } from '@/components/ui/label';
+
+import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
+import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
+import MDViewer from '../markdown/viewer/MD-viewer';
+import Small from '../typography/small';
 
 interface Props {
     comment: CommentResponse;
@@ -49,8 +50,8 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
                         <div className="flex items-center gap-1">
-                            <BxBxsUpvote className="text-success-foreground size-3" />
-                            <Label className="text-success-foreground leading-none">
+                            <BxBxsUpvote className="size-3 text-success-foreground" />
+                            <Label className="leading-none text-success-foreground">
                                 {comment.vote_score}
                             </Label>
                         </div>
@@ -69,7 +70,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 </Badge>
                 <Link
                     href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
-                    className="text-primary-foreground flex items-center gap-1 hover:underline"
+                    className="flex items-center gap-1 text-primary-foreground hover:underline"
                 >
                     <Small className="line-clamp-1">
                         {comment.content_type === 'edit'

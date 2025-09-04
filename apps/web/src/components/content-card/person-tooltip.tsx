@@ -8,16 +8,17 @@ import {
 } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
-import MDViewer from '../markdown/viewer/MD-viewer';
 import {
     HoverCard,
     HoverCardArrow,
     HoverCardContent,
     HoverCardPortal,
     HoverCardTrigger,
-} from '../ui/hover-card';
-import { Label } from '../ui/label';
+} from '@/components/ui/hover-card';
+import { Label } from '@/components/ui/label';
+
+import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
+import MDViewer from '../markdown/viewer/MD-viewer';
 import ContentCard from './content-card';
 
 interface TooltipDataProps {
@@ -56,7 +57,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                         }
                         containerRatio={0.7}
                     />
@@ -93,7 +94,7 @@ const PersonCharactersList: FC<{
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                         }
                         containerRatio={0.7}
                     />
@@ -122,24 +123,24 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     if (!data || (!anime && !characters)) {
         return (
             <div className="flex w-96 animate-pulse gap-4 text-left">
-                <div className="bg-secondary/20 h-28 w-20 rounded-lg" />
+                <div className="h-28 w-20 rounded-lg bg-secondary/20" />
                 <div className="flex w-full flex-1 flex-col gap-2">
                     <div className="flex flex-col gap-2">
                         <div className="flex w-full flex-1 flex-col gap-2">
-                            <div className="bg-secondary/20 h-5 w-20 rounded-lg" />
+                            <div className="h-5 w-20 rounded-lg bg-secondary/20" />
                         </div>
                     </div>
 
                     <div className="flex gap-2">
-                        <div className="bg-secondary/20 h-3 w-1/4 rounded-lg" />
+                        <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
                     </div>
 
                     <div className="flex gap-2">
-                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
-                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
-                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
-                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
-                        <div className="bg-secondary/20 h-14 w-10 rounded-lg" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
+                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
                     </div>
                 </div>
             </div>
@@ -162,7 +163,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                     </Label>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <MDViewer className="text-muted-foreground whitespace-normal break-normal text-sm md:line-clamp-3">
+                    <MDViewer className="whitespace-normal break-normal text-sm text-muted-foreground md:line-clamp-3">
                         {data.description_ua}
                     </MDViewer>
 

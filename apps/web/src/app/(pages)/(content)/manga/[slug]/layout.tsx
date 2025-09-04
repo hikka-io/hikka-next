@@ -16,7 +16,7 @@ import { FC, PropsWithChildren } from 'react';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
-import MangaNavbar from '@/features/manga/manga-view/manga-navbar/manga-navbar.component';
+import { ContentNavbar } from '@/features/content';
 
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -99,7 +99,10 @@ const MangaLayout: FC<Props> = async (props) => {
 
             {children}
 
-            <MangaNavbar className="mt-12" />
+            <ContentNavbar
+                content_type={ContentTypeEnum.MANGA}
+                className="mt-12"
+            />
         </HydrationBoundary>
     );
 };

@@ -17,9 +17,8 @@ import { FC } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Content from '@/features/edit/edit-content/edit-content.component';
-import EditForm from '@/features/edit/edit-forms/edit-create-form.component';
-import RulesAlert from '@/features/edit/edit-rules-alert.component';
+import { EditContent as Content, EditCreateForm as EditForm } from '@/features/edit';
+import { EditRulesAlert as RulesAlert } from "@/features/edit";
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

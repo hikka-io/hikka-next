@@ -1,7 +1,8 @@
 import { ForwardedRef, forwardRef } from 'react';
 
+import { Button, ButtonProps } from '@/components/ui/button';
+
 import AntDesignArrowDownOutlined from './icons/ant-design/AntDesignArrowDownOutlined';
-import { Button, ButtonProps } from './ui/button';
 
 interface Props extends ButtonProps {
     fetchNextPage: () => void;

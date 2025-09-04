@@ -21,7 +21,7 @@ export function ImageGroupElementStatic({
                 {...props}
                 element={element}
                 className={cn(
-                    'image-group overflow-hidden rounded-md border mb-4',
+                    'image-group mb-4 overflow-hidden rounded-md border',
                     `image-group-size-${element.children.length}`,
                     className,
                 )}

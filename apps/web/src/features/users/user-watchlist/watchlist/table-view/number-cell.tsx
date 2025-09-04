@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
 
+import { WatchEditModal } from '@/features/modals';
+
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
-
-import WatchEditModal from '../../../../modals/watch-edit-modal.component';
 
 interface Props {
     number: number;

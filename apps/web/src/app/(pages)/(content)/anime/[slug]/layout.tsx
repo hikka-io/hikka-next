@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -12,7 +13,7 @@ import { FC, PropsWithChildren } from 'react';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
-import AnimeNavbar from '@/features/anime/anime-view/anime-navbar/anime-navbar.component';
+import { ContentNavbar } from '@/features/content';
 
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -86,7 +87,10 @@ const AnimeLayout: FC<Props> = async (props) => {
 
             {children}
 
-            <AnimeNavbar className="mt-12" />
+            <ContentNavbar
+                content_type={ContentTypeEnum.ANIME}
+                className="mt-12"
+            />
         </HydrationBoundary>
     );
 };

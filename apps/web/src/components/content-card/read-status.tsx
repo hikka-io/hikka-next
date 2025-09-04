@@ -18,7 +18,7 @@ const ReadStatus: FC<Props> = ({ read }) => (
         >
             {createElement(READ_STATUS[read.status as ReadStatusEnum].icon!)}
         </div>
-        <div className="from-black/60 absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b to-transparent" />
+        <div className="absolute left-0 top-0 z-0 h-16 w-full bg-gradient-to-b from-black/60 to-transparent" />
     </div>
 );
 

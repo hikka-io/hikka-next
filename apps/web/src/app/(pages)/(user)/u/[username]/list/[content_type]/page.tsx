@@ -11,11 +11,13 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import ReadFilters from '@/features/filters/read-filters.component';
-import List from '@/features/users/user-readlist/readlist/readlist.component';
-import StatusCombobox from '@/features/users/user-readlist/status-combobox.component';
-import ToolsCombobox from '@/features/users/user-readlist/tools-combobox.component';
-import ViewCombobox from '@/features/users/view-combobox.component';
+import { ReadFilters } from '@/features/filters';
+import {
+    ReadlistStatusCombobox,
+    ReadlistToolsCombobox,
+    UserReadlist,
+    ViewCombobox,
+} from '@/features/users';
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -79,14 +81,14 @@ const ListPage: FC<Props> = async (props) => {
                 <Block>
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
-                            <StatusCombobox />
+                            <ReadlistStatusCombobox />
                         </div>
                         <div className="flex items-center gap-2">
                             <ViewCombobox />
-                            <ToolsCombobox />
+                            <ReadlistToolsCombobox />
                         </div>
                     </div>
-                    <List />
+                    <UserReadlist />
                 </Block>
                 <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
                     <ReadFilters

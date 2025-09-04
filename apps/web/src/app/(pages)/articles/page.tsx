@@ -9,10 +9,8 @@ import {
     prefetchSearchArticles,
 } from '@hikka/react/server';
 
-import ArticleList from '@/features/articles/article-list/article-list.component';
-import PopularAuthors from '@/features/articles/article-list/popular-authors.component';
-import PopularTags from '@/features/articles/article-list/popular-tags.component';
-import ArticleFilters from '@/features/filters/article-filters.component';
+import { ArticleList, PopularAuthors, PopularTags } from '@/features/articles';
+import { ArticleFilters } from '@/features/filters';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 

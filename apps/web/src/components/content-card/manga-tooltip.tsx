@@ -5,21 +5,22 @@ import { useMangaBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
-
-import MDViewer from '../markdown/viewer/MD-viewer';
-import ReadlistButton from '../readlist-button/readlist-button';
-import H5 from '../typography/h5';
-import { Badge } from '../ui/badge';
+import { Badge } from '@/components/ui/badge';
 import {
     HoverCard,
     HoverCardArrow,
     HoverCardContent,
     HoverCardPortal,
     HoverCardTrigger,
-} from '../ui/hover-card';
-import { Label } from '../ui/label';
+} from '@/components/ui/hover-card';
+import { Label } from '@/components/ui/label';
+
+import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
+
+import MDViewer from '../markdown/viewer/MD-viewer';
+import ReadlistButton from '../readlist-button/readlist-button';
+import H5 from '../typography/h5';
 
 interface TooltipDataProps {
     slug: string;
@@ -40,25 +41,25 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
         return (
             <div className="flex animate-pulse flex-col gap-4">
                 <div className="flex justify-between gap-2">
-                    <div className="bg-secondary/20 h-4 flex-1 rounded-lg" />
-                    <div className="bg-secondary/20 h-4 w-10 rounded-lg" />
+                    <div className="h-4 flex-1 rounded-lg bg-secondary/20" />
+                    <div className="h-4 w-10 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex flex-col gap-2 py-3">
-                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
-                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
-                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
-                    <div className="bg-secondary/20 h-2 w-full rounded-lg" />
-                    <div className="bg-secondary/20 h-2 w-1/3 rounded-lg" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-1/3 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex gap-2">
-                    <div className="bg-secondary/20 h-3 w-1/4 rounded-lg" />
-                    <div className="bg-secondary/20 h-3 flex-1 rounded-lg" />
+                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                    <div className="h-3 flex-1 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="flex gap-2">
-                    <div className="bg-secondary/20 h-3 w-1/4 rounded-lg" />
-                    <div className="bg-secondary/20 h-3 w-2/4 rounded-lg" />
+                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                    <div className="h-3 w-2/4 rounded-lg bg-secondary/20" />
                 </div>
-                <div className="bg-secondary/20 h-12 w-full rounded-md" />
+                <div className="h-12 w-full rounded-md bg-secondary/20" />
             </div>
         );
     }
@@ -71,13 +72,13 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                 <div className="flex justify-between gap-2">
                     <H5>{data.title}</H5>
                     {data.score > 0 ? (
-                        <div className="border-accent bg-accent text-accent-foreground  size-fit rounded-md border px-2 text-sm">
+                        <div className="size-fit rounded-md border  border-accent bg-accent px-2 text-sm text-accent-foreground">
                             {data.score}
                         </div>
                     ) : null}
                 </div>
                 {synopsis && (
-                    <MDViewer className="text-muted-foreground mb-2 line-clamp-4 text-sm">
+                    <MDViewer className="mb-2 line-clamp-4 text-sm text-muted-foreground">
                         {synopsis}
                     </MDViewer>
                 )}
@@ -135,7 +136,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                         {data.genres.map((genre, i) => (
                             <span key={genre.slug}>
                                 <Link
-                                    className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground text-sm underline decoration-dashed transition-colors duration-100"
+                                    className="text-sm underline decoration-primary-foreground decoration-dashed transition-colors duration-100 hover:bg-primary-border hover:text-primary-foreground"
                                     href={`/manga?genres=${genre.slug}`}
                                 >
                                     {genre.name_ua}

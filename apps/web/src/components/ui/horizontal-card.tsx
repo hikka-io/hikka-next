@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
     ComponentProps,
     ComponentPropsWithoutRef,
@@ -7,6 +9,7 @@ import React, {
 } from 'react';
 
 import { cn } from '@/utils/utils';
+
 import ContentCard from '../content-card/content-card';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import { Label } from './label';
@@ -165,6 +168,5 @@ export {
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
-    HorizontalCardTitle
+    HorizontalCardTitle,
 };
-

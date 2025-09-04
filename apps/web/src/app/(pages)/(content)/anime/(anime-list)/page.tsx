@@ -5,7 +5,7 @@ import {
 } from '@hikka/react/core';
 import { FC } from 'react';
 
-import AnimeList from '@/features/anime/anime-list/anime-list.component';
+import { AnimeList } from '@/features/anime';
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };

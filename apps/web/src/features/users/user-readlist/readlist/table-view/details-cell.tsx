@@ -39,7 +39,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, rereads, note }) => {
                     </div>
                     {note && (
                         <TextExpand>
-                            <MDViewer className="text-muted-foreground text-xs">
+                            <MDViewer className="text-xs text-muted-foreground">
                                 {note}
                             </MDViewer>
                         </TextExpand>

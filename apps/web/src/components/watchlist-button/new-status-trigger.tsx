@@ -5,12 +5,13 @@ import { useCreateWatch } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { SelectTrigger } from '@/components/ui/select';
+
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsArrowDropDownRounded from '../icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
-import { Button } from '../ui/button';
-import { SelectTrigger } from '../ui/select';
 
 interface NewStatusTriggerProps {
     disabled?: boolean;
@@ -62,7 +63,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm p-1 border border-secondary-foreground/20',
+                                'rounded-sm border border-secondary-foreground/20 p-1',
                             )}
                         >
                             {createElement(WATCH_STATUS.planned.icon!, {

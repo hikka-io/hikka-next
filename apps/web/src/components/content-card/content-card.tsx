@@ -14,13 +14,14 @@ import {
 } from 'react';
 import { UrlObject } from 'url';
 
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import Image from '@/components/ui/image';
+import { Label } from '@/components/ui/label';
+
 import { cn } from '@/utils/utils';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import P from '../typography/p';
-import { AspectRatio } from '../ui/aspect-ratio';
-import Image from '../ui/image';
-import { Label } from '../ui/label';
 import AnimeTooltip from './anime-tooltip';
 import CharacterTooltip from './character-tooltip';
 import ContextMenuOverlay from './context-menu-overlay';

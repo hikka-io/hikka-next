@@ -15,8 +15,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import CollectionList from '@/features/collections/collection-list/collection-list.component';
-import CollectionSort from '@/features/collections/collection-list/collection-sort';
+import { CollectionList, CollectionSort } from '@/features/collections';
 
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

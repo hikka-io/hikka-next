@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { FC } from 'react';
 
-import PasswordConfirmForm from '@/features/auth/password-confirm/password-confirm-form.component';
-import PasswordConfirmHeader from '@/features/auth/password-confirm/password-confirm-header.component';
+import { PasswordConfirmForm, PasswordConfirmHeader } from '@/features/auth';
 
 import _generateMetadata from '@/utils/generate-metadata';
 

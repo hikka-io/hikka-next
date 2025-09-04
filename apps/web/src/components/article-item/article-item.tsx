@@ -2,6 +2,11 @@ import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { cn } from '@/utils/utils';
 
@@ -10,10 +15,6 @@ import IconamoonCommentFill from '../icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '../icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { StaticViewer } from '../plate/editor/static-viewer';
 import Muted from '../typography/muted';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import Card from '../ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '../ui/header';
 import Author from './article-author';
 
 interface Props {

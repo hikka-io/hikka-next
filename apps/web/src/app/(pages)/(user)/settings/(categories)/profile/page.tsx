@@ -6,9 +6,11 @@ import {
     HeaderContainer,
     HeaderTitle,
 } from '@/components/ui/header';
-import Appearance from '@/features/settings/profile/appearance.component';
-import Description from '@/features/settings/profile/description.component';
-import Username from '@/features/settings/profile/username.component';
+import {
+    ProfileAppearance,
+    ProfileDescription,
+    ProfileUsername,
+} from '@/features/settings';
 
 interface Props {
     params: {
@@ -30,9 +32,9 @@ const ProfileSettingsPage: FC<Props> = async (props) => {
                     Налаштуйте вигляд та деталі свого профілю
                 </P>
             </div>
-            <Appearance />
-            <Username />
-            <Description />
+            <ProfileAppearance />
+            <ProfileUsername />
+            <ProfileDescription />
         </div>
     );
 };

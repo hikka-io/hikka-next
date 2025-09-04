@@ -16,11 +16,13 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import InternalNavBar from '@/components/navigation/nav-tabs';
 import SubBar from '@/components/navigation/sub-nav';
 
-import ActivationAlert from '@/features/users/activation-alert.component';
-import FollowStats from '@/features/users/follow-stats.component';
-import ListStats from '@/features/users/list-stats/list-stats.component';
-import UserInfo from '@/features/users/user-info.component';
-import UserTitle from '@/features/users/user-title.component';
+import {
+    ActivationAlert,
+    FollowStats,
+    ListStats,
+    UserInfo,
+    UserTitle,
+} from '@/features/users';
 
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';

@@ -9,7 +9,7 @@ import { FC, PropsWithChildren } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import Menu from '@/features/settings/menu.component';
+import { SettingsMenu } from '@/features/settings';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 
@@ -42,7 +42,7 @@ const SettingsLayout: FC<Props> = async (props) => {
                             <HeaderTitle variant="h2">Налаштування</HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <Menu />
+                    <SettingsMenu />
                 </Block>
                 <div className="flex flex-col gap-12">{children}</div>
             </div>
