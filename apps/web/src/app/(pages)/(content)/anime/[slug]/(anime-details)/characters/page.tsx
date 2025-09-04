@@ -1,6 +1,8 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { AnimeCharacters as Characters } from '@/features/anime';
+import { ContentCharacters as Characters } from '@/features/content';
+
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
@@ -20,7 +22,7 @@ export async function generateMetadata(
 const AnimeCharactersPage = async () => {
     return (
         <div className="flex flex-col gap-12">
-            <Characters extended />
+            <Characters extended content_type={ContentTypeEnum.ANIME} />
         </div>
     );
 };

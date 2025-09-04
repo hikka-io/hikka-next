@@ -1,6 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { AnimeMedia as Media } from '@/features/anime';
+import { ContentMedia as Media } from '@/features/content';
+
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(

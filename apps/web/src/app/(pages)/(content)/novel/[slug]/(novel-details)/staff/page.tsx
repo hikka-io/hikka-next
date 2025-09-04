@@ -1,6 +1,8 @@
+import { ContentTypeEnum } from '@hikka/client';
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { NovelStaff as Staff } from '@/features/novel';
+import { ContentStaff as Staff } from '@/features/content';
+
 import _generateMetadata from '@/utils/generate-metadata';
 
 export async function generateMetadata(
@@ -20,7 +22,7 @@ export async function generateMetadata(
 const NovelStaffPage = async () => {
     return (
         <div className="flex flex-col gap-12">
-            <Staff extended />
+            <Staff extended content_type={ContentTypeEnum.NOVEL} />
         </div>
     );
 };

@@ -14,6 +14,17 @@ import {
     SourceEnum,
     WatchStatusEnum,
 } from '@hikka/client';
+import {
+    useAnimeBySlug,
+    useAnimeCharacters,
+    useAnimeStaff,
+    useMangaBySlug,
+    useMangaCharacters,
+    useNovelBySlug,
+    useNovelCharacters,
+    useReadBySlug,
+    useWatchBySlug,
+} from '@hikka/react';
 
 import MaterialSymbolsBookmarkFlagOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
 import MaterialSymbolsBookmarkOutline from '../../components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
@@ -588,3 +599,39 @@ export const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментарі',
     'коментарів',
 ];
+
+type ContentConfig = {
+    characters:
+        | typeof useAnimeCharacters
+        | typeof useMangaCharacters
+        | typeof useNovelCharacters;
+    userlist: typeof useWatchBySlug | typeof useReadBySlug;
+    info: typeof useAnimeBySlug | typeof useMangaBySlug | typeof useNovelBySlug;
+};
+
+const ANIME_CONFIG = {
+    useCharacters: (slug: string) => useAnimeCharacters({ slug }),
+    useUserlist: (slug: string) => useWatchBySlug({ slug }),
+    useInfo: (slug: string) => useAnimeBySlug({ slug }),
+    useStaff: (slug: string) => useAnimeStaff({ slug }),
+};
+
+const MANGA_CONFIG = {
+    useCharacters: (slug: string) => useMangaCharacters({ slug }),
+    useUserlist: (slug: string) =>
+        useReadBySlug({ slug, contentType: ContentTypeEnum.MANGA }),
+    useInfo: (slug: string) => useMangaBySlug({ slug }),
+};
+
+const NOVEL_CONFIG = {
+    useCharacters: (slug: string) => useNovelCharacters({ slug }),
+    useUserlist: (slug: string) =>
+        useReadBySlug({ slug, contentType: ContentTypeEnum.NOVEL }),
+    useInfo: (slug: string) => useNovelBySlug({ slug }),
+};
+
+export const CONTENT_CONFIG = {
+    [ContentTypeEnum.ANIME]: ANIME_CONFIG,
+    [ContentTypeEnum.MANGA]: MANGA_CONFIG,
+    [ContentTypeEnum.NOVEL]: NOVEL_CONFIG,
+};

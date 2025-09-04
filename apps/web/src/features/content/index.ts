@@ -1,0 +1,12 @@
+export { default as ContentActions } from './actions';
+export { default as ContentCharacters } from './characters';
+export { default as ContentStats } from './content-stats';
+export { default as ContentCover } from './cover';
+export { default as ContentDescription } from './description';
+export { default as ContentDetails } from './details';
+export { default as Franchise } from './franchise';
+export { default as ContentLinks } from './links';
+export { default as ContentMedia } from './media';
+export { default as ContentNavbar } from './navbar';
+export { default as ContentStaff } from './staff';
+export { default as ContentTitle } from './title';

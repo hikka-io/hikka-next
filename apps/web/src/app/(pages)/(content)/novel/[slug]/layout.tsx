@@ -16,7 +16,7 @@ import { FC, PropsWithChildren } from 'react';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
-import { NovelNavbar } from '@/features/novel';
+import { ContentNavbar } from '@/features/content';
 
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -95,7 +95,10 @@ const NovelLayout: FC<Props> = async (props) => {
 
             {children}
 
-            <NovelNavbar className="mt-12" />
+            <ContentNavbar
+                content_type={ContentTypeEnum.NOVEL}
+                className="mt-12"
+            />
         </HydrationBoundary>
     );
 };

@@ -6,21 +6,21 @@ import {
 } from '@hikka/react/server';
 import { FC } from 'react';
 
-import {
-    AnimeActions as Actions,
-    AnimeCharacters as Characters,
-    AnimeCover as Cover,
-    AnimeDescription as Description,
-    AnimeDetails as Details,
-    AnimeLinks as Links,
-    AnimeMedia as Media,
-    AnimeStaff as Staff,
-    AnimeTitle as Title,
-    AnimeWatchStats as WatchStats,
-} from '@/features/anime';
 import { ContentArticles } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
-import { Franchise } from '@/features/franchise';
+import {
+    ContentActions as Actions,
+    ContentCharacters as Characters,
+    ContentCover as Cover,
+    ContentDescription as Description,
+    ContentDetails as Details,
+    Franchise,
+    ContentLinks as Links,
+    ContentMedia as Media,
+    ContentStaff as Staff,
+    ContentStats as Stats,
+    ContentTitle as Title,
+} from '@/features/content';
 import { Followings } from '@/features/modals';
 
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -66,27 +66,33 @@ const AnimePage: FC<Props> = async (props) => {
                 />
             )}
             <div className="flex flex-col gap-4 lg:col-span-1">
-                <Cover />
+                <Cover content_type={ContentTypeEnum.ANIME} />
                 <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                    <Actions />
+                    <Actions content_type={ContentTypeEnum.ANIME} />
                 </div>
             </div>
             <div className="flex flex-col gap-12 lg:col-span-2">
-                <Title />
-                <Description />
-                <Details className="lg:hidden" />
-                <Characters />
+                <Title content_type={ContentTypeEnum.ANIME} />
+                <Description content_type={ContentTypeEnum.ANIME} />
+                <Details
+                    className="lg:hidden"
+                    content_type={ContentTypeEnum.ANIME}
+                />
+                <Characters content_type={ContentTypeEnum.ANIME} />
                 <Franchise content_type={ContentTypeEnum.ANIME} />
                 <Media />
-                <Staff />
+                <Staff content_type={ContentTypeEnum.ANIME} />
             </div>
 
             <div className="flex flex-col gap-12 lg:col-span-1">
-                <Details className="hidden lg:flex" />
-                <WatchStats />
+                <Details
+                    className="hidden lg:flex"
+                    content_type={ContentTypeEnum.ANIME}
+                />
+                <Stats content_type={ContentTypeEnum.ANIME} />
                 <Followings content_type={ContentTypeEnum.ANIME} />
                 <ContentArticles content_type={ContentTypeEnum.ANIME} />
-                <Links />
+                <Links content_type={ContentTypeEnum.ANIME} />
             </div>
             <div className="flex flex-col gap-12 lg:col-span-2 lg:col-start-2">
                 <Comments
