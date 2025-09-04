@@ -4,10 +4,11 @@ import { useArticleStats } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import { BadgeFilter } from '@/components/badge-filter';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { BadgeFilter, useChangeParam } from '@/features/filters';
+import { useChangeParam } from '@/features/filters';
 
 interface Props {}
 

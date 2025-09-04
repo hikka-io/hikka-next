@@ -10,8 +10,8 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
 import {
-    CollectionGroups,
-    CollectionSettings,
+    CollectionEditGroups as CollectionGroups,
+    CollectionEditSettings as CollectionSettings,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
 

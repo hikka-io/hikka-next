@@ -6,7 +6,7 @@ import { FC, useEffect } from 'react';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
 
-import CollectionGrid from './collection-grid/collection-grid';
+import CollectionGrid from './collection-grid';
 
 interface Props {
     mode?: 'create' | 'edit';

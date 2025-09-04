@@ -7,15 +7,15 @@ import { CommandDialog, CommandInput } from '@/components/ui/command';
 
 import useDebounce from '@/services/hooks/use-debounce';
 
-import AnimeSearchList from './anime-search-list';
-import CharacterSearchList from './character-search-list';
+import SearchButton from './components/search-button';
+import AnimeSearchList from './components/search-lists/anime-search-list';
+import CharacterSearchList from './components/search-lists/character-search-list';
+import MangaSearchList from './components/search-lists/manga-search-list';
+import NovelSearchList from './components/search-lists/novel-search-list';
+import PersonSearchList from './components/search-lists/person-search-list';
+import SearchToggle from './components/search-toggle';
+import UserSearchList from './components/user-search-list';
 import useSearchModal from './hooks/useSearchModal';
-import MangaSearchList from './manga-search-list';
-import NovelSearchList from './novel-search-list';
-import PersonSearchList from './person-search-list';
-import SearchButton from './search-button';
-import SearchToggle from './search-toggle';
-import UserSearchList from './user-search-list';
 
 interface Props {
     onClick?: (content: MainContent | UserResponse) => void;

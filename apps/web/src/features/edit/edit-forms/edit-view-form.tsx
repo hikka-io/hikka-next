@@ -8,16 +8,15 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 
+import AutoButton from './components/auto-button';
+import EditDescription from './components/edit-description';
+import EditGroup from './components/edit-group';
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
-} from '@/utils/edit-param-utils';
-
-import AutoButton from './auto-button';
-import EditDescription from './edit-description';
-import EditGroup from './edit-group';
+} from './utils/edit-param-utils';
 
 type FormValues = Record<string, unknown> & {
     description: string;

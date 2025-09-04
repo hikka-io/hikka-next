@@ -1,6 +1,6 @@
 // Comment Components
-export { default as CommentList } from './components/comment-list';
-export { default as LatestComments } from './components/latest-comments';
+export { default as CommentList } from './comment-list';
+export { default as LatestComments } from './latest-comments';
 
 // Comment Hooks
 export { useContent } from './hooks/use-content';

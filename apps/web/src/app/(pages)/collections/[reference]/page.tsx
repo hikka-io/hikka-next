@@ -18,12 +18,12 @@ import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 
 import {
-    CollectionAuthor,
+    CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
-    CollectionNavbar,
-    CollectionTitle,
+    CollectionViewNavbar as CollectionNavbar,
+    CollectionViewTitle as CollectionTitle,
 } from '@/features/collections';
-import { CommentList as Comments } from "@/features/comments";
+import { CommentList as Comments } from '@/features/comments';
 
 import CollectionProvider from '@/services/providers/collection-provider';
 import _generateMetadata from '@/utils/generate-metadata';

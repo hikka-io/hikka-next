@@ -4,7 +4,7 @@ import { useClientList } from '@hikka/react';
 
 import NotFound from '@/components/ui/not-found';
 
-import ApplicationItem from './application-item';
+import ApplicationItem from '../components/application-item';
 
 const Component = () => {
     const { list } = useClientList();

@@ -3,7 +3,7 @@
 import { useSearchCollections } from '@hikka/react';
 import { FC } from 'react';
 
-import CollectionCard from './collection-card';
+import CollectionCard from './components/collection-card';
 
 interface Props {
     page: number;

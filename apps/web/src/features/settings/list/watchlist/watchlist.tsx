@@ -1,6 +1,6 @@
 'use client';
 
-import { ImportWatchArgs } from '@hikka/client';
+import { ContentTypeEnum, ImportWatchArgs } from '@hikka/client';
 import { useImportWatchList } from '@hikka/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -12,8 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
+import General from '../../components/list/import-list';
 import Anilist from './anilist';
-import General from './general';
 
 const Component = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
@@ -68,8 +68,9 @@ const Component = () => {
                 </TabsList>
                 <TabsContent value="general">
                     <General
-                        watchList={watchList}
-                        setWatchList={setWatchList}
+                        list={watchList}
+                        content_type={ContentTypeEnum.ANIME}
+                        setList={setWatchList}
                     />
                 </TabsContent>
                 <TabsContent value="aniList">

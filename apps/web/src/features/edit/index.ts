@@ -1,34 +1,25 @@
 // Edit Core Components
-export { default as EditStatus } from './components/edit-status';
-export { default as EditContentList } from './components/edit-content-list';
-export { default as EditAuthor } from './components/edit-author';
-export { default as EditModerator } from './components/edit-moderator';
-export { default as EditRulesAlert } from './components/edit-rules-alert';
+export { default as EditAuthor } from './edit-author';
+export { default as EditContentList } from './edit-content-list';
+export { default as EditModerator } from './edit-moderator';
+export { default as EditRulesAlert } from './edit-rules-alert';
+export { default as EditStatus } from './edit-status';
 
 // Edit Actions Components
-export { default as EditActions } from './edit-actions/edit-actions';
-export { default as DenyAction } from './edit-actions/deny-action';
-export { default as CloseAction } from './edit-actions/close-action';
 export { default as AcceptAction } from './edit-actions/accept-action';
+export { default as CloseAction } from './edit-actions/close-action';
+export { default as DenyAction } from './edit-actions/deny-action';
+export { default as EditActions } from './edit-actions/edit-actions';
 
 // Edit List Components
-export { default as EditList } from './edit-list/edit-list';
-export { default as EditRow } from './edit-list/edit-row';
-export { default as EditHead } from './edit-list/edit-head';
-export { default as EditSkeleton } from './edit-list/edit-skeleton';
+export { default as EditList } from './edit-list';
 
 // Edit Stats Components
-export { default as EditTopStats } from './edit-top-stats/edit-top-stats';
-export { default as EditTopItem } from './edit-top-stats/edit-top-item';
+export { default as EditTopStats } from './edit-top-stats';
 
 // Edit Forms Components
-export { default as EditViewForm } from './edit-forms/edit-view-form';
 export { default as EditCreateForm } from './edit-forms/edit-create-form';
-
-// Edit Form Params
-export { default as InputParam } from './edit-forms/params/input-param';
-export { default as ListParam } from './edit-forms/params/list-param';
-export { default as MarkdownParam } from './edit-forms/params/markdown-param';
+export { default as EditViewForm } from './edit-forms/edit-view-form';
 
 // Edit Content Components
-export { default as EditContent } from './edit-content/edit-content';
+export { default as EditContent } from './edit-content';

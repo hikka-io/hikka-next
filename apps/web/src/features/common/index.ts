@@ -1,15 +1,12 @@
 // Core App Components
-export { default as Providers } from './components/providers';
-export { default as SessionManager } from './components/session-manager';
-export { default as Footer } from './components/footer';
-export { default as ScrollTop } from './components/scroll-top';
-export { default as AppSidebar } from './components/app-sidebar';
+export { default as AppSidebar } from './app-sidebar';
+export { default as Footer } from './footer';
+export { default as Providers } from './providers';
+export { default as ScrollTop } from './scroll-top';
+export { default as SessionManager } from './session-manager';
 
 // Navbar Components
-export { default as Navbar } from './navbar/navbar';
-export { default as ProfileMenu } from './navbar/profile-menu';
+export { default as Navbar } from './navbar';
 
 // Notifications Components
-export { default as NotificationsMenu } from './navbar/notifications-menu/notifications-menu';
-export { default as NotificationItem } from './navbar/notifications-menu/notification-item';
-export { default as NotFoundNotifications } from './navbar/notifications-menu/not-found-notifications';
+export { default as NotificationsMenu } from './notifications-menu';
