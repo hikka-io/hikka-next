@@ -41,7 +41,7 @@ export function CommentPlateEditor({
                                   .getApi(MarkdownPlugin)
                                   .markdown.serialize(value),
                           )
-                    : ({ value }) => console.log(value)
+                    : undefined
             }
         >
             <EditorContainer className={className}>
