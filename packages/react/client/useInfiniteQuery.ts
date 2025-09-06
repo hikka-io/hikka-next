@@ -32,6 +32,7 @@ export interface InfiniteQueryParams<T> {
     };
     /** Pagination arguments */
     paginationArgs?: PaginationArgs;
+    queryKey?: unknown[];
 }
 
 /**

@@ -19,6 +19,7 @@ export interface QueryParams<TData, TResult = TData> {
         UseQueryOptions<TData, Error, TResult>,
         'queryKey' | 'queryFn'
     >;
+    queryKey?: unknown[];
 }
 
 /**
