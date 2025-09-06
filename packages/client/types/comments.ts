@@ -9,13 +9,14 @@ import { UserResponse } from './user';
  * Comments content type
  */
 export type CommentsContentType =
-    | ContentTypeEnum.ANIME
     | ContentTypeEnum.COLLECTION
     | ContentTypeEnum.EDIT
     | ContentTypeEnum.ARTICLE
     | ContentTypeEnum.ANIME
     | ContentTypeEnum.MANGA
-    | ContentTypeEnum.NOVEL;
+    | ContentTypeEnum.NOVEL
+    | ContentTypeEnum.CHARACTER
+    | ContentTypeEnum.PERSON;
 
 /**
  * Comment response
