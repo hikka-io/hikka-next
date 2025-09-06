@@ -1,15 +1,16 @@
 'use client';
 
 import { AnimeResponse } from '@hikka/client';
+import { useSearchAnimes } from '@hikka/react';
 import { ReactNode } from 'react';
 
+import LoadMoreButton from '@/components/load-more-button';
 import {
     CommandGroup,
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
 
-import useAnimeSearchList from '../../hooks/useAnimeSearchList';
 import AnimeCard from '../cards/anime-card';
 import SearchPlaceholders from '../search-placeholders';
 
@@ -21,18 +22,33 @@ interface Props {
 }
 
 const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
-    const { data, isFetching, isRefetching } = useAnimeSearchList({ value });
+    const {
+        list,
+        isFetching,
+        isRefetching,
+        ref,
+        fetchNextPage,
+        isFetchingNextPage,
+        hasNextPage,
+    } = useSearchAnimes({
+        args: { query: value },
+        paginationArgs: { size: 30 },
+        queryKey: ['anime-search-list', value],
+        options: {
+            enabled: value !== undefined && value.length >= 3,
+        },
+    });
 
     return (
         <CommandList className="max-h-none">
             <SearchPlaceholders
-                data={data}
+                data={list}
                 isFetching={isFetching}
                 isRefetching={isRefetching}
             />
-            {data && data.list.length > 0 && (
+            {list && list.length > 0 && (
                 <CommandGroup>
-                    {data.list.map((anime) => (
+                    {list.map((anime) => (
                         <CommandItem key={anime.slug} value={anime.slug}>
                             <AnimeCard
                                 onClick={() => onDismiss(anime)}
@@ -43,6 +59,15 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
                     ))}
                 </CommandGroup>
             )}
+            <div className="flex items-center justify-center">
+                {hasNextPage && (
+                    <LoadMoreButton
+                        ref={ref}
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                    />
+                )}
+            </div>
         </CommandList>
     );
 };

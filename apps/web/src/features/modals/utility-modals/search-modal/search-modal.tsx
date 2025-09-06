@@ -13,8 +13,8 @@ import CharacterSearchList from './components/search-lists/character-search-list
 import MangaSearchList from './components/search-lists/manga-search-list';
 import NovelSearchList from './components/search-lists/novel-search-list';
 import PersonSearchList from './components/search-lists/person-search-list';
+import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
-import UserSearchList from './components/user-search-list';
 import useSearchModal from './hooks/useSearchModal';
 
 interface Props {

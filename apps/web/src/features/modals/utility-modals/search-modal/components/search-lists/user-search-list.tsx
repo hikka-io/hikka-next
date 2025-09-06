@@ -1,6 +1,7 @@
 'use client';
 
 import { UserResponse } from '@hikka/client';
+import { useSearchUsers } from '@hikka/react';
 import { ReactNode } from 'react';
 
 import {
@@ -9,9 +10,8 @@ import {
     CommandList,
 } from '@/components/ui/command';
 
-import useUserSearchList from '../hooks/useUserSearchList';
-import UserCard from './cards/user-card';
-import SearchPlaceholders from './search-placeholders';
+import UserCard from '../cards/user-card';
+import SearchPlaceholders from '../search-placeholders';
 
 interface Props {
     onDismiss: (user: UserResponse) => void;
@@ -21,7 +21,14 @@ interface Props {
 }
 
 const UserSearchList = ({ onDismiss, type, value }: Props) => {
-    const { data, isFetching, isRefetching } = useUserSearchList({ value });
+    const { data, isFetching, isRefetching } = useSearchUsers({
+        args: { query: value || '' },
+        queryKey: ['user-search-list', value],
+        options: {
+            enabled: value !== undefined && value.length >= 3,
+        },
+    });
+
     return (
         <CommandList className="max-h-screen">
             <SearchPlaceholders
