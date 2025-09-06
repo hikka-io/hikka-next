@@ -90,12 +90,14 @@ const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
 interface HeaderTitleProps {
     className?: string;
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+    href?: string;
 }
 
 const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     className,
     children,
     variant,
+    href: hrefProp,
 }) => {
     const { href, onClick, linkProps } = useHeader();
     const getTitle = useCallback(() => {
@@ -119,8 +121,12 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
 
     return (
         <div className={cn('flex items-center gap-4', className)}>
-            {href ? (
-                <Link href={href} {...linkProps} className="hover:underline">
+            {hrefProp || href ? (
+                <Link
+                    href={hrefProp || href || ''}
+                    {...linkProps}
+                    className="hover:underline"
+                >
                     <Title>{children}</Title>
                 </Link>
             ) : onClick ? (

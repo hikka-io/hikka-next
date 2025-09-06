@@ -3,6 +3,7 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
 import { MarkdownPlugin } from '@platejs/markdown';
+import { Value } from 'platejs';
 import { useEditorValue } from 'platejs/react';
 import { FC } from 'react';
 
@@ -69,9 +70,25 @@ const CommentInputBottomBar: FC<Props> = ({
         }));
     };
 
+    const removeEmptyTextNodes = (value: Value) => {
+        return value.filter((node, index) =>
+            node.type === 'p' &&
+            node.children[0].text === '' &&
+            (index === 0 || index === value.length - 1)
+                ? false
+                : true,
+        );
+    };
+
     const onSubmit = () => {
+        const filteredValue = removeEmptyTextNodes(editorValue);
+
+        if (filteredValue.length === 0) {
+            return;
+        }
+
         const text = editor.getApi(MarkdownPlugin).markdown.serialize({
-            value: editorValue,
+            value: filteredValue,
         });
 
         if (isEdit) {

@@ -86,33 +86,6 @@ const serializeContainerDirective = (
     return config.serialize(plateNode, options);
 };
 
-// Custom paragraph serializer that removes first and empty paragraphs
-const serializeParagraph = (plateNode: any, options: SerializeMdOptions) => {
-    // Check if this is an empty paragraph (only contains empty text)
-    const isEmpty =
-        plateNode.children?.length === 1 && plateNode.children[0].text === '';
-
-    // Skip serialization for empty paragraphs by returning undefined
-    if (isEmpty) {
-        return undefined;
-    }
-
-    // Get the value array from options to check if this is the first paragraph
-    const value = options.value || [];
-    const isFirstParagraph = value.length > 0 && value[0] === plateNode;
-
-    // Skip serialization for the first paragraph by returning undefined
-    if (isFirstParagraph) {
-        return undefined;
-    }
-
-    // Default paragraph serialization - return mdast paragraph node
-    return {
-        type: 'paragraph',
-        children: convertNodesSerialize(plateNode.children, options),
-    } as any;
-};
-
 export const MarkdownKit = [
     MarkdownPlugin.configure({
         options: {
@@ -128,10 +101,6 @@ export const MarkdownKit = [
                 [ELEMENT_SPOILER]: {
                     serialize: serializeContainerDirective,
                 },
-                // Custom paragraph serializer that removes first and empty paragraphs
-                /* [KEYS.p]: {
-                    serialize: serializeParagraph,
-                }, */
             },
         },
     }),

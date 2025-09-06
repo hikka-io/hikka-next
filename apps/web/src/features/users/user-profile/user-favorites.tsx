@@ -56,7 +56,9 @@ const Favorites: FC<Props> = ({ extended }) => {
                 }
             >
                 <HeaderContainer className="overflow-hidden">
-                    <HeaderTitle>Улюблені</HeaderTitle>
+                    <HeaderTitle variant={extended ? 'h2' : 'h3'}>
+                        Улюблені
+                    </HeaderTitle>
                     <ToggleGroup
                         type="single"
                         value={content}

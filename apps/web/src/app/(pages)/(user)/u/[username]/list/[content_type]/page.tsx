@@ -18,6 +18,7 @@ import Block from '@/components/ui/block';
 import { ReadFilters } from '@/features/filters';
 import {
     Userlist,
+    UserlistHeader,
     UserlistStatusCombobox,
     UserlistToolsCombobox,
     UserlistViewCombobox,
@@ -86,6 +87,7 @@ const ListPage: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                 <Block>
+                    <UserlistHeader content_type={content_type} />
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
                             <UserlistStatusCombobox

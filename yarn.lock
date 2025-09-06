@@ -1271,7 +1271,7 @@ __metadata:
     "@hookform/resolvers": "npm:^3.9.1"
     "@marsidev/react-turnstile": "npm:1.1.0"
     "@mobily/ts-belt": "npm:^3.13.1"
-    "@next/bundle-analyzer": "npm:15.3.0"
+    "@next/bundle-analyzer": "npm:15.5.2"
     "@platejs/basic-nodes": "npm:^49.0.0"
     "@platejs/combobox": "npm:^49.0.0"
     "@platejs/diff": "npm:^49.0.0"
@@ -2460,12 +2460,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/bundle-analyzer@npm:15.3.0":
-  version: 15.3.0
-  resolution: "@next/bundle-analyzer@npm:15.3.0"
+"@next/bundle-analyzer@npm:15.5.2":
+  version: 15.5.2
+  resolution: "@next/bundle-analyzer@npm:15.5.2"
   dependencies:
     webpack-bundle-analyzer: "npm:4.10.1"
-  checksum: 10c0/4f207652a03988724fdc05297b14f8d9ca03ad69ab65edb01b3af09da30deb595aea009d59c573a70282dbff08930570ec96bf04d26cd5a7a560aecaad65c65b
+  checksum: 10c0/3614051e86ee6782202f8bd7ae8dcdfc8f06eb3180d4d2e26dda3b3437d25e8bd1ca149c742f73ef71b02ffae8727156e76f17d2d823709a30fffde62fcbd1d5
   languageName: node
   linkType: hard
 

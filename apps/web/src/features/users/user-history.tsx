@@ -39,7 +39,7 @@ const UserHistory: FC<Props> = ({ className }) => {
         <Block className={cn(className)}>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle>Історія</HeaderTitle>
+                    <HeaderTitle variant="h2">Історія</HeaderTitle>
                     <ToggleGroup
                         type="single"
                         value={type}

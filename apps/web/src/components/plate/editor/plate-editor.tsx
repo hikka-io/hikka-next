@@ -26,7 +26,6 @@ export function CommentPlateEditor({
 }: CommentPlateEditorProps) {
     const editor = usePlateEditor({
         plugins: CommentKit,
-        nodeId: false,
         value: (editor) =>
             editor.getApi(MarkdownPlugin).markdown.deserialize(value ?? ''),
     });

@@ -13,8 +13,6 @@ import CoverImage from '@/components/cover-image';
 import FollowButton from '@/components/follow-button';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
-import InternalNavBar from '@/components/navigation/nav-tabs';
-import SubBar from '@/components/navigation/sub-nav';
 
 import {
     ActivationAlert,
@@ -88,12 +86,12 @@ const UserLayout: FC<Props> = async (props) => {
                         urlPrefix={`/u/${username}`}
                     />
                 </Breadcrumbs>
-                <SubBar>
+                {/* <SubBar>
                     <InternalNavBar
                         routes={USER_NAV_ROUTES}
                         urlPrefix={`/u/${username}`}
                     />
-                </SubBar>
+                </SubBar> */}
 
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                     <div className="flex flex-col gap-4 lg:gap-8">
