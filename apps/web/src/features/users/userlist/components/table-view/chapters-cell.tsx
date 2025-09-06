@@ -3,14 +3,14 @@ import { FC } from 'react';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
-    episodes: number;
-    total?: number;
+    chapters: number;
+    total?: number | null;
 }
 
-const EpisodesCell: FC<Props> = ({ episodes, total }) => (
+const ChaptersCell: FC<Props> = ({ chapters, total }) => (
     <TableCell className="w-20 text-center" align="center">
-        {episodes} / {total || '?'}
+        {chapters} / {total || '?'}
     </TableCell>
 );
 
-export default EpisodesCell;
+export default ChaptersCell;

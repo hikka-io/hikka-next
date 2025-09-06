@@ -47,7 +47,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 <ReleaseStatus />
                 <Season />
                 <Year />
-                <DateRange />
+                {sort_type === 'anime' && <DateRange />}
                 <Genre />
                 <MediaType content_type={content_type} />
                 <Localization />

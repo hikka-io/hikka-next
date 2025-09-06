@@ -42,14 +42,14 @@ const Title = ({ className, content_type }: TitleProps) => {
                         )}
                     </H2>
 
-                    <P className="text-sm text-muted-foreground">
+                    <P className="text-muted-foreground text-sm">
                         {data.data_type === ContentTypeEnum.ANIME
                             ? data.title_ja
                             : data.title_original}
                     </P>
                 </div>
                 {data.score > 0 && (
-                    <div className="flex items-center gap-1 rounded-md border bg-secondary/20 px-2 backdrop-blur">
+                    <div className="bg-secondary/20 flex items-center gap-1 rounded-md border px-2 backdrop-blur">
                         <div className="font-display text-xl font-bold">
                             {data.score}
                         </div>
@@ -65,7 +65,7 @@ const Title = ({ className, content_type }: TitleProps) => {
                         {data.genres.map((genre) => (
                             <span key={genre.slug} className="text-sm">
                                 <Link
-                                    className="rounded px-1 underline decoration-primary-foreground decoration-dashed transition-colors duration-100 hover:bg-primary-border hover:text-primary-foreground"
+                                    className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground rounded px-1 underline decoration-dashed transition-colors duration-100"
                                     href={`/${content_type}?genres=${genre.slug}`}
                                 >
                                     {genre.name_ua}

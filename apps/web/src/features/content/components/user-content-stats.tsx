@@ -29,7 +29,7 @@ const UserContentStats = ({
 
     const { data: userlist, isError: userlistError } = CONTENT_CONFIG[
         content_type
-    ].useUserlist(String(params.slug));
+    ].useUserlistRecord(String(params.slug));
 
     const { addProgress, removeProgress, setScore, score, progress, total } =
         useUserlistManager({

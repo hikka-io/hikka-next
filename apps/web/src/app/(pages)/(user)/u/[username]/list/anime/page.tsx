@@ -11,12 +11,12 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import { AnimeFilters as Filters } from "@/features/filters";
+import { AnimeFilters as Filters } from '@/features/filters';
 import {
-    ViewCombobox,
-    WatchlistStatusCombobox as StatusCombobox,
-    WatchlistToolsCombobox as ToolsCombobox,
-    UserWatchlist as List,
+    Userlist,
+    UserlistStatusCombobox,
+    UserlistToolsCombobox,
+    UserlistViewCombobox,
 } from '@/features/users';
 
 import _generateMetadata from '@/utils/generate-metadata';
@@ -80,14 +80,18 @@ const ListPage: FC<Props> = async (props) => {
                 <Block>
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
-                            <StatusCombobox />
+                            <UserlistStatusCombobox
+                                content_type={ContentTypeEnum.ANIME}
+                            />
                         </div>
                         <div className="flex items-center gap-2">
-                            <ViewCombobox />
-                            <ToolsCombobox />
+                            <UserlistViewCombobox />
+                            <UserlistToolsCombobox
+                                content_type={ContentTypeEnum.ANIME}
+                            />
                         </div>
                     </div>
-                    <List />
+                    <Userlist content_type={ContentTypeEnum.ANIME} />
                 </Block>
                 <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
                     <Filters

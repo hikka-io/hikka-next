@@ -1,36 +1,59 @@
 'use client';
 
-import { AnimeResponse, WatchResponse, WatchResponseBase } from '@hikka/client';
+import {
+    AnimeResponse,
+    ContentTypeEnum,
+    MangaResponse,
+    NovelResponse,
+    ReadResponseBase,
+    WatchResponseBase,
+} from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import MaterialSymbolsMoreVert from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
+import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
 
-import { WatchEditModal } from '@/features/modals';
+import { ReadEditModal, WatchEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/utils';
 
 interface Props {
     number: number;
-    anime: AnimeResponse;
-    watch?: WatchResponse | WatchResponseBase;
+    content: MangaResponse | NovelResponse | AnimeResponse;
+    content_type:
+        | ContentTypeEnum.ANIME
+        | ContentTypeEnum.MANGA
+        | ContentTypeEnum.NOVEL;
+    record?: ReadResponseBase | WatchResponseBase;
 }
 
-const NumberCell: FC<Props> = ({ number, anime, watch }) => {
+const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
     const params = useParams();
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
     const openWatchEditModal = () => {
         openModal({
-            content: <WatchEditModal watch={watch} slug={anime.slug} />,
+            content:
+                content_type === ContentTypeEnum.ANIME ? (
+                    <WatchEditModal
+                        watch={record as WatchResponseBase}
+                        slug={content.slug}
+                    />
+                ) : (
+                    <ReadEditModal
+                        read={record as ReadResponseBase}
+                        content_type={content_type}
+                        slug={content.slug}
+                    />
+                ),
             className: '!max-w-xl',
-            title: anime.title,
+            title: content.title,
             forceModal: true,
         });
     };

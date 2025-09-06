@@ -605,27 +605,27 @@ type ContentConfig = {
         | typeof useAnimeCharacters
         | typeof useMangaCharacters
         | typeof useNovelCharacters;
-    userlist: typeof useWatchBySlug | typeof useReadBySlug;
+    useUserlistRecord: typeof useWatchBySlug | typeof useReadBySlug;
     info: typeof useAnimeBySlug | typeof useMangaBySlug | typeof useNovelBySlug;
 };
 
 const ANIME_CONFIG = {
     useCharacters: (slug: string) => useAnimeCharacters({ slug }),
-    useUserlist: (slug: string) => useWatchBySlug({ slug }),
+    useUserlistRecord: (slug: string) => useWatchBySlug({ slug }),
     useInfo: (slug: string) => useAnimeBySlug({ slug }),
     useStaff: (slug: string) => useAnimeStaff({ slug }),
 };
 
 const MANGA_CONFIG = {
     useCharacters: (slug: string) => useMangaCharacters({ slug }),
-    useUserlist: (slug: string) =>
+    useUserlistRecord: (slug: string) =>
         useReadBySlug({ slug, contentType: ContentTypeEnum.MANGA }),
     useInfo: (slug: string) => useMangaBySlug({ slug }),
 };
 
 const NOVEL_CONFIG = {
     useCharacters: (slug: string) => useNovelCharacters({ slug }),
-    useUserlist: (slug: string) =>
+    useUserlistRecord: (slug: string) =>
         useReadBySlug({ slug, contentType: ContentTypeEnum.NOVEL }),
     useInfo: (slug: string) => useNovelBySlug({ slug }),
 };

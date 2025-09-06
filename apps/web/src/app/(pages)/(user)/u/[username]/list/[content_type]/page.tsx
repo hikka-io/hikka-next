@@ -1,4 +1,8 @@
-import { ReadContentType, ReadStatusEnum } from '@hikka/client';
+import {
+    ContentTypeEnum,
+    ReadContentType,
+    ReadStatusEnum,
+} from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -13,10 +17,10 @@ import Block from '@/components/ui/block';
 
 import { ReadFilters } from '@/features/filters';
 import {
-    ReadlistStatusCombobox,
-    ReadlistToolsCombobox,
-    UserReadlist,
-    ViewCombobox,
+    Userlist,
+    UserlistStatusCombobox,
+    UserlistToolsCombobox,
+    UserlistViewCombobox,
 } from '@/features/users';
 
 import _generateMetadata from '@/utils/generate-metadata';
@@ -43,9 +47,12 @@ interface Props {
 
 const ListPage: FC<Props> = async (props) => {
     const params = await props.params;
-    const { username, content_type } = params;
+    const { username } = params;
     const searchParams = await props.searchParams;
     const { status, sort } = searchParams;
+    const content_type = params.content_type as
+        | ContentTypeEnum.MANGA
+        | ContentTypeEnum.NOVEL;
 
     if (!status || !sort) {
         if (!status) {
@@ -81,14 +88,18 @@ const ListPage: FC<Props> = async (props) => {
                 <Block>
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
-                            <ReadlistStatusCombobox />
+                            <UserlistStatusCombobox
+                                content_type={content_type}
+                            />
                         </div>
                         <div className="flex items-center gap-2">
-                            <ViewCombobox />
-                            <ReadlistToolsCombobox />
+                            <UserlistViewCombobox />
+                            <UserlistToolsCombobox
+                                content_type={content_type}
+                            />
                         </div>
                     </div>
-                    <UserReadlist />
+                    <Userlist content_type={content_type} />
                 </Block>
                 <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
                     <ReadFilters

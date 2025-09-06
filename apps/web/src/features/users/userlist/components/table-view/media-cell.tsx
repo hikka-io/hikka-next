@@ -6,7 +6,7 @@ import { TableCell } from '@/components/ui/table';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
-    media_type?: AnimeMediaEnum;
+    media_type?: AnimeMediaEnum | null;
 }
 
 const MediaCell: FC<Props> = ({ media_type }) => (

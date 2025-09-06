@@ -1,4 +1,9 @@
-import { MangaResponse, NovelResponse, ReadContentType } from '@hikka/client';
+import {
+    AnimeResponse,
+    ContentTypeEnum,
+    MangaResponse,
+    NovelResponse,
+} from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -9,13 +14,16 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
 interface Props {
-    content: MangaResponse | NovelResponse;
-    content_type: ReadContentType;
-    rereads: number;
+    content: MangaResponse | NovelResponse | AnimeResponse;
+    content_type:
+        | ContentTypeEnum.ANIME
+        | ContentTypeEnum.MANGA
+        | ContentTypeEnum.NOVEL;
+    repeats: number;
     note?: string;
 }
 
-const DetailsCell: FC<Props> = ({ content, content_type, rereads, note }) => {
+const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
     return (
         <TableCell className="w-36">
             <div className="flex items-center gap-4">
@@ -33,8 +41,8 @@ const DetailsCell: FC<Props> = ({ content, content_type, rereads, note }) => {
                         >
                             {content.title}
                         </Link>
-                        {rereads > 0 && (
-                            <Badge variant="outline">{rereads}</Badge>
+                        {repeats > 0 && (
+                            <Badge variant="outline">{repeats}</Badge>
                         )}
                     </div>
                     {note && (
