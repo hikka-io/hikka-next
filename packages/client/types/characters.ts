@@ -21,6 +21,10 @@ export interface CharacterResponse {
     slug: string;
     synonyms: string[];
     description_ua: string | null;
+    anime_count: number;
+    manga_count: number;
+    novel_count: number;
+    voices_count: number;
 }
 
 /**
