@@ -20,12 +20,14 @@ import {
 import NotFound from '@/components/ui/not-found';
 
 import CommentsProvider from '@/services/providers/comments-provider';
+import { cn } from '@/utils/utils';
 
 interface Props {
     slug: string;
     content_type: CommentsContentType;
     comment_reference?: string;
     preview?: boolean;
+    className?: string;
 }
 
 const CommentList: FC<Props> = ({
@@ -33,6 +35,7 @@ const CommentList: FC<Props> = ({
     content_type,
     comment_reference,
     preview,
+    className,
 }) => {
     const { user: loggedUser } = useSession();
     const {
@@ -70,7 +73,7 @@ const CommentList: FC<Props> = ({
     );
 
     return (
-        <Block className="break-inside-avoid">
+        <Block className={cn('break-inside-avoid', className)}>
             <Header href={`/comments/${content_type}/${slug}`}>
                 <HeaderContainer>
                     <HeaderTitle>{title}</HeaderTitle>

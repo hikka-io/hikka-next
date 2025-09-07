@@ -36,13 +36,8 @@ const Anime: FC<Props> = ({ extended }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack
-                size={5}
-                extendedSize={5}
-                extended={extended}
-                className="grid-min-10"
-            >
-                {(extended ? list : list.slice(0, 5)).map((ch) => (
+            <Stack size={4} extendedSize={5} extended={extended}>
+                {(extended ? list : list.slice(0, 4)).map((ch) => (
                     <AnimeCard
                         key={ch.anime.slug}
                         anime={ch.anime}

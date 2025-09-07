@@ -1,3 +1,4 @@
+import { ContentTypeEnum } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -11,10 +12,8 @@ import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
-import InternalNavBar from '@/components/navigation/nav-tabs';
-import SubBar from '@/components/navigation/sub-nav';
 
-import { CharacterCover as Cover, CharacterTitle as Title } from '@/features/characters';
+import { ContentNavbar } from '@/features/content';
 
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
@@ -61,39 +60,29 @@ const CharacterLayout: FC<Props> = async (props) => {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <>
-                <Breadcrumbs>
-                    <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                        <Link
-                            href={'/characters/' + character?.slug}
-                            className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
-                        >
-                            {character?.name_ua ||
-                                character?.name_en ||
-                                character?.name_ja}
-                        </Link>
-                    </div>
-                    <NavMenu
-                        routes={CHARACTER_NAV_ROUTES}
-                        urlPrefix={`/characters/${slug}`}
-                    />
-                </Breadcrumbs>
-                <SubBar>
-                    <InternalNavBar
-                        routes={CHARACTER_NAV_ROUTES}
-                        urlPrefix={`/characters/${slug}`}
-                    />
-                </SubBar>
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[20%_1fr] lg:gap-16">
-                    <div className="flex flex-col gap-4">
-                        <Cover />
-                    </div>
-                    <div className="flex flex-col gap-12">
-                        <Title />
-                        {children}
-                    </div>
+            <Breadcrumbs>
+                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
+                    <Link
+                        href={'/characters/' + character?.slug}
+                        className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                    >
+                        {character?.name_ua ||
+                            character?.name_en ||
+                            character?.name_ja}
+                    </Link>
                 </div>
-            </>
+                <NavMenu
+                    routes={CHARACTER_NAV_ROUTES}
+                    urlPrefix={`/characters/${slug}`}
+                />
+            </Breadcrumbs>
+
+            {children}
+
+            <ContentNavbar
+                content_type={ContentTypeEnum.CHARACTER}
+                className="mt-12"
+            />
         </HydrationBoundary>
     );
 };

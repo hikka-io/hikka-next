@@ -36,13 +36,8 @@ const Characters: FC<Props> = ({ extended }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack
-                size={5}
-                extended={extended}
-                extendedSize={5}
-                className="grid-min-10"
-            >
-                {(extended ? list : list.slice(0, 5)).map((ch) => (
+            <Stack size={4} extended={extended} extendedSize={5}>
+                {(extended ? list : list.slice(0, 4)).map((ch) => (
                     <CharacterAnimeCard
                         anime={ch.anime}
                         character={ch.character}

@@ -18,10 +18,12 @@ import {
     useAnimeBySlug,
     useAnimeCharacters,
     useAnimeStaff,
+    useCharacterBySlug,
     useMangaBySlug,
     useMangaCharacters,
     useNovelBySlug,
     useNovelCharacters,
+    usePersonBySlug,
     useReadBySlug,
     useWatchBySlug,
 } from '@hikka/react';
@@ -630,8 +632,18 @@ const NOVEL_CONFIG = {
     useInfo: (slug: string) => useNovelBySlug({ slug }),
 };
 
+const CHARACTER_CONFIG = {
+    useInfo: (slug: string) => useCharacterBySlug({ slug }),
+};
+
+const PERSON_CONFIG = {
+    useInfo: (slug: string) => usePersonBySlug({ slug }),
+};
+
 export const CONTENT_CONFIG = {
     [ContentTypeEnum.ANIME]: ANIME_CONFIG,
     [ContentTypeEnum.MANGA]: MANGA_CONFIG,
     [ContentTypeEnum.NOVEL]: NOVEL_CONFIG,
+    [ContentTypeEnum.CHARACTER]: CHARACTER_CONFIG,
+    [ContentTypeEnum.PERSON]: PERSON_CONFIG,
 };

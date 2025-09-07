@@ -21,8 +21,9 @@ const Title = () => {
             <div className="flex justify-between gap-4">
                 <div>
                     <H2>{character.title}</H2>
-
-                    <P className="mt-2">{character.name_ja}</P>
+                    <P className="text-muted-foreground text-sm">
+                        {character.name_ja}
+                    </P>
                 </div>
             </div>
         </div>
