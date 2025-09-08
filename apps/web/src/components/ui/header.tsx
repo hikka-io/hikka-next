@@ -125,12 +125,12 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
                 <Link
                     href={hrefProp || href || ''}
                     {...linkProps}
-                    className="hover:underline"
+                    className="hover:underline text-left"
                 >
                     <Title>{children}</Title>
                 </Link>
             ) : onClick ? (
-                <button onClick={onClick} className="hover:underline">
+                <button onClick={onClick} className="hover:underline text-left">
                     <Title>{children}</Title>
                 </button>
             ) : (
