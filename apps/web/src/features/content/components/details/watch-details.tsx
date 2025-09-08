@@ -18,7 +18,6 @@ import Link from 'next/link';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
@@ -69,8 +68,10 @@ const NextEpisodeDetail = ({
         title="Наступний епізод"
     >
         <Tooltip>
-            <TooltipTrigger>
-                <Label>{formatNextEpisodeDate(schedule.airing_at)}</Label>
+            <TooltipTrigger asChild>
+                <span className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
+                    {formatNextEpisodeDate(schedule.airing_at)}
+                </span>
             </TooltipTrigger>
             <TooltipContent>
                 <P>{getScheduleDuration(schedule.airing_at)}</P>
@@ -84,13 +85,17 @@ const StudioDetail = ({
 }: {
     studio: { company: { name: string; slug: string; image?: string | null } };
 }) => (
-    <DetailItem title="Студія" icon={<Building2 className="size-4" />}>
-        <div className="flex items-center gap-2">
-            <Label asChild className="line-clamp-2 flex-1 hover:underline">
+    <DetailItem
+        title="Студія"
+        icon={<Building2 className="size-4" />}
+        className="grid-cols-[40%_60%]"
+    >
+        <div className="flex items-start gap-2 flex-1">
+            <P className="text-sm font-medium leading-tight line-clamp-2 hover:underline flex-1">
                 <Link href={`/anime?studios=${studio.company.slug}`}>
                     {studio.company.name}
                 </Link>
-            </Label>
+            </P>
             {studio.company.image && (
                 <Link href={`/anime?studios=${studio.company.slug}`}>
                     <Image

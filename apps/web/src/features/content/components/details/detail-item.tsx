@@ -8,14 +8,17 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { cn } from '@/utils/utils';
+
 interface Props {
     title: string;
     value?: string | number | string[] | null;
     children?: ReactNode;
     icon?: ReactNode;
+    className?: string;
 }
 
-const DetailItem: FC<Props> = ({ title, value, children, icon }) => {
+const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
     if ((!value && !children) || (Array.isArray(value) && value.length === 0)) {
         return null;
     }
@@ -43,8 +46,15 @@ const DetailItem: FC<Props> = ({ title, value, children, icon }) => {
                             {formattedValue}
                         </span>
                     </TooltipTrigger>
-                    <TooltipContent className="max-w-[300px] text-center">
-                        {formattedValue}
+                    <TooltipContent className="max-w-[300px] text-left flex flex-col gap-2 p-3">
+                        {value.map((item, index) => (
+                            <P key={item}>
+                                <span className="text-muted-foreground">
+                                    {index + 1}.{' '}
+                                </span>
+                                {item}
+                            </P>
+                        ))}
                     </TooltipContent>
                 </Tooltip>
             );
@@ -58,8 +68,13 @@ const DetailItem: FC<Props> = ({ title, value, children, icon }) => {
     }, [value, children]);
 
     return (
-        <div className="grid grid-cols-2 justify-between items-start gap-2">
-            <div className="flex items-center gap-3 text-ellipsis overflow-hidden text-muted-foreground">
+        <div
+            className={cn(
+                'grid grid-cols-2 justify-between items-start gap-2',
+                className,
+            )}
+        >
+            <div className="flex items-center gap-3 text-muted-foreground">
                 {icon}
                 <Label className="flex-1 line-clamp-2">{title}</Label>
             </div>
