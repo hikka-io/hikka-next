@@ -70,7 +70,11 @@ const UserContentStats = ({
                 </div>
             </CollapsibleFilter>
             <CollapsibleFilter
-                title="Розділи"
+                title={
+                    content_type === ContentTypeEnum.ANIME
+                        ? 'Епізоди'
+                        : 'Розділи'
+                }
                 open={collapsibles.content_progress}
                 onOpenChange={(open) =>
                     setCollapsibles({
