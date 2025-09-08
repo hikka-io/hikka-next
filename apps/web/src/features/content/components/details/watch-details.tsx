@@ -88,7 +88,7 @@ const StudioDetail = ({
     <DetailItem
         title="Студія"
         icon={<Building2 className="size-4" />}
-        className="grid-cols-[40%_60%]"
+        className="grid-cols-[1fr_60%]"
     >
         <div className="flex items-start gap-2 flex-1">
             <P className="text-sm font-medium leading-tight line-clamp-2 hover:underline flex-1">
