@@ -12,10 +12,11 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 
+import { useContent } from '@/features/comments';
+
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-import { useContent } from '@/features/comments';
 import ContentCard from './content-card/content-card';
 import Breadcrumbs from './navigation/nav-breadcrumbs';
 import P from './typography/p';
@@ -39,7 +40,7 @@ const ContentHeader: FC<Props> = ({
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (
-        <Card>
+        <Card className="bg-secondary/20 backdrop-blur-sm">
             {!disableBreadcrumbs && (
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">

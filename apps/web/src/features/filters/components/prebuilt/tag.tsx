@@ -1,5 +1,6 @@
 'use client';
 
+import { Tag as TagIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -22,6 +23,7 @@ const Tag: FC<Props> = ({ className }) => {
     return (
         <CollapsibleFilter
             title="Теги"
+            icon={<TagIcon className="size-4" />}
             className={className}
             active={tags.length > 0}
         >

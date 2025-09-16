@@ -1,5 +1,6 @@
 'use client';
 
+import { SunSnow } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -33,6 +34,7 @@ const Season: FC<Props> = () => {
         <CollapsibleFilter
             defaultOpen
             title="Сезон"
+            icon={<SunSnow className="size-4" />}
             active={seasons.length > 0}
         >
             <BadgeFilter

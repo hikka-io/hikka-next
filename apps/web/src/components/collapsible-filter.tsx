@@ -1,5 +1,5 @@
 import { CollapsibleProps } from '@radix-ui/react-collapsible';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsKeyboardArrowUpRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowUpRounded';
@@ -15,6 +15,7 @@ import { cn } from '@/utils/utils';
 
 export interface CollapsibleFilterProps extends CollapsibleProps {
     active?: boolean;
+    icon?: ReactNode;
 }
 
 export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
@@ -22,13 +23,14 @@ export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
     children,
     className,
     active,
+    icon,
     ...props
 }) => {
     return (
         <Collapsible
             defaultOpen={active}
             className={cn(
-                'group border border-border px-4 py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
+                'group border border-border bg-secondary/20 px-4 py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
                 '[&+div]:data-[state=open]:rounded-t-lg data-[state=open]:[&+div]:data-[state=closed]:rounded-b-lg',
                 'data-[state=closed]:border-b-0 data-[state=closed]:has-[+div[data-state=open]]:mb-4 data-[state=closed]:has-[+div[data-state=open]]:rounded-b-lg data-[state=closed]:has-[+div[data-state=open]]:border-b',
                 'first:rounded-t-lg last:rounded-b-lg last:!border-b',
@@ -39,6 +41,7 @@ export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
             <CollapsibleTrigger asChild>
                 <div className="flex cursor-pointer items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
+                        {icon && icon}
                         <Label className="cursor-pointer select-none">
                             {title}
                         </Label>

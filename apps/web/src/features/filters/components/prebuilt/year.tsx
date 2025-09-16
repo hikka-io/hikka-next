@@ -1,5 +1,6 @@
 'use client';
 
+import { Calendar } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -52,7 +53,11 @@ const Year: FC<Props> = () => {
     }
 
     return (
-        <CollapsibleFilter title="Рік виходу" active={years.length > 0}>
+        <CollapsibleFilter
+            title="Рік виходу"
+            icon={<Calendar className="size-4" />}
+            active={years.length > 0}
+        >
             <div className="flex items-center gap-2">
                 <YearFilterInput
                     years={selectingYears}

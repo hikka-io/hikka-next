@@ -1,5 +1,6 @@
 'use client';
 
+import { ArrowDownWideNarrow } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -139,7 +140,10 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Сортування">
+        <CollapsibleFilter
+            title="Сортування"
+            icon={<ArrowDownWideNarrow className="size-4" />}
+        >
             <div className="flex gap-2">
                 <Select
                     value={sort ? [sort] : undefined}

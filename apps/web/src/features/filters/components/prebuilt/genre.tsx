@@ -1,6 +1,7 @@
 'use client';
 
 import { useGenres } from '@hikka/react';
+import { Drama } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useMemo } from 'react';
 
@@ -49,7 +50,12 @@ const Genre: FC<Props> = () => {
     }, [genreList]);
 
     return (
-        <CollapsibleFilter defaultOpen title="Жанри" active={genres.length > 0}>
+        <CollapsibleFilter
+            defaultOpen
+            title="Жанри"
+            icon={<Drama className="size-4" />}
+            active={genres.length > 0}
+        >
             <Select
                 options={genreList}
                 triState={true}

@@ -1,5 +1,6 @@
 'use client';
 
+import { CalendarRange } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -90,6 +91,7 @@ const DateRange = (props: Props) => {
     return (
         <CollapsibleFilter
             title="Часовий проміжок"
+            icon={<CalendarRange className="size-4" />}
             active={Boolean(dateRangeEnabled)}
         >
             <div className="flex flex-col gap-2">

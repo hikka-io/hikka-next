@@ -5,6 +5,7 @@ import { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/utils/utils';
+
 import { toggleVariants } from './toggle';
 
 const ToggleGroupContext = React.createContext<
@@ -23,7 +24,7 @@ const ToggleGroup = React.forwardRef<
         ref={ref}
         className={cn(
             'flex items-center',
-            'no-scrollbar overflow-y-scroll rounded-md border border-border bg-secondary/20',
+            'no-scrollbar overflow-y-scroll rounded-md bg-muted p-[3px]',
             className,
         )}
         {...props}

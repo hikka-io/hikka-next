@@ -1,5 +1,6 @@
 'use client';
 
+import { Activity } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -28,6 +29,7 @@ const ReleaseStatus: FC<Props> = () => {
         <CollapsibleFilter
             defaultOpen
             title="Статус"
+            icon={<Activity className="size-4" />}
             active={statuses.length > 0}
         >
             <BadgeFilter

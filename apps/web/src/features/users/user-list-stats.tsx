@@ -20,11 +20,8 @@ const ListStats = () => {
     }
 
     return (
-        <Tabs
-            defaultValue="anime"
-            className="flex w-full flex-col gap-2 overflow-hidden"
-        >
-            <TabsList className="no-scrollbar w-full items-center justify-start border border-border bg-secondary/20 backdrop-blur">
+        <Tabs defaultValue="anime">
+            <TabsList className="no-scrollbar w-full items-center justify-start backdrop-blur">
                 <TabsTrigger value="anime" className="flex-1 gap-2">
                     Аніме{' '}
                     <Link

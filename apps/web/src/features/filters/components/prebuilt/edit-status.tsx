@@ -1,6 +1,7 @@
 'use client';
 
 import { EditStatusEnum } from '@hikka/client';
+import { Activity } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -31,7 +32,12 @@ const EditStatus: FC<Props> = ({ className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter defaultOpen title="Статус" active={!!edit_status}>
+        <CollapsibleFilter
+            defaultOpen
+            title="Статус"
+            icon={<Activity className="size-4" />}
+            active={!!edit_status}
+        >
             <Select
                 value={edit_status ? [edit_status] : undefined}
                 onValueChange={(value) =>

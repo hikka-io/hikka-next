@@ -2,6 +2,7 @@
 
 import { CompanyTypeEnum } from '@hikka/client';
 import { useSearchCompanies } from '@hikka/react';
+import { Building2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useMemo, useState } from 'react';
 
@@ -60,7 +61,11 @@ const Studio: FC<Props> = () => {
     };
 
     return (
-        <CollapsibleFilter title="Студія" active={studios.length > 0}>
+        <CollapsibleFilter
+            title="Студія"
+            icon={<Building2 className="size-4" />}
+            active={studios.length > 0}
+        >
             <Select
                 multiple
                 value={studios}

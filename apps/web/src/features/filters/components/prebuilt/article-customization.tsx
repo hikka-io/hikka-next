@@ -1,5 +1,6 @@
 'use client';
 
+import { Eye } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -21,7 +22,11 @@ const ArticleCustomization: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Відображення" active={Boolean(draft)}>
+        <CollapsibleFilter
+            title="Відображення"
+            icon={<Eye className="size-4" />}
+            active={Boolean(draft)}
+        >
             <div className="flex items-center justify-between gap-2">
                 <Label className="text-muted-foreground" htmlFor="draft">
                     Чернетки

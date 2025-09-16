@@ -1,6 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
+import { Hash, Star } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 import { CollapsibleFilter } from '@/components/collapsible-filter';
@@ -45,6 +46,7 @@ const UserContentStats = ({
         <div className="flex flex-col">
             <CollapsibleFilter
                 title="Оцінка"
+                icon={<Star className="size-4" />}
                 open={collapsibles.content_score}
                 onOpenChange={(open) =>
                     setCollapsibles({
@@ -75,6 +77,7 @@ const UserContentStats = ({
                         ? 'Епізоди'
                         : 'Розділи'
                 }
+                icon={<Hash className="size-4" />}
                 open={collapsibles.content_progress}
                 onOpenChange={(open) =>
                     setCollapsibles({

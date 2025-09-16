@@ -1,6 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
+import { Play } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -44,7 +45,11 @@ const MediaType: FC<Props> = ({ content_type }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Тип" active={types.length > 0}>
+        <CollapsibleFilter
+            title="Тип"
+            icon={<Play className="size-4" />}
+            active={types.length > 0}
+        >
             <BadgeFilter
                 properties={getMediaType(content_type)}
                 selected={types}

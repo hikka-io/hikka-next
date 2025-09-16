@@ -18,7 +18,7 @@ interface Props {
 
 const Stats: FC<Props> = ({ stats }) => {
     return (
-        <div className="relative overflow-hidden rounded-lg border border-border p-4">
+        <div className="relative rounded-lg border border-border bg-secondary/20 p-4 backdrop-blur-sm">
             <div className="flex flex-col justify-center gap-2">
                 {stats.map((stat) => {
                     return (

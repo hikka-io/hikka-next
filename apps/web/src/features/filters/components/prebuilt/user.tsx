@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchUsers } from '@hikka/react';
+import { User as UserIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -51,7 +52,11 @@ const User: FC<Props> = ({ className, paramKey, title }) => {
     };
 
     return (
-        <CollapsibleFilter title={title} active={user !== null}>
+        <CollapsibleFilter
+            title={title}
+            icon={<UserIcon className="size-4" />}
+            active={user !== null}
+        >
             <Select
                 value={user !== null ? [user] : []}
                 onValueChange={(value) => handleChangeParam(paramKey, value[0])}

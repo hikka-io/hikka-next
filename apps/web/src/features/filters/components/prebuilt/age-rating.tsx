@@ -1,5 +1,6 @@
 'use client';
 
+import { ShieldEllipsis } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -27,6 +28,7 @@ const AgeRating: FC<Props> = () => {
     return (
         <CollapsibleFilter
             title="Віковий рейтинг"
+            icon={<ShieldEllipsis className="size-4" />}
             active={ageRatings.length > 0}
         >
             <BadgeFilter

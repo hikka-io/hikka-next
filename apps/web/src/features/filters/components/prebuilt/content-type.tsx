@@ -1,6 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
+import { Play } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -32,7 +33,11 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Тип контенту" active={!!content_type}>
+        <CollapsibleFilter
+            title="Тип контенту"
+            icon={<Play className="size-4" />}
+            active={!!content_type}
+        >
             <Select
                 value={content_type ? [content_type] : undefined}
                 onValueChange={(value) =>

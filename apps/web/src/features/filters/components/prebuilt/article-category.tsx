@@ -1,5 +1,6 @@
 'use client';
 
+import { SquareLibrary } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -25,6 +26,7 @@ const ArticleCategory: FC<Props> = () => {
         <CollapsibleFilter
             defaultOpen
             title="Категорія"
+            icon={<SquareLibrary className="size-4" />}
             active={categories.length > 0}
         >
             <BadgeFilter

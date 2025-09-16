@@ -46,7 +46,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
                         className="w-8"
                     >
                         {!data.seen && (
-                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning" />
+                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning-foreground" />
                         )}
                     </HorizontalCardImage>
                     <HorizontalCardContainer>

@@ -1,5 +1,6 @@
 'use client';
 
+import { Languages } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -22,7 +23,11 @@ const Genre: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter title="Локалізація" active={Boolean(lang)}>
+        <CollapsibleFilter
+            title="Локалізація"
+            icon={<Languages className="size-4" />}
+            active={Boolean(lang)}
+        >
             <div className="flex items-center justify-between gap-2">
                 <Label
                     className="text-muted-foreground"
