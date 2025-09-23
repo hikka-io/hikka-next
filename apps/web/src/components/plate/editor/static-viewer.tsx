@@ -8,7 +8,7 @@ import { EditorStatic } from '@/components/plate/ui/editor-static';
 import { StaticKit } from './static-kit';
 
 interface StaticEditorProps {
-    value?: string | Value | null;
+    value?: string | Value;
 }
 
 const editor = createSlateEditor({

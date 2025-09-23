@@ -109,11 +109,11 @@ export function CommentPlateEditor({
             editor={editor}
             onValueChange={
                 onValueChange
-                    ? ({ value }) =>
+                    ? () =>
                           onValueChange(
                               editor
                                   .getApi(MarkdownPlugin)
-                                  .markdown.serialize(value),
+                                  .markdown.serialize(),
                           )
                     : undefined
             }
