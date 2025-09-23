@@ -154,7 +154,7 @@ const WatchDetails = ({
                 {data.status && <StatusBadge status={data.status} />}
             </DetailItem>
 
-            {(data.episodes_total || data.episodes_released) && (
+            {Boolean(data.episodes_total || data.episodes_released) && (
                 <div className="h-px bg-border" />
             )}
 
