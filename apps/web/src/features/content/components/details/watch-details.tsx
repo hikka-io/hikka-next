@@ -154,7 +154,7 @@ const WatchDetails = ({
                 {data.status && <StatusBadge status={data.status} />}
             </DetailItem>
 
-            {(data.episodes_total || data.episodes_released) && (
+            {Boolean(data.episodes_total || data.episodes_released) && (
                 <div className="h-px bg-border" />
             )}
 
@@ -163,12 +163,12 @@ const WatchDetails = ({
                 icon={<Hash className="size-4" />}
                 title="Епізоди"
                 value={
-                    data.episodes_total && data.media_type !== 'movie'
+                    (data.episodes_total || data.episodes_released) && data.media_type !== 'movie'
                         ? formatEpisodeCount(
-                              data.status!,
-                              data.episodes_released,
-                              data.episodes_total,
-                          )
+                            data.status!,
+                            data.episodes_released,
+                            data.episodes_total,
+                        )
                         : undefined
                 }
             />
