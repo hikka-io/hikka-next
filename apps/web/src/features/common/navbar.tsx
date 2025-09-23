@@ -49,9 +49,12 @@ const Navbar = () => {
                                 size="md"
                                 variant="outline"
                                 onClick={toggleSidebar}
+                                className="min-w-24 overflow-hidden"
                             >
                                 {item.icon && <item.icon />}
-                                {item.title_ua}
+                                <span className="flex-1 truncate">
+                                    {item.title_ua}
+                                </span>
                             </Button>
                         )}
                     </div>

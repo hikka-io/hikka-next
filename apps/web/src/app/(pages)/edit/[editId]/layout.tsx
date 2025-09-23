@@ -13,17 +13,17 @@ import * as React from 'react';
 import { FC } from 'react';
 
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
-import NavMenu from '@/components/navigation/nav-dropdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { EditAuthor as Author } from "@/features/edit";
-import { EditContent as Content } from '@/features/edit';
-import { EditModerator as Moderator } from "@/features/edit";
-import { EditStatus } from "@/features/edit";
+import {
+    EditAuthor as Author,
+    EditContent as Content,
+    EditStatus,
+    EditModerator as Moderator,
+} from '@/features/edit';
 
-import { EDIT_NAV_ROUTES } from '@/utils/constants/navigation';
 import _generateMetadata from '@/utils/generate-metadata';
 import getHikkaClientConfig from '@/utils/get-hikka-client-config';
 
@@ -78,7 +78,6 @@ const EditLayout: FC<Props> = async (props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <Breadcrumbs>
-                <NavMenu routes={EDIT_NAV_ROUTES} urlPrefix="/edit" />
                 <Link
                     href={'/edit/' + edit.edit_id}
                     className="text-sm font-bold hover:underline"

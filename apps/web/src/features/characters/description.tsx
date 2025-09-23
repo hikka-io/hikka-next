@@ -21,6 +21,12 @@ const Description = () => {
         return null;
     }
 
+    const description = character[active] ?? character.description_ua;
+
+    if (!description || description.trim() === '') {
+        return null;
+    }
+
     return (
         <Block>
             <Header>
@@ -46,9 +52,7 @@ const Description = () => {
                 </HeaderContainer>
             </Header>
             <TextExpand>
-                <MDViewer>
-                    {character[active] || character.description_ua}
-                </MDViewer>
+                <MDViewer>{description}</MDViewer>
             </TextExpand>
         </Block>
     );
