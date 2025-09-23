@@ -16,6 +16,7 @@ interface Props {
 const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
     return (
         <CommentPlateEditor
+            modalDefaultOpen={comment !== undefined}
             className={className}
             value={isEdit && comment ? comment.text! : undefined}
         >

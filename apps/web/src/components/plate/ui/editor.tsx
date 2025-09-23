@@ -22,6 +22,9 @@ const editorContainerVariants = cva(
                     'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-2 has-[[data-slate-editor]:focus]:ring-primary-foreground/30',
                     'has-aria-disabled:border-input has-aria-disabled:bg-muted',
                 ),
+                drawer: cn(
+                    'grid flex-1 grid-rows-[auto_1fr_auto] overflow-hidden',
+                ),
             },
         },
     },
@@ -66,6 +69,7 @@ const editorVariants = cva(
             variant: {
                 default: 'size-full p-2 px-3 text-[0.9375rem]',
                 comment: 'p-2 px-3 text-[0.9375rem] pb-14',
+                drawer: 'p-2 px-3 text-[0.9375rem]',
             },
         },
     },

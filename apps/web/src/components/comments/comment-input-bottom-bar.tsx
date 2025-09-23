@@ -4,7 +4,6 @@ import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
 import { MarkdownPlugin } from '@platejs/markdown';
 import { Value } from 'platejs';
-import { useEditorValue } from 'platejs/react';
 import { FC } from 'react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -34,7 +33,6 @@ const CommentInputBottomBar: FC<Props> = ({
 }) => {
     const { setState: setCommentsState } = useCommentsContext();
     const editor = useCommentEditor();
-    const editorValue = useEditorValue(editor.id);
 
     const onSuccess = async () => {
         editor.tf.reset();
@@ -81,7 +79,7 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     const onSubmit = () => {
-        const filteredValue = removeEmptyTextNodes(editorValue);
+        const filteredValue = removeEmptyTextNodes(editor.children);
 
         if (filteredValue.length === 0) {
             return;
@@ -118,7 +116,7 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     return (
-        <div className="pointer-events-none absolute bottom-0 flex w-full items-center justify-between p-2">
+        <div className="pointer-events-none bottom-0 flex w-full items-center justify-between border-t border-border bg-secondary/20 p-2 md:absolute md:border-t-0 md:bg-transparent">
             {comment && !isEdit ? (
                 <Badge variant="secondary" className="gap-2 p-0 pr-2">
                     <Avatar className="size-6 rounded-sm">

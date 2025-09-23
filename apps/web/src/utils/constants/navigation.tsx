@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { UsersIcon } from 'lucide-react';
+import { FilePenLine, UsersIcon } from 'lucide-react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
@@ -247,12 +247,22 @@ const COMMUNITY_GROUP: Hikka.NavRoute[] = [
         visible: true,
         slug: 'collections',
     },
+];
+
+const MODERATION_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Правки',
         url: '/edit',
         icon: () => <MaterialSymbolsEditRounded />,
         visible: true,
         slug: 'edit',
+    },
+    {
+        title_ua: 'Незаповнений контент',
+        url: '/edit/content',
+        icon: () => <FilePenLine />,
+        visible: true,
+        slug: 'edit-content',
     },
 ];
 
@@ -354,6 +364,10 @@ export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     {
         title_ua: 'Спільнота',
         items: COMMUNITY_GROUP,
+    },
+    {
+        title_ua: 'Модерація',
+        items: MODERATION_GROUP,
     },
     {
         title_ua: 'Інше',

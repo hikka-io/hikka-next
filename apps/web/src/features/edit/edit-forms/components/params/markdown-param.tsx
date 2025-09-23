@@ -79,6 +79,9 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                         placeholder={param.placeholder}
                         value={value || ''}
                         onValueChange={onChange}
+                        modalTitle={param.title}
+                        modalButtonTitle="Заповнити поле"
+                        modalEditButtonTitle="Редагувати поле"
                     />
                 )}
             />

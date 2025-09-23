@@ -33,6 +33,9 @@ const CollectionTitle = () => {
                 <CommentPlateEditor
                     onValueChange={setDescription}
                     placeholder="Введіть опис"
+                    modalTitle="Опис колекції"
+                    modalButtonTitle="Написати опис"
+                    modalEditButtonTitle="Редагувати опис"
                     value={description}
                 />
             )}

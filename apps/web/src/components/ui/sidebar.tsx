@@ -34,7 +34,7 @@ type SidebarContext = {
     setOpen: (open: boolean) => void;
     openMobile: boolean;
     setOpenMobile: (open: boolean) => void;
-    isMobile: boolean;
+    isMobile: boolean | undefined;
     toggleSidebar: () => void;
     item: Record<string, any>;
     setActiveItem: (item: Record<string, any>) => void;
