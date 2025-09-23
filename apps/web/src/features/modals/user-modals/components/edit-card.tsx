@@ -41,10 +41,6 @@ const Component = ({ edit, href, className, ...props }: Props) => {
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
 
-            {/*
-              The logic for variant and icon is now directly inside the JSX,
-              using nested ternary operators, matching your project's style.
-            */}
             <Button
                 asChild
                 size="icon-md"
