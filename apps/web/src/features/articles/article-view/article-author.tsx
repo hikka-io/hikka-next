@@ -15,7 +15,12 @@ const ArticleAuthor: FC<Props> = () => {
         slug: String(params.slug),
     });
 
-    return <Author article={article!} />;
+    return (
+        <Author
+            article={article!}
+            className="bg-secondary/20 backdrop-blur-xl"
+        />
+    );
 };
 
 export default ArticleAuthor;

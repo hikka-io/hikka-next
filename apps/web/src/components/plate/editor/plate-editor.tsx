@@ -11,12 +11,12 @@ import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
 import { cn } from '@/utils/utils';
@@ -119,26 +119,25 @@ export function CommentPlateEditor({
             }
         >
             {isMobile && (
-                <Sheet
+                <Dialog
                     open={isModalOpen}
                     defaultOpen={modalDefaultOpen}
                     onOpenChange={setIsModalOpen}
                 >
-                    <SheetTrigger asChild>
+                    <DialogTrigger asChild>
                         <CommentPreview
                             buttonTitle={modalButtonTitle}
                             editButtonTitle={modalEditButtonTitle}
                             editor={editor}
                             isOpen={isModalOpen}
                         />
-                    </SheetTrigger>
-                    <SheetContent
+                    </DialogTrigger>
+                    <DialogContent
                         className={cn('flex h-dvh flex-col gap-0 p-0')}
-                        side="bottom"
                     >
-                        <SheetHeader className="bg-secondary/20 py-4">
-                            <SheetTitle>{modalTitle}</SheetTitle>
-                        </SheetHeader>
+                        <DialogHeader className="bg-secondary/20 py-4">
+                            <DialogTitle>{modalTitle}</DialogTitle>
+                        </DialogHeader>
 
                         <EditorContainer variant="drawer" className={className}>
                             <Editor
@@ -147,8 +146,8 @@ export function CommentPlateEditor({
                             />
                             {children}
                         </EditorContainer>
-                    </SheetContent>
-                </Sheet>
+                    </DialogContent>
+                </Dialog>
             )}
 
             {!isMobile && (

@@ -1,5 +1,8 @@
-import { ComponentPropsWithoutRef, FC } from 'react';
+'use client';
 
+import { ComponentPropsWithoutRef, FC, useRef } from 'react';
+
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/utils';
 
 // Define more explicit and comprehensive types
@@ -62,8 +65,21 @@ const Stack: FC<StackProps> = ({
     className,
     ...props
 }) => {
+    const ref = useRef(null);
+    const { showStartGradient, showEndGradient } = useScrollGradientMask(
+        ref,
+        'horizontal',
+    );
+
+    const gradient =
+        showStartGradient && showEndGradient
+            ? 'gradient-mask-r-90-d'
+            : showStartGradient
+              ? 'gradient-mask-l-90'
+              : 'gradient-mask-r-90';
     return (
         <div
+            ref={ref}
             className={cn(
                 'relative grid',
                 // Vertical margin and padding
@@ -80,7 +96,7 @@ const Stack: FC<StackProps> = ({
                     ? extendedSize
                         ? EXTENDED_SIZES[extendedSize]
                         : 'grid-cols-2 md:grid-cols-6'
-                    : 'no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-scroll px-4 gradient-mask-r-90-d md:gradient-mask-none',
+                    : `no-scrollbar auto-cols-scroll grid-cols-scroll md:gradient-mask-none -mx-4 grid-flow-col overflow-x-scroll px-4 ${gradient}`,
 
                 // Allow additional className overrides
                 className,

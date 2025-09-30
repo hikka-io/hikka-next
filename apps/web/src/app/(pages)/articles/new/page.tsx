@@ -2,9 +2,9 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 
 import {
-    ArticleEditDocument as ArticleText,
     ArticlePreview,
     ArticleSettings,
+    ArticleEditDocument as ArticleText,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
 
@@ -24,7 +24,7 @@ const ArticleNewPage = async (props: {
                     <ArticlePreview />
                     <ArticleText />
                 </Block>
-                <Card className="sticky top-20 order-1 hidden w-full self-start p-0 md:flex">
+                <Card className="bg-secondary/20 sticky top-20 order-1 hidden w-full self-start p-0 backdrop-blur-xl md:flex">
                     <ArticleSettings />
                 </Card>
             </div>

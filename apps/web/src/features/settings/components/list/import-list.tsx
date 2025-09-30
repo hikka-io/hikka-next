@@ -106,7 +106,7 @@ const Component = ({ list, setList, content_type }: Props) => {
                     className: cn(
                         'h-28 w-full p-4',
                         'flex items-center justify-center',
-                        'bg-secondary/20 cursor-pointer rounded-lg text-center',
+                        'bg-secondary/20 cursor-pointer rounded-lg border text-center',
                         'transition duration-100',
                         'hover:bg-secondary/20/90',
                         isDragActive && 'bg-secondary/20/90',

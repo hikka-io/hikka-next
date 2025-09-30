@@ -12,19 +12,24 @@ import {
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { cn } from '@/utils/utils';
 
 import FollowButton from '../follow-button';
 
 interface Props {
     article: ArticleResponse;
     preview?: boolean;
+    className?: string;
 }
 
-const Author: FC<Props> = ({ article, preview }) => {
+const Author: FC<Props> = ({ article, preview, className }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     return (
-        <HorizontalCard href={`/u/${article.author.username}`} className="p-4">
+        <HorizontalCard
+            href={`/u/${article.author.username}`}
+            className={cn('p-4', className)}
+        >
             <HorizontalCardImage
                 className={preview ? 'w-10' : ''}
                 image={article.author.avatar}

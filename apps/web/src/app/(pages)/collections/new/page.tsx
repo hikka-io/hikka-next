@@ -40,7 +40,7 @@ const CollectionNewPage = () => {
                         </Card>
                         <CollectionGroups />
                     </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
+                    <Card className=" bg-secondary/20 sticky top-20 order-1 hidden w-full p-0 backdrop-blur-xl lg:order-2 lg:block">
                         <CollectionSettings />
                     </Card>
                 </div>

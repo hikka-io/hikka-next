@@ -38,8 +38,9 @@ const ALLOWED_HOSTS = [
     'anilist.co',
 ];
 
+const LINK_EXTRA_CLASSNAME = 'break-all';
 const LINK_CLASSNAME =
-    'cursor-pointer text-primary-foreground hover:underline break-words break-all whitespace-normal';
+    'cursor-pointer text-primary-foreground hover:underline break-words whitespace-normal';
 
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (href.includes('hikka.io') || !href.includes('http')) {
@@ -136,7 +137,10 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         }
 
         return (
-            <NextLink className={cn(LINK_CLASSNAME, className)} href={href}>
+            <NextLink
+                className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
+                href={href}
+            >
                 {children}
             </NextLink>
         );
@@ -146,7 +150,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         return (
             <NextLink
                 target="_blank"
-                className={cn(LINK_CLASSNAME, className)}
+                className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
                 href={href}
             >
                 {children}
@@ -169,7 +173,14 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <AlertDialogDescription asChild>
                         <div className="flex items-center gap-2">
                             <MaterialSymbolsLinkRounded />
-                            <P className="flex-1 truncate">{href}</P>
+                            <P
+                                className={cn(
+                                    'flex-1 truncate',
+                                    LINK_EXTRA_CLASSNAME,
+                                )}
+                            >
+                                {href}
+                            </P>
                         </div>
                     </AlertDialogDescription>
                 </AlertDialogHeader>

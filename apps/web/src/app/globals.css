@@ -586,3 +586,9 @@ div.spoiler:last-child {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
 }
+
+.styled-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--secondary)) transparent;
+    scrollbar-gutter: stable;
+}

@@ -42,9 +42,7 @@ const CollectionTitle = () => {
             </div>
             {collection?.description && (
                 <TextExpand>
-                    <MDViewer className="text-sm text-muted-foreground">
-                        {collection.description}
-                    </MDViewer>
+                    <MDViewer>{collection.description}</MDViewer>
                 </TextExpand>
             )}
         </div>

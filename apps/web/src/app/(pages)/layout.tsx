@@ -3,7 +3,12 @@ import { FC, ReactNode, Suspense } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
-import { Footer, Navbar as NavBar, ScrollTop, SessionManager } from '@/features/common';
+import {
+    Footer,
+    Navbar as NavBar,
+    ScrollTop,
+    SessionManager,
+} from '@/features/common';
 
 import SnowfallManager from '../../components/snowfall-manager';
 
@@ -18,7 +23,7 @@ const Layout: FC<Props> = ({ children }) => {
                 <ScrollTop />
                 <NavBar />
 
-                <main className="container mx-auto mt-8 max-w-screen-xl px-4 lg:mt-16">
+                <main className="container mx-auto mt-8 px-4 lg:mt-16">
                     <Suspense>
                         <SnowfallManager />
                     </Suspense>
@@ -26,7 +31,7 @@ const Layout: FC<Props> = ({ children }) => {
                 </main>
             </SidebarProvider>
             <div className="sticky bottom-4 mt-12 w-full">
-                <div id="subbar" className="container mx-auto  px-4" />
+                <div id="subbar" className="container mx-auto px-4" />
             </div>
             <div
                 id="subbar-mobile"

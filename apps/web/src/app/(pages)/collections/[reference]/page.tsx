@@ -22,6 +22,7 @@ import {
     CollectionViewGroups as CollectionGroups,
     CollectionViewNavbar as CollectionNavbar,
     CollectionViewTitle as CollectionTitle,
+    TableOfContents,
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
 
@@ -85,17 +86,30 @@ const CollectionPage = async (props: {
                         </Link>
                     </div>
                 </Breadcrumbs>
-                <div className="container isolate flex max-w-3xl flex-col gap-12 p-0">
-                    <CollectionAuthor />
-                    <Block>
-                        <CollectionTitle />
-                        <CollectionGroups />
+                <div className="flex flex-col gap-12">
+                    <div className="container max-w-3xl p-0">
+                        <CollectionAuthor />
+                    </div>
+                    <div className="grid grid-cols-1 justify-items-center gap-12 lg:grid-cols-[auto_1fr_auto] lg:gap-4">
+                        <div className="hidden min-w-52 max-w-56 lg:block" />
+                        <Block className="max-w-3xl">
+                            <CollectionTitle />
+                            <CollectionGroups />
+                        </Block>
+                        <div className="hidden min-w-52 max-w-56 lg:block">
+                            <div className="sticky top-20 h-[calc(100vh-5rem)]">
+                                <TableOfContents className="max-h-[70vh] bg-secondary/20 opacity-60 backdrop-blur-xl transition-opacity hover:opacity-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="container max-w-3xl p-0">
                         <Comments
                             preview
                             slug={reference}
                             content_type={ContentTypeEnum.COLLECTION}
                         />
-                    </Block>
+                    </div>
+
                     <CollectionNavbar />
                 </div>
             </CollectionProvider>
@@ -104,3 +118,4 @@ const CollectionPage = async (props: {
 };
 
 export default CollectionPage;
+//max-w-3xl

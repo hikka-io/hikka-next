@@ -33,7 +33,9 @@ const ContentInput: FC<Props> = () => {
                     <HorizontalCardImage image={content.image} />
                     <HorizontalCardContainer className="flex-1">
                         <HorizontalCardTitle className="line-clamp-2">
-                            {content.title}
+                            {content.title ||
+                                content.title_ua ||
+                                content.title_en}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>
                             {CONTENT_TYPES[content.data_type].title_ua}

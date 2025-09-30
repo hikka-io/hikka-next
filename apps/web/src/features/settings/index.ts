@@ -19,6 +19,8 @@ export { default as ReadlistSettings } from './list/readlist';
 // List Settings - Watchlist
 export { default as WatchlistSettings } from './list/watchlist/watchlist';
 
+export { default as ListRemoval } from './list/list-removal';
+
 // Applications Settings
 export { default as ApplicationsSettings } from './applications/applications';
 export { default as ClientCreateButton } from './applications/client-create-button';

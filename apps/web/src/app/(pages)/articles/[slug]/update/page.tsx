@@ -81,7 +81,7 @@ const ArticleUpdatePage = async (props: {
                         <ArticlePreview />
                         <ArticleDocument />
                     </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full self-start p-0 md:flex">
+                    <Card className="bg-secondary/20 sticky top-20 order-1 hidden w-full self-start p-0 backdrop-blur-xl md:flex">
                         <ArticleSettings />
                     </Card>
                 </div>

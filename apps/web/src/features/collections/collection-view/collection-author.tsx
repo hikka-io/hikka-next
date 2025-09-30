@@ -25,7 +25,7 @@ const CollectionAuthor = () => {
     });
 
     return (
-        <Card>
+        <Card className="bg-secondary/20 backdrop-blur-xl">
             <HorizontalCard href={`/u/${collection?.author.username}`}>
                 <HorizontalCardImage
                     image={collection?.author.avatar}

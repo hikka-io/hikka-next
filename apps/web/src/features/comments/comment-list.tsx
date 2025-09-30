@@ -88,7 +88,7 @@ const CommentList: FC<Props> = ({
                 <HeaderNavButton />
             </Header>
             <div className="flex flex-col gap-4">
-                {loggedUser && !comment_reference && !preview && (
+                {loggedUser && !comment_reference && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}
                 {list && list.length === 0 && (

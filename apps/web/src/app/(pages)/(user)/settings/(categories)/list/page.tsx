@@ -1,12 +1,13 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
-import { ReadlistSettings, WatchlistSettings } from '@/features/settings';
+    ListRemoval,
+    ReadlistSettings,
+    WatchlistSettings,
+} from '@/features/settings';
 
 interface Props {
     params: {
@@ -45,6 +46,14 @@ const ListSettingsPage: FC<Props> = async (props) => {
                     </HeaderContainer>
                 </Header>
                 <ReadlistSettings />
+            </div>
+            <div className="flex flex-col gap-4">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Видалення списку</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <ListRemoval />
             </div>
         </div>
     );
