@@ -1,5 +1,6 @@
 import {
     BaseRequestOptionsArgs,
+    ContentTypeEnum,
     DescriptionArgs,
     EmailArgs,
     IgnoredNotificationsArgs,
@@ -8,7 +9,6 @@ import {
     ImportReadListArgs,
     ImportWatchListArgs,
     PasswordArgs,
-    ReadDeleteContenType,
     SuccessResponse,
     UserExportResponse,
     UserResponse,
@@ -162,7 +162,7 @@ export class SettingsModule extends BaseModule {
      * Delete user read list
      */
     public async deleteReadList(
-        contentType: ReadDeleteContenType,
+        contentType: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL,
         options?: BaseRequestOptionsArgs,
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(

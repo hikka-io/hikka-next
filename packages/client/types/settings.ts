@@ -89,11 +89,3 @@ export interface ImportReadListArgs {
     content: ImportReadArgs[];
     overwrite: boolean;
 }
-
-/**
- * Read delete content type
- */
-export enum ReadDeleteContenType {
-    MANGA = 'manga',
-    NOVEL = 'novel',
-}
