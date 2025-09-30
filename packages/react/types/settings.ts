@@ -1,4 +1,5 @@
 import {
+    ContentTypeEnum,
     DescriptionArgs,
     EmailArgs,
     IgnoredNotificationsArgs,
@@ -6,7 +7,6 @@ import {
     ImportReadListArgs,
     ImportWatchListArgs,
     PasswordArgs,
-    ReadDeleteContenType,
     UsernameArgs,
 } from '@hikka/client';
 
@@ -28,7 +28,7 @@ export interface UseImportReadListParams extends ImportReadListArgs {}
 export interface UseExportListsParams {}
 export interface UseDeleteWatchListParams {}
 export interface UseDeleteReadListParams {
-    contentType: ReadDeleteContenType;
+    contentType: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
 }
 
 // Notification settings mutation parameters
