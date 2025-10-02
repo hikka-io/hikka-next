@@ -42,8 +42,8 @@ const TextExpand = ({
     const expanded = alwaysCollapsed
         ? false
         : _expanded !== undefined
-          ? _expanded
-          : isExpanded;
+            ? _expanded
+            : isExpanded;
     const setExpanded = _setExpanded || setIsExpanded;
 
     const checkIfNeedsExpansion = useCallback(() => {
@@ -85,6 +85,9 @@ const TextExpand = ({
     const shouldShowCollapsed =
         alwaysCollapsed || (!expanded && needsExpansion);
 
+    // Show gradient only when content is actually being cut off
+    const shouldShowGradient = shouldShowCollapsed && showGradient && needsExpansion;
+
     return (
         <div className="relative" {...rest}>
             <div
@@ -102,8 +105,7 @@ const TextExpand = ({
             >
                 {children}
 
-                {/* Gradient overlay when collapsed */}
-                {shouldShowCollapsed && showGradient && (
+                {shouldShowGradient && (
                     <div
                         className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent"
                         aria-hidden="true"
