@@ -53,9 +53,13 @@ const ArticleCard: FC<Props> = ({ article }) => {
     );
 
     return (
-        <Card className="isolate gap-0 overflow-hidden p-0">
+        <Card className="isolate flex flex-col overflow-hidden p-0 gap-0">
             <Author article={article} preview />
-            <TextExpand alwaysCollapsed>{contentElement}</TextExpand>
+            <div className="flex-1 overflow-hidden">
+                <TextExpand alwaysCollapsed className="h-full">
+                    {contentElement}
+                </TextExpand>
+            </div>
             <div className="flex items-center justify-between p-4">
                 <div className="flex gap-2">
                     {article.tags.length > 0 && (
