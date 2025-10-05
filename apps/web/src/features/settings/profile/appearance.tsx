@@ -51,6 +51,7 @@ const Appearance = () => {
                 content: <CropEditorModal file={file} type={type} />,
                 className: '!max-w-lg',
                 title: 'Редагувати медіафайл',
+                forceModal: true,
             });
         }
     };
