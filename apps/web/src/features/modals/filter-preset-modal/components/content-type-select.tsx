@@ -31,19 +31,19 @@ const ContentTypeSelect = ({
     disabled?: boolean;
     defaultValues: Record<string, any>;
 }) => {
-    const { reset, watch } = useFormContext();
-
-    const content_types = watch('content_types');
-    const name = watch('name');
-    const description = watch('description');
+    const { reset } = useFormContext();
 
     const handleResetForm = (value: string) => {
-        reset({
-            ...defaultValues,
-            content_types: content_types,
-            name: name,
-            description: description,
-        });
+        setTimeout(
+            () =>
+                reset((values) => ({
+                    ...defaultValues,
+                    content_types: values.content_types,
+                    name: values.name,
+                    description: values.description,
+                })),
+            0,
+        );
     };
 
     return (
