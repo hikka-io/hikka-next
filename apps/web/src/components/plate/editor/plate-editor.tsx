@@ -179,6 +179,7 @@ export function ArticlePlateEditor({
         plugins: ArticleKit,
         value,
         nodeId: false,
+        shouldNormalizeEditor: true,
     });
 
     return (

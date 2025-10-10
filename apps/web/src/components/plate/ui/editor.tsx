@@ -17,7 +17,7 @@ const editorContainerVariants = cva(
         variants: {
             variant: {
                 default: cn(
-                    'flex flex-wrap justify-between gap-1 text-sm',
+                    'flex flex-col justify-between gap-1 text-sm',
                     'rounded-lg border border-border bg-secondary/20',
                     'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-2 has-[[data-slate-editor]:focus]:ring-primary-foreground/30',
                     'has-aria-disabled:border-input has-aria-disabled:bg-muted',
@@ -67,7 +67,7 @@ const editorVariants = cva(
                 true: 'ring-2 ring-ring ring-offset-2',
             },
             variant: {
-                default: 'size-full p-2 px-3 text-[0.9375rem]',
+                default: 'flex-1 p-2 px-3 text-[0.9375rem]',
                 comment: 'p-2 px-3 text-[0.9375rem] pb-14',
                 drawer: 'p-2 px-3 text-[0.9375rem]',
             },
