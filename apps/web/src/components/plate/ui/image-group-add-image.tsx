@@ -15,6 +15,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { convertPngToJpeg } from '@/utils/utils';
+
 import { ImageGroupPlugin } from '../editor/plugins/image-group-kit';
 
 interface ImageGroupAddImageProps {
@@ -33,11 +35,24 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
             editor.getTransforms(ImageGroupPlugin).insert.imageGroupFromFiles({
                 files,
                 element,
-                uploadImage: (file) =>
-                    client.upload.createImageUpload(
+                uploadImage: (file) => {
+                    if (file.type.includes('png')) {
+                        return convertPngToJpeg({
+                            file,
+                            outputFormat: 'blob',
+                        }).then((result) => {
+                            return client.upload.createImageUpload(
+                                UploadTypeEnum.ATTACHMENT,
+                                result.blob!,
+                            );
+                        });
+                    }
+
+                    return client.upload.createImageUpload(
                         UploadTypeEnum.ATTACHMENT,
                         file,
-                    ),
+                    );
+                },
             }),
     });
 
@@ -65,7 +80,7 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
         <Button
             disabled={isPending}
             variant="secondary"
-            className="relative size-28 text-muted-foreground"
+            className="text-muted-foreground relative size-28"
         >
             <Input
                 type="file"

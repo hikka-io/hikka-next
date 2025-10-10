@@ -7,14 +7,13 @@ import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';
 
+import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
+import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils/utils';
-
-import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
-import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
+import { cn, getImage } from '@/utils/utils';
 
 interface Props {
     file?: File;
@@ -66,33 +65,8 @@ const Component = ({ file, type }: Props) => {
         },
     });
 
-    const getBlob = async (
-        canvas: HTMLCanvasElement,
-        quality = 0.85,
-        type = 'image/jpeg',
-    ) => {
-        const dataUrl = canvas.toDataURL(type, quality);
-        const res = await fetch(dataUrl);
-
-        return await res.blob();
-    };
-
-    const blobToFile = (theBlob: Blob, fileName: string) => {
-        const b: any = theBlob;
-        b.lastModifiedDate = new Date();
-        b.name = fileName;
-
-        return theBlob as File;
-    };
-
-    const getImage = async (canvas: HTMLCanvasElement) => {
-        let blob = await getBlob(canvas);
-
-        if (blob.size > 100000) {
-            blob = await getBlob(canvas, 0.7);
-        }
-
-        const file = blobToFile(blob, 'avatar.jpg');
+    const handleImage = async (canvas: HTMLCanvasElement) => {
+        const file = await getImage({ canvas });
 
         uploadImageMutation.mutate({
             uploadType: type,
@@ -133,7 +107,7 @@ const Component = ({ file, type }: Props) => {
                     variant="secondary"
                     disabled={uploadImageMutation.isPending}
                     onClick={() =>
-                        getImage(editor.current!.getImageScaledToCanvas())
+                        handleImage(editor.current!.getImageScaledToCanvas())
                     }
                 >
                     {uploadImageMutation.isPending && (

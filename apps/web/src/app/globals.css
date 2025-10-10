@@ -504,7 +504,7 @@ div.spoiler:last-child {
 }
 
 .image-group {
-    --ratio: 56.25%;
+    --ratio: 40%;
     position: relative;
 }
 

@@ -23,12 +23,15 @@ export function ImageElementStatic({
             as="picture"
             {...props}
             element={element}
-            className="image-group-item relative size-full"
+            className="image-group-item relative"
         >
             <PhotoView src={url}>
                 <Image
                     alt="image"
-                    className={cn(className, 'image-item object-cover')}
+                    className={cn(
+                        className,
+                        'image-item object-cover size-auto',
+                    )}
                     width={200}
                     height={100}
                     src={url}
