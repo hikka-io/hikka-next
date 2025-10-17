@@ -85,7 +85,7 @@ export const createWatchEvents = (
 ) => {
     const events = [];
 
-    if (history_type === 'watch_delete') {
+    if (history_type === HistoryTypeEnum.WATCH_DELETE) {
         events.push(convertDeleteWatch());
     }
 

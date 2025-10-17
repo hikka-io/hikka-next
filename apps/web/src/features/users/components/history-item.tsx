@@ -50,7 +50,7 @@ const User: FC<Props> = memo(({ data }) => (
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
 
-    const activity = convertActivity(data);
+    let activity = convertActivity(data);
 
     return (
         <HorizontalCard
@@ -74,16 +74,18 @@ const HistoryItem: FC<Props> = (props) => {
                 <HorizontalCardTitle>
                     {data.content?.title || 'Загальне'}
                 </HorizontalCardTitle>
-                <HorizontalCardDescription
-                    className="line-clamp-2"
-                    href={
-                        data.content
-                            ? `${CONTENT_TYPE_LINKS[data.content!.data_type]}/${data.content!.slug}`
-                            : undefined
-                    }
-                >
-                    {activity.join(', ')}
-                </HorizontalCardDescription>
+                {activity.length > 0 && (
+                    <HorizontalCardDescription
+                        className="line-clamp-2"
+                        href={
+                            data.content
+                                ? `${CONTENT_TYPE_LINKS[data.content!.data_type]}/${data.content!.slug}`
+                                : undefined
+                        }
+                    >
+                        {activity.join(', ')}
+                    </HorizontalCardDescription>
+                )}
                 <HorizontalCardDescription className="opacity-60">
                     {formatDistance(data.created * 1000, Date.now(), {
                         addSuffix: true,
