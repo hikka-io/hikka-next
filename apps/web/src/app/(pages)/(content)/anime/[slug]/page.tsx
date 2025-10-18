@@ -6,6 +6,7 @@ import {
 } from '@hikka/react/server';
 import { FC } from 'react';
 
+import { MovieBanner } from '@/features/anime';
 import { ContentArticles } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
 import {
@@ -74,6 +75,7 @@ const AnimePage: FC<Props> = async (props) => {
             <div className="flex flex-col gap-12 lg:col-span-2">
                 <Title content_type={ContentTypeEnum.ANIME} />
                 <Description content_type={ContentTypeEnum.ANIME} />
+                <MovieBanner />
                 <Details
                     className="lg:hidden"
                     content_type={ContentTypeEnum.ANIME}

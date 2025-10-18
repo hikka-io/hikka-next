@@ -73,7 +73,7 @@ const CommentList: FC<Props> = ({
     );
 
     return (
-        <Block className={cn('break-inside-avoid', className)}>
+        <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header href={`/comments/${content_type}/${slug}`}>
                 <HeaderContainer>
                     <HeaderTitle>{title}</HeaderTitle>

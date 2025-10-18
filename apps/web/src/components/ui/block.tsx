@@ -1,14 +1,12 @@
-import { PropsWithChildren, memo } from 'react';
+import { ComponentPropsWithoutRef, memo } from 'react';
 
 import { cn } from '@/utils/utils';
 
-interface Props extends PropsWithChildren {
-    className?: string;
-}
+interface Props extends ComponentPropsWithoutRef<'section'> {}
 
-const Block = ({ children, className }: Props) => {
+const Block = ({ children, className, ...props }: Props) => {
     return (
-        <section className={cn('flex flex-col gap-8', className)}>
+        <section className={cn('flex flex-col gap-8', className)} {...props}>
             {children}
         </section>
     );
