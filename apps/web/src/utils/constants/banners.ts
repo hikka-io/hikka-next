@@ -2,6 +2,7 @@ type MovieBanner = {
     slug: string;
     title: string;
     description: string;
+    image?: string;
     duration: [number, number];
 };
 

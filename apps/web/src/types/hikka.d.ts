@@ -154,5 +154,9 @@ declare global {
             date_range_enabled?: boolean;
             date_range?: number[] | null;
         };
+
+        type PlausibleEvents = {
+            'movie-banner-click': never;
+        };
     }
 }
