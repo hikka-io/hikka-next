@@ -3,6 +3,7 @@
 import { TrailingBlockPlugin } from 'platejs';
 import { ParagraphPlugin, useEditorRef } from 'platejs/react';
 
+import { AutoformatArticleKit } from './plugins/autoformat-kit';
 import { BasicBlocksKit } from './plugins/basic-blocks-kit';
 import { BasicMarksKit } from './plugins/basic-marks-kit';
 import { EmojiKit } from './plugins/emoji-kit';
@@ -32,6 +33,7 @@ export const ArticleKit = [
     ...EmojiKit,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     ...ExitBreakKit,
+    ...AutoformatArticleKit,
 
     // Block Style
     ...ListKit,

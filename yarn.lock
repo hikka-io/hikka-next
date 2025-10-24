@@ -1237,6 +1237,7 @@ __metadata:
     "@marsidev/react-turnstile": "npm:1.1.0"
     "@mobily/ts-belt": "npm:^3.13.1"
     "@next/bundle-analyzer": "npm:15.5.2"
+    "@platejs/autoformat": "npm:^51.0.0"
     "@platejs/basic-nodes": "npm:^49.0.0"
     "@platejs/combobox": "npm:^49.0.0"
     "@platejs/diff": "npm:^50.2.0"
@@ -2652,6 +2653,19 @@ __metadata:
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
   checksum: 10c0/5bd7576bb1b38a47a7fc7b51ac9f38748e772beebc56200450c4a817d712232b8f1d3ef70532c80840243c657d491cf6a6be1e3a214cff907645819fdc34aadd
+  languageName: node
+  linkType: hard
+
+"@platejs/autoformat@npm:^51.0.0":
+  version: 51.0.0
+  resolution: "@platejs/autoformat@npm:51.0.0"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    platejs: ">=51.0.0"
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10c0/94d9f13a161c1bb012634c64d34df159a172f94fcc95d8f315c5612030dbfaf4bd03d7f31190327dec522b264892cd56ba9b693887d28ca6f18b9d54fefd427f
   languageName: node
   linkType: hard
 

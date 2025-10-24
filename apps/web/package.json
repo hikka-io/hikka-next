@@ -26,6 +26,7 @@
         "@marsidev/react-turnstile": "1.1.0",
         "@mobily/ts-belt": "^3.13.1",
         "@next/bundle-analyzer": "15.5.2",
+        "@platejs/autoformat": "^51.0.0",
         "@platejs/basic-nodes": "^49.0.0",
         "@platejs/combobox": "^49.0.0",
         "@platejs/diff": "^50.2.0",
