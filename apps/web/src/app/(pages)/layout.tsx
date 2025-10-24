@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
 import {
+    AppSidebar,
     Footer,
     Navbar as NavBar,
     ScrollTop,
@@ -21,6 +22,9 @@ const Layout: FC<Props> = ({ children }) => {
         <SessionManager>
             <SidebarProvider defaultOpen={false}>
                 <ScrollTop />
+                <div className="container relative mx-auto">
+                    <AppSidebar />
+                </div>
                 <NavBar />
 
                 <main className="container mx-auto mt-8 px-4 lg:mt-16">

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
 
-import { AppSidebar, LoginButton } from '@/features/common';
+import { LoginButton } from '@/features/common';
 import { SearchModal } from '@/features/modals';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
@@ -31,11 +31,10 @@ const Navbar = () => {
         <header
             className={cn(
                 'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition',
-                trigger && 'border-b border-b-border !bg-background',
+                trigger && 'border-b-border !bg-background border-b',
             )}
         >
             <nav className="container relative mx-auto flex min-h-16 items-center gap-4 px-4 md:gap-8">
-                <AppSidebar />
                 <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
                     <Link className="w-auto p-0" href="/">
                         <div className="logo size-[24px] md:w-[80px]" />
