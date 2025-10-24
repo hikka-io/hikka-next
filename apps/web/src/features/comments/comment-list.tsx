@@ -2,7 +2,6 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { useCommentThread, useContentComments, useSession } from '@hikka/react';
-import { LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -19,6 +18,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
+
+import { LoginButton } from '@/features/common';
 
 import CommentsProvider from '@/services/providers/comments-provider';
 import { cn } from '@/utils/utils';
@@ -94,12 +95,12 @@ const CommentList: FC<Props> = ({
                         title={<span>Ви не авторизовані</span>}
                         description="Увійдіть у свій акаунт, щоб залишити коментар"
                     >
-                        <Button size="md" className="w-full lg:w-auto" asChild>
-                            <Link href="/login">
-                                <LogIn />
-                                Увійти
-                            </Link>
-                        </Button>
+                        <LoginButton
+                            variant="default"
+                            size="md"
+                            className="w-full lg:w-auto"
+                            asChild
+                        />
                     </NotFound>
                 )}
                 {loggedUser && !comment_reference && (

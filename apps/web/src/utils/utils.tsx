@@ -216,3 +216,17 @@ const estimateDataUrlSize = (dataUrl: string): number => {
     // Estimate size (base64 is ~33% larger than binary)
     return Math.round((base64.length * 3) / 4);
 };
+
+export const validateRedirectUrl = (url: string): string => {
+    try {
+        const parsed = new URL(url, window.location.origin);
+
+        if (parsed.origin === window.location.origin) {
+            return parsed.pathname + parsed.search;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    return '/';
+};

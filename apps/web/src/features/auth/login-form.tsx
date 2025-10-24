@@ -1,11 +1,11 @@
 'use client';
 
-import { useCreateUserSession } from '@hikka/react';
+import { useCreateUserSession, useHikkaClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 import { OAuthLogin } from '@/features/auth';
 
 import { setCookie } from '@/utils/cookies';
+import { validateRedirectUrl } from '@/utils/utils';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
@@ -31,9 +32,13 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+    const { client } = useHikkaClient();
+    const searchParams = useSearchParams();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
+
+    const callbackUrl = searchParams.get('callbackUrl') ?? '/';
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -49,8 +54,8 @@ const LoginForm = () => {
             onSuccess: async (data) => {
                 await setCookie('auth', data.secret);
                 form.reset();
-                router.push('/');
-                router.refresh();
+                client.setAuthToken(data.secret);
+                router.push(validateRedirectUrl(callbackUrl));
             },
             onError: () => {
                 captchaRef.current?.reset();

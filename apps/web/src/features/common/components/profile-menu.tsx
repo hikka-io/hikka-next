@@ -2,6 +2,7 @@
 
 import { useSession } from '@hikka/react';
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
@@ -24,13 +25,17 @@ import { Label } from '@/components/ui/label';
 
 const ProfileMenu = () => {
     const { user: loggedUser } = useSession();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const currentUrl = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 
     if (!loggedUser) {
         return null;
     }
 
     const logout = async () => {
-        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
+        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout?callbackUrl=${currentUrl}`;
     };
 
     return (

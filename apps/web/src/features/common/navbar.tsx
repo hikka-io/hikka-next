@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
 
-import { AppSidebar } from '@/features/common';
+import { AppSidebar, LoginButton } from '@/features/common';
 import { SearchModal } from '@/features/modals';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
@@ -68,9 +68,7 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <>
-                            <Button size="md" variant="ghost" asChild>
-                                <Link href="/login">Увійти</Link>
-                            </Button>
+                            <LoginButton />
                             <Button
                                 size="md"
                                 className="hidden lg:flex"

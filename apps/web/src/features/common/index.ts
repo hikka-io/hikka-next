@@ -1,6 +1,7 @@
 // Core App Components
 export { default as AppSidebar } from './app-sidebar';
 export { default as Footer } from './footer';
+export { default as LoginButton } from './login-button';
 export { default as Providers } from './providers';
 export { default as ScrollTop } from './scroll-top';
 export { default as SessionManager } from './session-manager';

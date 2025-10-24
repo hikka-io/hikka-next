@@ -27,7 +27,7 @@ const SessionManager = async ({ children }: Props) => {
         'code' in state.error &&
         state.error.code === 'auth:invalid_token'
     ) {
-        redirect(`${process.env.SITE_URL}/auth/logout`);
+        return redirect(`${process.env.SITE_URL}/auth/logout`);
     }
 
     const dehydratedState = dehydrate(queryClient);
