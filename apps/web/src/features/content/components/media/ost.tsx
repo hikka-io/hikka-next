@@ -24,7 +24,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
             {filteredOSTData.map((ost) => (
                 <ContentCard
                     target="_blank"
-                    key={ost.spotify}
+                    key={ost.spotify || ost.title}
                     href={ost.spotify || undefined}
                     title={ost.title}
                     containerRatio={1}
