@@ -2,6 +2,7 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { useCommentThread, useContentComments, useSession } from '@hikka/react';
+import { LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -88,6 +89,19 @@ const CommentList: FC<Props> = ({
                 <HeaderNavButton />
             </Header>
             <div className="flex flex-col gap-4">
+                {!loggedUser && (
+                    <NotFound
+                        title={<span>Ви не авторизовані</span>}
+                        description="Увійдіть у свій акаунт, щоб залишити коментар"
+                    >
+                        <Button size="md" className="w-full lg:w-auto" asChild>
+                            <Link href="/login">
+                                <LogIn />
+                                Увійти
+                            </Link>
+                        </Button>
+                    </NotFound>
+                )}
                 {loggedUser && !comment_reference && (
                     <CommentInput slug={slug} content_type={content_type} />
                 )}

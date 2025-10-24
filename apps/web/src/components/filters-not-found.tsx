@@ -16,7 +16,12 @@ const FiltersNotFound = () => {
             title="Не знайдено результатів за Вашим запитом"
             description="Очистіть або змініть фільтри, щоб отримати інший результат"
         >
-            <Button variant="destructive" className="w-full lg:w-auto" asChild>
+            <Button
+                variant="destructive"
+                size="md"
+                className="w-full lg:w-auto"
+                asChild
+            >
                 <Link href={pathname}>
                     <AntDesignClearOutlined />
                     Очистити
