@@ -4,13 +4,8 @@ import { useSession } from '@hikka/react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
-import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
+import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,10 +13,12 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuSeparator,
+    DropdownMenuLabel,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
+
+import { PROFILE_MENU } from '@/utils/constants/navigation';
 
 const ProfileMenu = () => {
     const { user: loggedUser } = useSession();
@@ -58,84 +55,60 @@ const ProfileMenu = () => {
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-                <div className="-m-1 flex items-center gap-2 bg-secondary/20 p-1">
-                    <Avatar className="size-9 rounded-md">
+            <DropdownMenuContent align="end" className="w-60 p-0">
+                <div className="bg-secondary/20 m-2 flex items-center gap-2 rounded-md border p-2">
+                    <Avatar className="size-10 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>
-                    <div className="flex flex-col overflow-hidden">
+                    <div className="flex flex-col gap-1 overflow-hidden">
                         <Label className="truncate">
                             {loggedUser.username}
                         </Label>
+                        <P className="text-muted-foreground truncate text-xs">
+                            {loggedUser.email}
+                        </P>
                     </div>
                 </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                        <Link href={'/u/' + loggedUser.username}>
-                            <MaterialSymbolsPerson className="mr-2 size-4" />
-                            Профіль
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href={'/u/' + loggedUser.username + '/favorites'}>
-                            <MaterialSymbolsFavoriteRounded className="mr-2 size-4" />
-                            Улюблене
-                        </Link>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                        <Link
-                            href={
-                                '/u/' +
-                                loggedUser.username +
-                                '/list/anime?status=planned&sort=watch_score'
-                            }
-                        >
-                            <MaterialSymbolsAnimatedImages className="mr-2 size-4" />
-                            Список аніме
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link
-                            href={
-                                '/u/' +
-                                loggedUser.username +
-                                '/list/manga?status=planned&sort=read_score'
-                            }
-                        >
-                            <MaterialSymbolsPalette className="mr-2 size-4" />
-                            Список манґи
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link
-                            href={
-                                '/u/' +
-                                loggedUser.username +
-                                '/list/novel?status=planned&sort=read_score'
-                            }
-                        >
-                            <MaterialSymbolsMenuBookRounded className="mr-2 size-4" />
-                            Список ранобе
-                        </Link>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                        <Link href={'/settings'}>
-                            <MaterialSymbolsSettingsOutlineRounded className="mr-2 size-4" />
-                            Налаштування
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={logout}>
-                        <MaterialSymbolsLogoutRounded className="mr-2 size-4 text-red-500" />
-                        Вийти
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
+
+                {PROFILE_MENU.map((group, index) => (
+                    <DropdownMenuGroup
+                        key={group.title_ua}
+                        title={group.title_ua}
+                        className="flex flex-col gap-1 p-2"
+                    >
+                        <DropdownMenuLabel className="flex h-8 items-center">
+                            {group.title_ua}
+                        </DropdownMenuLabel>
+                        {group.items.map((item) => (
+                            <DropdownMenuItem
+                                key={item.slug}
+                                className="p-2"
+                                asChild
+                            >
+                                <Link
+                                    {...item.linkProps}
+                                    href={item.url
+                                        .replace(
+                                            '{username}',
+                                            loggedUser.username,
+                                        )
+                                        .replace('{currentUrl}', currentUrl)}
+                                >
+                                    {item.icon && (
+                                        <item.icon className="size-4" />
+                                    )}
+                                    {item.title_ua}
+                                </Link>
+                            </DropdownMenuItem>
+                        ))}
+                        {PROFILE_MENU.length === index + 1 && (
+                            <DropdownMenuItem onClick={logout} className="p-2">
+                                <MaterialSymbolsLogoutRounded className="text-destructive-foreground" />
+                                Вийти
+                            </DropdownMenuItem>
+                        )}
+                    </DropdownMenuGroup>
+                ))}
             </DropdownMenuContent>
         </DropdownMenu>
     );

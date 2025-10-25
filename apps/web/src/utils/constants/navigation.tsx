@@ -1,6 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { FilePenLine, UsersIcon } from 'lucide-react';
 
+import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 
@@ -422,5 +423,65 @@ export const SETTINGS_MENU = [
         title: 'Застосунки',
         icon: MdiPuzzle,
         href: '/settings/applications',
+    },
+];
+
+const PROFILE_GENERAL_GROUP: Hikka.NavRoute[] = [
+    {
+        icon: MaterialSymbolsPerson,
+        title_ua: 'Профіль',
+        slug: 'profile',
+        url: '/u/{username}',
+    },
+    {
+        icon: MaterialSymbolsFavoriteRounded,
+        title_ua: 'Улюблене',
+        slug: 'favorite',
+        url: '/u/{username}/favorites',
+    },
+];
+
+const PROFILE_LISTS_GROUP: Hikka.NavRoute[] = [
+    {
+        icon: MaterialSymbolsAnimatedImages,
+        title_ua: 'Список аніме',
+        slug: 'anime',
+        url: '/u/{username}/list/anime?status=planned&sort=watch_score',
+    },
+    {
+        icon: MaterialSymbolsPalette,
+        title_ua: 'Список манґи',
+        slug: 'manga',
+        url: '/u/{username}/list/manga?status=planned&sort=read_score',
+    },
+    {
+        icon: MaterialSymbolsMenuBookRounded,
+        title_ua: 'Список ранобе',
+        slug: 'novel',
+        url: '/u/{username}/list/novel?status=planned&sort=read_score',
+    },
+];
+
+const PROFILE_OTHER_GROUP: Hikka.NavRoute[] = [
+    {
+        icon: MaterialSymbolsMenuBookRounded,
+        title_ua: 'Налаштування',
+        slug: 'settings',
+        url: '/settings',
+    },
+];
+
+export const PROFILE_MENU: { title_ua: string; items: Hikka.NavRoute[] }[] = [
+    {
+        title_ua: 'Загальне',
+        items: PROFILE_GENERAL_GROUP,
+    },
+    {
+        title_ua: 'Списки',
+        items: PROFILE_LISTS_GROUP,
+    },
+    {
+        title_ua: 'Інше',
+        items: PROFILE_OTHER_GROUP,
     },
 ];
