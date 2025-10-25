@@ -22,8 +22,10 @@ const Layout: FC<Props> = ({ children }) => {
         <SessionManager>
             <SidebarProvider defaultOpen={false}>
                 <ScrollTop />
-                <div className="container relative mx-auto">
-                    <AppSidebar />
+                <div className="sticky top-0 z-50">
+                    <div className="container relative mx-auto">
+                        <AppSidebar />
+                    </div>
                 </div>
                 <NavBar />
 
