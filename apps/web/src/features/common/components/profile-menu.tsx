@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 
+import { USER_ROLE } from '@/utils/constants/common';
 import { PROFILE_MENU } from '@/utils/constants/navigation';
 
 const ProfileMenu = () => {
@@ -64,9 +65,11 @@ const ProfileMenu = () => {
                         <Label className="truncate">
                             {loggedUser.username}
                         </Label>
-                        <P className="text-muted-foreground truncate text-xs">
-                            {loggedUser.email}
-                        </P>
+                        {loggedUser && (
+                            <P className="text-muted-foreground truncate text-xs">
+                                {USER_ROLE[loggedUser.role].label}
+                            </P>
+                        )}
                     </div>
                 </div>
 
