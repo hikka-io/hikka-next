@@ -24,6 +24,7 @@ export enum UserRoleEnum {
     USER = 'user',
     BANNED = 'banned',
     NOT_ACTIVATED = 'not_activated',
+    DELETED = 'deleted',
 }
 /**
  * Required query search parameters
