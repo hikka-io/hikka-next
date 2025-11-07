@@ -197,7 +197,7 @@ const buildMangaXml = (manga: ExportMangaItem[]): string => {
             '    <my_scanalation_group><![CDATA[]]></my_scanalation_group>',
         );
         lines.push(`    <my_score>${escapeXml(score)}</my_score>`);
-        lines.push('    <my_storage></my_storage>');
+        lines.push('    <my_storage/>');
         lines.push('    <my_retail_volumes>0</my_retail_volumes>');
         lines.push(`    <my_status>${escapeXml(status)}</my_status>`);
         lines.push(
@@ -208,7 +208,7 @@ const buildMangaXml = (manga: ExportMangaItem[]): string => {
         );
         lines.push('    <my_tags><![CDATA[]]></my_tags>');
         lines.push('    <my_priority>Low</my_priority>');
-        lines.push('    <my_reread_value></my_reread_value>');
+        lines.push('    <my_reread_value/>');
         lines.push('    <my_rereading>NO</my_rereading>');
         lines.push('    <my_discuss>YES</my_discuss>');
         lines.push('    <my_sns>default</my_sns>');
