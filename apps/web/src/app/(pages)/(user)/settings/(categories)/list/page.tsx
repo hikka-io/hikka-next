@@ -4,6 +4,7 @@ import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import {
+    ExportXml,
     ListRemoval,
     ReadlistSettings,
     WatchlistSettings,
@@ -28,6 +29,16 @@ const ListSettingsPage: FC<Props> = async (props) => {
                 <P className="text-sm text-muted-foreground">
                     Імпортуйте аніме, манґу чи ранобе
                 </P>
+            </div>
+            <div className="flex flex-col gap-4">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">
+                            Експорт списків
+                        </HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <ExportXml />
             </div>
             <div className="flex flex-col gap-4">
                 <Header>
