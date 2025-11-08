@@ -19,7 +19,7 @@ export { default as ReadlistSettings } from './list/readlist';
 // List Settings - Watchlist
 export { default as WatchlistSettings } from './list/watchlist/watchlist';
 
-export { default as ExportXml } from './list/export-xml';
+export { default as ListExport } from './list/list-export';
 export { default as ListRemoval } from './list/list-removal';
 
 // Applications Settings
