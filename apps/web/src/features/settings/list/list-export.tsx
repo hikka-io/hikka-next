@@ -4,8 +4,7 @@ import { useExportLists } from '@hikka/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import ListExportItem from '../components/list/list-export-item';
 
 type ExportAnimeItem = {
     note: string | null;
@@ -195,16 +194,12 @@ export const ExportAnime = () => {
     };
 
     return (
-        <div className="flex flex-col items-start gap-2">
-            <Label>Експорт аніме</Label>
-            <p className="text-sm text-muted-foreground">
-                Завантажити ваш список аніме у форматі XML, сумісному з MyAnimeList.
-            </p>
-            <Button onClick={handleExport} disabled={isExporting} size="md">
-                {isExporting && <span className="loading loading-spinner"></span>}
-                Експортувати
-            </Button>
-        </div>
+        <ListExportItem
+            title="Експорт аніме"
+            description="Завантажити ваш список аніме у форматі XML, сумісному з MyAnimeList."
+            onExport={handleExport}
+            isExporting={isExporting}
+        />
     );
 };
 
@@ -239,16 +234,12 @@ export const ExportManga = () => {
     };
 
     return (
-        <div className="flex flex-col items-start gap-2">
-            <Label>Експорт манґи та ранобе</Label>
-            <p className="text-sm text-muted-foreground">
-                Завантажити ваш список манґи та ранобе у форматі XML, сумісному з MyAnimeList.
-            </p>
-            <Button onClick={handleExport} disabled={isExporting} size="md">
-                {isExporting && <span className="loading loading-spinner"></span>}
-                Експортувати
-            </Button>
-        </div>
+        <ListExportItem
+            title="Експорт манґи та ранобе"
+            description="Завантажити ваш список манґи та ранобе у форматі XML, сумісному з MyAnimeList."
+            onExport={handleExport}
+            isExporting={isExporting}
+        />
     );
 };
 
