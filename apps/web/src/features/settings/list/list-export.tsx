@@ -1,12 +1,11 @@
 'use client';
 
+import { useExportLists } from '@hikka/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-
-import { useHikkaClient } from '@hikka/react';
 
 type ExportAnimeItem = {
     note: string | null;
@@ -29,12 +28,6 @@ type ExportMangaItem = {
     rereads?: number | null;
 };
 
-type ExportResponse = {
-    anime?: ExportAnimeItem[];
-    manga?: ExportMangaItem[];
-    novel?: ExportMangaItem[];
-};
-
 const escapeXml = (value: unknown): string => {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -52,23 +45,33 @@ const wrapCdata = (value: unknown): string => {
 
 const mapAnimeStatusToMal = (status: string): string => {
     switch (status) {
-        case 'watching': return 'Watching';
-        case 'completed': return 'Completed';
-        case 'on_hold': return 'On-Hold';
-        case 'dropped': return 'Dropped';
+        case 'watching':
+            return 'Watching';
+        case 'completed':
+            return 'Completed';
+        case 'on_hold':
+            return 'On-Hold';
+        case 'dropped':
+            return 'Dropped';
         case 'planned':
-        default: return 'Plan to Watch';
+        default:
+            return 'Plan to Watch';
     }
 };
 
 const mapMangaStatusToMal = (status: string): string => {
     switch (status) {
-        case 'reading': return 'Reading';
-        case 'completed': return 'Completed';
-        case 'on_hold': return 'On-Hold';
-        case 'dropped': return 'Dropped';
+        case 'reading':
+            return 'Reading';
+        case 'completed':
+            return 'Completed';
+        case 'on_hold':
+            return 'On-Hold';
+        case 'dropped':
+            return 'Dropped';
         case 'planned':
-        default: return 'Plan to Read';
+        default:
+            return 'Plan to Read';
     }
 };
 
@@ -93,26 +96,11 @@ const buildAnimeXml = (anime: ExportAnimeItem[]): string => {
         const animeTags = [
             { tag: 'series_animedb_id', value: item.mal_id ?? 0 },
             { tag: 'series_title', value: item.hikka_slug, isCdata: true },
-            // { tag: 'series_type', value: '' },
-            // { tag: 'series_episodes', value: 0 },
-            // { tag: 'my_id', value: 0 },
             { tag: 'my_watched_episodes', value: item.episodes ?? 0 },
-            // { tag: 'my_start_date', value: '0000-00-00' },
-            // { tag: 'my_finish_date', value: '0000-00-00' },
-            // { tag: 'my_rated', value: '' },
             { tag: 'my_score', value: item.score ?? 0 },
-            // { tag: 'my_storage', value: '' },
-            // { tag: 'my_storage_value', value: '0.00' },
             { tag: 'my_status', value: mapAnimeStatusToMal(item.status) },
             { tag: 'my_comments', value: item.note ?? '', isCdata: true },
             { tag: 'my_times_watched', value: item.rewatches ?? 0 },
-            // { tag: 'my_rewatch_value', value: '' },
-            // { tag: 'my_priority', value: 'LOW' },
-            // { tag: 'my_tags', value: '', isCdata: true },
-            // { tag: 'my_rewatching', value: 0 },
-            // { tag: 'my_rewatching_ep', value: 0 },
-            // { tag: 'my_discuss', value: 1 },
-            // { tag: 'my_sns', value: 'default' },
             { tag: 'update_on_import', value: 1 },
         ];
 
@@ -143,26 +131,13 @@ const buildMangaXml = (manga: ExportMangaItem[]): string => {
         const mangaTags = [
             { tag: 'manga_mangadb_id', value: item.mal_id ?? 0 },
             { tag: 'manga_title', value: item.hikka_slug, isCdata: true },
-            // { tag: 'manga_volumes', value: 0 }, 
-            // { tag: 'manga_chapters', value: 0 },
-            // { tag: 'my_id', value: 0 },
             { tag: 'my_read_volumes', value: item.volumes ?? 0 },
             { tag: 'my_read_chapters', value: item.chapters ?? 0 },
-            // { tag: 'my_start_date', value: '0000-00-00' },
-            // { tag: 'my_finish_date', value: '0000-00-00' },
             { tag: 'my_scanalation_group', value: '', isCdata: true },
             { tag: 'my_score', value: item.score ?? 0 },
-            // { tag: 'my_storage', value: null },
-            // { tag: 'my_retail_volumes', value: 0 },
             { tag: 'my_status', value: mapMangaStatusToMal(item.status) },
             { tag: 'my_comments', value: item.note ?? '', isCdata: true },
             { tag: 'my_times_read', value: item.rereads ?? 0 },
-            // { tag: 'my_tags', value: '', isCdata: true },
-            // { tag: 'my_priority', value: 'Low' },
-            // { tag: 'my_reread_value', value: null },
-            // { tag: 'my_rereading', value: 'NO' },
-            // { tag: 'my_discuss', value: 'YES' },
-            // { tag: 'my_sns', value: 'default' },
             { tag: 'update_on_import', value: 1 },
         ];
 
@@ -189,44 +164,34 @@ const downloadXml = (xml: string, filename: string) => {
     URL.revokeObjectURL(url);
 };
 
-const fetchExportData = async (client: ReturnType<typeof useHikkaClient>): Promise<ExportResponse> => {
-    const internalClient: any = (client as any)?.client ?? client;
-    if (internalClient?.settings?.exportLists) {
-        return (await internalClient.settings.exportLists()) as ExportResponse;
-    }
-    const response = await fetch('/settings/export', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    });
-    if (!response.ok) {
-        throw new Error('Failed to fetch export data');
-    }
-    return (await response.json()) as ExportResponse;
-};
-
 export const ExportAnime = () => {
-    const [loading, setLoading] = useState(false);
-    const client = useHikkaClient();
+    const [isExporting, setIsExporting] = useState(false);
 
-    const handleExport = async () => {
-        try {
-            setLoading(true);
-            const data = await fetchExportData(client);
-            const anime = data.anime || [];
-            if (!anime.length) {
-                toast.error('Немає аніме для експорту.');
-                return;
-            }
-            const xml = buildAnimeXml(anime);
-            downloadXml(xml, 'hikka-anime-export.xml');
-            toast.success('XML файл з аніме списком успішно згенеровано.');
-        } catch (error) {
-            console.error(error);
-            toast.error('Не вдалося експортувати список аніме. Спробуйте ще раз.');
-        } finally {
-            setLoading(false);
-        }
+    const { mutate: exportLists } = useExportLists({
+        options: {
+            onSuccess: (data) => {
+                const anime = data.anime || [];
+                if (!anime.length) {
+                    toast.error('Немає аніме для експорту.');
+                    setIsExporting(false);
+                    return;
+                }
+                const xml = buildAnimeXml(anime);
+                downloadXml(xml, 'hikka-anime-export.xml');
+                toast.success('XML файл з аніме списком успішно згенеровано.');
+                setIsExporting(false);
+            },
+            onError: (error) => {
+                toast.error('Не вдалося експортувати список аніме. Спробуйте ще раз.');
+                console.error(error);
+                setIsExporting(false);
+            },
+        },
+    });
+
+    const handleExport = () => {
+        setIsExporting(true);
+        exportLists({});
     };
 
     return (
@@ -235,8 +200,8 @@ export const ExportAnime = () => {
             <p className="text-sm text-muted-foreground">
                 Завантажити ваш список аніме у форматі XML, сумісному з MyAnimeList.
             </p>
-            <Button onClick={handleExport} disabled={loading} size="md">
-                {loading && <span className="loading loading-spinner mr-2"></span>}
+            <Button onClick={handleExport} disabled={isExporting} size="md">
+                {isExporting && <span className="loading loading-spinner"></span>}
                 Експортувати
             </Button>
         </div>
@@ -244,27 +209,33 @@ export const ExportAnime = () => {
 };
 
 export const ExportManga = () => {
-    const [loading, setLoading] = useState(false);
-    const client = useHikkaClient();
+    const [isExporting, setIsExporting] = useState(false);
 
-    const handleExport = async () => {
-        try {
-            setLoading(true);
-            const data = await fetchExportData(client);
-            const manga = [...(data.manga || []), ...(data.novel || [])];
-            if (!manga.length) {
-                toast.error('Немає манґи чи ранобе для експорту.');
-                return;
-            }
-            const xml = buildMangaXml(manga);
-            downloadXml(xml, 'hikka-manga-export.xml');
-            toast.success('XML файл з манґою та ранобе успішно згенеровано.');
-        } catch (error) {
-            console.error(error);
-            toast.error('Не вдалося експортувати список манґи/ранобе. Спробуйте ще раз.');
-        } finally {
-            setLoading(false);
-        }
+    const { mutate: exportLists } = useExportLists({
+        options: {
+            onSuccess: (data) => {
+                const manga = [...(data.manga || []), ...(data.novel || [])];
+                if (!manga.length) {
+                    toast.error('Немає манґи чи ранобе для експорту.');
+                    setIsExporting(false);
+                    return;
+                }
+                const xml = buildMangaXml(manga);
+                downloadXml(xml, 'hikka-manga-export.xml');
+                toast.success('XML файл з манґою та ранобе успішно згенеровано.');
+                setIsExporting(false);
+            },
+            onError: (error) => {
+                toast.error('Не вдалося експортувати список манґи/ранобе. Спробуйте ще раз.');
+                console.error(error);
+                setIsExporting(false);
+            },
+        },
+    });
+
+    const handleExport = () => {
+        setIsExporting(true);
+        exportLists({});
     };
 
     return (
@@ -273,8 +244,8 @@ export const ExportManga = () => {
             <p className="text-sm text-muted-foreground">
                 Завантажити ваш список манґи та ранобе у форматі XML, сумісному з MyAnimeList.
             </p>
-            <Button onClick={handleExport} disabled={loading} size="md">
-                {loading && <span className="loading loading-spinner mr-2"></span>}
+            <Button onClick={handleExport} disabled={isExporting} size="md">
+                {isExporting && <span className="loading loading-spinner"></span>}
                 Експортувати
             </Button>
         </div>
