@@ -23,7 +23,7 @@ const Footer = () => {
 
     return (
         <footer className="w-full border-t border-t-border md:mt-12">
-            <div className="container mx-auto max-w-screen-xl p-4">
+            <div className="container mx-auto p-4">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
                         <Button variant="ghost" size="md" asChild>
