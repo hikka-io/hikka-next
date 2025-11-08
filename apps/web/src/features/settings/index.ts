@@ -19,6 +19,7 @@ export { default as ReadlistSettings } from './list/readlist';
 // List Settings - Watchlist
 export { default as WatchlistSettings } from './list/watchlist/watchlist';
 
+export { default as ListExport } from './list/list-export';
 export { default as ListRemoval } from './list/list-removal';
 
 // Applications Settings
@@ -27,3 +28,4 @@ export { default as ClientCreateButton } from './applications/client-create-butt
 
 // Notifications Settings
 export { default as NotificationsSettings } from './notifications';
+

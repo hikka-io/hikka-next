@@ -464,7 +464,7 @@ const PROFILE_LISTS_GROUP: Hikka.NavRoute[] = [
 
 const PROFILE_OTHER_GROUP: Hikka.NavRoute[] = [
     {
-        icon: MaterialSymbolsMenuBookRounded,
+        icon: MaterialSymbolsSettingsOutlineRounded,
         title_ua: 'Налаштування',
         slug: 'settings',
         url: '/settings',
