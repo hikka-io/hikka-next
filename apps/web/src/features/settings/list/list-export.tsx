@@ -81,7 +81,7 @@ const buildAnimeXml = (anime: ExportAnimeItem[]): string => {
     const lines: string[] = [
         '<?xml version="1.0" encoding="UTF-8" ?>',
         '<!--',
-        ' Created by XML Export feature at MyAnimeList.net',
+        ' Created by XML Export feature at hikka.io',
         '-->',
         '<myanimelist>',
         '  <myinfo>',
@@ -160,8 +160,8 @@ const buildMangaXml = (manga: ExportMangaItem[]): string => {
             // { tag: 'my_tags', value: '', isCdata: true },
             // { tag: 'my_priority', value: 'Low' },
             // { tag: 'my_reread_value', value: null },
-            { tag: 'my_rereading', value: 'NO' },
-            { tag: 'my_discuss', value: 'YES' },
+            // { tag: 'my_rereading', value: 'NO' },
+            // { tag: 'my_discuss', value: 'YES' },
             // { tag: 'my_sns', value: 'default' },
             { tag: 'update_on_import', value: 1 },
         ];
