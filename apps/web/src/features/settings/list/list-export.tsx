@@ -252,11 +252,11 @@ export const ExportManga = () => {
     );
 };
 
-const ExportXml = () => (
+const ListExport = () => (
     <div className="flex flex-col gap-6">
         <ExportAnime />
         <ExportManga />
     </div>
 );
 
-export default ExportXml;
+export default ListExport;
