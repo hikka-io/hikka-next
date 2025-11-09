@@ -64,7 +64,7 @@ const Footer = () => {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:justify-end">
+                    <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-end">
                         <div className="flex items-center gap-2">
                             {SOCIAL_LINKS.map((link) => {
                                 const Icon = link.icon;
@@ -93,7 +93,7 @@ const Footer = () => {
                         />
                         <Label
                             id="hikka-footer-label"
-                            className="text-muted-foreground"
+                            className="text-muted-foreground whitespace-nowrap"
                         >
                             © {new Date().getFullYear()} Hikka
                         </Label>
