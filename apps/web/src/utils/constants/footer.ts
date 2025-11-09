@@ -1,4 +1,5 @@
 import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
+import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
 import BxBxlTelegram from '@/components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '@/components/icons/bx/BxBxsDonateHeart';
 import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
@@ -25,18 +26,23 @@ export const DONATION_LINKS = [
         title: 'Монобанка',
         href: 'https://send.monobank.ua/jar/UejmZHk4B',
         icon: PhTipJarFill,
-    },
+    }
 ] as const;
 
 export const SOCIAL_LINKS = [
+    {
+        title: 'GitHub',
+        href: 'https://github.com/hikka-io',
+        icon: BxBxlGithub,
+    },
     {
         title: 'Telegram',
         href: 'https://t.me/hikka_io',
         icon: BxBxlTelegram,
     },
     {
-        title: 'GitHub',
-        href: 'https://github.com/hikka-io',
-        icon: BxBxlGithub,
-    },
+        title: 'Mastadon',
+        href: 'https://social.noleron.com/@hikka',
+        icon: BxBxlMastadon,
+    }
 ] as const;
