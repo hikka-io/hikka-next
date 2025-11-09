@@ -89,7 +89,7 @@ const Footer = () => {
                         </div>
                         <Separator
                             orientation="vertical"
-                            className="h-6 mx-2 hidden sm:block"
+                            className="h-6 mx-2 hidden min-[320px]:block"
                         />
                         <Label
                             id="hikka-footer-label"
