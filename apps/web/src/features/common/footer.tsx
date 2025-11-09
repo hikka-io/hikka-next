@@ -10,13 +10,13 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 
-import { Separator } from '@/components/ui/separator';
-import { DONATION_LINKS, FOOTER_LINKS, SOCIAL_LINKS } from '@/utils/constants/footer';
+import { DONATION_LINKS, FOOTER_LINKS, SOCIAL_LINKS } from '@/utils/constants/navigation';
 
 const Footer = () => {
     const { openModal } = useModalContext();
