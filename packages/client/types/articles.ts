@@ -84,6 +84,7 @@ export interface ArticleResponse {
     created: number;
     updated: number;
     document: any[]; // Array of document objects
+    preview: any[];
     comments_count: number;
     vote_score: number;
     my_score: number;
@@ -115,7 +116,7 @@ export interface ArticlesListArgs {
  * Paginated articles response
  */
 export interface ArticlesListResponse
-    extends PaginatedResponse<ArticleResponse> {}
+    extends PaginatedResponse<ArticleResponse> { }
 
 /**
  * User article stats response
