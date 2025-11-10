@@ -163,7 +163,11 @@ const WatchDetails = ({
                 icon={<Hash className="size-4" />}
                 title="Епізоди"
                 value={
-                    (data.episodes_total || data.episodes_released) && data.media_type !== 'movie'
+                    (data.episodes_total || data.episodes_released) &&
+                        (
+                            data.media_type !== 'movie' ||
+                            (data.episodes_total ?? data.episodes_released ?? 0) > 1
+                        )
                         ? formatEpisodeCount(
                             data.status!,
                             data.episodes_released,
