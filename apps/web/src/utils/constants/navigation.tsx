@@ -5,6 +5,9 @@ import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 
+import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
+import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
+import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
 import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
 import IconamoonCommentFill from '../../components/icons/iconamoon/IconamoonCommentFill';
@@ -485,3 +488,45 @@ export const PROFILE_MENU: { title_ua: string; items: Hikka.NavRoute[] }[] = [
         items: PROFILE_OTHER_GROUP,
     },
 ];
+
+export const FOOTER_LINKS = {
+    rules: {
+        title: 'Правила',
+        href: '/articles/pravyla-saytu-9bcf83',
+    },
+    owners: {
+        title: 'Правовласникам',
+        href: '/articles/pravovlasnykam-a76512',
+    },
+} as const;
+
+export const DONATION_LINKS = [
+    {
+        title: 'Donatello',
+        href: 'https://donatello.to/hikka.io',
+        icon: BxBxsDonateHeart,
+    },
+    {
+        title: 'Монобанка',
+        href: 'https://send.monobank.ua/jar/UejmZHk4B',
+        icon: PhTipJarFill,
+    }
+] as const;
+
+export const SOCIAL_LINKS = [
+    {
+        title: 'GitHub',
+        href: 'https://github.com/hikka-io',
+        icon: BxBxlGithub,
+    },
+    {
+        title: 'Telegram',
+        href: 'https://t.me/hikka_io',
+        icon: BxBxlTelegram,
+    },
+    {
+        title: 'Mastadon',
+        href: 'https://social.noleron.com/@hikka',
+        icon: BxBxlMastadon,
+    }
+] as const;
