@@ -21,10 +21,7 @@ interface Props {
 }
 
 const ArticleCard: FC<Props> = ({ article }) => {
-    const document =
-        article.document[0].type === 'preview'
-            ? article.document[0].children
-            : article.document;
+    const document = article.preview;
 
     const contentElement = (
         <div className="relative flex flex-1 flex-col gap-4 p-4 py-0">
