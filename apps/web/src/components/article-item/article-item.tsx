@@ -24,6 +24,7 @@ interface Props {
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
     const document = article.preview;
+
     return (
         <Card
             className={cn(
