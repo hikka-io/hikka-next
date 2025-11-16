@@ -1,7 +1,7 @@
 import { DEFAULT_PAGINATION } from '../constants';
 import {
     ArticleArgs,
-    ArticleResponse,
+    ArticleDocumentResponse,
     ArticlesListArgs,
     ArticlesListResponse,
     ArticlesTopResponse,
@@ -35,8 +35,8 @@ export class ArticlesModule extends BaseModule {
     public async getArticleBySlug(
         slug: string,
         options?: BaseRequestOptionsArgs,
-    ): Promise<ArticleResponse> {
-        return this.client.get<ArticleResponse>(`/articles/${slug}`, options);
+    ): Promise<ArticleDocumentResponse> {
+        return this.client.get<ArticleDocumentResponse>(`/articles/${slug}`, options);
     }
 
     /**
@@ -45,8 +45,8 @@ export class ArticlesModule extends BaseModule {
     public async createArticle(
         args: ArticleArgs,
         options?: BaseRequestOptionsArgs,
-    ): Promise<ArticleResponse> {
-        return this.client.post<ArticleResponse>(
+    ): Promise<ArticleDocumentResponse> {
+        return this.client.post<ArticleDocumentResponse>(
             '/articles/create',
             args,
             options,
@@ -60,8 +60,8 @@ export class ArticlesModule extends BaseModule {
         slug: string,
         args: ArticleArgs,
         options?: BaseRequestOptionsArgs,
-    ): Promise<ArticleResponse> {
-        return this.client.put<ArticleResponse>(
+    ): Promise<ArticleDocumentResponse> {
+        return this.client.put<ArticleDocumentResponse>(
             `/articles/${slug}`,
             args,
             options,
