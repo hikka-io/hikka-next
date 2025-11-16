@@ -13,7 +13,7 @@ import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 
-interface Props {}
+interface Props { }
 
 const CreateActions: FC<Props> = () => {
     const router = useRouter();
@@ -23,7 +23,6 @@ const CreateActions: FC<Props> = () => {
     const category = useArticleContext((state) => state.category);
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
-    const getPreview = useArticleContext((state) => state.getPreview);
 
     const {
         mutate: mutateCreateArticle,
@@ -44,39 +43,29 @@ const CreateActions: FC<Props> = () => {
     const handleCreateArticle = useCallback(
         (draft: boolean = false) => {
             let document = getDocument();
-            let preview = getPreview();
 
             if (!document) {
                 return;
             }
 
-            document = removeEmptyTextNodes(document);
-            preview = preview
-                ? [
-                      {
-                          type: 'preview',
-                          children: removeEmptyTextNodes(preview),
-                      },
-                  ]
-                : [];
+            document = removeEmptyTextNodes(document)
 
             mutateCreateArticle({
-                document: [...preview, ...document],
+                document: document,
                 title: title || '',
                 tags,
                 draft,
                 content: content
                     ? {
-                          slug: content.slug,
-                          content_type: content.data_type,
-                      }
+                        slug: content.slug,
+                        content_type: content.data_type,
+                    }
                     : undefined,
                 category: category!,
             });
         },
         [
             getDocument,
-            getPreview,
             title,
             tags,
             category,

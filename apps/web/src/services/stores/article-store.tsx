@@ -17,10 +17,9 @@ export type ArticleState = {
     tags: string[];
     draft?: boolean;
     content?:
-        | ArticleAnimeContentResponse
-        | ArticleMangaNovelContentResponse
-        | null;
-    preview?: Value;
+    | ArticleAnimeContentResponse
+    | ArticleMangaNovelContentResponse
+    | null;
 };
 
 export type ArticleActions = {
@@ -36,9 +35,7 @@ export type ArticleActions = {
             | ArticleMangaNovelContentResponse
             | null,
     ) => void;
-    setPreview: (preview: Value) => void;
     getDocument: () => Value | undefined;
-    getPreview: () => Value | undefined;
 };
 
 export type ArticleStore = ArticleState & ArticleActions;
@@ -51,7 +48,6 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         tags: [],
         draft: true,
         content: undefined,
-        preview: undefined,
     };
     return createStore<ArticleStore>()((set, get) => ({
         ...DEFAULT_PROPS,
@@ -59,8 +55,7 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         setArticle: (article: ArticleResponse) => {
             set({
                 ...article,
-                document: article.document.slice(1),
-                preview: article.document[0].children,
+                document: article.document,
                 tags: article.tags.map((tag) => tag.name),
             });
         },
@@ -75,8 +70,6 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
                 | ArticleMangaNovelContentResponse
                 | null,
         ) => set({ content }),
-        setPreview: (preview: Value) => set({ preview }),
-        getDocument: () => get().document,
-        getPreview: () => get().preview,
+        getDocument: () => get().document
     }));
 };

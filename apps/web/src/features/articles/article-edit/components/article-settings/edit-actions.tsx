@@ -14,7 +14,7 @@ import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 
-interface Props {}
+interface Props { }
 
 const EditActions: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);
@@ -24,7 +24,6 @@ const EditActions: FC<Props> = () => {
     const category = useArticleContext((state) => state.category);
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
-    const getPreview = useArticleContext((state) => state.getPreview);
     const setArticle = useArticleContext((state) => state.setArticle);
 
     const { mutate: mutateUpdateArticle, isPending } = useUpdateArticle({
@@ -40,42 +39,32 @@ const EditActions: FC<Props> = () => {
     const handleUpdateArticle = useCallback(
         (draft: boolean = false) => {
             let document = getDocument();
-            let preview = getPreview();
 
             if (!document) {
                 return;
             }
 
             document = removeEmptyTextNodes(document);
-            preview = preview
-                ? [
-                      {
-                          type: 'preview',
-                          children: removeEmptyTextNodes(preview),
-                      },
-                  ]
-                : [];
 
             mutateUpdateArticle({
                 slug: slug!,
                 article: {
-                    document: [...preview, ...document],
+                    document: document,
                     title: title || '',
                     tags,
                     draft,
                     category: category!,
                     content: content
                         ? {
-                              slug: content.slug,
-                              content_type: content.data_type,
-                          }
+                            slug: content.slug,
+                            content_type: content.data_type,
+                        }
                         : undefined,
                 },
             });
         },
         [
             getDocument,
-            getPreview,
             title,
             tags,
             category,

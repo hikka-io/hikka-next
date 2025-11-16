@@ -13,9 +13,8 @@ import Card from '@/components/ui/card';
 
 import {
     ArticleEditDocument as ArticleDocument,
-    ArticlePreview,
     ArticleSettings,
-    ArticleEditTitle as ArticleTitle,
+    ArticleEditTitle as ArticleTitle
 } from '@/features/articles';
 
 import ArticleProvider from '@/services/providers/article-provider';
@@ -67,8 +66,7 @@ const ArticleUpdatePage = async (props: {
             <ArticleProvider
                 initialState={{
                     ...article,
-                    document: article.document.slice(1),
-                    preview: article.document[0].children,
+                    document: article.document,
                     tags: article.tags.map((tag) => tag.name),
                 }}
             >
@@ -78,7 +76,6 @@ const ArticleUpdatePage = async (props: {
                         <Card className="flex w-full p-0 md:hidden">
                             <ArticleSettings />
                         </Card>
-                        <ArticlePreview />
                         <ArticleDocument />
                     </Block>
                     <Card className="bg-secondary/20 sticky top-20 order-1 hidden w-full self-start p-0 backdrop-blur-xl md:flex">
