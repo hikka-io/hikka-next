@@ -1,5 +1,5 @@
 import {
-    ArticleResponse,
+    ArticleDocumentResponse,
     ArticlesListResponse,
     ArticlesTopResponse,
 } from '@hikka/client';
@@ -19,7 +19,7 @@ import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 export async function prefetchArticleBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<ArticleResponse> & UseArticleParams) {
+}: PrefetchQueryParams<ArticleDocumentResponse> & UseArticleParams) {
     return prefetchQuery({
         queryKey: queryKeys.articles.bySlug(slug),
         queryFn: (client) => client.articles.getArticleBySlug(slug),

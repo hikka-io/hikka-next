@@ -2,7 +2,7 @@
 
 import {
     ArticleArgs,
-    ArticleResponse,
+    ArticleDocumentResponse,
     ArticlesListResponse,
     ArticlesTopResponse,
 } from '@hikka/client';
@@ -19,11 +19,11 @@ import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 /**
  * Hook for getting article details
  */
-export function useArticleBySlug<TResult = ArticleResponse>({
+export function useArticleBySlug<TResult = ArticleDocumentResponse>({
     slug,
     ...rest
-}: UseArticleParams & QueryParams<ArticleResponse, TResult>) {
-    return useQuery<ArticleResponse, Error, TResult>({
+}: UseArticleParams & QueryParams<ArticleDocumentResponse, TResult>) {
+    return useQuery<ArticleDocumentResponse, Error, TResult>({
         queryKey: queryKeys.articles.bySlug(slug),
         queryFn: (client) => client.articles.getArticleBySlug(slug),
         ...rest,
