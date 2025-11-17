@@ -1,6 +1,6 @@
 'use client';
 
-import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
+import { ArticleBaseResponse, ContentTypeEnum } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/utils';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticleBaseResponse;
 }
 
 const ArticleVote: FC<Props> = ({ article }) => {

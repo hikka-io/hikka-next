@@ -3,8 +3,8 @@
 import {
     ArticleAnimeContentResponse,
     ArticleCategoryEnum,
+    ArticleDocumentResponse,
     ArticleMangaNovelContentResponse,
-    ArticleResponse,
 } from '@hikka/client';
 import { Value } from 'platejs';
 import { createStore } from 'zustand';
@@ -17,13 +17,13 @@ export type ArticleState = {
     tags: string[];
     draft?: boolean;
     content?:
-    | ArticleAnimeContentResponse
-    | ArticleMangaNovelContentResponse
-    | null;
+        | ArticleAnimeContentResponse
+        | ArticleMangaNovelContentResponse
+        | null;
 };
 
 export type ArticleActions = {
-    setArticle: (article: ArticleResponse) => void;
+    setArticle: (article: ArticleDocumentResponse) => void;
     setTitle: (title: string) => void;
     setCategory: (category: ArticleCategoryEnum) => void;
     setDocument: (text: Value) => void;
@@ -52,7 +52,7 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
     return createStore<ArticleStore>()((set, get) => ({
         ...DEFAULT_PROPS,
         ...initProps,
-        setArticle: (article: ArticleResponse) => {
+        setArticle: (article: ArticleDocumentResponse) => {
             set({
                 ...article,
                 document: article.document,
@@ -70,6 +70,6 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
                 | ArticleMangaNovelContentResponse
                 | null,
         ) => set({ content }),
-        getDocument: () => get().document
+        getDocument: () => get().document,
     }));
 };

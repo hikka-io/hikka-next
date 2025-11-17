@@ -1,4 +1,4 @@
-import { ArticleResponse } from '@hikka/client';
+import { ArticleBaseResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
@@ -15,7 +15,7 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticleBaseResponse;
     className?: string;
 }
 
@@ -33,7 +33,7 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
             />
             <HorizontalCardContainer>
                 <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
-                <HorizontalCardDescription className="flex-row text-xs text-muted-foreground">
+                <HorizontalCardDescription className="text-muted-foreground flex-row text-xs">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />
                         <Small>

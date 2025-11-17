@@ -23,7 +23,7 @@ const ArticleTitle: FC<Props> = () => {
             {article?.content && (
                 <Link
                     href={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
-                    className="w-fit text-sm text-muted-foreground hover:underline"
+                    className="text-muted-foreground w-fit text-sm hover:underline"
                 >
                     {article.content.title}
                 </Link>

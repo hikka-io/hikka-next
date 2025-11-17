@@ -1,4 +1,4 @@
-import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/client';
 import {
     HydrationBoundary,
     dehydrate,
@@ -21,7 +21,7 @@ import {
     ArticleTags,
     ArticleTitle,
 } from '@/features/articles';
-import { CommentList as Comments } from "@/features/comments";
+import { CommentList as Comments } from '@/features/comments';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -40,8 +40,7 @@ export async function generateMetadata({
 
     const client = getHikkaClient();
 
-    const article: ArticleResponse =
-        await client.articles.getArticleBySlug(slug);
+    const article = await client.articles.getArticleBySlug(slug);
 
     return _generateMetadata({
         title: `${article.title} / ${ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}`,

@@ -1,4 +1,4 @@
-import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
+import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -17,7 +17,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticlePreviewResponse;
 }
 
 const ArticleCard: FC<Props> = ({ article }) => {
@@ -50,7 +50,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
     );
 
     return (
-        <Card className="isolate flex flex-col overflow-hidden p-0 gap-0">
+        <Card className="isolate flex flex-col gap-0 overflow-hidden p-0">
             <Author article={article} preview />
             <div className="flex-1 overflow-hidden">
                 <TextExpand alwaysCollapsed className="h-full">
@@ -76,7 +76,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="pointer-events-none gap-1 text-muted-foreground"
+                            className="text-muted-foreground pointer-events-none gap-1"
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
                             {article.views}
@@ -86,7 +86,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="gap-1 text-muted-foreground"
+                        className="text-muted-foreground gap-1"
                     >
                         <Link href={`/comments/article/${article.slug}`}>
                             <IconamoonCommentFill className="size-3" />
@@ -96,7 +96,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="pointer-events-none gap-1 text-muted-foreground"
+                        className="text-muted-foreground pointer-events-none gap-1"
                     >
                         <BxBxsUpvote className="size-3" />
                         {article.vote_score}

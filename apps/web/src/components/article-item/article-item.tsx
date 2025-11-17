@@ -1,4 +1,4 @@
-import { ArticleResponse, ContentTypeEnum } from '@hikka/client';
+import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -18,7 +18,7 @@ import Muted from '../typography/muted';
 import Author from './article-author';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticlePreviewResponse;
     className?: string;
 }
 
@@ -76,7 +76,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="pointer-events-none gap-1 text-muted-foreground"
+                            className="text-muted-foreground pointer-events-none gap-1"
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
                             {article.views}
@@ -86,7 +86,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="gap-1 text-muted-foreground"
+                        className="text-muted-foreground gap-1"
                     >
                         <Link href={`/comments/article/${article.slug}`}>
                             <IconamoonCommentFill className="size-3" />
@@ -96,7 +96,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="pointer-events-none gap-1 text-muted-foreground"
+                        className="text-muted-foreground pointer-events-none gap-1"
                     >
                         <BxBxsUpvote className="size-3" />
                         {article.vote_score}

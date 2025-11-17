@@ -1,4 +1,4 @@
-import { ArticleResponse } from '@hikka/client';
+import { ArticleBaseResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
@@ -16,7 +16,7 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticleBaseResponse;
 }
 
 const ArticleItem: FC<Props> = ({ article }) => {
@@ -35,7 +35,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         addSuffix: true,
                     })}
                 </Small>
-                <div className="flex gap-2 text-xs text-muted-foreground">
+                <div className="text-muted-foreground flex gap-2 text-xs">
                     {article.views > 0 && (
                         <div className="flex items-center gap-1">
                             <MaterialSymbolsVisibilityOutlineRounded />

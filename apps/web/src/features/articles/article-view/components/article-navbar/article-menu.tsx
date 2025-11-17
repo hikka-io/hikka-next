@@ -1,4 +1,4 @@
-import { ArticleResponse } from '@hikka/client';
+import { ArticleBaseResponse } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -17,7 +17,7 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import DeleteArticle from './delete-article';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticleBaseResponse;
 }
 
 const ArticleMenu: FC<Props> = ({ article }) => {

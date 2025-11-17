@@ -1,6 +1,6 @@
 'use client';
 
-import { ArticleResponse } from '@hikka/client';
+import { ArticleBaseResponse } from '@hikka/client';
 import { useDeleteArticle } from '@hikka/react';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -21,7 +21,7 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticleBaseResponse;
 }
 
 const DeleteArticle: FC<Props> = ({ article }) => {

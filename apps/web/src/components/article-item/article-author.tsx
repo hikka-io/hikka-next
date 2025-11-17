@@ -1,4 +1,4 @@
-import { ArticleResponse } from '@hikka/client';
+import { ArticleBaseResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
 import { FC } from 'react';
 
@@ -17,7 +17,7 @@ import { cn } from '@/utils/utils';
 import FollowButton from '../follow-button';
 
 interface Props {
-    article: ArticleResponse;
+    article: ArticleBaseResponse;
     preview?: boolean;
     className?: string;
 }
@@ -46,7 +46,7 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                     >
                         {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
                     </HorizontalCardDescription>
-                    <div className="size-1 rounded-full bg-muted-foreground" />
+                    <div className="bg-muted-foreground size-1 rounded-full" />
                     <HorizontalCardDescription>
                         {article.draft
                             ? 'Чернетка'
