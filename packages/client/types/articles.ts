@@ -109,6 +109,8 @@ export interface ArticleDocumentResponse extends ArticleBaseResponse {
     document: any[];
 }
 
+export type ArticleResponse = ArticlePreviewResponse | ArticleDocumentResponse;
+
 /**
  * Arguments for listing articles
  */
@@ -128,7 +130,7 @@ export interface ArticlesListArgs {
  * Paginated articles response
  */
 export interface ArticlesListResponse
-    extends PaginatedResponse<ArticlePreviewResponse> { }
+    extends PaginatedResponse<ArticlePreviewResponse> {}
 
 /**
  * User article stats response
