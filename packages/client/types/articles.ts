@@ -75,15 +75,14 @@ export interface ArticleMangaNovelContentResponse {
 }
 
 /**
- * Article response
+ * Base article fields shared between list and detail views
  */
-export interface ArticleResponse {
+interface ArticleBaseResponse {
     data_type: ContentTypeEnum.ARTICLE;
     author: UserResponse;
     tags: TagResponse[];
     created: number;
     updated: number;
-    document: any[]; // Array of document objects
     comments_count: number;
     vote_score: number;
     my_score: number;
@@ -94,6 +93,20 @@ export interface ArticleResponse {
     title: string;
     slug: string;
     content: ArticleContent;
+}
+
+/**
+ * Article list item response (with preview, without document)
+ */
+export interface ArticlePreviewResponse extends ArticleBaseResponse {
+    preview: any[];
+}
+
+/**
+ * Full article response (with document, without preview)
+ */
+export interface ArticleDocumentResponse extends ArticleBaseResponse {
+    document: any[];
 }
 
 /**
@@ -115,7 +128,7 @@ export interface ArticlesListArgs {
  * Paginated articles response
  */
 export interface ArticlesListResponse
-    extends PaginatedResponse<ArticleResponse> {}
+    extends PaginatedResponse<ArticlePreviewResponse> { }
 
 /**
  * User article stats response

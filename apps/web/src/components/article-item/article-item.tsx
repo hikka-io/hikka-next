@@ -23,10 +23,7 @@ interface Props {
 }
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
-    const document =
-        article.document[0].type === 'preview'
-            ? article.document[0].children
-            : article.document;
+    const document = article.preview;
 
     return (
         <Card
