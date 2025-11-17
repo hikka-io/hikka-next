@@ -77,7 +77,7 @@ export interface ArticleMangaNovelContentResponse {
 /**
  * Base article fields shared between list and detail views
  */
-interface ArticleBaseResponse {
+export interface ArticleBaseResponse {
     data_type: ContentTypeEnum.ARTICLE;
     author: UserResponse;
     tags: TagResponse[];
@@ -108,8 +108,6 @@ export interface ArticlePreviewResponse extends ArticleBaseResponse {
 export interface ArticleDocumentResponse extends ArticleBaseResponse {
     document: any[];
 }
-
-export type ArticleResponse = ArticlePreviewResponse | ArticleDocumentResponse;
 
 /**
  * Arguments for listing articles

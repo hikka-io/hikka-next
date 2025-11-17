@@ -1,5 +1,5 @@
 import { AnimeInfoResponse, AnimeResponse } from './anime';
-import { ArticleResponse } from './articles';
+import { ArticleBaseResponse } from './articles';
 import { CharacterResponse } from './characters';
 import { CollectionContent, CollectionResponse } from './collections';
 import { MangaInfoResponse, MangaResponse } from './manga';
@@ -171,14 +171,14 @@ export type Content =
     | CharacterResponse
     | PersonResponse
     | CollectionResponse<CollectionContent>
-    | ArticleResponse;
+    | ArticleBaseResponse;
 
 /**
  * Main content type
  */
 export type MainContent = Exclude<
     Content,
-    CollectionResponse<CollectionContent> | ArticleResponse
+    CollectionResponse<CollectionContent> | ArticleBaseResponse
 >;
 
 /**
