@@ -10,6 +10,6 @@ export { default as ArticleTitle } from './article-view/article-title';
 export { default as ContentArticles } from './article-view/content-articles';
 
 export { default as ArticleEditDocument } from './article-edit/article-document';
-export { default as ArticlePreview } from './article-edit/article-preview';
 export { default as ArticleSettings } from './article-edit/article-settings';
 export { default as ArticleEditTitle } from './article-edit/article-title';
+
