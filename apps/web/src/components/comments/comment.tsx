@@ -4,6 +4,8 @@ import { formatDistance } from 'date-fns';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 
+import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
+import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
@@ -12,20 +14,17 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import getDeclensionWord from '@/utils/get-declension-word';
 
-import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
-import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
-
 import MDViewer from '../markdown/viewer/MD-viewer';
 import TextExpand from '../text-expand';
 import P from '../typography/p';
@@ -94,7 +93,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             className="flex w-full scroll-mt-20 flex-col gap-2"
             id={comment.reference}
         >
-            <div className="flex w-full flex-col items-start gap-2">
+            <div className="flex w-full flex-col items-start gap-2 overflow-hidden">
                 <HorizontalCard
                     className="w-full gap-3"
                     href={`/u/${comment.author.username}`}
@@ -109,14 +108,17 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             <HorizontalCardTitle>
                                 {comment.author.username}
                             </HorizontalCardTitle>
-                            {(comment.author.role === 'admin' || comment.author.role === 'moderator') && (
+                            {(comment.author.role === 'admin' ||
+                                comment.author.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
                                         <div className="text-xs font-bold text-card-foreground">
-                                            {comment.author.role === 'admin' && (
+                                            {comment.author.role ===
+                                                'admin' && (
                                                 <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                             )}
-                                            {comment.author.role === 'moderator' && (
+                                            {comment.author.role ===
+                                                'moderator' && (
                                                 <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
                                             )}
                                         </div>
