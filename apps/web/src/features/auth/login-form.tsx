@@ -94,7 +94,7 @@ const LoginForm = () => {
                             <FormControl>
                                 <Input
                                     type="text"
-                                    placeholder="Введіть юзернейм або пошту"
+                                    placeholder="Введіть ваш юзернейм або пошту"
                                     {...field}
                                 />
                             </FormControl>
