@@ -26,7 +26,7 @@ import { validateRedirectUrl } from '@/utils/utils';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
-    identifier: z.string().min(5).max(64),
+    identifier: z.string().min(5),
     password: z.string().min(8).max(256),
     rememberMe: z.boolean().default(false),
 });
