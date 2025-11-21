@@ -26,8 +26,8 @@ import { validateRedirectUrl } from '@/utils/utils';
 import { z } from '@/utils/zod';
 
 const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
+    identifier: z.string().min(5).max(64),
+    password: z.string().min(8).max(256),
     rememberMe: z.boolean().default(false),
 });
 
@@ -43,7 +43,7 @@ const LoginForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: '',
+            identifier: '',
             password: '',
             rememberMe: false,
         },
@@ -64,11 +64,15 @@ const LoginForm = () => {
     });
 
     const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+        // Determine if identifier is email or username
+        const isEmail = data.identifier.includes('@');
+
+        const args = isEmail
+            ? { email: data.identifier, password: data.password }
+            : { username: data.identifier, password: data.password };
+
         mutationLogin.mutate({
-            args: {
-                email: data.email,
-                password: data.password,
-            },
+            args,
             captcha: {
                 captcha: String(captchaRef.current?.getResponse()),
             },
@@ -83,14 +87,14 @@ const LoginForm = () => {
             >
                 <FormField
                     control={form.control}
-                    name="email"
+                    name="identifier"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>Ваш юзернейм або пошта</FormLabel>
                             <FormControl>
                                 <Input
-                                    type="email"
-                                    placeholder="Введіть ваш email"
+                                    type="text"
+                                    placeholder="Введіть юзернейм або пошту"
                                     {...field}
                                 />
                             </FormControl>
