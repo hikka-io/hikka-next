@@ -7,12 +7,13 @@ import {
     CodeArgs,
     ComfirmResetArgs,
     EmailArgs,
-    LoginArgs,
+    EmailLoginArgs,
     ProviderUrlResponse,
     SignupArgs,
     TokenArgs,
     TokenProceedArgs,
     TokenRequestArgs,
+    UsernameLoginArgs,
 } from '@hikka/client';
 
 import {
@@ -103,7 +104,7 @@ export const useCreatePasswordResetRequest = createMutation({
 export const useCreateUserSession = createMutation({
     mutationFn: (
         client,
-        { args, captcha }: { args: LoginArgs; captcha: CaptchaArgs },
+        { args, captcha }: { args: EmailLoginArgs | UsernameLoginArgs; captcha: CaptchaArgs },
     ) => client.auth.createUserSession(args, captcha),
     invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });

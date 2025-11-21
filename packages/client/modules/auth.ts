@@ -7,7 +7,7 @@ import {
     CodeArgs,
     ComfirmResetArgs,
     EmailArgs,
-    LoginArgs,
+    EmailLoginArgs,
     PaginationArgs,
     ProviderUrlResponse,
     SignupArgs,
@@ -16,6 +16,7 @@ import {
     TokenRequestArgs,
     TokenRequestResponse,
     TokenResponse,
+    UsernameLoginArgs,
     UserResponse,
 } from '../types';
 import { BaseModule } from './base';
@@ -25,7 +26,7 @@ export class AuthModule extends BaseModule {
      * Create a user session with credentials
      */
     public async createUserSession(
-        args: LoginArgs,
+        args: EmailLoginArgs | UsernameLoginArgs,
         { captcha }: CaptchaArgs,
         options?: BaseRequestOptionsArgs,
     ): Promise<TokenResponse> {

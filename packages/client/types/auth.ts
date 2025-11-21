@@ -1,10 +1,18 @@
 import { ClientResponse } from './client';
 
 /**
- * Login request parameters
+ * Login request parameters for email-based
  */
-export interface LoginArgs {
+export interface EmailLoginArgs {
     email: string;
+    password: string;
+}
+
+/**
+ * Login request parameters for username-based
+ */
+export interface UsernameLoginArgs {
+    username: string;
     password: string;
 }
 
