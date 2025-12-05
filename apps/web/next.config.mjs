@@ -6,10 +6,12 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    reactCompiler: true,
     reactStrictMode: true,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
     images: {
         unoptimized: true,
+        qualities: [75, 85],
         remotePatterns: [
             {
                 protocol: 'https',
