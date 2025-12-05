@@ -21,10 +21,10 @@ const Ost: FC<Props> = ({ extended, ost }) => {
 
     return (
         <Stack size={4} extended={extended}>
-            {filteredOSTData.map((ost) => (
+            {filteredOSTData.map((ost, index) => (
                 <ContentCard
                     target="_blank"
-                    key={ost.spotify || ost.title}
+                    key={(ost.spotify || ost.title || '') + index}
                     href={ost.spotify || undefined}
                     title={ost.title}
                     containerRatio={1}
