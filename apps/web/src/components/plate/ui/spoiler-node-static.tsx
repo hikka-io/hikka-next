@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react';
-import { SlateElement, SlateElementProps } from 'platejs';
+import { SlateElement, SlateElementProps } from 'platejs/static';
 
 import { Button } from '@/components/ui/button';
 import {

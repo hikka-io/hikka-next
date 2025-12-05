@@ -1,5 +1,5 @@
-import type { SlateElementProps } from 'platejs';
-import { SlateElement } from 'platejs';
+import type { SlateElementProps } from 'platejs/static';
+import { SlateElement } from 'platejs/static';
 
 import { P_CLASSNAME } from '@/components/typography/p';
 

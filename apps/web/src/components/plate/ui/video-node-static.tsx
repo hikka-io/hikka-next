@@ -1,5 +1,5 @@
-import type { SlateElementProps } from 'platejs';
-import { SlateElement } from 'platejs';
+import type { SlateElementProps } from 'platejs/static';
+import { SlateElement } from 'platejs/static';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 import { extractYouTubeVideoId } from '@/utils/parse-youtube-thumb';
