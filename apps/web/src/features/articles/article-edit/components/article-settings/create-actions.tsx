@@ -5,15 +5,15 @@ import { useRouter } from 'next/navigation';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
-import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import { Button } from '@/components/ui/button';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
 
-interface Props { }
+interface Props {}
 
 const CreateActions: FC<Props> = () => {
     const router = useRouter();
@@ -48,7 +48,7 @@ const CreateActions: FC<Props> = () => {
                 return;
             }
 
-            document = removeEmptyTextNodes(document)
+            document = removeEmptyTextNodes(document);
 
             mutateCreateArticle({
                 document: document,
@@ -57,21 +57,14 @@ const CreateActions: FC<Props> = () => {
                 draft,
                 content: content
                     ? {
-                        slug: content.slug,
-                        content_type: content.data_type,
-                    }
+                          slug: content.slug,
+                          content_type: content.data_type,
+                      }
                     : undefined,
                 category: category!,
             });
         },
-        [
-            getDocument,
-            title,
-            tags,
-            category,
-            content,
-            mutateCreateArticle,
-        ],
+        [getDocument, title, tags, category, content, mutateCreateArticle],
     );
 
     return (
@@ -88,7 +81,7 @@ const CreateActions: FC<Props> = () => {
                 disabled={!title || isPending || isSuccess}
                 onClick={() => handleCreateArticle()}
             >
-                <MaterialSymbolsPublishRounded className="size-4" />
+                <MaterialSymbolsAddRounded />
                 Опублікувати
             </Button>
         </div>

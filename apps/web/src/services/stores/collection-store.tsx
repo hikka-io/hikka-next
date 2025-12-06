@@ -54,7 +54,14 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         title: undefined,
         description: undefined,
         content_type: ContentTypeEnum.ANIME,
-        groups: [],
+        groups: [
+            {
+                id: String(Date.now()),
+                title: '',
+                isGroup: true,
+                items: [],
+            },
+        ],
         nsfw: false,
         spoiler: false,
         visibility: CollectionVisibilityEnum.PRIVATE,

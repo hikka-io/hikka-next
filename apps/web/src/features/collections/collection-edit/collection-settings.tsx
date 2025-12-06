@@ -2,10 +2,14 @@
 
 import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
 import { useCreateCollection, useUpdateCollection } from '@hikka/react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
@@ -217,6 +221,15 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 </div>
 
                 <div className="flex flex-col gap-4">
+                    <Button asChild variant="secondary">
+                        <Link
+                            target="_blank"
+                            href={`${CONTENT_TYPE_LINKS['collection']}/${params.reference}`}
+                        >
+                            <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
+                            Переглянути
+                        </Link>
+                    </Button>
                     {mode === 'edit' && (
                         <Button
                             disabled={
@@ -234,10 +247,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                 })
                             }
                         >
-                            {isUpdatePending && (
+                            {isUpdatePending ? (
                                 <span className="loading loading-spinner"></span>
+                            ) : (
+                                <MaterialSymbolsRefreshRounded className="size-4" />
                             )}
-                            Зберегти
+                            Оновити
                         </Button>
                     )}
                     {mode === 'create' && (
@@ -257,8 +272,10 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                     mutateCreateCollection(getApiData())
                                 }
                             >
-                                {isCreatePending && (
+                                {isCreatePending ? (
                                     <span className="loading loading-spinner"></span>
+                                ) : (
+                                    <MaterialSymbolsAddRounded />
                                 )}
                                 Створити
                             </Button>
