@@ -13,13 +13,17 @@ import { addDeepTitleProperties } from '@/utils';
 /**
  * Hook params for creating queries
  */
-export interface QueryParams<TData, TResult = TData> {
+export interface QueryParams<
+    TData,
+    TResult = TData,
+    TQueryKey extends readonly unknown[] = readonly unknown[],
+> {
     /** Query options */
     options?: Omit<
-        UseQueryOptions<TData, Error, TResult>,
+        UseQueryOptions<TData, Error, TResult, TQueryKey>,
         'queryKey' | 'queryFn'
     >;
-    queryKey?: unknown[];
+    queryKey?: TQueryKey;
 }
 
 /**

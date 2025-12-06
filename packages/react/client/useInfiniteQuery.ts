@@ -15,7 +15,10 @@ import { addDeepTitleProperties } from '@/utils';
 /**
  * Hook params for creating infinite queries
  */
-export interface InfiniteQueryParams<T> {
+export interface InfiniteQueryParams<
+    T,
+    TQueryKey extends readonly unknown[] = readonly unknown[],
+> {
     /** Query options */
     options?: Omit<
         UseInfiniteQueryOptions<
@@ -23,7 +26,7 @@ export interface InfiniteQueryParams<T> {
             Error,
             InfiniteData<T>,
             T,
-            readonly unknown[],
+            TQueryKey,
             number
         >,
         'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
@@ -32,7 +35,7 @@ export interface InfiniteQueryParams<T> {
     };
     /** Pagination arguments */
     paginationArgs?: PaginationArgs;
-    queryKey?: unknown[];
+    queryKey?: TQueryKey;
 }
 
 /**
