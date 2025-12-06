@@ -85,6 +85,31 @@ const CollectionCard: FC<Props> = ({
                 <Label>{collection.title}</Label>
             </Link>
 
+            {/* Tags */}
+            {collection.tags.length > 0 && (
+                <div className="flex gap-2">
+                    {collection!.spoiler && (
+                        <Badge variant="warning">Спойлери</Badge>
+                    )}
+                    {collection!.nsfw && (
+                        <Badge variant="destructive">+18</Badge>
+                    )}
+                    {collection.tags.length > 0 && (
+                        <Badge variant="secondary">{collection.tags[0]}</Badge>
+                    )}
+                    {collection.tags.slice(1, 1).map((tag) => (
+                        <Badge key={tag} variant="secondary">
+                            {tag}
+                        </Badge>
+                    ))}
+                    {collection.tags.length > 2 && (
+                        <Badge variant="outline">
+                            +{collection.tags.length - 1}
+                        </Badge>
+                    )}
+                </div>
+            )}
+
             {/* Preview Items Grid */}
             <Stack
                 gap="sm"
@@ -143,33 +168,8 @@ const CollectionCard: FC<Props> = ({
                 )}
             </Stack>
 
-            {/* Tags and Stats */}
+            {/* Stats */}
             <div className="flex items-center justify-between">
-                <div className="flex gap-2">
-                    {collection!.spoiler && (
-                        <Badge variant="warning">Спойлери</Badge>
-                    )}
-                    {collection!.nsfw && (
-                        <Badge variant="destructive">+18</Badge>
-                    )}
-                    {collection.tags.length > 0 && (
-                        <Badge variant="secondary">{collection.tags[0]}</Badge>
-                    )}
-                    {collection.tags.slice(1).map((tag) => (
-                        <Badge
-                            key={tag}
-                            className="hidden md:block"
-                            variant="secondary"
-                        >
-                            {tag}
-                        </Badge>
-                    ))}
-                    {collection.tags.length > 2 && (
-                        <Badge variant="outline" className="block md:hidden">
-                            +{collection.tags.length - 1}
-                        </Badge>
-                    )}
-                </div>
                 <div className="flex gap-1">
                     <Button
                         asChild

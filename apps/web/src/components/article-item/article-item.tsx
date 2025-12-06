@@ -56,21 +56,23 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         </HeaderContainer>
                     </Header>
                 </div>
+                {article.tags.length > 0 && (
+                    <div className="flex gap-2">
+                        {article.tags.slice(0, 2).map((tag) => (
+                            <Badge key={tag.name} variant="secondary">
+                                {tag.name}
+                            </Badge>
+                        ))}
+                        {article.tags.length > 2 && (
+                            <Badge variant="outline">
+                                +{article.tags.length - 2}
+                            </Badge>
+                        )}
+                    </div>
+                )}
                 <StaticViewer value={document} />
             </div>
             <div className="flex items-center justify-between p-4">
-                <div className="flex gap-2">
-                    {article.tags.slice(0, 2).map((tag) => (
-                        <Badge key={tag.name} variant="secondary">
-                            {tag.name}
-                        </Badge>
-                    ))}
-                    {article.tags.length > 2 && (
-                        <Badge variant="outline">
-                            +{article.tags.length - 2}
-                        </Badge>
-                    )}
-                </div>
                 <div className="flex gap-1">
                     {article.views > 0 && (
                         <Button
