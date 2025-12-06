@@ -6,7 +6,7 @@ import { Drawer as DrawerPrimitive } from 'vaul';
 import { cn } from '@/utils/utils';
 
 const Drawer = ({
-    shouldScaleBackground = true,
+    shouldScaleBackground = false,
     ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
     <DrawerPrimitive.Root
@@ -28,7 +28,10 @@ const DrawerOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <DrawerPrimitive.Overlay
         ref={ref}
-        className={cn('fixed inset-0 z-50 bg-black/80', className)}
+        className={cn(
+            'fixed inset-0 z-50 bg-black/30 backdrop-blur-sm',
+            className,
+        )}
         {...props}
     />
 ));
@@ -48,7 +51,7 @@ const DrawerContent = React.forwardRef<
             )}
             {...props}
         >
-            <div className="mx-auto mt-4 h-2 min-h-2 w-[100px] rounded-full bg-muted" />
+            <div className="mx-auto w-12 h-2 shrink-0 rounded-full bg-muted mt-6" />
             {children}
         </DrawerPrimitive.Content>
     </DrawerPortal>
@@ -84,7 +87,7 @@ const DrawerTitle = React.forwardRef<
     <DrawerPrimitive.Title
         ref={ref}
         className={cn(
-            'font-display text-lg font-semibold leading-none tracking-tight',
+            'text-lg font-semibold leading-none tracking-tight',
             className,
         )}
         {...props}
@@ -114,6 +117,5 @@ export {
     DrawerOverlay,
     DrawerPortal,
     DrawerTitle,
-    DrawerTrigger
+    DrawerTrigger,
 };
-
