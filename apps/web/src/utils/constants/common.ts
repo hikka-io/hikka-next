@@ -665,3 +665,5 @@ export const CONTENT_CONFIG = {
     [ContentTypeEnum.CHARACTER]: CHARACTER_CONFIG,
     [ContentTypeEnum.PERSON]: PERSON_CONFIG,
 };
+
+export const MIN_SEARCH_LENGTH = 2;

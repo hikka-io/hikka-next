@@ -11,6 +11,8 @@ import {
     CommandList,
 } from '@/components/ui/command';
 
+import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
+
 import PersonCard from '../cards/person-card';
 import SearchPlaceholders from '../search-placeholders';
 
@@ -35,7 +37,7 @@ const PersonSearchList = ({ onDismiss, type, value }: Props) => {
         paginationArgs: { size: 30 },
         queryKey: ['person-search-list', value],
         options: {
-            enabled: value !== undefined && value.length >= 3,
+            enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
     });
 
