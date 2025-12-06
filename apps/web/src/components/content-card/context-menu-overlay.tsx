@@ -1,5 +1,6 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
+import { Copy } from 'lucide-react';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 import { UrlObject } from 'url';
@@ -8,6 +9,7 @@ import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
+    ContextMenuSeparator,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 
@@ -56,6 +58,19 @@ const ContextMenuOverlay: FC<Props> = ({
                         </Link>
                     </ContextMenuItem>
                 )}
+                <ContextMenuSeparator />
+                <ContextMenuItem
+                    onClick={() =>
+                        navigator.clipboard.writeText(
+                            `${window.location.origin}/${content_type}/${slug}`,
+                        )
+                    }
+                >
+                    <Copy className="mr-2 size-3" />
+                    Скопіювати посилання
+                </ContextMenuItem>
+
+                <ContextMenuSeparator />
                 <ContextMenuItem asChild>
                     <Link
                         href={`/edit/new?content_type=${content_type}&slug=${slug}`}
