@@ -6,6 +6,7 @@ import {
     QueryClientConfig,
     QueryClientProvider,
 } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useMemo } from 'react';
 
 import { getHikkaClient, getQueryClient } from '@/core';
@@ -71,6 +72,7 @@ export function HikkaProvider({
             <HikkaContext.Provider value={value}>
                 {children}
             </HikkaContext.Provider>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );
 }

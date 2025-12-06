@@ -1475,6 +1475,7 @@ __metadata:
   dependencies:
     "@hikka/client": "workspace:*"
     "@tanstack/react-query": "npm:5.76.1"
+    "@tanstack/react-query-devtools": "npm:5.76.1"
     "@testing-library/jest-dom": "npm:^6.4.2"
     "@testing-library/react": "npm:^14.2.1"
     "@testing-library/react-hooks": "npm:^8.0.1"
@@ -1544,7 +1545,6 @@ __metadata:
     "@react-hook/resize-observer": "npm:^2.0.2"
     "@svgr/core": "npm:^8.1.0"
     "@svgr/plugin-jsx": "npm:^8.1.0"
-    "@tanstack/react-query-devtools": "npm:5.76.1"
     "@types/lodash": "npm:4.17.20"
     "@types/react-avatar-editor": "npm:^13.0.3"
     babel-plugin-react-compiler: "npm:^1.0.0"
