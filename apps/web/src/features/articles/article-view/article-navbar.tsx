@@ -3,7 +3,7 @@
 import { useArticleBySlug, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FC, useCallback } from 'react';
+import { FC, Fragment, useCallback } from 'react';
 import { toast } from 'sonner';
 
 import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
@@ -47,26 +47,26 @@ const ArticleNavbar: FC<Props> = () => {
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
             <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
-                    <ArticleVote article={article!} />
+                    <Fragment>
+                        <ArticleVote article={article!} />
+                        <Button asChild size="md" variant="ghost">
+                            <Link href={`/comments/article/${params.slug}`}>
+                                <IconamoonCommentFill className="size-4" />
+                                <span>
+                                    {article?.comments_count}{' '}
+                                    <span className="hidden sm:inline">
+                                        {getDeclensionWord(
+                                            article?.comments_count ?? 0,
+                                            COMMENT_DECLENSIONS,
+                                        )}
+                                    </span>
+                                </span>
+                            </Link>
+                        </Button>
+                        <div className="h-full w-px bg-secondary" />
+                    </Fragment>
                 )}
 
-                {article?.category !== 'system' && (
-                    <Button asChild size="md" variant="ghost">
-                        <Link href={`/comments/article/${params.slug}`}>
-                            <IconamoonCommentFill className="size-4" />
-                            <span>
-                                {article?.comments_count}{' '}
-                                <span className="hidden sm:inline">
-                                    {getDeclensionWord(
-                                        article?.comments_count ?? 0,
-                                        COMMENT_DECLENSIONS,
-                                    )}
-                                </span>
-                            </span>
-                        </Link>
-                    </Button>
-                )}
-                <div className="h-full w-px bg-secondary" />
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button
