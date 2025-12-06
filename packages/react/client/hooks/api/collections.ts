@@ -48,7 +48,7 @@ export function useSearchCollections({
     InfiniteQueryParams<CollectionsListResponse<CollectionContent>>) {
     return useInfiniteQuery({
         queryKey: queryKeys.collections.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
+        queryFn: (client, page = paginationArgs?.page ?? 1) =>
             client.collections.searchCollections(args, {
                 page,
                 size: paginationArgs?.size,
