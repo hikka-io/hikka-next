@@ -43,7 +43,7 @@ export function useAnimeBySlug<TResult = AnimeInfoResponse>({
  */
 export function useAnimeCharacters({
     slug,
-    paginationArgs,
+    paginationArgs = { page: 1, size: 20 },
     ...rest
 }: UseAnimeCharactersParams &
     InfiniteQueryParams<ContentCharacterPaginationResponse>) {

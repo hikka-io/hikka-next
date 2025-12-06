@@ -37,7 +37,7 @@ export function useNovelBySlug<TResult = NovelInfoResponse>({
  */
 export function useNovelCharacters({
     slug,
-    paginationArgs,
+    paginationArgs = { page: 1, size: 20 },
     ...rest
 }: UseNovelCharactersParams &
     InfiniteQueryParams<ContentCharacterPaginationResponse>) {

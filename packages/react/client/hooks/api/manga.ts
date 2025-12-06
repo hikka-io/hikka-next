@@ -37,7 +37,7 @@ export function useMangaBySlug<TResult = MangaInfoResponse>({
  */
 export function useMangaCharacters({
     slug,
-    paginationArgs,
+    paginationArgs = { page: 1, size: 20 },
     ...rest
 }: UseMangaCharactersParams &
     InfiniteQueryParams<ContentCharacterPaginationResponse>) {
