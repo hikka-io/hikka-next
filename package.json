@@ -30,20 +30,20 @@
         "semverRange": ""
     },
     "resolutions": {
-        "@types/react": "19.1.1",
-        "@types/react-dom": "19.1.2"
+        "@types/react": "19.2.7",
+        "@types/react-dom": "19.2.3"
     },
     "devDependencies": {
         "@tanstack/eslint-plugin-query": "^5.60.1",
         "@trivago/prettier-plugin-sort-imports": "^4.3.0",
         "@types/node": "20.9.0",
-        "@types/react": "19.1.1",
-        "@types/react-dom": "19.1.2",
+        "@types/react": "19.2.7",
+        "@types/react-dom": "19.2.3",
         "@typescript-eslint/eslint-plugin": "^6.7.0",
         "@typescript-eslint/parser": "^6.7.0",
         "autoprefixer": "10.4.15",
         "eslint": "^8.49.0",
-        "eslint-config-next": "15.3.0",
+        "eslint-config-next": "16.0.7",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-functional": "^6.0.0",
         "eslint-plugin-tailwindcss": "^3.15.1",

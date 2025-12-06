@@ -1,5 +1,5 @@
 import { type VariantProps, cva } from 'class-variance-authority';
-import { SlateElement, SlateElementProps } from 'platejs';
+import { SlateElement, SlateElementProps } from 'platejs/static';
 
 import { OL_CLASSNAME } from '@/components/typography/ol';
 import { UL_CLASSNAME } from '@/components/typography/ul';

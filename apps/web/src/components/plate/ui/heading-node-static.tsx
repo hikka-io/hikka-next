@@ -1,6 +1,6 @@
 import { type VariantProps, cva } from 'class-variance-authority';
-import type { SlateElementProps } from 'platejs';
-import { SlateElement } from 'platejs';
+import type { SlateElementProps } from 'platejs/static';
+import { SlateElement } from 'platejs/static';
 import * as React from 'react';
 
 import { H1_CLASSNAME } from '@/components/typography/h1';

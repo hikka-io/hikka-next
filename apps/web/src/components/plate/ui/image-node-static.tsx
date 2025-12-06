@@ -1,5 +1,5 @@
-import type { SlateElementProps } from 'platejs';
-import { SlateElement } from 'platejs';
+import type { SlateElementProps } from 'platejs/static';
+import { SlateElement } from 'platejs/static';
 import { PhotoView } from 'react-photo-view';
 
 import Image from '@/components/ui/image';

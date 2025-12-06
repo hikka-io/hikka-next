@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
+import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 import { cn } from '@/utils/utils';
 
 import { ArticleKit } from './article-kit';
@@ -98,7 +99,14 @@ export function CommentPlateEditor({
     });
 
     const [isModalOpen, setIsModalOpen] = useState(modalDefaultOpen ?? false);
+    const [hasUnsavedContent, setHasUnsavedContent] = useState(false);
     const isMobile = useIsMobile();
+
+    useEffect(() => {
+        setHasUnsavedContent(!editor.api.isEmpty());
+    }, [editor]);
+
+    usePreventUnsavedClose(hasUnsavedContent);
 
     if (isMobile === undefined) {
         return null;
@@ -107,6 +115,9 @@ export function CommentPlateEditor({
     return (
         <Plate
             editor={editor}
+            onChange={() => {
+                setHasUnsavedContent(!editor.api.isEmpty());
+            }}
             onValueChange={
                 onValueChange
                     ? () =>

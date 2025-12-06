@@ -45,19 +45,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                     </HeaderContainer>
                 </Header>
             </div>
-            <StaticViewer value={document} />
-        </div>
-    );
-
-    return (
-        <Card className="isolate flex flex-col gap-0 overflow-hidden p-0">
-            <Author article={article} preview />
-            <div className="flex-1 overflow-hidden">
-                <TextExpand alwaysCollapsed className="h-full">
-                    {contentElement}
-                </TextExpand>
-            </div>
-            <div className="flex items-center justify-between p-4">
+            {article.tags.length > 0 && (
                 <div className="flex gap-2">
                     {article.tags.length > 0 && (
                         <Badge variant="secondary">
@@ -71,6 +59,20 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         </Badge>
                     )}
                 </div>
+            )}
+            <StaticViewer value={document} />
+        </div>
+    );
+
+    return (
+        <Card className="isolate flex flex-col gap-0 overflow-hidden p-0">
+            <Author article={article} preview />
+            <div className="flex-1 overflow-hidden">
+                <TextExpand alwaysCollapsed className="h-full">
+                    {contentElement}
+                </TextExpand>
+            </div>
+            <div className="flex items-center justify-between p-4">
                 <div className="flex gap-1">
                     {article.views > 0 && (
                         <Button
