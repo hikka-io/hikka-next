@@ -3,17 +3,16 @@
 import { useUserByUsername } from '@hikka/react';
 import { useParams } from 'next/navigation';
 
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import H3 from '@/components/typography/h3';
 import P from '@/components/typography/p';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const UserTitle = () => {
     const params = useParams();
@@ -32,7 +31,7 @@ const UserTitle = () => {
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-card-foreground backdrop-blur">
+                            <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold backdrop-blur">
                                 {user.role === 'admin' && (
                                     <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                 )}

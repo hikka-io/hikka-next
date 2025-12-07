@@ -112,7 +112,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                                 comment.author.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="text-xs font-bold text-card-foreground">
+                                        <div className="text-xs font-bold">
                                             {comment.author.role ===
                                                 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-[#d0bfff]" />
