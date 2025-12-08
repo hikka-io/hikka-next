@@ -160,5 +160,53 @@ declare global {
         type PlausibleEvents = {
             'movie-banner-click': never;
         };
+
+        type UIColorTokens = {
+            background?: string;
+            foreground?: string;
+            primary?: string;
+            primaryForeground?: string;
+            primaryBorder?: string;
+            secondary?: string;
+            secondaryForeground?: string;
+            muted?: string;
+            mutedForeground?: string;
+            accent?: string;
+            accentForeground?: string;
+            border?: string;
+            input?: string;
+            ring?: string;
+            popover?: string;
+            popoverForeground?: string;
+        };
+
+        type UIStyles = {
+            dark?: { colors?: UIColorTokens };
+            light?: { colors?: UIColorTokens };
+            radius?: string;
+        };
+
+        type UIPreferences = {
+            titleLanguage: 'title_ua' | 'title_en' | 'title_ja';
+            nameLanguage: 'name_ua' | 'name_en' | 'name_native';
+        };
+
+        type UIEffect = 'snowfall';
+
+        type UserAppearance = {
+            styles?: UIStyles;
+            preferences?: UIPreferences;
+            effects?: UIEffect[];
+            version?: number;
+        };
+
+        type EventTheme = {
+            id: string;
+            name: string;
+            styles?: UIStyles;
+            effects?: UIEffect[];
+            startDate: Date;
+            endDate: Date;
+        };
     }
 }

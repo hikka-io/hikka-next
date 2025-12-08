@@ -5,7 +5,6 @@ import { useTheme } from 'next-themes';
 import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
 import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
 import MaterialSymbolsSunnyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
-import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -16,28 +15,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 
-import { useSettingsStore } from '@/services/stores/settings-store';
+import { useUIStore } from '@/services/stores/ui-store';
 
 const Component = () => {
-    const settings = useSettingsStore();
+    const appearance = useUIStore((state) => state.appearance);
+    const setTitleLanguage = useUIStore((state) => state.setTitleLanguage);
+    const setNameLanguage = useUIStore((state) => state.setNameLanguage);
 
     const { setTheme, theme } = useTheme();
 
     const handleChangeTitleLanguage = (value: string[]) =>
-        settings.setTitleLanguage(
-            value[0] as 'title_ua' | 'title_en' | 'title_ja',
-        );
+        setTitleLanguage(value[0] as 'title_ua' | 'title_en' | 'title_ja');
 
     const handleChangeNameLanguage = (value: string[]) =>
-        settings.setNameLanguage(
-            value[0] as 'name_ua' | 'name_en' | 'name_native',
-        );
-
-    const handleChangeSnowflakes = (value: boolean) => {
-        settings.setSnowflakes(value);
-    };
+        setNameLanguage(value[0] as 'name_ua' | 'name_en' | 'name_native');
 
     return (
         <div className="flex w-full flex-col gap-6">
@@ -80,7 +72,9 @@ const Component = () => {
                 <Label>Мова назв контенту</Label>
 
                 <Select
-                    value={[settings.titleLanguage!]}
+                    value={[
+                        appearance.preferences?.titleLanguage ?? 'title_ua',
+                    ]}
                     onValueChange={handleChangeTitleLanguage}
                 >
                     <SelectTrigger>
@@ -105,7 +99,7 @@ const Component = () => {
                 <Label>Мова імен</Label>
 
                 <Select
-                    value={[settings.nameLanguage!]}
+                    value={[appearance.preferences?.nameLanguage ?? 'name_ua']}
                     onValueChange={handleChangeNameLanguage}
                 >
                     <SelectTrigger>
@@ -127,18 +121,6 @@ const Component = () => {
                         </SelectList>
                     </SelectContent>
                 </Select>
-            </div>
-            <div className="flex w-full flex-row items-center justify-between gap-2">
-                <div className="flex flex-col">
-                    <Label>Сніжинки ❄️</Label>
-                    <Small className="text-muted-foreground">
-                        Включити анімацію сніжинок на сайті
-                    </Small>
-                </div>
-                <Switch
-                    checked={settings.snowflakes}
-                    onCheckedChange={handleChangeSnowflakes}
-                />
             </div>
         </div>
     );
