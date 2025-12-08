@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { cookieStorage } from '@/utils/ui-cookies';
 
 const DEFAULT_APPEARANCE: Hikka.UserAppearance = {
     styles: undefined,
@@ -236,6 +237,7 @@ export const useUIStore = create<UIStore>()(
         }),
         {
             name: 'ui-appearance',
+            storage: cookieStorage,
             onRehydrateStorage: (state) => {
                 return () => state.setHasHydrated(true);
             },

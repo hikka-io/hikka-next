@@ -4,9 +4,10 @@ import { Geist } from 'next/font/google';
 import { ReactNode } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
 
-import { Providers } from "@/features/common";
+import { Providers } from '@/features/common';
 
 import generateMetadata from '@/utils/generate-metadata';
+import { getUserStylesCSS } from '@/utils/get-user-appearance';
 
 import { TailwindIndicator } from '../components/tailwind-indicator';
 import './globals.css';
@@ -71,7 +72,9 @@ interface Props {
     children: ReactNode;
 }
 
-const RootLayout = ({ children }: Props) => {
+const RootLayout = async ({ children }: Props) => {
+    const userStylesCSS = await getUserStylesCSS();
+
     return (
         <html
             className={`${geist.variable}`}
@@ -87,6 +90,13 @@ const RootLayout = ({ children }: Props) => {
                     customDomain="https://hikka.io"
                     domain="hikka.io"
                 />
+                {userStylesCSS && (
+                    <style
+                        id="hikka-custom-styles"
+                        data-description="Hikka custom UI styles"
+                        dangerouslySetInnerHTML={{ __html: userStylesCSS }}
+                    />
+                )}
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
