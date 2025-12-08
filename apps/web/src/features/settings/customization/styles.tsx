@@ -15,7 +15,7 @@ const COLOR_PRESETS = [
     { name: 'Бірюзовий', hue: 180, color: '#63e8e8' },
 ];
 
-const Component = () => {
+const StylesSettings = () => {
     const appearance = useUIStore((state) => state.appearance);
 
     const setColorToken = useUIStore((state) => state.setColorToken);
@@ -116,4 +116,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default StylesSettings;

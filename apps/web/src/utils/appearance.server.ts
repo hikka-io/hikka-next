@@ -1,43 +1,9 @@
 import { cookies } from 'next/headers';
 
+import { DEFAULT_APPEARANCE, mergeStyles } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { stylesToCSS } from '@/utils/inject-styles';
 import { UI_COOKIE_NAME, parseAppearanceFromCookie } from '@/utils/ui-cookies';
-
-const DEFAULT_APPEARANCE: Hikka.UserAppearance = {
-    styles: undefined,
-    preferences: {
-        titleLanguage: 'title_ua',
-        nameLanguage: 'name_ua',
-    },
-    effects: [],
-    version: 1,
-};
-
-function mergeStyles(
-    base: Hikka.UIStyles | undefined,
-    override: Hikka.UIStyles | undefined,
-): Hikka.UIStyles {
-    if (!base && !override) return {};
-    if (!base) return override!;
-    if (!override) return base;
-
-    return {
-        light: {
-            colors: {
-                ...base.light?.colors,
-                ...override.light?.colors,
-            },
-        },
-        dark: {
-            colors: {
-                ...base.dark?.colors,
-                ...override.dark?.colors,
-            },
-        },
-        radius: override.radius ?? base.radius,
-    };
-}
 
 /**
  * Get user appearance from cookies

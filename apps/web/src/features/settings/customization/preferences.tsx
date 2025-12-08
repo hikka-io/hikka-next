@@ -18,7 +18,7 @@ import {
 
 import { useUIStore } from '@/services/stores/ui-store';
 
-const Component = () => {
+const PreferencesSettings = () => {
     const appearance = useUIStore((state) => state.appearance);
     const setTitleLanguage = useUIStore((state) => state.setTitleLanguage);
     const setNameLanguage = useUIStore((state) => state.setNameLanguage);
@@ -126,4 +126,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default PreferencesSettings;

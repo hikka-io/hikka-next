@@ -8,9 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 import { useUIStore } from '@/services/stores/ui-store';
+import { mergeEffects } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
-const Component = () => {
+const EffectsSettings = () => {
     const userEffects = useUIStore((state) => state.appearance.effects);
     const toggleEffect = useUIStore((state) => state.toggleEffect);
     const reset = useUIStore((state) => state.reset);
@@ -21,9 +22,7 @@ const Component = () => {
 
     const activeEffects = useMemo(() => {
         const eventTheme = getActiveEventTheme();
-        const eventEffects = eventTheme?.effects ?? [];
-        const combined = [...eventEffects, ...(userEffects ?? [])];
-        return [...new Set(combined)];
+        return mergeEffects(eventTheme?.effects, userEffects);
     }, [userEffects]);
 
     const hasSnowfall = activeEffects.includes('snowfall');
@@ -51,4 +50,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default EffectsSettings;

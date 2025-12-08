@@ -1,4 +1,4 @@
-const STYLE_ELEMENT_ID = 'hikka-custom-styles';
+export const STYLE_ELEMENT_ID = 'hikka-custom-styles';
 
 function camelToKebab(str: string): string {
     return str.replace(/([A-Z])/g, '-$1').toLowerCase();

@@ -3,18 +3,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import {
+    DEFAULT_APPEARANCE,
+    mergeEffects,
+    mergeStyles,
+} from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { cookieStorage } from '@/utils/ui-cookies';
-
-const DEFAULT_APPEARANCE: Hikka.UserAppearance = {
-    styles: undefined,
-    preferences: {
-        titleLanguage: 'title_ua',
-        nameLanguage: 'name_ua',
-    },
-    effects: [],
-    version: 1,
-};
 
 export interface UIState {
     appearance: Hikka.UserAppearance;
@@ -58,39 +53,6 @@ export interface UIActions {
 }
 
 export type UIStore = UIState & UIActions;
-
-function mergeStyles(
-    base: Hikka.UIStyles | undefined,
-    override: Hikka.UIStyles | undefined,
-): Hikka.UIStyles {
-    if (!base && !override) return {};
-    if (!base) return override!;
-    if (!override) return base;
-
-    return {
-        light: {
-            colors: {
-                ...base.light?.colors,
-                ...override.light?.colors,
-            },
-        },
-        dark: {
-            colors: {
-                ...base.dark?.colors,
-                ...override.dark?.colors,
-            },
-        },
-        radius: override.radius ?? base.radius,
-    };
-}
-
-function mergeEffects(
-    base: Hikka.UIEffect[] | undefined,
-    override: Hikka.UIEffect[] | undefined,
-): Hikka.UIEffect[] {
-    const combined = [...(base ?? []), ...(override ?? [])];
-    return [...new Set(combined)];
-}
 
 export const useUIStore = create<UIStore>()(
     persist(

@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import Snowfall from 'react-snowfall';
 
 import { useUIStore } from '@/services/stores/ui-store';
+import { mergeEffects } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 const SnowfallEffect = () => {
@@ -31,9 +32,7 @@ const EffectsManager = () => {
 
     const activeEffects = useMemo(() => {
         const eventTheme = getActiveEventTheme();
-        const eventEffects = eventTheme?.effects ?? [];
-        const combined = [...eventEffects, ...(userEffects ?? [])];
-        return [...new Set(combined)];
+        return mergeEffects(eventTheme?.effects, userEffects);
     }, [userEffects]);
 
     if (!hasHydrated || activeEffects.length === 0) {

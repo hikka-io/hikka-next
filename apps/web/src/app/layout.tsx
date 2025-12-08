@@ -6,8 +6,9 @@ import 'react-photo-view/dist/react-photo-view.css';
 
 import { Providers } from '@/features/common';
 
+import { getUserStylesCSS } from '@/utils/appearance.server';
 import generateMetadata from '@/utils/generate-metadata';
-import { getUserStylesCSS } from '@/utils/get-user-appearance';
+import { STYLE_ELEMENT_ID } from '@/utils/inject-styles';
 
 import { TailwindIndicator } from '../components/tailwind-indicator';
 import './globals.css';
@@ -92,7 +93,7 @@ const RootLayout = async ({ children }: Props) => {
                 />
                 {userStylesCSS && (
                     <style
-                        id="hikka-custom-styles"
+                        id={STYLE_ELEMENT_ID}
                         data-description="Hikka custom UI styles"
                         dangerouslySetInnerHTML={{ __html: userStylesCSS }}
                     />
