@@ -161,23 +161,29 @@ declare global {
             'movie-banner-click': never;
         };
 
+        type HSLColor = {
+            hue: number;
+            saturation: number;
+            lightness: number;
+        };
+
         type UIColorTokens = {
-            background?: string;
-            foreground?: string;
-            primary?: string;
-            primaryForeground?: string;
-            primaryBorder?: string;
-            secondary?: string;
-            secondaryForeground?: string;
-            muted?: string;
-            mutedForeground?: string;
-            accent?: string;
-            accentForeground?: string;
-            border?: string;
-            input?: string;
-            ring?: string;
-            popover?: string;
-            popoverForeground?: string;
+            background?: HSLColor;
+            foreground?: HSLColor;
+            primary?: HSLColor;
+            primaryForeground?: HSLColor;
+            primaryBorder?: HSLColor;
+            secondary?: HSLColor;
+            secondaryForeground?: HSLColor;
+            muted?: HSLColor;
+            mutedForeground?: HSLColor;
+            accent?: HSLColor;
+            accentForeground?: HSLColor;
+            border?: HSLColor;
+            input?: HSLColor;
+            ring?: HSLColor;
+            popover?: HSLColor;
+            popoverForeground?: HSLColor;
         };
 
         type UIStyles = {
