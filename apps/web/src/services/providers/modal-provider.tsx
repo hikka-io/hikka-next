@@ -12,12 +12,14 @@ import {
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
 import {
     Drawer,
     DrawerContent,
+    DrawerDescription,
     DrawerHeader,
     DrawerTitle,
 } from '@/components/ui/drawer';
@@ -25,6 +27,7 @@ import { Separator } from '@/components/ui/separator';
 import {
     Sheet,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
@@ -38,6 +41,7 @@ interface State {
     className?: string;
     containerClassName?: string;
     title?: string;
+    description?: string;
     content: ReactNode;
     type?: 'dialog' | 'sheet';
     side?: 'left' | 'right';
@@ -47,6 +51,7 @@ interface State {
 interface ContextProps extends State {
     openModal: (props: {
         content: State['content'];
+        description?: State['description'];
         title?: State['title'];
         className?: State['className'];
         containerClassName?: State['containerClassName'];
@@ -92,6 +97,7 @@ export default function ModalProvider({ children }: Props) {
     const openModal = ({
         content,
         title,
+        description,
         className,
         type,
         side,
@@ -100,6 +106,7 @@ export default function ModalProvider({ children }: Props) {
     }: {
         content: State['content'];
         title?: State['title'];
+        description?: State['description'];
         className?: State['className'];
         type?: State['type'];
         side?: State['side'];
@@ -111,6 +118,7 @@ export default function ModalProvider({ children }: Props) {
             open: true,
             content,
             title,
+            description,
             className,
             side: side || 'left',
             type: type || 'dialog',
@@ -155,6 +163,11 @@ export default function ModalProvider({ children }: Props) {
                         {state.title ? (
                             <DrawerHeader>
                                 <DrawerTitle>{state.title}</DrawerTitle>
+                                {state.description && (
+                                    <DrawerDescription>
+                                        {state.description}
+                                    </DrawerDescription>
+                                )}
                             </DrawerHeader>
                         ) : (
                             <DrawerTitle className="hidden" />
@@ -177,6 +190,11 @@ export default function ModalProvider({ children }: Props) {
                         {state.title ? (
                             <SheetHeader className="px-6 py-4">
                                 <SheetTitle>{state.title}</SheetTitle>
+                                {state.description && (
+                                    <SheetDescription>
+                                        {state.description}
+                                    </SheetDescription>
+                                )}
                             </SheetHeader>
                         ) : (
                             <SheetTitle className="hidden" />
@@ -193,6 +211,11 @@ export default function ModalProvider({ children }: Props) {
                         {state.title ? (
                             <DialogHeader>
                                 <DialogTitle>{state.title}</DialogTitle>
+                                {state.description && (
+                                    <DialogDescription>
+                                        {state.description}
+                                    </DialogDescription>
+                                )}
                             </DialogHeader>
                         ) : (
                             <DialogTitle className="hidden" />
