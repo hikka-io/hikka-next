@@ -36,7 +36,7 @@ const PreferencesSettings = () => {
             <div className="flex w-full flex-col gap-2">
                 <Label>Тема сайту</Label>
                 <Select
-                    value={[theme!]}
+                    value={[theme ?? 'dark']}
                     onValueChange={(value) => setTheme(value[0])}
                 >
                     <SelectTrigger>
