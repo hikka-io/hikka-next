@@ -55,7 +55,7 @@ export function parseAppearanceFromCookie(
 
     try {
         const parsed = JSON.parse(cookieValue);
-        return parsed?.state?.appearance ?? null;
+        return parsed?.state ?? null;
     } catch {
         return null;
     }
