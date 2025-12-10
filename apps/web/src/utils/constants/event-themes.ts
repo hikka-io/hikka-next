@@ -6,7 +6,7 @@ export const EVENT_THEMES: Hikka.EventTheme[] = [
         id: 'new-year',
         name: 'New Year',
         effects: ['snowfall'],
-        startDate: new Date('2024-12-5'),
+        startDate: new Date('2024-12-05'),
         endDate: new Date('2025-01-15'),
     },
 ];
