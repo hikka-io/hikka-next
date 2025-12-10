@@ -32,7 +32,7 @@ export interface UIActions {
     setColorToken: (
         theme: 'light' | 'dark',
         token: keyof Hikka.UIColorTokens,
-        value: string | undefined,
+        value: Hikka.HSLColor | undefined,
     ) => void;
     setRadius: (radius: string | undefined) => void;
 
