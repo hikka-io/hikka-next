@@ -66,27 +66,37 @@ export const useUIStore = create<UIStore>()(
 
             // Preferences
             setTitleLanguage: (titleLanguage) => {
-                set((state) => ({
-                    appearance: {
-                        ...state.appearance,
-                        preferences: {
-                            ...state.appearance.preferences!,
-                            titleLanguage,
+                set((state) => {
+                    const currentPreferences =
+                        state.appearance.preferences ??
+                        DEFAULT_APPEARANCE.preferences!;
+                    return {
+                        appearance: {
+                            ...state.appearance,
+                            preferences: {
+                                ...currentPreferences,
+                                titleLanguage,
+                            },
                         },
-                    },
-                }));
+                    };
+                });
             },
 
             setNameLanguage: (nameLanguage) => {
-                set((state) => ({
-                    appearance: {
-                        ...state.appearance,
-                        preferences: {
-                            ...state.appearance.preferences!,
-                            nameLanguage,
+                set((state) => {
+                    const currentPreferences =
+                        state.appearance.preferences ??
+                        DEFAULT_APPEARANCE.preferences!;
+                    return {
+                        appearance: {
+                            ...state.appearance,
+                            preferences: {
+                                ...currentPreferences,
+                                nameLanguage,
+                            },
                         },
-                    },
-                }));
+                    };
+                });
             },
 
             // Styles

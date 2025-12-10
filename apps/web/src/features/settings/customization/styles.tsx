@@ -20,6 +20,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useUIStore } from '@/services/stores/ui-store';
+import { DEFAULT_STYLES } from '@/utils/appearance';
+import {
+    formatHSL,
+    hexToHsl,
+    hslToHex,
+    toHSLString,
+    toHikkaColor,
+    toReactColorful,
+} from '@/utils/color-utils';
 import { cn } from '@/utils/utils';
 
 type ColorPreset = {
@@ -44,49 +53,6 @@ const createPrimaryPreset = (hue: number): Hikka.UIStyles => ({
         },
     },
 });
-
-const DEFAULT_STYLES: Hikka.UIStyles = {
-    light: {
-        colors: {
-            background: { hue: 0, saturation: 0, lightness: 100 },
-            foreground: { hue: 240, saturation: 10, lightness: 4 },
-            primary: { hue: 321, saturation: 100, lightness: 95 },
-            primaryForeground: { hue: 321, saturation: 70, lightness: 65 },
-            primaryBorder: { hue: 321, saturation: 90, lightness: 90 },
-            secondary: { hue: 0, saturation: 0, lightness: 96 },
-            secondaryForeground: { hue: 0, saturation: 0, lightness: 9 },
-            muted: { hue: 240, saturation: 5, lightness: 96 },
-            mutedForeground: { hue: 240, saturation: 4, lightness: 46 },
-            accent: { hue: 240, saturation: 5, lightness: 96 },
-            accentForeground: { hue: 240, saturation: 6, lightness: 10 },
-            border: { hue: 240, saturation: 6, lightness: 90 },
-            input: { hue: 240, saturation: 6, lightness: 90 },
-            ring: { hue: 240, saturation: 6, lightness: 10 },
-            popover: { hue: 0, saturation: 0, lightness: 100 },
-            popoverForeground: { hue: 240, saturation: 10, lightness: 4 },
-        },
-    },
-    dark: {
-        colors: {
-            background: { hue: 0, saturation: 0, lightness: 0 },
-            foreground: { hue: 0, saturation: 0, lightness: 98 },
-            primary: { hue: 300, saturation: 10, lightness: 5 },
-            primaryForeground: { hue: 321, saturation: 70, lightness: 69 },
-            primaryBorder: { hue: 321, saturation: 43, lightness: 17 },
-            secondary: { hue: 240, saturation: 4, lightness: 16 },
-            secondaryForeground: { hue: 0, saturation: 0, lightness: 98 },
-            muted: { hue: 240, saturation: 4, lightness: 16 },
-            mutedForeground: { hue: 240, saturation: 5, lightness: 65 },
-            accent: { hue: 240, saturation: 4, lightness: 16 },
-            accentForeground: { hue: 0, saturation: 0, lightness: 98 },
-            border: { hue: 240, saturation: 4, lightness: 10 },
-            input: { hue: 240, saturation: 4, lightness: 10 },
-            ring: { hue: 240, saturation: 5, lightness: 84 },
-            popover: { hue: 240, saturation: 10, lightness: 4 },
-            popoverForeground: { hue: 0, saturation: 0, lightness: 98 },
-        },
-    },
-};
 
 const COLOR_PRESETS: ColorPreset[] = [
     { name: 'За замовчуванням', color: '#e779c1', styles: DEFAULT_STYLES },
@@ -141,112 +107,6 @@ const UI_TOKENS: (keyof Hikka.UIColorTokens)[] = [
     'popover',
     'popoverForeground',
 ];
-
-const toReactColorful = (color: Hikka.HSLColor | undefined): HslColor => ({
-    h: color?.hue ?? 0,
-    s: color?.saturation ?? 0,
-    l: color?.lightness ?? 0,
-});
-
-const toHikkaColor = (color: HslColor): Hikka.HSLColor => ({
-    hue: Math.round(color.h),
-    saturation: Math.round(color.s),
-    lightness: Math.round(color.l),
-});
-
-const formatHSL = (color: Hikka.HSLColor | undefined): string | null => {
-    if (!color) return null;
-    return `${color.hue} ${color.saturation}% ${color.lightness}%`;
-};
-
-const toHSLString = (color: Hikka.HSLColor | undefined): string => {
-    if (!color) return 'transparent';
-    return `hsl(${color.hue} ${color.saturation}% ${color.lightness}%)`;
-};
-
-const hslToHex = (h: number, s: number, l: number): string => {
-    s /= 100;
-    l /= 100;
-
-    const c = (1 - Math.abs(2 * l - 1)) * s;
-    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = l - c / 2;
-
-    let r = 0,
-        g = 0,
-        b = 0;
-
-    if (h >= 0 && h < 60) {
-        r = c;
-        g = x;
-        b = 0;
-    } else if (h >= 60 && h < 120) {
-        r = x;
-        g = c;
-        b = 0;
-    } else if (h >= 120 && h < 180) {
-        r = 0;
-        g = c;
-        b = x;
-    } else if (h >= 180 && h < 240) {
-        r = 0;
-        g = x;
-        b = c;
-    } else if (h >= 240 && h < 300) {
-        r = x;
-        g = 0;
-        b = c;
-    } else if (h >= 300 && h < 360) {
-        r = c;
-        g = 0;
-        b = x;
-    }
-
-    const toHex = (n: number) => {
-        const hex = Math.round((n + m) * 255).toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-    };
-
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
-};
-
-const hexToHsl = (hex: string): HslColor | null => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    if (!result) return null;
-
-    let r = parseInt(result[1], 16) / 255;
-    let g = parseInt(result[2], 16) / 255;
-    let b = parseInt(result[3], 16) / 255;
-
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    let h = 0;
-    let s = 0;
-    const l = (max + min) / 2;
-
-    if (max !== min) {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-        switch (max) {
-            case r:
-                h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-                break;
-            case g:
-                h = ((b - r) / d + 2) / 6;
-                break;
-            case b:
-                h = ((r - g) / d + 4) / 6;
-                break;
-        }
-    }
-
-    return {
-        h: Math.round(h * 360),
-        s: Math.round(s * 100),
-        l: Math.round(l * 100),
-    };
-};
 
 interface ColorTokenButtonProps {
     token: keyof Hikka.UIColorTokens;
@@ -433,8 +293,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     const appearance = useUIStore((state) => state.appearance);
     const setColorToken = useUIStore((state) => state.setColorToken);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const { showStartGradient, showEndGradient } =
-        useScrollGradientMask(scrollRef);
+    const { gradientClassName } = useScrollGradientMask(scrollRef);
 
     const getColor = (token: keyof Hikka.UIColorTokens) =>
         appearance.styles?.[theme]?.colors?.[token];
@@ -492,13 +351,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                 className={cn(
                     '-mx-4 max-h-80 overflow-y-auto px-4',
                     'styled-scrollbar',
-                    showStartGradient && showEndGradient
-                        ? 'gradient-mask-t-90-d'
-                        : showStartGradient
-                          ? 'gradient-mask-t-90'
-                          : showEndGradient
-                            ? 'gradient-mask-b-90'
-                            : '',
+                    gradientClassName,
                 )}
             >
                 <div className="flex flex-col gap-6 py-2">
