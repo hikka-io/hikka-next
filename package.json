@@ -59,5 +59,8 @@
         "tsup": "^8.5.1",
         "turbo": "^2.5.4",
         "typescript": "5.7.2"
+    },
+    "dependencies": {
+        "react-colorful": "^5.6.1"
     }
 }
