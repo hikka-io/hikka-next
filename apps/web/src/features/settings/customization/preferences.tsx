@@ -19,7 +19,7 @@ import {
 import { useUIStore } from '@/services/stores/ui-store';
 
 const PreferencesSettings = () => {
-    const appearance = useUIStore((state) => state.appearance);
+    const appearance = useUIStore((state) => state);
     const setTitleLanguage = useUIStore((state) => state.setTitleLanguage);
     const setNameLanguage = useUIStore((state) => state.setNameLanguage);
 

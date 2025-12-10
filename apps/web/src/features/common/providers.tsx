@@ -21,7 +21,7 @@ import { getCookie } from '@/utils/cookies';
 interface Props extends PropsWithChildren {}
 
 const Providers: FC<Props> = ({ children }) => {
-    const appearance = useUIStore((state) => state.appearance);
+    const appearance = useUIStore((state) => state);
     setDefaultOptions({ locale: uk });
 
     const [queryClientConfig] = useState<QueryClientConfig>({

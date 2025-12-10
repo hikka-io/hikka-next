@@ -19,7 +19,7 @@ const UIStylesProvider: FC<PropsWithChildren> = ({ children }) => {
         if (!hasHydrated) return;
 
         const unsubscribe = useUIStore.subscribe((state, prevState) => {
-            if (state.appearance !== prevState.appearance) {
+            if (state !== prevState) {
                 const styles = state.getMergedStyles();
                 applyStyles(styles);
             }

@@ -27,7 +27,7 @@ const EFFECT_COMPONENTS: Record<Hikka.UIEffect, React.ComponentType> = {
 };
 
 const EffectsManager = () => {
-    const userEffects = useUIStore((state) => state.appearance.effects);
+    const userEffects = useUIStore((state) => state.effects);
     const hasHydrated = useUIStore((state) => state._hasHydrated);
 
     const activeEffects = useMemo(() => {

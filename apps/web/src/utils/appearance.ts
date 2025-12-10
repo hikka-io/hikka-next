@@ -52,7 +52,7 @@ export const DEFAULT_STYLES: Hikka.UIStyles = {
  * Default user appearance settings.
  */
 export const DEFAULT_APPEARANCE: Hikka.UserAppearance = {
-    styles: undefined,
+    styles: DEFAULT_STYLES,
     preferences: {
         titleLanguage: 'title_ua',
         nameLanguage: 'name_ua',

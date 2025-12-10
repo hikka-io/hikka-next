@@ -11,10 +11,9 @@ import {
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { cookieStorage } from '@/utils/ui-cookies';
 
-export interface UIState {
-    appearance: Hikka.UserAppearance;
+export type UIState = Hikka.UserAppearance & {
     _hasHydrated: boolean;
-}
+};
 
 export interface UIActions {
     setHasHydrated: (hasHydrated: boolean) => void;
@@ -57,7 +56,7 @@ export type UIStore = UIState & UIActions;
 export const useUIStore = create<UIStore>()(
     persist(
         (set, get) => ({
-            appearance: DEFAULT_APPEARANCE,
+            ...DEFAULT_APPEARANCE,
             _hasHydrated: false,
 
             setHasHydrated: (hasHydrated) => {
@@ -68,15 +67,12 @@ export const useUIStore = create<UIStore>()(
             setTitleLanguage: (titleLanguage) => {
                 set((state) => {
                     const currentPreferences =
-                        state.appearance.preferences ??
-                        DEFAULT_APPEARANCE.preferences!;
+                        state.preferences ?? DEFAULT_APPEARANCE.preferences!;
                     return {
-                        appearance: {
-                            ...state.appearance,
-                            preferences: {
-                                ...currentPreferences,
-                                titleLanguage,
-                            },
+                        ...state,
+                        preferences: {
+                            ...currentPreferences,
+                            titleLanguage,
                         },
                     };
                 });
@@ -85,15 +81,12 @@ export const useUIStore = create<UIStore>()(
             setNameLanguage: (nameLanguage) => {
                 set((state) => {
                     const currentPreferences =
-                        state.appearance.preferences ??
-                        DEFAULT_APPEARANCE.preferences!;
+                        state.preferences ?? DEFAULT_APPEARANCE.preferences!;
                     return {
-                        appearance: {
-                            ...state.appearance,
-                            preferences: {
-                                ...currentPreferences,
-                                nameLanguage,
-                            },
+                        ...state,
+                        preferences: {
+                            ...currentPreferences,
+                            nameLanguage,
                         },
                     };
                 });
@@ -102,30 +95,26 @@ export const useUIStore = create<UIStore>()(
             // Styles
             setStyles: (styles) => {
                 set((state) => ({
-                    appearance: {
-                        ...state.appearance,
-                        styles,
-                    },
+                    ...state,
+                    styles,
                 }));
             },
 
             setColorToken: (theme, token, value) => {
                 set((state) => {
-                    const currentStyles = state.appearance.styles ?? {};
+                    const currentStyles = state.styles ?? {};
                     const currentThemeColors =
                         currentStyles[theme]?.colors ?? {};
 
                     return {
-                        appearance: {
-                            ...state.appearance,
-                            styles: {
-                                ...currentStyles,
-                                [theme]: {
-                                    ...currentStyles[theme],
-                                    colors: {
-                                        ...currentThemeColors,
-                                        [token]: value,
-                                    },
+                        ...state,
+                        styles: {
+                            ...currentStyles,
+                            [theme]: {
+                                ...currentStyles[theme],
+                                colors: {
+                                    ...currentThemeColors,
+                                    [token]: value,
                                 },
                             },
                         },
@@ -135,12 +124,10 @@ export const useUIStore = create<UIStore>()(
 
             setRadius: (radius) => {
                 set((state) => ({
-                    appearance: {
-                        ...state.appearance,
-                        styles: {
-                            ...state.appearance.styles,
-                            radius,
-                        },
+                    ...state,
+                    styles: {
+                        ...state.styles,
+                        radius,
                     },
                 }));
             },
@@ -148,26 +135,22 @@ export const useUIStore = create<UIStore>()(
             // Effects
             toggleEffect: (effect) => {
                 set((state) => {
-                    const currentEffects = state.appearance.effects ?? [];
+                    const currentEffects = state.effects ?? [];
                     const hasEffect = currentEffects.includes(effect);
 
                     return {
-                        appearance: {
-                            ...state.appearance,
-                            effects: hasEffect
-                                ? currentEffects.filter((e) => e !== effect)
-                                : [...currentEffects, effect],
-                        },
+                        ...state,
+                        effects: hasEffect
+                            ? currentEffects.filter((e) => e !== effect)
+                            : [...currentEffects, effect],
                     };
                 });
             },
 
             setEffects: (effects) => {
                 set((state) => ({
-                    appearance: {
-                        ...state.appearance,
-                        effects,
-                    },
+                    ...state,
+                    effects,
                 }));
             },
 
@@ -175,17 +158,14 @@ export const useUIStore = create<UIStore>()(
                 const state = get();
                 const eventTheme = getActiveEventTheme();
 
-                return mergeStyles(eventTheme?.styles, state.appearance.styles);
+                return mergeStyles(eventTheme?.styles, state.styles);
             },
 
             getActiveEffects: () => {
                 const state = get();
                 const eventTheme = getActiveEventTheme();
 
-                return mergeEffects(
-                    eventTheme?.effects,
-                    state.appearance.effects,
-                );
+                return mergeEffects(eventTheme?.effects, state.effects);
             },
 
             loadFromRemote: async () => {
@@ -203,7 +183,7 @@ export const useUIStore = create<UIStore>()(
 
             reset: () => {
                 set({
-                    appearance: DEFAULT_APPEARANCE,
+                    ...DEFAULT_APPEARANCE,
                 });
             },
         }),

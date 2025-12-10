@@ -12,7 +12,7 @@ import { mergeEffects } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 const EffectsSettings = () => {
-    const userEffects = useUIStore((state) => state.appearance.effects);
+    const userEffects = useUIStore((state) => state.effects);
     const toggleEffect = useUIStore((state) => state.toggleEffect);
     const reset = useUIStore((state) => state.reset);
 

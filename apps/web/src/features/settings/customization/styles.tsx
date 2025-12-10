@@ -290,7 +290,7 @@ interface ThemeTabContentProps {
 }
 
 const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
-    const appearance = useUIStore((state) => state.appearance);
+    const appearance = useUIStore((state) => state);
     const setColorToken = useUIStore((state) => state.setColorToken);
     const scrollRef = useRef<HTMLDivElement>(null);
     const { gradientClassName } = useScrollGradientMask(scrollRef);
@@ -483,7 +483,7 @@ const CustomColorsModal = () => {
 
 const StylesSettings = () => {
     const { openModal } = useModalContext();
-    const appearance = useUIStore((state) => state.appearance);
+    const appearance = useUIStore((state) => state);
     const setRadius = useUIStore((state) => state.setRadius);
 
     const handleRadiusChange = (value: string) => {
