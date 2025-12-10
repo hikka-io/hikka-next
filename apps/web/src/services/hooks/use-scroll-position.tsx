@@ -1,4 +1,10 @@
-import { RefObject, useEffect, useState } from 'react';
+import {
+    RefObject,
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useState,
+} from 'react';
 
 type ScrollDirection = 'vertical' | 'horizontal';
 
@@ -13,147 +19,105 @@ interface ScrollGradientMaskState {
     showBothGradients: boolean;
 }
 
+const useIsomorphicLayoutEffect =
+    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 export function useScrollPosition(
     containerRef: RefObject<HTMLElement | null>,
     direction: ScrollDirection = 'vertical',
 ): ScrollPositionState {
     const [hasScrolled, setHasScrolled] = useState<boolean>(false);
-    const [isAtEnd, setIsAtEnd] = useState<boolean>(false);
 
-    useEffect(() => {
-        const container: HTMLElement | null = containerRef.current;
+    const [isAtEnd, setIsAtEnd] = useState<boolean>(true);
+
+    const isVertical = direction === 'vertical';
+
+    const getScrollPosition = useCallback(
+        (container: HTMLElement): number => {
+            return isVertical ? container.scrollTop : container.scrollLeft;
+        },
+        [isVertical],
+    );
+
+    const getScrollSize = useCallback(
+        (container: HTMLElement): number => {
+            return isVertical ? container.scrollHeight : container.scrollWidth;
+        },
+        [isVertical],
+    );
+
+    const getClientSize = useCallback(
+        (container: HTMLElement): number => {
+            return isVertical ? container.clientHeight : container.clientWidth;
+        },
+        [isVertical],
+    );
+
+    const calculateScrollState = useCallback(
+        (container: HTMLElement) => {
+            const scrollPos = getScrollPosition(container);
+            const scrollSize = getScrollSize(container);
+            const clientSize = getClientSize(container);
+            const maxScroll = scrollSize - clientSize;
+
+            const isContentShorter = scrollSize <= clientSize;
+            const isAtStart = scrollPos === 0;
+            const isAtEndPosition =
+                isContentShorter || Math.abs(maxScroll - scrollPos) < 1;
+
+            return {
+                hasScrolled: !isAtStart && !isContentShorter,
+                isAtEnd: isAtEndPosition,
+            };
+        },
+        [getScrollPosition, getScrollSize, getClientSize],
+    );
+
+    useIsomorphicLayoutEffect(() => {
+        const container = containerRef.current;
         if (!container) return;
 
-        const isVertical = direction === 'vertical';
+        const initialState = calculateScrollState(container);
+        setHasScrolled(initialState.hasScrolled);
+        setIsAtEnd(initialState.isAtEnd);
+    }, [containerRef, calculateScrollState]);
 
-        // Create a wrapper div to hold our sentinel elements
-        const sentinelWrapper = document.createElement('div');
-        sentinelWrapper.style.cssText = `
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    `;
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
 
-        // Start sentinel - positioned at the very beginning of scrollable area
-        const startSentinel = document.createElement('div');
-        startSentinel.style.cssText = `
-      position: absolute;
-      ${isVertical ? 'top: 0; left: 0;' : 'left: 0; top: 0;'}
-      width: 1px;
-      height: 1px;
-      pointer-events: none;
-    `;
+        const rafId = requestAnimationFrame(() => {
+            const state = calculateScrollState(container);
+            setHasScrolled(state.hasScrolled);
+            setIsAtEnd(state.isAtEnd);
+        });
 
-        // End sentinel - positioned at the end of scrollable content
-        const endSentinel = document.createElement('div');
-        endSentinel.style.cssText = `
-      position: absolute;
-      ${isVertical ? 'bottom: 0; left: 0;' : 'right: 0; top: 0;'}
-      width: 1px;
-      height: 1px;
-      pointer-events: none;
-    `;
-
-        sentinelWrapper.appendChild(startSentinel);
-        sentinelWrapper.appendChild(endSentinel);
-
-        // Ensure container has relative positioning
-        const originalPosition = container.style.position;
-        if (!originalPosition || originalPosition === 'static') {
-            container.style.position = 'relative';
-        }
-
-        container.appendChild(sentinelWrapper);
-
-        // Helper functions for direction-specific calculations
-        const getScrollPosition = (): number => {
-            return isVertical ? container.scrollTop : container.scrollLeft;
-        };
-
-        const getScrollSize = (): number => {
-            return isVertical ? container.scrollHeight : container.scrollWidth;
-        };
-
-        const getClientSize = (): number => {
-            return isVertical ? container.clientHeight : container.clientWidth;
-        };
-
-        const isAtStart = (): boolean => {
-            return getScrollPosition() === 0;
-        };
-
-        const isAtEndPosition = (): boolean => {
-            const scrollPos = getScrollPosition();
-            const maxScroll = getScrollSize() - getClientSize();
-            return Math.abs(maxScroll - scrollPos) < 1;
-        };
-
-        // Set up Intersection Observer with the container as root
-        const observer: IntersectionObserver = new IntersectionObserver(
-            (entries: IntersectionObserverEntry[]) => {
-                entries.forEach((entry: IntersectionObserverEntry) => {
-                    if (entry.target === startSentinel) {
-                        // If start sentinel is fully visible, we're at the start (scroll = 0)
-                        // If it's not fully visible, we've scrolled past the start
-                        setHasScrolled(!entry.isIntersecting);
-                    } else if (entry.target === endSentinel) {
-                        // If end sentinel is visible, we're at or near the end
-                        setIsAtEnd(entry.isIntersecting);
-                    }
-                });
-            },
-            {
-                root: container,
-                threshold: 1.0, // Require full visibility for precise detection
-                rootMargin: '0px',
-            },
-        );
-
-        // Start observing
-        observer.observe(startSentinel);
-        observer.observe(endSentinel);
-
-        // Handle case where content is shorter than container
-        const checkInitialState = () => {
-            const isContentShorter = getScrollSize() <= getClientSize();
-            if (isContentShorter) {
-                setHasScrolled(false);
-                setIsAtEnd(true);
-            } else {
-                // Check initial scroll position
-                setHasScrolled(!isAtStart());
-                setIsAtEnd(isAtEndPosition());
-            }
-        };
-
-        // Run initial check
-        checkInitialState();
-
-        // Also listen to scroll events for immediate feedback (as backup)
         const handleScroll = () => {
-            setHasScrolled(!isAtStart());
-            setIsAtEnd(isAtEndPosition());
+            const state = calculateScrollState(container);
+            setHasScrolled(state.hasScrolled);
+            setIsAtEnd(state.isAtEnd);
         };
+
+        const resizeObserver = new ResizeObserver(() => {
+            const state = calculateScrollState(container);
+            setHasScrolled(state.hasScrolled);
+            setIsAtEnd(state.isAtEnd);
+        });
+
+        resizeObserver.observe(container);
+
+        Array.from(container.children).forEach((child) => {
+            resizeObserver.observe(child);
+        });
 
         container.addEventListener('scroll', handleScroll, { passive: true });
 
-        // Cleanup function
         return () => {
-            observer.disconnect();
+            cancelAnimationFrame(rafId);
+            resizeObserver.disconnect();
             container.removeEventListener('scroll', handleScroll);
-            if (sentinelWrapper.parentNode) {
-                sentinelWrapper.parentNode.removeChild(sentinelWrapper);
-            }
-            // Restore original position if we changed it
-            if (!originalPosition || originalPosition === 'static') {
-                container.style.position = originalPosition || '';
-            }
         };
-    }, [containerRef, direction]);
+    }, [containerRef, calculateScrollState]);
 
     return { hasScrolled, isAtEnd };
 }
@@ -168,8 +132,8 @@ export function useScrollGradientMask(
     );
 
     return {
-        showStartGradient: hasScrolled, // Show gradient at start when scrolled away from beginning
-        showEndGradient: !isAtEnd, // Show gradient at end when not at end position
-        showBothGradients: hasScrolled && !isAtEnd, // Show both gradients when in middle
+        showStartGradient: hasScrolled,
+        showEndGradient: !isAtEnd,
+        showBothGradients: hasScrolled && !isAtEnd,
     };
 }
