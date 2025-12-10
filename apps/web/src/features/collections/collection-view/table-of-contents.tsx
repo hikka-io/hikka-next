@@ -23,8 +23,7 @@ function TableOfContents({ className }: Props) {
     const scrollRef = useRef(0);
     const tocScrollRef = useRef<HTMLUListElement>(null);
     const [activeId, setActiveId] = useState<string | null>(null);
-    const { showStartGradient, showEndGradient } =
-        useScrollGradientMask(tocScrollRef);
+    const { gradientClassName } = useScrollGradientMask(tocScrollRef);
 
     useEffect(() => {
         const headingsObserver = new IntersectionObserver(
@@ -92,11 +91,7 @@ function TableOfContents({ className }: Props) {
                 className={cn(
                     '-m-4 space-y-2.5 overflow-y-auto p-4 text-sm',
                     'styled-scrollbar',
-                    showStartGradient && showEndGradient
-                        ? 'gradient-mask-t-90-d'
-                        : showStartGradient
-                          ? 'gradient-mask-t-90'
-                          : 'gradient-mask-b-90',
+                    gradientClassName,
                 )}
             >
                 {collection?.labels_order.map((label, index) => {

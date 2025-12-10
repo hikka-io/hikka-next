@@ -66,17 +66,8 @@ const Stack: FC<StackProps> = ({
     ...props
 }) => {
     const ref = useRef(null);
-    const { showStartGradient, showEndGradient } = useScrollGradientMask(
-        ref,
-        'horizontal',
-    );
+    const { gradientClassName } = useScrollGradientMask(ref, 'horizontal');
 
-    const gradient =
-        showStartGradient && showEndGradient
-            ? 'gradient-mask-r-90-d'
-            : showStartGradient
-              ? 'gradient-mask-l-90'
-              : 'gradient-mask-r-90';
     return (
         <div
             ref={ref}
@@ -96,7 +87,7 @@ const Stack: FC<StackProps> = ({
                     ? extendedSize
                         ? EXTENDED_SIZES[extendedSize]
                         : 'grid-cols-2 md:grid-cols-6'
-                    : `no-scrollbar auto-cols-scroll grid-cols-scroll md:gradient-mask-none -mx-4 grid-flow-col overflow-x-scroll px-4 ${gradient}`,
+                    : `no-scrollbar auto-cols-scroll grid-cols-scroll md:gradient-mask-none -mx-4 grid-flow-col overflow-x-scroll px-4 ${gradientClassName}`,
 
                 // Allow additional className overrides
                 className,
