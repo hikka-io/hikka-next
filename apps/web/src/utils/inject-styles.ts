@@ -13,9 +13,16 @@ function colorTokensToCSS(tokens: Hikka.UIColorTokens | undefined): string {
     const declarations: string[] = [];
 
     for (const [key, value] of Object.entries(tokens)) {
-        if (value !== undefined && value !== null && value !== '') {
-            const cssVarName = `--${camelToKebab(key)}`;
-            declarations.push(`${cssVarName}: ${value};`);
+        if (value !== undefined && value !== null) {
+            if (typeof value === 'object' && value?.hue !== undefined) {
+                const cssVarName = `--${camelToKebab(key)}`;
+                declarations.push(
+                    `${cssVarName}: ${value.hue} ${value.saturation}% ${value.lightness}%;`,
+                );
+            } else if (typeof value === 'string' && value !== '') {
+                const cssVarName = `--${camelToKebab(key)}`;
+                declarations.push(`${cssVarName}: ${value};`);
+            }
         }
     }
 
