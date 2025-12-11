@@ -24,7 +24,7 @@ import type { Point, TElement } from 'platejs';
 import { useComposedRef, useEditorRef } from 'platejs/react';
 import * as React from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 type FilterFn = (
     item: {

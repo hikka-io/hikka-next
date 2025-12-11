@@ -4,7 +4,7 @@ import { PhotoView } from 'react-photo-view';
 
 import Image from '@/components/ui/image';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export interface ImageElementStaticProps extends SlateElementProps {
     className?: string;

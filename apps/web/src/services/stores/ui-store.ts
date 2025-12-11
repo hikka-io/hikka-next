@@ -5,11 +5,11 @@ import { persist } from 'zustand/middleware';
 
 import {
     DEFAULT_APPEARANCE,
+    cookieStorage,
     mergeEffects,
     mergeStyles,
 } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import { cookieStorage } from '@/utils/ui-cookies';
 
 export type UIState = Hikka.UserAppearance & {
     _hasHydrated: boolean;

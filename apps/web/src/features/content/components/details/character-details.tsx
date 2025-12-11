@@ -3,7 +3,7 @@ import { BookType, Languages } from 'lucide-react';
 
 import Card from '@/components/ui/card';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import DetailItem from './detail-item';
 

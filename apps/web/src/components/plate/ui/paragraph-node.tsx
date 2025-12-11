@@ -5,7 +5,7 @@ import { PlateElement } from 'platejs/react';
 
 import { P_CLASSNAME } from '@/components/typography/p';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export function ParagraphElement(props: PlateElementProps) {
     return (

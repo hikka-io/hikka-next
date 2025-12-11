@@ -22,3 +22,4 @@ export async function getCookie(name: string) {
 export async function getCookies() {
     return (await cookies()).getAll().values();
 }
+

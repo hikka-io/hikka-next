@@ -7,7 +7,7 @@ import * as React from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { Button } from './button';
 import { Input } from './input';

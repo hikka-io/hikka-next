@@ -16,7 +16,7 @@ import { Form } from '@/components/ui/form';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { z } from '@/utils/zod';
+import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
     comment_reply: z.boolean().default(true),

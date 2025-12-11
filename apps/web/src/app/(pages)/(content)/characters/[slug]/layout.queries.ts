@@ -8,7 +8,7 @@ import {
     prefetchFavouriteStatus,
 } from '@hikka/react/server';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props {
     params: {

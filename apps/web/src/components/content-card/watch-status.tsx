@@ -1,8 +1,8 @@
 import { WatchResponseBase } from '@hikka/client';
 import { FC, createElement } from 'react';
 
+import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface Props {
     watch: WatchResponseBase;

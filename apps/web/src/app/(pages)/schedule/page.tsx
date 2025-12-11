@@ -14,13 +14,13 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { ScheduleFilters } from "@/features/filters";
-import { ScheduleFiltersModal } from "@/features/modals";
+import { ScheduleFilters } from '@/features/filters';
+import { ScheduleFiltersModal } from '@/features/modals';
 import { ScheduleList } from '@/features/schedule';
 
-import _generateMetadata from '@/utils/generate-metadata';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
-import getCurrentSeason from '@/utils/season-utils';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
+import { getCurrentSeason } from '@/utils/season';
 
 export const metadata: Metadata = _generateMetadata({
     title: {

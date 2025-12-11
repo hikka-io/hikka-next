@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { convertPngToJpeg } from '@/utils/utils';
+import { convertPngToJpeg } from '@/utils/image';
 
 import { ImageGroupPlugin } from '../editor/plugins/image-group-kit';
 

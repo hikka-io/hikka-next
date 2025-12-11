@@ -18,7 +18,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import P from '../typography/p';

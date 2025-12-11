@@ -9,7 +9,7 @@ import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     extended?: boolean;

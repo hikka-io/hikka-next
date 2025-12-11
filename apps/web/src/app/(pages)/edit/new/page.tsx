@@ -17,10 +17,13 @@ import { FC } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { EditContent as Content, EditCreateForm as EditForm } from '@/features/edit';
-import { EditRulesAlert as RulesAlert } from "@/features/edit";
+import {
+    EditContent as Content,
+    EditCreateForm as EditForm,
+    EditRulesAlert as RulesAlert,
+} from '@/features/edit';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props {
     searchParams: { [key: string]: string | string[] | undefined };

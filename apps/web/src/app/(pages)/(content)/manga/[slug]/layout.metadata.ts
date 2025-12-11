@@ -2,9 +2,9 @@ import { MangaInfoResponse } from '@hikka/client';
 import { getHikkaClient } from '@hikka/react/core';
 import { Metadata } from 'next';
 
-import _generateMetadata from '@/utils/generate-metadata';
-import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
-import truncateText from '@/utils/truncate-text';
+import { parseTextFromMarkDown } from '@/utils/markdown';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
+import { truncateText } from '@/utils/text';
 
 export interface MetadataProps {
     params: { slug: string };

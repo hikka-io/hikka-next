@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { Button } from '@/components/ui/button';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import FilterPresetModal from './filter-preset-modal';
 

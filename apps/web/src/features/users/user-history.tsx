@@ -13,7 +13,7 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import FollowingHistory from './components/following-history';
 import History from './components/history';

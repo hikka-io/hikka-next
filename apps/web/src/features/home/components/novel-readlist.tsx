@@ -26,9 +26,9 @@ import {
 import { ReadEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
-import getDeclensionWord from '@/utils/get-declension-word';
-import { cn } from '@/utils/utils';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',

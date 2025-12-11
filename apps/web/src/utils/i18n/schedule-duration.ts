@@ -81,7 +81,7 @@ const getFormatUnits = (
  * @param timeLeft - Optional time remaining in seconds to determine format units
  * @returns Formatted duration string in Ukrainian
  */
-const getScheduleDuration = (
+export const getScheduleDuration = (
     unixTimestamp: number,
     timeLeft?: number,
 ): string => {
@@ -99,5 +99,3 @@ const getScheduleDuration = (
         },
     );
 };
-
-export default getScheduleDuration;

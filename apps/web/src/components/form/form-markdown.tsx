@@ -13,7 +13,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props extends CommentPlateEditorProps {
     name: string;

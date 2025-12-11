@@ -100,3 +100,4 @@ export function applyStyles(styles: Hikka.UIStyles | undefined): void {
         removeInjectedStyles();
     }
 }
+

@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { z } from '@/utils/zod';
+import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
     name: z.coerce.string().min(3).max(128),

@@ -15,7 +15,7 @@ import P from '@/components/typography/p';
 import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import FoundList from './found-list';
 

@@ -13,7 +13,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-import getScheduleDuration from '@/utils/get-schedule-duration';
+import { getScheduleDuration } from '@/utils/i18n';
 
 interface Props {
     item: AnimeScheduleResponse;

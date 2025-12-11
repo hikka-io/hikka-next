@@ -15,7 +15,7 @@ import { Switch } from '@/components/ui/switch';
 
 import { useChangeParam } from '@/features/filters';
 
-import createQueryString from '@/utils/create-query-string';
+import { createQueryString } from '@/utils/url';
 
 interface Props {
     className?: string;

@@ -12,9 +12,9 @@ import { Button } from '@/components/ui/button';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
+import { removeEmptyTextNodes } from '@/utils/plate';
 
-interface Props { }
+interface Props {}
 
 const EditActions: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);
@@ -56,21 +56,14 @@ const EditActions: FC<Props> = () => {
                     category: category!,
                     content: content
                         ? {
-                            slug: content.slug,
-                            content_type: content.data_type,
-                        }
+                              slug: content.slug,
+                              content_type: content.data_type,
+                          }
                         : undefined,
                 },
             });
         },
-        [
-            getDocument,
-            title,
-            tags,
-            category,
-            content,
-            mutateUpdateArticle,
-        ],
+        [getDocument, title, tags, category, content, mutateUpdateArticle],
     );
 
     return (

@@ -5,7 +5,7 @@ import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';
 
 import { VIDEO } from '@/utils/constants/common';
-import parseYouTubeThumbnail from '@/utils/parse-youtube-thumb';
+import { getYouTubeThumbnail } from '@/utils/youtube';
 
 interface Props {
     extended?: boolean;
@@ -32,7 +32,7 @@ const Video: FC<Props> = ({ extended, videos }) => {
                     key={video.url}
                     href={video.url || '#'}
                     title={video.title}
-                    image={parseYouTubeThumbnail(video.url)}
+                    image={getYouTubeThumbnail(video.url)}
                     containerRatio={1.7}
                     description={
                         VIDEO[video.video_type].title_ua ||

@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import Link from '@/components/ui/link';
 
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

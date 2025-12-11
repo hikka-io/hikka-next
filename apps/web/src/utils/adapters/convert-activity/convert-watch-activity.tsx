@@ -4,8 +4,8 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 
-import { WATCH_STATUS } from '../../constants/common';
-import getDeclensionWord from '../../get-declension-word';
+import { WATCH_STATUS } from '@/utils/constants/common';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',

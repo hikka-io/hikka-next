@@ -16,8 +16,8 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import getCurrentSeason from '@/utils/season-utils';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { getCurrentSeason } from '@/utils/season';
 
 interface Props {
     className?: string;

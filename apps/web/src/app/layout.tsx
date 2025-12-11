@@ -6,9 +6,9 @@ import 'react-photo-view/dist/react-photo-view.css';
 
 import { Providers } from '@/features/common';
 
-import { getUserStylesCSS } from '@/utils/appearance.server';
-import generateMetadata from '@/utils/generate-metadata';
-import { STYLE_ELEMENT_ID } from '@/utils/inject-styles';
+import { STYLE_ELEMENT_ID } from '@/utils/appearance';
+import { getUserStylesCSS } from '@/utils/appearance/server';
+import { generateMetadata } from '@/utils/metadata';
 
 import { TailwindIndicator } from '../components/tailwind-indicator';
 import './globals.css';

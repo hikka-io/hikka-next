@@ -3,7 +3,7 @@
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { ImageGroupAddImage } from './image-group-add-image';
 

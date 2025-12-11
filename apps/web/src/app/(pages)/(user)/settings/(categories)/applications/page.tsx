@@ -9,10 +9,9 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { ApplicationsSettings } from '@/features/settings';
-import { ClientCreateButton } from '@/features/settings';
+import { ApplicationsSettings, ClientCreateButton } from '@/features/settings';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props {
     params: {

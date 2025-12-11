@@ -5,7 +5,7 @@ import { Check, ChevronRight, Circle } from 'lucide-react';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
@@ -217,6 +217,5 @@ export {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-    useOpenState
+    useOpenState,
 };
-

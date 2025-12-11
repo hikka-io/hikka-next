@@ -14,5 +14,3 @@ export const createHikkaClientConfig = async (
 };
 
 export const getHikkaClientConfig = cache(createHikkaClientConfig);
-
-export default getHikkaClientConfig;

@@ -14,7 +14,7 @@ import EditStatus from '@/features/filters/components/prebuilt/edit-status';
 import Sort from '@/features/filters/components/prebuilt/sort';
 import User from '@/features/filters/components/prebuilt/user';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

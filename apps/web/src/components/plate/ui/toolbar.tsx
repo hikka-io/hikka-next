@@ -14,7 +14,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export function Toolbar({
     className,

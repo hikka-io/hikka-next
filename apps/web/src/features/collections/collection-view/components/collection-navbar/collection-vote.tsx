@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;

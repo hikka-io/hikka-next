@@ -14,13 +14,13 @@ import Card from '@/components/ui/card';
 import {
     ArticleEditDocument as ArticleDocument,
     ArticleSettings,
-    ArticleEditTitle as ArticleTitle
+    ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
 
 import ArticleProvider from '@/services/providers/article-provider';
+import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
-import { cn } from '@/utils/utils';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 const ArticleUpdatePage = async (props: {
     params: Promise<Record<string, any>>;

@@ -3,6 +3,7 @@
 import { useLatestComments } from '@hikka/react';
 import { FC } from 'react';
 
+import GlobalComment from '@/components/comments/global-comment';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -13,9 +14,7 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import { cn } from '@/utils/utils';
-
-import GlobalComment from '@/components/comments/global-comment';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

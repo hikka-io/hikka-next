@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
-import createQueryString from '@/utils/create-query-string';
+import { createQueryString } from '@/utils/url';
 
 const Search = () => {
     const router = useRouter();

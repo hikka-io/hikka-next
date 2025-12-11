@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import removeEmptyTextNodes from '@/utils/remove-empty-text-nodes';
+import { removeEmptyTextNodes } from '@/utils/plate';
 
 interface Props {}
 

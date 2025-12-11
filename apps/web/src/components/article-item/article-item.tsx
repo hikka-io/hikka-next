@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
+import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { cn } from '@/utils/utils';
 
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
 import IconamoonCommentFill from '../icons/iconamoon/IconamoonCommentFill';

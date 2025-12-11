@@ -1,6 +1,6 @@
 import { StateStorage, createJSONStorage } from 'zustand/middleware';
 
-const UI_COOKIE_NAME = 'ui-appearance';
+export const UI_COOKIE_NAME = 'ui-appearance';
 const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year
 
 /**
@@ -61,4 +61,3 @@ export function parseAppearanceFromCookie(
     }
 }
 
-export { UI_COOKIE_NAME };

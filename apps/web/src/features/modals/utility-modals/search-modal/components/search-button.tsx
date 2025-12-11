@@ -5,7 +5,8 @@ import { ReactNode, cloneElement } from 'react';
 
 import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/MaterialSymbolsSearchRounded';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/utils/utils';
+
+import { cn } from '@/utils/cn';
 
 interface Props {
     setOpen: (open: boolean) => void;

@@ -12,7 +12,7 @@ import {
 import { ArticleList, PopularAuthors, PopularTags } from '@/features/articles';
 import { ArticleFilters } from '@/features/filters';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 const ArticlesPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

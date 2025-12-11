@@ -2,7 +2,7 @@ import { SlateElement, type SlateElementProps } from 'platejs/static';
 
 import { BLOCKQUOTE_CLASSNAME } from '@/components/typography/blockquote';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export function BlockquoteElementStatic(props: SlateElementProps) {
     return (

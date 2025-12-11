@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import ArticleCard from './components/article-card';
 

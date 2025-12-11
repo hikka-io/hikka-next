@@ -19,7 +19,7 @@ import Sort from '@/features/filters/components/prebuilt/sort';
 import Studio from '@/features/filters/components/prebuilt/studio';
 import Year from '@/features/filters/components/prebuilt/year';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

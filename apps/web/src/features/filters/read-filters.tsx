@@ -16,7 +16,7 @@ import ReleaseStatus from '@/features/filters/components/prebuilt/release-status
 import Sort from '@/features/filters/components/prebuilt/sort';
 import Year from '@/features/filters/components/prebuilt/year';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

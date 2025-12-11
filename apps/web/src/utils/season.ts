@@ -2,7 +2,7 @@ import { SeasonEnum } from '@hikka/client';
 
 import { SEASON } from './constants/common';
 
-export default function getCurrentSeason() {
+export function getCurrentSeason() {
     const adjustedDate = new Date();
     adjustedDate.setDate(adjustedDate.getDate() - 7);
     const currentMonth = adjustedDate.getMonth() + 1;

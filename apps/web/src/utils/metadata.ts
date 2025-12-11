@@ -101,4 +101,4 @@ const generateMetadata = ({
     };
 };
 
-export default generateMetadata;
+export { generateMetadata };

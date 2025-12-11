@@ -8,7 +8,7 @@ import React, {
     ReactNode,
 } from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import ContentCard from '../content-card/content-card';
 import MDViewer from '../markdown/viewer/MD-viewer';

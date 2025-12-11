@@ -5,7 +5,7 @@ import { ElementApi, TElement, TextApi } from 'platejs';
  * @param nodes The array of Plate/Slate nodes to process
  * @returns A new array with empty text nodes removed from beginning and end
  */
-export default function removeEmptyTextNodes(nodes: TElement[]): TElement[] {
+export function removeEmptyTextNodes(nodes: TElement[]): TElement[] {
     if (!nodes || !Array.isArray(nodes) || nodes.length === 0) {
         return nodes;
     }
@@ -42,9 +42,3 @@ export default function removeEmptyTextNodes(nodes: TElement[]): TElement[] {
     // Return the slice of nodes without empty text nodes at the beginning and end
     return nodes.slice(startIndex, endIndex + 1);
 }
-
-// Example usage:
-// const plateEditor: PlateEditor<Value> = editor;
-// const plateValue: Node[] = plateEditor.children;
-// const cleanedNodes = removeEmptyTextNodesFromEnds(plateValue);
-// const dataToSendToBackend = { nodes: cleanedNodes };

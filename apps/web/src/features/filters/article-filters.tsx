@@ -14,7 +14,7 @@ import Sort from '@/features/filters/components/prebuilt/sort';
 import Tag from '@/features/filters/components/prebuilt/tag';
 import User from '@/features/filters/components/prebuilt/user';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

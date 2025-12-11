@@ -24,7 +24,7 @@ import {
 } from '@/features/content';
 import { Followings } from '@/features/modals';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 import jsonSchema from './anime.schema';
 

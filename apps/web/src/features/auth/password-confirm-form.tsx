@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { setCookie } from '@/utils/cookies';
-import { z } from '@/utils/zod';
+import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
     .object({

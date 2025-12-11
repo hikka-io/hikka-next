@@ -3,7 +3,7 @@ import { SlateElement } from 'platejs/static';
 import { useEffect, useRef } from 'react';
 import { PhotoProvider } from 'react-photo-view';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export interface ImageGroupElementStaticProps extends SlateElementProps {
     className?: string;

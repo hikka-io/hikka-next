@@ -10,8 +10,8 @@ import HorizontalContentCard, {
 } from '@/components/ui/horizontal-content-card';
 import WatchlistButton from '@/components/watchlist-button/watchlist-button';
 
-import getScheduleDuration from '@/utils/get-schedule-duration';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { getScheduleDuration } from '@/utils/i18n';
 
 interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {
     item: AnimeScheduleResponse;

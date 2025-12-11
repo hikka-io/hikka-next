@@ -11,7 +11,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import getDeclensionWord from '@/utils/get-declension-word';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 interface Props {
     item: ActivityResponse;

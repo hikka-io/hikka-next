@@ -8,7 +8,7 @@
  *                   [2]: many form (0, 5-20, 25-30, ...)
  * @returns The correct word form based on the number
  */
-export default function getDeclensionWord(
+export function getDeclensionWord(
     number: number,
     wordForms: [string, string, string],
 ): string {

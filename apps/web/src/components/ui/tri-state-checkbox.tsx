@@ -4,7 +4,7 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Minus, Plus } from 'lucide-react';
 import * as React from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export type TriState = 'include' | 'exclude' | 'neutral';
 
@@ -41,8 +41,8 @@ const TriStateCheckbox = React.forwardRef<
                 value === 'include'
                     ? true
                     : value === 'exclude'
-                        ? 'indeterminate'
-                        : false
+                      ? 'indeterminate'
+                      : false
             }
             onClick={handleInteraction}
             className={cn(

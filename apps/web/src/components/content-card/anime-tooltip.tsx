@@ -15,8 +15,8 @@ import {
 } from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
 
+import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
 import H5 from '../typography/h5';

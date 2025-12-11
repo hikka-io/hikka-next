@@ -1,4 +1,4 @@
-import { ERRORS } from './constants/common';
+import { ERRORS } from './constants/errors';
 
 export default function getApiErrorMessage(error: any) {
     const splittedCode = error.code.split(':');
@@ -7,3 +7,4 @@ export default function getApiErrorMessage(error: any) {
         return ERRORS[splittedCode[0]][splittedCode[1]];
     }
 }
+

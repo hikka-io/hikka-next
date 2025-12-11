@@ -17,7 +17,7 @@ import {
 import NotFound from '@/components/ui/not-found';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import CollectionItem from './components/user-collections/collection-item';
 import CollectionsModal from './components/user-collections/collections-modal';

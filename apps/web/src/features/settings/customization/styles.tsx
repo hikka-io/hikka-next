@@ -28,8 +28,8 @@ import {
     toHSLString,
     toHikkaColor,
     toReactColorful,
-} from '@/utils/color-utils';
-import { cn } from '@/utils/utils';
+} from '@/utils/appearance/color';
+import { cn } from '@/utils/cn';
 
 type ColorPreset = {
     name: string;

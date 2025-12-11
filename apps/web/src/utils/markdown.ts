@@ -44,7 +44,7 @@ const renderPlain = () => {
     return render;
 };
 
-export default function parseTextFromMarkDown(mdString: string) {
+export function parseTextFromMarkDown(mdString: string) {
     if (!mdString) return mdString;
 
     const parsed = marked(mdString, {

@@ -16,7 +16,7 @@ import { EditList, EditTopStats } from '@/features/edit';
 import { EditFilters as Filters } from '@/features/filters';
 import { EditFiltersModal } from '@/features/modals';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 const EditListPage = async (props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

@@ -19,7 +19,7 @@ import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
-import { getSeasonByOffset } from '@/utils/season-utils';
+import { getSeasonByOffset } from '@/utils/season';
 
 import AnimeListSkeleton from './components/anime-list-skeleton';
 

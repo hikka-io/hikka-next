@@ -3,7 +3,7 @@
 import { FC, PropsWithChildren, useEffect } from 'react';
 
 import { useUIStore } from '@/services/stores/ui-store';
-import { applyStyles } from '@/utils/inject-styles';
+import { applyStyles } from '@/utils/appearance';
 
 const UIStylesProvider: FC<PropsWithChildren> = ({ children }) => {
     const hasHydrated = useUIStore((state) => state._hasHydrated);

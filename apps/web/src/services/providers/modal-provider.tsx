@@ -32,7 +32,7 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { useMediaQuery } from '../hooks/use-media-query';
 

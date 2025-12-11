@@ -10,7 +10,7 @@ import {
 import { createPortal } from 'react-dom';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import IconamoonSignDivisionSlashThin from '../icons/iconamoon/IconamoonSignDivisionSlashThin';
 

@@ -15,7 +15,7 @@ import NotFound from '@/components/ui/not-found';
 
 import HistoryItem from '@/features/users/components/history-item';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     className?: string;

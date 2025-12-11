@@ -1,9 +1,11 @@
 import { cookies } from 'next/headers';
 
-import { DEFAULT_APPEARANCE, mergeStyles } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import { stylesToCSS } from '@/utils/inject-styles';
-import { UI_COOKIE_NAME, parseAppearanceFromCookie } from '@/utils/ui-cookies';
+
+import { DEFAULT_APPEARANCE } from './defaults';
+import { stylesToCSS } from './inject-styles';
+import { mergeStyles } from './merge';
+import { parseAppearanceFromCookie, UI_COOKIE_NAME } from './ui-cookie';
 
 /**
  * Get user appearance from cookies
@@ -26,3 +28,4 @@ export async function getUserStylesCSS(): Promise<string> {
 
     return stylesToCSS(mergedStyles);
 }
+

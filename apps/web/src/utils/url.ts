@@ -1,4 +1,8 @@
 /**
+ * URL utilities
+ */
+
+/**
  * Creates or updates a URL query string by modifying the provided URLSearchParams object
  *
  * @param name - The parameter name to set or update in the query string
@@ -26,7 +30,7 @@
  * const params = new URLSearchParams('page=2');
  * createQueryString('page', false, params); // returns params with empty query string
  */
-const createQueryString = (
+export const createQueryString = (
     name: string,
     value:
         | string
@@ -82,3 +86,24 @@ const createQueryString = (
 };
 
 export default createQueryString;
+
+/**
+ * Validates and sanitizes a redirect URL to prevent open redirect attacks.
+ * Only allows redirects to paths within the same origin.
+ *
+ * @param url - The URL to validate
+ * @returns A safe pathname+search string, or '/' if the URL is invalid or external
+ */
+export const validateRedirectUrl = (url: string): string => {
+    try {
+        const parsed = new URL(url, window.location.origin);
+
+        if (parsed.origin === window.location.origin) {
+            return parsed.pathname + parsed.search;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    return '/';
+};

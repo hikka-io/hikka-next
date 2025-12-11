@@ -25,7 +25,7 @@ import {
 } from 'platejs/react';
 import * as React from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { StaticKit } from './static-kit';
 

@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
-import getDeclensionWord from '@/utils/get-declension-word';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';

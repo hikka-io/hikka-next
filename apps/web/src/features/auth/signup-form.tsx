@@ -22,7 +22,7 @@ import { Input } from '@/components/ui/input';
 import { OAuthLogin } from '@/features/auth';
 
 import { setCookie } from '@/utils/cookies';
-import { z } from '@/utils/zod';
+import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
     .object({

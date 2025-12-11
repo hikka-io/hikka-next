@@ -23,8 +23,8 @@ import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import Stack, { StackSize } from '@/components/ui/stack';
 
+import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { cn } from '@/utils/utils';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;

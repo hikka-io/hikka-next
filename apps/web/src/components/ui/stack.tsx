@@ -3,7 +3,7 @@
 import { ComponentPropsWithoutRef, FC, useRef } from 'react';
 
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 // Define more explicit and comprehensive types
 export type StackSize = 2 | 3 | 4 | 5 | 6 | 7 | 8;

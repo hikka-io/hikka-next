@@ -11,6 +11,8 @@ import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import FormInput from '@/components/form/form-input';
+import FormTextarea from '@/components/form/form-textarea';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
@@ -27,12 +29,9 @@ import {
 } from '@/components/ui/select';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
-import { z } from '@/utils/zod';
-
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
+import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
     score: z.coerce.number().min(0).max(10).optional(),

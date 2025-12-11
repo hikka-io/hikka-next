@@ -7,7 +7,7 @@ import { PlateElement } from 'platejs/react';
 import { OL_CLASSNAME } from '@/components/typography/ol';
 import { UL_CLASSNAME } from '@/components/typography/ul';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 const listVariants = cva('mb-4', {
     variants: {
