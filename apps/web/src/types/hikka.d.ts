@@ -203,7 +203,6 @@ declare global {
             styles?: UIStyles;
             preferences?: UIPreferences;
             effects?: UIEffect[];
-            version?: number;
         };
 
         type EventTheme = {
