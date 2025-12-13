@@ -94,7 +94,6 @@ const RootLayout = async ({ children }: Props) => {
                 {userStylesCSS && (
                     <style
                         id={STYLE_ELEMENT_ID}
-                        data-description="Hikka custom UI styles"
                         dangerouslySetInnerHTML={{ __html: userStylesCSS }}
                     />
                 )}

@@ -6,18 +6,18 @@ import { HslColor } from 'react-colorful';
 export const toReactColorful = (
     color: Hikka.HSLColor | undefined,
 ): HslColor => ({
-    h: color?.hue ?? 0,
-    s: color?.saturation ?? 0,
-    l: color?.lightness ?? 0,
+    h: color?.h ?? 0,
+    s: color?.s ?? 0,
+    l: color?.l ?? 0,
 });
 
 /**
  * Convert react-colorful HslColor to Hikka HSLColor format.
  */
 export const toHikkaColor = (color: HslColor): Hikka.HSLColor => ({
-    hue: Math.round(color.h),
-    saturation: Math.round(color.s),
-    lightness: Math.round(color.l),
+    h: Math.round(color.h),
+    s: Math.round(color.s),
+    l: Math.round(color.l),
 });
 
 /**
@@ -25,7 +25,7 @@ export const toHikkaColor = (color: HslColor): Hikka.HSLColor => ({
  */
 export const formatHSL = (color: Hikka.HSLColor | undefined): string | null => {
     if (!color) return null;
-    return `${color.hue} ${color.saturation}% ${color.lightness}%`;
+    return `${color.h} ${color.s}% ${color.l}%`;
 };
 
 /**
@@ -33,7 +33,7 @@ export const formatHSL = (color: Hikka.HSLColor | undefined): string | null => {
  */
 export const toHSLString = (color: Hikka.HSLColor | undefined): string => {
     if (!color) return 'transparent';
-    return `hsl(${color.hue} ${color.saturation}% ${color.lightness}%)`;
+    return `hsl(${color.h} ${color.s}% ${color.l}%)`;
 };
 
 /**
@@ -125,4 +125,3 @@ export const hexToHsl = (hex: string): HslColor | null => {
         l: Math.round(l * 100),
     };
 };
-

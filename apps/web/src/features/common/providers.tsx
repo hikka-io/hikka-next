@@ -14,7 +14,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
-import UIStylesProvider from '@/services/providers/ui-styles-provider';
 import { useUIStore } from '@/services/stores/ui-store';
 import { getCookie } from '@/utils/cookies';
 
@@ -46,37 +45,35 @@ const Providers: FC<Props> = ({ children }) => {
     return (
         <HikkaProvider
             defaultOptions={{
-                title: appearance.preferences?.titleLanguage ?? 'title_ua',
-                name: appearance.preferences?.nameLanguage ?? 'name_ua',
+                title: appearance.preferences?.title_language ?? 'title_ua',
+                name: appearance.preferences?.name_language ?? 'name_ua',
             }}
             clientConfig={apiClientConfig}
             queryClientConfig={queryClientConfig}
         >
-            <UIStylesProvider>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <TooltipProvider delayDuration={0}>
-                        <ModalProvider>
-                            <ProgressProvider
-                                height="4px"
-                                color="#e779c1"
-                                options={{
-                                    showSpinner: false,
-                                    easing: 'ease',
-                                    trickle: true,
-                                }}
-                                shallowRouting
-                            />
-                            <EffectsManager />
-                            {children}
-                        </ModalProvider>
-                    </TooltipProvider>
-                </ThemeProvider>
-            </UIStylesProvider>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                enableSystem
+                disableTransitionOnChange
+            >
+                <TooltipProvider delayDuration={0}>
+                    <ModalProvider>
+                        <ProgressProvider
+                            height="4px"
+                            color="#e779c1"
+                            options={{
+                                showSpinner: false,
+                                easing: 'ease',
+                                trickle: true,
+                            }}
+                            shallowRouting
+                        />
+                        <EffectsManager />
+                        {children}
+                    </ModalProvider>
+                </TooltipProvider>
+            </ThemeProvider>
         </HikkaProvider>
     );
 };

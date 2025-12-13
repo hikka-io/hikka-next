@@ -1,8 +1,12 @@
-export const STYLE_ELEMENT_ID = 'hikka-custom-styles';
+import type { CSSProperties } from 'react';
+
+export const STYLE_ELEMENT_ID = 'user-styles';
 
 function camelToKebab(str: string): string {
     return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
+
+type CSSVarStyle = CSSProperties & Record<string, string | number>;
 
 /**
  * Convert UIColorTokens to CSS variable declarations
@@ -14,10 +18,10 @@ function colorTokensToCSS(tokens: Hikka.UIColorTokens | undefined): string {
 
     for (const [key, value] of Object.entries(tokens)) {
         if (value !== undefined && value !== null) {
-            if (typeof value === 'object' && value?.hue !== undefined) {
+            if (typeof value === 'object' && value?.h !== undefined) {
                 const cssVarName = `--${camelToKebab(key)}`;
                 declarations.push(
-                    `${cssVarName}: ${value.hue} ${value.saturation}% ${value.lightness}%;`,
+                    `${cssVarName}: ${value.h} ${value.s}% ${value.l}%;`,
                 );
             } else if (typeof value === 'string' && value !== '') {
                 const cssVarName = `--${camelToKebab(key)}`;
@@ -27,6 +31,30 @@ function colorTokensToCSS(tokens: Hikka.UIColorTokens | undefined): string {
     }
 
     return declarations.join('\n    ');
+}
+
+/**
+ * Convert UIColorTokens to a React style object with CSS variables.
+ */
+function colorTokensToReactStyle(
+    tokens: Hikka.UIColorTokens | undefined,
+): CSSVarStyle {
+    const style: CSSVarStyle = {};
+    if (!tokens) return style;
+
+    for (const [key, value] of Object.entries(tokens)) {
+        if (value !== undefined && value !== null) {
+            const cssVarName = `--${camelToKebab(key)}`;
+
+            if (typeof value === 'object' && value?.h !== undefined) {
+                style[cssVarName] = `${value.h} ${value.s}% ${value.l}%`;
+            } else if (typeof value === 'string' && value !== '') {
+                style[cssVarName] = value;
+            }
+        }
+    }
+
+    return style;
 }
 
 /**
@@ -57,6 +85,33 @@ export function stylesToCSS(styles: Hikka.UIStyles | undefined): string {
 }
 
 /**
+ * Convert UIStyles to React "style" objects (CSS variables).
+ *
+ * Note: inline styles can't target selectors like ".dark", so we return both
+ * buckets for the caller to apply conditionally.
+ */
+export function stylesToReactStyles(styles: Hikka.UIStyles | undefined): {
+    root: CSSVarStyle;
+    dark: CSSVarStyle;
+} {
+    if (!styles) return { root: {}, dark: {} };
+
+    const root: CSSVarStyle = {
+        ...colorTokensToReactStyle(styles.light?.colors),
+    };
+
+    if (styles.radius) {
+        root['--radius'] = styles.radius;
+    }
+
+    const dark: CSSVarStyle = {
+        ...colorTokensToReactStyle(styles.dark?.colors),
+    };
+
+    return { root, dark };
+}
+
+/**
  * Inject CSS styles into the document head.
  */
 export function injectStyles(css: string): void {
@@ -69,7 +124,6 @@ export function injectStyles(css: string): void {
     if (!styleElement) {
         styleElement = document.createElement('style');
         styleElement.id = STYLE_ELEMENT_ID;
-        styleElement.setAttribute('data-description', 'Hikka custom UI styles');
         document.head.appendChild(styleElement);
     }
 
@@ -100,4 +154,3 @@ export function applyStyles(styles: Hikka.UIStyles | undefined): void {
         removeInjectedStyles();
     }
 }
-

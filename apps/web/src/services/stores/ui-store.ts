@@ -20,10 +20,10 @@ export interface UIActions {
 
     // Preferences
     setTitleLanguage: (
-        titleLanguage: Hikka.UIPreferences['titleLanguage'],
+        titleLanguage: Hikka.UIPreferences['title_language'],
     ) => void;
     setNameLanguage: (
-        nameLanguage: Hikka.UIPreferences['nameLanguage'],
+        nameLanguage: Hikka.UIPreferences['name_language'],
     ) => void;
 
     // Styles
@@ -135,7 +135,7 @@ export const useUIStore = create<UIStore>()(
             // Effects
             toggleEffect: (effect) => {
                 set((state) => {
-                    const currentEffects = state.effects ?? [];
+                    const currentEffects = state.preferences?.effects ?? [];
                     const hasEffect = currentEffects.includes(effect);
 
                     return {
@@ -165,7 +165,10 @@ export const useUIStore = create<UIStore>()(
                 const state = get();
                 const eventTheme = getActiveEventTheme();
 
-                return mergeEffects(eventTheme?.effects, state.effects);
+                return mergeEffects(
+                    eventTheme?.effects,
+                    state.preferences?.effects,
+                );
             },
 
             loadFromRemote: async () => {

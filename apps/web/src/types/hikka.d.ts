@@ -162,39 +162,48 @@ declare global {
         };
 
         type HSLColor = {
-            hue: number;
-            saturation: number;
-            lightness: number;
+            h: number;
+            s: number;
+            l: number;
         };
 
         type UIColorTokens = {
             background?: HSLColor;
             foreground?: HSLColor;
             primary?: HSLColor;
-            primaryForeground?: HSLColor;
-            primaryBorder?: HSLColor;
+            primary_foreground?: HSLColor;
+            primary_border?: HSLColor;
             secondary?: HSLColor;
-            secondaryForeground?: HSLColor;
+            secondary_foreground?: HSLColor;
             muted?: HSLColor;
-            mutedForeground?: HSLColor;
+            muted_foreground?: HSLColor;
             accent?: HSLColor;
-            accentForeground?: HSLColor;
+            accent_foreground?: HSLColor;
             border?: HSLColor;
             input?: HSLColor;
             ring?: HSLColor;
             popover?: HSLColor;
-            popoverForeground?: HSLColor;
+            popover_foreground?: HSLColor;
         };
 
         type UIStyles = {
             dark?: { colors?: UIColorTokens };
             light?: { colors?: UIColorTokens };
             radius?: string;
+            typography?: {
+                h1?: string;
+                h2?: string;
+                h3?: string;
+                h4?: string;
+                h5?: string;
+                p?: string;
+            };
         };
 
         type UIPreferences = {
-            titleLanguage: 'title_ua' | 'title_en' | 'title_ja';
-            nameLanguage: 'name_ua' | 'name_en' | 'name_native';
+            title_language?: TitleLanguage;
+            name_language?: NameLanguage;
+            effects?: UIEffect[];
         };
 
         type UIEffect = 'snowfall';
@@ -202,7 +211,6 @@ declare global {
         type UserAppearance = {
             styles?: UIStyles;
             preferences?: UIPreferences;
-            effects?: UIEffect[];
         };
 
         type EventTheme = {

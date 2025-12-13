@@ -73,7 +73,7 @@ const PreferencesSettings = () => {
 
                 <Select
                     value={[
-                        appearance.preferences?.titleLanguage ?? 'title_ua',
+                        appearance.preferences?.title_language ?? 'title_ua',
                     ]}
                     onValueChange={handleChangeTitleLanguage}
                 >
@@ -99,7 +99,7 @@ const PreferencesSettings = () => {
                 <Label>Мова імен</Label>
 
                 <Select
-                    value={[appearance.preferences?.nameLanguage ?? 'name_ua']}
+                    value={[appearance.preferences?.name_language ?? 'name_ua']}
                     onValueChange={handleChangeNameLanguage}
                 >
                     <SelectTrigger>

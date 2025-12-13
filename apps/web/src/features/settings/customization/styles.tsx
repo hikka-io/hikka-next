@@ -29,6 +29,7 @@ import {
     toHikkaColor,
     toReactColorful,
 } from '@/utils/appearance/color';
+import { stylesToReactStyles } from '@/utils/appearance/inject-styles';
 import { cn } from '@/utils/cn';
 
 type ColorPreset = {
@@ -37,19 +38,19 @@ type ColorPreset = {
     styles: Hikka.UIStyles;
 };
 
-const createPrimaryPreset = (hue: number): Hikka.UIStyles => ({
+const createPrimaryPreset = (h: number): Hikka.UIStyles => ({
     light: {
         colors: {
-            primary: { hue, saturation: 100, lightness: 95 },
-            primaryForeground: { hue, saturation: 70, lightness: 45 },
-            primaryBorder: { hue, saturation: 90, lightness: 90 },
+            primary: { h, s: 100, l: 95 },
+            primary_foreground: { h, s: 70, l: 45 },
+            primary_border: { h, s: 90, l: 90 },
         },
     },
     dark: {
         colors: {
-            primary: { hue, saturation: 10, lightness: 5 },
-            primaryForeground: { hue, saturation: 70, lightness: 69 },
-            primaryBorder: { hue, saturation: 43, lightness: 17 },
+            primary: { h, s: 10, l: 5 },
+            primary_foreground: { h, s: 70, l: 69 },
+            primary_border: { h, s: 43, l: 17 },
         },
     },
 });
@@ -66,46 +67,46 @@ const COLOR_PRESETS: ColorPreset[] = [
 
 const COLOR_TOKEN_LABELS: Record<keyof Hikka.UIColorTokens, string> = {
     primary: 'Основний',
-    primaryForeground: 'Текст основного',
-    primaryBorder: 'Рамка основного',
+    primary_foreground: 'Текст основного',
+    primary_border: 'Рамка основного',
     background: 'Фон',
     foreground: 'Текст',
     secondary: 'Вторинний',
-    secondaryForeground: 'Текст вторинного',
+    secondary_foreground: 'Текст вторинного',
     muted: 'Приглушений',
-    mutedForeground: 'Текст приглушеного',
+    muted_foreground: 'Текст приглушеного',
     accent: 'Акцент',
-    accentForeground: 'Текст акценту',
+    accent_foreground: 'Текст акценту',
     border: 'Рамка',
     input: 'Поле введення',
     ring: 'Кільце фокусу',
     popover: 'Спливаюче вікно',
-    popoverForeground: 'Текст спливаючого вікна',
+    popover_foreground: 'Текст спливаючого вікна',
 };
 
 const PRIMARY_TOKENS: (keyof Hikka.UIColorTokens)[] = [
     'primary',
-    'primaryForeground',
-    'primaryBorder',
+    'primary_foreground',
+    'primary_border',
 ];
 
 const SURFACE_TOKENS: (keyof Hikka.UIColorTokens)[] = [
     'background',
     'foreground',
     'secondary',
-    'secondaryForeground',
+    'secondary_foreground',
     'muted',
-    'mutedForeground',
+    'muted_foreground',
 ];
 
 const UI_TOKENS: (keyof Hikka.UIColorTokens)[] = [
     'accent',
-    'accentForeground',
+    'accent_foreground',
     'border',
     'input',
     'ring',
     'popover',
-    'popoverForeground',
+    'popover_foreground',
 ];
 
 interface ColorTokenButtonProps {
@@ -130,7 +131,7 @@ const ColorTokenButton = ({
         const newColor = toReactColorful(color);
         setLocalColor(newColor);
         setHexInput(hslToHex(newColor.h, newColor.s, newColor.l));
-    }, [color?.hue, color?.saturation, color?.lightness]);
+    }, [color?.h, color?.s, color?.l]);
 
     const handleChange = (newColor: HslColor) => {
         setLocalColor(newColor);
@@ -328,11 +329,9 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
             if (!presetColors) return false;
 
             const primaryMatch =
-                currentColors.primary?.hue === presetColors.primary?.hue &&
-                currentColors.primary?.saturation ===
-                    presetColors.primary?.saturation &&
-                currentColors.primary?.lightness ===
-                    presetColors.primary?.lightness;
+                currentColors.primary?.h === presetColors.primary?.h &&
+                currentColors.primary?.s === presetColors.primary?.s &&
+                currentColors.primary?.l === presetColors.primary?.l;
 
             return primaryMatch;
         });
@@ -387,6 +386,9 @@ const CustomColorsModal = () => {
     const setStyles = useUIStore((state) => state.setStyles);
     const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>('dark');
 
+    const styles = useUIStore((state) => state.styles);
+    const { root, dark } = stylesToReactStyles(styles);
+
     const handleResetToDefault = () => {
         setStyles(DEFAULT_STYLES);
     };
@@ -413,16 +415,21 @@ const CustomColorsModal = () => {
                         <ThemeTabContent theme="dark" />
                     </TabsContent>
                 </Tabs>
-                <Card className="p-0 gap-0">
-                    <div className="border-b p-4 flex items-center justify-start gap-4">
+                <Card
+                    className="p-0 gap-0 overflow-hidden"
+                    style={activeTheme === 'light' ? root : dark}
+                >
+                    <div className="border-b p-4 flex gap-4 bg-background w-full">
                         <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full bg-red-400 opacity-50" />
                             <div className="w-3 h-3 rounded-full bg-yellow-400 opacity-50" />
                             <div className="w-3 h-3 rounded-full bg-green-400 opacity-50" />
                         </div>
-                        <Label>Попередній перегляд</Label>
+                        <Label className="text-foreground">
+                            Попередній перегляд
+                        </Label>
                     </div>
-                    <div className="p-4 flex gap-2 flex-wrap items-start justify-start bg-background">
+                    <div className="p-4 flex gap-2 flex-wrap items-start justify-start bg-background h-full">
                         <Button variant="default">Основна кнопка</Button>
                         <Button variant="outline" size="md">
                             Контурна кнопка
@@ -437,7 +444,7 @@ const CustomColorsModal = () => {
                         <Button variant="default" size="badge">
                             Основна кнопка-бейдж
                         </Button>
-                        <p>
+                        <p className="text-foreground">
                             Порушивши головну заборону алхімії та намагаючись
                             воскресити{' '}
                             <span className="text-primary-foreground hover:underline hover:cursor-pointer">
