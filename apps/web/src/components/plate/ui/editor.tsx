@@ -20,7 +20,7 @@ const editorContainerVariants = cva(
                     'flex flex-col justify-between gap-1 text-sm',
                     'rounded-lg border border-border bg-secondary/20',
                     'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-2 has-[[data-slate-editor]:focus]:ring-primary-foreground/30',
-                    'has-aria-disabled:border-input has-aria-disabled:bg-muted',
+                    'has-aria-disabled:border-border has-aria-disabled:bg-muted',
                 ),
                 drawer: cn(
                     'grid flex-1 grid-rows-[auto_1fr_auto] overflow-hidden',

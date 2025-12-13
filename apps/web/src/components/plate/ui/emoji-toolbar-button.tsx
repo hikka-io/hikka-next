@@ -551,7 +551,7 @@ function EmojiPickerNavigation({
                                         className={cn(
                                             'h-fit rounded-full fill-current p-1.5 text-muted-foreground hover:bg-muted hover:text-muted-foreground',
                                             id === focusedCategory &&
-                                                'pointer-events-none bg-accent fill-current text-accent-foreground',
+                                                'pointer-events-none bg-muted fill-current text-accent-foreground',
                                         )}
                                         onClick={() => {
                                             onClick(id);

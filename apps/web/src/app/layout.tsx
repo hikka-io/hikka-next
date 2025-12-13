@@ -6,6 +6,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 
 import { Providers } from '@/features/common';
 
+import { UIStoreProvider } from '@/services/providers/ui-store-provider';
 import { STYLE_ELEMENT_ID } from '@/utils/appearance';
 import { getUserAppearance, getUserStylesCSS } from '@/utils/appearance/server';
 import { generateMetadata } from '@/utils/metadata';
@@ -101,7 +102,9 @@ const RootLayout = async ({ children }: Props) => {
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <Providers initialUIData={userUI}>{children}</Providers>
+                    <UIStoreProvider initialUIData={userUI}>
+                        <Providers>{children}</Providers>
+                    </UIStoreProvider>
                 </div>
                 <TailwindIndicator />
             </body>

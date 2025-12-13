@@ -72,7 +72,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                 <div className="flex justify-between gap-2">
                     <H5>{data.title}</H5>
                     {data.score > 0 ? (
-                        <div className="size-fit rounded-md border  border-accent bg-accent px-2 text-sm text-accent-foreground">
+                        <div className="size-fit rounded-md border bg-secondary/20 backdrop-blur px-2 text-sm">
                             {data.score}
                         </div>
                     ) : null}

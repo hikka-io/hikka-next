@@ -1,3 +1,5 @@
+'use client';
+
 import { UserAppearance } from '@hikka/client';
 import { PropsWithChildren, createContext, useContext, useRef } from 'react';
 import { StoreApi, useStore } from 'zustand';

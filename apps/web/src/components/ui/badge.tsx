@@ -12,7 +12,6 @@ const badgeVariants = cva(
                     'border-transparent bg-primary text-primary-foreground border border-primary-border hover:bg-primary/80',
                 secondary:
                     'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                accent: 'border-transparent bg-accent text-accent-foreground hover:bg-accent/80',
                 success:
                     'border-transparent bg-success text-success-foreground border border-success-border hover:bg-success/80',
                 warning:

@@ -47,6 +47,7 @@ export const DEFAULT_STYLES: UIStyles = {
             popover_foreground: { h: 0, s: 0, l: 98 },
         },
     },
+    radius: '0.625rem',
 };
 
 /**

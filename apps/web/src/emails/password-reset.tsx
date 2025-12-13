@@ -96,7 +96,7 @@ export const ConfirmEmail = () => {
                         </div>
                         <div className="flex items-center justify-center rounded-lg border border-solid border-border bg-secondary/20 p-4">
                             <Button
-                                className="w-full rounded-lg bg-accent p-4 text-center text-[14px] font-semibold text-black no-underline"
+                                className="w-full rounded-lg bg-muted p-4 text-center text-[14px] font-semibold text-black no-underline"
                                 href={'https://hikka.io/auth/reset/{token}'}
                             >
                                 Змінити пароль

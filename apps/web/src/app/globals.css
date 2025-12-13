@@ -19,12 +19,9 @@
 
         --muted: 240 4.8% 95.9%;
         --muted-foreground: 240 3.8% 46.1%;
-
-        --accent: 240 4.8% 95.9%;
         --accent-foreground: 240 5.9% 10%;
 
         --border: 240 5.9% 90%;
-        --input: 240 5.9% 90%;
         --ring: 240 5.9% 10%;
         --radius: 0.625rem;
 
