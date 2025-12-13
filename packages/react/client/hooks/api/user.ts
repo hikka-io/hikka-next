@@ -1,8 +1,9 @@
 'use client';
 
-import { ActivityResponse, UserResponse } from '@hikka/client';
+import { ActivityResponse, UserAppearance, UserResponse } from '@hikka/client';
 import React from 'react';
 
+import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
@@ -10,6 +11,7 @@ import {
     UseUserActivityParams,
     UseUserByUsernameParams,
     UseUserSearchParams,
+    UseUserUIParams,
 } from '@/types/user';
 
 /**
@@ -81,3 +83,30 @@ export function useUserByUsername({
         ...rest,
     });
 }
+
+/**
+ * Hook for retrieving a user's UI appearance config by username
+ */
+export function useUserUI<TResult = UserAppearance>({
+    username,
+    ...rest
+}: UseUserUIParams & QueryParams<UserAppearance, TResult>) {
+    return useQuery<UserAppearance, Error, TResult>({
+        queryKey: queryKeys.user.ui(username),
+        queryFn: (client) => client.user.getUserUI(username),
+        ...rest,
+    });
+}
+
+/**
+ * Hook for updating a user's UI appearance config
+ */
+export const useUpdateUserUI = createMutation<
+    UserAppearance,
+    Error,
+    { username: string; appearance: UserAppearance }
+>({
+    mutationFn: (client, { username, appearance }) =>
+        client.user.updateUserUI(username, appearance),
+    invalidateQueries: ({ username }) => queryKeys.user.ui(username),
+});
