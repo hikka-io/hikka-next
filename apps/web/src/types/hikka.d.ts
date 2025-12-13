@@ -1,4 +1,4 @@
-import { UserRoleEnum } from '@hikka/client';
+import type { UserRoleEnum } from '@hikka/client';
 import { LinkProps } from 'next/link';
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
@@ -159,58 +159,6 @@ declare global {
 
         type PlausibleEvents = {
             'movie-banner-click': never;
-        };
-
-        type HSLColor = {
-            h: number;
-            s: number;
-            l: number;
-        };
-
-        type UIColorTokens = {
-            background?: HSLColor;
-            foreground?: HSLColor;
-            primary?: HSLColor;
-            primary_foreground?: HSLColor;
-            primary_border?: HSLColor;
-            secondary?: HSLColor;
-            secondary_foreground?: HSLColor;
-            muted?: HSLColor;
-            muted_foreground?: HSLColor;
-            accent?: HSLColor;
-            accent_foreground?: HSLColor;
-            border?: HSLColor;
-            input?: HSLColor;
-            ring?: HSLColor;
-            popover?: HSLColor;
-            popover_foreground?: HSLColor;
-        };
-
-        type UIStyles = {
-            dark?: { colors?: UIColorTokens };
-            light?: { colors?: UIColorTokens };
-            radius?: string;
-            typography?: {
-                h1?: string;
-                h2?: string;
-                h3?: string;
-                h4?: string;
-                h5?: string;
-                p?: string;
-            };
-        };
-
-        type UIPreferences = {
-            title_language?: TitleLanguage;
-            name_language?: NameLanguage;
-            effects?: UIEffect[];
-        };
-
-        type UIEffect = 'snowfall';
-
-        type UserAppearance = {
-            styles?: UIStyles;
-            preferences?: UIPreferences;
         };
 
         type EventTheme = {

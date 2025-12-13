@@ -13,27 +13,16 @@ export {
     formatHSL,
     hexToHsl,
     hslToHex,
-    toHikkaColor,
     toHSLString,
+    toHikkaColor,
     toReactColorful,
 } from './color';
 
 // Style injection
 export {
+    STYLE_ELEMENT_ID,
     applyStyles,
     injectStyles,
     removeInjectedStyles,
-    STYLE_ELEMENT_ID,
     stylesToCSS,
 } from './inject-styles';
-
-// UI Cookie storage
-export {
-    cookieStorage,
-    parseAppearanceFromCookie,
-    UI_COOKIE_NAME,
-} from './ui-cookie';
-
-// Server utilities (re-exported for convenience, but should be imported from ./server directly)
-// Note: These are async and server-only
-

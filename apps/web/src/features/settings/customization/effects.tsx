@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import { useUIStore } from '@/services/stores/ui-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { mergeEffects } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 

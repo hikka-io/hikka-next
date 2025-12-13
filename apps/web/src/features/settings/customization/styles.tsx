@@ -1,5 +1,6 @@
 'use client';
 
+import { HSLColor, UIColorTokens, UIStyles } from '@hikka/client';
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { HslColor, HslColorPicker } from 'react-colorful';
@@ -19,7 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useUIStore } from '@/services/stores/ui-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { DEFAULT_STYLES } from '@/utils/appearance';
 import {
     formatHSL,
@@ -35,10 +36,10 @@ import { cn } from '@/utils/cn';
 type ColorPreset = {
     name: string;
     color: string;
-    styles: Hikka.UIStyles;
+    styles: UIStyles;
 };
 
-const createPrimaryPreset = (h: number): Hikka.UIStyles => ({
+const createPrimaryPreset = (h: number): UIStyles => ({
     light: {
         colors: {
             primary: { h, s: 100, l: 95 },
@@ -65,7 +66,7 @@ const COLOR_PRESETS: ColorPreset[] = [
     { name: 'Бірюзовий', color: '#63e8e8', styles: createPrimaryPreset(180) },
 ];
 
-const COLOR_TOKEN_LABELS: Record<keyof Hikka.UIColorTokens, string> = {
+const COLOR_TOKEN_LABELS: Record<keyof UIColorTokens, string> = {
     primary: 'Основний',
     primary_foreground: 'Текст основного',
     primary_border: 'Рамка основного',
@@ -84,13 +85,13 @@ const COLOR_TOKEN_LABELS: Record<keyof Hikka.UIColorTokens, string> = {
     popover_foreground: 'Текст спливаючого вікна',
 };
 
-const PRIMARY_TOKENS: (keyof Hikka.UIColorTokens)[] = [
+const PRIMARY_TOKENS: (keyof UIColorTokens)[] = [
     'primary',
     'primary_foreground',
     'primary_border',
 ];
 
-const SURFACE_TOKENS: (keyof Hikka.UIColorTokens)[] = [
+const SURFACE_TOKENS: (keyof UIColorTokens)[] = [
     'background',
     'foreground',
     'secondary',
@@ -99,7 +100,7 @@ const SURFACE_TOKENS: (keyof Hikka.UIColorTokens)[] = [
     'muted_foreground',
 ];
 
-const UI_TOKENS: (keyof Hikka.UIColorTokens)[] = [
+const UI_TOKENS: (keyof UIColorTokens)[] = [
     'accent',
     'accent_foreground',
     'border',
@@ -110,9 +111,9 @@ const UI_TOKENS: (keyof Hikka.UIColorTokens)[] = [
 ];
 
 interface ColorTokenButtonProps {
-    token: keyof Hikka.UIColorTokens;
-    color: Hikka.HSLColor | undefined;
-    onColorChange: (color: Hikka.HSLColor) => void;
+    token: keyof UIColorTokens;
+    color: HSLColor | undefined;
+    onColorChange: (color: HSLColor) => void;
 }
 
 const ColorTokenButton = ({
@@ -220,13 +221,10 @@ const ColorTokenButton = ({
 
 interface TokenGroupProps {
     title: string;
-    tokens: (keyof Hikka.UIColorTokens)[];
+    tokens: (keyof UIColorTokens)[];
     keyPrefix: string;
-    getColor: (token: keyof Hikka.UIColorTokens) => Hikka.HSLColor | undefined;
-    onColorChange: (
-        token: keyof Hikka.UIColorTokens,
-        color: Hikka.HSLColor,
-    ) => void;
+    getColor: (token: keyof UIColorTokens) => HSLColor | undefined;
+    onColorChange: (token: keyof UIColorTokens, color: HSLColor) => void;
 }
 
 const TokenGroup = ({
@@ -296,13 +294,10 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const { gradientClassName } = useScrollGradientMask(scrollRef);
 
-    const getColor = (token: keyof Hikka.UIColorTokens) =>
+    const getColor = (token: keyof UIColorTokens) =>
         appearance.styles?.[theme]?.colors?.[token];
 
-    const handleColorChange = (
-        token: keyof Hikka.UIColorTokens,
-        color: Hikka.HSLColor,
-    ) => {
+    const handleColorChange = (token: keyof UIColorTokens, color: HSLColor) => {
         setColorToken(theme, token, color);
     };
 
@@ -310,7 +305,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
         const presetColors = preset.styles[theme]?.colors;
         if (!presetColors) return;
 
-        (Object.keys(presetColors) as (keyof Hikka.UIColorTokens)[]).forEach(
+        (Object.keys(presetColors) as (keyof UIColorTokens)[]).forEach(
             (token) => {
                 const color = presetColors[token];
                 if (color) {

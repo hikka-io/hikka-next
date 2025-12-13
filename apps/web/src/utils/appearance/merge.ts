@@ -1,14 +1,15 @@
 /**
  * Utilities for merging appearance styles and effects.
  */
+import { UIEffect, UIStyles } from '@hikka/client';
 
 /**
  * Merge two UIStyles objects, with override taking precedence.
  */
 export function mergeStyles(
-    base: Hikka.UIStyles | undefined,
-    override: Hikka.UIStyles | undefined,
-): Hikka.UIStyles {
+    base: UIStyles | undefined,
+    override: UIStyles | undefined,
+): UIStyles {
     if (!base && !override) return {};
     if (!base) return override!;
     if (!override) return base;
@@ -34,10 +35,9 @@ export function mergeStyles(
  * Merge two effect arrays, deduplicating the result.
  */
 export function mergeEffects(
-    base: Hikka.UIEffect[] | undefined,
-    override: Hikka.UIEffect[] | undefined,
-): Hikka.UIEffect[] {
+    base: UIEffect[] | undefined,
+    override: UIEffect[] | undefined,
+): UIEffect[] {
     const combined = [...(base ?? []), ...(override ?? [])];
     return [...new Set(combined)];
 }
-

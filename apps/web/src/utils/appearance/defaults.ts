@@ -1,11 +1,12 @@
 /**
  * Default UI styles and appearance settings.
  */
+import { UIStyles, UserAppearance } from '@hikka/client';
 
 /**
  * Default UI styles for light and dark themes.
  */
-export const DEFAULT_STYLES: Hikka.UIStyles = {
+export const DEFAULT_STYLES: UIStyles = {
     light: {
         colors: {
             background: { h: 0, s: 0, l: 100 },
@@ -51,7 +52,7 @@ export const DEFAULT_STYLES: Hikka.UIStyles = {
 /**
  * Default user appearance settings.
  */
-export const DEFAULT_APPEARANCE: Hikka.UserAppearance = {
+export const DEFAULT_APPEARANCE: UserAppearance = {
     styles: DEFAULT_STYLES,
     preferences: {
         title_language: 'title_ua',

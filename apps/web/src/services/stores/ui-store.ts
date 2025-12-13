@@ -1,17 +1,23 @@
 'use client';
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import {
+    HSLColor,
+    UIColorTokens,
+    UIEffect,
+    UIPreferences,
+    UIStyles,
+    UserAppearance,
+} from '@hikka/client';
+import { type StoreApi, createStore } from 'zustand/vanilla';
 
 import {
     DEFAULT_APPEARANCE,
-    cookieStorage,
     mergeEffects,
     mergeStyles,
 } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
-export type UIState = Hikka.UserAppearance & {
+export type UIState = UserAppearance & {
     _hasHydrated: boolean;
 };
 
@@ -19,33 +25,28 @@ export interface UIActions {
     setHasHydrated: (hasHydrated: boolean) => void;
 
     // Preferences
-    setTitleLanguage: (
-        titleLanguage: Hikka.UIPreferences['title_language'],
-    ) => void;
-    setNameLanguage: (
-        nameLanguage: Hikka.UIPreferences['name_language'],
-    ) => void;
+    setTitleLanguage: (title_language: UIPreferences['title_language']) => void;
+    setNameLanguage: (name_language: UIPreferences['name_language']) => void;
 
     // Styles
-    setStyles: (styles: Hikka.UIStyles | undefined) => void;
+    setStyles: (styles: UIStyles | undefined) => void;
     setColorToken: (
         theme: 'light' | 'dark',
-        token: keyof Hikka.UIColorTokens,
-        value: Hikka.HSLColor | undefined,
+        token: keyof UIColorTokens,
+        value: HSLColor | undefined,
     ) => void;
     setRadius: (radius: string | undefined) => void;
 
     // Effects
-    toggleEffect: (effect: Hikka.UIEffect) => void;
-    setEffects: (effects: Hikka.UIEffect[]) => void;
+    toggleEffect: (effect: UIEffect) => void;
+    setEffects: (effects: UIEffect[]) => void;
+
+    // Full replace
+    setAppearance: (appearance: UserAppearance) => void;
 
     // Computed getters
-    getMergedStyles: () => Hikka.UIStyles;
-    getActiveEffects: () => Hikka.UIEffect[];
-
-    // TODO: Implement when backend is ready
-    loadFromRemote: () => Promise<void>;
-    saveToRemote: () => Promise<void>;
+    getMergedStyles: () => UIStyles;
+    getActiveEffects: () => UIEffect[];
 
     // Reset
     reset: () => void;
@@ -53,149 +54,161 @@ export interface UIActions {
 
 export type UIStore = UIState & UIActions;
 
-export const useUIStore = create<UIStore>()(
-    persist(
-        (set, get) => ({
-            ...DEFAULT_APPEARANCE,
-            _hasHydrated: false,
+function normalizeInitialAppearance(
+    initial: UserAppearance | undefined,
+): UserAppearance {
+    return {
+        styles: mergeStyles(DEFAULT_APPEARANCE.styles, initial?.styles),
+        preferences: {
+            ...(DEFAULT_APPEARANCE.preferences ?? {}),
+            ...(initial?.preferences ?? {}),
+        },
+    };
+}
 
-            setHasHydrated: (hasHydrated) => {
-                set({ _hasHydrated: hasHydrated });
-            },
+export function createUIStore(
+    initialAppearance?: UserAppearance,
+): StoreApi<UIStore> {
+    const normalized = normalizeInitialAppearance(initialAppearance);
 
-            // Preferences
-            setTitleLanguage: (titleLanguage) => {
-                set((state) => {
-                    const currentPreferences =
-                        state.preferences ?? DEFAULT_APPEARANCE.preferences!;
-                    return {
-                        ...state,
-                        preferences: {
-                            ...currentPreferences,
-                            titleLanguage,
-                        },
-                    };
-                });
-            },
+    return createStore<UIStore>()((set, get) => ({
+        ...DEFAULT_APPEARANCE,
+        ...normalized,
+        _hasHydrated: true,
 
-            setNameLanguage: (nameLanguage) => {
-                set((state) => {
-                    const currentPreferences =
-                        state.preferences ?? DEFAULT_APPEARANCE.preferences!;
-                    return {
-                        ...state,
-                        preferences: {
-                            ...currentPreferences,
-                            nameLanguage,
-                        },
-                    };
-                });
-            },
+        setHasHydrated: (hasHydrated) => {
+            set({ _hasHydrated: hasHydrated });
+        },
 
-            // Styles
-            setStyles: (styles) => {
-                set((state) => ({
-                    ...state,
-                    styles,
-                }));
-            },
+        setAppearance: (appearance) => {
+            const next = normalizeInitialAppearance(appearance);
+            set((state) => ({
+                ...state,
+                ...next,
+            }));
+        },
 
-            setColorToken: (theme, token, value) => {
-                set((state) => {
-                    const currentStyles = state.styles ?? {};
-                    const currentThemeColors =
-                        currentStyles[theme]?.colors ?? {};
+        // Preferences
+        setTitleLanguage: (title_language) => {
+            set((state) => ({
+                ...state,
+                preferences: {
+                    ...(state.preferences ??
+                        DEFAULT_APPEARANCE.preferences ??
+                        {}),
+                    title_language,
+                },
+            }));
+        },
 
-                    return {
-                        ...state,
-                        styles: {
-                            ...currentStyles,
-                            [theme]: {
-                                ...currentStyles[theme],
-                                colors: {
-                                    ...currentThemeColors,
-                                    [token]: value,
-                                },
-                            },
-                        },
-                    };
-                });
-            },
+        setNameLanguage: (name_language) => {
+            set((state) => ({
+                ...state,
+                preferences: {
+                    ...(state.preferences ??
+                        DEFAULT_APPEARANCE.preferences ??
+                        {}),
+                    name_language,
+                },
+            }));
+        },
 
-            setRadius: (radius) => {
-                set((state) => ({
+        // Styles
+        setStyles: (styles) => {
+            set((state) => ({
+                ...state,
+                styles,
+            }));
+        },
+
+        setColorToken: (theme, token, value) => {
+            set((state) => {
+                const currentStyles = state.styles ?? {};
+                const currentThemeColors = currentStyles[theme]?.colors ?? {};
+
+                return {
                     ...state,
                     styles: {
-                        ...state.styles,
-                        radius,
+                        ...currentStyles,
+                        [theme]: {
+                            ...currentStyles[theme],
+                            colors: {
+                                ...currentThemeColors,
+                                [token]: value,
+                            },
+                        },
                     },
-                }));
-            },
-
-            // Effects
-            toggleEffect: (effect) => {
-                set((state) => {
-                    const currentEffects = state.preferences?.effects ?? [];
-                    const hasEffect = currentEffects.includes(effect);
-
-                    return {
-                        ...state,
-                        effects: hasEffect
-                            ? currentEffects.filter((e) => e !== effect)
-                            : [...currentEffects, effect],
-                    };
-                });
-            },
-
-            setEffects: (effects) => {
-                set((state) => ({
-                    ...state,
-                    effects,
-                }));
-            },
-
-            getMergedStyles: () => {
-                const state = get();
-                const eventTheme = getActiveEventTheme();
-
-                return mergeStyles(eventTheme?.styles, state.styles);
-            },
-
-            getActiveEffects: () => {
-                const state = get();
-                const eventTheme = getActiveEventTheme();
-
-                return mergeEffects(
-                    eventTheme?.effects,
-                    state.preferences?.effects,
-                );
-            },
-
-            loadFromRemote: async () => {
-                // TODO: Implement when backend is ready
-                // 1. Fetch user appearance from API
-                // 2. Compare version with local
-                // 3. Update if remote is newer
-            },
-
-            saveToRemote: async () => {
-                // TODO: Implement when backend is ready
-                // 1. Send current appearance to API
-                // 2. Update version on success
-            },
-
-            reset: () => {
-                set({
-                    ...DEFAULT_APPEARANCE,
-                });
-            },
-        }),
-        {
-            name: 'ui-appearance',
-            storage: cookieStorage,
-            onRehydrateStorage: (state) => {
-                return () => state.setHasHydrated(true);
-            },
+                };
+            });
         },
-    ),
-);
+
+        setRadius: (radius) => {
+            set((state) => ({
+                ...state,
+                styles: {
+                    ...state.styles,
+                    radius,
+                },
+            }));
+        },
+
+        // Effects
+        toggleEffect: (effect) => {
+            set((state) => {
+                const currentEffects = state.preferences?.effects ?? [];
+                const hasEffect = currentEffects.includes(effect);
+                const effects = hasEffect
+                    ? currentEffects.filter((e) => e !== effect)
+                    : [...currentEffects, effect];
+
+                return {
+                    ...state,
+                    preferences: {
+                        ...(state.preferences ??
+                            DEFAULT_APPEARANCE.preferences ??
+                            {}),
+                        effects,
+                    },
+                };
+            });
+        },
+
+        setEffects: (effects) => {
+            set((state) => ({
+                ...state,
+                preferences: {
+                    ...(state.preferences ??
+                        DEFAULT_APPEARANCE.preferences ??
+                        {}),
+                    effects,
+                },
+            }));
+        },
+
+        // Computed getters
+        getMergedStyles: () => {
+            const state = get();
+            const eventTheme = getActiveEventTheme();
+
+            return mergeStyles(eventTheme?.styles, state.styles);
+        },
+
+        getActiveEffects: () => {
+            const state = get();
+            const eventTheme = getActiveEventTheme();
+
+            return mergeEffects(
+                eventTheme?.effects,
+                state.preferences?.effects,
+            );
+        },
+
+        // Reset
+        reset: () => {
+            set({
+                ...DEFAULT_APPEARANCE,
+                _hasHydrated: true,
+            });
+        },
+    }));
+}

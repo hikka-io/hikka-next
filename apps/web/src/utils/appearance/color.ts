@@ -1,11 +1,10 @@
+import { HSLColor } from '@hikka/client';
 import { HslColor } from 'react-colorful';
 
 /**
  * Convert Hikka HSL color to react-colorful HslColor format.
  */
-export const toReactColorful = (
-    color: Hikka.HSLColor | undefined,
-): HslColor => ({
+export const toReactColorful = (color: HSLColor | undefined): HslColor => ({
     h: color?.h ?? 0,
     s: color?.s ?? 0,
     l: color?.l ?? 0,
@@ -14,7 +13,7 @@ export const toReactColorful = (
 /**
  * Convert react-colorful HslColor to Hikka HSLColor format.
  */
-export const toHikkaColor = (color: HslColor): Hikka.HSLColor => ({
+export const toHikkaColor = (color: HslColor): HSLColor => ({
     h: Math.round(color.h),
     s: Math.round(color.s),
     l: Math.round(color.l),
@@ -23,7 +22,7 @@ export const toHikkaColor = (color: HslColor): Hikka.HSLColor => ({
 /**
  * Format Hikka HSL color as a string (e.g., "321 70% 65%").
  */
-export const formatHSL = (color: Hikka.HSLColor | undefined): string | null => {
+export const formatHSL = (color: HSLColor | undefined): string | null => {
     if (!color) return null;
     return `${color.h} ${color.s}% ${color.l}%`;
 };
@@ -31,7 +30,7 @@ export const formatHSL = (color: Hikka.HSLColor | undefined): string | null => {
 /**
  * Convert Hikka HSL color to CSS hsl() string.
  */
-export const toHSLString = (color: Hikka.HSLColor | undefined): string => {
+export const toHSLString = (color: HSLColor | undefined): string => {
     if (!color) return 'transparent';
     return `hsl(${color.h} ${color.s}% ${color.l}%)`;
 };

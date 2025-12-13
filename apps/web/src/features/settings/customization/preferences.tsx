@@ -16,7 +16,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { useUIStore } from '@/services/stores/ui-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 
 const PreferencesSettings = () => {
     const appearance = useUIStore((state) => state);

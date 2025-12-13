@@ -1,3 +1,5 @@
+import { UIEffect } from '@hikka/client';
+
 /**
  * Event themes that can be activated based on date ranges.
  */
@@ -30,7 +32,7 @@ export function getActiveEventTheme(): Hikka.EventTheme | null {
 /**
  * Check if a specific effect is active based on event themes.
  */
-export function isEventEffectActive(effect: Hikka.UIEffect): boolean {
+export function isEventEffectActive(effect: UIEffect): boolean {
     const activeTheme = getActiveEventTheme();
     return activeTheme?.effects?.includes(effect) ?? false;
 }

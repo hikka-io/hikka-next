@@ -1,9 +1,10 @@
 'use client';
 
+import { UIEffect } from '@hikka/client';
 import { useMemo } from 'react';
 import Snowfall from 'react-snowfall';
 
-import { useUIStore } from '@/services/stores/ui-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { mergeEffects } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
@@ -22,7 +23,7 @@ const SnowfallEffect = () => {
     );
 };
 
-const EFFECT_COMPONENTS: Record<Hikka.UIEffect, React.ComponentType> = {
+const EFFECT_COMPONENTS: Record<UIEffect, React.ComponentType> = {
     snowfall: SnowfallEffect,
 };
 

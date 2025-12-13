@@ -1,9 +1,14 @@
+import { UIColorTokens, UIStyles } from '@hikka/client';
 import type { CSSProperties } from 'react';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 
-function camelToKebab(str: string): string {
-    return str.replace(/([A-Z])/g, '-$1').toLowerCase();
+function keyToKebab(str: string): string {
+    // Support both snake_case and camelCase token keys (and keep kebab-case as-is).
+    return str
+        .replace(/_/g, '-')
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+        .toLowerCase();
 }
 
 type CSSVarStyle = CSSProperties & Record<string, string | number>;
@@ -11,7 +16,7 @@ type CSSVarStyle = CSSProperties & Record<string, string | number>;
 /**
  * Convert UIColorTokens to CSS variable declarations
  */
-function colorTokensToCSS(tokens: Hikka.UIColorTokens | undefined): string {
+function colorTokensToCSS(tokens: UIColorTokens | undefined): string {
     if (!tokens) return '';
 
     const declarations: string[] = [];
@@ -19,12 +24,12 @@ function colorTokensToCSS(tokens: Hikka.UIColorTokens | undefined): string {
     for (const [key, value] of Object.entries(tokens)) {
         if (value !== undefined && value !== null) {
             if (typeof value === 'object' && value?.h !== undefined) {
-                const cssVarName = `--${camelToKebab(key)}`;
+                const cssVarName = `--${keyToKebab(key)}`;
                 declarations.push(
                     `${cssVarName}: ${value.h} ${value.s}% ${value.l}%;`,
                 );
             } else if (typeof value === 'string' && value !== '') {
-                const cssVarName = `--${camelToKebab(key)}`;
+                const cssVarName = `--${keyToKebab(key)}`;
                 declarations.push(`${cssVarName}: ${value};`);
             }
         }
@@ -37,14 +42,14 @@ function colorTokensToCSS(tokens: Hikka.UIColorTokens | undefined): string {
  * Convert UIColorTokens to a React style object with CSS variables.
  */
 function colorTokensToReactStyle(
-    tokens: Hikka.UIColorTokens | undefined,
+    tokens: UIColorTokens | undefined,
 ): CSSVarStyle {
     const style: CSSVarStyle = {};
     if (!tokens) return style;
 
     for (const [key, value] of Object.entries(tokens)) {
         if (value !== undefined && value !== null) {
-            const cssVarName = `--${camelToKebab(key)}`;
+            const cssVarName = `--${keyToKebab(key)}`;
 
             if (typeof value === 'object' && value?.h !== undefined) {
                 style[cssVarName] = `${value.h} ${value.s}% ${value.l}%`;
@@ -60,7 +65,7 @@ function colorTokensToReactStyle(
 /**
  * Convert UIStyles to a complete CSS string with :root and .dark selectors
  */
-export function stylesToCSS(styles: Hikka.UIStyles | undefined): string {
+export function stylesToCSS(styles: UIStyles | undefined): string {
     if (!styles) return '';
 
     const parts: string[] = [];
@@ -90,7 +95,7 @@ export function stylesToCSS(styles: Hikka.UIStyles | undefined): string {
  * Note: inline styles can't target selectors like ".dark", so we return both
  * buckets for the caller to apply conditionally.
  */
-export function stylesToReactStyles(styles: Hikka.UIStyles | undefined): {
+export function stylesToReactStyles(styles: UIStyles | undefined): {
     root: CSSVarStyle;
     dark: CSSVarStyle;
 } {
@@ -145,7 +150,7 @@ export function removeInjectedStyles(): void {
 /**
  * Convert UIStyles and inject them.
  */
-export function applyStyles(styles: Hikka.UIStyles | undefined): void {
+export function applyStyles(styles: UIStyles | undefined): void {
     const css = stylesToCSS(styles);
 
     if (css) {

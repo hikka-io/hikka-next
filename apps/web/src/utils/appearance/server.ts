@@ -1,31 +1,70 @@
-import { cookies } from 'next/headers';
+import { HikkaClient, UserAppearance } from '@hikka/client';
+import { unstable_cache } from 'next/cache';
+import { cache } from 'react';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 import { DEFAULT_APPEARANCE } from './defaults';
 import { stylesToCSS } from './inject-styles';
 import { mergeStyles } from './merge';
-import { parseAppearanceFromCookie, UI_COOKIE_NAME } from './ui-cookie';
 
 /**
- * Get user appearance from cookies
+ * Cached per-user UI appearance fetch.
+ *
+ * - Keyed by username
+ * - Tagged so POST updates can `revalidateTag('user-ui:${username}')`
  */
-export async function getUserAppearance(): Promise<Hikka.UserAppearance> {
-    const cookieStore = await cookies();
-    const cookieValue = cookieStore.get(UI_COOKIE_NAME)?.value;
-    const appearance = parseAppearanceFromCookie(cookieValue);
+export const getCachedUserAppearance = cache(
+    async (username: string): Promise<UserAppearance> => {
+        const config = await getHikkaClientConfig();
+        const client = new HikkaClient(config);
 
-    return appearance ?? DEFAULT_APPEARANCE;
+        const cachedFetch = unstable_cache(
+            async () => client.user.getUserUI(username),
+            ['user-ui', username],
+            {
+                tags: [`user-ui:${username}`],
+            },
+        );
+
+        try {
+            return await cachedFetch();
+        } catch {
+            return DEFAULT_APPEARANCE;
+        }
+    },
+);
+
+/**
+ * Get user appearance for the current session.
+ *
+ * If the user is not authenticated, falls back to DEFAULT_APPEARANCE.
+ */
+export async function getUserAppearance(): Promise<UserAppearance> {
+    const config = await getHikkaClientConfig();
+    const client = new HikkaClient(config);
+
+    try {
+        const me = await client.user.getCurrentUser();
+        return await getCachedUserAppearance(me.username);
+    } catch {
+        return DEFAULT_APPEARANCE;
+    }
 }
 
 /**
  * Get merged styles as CSS string for SSR injection
  */
-export async function getUserStylesCSS(): Promise<string> {
-    const appearance = await getUserAppearance();
+export async function getUserStylesCSS(
+    appearance?: UserAppearance,
+): Promise<string> {
+    const resolvedAppearance = appearance ?? (await getUserAppearance());
     const eventTheme = getActiveEventTheme();
-    const mergedStyles = mergeStyles(eventTheme?.styles, appearance.styles);
+    const mergedStyles = mergeStyles(
+        eventTheme?.styles,
+        resolvedAppearance.styles,
+    );
 
     return stylesToCSS(mergedStyles);
 }
-

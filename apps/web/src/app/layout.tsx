@@ -7,7 +7,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { Providers } from '@/features/common';
 
 import { STYLE_ELEMENT_ID } from '@/utils/appearance';
-import { getUserStylesCSS } from '@/utils/appearance/server';
+import { getUserAppearance, getUserStylesCSS } from '@/utils/appearance/server';
 import { generateMetadata } from '@/utils/metadata';
 
 import { TailwindIndicator } from '../components/tailwind-indicator';
@@ -74,7 +74,8 @@ interface Props {
 }
 
 const RootLayout = async ({ children }: Props) => {
-    const userStylesCSS = await getUserStylesCSS();
+    const userUI = await getUserAppearance();
+    const userStylesCSS = await getUserStylesCSS(userUI);
 
     return (
         <html
@@ -100,7 +101,7 @@ const RootLayout = async ({ children }: Props) => {
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <Providers>{children}</Providers>
+                    <Providers initialUIData={userUI}>{children}</Providers>
                 </div>
                 <TailwindIndicator />
             </body>
