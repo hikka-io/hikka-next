@@ -76,13 +76,19 @@ const COLOR_TOKEN_LABELS: Record<keyof UIColorTokens, string> = {
     secondary_foreground: 'Текст вторинного',
     muted: 'Приглушений',
     muted_foreground: 'Текст приглушеного',
-    accent: 'Акцент',
     accent_foreground: 'Текст акценту',
     border: 'Рамка',
-    input: 'Поле введення',
     ring: 'Кільце фокусу',
     popover: 'Спливаюче вікно',
     popover_foreground: 'Текст спливаючого вікна',
+    sidebar_foreground: 'Текст бокової панелі',
+    sidebar_primary: 'Основний колір бокової панелі',
+    sidebar_primary_foreground: 'Текст основного кольору бокової панелі',
+    sidebar_accent: 'Акцентний колір бокової панелі',
+    sidebar_accent_foreground: 'Текст акцентного кольору бокової панелі',
+    sidebar_border: 'Рамка бокової панелі',
+    sidebar_ring: 'Кільце фокусу бокової панелі',
+    sidebar_background: 'Фон бокової панелі',
 };
 
 const PRIMARY_TOKENS: (keyof UIColorTokens)[] = [
@@ -101,13 +107,22 @@ const SURFACE_TOKENS: (keyof UIColorTokens)[] = [
 ];
 
 const UI_TOKENS: (keyof UIColorTokens)[] = [
-    'accent',
     'accent_foreground',
     'border',
-    'input',
     'ring',
     'popover',
     'popover_foreground',
+];
+
+const SIDEBAR_TOKENS: (keyof UIColorTokens)[] = [
+    'sidebar_background',
+    'sidebar_foreground',
+    'sidebar_primary',
+    'sidebar_primary_foreground',
+    'sidebar_accent',
+    'sidebar_accent_foreground',
+    'sidebar_border',
+    'sidebar_ring',
 ];
 
 interface ColorTokenButtonProps {
@@ -366,6 +381,13 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                     <TokenGroup
                         title="UI елементи"
                         tokens={UI_TOKENS}
+                        keyPrefix={theme}
+                        getColor={getColor}
+                        onColorChange={handleColorChange}
+                    />
+                    <TokenGroup
+                        title="Бокова панель"
+                        tokens={SIDEBAR_TOKENS}
                         keyPrefix={theme}
                         getColor={getColor}
                         onColorChange={handleColorChange}

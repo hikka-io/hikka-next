@@ -33,18 +33,32 @@ export type UIColorTokens = {
     secondary_foreground?: HSLColor;
     muted?: HSLColor;
     muted_foreground?: HSLColor;
-    accent?: HSLColor;
     accent_foreground?: HSLColor;
     border?: HSLColor;
-    input?: HSLColor;
     ring?: HSLColor;
     popover?: HSLColor;
     popover_foreground?: HSLColor;
+    // Sidebar colors
+    sidebar_background?: HSLColor;
+    sidebar_foreground?: HSLColor;
+    sidebar_primary?: HSLColor;
+    sidebar_primary_foreground?: HSLColor;
+    sidebar_accent?: HSLColor;
+    sidebar_accent_foreground?: HSLColor;
+    sidebar_border?: HSLColor;
+    sidebar_ring?: HSLColor;
+};
+
+export type UIThemeStyles = {
+    colors?: UIColorTokens;
+    body?: {
+        background_image?: string;
+    };
 };
 
 export type UIStyles = {
-    dark?: { colors?: UIColorTokens };
-    light?: { colors?: UIColorTokens };
+    dark?: UIThemeStyles;
+    light?: UIThemeStyles;
     radius?: string;
     typography?: {
         h1?: string;
