@@ -48,6 +48,9 @@ export interface UIActions {
     getMergedStyles: () => UIStyles;
     getActiveEffects: () => UIEffect[];
 
+    // Backend API
+    syncChanges: () => Promise<UserAppearance | null>;
+
     // Reset
     reset: () => void;
 }
@@ -209,6 +212,11 @@ export function createUIStore(
                 ...DEFAULT_APPEARANCE,
                 _hasHydrated: true,
             });
+        },
+
+        // Backend API
+        syncChanges: async () => {
+            return Promise.resolve(null);
         },
     }));
 }

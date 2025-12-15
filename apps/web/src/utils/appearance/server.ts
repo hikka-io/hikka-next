@@ -15,7 +15,7 @@ import { mergeStyles } from './merge';
  * - Keyed by username
  * - Tagged so POST updates can `revalidateTag('user-ui:${username}')`
  */
-export const getCachedUserAppearance = cache(
+export const getCachedUserUI = cache(
     async (username: string): Promise<UserAppearance> => {
         const config = await getHikkaClientConfig();
         const client = new HikkaClient(config);
@@ -41,13 +41,15 @@ export const getCachedUserAppearance = cache(
  *
  * If the user is not authenticated, falls back to DEFAULT_APPEARANCE.
  */
-export async function getUserAppearance(): Promise<UserAppearance> {
+export async function getSessionUserUI(): Promise<UserAppearance> {
     const config = await getHikkaClientConfig();
     const client = new HikkaClient(config);
 
     try {
         const me = await client.user.getCurrentUser();
-        return await getCachedUserAppearance(me.username);
+        const ui = await getCachedUserUI(me.username);
+
+        return ui;
     } catch {
         return DEFAULT_APPEARANCE;
     }
@@ -59,7 +61,7 @@ export async function getUserAppearance(): Promise<UserAppearance> {
 export async function getUserStylesCSS(
     appearance?: UserAppearance,
 ): Promise<string> {
-    const resolvedAppearance = appearance ?? (await getUserAppearance());
+    const resolvedAppearance = appearance ?? (await getSessionUserUI());
     const eventTheme = getActiveEventTheme();
     const mergedStyles = mergeStyles(
         eventTheme?.styles,

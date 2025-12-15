@@ -79,3 +79,16 @@ export async function prefetchUserUI({
         ...rest,
     });
 }
+
+/**
+ * Prefetches the current user's UI appearance config for server-side rendering
+ */
+export async function prefetchSessionUserUI({
+    ...rest
+}: PrefetchQueryParams<UserAppearance>) {
+    return prefetchQuery({
+        queryKey: queryKeys.user.ui('me'),
+        queryFn: (client) => client.user.getCurrentUserUI(),
+        ...rest,
+    });
+}

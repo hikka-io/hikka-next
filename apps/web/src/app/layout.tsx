@@ -8,7 +8,7 @@ import { Providers } from '@/features/common';
 
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
 import { STYLE_ELEMENT_ID } from '@/utils/appearance';
-import { getUserAppearance, getUserStylesCSS } from '@/utils/appearance/server';
+import { getSessionUserUI, getUserStylesCSS } from '@/utils/appearance/server';
 import { generateMetadata } from '@/utils/metadata';
 
 import { TailwindIndicator } from '../components/tailwind-indicator';
@@ -75,7 +75,7 @@ interface Props {
 }
 
 const RootLayout = async ({ children }: Props) => {
-    const userUI = await getUserAppearance();
+    const userUI = await getSessionUserUI();
     const userStylesCSS = await getUserStylesCSS(userUI);
 
     return (
