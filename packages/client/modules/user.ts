@@ -53,25 +53,19 @@ export class UserModule extends BaseModule {
     /**
      * Get user UI appearance config by username
      */
+    public async getCurrentUserUI(
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserAppearance> {
+        return this.client.get<UserAppearance>(`/user/me/ui`, options);
+    }
+
+    /**
+     * Get user UI appearance config by username
+     */
     public async getUserUI(
         username: string,
         options?: BaseRequestOptionsArgs,
     ): Promise<UserAppearance> {
         return this.client.get<UserAppearance>(`/user/${username}/ui`, options);
-    }
-
-    /**
-     * Update user UI appearance config by username
-     */
-    public async updateUserUI(
-        username: string,
-        appearance: UserAppearance,
-        options?: BaseRequestOptionsArgs,
-    ): Promise<UserAppearance> {
-        return this.client.post<UserAppearance>(
-            `/user/${username}/ui`,
-            appearance,
-            options,
-        );
     }
 }

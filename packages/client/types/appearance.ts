@@ -81,4 +81,5 @@ export type UIPreferences = {
 export type UserAppearance = {
     styles?: UIStyles;
     preferences?: UIPreferences;
+    username?: string;
 };
