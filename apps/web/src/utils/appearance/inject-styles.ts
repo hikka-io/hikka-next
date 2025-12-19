@@ -72,6 +72,9 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
 
     const lightColors = colorTokensToCSS(styles.light?.colors);
     const radiusDecl = styles.radius ? `--radius: ${styles.radius};` : '';
+    const lightBackgroundImage = styles.light?.body?.background_image
+        ? `${styles.light?.body?.background_image};`
+        : '';
 
     if (lightColors || radiusDecl) {
         const lightDeclarations = [lightColors, radiusDecl]
@@ -80,10 +83,26 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
         parts.push(`:root {\n    ${lightDeclarations}\n}`);
     }
 
+    if (lightBackgroundImage) {
+        parts.push(
+            `:root body {\n    background-image: ${lightBackgroundImage};\n}`,
+        );
+    }
+
     const darkColors = colorTokensToCSS(styles.dark?.colors);
 
     if (darkColors) {
         parts.push(`.dark {\n    ${darkColors}\n}`);
+    }
+
+    const darkBackgroundImage = styles.dark?.body?.background_image
+        ? `${styles.dark?.body?.background_image};`
+        : '';
+
+    if (darkBackgroundImage) {
+        parts.push(
+            `.dark body {\n    background-image: ${darkBackgroundImage};\n}`,
+        );
     }
 
     return parts.join('\n\n');

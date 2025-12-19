@@ -5,6 +5,7 @@ import { Moon, Sun } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { HslColor, HslColorPicker } from 'react-colorful';
 
+import { CollapsibleFilter } from '@/components/collapsible-filter';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -18,7 +19,6 @@ import {
 } from '@/components/ui/popover';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
 import { DEFAULT_STYLES } from '@/utils/appearance';
@@ -31,7 +31,6 @@ import {
     toReactColorful,
 } from '@/utils/appearance/color';
 import { stylesToReactStyles } from '@/utils/appearance/inject-styles';
-import { cn } from '@/utils/cn';
 
 type ColorPreset = {
     name: string;
@@ -46,12 +45,18 @@ const createPrimaryPreset = (h: number): UIStyles => ({
             primary_foreground: { h, s: 70, l: 45 },
             primary_border: { h, s: 90, l: 90 },
         },
+        body: {
+            background_image: undefined,
+        },
     },
     dark: {
         colors: {
             primary: { h, s: 10, l: 5 },
             primary_foreground: { h, s: 70, l: 69 },
             primary_border: { h, s: 43, l: 17 },
+        },
+        body: {
+            background_image: `linear-gradient(hsl(${h}, 60%, 8%) 0%, transparent 60% 100%)`,
         },
     },
 });
@@ -273,29 +278,30 @@ const PresetButtons = ({
     onPresetSelect,
     selectedPresetName,
 }: PresetButtonsProps) => (
-    <div className="flex flex-col gap-2">
-        <Label>Набори</Label>
-        <div className="flex flex-wrap gap-2 w-full">
-            {COLOR_PRESETS.map((preset) => (
-                <Button
-                    key={preset.name}
-                    variant={
-                        selectedPresetName === preset.name
-                            ? 'default'
-                            : 'outline'
-                    }
-                    size="badge"
-                    className="text-left justify-start"
-                    onClick={() => onPresetSelect(preset)}
-                >
-                    <div
-                        className="size-3 rounded-full border"
-                        style={{ backgroundColor: preset.color }}
-                    />
-                    {preset.name}
-                </Button>
-            ))}
-        </div>
+    <div>
+        <CollapsibleFilter className="" title="Набори">
+            <div className="flex flex-wrap gap-2">
+                {COLOR_PRESETS.map((preset) => (
+                    <Button
+                        key={preset.name}
+                        variant={
+                            selectedPresetName === preset.name
+                                ? 'default'
+                                : 'outline'
+                        }
+                        size="badge"
+                        className="text-left justify-start"
+                        onClick={() => onPresetSelect(preset)}
+                    >
+                        <div
+                            className="size-3 rounded-full border"
+                            style={{ backgroundColor: preset.color }}
+                        />
+                        {preset.name}
+                    </Button>
+                ))}
+            </div>
+        </CollapsibleFilter>
     </div>
 );
 
@@ -306,8 +312,8 @@ interface ThemeTabContentProps {
 const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     const appearance = useUIStore((state) => state);
     const setColorToken = useUIStore((state) => state.setColorToken);
+    const setBody = useUIStore((state) => state.setBody);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const { gradientClassName } = useScrollGradientMask(scrollRef);
 
     const getColor = (token: keyof UIColorTokens) =>
         appearance.styles?.[theme]?.colors?.[token];
@@ -328,6 +334,11 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                 }
             },
         );
+
+        const presetBody = preset.styles[theme]?.body;
+        if (presetBody) {
+            setBody(theme, presetBody);
+        }
     };
 
     const getSelectedPresetName = (): string | null => {
@@ -355,15 +366,24 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                 onPresetSelect={handlePresetSelect}
                 selectedPresetName={getSelectedPresetName()}
             />
-            <div
-                ref={scrollRef}
-                className={cn(
-                    '-mx-4 max-h-80 overflow-y-auto px-4',
-                    'styled-scrollbar',
-                    gradientClassName,
-                )}
-            >
+            <div ref={scrollRef}>
                 <div className="flex flex-col gap-6 py-2">
+                    <div className="flex flex-col gap-2">
+                        <Label>Градієнт</Label>
+                        <Input
+                            placeholder="Введіть CSS-значення для градієнта"
+                            onChange={(e) =>
+                                setBody(theme, {
+                                    background_image: e.target.value,
+                                })
+                            }
+                            type="text"
+                            value={
+                                appearance.styles?.[theme]?.body
+                                    ?.background_image ?? ''
+                            }
+                        />
+                    </div>
                     <TokenGroup
                         title="Основні кольори"
                         tokens={PRIMARY_TOKENS}
@@ -400,14 +420,22 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
 
 const CustomColorsModal = () => {
     const { closeModal } = useModalContext();
-    const setStyles = useUIStore((state) => state.setStyles);
     const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>('dark');
+
+    const syncUserUI = useUIStore((state) => state.syncUserUI);
+    const updateUserUI = useUIStore((state) => state.updateUserUI);
 
     const styles = useUIStore((state) => state.styles);
     const { root, dark } = stylesToReactStyles(styles);
 
     const handleResetToDefault = () => {
-        setStyles(DEFAULT_STYLES);
+        syncUserUI();
+    };
+
+    const saveChanges = () => {
+        updateUserUI().then(() => {
+            closeModal();
+        });
     };
 
     return (
@@ -433,10 +461,10 @@ const CustomColorsModal = () => {
                     </TabsContent>
                 </Tabs>
                 <Card
-                    className="p-0 gap-0 overflow-hidden"
+                    className="p-0 gap-0 overflow-hidden bg-background top-4 sticky align-self-start h-fit"
                     style={activeTheme === 'light' ? root : dark}
                 >
-                    <div className="border-b p-4 flex gap-4 bg-background w-full">
+                    <div className="border-b p-4 flex gap-4 w-full">
                         <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full bg-red-400 opacity-50" />
                             <div className="w-3 h-3 rounded-full bg-yellow-400 opacity-50" />
@@ -446,7 +474,7 @@ const CustomColorsModal = () => {
                             Попередній перегляд
                         </Label>
                     </div>
-                    <div className="p-4 flex gap-2 flex-wrap items-start justify-start bg-background h-full">
+                    <div className="p-4 flex gap-2 flex-wrap items-start justify-start h-fit">
                         <Button variant="default">Основна кнопка</Button>
                         <Button variant="outline" size="md">
                             Контурна кнопка
@@ -483,7 +511,7 @@ const CustomColorsModal = () => {
                     </div>
                 </Card>
             </div>
-            <div className="flex flex-col md:flex-row justify-end gap-4 items-start md:items-center md:justify-between">
+            <div className="flex flex-col md:flex-row justify-end gap-4 items-start md:items-center md:justify-between -mx-6 px-6 py-4 border-t sticky bottom-0 bg-background">
                 <Button
                     variant="destructive"
                     className="w-full md:w-auto"
@@ -493,10 +521,14 @@ const CustomColorsModal = () => {
                     Скинути зміни
                 </Button>
                 <div className="flex gap-2 items-center w-full justify-end">
-                    <Button variant="ghost" onClick={closeModal} size="md">
+                    <Button
+                        variant="ghost"
+                        onClick={() => closeModal(false)}
+                        size="md"
+                    >
                         Скасувати
                     </Button>
-                    <Button variant="default" onClick={closeModal} size="md">
+                    <Button variant="default" onClick={saveChanges} size="md">
                         Зберегти
                     </Button>
                 </div>
@@ -508,7 +540,10 @@ const CustomColorsModal = () => {
 const StylesSettings = () => {
     const { openModal } = useModalContext();
     const appearance = useUIStore((state) => state);
+
     const setRadius = useUIStore((state) => state.setRadius);
+
+    const syncUserUI = useUIStore((state) => state.syncUserUI);
 
     const handleRadiusChange = (value: string) => {
         setRadius(value ? `${value}rem` : undefined);
@@ -520,7 +555,8 @@ const StylesSettings = () => {
             title: 'Налаштування кольорів',
             description: 'Персоналізуйте кольори сайту',
             forceModal: true,
-            className: '!max-w-3xl',
+            className: '!max-w-4xl',
+            onClose: syncUserUI,
         });
     };
 

@@ -14,18 +14,13 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
-import {
-    useUIStore,
-    useUIStoreApi,
-} from '@/services/providers/ui-store-provider';
-import { applyStyles } from '@/utils/appearance';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { getCookie } from '@/utils/cookies';
 
 interface Props extends PropsWithChildren {}
 
 const Providers: FC<Props> = ({ children }) => {
     const appearance = useUIStore((state) => state);
-    const uiStore = useUIStoreApi();
     setDefaultOptions({ locale: uk });
 
     const [queryClientConfig] = useState<QueryClientConfig>({
@@ -46,17 +41,6 @@ const Providers: FC<Props> = ({ children }) => {
                 setApiClientConfig((config) => ({ ...config, authToken })),
         );
     }, []);
-
-    useEffect(() => {
-        // Keep injected CSS in sync with the UI store state.
-        applyStyles(uiStore.getState().getMergedStyles());
-
-        return uiStore.subscribe((state, prevState) => {
-            if (state.styles !== prevState.styles) {
-                applyStyles(uiStore.getState().getMergedStyles());
-            }
-        });
-    }, [uiStore]);
 
     return (
         <HikkaProvider

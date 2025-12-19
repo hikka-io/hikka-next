@@ -1,19 +1,19 @@
+'use server';
+
 import { HikkaClient, UserAppearance } from '@hikka/client';
-import { unstable_cache } from 'next/cache';
+import { unstable_cache, updateTag } from 'next/cache';
 import { cache } from 'react';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { getHikkaClientConfig } from '@/utils/hikka-client';
 
+import { getCookie } from '../cookies';
 import { DEFAULT_APPEARANCE } from './defaults';
 import { stylesToCSS } from './inject-styles';
 import { mergeStyles } from './merge';
 
 /**
  * Cached per-user UI appearance fetch.
- *
- * - Keyed by username
- * - Tagged so POST updates can `revalidateTag('user-ui:${username}')`
  */
 export const getCachedUserUI = cache(
     async (username: string): Promise<UserAppearance> => {
@@ -30,7 +30,8 @@ export const getCachedUserUI = cache(
 
         try {
             return await cachedFetch();
-        } catch {
+        } catch (error) {
+            console.error('Failed to get cached user UI', error);
             return DEFAULT_APPEARANCE;
         }
     },
@@ -38,19 +39,16 @@ export const getCachedUserUI = cache(
 
 /**
  * Get user appearance for the current session.
- *
- * If the user is not authenticated, falls back to DEFAULT_APPEARANCE.
+
  */
 export async function getSessionUserUI(): Promise<UserAppearance> {
-    const config = await getHikkaClientConfig();
-    const client = new HikkaClient(config);
-
     try {
-        const me = await client.user.getCurrentUser();
-        const ui = await getCachedUserUI(me.username);
+        let currentUsername = await getCookie('username');
+        const ui = await getCachedUserUI(currentUsername ?? '');
 
         return ui;
-    } catch {
+    } catch (error) {
+        console.error('Failed to get session user UI', error);
         return DEFAULT_APPEARANCE;
     }
 }
@@ -69,4 +67,29 @@ export async function getUserStylesCSS(
     );
 
     return stylesToCSS(mergedStyles);
+}
+
+/**
+ * Server action to update the user's UI appearance and revalidate the cache.
+ */
+
+export async function updateUserUI(
+    appearance: Omit<UserAppearance, 'username'>,
+): Promise<UserAppearance> {
+    try {
+        const config = await getHikkaClientConfig();
+        const client = new HikkaClient(config);
+
+        const currentUsername = await getCookie('username');
+
+        const updatedAppearance =
+            await client.settings.updateUserUI(appearance);
+
+        updateTag(`user-ui:${currentUsername}`);
+
+        return updatedAppearance;
+    } catch (error) {
+        console.error('Failed to update user UI:', error);
+        throw error;
+    }
 }

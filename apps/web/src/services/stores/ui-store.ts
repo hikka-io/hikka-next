@@ -6,6 +6,7 @@ import {
     UIEffect,
     UIPreferences,
     UIStyles,
+    UIThemeStyles,
     UserAppearance,
 } from '@hikka/client';
 import { type StoreApi, createStore } from 'zustand/vanilla';
@@ -15,6 +16,7 @@ import {
     mergeEffects,
     mergeStyles,
 } from '@/utils/appearance';
+import { getSessionUserUI, updateUserUI } from '@/utils/appearance/server';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 export type UIState = UserAppearance & {
@@ -35,6 +37,10 @@ export interface UIActions {
         token: keyof UIColorTokens,
         value: HSLColor | undefined,
     ) => void;
+    setBody: (
+        theme: 'light' | 'dark',
+        body: UIThemeStyles['body'] | undefined,
+    ) => void;
     setRadius: (radius: string | undefined) => void;
 
     // Effects
@@ -49,7 +55,8 @@ export interface UIActions {
     getActiveEffects: () => UIEffect[];
 
     // Backend API
-    syncChanges: () => Promise<UserAppearance | null>;
+    updateUserUI: () => Promise<UserAppearance>;
+    syncUserUI: () => Promise<UserAppearance>;
 
     // Reset
     reset: () => void;
@@ -102,6 +109,7 @@ export function createUIStore(
                     title_language,
                 },
             }));
+            get().updateUserUI();
         },
 
         setNameLanguage: (name_language) => {
@@ -114,6 +122,7 @@ export function createUIStore(
                     name_language,
                 },
             }));
+            get().updateUserUI();
         },
 
         // Styles
@@ -121,6 +130,16 @@ export function createUIStore(
             set((state) => ({
                 ...state,
                 styles,
+            }));
+        },
+
+        setBody: (theme, body) => {
+            set((state) => ({
+                ...state,
+                styles: {
+                    ...state.styles,
+                    [theme]: { ...state.styles?.[theme], body },
+                },
             }));
         },
 
@@ -153,6 +172,7 @@ export function createUIStore(
                     radius,
                 },
             }));
+            get().updateUserUI();
         },
 
         // Effects
@@ -174,6 +194,7 @@ export function createUIStore(
                     },
                 };
             });
+            get().updateUserUI();
         },
 
         setEffects: (effects) => {
@@ -215,8 +236,27 @@ export function createUIStore(
         },
 
         // Backend API
-        syncChanges: async () => {
-            return Promise.resolve(null);
+        updateUserUI: async () => {
+            const state = get();
+            const appearance: Omit<UserAppearance, 'username'> = {
+                styles: state.styles,
+                preferences: state.preferences,
+            };
+
+            const result = await updateUserUI(appearance);
+
+            return result;
+        },
+
+        syncUserUI: async () => {
+            const userUI = await getSessionUserUI();
+
+            set({
+                ...userUI,
+                _hasHydrated: true,
+            });
+
+            return userUI;
         },
     }));
 }

@@ -62,7 +62,7 @@ export const DEFAULT_STYLES: UIStyles = {
         },
         body: {
             background_image:
-                'linear-gradient(180deg, #160820 0%, #000 60%, #000 100%)',
+                'linear-gradient(#160820 0%, transparent 60% 100%)',
         },
     },
     radius: '0.625rem',
