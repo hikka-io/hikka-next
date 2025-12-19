@@ -41,6 +41,10 @@ const renderPlain = () => {
         return text;
     };
 
+    render.blockquote = function (text) {
+        return text;
+    };
+
     return render;
 };
 
