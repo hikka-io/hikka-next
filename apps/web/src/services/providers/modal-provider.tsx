@@ -46,6 +46,7 @@ interface State {
     type?: 'dialog' | 'sheet';
     side?: 'left' | 'right';
     forceModal?: boolean;
+    onClose?: () => void;
 }
 
 interface ContextProps extends State {
@@ -58,6 +59,7 @@ interface ContextProps extends State {
         type?: State['type'];
         side?: State['side'];
         forceModal?: State['forceModal'];
+        onClose?: State['onClose'];
     }) => void;
     closeModal: () => void;
 }
@@ -82,6 +84,7 @@ function getInitialState(): State {
         side: 'left',
         forceModal: false,
         containerClassName: '',
+        onClose: () => null,
     };
 }
 
@@ -103,6 +106,7 @@ export default function ModalProvider({ children }: Props) {
         side,
         forceModal,
         containerClassName,
+        onClose,
     }: {
         content: State['content'];
         title?: State['title'];
@@ -112,6 +116,7 @@ export default function ModalProvider({ children }: Props) {
         side?: State['side'];
         forceModal?: State['forceModal'];
         containerClassName?: State['containerClassName'];
+        onClose?: State['onClose'];
     }) => {
         setState({
             ...state,
@@ -120,19 +125,24 @@ export default function ModalProvider({ children }: Props) {
             title,
             description,
             className,
-            side: side || 'left',
-            type: type || 'dialog',
+            side: side ?? 'left',
+            type: type ?? 'dialog',
             forceModal,
             containerClassName,
+            onClose,
         });
     };
 
-    const closeModal = () => {
+    const closeModal = (open?: boolean) => {
         setState({
             ...getInitialState(),
             type: state.type,
             side: state.side,
         });
+
+        if (state?.onClose && !open) {
+            state.onClose();
+        }
     };
 
     useEffect(() => {
