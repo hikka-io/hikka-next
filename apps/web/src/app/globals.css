@@ -124,16 +124,7 @@
         --radius: 0.625rem;
 
         & body {
-            background-image: linear-gradient(
-                180deg,
-                #160820 0%,
-                #000 60%,
-                #000 100%
-            );
-        }
-
-        & .no-gradient {
-            background-image: none !important;
+            background-image: linear-gradient(#160820 0%, transparent 60% 100%);
         }
 
         --sidebar-background: 0 0% 0%;
@@ -298,6 +289,10 @@
     }
     .contain-paint {
         contain: paint;
+    }
+
+    .no-gradient {
+        background-image: none !important;
     }
 }
 
