@@ -47,6 +47,7 @@ interface State {
     side?: 'left' | 'right';
     forceModal?: boolean;
     onClose?: () => void;
+    preventBackdropClose?: boolean;
 }
 
 interface ContextProps extends State {
@@ -60,8 +61,9 @@ interface ContextProps extends State {
         side?: State['side'];
         forceModal?: State['forceModal'];
         onClose?: State['onClose'];
+        preventBackdropClose?: State['preventBackdropClose'];
     }) => void;
-    closeModal: (open?: boolean) => void;
+    closeModal: () => void;
 }
 
 const ModalContext = createContext<ContextProps>({
@@ -107,6 +109,7 @@ export default function ModalProvider({ children }: Props) {
         forceModal,
         containerClassName,
         onClose,
+        preventBackdropClose,
     }: {
         content: State['content'];
         title?: State['title'];
@@ -117,6 +120,7 @@ export default function ModalProvider({ children }: Props) {
         forceModal?: State['forceModal'];
         containerClassName?: State['containerClassName'];
         onClose?: State['onClose'];
+        preventBackdropClose?: State['preventBackdropClose'];
     }) => {
         setState({
             ...state,
@@ -130,19 +134,24 @@ export default function ModalProvider({ children }: Props) {
             forceModal,
             containerClassName,
             onClose,
+            preventBackdropClose,
         });
     };
 
-    const closeModal = (open?: boolean) => {
+    const closeModal = () => {
         setState({
             ...getInitialState(),
             type: state.type,
             side: state.side,
         });
+    };
 
+    const handleStateChange = (open?: boolean) => {
         if (state?.onClose && !open) {
             state.onClose();
         }
+
+        closeModal();
     };
 
     useEffect(() => {
@@ -169,6 +178,11 @@ export default function ModalProvider({ children }: Props) {
                 >
                     <DrawerContent
                         className={cn('max-h-[90dvh]', state.className)}
+                        onPointerDownOutside={
+                            state.preventBackdropClose
+                                ? (e) => e.preventDefault()
+                                : undefined
+                        }
                     >
                         {state.title ? (
                             <DrawerHeader>
@@ -189,13 +203,18 @@ export default function ModalProvider({ children }: Props) {
             )}
 
             {(isDesktop || state.forceModal) && state.type === 'sheet' && (
-                <Sheet open={state.open} onOpenChange={closeModal}>
+                <Sheet open={state.open} onOpenChange={handleStateChange}>
                     <SheetContent
                         side={state.side}
                         className={cn(
                             'flex !max-w-lg flex-col gap-0 p-0',
                             state.className,
                         )}
+                        onPointerDownOutside={
+                            state.preventBackdropClose
+                                ? (e) => e.preventDefault()
+                                : undefined
+                        }
                     >
                         {state.title ? (
                             <SheetHeader className="px-6 py-4">
@@ -216,8 +235,15 @@ export default function ModalProvider({ children }: Props) {
             )}
 
             {(isDesktop || state.forceModal) && state.type === 'dialog' && (
-                <Dialog open={state.open} onOpenChange={closeModal}>
-                    <DialogContent className={cn(state.className)}>
+                <Dialog open={state.open} onOpenChange={handleStateChange}>
+                    <DialogContent
+                        className={cn(state.className)}
+                        onPointerDownOutside={
+                            state.preventBackdropClose
+                                ? (e) => e.preventDefault()
+                                : undefined
+                        }
+                    >
                         {state.title ? (
                             <DialogHeader>
                                 <DialogTitle>{state.title}</DialogTitle>

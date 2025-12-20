@@ -1,10 +1,3 @@
-/**
- * Common constants barrel export
- *
- * This file re-exports constants from specialized files for backwards compatibility.
- * For new code, prefer importing from the specific files directly.
- */
-
 // Filter properties
 export {
     AGE_RATING,

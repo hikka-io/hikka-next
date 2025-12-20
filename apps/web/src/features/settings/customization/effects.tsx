@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 
 import Small from '@/components/typography/small';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
@@ -40,11 +39,6 @@ const EffectsSettings = () => {
                     checked={hasSnowfall}
                     onCheckedChange={handleChangeSnowflakes}
                 />
-            </div>
-            <div className="border-t border-border pt-6">
-                <Button variant="destructive" size="md" onClick={reset}>
-                    Скинути всі налаштування
-                </Button>
             </div>
         </div>
     );
