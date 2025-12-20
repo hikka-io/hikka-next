@@ -2,6 +2,7 @@
 
 import { HSLColor, UIColorTokens, UIStyles } from '@hikka/client';
 import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { HslColor, HslColorPicker } from 'react-colorful';
 
@@ -128,6 +129,14 @@ const SIDEBAR_TOKENS: (keyof UIColorTokens)[] = [
     'sidebar_accent_foreground',
     'sidebar_border',
     'sidebar_ring',
+];
+
+const PREVIEW_COLOR_TOKENS: (keyof UIColorTokens)[] = [
+    'primary',
+    'primary_foreground',
+    'primary_border',
+    'background',
+    'foreground',
 ];
 
 interface ColorTokenButtonProps {
@@ -374,7 +383,9 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                             placeholder="Введіть CSS-значення для градієнта"
                             onChange={(e) =>
                                 setBody(theme, {
-                                    background_image: e.target.value,
+                                    background_image: e.target.value
+                                        ? e.target.value
+                                        : undefined,
                                 })
                             }
                             type="text"
@@ -399,7 +410,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                         onColorChange={handleColorChange}
                     />
                     <TokenGroup
-                        title="UI елементи"
+                        title="Елементи інтерфейсу"
                         tokens={UI_TOKENS}
                         keyPrefix={theme}
                         getColor={getColor}
@@ -419,8 +430,12 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
 };
 
 const CustomColorsModal = () => {
+    const { resolvedTheme } = useTheme();
+
     const { closeModal } = useModalContext();
-    const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>('dark');
+    const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>(
+        (resolvedTheme as 'light' | 'dark' | undefined) ?? 'dark',
+    );
 
     const syncUserUI = useUIStore((state) => state.syncUserUI);
     const updateUserUI = useUIStore((state) => state.updateUserUI);
@@ -442,7 +457,7 @@ const CustomColorsModal = () => {
         <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Tabs
-                    defaultValue="dark"
+                    defaultValue={resolvedTheme ?? 'dark'}
                     onValueChange={(v) => setActiveTheme(v as 'light' | 'dark')}
                 >
                     <TabsList className="w-full">
@@ -460,54 +475,86 @@ const CustomColorsModal = () => {
                         <ThemeTabContent theme="dark" />
                     </TabsContent>
                 </Tabs>
-                <Card
-                    className="p-0 gap-0 overflow-hidden bg-background top-4 sticky align-self-start h-fit"
-                    style={activeTheme === 'light' ? root : dark}
-                >
-                    <div className="border-b p-4 flex gap-4 w-full">
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-red-400 opacity-50" />
-                            <div className="w-3 h-3 rounded-full bg-yellow-400 opacity-50" />
-                            <div className="w-3 h-3 rounded-full bg-green-400 opacity-50" />
-                        </div>
-                        <Label className="text-foreground">
-                            Попередній перегляд
-                        </Label>
-                    </div>
-                    <div className="p-4 flex gap-2 flex-wrap items-start justify-start h-fit">
-                        <Button variant="default">Основна кнопка</Button>
-                        <Button variant="outline" size="md">
-                            Контурна кнопка
-                        </Button>
-                        <Button variant="secondary" size="md">
-                            Вторинна кнопка
-                        </Button>
-                        <Button variant="default" size="sm">
-                            Основна кнопка SM
-                        </Button>
 
-                        <Button variant="default" size="badge">
-                            Основна кнопка-бейдж
-                        </Button>
-                        <p className="text-foreground">
-                            Порушивши головну заборону алхімії та намагаючись
-                            воскресити{' '}
-                            <span className="text-primary-foreground hover:underline hover:cursor-pointer">
-                                матір
+                <Card
+                    style={{
+                        ...(activeTheme === 'light' ? root : dark),
+                    }}
+                    className="p-0 gap-0 overflow-hidden bg-background h-fit top-4 sticky"
+                >
+                    <div className="border-b p-3 flex gap-4 w-full bg-muted/30">
+                        <div className="flex items-center gap-1.5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                            Попередній перегляд
+                        </span>
+                    </div>
+                    <div
+                        className="p-4 flex flex-col gap-4"
+                        style={{
+                            backgroundImage:
+                                styles?.[activeTheme]?.body?.background_image,
+                        }}
+                    >
+                        <div className="flex gap-2 flex-wrap items-start">
+                            <Button variant="default" size="md">
+                                Основна
+                            </Button>
+                            <Button variant="outline" size="md">
+                                Контурна
+                            </Button>
+                            <Button variant="secondary" size="md">
+                                Вторинна
+                            </Button>
+                            <Button
+                                variant="default"
+                                size="badge"
+                                className="shrink-0"
+                            >
+                                Бейдж
+                            </Button>
+                        </div>
+                        <Input placeholder="Введіть текст..." />
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="">
+                                    Натисніть для спливаючого вікна
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-64 p-3">
+                                <div className="flex flex-col gap-2">
+                                    <span className="text-sm font-medium text-popover-foreground">
+                                        Спливаюче вікно
+                                    </span>
+                                    <span className="text-sm text-muted-foreground">
+                                        Приклад тексту у спливаючому вікні
+                                    </span>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                        <div className="rounded-md border bg-muted p-2">
+                            <span className="text-sm text-muted-foreground">
+                                Приглушений блок з текстом
                             </span>
-                            , талановиті брати Елріки заплатили за це високу
-                            ціну: молодший,{' '}
-                            <span className="text-primary-foreground hover:underline hover:cursor-pointer">
-                                Альфонс
+                        </div>
+                        <p className="text-sm text-foreground leading-relaxed">
+                            Талановиті брати{' '}
+                            <span className="text-primary-foreground font-medium hover:underline hover:cursor-pointer">
+                                Елріки
+                            </span>{' '}
+                            порушили головну заборону алхімії.{' '}
+                            <span className="text-muted-foreground">
+                                Це приглушений текст для прикладу.
                             </span>
-                            , втратив своє тіло, і його душа була прикріплена до
-                            сталевих обладунків, а старший,{' '}
-                            <span className="text-primary-foreground hover:underline hover:cursor-pointer">
-                                Едвард
-                            </span>
-                            , позбувся руки та ноги, тому змушений користуватися
-                            протезами.
                         </p>
+                        <div className="flex items-center gap-2 pt-4 border-t">
+                            <div className="flex-1 h-2 rounded-full bg-primary" />
+                            <div className="flex-1 h-2 rounded-full bg-secondary" />
+                            <div className="flex-1 h-2 rounded-full bg-muted" />
+                        </div>
                     </div>
                 </Card>
             </div>
@@ -539,6 +586,7 @@ const CustomColorsModal = () => {
 
 const StylesSettings = () => {
     const { openModal } = useModalContext();
+    const { resolvedTheme } = useTheme();
     const appearance = useUIStore((state) => state);
 
     const setRadius = useUIStore((state) => state.setRadius);
@@ -562,42 +610,28 @@ const StylesSettings = () => {
 
     const currentRadius = appearance.styles?.radius?.replace('rem', '') ?? '';
 
-    const darkColors = appearance.styles?.dark?.colors;
+    const activeTheme = (resolvedTheme as 'light' | 'dark') ?? 'dark';
+    const themeColors = appearance.styles?.[activeTheme]?.colors;
 
     return (
         <div className="flex w-full flex-col gap-6">
             <div className="flex w-full flex-col gap-2">
                 <Label>Палітра кольорів</Label>
                 <div className="flex flex-wrap gap-2">
-                    <div
-                        className="size-10 rounded-md border"
-                        style={{
-                            backgroundColor: toHSLString(
-                                darkColors?.background,
-                            ),
-                        }}
-                    />
-                    <div
-                        className="size-10 rounded-md border"
-                        style={{
-                            backgroundColor: toHSLString(darkColors?.primary),
-                        }}
-                    />
-                    <div
-                        className="size-10 rounded-md border"
-                        style={{
-                            backgroundColor: toHSLString(darkColors?.secondary),
-                        }}
-                    />
-                    <div
-                        className="size-10 rounded-md border"
-                        style={{
-                            backgroundColor: toHSLString(darkColors?.muted),
-                        }}
-                    />
+                    {PREVIEW_COLOR_TOKENS.map((token) => (
+                        <div
+                            key={token}
+                            className="size-9 rounded-md border"
+                            style={{
+                                backgroundColor: toHSLString(
+                                    themeColors?.[token],
+                                ),
+                            }}
+                        />
+                    ))}
                     <Button onClick={handleOpenCustomModal} size="md">
                         <MaterialSymbolsAddRounded className="size-4" />
-                        Налаштувати кольори
+                        Налаштувати
                     </Button>
                 </div>
             </div>

@@ -123,10 +123,6 @@
         --ring: 240 4.9% 83.9%;
         --radius: 0.625rem;
 
-        & body {
-            background-image: linear-gradient(#160820 0%, transparent 60% 100%);
-        }
-
         --sidebar-background: 0 0% 0%;
         --sidebar-foreground: 240 4.8% 95.9%;
         --sidebar-primary: 224.3 76.3% 48%;
