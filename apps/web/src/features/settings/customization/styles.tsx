@@ -1,13 +1,23 @@
 'use client';
 
 import { HSLColor, UIColorTokens, UIStyles } from '@hikka/client';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Palette, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { HslColor, HslColorPicker } from 'react-colorful';
 
 import { CollapsibleFilter } from '@/components/collapsible-filter';
-import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -156,6 +166,7 @@ const ColorTokenButton = ({
     const [hexInput, setHexInput] = useState(
         hslToHex(localColor.h, localColor.s, localColor.l),
     );
+    const [inputMode, setInputMode] = useState<'hex' | 'hsl'>('hex');
 
     useEffect(() => {
         const newColor = toReactColorful(color);
@@ -190,6 +201,19 @@ const ColorTokenButton = ({
         setHexInput(hslToHex(localColor.h, localColor.s, localColor.l));
     };
 
+    const handleHslChange = (key: 'h' | 's' | 'l', value: string) => {
+        const num = parseInt(value, 10);
+        if (isNaN(num)) return;
+
+        const max = key === 'h' ? 360 : 100;
+        const clamped = Math.max(0, Math.min(max, num));
+        const newColor = { ...localColor, [key]: clamped };
+
+        setLocalColor(newColor);
+        setHexInput(hslToHex(newColor.h, newColor.s, newColor.l));
+        onColorChange(toHikkaColor(newColor));
+    };
+
     return (
         <Popover>
             <PopoverTrigger asChild>
@@ -212,7 +236,7 @@ const ColorTokenButton = ({
                 </Button>
             </PopoverTrigger>
             <PopoverPortal>
-                <PopoverContent className="min-w-52 p-4 z-[999]">
+                <PopoverContent className="min-w-80 p-4 z-[999]">
                     <div className="flex flex-col gap-4 w-full">
                         <HslColorPicker
                             className="!w-full"
@@ -222,24 +246,64 @@ const ColorTokenButton = ({
                             onTouchEnd={handleChangeComplete}
                         />
                         <div className="flex items-center gap-2 w-full">
-                            <div
-                                className="size-8 rounded-md border shrink-0"
-                                style={{
-                                    backgroundColor: hslToHex(
-                                        localColor.h,
-                                        localColor.s,
-                                        localColor.l,
-                                    ),
-                                }}
-                            />
-                            <Input
-                                value={hexInput}
-                                onChange={handleHexChange}
-                                onBlur={handleHexBlur}
-                                placeholder="#000000"
-                                className="font-mono uppercase h-8 flex-1"
-                                maxLength={7}
-                            />
+                            <Button
+                                variant="outline"
+                                size="md"
+                                className="shrink-0 font-mono"
+                                onClick={() =>
+                                    setInputMode(
+                                        inputMode === 'hex' ? 'hsl' : 'hex',
+                                    )
+                                }
+                            >
+                                {inputMode === 'hex' ? 'HEX' : 'HSL'}
+                            </Button>
+                            {inputMode === 'hex' ? (
+                                <Input
+                                    value={hexInput}
+                                    onChange={handleHexChange}
+                                    onBlur={handleHexBlur}
+                                    placeholder="#000000"
+                                    className="font-mono uppercase h-10 flex-1"
+                                    maxLength={7}
+                                />
+                            ) : (
+                                <div className="flex gap-2 flex-1">
+                                    <Input
+                                        value={Math.round(localColor.h)}
+                                        onChange={(e) =>
+                                            handleHslChange('h', e.target.value)
+                                        }
+                                        placeholder="H"
+                                        className="font-mono h-10 text-center "
+                                        type="number"
+                                        min={0}
+                                        max={360}
+                                    />
+                                    <Input
+                                        value={Math.round(localColor.s)}
+                                        onChange={(e) =>
+                                            handleHslChange('s', e.target.value)
+                                        }
+                                        placeholder="S"
+                                        className="font-mono h-10 text-center"
+                                        type="number"
+                                        min={0}
+                                        max={100}
+                                    />
+                                    <Input
+                                        value={Math.round(localColor.l)}
+                                        onChange={(e) =>
+                                            handleHslChange('l', e.target.value)
+                                        }
+                                        placeholder="L"
+                                        className="font-mono h-10 text-center "
+                                        type="number"
+                                        min={0}
+                                        max={100}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </PopoverContent>
@@ -575,9 +639,31 @@ const CustomColorsModal = () => {
                     >
                         Скасувати
                     </Button>
-                    <Button variant="default" onClick={saveChanges} size="md">
-                        Зберегти
-                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="default" size="md">
+                                Зберегти
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    Зберегти зміни?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Ви впевнені, що хочете зберегти зміни
+                                    кольорової палітри? Нові налаштування будуть
+                                    застосовані до вашого профілю.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Скасувати</AlertDialogCancel>
+                                <AlertDialogAction onClick={saveChanges}>
+                                    Зберегти
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
             </div>
         </div>
@@ -630,7 +716,7 @@ const StylesSettings = () => {
                         />
                     ))}
                     <Button onClick={handleOpenCustomModal} size="md">
-                        <MaterialSymbolsAddRounded className="size-4" />
+                        <Palette className="size-4" />
                         Налаштувати
                     </Button>
                 </div>
