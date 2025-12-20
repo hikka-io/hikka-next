@@ -61,7 +61,7 @@ interface ContextProps extends State {
         forceModal?: State['forceModal'];
         onClose?: State['onClose'];
     }) => void;
-    closeModal: () => void;
+    closeModal: (open?: boolean) => void;
 }
 
 const ModalContext = createContext<ContextProps>({
