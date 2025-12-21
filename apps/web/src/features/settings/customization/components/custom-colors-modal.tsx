@@ -1,8 +1,8 @@
 'use client';
 
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
     AlertDialog,
@@ -24,9 +24,17 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { useUIStore } from '@/services/providers/ui-store-provider';
+import {
+    useUIStore,
+    useUIStoreHistory,
+} from '@/services/providers/ui-store-provider';
 import { stylesToReactStyles } from '@/utils/appearance/inject-styles';
 
 import ThemeTabContent from './theme-tab-content';
@@ -45,12 +53,34 @@ const CustomColorsModal = () => {
     const styles = useUIStore((state) => state.styles);
     const { root, dark } = stylesToReactStyles(styles);
 
+    const { undo, redo, canUndo, canRedo, clear, pause, resume, isTracking } =
+        useUIStoreHistory();
+
+    useEffect(() => {
+        resume();
+
+        return () => {
+            pause();
+            clear();
+        };
+    }, [resume, pause, clear]);
+
     const handleResetToDefault = () => {
-        syncUserUI();
+        syncUserUI().then(() => {
+            clear();
+        });
+    };
+
+    const closeAndDiscardChanges = () => {
+        syncUserUI().then(() => {
+            clear();
+            closeModal();
+        });
     };
 
     const saveChanges = () => {
         updateUserUI().then(() => {
+            clear();
             closeModal();
         });
     };
@@ -70,6 +100,7 @@ const CustomColorsModal = () => {
                             <Moon className="size-4" /> Темна тема
                         </TabsTrigger>
                     </TabsList>
+
                     <TabsContent value="light">
                         <ThemeTabContent theme="light" />
                     </TabsContent>
@@ -161,16 +192,48 @@ const CustomColorsModal = () => {
                 </Card>
             </div>
             <div className="flex flex-col md:flex-row justify-end gap-4 items-start md:items-center md:justify-between -mx-6 px-6 py-4 border-t sticky bottom-0 bg-background">
-                <Button
-                    variant="destructive"
-                    className="w-full md:w-auto"
-                    size="md"
-                    onClick={handleResetToDefault}
-                >
-                    Скинути зміни
-                </Button>
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon-md"
+                                onClick={() => undo()}
+                                disabled={!canUndo}
+                            >
+                                <Undo2 className="size-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Скасувати</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon-md"
+                                onClick={() => redo()}
+                                disabled={!canRedo}
+                            >
+                                <Redo2 className="size-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Повторити</TooltipContent>
+                    </Tooltip>
+                    <Button
+                        variant="destructive"
+                        className="flex-1"
+                        size="md"
+                        onClick={handleResetToDefault}
+                    >
+                        Скинути зміни
+                    </Button>
+                </div>
                 <div className="flex gap-2 items-center w-full justify-end">
-                    <Button variant="ghost" onClick={closeModal} size="md">
+                    <Button
+                        variant="ghost"
+                        onClick={closeAndDiscardChanges}
+                        size="md"
+                    >
                         Скасувати
                     </Button>
                     <AlertDialog>
