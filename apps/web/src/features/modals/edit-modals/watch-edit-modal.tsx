@@ -166,6 +166,8 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                             placeholder="Введіть оцінку"
                             type="number"
                             className="flex-1"
+                            min={0}
+                            max={10}
                         />
                         <FormInput
                             name="episodes"
@@ -173,6 +175,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                             placeholder="Введіть к-сть переглянутих епізодів"
                             type="number"
                             className="flex-1"
+                            min={0}
                         />
                     </div>
                     <FormInput
@@ -180,6 +183,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                         label="Повторні перегляди"
                         placeholder="Введіть к-сть повторних переглядів"
                         type="number"
+                        min={0}
                     />
                     <FormTextarea
                         name="note"
