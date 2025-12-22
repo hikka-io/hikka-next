@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 
+import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -13,10 +14,11 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-
-import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
-
-import { DONATION_LINKS, FOOTER_LINKS, SOCIAL_LINKS } from '@/utils/constants/navigation';
+import {
+    DONATION_LINKS,
+    FOOTER_LINKS,
+    SOCIAL_LINKS,
+} from '@/utils/constants/navigation';
 
 const Footer = () => {
     const { openModal } = useModalContext();
@@ -49,7 +51,10 @@ const Footer = () => {
                                 {DONATION_LINKS.map((link) => {
                                     const Icon = link.icon;
                                     return (
-                                        <DropdownMenuItem key={link.href} asChild>
+                                        <DropdownMenuItem
+                                            key={link.href}
+                                            asChild
+                                        >
                                             <Link
                                                 href={link.href}
                                                 target="_blank"
@@ -72,7 +77,7 @@ const Footer = () => {
                                     <Button
                                         key={link.href}
                                         variant="ghost"
-                                        size="icon"
+                                        size="icon-md"
                                         asChild
                                     >
                                         <Link
@@ -81,7 +86,7 @@ const Footer = () => {
                                             rel="noreferrer"
                                             aria-label={link.title}
                                         >
-                                            <Icon className="size-5" />
+                                            <Icon className="size-4" />
                                         </Link>
                                     </Button>
                                 );
