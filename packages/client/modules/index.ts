@@ -1,5 +1,6 @@
 // Export all modules
 export * from './anime';
+export * from './artifacts';
 export * from './articles';
 export * from './auth';
 export * from './base';

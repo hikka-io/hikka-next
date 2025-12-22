@@ -2,6 +2,7 @@ import { API_HOST } from './constants';
 import { HikkaApiError } from './errors';
 import { AnimeModule } from './modules/anime';
 import { ArticlesModule } from './modules/articles';
+import { ArtifactsModule } from './modules/artifacts';
 import { AuthModule } from './modules/auth';
 import { CharactersModule } from './modules/characters';
 import { ClientModule } from './modules/client';
@@ -54,6 +55,7 @@ export class HikkaClient {
     public auth: AuthModule;
     public anime: AnimeModule;
     public articles: ArticlesModule;
+    public artifacts: ArtifactsModule;
     public manga: MangaModule;
     public novel: NovelModule;
     public user: UserModule;
@@ -88,6 +90,7 @@ export class HikkaClient {
         this.auth = new AuthModule(this);
         this.anime = new AnimeModule(this);
         this.articles = new ArticlesModule(this);
+        this.artifacts = new ArtifactsModule(this);
         this.manga = new MangaModule(this);
         this.novel = new NovelModule(this);
         this.user = new UserModule(this);
