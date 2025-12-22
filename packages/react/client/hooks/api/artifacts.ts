@@ -1,6 +1,10 @@
 'use client';
 
-import { ArtifactPrivacyArgs, ArtifactResponse } from '@hikka/client';
+import {
+    ArtifactPrivacyArgs,
+    ArtifactPrivacyResponse,
+    ArtifactResponse,
+} from '@hikka/client';
 
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
@@ -19,7 +23,24 @@ export function useArtifact<TData = Record<string, unknown>>({
 } & QueryParams<ArtifactResponse<TData>>) {
     return useQuery({
         queryKey: queryKeys.artifacts.byUsernameAndName(username, name),
-        queryFn: (client) => client.artifacts.getArtifact<TData>(username, name),
+        queryFn: (client) =>
+            client.artifacts.getArtifact<TData>(username, name),
+        ...rest,
+    });
+}
+
+/**
+ * Hook for retrieving artifact privacy status
+ */
+export function useArtifactPrivacy({
+    name,
+    ...rest
+}: {
+    name: string;
+} & QueryParams<ArtifactPrivacyResponse>) {
+    return useQuery({
+        queryKey: queryKeys.artifacts.privacy(name),
+        queryFn: (client) => client.artifacts.getArtifactPrivacy(name),
         ...rest,
     });
 }
@@ -34,4 +55,3 @@ export const useUpdateArtifactPrivacy = createMutation({
     ) => client.artifacts.updateArtifactPrivacy(name, args),
     invalidateQueries: () => [queryKeys.artifacts.all],
 });
-

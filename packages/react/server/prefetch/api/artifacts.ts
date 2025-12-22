@@ -1,4 +1,4 @@
-import { ArtifactResponse } from '@hikka/client';
+import { ArtifactPrivacyResponse, ArtifactResponse } from '@hikka/client';
 
 import { queryKeys } from '@/core';
 import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
@@ -16,8 +16,24 @@ export async function prefetchArtifact<TData = Record<string, unknown>>({
 } & PrefetchQueryParams<ArtifactResponse<TData>>) {
     return prefetchQuery({
         queryKey: queryKeys.artifacts.byUsernameAndName(username, name),
-        queryFn: (client) => client.artifacts.getArtifact<TData>(username, name),
+        queryFn: (client) =>
+            client.artifacts.getArtifact<TData>(username, name),
         ...rest,
     });
 }
 
+/**
+ * Prefetches artifact privacy status for server-side rendering
+ */
+export async function prefetchArtifactPrivacy({
+    name,
+    ...rest
+}: {
+    name: string;
+} & PrefetchQueryParams<ArtifactPrivacyResponse>) {
+    return prefetchQuery({
+        queryKey: queryKeys.artifacts.privacy(name),
+        queryFn: (client) => client.artifacts.getArtifactPrivacy(name),
+        ...rest,
+    });
+}
