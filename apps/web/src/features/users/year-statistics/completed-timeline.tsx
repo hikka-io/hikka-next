@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { format } from 'date-fns';
 import { FC } from 'react';
 
@@ -15,13 +16,18 @@ import {
 import Stack from '@/components/ui/stack';
 
 import {
-    ContentType,
     YearCompletedContent,
+    YearContentType,
     YearStatistics,
 } from '@/types/year-statistics';
 import { getDeclensionWord } from '@/utils/i18n';
 
-import { CONTENT_TYPE_LABELS, Month, MONTHS, MONTH_LABELS_FULL } from './constants';
+import {
+    CONTENT_TYPE_LABELS,
+    MONTHS,
+    MONTH_LABELS_FULL,
+    Month,
+} from './constants';
 
 interface Props {
     data: YearStatistics;
@@ -81,12 +87,12 @@ const MonthSection: FC<MonthSectionProps> = ({
     novel,
 }) => {
     const contentSections: {
-        type: ContentType;
+        type: YearContentType;
         items: YearCompletedContent[];
     }[] = [
-        { type: 'anime', items: anime },
-        { type: 'manga', items: manga },
-        { type: 'novel', items: novel },
+        { type: ContentTypeEnum.ANIME as YearContentType, items: anime },
+        { type: ContentTypeEnum.MANGA as YearContentType, items: manga },
+        { type: ContentTypeEnum.NOVEL as YearContentType, items: novel },
     ].filter((section) => section.items.length > 0);
 
     return (

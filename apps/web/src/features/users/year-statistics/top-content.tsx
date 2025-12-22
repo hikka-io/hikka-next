@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -12,7 +13,7 @@ import {
 } from '@/components/ui/header';
 
 import {
-    ContentType,
+    YearContentType,
     YearStatistics,
     YearTopContent as YearTopContentType,
 } from '@/types/year-statistics';
@@ -25,24 +26,24 @@ interface Props {
 interface TopContentConfig {
     title: string;
     description: string;
-    contentType: ContentType;
+    contentType: YearContentType;
 }
 
-const TOP_CONTENT_CONFIGS: Record<ContentType, TopContentConfig> = {
-    anime: {
+const TOP_CONTENT_CONFIGS: Record<YearContentType, TopContentConfig> = {
+    [ContentTypeEnum.ANIME]: {
         title: 'Топ аніме року',
         description: 'Найкращі аніме року за Вашими оцінками',
-        contentType: 'anime',
+        contentType: ContentTypeEnum.ANIME,
     },
-    manga: {
+    [ContentTypeEnum.MANGA]: {
         title: 'Топ манґи року',
         description: 'Найкраща манґа року за Вашими оцінками',
-        contentType: 'manga',
+        contentType: ContentTypeEnum.MANGA,
     },
-    novel: {
+    [ContentTypeEnum.NOVEL]: {
         title: 'Топ ранобе року',
         description: 'Найкращі ранобе року за Вашими оцінками',
-        contentType: 'novel',
+        contentType: ContentTypeEnum.NOVEL,
     },
 };
 
@@ -57,7 +58,7 @@ const PODIUM_RANKS = [2, 1, 3];
 
 interface TopContentGridProps {
     items: YearTopContentType[];
-    contentType: ContentType;
+    contentType: YearContentType;
 }
 
 const TopContentGrid: FC<TopContentGridProps> = ({ items, contentType }) => {
@@ -99,7 +100,7 @@ const TopContentGrid: FC<TopContentGridProps> = ({ items, contentType }) => {
 
 interface YearTopContentProps {
     data: YearStatistics;
-    contentType: ContentType;
+    contentType: YearContentType;
 }
 
 const YearTopContent: FC<YearTopContentProps> = ({ data, contentType }) => {
@@ -122,13 +123,13 @@ const YearTopContent: FC<YearTopContentProps> = ({ data, contentType }) => {
 };
 
 export const YearTopAnime: FC<Props> = ({ data }) => (
-    <YearTopContent data={data} contentType="anime" />
+    <YearTopContent data={data} contentType={ContentTypeEnum.ANIME} />
 );
 
 export const YearTopManga: FC<Props> = ({ data }) => (
-    <YearTopContent data={data} contentType="manga" />
+    <YearTopContent data={data} contentType={ContentTypeEnum.MANGA} />
 );
 
 export const YearTopNovel: FC<Props> = ({ data }) => (
-    <YearTopContent data={data} contentType="novel" />
+    <YearTopContent data={data} contentType={ContentTypeEnum.NOVEL} />
 );

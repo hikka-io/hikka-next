@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { FC, useMemo } from 'react';
 import {
     Bar,
@@ -11,7 +12,14 @@ import {
 } from 'recharts';
 
 import Card from '@/components/ui/card';
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
+    ChartTooltip,
+    ChartTooltipContent,
+} from '@/components/ui/chart';
 import {
     Header,
     HeaderContainer,
@@ -19,7 +27,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 
-import { ContentType, YearStatistics } from '@/types/year-statistics';
+import { YearContentType, YearStatistics } from '@/types/year-statistics';
 
 import { CONTENT_CHART_CONFIG, STATUS_LABELS } from './constants';
 
@@ -28,7 +36,11 @@ interface Props {
 }
 
 const STATUSES = ['completed', 'planned', 'dropped'] as const;
-const CONTENT_TYPES: ContentType[] = ['anime', 'manga', 'novel'];
+const CONTENT_TYPES: YearContentType[] = [
+    ContentTypeEnum.ANIME,
+    ContentTypeEnum.MANGA,
+    ContentTypeEnum.NOVEL,
+];
 
 const YearStatusDistribution: FC<Props> = ({ data }) => {
     const { chartData, chartConfig } = useMemo(() => {
@@ -41,7 +53,7 @@ const YearStatusDistribution: FC<Props> = ({ data }) => {
                 );
                 return acc;
             },
-            {} as Record<ContentType, number>,
+            {} as Record<YearContentType, number>,
         );
 
         // Filter content types that have data

@@ -1,8 +1,9 @@
+import { ContentTypeEnum } from '@hikka/client';
+
 import { ChartConfig } from '@/components/ui/chart';
 
-import { ContentType } from '@/types/year-statistics';
+import { YearContentType } from '@/types/year-statistics';
 
-// Month definitions
 export const MONTHS = [
     'january',
     'february',
@@ -20,7 +21,6 @@ export const MONTHS = [
 
 export type Month = (typeof MONTHS)[number];
 
-// Month labels (short)
 export const MONTH_LABELS: Record<Month, string> = {
     january: 'Січ',
     february: 'Лют',
@@ -36,7 +36,6 @@ export const MONTH_LABELS: Record<Month, string> = {
     december: 'Гру',
 };
 
-// Month labels (full)
 export const MONTH_LABELS_FULL: Record<Month, string> = {
     january: 'Січень',
     february: 'Лютий',
@@ -52,51 +51,46 @@ export const MONTH_LABELS_FULL: Record<Month, string> = {
     december: 'Грудень',
 };
 
-// Content type colors (HSL values)
 export const CONTENT_COLORS = {
-    anime: 'hsl(217 91% 60%)',
-    manga: 'hsl(321 70% 69%)',
-    novel: 'hsl(142 71% 45%)',
+    [ContentTypeEnum.ANIME]: 'hsl(217 91% 60%)',
+    [ContentTypeEnum.MANGA]: 'hsl(321 70% 69%)',
+    [ContentTypeEnum.NOVEL]: 'hsl(142 71% 45%)',
 } as const;
 
-// Content type chart configuration
 export const CONTENT_CHART_CONFIG: ChartConfig = {
-    anime: {
+    [ContentTypeEnum.ANIME]: {
         label: 'Аніме',
-        color: CONTENT_COLORS.anime,
+        color: CONTENT_COLORS[ContentTypeEnum.ANIME],
     },
     manga: {
         label: 'Манґа',
-        color: CONTENT_COLORS.manga,
+        color: CONTENT_COLORS[ContentTypeEnum.MANGA],
     },
     novel: {
         label: 'Ранобе',
-        color: CONTENT_COLORS.novel,
+        color: CONTENT_COLORS[ContentTypeEnum.NOVEL],
     },
 };
 
-// Content type labels (Ukrainian)
-export const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
-    anime: 'Аніме',
-    manga: 'Манґа',
-    novel: 'Ранобе',
+export const CONTENT_TYPE_LABELS: Record<YearContentType, string> = {
+    [ContentTypeEnum.ANIME]: 'Аніме',
+    [ContentTypeEnum.MANGA]: 'Манґа',
+    [ContentTypeEnum.NOVEL]: 'Ранобе',
 };
 
-// Status labels (Ukrainian)
 export const STATUS_LABELS = {
     completed: 'Завершено',
     planned: 'Заплановано',
     dropped: 'Закинуто',
 } as const;
 
-// Binge highlights configuration
 export const TOP_BINGES_LIMIT = 5;
 
 export const BINGE_RANK_COLORS = {
-    1: 'hsl(38 92% 50%)', // Gold
-    2: 'hsl(215 14% 64%)', // Silver
-    3: 'hsl(25 75% 47%)', // Bronze
-    default: CONTENT_COLORS.manga, // Primary pink
+    1: 'hsl(38 92% 50%)',
+    2: 'hsl(215 14% 64%)',
+    3: 'hsl(25 75% 47%)',
+    default: CONTENT_COLORS.manga,
 } as const;
 
 export const getBingeRankColor = (rank: number): string => {
@@ -105,4 +99,3 @@ export const getBingeRankColor = (rank: number): string => {
         BINGE_RANK_COLORS.default
     );
 };
-
