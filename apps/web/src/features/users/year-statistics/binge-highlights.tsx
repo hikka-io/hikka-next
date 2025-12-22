@@ -32,30 +32,22 @@ import { YearBinge, YearStatistics } from '@/types/year-statistics';
 import { getDeclensionWord } from '@/utils/i18n';
 
 import StatCard from './components/stat-card';
+import {
+    CONTENT_COLORS,
+    TOP_BINGES_LIMIT,
+    getBingeRankColor,
+} from './constants';
 
 interface Props {
     data: YearStatistics;
 }
 
-const TOP_BINGES_LIMIT = 5;
-
 const chartConfig = {
     count: {
         label: 'Днів',
-        color: 'hsl(321 70% 69%)',
+        color: CONTENT_COLORS.manga,
     },
 } satisfies ChartConfig;
-
-const RANK_COLORS = {
-    1: 'hsl(38 92% 50%)', // Gold
-    2: 'hsl(215 14% 64%)', // Silver
-    3: 'hsl(25 75% 47%)', // Bronze
-    default: 'hsl(321 70% 69%)', // Primary pink
-} as const;
-
-const getRankColor = (rank: number): string => {
-    return RANK_COLORS[rank as keyof typeof RANK_COLORS] ?? RANK_COLORS.default;
-};
 
 const formatDateRange = (
     startTimestamp: number,
@@ -68,10 +60,9 @@ const formatDateRange = (
 };
 
 const YearBingeHighlights: FC<Props> = ({ data }) => {
-    const { topBinges, maxCount, totalActiveDays, chartData } = useMemo(() => {
+    const { maxCount, totalActiveDays, chartData } = useMemo(() => {
         if (data.binges.length === 0) {
             return {
-                topBinges: [],
                 maxCount: 0,
                 totalActiveDays: 0,
                 chartData: [],
@@ -96,10 +87,10 @@ const YearBingeHighlights: FC<Props> = ({ data }) => {
             endDate: binge.end_date,
         }));
 
-        return { topBinges: sorted, maxCount, totalActiveDays, chartData };
+        return { maxCount, totalActiveDays, chartData };
     }, [data.binges]);
 
-    if (topBinges.length === 0) {
+    if (chartData.length === 0) {
         return null;
     }
 
@@ -149,7 +140,7 @@ const YearBingeHighlights: FC<Props> = ({ data }) => {
                             content={
                                 <ChartTooltipContent
                                     hideLabel
-                                    formatter={(value, _, item) => (
+                                    formatter={(value) => (
                                         <div className="flex items-center gap-2">
                                             <Flame className="size-4 text-destructive-foreground" />
                                             <span className="font-medium">
@@ -169,7 +160,7 @@ const YearBingeHighlights: FC<Props> = ({ data }) => {
                             {chartData.map((entry) => (
                                 <Cell
                                     key={`cell-${entry.rank}`}
-                                    fill={getRankColor(entry.rank)}
+                                    fill={getBingeRankColor(entry.rank)}
                                 />
                             ))}
                             <LabelList

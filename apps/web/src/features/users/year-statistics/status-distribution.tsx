@@ -1,6 +1,5 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
 import { FC, useMemo } from 'react';
 import {
     Bar,
@@ -12,14 +11,7 @@ import {
 } from 'recharts';
 
 import Card from '@/components/ui/card';
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartLegend,
-    ChartLegendContent,
-    ChartTooltip,
-    ChartTooltipContent,
-} from '@/components/ui/chart';
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
     Header,
     HeaderContainer,
@@ -27,48 +19,23 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 
-import { YearStatistics } from '@/types/year-statistics';
+import { ContentType, YearStatistics } from '@/types/year-statistics';
+
+import { CONTENT_CHART_CONFIG, STATUS_LABELS } from './constants';
 
 interface Props {
     data: YearStatistics;
 }
 
-const CONTENT_CONFIG = {
-    anime: {
-        label: 'Аніме',
-        color: 'hsl(217 91% 60%)',
-    },
-    manga: {
-        label: 'Манґа',
-        color: 'hsl(321 70% 69%)',
-    },
-    novel: {
-        label: 'Ранобе',
-        color: 'hsl(142 71% 45%)',
-    },
-} as const;
-
-const STATUS_LABELS = {
-    completed: 'Завершено',
-    planned: 'Заплановано',
-    dropped: 'Закинуто',
-} as const;
-
-type ContentType = keyof typeof CONTENT_CONFIG;
+const STATUSES = ['completed', 'planned', 'dropped'] as const;
+const CONTENT_TYPES: ContentType[] = ['anime', 'manga', 'novel'];
 
 const YearStatusDistribution: FC<Props> = ({ data }) => {
-    const { chartData, activeTypes, chartConfig } = useMemo(() => {
-        const statuses = ['completed', 'planned', 'dropped'] as const;
-        const contentTypes: ContentType[] = [
-            ContentTypeEnum.ANIME,
-            ContentTypeEnum.MANGA,
-            ContentTypeEnum.NOVEL,
-        ];
-
+    const { chartData, chartConfig } = useMemo(() => {
         // Calculate totals for each content type
-        const totals = contentTypes.reduce(
+        const totals = CONTENT_TYPES.reduce(
             (acc, type) => {
-                acc[type] = statuses.reduce(
+                acc[type] = STATUSES.reduce(
                     (sum, status) => sum + data.status[type][status],
                     0,
                 );
@@ -78,38 +45,34 @@ const YearStatusDistribution: FC<Props> = ({ data }) => {
         );
 
         // Filter content types that have data
-        const activeTypes = contentTypes.filter((type) => totals[type] > 0);
+        const activeTypes = CONTENT_TYPES.filter((type) => totals[type] > 0);
 
         // Build chart config only for active types
         const chartConfig = activeTypes.reduce((acc, type) => {
-            acc[type] = CONTENT_CONFIG[type];
+            acc[type] = CONTENT_CHART_CONFIG[type];
             return acc;
         }, {} as ChartConfig);
 
         // Build chart data
-        const chartData = statuses
-            .map((status) => {
-                const row: Record<string, string | number> = {
-                    status,
-                    label: STATUS_LABELS[status],
-                };
+        const chartData = STATUSES.map((status) => {
+            const row: Record<string, string | number> = {
+                status,
+                label: STATUS_LABELS[status],
+            };
 
-                activeTypes.forEach((type) => {
-                    row[type] = data.status[type][status];
-                });
+            activeTypes.forEach((type) => {
+                row[type] = data.status[type][status];
+            });
 
-                return row;
-            })
-            .filter((item) =>
-                activeTypes.some((type) => (item[type] as number) > 0),
-            );
+            return row;
+        }).filter((item) =>
+            CONTENT_TYPES.some((type) => (item[type] as number) > 0),
+        );
 
-        return { chartData, activeTypes, chartConfig };
+        return { chartData, chartConfig };
     }, [data]);
 
-    const hasData = chartData.length > 0;
-
-    if (!hasData) {
+    if (chartData.length === 0) {
         return (
             <Card>
                 <Header>

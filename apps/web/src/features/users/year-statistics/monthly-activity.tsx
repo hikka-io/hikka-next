@@ -17,12 +17,15 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 
+import { YearStatistics } from '@/types/year-statistics';
+
 import {
+    CONTENT_COLORS,
+    Month,
     MONTHS,
     MONTH_LABELS,
     MONTH_LABELS_FULL,
-    YearStatistics,
-} from '@/types/year-statistics';
+} from './constants';
 
 interface Props {
     data: YearStatistics;
@@ -31,12 +34,12 @@ interface Props {
 const chartConfig = {
     minutes: {
         label: 'Хвилин',
-        color: 'hsl(321 70% 69%)',
+        color: CONTENT_COLORS.manga,
     },
 } satisfies ChartConfig;
 
 const YearMonthlyActivity: FC<Props> = ({ data }) => {
-    const chartData = MONTHS.map((month: (typeof MONTHS)[number]) => ({
+    const chartData = MONTHS.map((month: Month) => ({
         monthKey: month,
         month: MONTH_LABELS[month],
         monthFull: MONTH_LABELS_FULL[month],
@@ -71,12 +74,12 @@ const YearMonthlyActivity: FC<Props> = ({ data }) => {
                         >
                             <stop
                                 offset="5%"
-                                stopColor="hsl(321 70% 69%)"
+                                stopColor={CONTENT_COLORS.manga}
                                 stopOpacity={0.8}
                             />
                             <stop
                                 offset="95%"
-                                stopColor="hsl(321 70% 69%)"
+                                stopColor={CONTENT_COLORS.manga}
                                 stopOpacity={0.1}
                             />
                         </linearGradient>
@@ -132,7 +135,7 @@ const YearMonthlyActivity: FC<Props> = ({ data }) => {
                         dataKey="minutes"
                         type="monotone"
                         fill="url(#fillMinutes)"
-                        stroke="hsl(321 70% 69%)"
+                        stroke={CONTENT_COLORS.manga}
                         strokeWidth={2}
                     />
                 </AreaChart>

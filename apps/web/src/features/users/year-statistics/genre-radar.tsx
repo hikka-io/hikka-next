@@ -3,10 +3,8 @@
 import { FC, useMemo } from 'react';
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from 'recharts';
 
-import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
-    ChartConfig,
     ChartContainer,
     ChartLegend,
     ChartLegendContent,
@@ -22,24 +20,11 @@ import {
 
 import { YearGenre, YearStatistics } from '@/types/year-statistics';
 
+import { CONTENT_CHART_CONFIG, CONTENT_COLORS } from './constants';
+
 interface Props {
     data: YearStatistics;
 }
-
-const chartConfig = {
-    anime: {
-        label: 'Аніме',
-        color: 'hsl(217 91% 60%)',
-    },
-    manga: {
-        label: 'Манґа',
-        color: 'hsl(321 70% 69%)',
-    },
-    novel: {
-        label: 'Ранобе',
-        color: 'hsl(142 71% 45%)',
-    },
-} satisfies ChartConfig;
 
 interface MergedGenreData {
     genre: string;
@@ -47,6 +32,8 @@ interface MergedGenreData {
     manga: number;
     novel: number;
 }
+
+const TOP_GENRES_LIMIT = 8;
 
 const YearGenreRadar: FC<Props> = ({ data }) => {
     const animeGenres = data.genres.anime ?? [];
@@ -60,56 +47,40 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
     const mergedData = useMemo(() => {
         const genreMap = new Map<string, MergedGenreData>();
 
-        // Process anime genres
-        animeGenres.forEach((g: YearGenre) => {
-            const existing = genreMap.get(g.name_ua) || {
-                genre: g.name_ua,
-                anime: 0,
-                manga: 0,
-                novel: 0,
-            };
-            existing.anime = g.count;
-            genreMap.set(g.name_ua, existing);
-        });
+        const processGenres = (
+            genres: YearGenre[],
+            type: 'anime' | 'manga' | 'novel',
+        ) => {
+            genres.forEach((g) => {
+                const existing = genreMap.get(g.name_ua) || {
+                    genre: g.name_ua,
+                    anime: 0,
+                    manga: 0,
+                    novel: 0,
+                };
+                existing[type] = g.count;
+                genreMap.set(g.name_ua, existing);
+            });
+        };
 
-        // Process manga genres
-        mangaGenres.forEach((g: YearGenre) => {
-            const existing = genreMap.get(g.name_ua) || {
-                genre: g.name_ua,
-                anime: 0,
-                manga: 0,
-                novel: 0,
-            };
-            existing.manga = g.count;
-            genreMap.set(g.name_ua, existing);
-        });
+        processGenres(animeGenres, 'anime');
+        processGenres(mangaGenres, 'manga');
+        processGenres(novelGenres, 'novel');
 
-        // Process novel genres
-        novelGenres.forEach((g: YearGenre) => {
-            const existing = genreMap.get(g.name_ua) || {
-                genre: g.name_ua,
-                anime: 0,
-                manga: 0,
-                novel: 0,
-            };
-            existing.novel = g.count;
-            genreMap.set(g.name_ua, existing);
-        });
-
-        // Sort by total count and take top 8
+        // Sort by total count and take top genres
         return Array.from(genreMap.values())
             .sort(
                 (a, b) =>
                     b.anime + b.manga + b.novel - (a.anime + a.manga + a.novel),
             )
-            .slice(0, 8);
+            .slice(0, TOP_GENRES_LIMIT);
     }, [animeGenres, mangaGenres, novelGenres]);
 
     const hasData = hasAnime || hasManga || hasNovel;
 
     if (!hasData || mergedData.length === 0) {
         return (
-            <Block>
+            <Card>
                 <Header>
                     <HeaderContainer>
                         <HeaderTitle>Улюблені жанри</HeaderTitle>
@@ -118,7 +89,7 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
                 <div className="flex min-h-[300px] items-center justify-center">
                     <p className="text-muted-foreground">Немає даних</p>
                 </div>
-            </Block>
+            </Card>
         );
     }
 
@@ -133,7 +104,7 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
                 </HeaderContainer>
             </Header>
 
-            <ChartContainer config={chartConfig} className="h-80 w-full">
+            <ChartContainer config={CONTENT_CHART_CONFIG} className="h-80 w-full">
                 <RadarChart data={mergedData}>
                     <ChartTooltip
                         cursor={false}
@@ -145,27 +116,27 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
                     {hasAnime && (
                         <Radar
                             dataKey="anime"
-                            fill="hsl(217 91% 60%)"
+                            fill={CONTENT_COLORS.anime}
                             fillOpacity={0.3}
-                            stroke="hsl(217 91% 60%)"
+                            stroke={CONTENT_COLORS.anime}
                             strokeWidth={2}
                         />
                     )}
                     {hasManga && (
                         <Radar
                             dataKey="manga"
-                            fill="hsl(321 70% 69%)"
+                            fill={CONTENT_COLORS.manga}
                             fillOpacity={0.3}
-                            stroke="hsl(321 70% 69%)"
+                            stroke={CONTENT_COLORS.manga}
                             strokeWidth={2}
                         />
                     )}
                     {hasNovel && (
                         <Radar
                             dataKey="novel"
-                            fill="hsl(142 71% 45%)"
+                            fill={CONTENT_COLORS.novel}
                             fillOpacity={0.3}
-                            stroke="hsl(142 71% 45%)"
+                            stroke={CONTENT_COLORS.novel}
                             strokeWidth={2}
                         />
                     )}

@@ -16,25 +16,19 @@ import Stack from '@/components/ui/stack';
 
 import {
     ContentType,
-    MONTHS,
-    MONTH_LABELS_FULL,
     YearCompletedContent,
     YearStatistics,
 } from '@/types/year-statistics';
 import { getDeclensionWord } from '@/utils/i18n';
 
-const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
-    anime: 'Аніме',
-    manga: 'Манґа',
-    novel: 'Ранобе',
-};
+import { CONTENT_TYPE_LABELS, Month, MONTHS, MONTH_LABELS_FULL } from './constants';
 
 interface Props {
     data: YearStatistics;
 }
 
 const YearCompletedTimeline: FC<Props> = ({ data }) => {
-    const monthsWithContent = MONTHS.filter((month) => {
+    const monthsWithContent = MONTHS.filter((month: Month) => {
         return (
             data.completed.anime[month].length > 0 ||
             data.completed.manga[month].length > 0 ||
@@ -59,7 +53,7 @@ const YearCompletedTimeline: FC<Props> = ({ data }) => {
             </Header>
 
             <div className="flex flex-col">
-                {monthsWithContent.map((month) => (
+                {monthsWithContent.map((month: Month) => (
                     <MonthSection
                         key={month}
                         month={month}
@@ -74,7 +68,7 @@ const YearCompletedTimeline: FC<Props> = ({ data }) => {
 };
 
 interface MonthSectionProps {
-    month: (typeof MONTHS)[number];
+    month: Month;
     anime: YearCompletedContent[];
     manga: YearCompletedContent[];
     novel: YearCompletedContent[];

@@ -5,3 +5,6 @@ export { default as YearMonthlyActivity } from './monthly-activity';
 export { default as YearStatusDistribution } from './status-distribution';
 export { YearTopAnime, YearTopManga, YearTopNovel } from './top-content';
 export { default as YearHero } from './year-hero';
+
+// Re-export constants for external use if needed
+export * from './constants';
