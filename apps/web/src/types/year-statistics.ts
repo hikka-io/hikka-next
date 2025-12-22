@@ -76,6 +76,21 @@ export interface YearCompletedByMonth {
     december: YearCompletedContent[];
 }
 
+export interface YearCompletedCountByMonth {
+    january: number;
+    february: number;
+    march: number;
+    april: number;
+    may: number;
+    june: number;
+    july: number;
+    august: number;
+    september: number;
+    october: number;
+    november: number;
+    december: number;
+}
+
 export type YearContentType =
     | ContentTypeEnum.ANIME
     | ContentTypeEnum.MANGA
@@ -113,8 +128,9 @@ export interface YearStatistics {
         manga: YearCompletedByMonth;
         novel: YearCompletedByMonth;
     };
-}
-
-export interface YearData {
-    [username: string]: YearStatistics;
+    completed_count: {
+        anime: YearCompletedCountByMonth;
+        manga: YearCompletedCountByMonth;
+        novel: YearCompletedCountByMonth;
+    };
 }

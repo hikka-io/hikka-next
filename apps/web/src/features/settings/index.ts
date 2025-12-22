@@ -13,6 +13,7 @@ export { default as PasswordSettings } from './security/password';
 // Profile Settings
 export { default as ProfileAppearance } from './profile/appearance';
 export { default as ProfileDescription } from './profile/description';
+export { default as ProfilePrivacy } from './profile/privacy';
 export { default as ProfileUsername } from './profile/username';
 
 // List Settings - Readlist

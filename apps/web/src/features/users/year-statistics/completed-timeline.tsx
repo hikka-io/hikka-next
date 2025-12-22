@@ -64,8 +64,11 @@ const YearCompletedTimeline: FC<Props> = ({ data }) => {
                         key={month}
                         month={month}
                         anime={data.completed.anime[month]}
+                        animeCount={data.completed_count.anime[month]}
                         manga={data.completed.manga[month]}
+                        mangaCount={data.completed_count.manga[month]}
                         novel={data.completed.novel[month]}
+                        novelCount={data.completed_count.novel[month]}
                     />
                 ))}
             </div>
@@ -78,6 +81,9 @@ interface MonthSectionProps {
     anime: YearCompletedContent[];
     manga: YearCompletedContent[];
     novel: YearCompletedContent[];
+    animeCount: number;
+    mangaCount: number;
+    novelCount: number;
 }
 
 const MonthSection: FC<MonthSectionProps> = ({
@@ -85,14 +91,30 @@ const MonthSection: FC<MonthSectionProps> = ({
     anime,
     manga,
     novel,
+    animeCount,
+    mangaCount,
+    novelCount,
 }) => {
     const contentSections: {
         type: YearContentType;
         items: YearCompletedContent[];
+        count: number;
     }[] = [
-        { type: ContentTypeEnum.ANIME as YearContentType, items: anime },
-        { type: ContentTypeEnum.MANGA as YearContentType, items: manga },
-        { type: ContentTypeEnum.NOVEL as YearContentType, items: novel },
+        {
+            type: ContentTypeEnum.ANIME as YearContentType,
+            items: anime,
+            count: animeCount,
+        },
+        {
+            type: ContentTypeEnum.MANGA as YearContentType,
+            items: manga,
+            count: mangaCount,
+        },
+        {
+            type: ContentTypeEnum.NOVEL as YearContentType,
+            items: novel,
+            count: novelCount,
+        },
     ].filter((section) => section.items.length > 0);
 
     return (
@@ -107,7 +129,7 @@ const MonthSection: FC<MonthSectionProps> = ({
             </div>
 
             <div className="flex flex-col gap-6 flex-1 pb-8">
-                {contentSections.map(({ type, items }) => (
+                {contentSections.map(({ type, items, count }) => (
                     <div key={type} className="flex flex-col gap-4">
                         <Header>
                             <HeaderContainer>
@@ -115,8 +137,8 @@ const MonthSection: FC<MonthSectionProps> = ({
                                     {CONTENT_TYPE_LABELS[type]}
                                 </HeaderTitle>
                                 <Badge variant="secondary">
-                                    {items.length}{' '}
-                                    {getDeclensionWord(items.length, [
+                                    {count}{' '}
+                                    {getDeclensionWord(count, [
                                         'тайтл',
                                         'тайтли',
                                         'тайтлів',

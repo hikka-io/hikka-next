@@ -4,6 +4,8 @@ import { ChartConfig } from '@/components/ui/chart';
 
 import { YearContentType } from '@/types/year-statistics';
 
+export const YEAR = 2025;
+
 export const MONTHS = [
     'january',
     'february',

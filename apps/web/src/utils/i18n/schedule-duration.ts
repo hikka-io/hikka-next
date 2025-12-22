@@ -60,7 +60,7 @@ export const getShortLocale = () => ({
  * @param timeLeft - Time left in seconds
  * @returns Array of duration units to display
  */
-const getFormatUnits = (
+export const getFormatUnits = (
     timeLeft: number,
 ): ('years' | 'months' | 'days' | 'hours' | 'minutes')[] => {
     if (timeLeft > TIME_CONSTANTS.YEAR) {

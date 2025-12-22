@@ -1,6 +1,7 @@
 'use client';
 
 import { useUserByUsername } from '@hikka/react';
+import { formatDuration, intervalToDuration } from 'date-fns';
 import { FolderPen, Star } from 'lucide-react';
 import { FC } from 'react';
 
@@ -13,23 +14,20 @@ import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { YearStatistics } from '@/types/year-statistics';
+import { getFormatUnits } from '@/utils/i18n/schedule-duration';
 
 import StatCard from './components/stat-card';
+import { YEAR } from './constants';
 
 interface Props {
     data: YearStatistics;
-    year: string;
     username: string;
 }
 
-const YearHero: FC<Props> = ({ data, year, username }) => {
+const YearHero: FC<Props> = ({ data, username }) => {
     const { data: user } = useUserByUsername({
         username,
     });
-
-    const totalHours = Math.floor(data.duration_total / 60);
-    const totalDays = Math.floor(totalHours / 24);
-    const remainingHours = totalHours % 24;
 
     const totalCompleted =
         data.status.anime.completed +
@@ -42,7 +40,7 @@ const YearHero: FC<Props> = ({ data, year, username }) => {
         data.status.novel.planned;
 
     return (
-        <div className="flex gap-4 flex-col md:flex-row bg-gradient-to-br from-primary via-primary/80 to-primary/60 rounded-lg items-center p-6 relative overflow-hidden">
+        <div className="flex gap-4 flex-col md:flex-row bg-gradient-to-br from-primary via-primary/80 to-primary/60 rounded-lg items-center p-6 relative overflow-hidden w-full">
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -left-20 -top-20 size-96 rounded-full bg-primary-foreground/10 blur-3xl" />
                 <div className="absolute -bottom-32 -right-32 rounded-full bg-primary-foreground/5 blur-3xl" />
@@ -55,7 +53,7 @@ const YearHero: FC<Props> = ({ data, year, username }) => {
                             Річний підсумок
                         </P>
                         <H1 className="text-6xl font-black text-primary-foreground md:text-8xl lg:text-9xl">
-                            {year}
+                            {YEAR}
                         </H1>
                         <div className="flex items-center gap-4">
                             <Avatar className="size-10 rounded-md">
@@ -76,9 +74,17 @@ const YearHero: FC<Props> = ({ data, year, username }) => {
                     className="border-none"
                     icon={<Watching className="size-4 text-muted-foreground" />}
                     value={
-                        totalDays > 0
-                            ? `${totalDays} днів ${remainingHours} годин`
-                            : `${totalHours} годин`
+                        formatDuration(
+                            intervalToDuration({
+                                start: 0,
+                                end: data.duration_total * 60 * 1000,
+                            }),
+                            {
+                                format: getFormatUnits(
+                                    data.duration_total * 60,
+                                ),
+                            },
+                        ) || '0 хвилин'
                     }
                     label="Переглянуто"
                 />
@@ -96,13 +102,13 @@ const YearHero: FC<Props> = ({ data, year, username }) => {
                         <Completed className="size-4  text-muted-foreground" />
                     }
                     value={totalCompleted}
-                    label="Всього завершено"
+                    label="Тайтлів завершено"
                 />
                 <StatCard
                     className="border-none"
                     icon={<Planned className="size-4 text-muted-foreground" />}
                     value={totalPlanned}
-                    label="Всього заплановано"
+                    label="Тайтлів заплановано"
                 />
                 {data.score?.anime?.avg && (
                     <StatCard
