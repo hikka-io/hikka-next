@@ -10,6 +10,13 @@ export interface ArtifactResponse<TData = Record<string, unknown>> {
 }
 
 /**
+ * Artifact privacy response
+ */
+export interface ArtifactPrivacyResponse {
+    private: boolean;
+}
+
+/**
  * Args for updating artifact privacy
  */
 export interface ArtifactPrivacyArgs {

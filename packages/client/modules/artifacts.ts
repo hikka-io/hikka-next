@@ -1,4 +1,9 @@
-import { ArtifactPrivacyArgs, ArtifactResponse, BaseRequestOptionsArgs } from '../types';
+import {
+    ArtifactPrivacyArgs,
+    ArtifactPrivacyResponse,
+    ArtifactResponse,
+    BaseRequestOptionsArgs,
+} from '../types';
 import { BaseModule } from './base';
 
 export class ArtifactsModule extends BaseModule {
@@ -17,18 +22,30 @@ export class ArtifactsModule extends BaseModule {
     }
 
     /**
+     * Get artifact privacy status
+     */
+    public async getArtifactPrivacy(
+        name: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<ArtifactPrivacyResponse> {
+        return this.client.get<ArtifactPrivacyResponse>(
+            `/artifacts/${name}/privacy`,
+            options,
+        );
+    }
+
+    /**
      * Update artifact privacy
      */
     public async updateArtifactPrivacy(
         name: string,
         args: ArtifactPrivacyArgs,
         options?: BaseRequestOptionsArgs,
-    ): Promise<void> {
-        return this.client.post<void>(
+    ): Promise<ArtifactPrivacyResponse> {
+        return this.client.post<ArtifactPrivacyResponse>(
             `/artifacts/${name}/privacy`,
             args,
             options,
         );
     }
 }
-
