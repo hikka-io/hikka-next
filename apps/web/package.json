@@ -92,6 +92,7 @@
         "react-remove-scroll": "^2.6.3",
         "react-resizable-panels": "^2.1.7",
         "react-snowfall": "^2.2.0",
+        "recharts": "^3.6.0",
         "rehype-external-links": "^3.0.0",
         "remark-directive": "^3.0.0",
         "remark-directive-rehype": "^0.4.2",

@@ -7,7 +7,6 @@ import { cn } from '@/utils/cn';
 
 // Define more explicit and comprehensive types
 export type StackSize = 2 | 3 | 4 | 5 | 6 | 7 | 8;
-export type ExtendedStackSize = 2 | 3 | 4 | 5 | 6;
 
 interface StackProps extends ComponentPropsWithoutRef<'div'> {
     /**
@@ -23,7 +22,7 @@ interface StackProps extends ComponentPropsWithoutRef<'div'> {
     /**
      * Number of columns for extended layout
      */
-    extendedSize?: ExtendedStackSize;
+    extendedSize?: StackSize;
 
     /**
      * Custom gap size (defaults to 4 with lg:8)
@@ -42,12 +41,14 @@ const SIZES: Record<StackSize, string> = {
     8: 'grid-cols-6 md:grid-cols-8',
 };
 
-const EXTENDED_SIZES: Record<ExtendedStackSize, string> = {
+const EXTENDED_SIZES: Record<StackSize, string> = {
     2: 'grid-cols-1 md:grid-cols-2',
     3: 'grid-cols-2 md:grid-cols-3',
     4: 'grid-cols-2 md:grid-cols-4',
     5: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5',
     6: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-6',
+    7: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-7',
+    8: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-8',
 };
 
 const GAP_CLASSES = {
