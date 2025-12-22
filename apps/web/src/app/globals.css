@@ -209,6 +209,10 @@
         @apply bg-background text-foreground bg-no-repeat;
         background-size: 100% 100vh;
     }
+
+    body:has([data-cover-image]) {
+        background-image: none !important;
+    }
 }
 
 @layer utilities {
