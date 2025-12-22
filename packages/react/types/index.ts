@@ -1,5 +1,6 @@
 export * from './anime';
 export * from './articles';
+export * from './artifacts';
 export * from './auth';
 export * from './characters';
 export * from './client';

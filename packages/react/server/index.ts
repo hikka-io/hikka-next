@@ -3,6 +3,7 @@ export * from './prefetchQuery';
 
 export * from './prefetch/api/anime';
 export * from './prefetch/api/articles';
+export * from './prefetch/api/artifacts';
 export * from './prefetch/api/auth';
 export * from './prefetch/api/characters';
 export * from './prefetch/api/client';

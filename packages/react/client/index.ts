@@ -7,6 +7,7 @@ export * from './useQuery';
 
 export * from './hooks/api/anime';
 export * from './hooks/api/articles';
+export * from './hooks/api/artifacts';
 export * from './hooks/api/auth';
 export * from './hooks/api/characters';
 export * from './hooks/api/client';

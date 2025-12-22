@@ -394,6 +394,13 @@ export const queryKeys = {
         stats: () => [...queryKeys.articles.all, 'stats'] as const,
     },
 
+    // Artifacts module keys
+    artifacts: {
+        all: ['artifacts'] as const,
+        byUsernameAndName: (username: string, name: string) =>
+            [...queryKeys.artifacts.all, 'details', username, name] as const,
+    },
+
     // Edit module keys
     edit: {
         all: ['edit'] as const,
