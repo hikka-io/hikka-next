@@ -55,3 +55,22 @@ export const useUpdateArtifactPrivacy = createMutation({
     ) => client.artifacts.updateArtifactPrivacy(name, args),
     invalidateQueries: () => [queryKeys.artifacts.all],
 });
+
+/**
+ * Hook for retrieving user artifact privacy status
+ */
+export function useUserArtifactPrivacy({
+    username,
+    name,
+    ...rest
+}: {
+    username: string;
+    name: string;
+} & QueryParams<ArtifactPrivacyResponse>) {
+    return useQuery({
+        queryKey: queryKeys.artifacts.userPrivacy(username, name),
+        queryFn: (client) =>
+            client.artifacts.getUserArtifactPrivacy(username, name),
+        ...rest,
+    });
+}

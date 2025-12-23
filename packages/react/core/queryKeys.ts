@@ -402,6 +402,8 @@ export const queryKeys = {
             [...queryKeys.artifacts.all, 'details', username, name] as const,
         privacy: (name: string) =>
             [...queryKeys.artifacts.all, 'privacy', name] as const,
+        userPrivacy: (username: string, name: string) =>
+            [...queryKeys.artifacts.all, 'privacy', username, name] as const,
     },
 
     // Edit module keys

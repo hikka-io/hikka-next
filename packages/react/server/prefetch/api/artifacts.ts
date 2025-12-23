@@ -37,3 +37,22 @@ export async function prefetchArtifactPrivacy({
         ...rest,
     });
 }
+
+/**
+ * Prefetches user artifact privacy status for server-side rendering
+ */
+export async function prefetchUserArtifactPrivacy({
+    username,
+    name,
+    ...rest
+}: {
+    username: string;
+    name: string;
+} & PrefetchQueryParams<ArtifactPrivacyResponse>) {
+    return prefetchQuery({
+        queryKey: queryKeys.artifacts.userPrivacy(username, name),
+        queryFn: (client) =>
+            client.artifacts.getUserArtifactPrivacy(username, name),
+        ...rest,
+    });
+}
