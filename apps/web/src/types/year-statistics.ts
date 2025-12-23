@@ -133,4 +133,14 @@ export interface YearStatistics {
         manga: YearCompletedCountByMonth;
         novel: YearCompletedCountByMonth;
     };
+    edits_percentile: number | null;
+    collections_count: number;
+    articles_percentile: number | null;
+    comments_percentile: number | null;
+    collections_percentile: number | null;
+    edits_count: number;
+    volumes_total: number;
+    articles_count: number;
+    chapters_total: number;
+    comments_count: number;
 }

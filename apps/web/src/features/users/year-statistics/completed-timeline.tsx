@@ -163,7 +163,7 @@ const MonthSection: FC<MonthSectionProps> = ({
                                 >
                                     <div className="absolute flex items-start justify-end top-0 w-full h-16 p-2 left-0 bg-gradient-to-b from-black/60 to-transparent">
                                         <div className="bg-secondary/20 backdrop-blur rounded-md px-2 py-1">
-                                            <span className="text-xs">
+                                            <span className="text-xs text-white">
                                                 {format(
                                                     item.date * 1000,
                                                     'd MMMM',

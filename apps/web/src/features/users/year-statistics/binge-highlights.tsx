@@ -193,13 +193,35 @@ const SummaryStats: FC<SummaryStatsProps> = ({
         <StatCard
             className="w-full"
             icon={<Flame className="size-4 text-destructive-foreground" />}
-            value={longestStreak}
-            label="Найдовша серія"
+            value={
+                <span className="text-2xl font-bold">
+                    {longestStreak}{' '}
+                    <span className="text-sm">
+                        {getDeclensionWord(longestStreak, [
+                            'день',
+                            'дні',
+                            'днів',
+                        ])}
+                    </span>
+                </span>
+            }
+            label="Загалом"
         />
         <StatCard
             className="w-full"
             icon={<Tally5 className="size-4 text-success-foreground" />}
-            value={totalActiveDays}
+            value={
+                <span className="text-2xl font-bold">
+                    {totalActiveDays}{' '}
+                    <span className="text-sm">
+                        {getDeclensionWord(totalActiveDays, [
+                            'день',
+                            'дні',
+                            'днів',
+                        ])}
+                    </span>
+                </span>
+            }
             label="Днів активності"
         />
         <StatCard

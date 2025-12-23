@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import Card from '@/components/ui/card';
 
@@ -6,8 +6,8 @@ import { cn } from '@/utils/cn';
 
 interface StatCardProps {
     icon: React.ReactNode;
-    value: number | string;
-    label: string;
+    value: number | string | ReactNode;
+    label: string | ReactNode;
     className?: string;
 }
 
@@ -22,8 +22,16 @@ const StatCard: FC<StatCardProps> = ({ icon, value, label, className }) => (
             {icon}
         </div>
         <div className="flex flex-col flex-1 gap-1">
-            <span className="text-2xl font-bold">{value}</span>
-            <span className="text-xs text-muted-foreground">{label}</span>
+            {typeof value === 'string' || typeof value === 'number' ? (
+                <span className="text-2xl font-bold">{value}</span>
+            ) : (
+                value
+            )}
+            {typeof label === 'string' ? (
+                <span className="text-xs text-muted-foreground">{label}</span>
+            ) : (
+                label
+            )}
         </div>
     </Card>
 );

@@ -1,10 +1,11 @@
 'use client';
 
 import { useUserByUsername } from '@hikka/react';
-import { formatDuration, intervalToDuration } from 'date-fns';
-import { FolderPen, Star } from 'lucide-react';
+import { Bookmark, MessageCircleMore, Pencil, Star } from 'lucide-react';
 import { FC } from 'react';
 
+import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Completed from '@/components/icons/watch-status/completed';
 import Planned from '@/components/icons/watch-status/planned';
 import Watching from '@/components/icons/watch-status/watching';
@@ -12,9 +13,16 @@ import H1 from '@/components/typography/h1';
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Image from '@/components/ui/image';
 
 import { YearStatistics } from '@/types/year-statistics';
-import { getFormatUnits } from '@/utils/i18n/schedule-duration';
+import {
+    ARTICLE_DECLENSIONS,
+    COLLECTION_DECLENSIONS,
+    COMMENT_DECLENSIONS,
+    EDIT_DECLENSIONS,
+} from '@/utils/constants/common';
+import { getDeclensionWord } from '@/utils/i18n';
 
 import StatCard from './components/stat-card';
 import { YEAR } from './constants';
@@ -29,6 +37,11 @@ const YearHero: FC<Props> = ({ data, username }) => {
         username,
     });
 
+    const days = Math.floor(data.duration_total / 1440);
+    const remainingMinutes = data.duration_total % 1440;
+    const hours = Math.floor(remainingMinutes / 60);
+    const minutes = remainingMinutes % 60;
+
     const totalCompleted =
         data.status.anime.completed +
         data.status.manga.completed +
@@ -40,17 +53,23 @@ const YearHero: FC<Props> = ({ data, username }) => {
         data.status.novel.planned;
 
     return (
-        <div className="flex gap-4 flex-col md:flex-row bg-gradient-to-br from-primary via-primary/80 to-primary/60 rounded-lg items-center p-6 relative overflow-hidden w-full">
+        <div className="flex gap-4 flex-col md:flex-row dark:bg-gradient-to-br dark:from-primary dark:via-primary/80 dark:to-primary/60 bg-secondary/20 rounded-lg items-center backdrop-blur p-6 relative overflow-hidden w-full">
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -left-20 -top-20 size-96 rounded-full bg-primary-foreground/10 blur-3xl" />
-                <div className="absolute -bottom-32 -right-32 rounded-full bg-primary-foreground/5 blur-3xl" />
+                <div className="absolute -bottom-20 -right-20 size-96 rounded-full bg-primary-foreground/5 blur-3xl" />
                 <div className="absolute left-1/2 top-1/2 size-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground/10 blur-2xl" />
             </div>
             <div className="shrink-0">
                 <div className="relative flex flex-col items-center gap-6 text-center">
                     <div className="flex flex-col items-center gap-2">
+                        <Image
+                            src="/logo-icon.png"
+                            alt="Logo"
+                            width={24}
+                            height={24}
+                        />
                         <P className="text-primary-foreground uppercase tracking-widest">
-                            Річний підсумок
+                            Підсумки року
                         </P>
                         <H1 className="text-6xl font-black text-primary-foreground md:text-8xl lg:text-9xl">
                             {YEAR}
@@ -69,71 +88,198 @@ const YearHero: FC<Props> = ({ data, username }) => {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 grid-rows-2 flex-1 w-full">
-                <StatCard
-                    className="border-none"
-                    icon={<Watching className="size-4 text-muted-foreground" />}
-                    value={
-                        formatDuration(
-                            intervalToDuration({
-                                start: 0,
-                                end: data.duration_total * 60 * 1000,
-                            }),
-                            {
-                                format: getFormatUnits(
-                                    data.duration_total * 60,
-                                ),
-                            },
-                        ) || '0 хвилин'
+            <div className="flex flex-col gap-4 flex-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 w-full">
+                    {
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Watching className="size-4 text-muted-foreground" />
+                            }
+                            value={
+                                <span className="text-2xl font-bold">
+                                    {days > 0 && `${days} `}
+                                    {days > 0 && (
+                                        <span className="text-sm">
+                                            {getDeclensionWord(days, [
+                                                'день',
+                                                'дні',
+                                                'днів',
+                                            ])}{' '}
+                                        </span>
+                                    )}
+                                    {hours > 0 && `${hours} `}
+                                    {hours > 0 && (
+                                        <span className="text-sm">
+                                            {getDeclensionWord(hours, [
+                                                'година',
+                                                'години',
+                                                'годин',
+                                            ])}{' '}
+                                        </span>
+                                    )}
+                                    {(hours === 0 || days === 0) &&
+                                        `${minutes} `}
+                                    {(hours === 0 || days === 0) && (
+                                        <span className="text-sm">
+                                            {getDeclensionWord(minutes, [
+                                                'хвилина',
+                                                'хвилини',
+                                                'хвилин',
+                                            ])}
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            label="Переглянуто"
+                        />
                     }
-                    label="Переглянуто"
-                />
-                <StatCard
-                    className="border-none"
-                    icon={
-                        <FolderPen className="size-4 text-muted-foreground" />
-                    }
-                    value={data.records_total}
-                    label="Записів"
-                />
-                <StatCard
-                    className="border-none"
-                    icon={
-                        <Completed className="size-4  text-muted-foreground" />
-                    }
-                    value={totalCompleted}
-                    label="Тайтлів завершено"
-                />
-                <StatCard
-                    className="border-none"
-                    icon={<Planned className="size-4 text-muted-foreground" />}
-                    value={totalPlanned}
-                    label="Тайтлів заплановано"
-                />
-                {data.score?.anime?.avg && (
-                    <StatCard
-                        className="border-none"
-                        icon={<Star className="size-4 text-muted-foreground" />}
-                        value={data.score.anime.avg}
-                        label="Середня оцінка аніме"
-                    />
-                )}
-                {data.score?.manga?.avg && (
-                    <StatCard
-                        className="border-none"
-                        icon={<Star className="size-4 text-muted-foreground" />}
-                        value={data.score.manga.avg}
-                        label="Середня оцінка манґи"
-                    />
-                )}
-                {data.score?.novel?.avg && (
-                    <StatCard
-                        className="border-none"
-                        icon={<Star className="size-4 text-muted-foreground" />}
-                        value={data.score.novel.avg}
-                        label="Середня оцінка ранобе"
-                    />
-                )}
+                    {data.volumes_total > 0 && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Bookmark className="size-4 text-muted-foreground" />
+                            }
+                            value={data.volumes_total}
+                            label="Томів прочитано"
+                        />
+                    )}
+                    {totalCompleted > 0 && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Completed className="size-4  text-muted-foreground" />
+                            }
+                            value={totalCompleted}
+                            label="Тайтлів завершено"
+                        />
+                    )}
+                    {totalPlanned > 0 && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Planned className="size-4 text-muted-foreground" />
+                            }
+                            value={totalPlanned}
+                            label="Тайтлів заплановано"
+                        />
+                    )}
+                    {data.score?.anime?.avg && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Star className="size-4 text-muted-foreground" />
+                            }
+                            value={data.score.anime.avg}
+                            label="Середня оцінка аніме"
+                        />
+                    )}
+                    {data.score?.manga?.avg && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Star className="size-4 text-muted-foreground" />
+                            }
+                            value={data.score.manga.avg}
+                            label="Середня оцінка манґи"
+                        />
+                    )}
+                    {data.score?.novel?.avg && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Star className="size-4 text-muted-foreground" />
+                            }
+                            value={data.score.novel.avg}
+                            label="Середня оцінка ранобе"
+                        />
+                    )}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 w-full">
+                    {data.edits_percentile !== null && data.edits_count > 0 && (
+                        <StatCard
+                            className="border-none"
+                            icon={
+                                <Pencil className="size-4 text-muted-foreground" />
+                            }
+                            value={
+                                <span className="text-2xl font-bold">
+                                    {data.edits_count}{' '}
+                                    <span className="text-sm">
+                                        {getDeclensionWord(
+                                            data.edits_count,
+                                            EDIT_DECLENSIONS,
+                                        )}
+                                    </span>
+                                </span>
+                            }
+                            label={`Ви внесли змін більше ніж ${(100 - Number(data.edits_percentile)).toFixed(0)}% користувачів`}
+                        />
+                    )}
+                    {data.comments_percentile !== null &&
+                        data.comments_count > 0 && (
+                            <StatCard
+                                className="border-none"
+                                icon={
+                                    <MessageCircleMore className="size-4 text-muted-foreground" />
+                                }
+                                value={
+                                    <span className="text-2xl font-bold">
+                                        {data.comments_count}{' '}
+                                        <span className="text-sm">
+                                            {getDeclensionWord(
+                                                data.comments_count,
+                                                COMMENT_DECLENSIONS,
+                                            )}
+                                        </span>
+                                    </span>
+                                }
+                                label={`Ви залишили коментарів більше ніж ${100 - data.comments_percentile}% користувачів`}
+                            />
+                        )}
+                    {data.collections_percentile !== null &&
+                        data.collections_count > 0 && (
+                            <StatCard
+                                className="border-none"
+                                icon={
+                                    <MaterialSymbolsGridViewRounded className="size-4 text-muted-foreground" />
+                                }
+                                value={
+                                    <span className="text-2xl font-bold">
+                                        {data.collections_count}{' '}
+                                        <span className="text-sm">
+                                            {getDeclensionWord(
+                                                data.collections_count,
+                                                COLLECTION_DECLENSIONS,
+                                            )}
+                                        </span>
+                                    </span>
+                                }
+                                label={`Ви створили колекцій більше ніж ${100 - data.collections_percentile}% користувачів`}
+                            />
+                        )}
+                    {data.articles_percentile !== null &&
+                        data.articles_count > 0 && (
+                            <StatCard
+                                className="border-none"
+                                icon={
+                                    <MaterialSymbolsDynamicFeedRounded className="size-4 text-muted-foreground" />
+                                }
+                                value={
+                                    <span className="text-2xl font-bold">
+                                        {data.articles_count}{' '}
+                                        <span className="text-sm">
+                                            {getDeclensionWord(
+                                                data.articles_count,
+                                                ARTICLE_DECLENSIONS,
+                                            )}
+                                        </span>
+                                    </span>
+                                }
+                                label={`Ви створили статей більше ніж ${100 - data.articles_percentile}% користувачів`}
+                            />
+                        )}
+                </div>
             </div>
         </div>
     );

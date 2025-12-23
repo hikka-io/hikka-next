@@ -80,7 +80,7 @@ const TopContentGrid: FC<TopContentGridProps> = ({ items, contentType }) => {
                     leftSubtitle={`${item.score}/10`}
                     href={`/${contentType}/${item.slug}`}
                 >
-                    <div className="flex items-end justify-end p-4 absolute bottom-0 left-0 z-0 h-48 w-full bg-gradient-to-t from-background to-transparent">
+                    <div className="flex items-end justify-end p-4 absolute bottom-0 left-0 z-0 h-48 w-full bg-gradient-to-t from-black/60 to-transparent">
                         <span
                             className={cn(
                                 'md:text-6xl text-4xl font-black font-mono',
