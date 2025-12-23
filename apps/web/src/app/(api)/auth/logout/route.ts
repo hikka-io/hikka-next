@@ -17,10 +17,20 @@ export async function GET(request: NextRequest) {
         },
     });
 
+    // Видалення username hostOnly кукі
+    response.headers.append(
+        'Set-Cookie',
+        'username=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
+    );
+
     // Видалення кукі з доменом
     response.headers.append(
         'Set-Cookie',
         'auth=; Max-Age=0; Path=/; Domain=.hikka.io; HttpOnly; SameSite=Lax',
+    );
+    response.headers.append(
+        'Set-Cookie',
+        'username=; Max-Age=0; Path=/; Domain=.hikka.io; HttpOnly; SameSite=Lax',
     );
 
     return response;
