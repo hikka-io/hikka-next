@@ -47,7 +47,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
         data.status.novel.completed;
 
     return (
-        <div className="flex gap-4 flex-col md:flex-row dark:bg-gradient-to-br dark:from-primary dark:via-primary/80 dark:to-primary/60 bg-secondary/20 rounded-lg items-center backdrop-blur p-6 relative overflow-hidden w-full">
+        <div className="flex gap-4 flex-col dark:bg-gradient-to-br dark:from-primary/80 dark:via-primary/60 dark:to-primary/40 bg-secondary/20 rounded-lg items-center backdrop-blur p-6 relative overflow-hidden w-full -z-10">
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -left-20 -top-20 size-96 rounded-full bg-primary-foreground/10 blur-3xl" />
                 <div className="absolute -bottom-20 -right-20 size-96 rounded-full bg-primary-foreground/5 blur-3xl" />
@@ -74,7 +74,6 @@ const YearHero: FC<Props> = ({ data, username }) => {
                 width={64}
                 height={64}
             />
-
             <Image
                 className="absolute bottom-6 left-64 -z-10 opacity-20"
                 src="/logo-icon.png"
@@ -89,31 +88,27 @@ const YearHero: FC<Props> = ({ data, username }) => {
                 width={32}
                 height={32}
             />
-            <div className="shrink-0">
-                <div className="relative flex flex-col items-center gap-6 text-center">
-                    <div className="flex flex-col items-center gap-2">
-                        <P className="text-primary-foreground uppercase tracking-widest">
-                            Підсумки року
-                        </P>
-                        <H1 className="text-6xl font-black text-primary-foreground md:text-8xl lg:text-9xl">
-                            {YEAR}
-                        </H1>
-                        <div className="flex items-center gap-4">
-                            <Avatar className="size-10 rounded-md">
-                                <AvatarImage src={user?.avatar} />
-                                <AvatarFallback>
-                                    {user?.username[0]}
-                                </AvatarFallback>
-                            </Avatar>
-                            <H2 className="text-xl font-medium text-primary-foreground tracking-widest">
-                                {username}
-                            </H2>
-                        </div>
+            <div className="relative flex flex-col items-center gap-6 text-center">
+                <div className="flex flex-col items-center gap-2">
+                    <P className="text-primary-foreground uppercase tracking-widest">
+                        Підсумки року
+                    </P>
+                    <H1 className="text-6xl font-black text-primary-foreground md:text-8xl lg:text-9xl">
+                        {YEAR}
+                    </H1>
+                    <div className="flex items-center gap-4">
+                        <Avatar className="size-10 rounded-md">
+                            <AvatarImage src={user?.avatar} />
+                            <AvatarFallback>{user?.username[0]}</AvatarFallback>
+                        </Avatar>
+                        <H2 className="text-xl font-medium text-primary-foreground tracking-widest">
+                            {username}
+                        </H2>
                     </div>
                 </div>
             </div>
             <div className="flex flex-col gap-4 flex-1">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 w-full">
                     {
                         <StatCard
                             className="border-none"

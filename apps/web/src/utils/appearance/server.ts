@@ -10,7 +10,7 @@ import { getHikkaClientConfig } from '@/utils/hikka-client';
 import { getCookie } from '../cookies';
 import { DEFAULT_APPEARANCE } from './defaults';
 import { stylesToCSS } from './inject-styles';
-import { mergeStyles } from './merge';
+import { mergeStyles, mergeUserUI } from './merge';
 
 /**
  * Cached per-user UI appearance fetch.
@@ -46,7 +46,7 @@ export async function getSessionUserUI(): Promise<UserAppearance> {
         let currentUsername = await getCookie('username');
         const ui = await getCachedUserUI(currentUsername ?? '');
 
-        return ui;
+        return mergeUserUI(DEFAULT_APPEARANCE, ui);
     } catch (error) {
         console.error('Failed to get session user UI', error);
         return DEFAULT_APPEARANCE;

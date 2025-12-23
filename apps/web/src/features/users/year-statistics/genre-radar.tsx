@@ -97,7 +97,7 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
                 config={CONTENT_CHART_CONFIG}
                 className="h-80 w-full"
             >
-                <RadarChart data={mergedData}>
+                <RadarChart outerRadius={80} data={mergedData}>
                     <ChartTooltip
                         cursor={false}
                         content={<ChartTooltipContent labelKey="genre" />}

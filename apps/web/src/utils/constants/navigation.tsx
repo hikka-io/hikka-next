@@ -1,13 +1,13 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { FilePenLine, UsersIcon } from 'lucide-react';
 
+import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
+import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
-
-import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
-import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
 import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
+
 import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
 import IconamoonCommentFill from '../../components/icons/iconamoon/IconamoonCommentFill';
@@ -341,6 +341,13 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
         visible: false,
         slug: 'reset',
     },
+    {
+        title_ua: 'Підсумки',
+        url: '/summary',
+        icon: () => <MaterialSymbolsCalendarClockRounded />,
+        visible: false,
+        slug: 'summary',
+    },
 ];
 
 const SOCIAL_GROUP: Hikka.NavRoute[] = [
@@ -510,7 +517,7 @@ export const DONATION_LINKS = [
         title: 'Монобанка',
         href: 'https://send.monobank.ua/jar/UejmZHk4B',
         icon: PhTipJarFill,
-    }
+    },
 ] as const;
 
 export const SOCIAL_LINKS = [
@@ -528,5 +535,5 @@ export const SOCIAL_LINKS = [
         title: 'Mastadon',
         href: 'https://social.noleron.com/@hikka',
         icon: BxBxlMastadon,
-    }
+    },
 ] as const;

@@ -15,7 +15,6 @@ export const EVENT_THEMES: Hikka.EventTheme[] = [
 
 /**
  * Get the currently active event theme based on the current date.
- * Returns null if no event theme is active.
  */
 export function getActiveEventTheme(): Hikka.EventTheme | null {
     const now = new Date();

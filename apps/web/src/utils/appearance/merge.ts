@@ -31,6 +31,10 @@ export function mergeStyles(
                 ...base.light?.colors,
                 ...override.light?.colors,
             },
+            body: {
+                ...base.light?.body,
+                ...override.light?.body,
+            },
         },
         dark: {
             ...base.dark,
@@ -38,6 +42,10 @@ export function mergeStyles(
             colors: {
                 ...base.dark?.colors,
                 ...override.dark?.colors,
+            },
+            body: {
+                ...base.dark?.body,
+                ...override.dark?.body,
             },
         },
         radius: override.radius ?? base.radius,
