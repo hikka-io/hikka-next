@@ -89,9 +89,8 @@ const YearStatisticsPage: FC<Props> = async (props) => {
                 <P className="text-sm font-bold">Підсумки {year} року</P>
             </Breadcrumbs>
             <div className="flex flex-col gap-8 container max-w-3xl p-0 isolate">
-                <PrivacySetting />
-
                 <YearHero data={artifact.data} username={username} />
+                <PrivacySetting />
 
                 <div className="flex flex-col gap-8">
                     <YearTopAnime data={artifact.data} />

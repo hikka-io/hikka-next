@@ -12,11 +12,12 @@ import {
     HomeArticles as Articles,
     HomeCollections as Collections,
     HomeComments as Comments,
-    HomeOngoings as Ongoings,
     HomeHistory as History,
+    HomeOngoings as Ongoings,
     HomeProfile as Profile,
     HomeSchedule as Schedule,
 } from '@/features/home';
+import { SummaryBanner } from '@/features/users';
 
 import prefetchQueries from './page.queries';
 
@@ -36,10 +37,14 @@ const Page = async () => {
             <div className="flex flex-col gap-16">
                 <CoverImage cover={loggedUser?.cover} />
                 <Ongoings />
+
                 {loggedUser && (
-                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                        <Profile />
-                        <History />
+                    <div className="flex flex-col gap-8">
+                        <SummaryBanner />
+                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                            <Profile />
+                            <History />
+                        </div>
                     </div>
                 )}
                 <Comments />

@@ -64,11 +64,11 @@ export const CONTENT_CHART_CONFIG: ChartConfig = {
         label: 'Аніме',
         color: CONTENT_COLORS[ContentTypeEnum.ANIME],
     },
-    manga: {
+    [ContentTypeEnum.MANGA]: {
         label: 'Манґа',
         color: CONTENT_COLORS[ContentTypeEnum.MANGA],
     },
-    novel: {
+    [ContentTypeEnum.NOVEL]: {
         label: 'Ранобе',
         color: CONTENT_COLORS[ContentTypeEnum.NOVEL],
     },

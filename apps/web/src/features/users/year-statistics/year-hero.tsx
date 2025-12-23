@@ -315,6 +315,9 @@ const YearHero: FC<Props> = ({ data, username }) => {
                         )}
                 </div>
             </div>
+            <P className="text-primary-foreground uppercase tracking-widest text-sm">
+                hikka.io
+            </P>
         </div>
     );
 };

@@ -4,6 +4,8 @@ export { default as YearGenreRadar } from './genre-radar';
 export { default as YearMonthlyActivity } from './monthly-activity';
 export { default as PrivacySetting } from './privacy-setting';
 export { default as YearStatusDistribution } from './status-distribution';
+export { default as SummaryBanner } from './summary-banner';
+export { default as SummaryButton } from './summary-button';
 export { YearTopAnime, YearTopManga, YearTopNovel } from './top-content';
 export { default as YearHero } from './year-hero';
 

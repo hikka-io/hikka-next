@@ -159,6 +159,7 @@ declare global {
 
         type PlausibleEvents = {
             'movie-banner-click': never;
+            'year-summary-banner-click': never;
         };
 
         type EventTheme = {

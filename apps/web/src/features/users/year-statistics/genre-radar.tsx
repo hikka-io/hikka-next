@@ -33,8 +33,6 @@ interface MergedGenreData {
     novel: number;
 }
 
-const TOP_GENRES_LIMIT = 8;
-
 const YearGenreRadar: FC<Props> = ({ data }) => {
     const animeGenres = data.genres.anime ?? [];
     const mangaGenres = data.genres.manga ?? [];
@@ -67,13 +65,10 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
         processGenres(mangaGenres, 'manga');
         processGenres(novelGenres, 'novel');
 
-        // Sort by total count and take top genres
-        return Array.from(genreMap.values())
-            .sort(
-                (a, b) =>
-                    b.anime + b.manga + b.novel - (a.anime + a.manga + a.novel),
-            )
-            .slice(0, TOP_GENRES_LIMIT);
+        return Array.from(genreMap.values()).sort(
+            (a, b) =>
+                b.anime + b.manga + b.novel - (a.anime + a.manga + a.novel),
+        );
     }, [animeGenres, mangaGenres, novelGenres]);
 
     const hasData = hasAnime || hasManga || hasNovel;

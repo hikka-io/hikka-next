@@ -18,6 +18,7 @@ import {
     ActivationAlert,
     FollowStats,
     ListStats,
+    SummaryButton,
     UserInfo,
     UserTitle,
 } from '@/features/users';
@@ -86,34 +87,34 @@ const UserLayout: FC<Props> = async (props) => {
                         urlPrefix={`/u/${username}`}
                     />
                 </Breadcrumbs>
-                {/* <SubBar>
-                    <InternalNavBar
-                        routes={USER_NAV_ROUTES}
-                        urlPrefix={`/u/${username}`}
-                    />
-                </SubBar> */}
 
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
                     <div className="flex flex-col gap-4 lg:gap-8">
                         <div className="flex gap-4 lg:gap-8">
                             <UserInfo />
-                            <div className="flex flex-col gap-2">
-                                <UserTitle />
-                                <FollowStats className="hidden lg:flex" />
-                                <div className="hidden flex-1 flex-col justify-end gap-2 lg:flex">
-                                    <FollowButton
-                                        className="w-fit"
-                                        username={username}
-                                    />
+                            <div className="flex flex-col gap-2 justify-between">
+                                <div className="flex flex-col gap-2">
+                                    <UserTitle />
+                                    <FollowStats className="hidden lg:flex" />
+                                </div>
+                                <div className="hidden gap-4 lg:flex">
+                                    <FollowButton username={username} />
+                                    <SummaryButton username={username} />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-col gap-4 lg:hidden">
                             <FollowStats />
-                            <FollowButton
-                                username={username}
-                                className="w-full"
-                            />
+                            <div className="gap-4 flex">
+                                <FollowButton
+                                    username={username}
+                                    className="flex-1"
+                                />
+                                <SummaryButton
+                                    username={username}
+                                    className="flex-1"
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">

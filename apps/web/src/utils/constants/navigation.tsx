@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { FilePenLine, UsersIcon } from 'lucide-react';
+import { ChartLine, FilePenLine, UsersIcon } from 'lucide-react';
 
 import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
 import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
@@ -344,7 +344,7 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Підсумки',
         url: '/summary',
-        icon: () => <MaterialSymbolsCalendarClockRounded />,
+        icon: () => <ChartLine />,
         visible: false,
         slug: 'summary',
     },
