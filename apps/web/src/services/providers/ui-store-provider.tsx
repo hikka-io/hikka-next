@@ -16,12 +16,12 @@ const UIStoreContext = createContext<UIStoreWithTemporal | null>(null);
 
 export function UIStoreProvider({
     children,
-    initialUIData,
-}: PropsWithChildren<{ initialUIData: UserAppearance }>) {
+    initialUI,
+}: PropsWithChildren<{ initialUI: UserAppearance }>) {
     const storeRef = useRef<UIStoreWithTemporal | null>(null);
 
     if (!storeRef.current) {
-        storeRef.current = createUIStore(initialUIData);
+        storeRef.current = createUIStore(initialUI);
 
         storeRef.current.temporal.getState().pause();
     }

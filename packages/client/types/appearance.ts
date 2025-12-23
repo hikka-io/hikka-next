@@ -76,6 +76,7 @@ export type UIPreferences = {
     title_language?: TitleLanguage;
     name_language?: NameLanguage;
     effects?: UIEffect[];
+    overlay?: boolean;
 };
 
 export type UserAppearance = {

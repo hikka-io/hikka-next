@@ -34,6 +34,7 @@ export interface UIActions {
     // Preferences
     setTitleLanguage: (title_language: UIPreferences['title_language']) => void;
     setNameLanguage: (name_language: UIPreferences['name_language']) => void;
+    setOverlay: (overlay: UIPreferences['overlay']) => void;
 
     // Styles
     setStyles: (styles: UIStyles | undefined) => void;
@@ -52,7 +53,7 @@ export interface UIActions {
     toggleEffect: (effect: UIEffect) => void;
     setEffects: (effects: UIEffect[]) => void;
 
-    setAppearance: (appearance: UserAppearance) => void;
+    setUI: (UI: UserAppearance) => void;
 
     getMergedStyles: () => UIStyles;
     getActiveEffects: () => UIEffect[];
@@ -66,14 +67,14 @@ export interface UIActions {
 
 export type UIStore = UIState & UIActions;
 
-function normalizeInitialAppearance(
-    initial: UserAppearance | undefined,
+function normalizeInitialUI(
+    initialUI: UserAppearance | undefined,
 ): UserAppearance {
     return {
-        styles: mergeStyles(DEFAULT_APPEARANCE.styles, initial?.styles),
+        styles: mergeStyles(DEFAULT_APPEARANCE.styles, initialUI?.styles),
         preferences: {
             ...(DEFAULT_APPEARANCE.preferences ?? {}),
-            ...(initial?.preferences ?? {}),
+            ...(initialUI?.preferences ?? {}),
         },
     };
 }
@@ -82,10 +83,8 @@ export type UIStoreWithTemporal = StoreApi<UIStore> & {
     temporal: StoreApi<UITemporalState>;
 };
 
-export function createUIStore(
-    initialAppearance?: UserAppearance,
-): UIStoreWithTemporal {
-    const normalized = normalizeInitialAppearance(initialAppearance);
+export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
+    const normalized = normalizeInitialUI(initialUI);
 
     return createStore<UIStore>()(
         temporal(
@@ -98,8 +97,8 @@ export function createUIStore(
                     set({ _hasHydrated: hasHydrated });
                 },
 
-                setAppearance: (appearance) => {
-                    const next = normalizeInitialAppearance(appearance);
+                setUI: (UI) => {
+                    const next = normalizeInitialUI(UI);
                     set((state) => ({
                         ...state,
                         ...next,
@@ -128,6 +127,19 @@ export function createUIStore(
                                 DEFAULT_APPEARANCE.preferences ??
                                 {}),
                             name_language,
+                        },
+                    }));
+                    get().updateUserUI();
+                },
+
+                setOverlay: (overlay) => {
+                    set((state) => ({
+                        ...state,
+                        preferences: {
+                            ...(state.preferences ??
+                                DEFAULT_APPEARANCE.preferences ??
+                                {}),
+                            overlay,
                         },
                     }));
                     get().updateUserUI();

@@ -75,8 +75,8 @@ interface Props {
 }
 
 const RootLayout = async ({ children }: Props) => {
-    const userUI = await getSessionUserUI();
-    const userStylesCSS = await getUserStylesCSS(userUI);
+    const UI = await getSessionUserUI();
+    const userStylesCSS = await getUserStylesCSS(UI);
 
     return (
         <html
@@ -102,7 +102,7 @@ const RootLayout = async ({ children }: Props) => {
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <UIStoreProvider initialUIData={userUI}>
+                    <UIStoreProvider initialUI={UI}>
                         <Providers>{children}</Providers>
                     </UIStoreProvider>
                 </div>

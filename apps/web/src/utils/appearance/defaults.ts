@@ -77,5 +77,6 @@ export const DEFAULT_APPEARANCE: UserAppearance = {
         title_language: 'title_ua',
         name_language: 'name_ua',
         effects: [],
+        overlay: true,
     },
 };

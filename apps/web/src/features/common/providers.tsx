@@ -20,7 +20,7 @@ import { getCookie } from '@/utils/cookies';
 interface Props extends PropsWithChildren {}
 
 const Providers: FC<Props> = ({ children }) => {
-    const appearance = useUIStore((state) => state);
+    const UI = useUIStore((state) => state);
     setDefaultOptions({ locale: uk });
 
     const [queryClientConfig] = useState<QueryClientConfig>({
@@ -45,8 +45,8 @@ const Providers: FC<Props> = ({ children }) => {
     return (
         <HikkaProvider
             defaultOptions={{
-                title: appearance.preferences?.title_language ?? 'title_ua',
-                name: appearance.preferences?.name_language ?? 'name_ua',
+                title: UI.preferences?.title_language ?? 'title_ua',
+                name: UI.preferences?.name_language ?? 'name_ua',
             }}
             clientConfig={apiClientConfig}
             queryClientConfig={queryClientConfig}

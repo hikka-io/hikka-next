@@ -210,7 +210,7 @@
         background-size: 100% 100vh;
     }
 
-    body:has([data-cover-image]) {
+    body:has([data-cover-image][data-overlay='false']) {
         background-image: none !important;
     }
 }

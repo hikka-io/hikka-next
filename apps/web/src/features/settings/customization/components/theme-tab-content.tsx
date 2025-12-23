@@ -24,13 +24,13 @@ interface ThemeTabContentProps {
 }
 
 const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
-    const appearance = useUIStore((state) => state);
+    const UI = useUIStore((state) => state);
     const setColorToken = useUIStore((state) => state.setColorToken);
     const setBody = useUIStore((state) => state.setBody);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const getColor = (token: keyof UIColorTokens) =>
-        appearance.styles?.[theme]?.colors?.[token];
+        UI.styles?.[theme]?.colors?.[token];
 
     const handleColorChange = (token: keyof UIColorTokens, color: HSLColor) => {
         setColorToken(theme, token, color);
@@ -56,7 +56,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     };
 
     const getSelectedPresetName = (): string | null => {
-        const currentColors = appearance.styles?.[theme]?.colors;
+        const currentColors = UI.styles?.[theme]?.colors;
         if (!currentColors) return null;
 
         const matchingPreset = COLOR_PRESETS.find((preset) => {
@@ -95,8 +95,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                             }
                             type="text"
                             value={
-                                appearance.styles?.[theme]?.body
-                                    ?.background_image ?? ''
+                                UI.styles?.[theme]?.body?.background_image ?? ''
                             }
                         />
                     </div>
@@ -135,4 +134,3 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
 };
 
 export default ThemeTabContent;
-

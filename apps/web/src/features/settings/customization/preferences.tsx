@@ -15,13 +15,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 
 import { useUIStore } from '@/services/providers/ui-store-provider';
 
 const PreferencesSettings = () => {
-    const appearance = useUIStore((state) => state);
+    const UI = useUIStore((state) => state);
     const setTitleLanguage = useUIStore((state) => state.setTitleLanguage);
     const setNameLanguage = useUIStore((state) => state.setNameLanguage);
+    const setOverlay = useUIStore((state) => state.setOverlay);
 
     const { setTheme, theme } = useTheme();
 
@@ -72,9 +74,7 @@ const PreferencesSettings = () => {
                 <Label>Мова назв контенту</Label>
 
                 <Select
-                    value={[
-                        appearance.preferences?.title_language ?? 'title_ua',
-                    ]}
+                    value={[UI.preferences?.title_language ?? 'title_ua']}
                     onValueChange={handleChangeTitleLanguage}
                 >
                     <SelectTrigger>
@@ -99,7 +99,7 @@ const PreferencesSettings = () => {
                 <Label>Мова імен</Label>
 
                 <Select
-                    value={[appearance.preferences?.name_language ?? 'name_ua']}
+                    value={[UI.preferences?.name_language ?? 'name_ua']}
                     onValueChange={handleChangeNameLanguage}
                 >
                     <SelectTrigger>
@@ -121,6 +121,20 @@ const PreferencesSettings = () => {
                         </SelectList>
                     </SelectContent>
                 </Select>
+            </div>
+
+            <div className="flex w-full flex-row items-center justify-between gap-2">
+                <div className="flex flex-col gap-1">
+                    <Label>Накладання градієнту</Label>
+                    <span className="text-xs text-muted-foreground">
+                        Накладати градієнт на обкладинку
+                    </span>
+                </div>
+
+                <Switch
+                    checked={UI.preferences?.overlay ?? true}
+                    onCheckedChange={(value) => setOverlay(value)}
+                />
             </div>
         </div>
     );

@@ -16,7 +16,7 @@ import CustomColorsModal from './components/custom-colors-modal';
 const StylesSettings = () => {
     const { openModal } = useModalContext();
     const { resolvedTheme } = useTheme();
-    const appearance = useUIStore((state) => state);
+    const UI = useUIStore((state) => state);
 
     const setRadius = useUIStore((state) => state.setRadius);
 
@@ -38,10 +38,10 @@ const StylesSettings = () => {
         });
     };
 
-    const currentRadius = appearance.styles?.radius?.replace('rem', '') ?? '';
+    const currentRadius = UI.styles?.radius?.replace('rem', '') ?? '';
 
     const activeTheme = (resolvedTheme as 'light' | 'dark') ?? 'dark';
-    const themeColors = appearance.styles?.[activeTheme]?.colors;
+    const themeColors = UI.styles?.[activeTheme]?.colors;
 
     return (
         <div className="flex w-full flex-col gap-6">
