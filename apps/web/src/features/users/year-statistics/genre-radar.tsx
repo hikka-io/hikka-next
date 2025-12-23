@@ -79,18 +79,7 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
     const hasData = hasAnime || hasManga || hasNovel;
 
     if (!hasData || mergedData.length === 0) {
-        return (
-            <Card>
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Улюблені жанри</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <div className="flex min-h-[300px] items-center justify-center">
-                    <p className="text-muted-foreground">Немає даних</p>
-                </div>
-            </Card>
-        );
+        return null;
     }
 
     return (
@@ -99,12 +88,15 @@ const YearGenreRadar: FC<Props> = ({ data }) => {
                 <HeaderContainer className="gap-1 flex-col items-start">
                     <HeaderTitle>Улюблені жанри</HeaderTitle>
                     <HeaderDescription>
-                        Жанри, які Ви найбільше полюбляли у цьому році
+                        Жанри, які користувач найбільше полюбляв у цьому році
                     </HeaderDescription>
                 </HeaderContainer>
             </Header>
 
-            <ChartContainer config={CONTENT_CHART_CONFIG} className="h-80 w-full">
+            <ChartContainer
+                config={CONTENT_CHART_CONFIG}
+                className="h-80 w-full"
+            >
                 <RadarChart data={mergedData}>
                     <ChartTooltip
                         cursor={false}

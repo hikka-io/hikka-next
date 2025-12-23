@@ -7,7 +7,6 @@ import { FC } from 'react';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Completed from '@/components/icons/watch-status/completed';
-import Planned from '@/components/icons/watch-status/planned';
 import Watching from '@/components/icons/watch-status/watching';
 import H1 from '@/components/typography/h1';
 import H2 from '@/components/typography/h2';
@@ -59,15 +58,45 @@ const YearHero: FC<Props> = ({ data, username }) => {
                 <div className="absolute -bottom-20 -right-20 size-96 rounded-full bg-primary-foreground/5 blur-3xl" />
                 <div className="absolute left-1/2 top-1/2 size-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground/10 blur-2xl" />
             </div>
+            <Image
+                className="absolute top-6 left-6 -z-10 opacity-20"
+                src="/logo-icon.png"
+                alt="Logo"
+                width={32}
+                height={32}
+            />
+            <Image
+                className="absolute top-24 left-24 -z-10 opacity-20"
+                src="/logo-icon.png"
+                alt="Logo"
+                width={64}
+                height={64}
+            />
+            <Image
+                className="absolute top-6 left-64 -z-10 opacity-20"
+                src="/logo-icon.png"
+                alt="Logo"
+                width={64}
+                height={64}
+            />
+
+            <Image
+                className="absolute bottom-6 left-64 -z-10 opacity-20"
+                src="/logo-icon.png"
+                alt="Logo"
+                width={48}
+                height={48}
+            />
+            <Image
+                className="absolute bottom-12 left-24 -z-10 opacity-20"
+                src="/logo-icon.png"
+                alt="Logo"
+                width={32}
+                height={32}
+            />
             <div className="shrink-0">
                 <div className="relative flex flex-col items-center gap-6 text-center">
                     <div className="flex flex-col items-center gap-2">
-                        <Image
-                            src="/logo-icon.png"
-                            alt="Logo"
-                            width={24}
-                            height={24}
-                        />
                         <P className="text-primary-foreground uppercase tracking-widest">
                             Підсумки року
                         </P>
@@ -131,7 +160,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                                     )}
                                 </span>
                             }
-                            label="Переглянуто"
+                            label="Дивились аніме"
                         />
                     }
                     {data.volumes_total > 0 && (
@@ -140,8 +169,34 @@ const YearHero: FC<Props> = ({ data, username }) => {
                             icon={
                                 <Bookmark className="size-4 text-muted-foreground" />
                             }
-                            value={data.volumes_total}
-                            label="Томів прочитано"
+                            value={
+                                <span className="text-2xl font-bold">
+                                    {data.volumes_total}{' '}
+                                    <span className="text-sm">
+                                        {getDeclensionWord(data.volumes_total, [
+                                            'том',
+                                            'томи',
+                                            'томів',
+                                        ])}
+                                    </span>{' '}
+                                    {data.chapters_total > 0 && (
+                                        <span>
+                                            {data.chapters_total}{' '}
+                                            <span className="text-sm">
+                                                {getDeclensionWord(
+                                                    data.chapters_total,
+                                                    [
+                                                        'розділ',
+                                                        'розділи',
+                                                        'розділів',
+                                                    ],
+                                                )}
+                                            </span>
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            label="Прочитали манґи та ранобе"
                         />
                     )}
                     {totalCompleted > 0 && (
@@ -154,16 +209,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                             label="Тайтлів завершено"
                         />
                     )}
-                    {totalPlanned > 0 && (
-                        <StatCard
-                            className="border-none"
-                            icon={
-                                <Planned className="size-4 text-muted-foreground" />
-                            }
-                            value={totalPlanned}
-                            label="Тайтлів заплановано"
-                        />
-                    )}
+
                     {data.score?.anime?.avg && (
                         <StatCard
                             className="border-none"
@@ -194,8 +240,6 @@ const YearHero: FC<Props> = ({ data, username }) => {
                             label="Середня оцінка ранобе"
                         />
                     )}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 w-full">
                     {data.edits_percentile !== null && data.edits_count > 0 && (
                         <StatCard
                             className="border-none"
@@ -213,7 +257,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                                     </span>
                                 </span>
                             }
-                            label={`Ви внесли змін більше ніж ${(100 - Number(data.edits_percentile)).toFixed(0)}% користувачів`}
+                            label={`Більше ніж ${(100 - Number(data.edits_percentile)).toFixed(0)}% користувачів`}
                         />
                     )}
                     {data.comments_percentile !== null &&
@@ -234,7 +278,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                                         </span>
                                     </span>
                                 }
-                                label={`Ви залишили коментарів більше ніж ${100 - data.comments_percentile}% користувачів`}
+                                label={`Більше ніж ${100 - data.comments_percentile}% користувачів`}
                             />
                         )}
                     {data.collections_percentile !== null &&
@@ -255,7 +299,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                                         </span>
                                     </span>
                                 }
-                                label={`Ви створили колекцій більше ніж ${100 - data.collections_percentile}% користувачів`}
+                                label={`Більше ніж ${100 - data.collections_percentile}% користувачів`}
                             />
                         )}
                     {data.articles_percentile !== null &&
@@ -276,7 +320,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                                         </span>
                                     </span>
                                 }
-                                label={`Ви створили статей більше ніж ${100 - data.articles_percentile}% користувачів`}
+                                label={`Більше ніж ${100 - data.articles_percentile}% користувачів`}
                             />
                         )}
                 </div>

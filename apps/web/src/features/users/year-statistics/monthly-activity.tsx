@@ -21,10 +21,10 @@ import { YearStatistics } from '@/types/year-statistics';
 
 import {
     CONTENT_COLORS,
-    Month,
     MONTHS,
     MONTH_LABELS,
     MONTH_LABELS_FULL,
+    Month,
 } from './constants';
 
 interface Props {
@@ -53,8 +53,7 @@ const YearMonthlyActivity: FC<Props> = ({ data }) => {
                 <HeaderContainer className="gap-1 flex-col items-start">
                     <HeaderTitle>Активність за місяцями</HeaderTitle>
                     <HeaderDescription>
-                        Скільки часу Ви витрачали на перегляд контенту за
-                        місяцями
+                        Час, витрачений на перегляд аніме за кожен місяць
                     </HeaderDescription>
                 </HeaderContainer>
             </Header>

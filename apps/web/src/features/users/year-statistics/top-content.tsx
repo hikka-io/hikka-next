@@ -32,17 +32,17 @@ interface TopContentConfig {
 const TOP_CONTENT_CONFIGS: Record<YearContentType, TopContentConfig> = {
     [ContentTypeEnum.ANIME]: {
         title: 'Топ аніме року',
-        description: 'Найкращі аніме року за Вашими оцінками',
+        description: 'Найкращі аніме року за оцінками користувача',
         contentType: ContentTypeEnum.ANIME,
     },
     [ContentTypeEnum.MANGA]: {
         title: 'Топ манґи року',
-        description: 'Найкраща манґа року за Вашими оцінками',
+        description: 'Найкраща манґа року за оцінками користувача',
         contentType: ContentTypeEnum.MANGA,
     },
     [ContentTypeEnum.NOVEL]: {
         title: 'Топ ранобе року',
-        description: 'Найкращі ранобе року за Вашими оцінками',
+        description: 'Найкращі ранобе року за оцінками користувача',
         contentType: ContentTypeEnum.NOVEL,
     },
 };

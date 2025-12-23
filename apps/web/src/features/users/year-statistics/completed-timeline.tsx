@@ -52,8 +52,7 @@ const YearCompletedTimeline: FC<Props> = ({ data }) => {
                 <HeaderContainer className="gap-1 flex-col items-start">
                     <HeaderTitle variant="h2">Хронологія</HeaderTitle>
                     <HeaderDescription>
-                        Перегляньте історію переглянутого та прочитаного
-                        контенту
+                        Історія переглянутих та прочитаних тайтлів
                     </HeaderDescription>
                 </HeaderContainer>
             </Header>
