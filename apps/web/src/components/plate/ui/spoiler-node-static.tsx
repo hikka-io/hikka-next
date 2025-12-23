@@ -8,7 +8,7 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export function SpoilerElementStatic(props: SlateElementProps) {
     return (

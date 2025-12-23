@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/horizontal-card';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 import FollowButton from '../follow-button';
 

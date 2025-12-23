@@ -9,7 +9,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import MangaCard from '@/components/manga-card';
 import NotFound from '@/components/ui/not-found';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     extended?: boolean;

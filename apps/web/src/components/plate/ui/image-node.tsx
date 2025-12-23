@@ -6,7 +6,7 @@ import { PlateElement } from 'platejs/react';
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import { Button } from '@/components/ui/button';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export interface ImageElementProps extends PlateElementProps {
     className?: string;

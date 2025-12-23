@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/collapsible';
 import { Label } from '@/components/ui/label';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export interface CollapsibleFilterProps extends CollapsibleProps {
     active?: boolean;

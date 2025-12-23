@@ -24,8 +24,8 @@ import Image from '@/components/ui/image';
 import Stack, { StackSize } from '@/components/ui/stack';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { cn } from '@/utils/utils';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;

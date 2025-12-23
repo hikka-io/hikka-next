@@ -111,7 +111,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 user?.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold text-accent-foreground">
+                                        <div className="rounded-sm border border-border bg-secondary/20 backdrop-blur p-1 text-xs font-bold">
                                             {user.role === 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-[#d0bfff]" />
                                             )}

@@ -6,7 +6,7 @@ import type { PlateContentProps } from 'platejs/react';
 import { PlateContainer, PlateContent } from 'platejs/react';
 import * as React from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 const editorContainerVariants = cva(
     'relative isolate z-[1] w-full cursor-text caret-primary-foreground select-text selection:bg-primary-foreground/25 focus-visible:outline-none [&_.slate-selection-area]:z-50 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-primary-foreground/25 [&_.slate-selection-area]:bg-primary-foreground/15',
@@ -20,7 +20,7 @@ const editorContainerVariants = cva(
                     'flex flex-col justify-between gap-1 text-sm',
                     'rounded-lg border border-border bg-secondary/20',
                     'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-2 has-[[data-slate-editor]:focus]:ring-primary-foreground/30',
-                    'has-aria-disabled:border-input has-aria-disabled:bg-muted',
+                    'has-aria-disabled:border-border has-aria-disabled:bg-muted',
                 ),
                 drawer: cn(
                     'grid flex-1 grid-rows-[auto_1fr_auto] overflow-hidden',

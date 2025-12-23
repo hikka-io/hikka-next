@@ -14,7 +14,7 @@ import Link from '@/components/ui/link';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-import createQueryString from '@/utils/create-query-string';
+import { createQueryString } from '@/utils/url';
 
 import FilterPresetEditModal from './filter-preset-edit-modal';
 

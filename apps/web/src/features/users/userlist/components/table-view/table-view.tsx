@@ -12,8 +12,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 
-import createQueryString from '@/utils/create-query-string';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { createQueryString } from '@/utils/url';
 
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';

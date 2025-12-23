@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import BxBxsDownvote from '../icons/bx/BxBxsDownvote';
 import BxBxsUpvote from '../icons/bx/BxBxsUpvote';

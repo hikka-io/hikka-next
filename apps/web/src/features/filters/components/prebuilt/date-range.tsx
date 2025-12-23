@@ -15,7 +15,7 @@ import { Switch } from '@/components/ui/switch';
 
 import { useChangeParam } from '@/features/filters';
 
-import createQueryString from '@/utils/create-query-string';
+import { createQueryString } from '@/utils/url';
 
 interface Props {
     className?: string;
@@ -113,7 +113,7 @@ const DateRange = (props: Props) => {
                     <div className="flex flex-col gap-2">
                         {dateRange && (
                             <div className="flex items-center gap-2">
-                                <Badge variant="accent">
+                                <Badge variant="secondary">
                                     {
                                         DATE_RANGES[
                                             selectingDateRange[0] as DateRangeEnum
@@ -166,7 +166,7 @@ export const FormDateRange: FC<Props & Partial<FormSliderProps>> = (props) => {
                 <div className="flex flex-col gap-2">
                     {dateRange && (
                         <div className="flex items-center gap-2">
-                            <Badge variant="accent">
+                            <Badge variant="secondary">
                                 {DATE_RANGES[dateRange[0] as DateRangeEnum]} -{' '}
                                 {DATE_RANGES[dateRange[1] as DateRangeEnum]}
                             </Badge>

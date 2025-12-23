@@ -10,7 +10,7 @@ import { FC, PropsWithChildren } from 'react';
 
 import ContentHeader from '@/components/content-header';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props extends PropsWithChildren {
     params: {

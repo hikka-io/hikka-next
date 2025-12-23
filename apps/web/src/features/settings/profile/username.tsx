@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { z } from '@/utils/zod';
+import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
     username: z.string().min(2).max(50),

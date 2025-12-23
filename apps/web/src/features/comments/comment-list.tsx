@@ -22,7 +22,7 @@ import NotFound from '@/components/ui/not-found';
 import { LoginButton } from '@/features/common';
 
 import CommentsProvider from '@/services/providers/comments-provider';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     slug: string;

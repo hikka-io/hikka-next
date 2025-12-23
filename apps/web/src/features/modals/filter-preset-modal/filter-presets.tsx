@@ -14,8 +14,8 @@ import {
 } from '@/components/ui/tooltip';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
-import createQueryString from '@/utils/create-query-string';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { createQueryString } from '@/utils/url';
 
 interface Props {
     className?: string;

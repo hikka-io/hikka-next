@@ -22,8 +22,8 @@ import { Input } from '@/components/ui/input';
 import { OAuthLogin } from '@/features/auth';
 
 import { setCookie } from '@/utils/cookies';
-import { validateRedirectUrl } from '@/utils/utils';
-import { z } from '@/utils/zod';
+import { z } from '@/utils/i18n/zod';
+import { validateRedirectUrl } from '@/utils/url';
 
 const formSchema = z.object({
     identifier: z.string().min(5),

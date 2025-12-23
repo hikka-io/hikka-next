@@ -12,3 +12,4 @@ export { default as UserHistory } from './user-history';
 
 export * from './user-profile';
 export * from './userlist';
+export * from './year-statistics';

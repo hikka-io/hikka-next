@@ -1,6 +1,6 @@
 import { AnimeInfoResponse } from '@hikka/client';
 
-import parseTextFromMarkDown from '@/utils/parse-text-from-markdown';
+import { parseTextFromMarkDown } from '@/utils/markdown';
 
 const jsonSchema = ({ anime }: { anime: AnimeInfoResponse }) => ({
     '@context': 'http://schema.org',

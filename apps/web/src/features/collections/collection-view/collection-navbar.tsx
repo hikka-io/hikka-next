@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover';
 
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
-import getDeclensionWord from '@/utils/get-declension-word';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 import CollectionMenu from './components/collection-navbar/collection-menu';
 import CollectionVote from './components/collection-navbar/collection-vote';

@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 const NavigationMenu = React.forwardRef<
     React.ElementRef<typeof NavigationMenuPrimitive.Root>,
@@ -84,7 +84,7 @@ const NavigationMenuLink = React.forwardRef<
     <NavigationMenuPrimitive.Link
         ref={ref}
         className={cn(
-            'relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+            'relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none transition-colors hover:bg-muted hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
             className,
         )}
         {...props}
@@ -137,6 +137,5 @@ export {
     NavigationMenuList,
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
-    NavigationMenuViewport
+    NavigationMenuViewport,
 };
-

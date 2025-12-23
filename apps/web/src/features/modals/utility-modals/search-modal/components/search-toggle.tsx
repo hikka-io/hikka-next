@@ -21,7 +21,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     type?: ContentTypeEnum;

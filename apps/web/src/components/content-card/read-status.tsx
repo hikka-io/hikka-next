@@ -1,8 +1,8 @@
 import { ReadResponseBase, ReadStatusEnum } from '@hikka/client';
 import { FC, createElement } from 'react';
 
+import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface Props {
     read: ReadResponseBase;

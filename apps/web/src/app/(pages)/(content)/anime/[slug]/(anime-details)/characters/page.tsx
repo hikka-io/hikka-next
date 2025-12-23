@@ -3,7 +3,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import { ContentCharacters as Characters } from '@/features/content';
 
-import _generateMetadata from '@/utils/generate-metadata';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export async function generateMetadata(
     props: { params: Promise<{ slug: string }> },

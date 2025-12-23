@@ -24,13 +24,13 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
     RELEASE_STATUS,
 } from '@/utils/constants/common';
-import getScheduleDuration from '@/utils/get-schedule-duration';
-import { cn } from '@/utils/utils';
+import { getScheduleDuration } from '@/utils/i18n';
 
 import DetailItem from './detail-item';
 
@@ -164,15 +164,14 @@ const WatchDetails = ({
                 title="Епізоди"
                 value={
                     (data.episodes_total || data.episodes_released) &&
-                        (
-                            data.media_type !== 'movie' ||
-                            (data.episodes_total ?? data.episodes_released ?? 0) > 1
-                        )
+                    (data.media_type !== 'movie' ||
+                        (data.episodes_total ?? data.episodes_released ?? 0) >
+                            1)
                         ? formatEpisodeCount(
-                            data.status!,
-                            data.episodes_released,
-                            data.episodes_total,
-                        )
+                              data.status!,
+                              data.episodes_released,
+                              data.episodes_total,
+                          )
                         : undefined
                 }
             />

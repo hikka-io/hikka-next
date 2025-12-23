@@ -10,12 +10,12 @@ import { BookType, Building2, CircleDashed, Hash, Play } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 
+import { cn } from '@/utils/cn';
 import {
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
 } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 import DetailItem from './detail-item';
 

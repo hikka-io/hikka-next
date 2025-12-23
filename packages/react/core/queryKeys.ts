@@ -78,6 +78,8 @@ export const queryKeys = {
         me: () => [...queryKeys.user.all, 'me'] as const,
         byUsername: (username: string) =>
             [...queryKeys.user.all, 'details', username] as const,
+        ui: (username: string) =>
+            [...queryKeys.user.all, 'ui', username] as const,
         search: (args: unknown) =>
             [...queryKeys.user.all, 'search', args] as const,
         activity: (username: string) =>
@@ -391,6 +393,15 @@ export const queryKeys = {
         bySlug: (slug: string) =>
             [...queryKeys.articles.all, 'details', slug] as const,
         stats: () => [...queryKeys.articles.all, 'stats'] as const,
+    },
+
+    // Artifacts module keys
+    artifacts: {
+        all: ['artifacts'] as const,
+        byUsernameAndName: (username: string, name: string) =>
+            [...queryKeys.artifacts.all, 'details', username, name] as const,
+        privacy: (name: string) =>
+            [...queryKeys.artifacts.all, 'privacy', name] as const,
     },
 
     // Edit module keys

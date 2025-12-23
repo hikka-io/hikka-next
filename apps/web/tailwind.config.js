@@ -247,5 +247,14 @@ module.exports = {
         'text-watching-foreground',
         'text-watching',
         'border-watching-border',
+        // gradient masks
+        'gradient-mask-t-90',
+        'gradient-mask-t-90-d',
+        'gradient-mask-b-90',
+        'gradient-mask-b-90-d',
+        'gradient-mask-l-90',
+        'gradient-mask-l-90-d',
+        'gradient-mask-r-90',
+        'gradient-mask-r-90-d',
     ],
 };

@@ -2,7 +2,7 @@ import { UserResponse } from '@hikka/client';
 import { getHikkaClient } from '@hikka/react/core';
 import { Metadata, ResolvingMetadata } from 'next';
 
-import _generateMetadata from '@/utils/generate-metadata';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export interface MetadataProps {
     params: {

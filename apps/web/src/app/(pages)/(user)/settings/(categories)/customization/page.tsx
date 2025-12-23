@@ -3,7 +3,7 @@ import { FC } from 'react';
 import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { Customization } from '@/features/settings';
+import { Effects, Preferences, Styles } from '@/features/settings';
 
 interface Props {
     params: {
@@ -25,7 +25,30 @@ const CustomizationSettingsPage: FC<Props> = async (props) => {
                     Налаштуйте відображення контенту, теми та інше
                 </P>
             </div>
-            <Customization />
+            <div className="flex flex-col gap-4">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Загальне</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <Preferences />
+            </div>
+            <div className="flex flex-col gap-4">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Вигляд</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <Styles />
+            </div>
+            <div className="flex flex-col gap-4">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Ефекти</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <Effects />
+            </div>
         </div>
     );
 };

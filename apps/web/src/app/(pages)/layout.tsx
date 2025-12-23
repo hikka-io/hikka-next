@@ -1,4 +1,4 @@
-import { FC, ReactNode, Suspense } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
@@ -10,8 +10,6 @@ import {
     ScrollTop,
     SessionManager,
 } from '@/features/common';
-
-import SnowfallManager from '../../components/snowfall-manager';
 
 interface Props {
     children: ReactNode;
@@ -30,9 +28,6 @@ const Layout: FC<Props> = ({ children }) => {
                 <NavBar />
 
                 <main className="container mx-auto mt-8 px-4 lg:mt-16">
-                    <Suspense>
-                        <SnowfallManager />
-                    </Suspense>
                     {children}
                 </main>
             </SidebarProvider>

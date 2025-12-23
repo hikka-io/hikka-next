@@ -1,14 +1,10 @@
 'use client';
 
-import { NameLanguage, TitleLanguage } from '@hikka/react/utils';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export interface SettingsState {
-    titleLanguage: TitleLanguage;
-    nameLanguage: NameLanguage;
     editTags: string[];
-    snowflakes: boolean;
     filterPresets: Hikka.FilterPreset[];
     collapsibles: Record<string, boolean>;
     _hasHydrated: boolean;
@@ -16,10 +12,7 @@ export interface SettingsState {
 
 export interface SettingsActions {
     setHasHydrated: (hasHydrated: boolean) => void;
-    setTitleLanguage: (titleLanguage: SettingsState['titleLanguage']) => void;
-    setNameLanguage: (nameLanguage: SettingsState['nameLanguage']) => void;
     setEditTags: (editTags: string[]) => void;
-    setSnowflakes: (snowflakes: boolean) => void;
     setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
     setCollapsibles: (collapsibles: Record<string, boolean>) => void;
     reset: () => void;
@@ -27,10 +20,7 @@ export interface SettingsActions {
 
 const DEFAULT_SETTINGS: SettingsState = {
     _hasHydrated: false,
-    titleLanguage: 'title_ua',
-    nameLanguage: 'name_ua',
     editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
-    snowflakes: false,
     filterPresets: [
         {
             name: 'Нещодавно завершені',
@@ -59,10 +49,7 @@ export const useSettingsStore = create<SettingsStore>()(
                     _hasHydrated: state,
                 });
             },
-            setTitleLanguage: (titleLanguage) => set({ titleLanguage }),
-            setNameLanguage: (nameLanguage) => set({ nameLanguage }),
             setEditTags: (editTags) => set({ editTags }),
-            setSnowflakes: (snowflakes) => set({ snowflakes }),
             setFilterPresets: (filterPresets) => set({ filterPresets }),
             setCollapsibles: (collapsibles) => set({ collapsibles }),
             reset: () => set(DEFAULT_SETTINGS),

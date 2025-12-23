@@ -9,8 +9,8 @@ import { FC } from 'react';
 
 import { LatestComments } from '@/features/comments';
 
-import _generateMetadata from '@/utils/generate-metadata';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Останні коментарі',

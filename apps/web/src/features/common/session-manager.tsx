@@ -8,7 +8,7 @@ import { prefetchSession } from '@hikka/react/server';
 import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props extends PropsWithChildren {}
 

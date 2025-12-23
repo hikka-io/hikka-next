@@ -1,6 +1,9 @@
 // Anime related types
 export * from './anime';
 
+// Artifacts related types
+export * from './artifacts';
+
 // Manga related types
 export * from './manga';
 
@@ -9,6 +12,9 @@ export * from './novel';
 
 // User related types
 export * from './user';
+
+// Appearance related types
+export * from './appearance';
 
 // Auth related types
 export * from './auth';

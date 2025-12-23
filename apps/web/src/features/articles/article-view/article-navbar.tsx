@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
-import getDeclensionWord from '@/utils/get-declension-word';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 import ArticleMenu from './components/article-navbar/article-menu';
 import ArticleVote from './components/article-navbar/article-vote';

@@ -4,7 +4,7 @@ import { PlateElement, type PlateElementProps } from 'platejs/react';
 
 import { BLOCKQUOTE_CLASSNAME } from '@/components/typography/blockquote';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export function BlockquoteElement(props: PlateElementProps) {
     return (

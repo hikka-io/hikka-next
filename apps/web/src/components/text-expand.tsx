@@ -11,7 +11,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     expanded?: boolean;
@@ -42,8 +42,8 @@ const TextExpand = ({
     const expanded = alwaysCollapsed
         ? false
         : _expanded !== undefined
-            ? _expanded
-            : isExpanded;
+          ? _expanded
+          : isExpanded;
     const setExpanded = _setExpanded || setIsExpanded;
 
     const checkIfNeedsExpansion = useCallback(() => {
@@ -86,7 +86,8 @@ const TextExpand = ({
         alwaysCollapsed || (!expanded && needsExpansion);
 
     // Show gradient only when content is actually being cut off
-    const shouldShowGradient = shouldShowCollapsed && showGradient && needsExpansion;
+    const shouldShowGradient =
+        shouldShowCollapsed && showGradient && needsExpansion;
 
     return (
         <div className="relative" {...rest}>

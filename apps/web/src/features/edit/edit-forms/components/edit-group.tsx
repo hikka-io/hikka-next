@@ -34,7 +34,7 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
     return (
         <Collapsible
             open={mode === 'view' || mode === 'update' ? true : undefined}
-            className="w-full space-y-2 rounded-lg border border-accent p-4"
+            className="w-full space-y-2 rounded-lg border p-4"
         >
             <CollapsibleTrigger asChild>
                 <div className="flex items-center justify-between">

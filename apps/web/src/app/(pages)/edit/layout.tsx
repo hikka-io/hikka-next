@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { FC, PropsWithChildren } from 'react';
 
-import _generateMetadata from '@/utils/generate-metadata';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 interface Props extends PropsWithChildren {}
 

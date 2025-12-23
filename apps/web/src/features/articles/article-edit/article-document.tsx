@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 import { useArticleContext } from '@/services/providers/article-provider';
-import { hasPlateContent } from '@/utils/has-plate-content';
+import { hasPlateContent } from '@/utils/plate';
 
 const ArticleDocument = () => {
     const document = useArticleContext((state) => state.document);

@@ -25,8 +25,8 @@ import { CommentList as Comments } from '@/features/comments';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import _generateMetadata from '@/utils/generate-metadata';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export interface MetadataProps {
     params: Promise<{ slug: string }>;

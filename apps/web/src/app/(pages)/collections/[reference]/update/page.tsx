@@ -16,7 +16,7 @@ import {
 } from '@/features/collections';
 
 import CollectionProvider from '@/services/providers/collection-provider';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 const CollectionUpdatePage = async (props: {
     params: Promise<Record<string, any>>;

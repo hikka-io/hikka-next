@@ -24,8 +24,8 @@ import {
     EditModerator as Moderator,
 } from '@/features/edit';
 
-import _generateMetadata from '@/utils/generate-metadata';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 interface Props {
     params: { editId: string };

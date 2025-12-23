@@ -13,7 +13,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import AnimeTooltip from '../content-card/anime-tooltip';
 import CharacterTooltip from '../content-card/character-tooltip';

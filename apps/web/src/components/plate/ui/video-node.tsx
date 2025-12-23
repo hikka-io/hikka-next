@@ -6,11 +6,8 @@ import { PlateElement } from 'platejs/react';
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import { Button } from '@/components/ui/button';
 
-import {
-    extractYouTubeVideoId,
-    getYouTubeThumbnail,
-} from '@/utils/parse-youtube-thumb';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { extractYouTubeVideoId, getYouTubeThumbnail } from '@/utils/youtube';
 
 export interface VideoElementProps extends PlateElementProps {
     className?: string;

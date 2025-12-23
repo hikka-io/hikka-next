@@ -11,7 +11,7 @@ import { SearchModal } from '@/features/modals';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import ProfileMenu from './components/profile-menu';
 import NotificationsMenu from './notifications-menu';

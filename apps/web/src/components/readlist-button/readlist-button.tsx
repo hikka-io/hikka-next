@@ -29,8 +29,8 @@ import {
 import { ReadEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 import MaterialSymbolsSettingsOutlineRounded from '../icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import IconReadStatusButton from './icon-read-status-button';

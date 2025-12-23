@@ -9,17 +9,18 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+import EffectsManager from '@/components/effects-manager';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
-import { useSettingsStore } from '@/services/stores/settings-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { getCookie } from '@/utils/cookies';
 
 interface Props extends PropsWithChildren {}
 
 const Providers: FC<Props> = ({ children }) => {
-    const settings = useSettingsStore();
+    const UI = useUIStore((state) => state);
     setDefaultOptions({ locale: uk });
 
     const [queryClientConfig] = useState<QueryClientConfig>({
@@ -44,8 +45,8 @@ const Providers: FC<Props> = ({ children }) => {
     return (
         <HikkaProvider
             defaultOptions={{
-                title: settings.titleLanguage,
-                name: settings.nameLanguage,
+                title: UI.preferences?.title_language ?? 'title_ua',
+                name: UI.preferences?.name_language ?? 'name_ua',
             }}
             clientConfig={apiClientConfig}
             queryClientConfig={queryClientConfig}
@@ -68,7 +69,7 @@ const Providers: FC<Props> = ({ children }) => {
                             }}
                             shallowRouting
                         />
-
+                        <EffectsManager />
                         {children}
                     </ModalProvider>
                 </TooltipProvider>

@@ -19,7 +19,7 @@ import NotFound from '@/components/ui/not-found';
 import HistoryItem from '@/features/users/components/history-item';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import ActivityModal from './components/history-modal';
 

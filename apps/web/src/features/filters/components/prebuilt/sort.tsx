@@ -21,7 +21,7 @@ import {
 
 import { useChangeParam } from '@/features/filters';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export type SortType =
     | 'anime'

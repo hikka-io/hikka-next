@@ -24,7 +24,7 @@ import type { Point, TElement } from 'platejs';
 import { useComposedRef, useEditorRef } from 'platejs/react';
 import * as React from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 type FilterFn = (
     item: {
@@ -282,7 +282,7 @@ const comboboxItemVariants = cva(
         variants: {
             interactive: {
                 false: '',
-                true: 'cursor-pointer transition-colors hover:bg-accent hover:text-accent-foreground data-[active-item=true]:bg-accent data-[active-item=true]:text-accent-foreground',
+                true: 'cursor-pointer transition-colors hover:bg-muted hover:text-accent-foreground data-[active-item=true]:bg-muted data-[active-item=true]:text-accent-foreground',
             },
         },
     },

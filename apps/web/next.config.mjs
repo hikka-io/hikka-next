@@ -3,9 +3,7 @@ import bundleAnalyzer from '@next/bundle-analyzer';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
+
     reactCompiler: true,
     reactStrictMode: true,
     pageExtensions: ['js', 'jsx', 'ts', 'tsx'],

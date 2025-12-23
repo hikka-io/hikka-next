@@ -9,7 +9,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import EditCard from './components/edit-card';
 

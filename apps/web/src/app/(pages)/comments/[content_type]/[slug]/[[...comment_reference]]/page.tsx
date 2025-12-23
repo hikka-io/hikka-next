@@ -15,11 +15,10 @@ import { FC } from 'react';
 
 import ContentHeader from '@/components/content-header';
 
-import { CommentList as Comments } from "@/features/comments";
-import { prefetchContent } from "@/features/comments";
+import { CommentList as Comments, prefetchContent } from '@/features/comments';
 
-import _generateMetadata from '@/utils/generate-metadata';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export interface MetadataProps {
     params: {

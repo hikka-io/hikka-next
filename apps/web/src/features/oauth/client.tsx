@@ -9,8 +9,8 @@ import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
+import { cn } from '@/utils/cn';
 import { SCOPES, SCOPE_GROUPS } from '@/utils/constants/oauth';
-import { cn } from '@/utils/utils';
 
 import Scope from './components/scope';
 

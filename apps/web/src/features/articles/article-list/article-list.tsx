@@ -18,9 +18,9 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { ArticleFiltersModal } from '@/features/modals';
 
+import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { cn } from '@/utils/utils';
 
 interface Props {}
 

@@ -10,6 +10,7 @@ import {
     ImportWatchListArgs,
     PasswordArgs,
     SuccessResponse,
+    UserAppearance,
     UserExportResponse,
     UserResponse,
     UsernameArgs,
@@ -167,6 +168,20 @@ export class SettingsModule extends BaseModule {
     ): Promise<SuccessResponse> {
         return this.client.delete<SuccessResponse>(
             `/settings/read/${contentType}`,
+            options,
+        );
+    }
+
+    /**
+     * Update user UI appearance config by username
+     */
+    public async updateUserUI(
+        appearance: Omit<UserAppearance, 'username'>,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<UserAppearance> {
+        return this.client.put<UserAppearance>(
+            `/settings/ui`,
+            appearance,
             options,
         );
     }

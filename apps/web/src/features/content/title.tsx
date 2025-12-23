@@ -8,8 +8,8 @@ import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/Mate
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 
+import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface TitleProps {
     className?: string;

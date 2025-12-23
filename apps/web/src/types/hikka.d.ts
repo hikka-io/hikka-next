@@ -1,4 +1,4 @@
-import { UserRoleEnum } from '@hikka/client';
+import type { UserRoleEnum } from '@hikka/client';
 import { LinkProps } from 'next/link';
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
@@ -159,6 +159,15 @@ declare global {
 
         type PlausibleEvents = {
             'movie-banner-click': never;
+        };
+
+        type EventTheme = {
+            id: string;
+            name: string;
+            styles?: UIStyles;
+            effects?: UIEffect[];
+            startDate: Date;
+            endDate: Date;
         };
     }
 }

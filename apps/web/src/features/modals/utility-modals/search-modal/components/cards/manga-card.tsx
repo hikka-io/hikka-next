@@ -10,8 +10,8 @@ import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
+import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface Props {
     manga: MangaResponse;

@@ -4,7 +4,7 @@ import { range } from '@antfu/utils';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
 import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRightOutlined';

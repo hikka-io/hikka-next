@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import H1 from '../typography/h1';
@@ -140,6 +140,23 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     );
 };
 
+interface HeaderDescriptionProps {
+    className?: string;
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+    href?: string;
+}
+
+const HeaderDescription: FC<PropsWithChildren<HeaderDescriptionProps>> = ({
+    className,
+    children,
+}) => {
+    return (
+        <span className={cn('text-sm text-muted-foreground', className)}>
+            {children}
+        </span>
+    );
+};
+
 const HeaderNavButton: FC = () => {
     const { href, onClick, linkProps } = useHeader();
 
@@ -173,4 +190,10 @@ const HeaderNavButton: FC = () => {
     );
 };
 
-export { Header, HeaderContainer, HeaderNavButton, HeaderTitle };
+export {
+    Header,
+    HeaderContainer,
+    HeaderDescription,
+    HeaderNavButton,
+    HeaderTitle,
+};

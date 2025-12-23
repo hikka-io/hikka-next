@@ -14,14 +14,14 @@ import {
 import { FC } from 'react';
 
 import {
-    UserArticles,
     UserCollections as Collections,
     UserFavorites as Favorites,
     UserHistoryProfile as History,
     UserStatistics as Statistics,
+    UserArticles,
 } from '@/features/users';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props {
     params: {

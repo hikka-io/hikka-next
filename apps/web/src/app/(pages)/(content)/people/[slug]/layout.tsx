@@ -16,7 +16,7 @@ import NavMenu from '@/components/navigation/nav-dropdown';
 import { ContentNavbar } from '@/features/content';
 
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';

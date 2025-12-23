@@ -14,9 +14,9 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import WatchlistButton from '@/components/watchlist-button/watchlist-button';
 
+import { cn } from '@/utils/cn';
 import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
-import getDeclensionWord from '@/utils/get-declension-word';
-import { cn } from '@/utils/utils';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 interface Props {
     className?: string;

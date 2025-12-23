@@ -1,7 +1,7 @@
 import NextLink, { LinkProps } from 'next/link';
 import { ComponentPropsWithRef, FC } from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props extends Omit<LinkProps, 'href'>, ComponentPropsWithRef<'a'> {
     href?: string;

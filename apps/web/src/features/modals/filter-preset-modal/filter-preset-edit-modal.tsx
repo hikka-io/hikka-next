@@ -26,8 +26,8 @@ import { FormYear } from '@/features/filters/components/prebuilt/year';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
-import { cn } from '@/utils/utils';
-import { z } from '@/utils/zod';
+import { cn } from '@/utils/cn';
+import { z } from '@/utils/i18n/zod';
 
 import ContentTypeSelect from './components/content-type-select';
 import FilterPresetModal from './filter-preset-modal';

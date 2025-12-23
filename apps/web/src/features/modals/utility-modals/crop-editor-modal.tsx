@@ -13,7 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn, getImage } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { getImage } from '@/utils/image';
 
 interface Props {
     file?: File;

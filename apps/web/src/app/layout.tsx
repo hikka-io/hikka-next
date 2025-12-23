@@ -4,9 +4,12 @@ import { Geist } from 'next/font/google';
 import { ReactNode } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
 
-import { Providers } from "@/features/common";
+import { Providers } from '@/features/common';
 
-import generateMetadata from '@/utils/generate-metadata';
+import { UIStoreProvider } from '@/services/providers/ui-store-provider';
+import { STYLE_ELEMENT_ID } from '@/utils/appearance';
+import { getSessionUserUI, getUserStylesCSS } from '@/utils/appearance/server';
+import { generateMetadata } from '@/utils/metadata';
 
 import { TailwindIndicator } from '../components/tailwind-indicator';
 import './globals.css';
@@ -71,7 +74,10 @@ interface Props {
     children: ReactNode;
 }
 
-const RootLayout = ({ children }: Props) => {
+const RootLayout = async ({ children }: Props) => {
+    const UI = await getSessionUserUI();
+    const userStylesCSS = await getUserStylesCSS(UI);
+
     return (
         <html
             className={`${geist.variable}`}
@@ -87,10 +93,18 @@ const RootLayout = ({ children }: Props) => {
                     customDomain="https://hikka.io"
                     domain="hikka.io"
                 />
+                {userStylesCSS && (
+                    <style
+                        id={STYLE_ELEMENT_ID}
+                        dangerouslySetInnerHTML={{ __html: userStylesCSS }}
+                    />
+                )}
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <Providers>{children}</Providers>
+                    <UIStoreProvider initialUI={UI}>
+                        <Providers>{children}</Providers>
+                    </UIStoreProvider>
                 </div>
                 <TailwindIndicator />
             </body>

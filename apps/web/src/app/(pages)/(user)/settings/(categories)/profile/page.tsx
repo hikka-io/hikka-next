@@ -1,11 +1,8 @@
 import { FC } from 'react';
 
 import P from '@/components/typography/p';
-import {
-    Header,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import {
     ProfileAppearance,
     ProfileDescription,

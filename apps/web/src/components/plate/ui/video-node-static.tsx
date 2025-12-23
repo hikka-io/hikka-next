@@ -2,8 +2,8 @@ import type { SlateElementProps } from 'platejs/static';
 import { SlateElement } from 'platejs/static';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
-import { extractYouTubeVideoId } from '@/utils/parse-youtube-thumb';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { extractYouTubeVideoId } from '@/utils/youtube';
 
 export interface VideoElementStaticProps extends SlateElementProps {
     className?: string;

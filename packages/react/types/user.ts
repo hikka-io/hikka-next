@@ -14,5 +14,9 @@ export interface UseUserActivityParams {
     username: string;
 }
 
+export interface UseUserUIParams {
+    username: string;
+}
+
 // No parameters needed for useSession hook
 export interface UseSessionParams {}

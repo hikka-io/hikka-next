@@ -12,11 +12,11 @@ import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-import { ReadEditModal } from "@/features/modals";
+import { ReadEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface IconReadStatusButtonProps extends Omit<ButtonProps, 'content'> {
     read?: ReadResponseBase;

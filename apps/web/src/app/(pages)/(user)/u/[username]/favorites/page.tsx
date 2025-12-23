@@ -1,7 +1,8 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
 import { UserFavorites as Favorites } from '@/features/users';
-import _generateMetadata from '@/utils/generate-metadata';
+
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export async function generateMetadata(
     props: { params: Promise<{ username: string }> },

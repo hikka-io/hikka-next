@@ -17,7 +17,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     user: UserResponse;

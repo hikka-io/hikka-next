@@ -12,12 +12,14 @@ import {
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
 import {
     Drawer,
     DrawerContent,
+    DrawerDescription,
     DrawerHeader,
     DrawerTitle,
 } from '@/components/ui/drawer';
@@ -25,11 +27,12 @@ import { Separator } from '@/components/ui/separator';
 import {
     Sheet,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { useMediaQuery } from '../hooks/use-media-query';
 
@@ -38,21 +41,27 @@ interface State {
     className?: string;
     containerClassName?: string;
     title?: string;
+    description?: string;
     content: ReactNode;
     type?: 'dialog' | 'sheet';
     side?: 'left' | 'right';
     forceModal?: boolean;
+    onClose?: () => void;
+    preventBackdropClose?: boolean;
 }
 
 interface ContextProps extends State {
     openModal: (props: {
         content: State['content'];
+        description?: State['description'];
         title?: State['title'];
         className?: State['className'];
         containerClassName?: State['containerClassName'];
         type?: State['type'];
         side?: State['side'];
         forceModal?: State['forceModal'];
+        onClose?: State['onClose'];
+        preventBackdropClose?: State['preventBackdropClose'];
     }) => void;
     closeModal: () => void;
 }
@@ -77,6 +86,7 @@ function getInitialState(): State {
         side: 'left',
         forceModal: false,
         containerClassName: '',
+        onClose: () => null,
     };
 }
 
@@ -92,30 +102,39 @@ export default function ModalProvider({ children }: Props) {
     const openModal = ({
         content,
         title,
+        description,
         className,
         type,
         side,
         forceModal,
         containerClassName,
+        onClose,
+        preventBackdropClose,
     }: {
         content: State['content'];
         title?: State['title'];
+        description?: State['description'];
         className?: State['className'];
         type?: State['type'];
         side?: State['side'];
         forceModal?: State['forceModal'];
         containerClassName?: State['containerClassName'];
+        onClose?: State['onClose'];
+        preventBackdropClose?: State['preventBackdropClose'];
     }) => {
         setState({
             ...state,
             open: true,
             content,
             title,
+            description,
             className,
-            side: side || 'left',
-            type: type || 'dialog',
+            side: side ?? 'left',
+            type: type ?? 'dialog',
             forceModal,
             containerClassName,
+            onClose,
+            preventBackdropClose,
         });
     };
 
@@ -125,6 +144,14 @@ export default function ModalProvider({ children }: Props) {
             type: state.type,
             side: state.side,
         });
+    };
+
+    const handleStateChange = (open?: boolean) => {
+        if (state?.onClose && !open) {
+            state.onClose();
+        }
+
+        closeModal();
     };
 
     useEffect(() => {
@@ -151,10 +178,20 @@ export default function ModalProvider({ children }: Props) {
                 >
                     <DrawerContent
                         className={cn('max-h-[90dvh]', state.className)}
+                        onPointerDownOutside={
+                            state.preventBackdropClose
+                                ? (e) => e.preventDefault()
+                                : undefined
+                        }
                     >
                         {state.title ? (
                             <DrawerHeader>
                                 <DrawerTitle>{state.title}</DrawerTitle>
+                                {state.description && (
+                                    <DrawerDescription>
+                                        {state.description}
+                                    </DrawerDescription>
+                                )}
                             </DrawerHeader>
                         ) : (
                             <DrawerTitle className="hidden" />
@@ -166,17 +203,27 @@ export default function ModalProvider({ children }: Props) {
             )}
 
             {(isDesktop || state.forceModal) && state.type === 'sheet' && (
-                <Sheet open={state.open} onOpenChange={closeModal}>
+                <Sheet open={state.open} onOpenChange={handleStateChange}>
                     <SheetContent
                         side={state.side}
                         className={cn(
                             'flex !max-w-lg flex-col gap-0 p-0',
                             state.className,
                         )}
+                        onPointerDownOutside={
+                            state.preventBackdropClose
+                                ? (e) => e.preventDefault()
+                                : undefined
+                        }
                     >
                         {state.title ? (
                             <SheetHeader className="px-6 py-4">
                                 <SheetTitle>{state.title}</SheetTitle>
+                                {state.description && (
+                                    <SheetDescription>
+                                        {state.description}
+                                    </SheetDescription>
+                                )}
                             </SheetHeader>
                         ) : (
                             <SheetTitle className="hidden" />
@@ -188,11 +235,23 @@ export default function ModalProvider({ children }: Props) {
             )}
 
             {(isDesktop || state.forceModal) && state.type === 'dialog' && (
-                <Dialog open={state.open} onOpenChange={closeModal}>
-                    <DialogContent className={cn(state.className)}>
+                <Dialog open={state.open} onOpenChange={handleStateChange}>
+                    <DialogContent
+                        className={cn(state.className)}
+                        onPointerDownOutside={
+                            state.preventBackdropClose
+                                ? (e) => e.preventDefault()
+                                : undefined
+                        }
+                    >
                         {state.title ? (
                             <DialogHeader>
                                 <DialogTitle>{state.title}</DialogTitle>
+                                {state.description && (
+                                    <DialogDescription>
+                                        {state.description}
+                                    </DialogDescription>
+                                )}
                             </DialogHeader>
                         ) : (
                             <DialogTitle className="hidden" />

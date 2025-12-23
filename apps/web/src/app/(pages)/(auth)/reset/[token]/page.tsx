@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { PasswordConfirmForm, PasswordConfirmHeader } from '@/features/auth';
 
-import _generateMetadata from '@/utils/generate-metadata';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export const metadata: Metadata = _generateMetadata({
     title: 'Відновити пароль',

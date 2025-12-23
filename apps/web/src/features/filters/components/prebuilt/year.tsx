@@ -103,7 +103,7 @@ export const FormYear: FC<Props & Partial<FormSliderProps>> = (props) => {
                 <FormLabel>Рік виходу</FormLabel>
                 {years && (
                     <div className="flex items-center gap-2">
-                        <Badge variant="accent">
+                        <Badge variant="secondary">
                             {years[0]} - {years[1]}
                         </Badge>
                     </div>

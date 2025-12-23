@@ -15,7 +15,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import getCurrentSeason from '@/utils/season-utils';
+import { getCurrentSeason } from '@/utils/season';
 
 import ScheduleItem from './components/schedule-item';
 

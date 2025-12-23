@@ -11,11 +11,11 @@ import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-import { WatchEditModal } from "@/features/modals";
+import { WatchEditModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface IconWatchStatusButtonProps extends ButtonProps {
     watch?: WatchResponse | WatchResponseBase;

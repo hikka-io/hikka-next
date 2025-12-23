@@ -6,7 +6,7 @@ import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import getDeclensionWord from '@/utils/get-declension-word';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 import IconamoonCommentFill from './icons/iconamoon/IconamoonCommentFill';
 

@@ -15,7 +15,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props {
     data: CollectionResponse<CollectionContent>;

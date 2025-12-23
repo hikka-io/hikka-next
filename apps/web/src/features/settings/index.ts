@@ -2,7 +2,9 @@
 export { default as SettingsMenu } from './menu';
 
 // Customization Settings
-export { default as Customization } from './customization';
+export { default as Effects } from './customization/effects';
+export { default as Preferences } from './customization/preferences';
+export { default as Styles } from './customization/styles';
 
 // Security Settings
 export { default as EmailSettings } from './security/email';
@@ -11,6 +13,7 @@ export { default as PasswordSettings } from './security/password';
 // Profile Settings
 export { default as ProfileAppearance } from './profile/appearance';
 export { default as ProfileDescription } from './profile/description';
+export { default as ProfilePrivacy } from './profile/privacy';
 export { default as ProfileUsername } from './profile/username';
 
 // List Settings - Readlist
@@ -28,4 +31,3 @@ export { default as ClientCreateButton } from './applications/client-create-butt
 
 // Notifications Settings
 export { default as NotificationsSettings } from './notifications';
-

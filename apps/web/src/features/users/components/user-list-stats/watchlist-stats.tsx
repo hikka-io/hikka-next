@@ -9,8 +9,8 @@ import { FC } from 'react';
 import { Label } from '@/components/ui/label';
 import RadialProgress from '@/components/ui/radial-progress';
 
+import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
-import { cn } from '@/utils/utils';
 
 interface Props {}
 

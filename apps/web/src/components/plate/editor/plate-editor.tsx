@@ -20,7 +20,7 @@ import {
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
 import { CommentKit } from './comment-kit';

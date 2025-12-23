@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, memo } from 'react';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 interface Props extends ComponentPropsWithoutRef<'section'> {}
 

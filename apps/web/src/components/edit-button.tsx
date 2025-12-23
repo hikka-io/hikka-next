@@ -11,7 +11,7 @@ import {
 import { EditListModal } from '@/features/modals';
 
 import { useModalContext } from '@/services/providers/modal-provider';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import MaterialSymbolsEditRounded from './icons/material-symbols/MaterialSymbolsEditRounded';
 

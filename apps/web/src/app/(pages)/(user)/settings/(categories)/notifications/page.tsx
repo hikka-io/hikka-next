@@ -11,7 +11,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { NotificationsSettings } from '@/features/settings';
 
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 interface Props {
     params: {

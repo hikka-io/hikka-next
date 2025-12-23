@@ -23,7 +23,7 @@ import {
 } from '@/features/users';
 
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
-import getHikkaClientConfig from '@/utils/get-hikka-client-config';
+import { getHikkaClientConfig } from '@/utils/hikka-client';
 
 import _generateMetadata, { MetadataProps } from './layout.metadata';
 import prefetchQueries from './layout.queries';

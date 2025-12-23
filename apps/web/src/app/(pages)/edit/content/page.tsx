@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 
 import { EditContentList as ContentList } from '@/features/edit';
 
-import _generateMetadata from '@/utils/generate-metadata';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
     return _generateMetadata({

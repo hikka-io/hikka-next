@@ -10,7 +10,7 @@ import { ChevronsUpDown, X } from 'lucide-react';
 import React, { FC, Fragment, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 import { Badge } from './badge';
 import { buttonVariants } from './button';

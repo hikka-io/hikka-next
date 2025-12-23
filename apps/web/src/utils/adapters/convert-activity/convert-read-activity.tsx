@@ -4,8 +4,8 @@ import {
     ReadStatusEnum,
 } from '@hikka/client';
 
-import { READ_STATUS } from '../../constants/common';
-import getDeclensionWord from '../../get-declension-word';
+import { READ_STATUS } from '@/utils/constants/common';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',
