@@ -46,11 +46,6 @@ const YearHero: FC<Props> = ({ data, username }) => {
         data.status.manga.completed +
         data.status.novel.completed;
 
-    const totalPlanned =
-        data.status.anime.planned +
-        data.status.manga.planned +
-        data.status.novel.planned;
-
     return (
         <div className="flex gap-4 flex-col md:flex-row dark:bg-gradient-to-br dark:from-primary dark:via-primary/80 dark:to-primary/60 bg-secondary/20 rounded-lg items-center backdrop-blur p-6 relative overflow-hidden w-full">
             <div className="absolute inset-0 overflow-hidden">
@@ -88,7 +83,7 @@ const YearHero: FC<Props> = ({ data, username }) => {
                 height={48}
             />
             <Image
-                className="absolute bottom-12 left-24 -z-10 opacity-20"
+                className="absolute bottom-12 left-6 -z-10 opacity-20"
                 src="/logo-icon.png"
                 alt="Logo"
                 width={32}

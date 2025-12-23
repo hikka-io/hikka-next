@@ -27,17 +27,16 @@ import { getHikkaClientConfig } from '@/utils/hikka-client';
 interface Props {
     params: Promise<{
         username: string;
-        year: string;
     }>;
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
     const params = await props.params;
-    const { username, year } = params;
+    const { username } = params;
 
     return {
-        title: `Підсумок ${year} року`,
-        description: `Річна статистика користувача ${username} за ${year} рік`,
+        title: `Підсумки 2025 року`,
+        description: `Річна статистика користувача ${username} за 2025 рік`,
     };
 }
 
