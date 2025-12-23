@@ -48,4 +48,18 @@ export class ArtifactsModule extends BaseModule {
             options,
         );
     }
+
+    /**
+     * Get user artifact privacy status
+     */
+    public async getUserArtifactPrivacy(
+        username: string,
+        name: string,
+        options?: BaseRequestOptionsArgs,
+    ): Promise<ArtifactPrivacyResponse> {
+        return this.client.get<ArtifactPrivacyResponse>(
+            `/artifacts/${username}/${name}/privacy`,
+            options,
+        );
+    }
 }
