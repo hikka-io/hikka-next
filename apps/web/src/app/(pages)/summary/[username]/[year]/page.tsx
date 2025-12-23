@@ -28,6 +28,7 @@ import {
 
 import { YearStatistics } from '@/types/year-statistics';
 import { getHikkaClientConfig } from '@/utils/hikka-client';
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 interface Props {
     params: Promise<{
@@ -40,10 +41,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     const params = await props.params;
     const { username, year } = params;
 
-    return {
+    return _generateMetadata({
         title: `Підсумки ${year} року / ${username}`,
         description: `Річна статистика користувача ${username} за ${year} рік`,
-    };
+    });
 }
 
 const YearStatisticsPage: FC<Props> = async (props) => {
