@@ -14,6 +14,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
 import { cn } from '@/utils/cn';
@@ -48,12 +49,23 @@ const Ongoings: FC<Props> = ({ className }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack size={8}>
-                {isLoading && range(0, 8).map((v) => <SkeletonCard key={v} />)}
-                {list?.map((item) => (
-                    <AnimeCard anime={item} key={item.slug} />
-                ))}
-            </Stack>
+            {((list && list.length > 0) || isLoading) && (
+                <Stack size={8}>
+                    {isLoading &&
+                        range(0, 8).map((v) => <SkeletonCard key={v} />)}
+                    {list &&
+                        list.length > 0 &&
+                        list?.map((item) => (
+                            <AnimeCard anime={item} key={item.slug} />
+                        ))}
+                </Stack>
+            )}
+            {list && list.length === 0 && (
+                <NotFound
+                    title="Не знайдено сезонних онґоінґів"
+                    description="Сезон ще не почався або поки немає достатньо оцінених тайтлів"
+                />
+            )}
         </Block>
     );
 };
