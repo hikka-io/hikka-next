@@ -44,6 +44,11 @@ export const getCachedUserUI = cache(
 export async function getSessionUserUI(): Promise<UserAppearance> {
     try {
         let currentUsername = await getCookie('username');
+
+        if (!currentUsername) {
+            return DEFAULT_APPEARANCE;
+        }
+
         const ui = await getCachedUserUI(currentUsername ?? '');
 
         return mergeUserUI(DEFAULT_APPEARANCE, ui);
