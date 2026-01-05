@@ -29,19 +29,20 @@ const Details: FC<Props> = ({ content }) => {
         <Card className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {'title_ua' in content ? 'Назва' : 'Імʼя'} українською
+                    {isPerson ? 'Імʼя' : 'Назва'} українською
                 </Label>
                 <P className="text-sm">{title_ua || '-'}</P>
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {'title_en' in content ? 'Назва' : 'Імʼя'} англійською
+                    {isPerson ? 'Імʼя' : 'Назва'} англійською
                 </Label>
                 <P className="text-sm">{title_en || '-'}</P>
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
-                    {isPerson ? 'Імʼя' : 'Назва'} першоджерела
+                    {isPerson ? 'Оригінальне' : 'Оригінальна'}{' '}
+                    {isPerson ? 'імʼя' : 'назва'}
                 </Label>
                 <P className="text-sm">{title_ja || '-'}</P>
             </div>

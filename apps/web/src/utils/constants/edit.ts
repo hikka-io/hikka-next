@@ -68,8 +68,8 @@ export const MANGA_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'title_original',
-            title: 'Першоджерела',
-            placeholder: 'Введіть назву першоджерела',
+            title: 'Оригінальна',
+            placeholder: 'Введіть оригінальну назву',
             type: 'input',
         },
     ],
@@ -120,8 +120,8 @@ export const NOVEL_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'title_original',
-            title: 'Першоджерела',
-            placeholder: 'Введіть назву першоджерела',
+            title: 'Оригінальна',
+            placeholder: 'Введіть оригінальну назву',
             type: 'input',
         },
     ],
@@ -175,7 +175,7 @@ export const EDIT_PARAMS: Record<
     title_original: 'Назва JA',
     synopsis_ua: 'Опис UA',
     synopsis_en: 'Опис EN',
-    name_native: 'Назва першоджерела',
+    name_native: 'Оригінальна назва',
 };
 
 export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
@@ -241,8 +241,8 @@ export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
         },
         {
             slug: 'name_native',
-            title: 'Рідною',
-            placeholder: 'Введіть імʼя першоджерела',
+            title: 'Оригінальна',
+            placeholder: 'Введіть оригінальне імʼя',
             type: 'input',
         },
     ],
