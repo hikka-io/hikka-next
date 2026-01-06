@@ -3,14 +3,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type SecondaryTitleLang = 'romaji' | 'en' | 'ja' | 'ua';
-
 export interface SettingsState {
     editTags: string[];
     filterPresets: Hikka.FilterPreset[];
     collapsibles: Record<string, boolean>;
-    secondaryTitleLanguage: SecondaryTitleLang;
     _hasHydrated: boolean;
+    secondaryTitleLanguage: 'none' | 'en' | 'ja';
 }
 
 export interface SettingsActions {
@@ -18,14 +16,13 @@ export interface SettingsActions {
     setEditTags: (editTags: string[]) => void;
     setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
     setCollapsibles: (collapsibles: Record<string, boolean>) => void;
-    setSecondaryTitleLanguage: (lang: SecondaryTitleLang) => void;
+    setSecondaryTitleLanguage: (language: 'none' | 'en' | 'ja') => void;
     reset: () => void;
 }
 
 const DEFAULT_SETTINGS: SettingsState = {
     _hasHydrated: false,
     editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
-    secondaryTitleLanguage: 'romaji',
     filterPresets: [
         {
             name: 'Нещодавно завершені',
@@ -41,6 +38,7 @@ const DEFAULT_SETTINGS: SettingsState = {
         content_score: true,
         content_progress: true,
     },
+    secondaryTitleLanguage: 'none',
 };
 
 export type SettingsStore = SettingsState & SettingsActions;
@@ -49,16 +47,22 @@ export const useSettingsStore = create<SettingsStore>()(
     persist(
         (set) => ({
             ...DEFAULT_SETTINGS,
-            setHasHydrated: (state) => set({ _hasHydrated: state }),
+            setHasHydrated: (state) => {
+                set({
+                    _hasHydrated: state,
+                });
+            },
             setEditTags: (editTags) => set({ editTags }),
             setFilterPresets: (filterPresets) => set({ filterPresets }),
             setCollapsibles: (collapsibles) => set({ collapsibles }),
-            setSecondaryTitleLanguage: (lang) => set({ secondaryTitleLanguage: lang }),
+            setSecondaryTitleLanguage: (secondaryTitleLanguage) => set({ secondaryTitleLanguage }),
             reset: () => set(DEFAULT_SETTINGS),
         }),
         {
-            name: 'settings',
-            onRehydrateStorage: (state) => () => state?.setHasHydrated(true),
+            name: 'settings', // localStorage key
+            onRehydrateStorage: (state) => {
+                return () => state.setHasHydrated(true);
+            },
         },
     ),
 );
