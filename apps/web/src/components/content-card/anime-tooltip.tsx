@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/hover-card';
 import { Label } from '@/components/ui/label';
 
+import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
@@ -36,6 +37,7 @@ interface Props extends PropsWithChildren {
 const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
     const { user: loggedUser } = useSession();
     const { data } = useAnimeBySlug({ slug });
+    const secondaryTitleLanguage = useSettingsStore((state) => state.secondaryTitleLanguage);
 
     if (!data) {
         return (
@@ -64,18 +66,42 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
         );
     }
 
+    // Secondary title logic according to preferences
+    const getSecondaryTitle = () => {
+        if (secondaryTitleLanguage === 'none') return null;
+
+        if (secondaryTitleLanguage === 'en') {
+            return data.title_en || (data as any).title_romaji || null;
+        }
+
+        if (secondaryTitleLanguage === 'ja') {
+            return data.title_ja || (data as any).title_original || null;
+        }
+
+        return null;
+    };
+
+    const secondaryTitle = getSecondaryTitle();
     const synopsis = data.synopsis_ua || data.synopsis_en;
 
     return (
         <>
             <div className="flex flex-col gap-2">
-                <div className="flex justify-between gap-2">
-                    <H5>{data.title}</H5>
-                    {data.score > 0 ? (
-                        <div className="size-fit rounded-md border bg-secondary/20 backdrop-blur px-2 text-sm">
-                            {data.score}
-                        </div>
-                    ) : null}
+                <div className="flex flex-col gap-1">
+                    <div className="flex justify-between gap-2">
+                        <H5>{data.title}</H5>
+                        {data.score > 0 ? (
+                            <div className="size-fit rounded-md border bg-secondary/20 backdrop-blur px-2 text-sm">
+                                {data.score}
+                            </div>
+                        ) : null}
+                    </div>
+                    {/* Secondary title block */}
+                    {secondaryTitle && secondaryTitle !== data.title && (
+                        <span className="text-xs text-muted-foreground line-clamp-1">
+                            {secondaryTitle}
+                        </span>
+                    )}
                 </div>
                 {synopsis && (
                     <MDViewer className="mb-2 line-clamp-4 text-sm text-muted-foreground">
