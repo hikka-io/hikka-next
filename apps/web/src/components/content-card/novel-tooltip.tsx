@@ -17,7 +17,6 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
@@ -38,7 +37,8 @@ interface Props extends PropsWithChildren {
 const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     const { user: loggedUser } = useSession();
     const { data } = useNovelBySlug({ slug });
-
+    
+    // Fetch the language preference for the secondary title from the settings store
     const secondaryTitleLanguage = useSettingsStore((state) => state.secondaryTitleLanguage);
 
     if (!data) {
@@ -52,22 +52,32 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                     <div className="h-2 w-full rounded-lg bg-secondary/20" />
                     <div className="h-2 w-full rounded-lg bg-secondary/20" />
                     <div className="h-2 w-full rounded-lg bg-secondary/20" />
+                    <div className="h-2 w-full rounded-lg bg-secondary/20" />
                     <div className="h-2 w-1/3 rounded-lg bg-secondary/20" />
+                </div>
+                <div className="flex gap-2">
+                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                    <div className="h-3 flex-1 rounded-lg bg-secondary/20" />
+                </div>
+                <div className="flex gap-2">
+                    <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
+                    <div className="h-3 w-2/4 rounded-lg bg-secondary/20" />
                 </div>
                 <div className="h-12 w-full rounded-md bg-secondary/20" />
             </div>
         );
     }
 
+    // Determine the secondary title based on settings and available fallback data
     const getSecondaryTitle = () => {
         if (secondaryTitleLanguage === 'none') return null;
 
         if (secondaryTitleLanguage === 'en') {
-            return data.title_en || (data as any).title_romaji || data.title_original || null;
+            return data.title_en || (data as any).title_romaji || null;
         }
 
         if (secondaryTitleLanguage === 'ja') {
-            return data.title_ja || data.title_original || null;
+            return data.title_ja || (data as any).title_original || null;
         }
 
         return null;
@@ -82,12 +92,13 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                 <div className="flex flex-col gap-1">
                     <div className="flex justify-between gap-2">
                         <H5>{data.title}</H5>
-                        {data.score > 0 && (
+                        {data.score > 0 ? (
                             <div className="size-fit rounded-md border bg-secondary/20 backdrop-blur px-2 text-sm">
                                 {data.score}
                             </div>
-                        )}
+                        ) : null}
                     </div>
+                    {/* Render the secondary title as a caption if it exists and is not the same as the main title */}
                     {secondaryTitle && secondaryTitle !== data.title && (
                         <span className="text-xs text-muted-foreground line-clamp-1">
                             {secondaryTitle}
@@ -121,6 +132,30 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                         )}
                     </div>
                 </div>
+                {data.volumes && (
+                    <div className="flex">
+                        <div className="w-1/4">
+                            <Label className="text-muted-foreground">
+                                Томи:
+                            </Label>
+                        </div>
+                        <div className="flex-1">
+                            <Label>{data.volumes}</Label>
+                        </div>
+                    </div>
+                )}
+                {data.chapters && (
+                    <div className="flex">
+                        <div className="w-1/4">
+                            <Label className="text-muted-foreground">
+                                Розділи:
+                            </Label>
+                        </div>
+                        <div className="flex-1">
+                            <Label>{data.chapters}</Label>
+                        </div>
+                    </div>
+                )}
                 <div className="flex">
                     <div className="w-1/4">
                         <Label className="text-muted-foreground">Жанри:</Label>
@@ -134,7 +169,9 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                                 >
                                     {genre.name_ua}
                                 </Link>
-                                {i + 1 !== data.genres.length && <span>, </span>}
+                                {i + 1 !== data.genres.length && (
+                                    <span>, </span>
+                                )}
                             </span>
                         ))}
                     </div>
@@ -152,14 +189,19 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     );
 };
 
-const NovelTooltip: FC<Props> = ({ slug, children, read }) => {
-    if (!slug) return null;
+const NovelTooltip: FC<Props> = ({ slug, children, withTrigger, read }) => {
+    if (!slug) {
+        return null;
+    }
 
     return (
         <HoverCard openDelay={500} closeDelay={100}>
             <HoverCardTrigger asChild>{children}</HoverCardTrigger>
             <HoverCardPortal>
-                <HoverCardContent side="right" className="hidden w-80 flex-col gap-4 p-4 md:flex">
+                <HoverCardContent
+                    side="right"
+                    className="hidden w-80 flex-col gap-4 p-4 md:flex"
+                >
                     <HoverCardArrow />
                     <TooltipData slug={slug} read={read} />
                 </HoverCardContent>
