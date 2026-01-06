@@ -18,12 +18,16 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 import { useUIStore } from '@/services/providers/ui-store-provider';
+import { useSettingsStore, type SecondaryTitleLang } from '@/services/stores/settings-store';
 
 const PreferencesSettings = () => {
     const UI = useUIStore((state) => state);
     const setTitleLanguage = useUIStore((state) => state.setTitleLanguage);
     const setNameLanguage = useUIStore((state) => state.setNameLanguage);
     const setOverlay = useUIStore((state) => state.setOverlay);
+
+    const secondaryTitleLanguage = useSettingsStore((state) => state.secondaryTitleLanguage);
+    const setSecondaryTitleLanguage = useSettingsStore((state) => state.setSecondaryTitleLanguage);
 
     const { setTheme, theme } = useTheme();
 
@@ -95,6 +99,28 @@ const PreferencesSettings = () => {
                     </SelectContent>
                 </Select>
             </div>
+
+            <div className="flex w-full flex-col gap-2">
+                <Label>Другорядна назва</Label>
+                <Select
+                    value={[secondaryTitleLanguage]}
+                    onValueChange={(v) => setSecondaryTitleLanguage(v[0] as SecondaryTitleLang)}
+                >
+                    <SelectTrigger>
+                        <SelectValue placeholder="Виберіть мову..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                <SelectItem value="en">Англійська</SelectItem>
+                                <SelectItem value="ja">Японська</SelectItem>
+                                <SelectItem value="none">Не показувати</SelectItem>
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            </div>
+
             <div className="flex w-full flex-col gap-2">
                 <Label>Мова імен</Label>
 
