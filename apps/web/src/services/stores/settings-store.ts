@@ -3,10 +3,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export type SecondaryTitleLang = 'romaji' | 'en' | 'ja' | 'ua';
+
 export interface SettingsState {
     editTags: string[];
     filterPresets: Hikka.FilterPreset[];
     collapsibles: Record<string, boolean>;
+    secondaryTitleLanguage: SecondaryTitleLang;
     _hasHydrated: boolean;
 }
 
@@ -15,12 +18,14 @@ export interface SettingsActions {
     setEditTags: (editTags: string[]) => void;
     setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
     setCollapsibles: (collapsibles: Record<string, boolean>) => void;
+    setSecondaryTitleLanguage: (lang: SecondaryTitleLang) => void;
     reset: () => void;
 }
 
 const DEFAULT_SETTINGS: SettingsState = {
     _hasHydrated: false,
     editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
+    secondaryTitleLanguage: 'romaji',
     filterPresets: [
         {
             name: 'Нещодавно завершені',
@@ -44,21 +49,16 @@ export const useSettingsStore = create<SettingsStore>()(
     persist(
         (set) => ({
             ...DEFAULT_SETTINGS,
-            setHasHydrated: (state) => {
-                set({
-                    _hasHydrated: state,
-                });
-            },
+            setHasHydrated: (state) => set({ _hasHydrated: state }),
             setEditTags: (editTags) => set({ editTags }),
             setFilterPresets: (filterPresets) => set({ filterPresets }),
             setCollapsibles: (collapsibles) => set({ collapsibles }),
+            setSecondaryTitleLanguage: (lang) => set({ secondaryTitleLanguage: lang }),
             reset: () => set(DEFAULT_SETTINGS),
         }),
         {
-            name: 'settings', // localStorage key
-            onRehydrateStorage: (state) => {
-                return () => state.setHasHydrated(true);
-            },
+            name: 'settings',
+            onRehydrateStorage: (state) => () => state?.setHasHydrated(true),
         },
     ),
 );
