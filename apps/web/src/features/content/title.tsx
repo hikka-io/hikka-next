@@ -8,22 +8,22 @@ import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/Mate
 import H2 from '@/components/typography/h2';
 import P from '@/components/typography/p';
 
+import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { useSettingsStore } from '@/services/stores/settings-store';
 
 interface TitleProps {
     className?: string;
     content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 }
 
 const Title = ({ className, content_type }: TitleProps) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
-    
+
     // Get the language preference for the secondary title from the settings store
     const secondaryTitleLanguage = useSettingsStore((state) => state.secondaryTitleLanguage);
 
