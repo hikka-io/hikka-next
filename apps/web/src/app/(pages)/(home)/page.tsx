@@ -17,7 +17,6 @@ import {
     HomeProfile as Profile,
     HomeSchedule as Schedule,
 } from '@/features/home';
-import { SummaryBanner } from '@/features/users';
 
 import prefetchQueries from './page.queries';
 
@@ -40,7 +39,6 @@ const Page = async () => {
 
                 {loggedUser && (
                     <div className="flex flex-col gap-8">
-                        <SummaryBanner />
                         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                             <Profile />
                             <History />
