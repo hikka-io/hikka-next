@@ -30,11 +30,12 @@ const Ongoings: FC<Props> = ({ className }) => {
 
     const { list, isLoading } = useSearchAnimes({
         args: {
-            sort: ['scored_by:desc', 'score:desc'],
+            sort: ['scored_by:desc', 'score:desc', 'native_scored_by:desc', 'native_score:desc'],
             season: [currentSeason!],
             media_type: [AnimeMediaEnum.TV],
-            score: [7, 10],
             years: [Number(year), Number(year)],
+            genres: ["-ecchi", "-hentai"],
+            status: ["ongoing"]
         },
         paginationArgs: {
             size: 8,
