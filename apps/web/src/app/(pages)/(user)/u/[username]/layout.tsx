@@ -18,7 +18,6 @@ import {
     ActivationAlert,
     FollowStats,
     ListStats,
-    SummaryButton,
     UserInfo,
     UserTitle,
 } from '@/features/users';
@@ -99,7 +98,6 @@ const UserLayout: FC<Props> = async (props) => {
                                 </div>
                                 <div className="hidden gap-4 lg:flex">
                                     <FollowButton username={username} />
-                                    <SummaryButton username={username} />
                                 </div>
                             </div>
                         </div>
@@ -107,10 +105,6 @@ const UserLayout: FC<Props> = async (props) => {
                             <FollowStats />
                             <div className="gap-4 flex">
                                 <FollowButton
-                                    username={username}
-                                    className="flex-1"
-                                />
-                                <SummaryButton
                                     username={username}
                                     className="flex-1"
                                 />
