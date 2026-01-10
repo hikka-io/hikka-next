@@ -1,5 +1,6 @@
 import {
     AnimeMediaEnum,
+    AnimeStatusEnum,
     ContentStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
@@ -56,10 +57,16 @@ const prefetchQueries = async ({
         prefetchSearchAnimes({
             args: {
                 season: [season!],
-                score: [7, 10],
-                years: [year, year],
                 media_type: [AnimeMediaEnum.TV],
-                sort: ['scored_by:desc', 'score:desc'],
+                years: [year, year],
+                genres: ['-ecchi', '-hentai'],
+                status: [AnimeStatusEnum.ONGOING],
+                sort: [
+                    'scored_by:desc',
+                    'score:desc',
+                    'native_scored_by:desc',
+                    'native_score:desc',
+                ],
             },
             paginationArgs: {
                 size: 8,
