@@ -67,10 +67,12 @@ const FilterPresetModal: FC = () => {
         });
 
         if (searchParams.has('only_translated')) {
-            currentFilters.only_translated = searchParams.get('only_translated') === 'true';
+            currentFilters.only_translated =
+                searchParams.get('only_translated') === 'true';
         }
         if (searchParams.has('date_range_enabled')) {
-            currentFilters.date_range_enabled = searchParams.get('date_range_enabled') === 'true';
+            currentFilters.date_range_enabled =
+                searchParams.get('date_range_enabled') === 'true';
         }
 
         const sort = searchParams.get('sort');
@@ -90,7 +92,7 @@ const FilterPresetModal: FC = () => {
         }
 
         openModal({
-            content: <FilterPresetEditModal filterPreset={currentFilters} />,
+            content: <FilterPresetEditModal filterPreset={currentFilters as Hikka.FilterPreset} />,
             className: '!max-w-xl',
             title: 'Створити пресет з поточних',
             forceModal: true,
