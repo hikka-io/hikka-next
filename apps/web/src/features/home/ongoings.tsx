@@ -1,7 +1,7 @@
 'use client';
 
 import { range } from '@antfu/utils';
-import { AnimeMediaEnum, SeasonEnum } from '@hikka/client';
+import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { FC } from 'react';
 
@@ -26,16 +26,21 @@ interface Props {
 
 const Ongoings: FC<Props> = ({ className }) => {
     const currentSeason = getCurrentSeason() as SeasonEnum;
-    const year = String(new Date().getFullYear());
+    const year = Number(new Date().getFullYear());
 
     const { list, isLoading } = useSearchAnimes({
         args: {
-            sort: ['scored_by:desc', 'score:desc', 'native_scored_by:desc', 'native_score:desc'],
             season: [currentSeason!],
             media_type: [AnimeMediaEnum.TV],
-            years: [Number(year), Number(year)],
-            genres: ["-ecchi", "-hentai"],
-            status: ["ongoing"]
+            years: [year, year],
+            genres: ['-ecchi', '-hentai'],
+            status: [AnimeStatusEnum.ONGOING],
+            sort: [
+                'scored_by:desc',
+                'score:desc',
+                'native_scored_by:desc',
+                'native_score:desc',
+            ],
         },
         paginationArgs: {
             size: 8,
