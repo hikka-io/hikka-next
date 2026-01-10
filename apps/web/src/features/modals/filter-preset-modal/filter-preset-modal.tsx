@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -17,18 +17,82 @@ import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { createQueryString } from '@/utils/url';
 
+import { ContentTypeEnum } from '@hikka/client';
 import FilterPresetEditModal from './filter-preset-edit-modal';
 
 const FilterPresetModal: FC = () => {
     const { closeModal, openModal } = useModalContext();
     const { filterPresets, setFilterPresets } = useSettingsStore();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     const handleCreatePreset = () => {
         openModal({
             content: <FilterPresetEditModal />,
             className: '!max-w-xl',
             title: 'Створити пресет',
+            forceModal: true,
+        });
+    };
+
+    const handleCreateFromCurrent = () => {
+        const currentFilters: any = {
+            name: '',
+            description: '',
+        };
+
+        const arrayStringKeys = [
+            'content_types',
+            'statuses',
+            'seasons',
+            'types',
+            'genres',
+            'ratings',
+            'studios',
+        ];
+
+        arrayStringKeys.forEach((key) => {
+            const values = searchParams.getAll(key);
+            if (values.length > 0) {
+                currentFilters[key] = values;
+            }
+        });
+
+        const arrayNumberKeys = ['years', 'date_range'];
+        arrayNumberKeys.forEach((key) => {
+            const values = searchParams.getAll(key);
+            if (values.length > 0) {
+                currentFilters[key] = values.map((v) => Number(v));
+            }
+        });
+
+        if (searchParams.has('only_translated')) {
+            currentFilters.only_translated = searchParams.get('only_translated') === 'true';
+        }
+        if (searchParams.has('date_range_enabled')) {
+            currentFilters.date_range_enabled = searchParams.get('date_range_enabled') === 'true';
+        }
+
+        const sort = searchParams.get('sort');
+        if (sort) currentFilters.sort = sort;
+
+        const order = searchParams.get('order');
+        if (order) currentFilters.order = order;
+
+        if (!currentFilters.content_types) {
+            if (pathname.includes('/anime')) {
+                currentFilters.content_types = [ContentTypeEnum.ANIME];
+            } else if (pathname.includes('/manga')) {
+                currentFilters.content_types = [ContentTypeEnum.MANGA];
+            } else if (pathname.includes('/novel')) {
+                currentFilters.content_types = [ContentTypeEnum.NOVEL];
+            }
+        }
+
+        openModal({
+            content: <FilterPresetEditModal filterPreset={currentFilters} />,
+            className: '!max-w-xl',
+            title: 'Створити пресет з поточних',
             forceModal: true,
         });
     };
@@ -86,7 +150,7 @@ const FilterPresetModal: FC = () => {
                     <Button
                         size="icon-md"
                         variant="outline"
-                        onClick={() => { }}
+                        onClick={handleCreateFromCurrent}
                     >
                         <MaterialSymbolsFileCopyOutlineRounded className="text-lg" />
                     </Button>
