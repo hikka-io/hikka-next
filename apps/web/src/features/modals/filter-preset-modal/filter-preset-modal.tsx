@@ -6,6 +6,7 @@ import { FC } from 'react';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsFileCopyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsFileCopyRounded';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -69,6 +70,28 @@ const FilterPresetModal: FC = () => {
             </div>
 
             <hr className="-mx-6 h-px w-auto bg-border" />
+
+            <div className="flex items-center justify-between gap-2">
+                <div className="flex-1 space-y-1">
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">
+                            Поточні налаштування
+                        </span>
+                    </div>
+                    <P className="line-clamp-2 text-xs text-muted-foreground">
+                        Зберегти поточні налаштування каталогу як окремий пресет
+                    </P>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Button
+                        size="icon-md"
+                        variant="outline"
+                        onClick={() => { }}
+                    >
+                        <MaterialSymbolsFileCopyOutlineRounded className="text-lg" />
+                    </Button>
+                </div>
+            </div>
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {filterPresets?.map((preset) => (
