@@ -133,31 +133,31 @@ const FilterPresetModal: FC = () => {
                     <MaterialSymbolsAddRounded />
                     Створити новий пресет
                 </Button>
+
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">
+                                Поточні налаштування
+                            </span>
+                        </div>
+                        <P className="line-clamp-2 text-xs text-muted-foreground">
+                            Зберегти поточні налаштування каталогу як окремий пресет
+                        </P>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            size="icon-md"
+                            variant="secondary"
+                            onClick={handleCreateFromCurrent}
+                        >
+                            <MaterialSymbolsFileCopyOutlineRounded className="text-lg" />
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             <hr className="-mx-6 h-px w-auto bg-border" />
-
-            <div className="flex items-center justify-between gap-2">
-                <div className="flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">
-                            Поточні налаштування
-                        </span>
-                    </div>
-                    <P className="line-clamp-2 text-xs text-muted-foreground">
-                        Зберегти поточні налаштування каталогу як окремий пресет
-                    </P>
-                </div>
-                <div className="flex items-center gap-2">
-                    <Button
-                        size="icon-md"
-                        variant="outline"
-                        onClick={handleCreateFromCurrent}
-                    >
-                        <MaterialSymbolsFileCopyOutlineRounded className="text-lg" />
-                    </Button>
-                </div>
-            </div>
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {filterPresets?.map((preset) => (
