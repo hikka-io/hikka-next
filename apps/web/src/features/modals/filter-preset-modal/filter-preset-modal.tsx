@@ -36,7 +36,7 @@ const FilterPresetModal: FC = () => {
     };
 
     const handleCreateFromCurrent = () => {
-        const currentFilters: any = {
+        const currentFilters: Partial<Hikka.FilterPreset> = {
             name: '',
             description: '',
         };
@@ -49,20 +49,25 @@ const FilterPresetModal: FC = () => {
             'genres',
             'ratings',
             'studios',
-        ];
+        ] as const;
 
         arrayStringKeys.forEach((key) => {
             const values = searchParams.getAll(key);
             if (values.length > 0) {
-                currentFilters[key] = values;
+                currentFilters[key] = values as unknown as NonNullable<
+                    Hikka.FilterPreset[typeof key]
+                >;
             }
         });
 
-        const arrayNumberKeys = ['years', 'date_range'];
+        const arrayNumberKeys = ['years', 'date_range'] as const;
         arrayNumberKeys.forEach((key) => {
             const values = searchParams.getAll(key);
             if (values.length > 0) {
-                currentFilters[key] = values.map((v) => Number(v));
+                const numberValues = values.map((v) => Number(v));
+                currentFilters[key] = numberValues as unknown as NonNullable<
+                    Hikka.FilterPreset[typeof key]
+                >;
             }
         });
 
@@ -92,7 +97,11 @@ const FilterPresetModal: FC = () => {
         }
 
         openModal({
-            content: <FilterPresetEditModal filterPreset={currentFilters as Hikka.FilterPreset} />,
+            content: (
+                <FilterPresetEditModal
+                    filterPreset={currentFilters as Hikka.FilterPreset}
+                />
+            ),
             className: '!max-w-xl',
             title: 'Створити пресет з поточних',
             forceModal: true,
