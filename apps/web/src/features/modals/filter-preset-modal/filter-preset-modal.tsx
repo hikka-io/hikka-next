@@ -3,10 +3,10 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsFileCopyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsFileCopyRounded';
 import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -160,7 +160,7 @@ const FilterPresetModal: FC = () => {
                             variant="secondary"
                             onClick={handleCreateFromCurrent}
                         >
-                            <MaterialSymbolsFileCopyOutlineRounded className="text-lg" />
+                            <CustomCopyAddRounded className="text-lg" />
                         </Button>
                     </div>
                 </div>
