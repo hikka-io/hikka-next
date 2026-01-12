@@ -147,11 +147,11 @@ const FilterPresetModal: FC = () => {
                     <div className="flex-1 space-y-1">
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium">
-                                Поточні налаштування
+                                Поточні фільтри
                             </span>
                         </div>
                         <P className="line-clamp-2 text-xs text-muted-foreground">
-                            Зберегти поточні налаштування каталогу як окремий пресет
+                            Створити пресет із поточних фільтрів
                         </P>
                     </div>
                     <div className="flex items-center gap-2">
