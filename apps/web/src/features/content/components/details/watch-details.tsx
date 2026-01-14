@@ -11,6 +11,7 @@ import {
     Hash,
     Play,
     ShieldEllipsis,
+    SunSnow,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,6 +30,7 @@ import {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
     RELEASE_STATUS,
+    SEASON,
 } from '@/utils/constants/common';
 import { getScheduleDuration } from '@/utils/i18n';
 
@@ -134,6 +136,10 @@ const WatchDetails = ({
     );
     const studio = data.companies.find((c) => c.type === 'studio');
 
+    const seasonLabel = data.season
+        ? SEASON[data.season as keyof typeof SEASON]?.title_ua ?? data.season
+        : null;
+
     return (
         <Card className={cn('bg-secondary/20 backdrop-blur', className)}>
             {/* Basic Info Section */}
@@ -154,6 +160,14 @@ const WatchDetails = ({
                 {data.status && <StatusBadge status={data.status} />}
             </DetailItem>
 
+            {seasonLabel && (
+                <DetailItem
+                    title="Сезон"
+                    icon={<SunSnow className="size-4" />}
+                    value={seasonLabel}
+                />
+            )}
+
             {Boolean(data.episodes_total || data.episodes_released) && (
                 <div className="h-px bg-border" />
             )}
@@ -164,14 +178,14 @@ const WatchDetails = ({
                 title="Епізоди"
                 value={
                     (data.episodes_total || data.episodes_released) &&
-                    (data.media_type !== 'movie' ||
-                        (data.episodes_total ?? data.episodes_released ?? 0) >
+                        (data.media_type !== 'movie' ||
+                            (data.episodes_total ?? data.episodes_released ?? 0) >
                             1)
                         ? formatEpisodeCount(
-                              data.status!,
-                              data.episodes_released,
-                              data.episodes_total,
-                          )
+                            data.status!,
+                            data.episodes_released,
+                            data.episodes_total,
+                        )
                         : undefined
                 }
             />
