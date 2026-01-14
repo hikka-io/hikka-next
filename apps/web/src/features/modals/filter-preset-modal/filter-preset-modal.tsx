@@ -1,8 +1,9 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -16,18 +17,93 @@ import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { createQueryString } from '@/utils/url';
 
+import { ContentTypeEnum } from '@hikka/client';
 import FilterPresetEditModal from './filter-preset-edit-modal';
 
 const FilterPresetModal: FC = () => {
     const { closeModal, openModal } = useModalContext();
     const { filterPresets, setFilterPresets } = useSettingsStore();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     const handleCreatePreset = () => {
         openModal({
             content: <FilterPresetEditModal />,
             className: '!max-w-xl',
             title: 'Створити пресет',
+            forceModal: true,
+        });
+    };
+
+    const handleCreateFromCurrent = () => {
+        const currentFilters: Partial<Hikka.FilterPreset> = {
+            name: '',
+            description: '',
+        };
+
+        const arrayStringKeys = [
+            'content_types',
+            'statuses',
+            'seasons',
+            'types',
+            'genres',
+            'ratings',
+            'studios',
+        ] as const;
+
+        arrayStringKeys.forEach((key) => {
+            const values = searchParams.getAll(key);
+            if (values.length > 0) {
+                currentFilters[key] = values as unknown as NonNullable<
+                    Hikka.FilterPreset[typeof key]
+                >;
+            }
+        });
+
+        const arrayNumberKeys = ['years', 'date_range'] as const;
+        arrayNumberKeys.forEach((key) => {
+            const values = searchParams.getAll(key);
+            if (values.length > 0) {
+                const numberValues = values.map((v) => Number(v));
+                currentFilters[key] = numberValues as unknown as NonNullable<
+                    Hikka.FilterPreset[typeof key]
+                >;
+            }
+        });
+
+        if (searchParams.has('only_translated')) {
+            currentFilters.only_translated =
+                searchParams.get('only_translated') === 'true';
+        }
+        if (searchParams.has('date_range_enabled')) {
+            currentFilters.date_range_enabled =
+                searchParams.get('date_range_enabled') === 'true';
+        }
+
+        const sort = searchParams.get('sort');
+        if (sort) currentFilters.sort = sort;
+
+        const order = searchParams.get('order');
+        if (order) currentFilters.order = order;
+
+        if (!currentFilters.content_types) {
+            if (pathname.includes('/anime')) {
+                currentFilters.content_types = [ContentTypeEnum.ANIME];
+            } else if (pathname.includes('/manga')) {
+                currentFilters.content_types = [ContentTypeEnum.MANGA];
+            } else if (pathname.includes('/novel')) {
+                currentFilters.content_types = [ContentTypeEnum.NOVEL];
+            }
+        }
+
+        openModal({
+            content: (
+                <FilterPresetEditModal
+                    filterPreset={currentFilters as Hikka.FilterPreset}
+                />
+            ),
+            className: '!max-w-xl',
+            title: 'Створити пресет з поточних',
             forceModal: true,
         });
     };
@@ -66,6 +142,28 @@ const FilterPresetModal: FC = () => {
                     <MaterialSymbolsAddRounded />
                     Створити новий пресет
                 </Button>
+
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">
+                                Поточні фільтри
+                            </span>
+                        </div>
+                        <P className="line-clamp-2 text-xs text-muted-foreground">
+                            Створити пресет із поточних фільтрів
+                        </P>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            size="icon-md"
+                            variant="secondary"
+                            onClick={handleCreateFromCurrent}
+                        >
+                            <CustomCopyAddRounded className="text-lg" />
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             <hr className="-mx-6 h-px w-auto bg-border" />
