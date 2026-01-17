@@ -7,7 +7,7 @@ import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
-import ContentCollectionsItem from './content-collections-item';
+import CollectionItem from '@/features/users/user-profile/components/user-collections/collection-item';
 
 interface Props {
     content_type: CollectionContentType;
@@ -28,9 +28,9 @@ const ContentCollectionsModal: FC<Props> = ({ content_type }) => {
         <div className="h-full w-auto flex-1 overflow-y-scroll">
             {list &&
                 list.map((collection) => (
-                    <ContentCollectionsItem
+                    <CollectionItem
                         className="px-6 py-4"
-                        collection={collection}
+                        data={collection}
                         key={collection.reference}
                     />
                 ))}

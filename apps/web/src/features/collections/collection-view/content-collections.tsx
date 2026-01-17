@@ -15,7 +15,7 @@ import {
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import ContentCollectionsItem from './components/content-collections/content-collections-item';
+import CollectionItem from '@/features/users/user-profile/components/user-collections/collection-item';
 import ContentCollectionsModal from './components/content-collections/content-collections-modal';
 
 interface Props {
@@ -56,7 +56,7 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
             </Header>
             <div className="flex flex-col gap-6">
                 {filteredCollections.map((collection) => (
-                    <ContentCollectionsItem key={collection.reference} collection={collection} />
+                    <CollectionItem key={collection.reference} data={collection} />
                 ))}
             </div>
         </Block>
