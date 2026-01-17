@@ -2,6 +2,7 @@ import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
 import { ContentArticles } from '@/features/articles';
+import { ContentCollections } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
 import {
     ContentActions as Actions,
@@ -56,6 +57,7 @@ const NovelPage: FC<Props> = async (props) => {
                 <Stats content_type={ContentTypeEnum.NOVEL} />
                 <Followings content_type={ContentTypeEnum.NOVEL} />
                 <ContentArticles content_type={ContentTypeEnum.NOVEL} />
+                <ContentCollections content_type={ContentTypeEnum.NOVEL} />
                 <Links content_type={ContentTypeEnum.NOVEL} />
             </div>
             <div className="flex flex-col gap-12 lg:col-span-2 lg:col-start-2">
