@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
@@ -12,6 +13,11 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 interface Props {}
 
 const AuthNeeded: FC<Props> = () => {
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const currentUrl = `${pathname}${searchParams.toString() ? `?${encodeURIComponent(searchParams.toString())}` : ''}`;
+
     return (
         <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
@@ -30,7 +36,7 @@ const AuthNeeded: FC<Props> = () => {
                 </div>
             </div>
             <Button size="md" variant="outline" asChild>
-                <Link href="/login">Увійти</Link>
+                <Link href={`/login?callbackUrl=${currentUrl}`}>Увійти</Link>
             </Button>
         </Card>
     );
