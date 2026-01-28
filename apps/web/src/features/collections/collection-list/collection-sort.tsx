@@ -10,7 +10,7 @@ const CollectionSort = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const sort = searchParams.get('sort');
+    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['system_ranking'];
 
     const handleChangeSort = (value: string) => {
         router.push(
@@ -25,7 +25,7 @@ const CollectionSort = () => {
 
     return (
         <Tabs
-            defaultValue={sort || 'system_ranking'}
+            defaultValue={sort[0]}
             onValueChange={handleChangeSort}
         >
             <TabsList className="grid w-full grid-cols-2">

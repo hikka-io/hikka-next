@@ -29,7 +29,7 @@ const ArticleList: FC<Props> = () => {
     const searchParams = useSearchParams();
 
     const author = searchParams.get('author') || undefined;
-    const sort = searchParams.get('sort') || 'created';
+    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['created'];
     const order = searchParams.get('order') || 'desc';
     const tags = searchParams.getAll('tags') || undefined;
     const draft = Boolean(searchParams.get('draft')) ?? false;
@@ -50,7 +50,7 @@ const ArticleList: FC<Props> = () => {
         args: {
             categories,
             author,
-            sort: [`${sort}:${order}`],
+            sort: sort.map((item) => `${item}:${order}`),
             tags,
             draft,
         },

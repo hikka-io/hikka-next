@@ -23,7 +23,7 @@ const EditList: FC<Props> = () => {
     const content_type =
         (searchParams.get('content_type') as EditContentType) || undefined;
     const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.get('sort') || 'edit_id';
+    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['edit_id'];
     const edit_status =
         (searchParams.get('edit_status') as EditStatusEnum) || undefined;
     const author = searchParams.get('author');
@@ -32,7 +32,7 @@ const EditList: FC<Props> = () => {
     const { list, isLoading, pagination } = useEditList({
         args: {
             content_type,
-            sort: [`${sort}:${order}`],
+            sort: sort.map((item) => `${item}:${order}`),
             status: edit_status,
             author,
             moderator,

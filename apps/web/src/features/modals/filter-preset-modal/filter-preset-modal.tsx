@@ -80,8 +80,8 @@ const FilterPresetModal: FC = () => {
                 searchParams.get('date_range_enabled') === 'true';
         }
 
-        const sort = searchParams.get('sort');
-        if (sort) currentFilters.sort = sort;
+        const sort = searchParams.getAll('sort');
+        if (sort.length > 0) currentFilters.sort = sort.join(',') || undefined;
 
         const order = searchParams.get('order');
         if (order) currentFilters.order = order;

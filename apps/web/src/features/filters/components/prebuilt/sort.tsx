@@ -32,76 +32,92 @@ export type SortType =
     | 'edit'
     | 'article';
 
-const SORT_CONTENT = [
+const SHARED_SORT = [
     {
         label: 'Загальна оцінка',
-        value: 'score',
-    },
-    {
-        label: 'Дата релізу',
-        value: 'start_date',
+        value: ['score'],
     },
     {
         label: 'Тип',
-        value: 'media_type',
+        value: ['media_type'],
+    },
+];
+
+const SORT_CONTENT = [
+    ...SHARED_SORT,
+    {
+        label: 'Дата релізу',
+        value: ['start_date', 'created'],
+    },
+    {
+        label: 'Дата створення на сайті',
+        value: ['created'],
     },
 ];
 
 const SORT_WATCHLIST = [
-    ...SORT_CONTENT,
+    ...SHARED_SORT,
+    {
+        label: 'Дата релізу',
+        value: ['start_date'],
+    },
     {
         label: 'К-сть епізодів',
-        value: 'watch_episodes',
+        value: ['watch_episodes'],
     },
     {
         label: 'Дата додавання',
-        value: 'watch_created',
+        value: ['watch_created'],
     },
     {
         label: 'Власна оцінка',
-        value: 'watch_score',
+        value: ['watch_score'],
     },
 ];
 
 const SORT_READLIST = [
-    ...SORT_CONTENT,
+    ...SHARED_SORT,
+    {
+        label: 'Дата релізу',
+        value: ['start_date'],
+    },
     {
         label: 'Дата додавання',
-        value: 'read_created',
+        value: ['read_created'],
     },
     {
         label: 'К-сть томів',
-        value: 'read_volumes',
+        value: ['read_volumes'],
     },
     {
         label: 'К-сть розділів',
-        value: 'read_chapters',
+        value: ['read_chapters'],
     },
     {
         label: 'Власна оцінка',
-        value: 'read_score',
+        value: ['read_score'],
     },
 ];
 
 const SORT_EDITLIST = [
     {
         label: 'Номер правки',
-        value: 'edit_id',
+        value: ['edit_id'],
     },
     {
         label: 'Дата створення',
-        value: 'created',
+        value: ['created'],
     },
 ];
 
 const SORT_ARTICLELIST = [
     {
         label: 'Дата створення',
-        value: 'created',
+        value: ['created'],
     },
     {
         label: 'Оцінка',
-        value: 'vote_score',
+        value: ['vote_score'],
     },
 ];
 
@@ -135,7 +151,7 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
     const searchParams = useSearchParams()!;
 
     const order = searchParams.get('order');
-    const sort = searchParams.get('sort');
+    const sort = searchParams.getAll('sort');
 
     const handleChangeParam = useChangeParam();
 
@@ -146,9 +162,9 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
         >
             <div className="flex gap-2">
                 <Select
-                    value={sort ? [sort] : undefined}
+                    value={sort.length > 0 ? [sort.join(',')] : undefined}
                     onValueChange={(value) =>
-                        handleChangeParam('sort', value[0])
+                        handleChangeParam('sort', value[0].split(','))
                     }
                 >
                     <SelectTrigger className="min-w-0 flex-1">
@@ -159,8 +175,8 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
                             <SelectGroup>
                                 {getSort(sort_type).map((item) => (
                                     <SelectItem
-                                        key={item.value}
-                                        value={item.value}
+                                        key={item.value[0]}
+                                        value={item.value.join(',')}
                                     >
                                         {item.label}
                                     </SelectItem>

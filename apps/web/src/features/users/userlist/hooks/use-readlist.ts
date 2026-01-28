@@ -29,7 +29,7 @@ export const useReadList = () => {
     const magazines = searchParams.getAll('magazines');
 
     const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.get('sort') || 'read_score';
+    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['read_score'];
 
     return useSearchUserReads({
         contentType: params.content_type as ReadContentType,
@@ -41,7 +41,7 @@ export const useReadList = () => {
             years,
             genres,
             magazines,
-            sort: sort && order ? [`${sort}:${order}`] : undefined,
+            sort: sort && order ? sort.map((item) => `${item}:${order}`) : undefined,
         },
     });
 };

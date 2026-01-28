@@ -36,7 +36,7 @@ const NovelList: FC<Props> = () => {
 
     const only_translated = searchParams.get('only_translated');
 
-    const sort = searchParams.get('sort') || 'score';
+    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['score'];
     const order = searchParams.get('order') || 'desc';
 
     const page = Number(searchParams.get('page')) || 1;
@@ -48,7 +48,7 @@ const NovelList: FC<Props> = () => {
         years: years,
         genres: genres,
         only_translated: Boolean(only_translated),
-        sort: sort ? [`${sort}:${order}`] : undefined,
+        sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
     };
 
     const paginationArgs = {

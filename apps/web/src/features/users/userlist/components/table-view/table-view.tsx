@@ -37,7 +37,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     const router = useRouter();
 
     const order = searchParams.get('order');
-    const sort = searchParams.get('sort');
+    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['watch_score'];
 
     const switchSort = (
         newSort:
@@ -50,7 +50,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     ) => {
         const query = createQueryString(
             'order',
-            order && newSort !== sort
+            order && newSort !== sort[0]
                 ? order
                 : order === 'asc'
                   ? 'desc'
