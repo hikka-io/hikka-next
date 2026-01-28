@@ -220,8 +220,8 @@ export const FormSort: FC<Props & Partial<FormSelectProps>> = (props) => {
                             <SelectGroup>
                                 {getSort(props.sort_type).map((item) => (
                                     <SelectItem
-                                        key={item.value}
-                                        value={item.value}
+                                        key={item.value[0]}
+                                        value={item.value.join(',')}
                                     >
                                         {item.label}
                                     </SelectItem>

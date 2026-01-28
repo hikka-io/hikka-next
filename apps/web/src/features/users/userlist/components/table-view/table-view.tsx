@@ -76,7 +76,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             <TableHead
                                 className={cn(
                                     'cursor-pointer select-none text-center hover:underline',
-                                    sort === 'read_chapters' &&
+                                    sort.includes('read_chapters') &&
                                         'text-primary-foreground',
                                 )}
                                 align="center"
@@ -87,7 +87,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             <TableHead
                                 className={cn(
                                     'cursor-pointer select-none text-center hover:underline',
-                                    sort === 'read_volumes' &&
+                                    sort.includes('read_volumes') &&
                                         'text-primary-foreground',
                                 )}
                                 align="center"
@@ -102,7 +102,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             <TableHead
                                 className={cn(
                                     'cursor-pointer select-none text-center hover:underline',
-                                    sort === 'watch_episodes' &&
+                                    sort.includes('watch_episodes') &&
                                         'text-primary-foreground',
                                 )}
                                 align="center"
@@ -113,7 +113,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             <TableHead
                                 className={cn(
                                     'hidden w-20 cursor-pointer select-none text-center hover:underline lg:table-cell',
-                                    sort === 'media_type' &&
+                                    sort.includes('media_type') &&
                                         'text-primary-foreground',
                                 )}
                                 align="center"
@@ -126,11 +126,11 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                     <TableHead
                         className={cn(
                             'w-4 cursor-pointer select-none text-right hover:underline',
-                            sort ===
-                                (content_type === ContentTypeEnum.ANIME
+                            sort.includes(
+                                content_type === ContentTypeEnum.ANIME
                                     ? 'watch_score'
-                                    : 'read_score') &&
-                                'text-primary-foreground',
+                                    : 'read_score',
+                            ) && 'text-primary-foreground',
                         )}
                         align="right"
                         onClick={() =>
