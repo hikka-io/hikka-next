@@ -34,7 +34,7 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
         return null;
     }
 
-    const filteredData = extended ? list : list.slice(0, 4);
+    const filteredData = extended ? list : list.slice(0, 5);
 
     return (
         <Block>
@@ -44,7 +44,12 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack size={4} extendedSize={5} extended={extended}>
+            <Stack
+                size={5}
+                extendedSize={5}
+                className="grid-min-6"
+                extended={extended}
+            >
                 {filteredData.map((staff) => (
                     <PersonCard
                         key={staff.person.slug}
