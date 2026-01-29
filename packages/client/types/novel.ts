@@ -36,6 +36,7 @@ export interface NovelResponse {
     year: number | null;
     scored_by: number;
     score: number;
+    native_score: number;
     slug: string;
     read: ReadResponseBase[];
     comments_count: number;
@@ -58,6 +59,7 @@ export interface NovelSearchArgs {
     magazines?: string[];
     genres?: string[];
     score?: [number | null, number | null];
+    native_score?: [number | null, number | null];
     query?: string;
     sort?: string[];
 }

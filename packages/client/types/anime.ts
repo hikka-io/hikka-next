@@ -61,6 +61,7 @@ export interface AnimeResponse {
     status: AnimeStatusEnum | null;
     scored_by: number;
     score: number;
+    native_score: number;
     slug: string;
     start_date: number | null;
     end_date: number | null;
@@ -87,6 +88,7 @@ export interface AnimeSearchArgs {
     include_multiseason?: boolean;
     only_translated?: boolean;
     score?: [number | null, number | null];
+    native_score?: [number | null, number | null];
     media_type?: AnimeMediaEnum[];
     rating?: AnimeAgeRatingEnum[];
     status?: AnimeStatusEnum[];

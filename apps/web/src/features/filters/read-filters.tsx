@@ -13,6 +13,7 @@ import Genre from '@/features/filters/components/prebuilt/genre';
 import Localization from '@/features/filters/components/prebuilt/localization';
 import MediaType from '@/features/filters/components/prebuilt/media-type';
 import ReleaseStatus from '@/features/filters/components/prebuilt/release-status';
+import Score from '@/features/filters/components/prebuilt/score';
 import Sort from '@/features/filters/components/prebuilt/sort';
 import Year from '@/features/filters/components/prebuilt/year';
 
@@ -46,6 +47,7 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 <MediaType content_type={content_type} />
                 <Localization />
                 <Sort sort_type={sort_type} />
+                {(sort_type === 'manga' || sort_type === 'novel') && <Score />}
                 <Year />
             </div>
             <Button
