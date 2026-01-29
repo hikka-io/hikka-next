@@ -81,7 +81,7 @@ const FilterPresetModal: FC = () => {
         }
 
         const sort = searchParams.getAll('sort');
-        if (sort.length > 0) currentFilters.sort = sort.join(',') || undefined;
+        if (sort.length > 0) currentFilters.sort = sort;
 
         const order = searchParams.get('order');
         if (order) currentFilters.order = order;

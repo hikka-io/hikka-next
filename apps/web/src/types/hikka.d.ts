@@ -148,7 +148,7 @@ declare global {
             types?: string[];
             genres?: string[];
             only_translated?: boolean;
-            sort?: string;
+            sort?: string[];
             order?: string;
             ratings?: string[];
             studios?: string[];

@@ -35,11 +35,11 @@ export type SortType =
 const SHARED_SORT = [
     {
         label: 'Загальна оцінка',
-        value: ['score'],
+        value: 'score',
     },
     {
         label: 'Тип',
-        value: ['media_type'],
+        value: 'media_type',
     },
 ];
 
@@ -47,11 +47,11 @@ const SORT_CONTENT = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
-        value: ['start_date', 'created'],
+        value: 'start_date',
     },
     {
         label: 'Дата створення на сайті',
-        value: ['created'],
+        value: 'created',
     },
 ];
 
@@ -59,19 +59,19 @@ const SORT_WATCHLIST = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
-        value: ['start_date'],
+        value: 'start_date',
     },
     {
         label: 'К-сть епізодів',
-        value: ['watch_episodes'],
+        value: 'watch_episodes',
     },
     {
         label: 'Дата додавання',
-        value: ['watch_created'],
+        value: 'watch_created',
     },
     {
         label: 'Власна оцінка',
-        value: ['watch_score'],
+        value: 'watch_score',
     },
 ];
 
@@ -79,45 +79,45 @@ const SORT_READLIST = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
-        value: ['start_date'],
+        value: 'start_date',
     },
     {
         label: 'Дата додавання',
-        value: ['read_created'],
+        value: 'read_created',
     },
     {
         label: 'К-сть томів',
-        value: ['read_volumes'],
+        value: 'read_volumes',
     },
     {
         label: 'К-сть розділів',
-        value: ['read_chapters'],
+        value: 'read_chapters',
     },
     {
         label: 'Власна оцінка',
-        value: ['read_score'],
+        value: 'read_score',
     },
 ];
 
 const SORT_EDITLIST = [
     {
         label: 'Номер правки',
-        value: ['edit_id'],
+        value: 'edit_id',
     },
     {
         label: 'Дата створення',
-        value: ['created'],
+        value: 'created',
     },
 ];
 
 const SORT_ARTICLELIST = [
     {
         label: 'Дата створення',
-        value: ['created'],
+        value: 'created',
     },
     {
         label: 'Оцінка',
-        value: ['vote_score'],
+        value: 'vote_score',
     },
 ];
 
@@ -162,21 +162,22 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
         >
             <div className="flex gap-2">
                 <Select
-                    value={sort.length > 0 ? [sort.join(',')] : undefined}
+                    multiple
+                    value={sort}
                     onValueChange={(value) =>
-                        handleChangeParam('sort', value[0].split(','))
+                        handleChangeParam('sort', value)
                     }
                 >
                     <SelectTrigger className="min-w-0 flex-1">
-                        <SelectValue placeholder="Виберіть сортування..." />
+                        <SelectValue maxDisplay={1} placeholder="Виберіть сортування..." />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
                                 {getSort(sort_type).map((item) => (
                                     <SelectItem
-                                        key={item.value[0]}
-                                        value={item.value.join(',')}
+                                        key={item.value}
+                                        value={item.value}
                                     >
                                         {item.label}
                                     </SelectItem>
@@ -214,14 +215,15 @@ export const FormSort: FC<Props & Partial<FormSelectProps>> = (props) => {
                     name="sort"
                     className="flex-1"
                     placeholder="Виберіть сортування..."
+                    multiple
                 >
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
                                 {getSort(props.sort_type).map((item) => (
                                     <SelectItem
-                                        key={item.value[0]}
-                                        value={item.value.join(',')}
+                                        key={item.value}
+                                        value={item.value}
                                     >
                                         {item.label}
                                     </SelectItem>
