@@ -29,6 +29,7 @@ interface CommandDialogProps extends DialogProps {
     containerClassName?: string;
     overlayClassName?: string;
     shouldFilter?: boolean;
+    onClose?: () => void;
 }
 
 const CommandDialog = ({
@@ -37,6 +38,7 @@ const CommandDialog = ({
     containerClassName,
     overlayClassName,
     shouldFilter,
+    onClose,
     ...props
 }: CommandDialogProps) => {
     return (
@@ -45,6 +47,7 @@ const CommandDialog = ({
                 overlayClassName={overlayClassName}
                 className={cn('overflow-hidden p-0 shadow-lg', className)}
                 containerClassName={containerClassName}
+                onClose={onClose}
             >
                 <DialogTitle className="hidden" />
                 <Command

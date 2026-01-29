@@ -2,7 +2,8 @@
 
 import { AnimeResponse } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import {
@@ -24,6 +25,18 @@ interface Props {
 }
 
 const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
+    const router = useRouter();
+
+    const handleSelect = useCallback(
+        (anime: AnimeResponse) => {
+            onDismiss(anime);
+
+            if (type !== 'button') {
+                router.push('/anime/' + anime.slug);
+            }
+        },
+        [onDismiss, router, type],
+    );
     const {
         list,
         isFetching,
@@ -51,7 +64,11 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
             {list && list.length > 0 && (
                 <CommandGroup>
                     {list.map((anime) => (
-                        <CommandItem key={anime.slug} value={anime.slug}>
+                        <CommandItem
+                            key={anime.slug}
+                            value={anime.slug}
+                            onSelect={() => handleSelect(anime)}
+                        >
                             <AnimeCard
                                 onClick={() => onDismiss(anime)}
                                 anime={anime}

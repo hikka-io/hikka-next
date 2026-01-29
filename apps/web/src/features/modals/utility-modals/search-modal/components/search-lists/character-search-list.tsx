@@ -2,7 +2,8 @@
 
 import { CharacterResponse } from '@hikka/client';
 import { useSearchCharacters } from '@hikka/react';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import {
@@ -24,6 +25,18 @@ interface Props {
 }
 
 const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
+    const router = useRouter();
+
+    const handleSelect = useCallback(
+        (character: CharacterResponse) => {
+            onDismiss(character);
+
+            if (type !== 'button') {
+                router.push('/characters/' + character.slug);
+            }
+        },
+        [onDismiss, router, type],
+    );
     const {
         list,
         isFetching,
@@ -57,6 +70,7 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
                         <CommandItem
                             key={character.slug}
                             value={character.slug}
+                            onSelect={() => handleSelect(character)}
                         >
                             <CharacterCard
                                 onClick={() => onDismiss(character)}

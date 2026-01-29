@@ -2,7 +2,8 @@
 
 import { PersonResponse } from '@hikka/client';
 import { useSearchPeople } from '@hikka/react';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import {
@@ -24,6 +25,18 @@ interface Props {
 }
 
 const PersonSearchList = ({ onDismiss, type, value }: Props) => {
+    const router = useRouter();
+
+    const handleSelect = useCallback(
+        (person: PersonResponse) => {
+            onDismiss(person);
+
+            if (type !== 'button') {
+                router.push('/people/' + person.slug);
+            }
+        },
+        [onDismiss, router, type],
+    );
     const {
         list,
         isFetching,
@@ -51,7 +64,11 @@ const PersonSearchList = ({ onDismiss, type, value }: Props) => {
             {list && list.length > 0 && (
                 <CommandGroup>
                     {list.map((person) => (
-                        <CommandItem key={person.slug} value={person.slug}>
+                        <CommandItem
+                            key={person.slug}
+                            value={person.slug}
+                            onSelect={() => handleSelect(person)}
+                        >
                             <PersonCard
                                 onClick={() => onDismiss(person)}
                                 person={person}

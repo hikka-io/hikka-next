@@ -2,7 +2,8 @@
 
 import { UserResponse } from '@hikka/client';
 import { useSearchUsers } from '@hikka/react';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useCallback } from 'react';
 
 import {
     CommandGroup,
@@ -21,6 +22,18 @@ interface Props {
 }
 
 const UserSearchList = ({ onDismiss, type, value }: Props) => {
+    const router = useRouter();
+
+    const handleSelect = useCallback(
+        (user: UserResponse) => {
+            onDismiss(user);
+
+            if (type !== 'button') {
+                router.push('/u/' + user.username);
+            }
+        },
+        [onDismiss, router, type],
+    );
     const { data, isFetching, isRefetching } = useSearchUsers({
         args: { query: value || '' },
         queryKey: ['user-search-list', value],
@@ -42,6 +55,7 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
                         <CommandItem
                             key={user.reference}
                             value={user.reference}
+                            onSelect={() => handleSelect(user)}
                         >
                             <UserCard
                                 onClick={() => onDismiss(user)}

@@ -2,7 +2,8 @@
 
 import { NovelResponse } from '@hikka/client';
 import { useSearchNovels } from '@hikka/react';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import {
@@ -24,6 +25,18 @@ interface Props {
 }
 
 const NovelSearchList = ({ onDismiss, type, value }: Props) => {
+    const router = useRouter();
+
+    const handleSelect = useCallback(
+        (novel: NovelResponse) => {
+            onDismiss(novel);
+
+            if (type !== 'button') {
+                router.push('/novel/' + novel.slug);
+            }
+        },
+        [onDismiss, router, type],
+    );
     const {
         list,
         isFetching,
@@ -51,7 +64,11 @@ const NovelSearchList = ({ onDismiss, type, value }: Props) => {
             {list && list.length > 0 && (
                 <CommandGroup>
                     {list.map((novel) => (
-                        <CommandItem key={novel.slug} value={novel.slug}>
+                        <CommandItem
+                            key={novel.slug}
+                            value={novel.slug}
+                            onSelect={() => handleSelect(novel)}
+                        >
                             <NovelCard
                                 onClick={() => onDismiss(novel)}
                                 novel={novel}

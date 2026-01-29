@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
-import { FC, Fragment, ReactNode, useRef, useState } from 'react';
+import { FC, Fragment, ReactNode, useCallback, useRef, useState } from 'react';
 
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 
@@ -46,12 +46,24 @@ const SearchModal: FC<Props> = ({
         delay: 500,
     });
 
-    const onDismiss = (content: MainContent | UserResponse) => {
-        setSearchValue('');
-        setOpen(false);
+    const onDismiss = useCallback(
+        (content: MainContent | UserResponse) => {
+            setSearchValue('');
+            setOpen(false);
 
-        onClick && onClick(content);
-    };
+            onClick && onClick(content);
+        },
+        [onClick],
+    );
+
+    const handleClose = useCallback(() => {
+        if (searchValue && searchValue.length > 0) {
+            setSearchValue('');
+            inputRef.current?.focus();
+        } else {
+            setOpen(false);
+        }
+    }, [searchValue]);
 
     useSearchModal({ open, setOpen, onClick, content_type, setSearchType });
 
@@ -64,6 +76,7 @@ const SearchModal: FC<Props> = ({
                 overlayClassName="items-start"
                 open={open}
                 onOpenChange={setOpen}
+                onClose={handleClose}
                 shouldFilter={false}
             >
                 <CommandInput
