@@ -153,6 +153,7 @@ declare global {
             ratings?: string[];
             studios?: string[];
             years?: number[];
+            score?: number[];
             date_range_enabled?: boolean;
             date_range?: number[] | null;
         };

@@ -16,6 +16,7 @@ import { FormGenre } from '@/features/filters/components/prebuilt/genre';
 import { FormLocalization } from '@/features/filters/components/prebuilt/localization';
 import { FormMediaType } from '@/features/filters/components/prebuilt/media-type';
 import { FormReleaseStatus } from '@/features/filters/components/prebuilt/release-status';
+import { FormScore } from '@/features/filters/components/prebuilt/score';
 import { FormSeason } from '@/features/filters/components/prebuilt/season';
 import {
     FormSort,
@@ -46,12 +47,14 @@ const formSchema = z.object({
     ratings: z.array(z.string()).optional(),
     studios: z.array(z.string()).optional(),
     years: z.array(z.number()).optional(),
+    score: z.array(z.number()).optional(),
     date_range_enabled: z.boolean().optional(),
     date_range: z.array(z.number()).nullable().optional(),
 });
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DATE_RANGE: [number, number] = [-4, 4];
+const SCORE_RANGE: [number, number] = [1, 10];
 
 const DEFAULT_VALUES = {
     years: YEARS,
@@ -66,7 +69,11 @@ const DEFAULT_VALUES = {
     studios: [],
     date_range_enabled: false,
     date_range: DATE_RANGE,
+    score: SCORE_RANGE,
 };
+
+const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
+    JSON.stringify(a) === JSON.stringify(b);
 
 interface Props {
     filterPreset?: Hikka.FilterPreset;
@@ -90,11 +97,22 @@ const Component = ({ filterPreset }: Props) => {
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
         const filteredData = Object.fromEntries(
             Object.entries(data).filter(
-                ([_, value]) =>
+                ([key, value]) =>
                     value !== false &&
                     value !== undefined &&
                     value !== null &&
-                    !(Array.isArray(value) && value.length === 0),
+                    !(Array.isArray(value) && value.length === 0) &&
+                    !(
+                        key === 'years' && arraysEqual(value as number[], YEARS)
+                    ) &&
+                    !(
+                        key === 'score' &&
+                        arraysEqual(value as number[], SCORE_RANGE)
+                    ) &&
+                    !(
+                        key === 'date_range' &&
+                        arraysEqual(value as number[], DATE_RANGE)
+                    ),
             ),
         );
 
@@ -189,6 +207,7 @@ const Component = ({ filterPreset }: Props) => {
                             />
                         )}
                         <FormAgeRating />
+                        <FormScore score_type="score" />
                         {content_types &&
                             content_types.includes(ContentTypeEnum.ANIME) && (
                                 <FormStudio />

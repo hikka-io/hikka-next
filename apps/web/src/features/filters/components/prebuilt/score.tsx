@@ -3,12 +3,10 @@
 import { Star } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
-import { Badge } from '@/components/ui/badge';
 import { FormLabel } from '@/components/ui/form';
 import { Slider } from '@/components/ui/slider';
 
@@ -92,33 +90,26 @@ export const FormScore: FC<Props & Partial<FormSliderProps>> = ({
     score_type,
     ...props
 }) => {
-    const { watch } = useFormContext();
-
-    const scores = watch(score_type);
-
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
                 <FormLabel>Оцінка</FormLabel>
-                {scores && (
-                    <div className="flex items-center gap-2">
-                        <Badge variant="secondary">
-                            {scores[0]}{' '}
-                            <MaterialSymbolsStarRounded className="size-4" /> -{' '}
-                            {scores[1]}{' '}
-                            <MaterialSymbolsStarRounded className="size-4" />
-                        </Badge>
-                    </div>
-                )}
             </div>
 
             <div className="flex items-center gap-2">
                 <FormSlider
                     {...props}
-                    name="score"
+                    name={score_type}
                     min={DEFAULT_SCORE_MIN}
                     max={DEFAULT_SCORE_MAX}
                     step={1}
+                    showValue="always"
+                    formatValue={(value) => (
+                        <div className="flex items-center gap-1">
+                            {value}{' '}
+                            <MaterialSymbolsStarRounded className="size-3" />
+                        </div>
+                    )}
                     minStepsBetweenThumbs={0}
                     className="flex-1"
                 />
