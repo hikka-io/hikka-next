@@ -57,7 +57,7 @@ const Score: FC<Props> = ({ score_type }) => {
             active={isActive}
         >
             <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 px-4">
+                <div className="flex items-center gap-2 px-3">
                     <Slider
                         className="flex-1"
                         onValueCommit={(value) =>

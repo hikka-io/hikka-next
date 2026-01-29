@@ -47,7 +47,9 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 <MediaType content_type={content_type} />
                 <Localization />
                 <Sort sort_type={sort_type} />
-                {(sort_type === 'manga' || sort_type === 'novel') && <Score />}
+                {(sort_type === 'manga' || sort_type === 'novel') && (
+                    <Score score_type="score" />
+                )}
                 <Year />
             </div>
             <Button

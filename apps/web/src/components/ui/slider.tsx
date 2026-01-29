@@ -5,6 +5,8 @@ import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
+import { Badge } from './badge';
+
 type ShowValueMode = 'always' | 'on-interaction' | 'never';
 
 interface SliderProps
@@ -63,9 +65,10 @@ const ThumbWithValue = React.forwardRef<HTMLSpanElement, ThumbWithValueProps>(
                 onPointerUp={onInteractionEnd}
             >
                 {showValue !== 'never' && (
-                    <span
+                    <Badge
+                        variant="secondary"
                         className={cn(
-                            'absolute bottom-full left-1/2 mb-2 -translate-x-1/2 rounded-sm bg-popover border text-popover-foreground shadow-md px-2 py-1 text-xs font-medium transition-opacity',
+                            'absolute bottom-full left-1/2 mb-2 -translate-x-1/2 transition-opacity',
                             showValue === 'always' && 'opacity-100',
                             showValue === 'on-interaction' &&
                                 (shouldShowValue
@@ -74,7 +77,7 @@ const ThumbWithValue = React.forwardRef<HTMLSpanElement, ThumbWithValueProps>(
                         )}
                     >
                         {displayValue}
-                    </span>
+                    </Badge>
                 )}
             </SliderPrimitive.Thumb>
         );
@@ -104,7 +107,7 @@ const Slider = React.forwardRef<
             ref={ref}
             className={cn(
                 'relative flex w-full touch-none select-none items-center',
-                showValue === 'always' && 'pt-8',
+                showValue === 'always' && 'pt-6',
                 className,
             )}
             value={value}

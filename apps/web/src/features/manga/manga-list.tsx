@@ -36,10 +36,18 @@ const MangaList: FC<Props> = () => {
 
     const only_translated = searchParams.get('only_translated');
 
-    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['score'];
+    const sort =
+        searchParams.getAll('sort').length > 0
+            ? searchParams.getAll('sort')
+            : ['score'];
     const order = searchParams.get('order') || 'desc';
 
     const page = Number(searchParams.get('page')) || 1;
+
+    const score =
+        searchParams.getAll('score').length > 0
+            ? (searchParams.getAll('score') as unknown as [number, number])
+            : undefined;
 
     const args = {
         query: query || undefined,
@@ -47,6 +55,7 @@ const MangaList: FC<Props> = () => {
         status: status,
         years: years,
         genres: genres,
+        score: score,
         only_translated: Boolean(only_translated),
         sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
     };
