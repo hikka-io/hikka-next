@@ -6,6 +6,7 @@ import { FC, Fragment, ReactNode, useRef, useState } from 'react';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 
 import useDebounce from '@/services/hooks/use-debounce';
+import { convertLayout } from '@/utils/keyboard-layout';
 
 import SearchButton from './components/search-button';
 import AnimeSearchList from './components/search-lists/anime-search-list';
@@ -40,7 +41,10 @@ const SearchModal: FC<Props> = ({
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
-    const value = useDebounce({ value: searchValue, delay: 500 });
+    const value = useDebounce({
+        value: convertLayout(searchValue),
+        delay: 500,
+    });
 
     const onDismiss = (content: MainContent | UserResponse) => {
         setSearchValue('');
