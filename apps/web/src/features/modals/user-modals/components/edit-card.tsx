@@ -2,6 +2,7 @@
 
 import { EditResponse, EditStatusEnum } from '@hikka/client';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -44,7 +45,9 @@ const Component = ({ edit, href, className, ...props }: Props) => {
                         {format(edit.created * 1000, 'd MMM yyyy H:mm')}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
+
                 <Button
+                    asChild
                     size="md"
                     variant={
                         edit.status === EditStatusEnum.ACCEPTED
@@ -56,20 +59,22 @@ const Component = ({ edit, href, className, ...props }: Props) => {
                                 : 'warning'
                     }
                 >
-                    {edit.status === EditStatusEnum.ACCEPTED ? (
-                        <MaterialSymbolsCheckRounded />
-                    ) : edit.status === EditStatusEnum.DENIED ? (
-                        <MaterialSymbolsCloseRounded />
-                    ) : edit.status === EditStatusEnum.CLOSED ? (
-                        <Closed />
-                    ) : edit.status === EditStatusEnum.PENDING ? (
-                        <MaterialSymbolsHourglassEmptyRounded />
-                    ) : (
-                        <MaterialSymbolsVisibilityOutlineRounded />
-                    )}
-                    <span className="hidden md:block">
-                        {EDIT_STATUS[edit.status].title_ua}
-                    </span>
+                    <Link href={href}>
+                        {edit.status === EditStatusEnum.ACCEPTED ? (
+                            <MaterialSymbolsCheckRounded />
+                        ) : edit.status === EditStatusEnum.DENIED ? (
+                            <MaterialSymbolsCloseRounded />
+                        ) : edit.status === EditStatusEnum.CLOSED ? (
+                            <Closed />
+                        ) : edit.status === EditStatusEnum.PENDING ? (
+                            <MaterialSymbolsHourglassEmptyRounded />
+                        ) : (
+                            <MaterialSymbolsVisibilityOutlineRounded />
+                        )}
+                        <span className="hidden md:block">
+                            {EDIT_STATUS[edit.status].title_ua}
+                        </span>
+                    </Link>
                 </Button>
             </HorizontalCard>
             <div className="flex flex-wrap gap-2 border-l-2 pl-4">
