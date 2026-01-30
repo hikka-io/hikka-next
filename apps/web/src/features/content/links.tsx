@@ -98,7 +98,11 @@ const Links: FC<Props> = ({ content_type }) => {
             >
                 <div className="flex flex-col gap-4">
                     {linksData.map((link) => (
-                        <HorizontalCard key={link.url} href={link.url}>
+                        <HorizontalCard
+                            key={link.url}
+                            href={link.url}
+                            target="_blank"
+                        >
                             <HorizontalCardImage
                                 imageRatio={1}
                                 className="w-8"

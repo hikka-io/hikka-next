@@ -4,6 +4,7 @@ import React, {
     ComponentProps,
     ComponentPropsWithoutRef,
     FC,
+    HTMLAttributeAnchorTarget,
     PropsWithChildren,
     ReactNode,
 } from 'react';
@@ -17,6 +18,7 @@ import Link from './link';
 
 interface HorizontalCardContextProps {
     href: string;
+    target?: HTMLAttributeAnchorTarget;
 }
 
 const HorizontalCardContext = React.createContext<
@@ -45,7 +47,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     className,
     titleMeta,
 }) => {
-    const { href } = useHorizontalCard();
+    const { href, target } = useHorizontalCard();
 
     return (
         <div className="flex min-w-0 items-center gap-2">
@@ -53,7 +55,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
                 asChild
                 className={cn('line-clamp-1 inline-block truncate', className)}
             >
-                <Link title={children as string} href={href}>
+                <Link title={children as string} href={href} target={target}>
                     {children}
                 </Link>
             </Label>
@@ -148,11 +150,18 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
 
 interface Props extends ComponentProps<'div'> {
     href: string;
+    target?: HTMLAttributeAnchorTarget;
 }
 
-const HorizontalCard: FC<Props> = ({ href, className, children, ...props }) => {
+const HorizontalCard: FC<Props> = ({
+    href,
+    className,
+    children,
+    target,
+    ...props
+}) => {
     return (
-        <HorizontalCardContext.Provider value={{ href }}>
+        <HorizontalCardContext.Provider value={{ href, target }}>
             <div
                 className={cn('flex items-center gap-4', className)}
                 {...props}
