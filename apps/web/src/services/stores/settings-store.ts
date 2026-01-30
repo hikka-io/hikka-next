@@ -39,7 +39,7 @@ export interface SettingsActions {
 
 export const DEFAULT_PREFERENCES: Preferences = {
     views: {
-        franchise: 'table',
+        franchise: 'list',
         userlist: 'table',
     },
     filters: {
