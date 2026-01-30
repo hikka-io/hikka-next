@@ -1568,7 +1568,7 @@ __metadata:
     react-dom: "npm:19.2.1"
     react-dropzone: "npm:^14.3.5"
     react-email: "npm:2.1.5"
-    react-hook-form: "npm:^7.55.0"
+    react-hook-form: "npm:^7.71.1"
     react-intersection-observer: "npm:^9.13.1"
     react-lite-youtube-embed: "npm:^2.4.0"
     react-markdown: "npm:10.0.0"
@@ -14637,12 +14637,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.55.0":
-  version: 7.63.0
-  resolution: "react-hook-form@npm:7.63.0"
+"react-hook-form@npm:^7.71.1":
+  version: 7.71.1
+  resolution: "react-hook-form@npm:7.71.1"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/0b46c0f41bcda524eae03aed16ac48237a351886d48495df8e67190da1eabc5bc113788db42e23c802f2a5e641f15bcca070a9092cbc26b4133e96b9a62c938e
+  checksum: 10c0/6c8fc0fa740d299481de3ed32bae98f7c6331240822c602363e5cd221746d875dc3c5e65d0039902b7f7a44dc9ac9a4932e00e9ad9af3051bed1987858ce78c7
   languageName: node
   linkType: hard
 

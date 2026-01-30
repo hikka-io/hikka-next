@@ -1,4 +1,7 @@
 'use client';
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+'use no memo';
 
 import { Calendar } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -14,6 +17,9 @@ import { Slider } from '@/components/ui/slider';
 import { useChangeParam } from '@/features/filters';
 
 import YearFilterInput from '../year-filter-input';
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();

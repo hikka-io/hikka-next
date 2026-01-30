@@ -1,4 +1,7 @@
 'use client';
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+'use no memo';
 
 import { ContentTypeEnum } from '@hikka/client';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,6 +35,9 @@ import { z } from '@/utils/i18n/zod';
 
 import ContentTypeSelect from './components/content-type-select';
 import FilterPresetModal from './filter-preset-modal';
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
 const formSchema = z.object({
     name: z.string().min(1).max(255),

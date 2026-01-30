@@ -1,4 +1,7 @@
 'use client';
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+'use no memo';
 
 import { CalendarRange } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -16,6 +19,9 @@ import { Switch } from '@/components/ui/switch';
 import { useChangeParam } from '@/features/filters';
 
 import { createQueryString } from '@/utils/url';
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
 interface Props {
     className?: string;
