@@ -25,7 +25,7 @@ const UserContentStats = ({
         | ContentTypeEnum.NOVEL
         | ContentTypeEnum.ANIME;
 }) => {
-    const { collapsibles, setCollapsibles } = useSettingsStore();
+    const { preferences, setCollapsible } = useSettingsStore();
     const params = useParams();
 
     const { data: userlist, isError: userlistError } = CONTENT_CONFIG[
@@ -47,13 +47,8 @@ const UserContentStats = ({
             <CollapsibleFilter
                 title="Оцінка"
                 icon={<Star className="size-4" />}
-                open={collapsibles.content_score}
-                onOpenChange={(open) =>
-                    setCollapsibles({
-                        ...collapsibles,
-                        content_score: open,
-                    })
-                }
+                open={preferences.collapsibles.content_score}
+                onOpenChange={(open) => setCollapsible('content_score', open)}
                 defaultOpen
             >
                 <div className="flex items-center justify-between gap-4">
@@ -78,12 +73,9 @@ const UserContentStats = ({
                         : 'Розділи'
                 }
                 icon={<Hash className="size-4" />}
-                open={collapsibles.content_progress}
+                open={preferences.collapsibles.content_progress}
                 onOpenChange={(open) =>
-                    setCollapsibles({
-                        ...collapsibles,
-                        content_progress: open,
-                    })
+                    setCollapsible('content_progress', open)
                 }
                 defaultOpen
             >

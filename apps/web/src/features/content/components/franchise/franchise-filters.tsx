@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
@@ -16,42 +15,34 @@ import {
 } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import { createQueryString } from '@/utils/url';
+import {
+    DEFAULT_PREFERENCES,
+    useSettingsStore,
+} from '@/services/stores/settings-store';
 
-interface Props {}
+const FranchiseFilters: FC = () => {
+    const { preferences, setViewPreference, setFilterPreference } =
+        useSettingsStore();
 
-const FranchiseFilters: FC<Props> = () => {
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const pathname = usePathname();
-
-    const view = (searchParams.get('view') || 'list') as Hikka.View;
-    const content_types = searchParams.getAll('content_types');
+    const view = preferences.views.franchise || 'list';
+    const contentTypes =
+        preferences.filters.franchiseContentTypes ||
+        DEFAULT_PREFERENCES.filters.franchiseContentTypes;
 
     const handleChangeView = (value: string) => {
         if (!value) return;
-
-        const query = createQueryString(
-            'view',
-            value,
-            new URLSearchParams(searchParams),
-        );
-        router.replace(`${pathname}?${query}`);
+        setViewPreference('franchise', value as Hikka.View);
     };
 
     const handleChangeContentTypes = (value: string[]) => {
-        const query = createQueryString(
-            'content_types',
-            value.length === 0 ? ['anime'] : value,
-            new URLSearchParams(searchParams),
-        );
-        router.replace(`${pathname}?${query}`);
+        const newValue = value.length === 0 ? ['anime'] : value;
+        setFilterPreference('franchiseContentTypes', newValue);
     };
 
     return (
         <div className="flex gap-2">
             <ToggleGroup
-                value={view || 'list'}
+                value={view}
                 type="single"
                 onValueChange={handleChangeView}
             >
@@ -65,7 +56,7 @@ const FranchiseFilters: FC<Props> = () => {
 
             <Select
                 multiple
-                value={content_types}
+                value={contentTypes}
                 onValueChange={handleChangeContentTypes}
             >
                 <SelectTrigger className="min-h-10 px-2">

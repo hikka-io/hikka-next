@@ -2,7 +2,7 @@
 
 import { RelatedContentType } from '@hikka/client';
 import { useFranchise } from '@hikka/react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/anime-card';
@@ -18,6 +18,10 @@ import {
 import Stack from '@/components/ui/stack';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import {
+    DEFAULT_PREFERENCES,
+    useSettingsStore,
+} from '@/services/stores/settings-store';
 
 import FranchiseFilters from './components/franchise/franchise-filters';
 import FranchiseItem from './components/franchise/franchise-item';
@@ -31,10 +35,13 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     const params = useParams();
-    const searchParams = useSearchParams();
+    const { preferences } = useSettingsStore();
 
-    const view = (searchParams.get('view') || 'list') as Hikka.View;
-    const content_types = searchParams.getAll('content_types');
+    const view = extended ? preferences.views.franchise || 'list' : 'list';
+    const contentTypes = extended
+        ? preferences.filters.franchiseContentTypes ||
+          DEFAULT_PREFERENCES.filters.franchiseContentTypes
+        : DEFAULT_PREFERENCES.filters.franchiseContentTypes;
 
     const { data: franchise } = useFranchise({
         contentType: content_type,
@@ -58,7 +65,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         return (b?.year ?? 0) - (a?.year ?? 0);
     });
     const filteredData = extended
-        ? sortedList.filter((v) => content_types.includes(v.data_type))
+        ? sortedList.filter((v) => contentTypes.includes(v.data_type))
         : sortedList.filter((v) => v.slug !== params.slug).slice(0, 2);
 
     const title = (
@@ -77,12 +84,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             <div className="flex items-center justify-between">
                 <Header
                     className="flex-1"
-                    href={
-                        !extended
-                            ? params.slug +
-                              '/franchise?content_types=anime&content_types=manga&content_types=novel'
-                            : undefined
-                    }
+                    href={!extended ? params.slug + '/franchise' : undefined}
                 >
                     <HeaderContainer>
                         <HeaderTitle>{title}</HeaderTitle>

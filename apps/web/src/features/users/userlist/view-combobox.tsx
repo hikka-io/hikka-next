@@ -1,34 +1,24 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import { createQueryString } from '@/utils/url';
+import { useSettingsStore } from '@/services/stores/settings-store';
 
 const ViewCombobox = () => {
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const pathname = usePathname();
+    const { preferences, setViewPreference } = useSettingsStore();
 
-    const view = (searchParams.get('view') || 'table') as Hikka.View;
+    const view = preferences.views.userlist || 'table';
 
     const handleChangeView = (value: string) => {
         if (!value) return;
-
-        const query = createQueryString(
-            'view',
-            value,
-            new URLSearchParams(searchParams),
-        );
-        router.replace(`${pathname}?${query}`);
+        setViewPreference('userlist', value as Hikka.View);
     };
 
     return (
         <ToggleGroup
-            value={view || 'table'}
+            value={view}
             type="single"
             onValueChange={handleChangeView}
         >

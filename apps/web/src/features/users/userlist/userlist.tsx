@@ -10,6 +10,8 @@ import { useSearchParams } from 'next/navigation';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 
+import { useSettingsStore } from '@/services/stores/settings-store';
+
 import GridView from './components/grid-view';
 import RecordsNotFound from './components/records-not-found';
 import TableView from './components/table-view/table-view';
@@ -25,11 +27,12 @@ interface Props {
 
 const List = ({ content_type }: Props) => {
     const searchParams = useSearchParams()!;
+    const { preferences } = useSettingsStore();
 
     const status = searchParams.get('status') as
         | ReadStatusEnum
         | WatchStatusEnum;
-    const view = searchParams.get('view') || 'table';
+    const view = preferences.views.userlist || 'table';
 
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         content_type === ContentTypeEnum.ANIME ? useWatchList() : useReadList();
