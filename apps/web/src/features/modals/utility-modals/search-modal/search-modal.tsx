@@ -64,6 +64,13 @@ const SearchModal: FC<Props> = ({
         }
     }, [searchValue]);
 
+    const handleOpenChange = useCallback((isOpen: boolean) => {
+        if (!isOpen) {
+            setSearchValue('');
+        }
+        setOpen(isOpen);
+    }, []);
+
     useSearchModal({ open, setOpen, onClick, content_type, setSearchType });
 
     return (
@@ -74,7 +81,7 @@ const SearchModal: FC<Props> = ({
                 containerClassName="p-0"
                 overlayClassName="items-start"
                 open={open}
-                onOpenChange={setOpen}
+                onOpenChange={handleOpenChange}
                 onClose={handleClose}
                 shouldFilter={false}
             >
