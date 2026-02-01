@@ -1,10 +1,36 @@
-import { UIColorTokens, UIStyles } from '@hikka/client';
+import { HSLColor, UIColorTokens, UIStyles } from '@hikka/client';
 import type { CSSProperties } from 'react';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 
+/** Valid color token keys for CSS variable generation. */
+const ALLOWED_COLOR_TOKENS = new Set<keyof UIColorTokens>([
+    'background',
+    'foreground',
+    'primary',
+    'primary_foreground',
+    'primary_border',
+    'secondary',
+    'secondary_foreground',
+    'muted',
+    'muted_foreground',
+    'accent_foreground',
+    'border',
+    'ring',
+    'popover',
+    'popover_foreground',
+    'sidebar_background',
+    'sidebar_foreground',
+    'sidebar_primary',
+    'sidebar_primary_foreground',
+    'sidebar_accent',
+    'sidebar_accent_foreground',
+    'sidebar_border',
+    'sidebar_ring',
+]);
+
+/** Convert snake_case/camelCase to kebab-case. */
 function keyToKebab(str: string): string {
-    // Support both snake_case and camelCase token keys (and keep kebab-case as-is).
     return str
         .replace(/_/g, '-')
         .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
@@ -13,34 +39,110 @@ function keyToKebab(str: string): string {
 
 type CSSVarStyle = CSSProperties & Record<string, string | number>;
 
-/**
- * Convert UIColorTokens to CSS variable declarations
- */
+/** Validate HSL color has finite numbers in valid ranges. */
+function isValidHSL(color: HSLColor): boolean {
+    return (
+        typeof color.h === 'number' &&
+        Number.isFinite(color.h) &&
+        color.h >= 0 &&
+        color.h <= 360 &&
+        typeof color.s === 'number' &&
+        Number.isFinite(color.s) &&
+        color.s >= 0 &&
+        color.s <= 100 &&
+        typeof color.l === 'number' &&
+        Number.isFinite(color.l) &&
+        color.l >= 0 &&
+        color.l <= 100
+    );
+}
+
+/** Matches valid CSS length values: 0.5rem, 4px, 1em, 10%, etc. */
+const CSS_LENGTH_PATTERN =
+    /^-?\d+(\.\d+)?(px|rem|em|%|vh|vw|ch|ex|vmin|vmax)$/i;
+
+/** Returns sanitized CSS length or undefined if invalid. */
+function sanitizeCSSLength(value: string): string | undefined {
+    if (typeof value !== 'string') return undefined;
+    const trimmed = value.trim();
+    return CSS_LENGTH_PATTERN.test(trimmed) ? trimmed : undefined;
+}
+
+/** Matches valid CSS color values: hex, rgb(), rgba(), hsl(), hsla(). */
+const CSS_COLOR_PATTERN =
+    /^(#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(,\s*(0|1|0?\.\d+))?\s*\)|hsla?\(\s*\d{1,3}\s*,\s*\d{1,3}%\s*,\s*\d{1,3}%\s*(,\s*(0|1|0?\.\d+))?\s*\))$/i;
+
+/** Returns sanitized CSS color string or undefined if invalid. */
+function sanitizeCSSColor(value: string): string | undefined {
+    if (typeof value !== 'string') return undefined;
+    const trimmed = value.trim();
+    return CSS_COLOR_PATTERN.test(trimmed) ? trimmed : undefined;
+}
+
+/** Matches valid CSS gradient function names. */
+const GRADIENT_FUNCTION_PATTERN =
+    /^(linear-gradient|radial-gradient|conic-gradient|repeating-linear-gradient|repeating-radial-gradient|repeating-conic-gradient)\(/i;
+
+const DANGEROUS_CSS_CHARS = /[{}<>]/;
+const STYLE_TAG_PATTERN = /<\/?style/i;
+const SCRIPT_TAG_PATTERN = /<\/?script/i;
+
+function hasBalancedParentheses(str: string): boolean {
+    let count = 0;
+    for (const char of str) {
+        if (char === '(') count++;
+        if (char === ')') count--;
+        if (count < 0) return false;
+    }
+    return count === 0;
+}
+
+/** Returns sanitized CSS gradient or undefined if invalid/unsafe. */
+function sanitizeCSSGradient(value: string): string | undefined {
+    if (typeof value !== 'string') return undefined;
+
+    const trimmed = value.trim();
+
+    if (DANGEROUS_CSS_CHARS.test(trimmed)) return undefined;
+    if (STYLE_TAG_PATTERN.test(trimmed)) return undefined;
+    if (SCRIPT_TAG_PATTERN.test(trimmed)) return undefined;
+    if (!GRADIENT_FUNCTION_PATTERN.test(trimmed)) return undefined;
+    if (!hasBalancedParentheses(trimmed)) return undefined;
+    if (/url\s*\(/i.test(trimmed)) return undefined;
+    if (/expression\s*\(/i.test(trimmed)) return undefined;
+    if (/javascript:/i.test(trimmed)) return undefined;
+
+    return trimmed;
+}
+
+/** Convert UIColorTokens to CSS variable declarations with sanitization. */
 function colorTokensToCSS(tokens: UIColorTokens | undefined): string {
     if (!tokens) return '';
 
     const declarations: string[] = [];
 
     for (const [key, value] of Object.entries(tokens)) {
-        if (value !== undefined && value !== null) {
-            if (typeof value === 'object' && value?.h !== undefined) {
-                const cssVarName = `--${keyToKebab(key)}`;
-                declarations.push(
-                    `${cssVarName}: ${value.h} ${value.s}% ${value.l}%;`,
-                );
-            } else if (typeof value === 'string' && value !== '') {
-                const cssVarName = `--${keyToKebab(key)}`;
-                declarations.push(`${cssVarName}: ${value};`);
-            }
+        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UIColorTokens)) continue;
+        if (value === undefined || value === null) continue;
+
+        const cssVarName = `--${keyToKebab(key)}`;
+
+        if (typeof value === 'object' && value?.h !== undefined) {
+            if (!isValidHSL(value as HSLColor)) continue;
+            declarations.push(
+                `${cssVarName}: ${value.h} ${value.s}% ${value.l}%;`,
+            );
+        } else if (typeof value === 'string' && value !== '') {
+            const sanitized = sanitizeCSSColor(value);
+            if (!sanitized) continue;
+            declarations.push(`${cssVarName}: ${sanitized};`);
         }
     }
 
     return declarations.join('\n    ');
 }
 
-/**
- * Convert UIColorTokens to a React style object with CSS variables.
- */
+/** Convert UIColorTokens to React style object with sanitization. */
 function colorTokensToReactStyle(
     tokens: UIColorTokens | undefined,
 ): CSSVarStyle {
@@ -48,33 +150,37 @@ function colorTokensToReactStyle(
     if (!tokens) return style;
 
     for (const [key, value] of Object.entries(tokens)) {
-        if (value !== undefined && value !== null) {
-            const cssVarName = `--${keyToKebab(key)}`;
+        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UIColorTokens)) continue;
+        if (value === undefined || value === null) continue;
 
-            if (typeof value === 'object' && value?.h !== undefined) {
-                style[cssVarName] = `${value.h} ${value.s}% ${value.l}%`;
-            } else if (typeof value === 'string' && value !== '') {
-                style[cssVarName] = value;
-            }
+        const cssVarName = `--${keyToKebab(key)}`;
+
+        if (typeof value === 'object' && value?.h !== undefined) {
+            if (!isValidHSL(value as HSLColor)) continue;
+            style[cssVarName] = `${value.h} ${value.s}% ${value.l}%`;
+        } else if (typeof value === 'string' && value !== '') {
+            const sanitized = sanitizeCSSColor(value);
+            if (!sanitized) continue;
+            style[cssVarName] = sanitized;
         }
     }
 
     return style;
 }
 
-/**
- * Convert UIStyles to a complete CSS string with :root and .dark selectors
- */
+/** Convert UIStyles to CSS string with :root and .dark selectors. */
 export function stylesToCSS(styles: UIStyles | undefined): string {
     if (!styles) return '';
 
     const parts: string[] = [];
-
     const lightColors = colorTokensToCSS(styles.light?.colors);
-    const radiusDecl = styles.radius ? `--radius: ${styles.radius};` : '';
-    const lightBackgroundImage = styles.light?.body?.background_image
-        ? `${styles.light?.body?.background_image};`
-        : '';
+    const sanitizedRadius = styles.radius
+        ? sanitizeCSSLength(styles.radius)
+        : undefined;
+    const radiusDecl = sanitizedRadius ? `--radius: ${sanitizedRadius};` : '';
+    const sanitizedLightBg = styles.light?.body?.background_image
+        ? sanitizeCSSGradient(styles.light.body.background_image)
+        : undefined;
 
     if (lightColors || radiusDecl) {
         const lightDeclarations = [lightColors, radiusDecl]
@@ -83,9 +189,9 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
         parts.push(`:root {\n    ${lightDeclarations}\n}`);
     }
 
-    if (lightBackgroundImage) {
+    if (sanitizedLightBg) {
         parts.push(
-            `:root body {\n    background-image: ${lightBackgroundImage};\n}`,
+            `:root body {\n    background-image: ${sanitizedLightBg};\n}`,
         );
     }
 
@@ -95,13 +201,13 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
         parts.push(`.dark {\n    ${darkColors}\n}`);
     }
 
-    const darkBackgroundImage = styles.dark?.body?.background_image
-        ? `${styles.dark?.body?.background_image};`
-        : '';
+    const sanitizedDarkBg = styles.dark?.body?.background_image
+        ? sanitizeCSSGradient(styles.dark.body.background_image)
+        : undefined;
 
-    if (darkBackgroundImage) {
+    if (sanitizedDarkBg) {
         parts.push(
-            `.dark body {\n    background-image: ${darkBackgroundImage};\n}`,
+            `.dark body {\n    background-image: ${sanitizedDarkBg};\n}`,
         );
     }
 
@@ -109,10 +215,8 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
 }
 
 /**
- * Convert UIStyles to React "style" objects (CSS variables).
- *
- * Note: inline styles can't target selectors like ".dark", so we return both
- * buckets for the caller to apply conditionally.
+ * Convert UIStyles to React style objects with CSS variables.
+ * Returns separate objects for light (root) and dark themes.
  */
 export function stylesToReactStyles(styles: UIStyles | undefined): {
     root: CSSVarStyle;
@@ -125,7 +229,10 @@ export function stylesToReactStyles(styles: UIStyles | undefined): {
     };
 
     if (styles.radius) {
-        root['--radius'] = styles.radius;
+        const sanitizedRadius = sanitizeCSSLength(styles.radius);
+        if (sanitizedRadius) {
+            root['--radius'] = sanitizedRadius;
+        }
     }
 
     const dark: CSSVarStyle = {
@@ -136,7 +243,7 @@ export function stylesToReactStyles(styles: UIStyles | undefined): {
 }
 
 /**
- * Inject CSS styles into the document head.
+ * Inject CSS into document head. Only use with CSS from stylesToCSS().
  */
 export function injectStyles(css: string): void {
     if (typeof document === 'undefined') return;
@@ -155,7 +262,7 @@ export function injectStyles(css: string): void {
 }
 
 /**
- * Remove the custom styles element from the document.
+ * Remove custom styles element from document.
  */
 export function removeInjectedStyles(): void {
     if (typeof document === 'undefined') return;
@@ -167,7 +274,7 @@ export function removeInjectedStyles(): void {
 }
 
 /**
- * Convert UIStyles and inject them.
+ * Convert UIStyles and inject into document (client-side).
  */
 export function applyStyles(styles: UIStyles | undefined): void {
     const css = stylesToCSS(styles);
