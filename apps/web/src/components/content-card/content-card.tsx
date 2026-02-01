@@ -140,6 +140,7 @@ const Content = memo(
                 withContextMenu,
                 imageProps,
                 linkProps,
+                target,
                 ...props
             },
             ref,
@@ -176,6 +177,7 @@ const Content = memo(
                             {href ? (
                                 <Link
                                     href={href}
+                                    target={target}
                                     className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/20"
                                     {...linkProps}
                                 >
@@ -206,6 +208,7 @@ const Content = memo(
                             (href ? (
                                 <Link
                                     href={href}
+                                    target={target}
                                     className={cn(
                                         'mt-1',
                                         hasSubtitles && 'truncate',
