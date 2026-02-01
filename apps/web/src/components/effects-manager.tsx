@@ -5,8 +5,8 @@ import { useMemo } from 'react';
 import Snowfall from 'react-snowfall';
 
 import { useUIStore } from '@/services/providers/ui-store-provider';
-import { mergeEffects } from '@/utils/appearance';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { mergeEffects } from '@/utils/ui';
 
 const SnowfallEffect = () => {
     return (

@@ -1,14 +1,9 @@
 /**
- * Utilities for merging appearance styles and effects.
+ * Utilities for merging UI styles and effects.
  */
-import {
-    UIEffect,
-    UIPreferences,
-    UIStyles,
-    UserAppearance,
-} from '@hikka/client';
+import { UIEffect, UIPreferences, UIStyles, UserUI } from '@hikka/client';
 
-import { DEFAULT_APPEARANCE } from './defaults';
+import { DEFAULT_USER_UI } from './defaults';
 
 /**
  * Merge two UIStyles objects, with override taking precedence.
@@ -81,14 +76,14 @@ export function mergePreferences(
 }
 
 /**
- * Merge two UserAppearance objects, with override taking precedence.
+ * Merge two UserUI objects, with override taking precedence.
  */
 
 export function mergeUserUI(
-    base: UserAppearance | undefined,
-    override: UserAppearance | undefined,
-): UserAppearance {
-    if (!base && !override) return DEFAULT_APPEARANCE;
+    base: UserUI | undefined,
+    override: UserUI | undefined,
+): UserUI {
+    if (!base && !override) return DEFAULT_USER_UI;
     if (!base) return override!;
     if (!override) return base;
 

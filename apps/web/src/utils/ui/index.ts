@@ -6,7 +6,7 @@ export {
     toHSLString,
     toReactColorful,
 } from './color';
-export { DEFAULT_APPEARANCE, DEFAULT_STYLES } from './defaults';
+export { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 export {
     applyStyles,
     injectStyles,

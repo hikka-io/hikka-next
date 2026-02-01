@@ -1,6 +1,6 @@
 'use client';
 
-import { UserAppearance } from '@hikka/client';
+import { UserUI } from '@hikka/client';
 import { PropsWithChildren, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
@@ -17,7 +17,7 @@ const UIStoreContext = createContext<UIStoreWithTemporal | null>(null);
 export function UIStoreProvider({
     children,
     initialUI,
-}: PropsWithChildren<{ initialUI: UserAppearance }>) {
+}: PropsWithChildren<{ initialUI: UserUI }>) {
     const storeRef = useRef<UIStoreWithTemporal | null>(null);
 
     if (!storeRef.current) {

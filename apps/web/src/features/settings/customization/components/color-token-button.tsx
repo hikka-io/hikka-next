@@ -13,6 +13,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 
+import { COLOR_TOKEN_LABELS } from '@/utils/constants/styles';
 import {
     formatHSL,
     hexToHsl,
@@ -20,8 +21,7 @@ import {
     toHSLString,
     toHikkaColor,
     toReactColorful,
-} from '@/utils/appearance/color';
-import { COLOR_TOKEN_LABELS } from '@/utils/constants/styles';
+} from '@/utils/ui/color';
 
 interface ColorTokenButtonProps {
     token: keyof typeof COLOR_TOKEN_LABELS;
@@ -187,4 +187,3 @@ const ColorTokenButton = ({
 };
 
 export default ColorTokenButton;
-

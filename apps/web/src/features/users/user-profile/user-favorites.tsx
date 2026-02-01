@@ -13,8 +13,8 @@ import {
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import { DEFAULT_APPEARANCE } from '@/utils/appearance';
-import { mergeUserUI } from '@/utils/appearance/merge';
+import { DEFAULT_USER_UI } from '@/utils/ui';
+import { mergeUserUI } from '@/utils/ui/merge';
 
 import Anime from './components/user-favorites/favorite-anime';
 import Character from './components/user-favorites/favorite-characters';
@@ -33,7 +33,7 @@ const Favorites: FC<Props> = ({ extended }) => {
     const params = useParams();
 
     console.log(
-        mergeUserUI(DEFAULT_APPEARANCE, {
+        mergeUserUI(DEFAULT_USER_UI, {
             preferences: {
                 overlay: true,
             },

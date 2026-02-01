@@ -35,7 +35,7 @@ import {
     useUIStore,
     useUIStoreHistory,
 } from '@/services/providers/ui-store-provider';
-import { stylesToReactStyles } from '@/utils/appearance/inject-styles';
+import { stylesToReactStyles } from '@/utils/ui/inject-styles';
 
 import ThemeTabContent from './theme-tab-content';
 

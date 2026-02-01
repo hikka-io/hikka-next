@@ -7,24 +7,20 @@ import {
     UIPreferences,
     UIStyles,
     UIThemeStyles,
-    UserAppearance,
+    UserUI,
 } from '@hikka/client';
 import { type TemporalState, temporal } from 'zundo';
 import { type StoreApi, createStore } from 'zustand/vanilla';
 
-import {
-    DEFAULT_APPEARANCE,
-    mergeEffects,
-    mergeStyles,
-} from '@/utils/appearance';
-import { getSessionUserUI, updateUserUI } from '@/utils/appearance/server';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
+import { getSessionUserUI, updateUserUI } from '@/utils/ui/server';
 
 export type PartializedUIState = Pick<UIState, 'styles'>;
 
 export type UITemporalState = TemporalState<PartializedUIState>;
 
-export type UIState = UserAppearance & {
+export type UIState = UserUI & {
     _hasHydrated: boolean;
 };
 
@@ -53,27 +49,25 @@ export interface UIActions {
     toggleEffect: (effect: UIEffect) => void;
     setEffects: (effects: UIEffect[]) => void;
 
-    setUI: (UI: UserAppearance) => void;
+    setUI: (UI: UserUI) => void;
 
     getMergedStyles: () => UIStyles;
     getActiveEffects: () => UIEffect[];
 
     // Backend API
-    updateUserUI: () => Promise<UserAppearance>;
-    syncUserUI: () => Promise<UserAppearance>;
+    updateUserUI: () => Promise<UserUI>;
+    syncUserUI: () => Promise<UserUI>;
 
     reset: () => void;
 }
 
 export type UIStore = UIState & UIActions;
 
-function normalizeInitialUI(
-    initialUI: UserAppearance | undefined,
-): UserAppearance {
+function normalizeInitialUI(initialUI: UserUI | undefined): UserUI {
     return {
-        styles: mergeStyles(DEFAULT_APPEARANCE.styles, initialUI?.styles),
+        styles: mergeStyles(DEFAULT_USER_UI.styles, initialUI?.styles),
         preferences: {
-            ...(DEFAULT_APPEARANCE.preferences ?? {}),
+            ...(DEFAULT_USER_UI.preferences ?? {}),
             ...(initialUI?.preferences ?? {}),
         },
     };
@@ -83,13 +77,13 @@ export type UIStoreWithTemporal = StoreApi<UIStore> & {
     temporal: StoreApi<UITemporalState>;
 };
 
-export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
+export function createUIStore(initialUI?: UserUI): UIStoreWithTemporal {
     const normalized = normalizeInitialUI(initialUI);
 
     return createStore<UIStore>()(
         temporal(
             (set, get) => ({
-                ...DEFAULT_APPEARANCE,
+                ...DEFAULT_USER_UI,
                 ...normalized,
                 _hasHydrated: true,
 
@@ -111,7 +105,7 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                         ...state,
                         preferences: {
                             ...(state.preferences ??
-                                DEFAULT_APPEARANCE.preferences ??
+                                DEFAULT_USER_UI.preferences ??
                                 {}),
                             title_language,
                         },
@@ -124,7 +118,7 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                         ...state,
                         preferences: {
                             ...(state.preferences ??
-                                DEFAULT_APPEARANCE.preferences ??
+                                DEFAULT_USER_UI.preferences ??
                                 {}),
                             name_language,
                         },
@@ -137,7 +131,7 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                         ...state,
                         preferences: {
                             ...(state.preferences ??
-                                DEFAULT_APPEARANCE.preferences ??
+                                DEFAULT_USER_UI.preferences ??
                                 {}),
                             overlay,
                         },
@@ -209,7 +203,7 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                             ...state,
                             preferences: {
                                 ...(state.preferences ??
-                                    DEFAULT_APPEARANCE.preferences ??
+                                    DEFAULT_USER_UI.preferences ??
                                     {}),
                                 effects,
                             },
@@ -223,7 +217,7 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                         ...state,
                         preferences: {
                             ...(state.preferences ??
-                                DEFAULT_APPEARANCE.preferences ??
+                                DEFAULT_USER_UI.preferences ??
                                 {}),
                             effects,
                         },
@@ -250,7 +244,7 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                 // Reset
                 reset: () => {
                     set({
-                        ...DEFAULT_APPEARANCE,
+                        ...DEFAULT_USER_UI,
                         _hasHydrated: true,
                     });
                 },
@@ -258,12 +252,12 @@ export function createUIStore(initialUI?: UserAppearance): UIStoreWithTemporal {
                 // Backend API
                 updateUserUI: async () => {
                     const state = get();
-                    const appearance: Omit<UserAppearance, 'username'> = {
+                    const userUI: Omit<UserUI, 'username'> = {
                         styles: state.styles,
                         preferences: state.preferences,
                     };
 
-                    const result = await updateUserUI(appearance);
+                    const result = await updateUserUI(userUI);
 
                     return result;
                 },

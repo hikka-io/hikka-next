@@ -8,8 +8,8 @@ import { Label } from '@/components/ui/label';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
-import { toHSLString } from '@/utils/appearance/color';
 import { PREVIEW_COLOR_TOKENS } from '@/utils/constants/styles';
+import { toHSLString } from '@/utils/ui/color';
 
 import CustomColorsModal from './components/custom-colors-modal';
 

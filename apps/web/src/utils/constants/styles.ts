@@ -1,6 +1,6 @@
 import { UIColorTokens, UIStyles } from '@hikka/client';
 
-import { DEFAULT_STYLES } from '@/utils/appearance';
+import { DEFAULT_STYLES } from '@/utils/ui';
 
 export type ColorPreset = {
     name: string;
@@ -107,4 +107,3 @@ export const PREVIEW_COLOR_TOKENS: (keyof UIColorTokens)[] = [
     'background',
     'foreground',
 ];
-
