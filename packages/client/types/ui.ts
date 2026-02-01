@@ -1,5 +1,5 @@
 /**
- * UI appearance and customization types.
+ * UI and customization types.
  *
  */
 
@@ -79,7 +79,7 @@ export type UIPreferences = {
     overlay?: boolean;
 };
 
-export type UserAppearance = {
+export type UserUI = {
     styles?: UIStyles;
     preferences?: UIPreferences;
     username?: string;

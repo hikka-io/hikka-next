@@ -10,9 +10,9 @@ import {
     ImportWatchListArgs,
     PasswordArgs,
     SuccessResponse,
-    UserAppearance,
     UserExportResponse,
     UserResponse,
+    UserUI,
     UsernameArgs,
 } from '../types';
 import { BaseModule } from './base';
@@ -173,16 +173,12 @@ export class SettingsModule extends BaseModule {
     }
 
     /**
-     * Update user UI appearance config by username
+     * Update user UI config by username
      */
     public async updateUserUI(
-        appearance: Omit<UserAppearance, 'username'>,
+        userUI: Omit<UserUI, 'username'>,
         options?: BaseRequestOptionsArgs,
-    ): Promise<UserAppearance> {
-        return this.client.put<UserAppearance>(
-            `/settings/ui`,
-            appearance,
-            options,
-        );
+    ): Promise<UserUI> {
+        return this.client.put<UserUI>(`/settings/ui`, userUI, options);
     }
 }

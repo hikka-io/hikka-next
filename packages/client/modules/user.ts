@@ -2,8 +2,8 @@ import {
     ActivityResponse,
     BaseRequestOptionsArgs,
     QuerySearchRequiredArgs,
-    UserAppearance,
     UserResponse,
+    UserUI,
 } from '../types';
 import { BaseModule } from './base';
 
@@ -51,21 +51,21 @@ export class UserModule extends BaseModule {
     }
 
     /**
-     * Get user UI appearance config by username
+     * Get user UI config by username
      */
     public async getCurrentUserUI(
         options?: BaseRequestOptionsArgs,
-    ): Promise<UserAppearance> {
-        return this.client.get<UserAppearance>(`/user/me/ui`, options);
+    ): Promise<UserUI> {
+        return this.client.get<UserUI>(`/user/me/ui`, options);
     }
 
     /**
-     * Get user UI appearance config by username
+     * Get user UI config by username
      */
     public async getUserUI(
         username: string,
         options?: BaseRequestOptionsArgs,
-    ): Promise<UserAppearance> {
-        return this.client.get<UserAppearance>(`/user/${username}/ui`, options);
+    ): Promise<UserUI> {
+        return this.client.get<UserUI>(`/user/${username}/ui`, options);
     }
 }
