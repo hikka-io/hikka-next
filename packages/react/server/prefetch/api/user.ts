@@ -1,4 +1,4 @@
-import { ActivityResponse, UserAppearance, UserResponse } from '@hikka/client';
+import { ActivityResponse, UserResponse, UserUI } from '@hikka/client';
 
 import { queryKeys } from '@/core';
 import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
@@ -67,12 +67,12 @@ export async function prefetchUserByUsername({
 }
 
 /**
- * Prefetches a user's UI appearance config by username for server-side rendering
+ * Prefetches a user's UI config by username for server-side rendering
  */
 export async function prefetchUserUI({
     username,
     ...rest
-}: PrefetchQueryParams<UserAppearance> & UseUserUIParams) {
+}: PrefetchQueryParams<UserUI> & UseUserUIParams) {
     return prefetchQuery({
         queryKey: queryKeys.user.ui(username),
         queryFn: (client) => client.user.getUserUI(username),
@@ -81,11 +81,11 @@ export async function prefetchUserUI({
 }
 
 /**
- * Prefetches the current user's UI appearance config for server-side rendering
+ * Prefetches the current user's UI config for server-side rendering
  */
 export async function prefetchSessionUserUI({
     ...rest
-}: PrefetchQueryParams<UserAppearance>) {
+}: PrefetchQueryParams<UserUI>) {
     return prefetchQuery({
         queryKey: queryKeys.user.ui('me'),
         queryFn: (client) => client.user.getCurrentUserUI(),

@@ -1,6 +1,6 @@
 'use client';
 
-import { ActivityResponse, UserAppearance, UserResponse } from '@hikka/client';
+import { ActivityResponse, UserResponse, UserUI } from '@hikka/client';
 import React from 'react';
 
 import { QueryParams, useQuery } from '@/client/useQuery';
@@ -84,13 +84,13 @@ export function useUserByUsername({
 }
 
 /**
- * Hook for retrieving a user's UI appearance config by username
+ * Hook for retrieving a user's UI config by username
  */
-export function useUserUI<TResult = UserAppearance>({
+export function useUserUI<TResult = UserUI>({
     username,
     ...rest
-}: UseUserUIParams & QueryParams<UserAppearance, TResult>) {
-    return useQuery<UserAppearance, Error, TResult>({
+}: UseUserUIParams & QueryParams<UserUI, TResult>) {
+    return useQuery<UserUI, Error, TResult>({
         queryKey: queryKeys.user.ui(username),
         queryFn: (client) => client.user.getUserUI(username),
         ...rest,
@@ -98,13 +98,13 @@ export function useUserUI<TResult = UserAppearance>({
 }
 
 /**
- * Hook for retrieving a user's UI appearance config by username
+ * Hook for retrieving a user's UI config by username
  */
-export function useSessionUserUI<TResult = UserAppearance>({
+export function useSessionUserUI<TResult = UserUI>({
     options,
     ...rest
-}: QueryParams<UserAppearance, TResult>) {
-    return useQuery<UserAppearance, Error, TResult>({
+}: QueryParams<UserUI, TResult>) {
+    return useQuery<UserUI, Error, TResult>({
         queryKey: queryKeys.user.ui('me'),
         queryFn: (client) => client.user.getCurrentUserUI(),
         options: {
