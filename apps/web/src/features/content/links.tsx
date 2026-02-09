@@ -47,7 +47,9 @@ const Links: FC<Props> = ({ content_type }) => {
     }
 
     const watchLinksData = content.external.filter(
-        (l) => l.type === ExternalTypeEnum.WATCH,
+        (l) =>
+            l.type === ExternalTypeEnum.WATCH ||
+            l.type === ExternalTypeEnum.READ,
     );
     const generalLinksData = content.external.filter(
         (l) => l.type === ExternalTypeEnum.GENERAL,
