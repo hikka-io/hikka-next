@@ -75,3 +75,8 @@ tasks/
 .cursor
 .taskmaster
 .mcp.json
+
+# Devenv
+.devenv*
+.direnv
+devenv.local.nix

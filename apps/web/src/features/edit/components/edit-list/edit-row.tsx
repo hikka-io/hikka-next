@@ -4,7 +4,7 @@ import { EditResponse } from '@hikka/client';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 
 import Small from '@/components/typography/small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -33,13 +33,26 @@ const EditRow: FC<Props> = ({ edit }) => {
                 ? 'destructive'
                 : 'secondary';
 
+    const handleRowClick = (e: MouseEvent<HTMLTableRowElement>) => {
+        if ((e.target as HTMLElement).closest('a, button')) return;
+
+        const url = `/edit/${edit.edit_id}`;
+
+        if (e.button === 1 || (e.button === 0 && (e.ctrlKey || e.metaKey))) {
+            if (e.button === 1) e.preventDefault();
+            window.open(url, '_blank');
+        }
+        else if (e.button === 0) router.push(url);
+    };
+
     return (
         <TableRow
             key={edit.edit_id}
             className={cn('hover:cursor-pointer')}
-            onClick={() => router.push(`/edit/${edit.edit_id}`)}
+            onClick={handleRowClick}
+            onAuxClick={handleRowClick}
         >
-            <TableCell className="hidden w-8 sm:table-cell">
+            <TableCell className="hidden w-8 sm:table-cell">                            
                 <Label>{edit.edit_id}</Label>
             </TableCell>
             <TableCell className="w-40">
