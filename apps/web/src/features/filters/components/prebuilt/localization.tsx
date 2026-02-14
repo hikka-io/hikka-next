@@ -23,6 +23,22 @@ const Genre: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
+        <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Languages className="size-4 shrink-0" />
+                <Label htmlFor="uk-translated">Перекладено українською</Label>
+            </div>
+            <Switch
+                checked={Boolean(lang)}
+                onCheckedChange={() =>
+                    handleChangeParam('only_translated', !Boolean(lang))
+                }
+                id="uk-translated"
+            />
+        </div>
+    );
+
+    return (
         <CollapsibleFilter
             title="Локалізація"
             icon={<Languages className="size-4" />}

@@ -5,7 +5,7 @@ import { User as UserIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -26,7 +26,7 @@ interface Props {
     title: string;
 }
 
-const User: FC<Props> = ({ className, paramKey, title }) => {
+const User: FC<Props> = ({ paramKey, title }) => {
     const searchParams = useSearchParams()!;
     const [userSearch, setUserSearch] = useState<string>();
     const { data: users, isFetching: isUsersFetching } = useSearchUsers({
@@ -52,18 +52,18 @@ const User: FC<Props> = ({ className, paramKey, title }) => {
     };
 
     return (
-        <CollapsibleFilter
-            title={title}
-            icon={<UserIcon className="size-4" />}
-            active={user !== null}
-        >
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <UserIcon className="size-4 shrink-0" />
+                <Label>{title}</Label>
+            </div>
             <Select
                 value={user !== null ? [user] : []}
                 onValueChange={(value) => handleChangeParam(paramKey, value[0])}
                 onOpenChange={() => setUserSearch(undefined)}
                 onSearch={handleUserSearch}
             >
-                <SelectTrigger className="flex-1">
+                <SelectTrigger size="md" className="flex-1">
                     <SelectValue placeholder="Виберіть користувача..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -88,7 +88,7 @@ const User: FC<Props> = ({ className, paramKey, title }) => {
                     </SelectList>
                 </SelectContent>
             </Select>
-        </CollapsibleFilter>
+        </div>
     );
 };
 

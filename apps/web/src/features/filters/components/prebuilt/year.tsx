@@ -12,11 +12,21 @@ import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import { Badge } from '@/components/ui/badge';
 import { FormLabel } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 
 import { useChangeParam } from '@/features/filters';
 
 import YearFilterInput from '../year-filter-input';
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
 // TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
 // See: https://github.com/react-hook-form/react-hook-form/issues/11910
@@ -59,11 +69,11 @@ const Year: FC<Props> = () => {
     }
 
     return (
-        <CollapsibleFilter
-            title="Рік виходу"
-            icon={<Calendar className="size-4" />}
-            active={years.length > 0}
-        >
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Calendar className="size-4 shrink-0" />
+                <Label>Рік виходу</Label>
+            </div>
             <div className="flex items-center gap-2">
                 <YearFilterInput
                     years={selectingYears}
@@ -94,7 +104,15 @@ const Year: FC<Props> = () => {
                     handleChangeParam={handleChangeParam}
                 />
             </div>
-        </CollapsibleFilter>
+        </div>
+    );
+
+    return (
+        <CollapsibleFilter
+            title="Рік виходу"
+            icon={<Calendar className="size-4" />}
+            active={years.length > 0}
+        ></CollapsibleFilter>
     );
 };
 

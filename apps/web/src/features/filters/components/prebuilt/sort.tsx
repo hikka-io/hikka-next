@@ -9,6 +9,7 @@ import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
 import { FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -32,7 +33,7 @@ export type SortType =
     | 'edit'
     | 'article';
 
-const SHARED_SORT = [
+export const SHARED_SORT = [
     {
         label: 'Загальна оцінка',
         value: 'score',
@@ -43,7 +44,7 @@ const SHARED_SORT = [
     },
 ];
 
-const SORT_CONTENT = [
+export const SORT_CONTENT = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
@@ -55,7 +56,7 @@ const SORT_CONTENT = [
     },
 ];
 
-const SORT_WATCHLIST = [
+export const SORT_WATCHLIST = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
@@ -75,7 +76,7 @@ const SORT_WATCHLIST = [
     },
 ];
 
-const SORT_READLIST = [
+export const SORT_READLIST = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
@@ -99,7 +100,7 @@ const SORT_READLIST = [
     },
 ];
 
-const SORT_EDITLIST = [
+export const SORT_EDITLIST = [
     {
         label: 'Номер правки',
         value: 'edit_id',
@@ -110,7 +111,7 @@ const SORT_EDITLIST = [
     },
 ];
 
-const SORT_ARTICLELIST = [
+export const SORT_ARTICLELIST = [
     {
         label: 'Дата створення',
         value: 'created',
@@ -121,7 +122,7 @@ const SORT_ARTICLELIST = [
     },
 ];
 
-const getSort = (sort_type: SortType) => {
+export const getSort = (sort_type: SortType) => {
     switch (sort_type) {
         case 'anime':
             return SORT_CONTENT;
@@ -156,6 +157,57 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <ArrowDownWideNarrow className="size-4 shrink-0" />
+                <Label>Сортування</Label>
+            </div>
+            <div className="flex gap-2">
+                <Select
+                    multiple
+                    value={sort}
+                    onValueChange={(value) => handleChangeParam('sort', value)}
+                >
+                    <SelectTrigger size="md" className="min-w-0 flex-1">
+                        <SelectValue
+                            maxDisplay={1}
+                            placeholder="Виберіть сортування..."
+                        />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {getSort(sort_type).map((item) => (
+                                    <SelectItem
+                                        key={item.value}
+                                        value={item.value}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+                <Button
+                    size="icon-md"
+                    variant="outline"
+                    onClick={() =>
+                        handleChangeParam(
+                            'order',
+                            order === 'asc' ? 'desc' : 'asc',
+                        )
+                    }
+                >
+                    <MaterialSymbolsSortRounded
+                        className={cn(order === 'asc' && '-scale-y-100')}
+                    />
+                </Button>
+            </div>
+        </div>
+    );
+
+    return (
         <CollapsibleFilter
             title="Сортування"
             icon={<ArrowDownWideNarrow className="size-4" />}
@@ -164,12 +216,13 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
                 <Select
                     multiple
                     value={sort}
-                    onValueChange={(value) =>
-                        handleChangeParam('sort', value)
-                    }
+                    onValueChange={(value) => handleChangeParam('sort', value)}
                 >
                     <SelectTrigger className="min-w-0 flex-1">
-                        <SelectValue maxDisplay={1} placeholder="Виберіть сортування..." />
+                        <SelectValue
+                            maxDisplay={1}
+                            placeholder="Виберіть сортування..."
+                        />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectList>

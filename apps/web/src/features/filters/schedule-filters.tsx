@@ -99,7 +99,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                             handleChangeParam('year', value[0])
                         }
                     >
-                        <SelectTrigger>
+                        <SelectTrigger size="md">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -126,7 +126,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                             handleChangeParam('season', value[0])
                         }
                     >
-                        <SelectTrigger>
+                        <SelectTrigger size="md">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -154,7 +154,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                             handleChangeParam('status', value)
                         }
                     >
-                        <SelectTrigger>
+                        <SelectTrigger size="md">
                             <SelectValue maxDisplay={1} />
                         </SelectTrigger>
                         <SelectContent>
@@ -174,11 +174,15 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                     </Select>
                 </div>
                 {loggedUser && (
-                    <div className="flex h-12 items-center justify-between gap-2 rounded-md border bg-secondary/20 p-4">
-                        <Label className="line-clamp-1 min-w-0 truncate text-muted-foreground">
+                    <div className="flex h-10 items-center justify-between gap-2 rounded-md border bg-secondary/20 p-4 py-2">
+                        <Label
+                            htmlFor="only_watch"
+                            className="line-clamp-1 min-w-0 truncate text-muted-foreground"
+                        >
                             Аніме у списку
                         </Label>
                         <Switch
+                            id="only_watch"
                             checked={Boolean(only_watch)}
                             onCheckedChange={(checked) =>
                                 handleChangeParam('only_watch', checked)
@@ -187,7 +191,12 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                     </div>
                 )}
             </div>
-            <Button variant="secondary" className="w-full lg:w-fit" asChild>
+            <Button
+                variant="destructive"
+                size="md"
+                className="w-full lg:w-fit"
+                asChild
+            >
                 <Link href={pathname}>
                     <AntDesignClearOutlined />
                     Очистити

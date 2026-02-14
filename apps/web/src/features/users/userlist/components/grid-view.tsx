@@ -6,6 +6,7 @@ import { FC } from 'react';
 import AnimeCard from '@/components/anime-card';
 import MangaCard from '@/components/manga-card';
 import NovelCard from '@/components/novel-card';
+import Stack from '@/components/ui/stack';
 
 interface Props {
     data: ReadResponse[] | WatchResponse[];
@@ -17,7 +18,7 @@ interface Props {
 
 const GridView: FC<Props> = ({ data, content_type }) => {
     return (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
+        <Stack size={5} extendedSize={5} extended>
             {content_type !== ContentTypeEnum.ANIME &&
                 (data as ReadResponse[]).map((res) =>
                     res.content.data_type === 'manga' ? (
@@ -42,7 +43,7 @@ const GridView: FC<Props> = ({ data, content_type }) => {
                         key={res.reference}
                     />
                 ))}
-        </div>
+        </Stack>
     );
 };
 

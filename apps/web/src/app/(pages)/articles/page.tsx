@@ -48,13 +48,13 @@ const ArticlesPage = async (props: {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_25%] lg:grid-cols-[20%_1fr_20%] lg:gap-16">
-                <div className="sticky top-20 hidden flex-col gap-12 self-start lg:flex">
+            <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_25%] xl:grid-cols-[20%_1fr_20%] lg:gap-12">
+                <div className="sticky top-20 hidden flex-col gap-12 self-start xl:flex">
                     <PopularAuthors />
                     <PopularTags />
                 </div>
                 <ArticleList />
-                <div className="sticky top-20 hidden w-full self-start opacity-60 transition-opacity hover:opacity-100 md:flex lg:block">
+                <div className="sticky top-20 hidden w-full max-h-[calc(100vh-9rem)] self-start rounded-lg border border-border bg-secondary/20 backdrop-blur-xl overflow-hidden sm:flex">
                     <ArticleFilters />
                 </div>
             </div>

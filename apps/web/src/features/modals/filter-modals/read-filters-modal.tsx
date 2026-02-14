@@ -1,6 +1,7 @@
 import { ReadContentType } from '@hikka/client';
 import { ReactNode } from 'react';
 
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
 import {
     Drawer,
@@ -11,7 +12,6 @@ import {
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { ReadFilters } from '@/features/filters';
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
     children?: ReactNode;
 }
 
-const AnimeFiltersModal = ({ sort_type, content_type, children }: Props) => {
+const ReadFiltersModal = ({ sort_type, content_type, children }: Props) => {
     return (
         <Drawer>
             <DrawerTrigger asChild>
@@ -35,15 +35,15 @@ const AnimeFiltersModal = ({ sort_type, content_type, children }: Props) => {
                 <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator />
+                <Separator className="w-auto" />
                 <ReadFilters
                     content_type={content_type}
                     sort_type={sort_type}
-                    className="px-6"
+                    className="overflow-hidden"
                 />
             </DrawerContent>
         </Drawer>
     );
 };
 
-export default AnimeFiltersModal;
+export default ReadFiltersModal;

@@ -1,6 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { ReactNode } from 'react';
 
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
 import {
     Drawer,
@@ -11,7 +12,6 @@ import {
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { AnimeFilters } from '@/features/filters';
 
 interface Props {
@@ -37,7 +37,7 @@ const AnimeFiltersModal = ({ sort_type, children }: Props) => {
                 <Separator className="w-auto" />
                 <AnimeFilters
                     content_type={ContentTypeEnum.ANIME}
-                    className="px-6"
+                    className="overflow-hidden"
                     sort_type={sort_type}
                 />
             </DrawerContent>

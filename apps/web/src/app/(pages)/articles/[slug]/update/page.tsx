@@ -70,7 +70,7 @@ const ArticleUpdatePage = async (props: {
                     tags: article.tags.map((tag) => tag.name),
                 }}
             >
-                <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-16 lg:grid-cols-[1fr_25%]">
+                <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-12 lg:grid-cols-[1fr_25%]">
                     <Block>
                         <ArticleTitle />
                         <Card className="flex w-full p-0 md:hidden">

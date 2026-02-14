@@ -85,7 +85,7 @@ const ListPage: FC<Props> = async (props) => {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
                 <Block>
                     <UserlistHeader content_type={content_type} />
                     <div className="flex items-center justify-between">
@@ -103,7 +103,7 @@ const ListPage: FC<Props> = async (props) => {
                     </div>
                     <Userlist content_type={content_type} />
                 </Block>
-                <div className="sticky top-20 hidden h-fit opacity-60 transition-opacity hover:opacity-100 lg:block">
+                <div className="sticky top-20 hidden w-full max-h-[calc(100vh-9rem)] rounded-lg border border-border bg-secondary/20 backdrop-blur-xl overflow-hidden lg:flex">
                     <ReadFilters
                         content_type={content_type as ReadContentType}
                         sort_type="read"

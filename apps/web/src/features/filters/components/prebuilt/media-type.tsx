@@ -10,6 +10,7 @@ import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
+import { Label } from '@/components/ui/label';
 
 import { useChangeParam } from '@/features/filters';
 
@@ -43,6 +44,21 @@ const MediaType: FC<Props> = ({ content_type }) => {
     const types = searchParams.getAll('types');
 
     const handleChangeParam = useChangeParam();
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Play className="size-4 shrink-0" />
+                <Label>Тип</Label>
+            </div>
+            <BadgeFilter
+                properties={getMediaType(content_type)}
+                selected={types}
+                property="types"
+                onParamChange={handleChangeParam}
+            />
+        </div>
+    );
 
     return (
         <CollapsibleFilter

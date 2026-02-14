@@ -4,7 +4,6 @@ import { Eye } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
@@ -22,24 +21,19 @@ const ArticleCustomization: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter
-            title="Відображення"
-            icon={<Eye className="size-4" />}
-            active={Boolean(draft)}
-        >
-            <div className="flex items-center justify-between gap-2">
-                <Label className="text-muted-foreground" htmlFor="draft">
-                    Чернетки
-                </Label>
-                <Switch
-                    checked={Boolean(draft)}
-                    onCheckedChange={() =>
-                        handleChangeParam('draft', !Boolean(draft))
-                    }
-                    id="draft"
-                />
+        <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Eye className="size-4 shrink-0" />
+                <Label htmlFor="draft">Чернетки</Label>
             </div>
-        </CollapsibleFilter>
+            <Switch
+                checked={Boolean(draft)}
+                onCheckedChange={() =>
+                    handleChangeParam('draft', !Boolean(draft))
+                }
+                id="draft"
+            />
+        </div>
     );
 };
 

@@ -9,6 +9,7 @@ import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
+import { Label } from '@/components/ui/label';
 
 import { useChangeParam } from '@/features/filters';
 
@@ -24,6 +25,21 @@ const AgeRating: FC<Props> = () => {
     const ageRatings = searchParams.getAll('ratings');
 
     const handleChangeParam = useChangeParam();
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <ShieldEllipsis className="size-4 shrink-0" />
+                <Label>Віковий рейтинг</Label>
+            </div>
+            <BadgeFilter
+                properties={AGE_RATING}
+                selected={ageRatings}
+                property="ratings"
+                onParamChange={handleChangeParam}
+            />
+        </div>
+    );
 
     return (
         <CollapsibleFilter

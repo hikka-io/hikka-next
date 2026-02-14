@@ -5,7 +5,7 @@ import { Activity } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -24,7 +24,7 @@ interface Props {
     className?: string;
 }
 
-const EditStatus: FC<Props> = ({ className }) => {
+const EditStatus: FC<Props> = () => {
     const searchParams = useSearchParams()!;
 
     const edit_status = searchParams.get('edit_status');
@@ -32,19 +32,18 @@ const EditStatus: FC<Props> = ({ className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter
-            defaultOpen
-            title="Статус"
-            icon={<Activity className="size-4" />}
-            active={!!edit_status}
-        >
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Activity className="size-4 shrink-0" />
+                <Label>Статус</Label>
+            </div>
             <Select
                 value={edit_status ? [edit_status] : undefined}
                 onValueChange={(value) =>
                     handleChangeParam('edit_status', value[0])
                 }
             >
-                <SelectTrigger className="flex-1">
+                <SelectTrigger size="md" className="flex-1">
                     <SelectValue placeholder="Виберіть статус..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -61,7 +60,7 @@ const EditStatus: FC<Props> = ({ className }) => {
                     </SelectList>
                 </SelectContent>
             </Select>
-        </CollapsibleFilter>
+        </div>
     );
 };
 

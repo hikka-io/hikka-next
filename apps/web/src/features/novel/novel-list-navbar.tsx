@@ -1,6 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { Suspense } from 'react';
 
+import { ActiveFilters } from '@/features/filters';
 import {
     FilterPresetButton,
     FilterPresets,
@@ -39,6 +40,10 @@ const NovelListNavbar = () => {
                     <FilterPresetButton />
                 </div>
             </div>
+
+            <Suspense>
+                <ActiveFilters />
+            </Suspense>
         </div>
     );
 };

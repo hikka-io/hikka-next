@@ -71,7 +71,7 @@ const UserLayout: FC<Props> = async (props) => {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="flex flex-col gap-12 lg:gap-16">
+            <div className="flex flex-col gap-12 lg:gap-12">
                 <ActivationAlert />
                 <CoverImage cover={user?.cover} />
                 <Breadcrumbs>
@@ -87,7 +87,7 @@ const UserLayout: FC<Props> = async (props) => {
                     />
                 </Breadcrumbs>
 
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-16">
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
                     <div className="flex flex-col gap-4 lg:gap-8">
                         <div className="flex gap-4 lg:gap-8">
                             <UserInfo />

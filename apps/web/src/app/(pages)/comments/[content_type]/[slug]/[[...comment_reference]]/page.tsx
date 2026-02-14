@@ -105,7 +105,7 @@ const CommentsPage: FC<Props> = async (props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="container flex max-w-3xl flex-col gap-12 p-0">
-                <div className="flex flex-col gap-16">
+                <div className="flex flex-col gap-12">
                     <ContentHeader
                         slug={params.slug}
                         content_type={params.content_type}

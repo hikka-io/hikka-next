@@ -30,7 +30,7 @@ const MangaPage: FC<Props> = async (props) => {
     const { slug } = params;
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
             <div className="flex flex-col gap-4 lg:col-span-1">
                 <Cover content_type={ContentTypeEnum.MANGA} />
                 <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">

@@ -78,7 +78,7 @@ const ScheduleListPage: FC<Props> = async (props) => {
                             </Button>
                         </ScheduleFiltersModal>
                     </div>
-                    <Card className="hidden w-full lg:block">
+                    <Card className="hidden w-full lg:block bg-secondary/20 backdrop-blur-xl">
                         <ScheduleFilters />
                     </Card>
                 </Block>

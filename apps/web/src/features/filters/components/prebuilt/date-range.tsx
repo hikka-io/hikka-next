@@ -23,6 +23,18 @@ import { createQueryString } from '@/utils/url';
 // TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
 // See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+
+// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
+// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+
 interface Props {
     className?: string;
 }
@@ -93,6 +105,61 @@ const DateRange = (props: Props) => {
             );
         }
     }, [searchParams]);
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                    <CalendarRange className="size-4 shrink-0" />
+                    <Label htmlFor="date_range_enabled">Часовий проміжок</Label>
+                </div>
+                <Switch
+                    checked={Boolean(dateRangeEnabled)}
+                    onCheckedChange={handleChangeDateRangeEnabled}
+                    id="date_range_enabled"
+                />
+            </div>
+            {dateRangeEnabled && (
+                <div className="flex flex-col gap-2">
+                    {dateRange && (
+                        <div className="flex items-center gap-2">
+                            <Badge variant="secondary">
+                                {
+                                    DATE_RANGES[
+                                        selectingDateRange[0] as DateRangeEnum
+                                    ]
+                                }{' '}
+                                -{' '}
+                                {
+                                    DATE_RANGES[
+                                        selectingDateRange[1] as DateRangeEnum
+                                    ]
+                                }
+                            </Badge>
+                        </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                        <Slider
+                            className="flex-1"
+                            onValueCommit={(value) =>
+                                handleChangeParam(
+                                    'date_range',
+                                    (value as number[]).map(String),
+                                )
+                            }
+                            onValueChange={(value) =>
+                                setSelectingDateRange(value as number[])
+                            }
+                            min={Number(DEFAULT_DATE_RANGE[0])}
+                            max={Number(DEFAULT_DATE_RANGE[1])}
+                            minStepsBetweenThumbs={0}
+                            value={selectingDateRange.map((y) => Number(y))}
+                        />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 
     return (
         <CollapsibleFilter

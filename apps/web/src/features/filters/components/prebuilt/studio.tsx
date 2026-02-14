@@ -8,6 +8,7 @@ import { FC, useMemo, useState } from 'react';
 
 import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormSelect, { FormSelectProps } from '@/components/form/form-select';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -59,6 +60,47 @@ const Studio: FC<Props> = () => {
 
         setStudioSearch(keyword);
     };
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Building2 className="size-4 shrink-0" />
+                <Label>Студія</Label>
+            </div>
+            <Select
+                multiple
+                value={studios}
+                onValueChange={(value) => handleChangeParam('studios', value)}
+                onSearch={handleStudioSearch}
+                options={options}
+            >
+                <SelectTrigger size="md">
+                    <SelectValue placeholder="Виберіть студію..." />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectSearch placeholder="Назва студії..." />
+                    <SelectList>
+                        <SelectGroup>
+                            {!isStudioListFetching &&
+                                list?.map((studio) => (
+                                    <SelectItem
+                                        key={studio.slug}
+                                        value={studio.slug}
+                                    >
+                                        {studio.name}
+                                    </SelectItem>
+                                ))}
+                            <SelectEmpty>
+                                {isStudioListFetching
+                                    ? 'Завантаження...'
+                                    : 'Студій не знайдено'}
+                            </SelectEmpty>
+                        </SelectGroup>
+                    </SelectList>
+                </SelectContent>
+            </Select>
+        </div>
+    );
 
     return (
         <CollapsibleFilter

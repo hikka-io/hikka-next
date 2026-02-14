@@ -1,10 +1,11 @@
 'use client';
 
 import { useSearchUsers } from '@hikka/react';
+import { User as UserIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -23,7 +24,7 @@ interface Props {
     className?: string;
 }
 
-const EditModerator: FC<Props> = ({ className }) => {
+const EditModerator: FC<Props> = () => {
     const searchParams = useSearchParams()!;
     const [userSearch, setUserSearch] = useState<string>();
     const { data: users, isFetching: isUsersFetching } = useSearchUsers({
@@ -49,7 +50,11 @@ const EditModerator: FC<Props> = ({ className }) => {
     };
 
     return (
-        <CollapsibleFilter title="Модератор" active={!!moderator}>
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <UserIcon className="size-4 shrink-0" />
+                <Label>Модератор</Label>
+            </div>
             <Select
                 value={moderator !== null ? [moderator] : []}
                 onValueChange={(value) =>
@@ -58,7 +63,7 @@ const EditModerator: FC<Props> = ({ className }) => {
                 onOpenChange={() => setUserSearch(undefined)}
                 onSearch={handleUserSearch}
             >
-                <SelectTrigger className="flex-1">
+                <SelectTrigger size="md" className="flex-1">
                     <SelectValue placeholder="Виберіть користувача..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -83,7 +88,7 @@ const EditModerator: FC<Props> = ({ className }) => {
                     </SelectList>
                 </SelectContent>
             </Select>
-        </CollapsibleFilter>
+        </div>
     );
 };
 

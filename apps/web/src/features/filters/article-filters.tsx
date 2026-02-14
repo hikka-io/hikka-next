@@ -30,29 +30,27 @@ const ArticleFilters: FC<Props> = ({ className }) => {
     };
 
     return (
-        <div
-            className={cn(
-                'no-scrollbar h-full overflow-x-scroll lg:max-h-[calc(100vh-6rem)]',
-                className,
-            )}
-        >
-            <div className="mt-4 flex flex-col md:mt-0">
+        <div className={cn('flex flex-col w-full', className)}>
+            <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
                 <ArticleCategory />
                 <Sort sort_type="article" />
                 <User title="Автор" paramKey="author" />
                 <Tag />
                 {user && <ArticleCustomization />}
             </div>
-            <Button
-                variant="secondary"
-                className="my-4 w-full md:mt-4 lg:flex"
-                onClick={clearFilters}
-                asChild
-            >
-                <Link href={pathname}>
-                    <AntDesignClearOutlined /> Очистити
-                </Link>
-            </Button>
+            <div className="flex shrink-0 gap-2 border-t border-secondary/60 bg-secondary/30 p-4">
+                <Button
+                    size="md"
+                    className="w-full"
+                    variant="destructive"
+                    onClick={clearFilters}
+                    asChild
+                >
+                    <Link href={pathname}>
+                        <AntDesignClearOutlined /> Очистити
+                    </Link>
+                </Button>
+            </div>
         </div>
     );
 };

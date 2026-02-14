@@ -9,6 +9,7 @@ import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
+import { Label } from '@/components/ui/label';
 
 import { useChangeParam } from '@/features/filters';
 
@@ -29,6 +30,21 @@ const Season: FC<Props> = () => {
     if (dateRangeEnabled) {
         return null;
     }
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <SunSnow className="size-4 shrink-0" />
+                <Label>Сезон</Label>
+            </div>
+            <BadgeFilter
+                properties={SEASON}
+                selected={seasons}
+                property="seasons"
+                onParamChange={handleChangeParam}
+            />
+        </div>
+    );
 
     return (
         <CollapsibleFilter

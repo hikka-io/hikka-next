@@ -8,6 +8,7 @@ import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { FormLabel } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 
 import { useChangeParam } from '@/features/filters';
@@ -47,6 +48,34 @@ const Score: FC<Props> = ({ score_type }) => {
             );
         }
     }, [searchParams]);
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Star className="size-4 shrink-0" />
+                <Label>Оцінка</Label>
+            </div>
+            <Slider
+                className="flex-1"
+                onValueCommit={(value) =>
+                    handleChangeParam('score', (value as number[]).map(String))
+                }
+                onValueChange={(value) => setSelectingScores(value as number[])}
+                showValue="always"
+                formatValue={(value) => (
+                    <div className="flex items-center gap-1">
+                        {value}{' '}
+                        <MaterialSymbolsStarRounded className="size-3" />
+                    </div>
+                )}
+                min={DEFAULT_SCORE_MIN}
+                max={DEFAULT_SCORE_MAX}
+                step={1}
+                minStepsBetweenThumbs={0}
+                value={selectingScores}
+            />
+        </div>
+    );
 
     return (
         <CollapsibleFilter

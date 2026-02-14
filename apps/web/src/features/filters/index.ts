@@ -1,4 +1,5 @@
 // Filter Components
+export { default as ActiveFilters } from './active-filters';
 export { default as AnimeFilters } from './anime-filters';
 export { default as ArticleFilters } from './article-filters';
 export { default as EditFilters } from './edit-filters';

@@ -5,7 +5,7 @@ import { Play } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -33,18 +33,18 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter
-            title="Тип контенту"
-            icon={<Play className="size-4" />}
-            active={!!content_type}
-        >
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Play className="size-4 shrink-0" />
+                <Label>Тип контенту</Label>
+            </div>
             <Select
                 value={content_type ? [content_type] : undefined}
                 onValueChange={(value) =>
                     handleChangeParam('content_type', value[0])
                 }
             >
-                <SelectTrigger className="flex-1">
+                <SelectTrigger size="md" className="flex-1">
                     <SelectValue placeholder="Виберіть тип контенту..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -59,7 +59,7 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
                     </SelectList>
                 </SelectContent>
             </Select>
-        </CollapsibleFilter>
+        </div>
     );
 };
 

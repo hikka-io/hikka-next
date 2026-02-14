@@ -7,6 +7,7 @@ import { FC, useMemo } from 'react';
 
 import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormSelect, { FormSelectProps } from '@/components/form/form-select';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -48,6 +49,33 @@ const Genre: FC<Props> = () => {
     const options = useMemo(() => {
         return genreList && renderSelectOptions(groupOptions(genreList));
     }, [genreList]);
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Drama className="size-4 shrink-0" />
+                <Label>Жанри</Label>
+            </div>
+            <Select
+                options={genreList}
+                triState={true}
+                multiple
+                value={genres}
+                onValueChange={(value) => handleChangeParam('genres', value)}
+            >
+                <SelectTrigger size="md">
+                    <SelectValue placeholder="Виберіть жанр/жанри..." />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectSearch placeholder="Назва жанру..." />
+                    <SelectList>
+                        {options}
+                        <SelectEmpty>Жанрів не знайдено</SelectEmpty>
+                    </SelectList>
+                </SelectContent>
+            </Select>
+        </div>
+    );
 
     return (
         <CollapsibleFilter

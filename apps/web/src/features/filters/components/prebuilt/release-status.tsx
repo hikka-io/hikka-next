@@ -5,10 +5,10 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/badge-filter';
-import { CollapsibleFilter } from '@/components/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
+import { Label } from '@/components/ui/label';
 
 import { useChangeParam } from '@/features/filters';
 
@@ -26,19 +26,18 @@ const ReleaseStatus: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter
-            defaultOpen
-            title="Статус"
-            icon={<Activity className="size-4" />}
-            active={statuses.length > 0}
-        >
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Activity className="size-4 shrink-0" />
+                <Label>Статус</Label>
+            </div>
             <BadgeFilter
                 properties={RELEASE_STATUS}
                 selected={statuses}
                 property="statuses"
                 onParamChange={handleChangeParam}
             />
-        </CollapsibleFilter>
+        </div>
     );
 };
 

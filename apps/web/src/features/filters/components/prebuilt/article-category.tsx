@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/badge-filter';
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { Label } from '@/components/ui/label';
 
 import { useChangeParam } from '@/features/filters';
 
@@ -23,12 +23,11 @@ const ArticleCategory: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter
-            defaultOpen
-            title="Категорія"
-            icon={<SquareLibrary className="size-4" />}
-            active={categories.length > 0}
-        >
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <SquareLibrary className="size-4 shrink-0" />
+                <Label>Категорія</Label>
+            </div>
             <BadgeFilter
                 properties={Object.fromEntries(
                     Object.entries(ARTICLE_CATEGORY_OPTIONS).filter(
@@ -39,7 +38,7 @@ const ArticleCategory: FC<Props> = () => {
                 property="categories"
                 onParamChange={handleChangeParam}
             />
-        </CollapsibleFilter>
+        </div>
     );
 };
 

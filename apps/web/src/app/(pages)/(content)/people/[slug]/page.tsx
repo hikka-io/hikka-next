@@ -21,7 +21,7 @@ const PersonPage = async (props: Props) => {
     const { slug } = params;
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
             <div className="flex flex-col gap-4 lg:col-span-1">
                 <Cover />
             </div>

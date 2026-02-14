@@ -58,7 +58,7 @@ const AnimePage: FC<Props> = async (props) => {
     });
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
             {anime && (
                 <script
                     type="application/ld+json"

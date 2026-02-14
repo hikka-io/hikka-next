@@ -53,7 +53,7 @@ const EditListPage = async (props: {
         <HydrationBoundary state={dehydratedState}>
             <div className="flex flex-col gap-12 lg:gap-12">
                 <EditTopStats />
-                <div className="grid grid-cols-1 justify-center gap-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-16">
+                <div className="grid grid-cols-1 justify-center gap-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
                     <div className="flex flex-col gap-12">
                         <Block>
                             <div className="flex items-center justify-between">
@@ -77,7 +77,7 @@ const EditListPage = async (props: {
                             <EditList />
                         </Block>
                     </div>
-                    <div className="sticky top-20 order-1 hidden opacity-60 transition-opacity hover:opacity-100 lg:order-2 lg:block">
+                    <div className="sticky top-20 order-1 hidden w-full max-h-[calc(100vh-9rem)] rounded-lg border border-border bg-secondary/20 backdrop-blur-xl overflow-hidden lg:order-2 lg:flex">
                         <Filters />
                     </div>
                 </div>

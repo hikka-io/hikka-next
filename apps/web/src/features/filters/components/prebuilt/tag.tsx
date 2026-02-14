@@ -4,7 +4,7 @@ import { Tag as TagIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { Label } from '@/components/ui/label';
 import { InputTags } from '@/components/ui/input-tags';
 
 import { useChangeParam } from '@/features/filters';
@@ -13,7 +13,7 @@ interface Props {
     className?: string;
 }
 
-const Tag: FC<Props> = ({ className }) => {
+const Tag: FC<Props> = () => {
     const searchParams = useSearchParams()!;
 
     const tags = searchParams.getAll('tags');
@@ -21,23 +21,20 @@ const Tag: FC<Props> = ({ className }) => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <CollapsibleFilter
-            title="Теги"
-            icon={<TagIcon className="size-4" />}
-            className={className}
-            active={tags.length > 0}
-        >
-            <div className="flex flex-col gap-4">
-                <InputTags
-                    disabled={tags.length === 3}
-                    id="tags"
-                    value={tags}
-                    onChange={(tags) =>
-                        handleChangeParam('tags', tags as string[])
-                    }
-                />
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <TagIcon className="size-4 shrink-0" />
+                <Label>Теги</Label>
             </div>
-        </CollapsibleFilter>
+            <InputTags
+                disabled={tags.length === 3}
+                id="tags"
+                value={tags}
+                onChange={(tags) =>
+                    handleChangeParam('tags', tags as string[])
+                }
+            />
+        </div>
     );
 };
 

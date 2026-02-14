@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
 import {
     Drawer,
@@ -10,20 +11,20 @@ import {
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import { EditFilters as Filters } from '@/features/filters';
+import { EditFilters } from '@/features/filters';
 
 interface Props {
     children?: ReactNode;
 }
 
-const Component = ({ children }: Props) => {
+const EditFiltersModal = ({ children }: Props) => {
     return (
         <Drawer>
             <DrawerTrigger asChild>
                 {children || (
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="sm">
                         <AntDesignFilterFilled />
+                        Фільтри
                     </Button>
                 )}
             </DrawerTrigger>
@@ -31,11 +32,11 @@ const Component = ({ children }: Props) => {
                 <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator />
-                <Filters className="px-6" />
+                <Separator className="w-auto" />
+                <EditFilters className="overflow-hidden" />
             </DrawerContent>
         </Drawer>
     );
 };
 
-export default Component;
+export default EditFiltersModal;
