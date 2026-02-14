@@ -340,34 +340,39 @@ const selectTriggerSizeClasses: Record<
 const SelectTrigger = React.forwardRef<
     SelectTriggerElement,
     SelectTriggerProps
->(({ className, children, asChild, size = 'default', ...props }, forwardedRef) => {
-    const { disabled } = useSelect();
+>(
+    (
+        { className, children, asChild, size = 'default', ...props },
+        forwardedRef,
+    ) => {
+        const { disabled } = useSelect();
 
-    return (
-        <PopoverPrimitive.Trigger ref={forwardedRef as any} asChild>
-            <div
-                aria-disabled={disabled}
-                data-disabled={disabled}
-                {...props}
-                className={cn(
-                    !asChild &&
-                        buttonVariants({ variant: 'outline', size }),
-                    !asChild &&
-                        'flex h-auto min-w-0 items-center justify-between',
-                    !asChild && selectTriggerSizeClasses[size!],
-                    disabled
-                        ? 'cursor-not-allowed opacity-50'
-                        : 'cursor-pointer',
-                    className,
-                )}
-                onClick={disabled ? PreventClick : props.onClick}
-                onTouchStart={disabled ? PreventClick : props.onTouchStart}
-            >
-                {children}
-            </div>
-        </PopoverPrimitive.Trigger>
-    );
-});
+        return (
+            <PopoverPrimitive.Trigger ref={forwardedRef as any} asChild>
+                <div
+                    aria-disabled={disabled}
+                    data-disabled={disabled}
+                    {...props}
+                    className={cn(
+                        !asChild &&
+                            buttonVariants({ variant: 'outline', size }),
+                        !asChild &&
+                            'flex h-auto min-w-0 items-center justify-between',
+                        !asChild && selectTriggerSizeClasses[size!],
+                        disabled
+                            ? 'cursor-not-allowed opacity-50'
+                            : 'cursor-pointer',
+                        className,
+                    )}
+                    onClick={disabled ? PreventClick : props.onClick}
+                    onTouchStart={disabled ? PreventClick : props.onTouchStart}
+                >
+                    {children}
+                </div>
+            </PopoverPrimitive.Trigger>
+        );
+    },
+);
 
 SelectTrigger.displayName = 'SelectTrigger';
 
@@ -583,40 +588,42 @@ const SelectContent = React.forwardRef<
     }
 
     return (
-        <PopoverPrimitive.Content
-            ref={ref}
-            align="start"
-            sideOffset={4}
-            collisionPadding={10}
-            className={cn(
-                'z-50 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-            )}
-            style={
-                {
-                    '--radix-select-content-transform-origin':
-                        'var(--radix-popper-transform-origin)',
-                    '--radix-select-content-available-width':
-                        'var(--radix-popper-available-width)',
-                    '--radix-select-content-available-height':
-                        'var(--radix-popper-available-height)',
-                    '--radix-select-trigger-width':
-                        'var(--radix-popper-anchor-width)',
-                    '--radix-select-trigger-height':
-                        'var(--radix-popper-anchor-height)',
-                } as any
-            }
-            {...props}
-        >
-            <Command
+        <PopoverPrimitive.Portal>
+            <PopoverPrimitive.Content
+                ref={ref}
+                align="start"
+                sideOffset={4}
+                collisionPadding={10}
                 className={cn(
-                    'max-h-96 w-full min-w-[var(--radix-select-trigger-width)]',
-                    className,
+                    'z-50 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
                 )}
-                shouldFilter={!context.onSearch}
+                style={
+                    {
+                        '--radix-select-content-transform-origin':
+                            'var(--radix-popper-transform-origin)',
+                        '--radix-select-content-available-width':
+                            'var(--radix-popper-available-width)',
+                        '--radix-select-content-available-height':
+                            'var(--radix-popper-available-height)',
+                        '--radix-select-trigger-width':
+                            'var(--radix-popper-anchor-width)',
+                        '--radix-select-trigger-height':
+                            'var(--radix-popper-anchor-height)',
+                    } as any
+                }
+                {...props}
             >
-                {children}
-            </Command>
-        </PopoverPrimitive.Content>
+                <Command
+                    className={cn(
+                        'max-h-96 w-full min-w-[var(--radix-select-trigger-width)]',
+                        className,
+                    )}
+                    shouldFilter={!context.onSearch}
+                >
+                    {children}
+                </Command>
+            </PopoverPrimitive.Content>
+        </PopoverPrimitive.Portal>
     );
 });
 
