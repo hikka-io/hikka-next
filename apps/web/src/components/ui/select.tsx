@@ -6,6 +6,7 @@ import {
     type PrimitivePropsWithRef,
 } from '@radix-ui/react-primitive';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { type VariantProps } from 'class-variance-authority';
 import { ChevronsUpDown, X } from 'lucide-react';
 import React, { FC, Fragment, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
@@ -312,17 +313,34 @@ Select.displayName = 'Select';
 type SelectTriggerElement = React.ComponentRef<typeof Primitive.div>;
 
 interface SelectTriggerProps
-    extends PrimitivePropsWithRef<typeof Primitive.div> {}
+    extends PrimitivePropsWithRef<typeof Primitive.div> {
+    size?: VariantProps<typeof buttonVariants>['size'];
+}
 
 const PreventClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
 };
 
+const selectTriggerSizeClasses: Record<
+    NonNullable<SelectTriggerProps['size']>,
+    string
+> = {
+    default: 'min-h-12',
+    sm: 'min-h-8',
+    md: 'min-h-10',
+    lg: 'min-h-13',
+    badge: '',
+    icon: 'min-h-12',
+    'icon-md': 'min-h-10',
+    'icon-sm': 'min-h-8',
+    'icon-xs': 'min-h-6',
+};
+
 const SelectTrigger = React.forwardRef<
     SelectTriggerElement,
     SelectTriggerProps
->(({ className, children, asChild, ...props }, forwardedRef) => {
+>(({ className, children, asChild, size = 'default', ...props }, forwardedRef) => {
     const { disabled } = useSelect();
 
     return (
@@ -333,9 +351,10 @@ const SelectTrigger = React.forwardRef<
                 {...props}
                 className={cn(
                     !asChild &&
-                        buttonVariants({ variant: 'outline', size: 'default' }),
+                        buttonVariants({ variant: 'outline', size }),
                     !asChild &&
-                        'flex h-auto min-h-12 min-w-0 items-center justify-between',
+                        'flex h-auto min-w-0 items-center justify-between',
+                    !asChild && selectTriggerSizeClasses[size!],
                     disabled
                         ? 'cursor-not-allowed opacity-50'
                         : 'cursor-pointer',

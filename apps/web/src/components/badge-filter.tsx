@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
+    TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
@@ -70,11 +71,13 @@ export const BadgeFilter: FC<BadgeFilterProps> = ({
                                         <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
                                     </div>
                                 </TooltipTrigger>
-                                <TooltipContent>
-                                    <P className="text-sm">
-                                        {properties[slug].description}
-                                    </P>
-                                </TooltipContent>
+                                <TooltipPortal>
+                                    <TooltipContent>
+                                        <P className="text-sm">
+                                            {properties[slug].description}
+                                        </P>
+                                    </TooltipContent>
+                                </TooltipPortal>
                             </Tooltip>
                         )}
                     </Button>

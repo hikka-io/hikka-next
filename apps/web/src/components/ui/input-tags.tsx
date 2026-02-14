@@ -66,7 +66,7 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
                                 addPendingDataPoint();
                             }
                         }}
-                        className="flex-1"
+                        className="flex-1 h-10"
                         disabled={disabled}
                         {...props}
                         ref={ref}
@@ -74,7 +74,7 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
                     <Button
                         type="button"
                         variant="secondary"
-                        size="icon"
+                        size="icon-md"
                         disabled={disabled}
                         onClick={addPendingDataPoint}
                     >
