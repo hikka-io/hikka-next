@@ -26,6 +26,8 @@ export interface WatchArgs {
     episodes?: number;
     rewatches?: number;
     score?: number;
+    start_date?: number;
+    end_date?: number;
     status: WatchStatusEnum;
 }
 
