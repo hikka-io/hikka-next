@@ -1,5 +1,4 @@
-import { format, fromUnixTime } from 'date-fns';
-import { getUnixTime } from 'date-fns';
+import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { ComponentProps, FC } from 'react';
 
@@ -20,6 +19,17 @@ import {
 } from '@/components/ui/popover';
 
 import { cn } from '@/utils/cn';
+
+const utcToLocalDate = (unixTime: number): Date => {
+    const d = new Date(unixTime * 1000);
+    return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+};
+
+const localDateToUtcUnix = (date: Date): number => {
+    return (
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 1000
+    );
+};
 
 interface Props extends ComponentProps<'textarea'> {
     name: string;
@@ -42,7 +52,7 @@ const FormDatePicker: FC<Props> = ({
             name={name}
             render={({ field }) => {
                 const dateValue = field.value
-                    ? fromUnixTime(field.value)
+                    ? utcToLocalDate(field.value)
                     : undefined;
 
                 return (
@@ -82,7 +92,7 @@ const FormDatePicker: FC<Props> = ({
                                     onSelect={(date) => {
                                         field.onChange(
                                             date
-                                                ? getUnixTime(date)
+                                                ? localDateToUtcUnix(date)
                                                 : undefined,
                                         );
                                     }}
@@ -90,7 +100,7 @@ const FormDatePicker: FC<Props> = ({
                                         date > new Date() ||
                                         date < new Date('1900-01-01') ||
                                         (minDate
-                                            ? date < fromUnixTime(minDate)
+                                            ? date < utcToLocalDate(minDate)
                                             : false)
                                     }
                                     initialFocus
