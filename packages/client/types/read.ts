@@ -32,8 +32,8 @@ export interface ReadArgs {
     volumes?: number;
     rereads?: number;
     score?: number;
-    start_date?: number;
-    end_date?: number;
+    start_date?: number | null;
+    end_date?: number | null;
     status: ReadStatusEnum;
 }
 
