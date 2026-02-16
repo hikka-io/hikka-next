@@ -203,6 +203,8 @@
 @layer base {
     * {
         @apply border-border;
+        scrollbar-width: thin;
+        scrollbar-color: hsl(var(--secondary)) transparent;
     }
 
     body {
@@ -568,10 +570,4 @@ div.spoiler:last-child {
 .image-group-size-4 .image-group-container {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-}
-
-.styled-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--secondary)) transparent;
-    scrollbar-gutter: stable;
 }

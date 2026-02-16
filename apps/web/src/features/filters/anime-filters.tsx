@@ -125,7 +125,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
 
     return (
         <div className={cn('flex flex-col w-full', className)}>
-            <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8 styled-scrollbar">
+            <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
                 <Genre />
                 <Sort sort_type={sort_type} />
                 <Studio />

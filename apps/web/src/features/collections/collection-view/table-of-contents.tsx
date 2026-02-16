@@ -90,7 +90,6 @@ function TableOfContents({ className }: Props) {
                 ref={tocScrollRef}
                 className={cn(
                     '-m-4 space-y-2.5 overflow-y-auto p-4 text-sm',
-                    'styled-scrollbar',
                     gradientClassName,
                 )}
             >
