@@ -11,6 +11,7 @@ import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import FormDatePicker from '@/components/form/form-date-picker';
 import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
@@ -39,6 +40,8 @@ const formSchema = z.object({
     chapters: z.coerce.number().min(0).optional(),
     rereads: z.coerce.number().min(0).optional(),
     note: z.string().nullable().optional(),
+    start_date: z.coerce.number().nullable().optional(),
+    end_date: z.coerce.number().nullable().optional(),
 });
 
 interface Props {
@@ -192,6 +195,19 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         />
                     </div>
 
+                    <div className="flex w-full gap-8">
+                        <FormDatePicker
+                            className="flex-1"
+                            name="start_date"
+                            label="Дата початку"
+                        />
+                        <FormDatePicker
+                            className="flex-1"
+                            name="end_date"
+                            label="Дата завершення"
+                            minDate={form.watch('start_date') ?? undefined}
+                        />
+                    </div>
                     <FormTextarea
                         name="note"
                         label="Нотатки"

@@ -1,4 +1,5 @@
-import { format } from 'date-fns';
+import { format, fromUnixTime } from 'date-fns';
+import { getUnixTime } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { ComponentProps, FC } from 'react';
 
@@ -24,6 +25,7 @@ interface Props extends ComponentProps<'textarea'> {
     name: string;
     label?: string;
     description?: string;
+    minDate?: number;
 }
 
 const FormDatePicker: FC<Props> = ({
@@ -32,57 +34,77 @@ const FormDatePicker: FC<Props> = ({
     description,
     children,
     className,
+    minDate,
     ...props
 }) => {
     return (
         <FormField
             name={name}
-            render={({ field }) => (
-                <FormItem className={className}>
-                    <div className="flex flex-nowrap items-center justify-between">
-                        {label && <FormLabel>{label}</FormLabel>}
-                        {children}
-                    </div>
+            render={({ field }) => {
+                const dateValue = field.value
+                    ? fromUnixTime(field.value)
+                    : undefined;
 
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <FormControl>
-                                <Button
-                                    variant="outline"
-                                    className={cn(
-                                        'w-full pl-3 text-left font-normal',
-                                        !field.value && 'text-muted-foreground',
-                                    )}
-                                >
-                                    {field.value ? (
-                                        format(field.value, 'PPP')
-                                    ) : (
-                                        <span>Виберіть дату</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                    date > new Date() ||
-                                    date < new Date('1900-01-01')
-                                }
-                                initialFocus
-                            />
-                        </PopoverContent>
-                    </Popover>
+                return (
+                    <FormItem className={className}>
+                        <div className="flex flex-nowrap items-center justify-between">
+                            {label && <FormLabel>{label}</FormLabel>}
+                            {children}
+                        </div>
 
-                    {description && (
-                        <FormDescription>{description}</FormDescription>
-                    )}
-                    <FormMessage />
-                </FormItem>
-            )}
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <FormControl>
+                                    <Button
+                                        variant="outline"
+                                        className={cn(
+                                            'w-full pl-3 text-left font-normal',
+                                            !field.value &&
+                                                'text-muted-foreground',
+                                        )}
+                                    >
+                                        {dateValue ? (
+                                            format(dateValue, 'PPP')
+                                        ) : (
+                                            <span>Виберіть дату</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                            >
+                                <Calendar
+                                    mode="single"
+                                    selected={dateValue}
+                                    onSelect={(date) => {
+                                        field.onChange(
+                                            date
+                                                ? getUnixTime(date)
+                                                : undefined,
+                                        );
+                                    }}
+                                    disabled={(date) =>
+                                        date > new Date() ||
+                                        date < new Date('1900-01-01') ||
+                                        (minDate
+                                            ? date < fromUnixTime(minDate)
+                                            : false)
+                                    }
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
+
+                        {description && (
+                            <FormDescription>{description}</FormDescription>
+                        )}
+                        <FormMessage />
+                    </FormItem>
+                );
+            }}
         />
     );
 };
