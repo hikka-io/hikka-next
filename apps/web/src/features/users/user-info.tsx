@@ -18,7 +18,7 @@ import {
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 
-import { CropEditorModal } from '@/features/modals';
+import { CropEditorModal } from '@/features/common';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 

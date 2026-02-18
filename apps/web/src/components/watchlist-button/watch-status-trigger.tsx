@@ -6,7 +6,7 @@ import { FC, createElement } from 'react';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
-import { WatchEditModal } from '@/features/modals';
+import { WatchEditModal } from '@/features/watch';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';

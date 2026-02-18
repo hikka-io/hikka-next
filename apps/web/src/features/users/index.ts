@@ -5,11 +5,13 @@ export { default as UserInfo } from './user-info';
 export { default as UserTitle } from './user-title';
 
 // User List Stats
-export { default as ListStats } from './user-list-stats';
+export { default as ListStats } from './userlist-stats';
 
 // User History
 export { default as UserHistory } from './user-history';
 
-export * from './user-profile';
-export * from './userlist';
+export * from './list';
+export * from './profile';
 export * from './year-statistics';
+
+export { default as FollowListModal } from './followlist-modal';

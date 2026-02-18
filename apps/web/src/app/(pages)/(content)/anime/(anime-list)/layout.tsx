@@ -5,7 +5,7 @@ import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { AnimeListNavbar as NavBar } from '@/features/anime';
-import { AnimeFilters } from '@/features/filters';
+import { AnimeFilters } from '@/features/watch';
 
 interface Props {
     children: ReactNode;

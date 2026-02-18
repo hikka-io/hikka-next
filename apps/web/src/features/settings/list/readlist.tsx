@@ -11,7 +11,7 @@ import { Switch } from '@/components/ui/switch';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import General from '../components/list/import-list';
+import General from './components/import-list';
 
 const Component = () => {
     const { closeModal } = useModalContext();

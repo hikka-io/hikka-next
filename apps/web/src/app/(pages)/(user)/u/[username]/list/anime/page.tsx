@@ -11,7 +11,6 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import { AnimeFilters } from '@/features/filters';
 import {
     Userlist,
     UserlistHeader,
@@ -19,6 +18,7 @@ import {
     UserlistToolsCombobox,
     UserlistViewCombobox,
 } from '@/features/users';
+import { AnimeFilters } from '@/features/watch';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';
 import { generateMetadata as _generateMetadata } from '@/utils/metadata';

@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
-import HistoryItem from '@/features/users/components/history-item';
+import HistoryItem from '@/features/users/user-history/components/history-item';
 
 import { cn } from '@/utils/cn';
 

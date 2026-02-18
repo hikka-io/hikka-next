@@ -4,7 +4,7 @@ import { useExportLists } from '@hikka/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import ListExportItem from '../components/list/list-export-item';
+import ListExportItem from './components/list-export-item';
 
 type ExportAnimeItem = {
     note: string | null;
@@ -38,7 +38,8 @@ const escapeXml = (value: unknown): string => {
 };
 
 const wrapCdata = (value: unknown): string => {
-    if (value === null || value === undefined || value === '') return '<![CDATA[]]>';
+    if (value === null || value === undefined || value === '')
+        return '<![CDATA[]]>';
     return `<![CDATA[${String(value)}]]>`;
 };
 
@@ -181,7 +182,9 @@ export const ExportAnime = () => {
                 setIsExporting(false);
             },
             onError: (error) => {
-                toast.error('Не вдалося експортувати список аніме. Спробуйте ще раз.');
+                toast.error(
+                    'Не вдалося експортувати список аніме. Спробуйте ще раз.',
+                );
                 console.error(error);
                 setIsExporting(false);
             },
@@ -217,11 +220,15 @@ export const ExportManga = () => {
                 }
                 const xml = buildMangaXml(manga);
                 downloadXml(xml, 'hikka-manga-export.xml');
-                toast.success('XML файл з манґою та ранобе успішно згенеровано.');
+                toast.success(
+                    'XML файл з манґою та ранобе успішно згенеровано.',
+                );
                 setIsExporting(false);
             },
             onError: (error) => {
-                toast.error('Не вдалося експортувати список манґи/ранобе. Спробуйте ще раз.');
+                toast.error(
+                    'Не вдалося експортувати список манґи/ранобе. Спробуйте ще раз.',
+                );
                 console.error(error);
                 setIsExporting(false);
             },

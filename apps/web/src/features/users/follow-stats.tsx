@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import { FollowListModal } from '@/features/modals';
+import { FollowListModal } from '@/features/users';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';

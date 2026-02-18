@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import FoundList from '../../components/list/found-list';
+import FoundList from '../components/found-list';
 
 interface Props {
     watchList: ImportWatchArgs[];

@@ -12,7 +12,7 @@ import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-import { ReadEditModal } from '@/features/modals';
+import { ReadEditModal } from '@/features/read';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';

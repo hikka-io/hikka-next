@@ -11,3 +11,6 @@ export { default as Navbar } from './navbar';
 
 // Notifications Components
 export { default as NotificationsMenu } from './notifications-menu';
+
+export { default as CropEditorModal } from './crop-editor-modal';
+export { default as SearchModal } from './search-modal';

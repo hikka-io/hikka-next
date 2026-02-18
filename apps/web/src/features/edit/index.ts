@@ -23,3 +23,9 @@ export { default as EditViewForm } from './edit-forms/edit-view-form';
 
 // Edit Content Components
 export { default as EditContent } from './edit-content';
+
+export { default as EditTopStatsModal } from './edit-top-stats-modal';
+export { default as EditListModal } from './editlist-modal';
+
+export { default as EditFilters } from './edit-filters';
+export { default as EditFiltersModal } from './edit-filters-modal';

@@ -10,13 +10,13 @@ import {
     ContentCover as Cover,
     ContentDescription as Description,
     ContentDetails as Details,
+    Followings,
     Franchise,
     ContentLinks as Links,
     ContentStaff as Staff,
     ContentStats as Stats,
     ContentTitle as Title,
 } from '@/features/content';
-import { Followings } from '@/features/modals';
 
 interface Props {
     params: {

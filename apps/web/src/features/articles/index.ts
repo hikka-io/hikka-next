@@ -1,6 +1,6 @@
-export { default as ArticleList } from './article-list/article-list';
-export { default as PopularAuthors } from './article-list/popular-authors';
-export { default as PopularTags } from './article-list/popular-tags';
+export { default as ArticleList } from './article-list';
+export { default as PopularAuthors } from './popular-authors';
+export { default as PopularTags } from './popular-tags';
 
 export { default as ArticleAuthor } from './article-view/article-author';
 export { default as ArticleDocument } from './article-view/article-document';
@@ -12,4 +12,5 @@ export { default as ContentArticles } from './article-view/content-articles';
 export { default as ArticleEditDocument } from './article-edit/article-document';
 export { default as ArticleSettings } from './article-edit/article-settings';
 export { default as ArticleEditTitle } from './article-edit/article-title';
-
+export { default as ArticleFilters } from './article-filters';
+export { default as ArticleFiltersModal } from './article-filters-modal';

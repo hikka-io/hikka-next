@@ -15,7 +15,7 @@ import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 
-import { ReadFilters } from '@/features/filters';
+import { ReadFilters } from '@/features/read';
 import {
     Userlist,
     UserlistHeader,

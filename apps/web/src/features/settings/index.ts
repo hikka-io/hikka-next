@@ -2,19 +2,19 @@
 export { default as SettingsMenu } from './menu';
 
 // Customization Settings
-export { default as Effects } from './customization/effects';
-export { default as Preferences } from './customization/preferences';
-export { default as Styles } from './customization/styles';
+export { default as Effects } from './effects';
+export { default as Preferences } from './preferences';
+export { default as Styles } from './styles';
 
 // Security Settings
-export { default as EmailSettings } from './security/email';
-export { default as PasswordSettings } from './security/password';
+export { default as EmailSettings } from './email';
+export { default as PasswordSettings } from './password';
 
 // Profile Settings
-export { default as ProfileAppearance } from './profile/appearance';
-export { default as ProfileDescription } from './profile/description';
-export { default as ProfilePrivacy } from './profile/privacy';
-export { default as ProfileUsername } from './profile/username';
+export { default as ProfileAppearance } from './appearance';
+export { default as ProfileDescription } from './description';
+export { default as ProfilePrivacy } from './privacy';
+export { default as ProfileUsername } from './username';
 
 // List Settings - Readlist
 export { default as ReadlistSettings } from './list/readlist';
@@ -27,7 +27,7 @@ export { default as ListRemoval } from './list/list-removal';
 
 // Applications Settings
 export { default as ApplicationsSettings } from './applications/applications';
-export { default as ClientCreateButton } from './applications/client-create-button';
+export { default as ClientCreateButton } from './client-create-button';
 
 // Notifications Settings
 export { default as NotificationsSettings } from './notifications';

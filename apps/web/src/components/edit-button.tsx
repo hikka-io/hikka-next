@@ -8,7 +8,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { EditListModal } from '@/features/modals';
+import { EditListModal } from '@/features/edit';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';

@@ -9,8 +9,12 @@ import {
     prefetchSearchArticles,
 } from '@hikka/react/server';
 
-import { ArticleList, PopularAuthors, PopularTags } from '@/features/articles';
-import { ArticleFilters } from '@/features/filters';
+import {
+    ArticleFilters,
+    ArticleList,
+    PopularAuthors,
+    PopularTags,
+} from '@/features/articles';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';
 

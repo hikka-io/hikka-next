@@ -16,6 +16,7 @@ import {
     ContentCover as Cover,
     ContentDescription as Description,
     ContentDetails as Details,
+    Followings,
     Franchise,
     ContentLinks as Links,
     ContentMedia as Media,
@@ -23,7 +24,6 @@ import {
     ContentStats as Stats,
     ContentTitle as Title,
 } from '@/features/content';
-import { Followings } from '@/features/modals';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';
 

@@ -11,7 +11,7 @@ import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-import { WatchEditModal } from '@/features/modals';
+import { WatchEditModal } from '@/features/watch';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';

@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import General from '../../components/list/import-list';
+import General from '../components/import-list';
 import Anilist from './anilist';
 
 const Component = () => {

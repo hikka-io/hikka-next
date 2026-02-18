@@ -4,8 +4,8 @@ import { FC, ReactNode } from 'react';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
-import { ReadFilters } from '@/features/filters';
 import { NovelListNavbar as NavBar } from '@/features/novel';
+import { ReadFilters } from '@/features/read';
 
 interface Props {
     children: ReactNode;
