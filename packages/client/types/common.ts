@@ -156,6 +156,7 @@ export enum ContentTypeEnum {
     EDIT = 'edit',
     COMMENT = 'comment',
     USER = 'user',
+    HISTORY = 'history',
 }
 
 /**
