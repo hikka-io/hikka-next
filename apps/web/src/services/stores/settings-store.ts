@@ -4,6 +4,13 @@ import { ContentTypeEnum } from '@hikka/client';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { WidgetConfig } from '@/features/feed/types';
+
+const DEFAULT_WIDGETS: WidgetConfig[] = [
+    { id: 'watching', visible: true },
+    { id: 'calendar', visible: true },
+];
+
 /**
  * Preferences for persisting user UI choices across sessions.
  * Extensible structure for views, filters, and collapsibles in different contexts.
@@ -15,6 +22,8 @@ export interface Preferences {
     filters: Record<string, string[]>;
     /** Collapsible state by context key (e.g., 'content_score', 'content_progress') */
     collapsibles: Record<string, boolean>;
+    /** Home page widget order and visibility */
+    widgets: WidgetConfig[];
 }
 
 export interface SettingsState {
@@ -34,6 +43,8 @@ export interface SettingsActions {
     setFilterPreference: (key: string, values: string[]) => void;
     /** Set a collapsible state for a specific context */
     setCollapsible: (key: string, open: boolean) => void;
+    /** Set home page widget order and visibility */
+    setWidgets: (widgets: WidgetConfig[]) => void;
     reset: () => void;
 }
 
@@ -52,7 +63,11 @@ export const DEFAULT_PREFERENCES: Preferences = {
     collapsibles: {
         content_score: true,
         content_progress: true,
+        home_anime_list: true,
+        home_manga_list: false,
+        home_novel_list: false,
     },
+    widgets: DEFAULT_WIDGETS,
 };
 
 const DEFAULT_SETTINGS: SettingsState = {
@@ -115,6 +130,13 @@ export const useSettingsStore = create<SettingsStore>()(
                         },
                     },
                 })),
+            setWidgets: (widgets) =>
+                set((state) => ({
+                    preferences: {
+                        ...state.preferences,
+                        widgets,
+                    },
+                })),
             reset: () => set(DEFAULT_SETTINGS),
         }),
         {
@@ -145,6 +167,8 @@ export const useSettingsStore = create<SettingsStore>()(
                             ...persisted?.collapsibles,
                             ...persisted?.preferences?.collapsibles,
                         },
+                        widgets:
+                            persisted?.preferences?.widgets ?? DEFAULT_WIDGETS,
                     },
                 };
             },

@@ -137,7 +137,7 @@ const WatchDetails = ({
     const studio = data.companies.find((c) => c.type === 'studio');
 
     const seasonLabel = data.season
-        ? SEASON[data.season as keyof typeof SEASON]?.title_ua ?? data.season
+        ? (SEASON[data.season as keyof typeof SEASON]?.title_ua ?? data.season)
         : null;
 
     return (
@@ -178,14 +178,14 @@ const WatchDetails = ({
                 title="Епізоди"
                 value={
                     (data.episodes_total || data.episodes_released) &&
-                        (data.media_type !== 'movie' ||
-                            (data.episodes_total ?? data.episodes_released ?? 0) >
+                    (data.media_type !== 'movie' ||
+                        (data.episodes_total ?? data.episodes_released ?? 0) >
                             1)
                         ? formatEpisodeCount(
-                            data.status!,
-                            data.episodes_released,
-                            data.episodes_total,
-                        )
+                              data.status!,
+                              data.episodes_released,
+                              data.episodes_total,
+                          )
                         : undefined
                 }
             />
