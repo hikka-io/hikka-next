@@ -401,6 +401,7 @@ export const CONTENT_TYPE_LINKS: Record<ContentTypeEnum, string> = {
     [ContentTypeEnum.NOVEL]: '/novel',
     [ContentTypeEnum.ARTICLE]: '/articles',
     [ContentTypeEnum.USER]: '/u',
+    [ContentTypeEnum.HISTORY]: '/history',
 };
 
 export const SETTINGS_MENU = [

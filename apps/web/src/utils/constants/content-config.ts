@@ -54,6 +54,10 @@ export const CONTENT_TYPES: Hikka.FilterProperty<ContentTypeEnum | 'user'> = {
         title_ua: 'Стаття',
         title_en: 'Article',
     },
+    [ContentTypeEnum.HISTORY]: {
+        title_ua: 'Активність',
+        title_en: 'History',
+    },
 };
 
 type ContentConfig = {
