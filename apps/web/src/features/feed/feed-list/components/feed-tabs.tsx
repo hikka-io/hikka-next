@@ -1,11 +1,12 @@
 'use client';
 
-import { Sparkles } from 'lucide-react';
 import { FC } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { FeedFilterEnum, FEED_FILTER_OPTIONS } from '../../types';
+import { FEED_FILTER_OPTIONS } from '@/utils/constants/feed';
+
+import { FeedFilterEnum } from '../../types';
 
 interface Props {
     value: FeedFilterEnum;
@@ -18,16 +19,17 @@ const FeedTabs: FC<Props> = ({ value, onChange }) => {
             value={value}
             onValueChange={(v) => onChange(v as FeedFilterEnum)}
         >
-            <TabsList className="w-full justify-start">
+            <TabsList
+                variant="underline"
+                className="w-full justify-start overflow-x-auto no-scrollbar bg-secondary/20 backdrop-blur"
+            >
                 {Object.entries(FEED_FILTER_OPTIONS).map(([key, option]) => (
                     <TabsTrigger
                         key={key}
                         value={key}
-                        className="flex gap-1.5"
+                        className="flex gap-2 sm:flex-1"
                     >
-                        {key === FeedFilterEnum.ALL && (
-                            <Sparkles className="size-3.5" />
-                        )}
+                        {option.icon && <option.icon />}
                         {option.label}
                     </TabsTrigger>
                 ))}

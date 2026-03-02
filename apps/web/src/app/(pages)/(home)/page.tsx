@@ -8,12 +8,7 @@ import {
 
 import CoverImage from '@/components/cover-image';
 
-import {
-    FeedLayout,
-    FeedList,
-    FeedSidebar,
-    FeedWidgets,
-} from '@/features/feed';
+import { FeedLayout, FeedList } from '@/features/feed';
 
 import prefetchQueries from './page.queries';
 
@@ -31,10 +26,7 @@ const Page = async () => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <CoverImage cover={loggedUser?.cover} />
-            <FeedLayout
-                sidebar={loggedUser ? <FeedSidebar /> : undefined}
-                widgets={<FeedWidgets />}
-            >
+            <FeedLayout>
                 <FeedList />
             </FeedLayout>
         </HydrationBoundary>

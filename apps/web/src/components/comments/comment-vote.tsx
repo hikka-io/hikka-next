@@ -1,5 +1,6 @@
 import { CommentResponse, ContentTypeEnum } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
+import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
@@ -8,11 +9,6 @@ import { Label } from '@/components/ui/label';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
-
-import BxBxsDownvote from '../icons/bx/BxBxsDownvote';
-import BxBxsUpvote from '../icons/bx/BxBxsUpvote';
-import BxDownvote from '../icons/bx/BxDownvote';
-import BxUpvote from '../icons/bx/BxUpvote';
 
 interface Props {
     comment: CommentResponse;
@@ -45,21 +41,24 @@ const CommentVote: FC<Props> = ({ comment }) => {
     };
 
     return (
-        <div className="group flex items-center gap-2">
+        <div className="group flex items-center gap-1">
             <Button
                 onClick={() => handleCommentVote(1)}
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(
-                    ' opacity-60 group-hover:opacity-100',
-                    currentScore === 1 ? '' : 'text-muted-foreground',
+                    'opacity-60 group-hover:opacity-100 font-normal',
+                    currentScore === 1
+                        ? 'text-success-foreground opacity-100'
+                        : 'text-muted-foreground',
                 )}
             >
-                {currentScore === 1 ? (
-                    <BxBxsUpvote className="text-success-foreground" />
-                ) : (
-                    <BxUpvote />
-                )}
+                <ArrowBigUp
+                    className={cn(
+                        '!size-5',
+                        currentScore === 1 && 'fill-success-foreground',
+                    )}
+                />
             </Button>
             <Label
                 className={
@@ -77,15 +76,18 @@ const CommentVote: FC<Props> = ({ comment }) => {
                 variant={'ghost'}
                 size="icon-xs"
                 className={cn(
-                    'opacity-60 group-hover:opacity-100',
-                    currentScore === -1 ? '' : 'text-muted-foreground',
+                    'opacity-60 group-hover:opacity-100 font-normal',
+                    currentScore === -1
+                        ? 'text-destructive-foreground opacity-100'
+                        : 'text-muted-foreground',
                 )}
             >
-                {currentScore === -1 ? (
-                    <BxBxsDownvote className="text-destructive-foreground" />
-                ) : (
-                    <BxDownvote />
-                )}
+                <ArrowBigDown
+                    className={cn(
+                        '!size-5',
+                        currentScore === -1 && 'fill-destructive-foreground',
+                    )}
+                />
             </Button>
         </div>
     );

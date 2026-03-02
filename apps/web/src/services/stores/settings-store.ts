@@ -66,6 +66,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
         home_anime_list: true,
         home_manga_list: false,
         home_novel_list: false,
+        home_mobile_widgets: false,
     },
     widgets: DEFAULT_WIDGETS,
 };

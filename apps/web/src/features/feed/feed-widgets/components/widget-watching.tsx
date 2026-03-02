@@ -123,16 +123,16 @@ const AnimeWatchingContent = () => {
 
     useEffect(() => {
         reset();
-    }, [selectedSlug]);
+    }, [selectedSlug, reset]);
 
     useEffect(() => {
         setUpdatedWatch(null);
     }, [selectedWatch]);
 
     useEffect(() => {
-        if (debouncedUpdatedWatch) {
+        if (debouncedUpdatedWatch && selectedWatch) {
             mutateCreateWatch({
-                slug: selectedWatch!.anime.slug,
+                slug: selectedWatch.anime.slug,
                 args: {
                     note: debouncedUpdatedWatch.note,
                     episodes: debouncedUpdatedWatch.episodes,
@@ -302,7 +302,7 @@ const WidgetWatching = () => {
             <Block>
                 <Header href={`/u/${user.username}/list`}>
                     <HeaderContainer>
-                        <HeaderTitle>Дивлюсь</HeaderTitle>
+                        <HeaderTitle variant="h4">Дивлюсь</HeaderTitle>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>

@@ -16,7 +16,7 @@ const SidebarProfile = () => {
     if (!user) return null;
 
     return (
-        <Card className="items-center bg-secondary/20 backdrop-blur">
+        <Card className="items-center bg-secondary/20">
             <div className="flex items-center justify-between gap-2 w-full">
                 <Link href={`/u/${user.username}`}>
                     <Avatar className="size-12 rounded-lg">

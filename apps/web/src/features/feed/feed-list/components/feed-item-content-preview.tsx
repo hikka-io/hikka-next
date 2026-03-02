@@ -1,5 +1,6 @@
 import { ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import Small from '@/components/typography/small';
 import { Badge } from '@/components/ui/badge';
@@ -7,17 +8,17 @@ import { Badge } from '@/components/ui/badge';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-type Props = {
+interface Props {
     contentType?: ContentTypeEnum;
     slug?: string;
     title?: string;
-};
+}
 
-const FeedItemContentPreview = ({ contentType, slug, title }: Props) => {
+const FeedItemContentPreview: FC<Props> = ({ contentType, slug, title }) => {
     if (!contentType || !slug || !title) return null;
 
     return (
-        <div className="flex w-full  items-center gap-2">
+        <div className="flex w-full items-center gap-2">
             <Badge variant="secondary" className="shrink-0">
                 {CONTENT_TYPES[contentType].title_ua}
             </Badge>

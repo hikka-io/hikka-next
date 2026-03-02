@@ -7,6 +7,7 @@ import {
 } from '@hikka/client';
 import { useReadStats, useSession, useUserWatchStats } from '@hikka/react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { CollapsibleFilter } from '@/components/collapsible-filter';
 
@@ -30,12 +31,49 @@ const READ_STATUS_ORDER: ReadStatusEnum[] = [
     ReadStatusEnum.DROPPED,
 ];
 
+interface StatusStatsItem {
+    status: string;
+    href: string;
+    icon?: FC<{ className?: string }>;
+    label: string;
+    count: number;
+}
+
+const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
+    <div className="flex flex-col gap-1 px-2">
+        {items.map((item) => (
+            <Link
+                key={item.status}
+                href={item.href}
+                className="flex items-center justify-between rounded-sm px-2 py-1.5 text-sm transition-colors hover:bg-secondary"
+            >
+                <span className="flex items-center gap-2">
+                    {item.icon && (
+                        <div
+                            className={cn(
+                                'flex items-center justify-center rounded-sm border p-1',
+                                `bg-${item.status} text-${item.status}-foreground border-${item.status}-border`,
+                            )}
+                        >
+                            <item.icon className="size-3 text-muted-foreground" />
+                        </div>
+                    )}
+                    <span>{item.label}</span>
+                </span>
+                <span className="text-xs text-muted-foreground">
+                    {item.count}
+                </span>
+            </Link>
+        ))}
+    </div>
+);
+
 const AnimeStats = ({ username }: { username: string }) => {
     const { data: stats } = useUserWatchStats({ username });
 
     if (!stats) return null;
 
-    const statusMap: Record<WatchStatusEnum, number> = {
+    const statusCounts: Record<WatchStatusEnum, number> = {
         [WatchStatusEnum.PLANNED]: stats.planned,
         [WatchStatusEnum.WATCHING]: stats.watching,
         [WatchStatusEnum.COMPLETED]: stats.completed,
@@ -43,40 +81,15 @@ const AnimeStats = ({ username }: { username: string }) => {
         [WatchStatusEnum.DROPPED]: stats.dropped,
     };
 
-    return (
-        <div className="flex flex-col px-2 gap-1">
-            {WATCH_STATUS_ORDER.map((status) => {
-                const config = WATCH_STATUS[status];
-                const Icon = config.icon;
-                const count = statusMap[status];
+    const items: StatusStatsItem[] = WATCH_STATUS_ORDER.map((status) => ({
+        status,
+        href: `/u/${username}/list/anime?watch_status=${status}`,
+        icon: WATCH_STATUS[status].icon,
+        label: WATCH_STATUS[status].title_ua,
+        count: statusCounts[status],
+    }));
 
-                return (
-                    <Link
-                        key={status}
-                        href={`/u/${username}/list/anime?watch_status=${status}`}
-                        className="flex items-center justify-between px-2 py-1.5 text-sm transition-colors hover:bg-secondary rounded-sm"
-                    >
-                        <span className="flex items-center gap-2">
-                            {Icon && (
-                                <div
-                                    className={cn(
-                                        'flex p-1 items-center justify-center rounded-sm',
-                                        `bg-${status} text-${status}-foreground border border-${status}-border`,
-                                    )}
-                                >
-                                    <Icon className="text-muted-foreground size-3" />
-                                </div>
-                            )}
-                            <span>{config.title_ua}</span>
-                        </span>
-                        <span className="text-muted-foreground text-xs">
-                            {count}
-                        </span>
-                    </Link>
-                );
-            })}
-        </div>
-    );
+    return <StatusStatsList items={items} />;
 };
 
 const ReadStats = ({
@@ -90,7 +103,7 @@ const ReadStats = ({
 
     if (!stats) return null;
 
-    const statusMap: Record<ReadStatusEnum, number> = {
+    const statusCounts: Record<ReadStatusEnum, number> = {
         [ReadStatusEnum.PLANNED]: stats.planned,
         [ReadStatusEnum.READING]: stats.reading,
         [ReadStatusEnum.COMPLETED]: stats.completed,
@@ -98,40 +111,15 @@ const ReadStats = ({
         [ReadStatusEnum.DROPPED]: stats.dropped,
     };
 
-    return (
-        <div className="flex flex-col px-2 gap-1">
-            {READ_STATUS_ORDER.map((status) => {
-                const config = READ_STATUS[status];
-                const Icon = config.icon;
-                const count = statusMap[status];
+    const items: StatusStatsItem[] = READ_STATUS_ORDER.map((status) => ({
+        status,
+        href: `/u/${username}/list/${contentType}?read_status=${status}`,
+        icon: READ_STATUS[status].icon,
+        label: READ_STATUS[status].title_ua,
+        count: statusCounts[status],
+    }));
 
-                return (
-                    <Link
-                        key={status}
-                        href={`/u/${username}/list/${contentType}?read_status=${status}`}
-                        className="flex items-center justify-between px-2 py-1.5 text-sm transition-colors hover:bg-secondary rounded-sm"
-                    >
-                        <span className="flex items-center gap-2">
-                            {Icon && (
-                                <div
-                                    className={cn(
-                                        'flex p-1 items-center justify-center rounded-sm',
-                                        `bg-${status} text-${status}-foreground border border-${status}-border`,
-                                    )}
-                                >
-                                    <Icon className="text-muted-foreground size-3" />
-                                </div>
-                            )}
-                            <span>{config.title_ua}</span>
-                        </span>
-                        <span className="text-muted-foreground text-xs">
-                            {count}
-                        </span>
-                    </Link>
-                );
-            })}
-        </div>
-    );
+    return <StatusStatsList items={items} />;
 };
 
 const SidebarContentStats = () => {

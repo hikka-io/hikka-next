@@ -24,7 +24,9 @@ import { Switch } from '@/components/ui/switch';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 
-import { AVAILABLE_WIDGETS, WidgetConfig } from '../../types';
+import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
+
+import { WidgetConfig } from '../../types';
 
 interface SortableWidgetRowProps {
     widget: WidgetConfig;

@@ -1,11 +1,8 @@
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
+import { ArrowBigUp, Layers, MessageCircle, UserPen } from 'lucide-react';
 import { FC, memo } from 'react';
 
-import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
-import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
-import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Small from '@/components/typography/small';
 import {
     HorizontalCard,
@@ -54,21 +51,21 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 >
                     {data.description}
                 </HorizontalCardDescription>
-                <HorizontalCardContainer className="flex-row text-xs text-muted-foreground">
+                <HorizontalCardContainer className="flex-row text-xs text-muted-foreground gap-3">
                     <div className="flex items-center gap-1">
-                        <MaterialSymbolsGridViewRounded />
+                        <Layers className="size-3" />
                         <Small>{data.entries}</Small>
                     </div>
                     <div className="flex items-center gap-1">
-                        <IconamoonCommentFill />
+                        <MessageCircle className="size-3" />
                         <Small>{data.comments_count}</Small>
                     </div>
                     <div className="flex items-center gap-1">
-                        <BxBxsUpvote />
+                        <ArrowBigUp className="size-4" />
                         <Small>{data.vote_score}</Small>
                     </div>
                     <div className="flex items-center gap-1">
-                        <MaterialSymbolsDriveFileRenameOutlineRounded />
+                        <UserPen className="size-3" />
                         <Small>
                             {format(new Date(data.updated * 1000), 'd.MM.Y')}
                         </Small>

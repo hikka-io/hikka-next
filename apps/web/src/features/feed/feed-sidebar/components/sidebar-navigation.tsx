@@ -1,14 +1,13 @@
 'use client';
 
-import { useSession } from '@hikka/react';
 import { cva } from 'class-variance-authority';
-import { BookOpen, Eye, Layers, Pencil } from 'lucide-react';
+import { BookOpen, Compass, Layers, Pencil } from 'lucide-react';
 import Link from 'next/link';
 
 import Card from '@/components/ui/card';
 
 const NAV_ITEMS = [
-    { icon: Eye, label: 'Огляд', path: '', variant: 'secondary' },
+    { icon: Compass, label: 'Огляд', path: '/discovery', variant: 'secondary' },
     { icon: BookOpen, label: 'Статті', path: '/articles', variant: 'default' },
     {
         icon: Layers,
@@ -16,8 +15,8 @@ const NAV_ITEMS = [
         path: '/collections',
         variant: 'default',
     },
-    { icon: Pencil, label: 'Правки', path: '/edits', variant: 'default' },
-];
+    { icon: Pencil, label: 'Правки', path: '/edit', variant: 'default' },
+] as const;
 
 const sidebarNavigationVariants = cva(
     'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-secondary',
@@ -35,25 +34,21 @@ const sidebarNavigationVariants = cva(
 );
 
 const SidebarNavigation = () => {
-    const { user } = useSession();
-
-    if (!user) return null;
-
     return (
         <Card className="gap-1 p-2 bg-secondary/20">
             {NAV_ITEMS.map((item) => (
                 <Link
                     key={item.path}
-                    href={`/u/${user.username}${item.path}`}
+                    href={item.path}
                     className={sidebarNavigationVariants({
-                        variant: item.variant as 'default' | 'secondary',
+                        variant: item.variant,
                     })}
                 >
                     <item.icon className="text-muted-foreground size-4" />
                     <span
                         className={
                             item.variant === 'default'
-                                ? 'text- font-medium'
+                                ? 'text-foreground font-medium'
                                 : 'text-foreground'
                         }
                     >

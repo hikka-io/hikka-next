@@ -1,5 +1,6 @@
 import { CommentResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
+import { ArrowBigUp } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -16,7 +17,6 @@ import { Label } from '@/components/ui/label';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-import { BxBxsUpvote } from '../icons/bx/BxBxsUpvote';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import Small from '../typography/small';
 
@@ -50,7 +50,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
                         <div className="flex items-center gap-1">
-                            <BxBxsUpvote className="text-success-foreground size-3" />
+                            <ArrowBigUp className="!size-5 fill-success-foreground" />
                             <Label className="text-success-foreground leading-none">
                                 {comment.vote_score}
                             </Label>

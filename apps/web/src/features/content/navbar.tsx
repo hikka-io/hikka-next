@@ -2,13 +2,13 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
+import { MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import EditButton from '@/components/edit-button';
 import FavoriteButton from '@/components/favorite-button';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import ReadlistButton from '@/components/readlist-button/readlist-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -79,7 +79,7 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
 
                 <Button asChild size="md" variant="ghost">
                     <Link href={`/comments/${content_type}/${params.slug}`}>
-                        <IconamoonCommentFill className="size-4" />
+                        <MessageCircle />
                         {data?.data_type !== ContentTypeEnum.CHARACTER &&
                             data?.data_type !== ContentTypeEnum.PERSON && (
                                 <span>

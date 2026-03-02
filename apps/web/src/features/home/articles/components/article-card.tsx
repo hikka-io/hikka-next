@@ -1,10 +1,9 @@
 import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
+import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import Author from '@/components/article-item/article-author';
-import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import TextExpand from '@/components/text-expand';
@@ -88,19 +87,19 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground gap-1"
+                        className="text-muted-foreground gap-1 font-normal"
                     >
                         <Link href={`/comments/article/${article.slug}`}>
-                            <IconamoonCommentFill className="size-3" />
+                            <MessageCircle />
                             {article.comments_count}
                         </Link>
                     </Button>
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground pointer-events-none gap-1"
+                        className="text-muted-foreground pointer-events-none gap-1 font-normal"
                     >
-                        <BxBxsUpvote className="size-3" />
+                        <ArrowBigUp className="!size-5" />
                         {article.vote_score}
                     </Button>
                 </div>

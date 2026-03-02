@@ -2,13 +2,12 @@
 
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
+import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import FollowButton from '@/components/follow-button';
-import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import H3 from '@/components/typography/h3';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -183,21 +182,21 @@ const CollectionCard: FC<Props> = ({
                         asChild
                         variant="ghost"
                         size="sm"
-                        className="gap-1 text-muted-foreground"
+                        className="gap-1 text-muted-foreground font-normal"
                     >
                         <Link
                             href={`/comments/collection/${collection.reference}`}
                         >
-                            <IconamoonCommentFill className="size-3" />
+                            <MessageCircle />
                             {collection.comments_count}
                         </Link>
                     </Button>
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="pointer-events-none gap-1 text-muted-foreground"
+                        className="pointer-events-none gap-1 text-muted-foreground font-normal"
                     >
-                        <BxBxsUpvote className="size-3" />
+                        <ArrowBigUp className="!size-5" />
                         {collection.vote_score}
                     </Button>
                 </div>

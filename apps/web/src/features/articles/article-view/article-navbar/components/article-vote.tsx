@@ -2,13 +2,10 @@
 
 import { ArticleBaseResponse, ContentTypeEnum } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
+import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-import BxBxsDownvote from '@/components/icons/bx/BxBxsDownvote';
-import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
-import BxDownvote from '@/components/icons/bx/BxDownvote';
-import BxUpvote from '@/components/icons/bx/BxUpvote';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -49,7 +46,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
             className={buttonVariants({
                 variant: 'secondary',
                 size: 'md',
-                className: 'flex-row p-0 overflow-hidden border-none',
+                className: 'flex-row p-0 overflow-hidden border-none gap-0',
             })}
         >
             <Button
@@ -57,15 +54,18 @@ const ArticleVote: FC<Props> = ({ article }) => {
                 variant={'ghost'}
                 size="icon-md"
                 className={cn(
-                    ' opacity-60 group-hover:opacity-100',
-                    currentScore === 1 ? '' : 'text-muted-foreground',
+                    'opacity-60 group-hover:opacity-100 font-normal',
+                    currentScore === 1
+                        ? 'text-success-foreground opacity-100'
+                        : 'text-muted-foreground',
                 )}
             >
-                {currentScore === 1 ? (
-                    <BxBxsUpvote className="text-success-foreground" />
-                ) : (
-                    <BxUpvote />
-                )}
+                <ArrowBigUp
+                    className={cn(
+                        '!size-5',
+                        currentScore === 1 && 'fill-success-foreground',
+                    )}
+                />
             </Button>
             <Label
                 className={
@@ -83,15 +83,18 @@ const ArticleVote: FC<Props> = ({ article }) => {
                 variant={'ghost'}
                 size="icon-md"
                 className={cn(
-                    'opacity-60 group-hover:opacity-100',
-                    currentScore === -1 ? '' : 'text-muted-foreground',
+                    'opacity-60 group-hover:opacity-100 font-normal',
+                    currentScore === -1
+                        ? 'text-destructive-foreground opacity-100'
+                        : 'text-muted-foreground',
                 )}
             >
-                {currentScore === -1 ? (
-                    <BxBxsDownvote className="text-destructive-foreground" />
-                ) : (
-                    <BxDownvote />
-                )}
+                <ArrowBigDown
+                    className={cn(
+                        '!size-5',
+                        currentScore === -1 && 'fill-destructive-foreground',
+                    )}
+                />
             </Button>
         </Card>
     );

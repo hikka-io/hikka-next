@@ -1,8 +1,7 @@
+import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -23,16 +22,16 @@ const FeedItemFooter: FC<Props> = ({
                     asChild={!!commentsHref}
                     variant="ghost"
                     size="sm"
-                    className="text-muted-foreground gap-1"
+                    className="text-muted-foreground gap-1 font-normal"
                 >
                     {commentsHref ? (
                         <Link href={commentsHref}>
-                            <IconamoonCommentFill className="size-3" />
+                            <MessageCircle />
                             {commentsCount}
                         </Link>
                     ) : (
                         <>
-                            <IconamoonCommentFill className="size-3" />
+                            <MessageCircle />
                             {commentsCount}
                         </>
                     )}
@@ -40,9 +39,9 @@ const FeedItemFooter: FC<Props> = ({
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="text-muted-foreground pointer-events-none gap-1"
+                    className="text-muted-foreground pointer-events-none gap-1 font-normal"
                 >
-                    <BxBxsUpvote className="size-3" />
+                    <ArrowBigUp className="!size-5" />
                     {voteScore}
                 </Button>
             </div>

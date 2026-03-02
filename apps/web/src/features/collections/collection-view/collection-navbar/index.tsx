@@ -2,13 +2,12 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference, useSession } from '@hikka/react';
-import { TableOfContents } from 'lucide-react';
+import { MessageCircle, TableOfContents } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, Fragment } from 'react';
 
 import FavoriteButton from '@/components/favorite-button';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -53,7 +52,7 @@ const CollectionNavbar: FC<Props> = () => {
                             '/comments' + '/collection' + '/' + params.reference
                         }
                     >
-                        <IconamoonCommentFill className="size-4" />
+                        <MessageCircle />
                         <span>
                             {collection?.comments_count}{' '}
                             <span className="hidden sm:inline">

@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { ChartLine, FilePenLine, UsersIcon } from 'lucide-react';
+import { ChartLine, FilePenLine, MessageCircle, UsersIcon } from 'lucide-react';
 
 import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
 import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
@@ -10,7 +10,6 @@ import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
 
 import BxBxlTelegram from '../../components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '../../components/icons/bx/BxBxsDonateHeart';
-import IconamoonCommentFill from '../../components/icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsAnimatedImages from '../../components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsCalendarClockRounded from '../../components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCustomTypographyRounded from '../../components/icons/material-symbols/MaterialSymbolsCustomTypographyRounded';
@@ -316,7 +315,7 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Коментарі',
         url: '/comments',
-        icon: () => <IconamoonCommentFill />,
+        icon: () => <MessageCircle />,
         visible: false,
         slug: 'comments',
     },

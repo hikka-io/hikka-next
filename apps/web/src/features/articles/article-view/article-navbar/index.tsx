@@ -1,12 +1,12 @@
 'use client';
 
 import { useArticleBySlug, useSession } from '@hikka/react';
+import { MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, Fragment, useCallback } from 'react';
 import { toast } from 'sonner';
 
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -51,7 +51,7 @@ const ArticleNavbar: FC<Props> = () => {
                         <ArticleVote article={article!} />
                         <Button asChild size="md" variant="ghost">
                             <Link href={`/comments/article/${params.slug}`}>
-                                <IconamoonCommentFill className="size-4" />
+                                <MessageCircle className="size-4" />
                                 <span>
                                     {article?.comments_count}{' '}
                                     <span className="hidden sm:inline">

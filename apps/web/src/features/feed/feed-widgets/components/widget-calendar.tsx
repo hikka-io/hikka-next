@@ -36,7 +36,7 @@ const WidgetCalendar = () => {
         },
     });
 
-    const now = Date.now(); //new Date().setHours(15, 30, 0, 0);
+    const now = Date.now();
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
     const todayEnd = new Date();
@@ -62,7 +62,7 @@ const WidgetCalendar = () => {
             <Block>
                 <Header href="/schedule">
                     <HeaderContainer>
-                        <HeaderTitle>Календар</HeaderTitle>
+                        <HeaderTitle variant="h4">Календар</HeaderTitle>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>

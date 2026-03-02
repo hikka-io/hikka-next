@@ -1,4 +1,3 @@
-import { ContentTypeEnum } from '@hikka/client';
 import type {
     ArticlePreviewResponse,
     CollectionContent,
@@ -6,6 +5,7 @@ import type {
     CommentResponse,
     HistoryResponse,
 } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/client';
 
 export enum FeedFilterEnum {
     ALL = 'all',
@@ -50,31 +50,3 @@ export interface WidgetConfig {
     id: string;
     visible: boolean;
 }
-
-export const AVAILABLE_WIDGETS = [
-    { id: 'watching', title: 'Дивлюсь' },
-    { id: 'calendar', title: 'Календар' },
-] as const;
-
-export const FEED_FILTER_OPTIONS: Record<
-    FeedFilterEnum,
-    { label: string; data_type?: ContentTypeEnum }
-> = {
-    [FeedFilterEnum.ALL]: { label: 'Усі' },
-    [FeedFilterEnum.COMMENTS]: {
-        label: 'Коментарі',
-        data_type: ContentTypeEnum.COMMENT,
-    },
-    [FeedFilterEnum.ARTICLES]: {
-        label: 'Статті',
-        data_type: ContentTypeEnum.ARTICLE,
-    },
-    [FeedFilterEnum.COLLECTIONS]: {
-        label: 'Колекції',
-        data_type: ContentTypeEnum.COLLECTION,
-    },
-    [FeedFilterEnum.ACTIVITY]: {
-        label: 'Активність',
-        data_type: ContentTypeEnum.HISTORY,
-    },
-};

@@ -1,9 +1,8 @@
 import { ArticleBaseResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
+import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import { FC } from 'react';
 
-import BxBxsUpvote from '@/components/icons/bx/BxBxsUpvote';
-import IconamoonCommentFill from '@/components/icons/iconamoon/IconamoonCommentFill';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import Small from '@/components/typography/small';
 import Card from '@/components/ui/card';
@@ -43,12 +42,16 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         </div>
                     )}
                     <div className="flex items-center gap-1">
-                        <IconamoonCommentFill />
-                        <Small>{article.comments_count}</Small>
+                        <MessageCircle />
+                        {article.comments_count > 0 && (
+                            <Small>{article.comments_count}</Small>
+                        )}
                     </div>
                     <div className="flex items-center gap-1">
-                        <BxBxsUpvote />
-                        <Small>{article.vote_score}</Small>
+                        <ArrowBigUp className="!size-5" />
+                        {article.vote_score > 0 && (
+                            <Small>{article.vote_score}</Small>
+                        )}
                     </div>
                 </div>
             </div>
