@@ -34,7 +34,7 @@ const tabsTriggerVariants = cva(
         variants: {
             variant: {
                 default:
-                    'data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring dark:data-[state=active]:bg-background/40 text-foreground dark:text-muted-foreground h-[calc(100%-1px)] flex-1 rounded-md border border-transparent px-2 py-1 data-[state=active]:shadow-sm',
+                    'data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring dark:data-[state=active]:bg-background/40 text-foreground dark:text-muted-foreground h-[calc(100%-1px)] flex-1 rounded-md border border-transparent px-2 py-1 data-[state=active]:shadow-xs',
                 underline:
                     "relative text-muted-foreground hover:text-foreground data-[state=active]:text-foreground px-4 py-0 h-full after:content-[''] after:absolute after:bottom-0 after:inset-x-0 after:h-1 after:rounded-full after:bg-primary-foreground after:opacity-0 after:transition-opacity data-[state=active]:after:opacity-100",
             },
@@ -87,7 +87,7 @@ const TabsContent = React.forwardRef<
     <TabsPrimitive.Content
         ref={ref}
         className={cn(
-            'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
+            'mt-2 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
             className,
         )}
         {...props}

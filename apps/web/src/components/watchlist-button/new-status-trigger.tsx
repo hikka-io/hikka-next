@@ -63,7 +63,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm border border-secondary-foreground/20 p-1',
+                                'rounded-xs border border-secondary-foreground/20 p-1',
                             )}
                         >
                             {createElement(WATCH_STATUS.planned.icon!, {

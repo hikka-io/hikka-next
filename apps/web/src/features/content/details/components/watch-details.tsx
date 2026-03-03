@@ -105,7 +105,7 @@ const StudioDetail = ({
                         alt="studio"
                         width={100}
                         height={50}
-                        className="w-8 rounded-sm object-cover"
+                        className="w-8 rounded-xs object-cover"
                     />
                 </Link>
             )}

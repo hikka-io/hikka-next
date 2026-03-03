@@ -72,7 +72,7 @@ const StatusCombobox = ({ content_type }: Props) => {
                 <div className="flex items-center gap-2">
                     <div
                         className={cn(
-                            'w-fit rounded-sm border p-1 text-white',
+                            'w-fit rounded-xs border p-1 text-white',
                             `bg-${status} text-${status}-foreground border-${status}-border`,
                         )}
                     >

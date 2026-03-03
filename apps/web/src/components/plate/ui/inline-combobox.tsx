@@ -240,7 +240,7 @@ const InlineComboboxInput = React.forwardRef<
                 <Combobox
                     ref={ref}
                     className={cn(
-                        'absolute left-0 top-0 size-full bg-transparent outline-none',
+                        'absolute left-0 top-0 size-full bg-transparent outline-hidden',
                         className,
                     )}
                     value={value}
@@ -264,7 +264,7 @@ const InlineComboboxContent: typeof ComboboxPopover = ({
         <Portal>
             <ComboboxPopover
                 className={cn(
-                    'z-[100] max-h-[288px] w-[300px] overflow-y-auto rounded-md border bg-secondary/20 backdrop-blur-sm',
+                    'z-[100] max-h-[288px] w-[300px] overflow-y-auto rounded-md border bg-secondary/20 backdrop-blur-xs',
                     className,
                 )}
                 {...props}
@@ -274,7 +274,7 @@ const InlineComboboxContent: typeof ComboboxPopover = ({
 };
 
 const comboboxItemVariants = cva(
-    'relative mx-1 flex h-[28px] items-center rounded-sm px-2 text-sm text-foreground outline-none select-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+    'relative mx-1 flex h-[28px] items-center rounded-xs px-2 text-sm text-foreground outline-hidden select-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     {
         defaultVariants: {
             interactive: true,

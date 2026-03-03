@@ -41,7 +41,7 @@ NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
 const navigationMenuTriggerStyle = cva(
-    'group inline-flex h-10 w-max items-center justify-center rounded-md bg-secondary/20 hover:!bg-secondary px-4 py-2 text-sm font-medium border border-border transition-colors hover:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-muted/50 data-[state=open]:bg-muted/50',
+    'group inline-flex h-10 w-max items-center justify-center rounded-md bg-secondary/20 hover:!bg-secondary px-4 py-2 text-sm font-medium border border-border transition-colors hover:text-accent-foreground focus:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-muted/50 data-[state=open]:bg-muted/50',
 );
 
 const NavigationMenuTrigger = React.forwardRef<
@@ -84,7 +84,7 @@ const NavigationMenuLink = React.forwardRef<
     <NavigationMenuPrimitive.Link
         ref={ref}
         className={cn(
-            'relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none transition-colors hover:bg-muted hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+            'relative flex cursor-pointer select-none items-center rounded-xs px-2 py-2.5 text-sm outline-hidden transition-colors hover:bg-muted hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
             className,
         )}
         {...props}

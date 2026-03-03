@@ -122,7 +122,7 @@ const CollectionCard: FC<Props> = ({
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         titleClassName={cn(
-                            collection.spoiler && 'spoiler-blur-sm',
+                            collection.spoiler && 'spoiler-blur-xs',
                         )}
                         containerClassName={cn(
                             collection.nsfw && 'spoiler-blur-md',

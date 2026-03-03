@@ -68,7 +68,7 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
         <div className="flex items-center gap-2">
             <div
                 className={cn(
-                    'w-fit rounded-sm border p-1',
+                    'w-fit rounded-xs border p-1',
                     `bg-${status} text-${status}-foreground border-${status}-border`,
                 )}
             >

@@ -61,7 +61,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                         image={item.content.image}
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(data.spoiler && 'spoiler-blur-md')}
-                        titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
+                        titleClassName={cn(data.spoiler && 'spoiler-blur-xs')}
                         containerClassName={cn(data.nsfw && 'spoiler-blur-md')}
                         watch={
                             'watch' in item.content &&

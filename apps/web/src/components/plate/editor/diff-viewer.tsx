@@ -92,7 +92,7 @@ const InlineElement = ({ children, ...props }: PlateElementProps) => {
         <PlateElement
             {...props}
             as="span"
-            className="rounded-sm bg-slate-200/50 p-1"
+            className="rounded-xs bg-slate-200/50 p-1"
         >
             {children}
         </PlateElement>
@@ -106,7 +106,7 @@ const InlineVoidElement = ({ children, ...props }: PlateElementProps) => {
         <PlateElement {...props} as="span">
             <span
                 className={cn(
-                    'rounded-sm bg-slate-200/50 p-1',
+                    'rounded-xs bg-slate-200/50 p-1',
                     selected && 'bg-blue-500 text-white',
                 )}
                 contentEditable={false}

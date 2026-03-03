@@ -61,7 +61,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm border p-1',
+                                'rounded-xs border p-1',
                                 `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
                             )}
                         >

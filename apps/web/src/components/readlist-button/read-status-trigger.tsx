@@ -74,7 +74,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm border p-1',
+                                'rounded-xs border p-1',
                                 `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
                             )}
                         >

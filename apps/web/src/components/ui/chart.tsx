@@ -52,7 +52,7 @@ const ChartContainer = React.forwardRef<
                 data-chart={chartId}
                 ref={ref}
                 className={cn(
-                    "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/80 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-none [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted/60 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none",
+                    "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/80 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted/60 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-hidden [&_.recharts-surface]:outline-hidden",
                     className,
                 )}
                 {...props}
@@ -84,13 +84,13 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
                         ([theme, prefix]) => `
 ${prefix} [data-chart=${id}] {
 ${colorConfig
-    .map(([key, itemConfig]) => {
-        const color =
-            itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-            itemConfig.color;
-        return color ? `  --color-${key}: ${color};` : null;
-    })
-    .join('\n')}
+                                .map(([key, itemConfig]) => {
+                                    const color =
+                                        itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
+                                        itemConfig.color;
+                                    return color ? `  --color-${key}: ${color};` : null;
+                                })
+                                .join('\n')}
 }
 `,
                     )
@@ -232,8 +232,8 @@ const ChartTooltipContent = React.forwardRef<
                                 )}
                             >
                                 {formatter &&
-                                item?.value !== undefined &&
-                                item.name ? (
+                                    item?.value !== undefined &&
+                                    item.name ? (
                                     formatter(
                                         item.value,
                                         item.name,
@@ -249,7 +249,7 @@ const ChartTooltipContent = React.forwardRef<
                                             !hideIndicator && (
                                                 <div
                                                     className={cn(
-                                                        'shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]',
+                                                        'shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)',
                                                         {
                                                             'h-2.5 w-2.5':
                                                                 indicator ===
@@ -263,7 +263,7 @@ const ChartTooltipContent = React.forwardRef<
                                                             'my-0.5':
                                                                 nestLabel &&
                                                                 indicator ===
-                                                                    'dashed',
+                                                                'dashed',
                                                         },
                                                     )}
                                                     style={
@@ -297,7 +297,7 @@ const ChartTooltipContent = React.forwardRef<
                                             {item.value && (
                                                 <span className="font-mono font-medium tabular-nums text-foreground">
                                                     {typeof item.value ===
-                                                    'number'
+                                                        'number'
                                                         ? item.value.toLocaleString()
                                                         : item.value}
                                                 </span>
@@ -406,8 +406,8 @@ function getPayloadConfigFromPayload(
 
     const payloadPayload =
         'payload' in payload &&
-        typeof payload.payload === 'object' &&
-        payload.payload !== null
+            typeof payload.payload === 'object' &&
+            payload.payload !== null
             ? payload.payload
             : undefined;
 
@@ -439,5 +439,6 @@ export {
     ChartLegendContent,
     ChartStyle,
     ChartTooltip,
-    ChartTooltipContent,
+    ChartTooltipContent
 };
+

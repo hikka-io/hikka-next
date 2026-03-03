@@ -45,13 +45,13 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
             <Link
                 key={item.status}
                 href={item.href}
-                className="flex items-center justify-between rounded-sm px-2 py-1.5 text-sm transition-colors hover:bg-secondary"
+                className="flex items-center justify-between rounded-xs px-2 py-1.5 text-sm transition-colors hover:bg-secondary"
             >
                 <span className="flex items-center gap-2">
                     {item.icon && (
                         <div
                             className={cn(
-                                'flex items-center justify-center rounded-sm border p-1',
+                                'flex items-center justify-center rounded-xs border p-1',
                                 `bg-${item.status} text-${item.status}-foreground border-${item.status}-border`,
                             )}
                         >

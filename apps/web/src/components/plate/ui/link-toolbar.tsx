@@ -30,11 +30,11 @@ import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 const popoverVariants = cva(
-    'z-50 w-auto rounded-md border border-border bg-secondary/20 p-1 backdrop-blur-sm',
+    'z-50 w-auto rounded-md border border-border bg-secondary/20 p-1 backdrop-blur-xs',
 );
 
 const inputVariants = cva(
-    'flex h-[28px] w-full rounded-md border-none bg-transparent px-1.5 py-1 text-base placeholder:text-muted-foreground focus-visible:ring-transparent focus-visible:outline-none md:text-sm',
+    'flex h-[28px] w-full rounded-md border-none bg-transparent px-1.5 py-1 text-base placeholder:text-muted-foreground focus-visible:ring-transparent focus-visible:outline-hidden md:text-sm',
 );
 
 export function LinkFloatingToolbar({

@@ -30,12 +30,12 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
         >
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
-                className={cn(data.nsfw && 'spoiler-blur-sm')}
+                className={cn(data.nsfw && 'spoiler-blur-xs')}
             />
             <HorizontalCardContainer>
                 <div className="inline-flex items-center gap-2">
                     <HorizontalCardTitle
-                        className={cn(data.spoiler && 'spoiler-blur-sm')}
+                        className={cn(data.spoiler && 'spoiler-blur-xs')}
                     >
                         {data.title}
                     </HorizontalCardTitle>
@@ -47,7 +47,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                     )}
                 </div>
                 <HorizontalCardDescription
-                    className={cn(data.spoiler && 'spoiler-blur-sm')}
+                    className={cn(data.spoiler && 'spoiler-blur-xs')}
                 >
                     {data.description}
                 </HorizontalCardDescription>

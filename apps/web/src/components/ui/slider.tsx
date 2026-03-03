@@ -58,7 +58,7 @@ const ThumbWithValue = React.forwardRef<HTMLSpanElement, ThumbWithValueProps>(
         return (
             <SliderPrimitive.Thumb
                 ref={ref}
-                className="group relative block size-5 rounded-full border-2 border-primary-foreground bg-primary ring-offset-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50"
+                className="group relative block size-5 rounded-full border-2 border-primary-foreground bg-primary ring-offset-primary transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onPointerDown={onInteractionStart}

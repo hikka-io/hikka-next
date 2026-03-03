@@ -40,7 +40,7 @@ const ContentHeader: FC<Props> = ({
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur-sm">
+        <Card className="bg-secondary/20 backdrop-blur-xs">
             {!disableBreadcrumbs && (
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">

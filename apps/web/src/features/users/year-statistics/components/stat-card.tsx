@@ -18,7 +18,7 @@ const StatCard: FC<StatCardProps> = ({ icon, value, label, className }) => (
             className,
         )}
     >
-        <div className="shrink-0 size-6 rounded-sm bg-secondary/60 p-1 flex items-center justify-center">
+        <div className="shrink-0 size-6 rounded-xs bg-secondary/60 p-1 flex items-center justify-center">
             {icon}
         </div>
         <div className="flex flex-col flex-1 gap-1">

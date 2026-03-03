@@ -312,7 +312,7 @@ function EmojiPickerContent({
                         style={{ width: getRowWidth }}
                         data-id={categoryId}
                     >
-                        <div className="sticky -top-px z-[1] bg-popover/90 p-1 py-2 text-sm font-semibold backdrop-blur-sm">
+                        <div className="sticky -top-px z-[1] bg-popover/90 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
                             {i18n.categories[categoryId]}
                         </div>
                         <div
@@ -407,7 +407,7 @@ function EmojiPickerSearchBar({
         <div className="flex items-center px-2">
             <div className="relative flex grow items-center">
                 <input
-                    className="block w-full appearance-none rounded-full border-0 bg-muted px-10 py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:outline-none"
+                    className="block w-full appearance-none rounded-full border-0 bg-muted px-10 py-2 text-sm outline-hidden placeholder:text-muted-foreground focus-visible:outline-hidden"
                     value={searchValue}
                     onChange={(event) => setSearch(event.target.value)}
                     placeholder={i18n.search}
