@@ -87,7 +87,7 @@ const CollectionPage = async (props: {
                     </div>
                 </Breadcrumbs>
                 <div className="flex flex-col gap-12">
-                    <div className="container max-w-3xl p-0">
+                    <div className="w-full mx-auto max-w-3xl p-0">
                         <CollectionAuthor />
                     </div>
                     <div className="grid grid-cols-1 justify-items-center gap-12 lg:grid-cols-[auto_1fr_auto] lg:gap-4">
@@ -102,7 +102,7 @@ const CollectionPage = async (props: {
                             </div>
                         </div>
                     </div>
-                    <div className="container max-w-3xl p-0">
+                    <div className="w-full mx-auto max-w-3xl p-0">
                         <Comments
                             preview
                             slug={reference}

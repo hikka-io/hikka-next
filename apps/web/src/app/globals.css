@@ -295,666 +295,665 @@
     --animate-collapsible-up: collapsible-up 0.2s ease-out;
 }
 
-/* Safelist via @source inline */
-@source inline("
- bg-ongoing bg-ongoing-foreground text-ongoing-foreground border-ongoing-border bg-finished bg-finished-foreground text-finished-foreground border-finished-border bg-announced bg-announced-foreground text-announced-foreground border-announced-border bg-discontinued bg-discontinued-foreground text-discontinued-foreground border-discontinued-border bg-paused bg-paused-foreground text-paused-foreground border-paused-border bg-planned bg-planned/80 text-planned-foreground text-planned border-planned-border bg-completed bg-completed/80 text-completed-foreground text-completed border-completed-border bg-on_hold bg-on_hold/80 text-on_hold-foreground text-on_hold border-on_hold-border bg-dropped bg-dropped/80 text-dropped-foreground text-dropped border-dropped-border bg-reading bg-reading/80 text-reading-foreground text-reading border-reading-border bg-watching bg-watching/80 text-watching-foreground text-watching border-watching-border gradient-mask-t-90 gradient-mask-t-90-d gradient-mask-b-90 gradient-mask-b-90-d gradient-mask-l-90 gradient-mask-l-90-d gradient-mask-r-90 gradient-mask-r-90-d ");
+/* Safelist via @source */
+@source "./safelist.txt";
 
 
-    @keyframes accordion-down {
-        from {
-            height: 0;
-        }
-
-        to {
-            height: var(--radix-accordion-content-height);
-        }
+@keyframes accordion-down {
+    from {
+        height: 0;
     }
 
-    @keyframes accordion-up {
-        from {
-            height: var(--radix-accordion-content-height);
-        }
+    to {
+        height: var(--radix-accordion-content-height);
+    }
+}
 
-        to {
-            height: 0;
-        }
+@keyframes accordion-up {
+    from {
+        height: var(--radix-accordion-content-height);
     }
 
-    @keyframes collapsible-down {
-        from {
-            height: 0;
-        }
+    to {
+        height: 0;
+    }
+}
 
-        to {
-            height: var(--radix-collapsible-content-height);
-        }
+@keyframes collapsible-down {
+    from {
+        height: 0;
     }
 
-    @keyframes collapsible-up {
-        from {
-            height: var(--radix-collapsible-content-height);
-        }
+    to {
+        height: var(--radix-collapsible-content-height);
+    }
+}
 
-        to {
-            height: 0;
-        }
+@keyframes collapsible-up {
+    from {
+        height: var(--radix-collapsible-content-height);
     }
 
-    @layer base {
-        *, ::after, ::before, ::backdrop, ::file-selector-button {
-            border-color: var(--color-border, currentColor);
-        }
+    to {
+        height: 0;
+    }
+}
 
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--secondary) transparent;
-        }
-
-        button:not(:disabled),
-        [role="button"]:not(:disabled) {
-            cursor: pointer;
-        }
-
-        body {
-            @apply bg-background text-foreground bg-no-repeat;
-            background-size: 100% 100vh;
-        }
-
-        body:has([data-cover-image][data-overlay='false']) {
-            background-image: none !important;
-        }
+@layer base {
+    *, ::after, ::before, ::backdrop, ::file-selector-button {
+        border-color: var(--color-border, currentColor);
     }
 
-    /* Grid min utilities */
-    @utility grid-min-1 {
-        --grid-min: 1rem;
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--secondary) transparent;
     }
 
-    @utility grid-min-2 {
-        --grid-min: 2rem;
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
     }
 
-    @utility grid-min-3 {
-        --grid-min: 3.5rem;
+    body {
+        @apply bg-background text-foreground bg-no-repeat;
+        background-size: 100% 100vh;
     }
 
-    @utility grid-min-4 {
-        --grid-min: 4rem;
-    }
-
-    @utility grid-min-5 {
-        --grid-min: 5rem;
-    }
-
-    @utility grid-min-6 {
-        --grid-min: 6rem;
-    }
-
-    @utility grid-min-7 {
-        --grid-min: 7rem;
-    }
-
-    @utility grid-min-8 {
-        --grid-min: 8rem;
-    }
-
-    @utility grid-min-9 {
-        --grid-min: 8rem;
-    }
-
-    @utility grid-min-10 {
-        --grid-min: 10rem;
-    }
-
-    @utility grid-min-12 {
-        --grid-min: 12rem;
-    }
-
-    @utility grid-min-14 {
-        --grid-min: 14rem;
-    }
-
-    @utility grid-min-16 {
-        --grid-min: 16rem;
-    }
-
-    @utility grid-min-18 {
-        --grid-min: 18rem;
-    }
-
-    @utility grid-min-20 {
-        --grid-min: 20rem;
-    }
-
-    /* Grid max utilities */
-    @utility grid-max-3 {
-        --grid-max: 3.5rem;
-    }
-
-    @utility grid-max-20 {
-        --grid-max: 20rem;
-    }
-
-    @utility grid-max-22 {
-        --grid-max: 22rem;
-    }
-
-    /* Other utilities */
-    @utility contain-paint {
-        contain: paint;
-    }
-
-    @utility no-gradient {
+    body:has([data-cover-image][data-overlay='false']) {
         background-image: none !important;
     }
+}
 
-    /* Gradient mask utilities (replaces tailwind-gradient-mask-image plugin) */
-    @utility gradient-mask-none {
-        mask-image: none;
-    }
+/* Grid min utilities */
+@utility grid-min-1 {
+    --grid-min: 1rem;
+}
 
-    @utility gradient-mask-t-0 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
-    }
+@utility grid-min-2 {
+    --grid-min: 2rem;
+}
 
-    @utility gradient-mask-t-10 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
-    }
+@utility grid-min-3 {
+    --grid-min: 3.5rem;
+}
 
-    @utility gradient-mask-t-20 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
-    }
+@utility grid-min-4 {
+    --grid-min: 4rem;
+}
 
-    @utility gradient-mask-t-30 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
-    }
+@utility grid-min-5 {
+    --grid-min: 5rem;
+}
 
-    @utility gradient-mask-t-40 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
-    }
+@utility grid-min-6 {
+    --grid-min: 6rem;
+}
 
-    @utility gradient-mask-t-50 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility grid-min-7 {
+    --grid-min: 7rem;
+}
 
-    @utility gradient-mask-t-60 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility grid-min-8 {
+    --grid-min: 8rem;
+}
 
-    @utility gradient-mask-t-70 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility grid-min-9 {
+    --grid-min: 8rem;
+}
 
-    @utility gradient-mask-t-80 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility grid-min-10 {
+    --grid-min: 10rem;
+}
 
-    @utility gradient-mask-t-90 {
-        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility grid-min-12 {
+    --grid-min: 12rem;
+}
 
-    @utility gradient-mask-t-50-d {
-        mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility grid-min-14 {
+    --grid-min: 14rem;
+}
 
-    @utility gradient-mask-t-60-d {
-        mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility grid-min-16 {
+    --grid-min: 16rem;
+}
 
-    @utility gradient-mask-t-70-d {
-        mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility grid-min-18 {
+    --grid-min: 18rem;
+}
 
-    @utility gradient-mask-t-80-d {
-        mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility grid-min-20 {
+    --grid-min: 20rem;
+}
 
-    @utility gradient-mask-t-90-d {
-        mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+/* Grid max utilities */
+@utility grid-max-3 {
+    --grid-max: 3.5rem;
+}
 
-    @utility gradient-mask-b-0 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
-    }
+@utility grid-max-20 {
+    --grid-max: 20rem;
+}
 
-    @utility gradient-mask-b-10 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
-    }
+@utility grid-max-22 {
+    --grid-max: 22rem;
+}
 
-    @utility gradient-mask-b-20 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
-    }
+/* Other utilities */
+@utility contain-paint {
+    contain: paint;
+}
 
-    @utility gradient-mask-b-30 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
-    }
+@utility no-gradient {
+    background-image: none !important;
+}
 
-    @utility gradient-mask-b-40 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
-    }
+/* Gradient mask utilities (replaces tailwind-gradient-mask-image plugin) */
+@utility gradient-mask-none {
+    mask-image: none;
+}
 
-    @utility gradient-mask-b-50 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility gradient-mask-t-0 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+}
 
-    @utility gradient-mask-b-60 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility gradient-mask-t-10 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+}
 
-    @utility gradient-mask-b-70 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility gradient-mask-t-20 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+}
 
-    @utility gradient-mask-b-80 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility gradient-mask-t-30 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+}
 
-    @utility gradient-mask-b-90 {
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility gradient-mask-t-40 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+}
 
-    @utility gradient-mask-b-50-d {
-        mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility gradient-mask-t-50 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
 
-    @utility gradient-mask-b-60-d {
-        mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility gradient-mask-t-60 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
 
-    @utility gradient-mask-b-70-d {
-        mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility gradient-mask-t-70 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
 
-    @utility gradient-mask-b-80-d {
-        mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility gradient-mask-t-80 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
 
-    @utility gradient-mask-b-90-d {
-        mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility gradient-mask-t-90 {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
 
-    @utility gradient-mask-r-0 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
-    }
+@utility gradient-mask-t-50-d {
+    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
 
-    @utility gradient-mask-r-10 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
-    }
+@utility gradient-mask-t-60-d {
+    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
 
-    @utility gradient-mask-r-20 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
-    }
+@utility gradient-mask-t-70-d {
+    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
 
-    @utility gradient-mask-r-30 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
-    }
+@utility gradient-mask-t-80-d {
+    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
 
-    @utility gradient-mask-r-40 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
-    }
+@utility gradient-mask-t-90-d {
+    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
 
-    @utility gradient-mask-r-50 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility gradient-mask-b-0 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+}
 
-    @utility gradient-mask-r-60 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility gradient-mask-b-10 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+}
 
-    @utility gradient-mask-r-70 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility gradient-mask-b-20 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+}
 
-    @utility gradient-mask-r-80 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility gradient-mask-b-30 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+}
 
-    @utility gradient-mask-r-90 {
-        mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility gradient-mask-b-40 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+}
 
-    @utility gradient-mask-r-50-d {
-        mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility gradient-mask-b-50 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
 
-    @utility gradient-mask-r-60-d {
-        mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility gradient-mask-b-60 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
 
-    @utility gradient-mask-r-70-d {
-        mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility gradient-mask-b-70 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
 
-    @utility gradient-mask-r-80-d {
-        mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility gradient-mask-b-80 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
 
-    @utility gradient-mask-r-90-d {
-        mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility gradient-mask-b-90 {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
 
-    @utility gradient-mask-l-0 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
-    }
+@utility gradient-mask-b-50-d {
+    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
 
-    @utility gradient-mask-l-10 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
-    }
+@utility gradient-mask-b-60-d {
+    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
 
-    @utility gradient-mask-l-20 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
-    }
+@utility gradient-mask-b-70-d {
+    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
 
-    @utility gradient-mask-l-30 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
-    }
+@utility gradient-mask-b-80-d {
+    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
 
-    @utility gradient-mask-l-40 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
-    }
+@utility gradient-mask-b-90-d {
+    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
 
-    @utility gradient-mask-l-50 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility gradient-mask-r-0 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+}
 
-    @utility gradient-mask-l-60 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility gradient-mask-r-10 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+}
 
-    @utility gradient-mask-l-70 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility gradient-mask-r-20 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+}
 
-    @utility gradient-mask-l-80 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility gradient-mask-r-30 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+}
 
-    @utility gradient-mask-l-90 {
-        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility gradient-mask-r-40 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+}
 
-    @utility gradient-mask-l-50-d {
-        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
-    }
+@utility gradient-mask-r-50 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
 
-    @utility gradient-mask-l-60-d {
-        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
-    }
+@utility gradient-mask-r-60 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
 
-    @utility gradient-mask-l-70-d {
-        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
-    }
+@utility gradient-mask-r-70 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
 
-    @utility gradient-mask-l-80-d {
-        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
-    }
+@utility gradient-mask-r-80 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
 
-    @utility gradient-mask-l-90-d {
-        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
-    }
+@utility gradient-mask-r-90 {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
 
-    /* Logo styles */
-    .logo {
-        background-image: url(/logo-icon.png);
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
+@utility gradient-mask-r-50-d {
+    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
 
-    .dark .logo-full {
+@utility gradient-mask-r-60-d {
+    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
+
+@utility gradient-mask-r-70-d {
+    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
+
+@utility gradient-mask-r-80-d {
+    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
+
+@utility gradient-mask-r-90-d {
+    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
+
+@utility gradient-mask-l-0 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+}
+
+@utility gradient-mask-l-10 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+}
+
+@utility gradient-mask-l-20 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+}
+
+@utility gradient-mask-l-30 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+}
+
+@utility gradient-mask-l-40 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+}
+
+@utility gradient-mask-l-50 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
+
+@utility gradient-mask-l-60 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
+
+@utility gradient-mask-l-70 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
+
+@utility gradient-mask-l-80 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
+
+@utility gradient-mask-l-90 {
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
+
+@utility gradient-mask-l-50-d {
+    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
+
+@utility gradient-mask-l-60-d {
+    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+}
+
+@utility gradient-mask-l-70-d {
+    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+}
+
+@utility gradient-mask-l-80-d {
+    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
+
+@utility gradient-mask-l-90-d {
+    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+}
+
+/* Logo styles */
+.logo {
+    background-image: url(/logo-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dark .logo-full {
+    background-image: url(/logo-dark.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.logo-full {
+    background-image: url(/logo.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+@media (width >=48rem) {
+    .dark .logo {
         background-image: url(/logo-dark.svg);
         background-size: contain;
         background-repeat: no-repeat;
     }
 
-    .logo-full {
+    .logo {
         background-image: url(/logo.svg);
         background-size: contain;
         background-repeat: no-repeat;
     }
+}
 
-    @media (width >=48rem) {
-        .dark .logo {
-            background-image: url(/logo-dark.svg);
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
 
-        .logo {
-            background-image: url(/logo.svg);
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-    }
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    @keyframes snack-progress {
-        0% {
-            height: 100%;
-        }
-
-        100% {
-            height: 0;
-        }
-    }
-
-    main {
-        min-height: calc(100vh - 16.5rem);
-    }
-
-    [data-select] [data-radix-popper-content-wrapper] {
-        position: absolute !important;
-        width: 100%;
-    }
-
-    table th:first-child,
-    td:first-child {
-        @apply rounded-l-md;
-    }
-
-    table th:last-child,
-    td:last-child {
-        @apply rounded-r-md;
-    }
-
-    .radial-progress {
-        position: relative;
-        display: inline-grid;
-        height: var(--size);
-        width: var(--size);
-        place-content: center;
-        border-radius: 9999px;
-        background-color: transparent;
-        vertical-align: middle;
-        box-sizing: content-box;
-        --value: 0;
-        --size: 5rem;
-        --thickness: calc(var(--size) / 10);
-    }
-
-    .radial-progress::-moz-progress-bar {
-        -moz-appearance: none;
-        appearance: none;
-        background-color: transparent;
-    }
-
-    .radial-progress::-webkit-progress-bar,
-    .radial-progress::-webkit-progress-value {
-        -webkit-appearance: none;
-        appearance: none;
-        background-color: transparent;
-    }
-
-    .radial-progress:after,
-    .radial-progress:before {
-        position: absolute;
-        border-radius: 9999px;
-        content: '';
-    }
-
-    .radial-progress:before {
-        inset: 0;
-        background: radial-gradient(farthest-side, currentColor 98%, #0000) top/var(--thickness) var(--thickness) no-repeat,
-        conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
-        -webkit-mask: radial-gradient(farthest-side,
-            #0000 calc(99% - var(--thickness)),
-            #000 calc(100% - var(--thickness)));
-        mask: radial-gradient(farthest-side,
-            #0000 calc(99% - var(--thickness)),
-            #000 calc(100% - var(--thickness)));
-    }
-
-    .radial-progress:after {
-        inset: calc(50% - var(--thickness) / 2);
-        transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size) / 2 - 50%));
-        background-color: currentColor;
-    }
-
-    .loading {
-        pointer-events: none;
-        display: inline-block;
-        aspect-ratio: 1/1;
-        width: 1.5rem;
-        background-color: currentColor;
-        -webkit-mask-size: 100%;
-        mask-size: 100%;
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        mask-position: center;
-    }
-
-    .loading,
-    .loading-spinner {
-        -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-        mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-    }
-
-    .progress-ring__circle {
-        transition: stroke-dasharray 0.35s;
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
-    }
-
-    ._placeholder_1qea1_1049 {
-        @apply text-muted-foreground;
-    }
-
-    .unexpanded-text {
-        mask-image: linear-gradient(to bottom, white 50%, transparent);
-    }
-
-    .spoiler-blur-md {
-        @apply blur-md transition-all duration-500 hover:blur-none;
-    }
-
-    .spoiler-blur-sm {
-        @apply blur-xs transition-all duration-500 hover:blur-none;
-    }
-
-    @layer base {
-        body {
-            @apply bg-background text-foreground;
-        }
-    }
-
-    p:last-child,
-    blockquote:last-child,
-    ul:last-child,
-    ol:last-child,
-    div.slate-editor:last-child,
-    .slate-image_group:last-child,
-    div.spoiler:last-child {
-        @apply mb-0;
-    }
-
-    .image-group {
-        --ratio: 40%;
-        position: relative;
-    }
-
-    .image-group:before {
-        content: '';
-        display: block;
-        padding-bottom: var(--ratio);
-    }
-
-    .image-group-container {
-        display: grid;
-        grid-gap: 4px;
-        gap: 4px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
+@keyframes snack-progress {
+    0% {
         height: 100%;
     }
 
-    .image-group-item {
-        @apply relative flex items-center justify-center overflow-hidden;
+    100% {
+        height: 0;
     }
+}
 
-    .image-group-size-1 picture {
-        @apply h-full;
-    }
+main {
+    min-height: calc(100vh - 16.5rem);
+}
 
-    .image-group-size-1 .image-item {
-        @apply size-full;
-    }
+[data-select] [data-radix-popper-content-wrapper] {
+    position: absolute !important;
+    width: 100%;
+}
 
-    .image-group-size-2 .image-item {
-        @apply size-full;
-    }
+table th:first-child,
+td:first-child {
+    @apply rounded-l-md;
+}
 
-    .image-group-size-2 .image-group-container {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr;
-    }
+table th:last-child,
+td:last-child {
+    @apply rounded-r-md;
+}
 
-    .image-group-size-3 {
-        --ratio: 75%;
-    }
+.radial-progress {
+    position: relative;
+    display: inline-grid;
+    height: var(--size);
+    width: var(--size);
+    place-content: center;
+    border-radius: 9999px;
+    background-color: transparent;
+    vertical-align: middle;
+    box-sizing: content-box;
+    --value: 0;
+    --size: 5rem;
+    --thickness: calc(var(--size) / 10);
+}
 
-    .image-group-size-3 .image-item {
-        @apply size-full;
-    }
+.radial-progress::-moz-progress-bar {
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+}
 
-    .image-group-size-3 .image-group-container {
-        grid-template-columns: 1.75fr 1fr;
-        grid-template-rows: 1fr 1fr;
-    }
+.radial-progress::-webkit-progress-bar,
+.radial-progress::-webkit-progress-value {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+}
 
-    .image-group-size-3 .image-group-item:nth-child(1) {
-        grid-row: 1 / span 2;
-        grid-column: 1;
-    }
+.radial-progress:after,
+.radial-progress:before {
+    position: absolute;
+    border-radius: 9999px;
+    content: '';
+}
 
-    .image-group-size-3 .image-group-item:nth-child(2) {
-        grid-row: 1;
-        grid-column: 2;
-    }
+.radial-progress:before {
+    inset: 0;
+    background: radial-gradient(farthest-side, currentColor 98%, #0000) top/var(--thickness) var(--thickness) no-repeat,
+    conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
+    -webkit-mask: radial-gradient(farthest-side,
+        #0000 calc(99% - var(--thickness)),
+        #000 calc(100% - var(--thickness)));
+    mask: radial-gradient(farthest-side,
+        #0000 calc(99% - var(--thickness)),
+        #000 calc(100% - var(--thickness)));
+}
 
-    .image-group-size-3 .image-group-item:nth-child(3) {
-        grid-row: 2;
-        grid-column: 2;
-    }
+.radial-progress:after {
+    inset: calc(50% - var(--thickness) / 2);
+    transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size) / 2 - 50%));
+    background-color: currentColor;
+}
 
-    .image-group-size-4 {
-        --ratio: 75%;
-    }
+.loading {
+    pointer-events: none;
+    display: inline-block;
+    aspect-ratio: 1/1;
+    width: 1.5rem;
+    background-color: currentColor;
+    -webkit-mask-size: 100%;
+    mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
 
-    .image-group-size-4 .image-item {
-        @apply size-full;
-    }
+.loading,
+.loading-spinner {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 
-    .image-group-size-4 .image-group-container {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
+.progress-ring__circle {
+    transition: stroke-dasharray 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+._placeholder_1qea1_1049 {
+    @apply text-muted-foreground;
+}
+
+.unexpanded-text {
+    mask-image: linear-gradient(to bottom, white 50%, transparent);
+}
+
+.spoiler-blur-md {
+    @apply blur-md transition-all duration-500 hover:blur-none;
+}
+
+.spoiler-blur-sm {
+    @apply blur-xs transition-all duration-500 hover:blur-none;
+}
+
+@layer base {
+    body {
+        @apply bg-background text-foreground;
     }
+}
+
+p:last-child,
+blockquote:last-child,
+ul:last-child,
+ol:last-child,
+div.slate-editor:last-child,
+.slate-image_group:last-child,
+div.spoiler:last-child {
+    @apply mb-0;
+}
+
+.image-group {
+    --ratio: 40%;
+    position: relative;
+}
+
+.image-group:before {
+    content: '';
+    display: block;
+    padding-bottom: var(--ratio);
+}
+
+.image-group-container {
+    display: grid;
+    grid-gap: 4px;
+    gap: 4px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.image-group-item {
+    @apply relative flex items-center justify-center overflow-hidden;
+}
+
+.image-group-size-1 picture {
+    @apply h-full;
+}
+
+.image-group-size-1 .image-item {
+    @apply size-full;
+}
+
+.image-group-size-2 .image-item {
+    @apply size-full;
+}
+
+.image-group-size-2 .image-group-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.image-group-size-3 {
+    --ratio: 75%;
+}
+
+.image-group-size-3 .image-item {
+    @apply size-full;
+}
+
+.image-group-size-3 .image-group-container {
+    grid-template-columns: 1.75fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.image-group-size-3 .image-group-item:nth-child(1) {
+    grid-row: 1 / span 2;
+    grid-column: 1;
+}
+
+.image-group-size-3 .image-group-item:nth-child(2) {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.image-group-size-3 .image-group-item:nth-child(3) {
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.image-group-size-4 {
+    --ratio: 75%;
+}
+
+.image-group-size-4 .image-item {
+    @apply size-full;
+}
+
+.image-group-size-4 .image-group-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}

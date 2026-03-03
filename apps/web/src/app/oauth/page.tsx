@@ -39,7 +39,7 @@ const OAuthPage: FC<Props> = async (props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <SessionManager>
-                <main className="container mx-auto my-8 min-h-screen max-w-xl px-4 lg:my-16">
+                <main className="w-full mx-auto my-8 min-h-screen max-w-xl px-4 lg:my-16">
                     <div className="flex h-full flex-col items-center justify-start gap-8">
                         <Header />
                         <Profile />

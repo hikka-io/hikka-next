@@ -35,7 +35,7 @@ const SettingsLayout: FC<Props> = async (props) => {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className="container flex max-w-3xl flex-col gap-12 p-0">
+            <div className="mx-auto flex max-w-3xl flex-col gap-12 p-0">
                 <Block>
                     <Header>
                         <HeaderContainer>
