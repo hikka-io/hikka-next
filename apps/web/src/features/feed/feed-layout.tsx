@@ -4,10 +4,11 @@ import { FC, ReactNode } from 'react';
 
 import { cn } from '@/utils/cn';
 
-import FeedCombinedSidebar from './feed-combined-sidebar';
-import FeedMobileWidgets from './feed-mobile-widgets';
 import FeedSidebar from './feed-sidebar';
+import FeedCombinedSidebar from './feed-sidebar/components/feed-combined-sidebar';
+import SidebarContent from './feed-sidebar/components/sidebar-content';
 import FeedWidgets from './feed-widgets';
+import FeedMobileWidgets from './feed-widgets/components/feed-mobile-widgets';
 
 interface Props {
     children: ReactNode;
@@ -28,18 +29,17 @@ const FeedLayout: FC<Props> = ({ children, className }) => {
             </aside>
 
             <main className="flex min-w-0 flex-col gap-4">
-                <div className="md:hidden">
+                <div className="flex flex-col gap-4 md:hidden">
+                    <SidebarContent />
                     <FeedMobileWidgets />
                 </div>
                 {children}
             </main>
 
-            {/* MD/LG: combined sidebar with profile + nav + widgets + stats */}
             <aside className="sticky top-20 hidden h-fit md:block xl:hidden">
                 <FeedCombinedSidebar />
             </aside>
 
-            {/* XL: widgets-only column (sidebar is separate left column) */}
             <aside className="sticky top-20 hidden h-fit xl:block">
                 <FeedWidgets />
             </aside>

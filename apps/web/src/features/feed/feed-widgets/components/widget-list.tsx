@@ -1,12 +1,14 @@
 'use client';
 
-import { useSettingsStore } from '@/services/stores/settings-store';
+import { FC } from 'react';
 
+import { useSettingsStore } from '@/services/stores/settings-store';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
+
 import WidgetCalendar from './widget-calendar';
 import WidgetWatching from './widget-watching';
 
-const WIDGET_COMPONENTS: Record<string, React.ComponentType> = {
+const WIDGET_COMPONENTS: Record<string, FC> = {
     watching: WidgetWatching,
     calendar: WidgetCalendar,
 };

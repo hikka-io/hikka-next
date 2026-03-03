@@ -10,10 +10,24 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 
+import { LoginButton } from '@/features/common';
+
 const SidebarProfile = () => {
     const { user } = useSession();
 
-    if (!user) return null;
+    if (!user) {
+        return (
+            <Card className="items-center bg-secondary/20">
+                <div className="flex flex-col gap-2 w-full">
+                    <p className="text-sm font-bold">Ласкаво просимо!</p>
+                    <p className="text-xs text-muted-foreground">
+                        Увійдіть, щоб отримати персоналізовану стрічку
+                    </p>
+                </div>
+                <LoginButton className="w-full" variant="secondary" />
+            </Card>
+        );
+    }
 
     return (
         <Card className="items-center bg-secondary/20">
