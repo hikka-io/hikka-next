@@ -130,7 +130,7 @@ function colorTokensToCSS(tokens: UIColorTokens | undefined): string {
         if (typeof value === 'object' && value?.h !== undefined) {
             if (!isValidHSL(value as HSLColor)) continue;
             declarations.push(
-                `${cssVarName}: ${value.h} ${value.s}% ${value.l}%;`,
+                `${cssVarName}: hsl(${value.h} ${value.s}% ${value.l}%);`,
             );
         } else if (typeof value === 'string' && value !== '') {
             const sanitized = sanitizeCSSColor(value);
@@ -157,7 +157,7 @@ function colorTokensToReactStyle(
 
         if (typeof value === 'object' && value?.h !== undefined) {
             if (!isValidHSL(value as HSLColor)) continue;
-            style[cssVarName] = `${value.h} ${value.s}% ${value.l}%`;
+            style[cssVarName] = `hsl(${value.h} ${value.s}% ${value.l}%)`;
         } else if (typeof value === 'string' && value !== '') {
             const sanitized = sanitizeCSSColor(value);
             if (!sanitized) continue;
