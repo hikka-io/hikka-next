@@ -8,11 +8,13 @@ import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import WidgetCalendar from './widget-calendar';
+import WidgetOngoing from './widget-ongoing';
 import WidgetTracker from './widget-tracker';
 
 const WIDGET_COMPONENTS: Record<string, FC> = {
     tracker: WidgetTracker,
     calendar: WidgetCalendar,
+    ongoing: WidgetOngoing,
 };
 
 const WidgetList = () => {
@@ -24,14 +26,14 @@ const WidgetList = () => {
             : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur max-h-[calc(100vh-10rem)] overflow-y-auto">
+        <Card className="bg-secondary/20 backdrop-blur p-0 max-h-[calc(100vh-13rem)] overflow-y-auto gap-0">
             {widgets
                 .filter((w) => w.visible)
                 .map((widget, index) => {
                     const Component = WIDGET_COMPONENTS[widget.id];
                     if (!Component) return null;
                     return <>
-                        {index !== 0 && <Separator />}
+                        {index !== 0 && <div className='px-4'><Separator /></div>}
                         <Component key={widget.id} />
                     </>;
                 })}

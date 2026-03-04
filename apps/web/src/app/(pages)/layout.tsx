@@ -21,12 +21,12 @@ const Layout: FC<Props> = ({ children }) => {
             <SidebarProvider defaultOpen={false}>
                 <ScrollTop />
                 <div className="sticky top-0 z-50">
-                    <div className="container relative mx-auto">
+                    <div className="container 2xl:max-w-360 relative mx-auto">
                         <AppSidebar />
                     </div>
                 </div>
                 <NavBar />
-                <main className="container mx-auto mt-8 px-4">
+                <main className="container 2xl:max-w-360 mx-auto mt-8 px-4 lg:mt-16">
                     {children}
                 </main>
             </SidebarProvider>

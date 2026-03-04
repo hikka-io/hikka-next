@@ -57,7 +57,7 @@ const WidgetCalendar = () => {
             : list?.filter((item) => item.airing_at * 1000 > now).slice(0, 6);
 
     return (
-        <div className="flex-col gap-4">
+        <div className="flex-col gap-4 p-4">
             <Block>
                 <Header href="/schedule">
                     <HeaderContainer>

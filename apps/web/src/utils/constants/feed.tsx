@@ -11,6 +11,7 @@ import { FeedFilterEnum } from '@/features/feed/types';
 export const AVAILABLE_WIDGETS = [
     { id: 'tracker', title: 'Мій список' },
     { id: 'calendar', title: 'Календар' },
+    { id: 'ongoing', title: 'Онґоінґи' },
 ] as const;
 
 export const FEED_FILTER_OPTIONS: Record<
