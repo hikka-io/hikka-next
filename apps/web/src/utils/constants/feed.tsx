@@ -9,7 +9,7 @@ import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSy
 import { FeedFilterEnum } from '@/features/feed/types';
 
 export const AVAILABLE_WIDGETS = [
-    { id: 'watching', title: 'Дивлюсь' },
+    { id: 'tracker', title: 'Мій список' },
     { id: 'calendar', title: 'Календар' },
 ] as const;
 

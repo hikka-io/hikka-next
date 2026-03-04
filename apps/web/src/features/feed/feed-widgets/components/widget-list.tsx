@@ -6,10 +6,10 @@ import { useSettingsStore } from '@/services/stores/settings-store';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
 import WidgetCalendar from './widget-calendar';
-import WidgetWatching from './widget-watching';
+import WidgetTracker from './widget-tracker';
 
 const WIDGET_COMPONENTS: Record<string, FC> = {
-    watching: WidgetWatching,
+    tracker: WidgetTracker,
     calendar: WidgetCalendar,
 };
 

@@ -1,27 +1,20 @@
 'use client';
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
-import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
+import {
+    useCreateWatch,
+    useSearchUserWatches,
+    useSession,
+} from '@hikka/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import P from '@/components/typography/p';
-import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
 import {
@@ -33,7 +26,6 @@ import {
     SelectList,
     SelectTrigger,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { WatchEditModal } from '@/features/watch';
 
@@ -48,7 +40,7 @@ const EPISODES_DECLENSION: [string, string, string] = [
     'епізодів',
 ];
 
-const AnimeWatchingContent = () => {
+const WatchingTracker = () => {
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
@@ -70,6 +62,7 @@ const AnimeWatchingContent = () => {
         value: updatedWatch,
         delay: 500,
     });
+
     const { mutate: mutateCreateWatch, reset } = useCreateWatch();
 
     const handleSelectChange = (value: string[]) => {
@@ -81,29 +74,32 @@ const AnimeWatchingContent = () => {
     };
 
     const openWatchEditModal = () => {
-        if (selectedWatch) {
-            openModal({
-                content: (
-                    <WatchEditModal
-                        watch={selectedWatch}
-                        slug={selectedWatch.anime.slug}
-                    />
-                ),
-                className: '!max-w-xl',
-                title: selectedWatch.anime.title,
-                forceModal: true,
-            });
-        }
+        if (!selectedWatch) return;
+
+        openModal({
+            content: (
+                <WatchEditModal
+                    watch={selectedWatch}
+                    slug={selectedWatch.anime.slug}
+                />
+            ),
+            className: '!max-w-xl',
+            title: selectedWatch.anime.title,
+            forceModal: true,
+        });
     };
 
     const handleAddEpisode = () => {
         if (!selectedWatch) return;
+
         const episodes = (updatedWatch?.episodes ?? selectedWatch.episodes) + 1;
+
         if (
             selectedWatch.anime.episodes_total &&
             episodes > selectedWatch.anime.episodes_total
         )
             return;
+
         setUpdatedWatch({
             ...selectedWatch,
             status:
@@ -116,8 +112,11 @@ const AnimeWatchingContent = () => {
 
     const handleRemoveEpisode = () => {
         if (!selectedWatch) return;
+
         const episodes = (updatedWatch?.episodes ?? selectedWatch.episodes) - 1;
+
         if (episodes < 0) return;
+
         setUpdatedWatch({ ...selectedWatch, episodes });
     };
 
@@ -175,9 +174,9 @@ const AnimeWatchingContent = () => {
                         containerClassName="rounded-lg"
                         containerRatio={16 / 9}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-3">
-                        <p className="text-sm font-bold text-white line-clamp-1">
+                        <p className="line-clamp-1 text-sm font-bold text-white">
                             {selectedWatch.anime.title}
                         </p>
                         <div className="mt-0.5 flex items-center gap-1.5 text-xs text-white/70">
@@ -186,7 +185,7 @@ const AnimeWatchingContent = () => {
                             )}
                             {selectedWatch.anime.media_type && (
                                 <>
-                                    <span>•</span>
+                                    <div className="size-1 rounded-full bg-white/70" />
                                     <span>
                                         {
                                             ANIME_MEDIA_TYPE[
@@ -198,7 +197,7 @@ const AnimeWatchingContent = () => {
                             )}
                             {totalEpisodes && (
                                 <>
-                                    <span>•</span>
+                                    <div className="size-1 rounded-full bg-white/70" />
                                     <span>
                                         {totalEpisodes}{' '}
                                         {getDeclensionWord(
@@ -292,48 +291,4 @@ const AnimeWatchingContent = () => {
     );
 };
 
-const WidgetWatching = () => {
-    const { user } = useSession();
-
-    if (!user) return null;
-
-    return (
-        <Card className="bg-secondary/20">
-            <Block>
-                <Header href={`/u/${user.username}/list`}>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Дивлюсь</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
-                </Header>
-                <Tabs defaultValue="anime" className="flex flex-col gap-4">
-                    <TabsList className="w-full">
-                        <TabsTrigger value="anime" className="flex gap-2">
-                            <MaterialSymbolsAnimatedImages className="size-4" />
-                            Аніме
-                        </TabsTrigger>
-                        <TabsTrigger value="manga" className="flex gap-2">
-                            <MaterialSymbolsPalette className="size-4" />
-                            Манґа
-                        </TabsTrigger>
-                        <TabsTrigger value="novel" className="flex gap-2">
-                            <MaterialSymbolsMenuBookRounded className="size-4" />
-                            Ранобе
-                        </TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="anime" className="flex-1">
-                        <AnimeWatchingContent />
-                    </TabsContent>
-                    <TabsContent value="manga" className="flex-1">
-                        <NotFound title="Манґа" description="Незабаром..." />
-                    </TabsContent>
-                    <TabsContent value="novel" className="flex-1">
-                        <NotFound title="Ранобе" description="Незабаром..." />
-                    </TabsContent>
-                </Tabs>
-            </Block>
-        </Card>
-    );
-};
-
-export default WidgetWatching;
+export default WatchingTracker;
