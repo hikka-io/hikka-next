@@ -105,7 +105,7 @@ const StudioDetail = ({
                         alt="studio"
                         width={100}
                         height={50}
-                        className="w-8 rounded-xs object-cover"
+                        className="w-8 rounded-sm object-cover"
                     />
                 </Link>
             )}
@@ -178,14 +178,14 @@ const WatchDetails = ({
                 title="Епізоди"
                 value={
                     (data.episodes_total || data.episodes_released) &&
-                    (data.media_type !== 'movie' ||
-                        (data.episodes_total ?? data.episodes_released ?? 0) >
+                        (data.media_type !== 'movie' ||
+                            (data.episodes_total ?? data.episodes_released ?? 0) >
                             1)
                         ? formatEpisodeCount(
-                              data.status!,
-                              data.episodes_released,
-                              data.episodes_total,
-                          )
+                            data.status!,
+                            data.episodes_released,
+                            data.episodes_total,
+                        )
                         : undefined
                 }
             />

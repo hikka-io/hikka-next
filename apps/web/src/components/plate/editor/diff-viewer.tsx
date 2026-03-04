@@ -92,7 +92,7 @@ const InlineElement = ({ children, ...props }: PlateElementProps) => {
         <PlateElement
             {...props}
             as="span"
-            className="rounded-xs bg-slate-200/50 p-1"
+            className="rounded-sm bg-slate-200/50 p-1"
         >
             {children}
         </PlateElement>
@@ -106,7 +106,7 @@ const InlineVoidElement = ({ children, ...props }: PlateElementProps) => {
         <PlateElement {...props} as="span">
             <span
                 className={cn(
-                    'rounded-xs bg-slate-200/50 p-1',
+                    'rounded-sm bg-slate-200/50 p-1',
                     selected && 'bg-blue-500 text-white',
                 )}
                 contentEditable={false}
@@ -128,38 +128,38 @@ const DiffPlugin = toPlatePlugin(
             node: DiffLeaf,
             aboveNodes:
                 () =>
-                ({ children, editor, element }) => {
-                    if (!element.diff) return children;
+                    ({ children, editor, element }) => {
+                        if (!element.diff) return children;
 
-                    const diffOperation =
-                        element.diffOperation as DiffOperation;
+                        const diffOperation =
+                            element.diffOperation as DiffOperation;
 
-                    const label = (
-                        {
-                            delete: 'deletion',
-                            insert: 'insertion',
-                            update: 'update',
-                        } as any
-                    )[diffOperation.type];
+                        const label = (
+                            {
+                                delete: 'deletion',
+                                insert: 'insertion',
+                                update: 'update',
+                            } as any
+                        )[diffOperation.type];
 
-                    const Component = editor.api.isInline(element)
-                        ? 'span'
-                        : 'div';
+                        const Component = editor.api.isInline(element)
+                            ? 'span'
+                            : 'div';
 
-                    return (
-                        <Component
-                            className={diffOperationColors[diffOperation.type]}
-                            title={
-                                diffOperation.type === 'update'
-                                    ? describeUpdate(diffOperation)
-                                    : undefined
-                            }
-                            aria-label={label}
-                        >
-                            {children}
-                        </Component>
-                    );
-                },
+                        return (
+                            <Component
+                                className={diffOperationColors[diffOperation.type]}
+                                title={
+                                    diffOperation.type === 'update'
+                                        ? describeUpdate(diffOperation)
+                                        : undefined
+                                }
+                                aria-label={label}
+                            >
+                                {children}
+                            </Component>
+                        );
+                    },
         },
     },
 );

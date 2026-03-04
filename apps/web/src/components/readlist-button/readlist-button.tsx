@@ -68,7 +68,7 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
         <div className="flex items-center gap-2">
             <div
                 className={cn(
-                    'w-fit rounded-xs border p-1',
+                    'w-fit rounded-sm border p-1',
                     `bg-${status} text-${status}-foreground border-${status}-border`,
                 )}
             >
@@ -157,37 +157,37 @@ const ReadlistButton = ({
             const currentReadParams =
                 read && !readError
                     ? {
-                          chapters: read.chapters || undefined,
-                          volumes: read.volumes || undefined,
-                          score: read.score || undefined,
-                          note: read.note || undefined,
-                          rereads: read.rereads || undefined,
-                      }
+                        chapters: read.chapters || undefined,
+                        volumes: read.volumes || undefined,
+                        score: read.score || undefined,
+                        note: read.note || undefined,
+                        rereads: read.rereads || undefined,
+                    }
                     : {};
 
             // Handle completed status specially to set volumes and chapters for manga/novel
             const readArgs =
                 selectedOption === 'completed'
                     ? {
-                          status: ReadStatusEnum.COMPLETED,
-                          ...currentReadParams,
-                          volumes:
-                              (content_type === ContentTypeEnum.MANGA
-                                  ? manga?.volumes
-                                  : novel?.volumes) ||
-                              read?.volumes ||
-                              undefined,
-                          chapters:
-                              (content_type === ContentTypeEnum.MANGA
-                                  ? manga?.chapters
-                                  : novel?.chapters) ||
-                              read?.chapters ||
-                              undefined,
-                      }
+                        status: ReadStatusEnum.COMPLETED,
+                        ...currentReadParams,
+                        volumes:
+                            (content_type === ContentTypeEnum.MANGA
+                                ? manga?.volumes
+                                : novel?.volumes) ||
+                            read?.volumes ||
+                            undefined,
+                        chapters:
+                            (content_type === ContentTypeEnum.MANGA
+                                ? manga?.chapters
+                                : novel?.chapters) ||
+                            read?.chapters ||
+                            undefined,
+                    }
                     : {
-                          status: selectedOption as ReadStatusEnum,
-                          ...currentReadParams,
-                      };
+                        status: selectedOption as ReadStatusEnum,
+                        ...currentReadParams,
+                    };
 
             createRead({
                 contentType: content_type,

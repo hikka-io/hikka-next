@@ -109,26 +109,26 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                             </h4>
                             {(user?.role === 'admin' ||
                                 user?.role === 'moderator') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger>
-                                        <div className="rounded-xs border border-border bg-secondary/20 backdrop-blur p-1 text-xs font-bold">
-                                            {user.role === 'admin' && (
-                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
-                                            )}
-                                            {user.role === 'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
-                                            )}
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <P className="text-sm">
-                                            {user.role === 'admin'
-                                                ? 'Адміністратор'
-                                                : 'Модератор'}
-                                        </P>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
+                                    <Tooltip delayDuration={0}>
+                                        <TooltipTrigger>
+                                            <div className="rounded-sm border border-border bg-secondary/20 backdrop-blur p-1 text-xs font-bold">
+                                                {user.role === 'admin' && (
+                                                    <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                                )}
+                                                {user.role === 'moderator' && (
+                                                    <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                                )}
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <P className="text-sm">
+                                                {user.role === 'admin'
+                                                    ? 'Адміністратор'
+                                                    : 'Модератор'}
+                                            </P>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )}
                         </div>
                     </div>
                     <FollowButton user={user} className="size-9 p-0" iconOnly />

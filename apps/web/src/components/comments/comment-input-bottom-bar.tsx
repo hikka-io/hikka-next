@@ -71,8 +71,8 @@ const CommentInputBottomBar: FC<Props> = ({
     const removeEmptyTextNodes = (value: Value) => {
         return value.filter((node, index) =>
             node.type === 'p' &&
-            node.children[0].text === '' &&
-            (index === 0 || index === value.length - 1)
+                node.children[0].text === '' &&
+                (index === 0 || index === value.length - 1)
                 ? false
                 : true,
         );
@@ -119,9 +119,9 @@ const CommentInputBottomBar: FC<Props> = ({
         <div className="pointer-events-none bottom-0 flex w-full items-center justify-between border-t border-border bg-secondary/20 p-2 md:absolute md:border-t-0 md:bg-transparent">
             {comment && !isEdit ? (
                 <Badge variant="secondary" className="gap-2 p-0 pr-2">
-                    <Avatar className="size-6 rounded-xs">
+                    <Avatar className="size-6 rounded-sm">
                         <AvatarImage
-                            className="size-6 rounded-xs"
+                            className="size-6 rounded-sm"
                             src={comment.author.avatar}
                         />
                     </Avatar>

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { cn } from '@/utils/cn';
 
 const badgeVariants = cva(
-    'inline-flex truncate items-center rounded-xs border px-1.5 py-0 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-1',
+    'inline-flex truncate items-center rounded-sm border px-1.5 py-0 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-1',
     {
         variants: {
             variant: {
@@ -19,7 +19,7 @@ const badgeVariants = cva(
                 destructive:
                     'border-transparent bg-destructive text-destructive-foreground border border-destructive-border hover:bg-destructive/80',
                 outline: 'text-foreground',
-                status: 'border-transparent text-white rounded-xs px-1.5 py-0',
+                status: 'border-transparent text-white rounded-sm px-1.5 py-0',
             },
         },
         defaultVariants: {
@@ -30,7 +30,7 @@ const badgeVariants = cva(
 
 export interface BadgeProps
     extends React.HTMLAttributes<HTMLDivElement>,
-        VariantProps<typeof badgeVariants> {
+    VariantProps<typeof badgeVariants> {
     bgColor?: string;
 }
 

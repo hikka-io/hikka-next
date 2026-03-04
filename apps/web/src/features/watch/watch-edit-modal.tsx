@@ -122,7 +122,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                                     {selectedStatus && (
                                         <div
                                             className={cn(
-                                                'w-fit rounded-xs border p-1',
+                                                'w-fit rounded-sm border p-1',
                                                 `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
                                             )}
                                         >

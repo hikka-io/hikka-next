@@ -31,9 +31,9 @@ const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
 interface Props {
     content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 }
 
 const StatusCombobox = ({ content_type }: Props) => {
@@ -72,7 +72,7 @@ const StatusCombobox = ({ content_type }: Props) => {
                 <div className="flex items-center gap-2">
                     <div
                         className={cn(
-                            'w-fit rounded-xs border p-1 text-white',
+                            'w-fit rounded-sm border p-1 text-white',
                             `bg-${status} text-${status}-foreground border-${status}-border`,
                         )}
                     >

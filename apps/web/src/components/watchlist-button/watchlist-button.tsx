@@ -58,7 +58,7 @@ const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
         <div className="flex items-center gap-2">
             <div
                 className={cn(
-                    'w-fit rounded-xs border p-1',
+                    'w-fit rounded-sm border p-1',
                     `bg-${status} text-${status}-foreground border-${status}-border`,
                 )}
             >
@@ -130,25 +130,25 @@ const WatchlistButton = ({
             // Extract current watch parameters
             const currentWatchParams = watch
                 ? {
-                      episodes: watch.episodes || undefined,
-                      score: watch.score || undefined,
-                      note: watch.note || undefined,
-                      rewatches: watch.rewatches || undefined,
-                  }
+                    episodes: watch.episodes || undefined,
+                    score: watch.score || undefined,
+                    note: watch.note || undefined,
+                    rewatches: watch.rewatches || undefined,
+                }
                 : {};
 
             // Handle completed status specially to set episodes to total
             const watchArgs =
                 selectedOption === 'completed'
                     ? {
-                          status: WatchStatusEnum.COMPLETED,
-                          ...currentWatchParams,
-                          episodes: anime?.episodes_total || undefined,
-                      }
+                        status: WatchStatusEnum.COMPLETED,
+                        ...currentWatchParams,
+                        episodes: anime?.episodes_total || undefined,
+                    }
                     : {
-                          status: selectedOption as WatchStatusEnum,
-                          ...currentWatchParams,
-                      };
+                        status: selectedOption as WatchStatusEnum,
+                        ...currentWatchParams,
+                    };
 
             addWatch({
                 slug,

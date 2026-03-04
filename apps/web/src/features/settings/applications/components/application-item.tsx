@@ -28,7 +28,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     {client.verified && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="rounded-xs border border-border bg-secondary/20 p-1 text-xs font-bold backdrop-blur">
+                                <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold backdrop-blur">
                                     <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                                 </div>
                             </TooltipTrigger>

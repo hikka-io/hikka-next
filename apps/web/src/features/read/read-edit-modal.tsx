@@ -123,7 +123,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                                     {selectedStatus && (
                                         <div
                                             className={cn(
-                                                'w-fit rounded-xs border border-white p-1 text-white',
+                                                'w-fit rounded-sm border border-white p-1 text-white',
                                                 `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
                                             )}
                                         >
