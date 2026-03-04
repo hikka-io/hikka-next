@@ -7,7 +7,6 @@ import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/M
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -25,7 +24,7 @@ const WidgetTracker = () => {
     if (!user) return null;
 
     return (
-        <Card className="bg-secondary/20">
+        <div className="flex-col gap-4">
             <Block>
                 <Header href={`/u/${user.username}/list`}>
                     <HeaderContainer>
@@ -59,7 +58,7 @@ const WidgetTracker = () => {
                     </TabsContent>
                 </Tabs>
             </Block>
-        </Card>
+        </div>
     );
 };
 

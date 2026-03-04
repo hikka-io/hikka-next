@@ -35,7 +35,7 @@ const sidebarNavigationVariants = cva(
 
 const SidebarNavigation = () => {
     return (
-        <Card className="gap-1 p-2 bg-secondary/20">
+        <Card className="gap-1 p-2 bg-secondary/20 backdrop-blur">
             {NAV_ITEMS.map((item) => (
                 <Link
                     key={item.path}

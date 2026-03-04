@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -58,7 +57,7 @@ const WidgetCalendar = () => {
             : list?.filter((item) => item.airing_at * 1000 > now).slice(0, 6);
 
     return (
-        <Card className="bg-secondary/20">
+        <div className="flex-col gap-4">
             <Block>
                 <Header href="/schedule">
                     <HeaderContainer>
@@ -81,7 +80,7 @@ const WidgetCalendar = () => {
                                 className={cn(
                                     'flex items-center gap-3 rounded-md px-2 py-2 text-sm transition-colors hover:bg-secondary',
                                     isAiringNow &&
-                                        'bg-primary border border-primary-border',
+                                    'bg-primary border border-primary-border',
                                 )}
                             >
                                 <span
@@ -99,7 +98,7 @@ const WidgetCalendar = () => {
                                     className={cn(
                                         'min-w-0 flex-1 truncate',
                                         isAiringNow &&
-                                            'text-primary-foreground font-medium',
+                                        'text-primary-foreground font-medium',
                                         isPrev && 'text-muted-foreground',
                                     )}
                                 >
@@ -109,7 +108,7 @@ const WidgetCalendar = () => {
                                     className={cn(
                                         'text-muted-foreground shrink-0 text-xs',
                                         isAiringNow &&
-                                            'text-primary-foreground',
+                                        'text-primary-foreground',
                                         isPrev && 'text-muted-foreground',
                                     )}
                                 >
@@ -125,7 +124,7 @@ const WidgetCalendar = () => {
                     )}
                 </div>
             </Block>
-        </Card>
+        </div>
     );
 };
 
