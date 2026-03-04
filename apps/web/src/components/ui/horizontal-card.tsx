@@ -138,7 +138,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     return (
         <ContentCard
             className={cn('w-12', className)}
-            containerClassName={cn(imageClassName)}
+            containerClassName={cn(imageClassName, 'rounded-[var(--base-radius)]')}
             containerRatio={imageRatio}
             href={href || parentHref}
             image={image}
@@ -177,5 +177,6 @@ export {
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
-    HorizontalCardTitle,
+    HorizontalCardTitle
 };
+

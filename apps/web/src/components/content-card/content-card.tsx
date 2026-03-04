@@ -178,7 +178,7 @@ const Content = memo(
                                 <Link
                                     href={href}
                                     target={target}
-                                    className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/20"
+                                    className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
                                     {...linkProps}
                                 >
                                     {renderImage(
@@ -191,7 +191,7 @@ const Content = memo(
                                     {read && <ReadStatus read={read} />}
                                 </Link>
                             ) : (
-                                <div className="absolute left-0 top-0 flex size-full items-center justify-center rounded-md bg-secondary/20">
+                                <div className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20">
                                     {renderImage(
                                         image,
                                         imageClassName,

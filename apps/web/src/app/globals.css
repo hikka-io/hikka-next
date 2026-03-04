@@ -277,9 +277,11 @@
     --color-watching-border: var(--watching-border);
 
     /* radius */
+    --base-radius: 0.625rem;
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
+    --radius-xs: calc(var(--radius) - 6px);
 
     /* fonts */
     --font-sans: var(--font-geist);

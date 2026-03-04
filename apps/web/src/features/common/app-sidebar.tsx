@@ -49,7 +49,7 @@ function AppSidebar() {
             collapsible="dropdown"
             side="top"
             className="absolute left-0 top-0 overflow-hidden"
-            // onMouseLeave={toggleSidebar}
+        // onMouseLeave={toggleSidebar}
         >
             <SidebarHeader className="min-h-16 flex-row items-center justify-between p-4">
                 <Link href={'/'} onClick={toggleSidebar}>
