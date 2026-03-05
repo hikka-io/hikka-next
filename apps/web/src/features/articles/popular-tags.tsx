@@ -10,7 +10,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-interface Props {}
+interface Props { }
 
 const PopularTags: FC<Props> = () => {
     const params = useParams();
@@ -24,7 +24,7 @@ const PopularTags: FC<Props> = () => {
             <Block>
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle>Популярні теги</HeaderTitle>
+                        <HeaderTitle variant='h4'>Популярні теги</HeaderTitle>
                     </HeaderContainer>
                 </Header>
                 <BadgeFilter

@@ -15,7 +15,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-interface Props {}
+interface Props { }
 
 const PopularAuthors: FC<Props> = () => {
     const { data: articleTop } = useArticleStats();
@@ -25,7 +25,7 @@ const PopularAuthors: FC<Props> = () => {
             <Block>
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle>Популярні автори</HeaderTitle>
+                        <HeaderTitle variant='h4'>Популярні автори</HeaderTitle>
                     </HeaderContainer>
                 </Header>
                 <div className="flex flex-col gap-6">
@@ -36,6 +36,7 @@ const PopularAuthors: FC<Props> = () => {
                         >
                             <HorizontalCardImage
                                 imageRatio={1}
+                                className='w-10'
                                 image={author.user.avatar}
                             />
                             <HorizontalCardContainer>
