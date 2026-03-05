@@ -160,6 +160,14 @@ export enum ContentTypeEnum {
 }
 
 /**
+ * Common content type enum
+ */
+export type CommonContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
+
+/**
  * Content type
  */
 export type Content =

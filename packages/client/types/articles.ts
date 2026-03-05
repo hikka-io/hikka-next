@@ -1,4 +1,4 @@
-import { ContentTypeEnum, PaginatedResponse } from './common';
+import { CommonContentType, ContentTypeEnum, PaginatedResponse } from './common';
 import { UserResponse } from './user';
 
 /**
@@ -22,10 +22,7 @@ export enum ArticleCategoryEnum {
 /**
  * Article content type enum
  */
-export type ArticleContentType =
-    | ContentTypeEnum.ANIME
-    | ContentTypeEnum.MANGA
-    | ContentTypeEnum.NOVEL;
+export type ArticleContentType = CommonContentType;
 
 /**
  * Article content arguments
@@ -128,7 +125,7 @@ export interface ArticlesListArgs {
  * Paginated articles response
  */
 export interface ArticlesListResponse
-    extends PaginatedResponse<ArticlePreviewResponse> {}
+    extends PaginatedResponse<ArticlePreviewResponse> { }
 
 /**
  * User article stats response
