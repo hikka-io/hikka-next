@@ -4,9 +4,6 @@ export { default as FollowStats } from './follow-stats';
 export { default as UserInfo } from './user-info';
 export { default as UserTitle } from './user-title';
 
-// User List Stats
-export { default as ListStats } from './userlist-stats';
-
 // User History
 export { default as UserHistory } from './user-history';
 

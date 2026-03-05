@@ -17,8 +17,9 @@ import {
     UserCollections as Collections,
     UserFavorites as Favorites,
     UserHistoryProfile as History,
-    UserStatistics as Statistics,
+    UserActivity,
     UserArticles,
+    UserListStats,
 } from '@/features/users';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';
@@ -38,15 +39,15 @@ const UserPage: FC<Props> = async (props) => {
     const clientConfig = await getHikkaClientConfig();
 
     await Promise.all([
-        await prefetchUserFavourites({
+        prefetchUserFavourites({
             username,
             contentType: ContentTypeEnum.ANIME,
             clientConfig,
             queryClient,
         }),
-        await prefetchUserHistory({ username, clientConfig, queryClient }),
-        await prefetchUserActivity({ username, clientConfig, queryClient }),
-        await prefetchSearchArticles({
+        prefetchUserHistory({ username, clientConfig, queryClient }),
+        prefetchUserActivity({ username, clientConfig, queryClient }),
+        prefetchSearchArticles({
             args: { author: username },
             paginationArgs: {
                 size: 3,
@@ -54,7 +55,7 @@ const UserPage: FC<Props> = async (props) => {
             clientConfig,
             queryClient,
         }),
-        await prefetchSearchCollections({
+        prefetchSearchCollections({
             args: {
                 author: username,
                 sort: ['created:desc'],
@@ -71,7 +72,10 @@ const UserPage: FC<Props> = async (props) => {
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
                 <div className="order-2 flex flex-col gap-8 lg:order-1">
-                    <Statistics />
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        <UserListStats />
+                        <UserActivity />
+                    </div>
                     <Favorites />
                     <UserArticles />
                 </div>

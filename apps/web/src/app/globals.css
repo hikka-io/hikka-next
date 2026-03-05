@@ -281,15 +281,15 @@
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
-    --radius-xs: calc(var(--radius) - 6px);
+    --radius-xs: calc(var(--radius) - 8px);
 
     /* fonts */
     --font-sans: var(--font-geist);
     --font-display: var(--font-geist);
 
     /* grid extensions */
-    --grid-auto-cols-scroll: minmax(var(--grid-min, 7rem), var(--grid-max, 1fr));
-    --grid-cols-scroll: repeat(auto-fill, minmax(var(--grid-min, 7rem), var(--grid-max, 1fr)));
+    --grid-auto-columns-scroll: minmax(var(--grid-min, 7rem), var(--grid-max, 1fr));
+    --grid-template-columns-scroll: repeat(auto-fill, minmax(var(--grid-min, 7rem), var(--grid-max, 1fr)));
 
     /* animations */
     --animate-accordion-down: accordion-down 0.2s ease-out;
