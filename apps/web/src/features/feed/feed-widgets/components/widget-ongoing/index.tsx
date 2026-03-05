@@ -23,8 +23,8 @@ import { getCurrentSeason } from '@/utils/season';
 const ONGOING_SIZE = 5;
 
 const OngoingItemSkeleton = () => (
-    <div className="flex items-center gap-3 rounded-md px-2 py-1.5">
-        <Skeleton className="size-10 shrink-0 rounded-md" />
+    <div className="flex items-center gap-3 rounded-sm px-2 py-1.5">
+        <Skeleton className="size-10 shrink-0 rounded-sm" />
         <div className="min-w-0 flex-1 flex flex-col gap-1.5">
             <Skeleton className="h-3.5 w-full rounded" />
             <Skeleton className="h-3 w-2/3 rounded" />
@@ -65,7 +65,7 @@ const WidgetOngoing = () => {
                 <HeaderNavButton />
             </Header>
 
-            <div className="flex flex-col px-1">
+            <div className="flex flex-col px-2 gap-1">
                 {isLoading &&
                     range(0, ONGOING_SIZE).map((i) => (
                         <OngoingItemSkeleton key={i} />
@@ -82,7 +82,7 @@ const WidgetOngoing = () => {
                                 key={anime.slug}
                                 href={`/anime/${anime.slug}`}
                                 className={cn(
-                                    'group flex items-center gap-4 rounded-md px-3 py-2',
+                                    'group flex items-center gap-4 rounded-sm px-2 py-2',
                                     'transition-colors hover:bg-secondary/60',
                                 )}
                             >

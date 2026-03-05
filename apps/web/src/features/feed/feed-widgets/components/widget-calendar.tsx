@@ -57,74 +57,72 @@ const WidgetCalendar = () => {
             : list?.filter((item) => item.airing_at * 1000 > now).slice(0, 6);
 
     return (
-        <div className="flex-col gap-4 p-4">
-            <Block>
-                <Header href="/schedule">
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Календар</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
-                </Header>
-                <div className="flex flex-col gap-1">
-                    {upcomingItems?.map((item) => {
-                        const airingTime = item.airing_at * 1000;
-                        const isAiringNow =
-                            airingTime <= now &&
-                            airingTime + 30 * 60 * 1000 > now;
-                        const isPrev = !isAiringNow && airingTime < now;
+        <Block className='py-4'>
+            <Header href="/schedule" className='px-4'>
+                <HeaderContainer>
+                    <HeaderTitle variant="h4">Календар</HeaderTitle>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
+            <div className="flex flex-col gap-1 px-2">
+                {upcomingItems?.map((item) => {
+                    const airingTime = item.airing_at * 1000;
+                    const isAiringNow =
+                        airingTime <= now &&
+                        airingTime + 30 * 60 * 1000 > now;
+                    const isPrev = !isAiringNow && airingTime < now;
 
-                        return (
-                            <Link
-                                key={`${item.anime.slug}-${item.episode}`}
-                                href={`/anime/${item.anime.slug}`}
+                    return (
+                        <Link
+                            key={`${item.anime.slug}-${item.episode}`}
+                            href={`/anime/${item.anime.slug}`}
+                            className={cn(
+                                'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-secondary',
+                                isAiringNow &&
+                                'bg-primary border border-primary-border',
+                            )}
+                        >
+                            <span
                                 className={cn(
-                                    'flex items-center gap-3 rounded-md px-2 py-2 text-sm transition-colors hover:bg-secondary',
-                                    isAiringNow &&
-                                    'bg-primary border border-primary-border',
+                                    'w-12 shrink-0 text-left font-mono text-xs',
+                                    isAiringNow
+                                        ? 'text-primary-foreground font-bold'
+                                        : 'text-muted-foreground',
+                                    isPrev && 'text-muted-foreground',
                                 )}
                             >
-                                <span
-                                    className={cn(
-                                        'w-12 shrink-0 text-left font-mono text-xs',
-                                        isAiringNow
-                                            ? 'text-primary-foreground font-bold'
-                                            : 'text-muted-foreground',
-                                        isPrev && 'text-muted-foreground',
-                                    )}
-                                >
-                                    {format(airingTime, 'HH:mm')}
-                                </span>
-                                <span
-                                    className={cn(
-                                        'min-w-0 flex-1 truncate',
-                                        isAiringNow &&
-                                        'text-primary-foreground font-medium',
-                                        isPrev && 'text-muted-foreground',
-                                    )}
-                                >
-                                    {item.anime.title}
-                                </span>
-                                <span
-                                    className={cn(
-                                        'text-muted-foreground shrink-0 text-xs',
-                                        isAiringNow &&
-                                        'text-primary-foreground',
-                                        isPrev && 'text-muted-foreground',
-                                    )}
-                                >
-                                    Епізод {item.episode}
-                                </span>
-                            </Link>
-                        );
-                    })}
-                    {(!upcomingItems || upcomingItems.length === 0) && (
-                        <p className="text-muted-foreground py-4 text-center text-sm">
-                            Немає запланованих епізодів
-                        </p>
-                    )}
-                </div>
-            </Block>
-        </div>
+                                {format(airingTime, 'HH:mm')}
+                            </span>
+                            <span
+                                className={cn(
+                                    'min-w-0 flex-1 truncate',
+                                    isAiringNow &&
+                                    'text-primary-foreground font-medium',
+                                    isPrev && 'text-muted-foreground',
+                                )}
+                            >
+                                {item.anime.title}
+                            </span>
+                            <span
+                                className={cn(
+                                    'text-muted-foreground shrink-0 text-xs',
+                                    isAiringNow &&
+                                    'text-primary-foreground',
+                                    isPrev && 'text-muted-foreground',
+                                )}
+                            >
+                                Епізод {item.episode}
+                            </span>
+                        </Link>
+                    );
+                })}
+                {(!upcomingItems || upcomingItems.length === 0) && (
+                    <p className="text-muted-foreground py-4 text-center text-sm">
+                        Немає запланованих епізодів
+                    </p>
+                )}
+            </div>
+        </Block>
     );
 };
 
