@@ -10,7 +10,6 @@ import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import CoverImage from '@/components/cover-image';
-import FollowButton from '@/components/follow-button';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
 import NavMenu from '@/components/navigation/nav-dropdown';
 
@@ -86,28 +85,12 @@ const UserLayout: FC<Props> = async (props) => {
                     />
                 </Breadcrumbs>
 
-                <div className="flex flex-col gap-4 lg:gap-8">
-                    <div className="flex gap-4 lg:gap-8">
+                <div className="flex gap-4 lg:gap-8 lg:items-end flex-col md:flex-row">
+                    <div className="flex gap-4 lg:gap-8 flex-1">
                         <UserInfo />
-                        <div className="flex flex-col gap-2 justify-between">
-                            <div className="flex flex-col gap-2">
-                                <UserTitle />
-                                <FollowStats className="hidden lg:flex" />
-                            </div>
-                            <div className="hidden gap-4 lg:flex">
-                                <FollowButton username={username} />
-                            </div>
-                        </div>
+                        <UserTitle />
                     </div>
-                    <div className="flex flex-col gap-4 lg:hidden">
-                        <FollowStats />
-                        <div className="gap-4 flex">
-                            <FollowButton
-                                username={username}
-                                className="flex-1"
-                            />
-                        </div>
-                    </div>
+                    <FollowStats />
                 </div>
                 <div className="flex flex-col gap-12">{children}</div>
             </div>

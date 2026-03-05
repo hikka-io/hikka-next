@@ -93,7 +93,7 @@ const UserInfo = () => {
                 className="absolute left-0 top-0 size-full opacity-0"
                 accept="image/*"
             />
-            <div className="group relative z-[1] size-32 overflow-hidden rounded-lg pt-[100%] lg:size-48">
+            <div className="group relative z-1 size-32 overflow-hidden rounded-lg pt-[100%] lg:size-40">
                 <div className="absolute top-0 w-full rounded-lg">
                     <Image
                         alt="avatar"
@@ -136,7 +136,7 @@ const UserInfo = () => {
                 )}
             </div>
             {user.active && (
-                <div className="border-success bg-success-foreground absolute -bottom-2 -right-2 z-[1] size-6 rounded-full border-4" />
+                <div className="border-success bg-success-foreground absolute -bottom-2 -right-2 z-1 size-6 rounded-full border-4" />
             )}
         </div>
     );

@@ -4,10 +4,12 @@ import { useUserFollowStats } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
+import FollowButton from '@/components/follow-button';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
-import { FollowListModal } from '@/features/users';
+import FollowListModal from './followlist-modal';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
@@ -29,47 +31,59 @@ const FollowStats: FC<Props> = ({ className }) => {
     }
 
     return (
-        <div className={cn('flex h-fit gap-6', className)}>
-            <Button
-                size="md"
-                onClick={() =>
-                    openModal({
-                        content: <FollowListModal type="followers" />,
-                        title: 'Стежать',
-                        type: 'sheet',
-                    })
-                }
-                variant="link"
-                className="p-0 text-foreground"
-            >
-                <span className="font-bold">
-                    {followStats ? followStats.followers : 0}
-                    <Label className="text-muted-foreground"> стежать</Label>
-                </span>
-            </Button>
-            <Button
-                size="md"
-                variant="link"
-                onClick={() =>
-                    openModal({
-                        content: <FollowListModal type="followings" />,
-                        title: 'Відстежується',
-                        type: 'sheet',
-                    })
-                }
-                className="p-0 text-foreground"
-            >
-                <Label>
+        <Card
+            className={cn(
+                'flex-col lg:flex-row items-center bg-secondary/20 backdrop-blur p-2 gap-2 w-full md:w-auto',
+                className,
+            )}
+        >
+            <div className='flex gap-2 h-full w-full items-center'>
+                <Button
+                    onClick={() =>
+                        openModal({
+                            content: <FollowListModal type="followers" />,
+                            title: 'Стежать',
+                            type: 'sheet',
+                        })
+                    }
+                    variant="ghost"
+                    className="flex flex-col gap-0 p-2 h-auto w-auto text-foreground flex-1"
+                >
                     <span className="font-bold">
-                        {followStats ? followStats.following : 0}
-                        <Label className="text-muted-foreground">
-                            {' '}
-                            відстежується
-                        </Label>
+                        {followStats.followers}
                     </span>
-                </Label>
-            </Button>
-        </div>
+                    <span className="text-muted-foreground">стежать</span>
+                </Button>
+                <Separator orientation="vertical" className='h-8' />
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        openModal({
+                            content: <FollowListModal type="followings" />,
+                            title: 'Відстежується',
+                            type: 'sheet',
+                        })
+                    }
+                    className="flex flex-col gap-0 p-2 h-auto w-auto text-foreground flex-1"
+                >
+                    <span className="font-bold">
+                        {followStats.following}
+                    </span>
+                    <span className="text-muted-foreground">
+                        відстежується
+                    </span>
+                </Button>
+            </div>
+            <Separator orientation="vertical" className='h-8 hidden lg:block' />
+
+            <div className="p-2 flex gap-4 w-full">
+                <FollowButton
+                    size="md"
+                    username={String(params.username)}
+                    className='flex-1'
+                />
+            </div>
+        </Card>
     );
 };
 
