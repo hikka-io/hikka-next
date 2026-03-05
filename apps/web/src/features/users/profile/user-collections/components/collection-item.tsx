@@ -29,7 +29,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
         >
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
-                className={cn(data.nsfw && 'spoiler-blur-xs', 'w-10')}
+                className={cn(data.nsfw && 'spoiler-blur-xs', 'w-12')}
             />
             <HorizontalCardContainer>
                 <div className="inline-flex items-center gap-2">

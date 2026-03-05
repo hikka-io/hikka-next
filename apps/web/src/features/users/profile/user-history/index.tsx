@@ -21,6 +21,7 @@ import HistoryItem from '@/features/users/user-history/components/history-item';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
+import Card from '@/components/ui/card';
 import ActivityModal from './components/history-modal';
 
 interface Props {
@@ -47,37 +48,39 @@ const History: FC<Props> = ({ className }) => {
     };
 
     return (
-        <Block className={cn(className)}>
-            <Header
-                onClick={
-                    activity && activity?.length > 0
-                        ? handleOpenModal
-                        : undefined
-                }
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Історія</HeaderTitle>
-                    <Button asChild size="icon-sm" variant="outline">
-                        <Link href={`/u/${params.username}/history`}>
-                            <MaterialSymbolsGridViewRounded />
-                        </Link>
-                    </Button>
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
-            <div className="flex flex-col gap-6">
-                {filteredActivity &&
-                    filteredActivity.map((item) => (
-                        <HistoryItem data={item} key={item.reference} />
-                    ))}
-                {activity && activity?.length === 0 && (
-                    <NotFound
-                        title={'Історія відсутня'}
-                        description="Інформація оновиться після змін у списку"
-                    />
-                )}
-            </div>
-        </Block>
+        <Card className={cn('bg-secondary/20', className)}>
+            <Block>
+                <Header
+                    onClick={
+                        activity && activity?.length > 0
+                            ? handleOpenModal
+                            : undefined
+                    }
+                >
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Історія</HeaderTitle>
+                        <Button asChild size="icon-sm" variant="outline">
+                            <Link href={`/u/${params.username}/history`}>
+                                <MaterialSymbolsGridViewRounded />
+                            </Link>
+                        </Button>
+                    </HeaderContainer>
+                    <HeaderNavButton />
+                </Header>
+                <div className="flex flex-col gap-6">
+                    {filteredActivity &&
+                        filteredActivity.map((item) => (
+                            <HistoryItem data={item} key={item.reference} />
+                        ))}
+                    {activity && activity?.length === 0 && (
+                        <NotFound
+                            title={'Історія відсутня'}
+                            description="Інформація оновиться після змін у списку"
+                        />
+                    )}
+                </div>
+            </Block>
+        </Card>
     );
 };
 

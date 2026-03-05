@@ -19,6 +19,7 @@ import NotFound from '@/components/ui/not-found';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
+import Card from '@/components/ui/card';
 import CollectionItem from './components/collection-item';
 import CollectionsModal from './components/collections-modal';
 
@@ -60,40 +61,42 @@ const UserCollections: FC<Props> = ({ className }) => {
     };
 
     return (
-        <Block className={cn(className)}>
-            <Header
-                onClick={
-                    collections && collections?.length > 0
-                        ? handleOpenCollectionsModal
-                        : undefined
-                }
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Колекції</HeaderTitle>
-                    {loggedUser?.username === params.username && (
-                        <Button asChild size="icon-sm" variant="outline">
-                            <Link href="/collections/new">
-                                <MaterialSymbolsAddRounded />
-                            </Link>
-                        </Button>
-                    )}
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
+        <Card className={cn('bg-secondary/20', className)}>
+            <Block>
+                <Header
+                    onClick={
+                        collections && collections?.length > 0
+                            ? handleOpenCollectionsModal
+                            : undefined
+                    }
+                >
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Колекції</HeaderTitle>
+                        {loggedUser?.username === params.username && (
+                            <Button asChild size="icon-sm" variant="outline">
+                                <Link href="/collections/new">
+                                    <MaterialSymbolsAddRounded />
+                                </Link>
+                            </Button>
+                        )}
+                    </HeaderContainer>
+                    <HeaderNavButton />
+                </Header>
 
-            <div className="flex flex-col gap-6">
-                {filteredCollections &&
-                    filteredCollections.map((item) => (
-                        <CollectionItem data={item} key={item.reference} />
-                    ))}
-                {collections && collections?.length === 0 && (
-                    <NotFound
-                        title={'Колекції відсутні'}
-                        description="Створіть свою першу колекцію"
-                    />
-                )}
-            </div>
-        </Block>
+                <div className="flex flex-col gap-6">
+                    {filteredCollections &&
+                        filteredCollections.map((item) => (
+                            <CollectionItem data={item} key={item.reference} />
+                        ))}
+                    {collections && collections?.length === 0 && (
+                        <NotFound
+                            title={'Колекції відсутні'}
+                            description="Створіть свою першу колекцію"
+                        />
+                    )}
+                </div>
+            </Block>
+        </Card>
     );
 };
 

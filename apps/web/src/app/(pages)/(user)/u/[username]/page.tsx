@@ -70,12 +70,12 @@ const UserPage: FC<Props> = async (props) => {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
-                <div className="order-2 flex flex-col gap-12 lg:order-1 lg:gap-12">
+                <div className="order-2 flex flex-col gap-8 lg:order-1">
                     <Statistics />
                     <Favorites />
                     <UserArticles />
                 </div>
-                <div className="order-1 flex flex-col gap-12 lg:order-2 lg:gap-12">
+                <div className="order-1 flex flex-col gap-8 lg:order-2">
                     <History />
                     <Collections />
                 </div>
