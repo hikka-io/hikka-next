@@ -43,7 +43,7 @@ const READ_ORDER: ReadStatusEnum[] = [
 ];
 
 const ListTabContent: FC<Props> = ({ type, username }) => {
-    const isAnime = type === 'anime';
+    const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
 
     const { data: watchData } = useUserWatchStats({
@@ -54,7 +54,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
     const { data: readData } = useReadStats({
         username,
         contentType:
-            type === 'manga' ? ContentTypeEnum.MANGA : ContentTypeEnum.NOVEL,
+            type === ContentTypeEnum.MANGA ? ContentTypeEnum.MANGA : ContentTypeEnum.NOVEL,
         options: { enabled: !isAnime },
     });
 
