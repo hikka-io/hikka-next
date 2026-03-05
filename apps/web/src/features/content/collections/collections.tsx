@@ -17,13 +17,14 @@ import CollectionItem from '@/features/users/profile/user-collections/components
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
-import ContentCollectionsModal from './components/content-collections-modal';
+import Card from '@/components/ui/card';
+import CollectionsModal from './collections-modal';
 
 interface Props {
     content_type: CollectionContentType;
 }
 
-const ContentCollections: FC<Props> = ({ content_type }) => {
+const Collections: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const { openModal } = useModalContext();
 
@@ -39,7 +40,7 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
             type: 'sheet',
             title: 'Колекції',
             side: 'right',
-            content: <ContentCollectionsModal content_type={content_type} />,
+            content: <CollectionsModal content_type={content_type} />,
         });
     };
 
@@ -48,23 +49,25 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
     const filteredCollections = list?.slice(0, 3);
 
     return (
-        <Block>
-            <Header onClick={handleOpenContentCollectionsModal}>
-                <HeaderContainer>
-                    <HeaderTitle>Колекції</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
-            <div className="flex flex-col gap-6">
-                {filteredCollections.map((collection) => (
-                    <CollectionItem
-                        key={collection.reference}
-                        data={collection}
-                    />
-                ))}
-            </div>
-        </Block>
+        <Card className='bg-secondary/20'>
+            <Block>
+                <Header onClick={handleOpenContentCollectionsModal}>
+                    <HeaderContainer>
+                        <HeaderTitle variant='h4'>Колекції</HeaderTitle>
+                    </HeaderContainer>
+                    <HeaderNavButton />
+                </Header>
+                <div className="flex flex-col gap-6">
+                    {filteredCollections.map((collection) => (
+                        <CollectionItem
+                            key={collection.reference}
+                            data={collection}
+                        />
+                    ))}
+                </div>
+            </Block>
+        </Card>
     );
 };
 
-export default ContentCollections;
+export default Collections;

@@ -8,11 +8,11 @@ import { FC } from 'react';
 
 import { MovieBanner } from '@/features/anime';
 import { ContentArticles } from '@/features/articles';
-import { ContentCollections } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
 import {
     ContentActions as Actions,
     ContentCharacters as Characters,
+    Collections,
     ContentCover as Cover,
     ContentDescription as Description,
     ContentDetails as Details,
@@ -22,7 +22,7 @@ import {
     ContentMedia as Media,
     ContentStaff as Staff,
     ContentStats as Stats,
-    ContentTitle as Title,
+    ContentTitle as Title
 } from '@/features/content';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';
@@ -58,7 +58,7 @@ const AnimePage: FC<Props> = async (props) => {
     });
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
             {anime && (
                 <script
                     type="application/ld+json"
@@ -73,7 +73,7 @@ const AnimePage: FC<Props> = async (props) => {
                     <Actions content_type={ContentTypeEnum.ANIME} />
                 </div>
             </div>
-            <div className="flex flex-col gap-12 lg:col-span-2">
+            <div className="flex flex-col gap-8 lg:col-span-2">
                 <Title content_type={ContentTypeEnum.ANIME} />
                 <Description content_type={ContentTypeEnum.ANIME} />
                 <MovieBanner />
@@ -87,7 +87,7 @@ const AnimePage: FC<Props> = async (props) => {
                 <Staff content_type={ContentTypeEnum.ANIME} />
             </div>
 
-            <div className="flex flex-col gap-12 lg:col-span-1">
+            <div className="flex flex-col gap-8 lg:col-span-1">
                 <Details
                     className="hidden lg:flex"
                     content_type={ContentTypeEnum.ANIME}
@@ -95,10 +95,10 @@ const AnimePage: FC<Props> = async (props) => {
                 <Stats content_type={ContentTypeEnum.ANIME} />
                 <Followings content_type={ContentTypeEnum.ANIME} />
                 <ContentArticles content_type={ContentTypeEnum.ANIME} />
-                <ContentCollections content_type={ContentTypeEnum.ANIME} />
+                <Collections content_type={ContentTypeEnum.ANIME} />
                 <Links content_type={ContentTypeEnum.ANIME} />
             </div>
-            <div className="flex flex-col gap-12 lg:col-span-2 lg:col-start-2">
+            <div className="flex flex-col gap-8 lg:col-span-2 lg:col-start-2">
                 <Comments
                     preview
                     slug={slug}

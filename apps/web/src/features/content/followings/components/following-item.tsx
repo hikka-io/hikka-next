@@ -35,7 +35,7 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
 
     return (
         <HorizontalCard href={`/u/${data.username}`} className={className}>
-            <HorizontalCardImage image={data.avatar} imageRatio={1} />
+            <HorizontalCardImage className='w-10' image={data.avatar} imageRatio={1} />
             <HorizontalCardContainer>
                 <HorizontalCardTitle>{data.username}</HorizontalCardTitle>
                 <HorizontalCardDescription>

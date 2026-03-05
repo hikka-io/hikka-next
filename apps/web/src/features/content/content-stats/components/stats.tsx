@@ -18,7 +18,7 @@ interface Props {
 
 const Stats: FC<Props> = ({ stats }) => {
     return (
-        <div className="relative rounded-lg border border-border bg-secondary/20 p-4 backdrop-blur-xs">
+        <div className="relative">
             <div className="flex flex-col justify-center gap-2">
                 {stats.map((stat) => {
                     return (
@@ -39,7 +39,7 @@ const Stats: FC<Props> = ({ stats }) => {
                                                 className={cn(
                                                     'absolute bottom-0 left-0 size-full bg-primary-foreground/10',
                                                     !!stat.name &&
-                                                        `bg-${stat.name}`,
+                                                    `bg-${stat.name}`,
                                                 )}
                                             />
                                             <div
@@ -49,7 +49,7 @@ const Stats: FC<Props> = ({ stats }) => {
                                                 className={cn(
                                                     'absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary-foreground',
                                                     !!stat.name &&
-                                                        `bg-${stat.name}-foreground`,
+                                                    `bg-${stat.name}-foreground`,
                                                 )}
                                             ></div>
                                         </div>

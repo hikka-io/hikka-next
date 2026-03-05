@@ -13,7 +13,7 @@ interface Props {
     content_type: CollectionContentType;
 }
 
-const ContentCollectionsModal: FC<Props> = ({ content_type }) => {
+const CollectionsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
@@ -47,4 +47,4 @@ const ContentCollectionsModal: FC<Props> = ({ content_type }) => {
     );
 };
 
-export default ContentCollectionsModal;
+export default CollectionsModal;

@@ -15,6 +15,7 @@ import {
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
+import Card from '@/components/ui/card';
 import FollowingItem from './components/following-item';
 import FollowingsModal from './followings-modal';
 
@@ -65,26 +66,28 @@ const Followings: FC<Props> = ({ content_type }) => {
     );
 
     return (
-        <Block>
-            <Header onClick={handleOpenFollowingsModal}>
-                <HeaderContainer>
-                    <HeaderTitle>{title}</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
-            <div className="flex flex-col gap-6">
-                {filteredFollowings.map((item) => (
-                    <FollowingItem
-                        data={{
-                            type: 'watch' in item ? 'watch' : 'read',
-                            content: 'watch' in item ? item.watch : item.read,
-                            ...item,
-                        }}
-                        key={item.reference}
-                    />
-                ))}
-            </div>
-        </Block>
+        <Card className='bg-secondary/20'>
+            <Block>
+                <Header onClick={handleOpenFollowingsModal}>
+                    <HeaderContainer>
+                        <HeaderTitle variant='h4'>{title}</HeaderTitle>
+                    </HeaderContainer>
+                    <HeaderNavButton />
+                </Header>
+                <div className="flex flex-col gap-6">
+                    {filteredFollowings.map((item) => (
+                        <FollowingItem
+                            data={{
+                                type: 'watch' in item ? 'watch' : 'read',
+                                content: 'watch' in item ? item.watch : item.read,
+                                ...item,
+                            }}
+                            key={item.reference}
+                        />
+                    ))}
+                </div>
+            </Block>
+        </Card>
     );
 };
 

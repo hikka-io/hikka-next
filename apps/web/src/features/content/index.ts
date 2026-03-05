@@ -1,6 +1,7 @@
 export { default as ContentActions } from './actions';
 export { default as ActiveFilters } from './active-filters';
 export { default as ContentCharacters } from './characters';
+export * from './collections';
 export { default as ContentStats } from './content-stats';
 export { default as ContentCover } from './cover';
 export { default as ContentDescription } from './description';
@@ -13,3 +14,4 @@ export { default as ContentNavbar } from './navbar';
 export * from './presets';
 export { default as ContentStaff } from './staff';
 export { default as ContentTitle } from './title';
+

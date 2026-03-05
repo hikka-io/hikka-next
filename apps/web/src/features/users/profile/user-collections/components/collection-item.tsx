@@ -1,6 +1,5 @@
 import { CollectionContent, CollectionResponse } from '@hikka/client';
-import { format } from 'date-fns/format';
-import { ArrowBigUp, Layers, MessageCircle, UserPen } from 'lucide-react';
+import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
 import { FC, memo } from 'react';
 
 import Small from '@/components/typography/small';
@@ -30,7 +29,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
         >
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
-                className={cn(data.nsfw && 'spoiler-blur-xs')}
+                className={cn(data.nsfw && 'spoiler-blur-xs', 'w-10')}
             />
             <HorizontalCardContainer>
                 <div className="inline-flex items-center gap-2">
@@ -64,12 +63,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                         <ArrowBigUp className="size-4" />
                         <Small>{data.vote_score}</Small>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <UserPen className="size-3" />
-                        <Small>
-                            {format(new Date(data.updated * 1000), 'd.MM.Y')}
-                        </Small>
-                    </div>
+
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
         </HorizontalCard>

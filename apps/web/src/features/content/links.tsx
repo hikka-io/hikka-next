@@ -13,19 +13,19 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardDescription,
     HorizontalCardImage,
-    HorizontalCardTitle,
+    HorizontalCardTitle
 } from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
+import Card from '@/components/ui/card';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 
 interface Props {
     content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 }
 
 const Links: FC<Props> = ({ content_type }) => {
@@ -66,61 +66,62 @@ const Links: FC<Props> = ({ content_type }) => {
     };
 
     return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle>Посилання</HeaderTitle>
-                    <ToggleGroup
-                        type="single"
-                        value={active}
-                        onValueChange={handleChangeActive}
-                        size="badge"
-                    >
-                        <ToggleGroupItem
-                            value={ExternalTypeEnum.GENERAL}
-                            aria-label="Загальні посилання"
+        <Card className="bg-secondary/20">
+            <Block>
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Посилання</HeaderTitle>
+                        <ToggleGroup
+                            type="single"
+                            value={active}
+                            onValueChange={handleChangeActive}
+                            size="badge"
                         >
-                            <MaterialSymbolsInfoIRounded />
-                        </ToggleGroupItem>
-                        {watchLinksData.length > 0 && (
                             <ToggleGroupItem
-                                value={ExternalTypeEnum.WATCH}
-                                aria-label="Посилання для перегляду"
+                                value={ExternalTypeEnum.GENERAL}
+                                aria-label="Загальні посилання"
                             >
-                                <MaterialSymbolsPlayArrowRounded />
+                                <MaterialSymbolsInfoIRounded />
                             </ToggleGroupItem>
-                        )}
-                    </ToggleGroup>
-                </HeaderContainer>
-            </Header>
-            <TextExpand
-                expanded={isExpanded}
-                setExpanded={setIsExpanded}
-                className="max-h-40"
-            >
-                <div className="flex flex-col gap-4">
-                    {linksData.map((link) => (
-                        <HorizontalCard
-                            key={link.url}
-                            href={link.url}
-                            target="_blank"
-                        >
-                            <HorizontalCardImage
-                                imageRatio={1}
-                                className="w-8"
-                                image={<P>{link.text[0]}</P>}
-                            />
-                            <HorizontalCardContainer>
-                                <HorizontalCardTitle>
-                                    {link.text}
-                                </HorizontalCardTitle>
-                                <HorizontalCardDescription></HorizontalCardDescription>
-                            </HorizontalCardContainer>
-                        </HorizontalCard>
-                    ))}
-                </div>
-            </TextExpand>
-        </Block>
+                            {watchLinksData.length > 0 && (
+                                <ToggleGroupItem
+                                    value={ExternalTypeEnum.WATCH}
+                                    aria-label="Посилання для перегляду"
+                                >
+                                    <MaterialSymbolsPlayArrowRounded />
+                                </ToggleGroupItem>
+                            )}
+                        </ToggleGroup>
+                    </HeaderContainer>
+                </Header>
+                <TextExpand
+                    expanded={isExpanded}
+                    setExpanded={setIsExpanded}
+                    className="max-h-40"
+                >
+                    <div className="flex flex-col gap-4">
+                        {linksData.map((link) => (
+                            <HorizontalCard
+                                key={link.url}
+                                href={link.url}
+                                target="_blank"
+                            >
+                                <HorizontalCardImage
+                                    imageRatio={1}
+                                    className="w-10"
+                                    image={<P>{link.text[0]}</P>}
+                                />
+                                <HorizontalCardContainer>
+                                    <HorizontalCardTitle>
+                                        {link.text}
+                                    </HorizontalCardTitle>
+                                </HorizontalCardContainer>
+                            </HorizontalCard>
+                        ))}
+                    </div>
+                </TextExpand>
+            </Block>
+        </Card>
     );
 };
 
