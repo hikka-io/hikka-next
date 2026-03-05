@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserFollowStats } from '@hikka/react';
+import { useSession, useUserFollowStats } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
@@ -21,6 +21,7 @@ interface Props {
 const FollowStats: FC<Props> = ({ className }) => {
     const { openModal } = useModalContext();
     const params = useParams();
+    const { user: loggedUser } = useSession();
 
     const { data: followStats } = useUserFollowStats({
         username: String(params.username),
@@ -74,15 +75,15 @@ const FollowStats: FC<Props> = ({ className }) => {
                     </span>
                 </Button>
             </div>
-            <Separator orientation="vertical" className='h-8 hidden lg:block' />
+            {loggedUser?.username !== String(params.username) && <Separator orientation="vertical" className='h-8 hidden lg:block' />}
 
-            <div className="p-2 flex gap-4 w-full">
+            {loggedUser?.username !== String(params.username) && <div className="p-2 flex gap-4 w-full">
                 <FollowButton
                     size="md"
                     username={String(params.username)}
                     className='flex-1'
                 />
-            </div>
+            </div>}
         </Card>
     );
 };
