@@ -7,10 +7,10 @@ export { default as ArticleDocument } from './article-view/article-document';
 export { default as ArticleNavbar } from './article-view/article-navbar';
 export { default as ArticleTags } from './article-view/article-tags';
 export { default as ArticleTitle } from './article-view/article-title';
-export { default as ContentArticles } from './article-view/content-articles';
 
 export { default as ArticleEditDocument } from './article-edit/article-document';
 export { default as ArticleSettings } from './article-edit/article-settings';
 export { default as ArticleEditTitle } from './article-edit/article-title';
 export { default as ArticleFilters } from './article-filters';
 export { default as ArticleFiltersModal } from './article-filters-modal';
+

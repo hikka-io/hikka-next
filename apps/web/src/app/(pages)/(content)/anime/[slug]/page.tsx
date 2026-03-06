@@ -7,12 +7,12 @@ import {
 import { FC } from 'react';
 
 import { MovieBanner } from '@/features/anime';
-import { ContentArticles } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
 import {
     ContentActions as Actions,
     ContentCharacters as Characters,
     Collections,
+    ContentArticles,
     ContentCover as Cover,
     ContentDescription as Description,
     ContentDetails as Details,

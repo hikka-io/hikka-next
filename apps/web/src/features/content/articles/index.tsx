@@ -15,6 +15,7 @@ import {
 
 import { useModalContext } from '@/services/providers/modal-provider';
 
+import Card from '@/components/ui/card';
 import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
@@ -47,19 +48,21 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     const filteredNews = list?.slice(0, 3);
 
     return (
-        <Block>
-            <Header onClick={handleOpenContentNewsModal}>
-                <HeaderContainer>
-                    <HeaderTitle>Статті</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
-            <div className="flex flex-col gap-6">
-                {filteredNews.map((article) => (
-                    <ContentNewsItem key={article.slug} article={article} />
-                ))}
-            </div>
-        </Block>
+        <Card className='bg-secondary/20'>
+            <Block>
+                <Header onClick={handleOpenContentNewsModal}>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Статті</HeaderTitle>
+                    </HeaderContainer>
+                    <HeaderNavButton />
+                </Header>
+                <div className="flex flex-col gap-6">
+                    {filteredNews.map((article) => (
+                        <ContentNewsItem key={article.slug} article={article} />
+                    ))}
+                </div>
+            </Block>
+        </Card>
     );
 };
 
