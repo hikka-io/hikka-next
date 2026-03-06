@@ -29,13 +29,14 @@ const EditModerator: FC<Props> = ({ editId }) => {
             <hr className="my-4 h-px w-full text-muted-foreground" />
             <div className="flex flex-col gap-4">
                 <Label className="text-muted-foreground">Модератор</Label>
-                <HorizontalCard href={`/u/${edit.moderator.username}`}>
+                <HorizontalCard>
                     <HorizontalCardImage
                         image={edit.moderator.avatar}
                         imageRatio={1}
+                        href={`/u/${edit.moderator.username}`}
                     />
                     <HorizontalCardContainer>
-                        <HorizontalCardTitle>
+                        <HorizontalCardTitle href={`/u/${edit.moderator.username}`}>
                             {edit.moderator.username}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>

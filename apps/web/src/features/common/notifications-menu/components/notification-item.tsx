@@ -38,19 +38,20 @@ const NotificationItem: FC<Props> = ({ data }) => {
             asChild
         >
             <Link href={data.href} prefetch>
-                <HorizontalCard className="w-full" href={data.href}>
+                <HorizontalCard className="w-full">
                     <HorizontalCardImage
                         image={data.icon}
                         imageRatio={1}
                         imageClassName="overflow-visible"
                         className="w-8"
+                        href={data.href}
                     >
                         {!data.seen && (
                             <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning-foreground" />
                         )}
                     </HorizontalCardImage>
                     <HorizontalCardContainer>
-                        <HorizontalCardTitle>{data.title}</HorizontalCardTitle>
+                        <HorizontalCardTitle href={data.href}>{data.title}</HorizontalCardTitle>
                         <HorizontalCardDescription className="line-clamp-2">
                             {data.description}
                         </HorizontalCardDescription>

@@ -22,7 +22,6 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
     return (
         <HorizontalCard
             className={className}
-            href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
             key={article.slug}
         >
             <HorizontalCardImage
@@ -31,7 +30,7 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
                 imageRatio={1}
             />
             <HorizontalCardContainer>
-                <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
+                <HorizontalCardTitle href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}>{article.title}</HorizontalCardTitle>
                 <HorizontalCardDescription className="text-muted-foreground flex-row text-xs">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />

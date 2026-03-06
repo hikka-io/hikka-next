@@ -21,10 +21,10 @@ interface Props {
 const ScheduleItem: FC<Props> = ({ item }) => {
     return (
         <Card>
-            <HorizontalCard href={`/anime/${item.anime.slug}`}>
-                <HorizontalCardImage image={item.anime.image || undefined} />
+            <HorizontalCard>
+                <HorizontalCardImage image={item.anime.image || undefined} href={`/anime/${item.anime.slug}`} />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle>
+                    <HorizontalCardTitle href={`/anime/${item.anime.slug}`}>
                         {item.anime.title!}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>

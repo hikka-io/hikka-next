@@ -34,10 +34,10 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
             : WATCH_STATUS[data.content[0].status as WatchStatusEnum];
 
     return (
-        <HorizontalCard href={`/u/${data.username}`} className={className}>
-            <HorizontalCardImage className='w-10' image={data.avatar} imageRatio={1} />
+        <HorizontalCard className={className}>
+            <HorizontalCardImage className='w-10' image={data.avatar} imageRatio={1} href={`/u/${data.username}`} />
             <HorizontalCardContainer>
-                <HorizontalCardTitle>{data.username}</HorizontalCardTitle>
+                <HorizontalCardTitle href={`/u/${data.username}`}>{data.username}</HorizontalCardTitle>
                 <HorizontalCardDescription>
                     {status.title_ua}
                 </HorizontalCardDescription>

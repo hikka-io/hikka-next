@@ -12,14 +12,15 @@ interface Props {}
 const ArticleItemSkeleton = ({}: Props) => {
     return (
         <Card className="-mx-4 animate-pulse overflow-hidden md:mx-0">
-            <HorizontalCard href="#">
+            <HorizontalCard>
                 <HorizontalCardImage
                     imageClassName="bg-secondary/20"
                     image={<div />}
                     imageRatio={1}
+                    href="#"
                 />
                 <HorizontalCardContainer className="gap-1">
-                    <HorizontalCardTitle>
+                    <HorizontalCardTitle href="#">
                         <div className="h-4 w-24 rounded-lg bg-secondary/20" />
                     </HorizontalCardTitle>
                     <HorizontalCardContainer className="flex-row items-center">

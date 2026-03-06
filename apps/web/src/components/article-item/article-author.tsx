@@ -9,6 +9,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+import Link from '@/components/ui/link';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
@@ -27,24 +28,23 @@ const Author: FC<Props> = ({ article, preview, className }) => {
 
     return (
         <HorizontalCard
-            href={`/u/${article.author.username}`}
             className={cn('p-4', className)}
         >
             <HorizontalCardImage
                 className={preview ? 'w-10' : ''}
                 image={article.author.avatar}
                 imageRatio={1}
+                href={`/u/${article.author.username}`}
             />
             <HorizontalCardContainer className="gap-1">
-                <HorizontalCardTitle>
+                <HorizontalCardTitle href={`/u/${article.author.username}`}>
                     {article.author.username}
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">
-                    <HorizontalCardDescription
-                        rel="author"
-                        href={`/articles?categories=${article.category}`}
-                    >
-                        {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
+                    <HorizontalCardDescription>
+                        <Link href={`/articles?categories=${article.category}`} rel="author" className="hover:underline">
+                            {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
+                        </Link>
                     </HorizontalCardDescription>
                     <div className="bg-muted-foreground size-1 rounded-full" />
                     <HorizontalCardDescription>

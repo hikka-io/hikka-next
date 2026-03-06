@@ -25,10 +25,10 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
     const { user } = useSession();
     return (
         <Card>
-            <HorizontalCard href={`/${content.data_type}/${content.slug}`}>
-                <HorizontalCardImage image={content.image} />
+            <HorizontalCard>
+                <HorizontalCardImage image={content.image} href={`/${content.data_type}/${content.slug}`} />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle>{content.title}</HorizontalCardTitle>
+                    <HorizontalCardTitle href={`/${content.data_type}/${content.slug}`}>{content.title}</HorizontalCardTitle>
                     <HorizontalCardDescription>
                         {content.year && <p>{content.year}</p>}
                         {content.year && content.media_type && (

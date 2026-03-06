@@ -30,10 +30,10 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
 
     return (
         <Card className="w-full">
-            <HorizontalCard href={link || '#'}>
-                <HorizontalCardImage image={image} className="w-14" />
+            <HorizontalCard>
+                <HorizontalCardImage image={image} className="w-14" href={link || '#'} />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle>Інформація</HorizontalCardTitle>
+                    <HorizontalCardTitle href={link || '#'}>Інформація</HorizontalCardTitle>
                     <HorizontalCardDescription>
                         <MaterialSymbolsCategoryOutlineRounded className="size-4 text-muted-foreground" />
                         {CONTENT_TYPES[content_type].title_ua}

@@ -95,16 +95,16 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             <div className="flex w-full flex-col items-start gap-2 overflow-hidden">
                 <HorizontalCard
                     className="w-full gap-3"
-                    href={`/u/${comment.author.username}`}
                 >
                     <HorizontalCardImage
                         className="w-10"
                         image={comment.author.avatar}
                         imageRatio={1}
+                        href={`/u/${comment.author.username}`}
                     />
                     <HorizontalCardContainer className="gap-1">
                         <div className="flex items-center gap-2">
-                            <HorizontalCardTitle>
+                            <HorizontalCardTitle href={`/u/${comment.author.username}`}>
                                 {comment.author.username}
                             </HorizontalCardTitle>
                             {(comment.author.role === 'admin' ||

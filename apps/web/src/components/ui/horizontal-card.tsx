@@ -1,6 +1,6 @@
 'use client';
 
-import React, {
+import {
     ComponentProps,
     ComponentPropsWithoutRef,
     FC,
@@ -16,39 +16,20 @@ import MDViewer from '../markdown/viewer/MD-viewer';
 import { Label } from './label';
 import Link from './link';
 
-interface HorizontalCardContextProps {
-    href: string;
-    target?: HTMLAttributeAnchorTarget;
-}
-
-const HorizontalCardContext = React.createContext<
-    HorizontalCardContextProps | undefined
->(undefined);
-
-const useHorizontalCard = () => {
-    const context = React.useContext(HorizontalCardContext);
-
-    if (!context) {
-        throw new Error(
-            'useHorizontalCard must be used within HorizontalCardContext',
-        );
-    }
-
-    return context;
-};
-
 interface HorizontalCardTitleProps extends ComponentPropsWithoutRef<'div'> {
     className?: string;
+    href: string;
+    target?: HTMLAttributeAnchorTarget;
     titleMeta?: ReactNode;
 }
 
 const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     children,
     className,
+    href,
+    target,
     titleMeta,
 }) => {
-    const { href, target } = useHorizontalCard();
-
     return (
         <div className="flex min-w-0 items-center gap-2">
             <Label
@@ -64,30 +45,24 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     );
 };
 
-interface HorizontalCardDescriptionProps extends ComponentPropsWithoutRef<'a'> {
+interface HorizontalCardDescriptionProps {
     className?: string;
-    href?: string;
 }
 
-const HorizontalCardDescription: FC<HorizontalCardDescriptionProps> = ({
-    children,
-    className,
-    href,
-    ...props
-}) => {
+const HorizontalCardDescription: FC<
+    PropsWithChildren<HorizontalCardDescriptionProps>
+> = ({ children, className }) => {
     if (typeof children === 'string') {
         return (
-            <Link href={href} {...props}>
-                <MDViewer
-                    className={cn(
-                        'line-clamp-1 !text-xs text-muted-foreground',
-                        className,
-                    )}
-                    preview
-                >
-                    {children}
-                </MDViewer>
-            </Link>
+            <MDViewer
+                className={cn(
+                    'line-clamp-1 text-xs! text-muted-foreground',
+                    className,
+                )}
+                preview
+            >
+                {children}
+            </MDViewer>
         );
     }
 
@@ -133,14 +108,12 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     className,
     imageClassName,
 }) => {
-    const { href: parentHref } = useHorizontalCard();
-
     return (
         <ContentCard
             className={cn('w-12', className)}
             containerClassName={cn(imageClassName, 'rounded-[var(--base-radius)]')}
             containerRatio={imageRatio}
-            href={href || parentHref}
+            href={href}
             image={image}
         >
             {children}
@@ -148,27 +121,20 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     );
 };
 
-interface Props extends ComponentProps<'div'> {
-    href: string;
-    target?: HTMLAttributeAnchorTarget;
-}
+interface Props extends ComponentProps<'div'> {}
 
 const HorizontalCard: FC<Props> = ({
-    href,
     className,
     children,
-    target,
     ...props
 }) => {
     return (
-        <HorizontalCardContext.Provider value={{ href, target }}>
-            <div
-                className={cn('flex items-center gap-4', className)}
-                {...props}
-            >
-                {children}
-            </div>
-        </HorizontalCardContext.Provider>
+        <div
+            className={cn('flex items-center gap-4', className)}
+            {...props}
+        >
+            {children}
+        </div>
     );
 };
 
@@ -177,6 +143,5 @@ export {
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
-    HorizontalCardTitle
+    HorizontalCardTitle,
 };
-

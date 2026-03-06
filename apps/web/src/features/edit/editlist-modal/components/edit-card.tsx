@@ -31,14 +31,15 @@ interface Props {
 const Component = ({ edit, href, className, ...props }: Props) => {
     return (
         <div className={cn('flex flex-col gap-4', className)}>
-            <HorizontalCard href={`/u/${edit.author?.username}`}>
+            <HorizontalCard>
                 <HorizontalCardImage
                     className="w-10"
                     image={edit.author?.avatar}
                     imageRatio={1}
+                    href={`/u/${edit.author?.username}`}
                 />
                 <HorizontalCardContainer className="shrink-0">
-                    <HorizontalCardTitle>
+                    <HorizontalCardTitle href={`/u/${edit.author?.username}`}>
                         {edit.author?.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>

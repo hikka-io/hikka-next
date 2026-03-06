@@ -29,10 +29,10 @@ const ContentInput: FC<Props> = () => {
         <div className="flex flex-col gap-4">
             <Label className="text-muted-foreground">Контент</Label>
             {content && (
-                <HorizontalCard href={`/${content.data_type}/${content.slug}`}>
-                    <HorizontalCardImage image={content.image} />
+                <HorizontalCard>
+                    <HorizontalCardImage image={content.image} href={`/${content.data_type}/${content.slug}`} />
                     <HorizontalCardContainer className="flex-1">
-                        <HorizontalCardTitle className="line-clamp-2">
+                        <HorizontalCardTitle className="line-clamp-2" href={`/${content.data_type}/${content.slug}`}>
                             {content.title ||
                                 content.title_ua ||
                                 content.title_en}

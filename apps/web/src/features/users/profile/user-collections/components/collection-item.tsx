@@ -23,17 +23,18 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
 
     return (
         <HorizontalCard
-            href={`/collections/${data.reference}`}
             className={className}
         >
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
                 className={cn(data.nsfw && 'spoiler-blur-xs', 'w-12')}
+                href={`/collections/${data.reference}`}
             />
             <HorizontalCardContainer>
                 <div className="inline-flex items-center gap-2">
                     <HorizontalCardTitle
                         className={cn(data.spoiler && 'spoiler-blur-xs')}
+                        href={`/collections/${data.reference}`}
                     >
                         {data.title}
                     </HorizontalCardTitle>

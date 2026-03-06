@@ -53,14 +53,15 @@ const CollectionCard: FC<Props> = ({
         >
             {/* User Header */}
 
-            <HorizontalCard href={`/u/${collection.author.username}`}>
+            <HorizontalCard>
                 <HorizontalCardImage
                     className="w-12"
                     image={collection.author.avatar}
                     imageRatio={1}
+                    href={`/u/${collection.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
-                    <HorizontalCardTitle>
+                    <HorizontalCardTitle href={`/u/${collection.author.username}`}>
                         {collection.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardContainer className="flex-row items-center">

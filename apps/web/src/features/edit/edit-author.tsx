@@ -27,13 +27,14 @@ const EditAuthor: FC<Props> = ({ editId }) => {
     return (
         <div className="flex flex-col gap-4">
             <Label className="text-muted-foreground">Автор</Label>
-            <HorizontalCard href={`/u/${edit.author!.username}`}>
+            <HorizontalCard>
                 <HorizontalCardImage
                     image={edit.author!.avatar}
                     imageRatio={1}
+                    href={`/u/${edit.author!.username}`}
                 />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle>
+                    <HorizontalCardTitle href={`/u/${edit.author!.username}`}>
                         {edit.author!.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>

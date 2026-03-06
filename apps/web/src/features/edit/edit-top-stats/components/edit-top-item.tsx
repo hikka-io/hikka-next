@@ -29,15 +29,16 @@ interface Props {
 const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
     return (
         <Card className="flex-1 bg-secondary/20 backdrop-blur-xl">
-            <HorizontalCard href={`/u/${user.username}`}>
+            <HorizontalCard>
                 <HorizontalCardImage
                     className="w-10"
                     image={user.avatar}
                     imageRatio={1}
+                    href={`/u/${user.username}`}
                 />
                 <HorizontalCardContainer>
                     <div className="inline-flex items-center justify-between">
-                        <HorizontalCardTitle>
+                        <HorizontalCardTitle href={`/u/${user.username}`}>
                             {user.username}
                         </HorizontalCardTitle>
                         <MaterialSymbolsKidStar

@@ -29,15 +29,15 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
         <div className="flex size-full flex-col items-start gap-4">
             <HorizontalCard
                 className="w-full gap-3"
-                href={`/u/${comment.author.username}`}
             >
                 <HorizontalCardImage
                     className="w-10"
                     image={comment.author.avatar}
                     imageRatio={1}
+                    href={`/u/${comment.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
-                    <HorizontalCardTitle>
+                    <HorizontalCardTitle href={`/u/${comment.author.username}`}>
                         {comment.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>

@@ -24,11 +24,10 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
     return (
         <HorizontalCard
             className="w-full px-6 py-4"
-            href={`/u/${user.username}`}
         >
-            <HorizontalCardImage image={user.avatar} imageRatio={1} />
+            <HorizontalCardImage image={user.avatar} imageRatio={1} href={`/u/${user.username}`} />
             <HorizontalCardContainer>
-                <HorizontalCardTitle>{user.username}</HorizontalCardTitle>
+                <HorizontalCardTitle href={`/u/${user.username}`}>{user.username}</HorizontalCardTitle>
                 <HorizontalCardDescription>
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="flex size-2 items-center justify-center rounded-full bg-success-foreground" />

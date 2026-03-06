@@ -55,11 +55,6 @@ const HistoryItem: FC<Props> = (props) => {
     return (
         <HorizontalCard
             className={className}
-            href={
-                data.content
-                    ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
-                    : '#'
-            }
         >
             <HorizontalCardImage
                 image={
@@ -69,20 +64,24 @@ const HistoryItem: FC<Props> = (props) => {
                               <MaterialSymbolsInfoRounded className="text-muted-foreground flex-1 text-xl" />
                           )
                 }
+                href={
+                    data.content
+                        ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+                        : undefined
+                }
             />
             <HorizontalCardContainer>
-                <HorizontalCardTitle>
+                <HorizontalCardTitle
+                    href={
+                        data.content
+                            ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+                            : '#'
+                    }
+                >
                     {data.content?.title || 'Загальне'}
                 </HorizontalCardTitle>
                 {activity.length > 0 && (
-                    <HorizontalCardDescription
-                        className="line-clamp-2"
-                        href={
-                            data.content
-                                ? `${CONTENT_TYPE_LINKS[data.content!.data_type]}/${data.content!.slug}`
-                                : undefined
-                        }
-                    >
+                    <HorizontalCardDescription className="line-clamp-2">
                         {activity.join(', ')}
                     </HorizontalCardDescription>
                 )}

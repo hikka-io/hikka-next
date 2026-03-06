@@ -53,16 +53,16 @@ const FeedItemHeader: FC<Props> = ({
 }) => {
     return (
         <HorizontalCard
-            href={`/u/${author.username}`}
             className={cn('p-4', className)}
         >
             <HorizontalCardImage
                 className="w-10"
                 image={author.avatar}
                 imageRatio={1}
+                href={`/u/${author.username}`}
             />
             <HorizontalCardContainer className="gap-1">
-                <HorizontalCardTitle>
+                <HorizontalCardTitle href={`/u/${author.username}`}>
                     {author.username}
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">

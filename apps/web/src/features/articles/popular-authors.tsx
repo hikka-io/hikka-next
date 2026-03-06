@@ -32,15 +32,15 @@ const PopularAuthors: FC<Props> = () => {
                     {articleTop?.authors.slice(0, 4).map((author) => (
                         <HorizontalCard
                             key={author.user.username}
-                            href={`/u/${author.user.username}`}
                         >
                             <HorizontalCardImage
                                 imageRatio={1}
                                 className='w-10'
                                 image={author.user.avatar}
+                                href={`/u/${author.user.username}`}
                             />
                             <HorizontalCardContainer>
-                                <HorizontalCardTitle>
+                                <HorizontalCardTitle href={`/u/${author.user.username}`}>
                                     {author.user.username}
                                 </HorizontalCardTitle>
                                 <HorizontalCardDescription className="line-clamp-1">

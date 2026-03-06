@@ -102,16 +102,15 @@ const Links: FC<Props> = ({ content_type }) => {
                         {linksData.map((link) => (
                             <HorizontalCard
                                 key={link.url}
-                                href={link.url}
-                                target="_blank"
                             >
                                 <HorizontalCardImage
                                     imageRatio={1}
                                     className="w-10"
                                     image={<p>{link.text[0]}</p>}
+                                    href={link.url}
                                 />
                                 <HorizontalCardContainer>
-                                    <HorizontalCardTitle>
+                                    <HorizontalCardTitle href={link.url} target="_blank">
                                         {link.text}
                                     </HorizontalCardTitle>
                                 </HorizontalCardContainer>
