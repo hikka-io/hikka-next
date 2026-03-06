@@ -3,7 +3,7 @@
 import { useCommentList } from '@hikka/react';
 import { FC } from 'react';
 
-import GlobalComment from '@/components/comments/global-comment';
+import GlobalComment from '@/features/comments/global-comment';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';

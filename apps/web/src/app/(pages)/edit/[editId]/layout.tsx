@@ -12,7 +12,7 @@ import { permanentRedirect } from 'next/navigation';
 import * as React from 'react';
 import { FC } from 'react';
 
-import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

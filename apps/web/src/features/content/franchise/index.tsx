@@ -5,9 +5,9 @@ import { useFranchise } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import AnimeCard from '@/components/anime-card';
-import MangaCard from '@/components/manga-card';
-import NovelCard from '@/components/novel-card';
+import AnimeCard from '@/components/content-card/anime-card';
+import MangaCard from '@/components/content-card/manga-card';
+import NovelCard from '@/components/content-card/novel-card';
 import Block from '@/components/ui/block';
 import {
     Header,

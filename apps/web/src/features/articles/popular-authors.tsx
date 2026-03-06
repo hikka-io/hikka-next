@@ -3,7 +3,7 @@
 import { useArticleStats } from '@hikka/react';
 import { FC } from 'react';
 
-import FollowButton from '@/components/follow-button';
+import FollowButton from '@/features/common/follow-button';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

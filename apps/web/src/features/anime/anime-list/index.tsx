@@ -11,7 +11,7 @@ import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import AnimeCard from '@/components/anime-card';
+import AnimeCard from '@/components/content-card/anime-card';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';

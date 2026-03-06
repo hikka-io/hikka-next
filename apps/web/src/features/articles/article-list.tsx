@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ArticleItem from '@/components/article-item/article-item';
-import ArticleItemSkeleton from '@/components/article-item/article-item-skeleton';
+import ArticleItem from '@/features/articles/article-item/article-item';
+import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';

@@ -5,7 +5,7 @@ import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { FC } from 'react';
 
-import AnimeCard from '@/components/anime-card';
+import AnimeCard from '@/components/content-card/anime-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
 import Block from '@/components/ui/block';
 import {

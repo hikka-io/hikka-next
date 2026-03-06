@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import FollowButton from '@/components/follow-button';
+import FollowButton from '@/features/common/follow-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';

@@ -7,7 +7,7 @@ import { prefetchArticleBySlug } from '@hikka/react/server';
 import Link from 'next/link';
 import { permanentRedirect } from 'next/navigation';
 
-import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 

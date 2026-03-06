@@ -10,8 +10,8 @@ import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import CoverImage from '@/components/cover-image';
-import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
-import NavMenu from '@/components/navigation/nav-dropdown';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import NavMenu from '@/features/common/nav-dropdown';
 
 import {
     ActivationAlert,

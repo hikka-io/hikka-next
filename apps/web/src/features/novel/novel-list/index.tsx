@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import NovelCard from '@/components/novel-card';
+import NovelCard from '@/components/content-card/novel-card';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';

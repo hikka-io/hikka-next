@@ -12,7 +12,7 @@ import {
     SORT_EDITLIST,
     SORT_READLIST,
     SORT_WATCHLIST,
-} from '@/components/filters/sort';
+} from '@/features/filters/sort';
 import { Badge } from '@/components/ui/badge';
 
 import { cn } from '@/utils/cn';

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';

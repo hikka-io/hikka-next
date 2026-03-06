@@ -4,8 +4,8 @@ import { useArticleStats } from '@hikka/react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { BadgeFilter } from '@/components/badge-filter';
-import useChangeParam from '@/components/filters/hooks/use-change-param';
+import { BadgeFilter } from '@/components/ui/badge-filter';
+import useChangeParam from '@/features/filters/hooks/use-change-param';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

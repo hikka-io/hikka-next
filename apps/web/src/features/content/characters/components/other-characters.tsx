@@ -4,7 +4,7 @@ import { ContentTypeEnum } from '@hikka/client';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import CharacterCard from '@/components/character-card';
+import CharacterCard from '@/components/content-card/character-card';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';

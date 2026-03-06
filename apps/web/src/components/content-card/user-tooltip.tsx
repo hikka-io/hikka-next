@@ -25,7 +25,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import FollowButton from '../follow-button';
+import { FollowButton } from '@/features/common';
 import MaterialSymbolsAnimatedImages from '../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '../icons/material-symbols/MaterialSymbolsPalette';

@@ -13,8 +13,8 @@ import {
 
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
-import ReadlistButton from '@/components/readlist-button/readlist-button';
-import WatchlistButton from '@/components/watchlist-button/watchlist-button';
+import ReadlistButton from '@/features/common/readlist-button';
+import WatchlistButton from '@/features/common/watchlist-button';
 
 interface Props {
     content: AnimeResponse | MangaResponse | NovelResponse;

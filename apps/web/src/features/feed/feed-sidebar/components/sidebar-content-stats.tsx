@@ -9,7 +9,7 @@ import { useReadStats, useSession, useUserWatchStats } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';

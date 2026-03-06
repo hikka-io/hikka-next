@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import MangaCard from '@/components/manga-card';
+import MangaCard from '@/components/content-card/manga-card';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';

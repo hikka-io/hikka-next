@@ -3,7 +3,7 @@ import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import Author from '@/components/article-item/article-author';
+import Author from '@/features/articles/article-item/article-author';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import TextExpand from '@/components/text-expand';

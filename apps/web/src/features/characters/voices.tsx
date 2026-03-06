@@ -13,7 +13,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import VoiceCard from '@/components/voice-card';
+import VoiceCard from '@/components/content-card/voice-card';
 
 interface Props {
     extended?: boolean;

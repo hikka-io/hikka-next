@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
@@ -32,10 +32,10 @@ const WidgetList = () => {
                 .map((widget, index) => {
                     const Component = WIDGET_COMPONENTS[widget.id];
                     if (!Component) return null;
-                    return <>
+                    return <Fragment key={widget.id}>
                         {index !== 0 && <div className='px-4'><Separator /></div>}
-                        <Component key={widget.id} />
-                    </>;
+                        <Component />
+                    </Fragment>;
                 })}
         </Card>
     );

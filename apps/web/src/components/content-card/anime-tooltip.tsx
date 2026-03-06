@@ -19,7 +19,9 @@ import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
-import WatchListButton from '../watchlist-button/watchlist-button';
+
+import { WatchlistButton } from '@/features/common';
+
 
 interface TooltipDataProps {
     slug: string;
@@ -144,7 +146,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
             </div>
 
             {loggedUser && (
-                <WatchListButton watch={watch} slug={slug} additional />
+                <WatchlistButton watch={watch} slug={slug} additional />
             )}
         </>
     );

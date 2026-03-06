@@ -5,8 +5,8 @@ import { useCommentThread, useContentComments, useSession } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import CommentInput from '@/components/comments/comment-input';
-import Comments from '@/components/comments/comments';
+import CommentInput from '@/features/comments/comment-input';
+import Comments from '@/features/comments/comments';
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';

@@ -5,7 +5,7 @@ import { useUserFavourites } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import AnimeCard from '@/components/anime-card';
+import AnimeCard from '@/components/content-card/anime-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 

@@ -10,7 +10,7 @@ import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
 import CoverImage from '@/components/cover-image';
-import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import {
     PrivacySetting,
     YearBingeHighlights,

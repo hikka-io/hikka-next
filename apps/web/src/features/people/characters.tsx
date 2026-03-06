@@ -4,7 +4,7 @@ import { usePersonCharacters } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import CharacterAnimeCard from '@/components/character-anime-card';
+import CharacterAnimeCard from '@/components/content-card/character-anime-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import {

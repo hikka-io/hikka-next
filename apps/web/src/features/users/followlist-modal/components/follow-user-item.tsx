@@ -3,7 +3,7 @@
 import { UserResponse } from '@hikka/client';
 import { FC } from 'react';
 
-import FollowButton from '@/components/follow-button';
+import FollowButton from '@/features/common/follow-button';
 import {
     HorizontalCard,
     HorizontalCardContainer,

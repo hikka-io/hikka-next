@@ -3,7 +3,7 @@
 import { useLatestComments } from '@hikka/react';
 import { FC } from 'react';
 
-import GlobalComment from '@/components/comments/global-comment';
+import GlobalComment from '@/features/comments/global-comment';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {

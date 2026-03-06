@@ -1,6 +1,6 @@
 'use client';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import { Button } from '@/components/ui/button';
 
 import { COLOR_PRESETS, ColorPreset } from '@/utils/constants/styles';

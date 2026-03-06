@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-import ContentType from '@/components/filters/content-type';
-import EditStatus from '@/components/filters/edit-status';
-import Sort from '@/components/filters/sort';
-import User from '@/components/filters/user';
+import ContentType from '@/features/filters/content-type';
+import EditStatus from '@/features/filters/edit-status';
+import Sort from '@/features/filters/sort';
+import User from '@/features/filters/user';
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 

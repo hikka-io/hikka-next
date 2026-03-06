@@ -4,7 +4,7 @@ import { useSession, useUserFollowStats } from '@hikka/react';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import FollowButton from '@/components/follow-button';
+import FollowButton from '@/features/common/follow-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';

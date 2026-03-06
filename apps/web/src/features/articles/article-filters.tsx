@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-import ArticleCategory from '@/components/filters/article-category';
-import ArticleCustomization from '@/components/filters/article-customization';
-import Sort from '@/components/filters/sort';
-import Tag from '@/components/filters/tag';
-import User from '@/components/filters/user';
+import ArticleCategory from '@/features/filters/article-category';
+import ArticleCustomization from '@/features/filters/article-customization';
+import Sort from '@/features/filters/sort';
+import Tag from '@/features/filters/tag';
+import User from '@/features/filters/user';
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 

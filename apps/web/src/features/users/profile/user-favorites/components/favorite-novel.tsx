@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import NovelCard from '@/components/novel-card';
+import NovelCard from '@/components/content-card/novel-card';
 import NotFound from '@/components/ui/not-found';
 
 import { cn } from '@/utils/cn';

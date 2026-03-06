@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-import Genre from '@/components/filters/genre';
-import Localization from '@/components/filters/localization';
-import MediaType from '@/components/filters/media-type';
-import ReleaseStatus from '@/components/filters/release-status';
-import Score from '@/components/filters/score';
-import Sort from '@/components/filters/sort';
-import Year from '@/components/filters/year';
+import Genre from '@/features/filters/genre';
+import Localization from '@/features/filters/localization';
+import MediaType from '@/features/filters/media-type';
+import ReleaseStatus from '@/features/filters/release-status';
+import Score from '@/features/filters/score';
+import Sort from '@/features/filters/sort';
+import Year from '@/features/filters/year';
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 

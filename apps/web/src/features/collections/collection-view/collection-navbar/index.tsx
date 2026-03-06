@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, Fragment } from 'react';
 
-import FavoriteButton from '@/components/favorite-button';
+import FavoriteButton from '@/features/common/favorite-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {

@@ -7,12 +7,12 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
-import EditButton from '@/components/edit-button';
-import FavoriteButton from '@/components/favorite-button';
-import ReadlistButton from '@/components/readlist-button/readlist-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import WatchlistButton from '@/components/watchlist-button/watchlist-button';
+import EditButton from '@/features/common/edit-button';
+import FavoriteButton from '@/features/common/favorite-button';
+import ReadlistButton from '@/features/common/readlist-button';
+import WatchlistButton from '@/features/common/watchlist-button';
 
 import { cn } from '@/utils/cn';
 import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
@@ -21,11 +21,11 @@ import { getDeclensionWord } from '@/utils/i18n/declension';
 interface Props {
     className?: string;
     content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.CHARACTER
-        | ContentTypeEnum.PERSON;
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL
+    | ContentTypeEnum.CHARACTER
+    | ContentTypeEnum.PERSON;
 }
 
 const UserlistButton = ({ content_type }: Props) => {
@@ -94,8 +94,8 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
                             )}
                         {(data?.data_type === ContentTypeEnum.CHARACTER ||
                             data?.data_type === ContentTypeEnum.PERSON) && (
-                            <span className="hidden sm:inline">Коментарі</span>
-                        )}
+                                <span className="hidden sm:inline">Коментарі</span>
+                            )}
                     </Link>
                 </Button>
 

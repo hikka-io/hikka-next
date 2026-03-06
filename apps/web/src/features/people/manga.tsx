@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import MangaCard from '@/components/manga-card';
+import MangaCard from '@/components/content-card/manga-card';
 import Block from '@/components/ui/block';
 import {
     Header,

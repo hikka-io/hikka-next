@@ -18,8 +18,9 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
+import { ReadlistButton } from '@/features/common';
 import MDViewer from '../markdown/viewer/MD-viewer';
-import ReadlistButton from '../readlist-button/readlist-button';
+
 
 interface TooltipDataProps {
     slug: string;

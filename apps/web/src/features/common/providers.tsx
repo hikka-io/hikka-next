@@ -9,7 +9,7 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-import EffectsManager from '@/components/effects-manager';
+import EffectsManager from '@/features/common/effects-manager';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 import ModalProvider from '@/services/providers/modal-provider';

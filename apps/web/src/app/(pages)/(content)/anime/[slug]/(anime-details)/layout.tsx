@@ -8,7 +8,7 @@ import { prefetchAnimeBySlug } from '@hikka/react/server';
 import { permanentRedirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
-import ContentHeader from '@/components/content-header';
+import ContentHeader from '@/features/comments/content-header';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';
 

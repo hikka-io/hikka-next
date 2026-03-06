@@ -3,9 +3,9 @@
 import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
 import { FC } from 'react';
 
-import AnimeCard from '@/components/anime-card';
-import MangaCard from '@/components/manga-card';
-import NovelCard from '@/components/novel-card';
+import AnimeCard from '@/components/content-card/anime-card';
+import MangaCard from '@/components/content-card/manga-card';
+import NovelCard from '@/components/content-card/novel-card';
 import Stack from '@/components/ui/stack';
 
 interface Props {

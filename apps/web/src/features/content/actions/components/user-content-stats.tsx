@@ -4,7 +4,7 @@ import { ContentTypeEnum } from '@hikka/client';
 import { Hash, Star } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
-import { CollapsibleFilter } from '@/components/collapsible-filter';
+import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import { Button } from '@/components/ui/button';
