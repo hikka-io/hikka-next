@@ -1,7 +1,6 @@
 import { MainContent } from '@hikka/client';
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
@@ -31,20 +30,20 @@ const Details: FC<Props> = ({ content }) => {
                 <Label className="text-muted-foreground">
                     {isPerson ? 'Імʼя' : 'Назва'} українською
                 </Label>
-                <P className="text-sm">{title_ua || '-'}</P>
+                <p className="text-sm">{title_ua || '-'}</p>
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     {isPerson ? 'Імʼя' : 'Назва'} англійською
                 </Label>
-                <P className="text-sm">{title_en || '-'}</P>
+                <p className="text-sm">{title_en || '-'}</p>
             </div>
             <div className="flex flex-col gap-2">
                 <Label className="text-muted-foreground">
                     {isPerson ? 'Оригінальне' : 'Оригінальна'}{' '}
                     {isPerson ? 'імʼя' : 'назва'}
                 </Label>
-                <P className="text-sm">{title_ja || '-'}</P>
+                <p className="text-sm">{title_ja || '-'}</p>
             </div>
         </Card>
     );

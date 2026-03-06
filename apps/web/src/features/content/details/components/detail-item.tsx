@@ -1,6 +1,5 @@
 import { FC, ReactNode, useCallback } from 'react';
 
-import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
 import {
     Tooltip,
@@ -33,9 +32,9 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
 
             if (value.length < 2) {
                 return (
-                    <P className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
+                    <p className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
                         {formattedValue}
-                    </P>
+                    </p>
                 );
             }
 
@@ -48,12 +47,12 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
                     </TooltipTrigger>
                     <TooltipContent className="max-w-[300px] text-left flex flex-col gap-2 p-3">
                         {value.map((item, index) => (
-                            <P key={item}>
+                            <p key={item}>
                                 <span className="text-muted-foreground">
                                     {index + 1}.{' '}
                                 </span>
                                 {item}
-                            </P>
+                            </p>
                         ))}
                     </TooltipContent>
                 </Tooltip>
@@ -61,9 +60,9 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
         }
 
         return (
-            <P className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
+            <p className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
                 {value}
-            </P>
+            </p>
         );
     }, [value, children]);
 

@@ -6,7 +6,6 @@ import { usePlausible } from 'next-plausible';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import H3 from '@/components/typography/h3';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 
@@ -36,7 +35,7 @@ const SummaryBanner: FC<Props> = () => {
             <div className="flex items-center gap-4">
                 <ChartLine className="size-6" />
                 <div className="flex flex-col justify-center gap-1">
-                    <H3 className="leading-5">Підсумки {YEAR} року</H3>
+                    <h3 className="leading-5">Підсумки {YEAR} року</h3>
                     <span className="text-sm text-muted-foreground">
                         Перегляньте свої статистику та досягнення
                     </span>

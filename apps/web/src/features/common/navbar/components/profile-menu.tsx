@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
-import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -66,9 +65,9 @@ const ProfileMenu = () => {
                             {loggedUser.username}
                         </Label>
                         {loggedUser && (
-                            <P className="text-muted-foreground truncate text-xs">
+                            <p className="text-muted-foreground truncate text-xs">
                                 {USER_ROLE[loggedUser.role].label}
-                            </P>
+                            </p>
                         )}
                     </div>
                 </div>

@@ -5,7 +5,6 @@ import { cn } from '@/utils/cn';
 
 import ContentCard from '../content-card/content-card';
 import MDViewer from '../markdown/viewer/MD-viewer';
-import H5 from '../typography/h5';
 import { Label } from './label';
 
 export interface Props extends ComponentPropsWithoutRef<'div'> {
@@ -30,7 +29,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
         },
         ref,
     ) => {
-        const Title = size === 'md' ? H5 : Label;
+        const Title = size === 'md' ? 'h5' : Label;
 
         return (
             <div

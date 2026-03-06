@@ -2,7 +2,6 @@ import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
 import { FC, memo } from 'react';
 
-import Small from '@/components/typography/small';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -53,15 +52,15 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 <HorizontalCardContainer className="flex-row text-xs text-muted-foreground gap-3">
                     <div className="flex items-center gap-1">
                         <Layers className="size-3" />
-                        <Small>{data.entries}</Small>
+                        <small>{data.entries}</small>
                     </div>
                     <div className="flex items-center gap-1">
                         <MessageCircle className="size-3" />
-                        <Small>{data.comments_count}</Small>
+                        <small>{data.comments_count}</small>
                     </div>
                     <div className="flex items-center gap-1">
                         <ArrowBigUp className="size-4" />
-                        <Small>{data.vote_score}</Small>
+                        <small>{data.vote_score}</small>
                     </div>
 
                 </HorizontalCardContainer>

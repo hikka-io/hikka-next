@@ -1,6 +1,5 @@
 'use client';
 
-import Small from '@/components/typography/small';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -26,9 +25,9 @@ const ListRemovalItem = ({ title, onConfirm }: Props) => {
         <Card className="flex-row items-center justify-between">
             <div className="flex flex-col">
                 <Label>{title}</Label>
-                <Small className="text-muted-foreground">
+                <small className="text-muted-foreground">
                     Очистити весь <span className="lowercase">{title}</span>
-                </Small>
+                </small>
             </div>
             <AlertDialog>
                 <AlertDialogTrigger asChild>

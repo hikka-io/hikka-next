@@ -1,7 +1,6 @@
 import { FC, createElement } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import {
     Tooltip,
@@ -73,9 +72,9 @@ export const BadgeFilter: FC<BadgeFilterProps> = ({
                                 </TooltipTrigger>
                                 <TooltipPortal>
                                     <TooltipContent>
-                                        <P className="text-sm">
+                                        <p className="text-sm">
                                             {properties[slug].description}
-                                        </P>
+                                        </p>
                                     </TooltipContent>
                                 </TooltipPortal>
                             </Tooltip>

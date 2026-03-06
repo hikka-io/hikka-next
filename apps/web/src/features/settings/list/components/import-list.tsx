@@ -11,8 +11,6 @@ import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { xml2json } from 'xml-js';
 
-import P from '@/components/typography/p';
-import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
@@ -115,19 +113,19 @@ const Component = ({ list, setList, content_type }: Props) => {
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                    <P className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-sm">
                         Перетягніть файл сюди...
-                    </P>
+                    </p>
                 ) : list.length === 0 ? (
-                    <P className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-sm">
                         Перетягніть сюди <span>.XML</span> файл, або натисніть,
                         щоб завантажити
-                    </P>
+                    </p>
                 ) : (
                     <FoundList list={list} type={content_type} />
                 )}
             </div>
-            <Small className="text-muted-foreground">
+            <small className="text-muted-foreground">
                 <span>
                     Ви можете імпортувати свій список з{' '}
                     <Link
@@ -140,7 +138,7 @@ const Component = ({ list, setList, content_type }: Props) => {
                     або{' '}
                     <span className="text-primary-foreground">Shikimori</span>
                 </span>
-            </Small>
+            </small>
         </div>
     );
 };

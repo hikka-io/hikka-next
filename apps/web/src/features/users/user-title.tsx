@@ -6,8 +6,6 @@ import { useParams } from 'next/navigation';
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
-import H3 from '@/components/typography/h3';
-import P from '@/components/typography/p';
 import {
     Tooltip,
     TooltipContent,
@@ -27,7 +25,7 @@ const UserTitle = () => {
     return (
         <div className="flex w-full flex-col gap-2">
             <div className="flex items-center gap-2">
-                <H3 className="line-clamp-1 break-all">{user.username}</H3>
+                <h3 className="line-clamp-1 break-all">{user.username}</h3>
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
@@ -41,11 +39,11 @@ const UserTitle = () => {
                             </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <P className="text-sm">
+                            <p className="text-sm">
                                 {user.role === 'admin'
                                     ? 'Адміністратор'
                                     : 'Модератор'}
-                            </P>
+                            </p>
                         </TooltipContent>
                     </Tooltip>
                 )}

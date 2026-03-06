@@ -18,7 +18,6 @@ import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
-import Small from '../typography/small';
 
 interface Props {
     comment: CommentResponse;
@@ -72,11 +71,11 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                     href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
                     className="text-primary-foreground flex items-center gap-1 hover:underline"
                 >
-                    <Small className="line-clamp-1">
+                    <small className="line-clamp-1">
                         {comment.content_type === 'edit'
                             ? `#${comment.preview.slug}`
                             : comment.preview.title}
-                    </Small>
+                    </small>
                 </Link>
             </div>
         </div>

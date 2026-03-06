@@ -5,7 +5,6 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -30,9 +29,9 @@ const AuthNeeded: FC<Props> = () => {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <P className="line-clamp-2 text-sm text-muted-foreground">
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
                         Вам необіхдно авторизуватись, перш ніж надати доступ
-                    </P>
+                    </p>
                 </div>
             </div>
             <Button size="md" variant="outline" asChild>

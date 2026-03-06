@@ -3,7 +3,7 @@ import type { TLinkElement } from 'platejs';
 import type { SlateElementProps } from 'platejs/static';
 import { SlateElement } from 'platejs/static';
 
-import Link from '@/components/typography/link';
+import Link from '@/components/markdown/link';
 
 export function LinkElementStatic(props: SlateElementProps<TLinkElement>) {
     return (

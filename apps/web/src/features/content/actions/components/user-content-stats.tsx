@@ -7,7 +7,6 @@ import { useParams } from 'next/navigation';
 import { CollapsibleFilter } from '@/components/collapsible-filter';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
@@ -58,12 +57,12 @@ const UserContentStats = ({
                         precision={0.5}
                         value={score ? score / 2 : 0}
                     />
-                    <P className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-sm">
                         <span className="text-foreground font-bold">
                             {score}
                         </span>
                         /10
-                    </P>
+                    </p>
                 </div>
             </CollapsibleFilter>
             <CollapsibleFilter
@@ -80,7 +79,7 @@ const UserContentStats = ({
                 defaultOpen
             >
                 <div className="flex w-full flex-col gap-2">
-                    <P className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-sm">
                         <span className="text-foreground font-bold">
                             {progress}
                         </span>
@@ -88,7 +87,7 @@ const UserContentStats = ({
                         {content_type === ContentTypeEnum.ANIME
                             ? 'епізодів'
                             : 'розділів'}
-                    </P>
+                    </p>
                     <Progress
                         className="h-2"
                         max={total ?? 0}

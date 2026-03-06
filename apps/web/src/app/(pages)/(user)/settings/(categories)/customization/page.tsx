@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { Effects, Preferences, Styles } from '@/features/settings';
@@ -21,9 +20,9 @@ const CustomizationSettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle>Кастомізація</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <P className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     Налаштуйте відображення контенту, теми та інше
-                </P>
+                </p>
             </div>
             <div className="flex flex-col gap-4">
                 <Header>

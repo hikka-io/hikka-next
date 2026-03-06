@@ -11,8 +11,6 @@ import { FC } from 'react';
 
 import CoverImage from '@/components/cover-image';
 import Breadcrumbs from '@/components/navigation/nav-breadcrumbs';
-import P from '@/components/typography/p';
-
 import {
     PrivacySetting,
     YearBingeHighlights,
@@ -87,7 +85,7 @@ const YearStatisticsPage: FC<Props> = async (props) => {
                 >
                     {username}
                 </Link>
-                <P className="text-sm font-bold">Підсумки {year} року</P>
+                <p className="text-sm font-bold">Підсумки {year} року</p>
             </Breadcrumbs>
             <div className="flex flex-col gap-8 w-full mx-auto max-w-3xl p-0 isolate">
                 <YearHero data={artifact.data} username={username} />

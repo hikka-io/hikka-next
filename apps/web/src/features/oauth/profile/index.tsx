@@ -3,7 +3,6 @@
 import { useSession } from '@hikka/react';
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -39,9 +38,9 @@ const Profle: FC<Props> = () => {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <P className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                         Ваш обліковий запис
-                    </P>
+                    </p>
                 </div>
             </div>
             <Button size="md" variant="destructive" onClick={logout}>

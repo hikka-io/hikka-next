@@ -8,9 +8,6 @@ import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbo
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Completed from '@/components/icons/watch-status/completed';
 import Watching from '@/components/icons/watch-status/watching';
-import H1 from '@/components/typography/h1';
-import H2 from '@/components/typography/h2';
-import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Image from '@/components/ui/image';
 
@@ -90,20 +87,20 @@ const YearHero: FC<Props> = ({ data, username }) => {
             />
             <div className="relative flex flex-col items-center gap-6 text-center">
                 <div className="flex flex-col items-center gap-2">
-                    <P className="text-primary-foreground uppercase tracking-widest">
+                    <p className="text-primary-foreground uppercase tracking-widest">
                         Підсумки року
-                    </P>
-                    <H1 className="text-6xl font-black text-primary-foreground md:text-8xl lg:text-9xl">
+                    </p>
+                    <h1 className="text-6xl font-black text-primary-foreground md:text-8xl lg:text-9xl">
                         {YEAR}
-                    </H1>
+                    </h1>
                     <div className="flex items-center gap-4">
                         <Avatar className="size-10 rounded-md">
                             <AvatarImage src={user?.avatar} />
                             <AvatarFallback>{user?.username[0]}</AvatarFallback>
                         </Avatar>
-                        <H2 className="text-xl font-medium text-primary-foreground tracking-widest">
+                        <h2 className="text-xl font-medium text-primary-foreground tracking-widest">
                             {username}
-                        </H2>
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -315,9 +312,9 @@ const YearHero: FC<Props> = ({ data, username }) => {
                         )}
                 </div>
             </div>
-            <P className="text-primary-foreground uppercase tracking-widest text-sm">
+            <p className="text-primary-foreground uppercase tracking-widest text-sm">
                 hikka.io
-            </P>
+            </p>
         </div>
     );
 };

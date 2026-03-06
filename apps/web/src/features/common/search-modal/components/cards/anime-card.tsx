@@ -6,7 +6,6 @@ import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
-import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
@@ -78,7 +77,7 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
             </div>
             {anime.score > 0 && (
                 <div className="flex items-center gap-1 text-sm">
-                    <P className="font-bold leading-normal">{anime.score}</P>
+                    <p className="font-bold leading-normal">{anime.score}</p>
                     <MaterialSymbolsStarRounded className="hidden sm:block" />
                 </div>
             )}

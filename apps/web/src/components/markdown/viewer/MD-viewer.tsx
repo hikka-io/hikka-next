@@ -1,19 +1,13 @@
 'use client';
 
-// import { withProps } from '@udecode/cn';
 import Markdown, { Components, Options } from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';
 
-import { cn, withProps } from '@/utils/cn';
+import { cn } from '@/utils/cn';
 
-import Blockquote from '../../typography/blockquote';
-import Li from '../../typography/li';
-import Link from '../../typography/link';
-import Ol from '../../typography/ol';
-import P from '../../typography/p';
-import Spoiler from '../../typography/spoiler';
-import Ul from '../../typography/ul';
+import Link from '../link';
+import Spoiler from '../spoiler';
 import NoSpoiler from './components/no-spoiler';
 import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
@@ -36,24 +30,18 @@ const previewComponents: CustomComponents = {
             {children}
         </span>
     ),
-    p: P,
 };
 
 const components = (preview?: boolean): CustomComponents =>
     ({
-        spoiler: withProps(Spoiler, { className: 'mb-4' }),
-        p: withProps(P, { className: 'mb-4' }),
-        blockquote: withProps(Blockquote, { className: 'mb-4' }),
+        spoiler: Spoiler,
         a: Link,
-        ul: withProps(Ul, { className: 'mb-4' }),
-        ol: withProps(Ol, { className: 'mb-4' }),
-        li: Li,
         ...(preview ? previewComponents : {}),
     }) as CustomComponents;
 
 const MDViewer = ({ children, className, preview, ...props }: Props) => {
     return (
-        <div className={className}>
+        <div className={cn(!preview && 'prose', className)}>
             <Markdown
                 remarkPlugins={[
                     remarkDisableTokenizer,

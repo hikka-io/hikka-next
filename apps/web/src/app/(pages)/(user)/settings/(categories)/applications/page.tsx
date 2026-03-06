@@ -6,7 +6,6 @@ import {
 import { prefetchClientList } from '@hikka/react/server';
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { ApplicationsSettings, ClientCreateButton } from '@/features/settings';
@@ -42,10 +41,10 @@ const ApplicationsSettingsPage: FC<Props> = async (props) => {
                         </HeaderContainer>
                     </Header>
 
-                    <P className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                         Підключіть OAuth авторизацію через hikka за допомогою
                         застосунку (для розробників)
-                    </P>
+                    </p>
                 </div>
                 <ApplicationsSettings />
             </div>

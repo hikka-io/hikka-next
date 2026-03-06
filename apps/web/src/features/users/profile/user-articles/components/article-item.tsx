@@ -4,7 +4,6 @@ import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import { FC } from 'react';
 
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import Small from '@/components/typography/small';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -29,28 +28,28 @@ const ArticleItem: FC<Props> = ({ article }) => {
                 </HorizontalCardContainer>
             </HorizontalCard>
             <div className="flex items-center justify-between gap-3">
-                <Small className="text-muted-foreground">
+                <small className="text-muted-foreground">
                     {formatDistance(article.updated * 1000, Date.now(), {
                         addSuffix: true,
                     })}
-                </Small>
+                </small>
                 <div className="text-muted-foreground flex gap-3 text-xs">
                     {article.views > 0 && (
                         <div className="flex items-center gap-1">
                             <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
-                            <Small>{article.views}</Small>
+                            <small>{article.views}</small>
                         </div>
                     )}
                     <div className="flex items-center gap-1">
                         <MessageCircle className="size-3" />
                         {article.comments_count > 0 && (
-                            <Small>{article.comments_count}</Small>
+                            <small>{article.comments_count}</small>
                         )}
                     </div>
                     <div className="flex items-center gap-1">
                         <ArrowBigUp className="size-4" />
                         {article.vote_score > 0 && (
-                            <Small>{article.vote_score}</Small>
+                            <small>{article.vote_score}</small>
                         )}
                     </div>
                 </div>

@@ -3,13 +3,9 @@
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
-import { P_CLASSNAME } from '@/components/typography/p';
-
-import { cn } from '@/utils/cn';
-
 export function ParagraphElement(props: PlateElementProps) {
     return (
-        <PlateElement as="p" {...props} className={cn('mb-4', P_CLASSNAME)}>
+        <PlateElement as="p" {...props} className="mb-4">
             {props.children}
         </PlateElement>
     );

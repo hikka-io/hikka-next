@@ -3,8 +3,6 @@
 import { AnimeScheduleResponse } from '@hikka/client';
 import { FC, memo } from 'react';
 
-import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
 import HorizontalContentCard, {
     Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
@@ -38,19 +36,19 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
         >
             <div className="flex w-full items-end gap-4">
                 <div className="flex flex-1 flex-col justify-between gap-2">
-                    <P className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                         <span className="font-bold text-foreground">
                             {item.episode}
                         </span>
                         /{item.anime.episodes_total || '?'}
-                    </P>
-                    <H5
+                    </p>
+                    <h5
                         className={cn(
                             item.time_left <= 0 && 'text-muted-foreground',
                         )}
                     >
                         {getDuration()}
-                    </H5>
+                    </h5>
                 </div>
 
                 <WatchlistButton

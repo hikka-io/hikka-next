@@ -3,8 +3,6 @@
 import { PropsWithChildren, ReactNode } from 'react';
 
 import MaterialSymbolsFeatureSearch from '../icons/material-symbols/MaterialSymbolsFeatureSearch';
-import H3 from '../typography/h3';
-import P from '../typography/p';
 
 interface Props extends PropsWithChildren {
     title: string | ReactNode;
@@ -17,11 +15,11 @@ const Component = ({ title, description, children }: Props) => {
             <div className="flex flex-1 items-center gap-4">
                 <MaterialSymbolsFeatureSearch className="size-10 shrink-0 text-muted-foreground" />
                 <div className="flex flex-col gap-1">
-                    <H3 className="text-xl">{title}</H3>
+                    <h3 className="text-xl">{title}</h3>
                     {description && (
-                        <P className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground">
                             {description}
-                        </P>
+                        </p>
                     )}
                 </div>
             </div>

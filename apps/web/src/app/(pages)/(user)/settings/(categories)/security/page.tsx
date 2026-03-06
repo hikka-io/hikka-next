@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import {
     Header,
     HeaderContainer,
@@ -24,9 +23,9 @@ const SecuritySettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle>Безпека</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <P className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     Захистіть свій обліковий запис: змініть пароль чи email
-                </P>
+                </p>
             </div>
             <div className="flex flex-col gap-4">
                 <Header>

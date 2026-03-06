@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC, MouseEvent } from 'react';
 
-import Small from '@/components/typography/small';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
@@ -67,9 +66,9 @@ const EditRow: FC<Props> = ({ edit }) => {
                         >
                             {edit.author!.username}
                         </Link>
-                        <Small className="text-muted-foreground">
+                        <small className="text-muted-foreground">
                             {format(edit.created * 1000, 'd MMM yyyy H:mm')}
-                        </Small>
+                        </small>
                     </div>
                 </div>
             </TableCell>

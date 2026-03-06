@@ -4,7 +4,6 @@ import { LucideChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 import { FC } from 'react';
 
-import H5 from '@/components/typography/h5';
 import { Button } from '@/components/ui/button';
 import {
     Collapsible,
@@ -38,7 +37,7 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
         >
             <CollapsibleTrigger asChild>
                 <div className="flex items-center justify-between">
-                    <H5>{title}</H5>
+                    <h5>{title}</h5>
                     <Button
                         id="title-collapse"
                         variant="ghost"

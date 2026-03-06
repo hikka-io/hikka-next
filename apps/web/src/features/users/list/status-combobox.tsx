@@ -8,7 +8,6 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { createElement } from 'react';
 
-import H5 from '@/components/typography/h5';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -81,7 +80,7 @@ const StatusCombobox = ({ content_type }: Props) => {
                         })}
                     </div>
                     <div className="flex items-center gap-2">
-                        <H5>{statusInfo.title_ua}</H5>
+                        <h5>{statusInfo.title_ua}</h5>
                         {pagination && (
                             <Label className="text-muted-foreground">
                                 ({pagination.total})

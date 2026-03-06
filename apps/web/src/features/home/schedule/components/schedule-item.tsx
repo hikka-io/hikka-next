@@ -3,7 +3,6 @@
 import { AnimeScheduleResponse } from '@hikka/client';
 import { FC, memo } from 'react';
 
-import Small from '@/components/typography/small';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -31,9 +30,9 @@ const ScheduleItem: FC<Props> = ({ item }) => {
                     <HorizontalCardDescription>
                         {getScheduleDuration(item.airing_at, item.time_left)}
                     </HorizontalCardDescription>
-                    <Small className="text-muted-foreground opacity-60">
+                    <small className="text-muted-foreground opacity-60">
                         <span className="font-bold">{item.episode}</span> епізод
-                    </Small>
+                    </small>
                 </HorizontalCardContainer>
             </HorizontalCard>
         </Card>

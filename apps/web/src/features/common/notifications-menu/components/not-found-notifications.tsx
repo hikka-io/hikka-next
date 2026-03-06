@@ -3,7 +3,6 @@
 import { FC } from 'react';
 
 import MaterialSymbolsNotificationImportantRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationImportantRounded';
-import P from '@/components/typography/p';
 import { Label } from '@/components/ui/label';
 
 interface Props {}
@@ -16,9 +15,9 @@ const NotFoundNotifications: FC<Props> = () => {
             </div>
             <div className="flex flex-col gap-2">
                 <Label>Сповіщень не знайдено</Label>
-                <P className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     Тут будуть відображатись майбутні сповіщення
-                </P>
+                </p>
             </div>
         </div>
     );

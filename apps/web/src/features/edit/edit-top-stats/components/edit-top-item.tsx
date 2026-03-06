@@ -2,7 +2,6 @@ import { UserResponse } from '@hikka/client';
 import { FC } from 'react';
 
 import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
-import Small from '@/components/typography/small';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -59,7 +58,7 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                             <TooltipTrigger>
                                 <div className="flex items-center gap-2 text-muted-foreground">
                                     <div className="flex size-2 items-center justify-center rounded-full bg-success-foreground" />
-                                    <Small>{accepted}</Small>
+                                    <small>{accepted}</small>
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>Прийнято</TooltipContent>
@@ -68,7 +67,7 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                             <TooltipTrigger>
                                 <div className="flex items-center gap-2 text-muted-foreground">
                                     <div className="flex size-2 items-center justify-center rounded-full bg-destructive-foreground" />
-                                    <Small>{denied}</Small>
+                                    <small>{denied}</small>
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>Відхилено</TooltipContent>
@@ -78,7 +77,7 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                             <TooltipTrigger>
                                 <div className="flex items-center gap-2 text-muted-foreground">
                                     <div className="flex size-2 items-center justify-center rounded-full bg-muted-foreground" />
-                                    <Small>{closed}</Small>
+                                    <small>{closed}</small>
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>Закрито</TooltipContent>

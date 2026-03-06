@@ -6,7 +6,6 @@ import {
 import { prefetchIgnoredNotifications } from '@hikka/react/server';
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { NotificationsSettings } from '@/features/settings';
@@ -39,9 +38,9 @@ const NotificationsSettingsPage: FC<Props> = async (props) => {
                             <HeaderTitle>Сповіщення</HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <P className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                         Налаштуйте персоналізовані сповіщення
-                    </P>
+                    </p>
                 </div>
                 <NotificationsSettings />
             </div>

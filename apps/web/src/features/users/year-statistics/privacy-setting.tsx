@@ -9,8 +9,6 @@ import { LockKeyhole, Share2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
 
-import H3 from '@/components/typography/h3';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -61,11 +59,11 @@ const PrivacySetting = () => {
             <div className="flex items-center gap-4 flex-1">
                 <Share2 className="size-6 shrink-0" />
                 <div className="flex flex-col justify-center gap-2 flex-1">
-                    <H3 className="leading-5">Поділіться своїми підсумками</H3>
-                    <P className="text-xs text-muted-foreground">
+                    <h3 className="leading-5">Поділіться своїми підсумками</h3>
+                    <p className="text-xs text-muted-foreground">
                         Поділіться посиланням на свої підсумки року, щоб інші
                         користувачі могли побачити їх
-                    </P>
+                    </p>
                 </div>
             </div>
             <div className="flex items-center gap-2">

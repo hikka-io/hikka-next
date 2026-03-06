@@ -16,7 +16,6 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import {
@@ -76,7 +75,7 @@ const NextEpisodeDetail = ({
                 </span>
             </TooltipTrigger>
             <TooltipContent>
-                <P>{getScheduleDuration(schedule.airing_at)}</P>
+                <p>{getScheduleDuration(schedule.airing_at)}</p>
             </TooltipContent>
         </Tooltip>
     </DetailItem>
@@ -93,11 +92,11 @@ const StudioDetail = ({
         className="grid-cols-[1fr_60%]"
     >
         <div className="flex items-start gap-2 flex-1">
-            <P className="text-sm font-medium leading-tight line-clamp-2 hover:underline flex-1">
+            <p className="text-sm font-medium leading-tight line-clamp-2 hover:underline flex-1">
                 <Link href={`/anime?studios=${studio.company.slug}`}>
                     {studio.company.name}
                 </Link>
-            </P>
+            </p>
             {studio.company.image && (
                 <Link href={`/anime?studios=${studio.company.slug}`}>
                     <Image

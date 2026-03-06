@@ -8,7 +8,6 @@ import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import P from '@/components/typography/p';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
@@ -150,9 +149,9 @@ const FilterPresetModal: FC = () => {
                                 Поточні фільтри
                             </span>
                         </div>
-                        <P className="line-clamp-2 text-xs text-muted-foreground">
+                        <p className="line-clamp-2 text-xs text-muted-foreground">
                             Створити пресет із поточних фільтрів
-                        </P>
+                        </p>
                     </div>
                     <div className="flex items-center gap-2">
                         <Button
@@ -200,9 +199,9 @@ const FilterPresetModal: FC = () => {
                                 </div>
                             </div>
                             {preset.description && (
-                                <P className="line-clamp-2 text-xs text-muted-foreground">
+                                <p className="line-clamp-2 text-xs text-muted-foreground">
                                     {preset.description}
-                                </P>
+                                </p>
                             )}
                         </div>
                         <div className="flex items-center gap-2">
@@ -226,9 +225,9 @@ const FilterPresetModal: FC = () => {
 
                 {filterPresets?.length === 0 && (
                     <div className="px-6 py-8">
-                        <P className="text-center text-sm text-muted-foreground">
+                        <p className="text-center text-sm text-muted-foreground">
                             Не знайдено збережених пресетів фільтрів
-                        </P>
+                        </p>
                     </div>
                 )}
             </div>

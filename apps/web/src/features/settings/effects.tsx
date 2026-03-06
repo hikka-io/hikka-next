@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 
-import Small from '@/components/typography/small';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
@@ -31,9 +30,9 @@ const EffectsSettings = () => {
             <div className="flex w-full flex-row items-center justify-between gap-2">
                 <div className="flex flex-col">
                     <Label>Сніжинки ❄️</Label>
-                    <Small className="text-muted-foreground">
+                    <small className="text-muted-foreground">
                         Включити анімацію сніжинок на сайті
-                    </Small>
+                    </small>
                 </div>
                 <Switch
                     checked={hasSnowfall}

@@ -10,8 +10,6 @@ import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import H5 from '@/components/typography/h5';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
@@ -274,19 +272,19 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                                 className="w-fit flex-1"
                                 href={`/anime/${selectedWatch.anime.slug}`}
                             >
-                                <H5>{selectedWatch.anime.title}</H5>
+                                <h5>{selectedWatch.anime.title}</h5>
                                 {renderAnimeDetails()}
                             </Link>
 
                             <div className="flex w-full flex-col gap-2">
-                                <P className="text-sm text-muted-foreground">
+                                <p className="text-sm text-muted-foreground">
                                     <span className="font-bold text-foreground">
                                         {updatedWatch?.episodes ??
                                             selectedWatch.episodes}
                                     </span>
                                     /{selectedWatch.anime.episodes_total ?? '?'}{' '}
                                     епізодів
-                                </P>
+                                </p>
 
                                 <Progress
                                     className="h-2"

@@ -8,7 +8,6 @@ import { FC, useState } from 'react';
 import ContentCard from '@/components/content-card/content-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
 import LoadMoreButton from '@/components/load-more-button';
-import H5 from '@/components/typography/h5';
 import Block from '@/components/ui/block';
 import { Label } from '@/components/ui/label';
 import {
@@ -77,7 +76,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                 >
                     <SelectTrigger>
                         <div className="flex items-center gap-2">
-                            <H5>{option?.label}</H5>
+                            <h5>{option?.label}</h5>
                             {data && (
                                 <Label className="text-muted-foreground">
                                     ({data?.pages[0].pagination.total})

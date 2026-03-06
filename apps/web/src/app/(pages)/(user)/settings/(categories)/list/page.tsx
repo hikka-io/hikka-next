@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import {
@@ -26,9 +25,9 @@ const ListSettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle>Список</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <P className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     Імпорт і експорт аніме, манґи та ранобе.
-                </P>
+                </p>
             </div>
             <div className="flex flex-col gap-4">
                 <Header>

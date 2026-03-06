@@ -21,7 +21,6 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
-import P from '../typography/p';
 import AnimeTooltip from './anime-tooltip';
 import CharacterTooltip from './character-tooltip';
 import ContextMenuOverlay from './context-menu-overlay';
@@ -285,9 +284,9 @@ const renderImage = (
 const renderDescription = (description?: string | null) => {
     if (!description) return null;
     return (
-        <P className="mb-1 truncate text-xs text-muted-foreground">
+        <p className="mb-1 truncate text-xs text-muted-foreground">
             {description}
-        </P>
+        </p>
     );
 };
 

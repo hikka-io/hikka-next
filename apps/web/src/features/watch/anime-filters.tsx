@@ -18,7 +18,6 @@ import Studio from '@/components/filters/studio';
 import Year from '@/components/filters/year';
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import {
     Tooltip,
@@ -161,9 +160,9 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                     </TooltipTrigger>
                     <TooltipPortal>
                         <TooltipContent>
-                            <P className="text-sm">
+                            <p className="text-sm">
                                 Створити пресет з поточних фільтрів
-                            </P>
+                            </p>
                         </TooltipContent>
                     </TooltipPortal>
                 </Tooltip>

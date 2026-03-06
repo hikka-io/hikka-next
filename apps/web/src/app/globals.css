@@ -384,6 +384,35 @@
     body:has([data-cover-image][data-overlay='false']) {
         background-image: none !important;
     }
+
+    h1 {
+        @apply scroll-m-20 font-display text-4xl font-bold tracking-normal lg:text-5xl;
+    }
+
+    h2 {
+        @apply scroll-m-20 font-display text-2xl font-bold tracking-normal first:mt-0;
+    }
+
+    h3 {
+        @apply scroll-m-20 font-display text-lg font-bold tracking-normal;
+    }
+
+    h4,
+    h5 {
+        @apply scroll-m-20 font-display text-base font-bold tracking-normal;
+    }
+
+    p {
+        @apply break-words;
+    }
+
+    small {
+        @apply text-xs leading-normal;
+    }
+
+    blockquote {
+        @apply border-l-2 pl-6 italic;
+    }
 }
 
 /* Grid min utilities */
@@ -886,13 +915,43 @@ td:last-child {
     }
 }
 
-p:last-child,
-blockquote:last-child,
-ul:last-child,
-ol:last-child,
+/* Content area typography spacing */
+.prose > p,
+.prose > blockquote,
+.prose > ul,
+.prose > ol,
+.prose > .spoiler,
+.prose .spoiler p,
+.prose .spoiler blockquote,
+.prose .spoiler ul,
+.prose .spoiler ol {
+    @apply mb-4;
+}
+
+.prose > :last-child,
+.prose .spoiler :last-child {
+    @apply mb-0;
+}
+
+.prose ul {
+    @apply ml-6 list-disc;
+}
+
+.prose ol {
+    @apply ml-6 list-decimal;
+}
+
+.prose ul > li,
+.prose ol > li {
+    @apply mt-2;
+}
+
+.prose li {
+    @apply ps-2;
+}
+
 div.slate-editor:last-child,
-.slate-image_group:last-child,
-div.spoiler:last-child {
+.slate-image_group:last-child {
     @apply mb-0;
 }
 

@@ -32,7 +32,6 @@ import MaterialSymbolsPalette from '../icons/material-symbols/MaterialSymbolsPal
 import MaterialSymbolsSecurity from '../icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '../icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '../markdown/viewer/MD-viewer';
-import P from '../typography/p';
 
 interface TooltipDataProps {
     username: string;
@@ -121,11 +120,11 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <P className="text-sm">
+                                            <p className="text-sm">
                                                 {user.role === 'admin'
                                                     ? 'Адміністратор'
                                                     : 'Модератор'}
-                                            </P>
+                                            </p>
                                         </TooltipContent>
                                     </Tooltip>
                                 )}

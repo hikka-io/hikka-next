@@ -27,7 +27,6 @@ import MaterialSymbolsKeyboardArrowDownRounded from '../icons/material-symbols/M
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 import MDViewer from '../markdown/viewer/MD-viewer';
 import TextExpand from '../text-expand';
-import P from '../typography/p';
 import CommentInput from './comment-input';
 import CommentMenu from './comment-menu';
 import CommentVote from './comment-vote';
@@ -124,11 +123,11 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                                         </div>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <P className="text-sm">
+                                        <p className="text-sm">
                                             {comment.author.role === 'admin'
                                                 ? 'Адміністратор'
                                                 : 'Модератор'}
-                                        </P>
+                                        </p>
                                     </TooltipContent>
                                 </Tooltip>
                             )}
@@ -161,9 +160,9 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         </TextExpand>
                     )
                 ) : (
-                    <P className="text-[0.9375rem] text-muted-foreground">
+                    <p className="text-[0.9375rem] text-muted-foreground">
                         Коментар видалено
-                    </P>
+                    </p>
                 )}
             </div>
             <div className="flex w-full items-center gap-2">

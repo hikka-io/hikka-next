@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -16,7 +14,7 @@ const Scope: FC<Props> = ({ scope }) => {
             <div className="rounded-sm bg-secondary/20 p-1">
                 <scope.level.icon className={cn('size-4', scope.level.color)} />
             </div>
-            <P className="text-sm text-muted-foreground">{scope.title_ua}</P>
+            <p className="text-sm text-muted-foreground">{scope.title_ua}</p>
         </div>
     );
 };

@@ -15,8 +15,6 @@ import {
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 
-import P from '../typography/p';
-
 interface Props {
     routes: Hikka.NavRoute[];
     urlPrefix: string;
@@ -41,7 +39,7 @@ const NavDropdown: FC<Props> = ({
         ) || routes[0];
 
     if (!isDesktop && !showOnMobile) {
-        return current && <P className="text-sm">{current.title_ua}</P>;
+        return current && <p className="text-sm">{current.title_ua}</p>;
     }
 
     return (
@@ -53,9 +51,9 @@ const NavDropdown: FC<Props> = ({
                         className="max-w-32 sm:max-w-none"
                     >
                         {current && (
-                            <P className="truncate text-sm">
+                            <p className="truncate text-sm">
                                 {current.title_ua}
-                            </P>
+                            </p>
                         )}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="min-w-56">

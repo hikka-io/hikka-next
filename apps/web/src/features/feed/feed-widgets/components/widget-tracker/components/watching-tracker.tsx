@@ -13,7 +13,6 @@ import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
@@ -241,7 +240,7 @@ const WatchingTracker = () => {
             {selectedWatch && (
                 <>
                     <div className="flex flex-col gap-2">
-                        <P className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground">
                             <span className="font-bold text-foreground">
                                 {currentEpisodes}
                             </span>
@@ -250,7 +249,7 @@ const WatchingTracker = () => {
                                 totalEpisodes ?? 0,
                                 EPISODES_DECLENSION,
                             )}
-                        </P>
+                        </p>
                         <Progress
                             className="h-2"
                             value={currentEpisodes}

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
-import H3 from '@/components/typography/h3';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 
@@ -36,7 +35,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
                         target="_blank"
                         className="hover:underline"
                     >
-                        <H3>Контент</H3>
+                        <h3>Контент</h3>
                     </Link>
                 </div>
                 <Button size="icon-sm" variant="outline" asChild>

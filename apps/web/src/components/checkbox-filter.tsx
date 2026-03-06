@@ -1,7 +1,6 @@
 import { FC, createElement } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import P from '@/components/typography/p';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
@@ -83,12 +82,12 @@ export const CheckboxFilter: FC<CheckboxFilterProps> = ({
                                                 </div>
                                             </TooltipTrigger>
                                             <TooltipContent>
-                                                <P className="text-sm">
+                                                <p className="text-sm">
                                                     {
                                                         properties[slug]
                                                             .description
                                                     }
-                                                </P>
+                                                </p>
                                             </TooltipContent>
                                         </Tooltip>
                                     )}

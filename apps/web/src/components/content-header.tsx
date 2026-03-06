@@ -19,7 +19,6 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import ContentCard from './content-card/content-card';
 import Breadcrumbs from './navigation/nav-breadcrumbs';
-import P from './typography/p';
 
 interface Props {
     slug: string;
@@ -64,9 +63,9 @@ const ContentHeader: FC<Props> = ({
                     )}
                     <div className="flex flex-1 flex-col">
                         <HeaderTitle variant="h4">{data?.title}</HeaderTitle>
-                        <P className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground">
                             {CONTENT_TYPES[content_type].title_ua}
-                        </P>
+                        </p>
                     </div>
                 </HeaderContainer>
                 <HeaderNavButton />

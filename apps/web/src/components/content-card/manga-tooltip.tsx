@@ -20,7 +20,6 @@ import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 
 import MDViewer from '../markdown/viewer/MD-viewer';
 import ReadlistButton from '../readlist-button/readlist-button';
-import H5 from '../typography/h5';
 
 interface TooltipDataProps {
     slug: string;
@@ -70,7 +69,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
         <>
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between gap-2">
-                    <H5>{data.title}</H5>
+                    <h5>{data.title}</h5>
                     {data.score > 0 ? (
                         <div className="size-fit rounded-md border bg-secondary/20 backdrop-blur px-2 text-sm">
                             {data.score}

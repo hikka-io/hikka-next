@@ -12,7 +12,6 @@ import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 import { StaticViewer } from '../plate/editor/static-viewer';
-import Muted from '../typography/muted';
 import Author from './article-author';
 
 interface Props {
@@ -38,13 +37,13 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                 />
                 <div className="flex flex-col gap-1">
                     {article.content && (
-                        <Muted>
+                        <p className="text-sm text-muted-foreground">
                             {article.content.title_ua ||
                                 article.content.title_en ||
                                 (article.content.data_type ===
                                     ContentTypeEnum.ANIME &&
                                     article.content.title_ja)}
-                        </Muted>
+                        </p>
                     )}
                     <Header>
                         <HeaderContainer>

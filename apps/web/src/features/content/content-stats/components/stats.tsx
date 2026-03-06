@@ -3,7 +3,6 @@
 import { FC } from 'react';
 import { NumericFormat } from 'react-number-format';
 
-import Small from '@/components/typography/small';
 import {
     Tooltip,
     TooltipContent,
@@ -54,14 +53,14 @@ const Stats: FC<Props> = ({ stats }) => {
                                             ></div>
                                         </div>
                                     </div>
-                                    <Small className="w-14 text-right text-muted-foreground">
+                                    <small className="w-14 text-right text-muted-foreground">
                                         <NumericFormat
                                             thousandSeparator
                                             displayType="text"
                                             value={stat.value}
                                             decimalScale={1}
                                         />
-                                    </Small>
+                                    </small>
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent align="center" side="left">

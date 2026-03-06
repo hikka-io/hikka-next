@@ -22,7 +22,6 @@ import NovelTooltip from '../content-card/novel-tooltip';
 import PersonTooltip from '../content-card/person-tooltip';
 import UserTooltip from '../content-card/user-tooltip';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
-import P from './p';
 
 interface Props extends LinkProps {
     href: string;
@@ -173,14 +172,14 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <AlertDialogDescription asChild>
                         <div className="flex items-center gap-2">
                             <MaterialSymbolsLinkRounded />
-                            <P
+                            <p
                                 className={cn(
                                     'flex-1 truncate',
                                     LINK_EXTRA_CLASSNAME,
                                 )}
                             >
                                 {href}
-                            </P>
+                            </p>
                         </div>
                     </AlertDialogDescription>
                 </AlertDialogHeader>

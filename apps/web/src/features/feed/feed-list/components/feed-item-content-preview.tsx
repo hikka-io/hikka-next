@@ -2,7 +2,6 @@ import { ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import Small from '@/components/typography/small';
 import { Badge } from '@/components/ui/badge';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
@@ -26,9 +25,9 @@ const FeedItemContentPreview: FC<Props> = ({ contentType, slug, title }) => {
                 href={`${CONTENT_TYPE_LINKS[contentType]}/${slug}`}
                 className="text-primary-foreground flex items-center gap-1 hover:underline"
             >
-                <Small className="line-clamp-1">
+                <small className="line-clamp-1">
                     {contentType === 'edit' ? `#${slug}` : title}
-                </Small>
+                </small>
             </Link>
         </div>
     );

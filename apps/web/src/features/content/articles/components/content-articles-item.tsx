@@ -3,7 +3,6 @@ import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
 import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
-import Small from '@/components/typography/small';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -36,7 +35,7 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
                 <HorizontalCardDescription className="text-muted-foreground flex-row text-xs">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />
-                        <Small>
+                        <small>
                             {formatDistance(
                                 article.updated * 1000,
                                 Date.now(),
@@ -44,7 +43,7 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
                                     addSuffix: true,
                                 },
                             )}
-                        </Small>
+                        </small>
                     </div>
                 </HorizontalCardDescription>
             </HorizontalCardContainer>

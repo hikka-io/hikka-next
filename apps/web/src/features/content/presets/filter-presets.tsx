@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import {
     Tooltip,
@@ -67,9 +66,9 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
                                         </div>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <P className="text-sm">
+                                        <p className="text-sm">
                                             {preset.description}
-                                        </P>
+                                        </p>
                                     </TooltipContent>
                                 </Tooltip>
                             )}

@@ -14,7 +14,6 @@ import {
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 import ReadlistButton from '@/components/readlist-button/readlist-button';
-import P from '@/components/typography/p';
 import WatchlistButton from '@/components/watchlist-button/watchlist-button';
 
 interface Props {
@@ -31,12 +30,12 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                 <HorizontalCardContainer>
                     <HorizontalCardTitle>{content.title}</HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        {content.year && <P>{content.year}</P>}
+                        {content.year && <p>{content.year}</p>}
                         {content.year && content.media_type && (
                             <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
-                            <P>{MEDIA_TYPE[content.media_type].title_ua}</P>
+                            <p>{MEDIA_TYPE[content.media_type].title_ua}</p>
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>

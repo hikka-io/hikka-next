@@ -7,8 +7,6 @@ import {
 } from '@hikka/client';
 import { useParams } from 'next/navigation';
 
-import Small from '@/components/typography/small';
-
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 
 import Stats from './stats';
@@ -60,7 +58,7 @@ const Score = ({ content_type }: Props) => {
                     sumStats;
 
                 acc.push({
-                    icon: <Small>{stat.split('score_')[1]}</Small>,
+                    icon: <small>{stat.split('score_')[1]}</small>,
                     percentage,
                     value: data.stats[
                         stat as keyof (AnimeStatsResponse | ReadStatsResponse)

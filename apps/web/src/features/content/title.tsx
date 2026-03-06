@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
-import H2 from '@/components/typography/h2';
-import P from '@/components/typography/p';
 
 import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
@@ -31,7 +29,7 @@ const Title = ({ className, content_type }: TitleProps) => {
         <div className={cn('flex flex-col gap-4', className)}>
             <div className="flex flex-col items-start justify-between gap-4 lg:flex-row">
                 <div>
-                    <H2>
+                    <h2>
                         {data.title}{' '}
                         {data.start_date && (
                             <span className="font-sans font-normal">
@@ -40,13 +38,13 @@ const Title = ({ className, content_type }: TitleProps) => {
                                 )
                             </span>
                         )}
-                    </H2>
+                    </h2>
 
-                    <P className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-sm">
                         {data.data_type === ContentTypeEnum.ANIME
                             ? data.title_ja
                             : data.title_original}
-                    </P>
+                    </p>
                 </div>
                 {data.score > 0 && (
                     <div className="bg-secondary/20 flex items-center gap-1 rounded-md border px-2 backdrop-blur">

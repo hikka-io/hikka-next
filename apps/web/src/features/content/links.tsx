@@ -7,7 +7,6 @@ import { FC, useState } from 'react';
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import TextExpand from '@/components/text-expand';
-import P from '@/components/typography/p';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
@@ -109,7 +108,7 @@ const Links: FC<Props> = ({ content_type }) => {
                                 <HorizontalCardImage
                                     imageRatio={1}
                                     className="w-10"
-                                    image={<P>{link.text[0]}</P>}
+                                    image={<p>{link.text[0]}</p>}
                                 />
                                 <HorizontalCardContainer>
                                     <HorizontalCardTitle>

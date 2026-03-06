@@ -4,16 +4,11 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
-import { OL_CLASSNAME } from '@/components/typography/ol';
-import { UL_CLASSNAME } from '@/components/typography/ul';
-
-import { cn } from '@/utils/cn';
-
 const listVariants = cva('mb-4', {
     variants: {
         variant: {
-            ol: OL_CLASSNAME,
-            ul: UL_CLASSNAME,
+            ul: 'ml-6 list-disc [&>li]:mt-2',
+            ol: 'ml-6 list-decimal [&>li]:mt-2',
         },
     },
 });
@@ -47,7 +42,7 @@ export function ListItemElement(props: PlateElementProps) {
 
 export function BaseListItemElement(props: PlateElementProps) {
     return (
-        <PlateElement as="li" {...props} className={cn('ps-2')}>
+        <PlateElement as="li" {...props} className="ps-2">
             {props.children}
         </PlateElement>
     );

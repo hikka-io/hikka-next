@@ -4,7 +4,6 @@ import { useClientByReference } from '@hikka/react';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -39,7 +38,7 @@ const Client: FC<Props> = () => {
         <Card className="w-full">
             <div>
                 <Label>{client?.name}</Label>
-                <P
+                <p
                     className={cn(
                         'text-sm',
                         client?.verified
@@ -50,7 +49,7 @@ const Client: FC<Props> = () => {
                     {client?.verified
                         ? 'Перевірений застосунок'
                         : 'Невідомий застосунок'}
-                </P>
+                </p>
             </div>
             <Separator className="-mx-4 w-auto" />
             <div className="-m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4 gradient-mask-b-90-d">

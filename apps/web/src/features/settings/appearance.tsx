@@ -5,7 +5,6 @@ import { useDeleteImage, useSession } from '@hikka/react';
 import { ChangeEvent, useRef } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import P from '@/components/typography/p';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -60,9 +59,9 @@ const Appearance = () => {
         <div className="isolate flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <Label>Зображення профілю</Label>
-                <P className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     Рекомендований розмір обкладинки 1500x500, аватару 400x400
-                </P>
+                </p>
             </div>
             <div className="relative mb-4 flex h-48 w-full cursor-pointer">
                 {loggedUser?.cover && (
@@ -93,9 +92,9 @@ const Appearance = () => {
                         />
                     ) : (
                         <div className="flex flex-1 items-center justify-center">
-                            <P className="text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground">
                                 Натисність, щоб завантажити обкладинку
-                            </P>
+                            </p>
                         </div>
                     )}
 

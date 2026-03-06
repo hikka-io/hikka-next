@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import P from '@/components/typography/p';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import {
@@ -25,9 +24,9 @@ const ProfileSettingsPage: FC<Props> = async (props) => {
                         <HeaderTitle>Профіль</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <P className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     Налаштуйте вигляд та деталі свого профілю
-                </P>
+                </p>
             </div>
             <ProfileAppearance />
             <ProfileUsername />

@@ -8,7 +8,6 @@ import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import FollowButton from '@/components/follow-button';
-import H3 from '@/components/typography/h3';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -88,7 +87,7 @@ const CollectionCard: FC<Props> = ({
                 href={`/collections/${collection.reference}`}
                 className="block"
             >
-                <H3>{collection.title}</H3>
+                <h3>{collection.title}</h3>
             </Link>
 
             {/* Tags */}

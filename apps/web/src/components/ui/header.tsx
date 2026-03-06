@@ -1,16 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import React, { FC, PropsWithChildren, useCallback } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/cn';
 
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
-import H1 from '../typography/h1';
-import H2 from '../typography/h2';
-import H3 from '../typography/h3';
-import H4 from '../typography/h4';
-import H5 from '../typography/h5';
 import { Button } from './button';
 
 interface HorizontalCardContextProps {
@@ -100,24 +95,9 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     href: hrefProp,
 }) => {
     const { href, onClick, linkProps } = useHeader();
-    const getTitle = useCallback(() => {
-        switch (variant) {
-            case 'h1':
-                return H1;
-            case 'h2':
-                return H2;
-            case 'h3':
-                return H3;
-            case 'h4':
-                return H4;
-            case 'h5':
-                return H5;
-            default:
-                return H3;
-        }
-    }, [variant]);
+    const Tag = variant || 'h3';
 
-    const Title = getTitle();
+    const heading = <Tag>{children}</Tag>;
 
     return (
         <div className={cn('flex items-center gap-4', className)}>
@@ -127,14 +107,14 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
                     {...linkProps}
                     className="hover:underline text-left"
                 >
-                    <Title>{children}</Title>
+                    {heading}
                 </Link>
             ) : onClick ? (
                 <button onClick={onClick} className="hover:underline text-left">
-                    <Title>{children}</Title>
+                    {heading}
                 </button>
             ) : (
-                <Title>{children}</Title>
+                heading
             )}
         </div>
     );

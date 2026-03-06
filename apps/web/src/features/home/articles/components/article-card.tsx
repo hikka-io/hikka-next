@@ -7,7 +7,6 @@ import Author from '@/components/article-item/article-author';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import TextExpand from '@/components/text-expand';
-import Muted from '@/components/typography/muted';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -30,13 +29,13 @@ const ArticleCard: FC<Props> = ({ article }) => {
             />
             <div className="flex flex-col gap-1">
                 {article.content && (
-                    <Muted>
+                    <p className="text-sm text-muted-foreground">
                         {article.content.title_ua ||
                             article.content.title_en ||
                             (article.content.data_type ===
                                 ContentTypeEnum.ANIME &&
                                 article.content.title_ja)}
-                    </Muted>
+                    </p>
                 )}
                 <Header>
                     <HeaderContainer>

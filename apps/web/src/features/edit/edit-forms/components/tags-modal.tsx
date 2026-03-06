@@ -7,7 +7,6 @@ import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import P from '@/components/typography/p';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -73,7 +72,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
                         key={tag + index}
                         className="flex items-center justify-between gap-2 px-6 py-2"
                     >
-                        <P className="line-clamp-2 text-sm">{tag}</P>
+                        <p className="line-clamp-2 text-sm">{tag}</p>
                         <div className="flex items-center gap-2">
                             <Button
                                 size="icon-md"
@@ -95,9 +94,9 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
 
                 {settings.editTags?.length === 0 && (
                     <div className="px-6">
-                        <P className="text-center text-sm text-muted-foreground">
+                        <p className="text-center text-sm text-muted-foreground">
                             Не знайдено збережених тегів редагування
-                        </P>
+                        </p>
                     </div>
                 )}
             </div>
