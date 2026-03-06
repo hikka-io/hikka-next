@@ -51,7 +51,7 @@ const UserTitle = () => {
                 )}
             </div>
             {user.description && (
-                <MDViewer className="line-clamp-3 text-sm leading-4 text-muted-foreground md:line-clamp-2">
+                <MDViewer className="line-clamp-3 text-sm leading-5 text-muted-foreground">
                     {user.description}
                 </MDViewer>
             )}

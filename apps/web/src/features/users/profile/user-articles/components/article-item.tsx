@@ -28,27 +28,27 @@ const ArticleItem: FC<Props> = ({ article }) => {
                     <HorizontalCardTitle>{article.title}</HorizontalCardTitle>
                 </HorizontalCardContainer>
             </HorizontalCard>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
                 <Small className="text-muted-foreground">
                     {formatDistance(article.updated * 1000, Date.now(), {
                         addSuffix: true,
                     })}
                 </Small>
-                <div className="text-muted-foreground flex gap-2 text-xs">
+                <div className="text-muted-foreground flex gap-3 text-xs">
                     {article.views > 0 && (
                         <div className="flex items-center gap-1">
-                            <MaterialSymbolsVisibilityOutlineRounded />
+                            <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
                             <Small>{article.views}</Small>
                         </div>
                     )}
                     <div className="flex items-center gap-1">
-                        <MessageCircle />
+                        <MessageCircle className="size-3" />
                         {article.comments_count > 0 && (
                             <Small>{article.comments_count}</Small>
                         )}
                     </div>
                     <div className="flex items-center gap-1">
-                        <ArrowBigUp className="!size-5" />
+                        <ArrowBigUp className="size-4" />
                         {article.vote_score > 0 && (
                             <Small>{article.vote_score}</Small>
                         )}
