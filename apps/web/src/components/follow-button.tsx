@@ -88,7 +88,7 @@ const FollowButton: FC<Props> = ({
     return (
         <Button
             size={size}
-            variant={user.is_followed ? 'outline' : 'secondary'}
+            variant={user.is_followed ? 'outline' : 'default'}
             disabled={followLoading || unfollowLoading}
             onClick={handleFollowToggle}
             className={cn(className)}
