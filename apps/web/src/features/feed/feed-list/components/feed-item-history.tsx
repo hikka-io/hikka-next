@@ -1,5 +1,6 @@
-import { HistoryResponse } from '@hikka/client';
 import { FC } from 'react';
+
+import { HistoryResponse } from '@hikka/client';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 

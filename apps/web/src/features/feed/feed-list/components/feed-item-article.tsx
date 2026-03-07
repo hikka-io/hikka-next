@@ -1,5 +1,6 @@
-import { ArticlePreviewResponse } from '@hikka/client';
 import { FC } from 'react';
+
+import { ArticlePreviewResponse } from '@hikka/client';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +21,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                 title={data.content?.title}
             />
 
-            <Header>
+            <Header href={`/articles/${data.slug}`}>
                 <HeaderContainer>
                     <HeaderTitle variant="h4">{data.title}</HeaderTitle>
                 </HeaderContainer>

@@ -1,17 +1,10 @@
 'use client';
 
-import { ContentTypeEnum, UserResponse } from '@hikka/client';
-import { formatDistance } from 'date-fns';
-import { MoreHorizontal } from 'lucide-react';
 import { FC } from 'react';
 
-import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { ContentTypeEnum, UserResponse } from '@hikka/client';
+import { formatDistance } from 'date-fns';
+
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -19,6 +12,8 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+
+import { FollowButton } from '@/features/common';
 
 import { cn } from '@/utils/cn';
 
@@ -90,21 +85,7 @@ const FeedItemHeader: FC<Props> = ({
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        className="shrink-0"
-                    >
-                        <MoreHorizontal className="size-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Поскаржитись</DropdownMenuItem>
-                    <DropdownMenuItem>Приховати</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <FollowButton user={author} iconOnly size="icon-md" />
         </HorizontalCard>
     );
 };

@@ -1,5 +1,6 @@
-import { ContentTypeEnum, UserResponse } from '@hikka/client';
 import { FC } from 'react';
+
+import { ContentTypeEnum, UserResponse } from '@hikka/client';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
@@ -28,6 +29,9 @@ function getStats(item: FeedItemType): {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
+    contentType: ContentTypeEnum;
+    slug: string;
+    myScore: number;
 } {
     switch (item.data_type) {
         case ContentTypeEnum.ARTICLE:
@@ -35,20 +39,35 @@ function getStats(item: FeedItemType): {
                 commentsCount: item.data.comments_count,
                 voteScore: item.data.vote_score,
                 commentsHref: `/comments/article/${item.data.slug}`,
+                contentType: ContentTypeEnum.ARTICLE,
+                slug: item.data.slug,
+                myScore: item.data.my_score,
             };
         case ContentTypeEnum.COLLECTION:
             return {
                 commentsCount: item.data.comments_count,
                 voteScore: item.data.vote_score,
                 commentsHref: `/comments/collection/${item.data.reference}`,
+                contentType: ContentTypeEnum.COLLECTION,
+                slug: item.data.reference,
+                myScore: item.data.my_score,
             };
         case ContentTypeEnum.COMMENT:
             return {
                 commentsCount: 0,
                 voteScore: item.data.vote_score,
+                contentType: ContentTypeEnum.COMMENT,
+                slug: item.data.reference,
+                myScore: item.data.my_score,
             };
         case ContentTypeEnum.HISTORY:
-            return { commentsCount: 0, voteScore: 0 };
+            return {
+                commentsCount: 0,
+                voteScore: 0,
+                contentType: ContentTypeEnum.HISTORY,
+                slug: '',
+                myScore: 0,
+            };
     }
 }
 
@@ -69,7 +88,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     const extraInfo = getExtraInfo(item);
 
     return (
-        <div className="flex flex-col isolate border-b last:!border-b-0 first:backdrop-blur">
+        <div className="flex flex-col isolate border-b last:border-b-0! first:backdrop-blur">
             <FeedItemHeader
                 author={author}
                 dataType={item.data_type}
@@ -95,6 +114,9 @@ const FeedItem: FC<Props> = ({ item }) => {
                     commentsCount={stats.commentsCount}
                     voteScore={stats.voteScore}
                     commentsHref={stats.commentsHref}
+                    contentType={stats.contentType}
+                    slug={stats.slug}
+                    myScore={stats.myScore}
                 />
             </div>
         </div>

@@ -1,6 +1,7 @@
-import { ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import { Badge } from '@/components/ui/badge';
 

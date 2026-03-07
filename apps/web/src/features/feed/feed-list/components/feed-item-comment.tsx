@@ -1,6 +1,7 @@
-import { CommentResponse } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
+
+import { CommentResponse } from '@hikka/client';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 
