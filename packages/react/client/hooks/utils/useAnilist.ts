@@ -325,8 +325,6 @@ const transformAnilistMangaData = (
         }
     });
 
-    console.log(reformatted);
-
     return reformatted;
 };
 
