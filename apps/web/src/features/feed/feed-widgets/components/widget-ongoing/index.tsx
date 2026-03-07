@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
-import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getCurrentSeason } from '@/utils/season';
 
 const ONGOING_SIZE = 5;
@@ -73,10 +72,6 @@ const WidgetOngoing = () => {
 
                 {!isLoading &&
                     list?.map((anime, index) => {
-                        const mediaType = anime.media_type
-                            ? ANIME_MEDIA_TYPE[anime.media_type]?.title_ua
-                            : undefined;
-
                         return (
                             <Link
                                 key={anime.slug}
@@ -86,19 +81,27 @@ const WidgetOngoing = () => {
                                     'transition-colors hover:bg-secondary/60',
                                 )}
                             >
+                                <div className='w-4'>
+                                    <span className='text-xs font-semibold text-muted-foreground'>#{index + 1}</span>
 
+                                </div>
 
                                 {/* poster */}
-                                <ContentCard image={anime.image} className='w-12' />
+                                <ContentCard image={anime.image} className='w-10'>
+                                </ContentCard>
 
                                 {/* title + meta */}
                                 <div className="min-w-0 flex-1 flex flex-col gap-2">
-                                    <p className="line-clamp-2 text-sm font-medium leading-tight group-hover:text-foreground">
+                                    <p className="line-clamp-2 text-xs font-medium group-hover:text-foreground">
                                         {anime.title}
                                     </p>
-
+                                    <div className='flex items-center gap-2'>
+                                        <span className='text-xs text-muted-foreground'>{anime.episodes_released}/{anime.episodes_total} епізодів</span>
+                                    </div>
                                 </div>
-                                <Badge variant="secondary" className='gap-1'>{anime.score} <MaterialSymbolsStarRounded className="text-yellow-400" /></Badge>
+                                <Badge variant="outline">
+                                    <span>{anime.score}</span> <MaterialSymbolsStarRounded className="text-yellow-400" />
+                                </Badge>
                             </Link>
                         );
                     })}

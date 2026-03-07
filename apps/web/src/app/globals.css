@@ -916,11 +916,11 @@ td:last-child {
 }
 
 /* Content area typography spacing */
-.prose > p,
-.prose > blockquote,
-.prose > ul,
-.prose > ol,
-.prose > .spoiler,
+.prose>p,
+.prose>blockquote,
+.prose>ul,
+.prose>ol,
+.prose>.spoiler,
 .prose .spoiler p,
 .prose .spoiler blockquote,
 .prose .spoiler ul,
@@ -928,7 +928,7 @@ td:last-child {
     @apply mb-4;
 }
 
-.prose > :last-child,
+.prose> :last-child,
 .prose .spoiler :last-child {
     @apply mb-0;
 }
@@ -941,8 +941,8 @@ td:last-child {
     @apply ml-6 list-decimal;
 }
 
-.prose ul > li,
-.prose ol > li {
+.prose ul>li,
+.prose ol>li {
     @apply mt-2;
 }
 

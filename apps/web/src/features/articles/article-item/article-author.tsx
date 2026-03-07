@@ -15,7 +15,7 @@ import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
-import FollowButton from '../follow-button';
+import { FollowButton } from '@/features/common';
 
 interface Props {
     article: ArticleBaseResponse;
@@ -51,12 +51,12 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                         {article.draft
                             ? 'Чернетка'
                             : formatDistance(
-                                  article.updated * 1000,
-                                  Date.now(),
-                                  {
-                                      addSuffix: true,
-                                  },
-                              )}
+                                article.updated * 1000,
+                                Date.now(),
+                                {
+                                    addSuffix: true,
+                                },
+                            )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
