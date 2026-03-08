@@ -5,46 +5,18 @@ import {
     CollectionResponse,
     ContentTypeEnum,
 } from '@hikka/client';
-import { useCreateVote, useSession } from '@hikka/react';
-import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 
-import { cn } from '@/utils/cn';
+import VoteButton from '@/features/common/vote-button';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;
 }
 
 const CollectionVote: FC<Props> = ({ collection }) => {
-    const { user: loggedUser } = useSession();
-    const router = useRouter();
-
-    const mutation = useCreateVote();
-
-    const currentScore = mutation.variables?.score
-        ? mutation.variables?.score
-        : collection.my_score;
-
-    const handleCollectionVote = async (score: -1 | 1) => {
-        if (!loggedUser) {
-            router.push('/login');
-            return;
-        }
-
-        const updated = currentScore === score ? 0 : score;
-
-        mutation.mutate({
-            contentType: ContentTypeEnum.COLLECTION,
-            slug: collection.reference,
-            score: updated,
-        });
-    };
-
     return (
         <Card
             className={buttonVariants({
@@ -53,52 +25,12 @@ const CollectionVote: FC<Props> = ({ collection }) => {
                 className: 'flex-row p-0 overflow-hidden border-none gap-0',
             })}
         >
-            <Button
-                onClick={() => handleCollectionVote(1)}
-                variant={'ghost'}
-                size="icon-md"
-                className={cn(
-                    ' opacity-60 group-hover:opacity-100 font-normal',
-                    currentScore === 1
-                        ? 'text-success-foreground opacity-100'
-                        : 'text-muted-foreground',
-                )}
-            >
-                <ArrowBigUp
-                    className={cn(
-                        '!size-5',
-                        currentScore === 1 && 'fill-success-foreground',
-                    )}
-                />
-            </Button>
-            <Label
-                className={
-                    collection.vote_score > 0
-                        ? 'text-success-foreground'
-                        : collection.vote_score === 0
-                          ? 'text-foreground'
-                          : 'text-destructive-foreground'
-                }
-            >
-                {collection.vote_score}
-            </Label>
-            <Button
-                onClick={() => handleCollectionVote(-1)}
-                variant={'ghost'}
-                size="icon-md"
-                className={cn(
-                    'opacity-60 group-hover:opacity-100 font-normal',
-                    currentScore === -1
-                        ? 'text-destructive-foreground opacity-100'
-                        : 'text-muted-foreground',
-                )}
-            >
-                <ArrowBigDown
-                    className={cn(
-                        currentScore === -1 && 'fill-destructive-foreground',
-                    )}
-                />
-            </Button>
+            <VoteButton
+                contentType={ContentTypeEnum.COLLECTION}
+                slug={collection.reference}
+                myScore={collection.my_score}
+                voteScore={collection.vote_score}
+            />
         </Card>
     );
 };

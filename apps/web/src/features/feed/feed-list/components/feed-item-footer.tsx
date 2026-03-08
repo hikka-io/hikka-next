@@ -1,15 +1,13 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { FC } from 'react';
-
 import { ContentTypeEnum } from '@hikka/client';
-import { useCreateVote, useSession } from '@hikka/react';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
+import Link from 'next/link';
+import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
+import { useVote } from '@/features/common/vote-button';
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -29,28 +27,11 @@ const FeedItemFooter: FC<Props> = ({
     slug,
     myScore,
 }) => {
-    const { user: loggedUser } = useSession();
-    const router = useRouter();
-    const mutation = useCreateVote();
-
-    const currentScore = mutation.variables?.score
-        ? mutation.variables.score
-        : myScore;
-
-    const handleVote = () => {
-        if (!loggedUser) {
-            router.push('/login');
-            return;
-        }
-
-        const updated = currentScore === 1 ? 0 : 1;
-
-        mutation.mutate({
-            contentType,
-            slug,
-            score: updated,
-        });
-    };
+    const { currentScore, handleVote } = useVote({
+        contentType: contentType as any,
+        slug,
+        myScore,
+    });
 
     return (
         <div className="flex items-center justify-between p-4">
@@ -82,7 +63,7 @@ const FeedItemFooter: FC<Props> = ({
                             ? 'text-success-foreground'
                             : 'text-muted-foreground',
                     )}
-                    onClick={handleVote}
+                    onClick={() => handleVote(1)}
                 >
                     <ArrowBigUp
                         className={cn(

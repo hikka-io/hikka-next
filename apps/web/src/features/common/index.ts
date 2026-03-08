@@ -25,6 +25,8 @@ export { default as EditButton } from './edit-button';
 export { default as FavoriteButton } from './favorite-button';
 export { default as FollowButton } from './follow-button';
 export { default as ReadlistButton } from './readlist-button';
+export { useVote } from './vote-button';
+export { default as VoteButton } from './vote-button';
 export { default as WatchlistButton } from './watchlist-button';
 
 // Visual Effects
