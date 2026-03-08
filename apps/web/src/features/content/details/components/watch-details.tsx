@@ -33,6 +33,8 @@ import {
 } from '@/utils/constants/common';
 import { getScheduleDuration } from '@/utils/i18n';
 
+import { Separator } from '@/components/ui/separator';
+import { Fragment } from 'react';
 import DetailItem from './detail-item';
 
 // Utility functions
@@ -140,89 +142,97 @@ const WatchDetails = ({
         : null;
 
     return (
-        <Card className={cn('bg-secondary/20 backdrop-blur', className)}>
+        <Card className={cn('bg-secondary/20 backdrop-blur px-0', className)}>
             {/* Basic Info Section */}
-            <DetailItem
-                icon={<Play className="size-4" />}
-                title="Тип"
-                value={
-                    data.media_type
-                        ? ANIME_MEDIA_TYPE[data.media_type].title_ua
-                        : undefined
-                }
-            />
-
-            <DetailItem
-                title="Статус"
-                icon={<CircleDashed className="size-4" />}
-            >
-                {data.status && <StatusBadge status={data.status} />}
-            </DetailItem>
-
-            {seasonLabel && (
+            <div className='px-4 gap-4 flex flex-col'>
                 <DetailItem
-                    title="Сезон"
-                    icon={<SunSnow className="size-4" />}
-                    value={seasonLabel}
+                    icon={<Play className="size-4" />}
+                    title="Тип"
+                    value={
+                        data.media_type
+                            ? ANIME_MEDIA_TYPE[data.media_type].title_ua
+                            : undefined
+                    }
                 />
-            )}
 
-            {Boolean(data.episodes_total || data.episodes_released) && (
-                <div className="h-px bg-border" />
-            )}
+                <DetailItem
+                    title="Статус"
+                    icon={<CircleDashed className="size-4" />}
+                >
+                    {data.status && <StatusBadge status={data.status} />}
+                </DetailItem>
+
+                {seasonLabel && (
+                    <DetailItem
+                        title="Сезон"
+                        icon={<SunSnow className="size-4" />}
+                        value={seasonLabel}
+                    />
+                )}
+            </div>
 
             {/* Episode Info Section */}
-            <DetailItem
-                icon={<Hash className="size-4" />}
-                title="Епізоди"
-                value={
-                    (data.episodes_total || data.episodes_released) &&
-                        (data.media_type !== 'movie' ||
-                            (data.episodes_total ?? data.episodes_released ?? 0) >
-                            1)
-                        ? formatEpisodeCount(
-                            data.status!,
-                            data.episodes_released,
-                            data.episodes_total,
-                        )
-                        : undefined
-                }
-            />
+            {Boolean(data.episodes_total || data.episodes_released) && <Fragment>
+                <Separator />
+                <div className='px-4 gap-4 flex flex-col'>
+                    <DetailItem
+                        icon={<Hash className="size-4" />}
+                        title="Епізоди"
+                        value={
+                            (data.episodes_total || data.episodes_released) &&
+                                (data.media_type !== 'movie' ||
+                                    (data.episodes_total ?? data.episodes_released ?? 0) >
+                                    1)
+                                ? formatEpisodeCount(
+                                    data.status!,
+                                    data.episodes_released,
+                                    data.episodes_total,
+                                )
+                                : undefined
+                        }
+                    />
 
-            {nextEpisodeSchedule && (
-                <NextEpisodeDetail schedule={nextEpisodeSchedule} />
-            )}
+                    {nextEpisodeSchedule && (
+                        <NextEpisodeDetail schedule={nextEpisodeSchedule} />
+                    )}
 
-            <DetailItem
-                icon={<Clock8 className="size-4" />}
-                title="Тривалість епізоду"
-                value={
-                    data.duration
-                        ? formatEpisodeDuration(data.duration)
-                        : undefined
-                }
-            />
+                    <DetailItem
+                        icon={<Clock8 className="size-4" />}
+                        title="Тривалість епізоду"
+                        value={
+                            data.duration
+                                ? formatEpisodeDuration(data.duration)
+                                : undefined
+                        }
+                    />
+                </div>
+            </Fragment>}
 
-            <div className="h-px bg-border" />
+            <Separator />
 
             {/* Additional Info Section */}
-            <DetailItem
-                icon={<ShieldEllipsis className="size-4" />}
-                title="Рейтинг"
-                value={
-                    data.rating ? AGE_RATING[data.rating].title_ua : undefined
-                }
-            />
+            <div className='px-4 gap-4 flex flex-col'>
+                <DetailItem
+                    icon={<ShieldEllipsis className="size-4" />}
+                    title="Рейтинг"
+                    value={
+                        data.rating ? AGE_RATING[data.rating].title_ua : undefined
+                    }
+                />
 
-            {studio && <StudioDetail studio={studio} />}
+                {studio && <StudioDetail studio={studio} />}
+            </div>
 
-            {data.synonyms.length > 0 && <div className="h-px bg-border" />}
-
-            <DetailItem
-                icon={<BookType className="size-4" />}
-                title="Синоніми"
-                value={data.synonyms}
-            />
+            {data.synonyms.length > 0 && <Fragment>
+                <Separator />
+                <div className='px-4 gap-4 flex flex-col'>
+                    <DetailItem
+                        icon={<BookType className="size-4" />}
+                        title="Синоніми"
+                        value={data.synonyms}
+                    />
+                </div>
+            </Fragment>}
         </Card>
     );
 };

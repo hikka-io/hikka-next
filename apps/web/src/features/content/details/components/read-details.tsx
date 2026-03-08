@@ -9,6 +9,7 @@ import { BookType, Building2, CircleDashed, Hash, Play } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 import { cn } from '@/utils/cn';
 import {
@@ -17,6 +18,7 @@ import {
     RELEASE_STATUS,
 } from '@/utils/constants/common';
 
+import { Fragment } from 'react';
 import DetailItem from './detail-item';
 
 const StatusBadge = ({ status }: { status: string }) => (
@@ -38,62 +40,71 @@ const ReadDetails = ({
     data: MangaInfoResponse | NovelInfoResponse;
 }) => {
     return (
-        <Card className={cn('bg-secondary/20 backdrop-blur', className)}>
+        <Card className={cn('bg-secondary/20 backdrop-blur px-0', className)}>
             {/* Basic Info Section */}
-            <DetailItem
-                icon={<Play className="size-4" />}
-                title="Тип"
-                value={
-                    data.media_type
-                        ? data.data_type === ContentTypeEnum.MANGA
-                            ? MANGA_MEDIA_TYPE[data.media_type].title_ua
-                            : NOVEL_MEDIA_TYPE[data.media_type].title_ua
-                        : undefined
-                }
-            />
+            <div className='px-4 gap-4 flex flex-col'>
+                <DetailItem
+                    icon={<Play className="size-4" />}
+                    title="Тип"
+                    value={
+                        data.media_type
+                            ? data.data_type === ContentTypeEnum.MANGA
+                                ? MANGA_MEDIA_TYPE[data.media_type].title_ua
+                                : NOVEL_MEDIA_TYPE[data.media_type].title_ua
+                            : undefined
+                    }
+                />
 
-            <DetailItem
-                title="Статус"
-                icon={<CircleDashed className="size-4" />}
-            >
-                {data.status && <StatusBadge status={data.status} />}
-            </DetailItem>
-
-            {(data.chapters || data.volumes) && (
-                <div className="h-px bg-border" />
-            )}
+                <DetailItem
+                    title="Статус"
+                    icon={<CircleDashed className="size-4" />}
+                >
+                    {data.status && <StatusBadge status={data.status} />}
+                </DetailItem>
+            </div>
 
             {/* Chapters Info Section */}
-            <DetailItem
-                icon={<Hash className="size-4" />}
-                title="Розділи"
-                value={data.chapters}
-            />
+            {(data.chapters || data.volumes) && <Fragment>
+                <Separator />
+                <div className='px-4 gap-4 flex flex-col'>
+                    <DetailItem
+                        icon={<Hash className="size-4" />}
+                        title="Розділи"
+                        value={data.chapters}
+                    />
 
-            <DetailItem
-                icon={<Hash className="size-4" />}
-                title="Томи"
-                value={data.volumes}
-            />
-
-            {data.magazines.length > 0 && <div className="h-px bg-border" />}
+                    <DetailItem
+                        icon={<Hash className="size-4" />}
+                        title="Томи"
+                        value={data.volumes}
+                    />
+                </div>
+            </Fragment>}
 
             {/* Additional Info Section */}
-            <DetailItem
-                icon={<Building2 className="size-4" />}
-                title="Видавець"
-                value={data.magazines
-                    .map((magazine) => magazine.name_en)
-                    .join(', ')}
-            />
+            {data.magazines.length > 0 && <Fragment>
+                <Separator />
+                <div className='px-4 gap-4 flex flex-col'>
+                    <DetailItem
+                        icon={<Building2 className="size-4" />}
+                        title="Видавець"
+                        value={data.magazines
+                            .map((magazine) => magazine.name_en)
+                            .join(', ')}
+                    />
+                </div>
+            </Fragment>}
 
-            {data.synonyms.length > 0 && <div className="h-px bg-border" />}
-
-            <DetailItem
-                icon={<BookType className="size-4" />}
-                title="Синоніми"
-                value={data.synonyms}
-            />
+            {data.synonyms.length > 0 && <Fragment>
+                <Separator />
+                <div className='px-4 gap-4 flex flex-col'>
+                    <DetailItem
+                        icon={<BookType className="size-4" />}
+                        title="Синоніми"
+                        value={data.synonyms}
+                    />
+                </div>
+            </Fragment>}
         </Card>
     );
 };
