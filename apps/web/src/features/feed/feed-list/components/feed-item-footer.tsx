@@ -5,7 +5,7 @@ import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
 import { useVote } from '@/features/common/vote-button';
 import { cn } from '@/utils/cn';
@@ -35,33 +35,23 @@ const FeedItemFooter: FC<Props> = ({
 
     return (
         <div className="flex items-center justify-between p-4">
-            <div className="flex gap-1">
-                <Button
-                    asChild={!!commentsHref}
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground gap-1 font-normal"
-                >
-                    {commentsHref ? (
+            <StatItemGroup>
+                {commentsHref ? (
+                    <StatItem asChild>
                         <Link href={commentsHref}>
                             <MessageCircle />
                             {commentsCount > 0 && commentsCount}
                         </Link>
-                    ) : (
-                        <>
-                            <MessageCircle />
-                            {commentsCount > 0 && commentsCount}
-                        </>
-                    )}
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
+                    </StatItem>
+                ) : (
+                    <StatItem>
+                        <MessageCircle />
+                        {commentsCount > 0 && commentsCount}
+                    </StatItem>
+                )}
+                <StatItem
                     className={cn(
-                        'gap-1 font-normal',
-                        currentScore === 1
-                            ? 'text-success-foreground'
-                            : 'text-muted-foreground',
+                        currentScore === 1 && 'text-success-foreground',
                     )}
                     onClick={() => handleVote(1)}
                 >
@@ -72,8 +62,8 @@ const FeedItemFooter: FC<Props> = ({
                         )}
                     />
                     {voteScore}
-                </Button>
-            </div>
+                </StatItem>
+            </StatItemGroup>
         </div>
     );
 };

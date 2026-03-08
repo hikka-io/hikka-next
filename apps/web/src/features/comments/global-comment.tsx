@@ -12,7 +12,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import { Label } from '@/components/ui/label';
+import { StatItem } from '@/components/ui/stat-item';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -48,12 +48,10 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 </HorizontalCardContainer>
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
-                        <div className="flex items-center gap-1">
-                            <ArrowBigUp className="!size-5 fill-success-foreground" />
-                            <Label className="text-success-foreground leading-none">
-                                {comment.vote_score}
-                            </Label>
-                        </div>
+                        <StatItem size="sm" className="text-success-foreground">
+                            <ArrowBigUp className="size-5! fill-success-foreground" />
+                            {comment.vote_score}
+                        </StatItem>
                     </div>
                 )}
             </HorizontalCard>

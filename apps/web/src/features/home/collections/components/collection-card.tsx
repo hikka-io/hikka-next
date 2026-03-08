@@ -9,7 +9,6 @@ import { FC } from 'react';
 import ContentCard from '@/components/content-card/content-card';
 import FollowButton from '@/features/common/follow-button';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -21,6 +20,7 @@ import {
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import Stack, { StackSize } from '@/components/ui/stack';
+import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -170,29 +170,20 @@ const CollectionCard: FC<Props> = ({
 
             {/* Stats */}
             <div className="flex items-center justify-between">
-                <div className="flex gap-1">
-                    <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="gap-1 text-muted-foreground"
-                    >
+                <StatItemGroup>
+                    <StatItem asChild>
                         <Link
                             href={`/comments/collection/${collection.reference}`}
                         >
                             <MessageCircle />
                             {collection.comments_count}
                         </Link>
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="pointer-events-none gap-1 text-muted-foreground"
-                    >
-                        <ArrowBigUp className="!size-5" />
+                    </StatItem>
+                    <StatItem className="pointer-events-none">
+                        <ArrowBigUp className="size-5!" />
                         {collection.vote_score}
-                    </Button>
-                </div>
+                    </StatItem>
+                </StatItemGroup>
             </div>
         </Card>
     );

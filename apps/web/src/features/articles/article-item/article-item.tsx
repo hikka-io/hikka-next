@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -70,37 +70,24 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                 <StaticViewer value={document} />
             </div>
             <div className="flex items-center justify-between p-4">
-                <div className="flex gap-1">
+                <StatItemGroup>
                     {article.views > 0 && (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-muted-foreground pointer-events-none gap-1 font-normal"
-                        >
+                        <StatItem className="pointer-events-none">
                             <Eye />
                             {article.views}
-                        </Button>
+                        </StatItem>
                     )}
-                    <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="text-muted-foreground gap-1 font-normal"
-                    >
+                    <StatItem asChild>
                         <Link href={`/comments/article/${article.slug}`}>
                             <MessageCircle />
                             {article.comments_count}
                         </Link>
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-muted-foreground pointer-events-none gap-1 font-normal"
-                    >
-                        <ArrowBigUp className="!size-5" />
+                    </StatItem>
+                    <StatItem className="pointer-events-none">
+                        <ArrowBigUp className="size-5!" />
                         {article.vote_score}
-                    </Button>
-                </div>
+                    </StatItem>
+                </StatItemGroup>
             </div>
         </Card>
     );

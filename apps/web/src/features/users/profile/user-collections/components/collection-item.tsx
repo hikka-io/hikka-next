@@ -9,6 +9,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
 import { cn } from '@/utils/cn';
 
@@ -50,21 +51,20 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 >
                     {data.description}
                 </HorizontalCardDescription>
-                <HorizontalCardContainer className="flex-row text-xs text-muted-foreground gap-3">
-                    <div className="flex items-center gap-1">
-                        <Layers className="size-3" />
+                <StatItemGroup size="sm">
+                    <StatItem size="sm">
+                        <Layers />
                         <small>{data.entries}</small>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <MessageCircle className="size-3" />
+                    </StatItem>
+                    <StatItem size="sm">
+                        <MessageCircle />
                         <small>{data.comments_count}</small>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <ArrowBigUp className="size-4" />
+                    </StatItem>
+                    <StatItem size="sm">
+                        <ArrowBigUp className="size-4!" />
                         <small>{data.vote_score}</small>
-                    </div>
-
-                </HorizontalCardContainer>
+                    </StatItem>
+                </StatItemGroup>
             </HorizontalCardContainer>
         </HorizontalCard>
     );

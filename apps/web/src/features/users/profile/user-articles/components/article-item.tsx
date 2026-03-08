@@ -1,15 +1,15 @@
 import { ArticleBaseResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
-import { ArrowBigUp, MessageCircle } from 'lucide-react';
+import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 import { FC } from 'react';
 
-import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
@@ -31,26 +31,26 @@ const ArticleItem: FC<Props> = ({ article }) => {
                         addSuffix: true,
                     })}
                 </small>
-                <div className="text-muted-foreground flex gap-3 text-xs">
+                <StatItemGroup size="sm">
                     {article.views > 0 && (
-                        <div className="flex items-center gap-1">
-                            <MaterialSymbolsVisibilityOutlineRounded className="size-3" />
+                        <StatItem size="sm">
+                            <Eye />
                             <small>{article.views}</small>
-                        </div>
+                        </StatItem>
                     )}
-                    <div className="flex items-center gap-1">
-                        <MessageCircle className="size-3" />
+                    <StatItem size="sm">
+                        <MessageCircle />
                         {article.comments_count > 0 && (
                             <small>{article.comments_count}</small>
                         )}
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <ArrowBigUp className="size-4" />
+                    </StatItem>
+                    <StatItem size="sm">
+                        <ArrowBigUp className="size-4!" />
                         {article.vote_score > 0 && (
                             <small>{article.vote_score}</small>
                         )}
-                    </div>
-                </div>
+                    </StatItem>
+                </StatItemGroup>
             </div>
         </Card>
     );
