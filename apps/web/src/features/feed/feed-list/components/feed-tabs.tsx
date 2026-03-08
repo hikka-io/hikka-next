@@ -21,7 +21,7 @@ const FeedTabs: FC<Props> = ({ value, onChange }) => {
         >
             <TabsList
                 variant="underline"
-                className="w-full justify-start overflow-x-auto no-scrollbar bg-secondary/20 backdrop-blur"
+                className="w-full justify-start overflow-x-auto no-scrollbar bg-secondary/20 backdrop-blur rounded-md border"
             >
                 {Object.entries(FEED_FILTER_OPTIONS).map(([key, option]) => (
                     <TabsTrigger

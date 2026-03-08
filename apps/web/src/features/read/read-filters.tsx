@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
+import { Button } from '@/components/ui/button';
 import Genre from '@/features/filters/genre';
 import Localization from '@/features/filters/localization';
 import MediaType from '@/features/filters/media-type';
@@ -12,8 +14,6 @@ import ReleaseStatus from '@/features/filters/release-status';
 import Score from '@/features/filters/score';
 import Sort from '@/features/filters/sort';
 import Year from '@/features/filters/year';
-import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
-import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/cn';
 
@@ -44,7 +44,7 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 )}
                 <Year />
             </div>
-            <div className="flex shrink-0 gap-2 border-t border-secondary/60 bg-secondary/30 p-4">
+            <div className="flex shrink-0 gap-2 border-t bg-secondary/20 p-4">
                 <Button
                     size="md"
                     className="w-full"

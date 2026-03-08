@@ -6,9 +6,7 @@ import { cn } from '@/utils/cn';
 
 import FeedSidebar from './feed-sidebar';
 import FeedCombinedSidebar from './feed-sidebar/components/feed-combined-sidebar';
-import SidebarContent from './feed-sidebar/components/sidebar-content';
 import FeedWidgets from './feed-widgets';
-import FeedMobileWidgets from './feed-widgets/components/feed-mobile-widgets';
 
 interface Props {
     children: ReactNode;
@@ -20,7 +18,7 @@ const FeedLayout: FC<Props> = ({ children, className }) => {
         <div
             className={cn(
                 'grid grid-cols-1 gap-8',
-                'md:grid-cols-[1fr_19rem] xl:grid-cols-[19rem_1fr_19rem]',
+                'lg:grid-cols-[1fr_19rem] xl:grid-cols-[19rem_1fr_19rem]',
                 className,
             )}
         >
@@ -28,19 +26,15 @@ const FeedLayout: FC<Props> = ({ children, className }) => {
                 <FeedSidebar />
             </aside>
 
-            <main className="flex min-w-0 flex-col gap-4">
-                <div className="flex flex-col gap-4 md:hidden">
-                    <SidebarContent />
-                    <FeedMobileWidgets />
-                </div>
+            <main className="flex min-w-0 flex-col gap-4 order-2 lg:order-1">
                 {children}
             </main>
 
-            <aside className="sticky top-20 hidden h-fit md:block xl:hidden">
+            <aside className="lg:sticky top-20 h-fit block xl:hidden order-1 lg:order-2">
                 <FeedCombinedSidebar />
             </aside>
 
-            <aside className="sticky top-20 hidden h-fit xl:block">
+            <aside className="sticky top-20 hidden h-fit xl:block xl:order-2">
                 <FeedWidgets />
             </aside>
         </div>

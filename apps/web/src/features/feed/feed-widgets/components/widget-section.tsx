@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/cn';
 
+import Card from '@/components/ui/card';
 import { useOpenWidgetSettings } from '../../hooks/use-open-widget-settings';
 import WidgetList from './widget-list';
 
@@ -20,20 +21,22 @@ const WidgetSection: FC<Props> = ({ className }) => {
     const openSettingsModal = useOpenWidgetSettings();
 
     return (
-        <div className={cn('flex flex-col gap-4', className)}>
-            {user && (
-                <Button
-                    variant="outline"
-                    className="w-full shrink-0 text-muted-foreground backdrop-blur"
-                    size="md"
-                    onClick={openSettingsModal}
-                >
-                    <Settings2 />
-                    Налаштувати віджети
-                </Button>
-            )}
+        <Card className={cn('flex flex-col gap-0 h-auto overflow-hidden max-h-[calc(100vh-10rem)] bg-secondary/20 backdrop-blur p-0', className)}>
             <WidgetList />
-        </div>
+            {user && (
+                <div className='p-4 bg-secondary/20 border-t'>
+                    <Button
+                        variant="outline"
+                        className="w-full shrink-0 text-muted-foreground backdrop-blur"
+                        size="md"
+                        onClick={openSettingsModal}
+                    >
+                        <Settings2 />
+                        Налаштувати віджети
+                    </Button>
+                </div>
+            )}
+        </Card>
     );
 };
 

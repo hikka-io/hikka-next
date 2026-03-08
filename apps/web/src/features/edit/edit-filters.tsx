@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC } from 'react';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
+import { Button } from '@/components/ui/button';
 import ContentType from '@/features/filters/content-type';
 import EditStatus from '@/features/filters/edit-status';
 import Sort from '@/features/filters/sort';
 import User from '@/features/filters/user';
-import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
-import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/cn';
 
@@ -43,7 +43,7 @@ const EditFilters: FC<Props> = ({ className }) => {
                 <User title="Автор" paramKey="author" />
                 <User title="Модератор" paramKey="moderator" />
             </div>
-            <div className="flex shrink-0 gap-2 border-t border-secondary/60 bg-secondary/30 p-4">
+            <div className="flex shrink-0 gap-2 border-t bg-secondary/20 p-4">
                 <Button
                     size="md"
                     className="w-full"

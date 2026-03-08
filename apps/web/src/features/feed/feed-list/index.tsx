@@ -23,10 +23,10 @@ const FeedList = () => {
     }, [filter, feed]);
 
     return (
-        <div className="flex flex-col border-y border-x-0 md:rounded-lg -mx-4 md:-mx-0 md:border-x overflow-hidden">
+        <div className="flex flex-col gap-4">
             <FeedTabs value={filter} onChange={setFilter} />
 
-            <div className="flex flex-col">
+            <div className="flex flex-col border-y border-x-0 md:rounded-lg -mx-4 md:mx-0 md:border-x overflow-hidden">
                 {filteredItems.map((item) => (
                     <FeedItem key={item.reference} item={item} />
                 ))}

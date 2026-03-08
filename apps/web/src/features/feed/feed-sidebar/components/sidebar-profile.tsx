@@ -5,7 +5,6 @@ import { Settings } from 'lucide-react';
 import Link from 'next/link';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -19,9 +18,9 @@ const SidebarProfile = () => {
         return (
             <Card className="items-center bg-secondary/20">
                 <div className="flex flex-col gap-2 w-full">
-                    <p className="text-sm font-bold">Ласкаво просимо!</p>
+                    <p className="text-sm font-bold">Приєднуйся до hikka</p>
                     <p className="text-xs text-muted-foreground">
-                        Увійдіть, щоб отримати персоналізовану стрічку
+                        Відслідковуй свій прогрес, створюй власні колекції та веди обговорення зі спільнотою
                     </p>
                 </div>
                 <LoginButton className="w-full" variant="secondary" />
@@ -60,11 +59,7 @@ const SidebarProfile = () => {
                 >
                     {user.username}
                 </Link>
-                {user.description && (
-                    <MDViewer className="text-xs text-muted-foreground line-clamp-2">
-                        {user.description}
-                    </MDViewer>
-                )}
+
             </div>
         </Card>
     );

@@ -9,9 +9,10 @@ import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSy
 import { FeedFilterEnum } from '@/features/feed/types';
 
 export const AVAILABLE_WIDGETS = [
-    { id: 'tracker', title: 'Мій список' },
-    { id: 'calendar', title: 'Календар' },
-    { id: 'ongoing', title: 'Онґоінґи' },
+    { id: 'ongoings', title: 'Онґоінґи', description: 'ТОП аніме онґоінґів сезону', auth: false },
+    { id: 'calendar', title: 'Календар', description: 'Розклад виходу нових епізодів аніме', auth: false },
+    { id: 'tracker', title: 'Мій список', description: 'Менеджер списків перегляду і читання', auth: true },
+
 ] as const;
 
 export const FEED_FILTER_OPTIONS: Record<

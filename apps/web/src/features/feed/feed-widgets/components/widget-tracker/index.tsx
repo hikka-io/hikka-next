@@ -24,7 +24,7 @@ const WidgetTracker = () => {
     if (!user) return null;
 
     return (
-        <div className="flex-col gap-4 p-4">
+        <div className="flex-col gap-4 p-4 w-full">
             <Block>
                 <Header href={`/u/${user.username}/list`}>
                     <HeaderContainer>

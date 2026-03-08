@@ -67,7 +67,11 @@ const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
             >
                 <GripVertical className="size-4" />
             </button>
-            <Label className="flex-1">{widgetMeta?.title ?? widget.id}</Label>
+            <div className='flex flex-col gap-1 flex-1'>
+                <Label>{widgetMeta?.title ?? widget.id}</Label>
+                {widgetMeta?.description && <p className='text-xs text-muted-foreground'>{widgetMeta?.description}</p>}
+            </div>
+
             <Switch
                 checked={widget.visible}
                 onCheckedChange={(checked) => onToggle(widget.id, checked)}

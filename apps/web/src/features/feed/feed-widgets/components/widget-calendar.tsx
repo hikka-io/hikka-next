@@ -57,7 +57,7 @@ const WidgetCalendar = () => {
             : list?.filter((item) => item.airing_at * 1000 > now).slice(0, 6);
 
     return (
-        <Block className='py-4'>
+        <Block className='py-4 w-full'>
             <Header href="/schedule" className='px-4'>
                 <HeaderContainer>
                     <HeaderTitle variant="h4">Календар</HeaderTitle>
@@ -97,7 +97,7 @@ const WidgetCalendar = () => {
                                 className={cn(
                                     'min-w-0 flex-1 truncate',
                                     isAiringNow &&
-                                    'text-primary-foreground font-medium',
+                                    'text-primary-foreground font-medium text-sm',
                                     isPrev && 'text-muted-foreground',
                                 )}
                             >

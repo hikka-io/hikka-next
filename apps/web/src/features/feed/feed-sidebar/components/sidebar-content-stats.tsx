@@ -9,9 +9,13 @@ import { useReadStats, useSession, useUserWatchStats } from '@hikka/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/ui/accordion';
 
-import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
@@ -40,7 +44,7 @@ interface StatusStatsItem {
 }
 
 const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
-    <div className="flex flex-col gap-1 px-2">
+    <div className="flex flex-col gap-1">
         {items.map((item) => (
             <Link
                 key={item.status}
@@ -58,9 +62,9 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
                             <item.icon className="size-3 text-muted-foreground" />
                         </div>
                     )}
-                    <span>{item.label}</span>
+                    <span className='text-sm'>{item.label}</span>
                 </span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-sm text-muted-foreground">
                     {item.count}
                 </span>
             </Link>
@@ -124,43 +128,42 @@ const ReadStats = ({
 
 const SidebarContentStats = () => {
     const { user } = useSession();
-    const { preferences, setCollapsible } = useSettingsStore();
 
     if (!user) return null;
 
     return (
-        <div className="flex flex-col">
-            <CollapsibleFilter
-                className="px-0"
-                title="Список аніме"
-                open={preferences.collapsibles.home_anime_list}
-                onOpenChange={(open) => setCollapsible('home_anime_list', open)}
-            >
-                <AnimeStats username={user.username} />
-            </CollapsibleFilter>
-            <CollapsibleFilter
-                className="px-0"
-                title="Список манґи"
-                open={preferences.collapsibles.home_manga_list}
-                onOpenChange={(open) => setCollapsible('home_manga_list', open)}
-            >
-                <ReadStats
-                    username={user.username}
-                    contentType={ContentTypeEnum.MANGA}
-                />
-            </CollapsibleFilter>
-            <CollapsibleFilter
-                className="px-0"
-                title="Список ранобе"
-                open={preferences.collapsibles.home_novel_list}
-                onOpenChange={(open) => setCollapsible('home_novel_list', open)}
-            >
-                <ReadStats
-                    username={user.username}
-                    contentType={ContentTypeEnum.NOVEL}
-                />
-            </CollapsibleFilter>
-        </div>
+        <Accordion type='single' defaultValue='anime' className='bg-secondary/20 border rounded-lg'>
+            <AccordionItem value="anime">
+                <AccordionTrigger className="px-4">
+                    Список аніме
+                </AccordionTrigger>
+                <AccordionContent className="px-2">
+                    <AnimeStats username={user.username} />
+                </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="manga">
+                <AccordionTrigger className="px-4">
+                    Список манґи
+                </AccordionTrigger>
+                <AccordionContent className="px-2">
+                    <ReadStats
+                        username={user.username}
+                        contentType={ContentTypeEnum.MANGA}
+                    />
+                </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="novel" className="border-b-0">
+                <AccordionTrigger className="px-4">
+                    Список ранобе
+                </AccordionTrigger>
+                <AccordionContent className="px-2">
+                    <ReadStats
+                        username={user.username}
+                        contentType={ContentTypeEnum.NOVEL}
+                    />
+                </AccordionContent>
+            </AccordionItem>
+        </Accordion>
     );
 };
 

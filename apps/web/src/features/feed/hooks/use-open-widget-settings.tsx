@@ -13,6 +13,7 @@ export const useOpenWidgetSettings = () => {
         openModal({
             content: <WidgetSettingsContent />,
             title: 'Налаштувати віджети',
+            description: 'Змінюйте порядок та відображення доступних віджетів',
             forceModal: true,
         });
     }, [openModal]);

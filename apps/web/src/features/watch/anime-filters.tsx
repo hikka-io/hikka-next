@@ -5,6 +5,15 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
+import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
+import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipPortal,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import AgeRating from '@/features/filters/age-rating';
 import DateRange from '@/features/filters/date-range';
 import Genre from '@/features/filters/genre';
@@ -16,15 +25,6 @@ import Season from '@/features/filters/season';
 import Sort from '@/features/filters/sort';
 import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
-import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
-import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
-import { Button } from '@/components/ui/button';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipPortal,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 import { FilterPresetEditModal } from '@/features/content';
 
@@ -136,7 +136,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 {sort_type === 'anime' && <DateRange />}
                 <Localization />
             </div>
-            <div className="p-4 bg-secondary/30 border-t border-secondary/60 shrink-0 flex gap-2">
+            <div className="p-4 bg-secondary/20 border-t shrink-0 flex gap-2">
                 <Button
                     size="md"
                     className="flex-1"

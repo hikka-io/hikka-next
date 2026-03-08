@@ -56,7 +56,7 @@ const WidgetOngoing = () => {
     });
 
     return (
-        <Block className="gap-4 py-4">
+        <Block className="gap-4 py-4 w-full">
             <Header href="/anime?statuses=ongoing" className='px-4'>
                 <HeaderContainer>
                     <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>

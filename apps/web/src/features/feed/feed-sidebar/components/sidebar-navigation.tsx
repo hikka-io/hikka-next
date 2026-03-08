@@ -1,13 +1,13 @@
 'use client';
 
 import { cva } from 'class-variance-authority';
-import { BookOpen, Compass, Layers, Pencil } from 'lucide-react';
+import { BookOpen, Layers, Pencil } from 'lucide-react';
 import Link from 'next/link';
 
 import Card from '@/components/ui/card';
 
 const NAV_ITEMS = [
-    { icon: Compass, label: 'Огляд', path: '/discovery', variant: 'secondary' },
+    // { icon: Compass, label: 'Огляд', path: '/discovery', variant: 'secondary' },
     { icon: BookOpen, label: 'Статті', path: '/articles', variant: 'default' },
     {
         icon: Layers,
