@@ -1,10 +1,13 @@
 import {
     ContentTypeEnum,
     ReadResponseBase,
+    ReadStatusEnum,
     WatchResponseBase,
 } from '@hikka/client';
+import { type VariantProps, cva } from 'class-variance-authority';
 import Link, { LinkProps } from 'next/link';
 import {
+    ComponentType,
     FC,
     Fragment,
     MouseEventHandler,
@@ -16,19 +19,20 @@ import { UrlObject } from 'url';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from '@/components/ui/image';
-import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
+import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
-import AnimeTooltip from './anime-tooltip';
-import CharacterTooltip from './character-tooltip';
+import ContentStatus from './content-status';
 import ContextMenuOverlay from './context-menu-overlay';
-import MangaTooltip from './manga-tooltip';
-import NovelTooltip from './novel-tooltip';
-import PersonTooltip from './person-tooltip';
-import ReadStatus from './read-status';
-import WatchStatus from './watch-status';
+import {
+    AnimeTooltip,
+    CharacterTooltip,
+    MangaTooltip,
+    NovelTooltip,
+    PersonTooltip,
+} from './tooltips';
 
 // Types
 interface ImageProps {
@@ -37,7 +41,23 @@ interface ImageProps {
     alt?: string;
 }
 
-export interface ContentCardProps {
+const contentCardVariants = cva(
+    'group relative flex w-full flex-col gap-2',
+    {
+        variants: {
+            interactive: {
+                true: 'cursor-pointer',
+                false: '',
+            },
+        },
+        defaultVariants: {
+            interactive: false,
+        },
+    },
+);
+
+export interface ContentCardProps
+    extends VariantProps<typeof contentCardVariants> {
     target?: string;
     title?: string | null;
     description?: string | null;
@@ -77,41 +97,54 @@ const DEFAULT_IMAGE_DIMENSIONS = {
     height: 225,
 };
 
+// Tooltip map
+const TOOLTIP_MAP: Record<
+    string,
+    ComponentType<{ slug?: string; children: ReactNode; watch?: WatchResponseBase; read?: ReadResponseBase }>
+> = {
+    anime: AnimeTooltip,
+    manga: MangaTooltip,
+    novel: NovelTooltip,
+    character: CharacterTooltip,
+    person: PersonTooltip,
+};
+
 // Tooltip Component
 const Tooltip: FC<TooltipProps> = memo(
     ({ children, content_type, slug, watch, read }) => {
-        switch (content_type) {
-            case 'anime':
-                return (
-                    <AnimeTooltip slug={slug} watch={watch}>
-                        {children}
-                    </AnimeTooltip>
-                );
-            case 'manga':
-                return (
-                    <MangaTooltip slug={slug} read={read}>
-                        {children}
-                    </MangaTooltip>
-                );
-            case 'novel':
-                return (
-                    <NovelTooltip slug={slug} read={read}>
-                        {children}
-                    </NovelTooltip>
-                );
-            case 'character':
-                return (
-                    <CharacterTooltip slug={slug}>{children}</CharacterTooltip>
-                );
-            case 'person':
-                return <PersonTooltip slug={slug}>{children}</PersonTooltip>;
-            default:
-                return <Fragment>{children}</Fragment>;
+        const TooltipComponent = content_type
+            ? TOOLTIP_MAP[content_type]
+            : undefined;
+
+        if (!TooltipComponent) {
+            return <Fragment>{children}</Fragment>;
         }
+
+        return (
+            <TooltipComponent slug={slug} watch={watch} read={read}>
+                {children}
+            </TooltipComponent>
+        );
     },
 );
 
 Tooltip.displayName = 'Tooltip';
+
+// CardLink — eliminates duplicated Link/div render paths
+const CardLink: FC<{
+    href?: string | UrlObject;
+    target?: string;
+    linkProps?: LinkProps;
+    className?: string;
+    children: ReactNode;
+}> = ({ href, target, linkProps, className, children }) => {
+    if (!href) return <div className={className}>{children}</div>;
+    return (
+        <Link href={href} target={target} className={className} {...linkProps}>
+            {children}
+        </Link>
+    );
+};
 
 // Content Component
 const Content = memo(
@@ -144,19 +177,8 @@ const Content = memo(
             },
             ref,
         ) => {
-            const Comp = href ? Link : 'div';
             const hasSubtitles = Boolean(leftSubtitle || rightSubtitle);
             const hasTitleOrDescription = Boolean(title || description);
-
-            const commonProps = {
-                className: cn(
-                    'group relative flex w-full flex-col gap-2',
-                    onClick && 'cursor-pointer',
-                    className,
-                ),
-                onClick,
-                ...props,
-            };
 
             return (
                 <Tooltip
@@ -165,7 +187,17 @@ const Content = memo(
                     watch={watch}
                     read={read}
                 >
-                    <div ref={ref} {...commonProps}>
+                    <div
+                        ref={ref}
+                        className={cn(
+                            contentCardVariants({
+                                interactive: !!onClick,
+                            }),
+                            className,
+                        )}
+                        onClick={onClick}
+                        {...props}
+                    >
                         <AspectRatio
                             ratio={containerRatio}
                             className={cn(
@@ -173,77 +205,54 @@ const Content = memo(
                                 containerClassName,
                             )}
                         >
-                            {href ? (
-                                <Link
-                                    href={href}
-                                    target={target}
-                                    className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
-                                    {...linkProps}
-                                >
-                                    {renderImage(
-                                        image,
-                                        imageClassName,
-                                        imageProps,
-                                    )}
-                                    {!disableChildrenLink && children}
-                                    {watch && <WatchStatus watch={watch} />}
-                                    {read && <ReadStatus read={read} />}
-                                </Link>
-                            ) : (
-                                <div className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20">
-                                    {renderImage(
-                                        image,
-                                        imageClassName,
-                                        imageProps,
-                                    )}
-                                    {!disableChildrenLink && children}
-                                    {watch && <WatchStatus watch={watch} />}
-                                    {read && <ReadStatus read={read} />}
-                                </div>
-                            )}
+                            <CardLink
+                                href={href}
+                                target={target}
+                                linkProps={linkProps}
+                                className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
+                            >
+                                {renderImage(image, imageClassName, imageProps)}
+                                {!disableChildrenLink && children}
+                                {watch && (
+                                    <ContentStatus
+                                        status={watch.status}
+                                        icon={
+                                            WATCH_STATUS[watch.status].icon!
+                                        }
+                                    />
+                                )}
+                                {read && (
+                                    <ContentStatus
+                                        status={read.status}
+                                        icon={
+                                            READ_STATUS[
+                                                read.status as ReadStatusEnum
+                                            ].icon!
+                                        }
+                                    />
+                                )}
+                            </CardLink>
                             {disableChildrenLink && children}
                         </AspectRatio>
-                        {hasTitleOrDescription &&
-                            (href ? (
-                                <Link
-                                    href={href}
-                                    target={target}
-                                    className={cn(
-                                        'mt-1',
-                                        hasSubtitles && 'truncate',
-                                    )}
-                                    {...linkProps}
-                                >
-                                    {renderDescription(description)}
-                                    {renderTitle(
-                                        title,
-                                        hasSubtitles,
-                                        titleClassName,
-                                    )}
-                                    {renderSubtitles(
-                                        leftSubtitle,
-                                        rightSubtitle,
-                                    )}
-                                </Link>
-                            ) : (
-                                <div
-                                    className={cn(
-                                        'mt-1',
-                                        hasSubtitles && 'truncate',
-                                    )}
-                                >
-                                    {renderDescription(description)}
-                                    {renderTitle(
-                                        title,
-                                        hasSubtitles,
-                                        titleClassName,
-                                    )}
-                                    {renderSubtitles(
-                                        leftSubtitle,
-                                        rightSubtitle,
-                                    )}
-                                </div>
-                            ))}
+                        {hasTitleOrDescription && (
+                            <CardLink
+                                href={href}
+                                target={target}
+                                linkProps={linkProps}
+                                className={cn(
+                                    'mt-1',
+                                    hasSubtitles && 'truncate',
+                                )}
+                            >
+                                {renderDescription(description)}
+                                {renderTitle(
+                                    title,
+                                    hasSubtitles,
+                                    titleClassName,
+                                )}
+                                {renderSubtitles(leftSubtitle, rightSubtitle)}
+                            </CardLink>
+                        )}
                     </div>
                 </Tooltip>
             );
@@ -297,15 +306,15 @@ const renderTitle = (
 ) => {
     if (!title) return null;
     return (
-        <Label
+        <span
             className={cn(
-                'cursor-pointer leading-5',
+                'text-sm font-medium leading-5',
                 !hasSubtitles && 'line-clamp-2',
                 titleClassName,
             )}
         >
             {title}
-        </Label>
+        </span>
     );
 };
 
@@ -315,19 +324,19 @@ const renderSubtitles = (
 ) => {
     if (!leftSubtitle && !rightSubtitle) return null;
     return (
-        <div className="mt-1 flex cursor-pointer items-center gap-2">
+        <div className="mt-1 flex items-center gap-2">
             {leftSubtitle && (
-                <Label className="cursor-pointer text-xs text-muted-foreground">
+                <span className="text-xs font-medium leading-tight text-muted-foreground">
                     {leftSubtitle}
-                </Label>
+                </span>
             )}
             {leftSubtitle && rightSubtitle && (
                 <div className="size-1 rounded-full bg-muted-foreground" />
             )}
             {rightSubtitle && (
-                <Label className="cursor-pointer text-xs text-muted-foreground">
+                <span className="text-xs font-medium leading-tight text-muted-foreground">
                     {rightSubtitle}
-                </Label>
+                </span>
             )}
         </div>
     );
@@ -346,12 +355,12 @@ const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
                     content_type={content_type}
                     image={image}
                 >
-                    <Content {...props} ref={ref} key={`${props.title}`} />
+                    <Content {...props} ref={ref} />
                 </ContextMenuOverlay>
             );
         }
 
-        return <Content {...props} ref={ref} key={`${props.title}`} />;
+        return <Content {...props} ref={ref} />;
     },
 );
 

@@ -15,12 +15,14 @@ import {
 
 import { cn } from '@/utils/cn';
 
-import AnimeTooltip from '../content-card/anime-tooltip';
-import CharacterTooltip from '../content-card/character-tooltip';
-import MangaTooltip from '../content-card/manga-tooltip';
-import NovelTooltip from '../content-card/novel-tooltip';
-import PersonTooltip from '../content-card/person-tooltip';
-import UserTooltip from '../content-card/user-tooltip';
+import {
+    AnimeTooltip,
+    CharacterTooltip,
+    MangaTooltip,
+    NovelTooltip,
+    PersonTooltip,
+    UserTooltip,
+} from '@/components/content-card';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 
 interface Props extends LinkProps {

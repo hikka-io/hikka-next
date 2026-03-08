@@ -8,3 +8,12 @@ export { default as MangaCard } from './manga-card';
 export { default as NovelCard } from './novel-card';
 export { default as PersonCard } from './person-card';
 export { default as VoiceCard } from './voice-card';
+
+export {
+    AnimeTooltip,
+    CharacterTooltip,
+    MangaTooltip,
+    NovelTooltip,
+    PersonTooltip,
+    UserTooltip,
+} from './tooltips';

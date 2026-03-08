@@ -8,6 +8,7 @@ import { FC } from 'react';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
 import ContentCard, { ContentCardProps } from './content-card';
+import { getMediaCardProps } from './utils';
 
 interface Props extends ContentCardProps {
     manga: MangaResponse | MangaInfoResponse;
@@ -16,19 +17,15 @@ interface Props extends ContentCardProps {
 const MangaCard: FC<Props> = ({ manga, ...props }) => {
     return (
         <ContentCard
-            read={manga.read ? manga.read[0] : undefined}
-            slug={manga.slug}
-            content_type={ContentTypeEnum.MANGA}
-            withContextMenu
-            href={`/manga/${manga.slug}`}
-            image={manga.image}
-            title={manga.title}
-            leftSubtitle={manga.year ? String(manga.year) : undefined}
-            rightSubtitle={
-                manga.media_type
-                    ? MANGA_MEDIA_TYPE[manga.media_type].title_ua
-                    : undefined
-            }
+            {...getMediaCardProps(
+                manga,
+                {
+                    contentType: ContentTypeEnum.MANGA,
+                    basePath: '/manga',
+                    mediaTypeMap: MANGA_MEDIA_TYPE,
+                },
+                { read: manga.read ? manga.read[0] : undefined },
+            )}
             {...props}
         />
     );

@@ -8,18 +8,12 @@ import {
 } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import {
-    HoverCard,
-    HoverCardArrow,
-    HoverCardContent,
-    HoverCardPortal,
-    HoverCardTrigger,
-} from '@/components/ui/hover-card';
-import { Label } from '@/components/ui/label';
+import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
+import MDViewer from '../../markdown/viewer/MD-viewer';
+import ContentCard from '../content-card';
 
-import MaterialSymbolsMoreHoriz from '../icons/material-symbols/MaterialSymbolsMoreHoriz';
-import MDViewer from '../markdown/viewer/MD-viewer';
-import ContentCard from './content-card';
+import HoverCardWrapper from './hover-card-wrapper';
+import { PersonTooltipSkeleton } from './tooltip-skeleton';
 
 interface TooltipDataProps {
     slug: string;
@@ -27,7 +21,6 @@ interface TooltipDataProps {
 
 interface Props extends PropsWithChildren {
     slug?: string;
-    withTrigger?: boolean;
 }
 
 const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
@@ -38,8 +31,9 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
 
     return (
         <div className="flex flex-col gap-2">
-            <Label className="text-muted-foreground">Роботи</Label>
-
+            <span className="text-sm font-medium leading-tight text-muted-foreground">
+                Роботи
+            </span>
             <div className="flex gap-2">
                 {list.slice(0, 5).map(({ anime }) => (
                     <ContentCard
@@ -75,8 +69,9 @@ const PersonCharactersList: FC<{
 
     return (
         <div className="flex flex-col gap-2">
-            <Label className="text-muted-foreground">Ролі</Label>
-
+            <span className="text-sm font-medium leading-tight text-muted-foreground">
+                Ролі
+            </span>
             <div className="flex gap-2">
                 {list.slice(0, 5).map(({ character }) => (
                     <ContentCard
@@ -121,30 +116,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     });
 
     if (!data || (!anime && !characters)) {
-        return (
-            <div className="flex w-96 animate-pulse gap-4 text-left">
-                <div className="h-28 w-20 rounded-lg bg-secondary/20" />
-                <div className="flex w-full flex-1 flex-col gap-2">
-                    <div className="flex flex-col gap-2">
-                        <div className="flex w-full flex-1 flex-col gap-2">
-                            <div className="h-5 w-20 rounded-lg bg-secondary/20" />
-                        </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                        <div className="h-3 w-1/4 rounded-lg bg-secondary/20" />
-                    </div>
-
-                    <div className="flex gap-2">
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                        <div className="h-14 w-10 rounded-lg bg-secondary/20" />
-                    </div>
-                </div>
-            </div>
-        );
+        return <PersonTooltipSkeleton />;
     }
 
     return (
@@ -155,18 +127,16 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 containerRatio={0.7}
                 href={`/people/${data.slug}`}
             />
-
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
-                    <Label className="line-clamp-2 font-bold">
+                    <span className="line-clamp-2 text-sm font-bold leading-tight">
                         {data.name_ua || data.name_en || data.name_native}
-                    </Label>
+                    </span>
                 </div>
                 <div className="flex flex-col gap-2">
                     <MDViewer className="whitespace-normal break-normal text-sm text-muted-foreground md:line-clamp-3">
                         {data.description_ua}
                     </MDViewer>
-
                     {data.characters_count === 0 && (
                         <PersonAnimeList list={anime} slug={data.slug} />
                     )}
@@ -177,27 +147,16 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     );
 };
 
-const PersonTooltip: FC<Props> = ({
-    slug,
-    children,
-    withTrigger,
-    ...props
-}) => {
+const PersonTooltip: FC<Props> = ({ slug, children }) => {
     if (!slug) return null;
 
     return (
-        <HoverCard openDelay={500} closeDelay={100}>
-            <HoverCardTrigger asChild>{children}</HoverCardTrigger>
-            <HoverCardPortal>
-                <HoverCardContent
-                    side="right"
-                    className="hidden min-w-min flex-col gap-4 p-4 md:flex"
-                >
-                    <HoverCardArrow />
-                    <TooltipData slug={slug} />
-                </HoverCardContent>
-            </HoverCardPortal>
-        </HoverCard>
+        <HoverCardWrapper
+            size="auto"
+            content={<TooltipData slug={slug} />}
+        >
+            {children}
+        </HoverCardWrapper>
     );
 };
 

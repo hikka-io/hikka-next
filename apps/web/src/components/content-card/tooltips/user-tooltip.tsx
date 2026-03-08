@@ -10,14 +10,6 @@ import {
 import { FC, PropsWithChildren, memo } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    HoverCard,
-    HoverCardArrow,
-    HoverCardContent,
-    HoverCardPortal,
-    HoverCardTrigger,
-} from '@/components/ui/hover-card';
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import {
     Tooltip,
@@ -26,12 +18,15 @@ import {
 } from '@/components/ui/tooltip';
 
 import { FollowButton } from '@/features/common';
-import MaterialSymbolsAnimatedImages from '../icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '../icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '../icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsSecurity from '../icons/material-symbols/MaterialSymbolsSecurity';
-import MaterialSymbolsShieldPerson from '../icons/material-symbols/MaterialSymbolsShieldPerson';
-import MDViewer from '../markdown/viewer/MD-viewer';
+import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '../../icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsSecurity from '../../icons/material-symbols/MaterialSymbolsSecurity';
+import MaterialSymbolsShieldPerson from '../../icons/material-symbols/MaterialSymbolsShieldPerson';
+import MDViewer from '../../markdown/viewer/MD-viewer';
+
+import HoverCardWrapper from './hover-card-wrapper';
+import { UserTooltipSkeleton } from './tooltip-skeleton';
 
 interface TooltipDataProps {
     username: string;
@@ -39,7 +34,6 @@ interface TooltipDataProps {
 
 interface Props extends PropsWithChildren {
     username?: string;
-    withTrigger?: boolean;
 }
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
@@ -56,30 +50,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
     });
 
     if (!user && !followStats) {
-        return (
-            <div className="flex w-64 flex-col gap-4">
-                <div className="flex animate-pulse flex-col gap-2">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <div className="size-10 rounded-md bg-secondary/20" />
-                            <div className="h-3 w-20 rounded-lg bg-secondary/20" />
-                        </div>
-                        <div className="size-9 rounded-md bg-secondary/20" />
-                    </div>
-                    <div className="h-3 w-full rounded-lg bg-secondary/20" />
-                </div>
-                <div className="flex animate-pulse gap-4">
-                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
-                    <div className="h-3 w-24 rounded-lg bg-secondary/20" />
-                </div>
-                <Separator className="-mx-4 w-auto animate-none" />
-                <div className="flex animate-pulse gap-2">
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
-                    <div className="h-4 w-1/3 rounded-lg bg-secondary/20" />
-                </div>
-            </div>
-        );
+        return <UserTooltipSkeleton />;
     }
 
     return (
@@ -101,33 +72,32 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 <div className="absolute -bottom-1 -right-1 z-[1] size-3 rounded-full border border-border bg-success-foreground" />
                             )}
                         </div>
-
                         <div className="flex flex-row items-center gap-2">
                             <h4 className="text-sm font-semibold">
                                 {username}
                             </h4>
                             {(user?.role === 'admin' ||
                                 user?.role === 'moderator') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                            <div className="rounded-sm border border-border bg-secondary/20 backdrop-blur p-1 text-xs font-bold">
-                                                {user.role === 'admin' && (
-                                                    <MaterialSymbolsSecurity className="text-[#d0bfff]" />
-                                                )}
-                                                {user.role === 'moderator' && (
-                                                    <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
-                                                )}
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p className="text-sm">
-                                                {user.role === 'admin'
-                                                    ? 'Адміністратор'
-                                                    : 'Модератор'}
-                                            </p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger>
+                                        <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold backdrop-blur">
+                                            {user.role === 'admin' && (
+                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                            )}
+                                            {user.role === 'moderator' && (
+                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                            )}
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="text-sm">
+                                            {user.role === 'admin'
+                                                ? 'Адміністратор'
+                                                : 'Модератор'}
+                                        </p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
                         </div>
                     </div>
                     <FollowButton user={user} className="size-9 p-0" iconOnly />
@@ -144,17 +114,17 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             <div className="flex gap-4 text-xs">
                 <span className="font-bold">
                     {followStats ? followStats.followers : 0}
-                    <Label className="text-xs text-muted-foreground">
+                    <span className="text-xs font-medium leading-tight text-muted-foreground">
                         {' '}
                         стежать
-                    </Label>
+                    </span>
                 </span>
                 <span className="font-bold">
                     {followStats ? followStats.following : 0}
-                    <Label className="text-xs text-muted-foreground">
+                    <span className="text-xs font-medium leading-tight text-muted-foreground">
                         {' '}
                         відстежується
-                    </Label>
+                    </span>
                 </span>
             </div>
             <Separator className="-mx-4 w-auto" />
@@ -176,27 +146,16 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
     );
 };
 
-const UserTooltip: FC<Props> = ({
-    username,
-    children,
-    withTrigger,
-    ...props
-}) => {
+const UserTooltip: FC<Props> = ({ username, children }) => {
     if (!username) return null;
 
     return (
-        <HoverCard openDelay={500} closeDelay={100}>
-            <HoverCardTrigger asChild>{children}</HoverCardTrigger>
-            <HoverCardPortal>
-                <HoverCardContent
-                    side="right"
-                    className="hidden min-w-min flex-col gap-4 p-4 md:flex"
-                >
-                    <HoverCardArrow />
-                    <TooltipData username={username} />
-                </HoverCardContent>
-            </HoverCardPortal>
-        </HoverCard>
+        <HoverCardWrapper
+            size="auto"
+            content={<TooltipData username={username} />}
+        >
+            {children}
+        </HoverCardWrapper>
     );
 };
 

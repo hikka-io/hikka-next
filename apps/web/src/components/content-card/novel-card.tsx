@@ -8,6 +8,7 @@ import { FC } from 'react';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
 import ContentCard, { ContentCardProps } from './content-card';
+import { getMediaCardProps } from './utils';
 
 interface Props extends ContentCardProps {
     novel: NovelResponse | NovelInfoResponse;
@@ -16,19 +17,15 @@ interface Props extends ContentCardProps {
 const NovelCard: FC<Props> = ({ novel, ...props }) => {
     return (
         <ContentCard
-            read={novel.read ? novel.read[0] : undefined}
-            slug={novel.slug}
-            content_type={ContentTypeEnum.NOVEL}
-            withContextMenu
-            href={`/novel/${novel.slug}`}
-            image={novel.image}
-            title={novel.title}
-            leftSubtitle={novel.year ? String(novel.year) : undefined}
-            rightSubtitle={
-                novel.media_type
-                    ? NOVEL_MEDIA_TYPE[novel.media_type].title_ua
-                    : undefined
-            }
+            {...getMediaCardProps(
+                novel,
+                {
+                    contentType: ContentTypeEnum.NOVEL,
+                    basePath: '/novel',
+                    mediaTypeMap: NOVEL_MEDIA_TYPE,
+                },
+                { read: novel.read ? novel.read[0] : undefined },
+            )}
             {...props}
         />
     );

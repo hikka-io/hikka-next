@@ -6,6 +6,7 @@ import {
 } from '@hikka/client';
 import { FC } from 'react';
 
+import CardOverlay from './card-overlay';
 import ContentCard, { ContentCardProps } from './content-card';
 
 interface Props extends ContentCardProps {
@@ -29,13 +30,10 @@ const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
             leftSubtitle={language.toUpperCase()}
             {...props}
         >
-            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-background to-transparent" />
-            <div className="absolute bottom-2 right-2 z-[1] flex h-auto w-16 rounded-lg border border-border shadow-lg transition-all hover:w-28">
-                <ContentCard
-                    href={`/anime/${anime.slug}`}
-                    image={anime.image}
-                />
-            </div>
+            <CardOverlay
+                href={`/anime/${anime.slug}`}
+                image={anime.image}
+            />
         </ContentCard>
     );
 };
