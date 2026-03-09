@@ -1,6 +1,6 @@
 'use client';
 
-import { ContentTypeEnum, ImportReadArgs, ImportWatchArgs } from '@hikka/client';
+import { ContentTypeEnum, ImportReadArgs } from '@hikka/client';
 import { AnilistTypeEnum, useAnilist } from '@hikka/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { toast } from 'sonner';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import FoundList from '../../components/list/found-list';
+import FoundList from '../components/found-list';
 
 interface Props {
     readList: ImportReadArgs[];
@@ -32,7 +32,10 @@ const Component = ({ readList, setReadList, importing }: Props) => {
     });
 
     const getFromAniList = async () => {
-        fetchAnilist({ username: aniListUsername, type: AnilistTypeEnum.MANGA });
+        fetchAnilist({
+            username: aniListUsername,
+            type: AnilistTypeEnum.MANGA,
+        });
     };
 
     return (
