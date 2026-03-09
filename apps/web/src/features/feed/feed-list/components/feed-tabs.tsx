@@ -19,10 +19,7 @@ const FeedTabs: FC<Props> = ({ value, onChange }) => {
             value={value}
             onValueChange={(v) => onChange(v as FeedFilterEnum)}
         >
-            <TabsList
-                variant="underline"
-                className="w-full justify-start overflow-x-auto no-scrollbar bg-secondary/20 backdrop-blur rounded-md border"
-            >
+            <TabsList className="w-full justify-start overflow-x-auto no-scrollbar ">
                 {Object.entries(FEED_FILTER_OPTIONS).map(([key, option]) => (
                     <TabsTrigger
                         key={key}

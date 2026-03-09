@@ -1,7 +1,6 @@
+import { ContentTypeEnum } from '@hikka/client';
 import Link from 'next/link';
 import { FC } from 'react';
-
-import { ContentTypeEnum } from '@hikka/client';
 
 import { Badge } from '@/components/ui/badge';
 
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const FeedItemContentPreview: FC<Props> = ({ contentType, slug, title }) => {
-    if (!contentType || !slug || !title) return null;
+    if (!contentType || !slug) return null;
 
     return (
         <div className="flex w-full items-center gap-2">
