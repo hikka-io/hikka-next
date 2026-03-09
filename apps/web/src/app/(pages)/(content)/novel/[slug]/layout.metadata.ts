@@ -40,5 +40,8 @@ export default async function generateMetadata({
         other: {
             'mal-id': novel.mal_id,
         },
+        robots: {
+            index: !novel.nsfw,
+        },
     });
 }

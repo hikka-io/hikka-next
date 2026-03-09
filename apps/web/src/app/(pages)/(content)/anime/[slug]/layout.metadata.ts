@@ -42,7 +42,7 @@ export default async function generateMetadata({
             'mal-id': anime.mal_id,
         },
         robots: {
-            index: anime.rating !== 'rx',
+            index: !anime.nsfw,
         },
     });
 }
