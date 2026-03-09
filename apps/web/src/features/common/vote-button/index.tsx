@@ -18,7 +18,7 @@ interface Props {
     slug: string;
     myScore: number;
     voteScore: number;
-    size?: 'icon-xs' | 'icon-md';
+    size?: 'icon-xs' | 'icon-sm' | 'icon-md';
 }
 
 const VoteButton: FC<Props> = ({
@@ -41,7 +41,7 @@ const VoteButton: FC<Props> = ({
                 variant="ghost"
                 size={size}
                 className={cn(
-                    'opacity-60 group-hover:opacity-100 font-normal',
+                    'font-normal',
                     currentScore === 1
                         ? 'text-success-foreground opacity-100'
                         : 'text-muted-foreground',
@@ -49,7 +49,7 @@ const VoteButton: FC<Props> = ({
             >
                 <ArrowBigUp
                     className={cn(
-                        '!size-5',
+                        'size-5!',
                         currentScore === 1 && 'fill-success-foreground',
                     )}
                 />
@@ -59,8 +59,8 @@ const VoteButton: FC<Props> = ({
                     voteScore > 0
                         ? 'text-success-foreground'
                         : voteScore === 0
-                          ? 'text-foreground'
-                          : 'text-destructive-foreground'
+                            ? 'text-muted-foreground'
+                            : 'text-destructive-foreground'
                 }
             >
                 {voteScore}
@@ -70,7 +70,7 @@ const VoteButton: FC<Props> = ({
                 variant="ghost"
                 size={size}
                 className={cn(
-                    'opacity-60 group-hover:opacity-100 font-normal',
+                    'font-normal',
                     currentScore === -1
                         ? 'text-destructive-foreground opacity-100'
                         : 'text-muted-foreground',
@@ -78,7 +78,7 @@ const VoteButton: FC<Props> = ({
             >
                 <ArrowBigDown
                     className={cn(
-                        '!size-5',
+                        'size-5!',
                         currentScore === -1 && 'fill-destructive-foreground',
                     )}
                 />

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FC } from 'react';
 
 import { ArticlePreviewResponse } from '@hikka/client';
@@ -21,27 +22,42 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                 title={data.content?.title}
             />
 
-            <Header href={`/articles/${data.slug}`}>
-                <HeaderContainer>
-                    <HeaderTitle variant="h4">{data.title}</HeaderTitle>
-                </HeaderContainer>
-            </Header>
+            <div
+                className="flex flex-col gap-4"
+            >
 
-            {data.tags.length > 0 && (
-                <div className="relative z-20 flex gap-2">
-                    {data.tags.slice(0, 2).map((tag) => (
-                        <Badge key={tag.name} variant="secondary">
-                            {tag.name}
-                        </Badge>
-                    ))}
-                    {data.tags.length > 2 && (
-                        <Badge variant="outline">+{data.tags.length - 2}</Badge>
+                <Header href={`/articles/${data.slug}`}>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">
+                            {data.title}
+                        </HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+
+                {data.tags.length > 0 && (
+                    <div className="flex gap-2">
+                        {data.tags.slice(0, 2).map((tag) => (
+                            <Badge key={tag.name} variant="secondary">
+                                {tag.name}
+                            </Badge>
+                        ))}
+                        {data.tags.length > 2 && (
+                            <Badge variant="outline">
+                                +{data.tags.length - 2}
+                            </Badge>
+                        )}
+                    </div>
+                )}
+                <div className='relative'>
+                    <Link
+                        href={`/articles/${data.slug}`}
+                        className="absolute left-0 top-0 z-10 size-full"
+                    />
+                    {data.preview && data.preview.length > 0 && (
+                        <StaticViewer value={data.preview} />
                     )}
                 </div>
-            )}
-            {data.preview && data.preview.length > 0 && (
-                <StaticViewer value={data.preview} />
-            )}
+            </div>
         </div>
     );
 };

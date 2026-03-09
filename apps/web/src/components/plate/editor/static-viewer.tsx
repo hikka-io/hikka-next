@@ -9,24 +9,26 @@ import { StaticKit } from './static-kit';
 
 interface StaticEditorProps {
     value?: string | Value;
+    className?: string;
 }
 
 const editor = createSlateEditor({
     plugins: StaticKit,
 });
 
-export function StaticViewer({ value }: StaticEditorProps) {
+export function StaticViewer({ value, className }: StaticEditorProps) {
     return (
         <EditorStatic
             variant="default"
             value={
                 typeof value === 'string'
                     ? editor
-                          .getApi(MarkdownPlugin)
-                          .markdown.deserialize(value ?? '')
+                        .getApi(MarkdownPlugin)
+                        .markdown.deserialize(value ?? '')
                     : value
             }
             editor={editor}
+            className={className}
         />
     );
 }

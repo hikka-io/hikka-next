@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { CommentResponse } from '@hikka/client';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import TextExpand from '@/components/text-expand';
 
 import FeedItemContentPreview from './feed-item-content-preview';
 
@@ -20,17 +21,19 @@ const FeedItemComment: FC<Props> = ({ data }) => {
                 title={data.preview.title}
             />
             {data.text && (
-                <Link
-                    href={`/comments/${data.content_type}/${data.preview.slug}`}
-                    className="hover:underline"
-                >
-                    <MDViewer
-                        className="line-clamp-4 break-words text-[0.9375rem]"
-                        preview
+                <TextExpand>
+                    <Link
+                        href={`/comments/${data.content_type}/${data.preview.slug}`}
+                        className="cursor-pointer"
                     >
-                        {data.text}
-                    </MDViewer>
-                </Link>
+                        <MDViewer
+                            className="text-[0.9375rem]"
+                            preview
+                        >
+                            {data.text}
+                        </MDViewer>
+                    </Link>
+                </TextExpand>
             )}
         </div>
     );
