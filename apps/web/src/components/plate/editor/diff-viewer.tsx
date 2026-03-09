@@ -40,9 +40,9 @@ const InlineVoidPlugin = createPlatePlugin({
 });
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
-    delete: 'bg-destructive-foreground/30',
-    insert: 'bg-success-foreground/30',
-    update: 'bg-info-foreground/30',
+    delete: 'bg-destructive text-destructive-foreground',
+    insert: 'bg-success text-success-foreground',
+    update: 'bg-info text-info-foreground',
 };
 
 const describeUpdate = ({ newProperties, properties }: DiffUpdate) => {
@@ -128,38 +128,38 @@ const DiffPlugin = toPlatePlugin(
             node: DiffLeaf,
             aboveNodes:
                 () =>
-                ({ children, editor, element }) => {
-                    if (!element.diff) return children;
+                    ({ children, editor, element }) => {
+                        if (!element.diff) return children;
 
-                    const diffOperation =
-                        element.diffOperation as DiffOperation;
+                        const diffOperation =
+                            element.diffOperation as DiffOperation;
 
-                    const label = (
-                        {
-                            delete: 'deletion',
-                            insert: 'insertion',
-                            update: 'update',
-                        } as any
-                    )[diffOperation.type];
+                        const label = (
+                            {
+                                delete: 'deletion',
+                                insert: 'insertion',
+                                update: 'update',
+                            } as any
+                        )[diffOperation.type];
 
-                    const Component = editor.api.isInline(element)
-                        ? 'span'
-                        : 'div';
+                        const Component = editor.api.isInline(element)
+                            ? 'span'
+                            : 'div';
 
-                    return (
-                        <Component
-                            className={diffOperationColors[diffOperation.type]}
-                            title={
-                                diffOperation.type === 'update'
-                                    ? describeUpdate(diffOperation)
-                                    : undefined
-                            }
-                            aria-label={label}
-                        >
-                            {children}
-                        </Component>
-                    );
-                },
+                        return (
+                            <Component
+                                className={diffOperationColors[diffOperation.type]}
+                                title={
+                                    diffOperation.type === 'update'
+                                        ? describeUpdate(diffOperation)
+                                        : undefined
+                                }
+                                aria-label={label}
+                            >
+                                {children}
+                            </Component>
+                        );
+                    },
         },
     },
 );
