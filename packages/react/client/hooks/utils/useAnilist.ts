@@ -1,6 +1,6 @@
 'use client';
 
-import { ImportWatchArgs, ImportWatchStatusEnum } from '@hikka/client';
+import { ImportReadArgs, ImportReadStatusEnum, ImportWatchArgs, ImportWatchStatusEnum } from '@hikka/client';
 import { UseMutationResult, useMutation } from '@tanstack/react-query';
 
 export interface Response {
@@ -22,7 +22,7 @@ export interface Response {
                         | 'REWATCHING';
                     score: number;
                     progress: number;
-                    progressVolumes: null;
+                    progressVolumes: number | null;
                     repeat: number;
                     priority: number;
                     private: boolean;
@@ -110,11 +110,6 @@ export interface MALEntry {
     update_on_import: number;
 }
 
-export interface AnilistParams {
-    username: string;
-    isCustomList?: boolean;
-}
-
 const ANILIST_QUERY = `
     query($userId:Int,$userName:String,$type:MediaType){
         MediaListCollection(userId:$userId,userName:$userName,type:$type){
@@ -130,7 +125,14 @@ const ANILIST_QUERY = `
     }
 `;
 
+export enum AnilistTypeEnum {
+    ANIME = 'ANIME',
+    MANGA = 'MANGA',
+}
+
 enum AnilistStatusEnum {
+    CURRENT = 'Current',
+    REPEATING = 'Repeating',
     COMPLETED = 'Completed',
     PLANNING = 'Planning',
     DROPPED = 'Dropped',
@@ -138,11 +140,41 @@ enum AnilistStatusEnum {
     WATCHING = 'Watching',
     REWATCHING = 'Rewatching',
 }
+
+export interface AnilistParams {
+    username: string;
+    type: AnilistTypeEnum;
+    isCustomList?: boolean;
+}
+
+const getReadStatus = (
+    anilistStatus: AnilistStatusEnum,
+): ImportReadStatusEnum => {
+    switch (anilistStatus) {
+        case AnilistStatusEnum.CURRENT:
+            return ImportReadStatusEnum.READING;
+        case AnilistStatusEnum.REPEATING:
+            return ImportReadStatusEnum.READING;
+        case AnilistStatusEnum.COMPLETED:
+            return ImportReadStatusEnum.COMPLETED;
+        case AnilistStatusEnum.DROPPED:
+            return ImportReadStatusEnum.DROPPED;
+        case AnilistStatusEnum.PAUSED:
+            return ImportReadStatusEnum.ON_HOLD;
+        case AnilistStatusEnum.PLANNING:
+            return ImportReadStatusEnum.PLAN_TO_READ;
+        default:
+            return ImportReadStatusEnum.PLAN_TO_READ;
+    }
+};
+
 const getWatchStatus = (
     anilistStatus: AnilistStatusEnum,
 ): ImportWatchStatusEnum => {
     switch (anilistStatus) {
         case AnilistStatusEnum.WATCHING:
+            return ImportWatchStatusEnum.WATCHING;
+        case AnilistStatusEnum.REWATCHING:
             return ImportWatchStatusEnum.WATCHING;
         case AnilistStatusEnum.COMPLETED:
             return ImportWatchStatusEnum.COMPLETED;
@@ -152,8 +184,8 @@ const getWatchStatus = (
             return ImportWatchStatusEnum.ON_HOLD;
         case AnilistStatusEnum.PLANNING:
             return ImportWatchStatusEnum.PLAN_TO_WATCH;
-        case AnilistStatusEnum.REWATCHING:
-            return ImportWatchStatusEnum.REWATCHING;
+        default:
+            return ImportWatchStatusEnum.PLAN_TO_WATCH;
     }
 };
 
@@ -163,7 +195,12 @@ const getWatchStatus = (
 const fetchAnilistData = async ({
     username,
     isCustomList = false,
-}: AnilistParams): Promise<ImportWatchArgs[]> => {
+    type,
+}: AnilistParams): Promise<ImportWatchArgs[] | ImportReadArgs[]> => {
+    if (!type) {
+        throw new Error('Required arument `type` is missing');
+    }
+
     const res = await fetch('https://graphql.anilist.co', {
         method: 'POST',
         headers: {
@@ -174,7 +211,7 @@ const fetchAnilistData = async ({
             query: ANILIST_QUERY,
             variables: {
                 userName: username,
-                type: 'ANIME',
+                type,
             },
         }),
     });
@@ -192,13 +229,18 @@ const fetchAnilistData = async ({
         throw Error('Failed to parse data');
     }
 
-    return transformAnilistData(data, isCustomList);
+    switch (type) {
+        case AnilistTypeEnum.ANIME:
+            return transformAnilistAnimeData(data, isCustomList);
+        case AnilistTypeEnum.MANGA:
+            return transformAnilistMangaData(data, isCustomList);
+    }
 };
 
 /**
  * Transforms Anilist API response to standard format
  */
-const transformAnilistData = (
+const transformAnilistAnimeData = (
     data: Response,
     isCustomList = false,
 ): ImportWatchArgs[] => {
@@ -214,12 +256,12 @@ const transformAnilistData = (
                 const watchStatus = isCustomList
                     ? list.name
                     : getWatchStatus(
-                          list.name === AnilistStatusEnum.REWATCHING
-                              ? AnilistStatusEnum.WATCHING
-                              : list.isCompletedList
+                        list.name === AnilistStatusEnum.REWATCHING
+                            ? AnilistStatusEnum.WATCHING
+                            : list.isCompletedList
                                 ? AnilistStatusEnum.COMPLETED
                                 : list.name,
-                      );
+                    );
 
                 const MALEntry: ImportWatchArgs = {
                     series_animedb_id: entry.media.idMal,
@@ -242,6 +284,51 @@ const transformAnilistData = (
 };
 
 /**
+ * Transforms Anilist API response to standard format
+ */
+const transformAnilistMangaData = (
+    data: Response,
+    isCustomList = false,
+): ImportReadArgs[] => {
+    const reformatted: ImportReadArgs[] = [];
+
+    data.data.MediaListCollection.lists.forEach((list) => {
+        if (isCustomList ? list.isCustomList : !list.isCustomList) {
+            list.entries.forEach((entry) => {
+                if (!Number.isInteger(entry.media.idMal)) {
+                    return;
+                }
+
+                const readStatus = isCustomList
+                    ? (list.name as unknown as ImportReadStatusEnum)
+                    : getReadStatus(
+                        list.isCompletedList
+                            ? AnilistStatusEnum.COMPLETED
+                            : list.name,
+                    );
+
+                const readEntry: ImportReadArgs = {
+                    manga_mangadb_id: entry.media.idMal,
+                    my_read_chapters: entry.progress,
+                    my_read_volumes: entry.progressVolumes ?? 0,
+                    my_score: entry.score >= 1 ? Math.round(entry.score) : 0,
+                    my_status: readStatus,
+                    my_comments:
+                        entry.notes && entry.notes.length > 0
+                            ? String(entry.notes)
+                            : {},
+                    my_times_read: entry.repeat,
+                };
+
+                reformatted.push(readEntry);
+            });
+        }
+    });
+
+    return reformatted;
+};
+
+/**
  * React hook for fetching an Anilist user's anime list
  */
 export function useAnilist({
@@ -249,11 +336,11 @@ export function useAnilist({
 }: {
     options?: Omit<
         Parameters<
-            typeof useMutation<ImportWatchArgs[], Error, AnilistParams, unknown>
+            typeof useMutation<ImportWatchArgs[] | ImportReadArgs[], Error, AnilistParams, unknown>
         >[0],
         'mutationFn'
     >;
-} = {}): UseMutationResult<ImportWatchArgs[], Error, AnilistParams, unknown> {
+} = {}): UseMutationResult<ImportWatchArgs[] | ImportReadArgs[], Error, AnilistParams, unknown> {
     return useMutation({
         mutationFn: fetchAnilistData,
         ...options,

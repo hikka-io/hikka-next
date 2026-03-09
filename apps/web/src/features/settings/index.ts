@@ -17,7 +17,7 @@ export { default as ProfilePrivacy } from './profile/privacy';
 export { default as ProfileUsername } from './profile/username';
 
 // List Settings - Readlist
-export { default as ReadlistSettings } from './list/readlist';
+export { default as ReadlistSettings } from './list/readlist/readlist';
 
 // List Settings - Watchlist
 export { default as WatchlistSettings } from './list/watchlist/watchlist';

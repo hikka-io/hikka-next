@@ -35,7 +35,6 @@ export enum ImportWatchStatusEnum {
     PLAN_TO_WATCH = 'Plan to Watch',
     ON_HOLD = 'On-Hold',
     DROPPED = 'Dropped',
-    REWATCHING = 'Rewatching',
 }
 
 /**
