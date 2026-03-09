@@ -40,13 +40,17 @@ export interface NovelResponse {
     slug: string;
     read: ReadResponseBase[];
     comments_count: number;
+    created: number;
+    updated: number;
+    native_scored_by: number;
+    mal_id: number;
 }
 
 /**
  * Paginated novel response
  */
 export interface NovelPaginationResponse
-    extends PaginatedResponse<NovelResponse> {}
+    extends PaginatedResponse<NovelResponse> { }
 
 /**
  * Novel search parameters
@@ -75,10 +79,7 @@ export interface NovelInfoResponse extends NovelResponse {
     stats: ReadStatsResponse;
     synopsis_en: string | null;
     synopsis_ua: string | null;
-    updated: number;
     synonyms: string[];
-    comments_count: number;
     has_franchise: boolean;
-    mal_id: number;
     nsfw: boolean;
 }

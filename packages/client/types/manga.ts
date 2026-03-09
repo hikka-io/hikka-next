@@ -44,13 +44,17 @@ export interface MangaResponse {
     slug: string;
     read: ReadResponseBase[];
     comments_count: number;
+    created: number;
+    updated: number;
+    native_scored_by: number;
+    mal_id: number;
 }
 
 /**
  * Paginated manga response
  */
 export interface MangaPaginationResponse
-    extends PaginatedResponse<MangaResponse> {}
+    extends PaginatedResponse<MangaResponse> { }
 
 /**
  * Manga search parameters
@@ -91,20 +95,11 @@ export interface MangaInfoResponse extends MangaResponse {
     authors: ContentAuthorResponse[];
     magazines: MagazineResponse[];
     external: ExternalResponse[];
-    start_date: number | null;
-    end_date: number | null;
     genres: GenreResponse[];
-    title_original: string | null;
     stats: ReadStatsResponse;
     synopsis_en: string | null;
     synopsis_ua: string | null;
-    chapters: number | null;
-    volumes: number | null;
-    updated: number;
     synonyms: string[];
-    comments_count: number;
     has_franchise: boolean;
-    translated_ua: boolean;
-    scored_by: number;
-    mal_id: number;
+    nsfw: boolean;
 }

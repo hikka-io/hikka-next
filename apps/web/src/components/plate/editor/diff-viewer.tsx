@@ -40,9 +40,9 @@ const InlineVoidPlugin = createPlatePlugin({
 });
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
-    delete: 'bg-destructive-foreground/30',
-    insert: 'bg-success-foreground/30',
-    update: 'bg-info-foreground/30',
+    delete: 'bg-destructive text-destructive-foreground',
+    insert: 'bg-success text-success-foreground',
+    update: 'bg-info text-info-foreground',
 };
 
 const describeUpdate = ({ newProperties, properties }: DiffUpdate) => {

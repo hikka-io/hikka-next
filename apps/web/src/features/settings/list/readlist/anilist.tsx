@@ -1,6 +1,6 @@
 'use client';
 
-import { ContentTypeEnum, ImportWatchArgs } from '@hikka/client';
+import { ContentTypeEnum, ImportReadArgs, ImportWatchArgs } from '@hikka/client';
 import { AnilistTypeEnum, useAnilist } from '@hikka/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { toast } from 'sonner';
@@ -10,20 +10,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import FoundList from '../components/found-list';
+import FoundList from '../../components/list/found-list';
 
 interface Props {
-    watchList: ImportWatchArgs[];
-    setWatchList: Dispatch<SetStateAction<ImportWatchArgs[]>>;
+    readList: ImportReadArgs[];
+    setReadList: Dispatch<SetStateAction<ImportReadArgs[]>>;
     importing: boolean;
 }
 
-const Component = ({ watchList, setWatchList, importing }: Props) => {
+const Component = ({ readList, setReadList, importing }: Props) => {
     const [aniListUsername, setAniListUsername] = useState('');
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
             onSuccess: (data) => {
-                setWatchList(data as ImportWatchArgs[]);
+                setReadList(data as ImportReadArgs[]);
             },
             onError: (error: Error) => {
                 toast.error(error.message);
@@ -32,7 +32,7 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
     });
 
     const getFromAniList = async () => {
-        fetchAnilist({ username: aniListUsername, type: AnilistTypeEnum.ANIME });
+        fetchAnilist({ username: aniListUsername, type: AnilistTypeEnum.MANGA });
     };
 
     return (
@@ -64,8 +64,8 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
                     </Button>
                 </div>
             </div>
-            {watchList.length > 0 && (
-                <FoundList list={watchList} type={ContentTypeEnum.ANIME} />
+            {readList.length > 0 && (
+                <FoundList list={readList} type={ContentTypeEnum.MANGA} />
             )}
         </div>
     );
