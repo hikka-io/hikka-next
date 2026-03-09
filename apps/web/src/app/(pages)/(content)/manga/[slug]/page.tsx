@@ -1,22 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { FC } from 'react';
 
-import { CommentList as Comments } from '@/features/comments';
-import {
-    ContentActions as Actions,
-    ContentCharacters as Characters,
-    Collections,
-    ContentArticles,
-    ContentCover as Cover,
-    ContentDescription as Description,
-    ContentDetails as Details,
-    Followings,
-    Franchise,
-    ContentLinks as Links,
-    ContentStaff as Staff,
-    ContentStats as Stats,
-    ContentTitle as Title
-} from '@/features/content';
+import { ContentDetailPage } from '@/features/content';
 
 interface Props {
     params: {
@@ -26,48 +11,13 @@ interface Props {
 
 const MangaPage: FC<Props> = async (props) => {
     const params = await props.params;
-
     const { slug } = params;
 
     return (
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
-            <div className="flex flex-col gap-4 lg:col-span-1">
-                <Cover content_type={ContentTypeEnum.MANGA} />
-                <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
-                    <Actions content_type={ContentTypeEnum.MANGA} />
-                </div>
-            </div>
-            <div className="flex flex-col gap-8 lg:col-span-2">
-                <Title content_type={ContentTypeEnum.MANGA} />
-                <Description content_type={ContentTypeEnum.MANGA} />
-                <Details
-                    className="lg:hidden"
-                    content_type={ContentTypeEnum.MANGA}
-                />
-                <Characters content_type={ContentTypeEnum.MANGA} />
-                <Franchise content_type={ContentTypeEnum.MANGA} />
-                <Staff content_type={ContentTypeEnum.MANGA} />
-            </div>
-
-            <div className="flex flex-col gap-8 lg:col-span-1">
-                <Details
-                    className="hidden lg:flex"
-                    content_type={ContentTypeEnum.MANGA}
-                />
-                <Stats content_type={ContentTypeEnum.MANGA} />
-                <Followings content_type={ContentTypeEnum.MANGA} />
-                <ContentArticles content_type={ContentTypeEnum.MANGA} />
-                <Collections content_type={ContentTypeEnum.MANGA} />
-                <Links content_type={ContentTypeEnum.MANGA} />
-            </div>
-            <div className="flex flex-col gap-8 lg:col-span-2 lg:col-start-2">
-                <Comments
-                    preview
-                    slug={slug}
-                    content_type={ContentTypeEnum.MANGA}
-                />
-            </div>
-        </div>
+        <ContentDetailPage
+            contentType={ContentTypeEnum.MANGA}
+            slug={slug}
+        />
     );
 };
 

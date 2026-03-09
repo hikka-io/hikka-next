@@ -25,12 +25,14 @@ const prefetchQueries = async ({ params: { slug }, queryClient }: Props) => {
         prefetchCharacterManga({ slug, clientConfig, queryClient }),
         prefetchCharacterNovel({ slug, clientConfig, queryClient }),
         prefetchCharacterVoices({ slug, clientConfig, queryClient }),
-        prefetchFavouriteStatus({
-            slug,
-            contentType: ContentTypeEnum.CHARACTER,
-            clientConfig,
-            queryClient,
-        }),
+        clientConfig.authToken
+            ? prefetchFavouriteStatus({
+                  slug,
+                  contentType: ContentTypeEnum.CHARACTER,
+                  clientConfig,
+                  queryClient,
+              })
+            : undefined,
     ]);
 };
 

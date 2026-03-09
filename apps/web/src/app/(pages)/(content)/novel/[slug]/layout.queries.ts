@@ -26,6 +26,7 @@ const prefetchQueries = async ({ params: { slug }, queryClient }: Props) => {
             slug,
             contentType: ContentTypeEnum.NOVEL,
             clientConfig,
+            queryClient,
         }),
         clientConfig.authToken
             ? prefetchReadBySlug({

@@ -1,6 +1,8 @@
 import { PersonResponse } from '@hikka/client';
 import { getHikkaClient } from '@hikka/react/core';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
+
+import { generateMetadata as _generateMetadata } from '@/utils/metadata';
 
 export interface MetadataProps {
     params: {
@@ -8,31 +10,22 @@ export interface MetadataProps {
     };
 }
 
-export default async function generateMetadata(
-    { params }: MetadataProps,
-    parent: ResolvingMetadata,
-): Promise<Metadata> {
-    const parentMetadata = await parent;
+export default async function generateMetadata({
+    params,
+}: MetadataProps): Promise<Metadata> {
     const slug = params.slug;
-
     const client = getHikkaClient();
+
     const person: PersonResponse = await client.people.getPersonBySlug(slug);
 
     const title = person.name_ua || person.name_en || person.name_native || '';
 
-    return {
-        title: { default: title, template: title + ' / %s / Hikka' },
-        description: undefined,
-        openGraph: {
-            siteName: parentMetadata.openGraph?.siteName,
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: undefined,
-            images: person.image ?? undefined,
+    return _generateMetadata({
+        title: {
+            default: title,
+            template: `%s / ${title} / Hikka`,
         },
-        twitter: {
-            title: { default: title, template: title + ' / %s / Hikka' },
-            description: undefined,
-            images: person.image ?? undefined,
-        },
-    };
+        description: person.description_ua || undefined,
+        images: person.image ?? undefined,
+    });
 }
