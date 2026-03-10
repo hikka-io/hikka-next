@@ -6,6 +6,7 @@ import {
     createRootRouteWithContext,
 } from '@tanstack/react-router';
 
+import NotFoundPage from '@/components/not-found-page';
 import { Providers } from '@/features/common';
 
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
@@ -25,12 +26,21 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             },
             { name: 'theme-color', content: 'black' },
             { name: 'color-scheme', content: 'dark' },
+            {
+                name: 'keywords',
+                content:
+                    'онлайн перегляд аніме,аніме,аніме українською,мультфільми українською,дивитись аніме,аніме для дорослих,anime,аніме романтика,аніме комедія,аніме школа,хіка,хікка,hikka,hikka.io,хіка іо,енциклопедія аніме,енциклопедія манги,енциклопедія ранобе,анітуб,anitube,аніме жанри,онлайн на українській,жанри аніме,anime ukr,анітюб,Найкраще аніме,аніме портал,Аніме Портал,аніме культура,манга,манґа,ранобе,читати ранобе,читати мангу,читати манґу',
+            },
+        ],
+        links: [
+            { rel: 'icon', href: '/favicon.ico' },
+            { rel: 'apple-touch-icon', href: '/apple-icon.png' },
         ],
         scripts: [
             {
                 defer: true,
                 'data-domain': 'hikka.io',
-                src: 'https://plausible.hikka.io/js/script.js',
+                src: '/js/script.js',
             },
         ],
     }),
@@ -40,6 +50,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         return { userUI, userStylesCSS };
     },
     component: RootLayout,
+    notFoundComponent: NotFoundPage,
 });
 
 function RootLayout() {

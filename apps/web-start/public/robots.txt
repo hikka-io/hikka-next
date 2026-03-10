@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://hikka.io
+
+# Sitemaps
+Sitemap: https://hikka.io/sitemap.xml
