@@ -1,5 +1,5 @@
 import { HikkaClient } from '@hikka/client';
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
 const client = new HikkaClient({
     baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
