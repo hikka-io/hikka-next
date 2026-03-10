@@ -2,9 +2,11 @@
 
 import { VoteResponse } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import { contentVoteOptions } from '@/options/api/vote';
 import { UseVoteMutationParams, UseVoteStatusParams } from '@/types/vote';
 
 /**
@@ -15,9 +17,9 @@ export function useContentVote({
     slug,
     ...rest
 }: UseVoteStatusParams & QueryParams<VoteResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.vote.status(contentType, slug),
-        queryFn: (client) => client.vote.getContentVote(contentType, slug),
+        ...contentVoteOptions(client, { contentType, slug }),
         ...rest,
     });
 }

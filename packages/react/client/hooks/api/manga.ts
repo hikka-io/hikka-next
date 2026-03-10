@@ -6,12 +6,17 @@ import {
     MangaPaginationResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
+import {
+    mangaBySlugOptions,
+    mangaCharactersOptions,
+    searchMangasOptions,
+} from '@/options/api/manga';
 import {
     UseMangaCharactersParams,
     UseMangaInfoParams,
@@ -25,9 +30,9 @@ export function useMangaBySlug<TResult = MangaInfoResponse>({
     slug,
     ...rest
 }: UseMangaInfoParams & QueryParams<MangaInfoResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<MangaInfoResponse, Error, TResult>({
-        queryKey: queryKeys.manga.details(slug),
-        queryFn: (client) => client.manga.getMangaBySlug(slug),
+        ...mangaBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -41,13 +46,14 @@ export function useMangaCharacters({
     ...rest
 }: UseMangaCharactersParams &
     InfiniteQueryParams<ContentCharacterPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        mangaCharactersOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.manga.characters(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.getMangaCharacters(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -60,13 +66,14 @@ export function useSearchMangas({
     paginationArgs,
     ...rest
 }: UseSearchMangasParams & InfiniteQueryParams<MangaPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchMangasOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.manga.search({ args, paginationArgs }),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.searchMangas(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

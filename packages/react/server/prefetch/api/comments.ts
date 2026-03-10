@@ -1,6 +1,9 @@
-import { CommentListResponse, CommentResponse } from '@hikka/client';
-
-import { queryKeys } from '@/core';
+import {
+    commentListOptions,
+    commentThreadOptions,
+    contentCommentsOptions,
+    latestCommentsOptions,
+} from '@/options/api/comments';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -19,15 +22,10 @@ import {
 export async function prefetchCommentList({
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<CommentListResponse> &
-    UseCommentListParams = {}) {
+}: PrefetchInfiniteQueryParams & UseCommentListParams = {}) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.comments.list(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.comments.getCommentList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            commentListOptions(client, { paginationArgs }),
         ...rest,
     });
 }
@@ -38,10 +36,10 @@ export async function prefetchCommentList({
 export async function prefetchCommentThread({
     commentReference,
     ...rest
-}: PrefetchQueryParams<CommentResponse> & UseCommentThreadParams) {
+}: PrefetchQueryParams & UseCommentThreadParams) {
     return prefetchQuery({
-        queryKey: queryKeys.comments.thread(commentReference),
-        queryFn: (client) => client.comments.getCommentThread(commentReference),
+        optionsFactory: (client) =>
+            commentThreadOptions(client, { commentReference }),
         ...rest,
     });
 }
@@ -54,14 +52,13 @@ export async function prefetchContentComments({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<CommentListResponse> &
-    UseContentCommentsParams) {
+}: PrefetchInfiniteQueryParams & UseContentCommentsParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.comments.content(contentType, slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.comments.getContentComments(contentType, slug, {
-                page,
-                size: paginationArgs?.size,
+        optionsFactory: (client) =>
+            contentCommentsOptions(client, {
+                contentType,
+                slug,
+                paginationArgs,
             }),
         ...rest,
     });
@@ -72,10 +69,9 @@ export async function prefetchContentComments({
  */
 export async function prefetchLatestComments({
     ...rest
-}: PrefetchQueryParams<CommentResponse[]> & UseLatestCommentsParams = {}) {
+}: PrefetchQueryParams & UseLatestCommentsParams = {}) {
     return prefetchQuery({
-        queryKey: queryKeys.comments.latest(),
-        queryFn: (client) => client.comments.getLatestComments(),
+        optionsFactory: (client) => latestCommentsOptions(client),
         ...rest,
     });
 }

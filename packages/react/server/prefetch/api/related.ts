@@ -1,6 +1,4 @@
-import { FranchiseResponse } from '@hikka/client';
-
-import { queryKeys } from '@/core';
+import { franchiseOptions } from '@/options/api/related';
 import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import { UseFranchiseParams } from '@/types/related';
 
@@ -11,10 +9,10 @@ export async function prefetchFranchise({
     contentType,
     slug,
     ...rest
-}: PrefetchQueryParams<FranchiseResponse> & UseFranchiseParams) {
+}: PrefetchQueryParams & UseFranchiseParams) {
     return prefetchQuery({
-        queryKey: queryKeys.related.franchise(contentType, slug),
-        queryFn: (client) => client.related.getFranchise(contentType, slug),
+        optionsFactory: (client) =>
+            franchiseOptions(client, { contentType, slug }),
         ...rest,
     });
 }

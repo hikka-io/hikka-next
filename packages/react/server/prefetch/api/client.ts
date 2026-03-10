@@ -1,10 +1,8 @@
 import {
-    ClientInfoResponse,
-    ClientPaginationResponse,
-    ClientResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    clientByReferenceOptions,
+    clientFullDetailsOptions,
+    clientListOptions,
+} from '@/options/api/client';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -22,10 +20,10 @@ import {
 export async function prefetchClientByReference({
     reference,
     ...rest
-}: PrefetchQueryParams<ClientResponse> & UseClientByReferenceParams) {
+}: PrefetchQueryParams & UseClientByReferenceParams) {
     return prefetchQuery({
-        queryKey: queryKeys.client.byReference(reference),
-        queryFn: (client) => client.client.getClientByReference(reference),
+        optionsFactory: (client) =>
+            clientByReferenceOptions(client, { reference }),
         ...rest,
     });
 }
@@ -36,10 +34,10 @@ export async function prefetchClientByReference({
 export async function prefetchClientFullDetails({
     reference,
     ...rest
-}: PrefetchQueryParams<ClientInfoResponse> & UseFullClientInfoParams) {
+}: PrefetchQueryParams & UseFullClientInfoParams) {
     return prefetchQuery({
-        queryKey: queryKeys.client.fullInfo(reference),
-        queryFn: (client) => client.client.getClientFullDetails(reference),
+        optionsFactory: (client) =>
+            clientFullDetailsOptions(client, { reference }),
         ...rest,
     });
 }
@@ -50,15 +48,10 @@ export async function prefetchClientFullDetails({
 export async function prefetchClientList({
     paginationArgs = { page: 1, size: 15 },
     ...rest
-}: PrefetchInfiniteQueryParams<ClientPaginationResponse> &
-    UseClientListParams = {}) {
+}: PrefetchInfiniteQueryParams & UseClientListParams = {}) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.client.list(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.client.getClientList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            clientListOptions(client, { paginationArgs }),
         ...rest,
     });
 }

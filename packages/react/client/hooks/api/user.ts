@@ -3,8 +3,16 @@
 import { ActivityResponse, UserResponse, UserUI } from '@hikka/client';
 import React from 'react';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
+import {
+    searchUsersOptions,
+    sessionOptions,
+    sessionUserUIOptions,
+    userActivityOptions,
+    userByUsernameOptions,
+    userUIOptions,
+} from '@/options/api/user';
 import {
     UseSessionParams,
     UseUserActivityParams,
@@ -20,9 +28,9 @@ export function useSearchUsers({
     args,
     ...rest
 }: UseUserSearchParams & QueryParams<UserResponse[]>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.user.search(args),
-        queryFn: (client) => client.user.searchUsers(args),
+        ...searchUsersOptions(client, { args }),
         ...rest,
     });
 }
@@ -34,9 +42,9 @@ export function useSession({
     options,
     ...rest
 }: QueryParams<UserResponse> & UseSessionParams = {}) {
+    const { client } = useHikkaClient();
     const query = useQuery({
-        queryKey: queryKeys.user.me(),
-        queryFn: (client) => client.user.getCurrentUser(),
+        ...sessionOptions(client),
         options: {
             authProtected: true,
             ...options,
@@ -62,9 +70,9 @@ export function useUserActivity({
     username,
     ...rest
 }: UseUserActivityParams & QueryParams<ActivityResponse[]>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.user.activity(username),
-        queryFn: (client) => client.user.getUserActivity(username),
+        ...userActivityOptions(client, { username }),
         ...rest,
     });
 }
@@ -76,9 +84,9 @@ export function useUserByUsername({
     username,
     ...rest
 }: UseUserByUsernameParams) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.user.byUsername(username),
-        queryFn: (client) => client.user.getUserByUsername(username),
+        ...userByUsernameOptions(client, { username }),
         ...rest,
     });
 }
@@ -90,9 +98,9 @@ export function useUserUI<TResult = UserUI>({
     username,
     ...rest
 }: UseUserUIParams & QueryParams<UserUI, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<UserUI, Error, TResult>({
-        queryKey: queryKeys.user.ui(username),
-        queryFn: (client) => client.user.getUserUI(username),
+        ...userUIOptions(client, { username }),
         ...rest,
     });
 }
@@ -104,9 +112,9 @@ export function useSessionUserUI<TResult = UserUI>({
     options,
     ...rest
 }: QueryParams<UserUI, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<UserUI, Error, TResult>({
-        queryKey: queryKeys.user.ui('me'),
-        queryFn: (client) => client.user.getCurrentUserUI(),
+        ...sessionUserUIOptions(client),
         options: {
             authProtected: true,
             ...options,

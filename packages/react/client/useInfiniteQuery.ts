@@ -1,6 +1,6 @@
 'use client';
 
-import { HikkaClient, PaginatedResponse, PaginationArgs } from '@hikka/client';
+import { PaginatedResponse, PaginationArgs } from '@hikka/client';
 import {
     InfiniteData,
     UseInfiniteQueryOptions,
@@ -31,6 +31,7 @@ export interface InfiniteQueryParams<
         >,
         'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
     > & {
+        authProtected?: boolean;
         initialPageParam?: number;
     };
     /** Pagination arguments */
@@ -40,7 +41,7 @@ export interface InfiniteQueryParams<
 
 /**
  * Hook for creating infinite queries with the Hikka client.
- * Automatically provides the client to the queryFn.
+ * Accepts standard TanStack queryFn and pagination options.
  */
 export function useInfiniteQuery<
     TItem,
@@ -49,13 +50,14 @@ export function useInfiniteQuery<
 >({
     queryKey,
     queryFn,
+    initialPageParam,
+    getNextPageParam,
     options,
 }: {
     queryKey: TQueryKey;
-    queryFn: (
-        client: HikkaClient,
-        pageParam: number,
-    ) => Promise<PaginatedResponse<TItem>>;
+    queryFn?: (...args: any[]) => PaginatedResponse<TItem> | Promise<PaginatedResponse<TItem>>;
+    initialPageParam?: number;
+    getNextPageParam?: (...args: any[]) => number | undefined | null;
     options?: Omit<
         UseInfiniteQueryOptions<
             PaginatedResponse<TItem>,
@@ -65,12 +67,10 @@ export function useInfiniteQuery<
             TQueryKey,
             number
         >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
+        'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
     > & {
-        getNextPageParam?: (
-            lastPage: PaginatedResponse<TItem>,
-        ) => number | undefined | null;
         authProtected?: boolean;
+        initialPageParam?: number;
     };
 }) {
     const { ref, inView } = useInView();
@@ -84,18 +84,14 @@ export function useInfiniteQuery<
         number
     >({
         queryKey,
-        queryFn: ({ pageParam }) => queryFn(client, pageParam),
-        initialPageParam: 1, // Default to page 1
-        getNextPageParam: (lastPage) => {
-            // Use custom getNextPageParam if provided
-            if (options?.getNextPageParam) {
-                return options.getNextPageParam(lastPage);
-            }
-
-            // Default implementation for pagination
-            const nextPage = lastPage.pagination.page + 1;
-            return nextPage > lastPage.pagination.pages ? null : nextPage;
-        },
+        queryFn: queryFn!,
+        initialPageParam: options?.initialPageParam ?? initialPageParam ?? 1,
+        getNextPageParam:
+            getNextPageParam ??
+            ((lastPage) => {
+                const nextPage = lastPage.pagination.page + 1;
+                return nextPage > lastPage.pagination.pages ? null : nextPage;
+            }),
         ...options,
         enabled: options?.authProtected
             ? !!client.getAuthToken() && options?.enabled

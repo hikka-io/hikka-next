@@ -1,10 +1,8 @@
 import {
-    ContentCharacterPaginationResponse,
-    NovelInfoResponse,
-    NovelPaginationResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    novelBySlugOptions,
+    novelCharactersOptions,
+    searchNovelsOptions,
+} from '@/options/api/novel';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -22,10 +20,9 @@ import {
 export async function prefetchNovelBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<NovelInfoResponse> & UseNovelInfoParams) {
+}: PrefetchQueryParams & UseNovelInfoParams) {
     return prefetchQuery({
-        queryKey: queryKeys.novel.details(slug),
-        queryFn: (client) => client.novel.getNovelBySlug(slug),
+        optionsFactory: (client) => novelBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -37,15 +34,10 @@ export async function prefetchNovelCharacters({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<ContentCharacterPaginationResponse> &
-    UseNovelCharactersParams) {
+}: PrefetchInfiniteQueryParams & UseNovelCharactersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.novel.characters(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.getNovelCharacters(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            novelCharactersOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -57,15 +49,10 @@ export async function prefetchSearchNovels({
     args,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<NovelPaginationResponse> &
-    UseSearchNovelsParams) {
+}: PrefetchInfiniteQueryParams & UseSearchNovelsParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.novel.search({ args, paginationArgs }),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.searchNovels(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchNovelsOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }

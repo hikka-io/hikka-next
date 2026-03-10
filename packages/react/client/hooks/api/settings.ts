@@ -2,9 +2,11 @@
 
 import { IgnoredNotificationsResponse, UserUI } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import { ignoredNotificationsOptions } from '@/options/api/settings';
 import {
     UseChangeDescriptionParams,
     UseChangeEmailParams,
@@ -27,9 +29,9 @@ export function useIgnoredNotifications({
     ...rest
 }: QueryParams<IgnoredNotificationsResponse> &
     UseIgnoredNotificationsParams = {}) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.settings.ignoredNotifications(),
-        queryFn: (client) => client.settings.getIgnoredNotifications(),
+        ...ignoredNotificationsOptions(client),
         ...rest,
     });
 }

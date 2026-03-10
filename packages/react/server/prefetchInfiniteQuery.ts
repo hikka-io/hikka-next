@@ -10,7 +10,7 @@ import { getHikkaClient, getQueryClient } from '@/core';
 /**
  * Params for prefetching infinite queries
  */
-export interface PrefetchInfiniteQueryParams<T> {
+export interface PrefetchInfiniteQueryParams {
     /** Pagination arguments */
     paginationArgs?: PaginationArgs;
     /** Hikka client config */
@@ -22,46 +22,22 @@ export interface PrefetchInfiniteQueryParams<T> {
 }
 
 /**
- * Options for prefetching an infinite query
- */
-export interface PrefetchInfiniteQueryOptions<
-    TQueryFnData,
-    TError = Error,
-    TData = TQueryFnData,
-    TQueryKey extends readonly unknown[] = readonly unknown[],
-> {
-    queryKey: TQueryKey;
-    queryFn: (client: HikkaClient, pageParam: number) => Promise<TQueryFnData>;
-    clientConfig?: HikkaClientConfig;
-    queryClientConfig?: QueryClientConfig;
-    queryClient?: QueryClient;
-}
-
-/**
  * Prefetches data for an infinite query and dehydrates it for use in server components.
- *
- * @param queryKey The query key to use
- * @param queryFn The function that will fetch the data
- * @param clientConfig The Hikka client config
- * @param queryClientConfig The query client config
  */
-export async function prefetchInfiniteQuery<
-    TQueryFnData,
-    TError = Error,
-    TData = TQueryFnData,
-    TQueryKey extends readonly unknown[] = readonly unknown[],
->({
-    queryKey,
-    queryFn,
+export async function prefetchInfiniteQuery<TData>({
     clientConfig,
     queryClientConfig,
     queryClient: queryClientProp,
-}: PrefetchInfiniteQueryOptions<
-    TQueryFnData,
-    TError,
-    InfiniteData<TData>,
-    TQueryKey
->): Promise<InfiniteData<TData> | undefined> {
+    optionsFactory,
+}: PrefetchInfiniteQueryParams & {
+    optionsFactory: (
+        client: HikkaClient,
+    ) => {
+        queryKey: readonly unknown[];
+        queryFn?: (...args: any[]) => TData | Promise<TData>;
+        initialPageParam: number;
+    };
+}): Promise<InfiniteData<Awaited<TData>> | undefined> {
     const queryClient =
         queryClientProp ??
         (queryClientConfig
@@ -71,13 +47,13 @@ export async function prefetchInfiniteQuery<
         ? getHikkaClient(clientConfig)
         : getHikkaClient();
 
-    // Prefetch the data
+    const opts = optionsFactory(hikkaClient);
+
     await queryClient.prefetchInfiniteQuery({
-        queryKey,
-        queryFn: (context) => queryFn(hikkaClient, context.pageParam as number),
-        initialPageParam: 1, // Default to page 1
+        queryKey: opts.queryKey,
+        queryFn: opts.queryFn,
+        initialPageParam: opts.initialPageParam,
     });
 
-    // Return the prefetched data
-    return queryClient.getQueryData<InfiniteData<TData>>(queryKey);
+    return queryClient.getQueryData<InfiniteData<Awaited<TData>>>(opts.queryKey);
 }

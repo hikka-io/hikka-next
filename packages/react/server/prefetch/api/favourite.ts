@@ -1,10 +1,9 @@
-import {
-    FavouriteItem,
-    FavouritePaginationResponse,
-    FavouriteResponse,
-} from '@hikka/client';
+import { FavouriteItem } from '@hikka/client';
 
-import { queryKeys } from '@/core';
+import {
+    favouriteStatusOptions,
+    userFavouritesOptions,
+} from '@/options/api/favourite';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -22,11 +21,10 @@ export async function prefetchFavouriteStatus({
     contentType,
     slug,
     ...rest
-}: PrefetchQueryParams<FavouriteResponse> & UseFavouriteStatusParams) {
+}: PrefetchQueryParams & UseFavouriteStatusParams) {
     return prefetchQuery({
-        queryKey: queryKeys.favourite.status(contentType, slug),
-        queryFn: (client) =>
-            client.favourite.getFavouriteStatus(contentType, slug),
+        optionsFactory: (client) =>
+            favouriteStatusOptions(client, { contentType, slug }),
         ...rest,
     });
 }
@@ -39,18 +37,13 @@ export async function prefetchUserFavourites<TItem extends FavouriteItem>({
     username,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<FavouritePaginationResponse<TItem>> &
-    UseFavouriteListParams) {
+}: PrefetchInfiniteQueryParams & UseFavouriteListParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.favourite.list(
-            contentType,
-            username,
-            paginationArgs,
-        ),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.favourite.getUserFavourites<TItem>(contentType, username, {
-                page,
-                size: paginationArgs?.size,
+        optionsFactory: (client) =>
+            userFavouritesOptions<TItem>(client, {
+                contentType,
+                username,
+                paginationArgs,
             }),
         ...rest,
     });

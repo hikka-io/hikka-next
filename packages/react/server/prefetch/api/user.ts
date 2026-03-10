@@ -1,9 +1,13 @@
-import { ActivityResponse, UserResponse, UserUI } from '@hikka/client';
-
-import { queryKeys } from '@/core';
+import {
+    searchUsersOptions,
+    sessionOptions,
+    sessionUserUIOptions,
+    userActivityOptions,
+    userByUsernameOptions,
+    userUIOptions,
+} from '@/options/api/user';
 import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseSessionParams,
     UseUserActivityParams,
     UseUserByUsernameParams,
     UseUserSearchParams,
@@ -16,10 +20,9 @@ import {
 export async function prefetchSearchUsers({
     args,
     ...rest
-}: PrefetchQueryParams<UserResponse[]> & UseUserSearchParams) {
+}: PrefetchQueryParams & UseUserSearchParams) {
     return prefetchQuery({
-        queryKey: queryKeys.user.search(args),
-        queryFn: (client) => client.user.searchUsers(args),
+        optionsFactory: (client) => searchUsersOptions(client, { args }),
         ...rest,
     });
 }
@@ -29,10 +32,9 @@ export async function prefetchSearchUsers({
  */
 export async function prefetchSession({
     ...rest
-}: PrefetchQueryParams<UserResponse> & UseSessionParams = {}) {
+}: PrefetchQueryParams = {}) {
     return prefetchQuery({
-        queryKey: queryKeys.user.me(),
-        queryFn: (client) => client.user.getCurrentUser(),
+        optionsFactory: (client) => sessionOptions(client),
         ...rest,
     });
 }
@@ -43,10 +45,9 @@ export async function prefetchSession({
 export async function prefetchUserActivity({
     username,
     ...rest
-}: PrefetchQueryParams<ActivityResponse[]> & UseUserActivityParams) {
+}: PrefetchQueryParams & UseUserActivityParams) {
     return prefetchQuery({
-        queryKey: queryKeys.user.activity(username),
-        queryFn: (client) => client.user.getUserActivity(username),
+        optionsFactory: (client) => userActivityOptions(client, { username }),
         ...rest,
     });
 }
@@ -57,11 +58,10 @@ export async function prefetchUserActivity({
 export async function prefetchUserByUsername({
     username,
     ...rest
-}: PrefetchQueryParams<UserResponse> &
-    Pick<UseUserByUsernameParams, 'username'>) {
+}: PrefetchQueryParams & UseUserByUsernameParams) {
     return prefetchQuery({
-        queryKey: queryKeys.user.byUsername(username),
-        queryFn: (client) => client.user.getUserByUsername(username),
+        optionsFactory: (client) =>
+            userByUsernameOptions(client, { username }),
         ...rest,
     });
 }
@@ -72,10 +72,9 @@ export async function prefetchUserByUsername({
 export async function prefetchUserUI({
     username,
     ...rest
-}: PrefetchQueryParams<UserUI> & UseUserUIParams) {
+}: PrefetchQueryParams & UseUserUIParams) {
     return prefetchQuery({
-        queryKey: queryKeys.user.ui(username),
-        queryFn: (client) => client.user.getUserUI(username),
+        optionsFactory: (client) => userUIOptions(client, { username }),
         ...rest,
     });
 }
@@ -85,10 +84,9 @@ export async function prefetchUserUI({
  */
 export async function prefetchSessionUserUI({
     ...rest
-}: PrefetchQueryParams<UserUI>) {
+}: PrefetchQueryParams) {
     return prefetchQuery({
-        queryKey: queryKeys.user.ui('me'),
-        queryFn: (client) => client.user.getCurrentUserUI(),
+        optionsFactory: (client) => sessionUserUIOptions(client),
         ...rest,
     });
 }

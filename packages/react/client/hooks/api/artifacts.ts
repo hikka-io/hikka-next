@@ -8,6 +8,12 @@ import {
 
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import {
+    artifactOptions,
+    artifactPrivacyOptions,
+    userArtifactPrivacyOptions,
+} from '@/options/api/artifacts';
 import { queryKeys } from '@/core';
 
 /**
@@ -21,10 +27,9 @@ export function useArtifact<TData = Record<string, unknown>>({
     username: string;
     name: string;
 } & QueryParams<ArtifactResponse<TData>>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.artifacts.byUsernameAndName(username, name),
-        queryFn: (client) =>
-            client.artifacts.getArtifact<TData>(username, name),
+        ...artifactOptions<TData>(client, { username, name }),
         ...rest,
     });
 }
@@ -38,9 +43,9 @@ export function useArtifactPrivacy({
 }: {
     name: string;
 } & QueryParams<ArtifactPrivacyResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.artifacts.privacy(name),
-        queryFn: (client) => client.artifacts.getArtifactPrivacy(name),
+        ...artifactPrivacyOptions(client, { name }),
         ...rest,
     });
 }
@@ -67,10 +72,9 @@ export function useUserArtifactPrivacy({
     username: string;
     name: string;
 } & QueryParams<ArtifactPrivacyResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.artifacts.userPrivacy(username, name),
-        queryFn: (client) =>
-            client.artifacts.getUserArtifactPrivacy(username, name),
+        ...userArtifactPrivacyOptions(client, { username, name }),
         ...rest,
     });
 }

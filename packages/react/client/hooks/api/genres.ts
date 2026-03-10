@@ -3,7 +3,8 @@
 import { GenreListResponse } from '@hikka/client';
 
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { genresOptions } from '@/options/api/genres';
 
 /**
  * Hook for retrieving all genres
@@ -11,9 +12,9 @@ import { queryKeys } from '@/core';
 export function useGenres<TResult = GenreListResponse>({
     ...rest
 }: QueryParams<GenreListResponse, TResult> = {}) {
+    const { client } = useHikkaClient();
     return useQuery<GenreListResponse, Error, TResult>({
-        queryKey: queryKeys.genres.list(),
-        queryFn: (client) => client.genres.getGenres(),
+        ...genresOptions(client),
         ...rest,
     });
 }

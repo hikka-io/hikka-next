@@ -25,7 +25,7 @@ export default async function prefetchContent({
     content_type,
     queryClient,
     ...rest
-}: UseContentParams & PrefetchQueryParams<any>) {
+}: UseContentParams & PrefetchQueryParams) {
     const clientConfig = await getHikkaClientConfig();
 
     switch (content_type) {

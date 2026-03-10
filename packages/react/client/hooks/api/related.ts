@@ -3,7 +3,8 @@
 import { FranchiseResponse } from '@hikka/client';
 
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { franchiseOptions } from '@/options/api/related';
 import { UseFranchiseParams } from '@/types/related';
 
 /**
@@ -14,9 +15,9 @@ export function useFranchise<TResult = FranchiseResponse>({
     slug,
     ...rest
 }: UseFranchiseParams & QueryParams<FranchiseResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<FranchiseResponse, Error, TResult>({
-        queryKey: queryKeys.related.franchise(contentType, slug),
-        queryFn: (client) => client.related.getFranchise(contentType, slug),
+        ...franchiseOptions(client, { contentType, slug }),
         ...rest,
     });
 }

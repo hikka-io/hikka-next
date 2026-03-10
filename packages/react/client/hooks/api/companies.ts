@@ -6,7 +6,8 @@ import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { queryKeys } from '@/core';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { searchCompaniesOptions } from '@/options/api/companies';
 import { UseCompaniesSearchParams } from '@/types/companies';
 
 /**
@@ -18,13 +19,14 @@ export function useSearchCompanies({
     ...rest
 }: UseCompaniesSearchParams &
     InfiniteQueryParams<CompaniesPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchCompaniesOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.companies.search(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.companies.searchCompanies(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

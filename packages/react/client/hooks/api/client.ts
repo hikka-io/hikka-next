@@ -13,6 +13,12 @@ import {
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import {
+    clientByReferenceOptions,
+    clientFullDetailsOptions,
+    clientListOptions,
+} from '@/options/api/client';
 import { queryKeys } from '@/core';
 import {
     UseClientByReferenceParams,
@@ -29,9 +35,9 @@ export function useClientByReference<TResult = ClientResponse>({
     reference,
     ...rest
 }: UseClientByReferenceParams & QueryParams<ClientResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<ClientResponse, Error, TResult>({
-        queryKey: queryKeys.client.byReference(reference),
-        queryFn: (client) => client.client.getClientByReference(reference),
+        ...clientByReferenceOptions(client, { reference }),
         ...rest,
     });
 }
@@ -43,9 +49,9 @@ export function useClientFullDetails<TResult = ClientInfoResponse>({
     reference,
     ...rest
 }: UseFullClientInfoParams & QueryParams<ClientInfoResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<ClientInfoResponse, Error, TResult>({
-        queryKey: queryKeys.client.fullInfo(reference),
-        queryFn: (client) => client.client.getClientFullDetails(reference),
+        ...clientFullDetailsOptions(client, { reference }),
         ...rest,
     });
 }
@@ -57,13 +63,14 @@ export function useClientList({
     paginationArgs = { page: 1, size: 15 },
     ...rest
 }: InfiniteQueryParams<ClientPaginationResponse> & UseClientListParams = {}) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        clientListOptions(client, { paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.client.list(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.client.getClientList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

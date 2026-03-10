@@ -6,6 +6,7 @@ import {
     FollowStatsResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -13,6 +14,12 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    followStatusOptions,
+    userFollowersOptions,
+    userFollowingsOptions,
+    userFollowStatsOptions,
+} from '@/options/api/follow';
 import {
     UseFollowStatsParams,
     UseFollowStatusParams,
@@ -27,9 +34,9 @@ export function useFollowStatus({
     username,
     ...rest
 }: UseFollowStatusParams & QueryParams<FollowResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.follow.status(username),
-        queryFn: (client) => client.follow.getFollowStatus(username),
+        ...followStatusOptions(client, { username }),
         ...rest,
     });
 }
@@ -41,9 +48,9 @@ export function useUserFollowStats({
     username,
     ...rest
 }: UseFollowStatsParams & QueryParams<FollowStatsResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.follow.stats(username),
-        queryFn: (client) => client.follow.getUserFollowStats(username),
+        ...userFollowStatsOptions(client, { username }),
         ...rest,
     });
 }
@@ -56,13 +63,14 @@ export function useUserFollowers({
     paginationArgs,
     ...rest
 }: UseFollowersParams & InfiniteQueryParams<FollowListResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        userFollowersOptions(client, { username, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.follow.followers(username, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.follow.getUserFollowers(username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -75,13 +83,14 @@ export function useUserFollowings({
     paginationArgs,
     ...rest
 }: UseFollowingsParams & InfiniteQueryParams<FollowListResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        userFollowingsOptions(client, { username, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.follow.followings(username, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.follow.getUserFollowings(username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

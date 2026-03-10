@@ -7,6 +7,7 @@ import {
     WatchStatsResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -14,6 +15,12 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    searchUserWatchesOptions,
+    userWatchStatsOptions,
+    watchBySlugOptions,
+    watchingUsersOptions,
+} from '@/options/api/watch';
 import {
     RandomAnimeVariables,
     UseCreateWatchParams,
@@ -32,13 +39,14 @@ export function useSearchUserWatches({
     paginationArgs,
     ...rest
 }: UseWatchListParams & InfiniteQueryParams<WatchPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchUserWatchesOptions(client, { username, args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.watch.list(username, args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.searchUserWatches(username, args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -50,9 +58,9 @@ export function useUserWatchStats({
     username,
     ...rest
 }: UseWatchStatsParams & QueryParams<WatchStatsResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.watch.stats(username),
-        queryFn: (client) => client.watch.getUserWatchStats(username),
+        ...userWatchStatsOptions(client, { username }),
         ...rest,
     });
 }
@@ -112,13 +120,14 @@ export function useWatchingUsers({
     ...rest
 }: UseFollowingWatchersParams &
     InfiniteQueryParams<UserWatchPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        watchingUsersOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.watch.followingUsers(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.getWatchingUsers(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         options: {
             authProtected: true,
             ...options,
@@ -135,9 +144,9 @@ export function useWatchBySlug({
     options,
     ...rest
 }: UseWatchEntryParams & QueryParams<WatchResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.watch.entry(slug),
-        queryFn: (client) => client.watch.getWatchBySlug(slug),
+        ...watchBySlugOptions(client, { slug }),
         options: {
             authProtected: true,
             ...options,

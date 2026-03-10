@@ -14,7 +14,15 @@ import {
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import {
+    characterBySlugOptions,
+    characterAnimeOptions,
+    characterMangaOptions,
+    characterNovelOptions,
+    characterVoicesOptions,
+    searchCharactersOptions,
+} from '@/options/api/characters';
 import {
     UseCharacterContentParams,
     UseCharacterInfoParams,
@@ -28,9 +36,9 @@ export function useCharacterBySlug<TResult = CharacterResponse>({
     slug,
     ...rest
 }: UseCharacterInfoParams & QueryParams<CharacterResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<CharacterResponse, Error, TResult>({
-        queryKey: queryKeys.characters.bySlug(slug),
-        queryFn: (client) => client.characters.getCharacterBySlug(slug),
+        ...characterBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -44,13 +52,14 @@ export function useCharacterAnime({
     ...rest
 }: UseCharacterContentParams &
     InfiniteQueryParams<CharacterAnimePaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        characterAnimeOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.characters.anime(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getCharacterAnime(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -64,13 +73,14 @@ export function useCharacterManga({
     ...rest
 }: UseCharacterContentParams &
     InfiniteQueryParams<CharacterMangaPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        characterMangaOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.characters.manga(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getCharacterManga(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -84,13 +94,14 @@ export function useCharacterNovel({
     ...rest
 }: UseCharacterContentParams &
     InfiniteQueryParams<CharacterNovelPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        characterNovelOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.characters.novel(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getCharacterNovel(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -104,13 +115,14 @@ export function useCharacterVoices({
     ...rest
 }: UseCharacterContentParams &
     InfiniteQueryParams<CharacterVoicesPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        characterVoicesOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.characters.voices(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.getCharacterVoices(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -124,13 +136,14 @@ export function useSearchCharacters({
     ...rest
 }: UseCharactersSearchParams &
     InfiniteQueryParams<CharactersSearchPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchCharactersOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.characters.search(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.characters.searchCharacters(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

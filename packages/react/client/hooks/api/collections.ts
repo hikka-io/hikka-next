@@ -7,6 +7,7 @@ import {
     CollectionsListResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -14,6 +15,10 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    collectionByReferenceOptions,
+    searchCollectionsOptions,
+} from '@/options/api/collections';
 import {
     UseCollectionParams,
     UseCollectionsListParams,
@@ -29,10 +34,9 @@ export function useCollectionByReference<
     ...rest
 }: UseCollectionParams &
     QueryParams<CollectionResponse<CollectionContent>, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<CollectionResponse<CollectionContent>, Error, TResult>({
-        queryKey: queryKeys.collections.byReference(reference),
-        queryFn: (client) =>
-            client.collections.getCollectionByReference(reference),
+        ...collectionByReferenceOptions(client, { reference }),
         ...rest,
     });
 }
@@ -46,13 +50,14 @@ export function useSearchCollections({
     ...rest
 }: UseCollectionsListParams &
     InfiniteQueryParams<CollectionsListResponse<CollectionContent>>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchCollectionsOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.collections.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page ?? 1) =>
-            client.collections.searchCollections(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

@@ -6,7 +6,8 @@ import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { queryKeys } from '@/core';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { topEditorsListOptions } from '@/options/api/stats';
 import { UseTopEditorsListParams } from '@/types/stats';
 
 /**
@@ -17,13 +18,14 @@ export function useTopEditorsList({
     ...rest
 }: InfiniteQueryParams<EditsTopPaginationResponse> &
     UseTopEditorsListParams = {}) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        topEditorsListOptions(client, { paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.stats.editsTop(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.stats.getTopEditorsList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

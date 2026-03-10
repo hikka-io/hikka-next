@@ -1,10 +1,7 @@
 import {
-    CollectionContent,
-    CollectionResponse,
-    CollectionsListResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    collectionByReferenceOptions,
+    searchCollectionsOptions,
+} from '@/options/api/collections';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -21,12 +18,10 @@ import {
 export async function prefetchCollectionByReference({
     reference,
     ...rest
-}: PrefetchQueryParams<CollectionResponse<CollectionContent>> &
-    UseCollectionParams) {
+}: PrefetchQueryParams & UseCollectionParams) {
     return prefetchQuery({
-        queryKey: queryKeys.collections.byReference(reference),
-        queryFn: (client) =>
-            client.collections.getCollectionByReference(reference),
+        optionsFactory: (client) =>
+            collectionByReferenceOptions(client, { reference }),
         ...rest,
     });
 }
@@ -38,15 +33,10 @@ export async function prefetchSearchCollections({
     args,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<CollectionsListResponse<CollectionContent>> &
-    UseCollectionsListParams) {
+}: PrefetchInfiniteQueryParams & UseCollectionsListParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.collections.list(args, paginationArgs),
-        queryFn: (client, pageParam) =>
-            client.collections.searchCollections(args, {
-                page: paginationArgs?.page ?? pageParam,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchCollectionsOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }

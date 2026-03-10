@@ -1,9 +1,7 @@
 import {
-    NotificationPaginationResponse,
-    NotificationUnseenResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    notificationListOptions,
+    unseenNotificationsCountOptions,
+} from '@/options/api/notifications';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -16,14 +14,10 @@ import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 export async function prefetchNotificationList({
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<NotificationPaginationResponse> = {}) {
+}: PrefetchInfiniteQueryParams = {}) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.notifications.list(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.notifications.getNotificationList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            notificationListOptions(client, { paginationArgs }),
         ...rest,
     });
 }
@@ -34,10 +28,9 @@ export async function prefetchNotificationList({
 
 export async function prefetchUnseenNotificationsCount({
     ...rest
-}: PrefetchQueryParams<NotificationUnseenResponse> = {}) {
+}: PrefetchQueryParams = {}) {
     return prefetchQuery({
-        queryKey: queryKeys.notifications.unseenCount(),
-        queryFn: (client) => client.notifications.getNotificationUnseenCount(),
+        optionsFactory: (client) => unseenNotificationsCountOptions(client),
         ...rest,
     });
 }

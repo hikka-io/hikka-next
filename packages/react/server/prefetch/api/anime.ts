@@ -1,12 +1,12 @@
 import {
-    AnimeEpisodesListResponse,
-    AnimeInfoResponse,
-    AnimePaginationResponse,
-    AnimeStaffPaginationResponse,
-    ContentCharacterPaginationResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    animeBySlugOptions,
+    animeCharactersOptions,
+    animeEpisodesOptions,
+    animeFranchiseOptions,
+    animeRecommendationsOptions,
+    animeStaffOptions,
+    searchAnimesOptions,
+} from '@/options/api/anime';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -28,10 +28,9 @@ import {
 export async function prefetchAnimeBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<AnimeInfoResponse> & UseAnimeInfoParams) {
+}: PrefetchQueryParams & UseAnimeInfoParams) {
     return prefetchQuery({
-        queryKey: queryKeys.anime.details(slug),
-        queryFn: (client) => client.anime.getAnimeBySlug(slug),
+        optionsFactory: (client) => animeBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -39,20 +38,14 @@ export async function prefetchAnimeBySlug({
 /**
  * Prefetches anime characters for server-side rendering
  */
-
 export async function prefetchAnimeCharacters({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<ContentCharacterPaginationResponse> &
-    UseAnimeCharactersParams) {
+}: PrefetchInfiniteQueryParams & UseAnimeCharactersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.anime.characters(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getAnimeCharacters(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            animeCharactersOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -60,20 +53,14 @@ export async function prefetchAnimeCharacters({
 /**
  * Prefetches anime episodes for server-side rendering
  */
-
 export async function prefetchAnimeEpisodes({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AnimeEpisodesListResponse> &
-    UseAnimeEpisodesParams) {
+}: PrefetchInfiniteQueryParams & UseAnimeEpisodesParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.anime.episodes(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getAnimeEpisodes(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            animeEpisodesOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -81,20 +68,14 @@ export async function prefetchAnimeEpisodes({
 /**
  * Prefetches anime franchise entries for server-side rendering
  */
-
 export async function prefetchAnimeFranchise({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AnimePaginationResponse> &
-    UseAnimeFranchiseParams) {
+}: PrefetchInfiniteQueryParams & UseAnimeFranchiseParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.anime.franchise(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getAnimeFranchise(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            animeFranchiseOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -102,20 +83,14 @@ export async function prefetchAnimeFranchise({
 /**
  * Prefetches anime recommendations for server-side rendering
  */
-
 export async function prefetchAnimeRecommendations({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AnimePaginationResponse> &
-    UseAnimeRecommendationsParams) {
+}: PrefetchInfiniteQueryParams & UseAnimeRecommendationsParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.anime.recommendations(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getAnimeRecommendations(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            animeRecommendationsOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -123,20 +98,14 @@ export async function prefetchAnimeRecommendations({
 /**
  * Prefetches anime staff for server-side rendering
  */
-
 export async function prefetchAnimeStaff({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AnimeStaffPaginationResponse> &
-    UseAnimeStaffParams) {
+}: PrefetchInfiniteQueryParams & UseAnimeStaffParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.anime.staff(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.anime.getAnimeStaff(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            animeStaffOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -144,20 +113,14 @@ export async function prefetchAnimeStaff({
 /**
  * Prefetches anime search results for server-side rendering
  */
-
 export async function prefetchSearchAnimes({
     args,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AnimePaginationResponse> &
-    UseAnimeSearchParams) {
+}: PrefetchInfiniteQueryParams & UseAnimeSearchParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.anime.search({ args, paginationArgs }),
-        queryFn: (client, pageParam) =>
-            client.anime.searchAnimes(args, {
-                page: paginationArgs?.page ?? pageParam,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchAnimesOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }

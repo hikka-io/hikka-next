@@ -8,6 +8,7 @@ import {
     UpdateEditArgs,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -15,6 +16,11 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    editListOptions,
+    editOptions,
+    todoEditListOptions,
+} from '@/options/api/edit';
 import {
     UseEditListParams,
     UseEditParams,
@@ -28,9 +34,9 @@ export function useEdit<TResult = EditResponse<any, any>, T = any, R = any>({
     editId,
     ...rest
 }: UseEditParams & QueryParams<EditResponse<T, R>, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<EditResponse<T, R>, Error, TResult>({
-        queryKey: queryKeys.edit.byId(editId),
-        queryFn: (client) => client.edit.getEdit<T, R>(editId),
+        ...editOptions(client, { editId }),
         ...rest,
     });
 }
@@ -43,13 +49,14 @@ export function useEditList<T = any>({
     paginationArgs,
     ...rest
 }: UseEditListParams & InfiniteQueryParams<EditPaginationResponse<T>>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        editListOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.edit.list(args, paginationArgs),
-        queryFn: (client, pageParam) =>
-            client.edit.getEditList<T>(args, {
-                page: paginationArgs?.page ?? pageParam,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -62,13 +69,14 @@ export function useTodoEditList<T = any>({
     paginationArgs,
     ...rest
 }: UseTodoEditListParams & InfiniteQueryParams<TodoEditResponse<T>>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        todoEditListOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.edit.list(args, paginationArgs),
-        queryFn: (client, pageParam) =>
-            client.edit.getTodoEditList<T>(args, {
-                page: paginationArgs?.page ?? pageParam,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

@@ -1,10 +1,9 @@
 import {
-    FollowListResponse,
-    FollowResponse,
-    FollowStatsResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    followStatusOptions,
+    userFollowersOptions,
+    userFollowingsOptions,
+    userFollowStatsOptions,
+} from '@/options/api/follow';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -23,10 +22,10 @@ import {
 export async function prefetchFollowStatus({
     username,
     ...rest
-}: PrefetchQueryParams<FollowResponse> & UseFollowStatusParams) {
+}: PrefetchQueryParams & UseFollowStatusParams) {
     return prefetchQuery({
-        queryKey: queryKeys.follow.status(username),
-        queryFn: (client) => client.follow.getFollowStatus(username),
+        optionsFactory: (client) =>
+            followStatusOptions(client, { username }),
         ...rest,
     });
 }
@@ -37,10 +36,10 @@ export async function prefetchFollowStatus({
 export async function prefetchUserFollowStats({
     username,
     ...rest
-}: PrefetchQueryParams<FollowStatsResponse> & UseFollowStatsParams) {
+}: PrefetchQueryParams & UseFollowStatsParams) {
     return prefetchQuery({
-        queryKey: queryKeys.follow.stats(username),
-        queryFn: (client) => client.follow.getUserFollowStats(username),
+        optionsFactory: (client) =>
+            userFollowStatsOptions(client, { username }),
         ...rest,
     });
 }
@@ -52,14 +51,10 @@ export async function prefetchUserFollowers({
     username,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<FollowListResponse> & UseFollowersParams) {
+}: PrefetchInfiniteQueryParams & UseFollowersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.follow.followers(username, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.follow.getUserFollowers(username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            userFollowersOptions(client, { username, paginationArgs }),
         ...rest,
     });
 }
@@ -71,14 +66,10 @@ export async function prefetchUserFollowings({
     username,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<FollowListResponse> & UseFollowingsParams) {
+}: PrefetchInfiniteQueryParams & UseFollowingsParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.follow.followings(username, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.follow.getUserFollowings(username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            userFollowingsOptions(client, { username, paginationArgs }),
         ...rest,
     });
 }

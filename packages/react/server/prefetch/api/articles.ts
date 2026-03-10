@@ -1,10 +1,8 @@
 import {
-    ArticleDocumentResponse,
-    ArticlesListResponse,
-    ArticlesTopResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    articleBySlugOptions,
+    articleStatsOptions,
+    searchArticlesOptions,
+} from '@/options/api/articles';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -19,10 +17,9 @@ import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 export async function prefetchArticleBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<ArticleDocumentResponse> & UseArticleParams) {
+}: PrefetchQueryParams & UseArticleParams) {
     return prefetchQuery({
-        queryKey: queryKeys.articles.bySlug(slug),
-        queryFn: (client) => client.articles.getArticleBySlug(slug),
+        optionsFactory: (client) => articleBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -33,10 +30,9 @@ export async function prefetchArticleBySlug({
 
 export async function prefetchArticleStats({
     ...rest
-}: PrefetchQueryParams<ArticlesTopResponse> = {}) {
+}: PrefetchQueryParams = {}) {
     return prefetchQuery({
-        queryKey: queryKeys.articles.stats(),
-        queryFn: (client) => client.articles.getArticleStats(),
+        optionsFactory: (client) => articleStatsOptions(client),
         ...rest,
     });
 }
@@ -49,14 +45,10 @@ export async function prefetchSearchArticles({
     args = {},
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<ArticlesListResponse> & UseArticlesListParams) {
+}: PrefetchInfiniteQueryParams & UseArticlesListParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.articles.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.articles.searchArticles(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchArticlesOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }
