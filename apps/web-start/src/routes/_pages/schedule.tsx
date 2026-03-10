@@ -1,4 +1,5 @@
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
 import { searchAnimeScheduleOptions } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -35,14 +36,14 @@ export const Route = createFileRoute('/_pages/schedule')({
                 ? status
                 : [ContentStatusEnum.ONGOING, ContentStatusEnum.ANNOUNCED];
 
-        await queryClient.prefetchInfiniteQuery(
+        await prefetchInfiniteQuery(queryClient,
             searchAnimeScheduleOptions(hikkaClient, {
                 args: {
                     status: resolvedStatus,
                     only_watch,
                     airing_season: [resolvedSeason, resolvedYear],
                 },
-            }) as any,
+            }),
         );
     },
     head: () => ({

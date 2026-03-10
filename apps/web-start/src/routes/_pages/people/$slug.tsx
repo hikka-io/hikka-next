@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { ensureInfiniteQueryData } from '@hikka/react/core';
 import {
     personAnimeOptions,
     personBySlugOptions,
@@ -22,17 +23,21 @@ export const Route = createFileRoute('/_pages/people/$slug')({
         if (!person) throw redirect({ to: '/' });
 
         await Promise.all([
-            queryClient.ensureInfiniteQueryData(
-                personAnimeOptions(hikkaClient, { slug: params.slug }) as any,
+            ensureInfiniteQueryData(
+                queryClient,
+                personAnimeOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.ensureInfiniteQueryData(
-                personMangaOptions(hikkaClient, { slug: params.slug }) as any,
+            ensureInfiniteQueryData(
+                queryClient,
+                personMangaOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.ensureInfiniteQueryData(
-                personNovelOptions(hikkaClient, { slug: params.slug }) as any,
+            ensureInfiniteQueryData(
+                queryClient,
+                personNovelOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.ensureInfiniteQueryData(
-                personCharactersOptions(hikkaClient, { slug: params.slug }) as any,
+            ensureInfiniteQueryData(
+                queryClient,
+                personCharactersOptions(hikkaClient, { slug: params.slug }),
             ),
         ]);
 

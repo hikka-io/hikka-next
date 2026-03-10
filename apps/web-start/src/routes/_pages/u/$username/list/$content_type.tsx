@@ -5,6 +5,7 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     searchUserReadsOptions,
     searchUserWatchesOptions,
@@ -52,17 +53,17 @@ export const Route = createFileRoute(
         }
 
         if (isAnime) {
-            await queryClient.prefetchInfiniteQuery(
+            await prefetchInfiniteQuery(queryClient,
                 searchUserWatchesOptions(hikkaClient, {
                     username,
                     args: {
                         watch_status: status as WatchStatusEnum,
                         sort: [`${sort}:desc`],
                     },
-                }) as any,
+                }),
             );
         } else {
-            await queryClient.prefetchInfiniteQuery(
+            await prefetchInfiniteQuery(queryClient,
                 searchUserReadsOptions(hikkaClient, {
                     username,
                     contentType: content_type as ReadContentType,
@@ -70,7 +71,7 @@ export const Route = createFileRoute(
                         read_status: status as ReadStatusEnum,
                         sort: [`${sort}:desc`],
                     },
-                }) as any,
+                }),
             );
         }
     },

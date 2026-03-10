@@ -1,5 +1,9 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
+    ensureInfiniteQueryData,
+    prefetchInfiniteQuery,
+} from '@hikka/react/core';
+import {
     animeBySlugOptions,
     animeCharactersOptions,
     animeStaffOptions,
@@ -27,17 +31,20 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         if (!anime) throw redirect({ to: '/' });
 
         await Promise.all([
-            queryClient.ensureInfiniteQueryData(
-                animeCharactersOptions(hikkaClient, { slug: params.slug }) as any,
+            ensureInfiniteQueryData(
+                queryClient,
+                animeCharactersOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.ensureInfiniteQueryData(
+            ensureInfiniteQueryData(
+                queryClient,
                 franchiseOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.ANIME,
-                }) as any,
+                }),
             ),
-            queryClient.ensureInfiniteQueryData(
-                animeStaffOptions(hikkaClient, { slug: params.slug }) as any,
+            ensureInfiniteQueryData(
+                queryClient,
+                animeStaffOptions(hikkaClient, { slug: params.slug }),
             ),
             queryClient.prefetchQuery(
                 watchBySlugOptions(hikkaClient, { slug: params.slug }),
@@ -48,16 +55,18 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                     contentType: ContentTypeEnum.ANIME,
                 }),
             ),
-            queryClient.prefetchInfiniteQuery(
-                watchingUsersOptions(hikkaClient, { slug: params.slug }) as any,
+            prefetchInfiniteQuery(
+                queryClient,
+                watchingUsersOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.prefetchInfiniteQuery(
+            prefetchInfiniteQuery(
+                queryClient,
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         content_slug: params.slug,
                         content_type: ContentTypeEnum.ANIME,
                     },
-                }) as any,
+                }),
             ),
         ]);
 

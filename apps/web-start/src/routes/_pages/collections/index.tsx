@@ -1,3 +1,4 @@
+import { ensureInfiniteQueryData } from '@hikka/react/core';
 import { searchCollectionsOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import Link from '@/components/ui/link';
@@ -27,10 +28,10 @@ export const Route = createFileRoute('/_pages/collections/')({
             });
         }
 
-        const collections = (await queryClient.ensureInfiniteQueryData(searchCollectionsOptions(hikkaClient, {
+        const collections = (await ensureInfiniteQueryData(queryClient, searchCollectionsOptions(hikkaClient, {
                 args: { sort: [`${sort}:desc`] },
                 paginationArgs: { page: Number(page) },
-            }) as any)) as any;
+            }))) as any;
 
         return { collections, page: Number(page), sort };
     },

@@ -1,4 +1,5 @@
 import { CommentsContentType } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     contentCommentsOptions,
 } from '@hikka/react/options';
@@ -25,11 +26,11 @@ export const Route = createFileRoute(
 
         if (!content) throw redirect({ to: '/' });
 
-        await queryClient.prefetchInfiniteQuery(
+        await prefetchInfiniteQuery(queryClient,
             contentCommentsOptions(hikkaClient, {
                 contentType: content_type as CommentsContentType,
                 slug,
-            }) as any,
+            }),
         );
 
         return { content };

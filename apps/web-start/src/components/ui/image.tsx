@@ -1,32 +1,23 @@
 'use client';
 
-import { ImgHTMLAttributes, Ref, forwardRef, useState } from 'react';
+import { type ImageProps, Image as UnpicImage } from '@unpic/react';
+import { type Ref, forwardRef } from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface Props extends ImgHTMLAttributes<HTMLImageElement> {
+type Props = ImageProps & {
     transitionDisabled?: boolean;
-    quality?: number;
-    priority?: boolean;
-}
+};
 
 const Component = (
-    { alt, className, transitionDisabled, quality: _quality, priority: _priority, loading, ...props }: Props,
+    { alt, className, transitionDisabled, onLoad, ...props }: Props,
     ref: Ref<HTMLImageElement>,
 ) => {
-    const [loaded, setLoaded] = useState(false);
-
     return (
-        <img
+        <UnpicImage
             ref={ref}
-            className={cn(
-                loaded ? 'opacity-100' : 'opacity-0',
-                !transitionDisabled && '!transition',
-                className,
-            )}
-            onLoad={() => setLoaded(true)}
-            loading={loading ?? 'lazy'}
-            alt={alt}
+            className={cn(className)}
+            alt={alt ?? ''}
             {...props}
         />
     );

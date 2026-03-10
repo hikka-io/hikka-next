@@ -35,9 +35,11 @@ const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
         >
             <Image
                 src={cover}
+                layout="fullWidth"
                 className={`relative size-full object-cover ${getPositionClass()}`}
                 alt="cover"
                 loading="lazy"
+                unstyled
             />
         </div>
     );

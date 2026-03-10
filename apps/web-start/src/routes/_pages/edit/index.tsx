@@ -1,4 +1,5 @@
 import { EditContentType, EditStatusEnum } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     editListOptions,
     topEditorsListOptions,
@@ -38,7 +39,7 @@ export const Route = createFileRoute('/_pages/edit/')({
         }
 
         await Promise.all([
-            queryClient.prefetchInfiniteQuery(
+            prefetchInfiniteQuery(queryClient,
                 editListOptions(hikkaClient, {
                     args: {
                         content_type: (content_type as EditContentType) || undefined,
@@ -50,8 +51,8 @@ export const Route = createFileRoute('/_pages/edit/')({
                     paginationArgs: { page: Number(page) },
                 }),
             ),
-            queryClient.prefetchInfiniteQuery(
-                topEditorsListOptions(hikkaClient) as any,
+            prefetchInfiniteQuery(queryClient,
+                topEditorsListOptions(hikkaClient),
             ),
         ]);
     },

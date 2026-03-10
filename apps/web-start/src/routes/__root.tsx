@@ -44,8 +44,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootLayout() {
     const { userUI, userStylesCSS } = Route.useLoaderData();
-    const { queryClient, hikkaClient } =
-        Route.useRouteContext() as RouterContext;
+    const { hikkaClient } = Route.useRouteContext() as RouterContext;
 
     return (
         <html lang="uk" data-theme="dark" suppressHydrationWarning>
@@ -61,10 +60,7 @@ function RootLayout() {
             <body>
                 <div data-vaul-drawer-wrapper>
                     <UIStoreProvider initialUI={userUI}>
-                        <Providers
-                            client={hikkaClient}
-                            queryClient={queryClient}
-                        >
+                        <Providers client={hikkaClient}>
                             <Outlet />
                         </Providers>
                     </UIStoreProvider>

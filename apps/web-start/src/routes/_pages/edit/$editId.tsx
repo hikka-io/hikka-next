@@ -1,4 +1,5 @@
 import { ContentTypeEnum, EditContentType } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     contentCommentsOptions,
     editOptions,
@@ -30,11 +31,11 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
 
         if (!edit) throw redirect({ to: '/edit' });
 
-        await queryClient.prefetchInfiniteQuery(
+        await prefetchInfiniteQuery(queryClient,
             contentCommentsOptions(hikkaClient, {
                 contentType: ContentTypeEnum.EDIT,
                 slug: params.editId,
-            }) as any,
+            }),
         );
 
         return { edit };

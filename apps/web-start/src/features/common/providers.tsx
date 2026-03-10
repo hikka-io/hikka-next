@@ -1,8 +1,8 @@
 import { HikkaClient } from '@hikka/client';
-import { HikkaProvider } from '@hikka/react';
-import { QueryClient } from '@hikka/react/core';
+import { HikkaContextProvider } from '@hikka/react';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
 import EffectsManager from '@/features/common/effects-manager';
@@ -13,10 +13,9 @@ import { useUIStore } from '@/services/providers/ui-store-provider';
 
 interface Props extends PropsWithChildren {
     client: HikkaClient;
-    queryClient: QueryClient;
 }
 
-const Providers: FC<Props> = ({ children, client, queryClient }) => {
+const Providers: FC<Props> = ({ children, client }) => {
     const UI = useUIStore((state) => state);
     setDefaultOptions({ locale: uk });
 
@@ -29,9 +28,8 @@ const Providers: FC<Props> = ({ children, client, queryClient }) => {
     }, [client]);
 
     return (
-        <HikkaProvider
+        <HikkaContextProvider
             client={client}
-            queryClient={queryClient}
             defaultOptions={{
                 title: UI.preferences?.title_language ?? 'title_ua',
                 name: UI.preferences?.name_language ?? 'name_ua',
@@ -50,7 +48,8 @@ const Providers: FC<Props> = ({ children, client, queryClient }) => {
                     </ModalProvider>
                 </TooltipProvider>
             </ThemeProvider>
-        </HikkaProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+        </HikkaContextProvider>
     );
 };
 

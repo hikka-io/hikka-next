@@ -1,3 +1,4 @@
+import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     articleStatsOptions,
     searchArticlesOptions,
@@ -24,7 +25,7 @@ export const Route = createFileRoute('/_pages/articles/')({
         } = location.search as Record<string, any>;
 
         await Promise.all([
-            queryClient.prefetchInfiniteQuery(
+            prefetchInfiniteQuery(queryClient,
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         author: author as string,
