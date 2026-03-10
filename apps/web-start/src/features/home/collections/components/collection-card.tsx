@@ -3,7 +3,7 @@
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';

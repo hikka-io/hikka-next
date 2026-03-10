@@ -6,7 +6,7 @@ import {
     useSearchUserWatches,
     useSession,
 } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';

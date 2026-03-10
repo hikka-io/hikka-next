@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC, ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';

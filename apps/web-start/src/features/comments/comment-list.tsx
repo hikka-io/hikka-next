@@ -2,7 +2,7 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { useCommentThread, useContentComments, useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import CommentInput from '@/features/comments/comment-input';

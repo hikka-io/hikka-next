@@ -1,7 +1,7 @@
 'use client';
 
 import { EditResponse, EditStatusEnum } from '@hikka/client';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { format } from 'date-fns';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';

@@ -3,7 +3,7 @@
 import { range } from '@antfu/utils';
 import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';

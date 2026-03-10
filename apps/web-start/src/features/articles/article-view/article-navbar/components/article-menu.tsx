@@ -1,5 +1,5 @@
 import { ArticleBaseResponse } from '@hikka/client';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';

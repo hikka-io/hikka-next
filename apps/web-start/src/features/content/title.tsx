@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';

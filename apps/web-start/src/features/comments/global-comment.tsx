@@ -1,7 +1,7 @@
 import { CommentResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
 import { ArrowBigUp } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';

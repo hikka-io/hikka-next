@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchCollections, useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 

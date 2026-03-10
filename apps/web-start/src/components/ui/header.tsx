@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import React, { FC, PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/cn';
@@ -110,7 +110,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
         <div className={cn('flex items-center gap-4', className)}>
             {resolvedProp || href ? (
                 <Link
-                    to={(resolvedProp || href || '') as any}
+                    to={resolvedProp || href || ''}
                     {...linkProps}
                     className="hover:underline text-left"
                 >

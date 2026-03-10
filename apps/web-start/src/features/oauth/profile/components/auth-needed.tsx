@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { usePathname, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 

@@ -2,7 +2,7 @@
 
 import { EditContentType } from '@hikka/client';
 import { useEditList } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import LoadMoreButton from '@/components/load-more-button';

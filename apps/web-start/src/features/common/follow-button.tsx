@@ -8,7 +8,7 @@ import {
     useUserByUsername,
 } from '@hikka/react';
 import { VariantProps } from 'class-variance-authority';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';

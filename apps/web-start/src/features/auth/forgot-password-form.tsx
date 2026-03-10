@@ -2,7 +2,7 @@
 
 import { useCreatePasswordResetRequest } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 

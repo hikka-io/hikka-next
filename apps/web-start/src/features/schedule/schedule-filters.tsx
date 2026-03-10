@@ -2,7 +2,7 @@
 
 import { range } from '@antfu/utils';
 import { useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 

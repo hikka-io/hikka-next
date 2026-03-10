@@ -1,18 +1,18 @@
 import '@fontsource-variable/geist';
-import '../globals.css';
-
 import {
-    createRootRouteWithContext,
     HeadContent,
     Outlet,
     Scripts,
-    ScrollRestoration,
+    createRootRouteWithContext,
 } from '@tanstack/react-router';
 
 import { Providers } from '@/features/common';
+
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
 import { STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
+
+import '../globals.css';
 import { RouterContext } from '../router';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -69,7 +69,6 @@ function RootLayout() {
                         </Providers>
                     </UIStoreProvider>
                 </div>
-                <ScrollRestoration />
                 <Scripts />
             </body>
         </html>

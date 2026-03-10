@@ -3,7 +3,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference, useSession } from '@hikka/react';
 import { MessageCircle, TableOfContents } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
 import { FC, Fragment } from 'react';
 

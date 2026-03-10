@@ -2,7 +2,7 @@
 
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useDeleteCollection } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';

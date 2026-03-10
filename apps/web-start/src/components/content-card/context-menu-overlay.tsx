@@ -1,7 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { Copy } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC, ReactNode } from 'react';
 
 import {

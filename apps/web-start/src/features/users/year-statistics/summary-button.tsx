@@ -2,7 +2,7 @@
 
 import { useUserArtifactPrivacy } from '@hikka/react';
 import { ChartLine } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 
 import { Button } from '@/components/ui/button';
 

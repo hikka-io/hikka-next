@@ -2,7 +2,7 @@
 
 import { useArticleBySlug, useSession } from '@hikka/react';
 import { MessageCircle } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
 import { FC, Fragment, useCallback } from 'react';
 import { toast } from 'sonner';

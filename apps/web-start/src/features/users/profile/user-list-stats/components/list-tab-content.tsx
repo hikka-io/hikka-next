@@ -7,7 +7,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useReadStats, useUserWatchStats } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';

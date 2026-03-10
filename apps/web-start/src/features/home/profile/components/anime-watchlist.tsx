@@ -2,7 +2,7 @@
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
 import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useRouter } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 

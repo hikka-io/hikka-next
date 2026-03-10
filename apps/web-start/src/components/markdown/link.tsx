@@ -1,6 +1,6 @@
 'use client';
 
-import { Link as TanstackLink } from '@tanstack/react-router';
+import { Link as TanstackLink } from '@/utils/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import {
@@ -55,7 +55,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <AnimeTooltip slug={link}>
                         <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            to={href as any}
+                            to={href}
                         >
                             {children}
                         </TanstackLink>
@@ -70,7 +70,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <CharacterTooltip slug={link}>
                         <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            to={href as any}
+                            to={href}
                         >
                             {children}
                         </TanstackLink>
@@ -85,7 +85,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <MangaTooltip slug={link}>
                         <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            to={href as any}
+                            to={href}
                         >
                             {children}
                         </TanstackLink>
@@ -100,7 +100,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <NovelTooltip slug={link}>
                         <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            to={href as any}
+                            to={href}
                         >
                             {children}
                         </TanstackLink>
@@ -115,7 +115,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <PersonTooltip slug={link}>
                         <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            to={href as any}
+                            to={href}
                         >
                             {children}
                         </TanstackLink>
@@ -130,7 +130,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     <UserTooltip username={link}>
                         <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            to={href as any}
+                            to={href}
                         >
                             {children}
                         </TanstackLink>
@@ -142,7 +142,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         return (
             <TanstackLink
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
-                to={href as any}
+                to={href}
             >
                 {children}
             </TanstackLink>

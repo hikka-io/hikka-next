@@ -1,7 +1,7 @@
 'use client';
 
 import { CommentsContentType } from '@hikka/client';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Card from '@/components/ui/card';

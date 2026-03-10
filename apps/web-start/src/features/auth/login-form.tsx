@@ -4,7 +4,7 @@ import { useCreateUserSession, useHikkaClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useRouter, useSearchParams } from '@/utils/navigation';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';

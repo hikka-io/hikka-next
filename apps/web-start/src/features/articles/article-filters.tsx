@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { usePathname, useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 

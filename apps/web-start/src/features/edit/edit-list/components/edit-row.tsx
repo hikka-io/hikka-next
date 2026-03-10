@@ -2,7 +2,7 @@
 
 import { EditResponse } from '@hikka/client';
 import { format } from 'date-fns';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useRouter } from '@/utils/navigation';
 import { FC, MouseEvent } from 'react';
 

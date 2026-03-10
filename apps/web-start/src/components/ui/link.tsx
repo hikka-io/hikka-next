@@ -1,4 +1,4 @@
-import { Link as TanstackLink } from '@tanstack/react-router';
+import { Link as TanstackLink } from '@/utils/navigation';
 import { ComponentPropsWithRef, FC } from 'react';
 
 import { cn } from '@/utils/cn';
@@ -15,12 +15,12 @@ const Link: FC<Props> = ({ href, to, className, children, ...props }) => {
     if (url) {
         return (
             <TanstackLink
-                to={url as any}
+                to={url}
                 className={cn(
                     'cursor-pointer transition-all hover:underline',
                     className,
                 )}
-                {...(props as any)}
+                {...props}
             >
                 {children}
             </TanstackLink>

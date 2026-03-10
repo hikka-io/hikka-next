@@ -1,6 +1,6 @@
 import { HistoryResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC, memo } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';

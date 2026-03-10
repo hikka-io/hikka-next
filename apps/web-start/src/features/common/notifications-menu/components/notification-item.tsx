@@ -2,7 +2,7 @@
 
 import { useUpdateNotificationSeen } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
@@ -37,7 +37,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
             onClick={handleOnClick}
             asChild
         >
-            <Link to={data.href as any}>
+            <Link to={data.href}>
                 <HorizontalCard className="w-full">
                     <HorizontalCardImage
                         image={data.icon}

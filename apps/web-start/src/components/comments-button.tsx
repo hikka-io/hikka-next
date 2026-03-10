@@ -2,7 +2,7 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { MessageCircle } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';

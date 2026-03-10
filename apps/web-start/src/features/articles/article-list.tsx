@@ -2,7 +2,7 @@
 
 import { ArticleCategoryEnum } from '@hikka/client';
 import { useSearchArticles, useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 

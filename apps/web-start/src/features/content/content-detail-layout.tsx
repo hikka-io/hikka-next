@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
@@ -45,7 +45,7 @@ const ContentDetailLayout: FC<Props> = ({
                         />
                     )}
                     <Link
-                        to={`${urlPrefix}/${slug}` as any}
+                        to={`${urlPrefix}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {title}

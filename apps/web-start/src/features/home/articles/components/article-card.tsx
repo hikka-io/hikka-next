@@ -1,6 +1,6 @@
 import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Author from '@/features/articles/article-item/article-author';

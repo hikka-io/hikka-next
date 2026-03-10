@@ -3,7 +3,7 @@
 import { useAnimeBySlug, useSession } from '@hikka/react';
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
 import { usePlausible } from 'next-plausible';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 

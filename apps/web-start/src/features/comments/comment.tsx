@@ -3,7 +3,7 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { formatDistance } from 'date-fns';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC, useEffect, useState } from 'react';
 
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';

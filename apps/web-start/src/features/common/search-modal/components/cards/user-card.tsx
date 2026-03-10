@@ -2,7 +2,7 @@
 
 import { UserResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';

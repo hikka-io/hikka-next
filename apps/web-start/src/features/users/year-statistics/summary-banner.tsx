@@ -3,7 +3,7 @@
 import { useSession } from '@hikka/react';
 import { ChartLine } from 'lucide-react';
 import { usePlausible } from 'next-plausible';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';

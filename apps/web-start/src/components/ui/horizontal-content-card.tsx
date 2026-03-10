@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';

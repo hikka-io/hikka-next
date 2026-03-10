@@ -5,7 +5,7 @@ import {
     WatchResponseBase,
 } from '@hikka/client';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import {
     ComponentType,
     FC,
@@ -140,7 +140,7 @@ const CardLink: FC<{
 }> = ({ to, target, linkProps, className, children }) => {
     if (!to) return <div className={className}>{children}</div>;
     return (
-        <Link to={to as any} target={target} className={className} {...linkProps}>
+        <Link to={to} target={target} className={className} {...linkProps}>
             {children}
         </Link>
     );

@@ -2,7 +2,7 @@
 
 import { ContentTypeEnum, MangaMediaEnum, ReadStatusEnum } from '@hikka/client';
 import { useCreateRead, useSearchUserReads, useSession } from '@hikka/react';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { useRouter } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 

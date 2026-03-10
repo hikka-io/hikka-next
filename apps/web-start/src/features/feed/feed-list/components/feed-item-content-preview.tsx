@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@tanstack/react-router';
+import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
