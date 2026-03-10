@@ -3,11 +3,13 @@ import {
     createHikkaClient,
     createQueryClient,
     dehydrate,
+    MutationCache,
     QueryClient,
 } from '@hikka/react/core';
-import { HikkaProvider } from '@hikka/react';
 import { hydrate } from '@tanstack/query-core';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
+import { toast } from 'sonner';
+
 import { routeTree } from './routeTree.gen';
 
 export interface RouterContext {
@@ -16,7 +18,13 @@ export interface RouterContext {
 }
 
 export function createRouter() {
-    const queryClient = createQueryClient();
+    const queryClient = createQueryClient({
+        mutationCache: new MutationCache({
+            onError: (error) => {
+                toast.error(error.message);
+            },
+        }),
+    });
     const hikkaClient = createHikkaClient({
         baseUrl: import.meta.env.VITE_API_URL ?? 'https://api.hikka.io',
     });
@@ -33,11 +41,6 @@ export function createRouter() {
         hydrate: ({ queryClientState }) => {
             hydrate(queryClient as any, queryClientState);
         },
-        Wrap: ({ children }) => (
-            <HikkaProvider client={hikkaClient} queryClient={queryClient}>
-                {children}
-            </HikkaProvider>
-        ),
     });
 }
 

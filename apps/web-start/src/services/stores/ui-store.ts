@@ -257,7 +257,9 @@ export function createUIStore(initialUI?: UserUI): UIStoreWithTemporal {
                         preferences: state.preferences,
                     };
 
-                    const result = await updateUserUIServerFn(userUI);
+                    const result = await updateUserUIServerFn({
+                        data: userUI,
+                    });
 
                     return result;
                 },

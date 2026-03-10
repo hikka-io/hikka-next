@@ -9,18 +9,18 @@ import {
     Navbar,
     ScrollTop,
 } from '@/features/common';
-import { getCookie } from '@/utils/cookies/server';
+import { getAuthTokenFn } from '@/utils/cookies/server';
 
 export const Route = createFileRoute('/_pages')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
         try {
-            const authToken = await getCookie('auth');
+            const authToken = await getAuthTokenFn();
             if (authToken) {
                 hikkaClient.setAuthToken(authToken);
                 await queryClient.prefetchQuery(sessionOptions(hikkaClient));
             }
         } catch {
-            // getCookie or prefetch failed — continue unauthenticated
+            // auth token fetch or session prefetch failed — continue unauthenticated
         }
     },
     component: PagesLayout,

@@ -1,8 +1,5 @@
-'use server';
-
 import { HikkaClient, UserUI } from '@hikka/client';
 import { createServerFn } from '@tanstack/react-start';
-import { getRequest } from '@tanstack/react-start/server';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
@@ -50,56 +47,62 @@ function parseCookies(cookieHeader: string): Record<string, string> {
     );
 }
 
-export async function getSessionUserUI(): Promise<UserUI> {
-    try {
-        const request = getRequest();
-        const cookieHeader = request?.headers.get('cookie') ?? '';
-        const cookies = parseCookies(cookieHeader);
-        const username = cookies['username'];
+export const getSessionUserUI = createServerFn({ method: 'GET' }).handler(
+    async (): Promise<UserUI> => {
+        try {
+            const { getRequest } = await import(
+                '@tanstack/react-start/server'
+            );
+            const request = getRequest();
+            const cookieHeader = request?.headers.get('cookie') ?? '';
+            const cookies = parseCookies(cookieHeader);
+            const username = cookies['username'];
 
-        if (!username) return DEFAULT_USER_UI;
+            if (!username) return DEFAULT_USER_UI;
 
-        const cachedUI = await fetchUserUIFn({ data: { username } });
-        return mergeUserUI(DEFAULT_USER_UI, cachedUI ?? undefined);
-    } catch (error) {
-        console.error('Failed to get session user UI', error);
-        return DEFAULT_USER_UI;
-    }
-}
+            const cachedUI = await fetchUserUIFn({ data: { username } });
+            return mergeUserUI(DEFAULT_USER_UI, cachedUI ?? undefined);
+        } catch (error) {
+            console.error('Failed to get session user UI', error);
+            return DEFAULT_USER_UI;
+        }
+    },
+);
 
-export async function getUserStylesCSS(userUI?: UserUI): Promise<string> {
-    const resolvedUserUI = userUI ?? (await getSessionUserUI());
+export function getUserStylesCSS(userUI: UserUI): string {
     const eventTheme = getActiveEventTheme();
-    const mergedStyles = mergeStyles(eventTheme?.styles, resolvedUserUI.styles);
-
+    const mergedStyles = mergeStyles(eventTheme?.styles, userUI.styles);
     return stylesToCSS(mergedStyles);
 }
 
-export async function updateUserUIServerFn(
-    userUI: Omit<UserUI, 'username'>,
-): Promise<UserUI> {
-    try {
-        const request = getRequest();
-        const cookieHeader = request?.headers.get('cookie') ?? '';
-        const cookies = parseCookies(cookieHeader);
-        const authToken = cookies['auth'];
-        const username = cookies['username'];
+export const updateUserUIServerFn = createServerFn({ method: 'POST' })
+    .inputValidator((data: Omit<UserUI, 'username'>) => data)
+    .handler(async ({ data: userUI }): Promise<UserUI> => {
+        try {
+            const { getRequest } = await import(
+                '@tanstack/react-start/server'
+            );
+            const request = getRequest();
+            const cookieHeader = request?.headers.get('cookie') ?? '';
+            const cookies = parseCookies(cookieHeader);
+            const authToken = cookies['auth'];
+            const username = cookies['username'];
 
-        const client = new HikkaClient({
-            baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
-            authToken,
-        });
+            const client = new HikkaClient({
+                baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+                authToken,
+            });
 
-        const updatedUI = await client.settings.updateUserUI(userUI);
+            const updatedUI = await client.settings.updateUserUI(userUI);
 
-        // Invalidate cache so next page load fetches fresh data
-        if (username) {
-            userUICache.delete(username);
+            // Invalidate cache so next page load fetches fresh data
+            if (username) {
+                userUICache.delete(username);
+            }
+
+            return updatedUI;
+        } catch (error) {
+            console.error('Failed to update user UI:', error);
+            throw error;
         }
-
-        return updatedUI;
-    } catch (error) {
-        console.error('Failed to update user UI:', error);
-        throw error;
-    }
-}
+    });

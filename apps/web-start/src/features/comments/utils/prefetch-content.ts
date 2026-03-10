@@ -1,89 +1,64 @@
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum, HikkaClient } from '@hikka/client';
 import { QueryClient } from '@hikka/react/core';
 import {
-    PrefetchQueryParams,
-    prefetchAnimeBySlug,
-    prefetchArticleBySlug,
-    prefetchCharacterBySlug,
-    prefetchCollectionByReference,
-    prefetchEdit,
-    prefetchMangaBySlug,
-    prefetchNovelBySlug,
-    prefetchPersonBySlug,
-} from '@hikka/react/server';
+    animeBySlugOptions,
+    articleBySlugOptions,
+    characterBySlugOptions,
+    collectionByReferenceOptions,
+    editOptions,
+    mangaBySlugOptions,
+    novelBySlugOptions,
+    personBySlugOptions,
+} from '@hikka/react/options';
 
-import { getHikkaClientConfig } from '@/utils/hikka-client';
-
-interface UseContentParams {
+interface PrefetchContentParams {
     slug: string;
     content_type: ContentTypeEnum;
     queryClient: QueryClient;
+    hikkaClient: HikkaClient;
 }
 
 export default async function prefetchContent({
     slug,
     content_type,
     queryClient,
-    ...rest
-}: UseContentParams & PrefetchQueryParams) {
-    const clientConfig = await getHikkaClientConfig();
-
+    hikkaClient,
+}: PrefetchContentParams) {
     switch (content_type) {
         case ContentTypeEnum.ANIME:
-            return await prefetchAnimeBySlug({
-                slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                animeBySlugOptions(hikkaClient, { slug }),
+            );
         case ContentTypeEnum.MANGA:
-            return await prefetchMangaBySlug({
-                slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                mangaBySlugOptions(hikkaClient, { slug }),
+            );
         case ContentTypeEnum.NOVEL:
-            return await prefetchNovelBySlug({
-                slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                novelBySlugOptions(hikkaClient, { slug }),
+            );
         case ContentTypeEnum.CHARACTER:
-            return await prefetchCharacterBySlug({
-                slug,
-                clientConfig,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                characterBySlugOptions(hikkaClient, { slug }),
+            );
         case ContentTypeEnum.PERSON:
-            return await prefetchPersonBySlug({
-                slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                personBySlugOptions(hikkaClient, { slug }),
+            );
         case ContentTypeEnum.COLLECTION:
-            return await prefetchCollectionByReference({
-                reference: slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                collectionByReferenceOptions(hikkaClient, {
+                    reference: slug,
+                }),
+            );
         case ContentTypeEnum.EDIT:
-            return await prefetchEdit({
-                editId: slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                editOptions(hikkaClient, { editId: slug }),
+            );
         case ContentTypeEnum.ARTICLE:
-            return await prefetchArticleBySlug({
-                slug,
-                clientConfig,
-                queryClient,
-                ...rest,
-            });
+            return await queryClient.ensureQueryData(
+                articleBySlugOptions(hikkaClient, { slug }),
+            );
         default:
             return null;
     }

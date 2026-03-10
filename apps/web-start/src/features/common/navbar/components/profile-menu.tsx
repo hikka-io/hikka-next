@@ -32,7 +32,7 @@ const ProfileMenu = () => {
     }
 
     const logout = async () => {
-        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout?callbackUrl=${currentUrl}`;
+        window.location.href = `${import.meta.env.VITE_SITE_URL}/auth/logout?callbackUrl=${currentUrl}`;
     };
 
     return (

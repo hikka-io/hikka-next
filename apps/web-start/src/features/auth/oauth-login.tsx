@@ -20,7 +20,7 @@ const OAuthLogin = ({
             select: (data) => {
                 return {
                     url:
-                        data.url + `&state=${process.env.NEXT_PUBLIC_SITE_URL}`,
+                        data.url + `&state=${import.meta.env.VITE_SITE_URL}`,
                 };
             },
         },

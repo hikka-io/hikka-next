@@ -20,6 +20,7 @@ export const Route = createFileRoute(
             content_type: content_type as CommentsContentType,
             slug,
             queryClient,
+            hikkaClient,
         });
 
         if (!content) throw redirect({ to: '/' });

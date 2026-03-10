@@ -16,7 +16,7 @@ const Profle: FC<Props> = () => {
     const { user } = useSession();
 
     const logout = async () => {
-        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/logout`;
+        window.location.href = `${import.meta.env.VITE_SITE_URL}/auth/logout`;
     };
 
     if (!user) return <AuthNeeded />;

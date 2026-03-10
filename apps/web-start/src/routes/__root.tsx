@@ -1,8 +1,6 @@
 import '@fontsource-variable/geist';
 import '../globals.css';
 
-import { HikkaClient } from '@hikka/client';
-import { QueryClient } from '@tanstack/react-query';
 import {
     createRootRouteWithContext,
     HeadContent,
@@ -14,11 +12,7 @@ import { Providers } from '@/features/common';
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
 import { STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
-
-export interface RouterContext {
-    queryClient: QueryClient;
-    hikkaClient: HikkaClient;
-}
+import { RouterContext } from '../router';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
     head: () => ({
@@ -41,7 +35,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     }),
     loader: async () => {
         const userUI = await getSessionUserUI();
-        const userStylesCSS = await getUserStylesCSS(userUI);
+        const userStylesCSS = getUserStylesCSS(userUI);
         return { userUI, userStylesCSS };
     },
     component: RootLayout,
@@ -49,6 +43,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootLayout() {
     const { userUI, userStylesCSS } = Route.useLoaderData();
+    const { queryClient, hikkaClient } =
+        Route.useRouteContext() as RouterContext;
 
     return (
         <html lang="uk" data-theme="dark" suppressHydrationWarning>
@@ -64,7 +60,10 @@ function RootLayout() {
             <body>
                 <div data-vaul-drawer-wrapper>
                     <UIStoreProvider initialUI={userUI}>
-                        <Providers>
+                        <Providers
+                            client={hikkaClient}
+                            queryClient={queryClient}
+                        >
                             <Outlet />
                         </Providers>
                     </UIStoreProvider>

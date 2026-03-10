@@ -1,7 +1,7 @@
 import { clientByReferenceOptions } from '@hikka/react/options';
+import { queryKeys } from '@hikka/react/core';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import { SessionManager } from '@/features/common';
 import {
     OAuthClient as Client,
     OAuthConfirm as Confirm,
@@ -10,7 +10,8 @@ import {
 } from '@/features/oauth';
 
 export const Route = createFileRoute('/_pages/oauth')({
-    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
+    validateSearch: (search: Record<string, unknown>) =>
+        search as Record<string, any>,
     loader: async ({
         context: { queryClient, hikkaClient },
         location,
@@ -21,6 +22,17 @@ export const Route = createFileRoute('/_pages/oauth')({
         };
 
         if (!reference || !scope) throw redirect({ to: '/' });
+
+        // Check if session has invalid token error (parent _pages loader prefetched it)
+        const sessionState = queryClient.getQueryState(queryKeys.user.me());
+        if (
+            sessionState?.error &&
+            typeof sessionState.error === 'object' &&
+            'code' in sessionState.error &&
+            (sessionState.error as any).code === 'auth:invalid_token'
+        ) {
+            throw redirect({ to: '/api/auth/logout' });
+        }
 
         await queryClient.prefetchQuery(
             clientByReferenceOptions(hikkaClient, { reference }),
@@ -34,15 +46,13 @@ export const Route = createFileRoute('/_pages/oauth')({
 
 function OAuthPage() {
     return (
-        <SessionManager>
-            <div className="w-full mx-auto my-8 min-h-screen max-w-xl px-4 lg:my-16">
-                <div className="flex h-full flex-col items-center justify-start gap-8">
-                    <Header />
-                    <Profile />
-                    <Client />
-                    <Confirm />
-                </div>
+        <div className="w-full mx-auto my-8 min-h-screen max-w-xl px-4 lg:my-16">
+            <div className="flex h-full flex-col items-center justify-start gap-8">
+                <Header />
+                <Profile />
+                <Client />
+                <Confirm />
             </div>
-        </SessionManager>
+        </div>
     );
 }
