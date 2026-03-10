@@ -1,0 +1,106 @@
+import { ContentTypeEnum } from '@hikka/client';
+import {
+    readStatsOptions,
+    userByUsernameOptions,
+    userFollowStatsOptions,
+    userWatchStatsOptions,
+} from '@hikka/react/options';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+import Link from '@/components/ui/link';
+
+import CoverImage from '@/components/cover-image';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import NavMenu from '@/features/common/nav-dropdown';
+import {
+    ActivationAlert,
+    FollowStats,
+    UserInfo,
+    UserTitle,
+} from '@/features/users';
+import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
+
+export const Route = createFileRoute('/_pages/u/$username')({
+    loader: async ({
+        params,
+        context: { queryClient, hikkaClient },
+    }) => {
+        const { username } = params;
+
+        const user = await queryClient.ensureQueryData(
+            userByUsernameOptions(hikkaClient, { username }),
+        );
+
+        if (!user) throw redirect({ to: '/' });
+
+        await Promise.all([
+            queryClient.prefetchQuery(
+                readStatsOptions(hikkaClient, {
+                    username,
+                    contentType: ContentTypeEnum.MANGA,
+                }),
+            ),
+            queryClient.prefetchQuery(
+                readStatsOptions(hikkaClient, {
+                    username,
+                    contentType: ContentTypeEnum.NOVEL,
+                }),
+            ),
+            queryClient.prefetchQuery(
+                userWatchStatsOptions(hikkaClient, { username }),
+            ),
+            queryClient.prefetchQuery(
+                userFollowStatsOptions(hikkaClient, { username }),
+            ),
+        ]);
+
+        return { user };
+    },
+    head: ({ loaderData }) => ({
+        meta: [
+            {
+                title: loaderData?.user?.username
+                    ? `${loaderData.user.username} / Hikka`
+                    : 'Hikka',
+            },
+            {
+                name: 'description',
+                content: loaderData?.user?.description || '',
+            },
+        ],
+    }),
+    component: UserLayout,
+});
+
+function UserLayout() {
+    const { username } = Route.useParams();
+    const { user } = Route.useLoaderData();
+
+    return (
+        <div className="flex flex-col gap-12 lg:gap-12">
+            <ActivationAlert />
+            <CoverImage cover={user?.cover} />
+            <Breadcrumbs>
+                <Link
+                    href={`/u/${username}`}
+                    className="line-clamp-1 break-all text-sm font-bold hover:underline"
+                >
+                    {username}
+                </Link>
+                <NavMenu
+                    routes={USER_NAV_ROUTES}
+                    urlPrefix={`/u/${username}`}
+                />
+            </Breadcrumbs>
+            <div className="flex gap-4 lg:gap-8 lg:items-end flex-col md:flex-row">
+                <div className="flex gap-4 lg:gap-8 flex-1">
+                    <UserInfo />
+                    <UserTitle />
+                </div>
+                <FollowStats />
+            </div>
+            <div className="flex flex-col gap-12">
+                <Outlet />
+            </div>
+        </div>
+    );
+}
