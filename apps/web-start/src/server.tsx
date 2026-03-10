@@ -3,4 +3,14 @@ import {
     defaultStreamHandler,
 } from '@tanstack/react-start/server';
 
-export default createStartHandler(defaultStreamHandler);
+const fetch = createStartHandler(defaultStreamHandler);
+
+function createServerEntry(entry: { fetch: typeof fetch }) {
+    return {
+        async fetch(...args: Parameters<typeof fetch>) {
+            return await entry.fetch(...args);
+        },
+    };
+}
+
+export default createServerEntry({ fetch });
