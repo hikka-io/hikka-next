@@ -31,6 +31,13 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             { name: 'theme-color', content: 'black' },
             { name: 'color-scheme', content: 'dark' },
         ],
+        scripts: [
+            {
+                defer: true,
+                'data-domain': 'hikka.io',
+                src: 'https://plausible.hikka.io/js/script.js',
+            },
+        ],
     }),
     loader: async () => {
         const userUI = await getSessionUserUI();
